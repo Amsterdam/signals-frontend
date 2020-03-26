@@ -1,4 +1,4 @@
-import React, { memo, useReducer, useEffect } from 'react';
+import React, { memo, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
@@ -25,10 +25,10 @@ import routes, {
   CATEGORIES_PAGED_URL,
   CATEGORY_URL,
 } from './routes';
-import UsersOverviewContainer from './users/containers/Overview';
+import UsersOverviewContainer from './users/Overview';
 import RolesListContainer from './roles/containers/RolesListContainer';
 import RoleFormContainer from './roles/containers/RoleFormContainer';
-import UsersDetailContainer from './users/containers/Detail';
+import UsersDetailContainer from './users/Detail';
 import DepartmentsOverviewContainer from './departments/Overview';
 import DepartmentsDetailContainer from './departments/Detail';
 import CategoriesOverviewContainer from './categories/Overview';

@@ -1,0 +1,52 @@
+[
+  {
+    "key": "all",
+    "name": "Alles",
+    "value": "*"
+  },
+  {
+    "key": 2,
+    "name": "Behandelaar",
+    "value": "Behandelaar"
+  },
+  {
+    "key": 3,
+    "name": "Coördinator",
+    "value": "Coördinator"
+  },
+  {
+    "key": 20,
+    "name": "Extern Systeem",
+    "value": "Extern Systeem"
+  },
+  {
+    "key": 30,
+    "name": "Hele beperkte rol",
+    "value": "Hele beperkte rol"
+  },
+  {
+    "key": 1,
+    "name": "Monitor",
+    "value": "Monitor"
+  },
+  {
+    "key": 26,
+    "name": "Nieuwe rollen, nieuwe kansen",
+    "value": "Nieuwe rollen, nieuwe kansen"
+  },
+  {
+    "key": 19,
+    "name": "Regievoerder",
+    "value": "Regievoerder"
+  },
+  {
+    "key": 22,
+    "name": "Regievoerder+",
+    "value": "Regievoerder+"
+  },
+  {
+    "key": 28,
+    "name": "Test",
+    "value": "Test"
+  }
+]

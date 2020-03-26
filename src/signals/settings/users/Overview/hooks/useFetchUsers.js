@@ -5,7 +5,7 @@ import { PAGE_SIZE } from 'containers/App/constants';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 
-import filterData from '../../../../filterData';
+import filterData from '../../../filterData';
 
 // name mapping from API values to human readable values
 const colMap = {
@@ -25,7 +25,7 @@ const colMap = {
 const useFetchUsers = ({ page, filters } = {}) => {
   const [isLoading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState(false);
+  const [errorState, setError] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -37,7 +37,7 @@ const useFetchUsers = ({ page, filters } = {}) => {
       const pageParams = [page && `page=${page}`, `page_size=${PAGE_SIZE}`];
 
       const filterParams = Object.entries(filters || {})
-        .filter(([, value]) => Boolean(value))
+        .filter(([, value]) => value !== '*')
         .reduce((acc, [filter, value]) => [...acc, `${filter}=${value}`], []);
 
       const queryParams = [...pageParams, ...filterParams]
@@ -45,9 +45,8 @@ const useFetchUsers = ({ page, filters } = {}) => {
         .join('&');
 
       try {
-        const url = [configuration.USERS_ENDPOINT, queryParams]
-          .filter(Boolean)
-          .join('?');
+        const url = [configuration.USERS_ENDPOINT, queryParams].join('?');
+
         const response = await fetch(url, {
           headers: {
             ...getAuthHeaders(),
@@ -60,8 +59,8 @@ const useFetchUsers = ({ page, filters } = {}) => {
         const filteredUserData = filterData(userData.results, colMap);
 
         setUsers({ count: userData.count, list: filteredUserData });
-      } catch (e) {
-        setError(e);
+      } catch (error) {
+        setError(error);
       } finally {
         setLoading(false);
       }
@@ -78,7 +77,7 @@ const useFetchUsers = ({ page, filters } = {}) => {
    * @property {Object[]} users - Array of user objects
    * @property {Error} error - Error object thrown during fetch and data parsing
    */
-  return { isLoading, users, error };
+  return { isLoading, users, error: errorState };
 };
 
 export default useFetchUsers;
