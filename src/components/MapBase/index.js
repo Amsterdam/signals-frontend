@@ -16,10 +16,9 @@ const StyledViewerContainer = styled(ViewerContainer)`
 
 const hasTouchCapabilities = !!global.L.Browser.touch;
 
-const MapBase = ({ mapOptions, hasZoomControls, hasAttributionControl, isInteractive, children, ...otherProps }) => {
+const MapBase = ({ mapOptions, hasZoomControls, isInteractive, children, ...otherProps }) => {
   const options = {
     ...mapOptions,
-    attributionControl: hasAttributionControl,
     dragging: isInteractive && !hasTouchCapabilities,
     tap: isInteractive && !hasTouchCapabilities,
     scrollWheelZoom: isInteractive && !hasTouchCapabilities,
@@ -36,7 +35,7 @@ const MapBase = ({ mapOptions, hasZoomControls, hasAttributionControl, isInterac
         options={{
           subdomains: ['t1', 't2', 't3', 't4'],
           tms: true,
-          attribution: hasAttributionControl && 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
+          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
         }}
       />
     </Wrapper>
@@ -45,7 +44,6 @@ const MapBase = ({ mapOptions, hasZoomControls, hasAttributionControl, isInterac
 MapBase.defaultProps = {
   hasZoomControls: false,
   isInteractive: true,
-  hasAttributionControl: true,
 };
 
 MapBase.propTypes = {
@@ -53,7 +51,10 @@ MapBase.propTypes = {
     attributionControl: PropTypes.bool,
   }).isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
   hasZoomControls: PropTypes.bool,
-  hasAttributionControl: PropTypes.bool,
+  /**
+   *  determines if the component is read only
+   *  it sets the intern state of leaflet (Browser.touch) and therefore cannot be tested
+  */
   isInteractive: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };

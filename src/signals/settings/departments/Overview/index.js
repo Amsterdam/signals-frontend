@@ -11,6 +11,8 @@ import { makeSelectDepartments } from 'models/departments/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import { DEPARTMENT_URL } from 'signals/settings/routes';
 
+import filterData from '../../filterData';
+
 const StyledList = styled(ListComponent)`
   th {
     font-weight: 400;
@@ -20,6 +22,12 @@ const StyledList = styled(ListComponent)`
     width: 250px;
   }
 `;
+
+const colMap = {
+  id: 'id',
+  _display: 'Naam',
+  category_names: 'Categorie',
+};
 
 const DepartmentOverview = () => {
   const departments = useSelector(makeSelectDepartments);
@@ -42,6 +50,8 @@ const DepartmentOverview = () => {
     [history, userCan]
   );
 
+  const data = filterData(departments.list, colMap);
+
   return (
     <Fragment>
       <PageHeader
@@ -52,10 +62,10 @@ const DepartmentOverview = () => {
         {departments.loading && <LoadingIndicator />}
 
         <Column span={12}>
-          {!departments.loading && departments.list && (
+          {!departments.loading && data && (
             <StyledList
               columnOrder={['Naam', 'Categorie']}
-              items={departments.list}
+              items={data}
               onItemClick={onItemClick}
               primaryKeyColumn="id"
             />
