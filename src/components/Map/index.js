@@ -58,6 +58,10 @@ Map.propTypes = {
   }).isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
   icon: PropTypes.shape({}), // leaflet icon object
   hasZoomControls: PropTypes.bool,
+  /**
+   *  determines if the component is read only
+   *  it sets the intern state of leaflet (Browser.touch) and therefore cannot be tested
+  */
   isInteractive: PropTypes.bool,
 };
 

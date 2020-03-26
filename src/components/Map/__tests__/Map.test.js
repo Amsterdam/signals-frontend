@@ -5,7 +5,6 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from '..';
 
 describe('components/Map', () => {
-
   it('should render the map', () => {
     const { getByTestId, queryByText } = render(<Map mapOptions={MAP_OPTIONS} />);
 
@@ -17,7 +16,7 @@ describe('components/Map', () => {
   });
 
   it('should render the zoom control', () => {
-    const { container, rerender } = render(<Map mapOptions={MAP_OPTIONS} lat={42} lng={4}/>);
+    const { container, rerender } = render(<Map mapOptions={MAP_OPTIONS} lat={42} lng={4} />);
 
     expect(container.querySelector('button[title="Inzoomen"]')).not.toBeInTheDocument();
 
@@ -26,11 +25,11 @@ describe('components/Map', () => {
   });
 
   it('should render the marker', () => {
-    const { container, rerender } = render(<Map mapOptions={MAP_OPTIONS}/>);
+    const { container, rerender } = render(<Map mapOptions={MAP_OPTIONS} />);
 
     expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
 
-    rerender(<Map mapOptions={MAP_OPTIONS} lat={42}  />);
+    rerender(<Map mapOptions={MAP_OPTIONS} lat={42} />);
     expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
 
     rerender(<Map mapOptions={MAP_OPTIONS} lng={4} />);
@@ -38,10 +37,11 @@ describe('components/Map', () => {
 
     rerender(<Map mapOptions={MAP_OPTIONS} lat={42} lng={4} />);
     expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
-
   });
 
   it('should implement isInteractive', () => {
-    // TODO implement
+    /**
+     *  the isInteractive prop uses the intern state of leaflet (Browser.touch) and therefore cannot be tested
+     */
   });
 });
