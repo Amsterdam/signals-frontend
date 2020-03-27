@@ -176,8 +176,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should patch user data on submit', () => {
-    // const onChange = jest.fn(event => { value = event.target.value; });
-
     useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: userJSON }));
 
     const { getByTestId } = render(withAppContext(<UserDetail />));
@@ -187,7 +185,6 @@ describe('signals/settings/users/containers/Detail', () => {
     act(() => {
       const lastNameInput = getByTestId('detailUserForm').querySelector('#last_name');
       fireEvent.change(lastNameInput, { target: { value: 'Foo Bar Baz' } });
-      expect(lastNameInput.value).toBe('Foo Bar Baz');
     });
 
     act(() => {
