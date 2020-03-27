@@ -36,10 +36,7 @@
     }
 
     &--download,
-    &--edit,
-    &--close,
-    &--next,
-    &--previous {
+    &--edit {
       display: inline-block;
       width: 32px;
       height: 32px;
@@ -75,24 +72,6 @@
       &:disabled {
         background-image: url('../../../../shared/images/icon-edit-disabled.svg');
       }
-    }
-
-    &--close {
-      background-image: url('../../../../shared/images/icon-close.svg');
-      background-position: 9px;
-      background-size: 12px;
-    }
-
-    &--next {
-      background-image: url('../../../../shared/images/icon-chevron-right.svg');
-      background-position: 8px 9px;
-      background-size: 14px;
-    }
-
-    &--previous {
-      background-image: url('../../../../shared/images/icon-chevron-left.svg');
-      background-position: 7px 9px;
-      background-size: 14px;
     }
   }
 
