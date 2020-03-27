@@ -111,15 +111,24 @@ export function* getPostData(action) {
     handling_message,
   };
 
+  const invalidFields = ['incident_date', 'incident_time_minutes', 'subcategory', 'datetime', 'incident_time_hours', 'description', 'status'];
   const authenticatedOnlyFields = ['priority', 'source', 'type'];
 
   // function to filter out values that are not supported by the public API endpoint
   const filterSupportedFields = ([key]) =>
     isAuthenticated() || (!isAuthenticated() && !authenticatedOnlyFields.includes(key));
 
+  const filterInvalidFields = ([key]) => {
+    const isInvalid = invalidFields.includes(key);
+    const isExtraProp = key !== 'extra_properties' && key.startsWith('extra_');
+
+    return !isInvalid && !isExtraProp;
+  };
+
   // return the filtered post data
   return Object.entries(primedPostData)
     .filter(filterSupportedFields)
+    .filter(filterInvalidFields)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 }
 

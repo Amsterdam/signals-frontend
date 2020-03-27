@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -9,10 +9,9 @@ import { Row, Column, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import useLocationReferrer from 'hooks/useLocationReferrer';
 
 import wizardDefinition from '../../definitions/wizard';
-import { getClassification, updateIncident, createIncident, resetIncident } from './actions';
+import { getClassification, updateIncident, createIncident } from './actions';
 import { makeSelectIncidentContainer } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -31,47 +30,34 @@ export const IncidentContainerComponent = ({
   createIncidentAction,
   getClassificationAction,
   incidentContainer,
-  resetIncidentAction,
   updateIncidentAction,
-}) => {
-  const location = useLocationReferrer();
+}) => (
+  <Row>
+    <Alert>
+      We pakken op dit moment alleen urgente meldingen op. De afhandeling van uw melding kan daarom tijdelijk langer
+      duren dan de standaard afhandeltermijn die wordt vermeld in de bevestiging die u ontvangt na registratie van uw
+      melding. Dank voor uw begrip.
+    </Alert>
 
-  useEffect(() => {
-    if (location?.referrer === '/incident/bedankt') {
-      resetIncidentAction();
-    }
-  }, [location, resetIncidentAction]);
+    <br />
 
-  return (
-    <Row>
-      <Alert>
-        We pakken op dit moment alleen urgente meldingen op. De afhandeling van
-        uw melding kan daarom tijdelijk langer duren dan de standaard
-        afhandeltermijn die wordt vermeld in de bevestiging die u ontvangt na
-        registratie van uw melding. Dank voor uw begrip.
-      </Alert>
-
-      <br />
-
-      <Column span={12}>
-        <IncidentWizard
-          wizardDefinition={wizardDefinition}
-          getClassification={getClassificationAction}
-          updateIncident={updateIncidentAction}
-          createIncident={createIncidentAction}
-          incidentContainer={incidentContainer}
-          isAuthenticated={isAuthenticated()}
-        />
-      </Column>
-    </Row>
-  );
-};
+    <Column span={12}>
+      <IncidentWizard
+        wizardDefinition={wizardDefinition}
+        getClassification={getClassificationAction}
+        updateIncident={updateIncidentAction}
+        createIncident={createIncidentAction}
+        incidentContainer={incidentContainer}
+        isAuthenticated={isAuthenticated()}
+      />
+    </Column>
+  </Row>
+);
 
 IncidentContainerComponent.propTypes = {
   createIncidentAction: PropTypes.func.isRequired,
   getClassificationAction: PropTypes.func.isRequired,
   incidentContainer: PropTypes.object.isRequired,
-  resetIncidentAction: PropTypes.func.isRequired,
   updateIncidentAction: PropTypes.func.isRequired,
 };
 
@@ -84,7 +70,6 @@ const mapDispatchToProps = dispatch =>
     {
       createIncidentAction: createIncident,
       getClassificationAction: getClassification,
-      resetIncidentAction: resetIncident,
       updateIncidentAction: updateIncident,
     },
     dispatch
