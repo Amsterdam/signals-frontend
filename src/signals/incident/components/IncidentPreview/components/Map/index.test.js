@@ -6,13 +6,7 @@ import MapPreview from './index';
 jest.mock('../../../../../../components/Map', () => () => 'Map');
 
 describe('Preview component <Map />', () => {
-  const address = {
-    openbare_ruimte: 'Hell',
-    huisnummer: '666',
-    huisletter: 'C',
-    postcode: '1087JC',
-    woonplaats: 'Amsterdam',
-  };
+  const addressText = 'Hell 666C, 1087JC Amsterdam';
   const geometrie = {
     coordinates: [52, 4],
   };
@@ -26,7 +20,7 @@ describe('Preview component <Map />', () => {
     wrapper.setProps({
       label: 'Location',
       value: {
-        address,
+        addressText,
         geometrie,
       },
     });
@@ -49,7 +43,7 @@ describe('Preview component <Map />', () => {
     wrapper.setProps({
       label: 'Location',
       value: {
-        address,
+        addressText,
       },
     });
 
@@ -60,10 +54,7 @@ describe('Preview component <Map />', () => {
     wrapper.setProps({
       label: 'Location',
       value: {
-        address: {
-          ...address,
-          huisnummer_toevoeging: '3',
-        },
+        addressText: 'Hell 666C-3, 1087JC Amsterdam',
       },
     });
 

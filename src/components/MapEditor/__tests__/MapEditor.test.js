@@ -13,18 +13,10 @@ describe('components/MapEditor', () => {
   };
 
   it('should render the map', () => {
-    const { getByTestId } = render(<MapEditor mapOptions={MAP_OPTIONS} location={{}}/>);
+    const { getByTestId } = render(<MapEditor mapOptions={MAP_OPTIONS} location={testLocation}/>);
 
     // Map
-    expect(getByTestId('map')).toBeInTheDocument();
+    expect(getByTestId('map-editor')).toBeInTheDocument();
   });
 
-  it('should render the marker', () => {
-    const { container, rerender } = render(<MapEditor mapOptions={MAP_OPTIONS} location={{}}/>);
-
-    expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
-
-    rerender(<MapEditor mapOptions={MAP_OPTIONS} location={testLocation} hasZoom/>);
-    expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
-  });
 });

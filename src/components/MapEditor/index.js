@@ -16,6 +16,10 @@ const MapEditor = ({ value, onLocationChange, mapOptions, ...otherProps }) => (
   </MapContainer>
 );
 
+MapEditor.defaultProps = {
+  value: {},
+};
+
 MapEditor.propTypes = {
   value: PropTypes.shape({
     geometrie: PropTypes.shape({
@@ -30,10 +34,10 @@ MapEditor.propTypes = {
       postcode: PropTypes.string,
       woonplaats: PropTypes.string,
     }),
-  }).isRequired,
+  }),
   mapOptions: PropTypes.shape({})
     .isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
-  onLocationChange: PropTypes.func.isRequired,
+  onLocationChange: PropTypes.func,
 };
 
 export default memo(MapEditor);

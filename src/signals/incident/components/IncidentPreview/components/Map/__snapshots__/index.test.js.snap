@@ -199,14 +199,15 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
           Geen adres gevonden
         </div>
         <Styled(Component)
+          isInteractive={false}
           lat={4}
           lng={52}
           mapOptions={
             Object {
-              "attributionControl": true,
+              "attributionControl": false,
               "center": Array [
-                52.3731081,
-                4.8932945,
+                4,
+                52,
               ],
               "crs": Object {
                 "R": 6378137,
@@ -328,14 +329,15 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
           Hell 666C, 1087JC Amsterdam
         </div>
         <Styled(Component)
+          isInteractive={false}
           lat={4}
           lng={52}
           mapOptions={
             Object {
-              "attributionControl": true,
+              "attributionControl": false,
               "center": Array [
-                52.3731081,
-                4.8932945,
+                4,
+                52,
               ],
               "crs": Object {
                 "R": 6378137,

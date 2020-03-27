@@ -22,7 +22,6 @@ exports[`Form component <MapInput /> rendering should render map field correctly
         className="invoer"
       >
         <Memo(MapEditor)
-          location={Object {}}
           mapOptions={
             Object {
               "attributionControl": true,
@@ -81,6 +80,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
             }
           }
           onLocationChange={[Function]}
+          value={Object {}}
         />
       </div>
     </Header>
