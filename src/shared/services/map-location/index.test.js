@@ -15,6 +15,6 @@ describe('feature2location', () => {
 
 describe('location2feature', () => {
   it('should convert', () => {
-    expect(location2feature(testFeature)).toEqual(testLocation);
+    expect(location2feature(testLocation)).toEqual(testFeature);
   });
 });
