@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { themeColor } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -9,7 +9,7 @@ const Wrapper = styled.div`
     z-index: 1;
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       top: -3px;
@@ -44,18 +44,21 @@ export const HIGHLIGHT_TIMEOUT_INTERVAL = 3000;
 
 const Highlight = ({ children, className, subscribeTo, valueChanged }) => {
   const [show, setShow] = useState(false);
-
-  useLayoutEffect(() => {
-    setShow(false);
-  }, []);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
     setShow(true);
 
     const timer = global.setTimeout(() => {
       setShow(false);
     }, HIGHLIGHT_TIMEOUT_INTERVAL);
 
+    // eslint-disable-next-line consistent-return
     return () => {
       global.clearTimeout(timer);
     };
@@ -74,10 +77,10 @@ Highlight.defaultProps = {
 };
 
 Highlight.propTypes = {
-  className: PropTypes.string,
-  subscribeTo: PropTypes.any,
-  valueChanged: PropTypes.bool,
   children: PropTypes.element.isRequired,
+  className: PropTypes.string,
+  subscribeTo: PropTypes.any.isRequired,
+  valueChanged: PropTypes.bool,
 };
 
 export default Highlight;

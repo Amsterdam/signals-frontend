@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<MapDetail /> should render correctly 1`] = `
-<div
-  className="map-detail"
->
+<MapDetail__Wrapper>
   <Map
     hideAttribution={false}
     hideZoomControls={false}
@@ -16,11 +14,7 @@ exports[`<MapDetail /> should render correctly 1`] = `
     useSmallMarker={false}
     zoom="16"
   />
-</div>
+</MapDetail__Wrapper>
 `;
 
-exports[`<MapDetail /> should render correctly without location 1`] = `
-<div
-  className="map-detail"
-/>
-`;
+exports[`<MapDetail /> should render correctly without location 1`] = `""`;

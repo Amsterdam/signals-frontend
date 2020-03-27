@@ -38,7 +38,7 @@ const StyledButton = styled(Button)`
 
 const Attachments = ({ attachments, onShowAttachment }) =>
   attachments?.length > 0 && (
-    <StyledDL>
+    <StyledDL data-testid="detail-attachments">
       <dl>
         <StyledDefinition data-testid="attachmentsDefinition">Foto</StyledDefinition>
         <StyledValue>

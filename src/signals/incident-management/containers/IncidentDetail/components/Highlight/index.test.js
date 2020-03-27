@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, wait, act } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import Highlight, { HIGHLIGHT_TIMEOUT_INTERVAL } from './index';
-
 
 describe('<Highlight />', () => {
   beforeEach(() => {
@@ -11,36 +11,53 @@ describe('<Highlight />', () => {
 
   afterEach(() => {
     jest.runAllTimers();
-    cleanup();
   });
 
-  describe('rendering', () => {
-    it('should render all children that are passed in', () => {
-      const string = 'foo';
-      const { queryAllByTestId } = render(
-        <Highlight subscribeTo={string}><div data-testid="highlight-child">some text</div></Highlight>
-      );
+  it('should render all children that are passed in', async () => {
+    const string = 'foo';
+    const { findByTestId } = render(
+      withAppContext(
+        <Highlight subscribeTo={string}>
+          <div data-testid="highlight-child">some text</div>
+        </Highlight>
+      )
+    );
 
-      expect(queryAllByTestId('highlight-child')).toHaveLength(1);
-    });
+    const child = await findByTestId('highlight-child');
+
+    expect(child).toBeInTheDocument();
   });
 
-  describe('events', () => {
-    it(`should highlight the container when the value has changed and de-highlight after ${HIGHLIGHT_TIMEOUT_INTERVAL} msecs`, () => {
-      const { queryByTestId, rerender } = render(
-        <Highlight subscribeTo="foo"><div>some text</div></Highlight>
-      );
-      expect(queryByTestId('highlight')).not.toHaveClass('highlight--active');
+  it(`should highlight the container when the value has changed and de-highlight after ${HIGHLIGHT_TIMEOUT_INTERVAL} msecs`, async () => {
+    const { container, queryByTestId, rerender } = render(
+      withAppContext(
+        <Highlight subscribeTo="foo">
+          <div>some text</div>
+        </Highlight>
+      )
+    );
+    expect(queryByTestId('highlight')).not.toHaveClass('active');
 
-      rerender(
-        <Highlight subscribeTo="changed"><div>some text</div></Highlight>
-      );
+    rerender(
+      withAppContext(
+        <Highlight subscribeTo="changed" valueChanged>
+          <div>some text</div>
+        </Highlight>
+      )
+    );
 
+    await wait(() => container.querySelector('.highlight'));
+
+    act(() => {
       jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL - 1);
-      expect(queryByTestId('highlight')).toHaveClass('highlight--active');
-
-      jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL);
-      expect(queryByTestId('highlight')).not.toHaveClass('highlight--active');
     });
+
+    expect(queryByTestId('highlight')).toHaveClass('active');
+
+    act(() => {
+      jest.runTimersToTime(1);
+    });
+
+    expect(queryByTestId('highlight')).not.toHaveClass('active');
   });
 });
