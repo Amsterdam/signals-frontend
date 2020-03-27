@@ -163,7 +163,7 @@
   ],
   "profile": {
     "note": "een notitie",
-    "departments": [],
+    "departments": ["CCA","FB","GGD"],
     "created_at": "2019-10-24T10:25:48.874301+02:00",
     "updated_at": "2019-10-24T10:25:48.874315+02:00"
   }
