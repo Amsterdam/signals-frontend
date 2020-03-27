@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {
-  Button,
-  themeColor,
-  themeSpacing,
-} from '@datapunt/asc-ui';
+import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { attachmentsType } from 'shared/types';
 
@@ -40,36 +36,30 @@ const StyledButton = styled(Button)`
   border: 1px solid ${themeColor('tint', 'level3')} !important;
 `;
 
-const Attachments = ({ attachments, onShowAttachment }) => (
-  <StyledDL>
-    {attachments.length
-      ? (
-        <dl>
-          <StyledDefinition
-            data-testid="attachmentsDefinition"
-          >Foto</StyledDefinition>
-          <StyledValue>
-            {attachments.map(attachment => (
-              <StyledButton
-                key={attachment.location}
-                size={80}
-                variant="blank"
-                data-testid="attachmentsValueButton"
-                onClick={() => onShowAttachment(attachment.location)}
-                style={{ backgroundImage: `url(${attachment.location})` }}
-              />
-            ))}
-          </StyledValue>
-        </dl>
-      )
-      : ''}
-
-  </StyledDL>
-);
+const Attachments = ({ attachments, onShowAttachment }) =>
+  attachments?.length > 0 && (
+    <StyledDL>
+      <dl>
+        <StyledDefinition data-testid="attachmentsDefinition">Foto</StyledDefinition>
+        <StyledValue>
+          {attachments.map(attachment => (
+            <StyledButton
+              key={attachment.location}
+              size={80}
+              variant="blank"
+              data-testid="attachmentsValueButton"
+              onClick={() => onShowAttachment(attachment.location)}
+              style={{ backgroundImage: `url(${attachment.location})` }}
+            />
+          ))}
+        </StyledValue>
+      </dl>
+    </StyledDL>
+  );
 
 Attachments.propTypes = {
-  attachments: attachmentsType.isRequired,
+  attachments: attachmentsType,
   onShowAttachment: PropTypes.func.isRequired,
 };
 
-export default Attachments;
+export default memo(Attachments);

@@ -1,4 +1,7 @@
 .map-detail {
+  position: relative;
+  z-index: 1;
+
   .map-component {
     #mapdiv {
       height: 474px;

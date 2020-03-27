@@ -12,8 +12,12 @@ import {
   Column,
   themeSpacing,
 } from '@datapunt/asc-ui';
-import { incidentType, dataListType, defaultTextsType } from 'shared/types';
+import { incidentType, defaultTextsType } from 'shared/types';
 import { PATCH_TYPE_STATUS } from 'models/incident/constants';
+import statusList, {
+  changeStatusOptionList,
+  defaultTextsOptionList,
+} from 'signals/incident-management/definitions/statusList';
 
 import Label from 'components/Label';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -58,9 +62,7 @@ const Notification = styled.div`
 `;
 
 class StatusForm extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
   form = FormBuilder.group({
-    // eslint-disable-line react/sort-comp
     status: ['', Validators.required],
     text: [''],
   });
@@ -79,15 +81,14 @@ class StatusForm extends React.Component {
 
   componentDidMount() {
     this.form.controls.status.valueChanges.subscribe(status => {
-      const found = this.props.statusList.find(s => s.key === status);
+      const found = statusList.find(s => s.key === status);
       this.setState({
         warning: (found && found.warning) || '',
       });
-      this.props.onDismissError();
 
       const textField = this.form.controls.text;
       const hasDefaultTexts = Boolean(
-        this.props.defaultTextsOptionList.find(s => s.key === status)
+        defaultTextsOptionList.find(s => s.key === status)
       );
       if (hasDefaultTexts) {
         textField.setValidators([Validators.required]);
@@ -98,8 +99,6 @@ class StatusForm extends React.Component {
 
       textField.updateValueAndValidity();
     });
-
-    this.props.onDismissError();
   }
 
   componentDidUpdate(prevProps) {
@@ -151,8 +150,6 @@ class StatusForm extends React.Component {
       incident,
       patching,
       error,
-      statusList,
-      changeStatusOptionList,
       onClose,
       defaultTexts,
     } = this.props;
@@ -191,33 +188,30 @@ class StatusForm extends React.Component {
                     rows={10}
                   />
 
-                  <Notification warning data-testid="statusFormWarning">
-                    {warning}
-                  </Notification>
+                  {warning && (
+                    <Notification warning data-testid="statusFormWarning">
+                      {warning}
+                    </Notification>
+                  )}
 
-                  <Notification warning data-testid="statusFormError">
-                    {error && error.response && error.response.status === 403
-                      ? 'Je bent niet geautoriseerd om dit te doen.'
-                      : ''}
-                    {error && error.response && error.response.status !== 403
-                      ? 'De gekozen status is niet mogelijk in deze situatie.'
-                      : ''}
-                  </Notification>
+                  {error && (
+                    <Notification warning data-testid="statusFormError">
+                      {error?.response?.status === 403
+                        ? 'Je bent niet geautoriseerd om dit te doen.'
+                        : 'De gekozen status is niet mogelijk in deze situatie.'}
+                    </Notification>
+                  )}
 
                   <StyledButton
                     data-testid="statusFormSubmitButton"
                     variant="secondary"
                     disabled={invalid}
                     type="submit"
-                    iconRight={patching.status ? <StyledSpinner /> : null}
+                    iconRight={patching?.status ? <StyledSpinner /> : null}
                   >
                     Status opslaan
                   </StyledButton>
-                  <StyledButton
-                    data-testid="statusFormCancelButton"
-                    variant="tertiary"
-                    onClick={onClose}
-                  >
+                  <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
                     Annuleren
                   </StyledButton>
                 </StyledColumn>
@@ -248,16 +242,12 @@ StatusForm.propTypes = {
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
   patching: PropTypes.shape({
     status: PropTypes.bool,
-  }).isRequired,
+  }),
   warning: PropTypes.string,
   hasDefaultTexts: PropTypes.bool,
-  changeStatusOptionList: dataListType.isRequired,
-  defaultTextsOptionList: dataListType.isRequired,
-  statusList: dataListType.isRequired,
   defaultTexts: defaultTextsType.isRequired,
 
   onPatchIncident: PropTypes.func.isRequired,
-  onDismissError: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

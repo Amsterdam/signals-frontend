@@ -79,7 +79,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
   }
 
   render() {
-    const { patching, error, onClose } = this.props;
+    const { error, onClose } = this.props;
     return (
       <div className="location-form">
         <FieldGroup
@@ -103,7 +103,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
 
                 {error && (
                   <div className="notification notification-red">
-                    {error && error.response && error.response.status === 403
+                    {error && error?.response?.status === 403
                       ? 'U bent niet geautoriseerd om dit te doen.'
                       : 'De nieuwe locatie kon niet worden gewijzigd.'}
                   </div>
@@ -116,7 +116,6 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   data-testid="location-form-button-submit"
                 >
                   <span className="value">Locatie opslaan</span>
-                  {patching.location && <span className="working"><div className="progress-indicator progress-white"></div></span>}
                 </button>
                 <button
                   className="location-form__cancel action secundary-grey"
