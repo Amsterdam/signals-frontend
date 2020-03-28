@@ -6,11 +6,21 @@ import { markerIcon } from 'shared/services/configuration/map-markers';
 import { feature2location, location2feature } from 'shared/services/map-location';
 import MapBase from '../MapBase';
 import MapContext from '../MapContainer/context';
-import { setLocationAction } from '../MapContainer/actions';
+import { setLocationAction, setValuesAction, setAddressAction } from '../MapContainer/actions';
+import PDOKAutoSuggest from '../PDOKAutoSuggest';
+import reverseGeocoderService from './services/reverseGeocoderService';
 
 const StyledMap = styled(MapBase)`
   height: 450px;
   width: 100%;
+`;
+
+const StyledAutosuggest = styled(PDOKAutoSuggest)`
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  width: calc(100% - 40px);
+  z-index: 401;
 `;
 
 const MapImplementation = ({ value, onChange, ...otherProps }) => {
@@ -25,38 +35,50 @@ const MapImplementation = ({ value, onChange, ...otherProps }) => {
     dispatch(setLocationAction(loc));
   }, [value, dispatch]);
 
-  const clickHandler = e => {
+  const clickHandler = async e => {
     dispatch(setLocationAction(e.latlng));
+    const addressText = await reverseGeocoderService(e.latlng);
+    dispatch(setAddressAction(addressText));
+    onChange({ geometrie: location2feature(e.latlng), addressText });
+  };
+
+  const onSelect = option => {
+    // eslint-disable-next-line no-shadow
+    const { location, value: addressText } = option;
+
+    dispatch(
+      setValuesAction({
+        location,
+        addressText,
+      })
+    );
+
+    onChange({
+      geometrie: location2feature(location),
+      addressText,
+    });
   };
 
   useEffect(() => {
     if (!marker || !hasLocation) return;
-
     marker.setLatLng(location);
-    marker.setOpacity(1);
-
-    // Pass the state back to the parent.
-    onChange({
-      geometrie: location2feature(location),
-
-      // Dummy address - to be removed when autosuggest is wired
-      addressText: 'dummy-address-text',
-    });
-  }, [marker, location, hasLocation, onChange]);
+  }, [marker, location, hasLocation]);
 
   return (
-    <StyledMap {...otherProps} events={{ click: clickHandler }}>
-      {hasLocation && (
-        <Marker
-          setInstance={setMarker}
-          args={[location]}
-          options={{
-            icon: markerIcon,
-            opacity: 0,
-          }}
-        />
-      )}
-    </StyledMap>
+    <React.Fragment>
+      <StyledAutosuggest value={value.addressText} onSelect={onSelect} gemeentenaam="amsterdam" />
+      <StyledMap {...otherProps} events={{ click: clickHandler }} >
+        {hasLocation && (
+          <Marker
+            setInstance={setMarker}
+            args={[location]}
+            options={{
+              icon: markerIcon,
+            }}
+          />
+        )}
+      </StyledMap>
+    </React.Fragment>
   );
 };
 
@@ -68,14 +90,7 @@ MapImplementation.propTypes = {
       type: PropTypes.string,
       coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
     }),
-    address: PropTypes.shape({
-      openbare_ruimte: PropTypes.string,
-      huisnummer: PropTypes.string,
-      huisletter: PropTypes.string,
-      huisnummer_toevoeging: PropTypes.string,
-      postcode: PropTypes.string,
-      woonplaats: PropTypes.string,
-    }),
+    addressText: PropTypes.string,
   }),
   onChange: PropTypes.func,
 };

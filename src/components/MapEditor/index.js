@@ -16,10 +16,6 @@ const MapEditor = ({ value, onLocationChange, mapOptions, ...otherProps }) => (
   </MapContainer>
 );
 
-MapEditor.defaultProps = {
-  value: {},
-};
-
 MapEditor.propTypes = {
   value: PropTypes.shape({
     geometrie: PropTypes.shape({

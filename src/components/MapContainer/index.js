@@ -4,7 +4,7 @@ import MapContext from './context';
 import reducer, { initialState, mapValuesType } from './reducer';
 import { setValuesAction } from './actions';
 
-const MapContainer = ({ value, onChange, children }) => {
+const MapContainer = ({ value, children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const MapContainer = ({ value, onChange, children }) => {
   }, [value]);
 
   return (
-    <MapContext.Provider value={{ state, dispatch, onChange }}>
+    <MapContext.Provider value={{ state, dispatch }}>
       {children}
     </MapContext.Provider>
   );
@@ -20,7 +20,6 @@ const MapContainer = ({ value, onChange, children }) => {
 
 MapContainer.propTypes = {
   value: mapValuesType, /** this is the value of the controlled component */
-  onChange: PropTypes.func, /** used to pass the changes to the parent */
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
