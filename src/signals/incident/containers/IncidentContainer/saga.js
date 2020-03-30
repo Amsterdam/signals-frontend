@@ -111,24 +111,31 @@ export function* getPostData(action) {
     handling_message,
   };
 
-  const invalidFields = ['incident_date', 'incident_time_minutes', 'subcategory', 'datetime', 'incident_time_hours', 'description', 'status'];
+  const validFields = [
+    'category',
+    'extra_properties',
+    'incident_date_end',
+    'incident_date_start',
+    'location',
+    'priority',
+    'reporter',
+    'source',
+    'text_extra',
+    'text',
+    'type',
+  ];
   const authenticatedOnlyFields = ['priority', 'source', 'type'];
 
   // function to filter out values that are not supported by the public API endpoint
   const filterSupportedFields = ([key]) =>
     isAuthenticated() || (!isAuthenticated() && !authenticatedOnlyFields.includes(key));
 
-  const filterInvalidFields = ([key]) => {
-    const isInvalid = invalidFields.includes(key);
-    const isExtraProp = key !== 'extra_properties' && key.startsWith('extra_');
-
-    return !isInvalid && !isExtraProp;
-  };
+  const filterValidFields = ([key]) => validFields.includes(key);
 
   // return the filtered post data
   return Object.entries(primedPostData)
+    .filter(filterValidFields)
     .filter(filterSupportedFields)
-    .filter(filterInvalidFields)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 }
 

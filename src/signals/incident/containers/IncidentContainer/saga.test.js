@@ -159,7 +159,6 @@ describe('IncidentContainer saga', () => {
         category: {
           sub_category,
         },
-        handling_message,
       };
 
       const mapControlsToParamsResponse = {
@@ -193,7 +192,6 @@ describe('IncidentContainer saga', () => {
         category: {
           sub_category,
         },
-        handling_message,
       };
 
       return expectSaga(getPostData, action)
@@ -222,7 +220,6 @@ describe('IncidentContainer saga', () => {
         category: {
           sub_category,
         },
-        handling_message,
         priority: {
           priority: payloadIncident.priority.id,
         },
