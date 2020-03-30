@@ -114,6 +114,7 @@ export function* getPostData(action) {
   const validFields = [
     'category',
     'extra_properties',
+    'handling_message',
     'incident_date_end',
     'incident_date_start',
     'location',
