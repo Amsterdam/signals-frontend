@@ -14,7 +14,7 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
 `;
 
-const hasTouchCapabilities = !!global.L.Browser.touch;
+const hasTouchCapabilities = 'ontouchstart' in window;
 
 const MapBase = ({ mapOptions, hasZoomControls, isInteractive, children, ...otherProps }) => {
   const options = {

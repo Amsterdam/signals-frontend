@@ -1,10 +1,10 @@
 import React, { useReducer, memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import MapContext from './context';
+import Context from './context';
 import reducer, { initialState, mapValuesType } from './reducer';
 import { setValuesAction } from './actions';
 
-const MapContainer = ({ value, children }) => {
+const MapContext = ({ value, children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -12,15 +12,15 @@ const MapContainer = ({ value, children }) => {
   }, [value]);
 
   return (
-    <MapContext.Provider value={{ state, dispatch }}>
+    <Context.Provider value={{ state, dispatch }}>
       {children}
-    </MapContext.Provider>
+    </Context.Provider>
   );
 };
 
-MapContainer.propTypes = {
+MapContext.propTypes = {
   value: mapValuesType, /** this is the value of the controlled component */
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
-export default memo(MapContainer);
+export default memo(MapContext);

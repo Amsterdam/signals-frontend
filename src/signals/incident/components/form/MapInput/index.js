@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MapEditor from 'components/MapEditor';
+import MapInteractive from 'components/MapInteractive';
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Header from '../Header';
@@ -21,7 +21,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
         <div className={`${meta.className || 'col-12'} mode_input`}>
           <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
             <div className="invoer">
-              <MapEditor onLocationChange={onLocationChange} value={value} mapOptions={MAP_OPTIONS} />
+              <MapInteractive onLocationChange={onLocationChange} value={value} mapOptions={MAP_OPTIONS} />
             </div>
           </Header>
         </div>
