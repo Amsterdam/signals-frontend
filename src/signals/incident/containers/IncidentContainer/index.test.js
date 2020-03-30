@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
-import { history, withAppContext } from 'test/utils';
+import { withAppContext } from 'test/utils';
 import { IncidentContainerComponent } from '.';
 
 jest.mock('shared/services/auth/auth', () => ({
@@ -9,41 +9,19 @@ jest.mock('shared/services/auth/auth', () => ({
   ...jest.requireActual('shared/services/auth/auth'),
   isAuthenticated: () => true,
 }));
-jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
+jest.mock('signals/incident/components/IncidentWizard', () => () => <span data-testid="incidentWizard" />);
 
 describe('signals/incident/containers/IncidentContainer', () => {
-  const resetIncidentAction = jest.fn();
   const props = {
     incidentContainer: { incident: {} },
     getClassificationAction: jest.fn(),
     updateIncidentAction: jest.fn(),
     createIncidentAction: jest.fn(),
-    resetIncidentAction,
   };
 
-  it('should reset incident on page unload', () => {
-    act(() => {
-      history.push('/');
-    });
+  it('should render correctly', () => {
+    const { getByTestId } = render(withAppContext(<IncidentContainerComponent {...props} />));
 
-    const { rerender } = render(withAppContext(<IncidentContainerComponent {...props} />));
-
-    expect(resetIncidentAction).not.toHaveBeenCalled();
-
-    act(() => {
-      history.push('/incident/bedankt');
-    });
-
-    rerender(withAppContext(<IncidentContainerComponent {...props} />));
-
-    expect(resetIncidentAction).not.toHaveBeenCalled();
-
-    act(() => {
-      history.push('/');
-    });
-
-    rerender(withAppContext(<IncidentContainerComponent {...props} />));
-
-    expect(resetIncidentAction).toHaveBeenCalled();
+    expect(getByTestId('incidentWizard')).toBeInTheDocument();
   });
 });

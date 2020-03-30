@@ -145,6 +145,39 @@ describe('IncidentContainer saga', () => {
   });
 
   describe('getPostData', () => {
+    it('returns data that is valid', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+      const description = 'description';
+      const datetime = 'datetime';
+
+      const invalidPostData = { ...payloadIncident, description, datetime };
+      const invalidAction = { ...action, payload: { ...action.payload, incident: invalidPostData } };
+
+      const postData = {
+        text: payloadIncident.text,
+        category: {
+          sub_category,
+        },
+      };
+
+      const mapControlsToParamsResponse = {
+        text: payloadIncident.text,
+        category: payloadIncident.category,
+        subcategory: payloadIncident.subcategory,
+      };
+
+      return expectSaga(getPostData, invalidAction)
+        .provide([
+          [matchers.call.fn(request), categoryResponse],
+          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
+        ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
+        .call(mapControlsToParams, invalidAction.payload.incident, invalidAction.payload.wizard)
+        .returns(postData)
+        .run(false);
+    });
+
     it('returns data for unauthenticated users', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
@@ -159,8 +192,6 @@ describe('IncidentContainer saga', () => {
         category: {
           sub_category,
         },
-        subcategory: payloadIncident.subcategory,
-        handling_message,
       };
 
       return expectSaga(getPostData, action)
@@ -189,8 +220,6 @@ describe('IncidentContainer saga', () => {
         category: {
           sub_category,
         },
-        subcategory: payloadIncident.subcategory,
-        handling_message,
         priority: {
           priority: payloadIncident.priority.id,
         },

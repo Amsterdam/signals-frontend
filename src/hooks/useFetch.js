@@ -3,12 +3,6 @@ import { useState, useEffect } from 'react';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import { getErrorMessage } from 'shared/services/api/api';
 
-export const headers = {
-  ...getAuthHeaders(),
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-};
-
 /**
  * Custom hook useFetch
  *
@@ -26,6 +20,11 @@ export default () => {
 
   const controller = new AbortController();
   const { signal } = controller;
+  const requestHeaders = {
+    ...getAuthHeaders(),
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  };
 
   useEffect(() => () => {
     controller.abort();
@@ -44,7 +43,8 @@ export default () => {
 
     try {
       const response = await fetch(requestURL, {
-        headers,
+        headers: requestHeaders,
+        method: 'GET',
         signal,
       });
       /* istanbul ignore else */
@@ -68,7 +68,7 @@ export default () => {
 
     try {
       const response = await fetch(url, {
-        headers,
+        headers: requestHeaders,
         method,
         signal,
         body: JSON.stringify(modifiedData),
