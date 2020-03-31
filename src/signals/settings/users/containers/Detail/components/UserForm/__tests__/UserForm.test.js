@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 import * as modelSelectors from 'models/departments/selectors';
@@ -38,6 +38,9 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelectorAll('[name="is_active"]')[0].checked).toBe(true);
     expect(container.querySelectorAll('[name="is_active"]')[1].value).toBe('false');
     expect(container.querySelectorAll('[name="is_active"]')[1].checked).toBe(false);
+
+    expect(container.querySelectorAll('[name="departments"]')).toHaveLength(18);
+    expect(container.querySelectorAll('[name="departments"]')[7].checked).toBe(false);
   });
 
   it('should make fields disabled', () => {
@@ -63,7 +66,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
       is_active: true,
       profile: {
         note: 'abc',
-        departments: [],
+        departments: ['Actie Service Centrum', 'Afval en Grondstoffen', 'CCA', 'FB'],
       },
     };
 
@@ -75,6 +78,8 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelector('[name="is_active"][value="true"]').checked).toBe(true);
     expect(container.querySelector('[name="is_active"][value="false"]').checked).toBe(false);
     expect(container.querySelector('[name="note"]').value).toBe(data.profile.note);
+    expect(container.querySelectorAll('[name="departments"]')[0].checked).toBe(true);
+    expect(container.querySelectorAll('[name="departments"]')[7].checked).toBe(false);
   });
 
   it('should call onCancel callback', () => {
@@ -101,5 +106,31 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     tree.find('button[type="submit"]').simulate('click');
 
     expect(onSubmit).toHaveBeenCalled();
+  });
+
+  it('should select the "Niet Actief" radio button', () => {
+    const { container } = render(withAppContext(<UserForm />));
+
+    const radio1 = container.querySelectorAll('[name="is_active"]')[0];
+    const radio2 = container.querySelectorAll('[name="is_active"]')[1];
+
+    expect(radio1.value).toBe('true');
+    expect(radio1.checked).toBe(true);
+
+    fireEvent.click(radio2);
+
+    expect(radio1.checked).toBe(false);
+    expect(radio2.value).toBe('false');
+    expect(radio2.checked).toBe(true);
+  });
+
+  it('should check an unchecked checkbox', () => {
+    const { getByLabelText } = render(withAppContext(<UserForm />));
+
+    const checkbox = getByLabelText('Actie Service Centrum');
+
+    expect(checkbox.checked).toBe(false);
+    fireEvent.click(checkbox);
+    expect(checkbox.checked).toBe(true);
   });
 });
