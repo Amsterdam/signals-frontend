@@ -139,10 +139,9 @@ const CheckboxList = ({
    * @returns {(Object|undefined)}
    */
   const getOption = useCallback(
-    // disabling linter; a strict type check is not needed because an id with value 6 will not equal '6' and that is
-    // what we need when comparing form field values since everything from a form is a string
-    // eslint-disable-next-line eqeqeq
-    id => options.find(option => option.id == id || option.key == id),
+    // id is always a string, because it comes from an HTML data- attribute
+    // cast the comparing value to a string to make sure that we're comparing the same things
+    id => options.find(option => `${option.id}` === id || `${option.key}` === id),
     [options]
   );
 
