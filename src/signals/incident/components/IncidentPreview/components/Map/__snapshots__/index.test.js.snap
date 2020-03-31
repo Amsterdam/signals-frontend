@@ -199,9 +199,8 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
           Geen adres gevonden
         </div>
         <Styled(Component)
+          data-testid="map-preview"
           isInteractive={false}
-          lat={4}
-          lng={52}
           mapOptions={
             Object {
               "attributionControl": false,
@@ -259,7 +258,37 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
               "zoomControl": false,
             }
           }
-        />
+        >
+          <Memo(LeafletComponent)
+            args={
+              Array [
+                Object {
+                  "lat": 4,
+                  "lng": 52,
+                },
+              ]
+            }
+            options={
+              Object {
+                "icon": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "sia-map-marker",
+                    "iconAnchor": Array [
+                      20,
+                      39,
+                    ],
+                    "iconSize": Array [
+                      40,
+                      40,
+                    ],
+                    "iconUrl": "https://map.data.amsterdam.nl/dist/images/svg/marker.svg",
+                  },
+                },
+              }
+            }
+          />
+        </Styled(Component)>
       </styled.div>
     </Column>
   </Column>
@@ -329,9 +358,8 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
           Hell 666C, 1087JC Amsterdam
         </div>
         <Styled(Component)
+          data-testid="map-preview"
           isInteractive={false}
-          lat={4}
-          lng={52}
           mapOptions={
             Object {
               "attributionControl": false,
@@ -389,7 +417,37 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
               "zoomControl": false,
             }
           }
-        />
+        >
+          <Memo(LeafletComponent)
+            args={
+              Array [
+                Object {
+                  "lat": 4,
+                  "lng": 52,
+                },
+              ]
+            }
+            options={
+              Object {
+                "icon": NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "className": "sia-map-marker",
+                    "iconAnchor": Array [
+                      20,
+                      39,
+                    ],
+                    "iconSize": Array [
+                      40,
+                      40,
+                    ],
+                    "iconUrl": "https://map.data.amsterdam.nl/dist/images/svg/marker.svg",
+                  },
+                },
+              }
+            }
+          />
+        </Styled(Component)>
       </styled.div>
     </Column>
   </Column>

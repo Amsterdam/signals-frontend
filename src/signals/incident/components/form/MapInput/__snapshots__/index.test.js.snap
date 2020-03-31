@@ -81,7 +81,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
               "zoomControl": false,
             }
           }
-          onLocationChange={[Function]}
+          onQueryResult={[Function]}
           value={Object {}}
         />
       </div>

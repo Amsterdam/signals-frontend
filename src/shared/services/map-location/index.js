@@ -22,7 +22,7 @@ export const address2pdok = address => {
 /**
  * converts the location from `sia` location format to latlon format
  */
-function mapLocation(loc) {
+const mapLocation = loc => {
   const location = {};
 
   if (loc.dichtstbijzijnd_adres) {
@@ -47,7 +47,7 @@ function mapLocation(loc) {
   }
 
   return location;
-}
+};
 export const formatAddress = address => {
   const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
   const display = address.openbare_ruimte

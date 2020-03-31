@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Map from 'components/Map';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { Marker } from '@datapunt/react-maps';
@@ -8,11 +7,6 @@ import { Marker } from '@datapunt/react-maps';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { locationType } from 'shared/types';
 import './style.scss';
-
-const StyledMap = styled(Map)`
-  height: 80px;
-  width: 80px;
-`;
 
 const MapDetail = ({ value, className, zoom, icon }) => {
   const location = value?.geometrie?.coordinates;
@@ -26,9 +20,9 @@ const MapDetail = ({ value, className, zoom, icon }) => {
   };
 
   return (lat && lng) ? (
-    <StyledMap data-testid="map-detail" mapOptions={options} isInteractive={false} className={className}>
-      <Marker data-testid="map-marker" args={[{ lat, lng }]} options={{ icon }} />
-    </StyledMap>
+    <Map data-testid="map-detail" mapOptions={options} isInteractive={false} className={className}>
+      <Marker args={[{ lat, lng }]} options={{ icon }} />
+    </Map>
   ) : null;
 };
 

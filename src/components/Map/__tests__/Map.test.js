@@ -26,26 +26,7 @@ describe('components/Map', () => {
 
   it('should implement isInteractive', () => {
     /**
-     *  the isInteractive prop uses the intern state of leaflet (Browser.touch) and therefore cannot be tested
+     *  the isInteractive prop uses the intern state of leaflet and therefore cannot be tested
      */
   });
-});
-
-describe('components/Map', () => {
-
-  // it('should render the marker', () => {
-  //   const { container, rerender } = render(<Map mapOptions={MAP_OPTIONS} />);
-
-  //   expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
-
-  //   rerender(<Map mapOptions={MAP_OPTIONS} lat={42} />);
-  //   expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
-
-  //   rerender(<Map mapOptions={MAP_OPTIONS} lng={4} />);
-  //   expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
-
-  //   rerender(<Map mapOptions={MAP_OPTIONS} lat={42} lng={4} />);
-  //   expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
-  // });
-
 });

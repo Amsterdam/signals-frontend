@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
+import { markerIcon } from 'shared/services/configuration/map-markers';
 import MapDetail from './index';
 
 describe('<MapDetail />', () => {
@@ -8,7 +9,8 @@ describe('<MapDetail />', () => {
     value: {
       geometrie: { coordinates: [4, 42] },
     },
-    mapOptions: {},
+    zoom: 15,
+    icon: markerIcon,
   };
 
   beforeEach(() => {
@@ -19,17 +21,23 @@ describe('<MapDetail />', () => {
   });
 
   it('should render correctly', () => {
-    const { getByTestId } = render(<MapDetail {...props} />);
+    const { container, getByTestId } = render(<MapDetail {...props} />);
 
     // Map
-    expect(getByTestId('map')).toBeInTheDocument();
+    expect(getByTestId('map-detail')).toBeInTheDocument();
+
+    // Marker
+    expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
   });
 
   it('should not render without value', () => {
     props.value = {};
-    const { queryByTestId } = render(<MapDetail {...props} />);
+    const { container, queryByTestId } = render(<MapDetail {...props} />);
 
     // Map
     expect(queryByTestId('map')).not.toBeInTheDocument();
+
+    // Marker
+    expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
   });
 });
