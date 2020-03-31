@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import { render } from '@testing-library/react';
 import { initialState } from '../reducer';
-import MapContainer from '..';
-import MapContext from '../context';
+import MapContext from '..';
+import Context from '../context';
 import { setValuesAction } from '../actions';
 
 describe('containers/MapContext/index', () => {
   const testLocation = { lat: 42, lng: 4 };
   const TestComponent = ({ value }) => {
-    const { state, dispatch } = useContext(MapContext);
+    const { state, dispatch } = useContext(Context);
 
     useEffect(() => {
       if (value) dispatch(setValuesAction(value));
@@ -20,9 +20,9 @@ describe('containers/MapContext/index', () => {
   it('should render the test component', () => {
     const testValue = JSON.stringify(initialState);
     const { queryByText, rerender } = render(
-      <MapContainer>
+      <MapContext>
         <TestComponent />
-      </MapContainer>
+      </MapContext>
     );
 
     expect(queryByText(testValue)).toBeInTheDocument();
@@ -33,9 +33,9 @@ describe('containers/MapContext/index', () => {
     });
 
     rerender(
-      <MapContainer>
+      <MapContext>
         <TestComponent value={{ location:testLocation }} />
-      </MapContainer>
+      </MapContext>
     );
 
     expect(queryByText(rerenderTestValue)).toBeInTheDocument();

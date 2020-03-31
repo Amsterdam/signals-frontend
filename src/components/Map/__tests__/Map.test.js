@@ -15,15 +15,6 @@ describe('components/Map', () => {
     expect(queryByText(/Kaartgegevens CC-BY-4.0 Gemeente Amsterdam/)).toBeInTheDocument();
   });
 
-  it('should render the zoom control', () => {
-    const { container, rerender } = render(<Map mapOptions={MAP_OPTIONS} lat={42} lng={4} />);
-
-    expect(container.querySelector('button[title="Inzoomen"]')).not.toBeInTheDocument();
-
-    rerender(<Map mapOptions={MAP_OPTIONS} hasZoomControls />);
-    expect(container.querySelector('button[title="Inzoomen"]')).toBeInTheDocument();
-  });
-
   it('should render the marker', () => {
     const { container, rerender } = render(<Map mapOptions={MAP_OPTIONS} />);
 
@@ -39,9 +30,4 @@ describe('components/Map', () => {
     expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
   });
 
-  it('should implement isInteractive', () => {
-    /**
-     *  the isInteractive prop uses the intern state of leaflet (Browser.touch) and therefore cannot be tested
-     */
-  });
 });
