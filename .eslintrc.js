@@ -7,10 +7,11 @@ const prettierOptions = JSON.parse(
 
 module.exports = {
   parser: 'babel-eslint',
-  extends: ['airbnb', 'prettier', 'prettier/react'],
-  plugins: ['prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y'],
+  extends: ['airbnb', 'plugin:cypress/recommended', 'prettier', 'prettier/react'],
+  plugins: ['cypress', 'prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y'],
   env: {
     browser: true,
+    'cypress/globals': true,
     es6: true,
     jest: true,
     node: true,
