@@ -1,109 +1,106 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
+import styled from 'styled-components';
+import { Button, themeSpacing } from '@datapunt/asc-ui';
 
-import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
-import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
+import TextArea from 'components/TextArea';
+import Label from 'components/Label';
 import { PATCH_TYPE_NOTES } from 'models/incident/constants';
 
-import './style.scss';
+const NewNoteButton = styled(Button)`
+  margin: ${themeSpacing(2, 2, 2, 0)};
+`;
 
-class AddNote extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    text: [null, Validators.required],
-  });
+const SaveNoteButton = styled(Button)`
+  margin-right: ${themeSpacing(2)};
+`;
 
-  constructor(props) {
-    super(props);
+const AddNote = ({ id, onPatchIncident }) => {
+  const areaRef = useRef(null);
+  const [showForm, setShowForm] = useState(false);
+  const [note, setNote] = useState('');
 
-    this.state = {
-      formVisible: false,
-    };
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
 
-    this.showForm = this.showForm.bind(this);
-    this.hideForm = this.hideForm.bind(this);
-  }
+      const notes = [{ text: note }];
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const notes = [{ text: this.form.value.text }];
-    this.props.onPatchIncident({
-      id: this.props.id,
-      type: PATCH_TYPE_NOTES,
-      patch: { notes },
-    });
+      onPatchIncident({
+        id,
+        type: PATCH_TYPE_NOTES,
+        patch: { notes },
+      });
 
-    this.form.reset();
-    this.hideForm();
-  }
+      setShowForm(false);
+    },
+    [id, onPatchIncident, note]
+  );
 
-  showForm() {
-    this.form.reset();
-    this.setState({ formVisible: true });
-  }
+  const onChange = useCallback(
+    event => {
+      const value = event.target.value.trim();
 
-  hideForm() {
-    this.setState({ formVisible: false });
-  }
+      setNote(value);
+    },
+    [setNote]
+  );
 
-  render() {
-    const { formVisible } = this.state;
-    return (
-      <section className="add-note">
-        <div>
-          {formVisible
-            ? (
-              <FieldGroup
-                control={this.form}
-                render={({ invalid }) => (
-                  <form onSubmit={this.handleSubmit} className="add-note__form">
-                    <div>
-                      <FieldControlWrapper
-                        render={TextAreaInput}
-                        name="text"
-                        className="add-note__form-input"
-                        display="Notitie toevoegen"
-                        control={this.form.get('text')}
-                        rows={10}
-                      />
+  useEffect(() => {
+    if (!showForm) return;
 
-                      <button
-                        className="add-note__form-submit action primary"
-                        type="submit"
-                        disabled={invalid}
-                      >
-                        Opslaan
-                      </button>
-                      <button
-                        className="add-note__form-cancel action secundary-grey"
-                        type="button"
-                        onClick={this.hideForm}
-                      >
-                        Annuleren
-                      </button>
-                    </div>
-                  </form>
-                )}
-              />
-            )
-            : (
-              <button
-                className="add-note__show-form incident-detail__button"
-                type="button"
-                onClick={this.showForm}
-              >
-                Notitie toevoegen
-              </button>
-            )}
-        </div>
-      </section>
-    );
-  }
-}
+    areaRef.current.focus();
+  }, [showForm]);
+
+  return (
+    <section>
+      {showForm ? (
+        <form action="">
+          <Label htmlFor="addNoteText">Notitie toevoegen</Label>
+          <TextArea
+            id="addNoteText"
+            ref={areaRef}
+            onChange={onChange}
+            rows={10}
+            data-testid="addNoteText"
+            value={note}
+          />
+
+          <SaveNoteButton
+            data-testid="addNoteSaveNoteButton"
+            disabled={!note}
+            onClick={handleSubmit}
+            type="submit"
+            variant="secondary"
+          >
+            Opslaan
+          </SaveNoteButton>
+
+          <Button
+            data-testid="addNoteCancelNoteButton"
+            variant="tertiary"
+            type="button"
+            onClick={() => setShowForm(false)}
+          >
+            Annuleren
+          </Button>
+        </form>
+      ) : (
+        <NewNoteButton
+          data-testid="addNoteNewNoteButton"
+          variant="application"
+          type="button"
+          onClick={() => setShowForm(true)}
+        >
+          Notitie toevoegen
+        </NewNoteButton>
+      )}
+    </section>
+  );
+};
 
 AddNote.propTypes = {
   id: PropTypes.string.isRequired,
-
   onPatchIncident: PropTypes.func.isRequired,
 };
 
