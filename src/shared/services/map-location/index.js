@@ -1,8 +1,3 @@
-export const location2feature = location => ({
-  type: 'Point',
-  coordinates: [location.lng, location.lat],
-});
-
 export const feature2location = feature => {
   const { coordinates } = feature;
   return {
@@ -21,20 +16,6 @@ export const address2pdok = address => {
     huisnummertoevoeging: huisnummer_toevoeging ?   `${huisnummer_toevoeging}` : '',
     postcode,
     woonplaatsnaam: woonplaats,
-  };
-};
-
-export const wktPointToLocation = wktPoint => {
-  if (!wktPoint.includes('POINT')) {
-    throw TypeError('Provided WKT geometry is not a point.');
-  }
-  const coordinate = wktPoint.split('(')[1].split(')')[0];
-  const lat = parseFloat(coordinate.split(' ')[1]);
-  const lng = parseFloat(coordinate.split(' ')[0]);
-
-  return {
-    lat,
-    lng,
   };
 };
 
@@ -61,6 +42,14 @@ const mapLocation = loc => {
   }
 
   return location;
+};
+
+export const formatAddress = address => {
+  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
+  const display = address.openbare_ruimte
+    ? `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`
+    : '_';
+  return display;
 };
 
 export default mapLocation;

@@ -5,6 +5,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from 'components/Map';
 import styled from '@datapunt/asc-core';
 import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { formatAddress } from 'shared/services/map-location';
 
 const StyledMap = styled(Map)`
   margin-top: ${themeSpacing(4)};
@@ -40,7 +41,7 @@ const MapPreview = ({ label, value }) => {
           {value && (
             <ItemWrapper>
               <div>
-                {value.addressText || 'Geen adres gevonden'}
+                {value.address ? formatAddress(value.address) : 'Geen adres gevonden'}
               </div>
               {lat && lng && <StyledMap lat={lat} lng={lng} mapOptions={options} isInteractive={false}/>}
             </ItemWrapper>
@@ -54,8 +55,8 @@ const MapPreview = ({ label, value }) => {
 MapPreview.propTypes = {
   label: PropTypes.string,
   value: PropTypes.shape({
+    address: PropTypes.object,
     geometrie: PropTypes.object,
-    addressText: PropTypes.string,
   }),
   mapOptions: PropTypes.shape({}) /** leaflet options */,
 };

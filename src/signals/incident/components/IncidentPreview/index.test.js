@@ -112,7 +112,15 @@ describe('<IncidentPreview />', () => {
             label: 'Nu',
           },
           location: {
-            addressText: 'Zwanenburgwal 15, 1011VW Amsterdam',
+            address: {
+              openbare_ruimte: 'Zwanenburgwal',
+              huisnummer: '15',
+              huisletter: '',
+              huisnummer_toevoeging: '',
+              postcode: '1011VW',
+              woonplaats: 'Amsterdam',
+            },
+            address_text: 'Zwanenburgwal 15, 1011VW Amsterdam',
             buurt_code: 'A04i',
             stadsdeel: 'A',
             geometrie: {
@@ -185,7 +193,7 @@ describe('<IncidentPreview />', () => {
 
       expect(queryByText(step.location.label))
         .toBeInTheDocument();
-      expect(queryByText(incident.location.addressText)).toBeInTheDocument();;
+      expect(queryByText(incident.location.address_text)).toBeInTheDocument();;
     });
   });
 });

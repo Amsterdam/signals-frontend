@@ -25,7 +25,7 @@ describe('<MapDetail />', () => {
     expect(getByTestId('map')).toBeInTheDocument();
   });
 
-  it.only('should not render correctly', () => {
+  it('should not render without value', () => {
     props.value = {};
     const { queryByTestId } = render(<MapDetail {...props} />);
 

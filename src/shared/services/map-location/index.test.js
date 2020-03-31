@@ -1,11 +1,4 @@
-import mapLocation, { feature2location, location2feature, address2pdok } from './index';
-
-const testLocation = { lng: 4, lat: 52 };
-
-const testFeature = {
-  type: 'Point',
-  coordinates: [4, 52],
-};
+import mapLocation, { formatAddress, feature2location, address2pdok } from './index';
 
 const testAddress = {
   openbare_ruimte: 'Keizersgracht',
@@ -25,15 +18,16 @@ const testPdokAddress = {
   woonplaatsnaam: 'Amsterdam',
 };
 
+const testLocation = { lng: 4, lat: 52 };
+
+const testFeature = {
+  type: 'Point',
+  coordinates: [4, 52],
+};
+
 describe('feature2location', () => {
   it('should convert', () => {
     expect(feature2location(testFeature)).toEqual(testLocation);
-  });
-});
-
-describe('location2feature', () => {
-  it('should convert', () => {
-    expect(location2feature(testLocation)).toEqual(testFeature);
   });
 });
 
@@ -83,3 +77,19 @@ describe('The map location service', () => {
   });
 });
 
+describe('The formatAddress', () => {
+  it('should render an _ when no data', () => {
+    expect(formatAddress({})).toEqual('_');
+  });
+
+  it('should render the address name', () => {
+    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D-3, 1016EJ Amsterdam');
+  });
+
+  it('should render the address without toevoeging', () => {
+    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D-3, 1016EJ Amsterdam');
+    expect(formatAddress({ ...testAddress, huisnummer_toevoeging: null })).toEqual(
+      'Keizersgracht 666D, 1016EJ Amsterdam'
+    );
+  });
+});
