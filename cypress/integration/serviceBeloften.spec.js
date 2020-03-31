@@ -1,13 +1,11 @@
 // <reference types="Cypress" />
 
-import * as createSignal from '../support/commands-create-signal';
-import { CATEGORIES, MENU_ITEMS } from '../support/selectors-manage-incidents';
-import { CREATE_SIGNAL } from '../support/selectors-create-signal';
+import * as createSignal from '../support/commandsCreateSignal';
+import { CATEGORIES, MENU_ITEMS } from '../support/selectorsManageIncidents';
+import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Change servicebelofte', () => {
-
-  before(() => {
-    
+  before(() => { 
     localStorage.setItem('accessToken', 'TEST123');
 
     cy.server();
@@ -24,7 +22,6 @@ describe('Change servicebelofte', () => {
   });
 
   it('Change servicebelofte of category', () => {
-
     // Open Categorieën menu
     cy.get(MENU_ITEMS.openMenu).click();
     cy.contains('Instellingen').click();
@@ -66,11 +63,9 @@ describe('Change servicebelofte', () => {
 
     // Check day change
     cy.get('[data-item-id="144"] > :nth-child(2)').should('contain', '4 dagen');
-
   });
 });
 describe('Create signal and validate service belofte', () => {
-
   beforeEach(() => {
     localStorage.setItem('accessToken', 'TEST123');
   });
@@ -89,11 +84,9 @@ describe('Create signal and validate service belofte', () => {
     cy.get(MENU_ITEMS.openMenu).click();
     cy.contains('Melden').click();
     cy.checkHeader('Beschrijf uw melding');
-
   });
 
   it('Search for adress', () => {
-
     cy.server();
     cy.defineGeoSearchRoutes();
     cy.getAdressRoute('1069HM 224');
@@ -113,11 +106,9 @@ describe('Create signal and validate service belofte', () => {
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
-
   });
 
   it('Fill in description and date', () => {
-
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:afwateringBrug.json').as('prediction');
 
@@ -128,31 +119,25 @@ describe('Create signal and validate service belofte', () => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in phonenumber', () => {
-
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
     // Click next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in e-mailadres', () => {
-
     // Check URL
     cy.url().should('include', '/incident/email');
 
     // Click next
     cy.clickButton('Volgende');
-
   });
 
   it('Check overview', () => {
-
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
@@ -160,11 +145,9 @@ describe('Create signal and validate service belofte', () => {
     cy.checkHeader('Controleer uw gegevens');
 
     cy.clickButton('Verstuur');
-
   });
 
   it('Last screen', () => {
-
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
@@ -172,15 +155,12 @@ describe('Create signal and validate service belofte', () => {
     cy.checkHeader('Bedankt!');
 
     cy.contains('Ik beoordeel deze melding niet, het lijkt me namelijk allemaal onzin');
-
   });
 
 });
 
 describe('Change back servicebelofte', () => {
-
   before(() =>  {
-    
     localStorage.setItem('accessToken', 'TEST123');
 
     cy.server();
@@ -197,7 +177,6 @@ describe('Change back servicebelofte', () => {
   });
 
   it('Change back servicebelofte of category', () => {
-
     // Open Categorieën menu
     cy.get(MENU_ITEMS.openMenu).click();
     cy.contains('Instellingen').click();
@@ -238,6 +217,5 @@ describe('Change back servicebelofte', () => {
 
     // Check day change
     cy.get('[data-item-id="144"] > :nth-child(2)').should('contain', '5 werkdagen');
-
   });
 });

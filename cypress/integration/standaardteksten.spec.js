@@ -1,8 +1,7 @@
 // <reference types="Cypress" />
-import { MENU_ITEMS } from '../support/selectors-manage-incidents';
+import { MENU_ITEMS } from '../support/selectorsManageIncidents';
 
 describe('Standaardteksten', () => {
-
   beforeEach(() => {
     cy.server();
     cy.getManageSignalsRoutes();
@@ -20,7 +19,6 @@ describe('Standaardteksten', () => {
     cy.wait('@getCategories');
     cy.wait('@getSignals');
     cy.wait('@getUserInfo');
-
   });
 
   it('Open standaardteksten', () => {
@@ -50,9 +48,5 @@ describe('Standaardteksten', () => {
     // Save button
     cy.get('[data-testid=defaultTextFormSubmitButton]').click();
     cy.wait('@PostOverlastOpHetWater');
-
-
   });
-
-
 });

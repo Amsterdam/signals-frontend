@@ -26,40 +26,42 @@
 import 'cypress-file-upload';
 
 Cypress.Commands.add('isVisible', selector =>{
-    cy.get(selector).should('be.visible')
-})
+  cy.get(selector).should('be.visible');
+});
 
 Cypress.Commands.add('isNotVisible', selector => {
-    cy.get(selector).should('not.exist')
-})
+  cy.get(selector).should('not.exist');
+});
 
 Cypress.Commands.add('setResolution', size =>{
-    if (Cypress._.isArrray(size)){
-        cy.viewport(size[0],size [1])
-    } else {
-        cy.viewport(size)
-    }
-})
+  if (Cypress._.isArrray(size)){
+    cy.viewport(size[0],size [1]);
+  } else {
+    cy.viewport(size);
+  }
+});
 // go to the page, use delete win.fetch to convert fetch requests in xhr
 Cypress.Commands.add('visitFetch', url =>{
-    cy.visit(url,{
-        onBeforeLoad(win) {
-          delete win.fetch
-        },
-      })
-})
+  cy.visit(url,{
+    onBeforeLoad(win) {
+      // eslint-disable-next-line no-param-reassign
+      delete win.fetch;
+    },
+  });
+});
 
 Cypress.Commands.add('checkHeader', h1 =>{
-    cy.get('h1').should('be.visible').and('contain', h1)
-})
+  cy.get('h1').should('be.visible').and('contain', h1);
+});
 
 Cypress.Commands.add('clickButton', buttonName => {
-    const click = $el => $el.click()
-    cy.contains(buttonName)
-        .should('be.visible')
-        .pipe(click)
-        .should($el => {
-            expect($el).to.not.be.visible
-        })
+  const click = $el => $el.click();
+  cy.contains(buttonName)
+    .should('be.visible')
+    .pipe(click)
+    .should($el => {
+      // eslint-disable-next-line no-unused-expressions
+      expect($el).to.not.be.visible;
+    });
     
-})
+});

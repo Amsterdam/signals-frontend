@@ -14,11 +14,9 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands-general'
-import '.'
-import './commands-routing'
+import './commandsGeneral';
+import './commandsRouting';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-
-import 'cypress-pipe'
+import 'cypress-pipe';

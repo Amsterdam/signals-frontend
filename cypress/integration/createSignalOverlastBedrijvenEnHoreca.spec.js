@@ -1,23 +1,19 @@
 // <reference types="Cypress" />
 
-import * as createSignal from '../support/commands-create-signal';
-import { BEDRIJVEN_HORECA, CREATE_SIGNAL } from '../support/selectors-create-signal';
+import * as createSignal from '../support/commandsCreateSignal';
+import { BEDRIJVEN_HORECA, CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Create signal bedrijven en horeca', () =>{
-  
   before(() => {
-
     cy.server();
     cy.defineGeoSearchRoutes();
     cy.getAdressRoute('1012AN 5A');
   
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
-  
   });
 
   it('Search for adress', () => {
-
     // Check h1
     cy.checkHeader('Beschrijf uw melding');
 
@@ -30,11 +26,9 @@ describe('Create signal bedrijven en horeca', () =>{
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
-
   });
 
   it('Fill in description and date', () => {
-
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:bedrijvenHoreca.json').as('prediction');
     
@@ -45,11 +39,9 @@ describe('Create signal bedrijven en horeca', () =>{
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in specific information', () => {
-
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
@@ -71,11 +63,9 @@ describe('Create signal bedrijven en horeca', () =>{
     cy.get(BEDRIJVEN_HORECA.inputDatum).type('Elke dag');
 
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in phonenumber', () => {
-
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
@@ -86,7 +76,6 @@ describe('Create signal bedrijven en horeca', () =>{
   });
 
   it('Fill in e-mailadres', () => {
-    
     // Check URL
     cy.url().should('include', '/incident/email');
 
@@ -94,11 +83,9 @@ describe('Create signal bedrijven en horeca', () =>{
     cy.checkHeader('Wilt u op de hoogte blijven?');
     
     cy.clickButton('Volgende');
-
   });
 
   it('Check overview', () => {
-
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
@@ -119,11 +106,9 @@ describe('Create signal bedrijven en horeca', () =>{
 
     // Create signal
     cy.clickButton('Verstuur');
-
   });
 
   it('Last screen', () => {
-
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
@@ -131,8 +116,6 @@ describe('Create signal bedrijven en horeca', () =>{
     cy.checkHeader('Bedankt!');
     
     // TODO capture signal id
-
   });
-
 });
 

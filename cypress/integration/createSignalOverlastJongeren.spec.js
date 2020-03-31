@@ -1,12 +1,10 @@
 // <reference types="Cypress" />
 
-import * as createSignal from '../support/commands-create-signal';
-import { CREATE_SIGNAL, JONGEREN } from '../support/selectors-create-signal';
+import * as createSignal from '../support/commandsCreateSignal';
+import { CREATE_SIGNAL, JONGEREN } from '../support/selectorsCreateSignal';
 
 describe('Overlast door door groep jongeren',() => {
-
   before(() => {
-
     cy.server();
     cy.defineGeoSearchRoutes();
     cy.getAdressRoute('1018CN 28-H');
@@ -16,7 +14,6 @@ describe('Overlast door door groep jongeren',() => {
   });
 
   it('Search for adress', () => {
-
     // Check h1
     cy.checkHeader('Beschrijf uw melding');
 
@@ -29,11 +26,9 @@ describe('Overlast door door groep jongeren',() => {
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
-
   });
 
   it('Fill in description and date', () => {
-
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:jongeren.json').as('prediction');
 
@@ -44,11 +39,9 @@ describe('Overlast door door groep jongeren',() => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in specific information', () => {
-
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
@@ -84,7 +77,6 @@ describe('Overlast door door groep jongeren',() => {
   });
 
   it('Fill in phonenumber', () => {
-
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
@@ -96,11 +88,9 @@ describe('Overlast door door groep jongeren',() => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in e-mailadres', () => {
-
     // Check URL
     cy.url().should('include', '/incident/email');
 
@@ -109,11 +99,9 @@ describe('Overlast door door groep jongeren',() => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Check overview', () => {
-
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
@@ -127,16 +115,13 @@ describe('Overlast door door groep jongeren',() => {
     cy.contains('Ja, het gebeurt vaker').should('be.visible');
     cy.contains('Bijna iedere dag').should('be.visible');
 
-
     // Check marker on map
     cy.get(CREATE_SIGNAL.imageAdressMarker).find("img").should('be.visible');
 
     cy.clickButton('Verstuur');
-
   });
 
   it('Last screen', () => {
-
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
@@ -144,7 +129,5 @@ describe('Overlast door door groep jongeren',() => {
     cy.checkHeader('Bedankt!');
 
     // TODO capture signal id
-
   });
-
 });

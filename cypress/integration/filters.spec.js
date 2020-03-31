@@ -1,10 +1,9 @@
 // <reference types="Cypress" />
 
 // Import all selector for manage incidents (MI)
-import { MANAGE_SIGNALS, FILTER, FILTER_ALL_ITEMS, MY_FILTERS } from '../support/selectors-manage-incidents';
+import { MANAGE_SIGNALS, FILTER, FILTER_ALL_ITEMS, MY_FILTERS } from '../support/selectorsManageIncidents';
 
 describe('Filtering', () => {
-
   beforeEach(() => {
     cy.server();
     cy.getManageSignalsRoutes();
@@ -20,7 +19,6 @@ describe('Filtering', () => {
     cy.wait('@getCategories');
     cy.wait('@getSignals');
     cy.wait('@getUserInfo');
-
   });
 
   it('No filters', () => {
@@ -30,7 +28,6 @@ describe('Filtering', () => {
   });
 
   it('Create new filter', () => {
-
     // Open page to create filter
     cy.get(MANAGE_SIGNALS.buttonFilteren).should('be.visible').click();
 
@@ -73,11 +70,9 @@ describe('Filtering', () => {
 
     // Check on 2 filter attributes
     cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Gemeld').and('contain', 'Centrum');
-
   });
 
   it('Delete all filters', () => {
-
     // Open private filters
     cy.get(MANAGE_SIGNALS.buttonMijnFilters).should('be.visible').click();
 
@@ -91,7 +86,6 @@ describe('Filtering', () => {
     cy.get('p').should('contain', 'U heeft geen eigen filter opgeslagen.').and('contain', 'Ga naar ‘Filteren’ en voer een naam in om een filterinstelling op te slaan.');
 
     // Check if filter is deleted in signal view. At the moment it isn't.
-
   });
 
   it('Create new filter, select all filters, reset to default values', () => {
@@ -129,8 +123,5 @@ describe('Filtering', () => {
 
     // Click cancel
     cy.get(FILTER.buttonCancel).should('be.visible').click();
-
   });
-
-
 });
