@@ -265,7 +265,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
   it('should NOT post user data on submit when user does not have permissions', () => {
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
-    useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: {} }));
+    useFetch.mockImplementation(() => ({
+      ...useFetchResponse,
+      data: { first_name: '', last_name: '' },
+    }));
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
