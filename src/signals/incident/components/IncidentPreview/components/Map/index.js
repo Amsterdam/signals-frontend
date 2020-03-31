@@ -6,6 +6,8 @@ import Map from 'components/Map';
 import styled from '@datapunt/asc-core';
 import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { formatAddress } from 'shared/services/map-location';
+import { Marker } from '@datapunt/react-maps';
+import { markerIcon } from 'shared/services/configuration/map-markers';
 
 const StyledMap = styled(Map)`
   margin-top: ${themeSpacing(4)};
@@ -40,10 +42,13 @@ const MapPreview = ({ label, value }) => {
         <Column span={{ small: 1, medium: 2, big: 4, large: 6, xLarge: 6 }}>
           {value && (
             <ItemWrapper>
-              <div>
-                {value.address ? formatAddress(value.address) : 'Geen adres gevonden'}
-              </div>
-              {lat && lng && <StyledMap lat={lat} lng={lng} mapOptions={options} isInteractive={false}/>}
+              <div>{value.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>
+
+              {lat && lng && (
+                <StyledMap data-testid="map-preview" mapOptions={options} isInteractive={false}>
+                  <Marker args={[{ lat, lng }]} options={{ icon: markerIcon }} />
+                </StyledMap>
+              )}
             </ItemWrapper>
           )}
         </Column>

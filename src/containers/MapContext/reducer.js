@@ -1,13 +1,4 @@
-import PropTypes from 'prop-types';
 import { SET_LOCATION, SET_ADDRESS, SET_VALUES } from './constants';
-
-export const mapValuesType = PropTypes.shape({
-  location: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-  }),
-  addressText: PropTypes.string,
-});
 
 export const initialState = {
   location: {

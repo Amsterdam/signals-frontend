@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import { incidentType, dataListType } from 'shared/types';
-import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { smallMarkerIcon } from 'shared/services/configuration/map-markers';
 import MapDetail from '../../../MapDetail';
 import './style.scss';
@@ -25,10 +24,6 @@ const StyledMap = styled(MapDetail)`
 
 const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) => {
   const address = incident.location.address;
-  const mapOptions = {
-    ...MAP_OPTIONS,
-    zoom: 15,
-  };
 
   return (
     <dl className="location">
@@ -43,12 +38,7 @@ const Location = ({ incident, stadsdeelList, onShowLocation, onEditLocation }) =
           data-testid="location-button-edit"
         ></button>
         <MapTile role="button" onClick={onShowLocation} data-testid="location-button-show">
-          <StyledMap
-            value={incident.location}
-            mapOptions={mapOptions}
-            icon={smallMarkerIcon}
-            isInteractive={false}
-          />
+          <StyledMap value={incident.location} zoom={15} icon={smallMarkerIcon} />
         </MapTile>
         {incident.location.address_text ? (
           <div className="location__value-address">

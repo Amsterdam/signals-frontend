@@ -2,17 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { locationType } from 'shared/types';
-
-import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import { markerIcon } from 'shared/services/configuration/map-markers';
+import styled from 'styled-components';
 import MapDetail from '../MapDetail';
 
 import './style.scss';
 
-const mapOptions = {
-  ...MAP_OPTIONS,
-  zoom: 16,
-  attributionControl: false, // don't show the map credits in the right bottom corner
-};
+const StyledMap = styled(MapDetail)`
+  width: 100%;
+  height: 450px;
+`;
 
 const LocationPreview = ({ location, onEditLocation }) => (
   <div className="location-preview">
@@ -25,7 +24,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
       Locatie wijzigen
     </button>
 
-    <MapDetail value={location} mapOptions={mapOptions} isInteractive={false} />
+    <StyledMap value={location} zoom={16} icon={markerIcon} />
   </div>
 );
 
