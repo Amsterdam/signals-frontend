@@ -1,0 +1,11 @@
+{
+    "baseUrl": "http://localhost:3001",
+    "waitForAnimations": true,
+    "animationsDistanceTreshold": 20,
+    "defaultCommandTimeOut": 5000,
+    "execTimeout": 60000,
+    "pageLoadTimeout": 60000,
+    "requestTimeout": 15000,
+    "reponsTimeout": 15000,
+    "failOnStatusCode": false
+}
