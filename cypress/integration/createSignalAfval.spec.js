@@ -1,12 +1,11 @@
 // <reference types="Cypress" />
 
-import * as createSignal from '../support/commands-create-signal';
-import { CREATE_SIGNAL } from '../support/selectors-create-signal';
+import * as createSignal from '../support/commandsCreateSignal';
+import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Create signal afval', () => {
 
   before(() => {
-
     cy.server();
     cy.defineGeoSearchRoutes();
     cy.getAdressRoute('1035LA 43');
@@ -16,7 +15,6 @@ describe('Create signal afval', () => {
   });
 
   it('Search for adress', () => {
-
     // Check on h1
     cy.checkHeader('Beschrijf uw melding');
 
@@ -29,11 +27,9 @@ describe('Create signal afval', () => {
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
-
   });
 
   it('Fill in description and date', () => {
-
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:afval.json').as('prediction');
 
@@ -44,11 +40,9 @@ describe('Create signal afval', () => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in phonenumber', () => {
-
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
@@ -60,11 +54,9 @@ describe('Create signal afval', () => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in e-mailadres', () => {
-
     // Check URL
     cy.url().should('include', '/incident/email');
 
@@ -76,11 +68,9 @@ describe('Create signal afval', () => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Check overview', () => {
-
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
@@ -92,11 +82,9 @@ describe('Create signal afval', () => {
     cy.contains('siafakemail@fake.nl').should('be.visible');
 
     cy.clickButton('Verstuur');
-
   });
 
   it('Last screen', () => {
-
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
@@ -104,7 +92,5 @@ describe('Create signal afval', () => {
     cy.checkHeader('Bedankt!');
 
     // TODO capture signal id
-
   });
-
 });

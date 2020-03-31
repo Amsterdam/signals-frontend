@@ -1,10 +1,9 @@
 // <reference types="Cypress" />
 
-import * as createSignal from '../support/commands-create-signal';
-import { LANTAARNPAAL, CREATE_SIGNAL } from '../support/selectors-create-signal';
+import * as createSignal from '../support/commandsCreateSignal';
+import { LANTAARNPAAL, CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Create signal lantaarnpaal',() => {
-
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
@@ -12,11 +11,9 @@ describe('Create signal lantaarnpaal',() => {
 
     // Open homepage
     cy.visitFetch('incident/beschrijf');
-
   });
 
   it('Search for adress', () => {
-
     // Check h1
     cy.checkHeader('Beschrijf uw melding');
 
@@ -29,7 +26,6 @@ describe('Create signal lantaarnpaal',() => {
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
-
   });
 
   it('Fill in description,date and upload picture', () => {
@@ -50,11 +46,9 @@ describe('Create signal lantaarnpaal',() => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in specific information', () => {
-
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
@@ -99,11 +93,9 @@ describe('Create signal lantaarnpaal',() => {
     cy.contains('Lichtpunt is vervuild of heeft aanslag').should('be.visible').click();
     cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet').should('be.visible').click();
     cy.contains('Overig').should('be.visible').click();
-
   });
 
   it('Select light on map', () => {
-
     // Click on lamp based on coordinate
     createSignal.selectLampOnCoordinate(338, 179);
 
@@ -122,7 +114,6 @@ describe('Create signal lantaarnpaal',() => {
   });
 
   it('Fill in phonenumber', () => {
-
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
@@ -133,7 +124,6 @@ describe('Create signal lantaarnpaal',() => {
   });
 
   it('Fill in e-mailadres', () => {
-
     // Check URL
     cy.url().should('include', '/incident/email');
 
@@ -141,11 +131,9 @@ describe('Create signal lantaarnpaal',() => {
     cy.checkHeader('Wilt u op de hoogte blijven?');
 
     cy.clickButton('Volgende');
-
   });
 
   it('Check overview', () => {
-
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
@@ -165,11 +153,9 @@ describe('Create signal lantaarnpaal',() => {
 
     // Click on next
     cy.clickButton('Verstuur');
-
   });
 
   it('Last screen', () => {
-
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
@@ -177,7 +163,5 @@ describe('Create signal lantaarnpaal',() => {
     cy.checkHeader('Bedankt!');
 
     // TODO capture signal id
-
   });
-
 });

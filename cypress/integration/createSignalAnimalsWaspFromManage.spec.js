@@ -1,8 +1,8 @@
 // <reference types="Cypress" />
 
-import * as createSignal from '../support/commands-create-signal';
-import { MENU_ITEMS } from '../support/selectors-manage-incidents';
-import { CREATE_SIGNAL } from '../support/selectors-create-signal';
+import * as createSignal from '../support/commandsCreateSignal';
+import { MENU_ITEMS } from '../support/selectorsManageIncidents';
+import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Create signal from incident management, animals', () => {
   beforeEach(() => {
@@ -72,11 +72,9 @@ describe('Create signal from incident management, animals', () => {
 
     // Click on next
     cy.clickButton('Volgende');
-
   });
 
   it('Fill in specific information', () => {
-
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
@@ -98,7 +96,6 @@ describe('Create signal from incident management, animals', () => {
   });
 
   it('Fill in phonenumber', () => {
-
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
@@ -109,7 +106,6 @@ describe('Create signal from incident management, animals', () => {
   });
 
   it('Fill in e-mailadres', () => {
-
     // Check URL
     cy.url().should('include', '/incident/email');
 
@@ -117,11 +113,9 @@ describe('Create signal from incident management, animals', () => {
     cy.checkHeader('Wilt u op de hoogte blijven?');
 
     cy.clickButton('Volgende');
-
   });
 
   it('Check overview', () => {
-
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
@@ -137,11 +131,9 @@ describe('Create signal from incident management, animals', () => {
 
     // Click on next
     cy.clickButton('Verstuur');
-
   });
 
   it('Last screen', () => {
-
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
@@ -149,8 +141,5 @@ describe('Create signal from incident management, animals', () => {
     cy.checkHeader('Bedankt!');
 
     // TODO capture signal id
-
   });
-
-
 });
