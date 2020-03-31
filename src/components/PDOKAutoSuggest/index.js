@@ -7,12 +7,13 @@ import { wktPointToLocation } from 'shared/services/map-location';
 const serviceParams = [
   ['fq', 'bron:BAG'],
   ['fq', 'type:adres'],
-  ['fl', 'id, weergavenaam, centroide_ll'], // undocumented; requests all available field values from the API
+  // ['fl', '*'], // undocumented; requests all available field values from the API
+  ['fl', 'id, weergavenaam, centroide_ll'],
   ['q', ''],
 ];
 const serviceURL = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
 const numOptionsDeterminer = data => data?.response?.docs?.length || 0;
-const formatResponse = ({ response }) => response.docs.map(({ id, weergavenaam, centroide_ll }) => ({ id, value: weergavenaam, location:  wktPointToLocation(centroide_ll) }));
+const formatResponse = ({ response }) => response.docs.map(({ id, weergavenaam, centroide_ll }) => ({ id, value: weergavenaam, location:  centroide_ll && wktPointToLocation(centroide_ll) }));
 
 /**
  * Geocoder component that specifically uses the PDOK location service to request information from

@@ -28,19 +28,23 @@ const StyledHeader = styled(HeaderComponent)`
     font-weight: 400;
     text-decoration: none;
   }
-
-  ${({ isFrontOffice, tall }) => isFrontOffice && tall && css`
-    & {
-      max-width: 960px;
-      h1 {
-        margin-left: ${themeSpacing(-5)};
-        font-weight: 400;
-      }
-
-      h1 a {
-        &,
-        span {
-          width: 153px;
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
+      & {
+        max-width: 960px;
+        h1 {
+          margin-left: ${themeSpacing(-5)};
+        }
+        h1 a {
+          &,
+          span {
+            width: 153px;
+          }
+        }
+        h1 a span {
+          background-image: url(${svg.LogoShort}) !important;
         }
       }
 
