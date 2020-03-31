@@ -59,9 +59,11 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     departments: userDepartments,
   });
 
-  const onChangeEvent = event => {
-    dispatch({ field: event.target.name, value: event.target.value });
-  };
+  const onChangeEvent = useCallback(event => {
+    onChange(event.target.name, event.target.value);
+  }, [onChange]);
+
+  const onChange = useCallback((field, value) => { dispatch({ field, value }); }, [dispatch]);
 
   const getFormData = useCallback(() => {
     const form = { ...data, profile: { ...data.profile } };
@@ -146,7 +148,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
               hasEmptySelectionButton={false}
               options={statusOptions}
               disabled={readOnly}
-              onChange={(field, { key: value }) => { dispatch({ field, value }); }}
+              onChange={(field, { key: value }) => { onChange(field, value); }}
             />
           </FieldGroup>
 
@@ -158,7 +160,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
               name="departments"
               options={departmentList}
               disabled={readOnly}
-              onChange={(field, value) => { dispatch({ field, value }); }}
+              onChange={(field, value) => { onChange(field, value); }}
             />
           </FieldGroup>
         </StyledColumn>
