@@ -4,10 +4,6 @@ import { withAppContext } from 'test/utils';
 
 import Detail from './index';
 
-// jest.mock('./components/Attachments', () => () => <div data-testid="detail-attachments" />);
-// jest.mock('./components/ExtraProperties', () => () => <div data-testid="detail-extra-properties" />);
-// jest.mock('../../components/Highlight', () => () => <div data-testid="detail-highlight" />);
-
 describe('<Detail />', () => {
   const props = {
     incident: {
