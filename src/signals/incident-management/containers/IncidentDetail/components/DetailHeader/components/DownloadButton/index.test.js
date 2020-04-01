@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 
 import DownloadButton from './index';
 
@@ -13,20 +13,17 @@ describe('<DownloadButton />', () => {
       filename: 'SIA melding 3077.pdf',
     };
 
-    global.window.fetch = jest.fn();
     global.window.URL.createObjectURL = jest.fn();
     global.window.URL.revokeObjectURL = jest.fn();
   });
 
-  afterEach(cleanup);
-
   describe('rendering', () => {
     it('should render correctly', () => {
-      const { queryByTestId } = render(
-        <DownloadButton {...props} />
-      );
+      const { queryByTestId } = render(<DownloadButton {...props} />);
+      const downloadButton = queryByTestId('download-button');
 
-      expect(queryByTestId('download-button')).toHaveTextContent(/^PDF$/);
+      expect(downloadButton).toHaveTextContent(/^PDF$/);
+      expect(downloadButton.disabled).toEqual(false);
     });
   });
 
@@ -39,34 +36,47 @@ describe('<DownloadButton />', () => {
         },
       });
 
-      global.window.fetch.mockReturnValue(Promise.resolve(res));
+      fetch.mockReturnValue(Promise.resolve(res));
     });
 
-    it('should download document', () => {
-      const { queryByTestId } = render(
-        <DownloadButton {...props} />
-      );
-      fireEvent.click(queryByTestId('download-button'));
+    it('should download document', async () => {
+      const { queryByTestId, findByTestId } = render(<DownloadButton {...props} />);
+      const downloadButton = queryByTestId('download-button');
 
-      expect(window.fetch).toHaveBeenCalledWith(props.url, {
-        method: 'GET',
-        headers: {},
-        responseType: 'blob',
+      act(() => {
+        fireEvent.click(downloadButton);
       });
+
+      expect(downloadButton.disabled).toEqual(true);
+
+      expect(fetch).toHaveBeenCalledWith(
+        props.url,
+        expect.objectContaining({
+          method: 'GET',
+          responseType: 'blob',
+        })
+      );
+
+      await findByTestId('download-button');
+
+      expect(downloadButton.disabled).toEqual(false);
     });
 
-    it('should download document with token when present', () => {
-      localStorage.getItem.mockImplementation(() => 'MOCK-TOKEN');
-      const { queryByTestId } = render(
-        <DownloadButton {...props} />
-      );
-      fireEvent.click(queryByTestId('download-button'));
+    it('should handle IE', async () => {
+      global.window.navigator.msSaveOrOpenBlob = jest.fn();
 
-      expect(window.fetch).toHaveBeenCalledWith(props.url, {
-        method: 'GET',
-        headers: { Authorization: 'Bearer MOCK-TOKEN' },
-        responseType: 'blob',
+      const { getByTestId, findByTestId } = render(<DownloadButton {...props} />);
+      const downloadButton = getByTestId('download-button');
+
+      expect(global.window.navigator.msSaveOrOpenBlob).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(downloadButton);
       });
+
+      await findByTestId('download-button');
+
+      expect(global.window.navigator.msSaveOrOpenBlob).toHaveBeenCalled();
     });
   });
 });
