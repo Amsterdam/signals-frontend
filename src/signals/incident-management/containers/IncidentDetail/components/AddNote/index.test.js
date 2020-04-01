@@ -23,14 +23,14 @@ describe('<AddNote />', () => {
 
       expect(getByTestId('addNoteSaveNoteButton')).toBeInTheDocument();
       expect(queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument();
-      expect(getByTestId('addNoteSaveNoteButton')).toBeInTheDocument();
+      expect(getByTestId('addNoteCancelNoteButton')).toBeInTheDocument();
 
       act(() => {
         fireEvent.click(getByTestId('addNoteCancelNoteButton'));
       });
 
-      expect(getByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
-      expect(getByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
+      expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
+      expect(queryByTestId('addNoteCancelNoteButton')).not.toBeInTheDocument();
       expect(queryByTestId('addNoteNewNoteButton')).toBeInTheDocument();
 
     });
