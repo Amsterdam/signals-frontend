@@ -32,7 +32,6 @@ describe('<AddNote />', () => {
       expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
       expect(queryByTestId('addNoteCancelNoteButton')).not.toBeInTheDocument();
       expect(queryByTestId('addNoteNewNoteButton')).toBeInTheDocument();
-
     });
   });
 
@@ -62,5 +61,38 @@ describe('<AddNote />', () => {
         notes: [{ text: value }],
       },
     });
+  });
+
+  it('should clear the textarea', async () => {
+    const { getByTestId, findByTestId } = render(withAppContext(<AddNote {...props} />));
+    const value = 'Here be a note';
+
+    act(() => {
+      fireEvent.click(getByTestId('addNoteNewNoteButton'));
+    });
+
+    const addNoteTextArea = await findByTestId('addNoteText');
+
+    expect(addNoteTextArea.value).toEqual('');
+
+    const saveNoteButton = getByTestId('addNoteSaveNoteButton');
+
+    act(() => {
+      fireEvent.change(addNoteTextArea, { target: { value } });
+    });
+
+    expect(addNoteTextArea.value).toEqual(value);
+
+    act(() => {
+      fireEvent.click(saveNoteButton);
+    });
+
+    const newNoteButton = await findByTestId('addNoteNewNoteButton');
+
+    act(() => {
+      fireEvent.click(newNoteButton);
+    });
+
+    expect(getByTestId('addNoteText').value).toEqual('');
   });
 });

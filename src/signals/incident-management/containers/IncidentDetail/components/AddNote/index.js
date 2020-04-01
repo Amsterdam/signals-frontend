@@ -24,6 +24,8 @@ const AddNote = ({ id, onPatchIncident }) => {
     event => {
       event.preventDefault();
 
+      if (note.trim() === '') return;
+
       const notes = [{ text: note }];
 
       onPatchIncident({
@@ -32,6 +34,7 @@ const AddNote = ({ id, onPatchIncident }) => {
         patch: { notes },
       });
 
+      setNote('');
       setShowForm(false);
     },
     [id, onPatchIncident, note]
@@ -39,7 +42,7 @@ const AddNote = ({ id, onPatchIncident }) => {
 
   const onChange = useCallback(
     event => {
-      const value = event.target.value.trim();
+      const value = event.target.value;
 
       setNote(value);
     },
