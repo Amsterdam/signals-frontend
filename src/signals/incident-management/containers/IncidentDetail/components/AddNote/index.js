@@ -52,40 +52,9 @@ const AddNote = ({ id, onPatchIncident }) => {
     areaRef.current.focus();
   }, [showForm]);
 
-  return (
-    <section>
-      {showForm ? (
-        <form action="">
-          <Label htmlFor="addNoteText">Notitie toevoegen</Label>
-          <TextArea
-            id="addNoteText"
-            ref={areaRef}
-            onChange={onChange}
-            rows={10}
-            data-testid="addNoteText"
-            value={note}
-          />
-
-          <SaveNoteButton
-            data-testid="addNoteSaveNoteButton"
-            disabled={!note}
-            onClick={handleSubmit}
-            type="submit"
-            variant="secondary"
-          >
-            Opslaan
-          </SaveNoteButton>
-
-          <Button
-            data-testid="addNoteCancelNoteButton"
-            variant="tertiary"
-            type="button"
-            onClick={() => setShowForm(false)}
-          >
-            Annuleren
-          </Button>
-        </form>
-      ) : (
+  if (!showForm) {
+    return (
+      <section>
         <NewNoteButton
           data-testid="addNoteNewNoteButton"
           variant="application"
@@ -94,7 +63,35 @@ const AddNote = ({ id, onPatchIncident }) => {
         >
           Notitie toevoegen
         </NewNoteButton>
-      )}
+      </section>
+    );
+  }
+
+  return (
+    <section>
+      <form action="">
+        <Label htmlFor="addNoteText">Notitie toevoegen</Label>
+        <TextArea id="addNoteText" ref={areaRef} onChange={onChange} rows={10} data-testid="addNoteText" value={note} />
+
+        <SaveNoteButton
+          data-testid="addNoteSaveNoteButton"
+          disabled={!note}
+          onClick={handleSubmit}
+          type="submit"
+          variant="secondary"
+        >
+          Opslaan
+        </SaveNoteButton>
+
+        <Button
+          data-testid="addNoteCancelNoteButton"
+          variant="tertiary"
+          type="button"
+          onClick={() => setShowForm(false)}
+        >
+          Annuleren
+        </Button>
+      </form>
     </section>
   );
 };
