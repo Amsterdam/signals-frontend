@@ -1,31 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import mapLocation from 'shared/services/map-location';
-import MapEditor from 'components/MapEditor';
-import styled from '@datapunt/asc-core';
+import MapInteractive from 'components/MapInteractive';
 
-import MAP_OPTIONS, { DEFAULT_MARKER_POSITION } from 'shared/services/configuration/map-options';
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import mapLocation from 'shared/services/map-location';
 import Header from '../Header';
 
-const StyledMap = styled(MapEditor)`
-  width: 100%;
-  height: 450px;
-`;
-
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
-  // The default value should be `{}`.
-  // We use this variable just for this PR(#684) so the default marker is rendered for test
-  // Will be replaced removed in the next PR by the `{}` value
-  const defaultPointValue = {
-    geometrie: {
-      type: 'Point',
-      coordinates: [DEFAULT_MARKER_POSITION.lng, DEFAULT_MARKER_POSITION.lat],
-    },
-    address: {},
-  };
 
-  const value = handler().value || defaultPointValue;
+  const value = handler().value || {};
 
   /* istanbul ignore next */
   const onLocationChange = d => {
@@ -38,8 +22,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
         <div className={`${meta.className || 'col-12'} mode_input`}>
           <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
             <div className="invoer">
-              {/* The implementation of onLocationChange will follow in the next pr */}
-              <StyledMap onLocationChange={onLocationChange} location={value} options={MAP_OPTIONS} />
+              <MapInteractive onQueryResult={onLocationChange} value={value} mapOptions={MAP_OPTIONS} />
             </div>
           </Header>
         </div>

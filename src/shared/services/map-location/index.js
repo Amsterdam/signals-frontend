@@ -25,25 +25,29 @@ export const address2pdok = address => {
 const mapLocation = loc => {
   const location = {};
 
-  if (loc.geometrie) {
-    location.location = feature2location(loc.geometrie);
+  if (loc.dichtstbijzijnd_adres) {
+    location.address = { ...loc.dichtstbijzijnd_adres };
+    location.address.huisnummer = `${location.address.huisnummer}`;
+    location.address.huisnummer_toevoeging = `${location.address.huisnummer_toevoeging}`;
   }
 
-  if (loc.buurt_code) {
-    location.buurtcode = loc.buurt_code;
+  if (loc.omgevingsinfo) {
+    location.buurt_code = loc.omgevingsinfo.buurtcode;
+    location.stadsdeel = loc.omgevingsinfo.stadsdeelcode;
   }
 
-  if (loc.stadsdeel) {
-    location.stadsdeelcode = loc.stadsdeel;
-  }
-
-  if (loc.address) {
-    location.address = address2pdok(loc.address);
+  if (loc.query) {
+    location.geometrie = {
+      type: 'Point',
+      coordinates: [
+        loc.query.longitude,
+        loc.query.latitude,
+      ],
+    };
   }
 
   return location;
 };
-
 export const formatAddress = address => {
   const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
   const display = address.openbare_ruimte

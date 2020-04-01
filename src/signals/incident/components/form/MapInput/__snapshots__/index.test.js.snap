@@ -21,11 +21,12 @@ exports[`Form component <MapInput /> rendering should render map field correctly
       <div
         className="invoer"
       >
-        <Styled(Component)
+        <MapInteractive
           location={Object {}}
-          onLocationChange={[Function]}
-          options={
+          map={false}
+          mapOptions={
             Object {
+              "attributionControl": true,
               "center": Array [
                 52.3731081,
                 4.8932945,
@@ -80,6 +81,8 @@ exports[`Form component <MapInput /> rendering should render map field correctly
               "zoomControl": false,
             }
           }
+          onQueryResult={[Function]}
+          value={Object {}}
         />
       </div>
     </Header>
