@@ -71,16 +71,10 @@ Highlight.defaultProps = {
 };
 
 Highlight.propTypes = {
-  subscribeTo: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-    PropTypes.array,
-    PropTypes.object,
-  ]),
+  children: PropTypes.node.isRequired,
+  subscribeTo: PropTypes.any.isRequired,
   valueChanged: PropTypes.bool,
   show: PropTypes.bool,
-  children: PropTypes.element.isRequired,
 };
 
 export default Highlight;
