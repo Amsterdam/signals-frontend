@@ -205,12 +205,16 @@ UserForm.propTypes = {
   }),
   /**
    * Callback handler called whenever form is canceled
-   * @param {FormData} formData
+   * @param {Object} form data
+   * @param {Object.form} current form data (used for comparing form changes)
+   * @param {Object.postPatch} modified form data for post/patch requests
    */
   onCancel: PropTypes.func,
   /**
    * Callback handler called whenever form is submitted
-   * @param {FormData} formData
+   * @param {Object} form data
+   * @param {Object.form} current form data (used for comparing form changes)
+   * @param {Object.postPatch} modified form data for post/patch requests
    */
   onSubmit: PropTypes.func,
   /** When true, none of the fields in the form can be edited */
