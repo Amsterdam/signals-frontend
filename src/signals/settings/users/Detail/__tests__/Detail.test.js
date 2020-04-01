@@ -65,7 +65,12 @@ jest.mock('models/departments/selectors', () => ({
 jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
 
 describe('signals/settings/users/containers/Detail', () => {
+  let emit;
+
+  beforeAll(() => { ({ emit } = window._virtualConsole); });
+
   beforeEach(() => {
+    window._virtualConsole.emit = jest.fn();
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: userJSON.id }));
     useFetch.mockImplementation(() => useFetchResponse);
@@ -77,6 +82,8 @@ describe('signals/settings/users/containers/Detail', () => {
     patch.mockReset();
     post.mockReset();
   });
+
+  afterAll(() => { window._virtualConsole.emit = emit; });
 
   it ('should render a backlink', () => {
     const referrer = '/some-page-we-came-from';
