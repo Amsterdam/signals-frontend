@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+import { withAppContext } from 'test/utils';
 
 import Location from './index';
 
@@ -20,10 +21,7 @@ describe('<Location />', () => {
           extra_properties: null,
           geometrie: {
             type: 'Point',
-            coordinates: [
-              4.892649650573731,
-              52.36918517949316,
-            ],
+            coordinates: [4.892649650573731, 52.36918517949316],
           },
           buurt_code: 'A00d',
           created_by: null,
@@ -41,26 +39,16 @@ describe('<Location />', () => {
           id: 3372,
         },
       },
-      stadsdeelList: [
-        {
-          key: 'A',
-          value: 'Centrum',
-        },
-      ],
       onShowLocation: jest.fn(),
       onEditLocation: jest.fn(),
     };
   });
 
-  afterEach(cleanup);
-
   describe('rendering', () => {
     it('should render correctly', () => {
-      const { queryByTestId, queryAllByTestId } = render(
-        <Location {...props} />
-      );
+      const { getByText, queryByTestId, queryAllByTestId } = render(withAppContext(<Location {...props} />));
 
-      expect(queryByTestId('location-definition')).toHaveTextContent(/^Locatie$/);
+      expect(getByText('Locatie')).toBeInTheDocument();
       expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^Stadsdeel: Centrum$/);
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
@@ -69,18 +57,14 @@ describe('<Location />', () => {
 
     it('should render correctly without huisnummer_toevoeging', () => {
       props.incident.location.address.huisnummer_toevoeging = undefined;
-      const { queryByTestId } = render(
-        <Location {...props} />
-      );
+      const { queryByTestId } = render(withAppContext(<Location {...props} />));
 
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A$/);
     });
 
     it('should render correctly without address', () => {
       props.incident.location.address_text = undefined;
-      const { queryByTestId } = render(
-        <Location {...props} />
-      );
+      const { queryByTestId } = render(withAppContext(<Location {...props} />));
 
       expect(queryByTestId('location-value-pinned')).toHaveTextContent(/^Locatie is gepind op de kaart$/);
       expect(queryByTestId('location-value-address-stadsdeel')).toBeNull();
@@ -91,18 +75,14 @@ describe('<Location />', () => {
 
   describe('events', () => {
     it('clicking the map should trigger showing the location', () => {
-      const { queryByTestId } = render(
-        <Location {...props} />
-      );
+      const { queryByTestId } = render(withAppContext(<Location {...props} />));
       fireEvent.click(queryByTestId('location-button-show'));
 
       expect(props.onShowLocation).toHaveBeenCalledTimes(1);
     });
 
     it('clicking the edit button should trigger edit the location', () => {
-      const { queryByTestId } = render(
-        <Location {...props} />
-      );
+      const { queryByTestId } = render(withAppContext(<Location {...props} />));
       fireEvent.click(queryByTestId('location-button-edit'));
 
       expect(props.onEditLocation).toHaveBeenCalledTimes(1);
