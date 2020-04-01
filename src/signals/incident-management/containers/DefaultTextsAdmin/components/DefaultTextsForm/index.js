@@ -151,7 +151,7 @@ const DefaultTextsForm =({
   }, [categoryUrl]);
 
   useEffect(() => {
-    form.patchValue({state});
+    form.patchValue({ state });
     form.updateValueAndValidity();
   }, [state]);
 
