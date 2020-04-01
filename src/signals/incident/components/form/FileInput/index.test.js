@@ -308,7 +308,6 @@ describe('Form component <FileInput />', () => {
           'Dit bestand is te klein. De minimale bestandgrootte is 30 kB.',
         ],
       });
-
     });
   });
 });

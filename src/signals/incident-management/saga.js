@@ -102,7 +102,6 @@ export function* fetchIncidents() {
 }
 
 export function* searchIncidents() {
-
   try {
     const q = yield select(makeSelectSearchQuery);
 
