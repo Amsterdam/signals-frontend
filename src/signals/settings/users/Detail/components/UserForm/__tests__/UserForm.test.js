@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 import * as modelSelectors from 'models/departments/selectors';
@@ -9,7 +9,6 @@ import UserForm from '..';
 
 const departments = {
   ...departmentsJson,
-  count: departmentsJson.count,
   list: departmentsJson.results,
   results: undefined,
 };
@@ -39,8 +38,13 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelectorAll('[name="is_active"]')[1].value).toBe('false');
     expect(container.querySelectorAll('[name="is_active"]')[1].checked).toBe(false);
 
-    expect(container.querySelectorAll('[name="departments"]')).toHaveLength(18);
-    expect(container.querySelectorAll('[name="departments"]')[7].checked).toBe(false);
+    expect(container.querySelectorAll('[name="departments"]')).toHaveLength(departmentsJson.count);
+
+    const uncheckedDepartmentIndex = departmentsJson.results.indexOf(
+      departmentsJson.results.find(({ name }) => name === 'Port of Amsterdam')
+    );
+
+    expect(container.querySelectorAll('[name="departments"]')[uncheckedDepartmentIndex].checked).toBe(false);
   });
 
   it('should make fields disabled', () => {
@@ -78,8 +82,16 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelector('[name="is_active"][value="true"]').checked).toBe(true);
     expect(container.querySelector('[name="is_active"][value="false"]').checked).toBe(false);
     expect(container.querySelector('[name="note"]').value).toBe(data.profile.note);
-    expect(container.querySelectorAll('[name="departments"]')[0].checked).toBe(true);
-    expect(container.querySelectorAll('[name="departments"]')[7].checked).toBe(false);
+
+    const checkedDepartmentIndex = departmentsJson.results.indexOf(
+      departmentsJson.results.find(({ name }) => name === 'Actie Service Centrum')
+    );
+    expect(container.querySelectorAll('[name="departments"]')[checkedDepartmentIndex].checked).toBe(true);
+
+    const uncheckedDepartmentIndex = departmentsJson.results.indexOf(
+      departmentsJson.results.find(({ name }) => name === 'Port of Amsterdam')
+    );
+    expect(container.querySelectorAll('[name="departments"]')[uncheckedDepartmentIndex].checked).toBe(false);
   });
 
   it('should call onCancel callback', () => {
@@ -89,7 +101,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
     expect(onCancel).not.toHaveBeenCalled();
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    act(() => { fireEvent.click(getByTestId('cancelBtn')); });
 
     expect(onCancel).toHaveBeenCalled();
   });
@@ -117,7 +129,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(radio1.value).toBe('true');
     expect(radio1.checked).toBe(true);
 
-    fireEvent.click(radio2);
+    act(() => { fireEvent.click(radio2); });
 
     expect(radio1.checked).toBe(false);
     expect(radio2.value).toBe('false');

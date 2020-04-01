@@ -63,7 +63,9 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     onChange(event.target.name, event.target.value);
   }, [onChange]);
 
-  const onChange = useCallback((field, value) => { dispatch({ field, value }); }, [dispatch]);
+  const onChange = useCallback((field, value) => {
+    dispatch({ field, value });
+  }, [dispatch]);
 
   const getFormData = useCallback(() => {
     const form = { ...data, profile: { ...data.profile } };
@@ -73,34 +75,24 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     form.last_name = state.last_name;
     form.is_active = state.is_active === 'true';
     form.profile.note = state.note;
-    form.profile.departments = state.departments.map(department => department.value);;
+    form.profile.departments = state.departments.map(({ value }) => value);
 
     const postPatch = { ...form, profile: { ...form.profile } };
 
     delete postPatch.profile.departments;
 
-    postPatch.profile.department_ids = Object
-      .values(state.departments)
-      .map(department => department.id);
+    postPatch.profile.department_ids = Object.values(state.departments) .map(({ id }) => id);
 
     return { form, postPatch };
   }, [data, state]);
 
-  const onSubmitForm = useCallback(
-    event => {
-      event.preventDefault();
-      onSubmit(getFormData(event));
-    },
-    [getFormData, onSubmit]
-  );
+  const onSubmitForm = useCallback(() => {
+    onSubmit(getFormData());
+  }, [getFormData, onSubmit]);
 
-  const onCancelForm = useCallback(
-    event => {
-      event.preventDefault();
-      onCancel(getFormData(event));
-    },
-    [getFormData, onCancel]
-  );
+  const onCancelForm = useCallback(() => {
+    onCancel(getFormData());
+  }, [getFormData, onCancel]);
 
   return (
     <Form action="" data-testid="detailUserForm">
@@ -211,7 +203,15 @@ UserForm.propTypes = {
       note: PropTypes.string,
     }),
   }),
+  /**
+   * Callback handler called whenever form is canceled
+   * @param {FormData} formData
+   */
   onCancel: PropTypes.func,
+  /**
+   * Callback handler called whenever form is submitted
+   * @param {FormData} formData
+   */
   onSubmit: PropTypes.func,
   /** When true, none of the fields in the form can be edited */
   readOnly: PropTypes.bool,

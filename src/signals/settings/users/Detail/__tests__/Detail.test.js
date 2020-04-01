@@ -405,7 +405,6 @@ describe('signals/settings/users/containers/Detail', () => {
     });
 
     // user is only asked for confirmation when form data isn't pristine
-    // expect(global.window.confirm).not.toHaveBeenCalled();
     expect(push).toHaveBeenCalledTimes(1);
     expect(push).toHaveBeenCalledWith(expect.stringContaining(referrer));
 
