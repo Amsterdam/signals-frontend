@@ -67,5 +67,4 @@ Cypress.Commands.add('clickButton', buttonName => {
       // eslint-disable-next-line no-unused-expressions
       expect($el).to.not.be.visible;
     });
-    
 });
