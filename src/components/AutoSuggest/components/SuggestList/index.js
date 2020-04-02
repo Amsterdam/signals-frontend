@@ -50,6 +50,25 @@ const SuggestList = ({ activeIndex, className, role, options, onSelectOption, ..
     [onSelectOption]
   );
 
+  const handleKeyDown = useCallback((event, option) => {
+    // preventing the page from scrolling when cycling through the list of options
+    switch (event.key) {
+      case 'Up':
+      case 'ArrowUp':
+      case 'Down':
+      case 'ArrowDown':
+        event.preventDefault();
+        break;
+
+      case 'Enter':
+        onSelect(option);
+        break;
+
+      default:
+        break;
+    }
+  }, [onSelect]);
+
   if (!options.length) {
     return null;
   }
@@ -62,7 +81,7 @@ const SuggestList = ({ activeIndex, className, role, options, onSelectOption, ..
           data-id={option.id}
           key={option.id}
           onClick={() => onSelect(option)}
-          onKeyDown={event => event.keyCode === 13 && onSelect(option)}
+          onKeyDown={event => handleKeyDown(event, option)}
           role="option"
           tabIndex={-1}
         >
