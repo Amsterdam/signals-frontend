@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup, act } from '@testing-library/react';
+import { createEvent, render, fireEvent, cleanup, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import SuggestList from '..';
@@ -79,5 +79,30 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
 
     expect(onSelectOption).toHaveBeenCalledTimes(2);
     expect(onSelectOption).toHaveBeenLastCalledWith(options[1]);
+  });
+
+  it('should prevent event default', () => {
+    const { container } = render(
+      withAppContext(<SuggestList options={options} onSelectOption={onSelectOption} activeIndex={2} />)
+    );
+
+    const thirdItem = container.querySelector('li:nth-of-type(3)');
+    const enterEvent = createEvent.keyDown(thirdItem, { key: 'Enter', code: 13, keyCode: 13 });
+    enterEvent.preventDefault = jest.fn();
+
+    act(() => {
+      fireEvent(thirdItem, enterEvent);
+    });
+
+    expect(enterEvent.preventDefault).not.toHaveBeenCalled();
+
+    const arrowUpEvent = createEvent.keyDown(thirdItem, { key: 'ArrowUp', code: 38, keyCode: 38 });
+    arrowUpEvent.preventDefault = jest.fn();
+
+    act(() => {
+      fireEvent(thirdItem, arrowUpEvent);
+    });
+
+    expect(arrowUpEvent.preventDefault).toHaveBeenCalled();
   });
 });
