@@ -132,6 +132,7 @@ export const incidentType = PropTypes.shape({
     incident_date_start: dateType,
     location: locationType,
   }),
+  location: locationType,
   notes: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,
