@@ -4,10 +4,10 @@ export const CREATE_SIGNAL = {
   dropdownDag: '#incident_date-select-day',
   dropdownUur: '#incident_date-select-time-hours',
   dropdownMinuten: '#incident_date-select-time-minutes',
-  imageAdressMarker:'div[class="leaflet-pane leaflet-marker-pane"]',
-  inputPhoneNumber:'.Input__StyledInput-sc-1933jsg-1',
-  inputEmail:'.Input__StyledInput-sc-1933jsg-1',
-  imageFileUpload:'.preview-image__item-value-image',
+  imageAdressMarker: 'div[class="leaflet-pane leaflet-marker-pane"]',
+  inputPhoneNumber: '[type=tel]',
+  inputEmail: '[type=email]',
+  imageFileUpload: '.preview-image__item-value-image',
   radioButtonTijdstipNu: '#datetime-Nu1',
   radioButtonTijdstipEerder: '#datetime-Eerder1',
 };
@@ -17,9 +17,9 @@ export const BEDRIJVEN_HORECA = {
   checkBoxDronken: '#extra_bedrijven_horeca_personen-dronken_bezoekers1',
   checkBoxSchreeuwen: '#extra_bedrijven_horeca_personen-schreeuwende_bezoekers1',
   checkBoxWildplassen: '#extra_bedrijven_horeca_personen-wildplassen1',
-  inputWieWat: ':nth-child(3) > .col-sm-12 > .header > .header__children > .Input__Wrapper-sc-1933jsg-4 > .Input__StyledInput-sc-1933jsg-1',
-  inputAdres: ':nth-child(4) > .col-sm-12 > .header > .header__children > .Input__Wrapper-sc-1933jsg-4 > .Input__StyledInput-sc-1933jsg-1',
-  inputDatum: ':nth-child(19) > .col-sm-12 > .header > .header__children > .Input__Wrapper-sc-1933jsg-4 > .Input__StyledInput-sc-1933jsg-1',
+  inputWieWat: '[class*=Input__Styled]',
+  inputAdres: '[class*=Input__Styled]',
+  inputDatum: '[class*=Input__Styled]',
   radioButtonHoreca: '#extra_bedrijven_horeca_wat-horecabedrijf1',
   radioButtonAnderBedrijf: '#extra_bedrijven_horeca_wat-ander_soort_bedrijf1',
   radioButtonVakerJa: '#extra_bedrijven_horeca_vaker-ja1',
@@ -28,15 +28,15 @@ export const BEDRIJVEN_HORECA = {
 
 // Selectors specific for boten
 export const BOTEN = {
-  inputNaamBoot: '.Input__StyledInput-sc-1933jsg-1',
-  inputNogMeer: '.TextArea__StyledArea-cx2qy7-0',
+  inputNaamBoot: '[class*=Input__Styled]',
+  inputNogMeer: '[class*=TextArea__StyledArea]',
   radioButtonRondvaartbootJa: '#extra_boten_snelheid_rondvaartboot-ja1',
 };
 
 // Selectors specific for overlast jongerenx
 export const JONGEREN = {
   checkBoxVaker: '#extra_personen_overig_vaker',
-  inputMoment: '.TextArea__StyledArea-cx2qy7-0',
+  inputMoment: '[class*=TextArea__StyledArea]',
   radioButtonAantalPersonen: '#extra_personen_overig-4-61',
 };
 
@@ -54,14 +54,14 @@ export const LANTAARNPAAL = {
 
 // Selectors for stankoverlast
 export const STANK_OVERLAST = {
-  inputGeur: ':nth-child(14) > .col-sm-12 > .header > .header__children > .Input__Wrapper-sc-1933jsg-4 > .Input__StyledInput-sc-1933jsg-1',
-  inputOorzaakGeur: ':nth-child(15) > .col-sm-12 > .header > .header__children > .Input__Wrapper-sc-1933jsg-4 > .Input__StyledInput-sc-1933jsg-1',
-  inputWeersomstandigheden: ':nth-child(16) > .col-sm-12 > .header > .header__children > .Input__Wrapper-sc-1933jsg-4 > .Input__StyledInput-sc-1933jsg-1',
+  inputGeur: '[class*=Input__Styled]',
+  inputOorzaakGeur: '[class*=Input__Styled]',
+  inputWeersomstandigheden: '[class*=Input__Styled]',
   radioButtonRaamOpen: '#extra_bedrijven_horeca_stank_ramen-ja1',
   radioButtonRaamGesloten: '#extra_bedrijven_horeca_stank_ramen-nee1',
 };
 
 // Selectors for wegdek
 export const WEGDEK = {
-  inputSoortWegdek: '.Input__StyledInput-sc-1933jsg-1',
+  inputSoortWegdek: '[class*=Input__Styled]',
 };

@@ -51,11 +51,11 @@ describe('Create signal stank overlast bedrijven', () => {
 
     // Provide information about smell
     cy.get(BEDRIJVEN_HORECA.radioButtonAnderBedrijf).click();
-    cy.get(BEDRIJVEN_HORECA.inputWieWat).type('Klanten van de sportsschool');
-    cy.get(BEDRIJVEN_HORECA.inputAdres).type('Op de Klapperweg nummer 39');
-    cy.get(STANK_OVERLAST.inputGeur).type('Een zeer indringende zweetgeur');
-    cy.get(STANK_OVERLAST.inputOorzaakGeur).type('Klanten van de sportschool die voor de deur staan te sporten, maar ook binnen voor een open raam');
-    cy.get(STANK_OVERLAST.inputWeersomstandigheden).type('Het is erg warm buiten, de zon schijnt volop');
+    cy.get(BEDRIJVEN_HORECA.inputWieWat).eq(0).type('Klanten van de sportsschool');
+    cy.get(BEDRIJVEN_HORECA.inputAdres).eq(1).type('Op de Klapperweg nummer 39');
+    cy.get(STANK_OVERLAST.inputGeur).eq(2).type('Een zeer indringende zweetgeur');
+    cy.get(STANK_OVERLAST.inputOorzaakGeur).eq(3).type('Klanten van de sportschool die voor de deur staan te sporten, maar ook binnen voor een open raam');
+    cy.get(STANK_OVERLAST.inputWeersomstandigheden).eq(4).type('Het is erg warm buiten, de zon schijnt volop');
     cy.get(STANK_OVERLAST.radioButtonRaamOpen).click();
     cy.get(BEDRIJVEN_HORECA.radioButtonVakerNee).click();
 

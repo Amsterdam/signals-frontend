@@ -51,16 +51,16 @@ describe('Create signal bedrijven en horeca', () =>{
 
     cy.get(BEDRIJVEN_HORECA.radioButtonHoreca).click();
       
-    cy.get(BEDRIJVEN_HORECA.inputWieWat).type('Klanten van het cafe');
-    cy.get(BEDRIJVEN_HORECA.inputAdres).type('Op Zeedijk nummer 3');
-
+    cy.get(BEDRIJVEN_HORECA.inputWieWat).eq(0).type('Klanten van het cafe');
+    cy.get(BEDRIJVEN_HORECA.inputAdres).eq(1).type('Op Zeedijk nummer 3');
+   
     cy.get(BEDRIJVEN_HORECA.checkBoxDronken).check();
     cy.get(BEDRIJVEN_HORECA.checkBoxSchreeuwen).check();
     cy.get(BEDRIJVEN_HORECA.checkBoxWildplassen).check();
 
     cy.get(BEDRIJVEN_HORECA.radioButtonVakerJa).click();
 
-    cy.get(BEDRIJVEN_HORECA.inputDatum).type('Elke dag');
+    cy.get(BEDRIJVEN_HORECA.inputDatum).eq(2).type('Elke dag');
 
     cy.clickButton('Volgende');
   });

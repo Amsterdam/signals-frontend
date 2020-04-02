@@ -1,7 +1,6 @@
 // <reference types="Cypress" />
 
 import * as createSignal from '../support/commandsCreateSignal';
-import { MENU_ITEMS } from '../support/selectorsManageIncidents';
 import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Create signal from incident management, animals', () => {
@@ -20,7 +19,7 @@ describe('Create signal from incident management, animals', () => {
     cy.wait('@getCategories');
     cy.wait('@getSignals');
     cy.wait('@getUserInfo');
-    cy.get(MENU_ITEMS.openMenu).click();
+    cy.openMenu();
     cy.contains('Melden').click();
     cy.checkHeader('Beschrijf uw melding');
   });

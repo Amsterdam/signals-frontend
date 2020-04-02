@@ -1,7 +1,7 @@
 // <reference types="Cypress" />
 
 import * as createSignal from '../support/commandsCreateSignal';
-import { CATEGORIES, MENU_ITEMS } from '../support/selectorsManageIncidents';
+import { CATEGORIES } from '../support/selectorsManageIncidents';
 import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Change servicebelofte', () => {
@@ -23,7 +23,7 @@ describe('Change servicebelofte', () => {
 
   it('Change servicebelofte of category', () => {
     // Open Categorieën menu
-    cy.get(MENU_ITEMS.openMenu).click();
+    cy.openMenu();
     cy.contains('Instellingen').click();
     cy.contains('Categorieën').click();
 
@@ -81,7 +81,7 @@ describe('Create signal and validate service belofte', () => {
     cy.wait('@getCategories');
     cy.wait('@getSignals');
     cy.wait('@getUserInfo');
-    cy.get(MENU_ITEMS.openMenu).click();
+    cy.openMenu();
     cy.contains('Melden').click();
     cy.checkHeader('Beschrijf uw melding');
   });
@@ -178,7 +178,7 @@ describe('Change back servicebelofte', () => {
 
   it('Change back servicebelofte of category', () => {
     // Open Categorieën menu
-    cy.get(MENU_ITEMS.openMenu).click();
+    cy.openMenu();
     cy.contains('Instellingen').click();
     cy.contains('Categorieën').click();
 
