@@ -76,17 +76,6 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
 
           break;
 
-        case 'Enter':
-          if (event.target === inputRef.current) {
-            return;
-          }
-
-          inputRef.current.value = event.target.innerText;
-
-          setActiveIndex(-1);
-          setShowList(false);
-          break;
-
         case 'Esc':
         case 'Escape':
           inputRef.current.value = '';
