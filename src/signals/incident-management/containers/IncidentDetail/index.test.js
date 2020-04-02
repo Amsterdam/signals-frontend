@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
+import incidentJSON from 'utils/__tests__/fixtures/incident.json';
 
 import History from 'components/History';
 import { IncidentDetail } from '.';
@@ -39,100 +40,7 @@ describe('<IncidentDetail />', () => {
       patching: {},
       defaultTexts: [],
       error: false,
-      incident: {
-        reporter: {
-          email: '',
-          phone: '',
-        },
-        notes: [],
-        extra_properties: null,
-        _display: '3254 - i - A06j - 2019-09-25 14:35:58.843458+00:00',
-        priority: {
-          priority: 'high',
-          created_by: 'steve@apple.com',
-        },
-        created_at: '2019-09-25T16:35:58.843458+02:00',
-        has_attachments: true,
-        text: 'poep',
-        status: {
-          text: 'In behandeling via HNW app',
-          user: 'rob@apptimize.nl',
-          state: 'i',
-          state_display: 'In afwachting van behandeling',
-          target_api: null,
-          extra_properties: null,
-          created_at: '2019-09-26T11:10:04.118517+02:00',
-        },
-        location: {
-          extra_properties: {
-            original_address: {
-              postcode: '',
-              huisletter: 'D',
-              huisnummer: '342',
-              woonplaats: 'Amsterdam',
-              openbare_ruimte: 'Marnixstraat',
-              huisnummer_toevoeging: '',
-            },
-          },
-          geometrie: {
-            type: 'Point',
-            coordinates: [4.879088401794434, 52.3670312505349],
-          },
-          buurt_code: 'A06j',
-          created_by: 'steve@apple.com',
-          address: {
-            postcode: '',
-            huisletter: 'D',
-            huisnummer: 342,
-            woonplaats: 'Amsterdam',
-            openbare_ruimte: 'Marnixstraat',
-            huisnummer_toevoeging: '',
-          },
-          stadsdeel: 'A',
-          bag_validated: true,
-          address_text: 'Marnixstraat 342D Amsterdam',
-          id: 3566,
-        },
-        incident_date_end: null,
-        updated_at: '2019-09-26T11:10:04.119863+02:00',
-        _links: {
-          curies: {
-            name: 'sia',
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/relations',
-          },
-          self: {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254',
-          },
-          archives: {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/history',
-          },
-          'sia:attachments': {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments',
-          },
-          'sia:pdf': {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/pdf',
-          },
-        },
-        source: 'Meldkamer Handhaver',
-        id: 3254,
-        category: {
-          sub: 'Uitwerpselen',
-          sub_slug: 'hondenpoep',
-          main: 'Overlast in de openbare ruimte',
-          main_slug: 'overlast-in-de-openbare-ruimte',
-          category_url:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
-          departments: 'STW, THO',
-          created_by: null,
-          text: null,
-        },
-        incident_date_start: '2019-09-25T16:35:58+02:00',
-        text_extra: '',
-      },
+      incident: incidentJSON,
 
       attachments: [
         {
