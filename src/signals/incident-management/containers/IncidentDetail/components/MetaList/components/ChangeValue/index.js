@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
@@ -73,12 +73,38 @@ const ChangeValue = ({
     setShowForm(false);
   }, [form]);
 
+  const handleKeyUp = useCallback(
+    event => {
+      switch (event.key) {
+        case 'Esc':
+        case 'Escape':
+          form.reset();
+          setShowForm(false);
+          break;
+
+        default:
+          break;
+      }
+    },
+    [form]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.removeEventListener('keyup', handleKeyUp);
+    };
+    // Disabling linter; only execute on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const editForm = (
     <FieldGroup
       strict={false}
       control={form}
       render={() => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} data-testid="changeValueForm">
           <Fragment>
             <FieldControlWrapper
               render={component}
@@ -89,11 +115,11 @@ const ChangeValue = ({
               sort={sort}
             />
 
-            <SaveButton variant="secondary" type="submit">
+            <SaveButton data-testid="submitButton" variant="secondary" type="submit">
               Opslaan
             </SaveButton>
 
-            <CancelButton variant="tertiary" type="button" onClick={handleCancel}>
+            <CancelButton data-testid="cancelButton" variant="tertiary" type="button" onClick={handleCancel}>
               Annuleren
             </CancelButton>
           </Fragment>
@@ -108,6 +134,7 @@ const ChangeValue = ({
         {display}
         {!showForm && (
           <EditButton
+            data-testid="editButton"
             disabled={disabled}
             icon={<IconEdit />}
             iconSize={18}
@@ -120,33 +147,32 @@ const ChangeValue = ({
         {showForm ? (
           editForm
         ) : (
-          <span className="change-value__value">{getListValueByKey(list, get(incident, valuePath || path))}</span>
+          <span data-testid="valuePath">{getListValueByKey(list, get(incident, valuePath || path))}</span>
         )}
       </dd>
     </Fragment>
   );
 };
 
-
 ChangeValue.defaultProps = {
   component: SelectInput,
-  valuePath: '',
-  patch: {},
   disabled: false,
+  patch: {},
+  valuePath: '',
 };
 
 ChangeValue.propTypes = {
   component: PropTypes.func,
+  disabled: PropTypes.bool,
+  display: PropTypes.string.isRequired,
   incident: incidentType.isRequired,
   list: dataListType.isRequired,
-  display: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-  valuePath: PropTypes.string,
+  onPatchIncident: PropTypes.func.isRequired,
   patch: PropTypes.object,
-  disabled: PropTypes.bool,
+  path: PropTypes.string.isRequired,
   sort: PropTypes.bool,
   type: PropTypes.string.isRequired,
-  onPatchIncident: PropTypes.func.isRequired,
+  valuePath: PropTypes.string,
 };
 
 export default ChangeValue;
