@@ -1,10 +1,10 @@
 import React, { Fragment, useLayoutEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import get from 'lodash.get';
 import { useSelector } from 'react-redux';
-import { Link, Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Link as AscLink, Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
@@ -95,7 +95,7 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
         <Highlight subscribeTo={incident.priority.priority} valueChanged={valueChanged}>
           <ChangeValue
             display="Urgentie"
-            valueClass={incident.priority.priority === 'high' && 'alert'}
+            valueClass={incident.priority.priority === 'high' ? 'alert' : ''}
             list={priorityList}
             incident={incident}
             path="priority.priority"
@@ -146,9 +146,9 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
         <Fragment>
           <dt data-testid="meta-list-parent-definition">Oorspronkelijke melding</dt>
           <dd>
-            <NavLink data-testid="meta-list-parent-link" as={Link} to={`/manage/incident/${getId(parent)}`}>
+            <AscLink data-testid="meta-list-parent-link" forwardedAs={Link} to={`/manage/incident/${getId(parent)}`}>
               {getId(parent)}
-            </NavLink>
+            </AscLink>
           </dd>
         </Fragment>
       )}
@@ -158,16 +158,16 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
           <dt data-testid="meta-list-children-definition">Gesplitst in</dt>
           <dd>
             {children.map(child => (
-              <Link
+              <AscLink
                 className="childLink"
                 data-testid={`meta-list-children-link-${getId(child)}`}
                 key={child.href}
-                forwardedAs={NavLink}
+                forwardedAs={Link}
                 variant="inline"
                 to={`/manage/incident/${getId(child)}`}
               >
                 {getId(child)}
-              </Link>
+              </AscLink>
             ))}
           </dd>
         </Fragment>

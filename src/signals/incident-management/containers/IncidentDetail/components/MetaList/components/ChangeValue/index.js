@@ -30,6 +30,10 @@ const CancelButton = styled(Button)`
   margin-top: -${themeSpacing(2)};
 `;
 
+const form = FormBuilder.group({
+  input: ['', Validators.required],
+});
+
 const ChangeValue = ({
   component,
   disabled,
@@ -41,12 +45,10 @@ const ChangeValue = ({
   path,
   sort,
   type,
+  valueClass,
   valuePath,
 }) => {
   const [showForm, setShowForm] = useState(false);
-  const form = FormBuilder.group({
-    input: ['', Validators.required],
-  });
 
   const handleSubmit = useCallback(
     event => {
@@ -65,29 +67,35 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [form, incident.id, patch, path, type, onPatchIncident]
+    [incident.id, patch, path, type, onPatchIncident]
   );
 
   const handleCancel = useCallback(() => {
     form.reset();
     setShowForm(false);
-  }, [form]);
+  }, []);
 
   const handleKeyUp = useCallback(
     event => {
       switch (event.key) {
         case 'Esc':
         case 'Escape':
-          form.reset();
-          setShowForm(false);
+          handleCancel();
           break;
 
         default:
           break;
       }
     },
-    [form]
+    [handleCancel]
   );
+
+  const onShowForm = useCallback(() => {
+    const value = get(incident, valuePath || path);
+
+    form.controls.input.setValue(value);
+    setShowForm(true);
+  }, [incident, valuePath, path]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -138,18 +146,19 @@ const ChangeValue = ({
             disabled={disabled}
             icon={<IconEdit />}
             iconSize={18}
-            onClick={() => setShowForm(true)}
+            onClick={onShowForm}
             variant="application"
           />
         )}
       </dt>
-      <dd>
-        {showForm ? (
-          editForm
-        ) : (
+
+      {showForm ? (
+        <dd>{editForm}</dd>
+      ) : (
+        <dd className={valueClass}>
           <span data-testid="valuePath">{getListValueByKey(list, get(incident, valuePath || path))}</span>
-        )}
-      </dd>
+        </dd>
+      )}
     </Fragment>
   );
 };
@@ -158,6 +167,7 @@ ChangeValue.defaultProps = {
   component: SelectInput,
   disabled: false,
   patch: {},
+  valueClass: '',
   valuePath: '',
 };
 
@@ -172,6 +182,7 @@ ChangeValue.propTypes = {
   path: PropTypes.string.isRequired,
   sort: PropTypes.bool,
   type: PropTypes.string.isRequired,
+  valueClass: PropTypes.string,
   valuePath: PropTypes.string,
 };
 
