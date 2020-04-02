@@ -62,7 +62,8 @@ describe('Change servicebelofte', () => {
     cy.checkHeader('Categorieën');
 
     // Check day change
-    cy.get('[data-item-id="144"] > :nth-child(2)').should('contain', '4 dagen');
+    cy.reload(true);
+    cy.get('[data-testid=dataViewBody] > [data-testid=dataViewBodyRow]',{ timeout: 10000 }).first().contains('4 dagen');
   });
 });
 describe('Create signal and validate service belofte', () => {
@@ -156,7 +157,6 @@ describe('Create signal and validate service belofte', () => {
 
     cy.contains('Ik beoordeel deze melding niet, het lijkt me namelijk allemaal onzin');
   });
-
 });
 
 describe('Change back servicebelofte', () => {
@@ -216,6 +216,7 @@ describe('Change back servicebelofte', () => {
     cy.checkHeader('Categorieën');
 
     // Check day change
-    cy.get('[data-item-id="144"] > :nth-child(2)').should('contain', '5 werkdagen');
+    cy.reload(true);
+    cy.get('[data-testid=dataViewBody] > [data-testid=dataViewBodyRow]',{ timeout: 10000 }).first().contains('5 werkdagen');
   });
 });

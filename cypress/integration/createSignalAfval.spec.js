@@ -4,7 +4,6 @@ import * as createSignal from '../support/commandsCreateSignal';
 import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Create signal afval', () => {
-
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
