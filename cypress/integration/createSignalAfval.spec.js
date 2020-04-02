@@ -51,7 +51,7 @@ describe('Create signal afval', () => {
 
     // Fill phonenumber
     cy.get(CREATE_SIGNAL.inputPhoneNumber).type('06-12345678');
-
+    
     // Click on next
     cy.clickButton('Volgende');
   });

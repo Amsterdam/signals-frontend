@@ -1,5 +1,4 @@
 // <reference types="Cypress" />
-import { MENU_ITEMS } from '../support/selectorsManageIncidents';
 
 describe('Standaardteksten', () => {
   beforeEach(() => {
@@ -22,7 +21,7 @@ describe('Standaardteksten', () => {
   });
 
   it('Open standaardteksten', () => {
-    cy.get(MENU_ITEMS.openMenu).click();
+    cy.openMenu();
     cy.contains('Standaard teksten').click();
     cy.wait('@getAsbestAccu');
 

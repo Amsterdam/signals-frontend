@@ -54,6 +54,10 @@ Cypress.Commands.add('checkHeader', h1 =>{
   cy.get('h1').should('be.visible').and('contain', h1);
 });
 
+Cypress.Commands.add('openMenu',() =>{
+  cy.get('#header').find('[type=button]').click();
+});
+
 Cypress.Commands.add('clickButton', buttonName => {
   const click = $el => $el.click();
   cy.contains(buttonName)
