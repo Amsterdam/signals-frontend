@@ -86,11 +86,13 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     return { form, postPatch };
   }, [data, state]);
 
-  const onSubmitForm = useCallback(() => {
+  const onSubmitForm = useCallback(event => {
+    event.preventDefault();
     onSubmit(getFormData());
   }, [getFormData, onSubmit]);
 
-  const onCancelForm = useCallback(() => {
+  const onCancelForm = useCallback(event => {
+    event.preventDefault();
     onCancel(getFormData());
   }, [getFormData, onCancel]);
 
