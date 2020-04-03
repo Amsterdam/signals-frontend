@@ -34,8 +34,7 @@ COPY package.json \
       /app/
 
 # Install NPM dependencies, cleaning cache afterwards:
-RUN npm config set registry https://nexus.data.amsterdam.nl/repository/npm-group/ && \
-      npm --production=false \
+RUN npm --production=false \
       --unsafe-perm \
       --no-progress \
       ci && \
