@@ -18,11 +18,11 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY internals /app/internals
 COPY .gitignore \
-     .gitattributes \
-     .eslintrc.js \
-     .prettierrc \
-     jest.config.js \
-     babel.config.js \
+      .gitattributes \
+      .eslintrc.js \
+      .prettierrc \
+      jest.config.js \
+      babel.config.js \
       /app/
 
 # Install language packs
@@ -30,11 +30,12 @@ RUN npm install --unsafe-perm -g full-icu
 ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
 
 COPY package.json \
-     package-lock.json \
+      package-lock.json \
       /app/
 
 # Install NPM dependencies, cleaning cache afterwards:
-RUN npm --production=false \
+RUN npm config set registry https://nexus.data.amsterdam.nl/repository/npm-group/ && \
+      npm --production=false \
       --unsafe-perm \
       --no-progress \
       ci && \
@@ -77,4 +78,4 @@ COPY default.conf /etc/nginx/conf.d/
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
+      && ln -sf /dev/stderr /var/log/nginx/error.log
