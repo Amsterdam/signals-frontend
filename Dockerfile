@@ -18,7 +18,7 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY internals /app/internals
 COPY .gitignore \
-      .nmmrc \
+      .npmrc \
       .gitattributes \
       .eslintrc.js \
       .prettierrc \
