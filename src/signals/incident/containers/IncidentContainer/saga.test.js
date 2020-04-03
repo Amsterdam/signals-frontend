@@ -156,10 +156,10 @@ describe('IncidentContainer saga', () => {
 
       const postData = {
         text: payloadIncident.text,
+        handling_message,
         category: {
           sub_category,
         },
-        handling_message,
       };
 
       const mapControlsToParamsResponse = {
@@ -190,10 +190,10 @@ describe('IncidentContainer saga', () => {
 
       const postData = {
         text: payloadIncident.text,
+        handling_message,
         category: {
           sub_category,
         },
-        handling_message,
       };
 
       return expectSaga(getPostData, action)

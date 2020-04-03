@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
 import isBoolean from 'lodash.isboolean';
 
 import { extraPropertiesType } from 'shared/types';
-
-import './style.scss';
 
 const getValue = answer => {
   if (isArray(answer)) {
@@ -21,16 +19,14 @@ const getValue = answer => {
   return answer;
 };
 
-const ExtraProperties = ({ items }) => (
-  <dl className="extra-properties">
-    {items && items.map(item => (
-      <dl key={item.id}>
-        <dt className="detail__definition" data-testid="extra-properties-definition">{item.label}</dt>
-        <dd className="detail__value" data-testid="extra-properties-value">{getValue(item.answer)}</dd>
-      </dl>
-    ))}
-  </dl>
-);
+const ExtraProperties = ({ items }) =>
+  items &&
+  items.map(item => (
+    <Fragment key={item.id}>
+      <dt data-testid="extra-properties-definition">{item.label}</dt>
+      <dd data-testid="extra-properties-value">{getValue(item.answer)}</dd>
+    </Fragment>
+  ));
 
 ExtraProperties.defaultProps = {
   items: [],

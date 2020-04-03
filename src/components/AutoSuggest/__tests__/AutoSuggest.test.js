@@ -204,41 +204,6 @@ describe('src/components/AutoSuggest', () => {
       expect(document.activeElement).toEqual(firstElement);
     });
 
-    test('Enter', async () => {
-      const { container, findByTestId, queryByTestId } = render(withAppContext(<AutoSuggest {...props} />));
-      const input = container.querySelector('input');
-
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Limburg' } });
-      });
-
-      const suggestList = await findByTestId('suggestList');
-      const firstElement = suggestList.querySelector('li:nth-of-type(1)');
-
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 });
-      });
-
-      expect(document.activeElement).toEqual(firstElement);
-
-      act(() => {
-        // return in input field should not do anything when the pulldown is open
-        fireEvent.keyDown(input, { key: 'Enter', code: 13, keyCode: 13 });
-      });
-
-      await findByTestId('suggestList');
-
-      expect(input.value).toEqual('Limburg');
-
-      act(() => {
-        fireEvent.keyDown(firstElement, { key: 'Enter', code: 13, keyCode: 13 });
-      });
-
-      expect(document.activeElement).toEqual(input);
-      expect(input.value).toEqual(formatResponse(JSONResponse)[0].value);
-      expect(queryByTestId('suggestList')).not.toBeInTheDocument();
-    });
-
     test('Esc', async () => {
       const { container, findByTestId, queryByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
