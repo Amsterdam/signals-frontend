@@ -52,6 +52,12 @@ const dataItemType = PropTypes.shape({
   value: PropTypes.string.isRequired,
 });
 
+const linksType = PropTypes.shape({
+  self: PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }).isRequired,
+}).isRequired;
+
 /**
  * Filter type validation for the data structure that comes from and goes to the API
  */
@@ -112,11 +118,7 @@ export const locationType = PropTypes.shape({
 
 export const incidentType = PropTypes.shape({
   _display: PropTypes.string,
-  _links: PropTypes.shape({
-    self: PropTypes.shape({
-      href: PropTypes.string.isRequired,
-    }),
-  }),
+  _links: linksType,
   category: PropTypes.shape({
     category_url: PropTypes.string.isRequired,
     departments: PropTypes.string,
@@ -132,7 +134,6 @@ export const incidentType = PropTypes.shape({
     incident_date_start: dateType,
     location: locationType,
   }),
-  location: locationType,
   notes: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,
@@ -237,11 +238,7 @@ export const departmentCategory = PropTypes.shape({
   is_responsible: PropTypes.bool,
   can_view: PropTypes.bool,
   category: PropTypes.shape({
-    _links: PropTypes.shape({
-      self: PropTypes.shape({
-        href: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
+    _links: linksType,
     _display: PropTypes.string.isRequired,
     departments: PropTypes.arrayOf(
       PropTypes.shape({
@@ -265,3 +262,32 @@ export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
   name: PropTypes.string.isRequired,
   codename: PropTypes.string.isRequired,
 }));
+
+const userRolePermissionType = PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  codename: PropTypes.string.isRequired,
+  _display: PropTypes.string.isRequired,
+  _links: linksType,
+}));
+
+const userRoleType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  _display: PropTypes.string.isRequired,
+  _links: linksType,
+  permissons: userRolePermissionType,
+});
+
+export const userType = PropTypes.shape({
+  username: PropTypes.string,
+  first_name: PropTypes.string,
+  last_name: PropTypes.string,
+  is_active: PropTypes.bool,
+  roles: PropTypes.arrayOf(userRoleType),
+  profile: PropTypes.shape({
+    departments: PropTypes.arrayOf(PropTypes.string),
+    note: PropTypes.string,
+  }),
+});
+
