@@ -1,13 +1,13 @@
-// Select an adress from autosuggest
+// Select an address from autosuggest
 Cypress.Commands.add('defineGeoSearchRoutes', () => {
   cy.route('https://geodata.nationaalgeoregister.nl/locatieserver/v3/lookup?*').as('lookup');
   cy.route('**/bag/v1.1/nummeraanduiding/?format=json&locatie=**').as('location');
   cy.route('**/geosearch/bag/?lat=*').as('geoSearchLocation');
 });
 
-// Search for an adress
-Cypress.Commands.add('getAdressRoute', adress => {
-  cy.route(`https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?fq=gemeentenaam:amsterdam&fq=type:adres&q=${  adress}`).as('getAdress');
+// Search for an address
+Cypress.Commands.add('getAddressRoute', address => {
+  cy.route(`https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?fq=gemeentenaam:amsterdam&fq=type:adres&q=${  address}`).as('getAddress');
 });
 
 // Loading the Manage Signals page

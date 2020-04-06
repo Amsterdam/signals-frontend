@@ -25,14 +25,6 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 import 'cypress-file-upload';
 
-Cypress.Commands.add('isVisible', selector =>{
-  cy.get(selector).should('be.visible');
-});
-
-Cypress.Commands.add('isNotVisible', selector => {
-  cy.get(selector).should('not.exist');
-});
-
 Cypress.Commands.add('setResolution', size =>{
   if (Cypress._.isArrray(size)){
     cy.viewport(size[0],size [1]);
@@ -40,7 +32,7 @@ Cypress.Commands.add('setResolution', size =>{
     cy.viewport(size);
   }
 });
-// go to the page, use delete win.fetch to convert fetch requests in xhr
+// Cypress cannot intercept the fetch protocol, this is a workaround to intercept it and fall back to the XmlHttpRequest protocol.
 Cypress.Commands.add('visitFetch', url =>{
   cy.visit(url,{
     onBeforeLoad(win) {
@@ -50,7 +42,7 @@ Cypress.Commands.add('visitFetch', url =>{
   });
 });
 
-Cypress.Commands.add('checkHeader', h1 =>{
+Cypress.Commands.add('checkHeaderText', h1 =>{
   cy.get('h1').should('be.visible').and('contain', h1);
 });
 

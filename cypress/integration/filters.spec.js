@@ -21,13 +21,13 @@ describe('Filtering', () => {
     cy.wait('@getUserInfo');
   });
 
-  it('No filters', () => {
+  it('Should have no filters', () => {
     cy.get(MANAGE_SIGNALS.buttonMijnFilters).should('be.visible').click();
     cy.get('p').should('contain', 'U heeft geen eigen filter opgeslagen.').and('contain', 'Ga naar ‘Filteren’ en voer een naam in om een filterinstelling op te slaan.');
     cy.get(MANAGE_SIGNALS.buttonCloseMijnFilters).should('be.visible').click();
   });
 
-  it('Create new filter', () => {
+  it('Should create a filter', () => {
     // Open page to create filter
     cy.get(MANAGE_SIGNALS.buttonFilteren).should('be.visible').click();
 
@@ -72,7 +72,7 @@ describe('Filtering', () => {
     cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Gemeld').and('contain', 'Centrum');
   });
 
-  it('Delete all filters', () => {
+  it('Should delete all filters', () => {
     // Open private filters
     cy.get(MANAGE_SIGNALS.buttonMijnFilters).should('be.visible').click();
 
@@ -88,7 +88,7 @@ describe('Filtering', () => {
     // Check if filter is deleted in signal view. At the moment it isn't.
   });
 
-  it('Create new filter, select all filters, reset to default values', () => {
+  it('Should create e new filter, select all filters and reset to default values', () => {
     cy.get(MANAGE_SIGNALS.buttonFilteren).should('be.visible').click();
     cy.get(FILTER.inputFilterName).type('Reset to default');
     cy.get(FILTER.checkboxRefresh).should('be.visible').check();

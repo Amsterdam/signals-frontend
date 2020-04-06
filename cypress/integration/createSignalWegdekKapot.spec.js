@@ -7,28 +7,28 @@ describe('Create signal wegdek kapot', () => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAdressRoute('1105AT 50');
+    cy.getAddressRoute('1105AT 50');
 
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
   });
 
-  it('Search for adress', () => {
+  it('Should search for an address', () => {
     // Check on h1
-    cy.checkHeader('Beschrijf uw melding');
+    cy.checkHeaderText('Beschrijf uw melding');
 
-    // Search on adress
-    createSignal.searchAdress('1105AT 50');
-    cy.wait('@getAdress');
+    // Search on address
+    createSignal.searchAddress('1105AT 50');
+    cy.wait('@getAddress');
 
     // Select found item  
-    createSignal.selectAdress('Schepenbergweg 50, 1105AT Amsterdam');
+    createSignal.selectAddress('Schepenbergweg 50, 1105AT Amsterdam');
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
   });
 
-  it('Fill in description and date', () => {
+  it('Should enter description and date', () => {
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:wegdek.json').as('prediction');
 
@@ -41,12 +41,12 @@ describe('Create signal wegdek kapot', () => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in specific information', () => { 
+  it('Should enter specific information', () => { 
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
     // Check h1
-    cy.checkHeader('Dit hebben we nog van u nodig');
+    cy.checkHeaderText('Dit hebben we nog van u nodig');
     cy.contains('Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?');
 
     // Select road type
@@ -57,34 +57,37 @@ describe('Create signal wegdek kapot', () => {
     cy.contains('Volgende').click();
   });
 
-  it('Fill in phonenumber', () => {
+  it('Should enter a phonenumber', () => {
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
     // Check h1
-    cy.checkHeader('Mogen we u bellen voor vragen?');
+    cy.checkHeaderText('Mogen we u bellen voor vragen?');
 
     // Click on next
     cy.clickButton('Volgende');
   });
 
-  it('Fill in e-mailadres', () => {
+  it('Should enter an email adress', () => {
     // Check URL
     cy.url().should('include', '/incident/email');
 
     // Check h1
-    cy.checkHeader('Wilt u op de hoogte blijven?');
+    cy.checkHeaderText('Wilt u op de hoogte blijven?');
 
     // Click on next
     cy.clickButton('Volgende');
   });
 
-  it('Check overview', () => {
+  it('Should show an overview', () => {
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
     // Check h1
-    cy.checkHeader('Controleer uw gegevens');
+    cy.checkHeaderText('Controleer uw gegevens');
+
+    // Check if map is visible
+    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
 
     // Check road type
     cy.contains('Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?');
@@ -93,12 +96,12 @@ describe('Create signal wegdek kapot', () => {
     cy.clickButton('Verstuur');
   });
 
-  it('Last screen', () => {
+  it('Should show the last screen', () => {
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
     // Check h1
-    cy.checkHeader('Bedankt!');
+    cy.checkHeaderText('Bedankt!');
 
     // TODO capture signal id
   });

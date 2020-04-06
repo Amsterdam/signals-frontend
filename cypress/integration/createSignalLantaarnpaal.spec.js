@@ -7,28 +7,28 @@ describe('Create signal lantaarnpaal',() => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAdressRoute('1077WV 59');
+    cy.getAddressRoute('1077WV 59');
 
     // Open homepage
     cy.visitFetch('incident/beschrijf');
   });
 
-  it('Search for adress', () => {
+  it('Should search for an address', () => {
     // Check h1
-    cy.checkHeader('Beschrijf uw melding');
+    cy.checkHeaderText('Beschrijf uw melding');
 
-    // Search adress
-    createSignal.searchAdress('1077WV 59');
-    cy.wait('@getAdress');
+    // Search address
+    createSignal.searchAddress('1077WV 59');
+    cy.wait('@getAddress');
 
     // Select found item  
-    createSignal.selectAdress('Prinses Irenestraat 59, 1077WV Amsterdam');
+    createSignal.selectAddress('Prinses Irenestraat 59, 1077WV Amsterdam');
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
   });
 
-  it('Fill in description,date and upload picture', () => {
+  it('Should enter description and date and upload a picture', () => {
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:lantaarnpaal.json').as('prediction');
 
@@ -48,12 +48,12 @@ describe('Create signal lantaarnpaal',() => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in specific information', () => {
+  it('Should enter specific information', () => {
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
     // Check h1
-    cy.checkHeader('Dit hebben we nog van u nodig');
+    cy.checkHeaderText('Dit hebben we nog van u nodig');
     cy.contains('De lantaarnpaal voor mijn deur is kapot');
 
     // Click on next without retry to invoke error message
@@ -95,7 +95,7 @@ describe('Create signal lantaarnpaal',() => {
     cy.contains('Overig').should('be.visible').click();
   });
 
-  it('Select light on map', () => {
+  it('Should select a light on map', () => {
     // Click on lamp based on coordinate
     createSignal.selectLampOnCoordinate(338, 179);
 
@@ -113,38 +113,41 @@ describe('Create signal lantaarnpaal',() => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in phonenumber', () => {
+  it('Should enter a phonenumber', () => {
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
     // Check h1
-    cy.checkHeader('Mogen we u bellen voor vragen?');
+    cy.checkHeaderText('Mogen we u bellen voor vragen?');
 
     cy.clickButton('Volgende');
   });
 
-  it('Fill in e-mailadres', () => {
+  it('Should enter an email address', () => {
     // Check URL
     cy.url().should('include', '/incident/email');
 
     // Check h1
-    cy.checkHeader('Wilt u op de hoogte blijven?');
+    cy.checkHeaderText('Wilt u op de hoogte blijven?');
 
     cy.clickButton('Volgende');
   });
 
-  it('Check overview', () => {
+  it('Should show an overview', () => {
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
     // Check h1
-    cy.checkHeader('Controleer uw gegevens');
+    cy.checkHeaderText('Controleer uw gegevens');
+
+    // Check if map is visible
+    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
 
     // Check on information provided by user
     cy.contains('Prinses Irenestraat 59, 1077WV Amsterdam').should('be.visible');
     cy.contains('De lantaarnpaal voor mijn deur is kapot').should('be.visible');
     cy.contains('Vandaag, 5:45').should('be.visible');
-    cy.get(CREATE_SIGNAL.imageAdressMarker).find("img").should('be.visible');
+    cy.get(CREATE_SIGNAL.imageAddressMarker).find("img").should('be.visible');
     cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
     cy.contains('Niet gevaarlijk').should('be.visible');
     cy.contains('1 lichtpunt').should('be.visible');
@@ -155,12 +158,12 @@ describe('Create signal lantaarnpaal',() => {
     cy.clickButton('Verstuur');
   });
 
-  it('Last screen', () => {
+  it('Should show the last screen', () => {
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
     // Check h1
-    cy.checkHeader('Bedankt!');
+    cy.checkHeaderText('Bedankt!');
 
     // TODO capture signal id
   });

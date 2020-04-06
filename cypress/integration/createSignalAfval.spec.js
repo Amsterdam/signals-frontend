@@ -7,28 +7,28 @@ describe('Create signal afval', () => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAdressRoute('1035LA 43');
+    cy.getAddressRoute('1035LA 43');
 
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
   });
 
-  it('Search for adress', () => {
+  it('Should search for an address', () => {
     // Check on h1
-    cy.checkHeader('Beschrijf uw melding');
+    cy.checkHeaderText('Beschrijf uw melding');
 
-    // Search on adress
-    createSignal.searchAdress('1035LA 43');
-    cy.wait('@getAdress');
+    // Search on address
+    createSignal.searchAddress('1035LA 43');
+    cy.wait('@getAddress');
 
     // Select found item  
-    createSignal.selectAdress('Sandwijk 43, 1035LA Amsterdam');
+    createSignal.selectAddress('Sandwijk 43, 1035LA Amsterdam');
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
   });
 
-  it('Fill in description and date', () => {
+  it('Should enter a description', () => {
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:afval.json').as('prediction');
 
@@ -41,12 +41,12 @@ describe('Create signal afval', () => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in phonenumber', () => {
+  it('Should enter a phonenumber', () => {
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
     // Check h1
-    cy.checkHeader('Mogen we u bellen voor vragen?');
+    cy.checkHeaderText('Mogen we u bellen voor vragen?');
 
     // Fill phonenumber
     cy.get(CREATE_SIGNAL.inputPhoneNumber).type('06-12345678');
@@ -55,27 +55,31 @@ describe('Create signal afval', () => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in e-mailadres', () => {
+  it('Should enter an email address', () => {
     // Check URL
     cy.url().should('include', '/incident/email');
 
     // Check h1
-    cy.checkHeader('Wilt u op de hoogte blijven?');
+    cy.checkHeaderText('Wilt u op de hoogte blijven?');
 
-    // Fill emailadress
+    // Fill emailaddress
     cy.get(CREATE_SIGNAL.inputEmail).type('siafakemail@fake.nl');
 
     // Click on next
     cy.clickButton('Volgende');
   });
 
-  it('Check overview', () => {
+  it('Should show an overview', () => {
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
     // Check h1
-    cy.checkHeader('Controleer uw gegevens');
+    cy.checkHeaderText('Controleer uw gegevens');
 
+    // Check if map is visible
+    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
+
+    cy.contains('Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?');
     // Check mail and phonenumber
     cy.contains('06-12345678').should('be.visible');
     cy.contains('siafakemail@fake.nl').should('be.visible');
@@ -83,12 +87,12 @@ describe('Create signal afval', () => {
     cy.clickButton('Verstuur');
   });
 
-  it('Last screen', () => {
+  it('Should show the last screen', () => {
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
     // Check h1
-    cy.checkHeader('Bedankt!');
+    cy.checkHeaderText('Bedankt!');
 
     // TODO capture signal id
   });
