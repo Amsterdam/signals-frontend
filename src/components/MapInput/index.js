@@ -5,7 +5,7 @@ import { Marker } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { location2feature } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
-import { setLocationAction, setValuesAction, setAddressAction } from 'containers/MapContext/actions';
+import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
 import Map from '../Map';
 import PDOKAutoSuggest from '../PDOKAutoSuggest';
 import reverseGeocoderService from './services/reverseGeocoderService';
@@ -32,7 +32,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   const [map, setMap] = useState();
   const [marker, setMarker] = useState();
   const { location, addressText: addressValue } = state;
-  const hasLocation = location && location?.lat !== 0  && location.lng !== 0;
+  const hasLocation = location && location?.lat !== 0 && location.lng !== 0;
 
   useEffect(() => {
     dispatch(setValuesAction(value));
@@ -40,32 +40,36 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
   const clickHandler = async e => {
     dispatch(setLocationAction(e.latlng));
-    const addressText = await reverseGeocoderService(e.latlng);
-    dispatch(setAddressAction(addressText));
-    onChange({ geometrie: location2feature(e.latlng), addressText });
+    const response = await reverseGeocoderService(e.latlng);
+    dispatch(setValuesAction({
+      addressText: response.value,
+      address: response.data.address,
+    }));
+    onChange({ geometrie: location2feature(e.latlng), address: response.data.address });
   };
 
-  const onSelect = useCallback(option => {
-    // eslint-disable-next-line no-shadow
-    const { location, value: addressText } = option;
+  const onSelect = useCallback(
+    option => {
+      const {
+        // eslint-disable-next-line no-shadow
+        data: { location, address },
+        value: addressText,
+      } = option;
 
-    dispatch(
-      setValuesAction({
-        location,
-        addressText,
-      })
-    );
+      dispatch(setValuesAction({ location, address, addressText }));
 
-    onChange({
-      geometrie: location2feature(location),
-      addressText,
-    });
+      onChange({
+        geometrie: location2feature(location),
+        address,
+      });
 
-    if (map) {
-      const currentZoom = map.getZoom();
-      map.flyTo(location, currentZoom < 11 ? 11 : currentZoom);
-    }
-  }, [map, dispatch, onChange]);
+      if (map) {
+        const currentZoom = map.getZoom();
+        map.flyTo(location, currentZoom < 11 ? 11 : currentZoom);
+      }
+    },
+    [map, dispatch, onChange]
+  );
 
   useEffect(() => {
     if (!marker || !hasLocation) return;
@@ -109,7 +113,8 @@ MapInput.propTypes = {
     addressText: PropTypes.string,
   }),
   onChange: PropTypes.func,
-  mapOptions: PropTypes.shape({}).isRequired, /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */
+  mapOptions: PropTypes.shape({})
+    .isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
 };
 
 export default MapInput;

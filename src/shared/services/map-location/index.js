@@ -11,20 +11,6 @@ export const feature2location = feature => {
   };
 };
 
-export const parseAdressText = address => {
-  const [openbare_ruimte, postcodeWoonplaats] = address.split(', ');
-  const [postcode, woonplaats] = postcodeWoonplaats.split(' ');
-
-  return {
-    openbare_ruimte ,
-    huisnummer: '',
-    huisletter: '',
-    huisnummertoevoeging: '',
-    postcode,
-    woonplaats,
-  };
-};
-
 export const wktPointToLocation = wktPoint => {
   if (!wktPoint.includes('POINT')) {
     throw TypeError('Provided WKT geometry is not a point.');
@@ -43,25 +29,24 @@ export const wktPointToLocation = wktPoint => {
  * converts the location from `sia` location format to latlon format
  */
 const mapLocation = loc => {
-  const location = {};
+  const value = {};
 
   if (loc.geometrie) {
-    location.geometrie = loc.geometrie;
+    value.geometrie = loc.geometrie;
   }
 
   if (loc.buurt_code) {
-    location.buurtcode = loc.buurt_code;
+    value.buurtcode = loc.buurt_code;
   }
 
   if (loc.stadsdeel) {
-    location.stadsdeelcode = loc.stadsdeel;
+    value.stadsdeelcode = loc.stadsdeel;
   }
 
-  if (loc.addressText) {
-    location.address = parseAdressText(loc.addressText);
+  if (loc.address) {
+    value.address = loc.address;
   }
-
-  return location;
+  return value;
 };
 
 export const formatMapLocation = loc => {
@@ -72,8 +57,9 @@ export const formatMapLocation = loc => {
   }
 
   if (loc.address) {
-    const { openbare_ruimte, postcode, woonplaats } = loc.address;
-    value.addressText = `${openbare_ruimte}, ${postcode} ${woonplaats}`;
+    const { openbare_ruimte, huisnummer, postcode, woonplaats } = loc.address;
+    value.addressText = `${openbare_ruimte} ${huisnummer}, ${postcode} ${woonplaats}`;
+    value.address = loc.address;
   }
 
   return value;
@@ -86,5 +72,37 @@ export const formatAddress = address => {
     : '_';
   return display;
 };
+
+export const serviceResult2Address = ({ straatnaam_verkort, huis_nlt, postcode, woonplaatsnaam }) => ({
+  openbare_ruimte: straatnaam_verkort,
+  huisnummer: huis_nlt,
+  huisletter: '',
+  huisnummertoevoeging: '',
+  postcode,
+  woonplaats: woonplaatsnaam,
+});
+
+export const serviceAttributes = [
+  'id',
+  'weergavenaam',
+  'straatnaam_verkort',
+  'huis_nlt',
+  'postcode',
+  'woonplaatsnaam',
+  'centroide_ll',
+];
+
+export const formatResponse = ({ response }) =>
+  response.docs.map(result => {
+    const { id, weergavenaam, centroide_ll } = result;
+    return {
+      id,
+      value: weergavenaam,
+      data: {
+        location: wktPointToLocation(centroide_ll),
+        address: serviceResult2Address(result),
+      },
+    };
+  });
 
 export default mapLocation;

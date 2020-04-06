@@ -5,7 +5,7 @@ import MapInputComponent from 'components/MapInput';
 import MapContext from 'containers/MapContext';
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import mapLocation, { formatMapLocation } from 'shared/services/map-location';
+import { formatMapLocation } from 'shared/services/map-location';
 import Header from '../Header';
 
 
@@ -18,8 +18,8 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
   };
 
   /* istanbul ignore next */
-  const onLocationChange = d => {
-    parent.meta.updateIncident({ location: mapLocation(d) });
+  const onLocationChange = location => {
+    parent.meta.updateIncident({ location });
   };
 
   return (
