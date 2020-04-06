@@ -22,7 +22,7 @@ export const inputSelectRolesSelector = createSelector(
 
 export const inputCheckboxRolesSelector = createSelector(
   selectRolesDomain,
-  state => rolesInputOptions[state]
+  state => rolesInputOptions(state)
 );
 
 /**
