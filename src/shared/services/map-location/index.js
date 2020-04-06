@@ -1,9 +1,9 @@
-export const location2feature = location => ({
+export const locationTofeature = location => ({
   type: 'Point',
   coordinates: [location.lng, location.lat],
 });
 
-export const feature2location = feature => {
+export const featureTolocation = feature => {
   const { coordinates } = feature;
   return {
     lat: coordinates[1],
@@ -53,7 +53,7 @@ export const formatMapLocation = loc => {
   const value = {};
 
   if (loc.geometrie) {
-    value.location = feature2location(loc.geometrie);
+    value.location = featureTolocation(loc.geometrie);
   }
 
   if (loc.address) {
@@ -73,7 +73,7 @@ export const formatAddress = address => {
   return display;
 };
 
-export const serviceResult2Address = ({ straatnaam_verkort, huis_nlt, postcode, woonplaatsnaam }) => ({
+export const serviceResultToAddress = ({ straatnaam_verkort, huis_nlt, postcode, woonplaatsnaam }) => ({
   openbare_ruimte: straatnaam_verkort,
   huisnummer: huis_nlt,
   huisletter: '',
@@ -82,7 +82,7 @@ export const serviceResult2Address = ({ straatnaam_verkort, huis_nlt, postcode, 
   woonplaats: woonplaatsnaam,
 });
 
-export const serviceAttributes = [
+export const pdokResponseFieldList = [
   'id',
   'weergavenaam',
   'straatnaam_verkort',
@@ -92,7 +92,7 @@ export const serviceAttributes = [
   'centroide_ll',
 ];
 
-export const formatResponse = ({ response }) =>
+export const formatPDOKResponse = ({ response }) =>
   response.docs.map(result => {
     const { id, weergavenaam, centroide_ll } = result;
     return {
@@ -100,7 +100,7 @@ export const formatResponse = ({ response }) =>
       value: weergavenaam,
       data: {
         location: wktPointToLocation(centroide_ll),
-        address: serviceResult2Address(result),
+        address: serviceResultToAddress(result),
       },
     };
   });

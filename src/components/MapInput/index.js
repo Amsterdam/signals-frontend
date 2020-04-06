@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import { Marker } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import { location2feature } from 'shared/services/map-location';
+import { locationTofeature } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
 import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
 import Map from '../Map';
@@ -38,34 +38,36 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
     dispatch(setValuesAction(value));
   }, [value, dispatch]);
 
-  const clickHandler = async e => {
-    dispatch(setLocationAction(e.latlng));
-    const response = await reverseGeocoderService(e.latlng);
-    dispatch(setValuesAction({
-      addressText: response.value,
-      address: response.data.address,
-    }));
-    onChange({ geometrie: location2feature(e.latlng), address: response.data.address });
-  };
+  const clickHandler = useCallback(
+    async event => {
+      dispatch(setLocationAction(event.latlng));
+      const response = await reverseGeocoderService(event.latlng);
+      dispatch(
+        setValuesAction({
+          addressText: response.value,
+          address: response.data.address,
+        })
+      );
+      onChange({ geometrie: locationTofeature(event.latlng), address: response.data.address });
+    },
+    [dispatch, onChange]
+  );
 
   const onSelect = useCallback(
     option => {
-      const {
-        // eslint-disable-next-line no-shadow
-        data: { location, address },
-        value: addressText,
-      } = option;
+      // eslint-disable-next-line no-shadow
+      const { data, value } = option;
 
-      dispatch(setValuesAction({ location, address, addressText }));
+      dispatch(setValuesAction({ location: data.location, address: data.address, addressText: value }));
 
       onChange({
-        geometrie: location2feature(location),
-        address,
+        geometrie: locationTofeature(data.location),
+        address: data.address,
       });
 
       if (map) {
         const currentZoom = map.getZoom();
-        map.flyTo(location, currentZoom < 11 ? 11 : currentZoom);
+        map.flyTo(data.location, currentZoom < 11 ? 11 : currentZoom);
       }
     },
     [map, dispatch, onChange]

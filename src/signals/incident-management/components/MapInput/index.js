@@ -10,9 +10,10 @@ import Label from 'components/Label';
 
 export const MapInput = props => {
   const { name, display, onQueryResult } = props;
+
+  // Can't use useCallback here, would break the rules of hooks
   const render = ({ handler }) => {
     const value = formatMapLocation(handler().value || {});
-    console.log(value, handler().value);
     const { lat, lng } = value?.location || {};
     const mapOptions = {
       ...MAP_OPTIONS,

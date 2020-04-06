@@ -8,7 +8,6 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { formatMapLocation } from 'shared/services/map-location';
 import Header from '../Header';
 
-
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const value = formatMapLocation(handler().value || {});
   const { lat, lng } = value?.location || {};
@@ -17,7 +16,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
     center: (lat && lng) ? [lat, lng] : [...MAP_OPTIONS.center],
   };
 
-  /* istanbul ignore next */
+  // Can't use useCallback here, would break the rules of hooks
   const onLocationChange = location => {
     parent.meta.updateIncident({ location });
   };

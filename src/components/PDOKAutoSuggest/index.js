@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AutoSuggest from 'components/AutoSuggest';
-import { serviceAttributes, formatResponse } from 'shared/services/map-location';
+import { pdokResponseFieldList, formatPDOKResponse } from 'shared/services/map-location';
 
 const serviceParams = [
   ['fq', 'bron:BAG'],
   ['fq', 'type:adres'],
   // ['fl', '*'], // undocumented; requests all available field values from the API
-  ['fl', serviceAttributes.join(',')],
+  ['fl', pdokResponseFieldList.join(',')],
   ['q', ''],
 ];
 const serviceURL = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
@@ -29,7 +29,7 @@ const PDOKAutoSuggest = ({ gemeentenaam, onSelect, value, ...otherProps }) => {
     <AutoSuggest
       url={URL}
       numOptionsDeterminer={numOptionsDeterminer}
-      formatResponse={formatResponse}
+      formatResponse={formatPDOKResponse}
       onSelect={onSelect}
       value={value}
       {...otherProps}

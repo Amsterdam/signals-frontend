@@ -1,7 +1,7 @@
-import { serviceAttributes, formatResponse } from 'shared/services/map-location';
+import { pdokResponseFieldList, formatPDOKResponse } from 'shared/services/map-location';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 
-const flParams = serviceAttributes.join(',');
+const flParams = pdokResponseFieldList.join(',');
 export const serviceURL =
     `http://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1&fl=${flParams}`;
 
@@ -18,7 +18,7 @@ const reverseGeocoderService = async location => {
   const url = formatRequest(serviceURL, wgs84point);
   const result = await fetch(url);
   const data = await result.json();
-  const response = formatResponse(data);
+  const response = formatPDOKResponse(data);
   return response[0];
 };
 

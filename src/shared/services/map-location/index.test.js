@@ -1,4 +1,4 @@
-import mapLocation, { formatAddress, feature2location, address2pdok } from './index';
+import mapLocation, { formatAddress, featureTolocation } from './index';
 
 const testAddress = {
   openbare_ruimte: 'Keizersgracht',
@@ -9,15 +9,6 @@ const testAddress = {
   woonplaats: 'Amsterdam',
 };
 
-const testPdokAddress = {
-  straatnaam: 'Keizersgracht',
-  huisnummer: '666',
-  huisletter: 'D',
-  huisnummertoevoeging: '3',
-  postcode: '1016EJ',
-  woonplaatsnaam: 'Amsterdam',
-};
-
 const testLocation = { lng: 4, lat: 52 };
 
 const testFeature = {
@@ -25,15 +16,9 @@ const testFeature = {
   coordinates: [4, 52],
 };
 
-describe('feature2location', () => {
+describe('featureTolocation', () => {
   it('should convert', () => {
-    expect(feature2location(testFeature)).toEqual(testLocation);
-  });
-});
-
-describe('address2pdok', () => {
-  it('should convert', () => {
-    expect(address2pdok(testAddress)).toEqual(testPdokAddress);
+    expect(featureTolocation(testFeature)).toEqual(testLocation);
   });
 });
 
