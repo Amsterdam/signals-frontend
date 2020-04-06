@@ -15,7 +15,7 @@ export const RadioInput = ({ name, display, values }) => {
     let info;
     let label;
 
-    if (current && values) {
+    if (current && values?.length > 0) {
       ({ info, value: label } = values.find(({ key }) => key === current));
     }
 

@@ -12,14 +12,7 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import SelectInput from 'signals/incident-management/components/SelectInput';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
-import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
-
-const EditButton = styled(Button)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: ${themeSpacing(0, 1.5)};
-`;
+import EditButton from '../../../EditButton';
 
 const SaveButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
@@ -140,16 +133,7 @@ const ChangeValue = ({
     <Fragment>
       <dt>
         {display}
-        {!showForm && (
-          <EditButton
-            data-testid="editButton"
-            disabled={disabled}
-            icon={<IconEdit />}
-            iconSize={18}
-            onClick={onShowForm}
-            variant="application"
-          />
-        )}
+        {!showForm && <EditButton onClick={onShowForm} />}
       </dt>
 
       {showForm ? (

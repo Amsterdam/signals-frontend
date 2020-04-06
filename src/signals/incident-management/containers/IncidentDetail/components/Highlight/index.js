@@ -54,7 +54,7 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
     const { show } = this.state;
     return (
       <div
-        className={`highlight ${show ? 'highlight--active' : ''}`}
+        className={`${this.props.className} highlight ${show ? 'highlight--active' : ''}`}
         data-testid="highlight"
       >
         <div className="highlight__children">
@@ -66,12 +66,14 @@ class Highlight extends React.Component { // eslint-disable-line react/prefer-st
 }
 
 Highlight.defaultProps = {
+  className: '',
   valueChanged: false,
   show: false,
 };
 
 Highlight.propTypes = {
   children: PropTypes.node.isRequired,
+  className: PropTypes.string,
   subscribeTo: PropTypes.any.isRequired,
   valueChanged: PropTypes.bool,
   show: PropTypes.bool,

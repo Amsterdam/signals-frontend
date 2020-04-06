@@ -11,6 +11,11 @@ import Location from './components/Location';
 import Attachments from './components/Attachments';
 import ExtraProperties from './components/ExtraProperties';
 
+const Wrapper = styled.article`
+  position: relative;
+  z-index: 0;
+`;
+
 const DemiParagraph = styled(Paragraph)`
   font-family: Avenir Next LT W01 Demi;
   margin: ${themeSpacing(4)} 0;
@@ -48,7 +53,7 @@ const DefinitionList = styled.dl`
 `;
 
 const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowAttachment }) => (
-  <article>
+  <Wrapper>
     <DemiParagraph data-testid="detail-title">
       {incident.text}
     </DemiParagraph>
@@ -61,7 +66,7 @@ const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowA
 
       <Location incident={incident} onShowLocation={onShowLocation} onEditLocation={onEditLocation} />
 
-      <Attachments attachments={attachments} onShowAttachment={onShowAttachment} />
+      {attachments && <Attachments attachments={attachments} onShowAttachment={onShowAttachment} />}
 
       {incident.extra_properties && <ExtraProperties items={incident.extra_properties} />}
 
@@ -79,12 +84,12 @@ const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowA
         {incident.reporter.phone}
       </dd>
     </DefinitionList>
-  </article>
+  </Wrapper>
 );
 
 Detail.propTypes = {
   incident: incidentType.isRequired,
-  attachments: attachmentsType.isRequired,
+  attachments: attachmentsType,
 
   onShowAttachment: PropTypes.func.isRequired,
   onShowLocation: PropTypes.func.isRequired,
