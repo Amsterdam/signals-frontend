@@ -1,6 +1,6 @@
 // <reference types="Cypress" />
 
-describe('Standaardteksten', () => {
+describe('Open standaardteksten', () => {
   beforeEach(() => {
     cy.server();
     cy.getManageSignalsRoutes();
@@ -20,7 +20,7 @@ describe('Standaardteksten', () => {
     cy.wait('@getUserInfo');
   });
 
-  it('Open standaardteksten', () => {
+  it('Should open standaardteksten', () => {
     cy.openMenu();
     cy.contains('Standaard teksten').click();
     cy.wait('@getAsbestAccu');
@@ -29,7 +29,7 @@ describe('Standaardteksten', () => {
     cy.url().should('include', '/manage/standaard/teksten');
 
     // Check on h1
-    cy.checkHeader('Beheer standaard teksten');
+    cy.checkHeaderText('Beheer standaard teksten');
 
     // Dropdown subcategories
     cy.get('[data-testid=category_url]').select('Geluid op het water');

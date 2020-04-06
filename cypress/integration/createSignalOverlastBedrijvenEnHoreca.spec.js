@@ -7,28 +7,28 @@ describe('Create signal bedrijven en horeca', () =>{
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAdressRoute('1012AN 5A');
+    cy.getAddressRoute('1012AN 5A');
   
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
   });
 
-  it('Search for adress', () => {
+  it('Should search for an address', () => {
     // Check h1
-    cy.checkHeader('Beschrijf uw melding');
+    cy.checkHeaderText('Beschrijf uw melding');
 
-    // Search adress
-    createSignal.searchAdress('1012AN 5A');
-    cy.wait('@getAdress');
+    // Search address
+    createSignal.searchAddress('1012AN 5A');
+    cy.wait('@getAddress');
 
     // Select found item  
-    createSignal.selectAdress('Zeedijk 5A, 1012AN Amsterdam'); 
+    createSignal.selectAddress('Zeedijk 5A, 1012AN Amsterdam'); 
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
   });
 
-  it('Fill in description and date', () => {
+  it('Should enter description and date', () => {
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:bedrijvenHoreca.json').as('prediction');
     
@@ -41,12 +41,12 @@ describe('Create signal bedrijven en horeca', () =>{
     cy.clickButton('Volgende');
   });
 
-  it('Fill in specific information', () => {
+  it('Should enter specific information', () => {
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
     // Check h1
-    cy.checkHeader('Dit hebben we nog van u nodig');
+    cy.checkHeaderText('Dit hebben we nog van u nodig');
     cy.contains('Ik heb ontzettende overlast van cafe het 11e gebod, dronken mensen staan buiten te schreeuwen');
 
     cy.get(BEDRIJVEN_HORECA.radioButtonHoreca).click();
@@ -65,32 +65,35 @@ describe('Create signal bedrijven en horeca', () =>{
     cy.clickButton('Volgende');
   });
 
-  it('Fill in phonenumber', () => {
+  it('Should enter a phonenumber', () => {
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
     // Check h1
-    cy.checkHeader('Mogen we u bellen voor vragen?');
+    cy.checkHeaderText('Mogen we u bellen voor vragen?');
 
     cy.clickButton('Volgende');
   });
 
-  it('Fill in e-mailadres', () => {
+  it('Should enter an email address', () => {
     // Check URL
     cy.url().should('include', '/incident/email');
 
     // Check h1
-    cy.checkHeader('Wilt u op de hoogte blijven?');
+    cy.checkHeaderText('Wilt u op de hoogte blijven?');
     
     cy.clickButton('Volgende');
   });
 
-  it('Check overview', () => {
+  it('Should show an overview', () => {
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
     // Check h1
-    cy.checkHeader('Controleer uw gegevens');
+    cy.checkHeaderText('Controleer uw gegevens');
+
+    // Check if map is visible
+    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
 
     // Check information provided by user
     cy.contains('Zeedijk 5A, 1012AN Amsterdam').should('be.visible');
@@ -108,12 +111,12 @@ describe('Create signal bedrijven en horeca', () =>{
     cy.clickButton('Verstuur');
   });
 
-  it('Last screen', () => {
+  it('Should show the last screen', () => {
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
     // Check h1
-    cy.checkHeader('Bedankt!');
+    cy.checkHeaderText('Bedankt!');
     
     // TODO capture signal id
   });

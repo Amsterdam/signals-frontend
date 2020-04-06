@@ -7,28 +7,28 @@ describe('Create signal boten',() => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAdressRoute('1096AC 7');
+    cy.getAddressRoute('1096AC 7');
   
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
   });
 
-  it('Search for adress', () => {
+  it('Should search for an address', () => {
     // Check h1
-    cy.checkHeader('Beschrijf uw melding');
+    cy.checkHeaderText('Beschrijf uw melding');
 
-    // Search adress
-    createSignal.searchAdress('1096AC 7');
-    cy.wait('@getAdress');
+    // Search address
+    createSignal.searchAddress('1096AC 7');
+    cy.wait('@getAddress');
 
     // Select found item  
-    createSignal.selectAdress('Korte Ouderkerkerdijk 7, 1096AC Amsterdam');
+    createSignal.selectAddress('Korte Ouderkerkerdijk 7, 1096AC Amsterdam');
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
   });
 
-  it('Fill in description and date', () => {
+  it('Should enter description and date', () => {
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:water.json').as('prediction');
   
@@ -41,12 +41,12 @@ describe('Create signal boten',() => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in specific information', () => {
+  it('Should enter specific information', () => {
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
     // Check h1
-    cy.checkHeader('Dit hebben we nog van u nodig');
+    cy.checkHeaderText('Dit hebben we nog van u nodig');
     cy.contains('Een grote boot vaart al de hele dag hard door het water.');
 
     // Select rondvaartboot company and name
@@ -60,37 +60,40 @@ describe('Create signal boten',() => {
   });
 
 
-  it('Fill in phonenumber', () => {
+  it('Should enter a phonenumber', () => {
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
     // Check h1
-    cy.checkHeader('Mogen we u bellen voor vragen?');
+    cy.checkHeaderText('Mogen we u bellen voor vragen?');
     
     // Click on next
     cy.clickButton('Volgende');
   });
 
-  it('Fill in e-mailadres', () => {
+  it('Should enter an email address', () => {
     // Check URL
     cy.url().should('include', '/incident/email');
 
     // Check h1
-    cy.checkHeader('Wilt u op de hoogte blijven?');
+    cy.checkHeaderText('Wilt u op de hoogte blijven?');
 
-    // Fill emailadress
+    // Fill emailaddress
     cy.get(CREATE_SIGNAL.inputEmail).type('siafakemail@fake.nl');
     
     // Click on next
     cy.clickButton('Volgende');
   });
   
-  it('Check overview', () => {
+  it('Should show an overview', () => {
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
     // Check h1
-    cy.checkHeader('Controleer uw gegevens');
+    cy.checkHeaderText('Controleer uw gegevens');
+
+    // Check if map is visible
+    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
 
     // Check information provided by user
     cy.contains('Korte Ouderkerkerdijk 7, 1096AC Amsterdam').should('be.visible');
@@ -102,12 +105,12 @@ describe('Create signal boten',() => {
     cy.clickButton('Verstuur');
   });
 
-  it('Last screen', () => {
+  it('Should show the last screen', () => {
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
     // Check h1
-    cy.checkHeader('Bedankt!');
+    cy.checkHeaderText('Bedankt!');
    
     // TODO capture signal id
   });

@@ -1,18 +1,18 @@
 // General functionns for creating a signal
-export const searchAdress = adress => {
+export const searchAddress = address => {
   cy.get('#nlmaps-geocoder-control-input')
-    .type(adress, { delay: 60 });
+    .type(address, { delay: 60 });
 };
 
-export const selectAdress = adress => {
+export const selectAddress = address => {
   cy.get('#nlmaps-geocoder-control-results')
     .should('be.visible')
-    .and('contain.text', adress)
+    .and('contain.text', address)
     .click();
 };
 
 export const inputDescription = description => {
-  cy.get('[placeholder="Beschrijf uw melding"]')
+  cy.get('textarea')
     .clear()
     .invoke('val', description)
     .trigger('input');

@@ -4,10 +4,11 @@ export const CREATE_SIGNAL = {
   dropdownDag: '#incident_date-select-day',
   dropdownUur: '#incident_date-select-time-hours',
   dropdownMinuten: '#incident_date-select-time-minutes',
-  imageAdressMarker: 'div[class="leaflet-pane leaflet-marker-pane"]',
+  imageAddressMarker: 'div[class="leaflet-pane leaflet-marker-pane"]',
   inputPhoneNumber: '[type=tel]',
   inputEmail: '[type=email]',
   imageFileUpload: '.preview-image__item-value-image',
+  mapContainer: '.leaflet-container',
   radioButtonTijdstipNu: '#datetime-Nu1',
   radioButtonTijdstipEerder: '#datetime-Eerder1',
 };

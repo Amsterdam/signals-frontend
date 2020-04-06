@@ -7,28 +7,28 @@ describe('Overlast door door groep jongeren',() => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAdressRoute('1018CN 28-H');
+    cy.getAddressRoute('1018CN 28-H');
 
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
   });
 
-  it('Search for adress', () => {
+  it('Should search for an address', () => {
     // Check h1
-    cy.checkHeader('Beschrijf uw melding');
+    cy.checkHeaderText('Beschrijf uw melding');
 
-    // Search adress
-    createSignal.searchAdress('1018CN 28-H');
-    cy.wait('@getAdress');
+    // Search address
+    createSignal.searchAddress('1018CN 28-H');
+    cy.wait('@getAddress');
 
     // Select found item  
-    createSignal.selectAdress('Plantage Doklaan 28-H, 1018CN Amsterdam');
+    createSignal.selectAddress('Plantage Doklaan 28-H, 1018CN Amsterdam');
     cy.wait('@lookup')
       .wait('@location')
       .wait('@geoSearchLocation');
   });
 
-  it('Fill in description and date', () => {
+  it('Should enter description and date', () => {
     cy.server();
     cy.route('POST', '**/signals/category/prediction', 'fixture:jongeren.json').as('prediction');
 
@@ -41,12 +41,12 @@ describe('Overlast door door groep jongeren',() => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in specific information', () => {
+  it('Should enter specific information', () => {
     // Check URL
     cy.url().should('include', '/incident/vulaan');
 
     // Check h1
-    cy.checkHeader('Dit hebben we nog van u nodig');
+    cy.checkHeaderText('Dit hebben we nog van u nodig');
     cy.contains('De laatste paar weken staat er in de avond een grote groep jongeren voor mijn deur te blowen. Dit zorgt voor veel overlast.').should('be.visible');
 
     // Check specific information
@@ -76,12 +76,12 @@ describe('Overlast door door groep jongeren',() => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in phonenumber', () => {
+  it('Should enter a phonenumber', () => {
     // Check URL
     cy.url().should('include', '/incident/telefoon');
 
     // Check h1
-    cy.checkHeader('Mogen we u bellen voor vragen?');
+    cy.checkHeaderText('Mogen we u bellen voor vragen?');
 
     // Fill phonenumber
     cy.get(CREATE_SIGNAL.inputPhoneNumber).type('06-12345678');
@@ -90,23 +90,26 @@ describe('Overlast door door groep jongeren',() => {
     cy.clickButton('Volgende');
   });
 
-  it('Fill in e-mailadres', () => {
+  it('Should enter an email address', () => {
     // Check URL
     cy.url().should('include', '/incident/email');
 
     // Check h1
-    cy.checkHeader('Wilt u op de hoogte blijven?');
+    cy.checkHeaderText('Wilt u op de hoogte blijven?');
 
     // Click on next
     cy.clickButton('Volgende');
   });
 
-  it('Check overview', () => {
+  it('Should show an overview', () => {
     // Check URL
     cy.url().should('include', '/incident/samenvatting');
 
     // Check h1
-    cy.checkHeader('Controleer uw gegevens');
+    cy.checkHeaderText('Controleer uw gegevens');
+  
+    // Check if map is visible
+    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
 
     // Check information provided by user
     cy.contains('Plantage Doklaan 28-H, 1018CN Amsterdam').should('be.visible');
@@ -116,17 +119,17 @@ describe('Overlast door door groep jongeren',() => {
     cy.contains('Bijna iedere dag').should('be.visible');
 
     // Check marker on map
-    cy.get(CREATE_SIGNAL.imageAdressMarker).find("img").should('be.visible');
+    cy.get(CREATE_SIGNAL.imageAddressMarker).find("img").should('be.visible');
 
     cy.clickButton('Verstuur');
   });
 
-  it('Last screen', () => {
+  it('Should show the last screen', () => {
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
     // Check h1
-    cy.checkHeader('Bedankt!');
+    cy.checkHeaderText('Bedankt!');
 
     // TODO capture signal id
   });
