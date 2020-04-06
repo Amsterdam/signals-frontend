@@ -18,7 +18,6 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY internals /app/internals
 COPY .gitignore \
-      .npmrc \
       .gitattributes \
       .eslintrc.js \
       .prettierrc \
@@ -38,6 +37,7 @@ COPY package.json \
 RUN npm --production=false \
       --unsafe-perm \
       --no-progress \
+      --registry=https://nexus.data.amsterdam.nl/repository/npm-group/ \
       ci && \
       npm cache clean --force
 
