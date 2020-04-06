@@ -1,25 +1,28 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 import { Row, Column } from '@datapunt/asc-ui';
 
+import routes from 'signals/settings/routes';
 import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import BackLink from 'components/BackLink';
-import FormAlert from 'components/FormAlert';
+import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions';
+import {
+  VARIANT_SUCCESS,
+  TYPE_LOCAL,
+} from 'containers/Notification/constants';
 import {
   makeSelectUserCan,
 } from 'containers/App/selectors';
 
-import makeSelectRolesModel from 'models/roles/selectors';
-import { patchRole, saveRole } from 'models/roles/actions';
-import { ROLES_URL } from 'signals/settings/routes';
+import rolesModelSelector from 'models/roles/selectors';
+import { patchRole, saveRole, resetResponse } from 'models/roles/actions';
 
 import RoleForm from './components/RoleForm';
-
 
 export const RoleFormContainer = ({
   roles: {
@@ -32,36 +35,52 @@ export const RoleFormContainer = ({
   },
   onPatchRole,
   onSaveRole,
+  showGlobalNotification,
+  onResetResponse,
   userCan,
 }) => {
   const { roleId } = useParams();
+  const location = useLocation();
+  const history = useHistory();
   const role = list.find(item => item.id === roleId * 1);
+  const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`;
+  const redirectURL = location.referrer || routes.roles;
+
+  useEffect(() => {
+    let message;
+
+    if (responseSuccess) {
+      message = roleId ? 'Gegevens opgeslagen' : 'Rol toegevoegd';
+    };
+    onResetResponse();
+
+    if (!message) return;
+
+    showGlobalNotification({
+      variant: VARIANT_SUCCESS,
+      title: message,
+      type: TYPE_LOCAL,
+    });
+
+    if (responseSuccess) {
+      history.push(redirectURL);
+    }
+  }, [
+    history,
+    onResetResponse,
+    redirectURL,
+    responseError,
+    responseSuccess,
+    roleId,
+    showGlobalNotification,
+  ]);
 
   return (
     <Fragment>
       <PageHeader
-        title="Rol instellingen"
-        BackLink={
-          <BackLink to={ROLES_URL}>
-            Terug naar overzicht
-          </BackLink>
-        }
+        title={title}
+        BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
       />
-      <Row>
-        <Column span={12}>
-          {responseSuccess &&
-            <FormAlert
-              data-testid="roleFormSuccess"
-              isNotification
-              title="Gegevens opgeslagen"
-            />}
-          {responseError &&
-            <FormAlert
-              data-testid="roleFormError"
-              title="Er is iets mis gegaan bij het opslaan"
-            />}
-        </Column>
-      </Row>
       <Row>
         <Column span={12}>
           {loading || loadingPermissions ?
@@ -109,17 +128,21 @@ RoleFormContainer.propTypes = {
     responseSuccess: PropTypes.bool,
     responseError: PropTypes.bool,
   }),
+  showGlobalNotification: PropTypes.func.isRequired,
   onPatchRole: PropTypes.func.isRequired,
   onSaveRole: PropTypes.func.isRequired,
+  onResetResponse: PropTypes.func.isRequired,
   userCan: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  roles: makeSelectRolesModel,
+  roles: rolesModelSelector,
   userCan: makeSelectUserCan,
 });
 
-export const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators({
+  showGlobalNotification: showGlobalNotificationAction,
+  onResetResponse: resetResponse,
   onPatchRole: patchRole,
   onSaveRole: saveRole,
 }, dispatch);

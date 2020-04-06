@@ -7,8 +7,6 @@ import {
   LOGIN_FAILED,
   LOGOUT,
   LOGOUT_FAILED,
-  REQUEST_CATEGORIES,
-  REQUEST_CATEGORIES_SUCCESS,
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
@@ -52,15 +50,6 @@ export const doLogin = domain => ({
 export const doLogout = () => ({
   type: LOGOUT,
   payload: null,
-});
-
-export const requestCategories = () => ({
-  type: REQUEST_CATEGORIES,
-});
-
-export const requestCategoriesSuccess = categories => ({
-  type: REQUEST_CATEGORIES_SUCCESS,
-  payload: categories,
 });
 
 export const uploadRequest = ({ file, id }) => ({

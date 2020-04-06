@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 
-import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
-import priorityList from 'signals/incident-management/definitions/priorityList';
+import { stadsdeelList, priorityList, typesList } from 'signals/incident-management/definitions';
 import statusList, {
   changeStatusOptionList,
   defaultTextsOptionList,
@@ -54,6 +53,7 @@ export const initialState = fromJS({
     [PATCH_TYPE_LOCATION]: false,
   },
   split: false,
+  typesList,
 });
 
 function incidentModelReducer(state = initialState, action) {

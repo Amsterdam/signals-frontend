@@ -12,7 +12,6 @@ import {
   dataListType,
   defaultTextsType,
   attachmentsType,
-  categoriesType,
   historyType,
 } from 'shared/types';
 
@@ -20,8 +19,8 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import {
   makeSelectLoading,
   makeSelectError,
-  makeSelectCategories,
 } from 'containers/App/selectors';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 import {
   requestIncident,
   patchIncident,
@@ -33,12 +32,12 @@ import {
 import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
+import History from 'components/History';
 
 import './style.scss';
 
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
-import History from './components/History';
 import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
@@ -142,25 +141,26 @@ export class IncidentDetail extends React.Component {
       match: {
         params: { id },
       },
-      categories,
+      subCategories,
       onPatchIncident,
       onDismissError,
       onDismissSplitNotification,
     } = this.props;
     const { list } = this.props.historyModel;
     const {
-      incident,
       attachments,
+      changeStatusOptionList,
+      defaultTexts,
+      defaultTextsOptionList,
+      error,
+      incident,
       loading,
       patching,
-      error,
+      priorityList,
       split,
       stadsdeelList,
-      priorityList,
-      changeStatusOptionList,
-      defaultTextsOptionList,
       statusList,
-      defaultTexts,
+      typesList,
     } = this.props.incidentModel;
     const { previewState, attachmentHref } = this.state;
 
@@ -267,11 +267,12 @@ export class IncidentDetail extends React.Component {
                   </DetailContainer>
 
                   <DetailContainer span={4} push={1}>
-                    {incident && (
+                    {incident && subCategories && (
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}
-                        subcategories={categories.sub}
+                        typesList={typesList}
+                        subcategories={subCategories}
                         onPatchIncident={onPatchIncident}
                         onEditStatus={this.onEditStatus}
                       />
@@ -308,6 +309,7 @@ IncidentDetail.propTypes = {
     split: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     stadsdeelList: dataListType,
     priorityList: dataListType,
+    typesList: dataListType,
     changeStatusOptionList: dataListType,
     defaultTextsOptionList: dataListType,
     statusList: dataListType,
@@ -316,7 +318,7 @@ IncidentDetail.propTypes = {
   historyModel: PropTypes.shape({
     list: historyType.isRequired,
   }).isRequired,
-  categories: categoriesType.isRequired,
+  subCategories: dataListType,
 
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -338,8 +340,8 @@ const mapStateToProps = () =>
   createStructuredSelector({
     loading: makeSelectLoading(),
     error: makeSelectError(),
-    incidentModel: makeSelectIncidentModel(),
-    categories: makeSelectCategories(),
+    incidentModel: makeSelectIncidentModel,
+    subCategories: makeSelectSubCategories,
     historyModel: makeSelectHistoryModel(),
   });
 

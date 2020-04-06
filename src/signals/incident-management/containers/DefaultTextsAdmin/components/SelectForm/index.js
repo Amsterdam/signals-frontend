@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import { dataListType } from 'shared/types';
+import { reCategory } from 'shared/services/resolveClassification';
 
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import SelectInput from '../../../../components/SelectInput';
@@ -17,7 +18,6 @@ const form = FormBuilder.group({
   sub_slug: ['asbest-accu'],
   main_slug: ['afval'],
 });
-let subs = [];
 
 const SelectForm = ({
   subCategories,
@@ -38,12 +38,21 @@ const SelectForm = ({
 
   useEffect(() => {
     form.controls.category_url.valueChanges.subscribe(category_url => {
-      const found = subs.find(sub => sub.key === category_url);
+      const found = subCategories.find(
+        sub =>
+          sub._links &&
+          sub._links.self &&
+          sub._links.self.public &&
+          sub._links.self.public === category_url
+      );
+
       /* istanbul ignore else */
-      if (found && found.slug && found.category_slug) {
+      if (found) {
+        const [, main_slug, sub_slug] = found._links.self.public.match(reCategory);
+
         form.patchValue({
-          sub_slug: found.slug,
-          main_slug: found.category_slug,
+          sub_slug,
+          main_slug,
         });
 
         handleChange({ category_url });
@@ -61,10 +70,10 @@ const SelectForm = ({
       form.controls.category_url.valueChanges.unsubscribe();
       form.controls.state.valueChanges.unsubscribe();
     };
-  }, [handleChange]);
+  }, [handleChange, subCategories]);
 
   useEffect(() => {
-    subs = subCategories;
+    // subs = subCategories;
     form.updateValueAndValidity();
   }, [subCategories]);
 

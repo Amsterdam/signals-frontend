@@ -43,7 +43,7 @@ describe('<ExtraProperties />', () => {
         id: 'lampen',
         label: 'Welke lampen?',
         category_url: '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
-        answer: [126543, 87654],
+        answer: ['126543', '87654'],
       },
     ],
   };

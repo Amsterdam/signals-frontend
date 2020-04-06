@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FormGenerator } from 'react-reactive-form';
-import defer from 'lodash.defer';
 import isEqual from 'lodash.isequal';
 
 import ktoDefinition from 'signals/incident/definitions/kto';
@@ -25,41 +24,40 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
     this.ktoForm = ktoDefinition;
   }
 
-  UNSAFE_componentWillReceiveProps(props) {
-    if (!isEqual(props.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
-      if (props.ktoContainer.form.is_satisfied && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
+      if (this.props.ktoContainer.form.is_satisfied && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
         this.ktoForm.controls.tevreden.meta.values = {
-          ...props.ktoContainer.answers,
+          ...this.props.ktoContainer.answers,
           ...andersOption,
         };
       }
 
-      if (!props.ktoContainer.form.is_satisfied && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
+      if (!this.props.ktoContainer.form.is_satisfied && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
         this.ktoForm.controls.niet_tevreden.meta.values = {
-          ...props.ktoContainer.answers,
+          ...this.props.ktoContainer.answers,
           ...andersOption,
         };
       }
     }
 
-    this.setValues(props.ktoContainer.form);
+    this.setValues(this.props.ktoContainer.form);
   }
 
   setValues(incident) {
-    defer(() => {
-      Object.keys(this.form.controls).map(key => {
-        const control = this.form.controls[key];
-        if (control.meta.isVisible) {
-          control.enable();
-        } else {
-          control.disable();
-        }
-        if (!control.meta.doNotUpdateValue) {
-          control.setValue(incident[key]);
-        }
-        return true;
-      });
+    Object.keys(this.form.controls).forEach(key => {
+      const control = this.form.controls[key];
+      if (control.meta.isVisible) {
+        control.enable();
+      } else {
+        control.disable();
+      }
+      if (!isEqual(incident[key], control.value)) {
+        control.setValue(incident[key]);
+      }
     });
+
+    this.form.updateValueAndValidity();
   }
 
   setForm = form => {

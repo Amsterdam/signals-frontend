@@ -14,32 +14,29 @@ const FieldControlContainer = styled.div`
   break-inside: avoid;
 `;
 
-export class FieldControlWrapper extends React.Component {
-  static formatValues(props) {
-    if (props.values.find(value => value.key === '')) {
-      return props.values;
-    }
-    const sortedValues = props.sort
-      ? sortBy(props.values, item => item.value)
-      : props.values;
-
-    return props.emptyOptionText
-      ? [{ key: '', value: props.emptyOptionText, slug: '' }, ...sortedValues]
-      : sortedValues;
+const formatValues = props => {
+  if (props.values?.find(value => value.key === '')) {
+    return props.values;
   }
 
+  return props.sort
+    ? sortBy(props.values, item => item.value || item.name)
+    : props.values;
+};
+
+class FieldControlWrapper extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      values: FieldControlWrapper.formatValues(props),
+      values: formatValues(props),
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (!isEqual(props.values, state.values)) {
       return {
-        values: FieldControlWrapper.formatValues(props),
+        values: formatValues(props),
       };
     }
 

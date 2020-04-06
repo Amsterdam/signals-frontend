@@ -7,18 +7,15 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 import { push } from 'connected-react-router/immutable';
-import request from 'utils/request';
 
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import mapCategories from 'shared/services/map-categories';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 
 import {
   LOGOUT,
   LOGIN,
   AUTHENTICATE_USER,
-  REQUEST_CATEGORIES,
   UPLOAD_REQUEST,
 } from './constants';
 import {
@@ -26,7 +23,6 @@ import {
   logoutFailed,
   showGlobalNotification,
   authorizeUser,
-  requestCategoriesSuccess,
   uploadProgress,
   uploadSuccess,
   uploadFailure,
@@ -61,8 +57,9 @@ export function* callLogout() {
         )
         .close();
     }
+
     yield call(logout);
-    yield put(push('/'));
+    yield put(push('/login'));
   } catch (error) {
     yield put(logoutFailed(error.message));
     yield put(
@@ -107,26 +104,6 @@ export function* callAuthorize(action) {
   }
 }
 
-export function* fetchCategories() {
-  try {
-    const categories = yield call(request, CONFIGURATION.CATEGORIES_ENDPOINT, {
-      headers: { Accept: 'application/json' },
-    });
-
-    yield put(requestCategoriesSuccess(mapCategories(categories)));
-  } catch (err) {
-    yield put(
-      showGlobalNotification({
-        variant: VARIANT_ERROR,
-        title: 'Inladen van categorieën is niet gelukt',
-        message:
-          'Het kan zijn dat de API tijdelijk niet beschikbaar is. Herlaad de pagina',
-        type: TYPE_GLOBAL,
-      })
-    );
-  }
-}
-
 export function* uploadFileWrapper(action) {
   yield call(uploadFile, action);
 }
@@ -165,7 +142,6 @@ export default function* watchAppSaga() {
     takeLatest(LOGIN, callLogin),
     takeLatest(LOGOUT, callLogout),
     takeLatest(AUTHENTICATE_USER, callAuthorize),
-    takeLatest(REQUEST_CATEGORIES, fetchCategories),
     takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
   ]);
 }

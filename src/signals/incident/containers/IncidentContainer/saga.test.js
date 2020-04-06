@@ -1,257 +1,310 @@
-import { select, takeLatest } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-react-router/immutable';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import request from 'utils/request';
+import incidentJSON from 'utils/__tests__/fixtures/incident.json';
+import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json';
+
+import configuration from 'shared/services/configuration/configuration';
+import resolveClassification from 'shared/services/resolveClassification';
+import * as auth from 'shared/services/auth/auth';
 import { authPostCall, postCall } from 'shared/services/api/api';
-import categories from 'utils/__tests__/fixtures/categories.json';
-import incident from 'utils/__tests__/fixtures/incident.json';
-import priority from 'utils/__tests__/fixtures/priority.json';
-import { showGlobalNotification } from 'containers/App/actions';
-import { UPLOAD_REQUEST } from 'containers/App/constants';
-import { VARIANT_ERROR } from 'containers/Notification/constants';
+
+import { uploadFile } from 'containers/App/saga';
+
 import mapControlsToParams from '../../services/map-controls-to-params';
 
-import {
-  GET_CLASSIFICATION_SUCCESS,
-  GET_CLASSIFICATION_ERROR,
-  CREATE_INCIDENT,
-  GET_CLASSIFICATION,
-  SET_PRIORITY,
-} from './constants';
+import * as constants from './constants';
 import watchIncidentContainerSaga, {
-  retryFetchClassification,
   getClassification,
   createIncident,
-  setPriorityHandler,
+  postIncident as postIncidentSaga,
+  getPostData,
 } from './saga';
-import {
-  createIncidentSuccess,
-  createIncidentError,
-  setPriority,
-  setPriorityError,
-  setPrioritySuccess,
-} from './actions';
-import { makeSelectCategories } from '../../../../containers/App/selectors';
+import { createIncidentSuccess, createIncidentError } from './actions';
+
+jest.mock('shared/services/auth/auth', () => ({
+  __esModule: true,
+  ...jest.requireActual('shared/services/auth/auth'),
+}));
+
+// POST incident API response
+const incident = JSON.stringify(incidentJSON);
+
+// POST incident request body
+const postIncident = JSON.stringify(postIncidentJSON);
+
+const category = 'afval';
+const subcategory = 'veeg-zwerfvuil';
+
+const predictionResponse = {
+  hoofdrubriek: [
+    [`https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/${category}`],
+    [0.810301985712628],
+  ],
+  subrubriek: [
+    [`https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/${subcategory}`],
+    [0.5757328735244648],
+  ],
+};
+
+const wizard = {
+  label: 'foo bar',
+  form: {
+    controls: {},
+  },
+};
+
+const payloadIncident = {
+  text: 'Foo Baz',
+  priority: {
+    id: 'low',
+  },
+  type: {
+    id: 'SIG',
+  },
+  category,
+  subcategory,
+};
+
+const action = {
+  type: 'CREATE_INCIDENT',
+  payload: {
+    incident: payloadIncident,
+    wizard,
+  },
+};
+
+const sub_category = predictionResponse.subrubriek[0][0];
+const handling_message = 'zork';
+const categoryResponse = {
+  handling_message,
+  _links: {
+    self: { href: sub_category },
+  },
+};
 
 describe('IncidentContainer saga', () => {
-  const predictionResponse = {
-    hoofdrubriek: [
-      [
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
-      ],
-      [0.810301985712628],
-    ],
-    subrubriek: [
-      [
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/veeg-zwerfvuil',
-      ],
-      [0.5757328735244648],
-    ],
-  };
   it('should watchAppSaga', () => {
     testSaga(watchIncidentContainerSaga)
       .next()
       .all([
-        takeLatest(GET_CLASSIFICATION, getClassification),
-        takeLatest(CREATE_INCIDENT, createIncident),
-        takeLatest(SET_PRIORITY, setPriorityHandler),
+        takeLatest(constants.GET_CLASSIFICATION, getClassification),
+        takeLatest(constants.CREATE_INCIDENT, createIncident),
       ]);
-  });
-
-  describe('retryFetchClassification', () => {
-    it('should return API response', () => {
-      const text = 'Foo bar bazzzz';
-
-      return expectSaga(retryFetchClassification, text, 100)
-        .provide([[matchers.call.fn(postCall), predictionResponse]])
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .silentRun(250);
-    });
-
-    it('should retry', async () => {
-      global.console.error = jest.fn();
-      const text = 'Foo bar bazzzz';
-      const error = new Error('whoops!!!1!');
-
-      await expectSaga(retryFetchClassification, text, 100)
-        .provide([
-          [matchers.call.fn(postCall), throwError(error)],
-          [matchers.call.fn(postCall), predictionResponse],
-        ])
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .delay(100)
-        .silentRun(150);
-
-      global.console.error.mockRestore();
-    });
-
-    it('should throw', async () => {
-      const text = 'Bar qux bazzzz';
-      const error = new Error('Uhoh!!!1!');
-
-      await expectSaga(retryFetchClassification, text, 100)
-        .provide([
-          [matchers.call.fn(postCall), throwError(error)],
-          [matchers.call.fn(postCall), throwError(error)],
-          [matchers.call.fn(postCall), predictionResponse],
-        ])
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .delay(100)
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .delay(100)
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text })
-        .delay(100)
-        .throws('API request failed')
-        .silentRun(350);
-    });
   });
 
   describe('getClassification', () => {
     const payload = 'Grof vuil op straat';
-    const action = { payload };
 
     it('should dispatch success', () =>
-      expectSaga(getClassification, action)
-        .provide([
-          [select(makeSelectCategories), categories],
-          [matchers.call.fn(postCall), predictionResponse],
-        ])
-        .call(retryFetchClassification, payload)
-        .put.like({ action: { type: GET_CLASSIFICATION_SUCCESS } })
+      expectSaga(getClassification, { payload })
+        .provide([[matchers.call.fn(postCall), predictionResponse]])
+        .call(resolveClassification, predictionResponse)
+        .put.like({ action: { type: constants.GET_CLASSIFICATION_SUCCESS } })
         .run());
 
-    it('should dispatch error', () =>
-      expectSaga(getClassification, action)
+    it('should dispatch error', () => {
+      const errorResponse = { foo: 'bar' };
+
+      return expectSaga(getClassification, { payload })
         .provide([
-          [select(makeSelectCategories), categories],
+          [matchers.call.fn(resolveClassification), errorResponse],
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
         ])
-        .call(retryFetchClassification, payload)
-        .call(postCall, CONFIGURATION.PREDICTION_ENDPOINT, { text: payload })
-        .put.like({ action: { type: GET_CLASSIFICATION_ERROR } })
-        .silentRun(3250)); // make sure it runs long enough for the postCall generator to throw
+        .call(postCall, configuration.PREDICTION_ENDPOINT, { text: payload })
+        .call(resolveClassification)
+        .put({ type: constants.GET_CLASSIFICATION_ERROR, payload: errorResponse })
+        .run();
+    });
+  });
+
+  describe('postIncident', () => {
+    it('should perform postCall', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+      return expectSaga(postIncidentSaga, postIncident)
+        .provide([[matchers.call.fn(postCall), incident]])
+        .call(postCall, configuration.INCIDENT_PUBLIC_ENDPOINT, postIncident)
+        .returns(incident)
+        .run();
+    });
+
+    it('should perform authPostCall', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
+      return expectSaga(postIncidentSaga, postIncident)
+        .provide([[matchers.call.fn(authPostCall), incident]])
+        .call(authPostCall, configuration.INCIDENT_PRIVATE_ENDPOINT, postIncident)
+        .returns(incident)
+        .run();
+    });
+  });
+
+  describe('getPostData', () => {
+    it('returns data that is valid', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+      const description = 'description';
+      const datetime = 'datetime';
+
+      const invalidPostData = { ...payloadIncident, description, datetime };
+      const invalidAction = { ...action, payload: { ...action.payload, incident: invalidPostData } };
+
+      const postData = {
+        text: payloadIncident.text,
+        handling_message,
+        category: {
+          sub_category,
+        },
+      };
+
+      const mapControlsToParamsResponse = {
+        text: payloadIncident.text,
+        category: payloadIncident.category,
+        subcategory: payloadIncident.subcategory,
+      };
+
+      return expectSaga(getPostData, invalidAction)
+        .provide([
+          [matchers.call.fn(request), categoryResponse],
+          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
+        ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
+        .call(mapControlsToParams, invalidAction.payload.incident, invalidAction.payload.wizard)
+        .returns(postData)
+        .run(false);
+    });
+
+    it('returns data for unauthenticated users', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+      const mapControlsToParamsResponse = {
+        text: payloadIncident.text,
+        category: payloadIncident.category,
+        subcategory: payloadIncident.subcategory,
+      };
+
+      const postData = {
+        text: payloadIncident.text,
+        handling_message,
+        category: {
+          sub_category,
+        },
+      };
+
+      return expectSaga(getPostData, action)
+        .provide([
+          [matchers.call.fn(request), categoryResponse],
+          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
+        ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
+        .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
+        .returns(postData)
+        .run();
+    });
+
+    it('returns data for authenticated users', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
+      const mapControlsToParamsResponse = {
+        text: payloadIncident.text,
+        priority: payloadIncident.priority.id,
+        category: payloadIncident.category,
+        subcategory: payloadIncident.subcategory,
+      };
+
+      const postData = {
+        text: payloadIncident.text,
+        category: {
+          sub_category,
+        },
+        handling_message,
+        priority: {
+          priority: payloadIncident.priority.id,
+        },
+        type: {
+          code: payloadIncident.type.id,
+        },
+      };
+
+      return expectSaga(getPostData, action)
+        .provide([
+          [matchers.call.fn(request), categoryResponse],
+          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
+        ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
+        .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
+        .returns(postData)
+        .run();
+    });
   });
 
   describe('createIncident', () => {
-    const payload = {
-      incident: {},
-      wizard: {},
+    const postData = {
+      text: payloadIncident.text,
+      category: {
+        sub_category,
+      },
+      subcategory: payloadIncident.subcategory,
     };
 
-    it('should dispatch success', () => {
-      const action = { payload };
+    it('should POST incident', () =>
+      expectSaga(createIncident, action)
+        .provide([
+          [matchers.call.fn(getPostData), { handling_message, ...postData }],
+          [matchers.call.fn(postIncidentSaga), incident],
+        ])
+        .call(getPostData, action)
+        .call(postIncidentSaga, postData)
+        .put(createIncidentSuccess({ handling_message, ...incident }))
+        .run());
 
-      return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
-        .call.like({ fn: postCall })
-        .put(createIncidentSuccess(incident))
-        .run();
-    });
+    it('should dispatch error', () =>
+      expectSaga(createIncident, action)
+        .provide([
+          [matchers.call.fn(getPostData), { handling_message, ...postData }],
+          [matchers.call.fn(postIncidentSaga), throwError(new Error('whoops!!!1!'))],
+        ])
+        .call(getPostData, action)
+        .put(createIncidentError())
+        .put(replace('/incident/fout'))
+        .run());
 
-    it('should success with file upload', () => {
-      const action = {
-        payload: {
-          ...payload,
-          incident: {
-            images: [{ name: 'some-file' }, { name: 'some-other-file' }],
-          },
-          wizard: {},
-        },
+    it('should run blocking file upload calls', () => {
+      const actionWithFiles = {
+        ...action,
       };
 
-      return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
-        .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(action.payload.incident, action.payload.wizard)
-        )
-        .put.like({ action: { type: UPLOAD_REQUEST } })
-        .put.like({ action: { type: UPLOAD_REQUEST } })
-        .put(createIncidentSuccess(incident))
-        .run();
-    });
-
-    it('should success when logged in and setting normal priority', () => {
-      const priorityId = 'normal';
-      const action = {
-        payload: {
-          ...payload,
-          isAuthenticated: true,
-          incident: { priority: { id: priorityId } },
-          wizard: {},
-        },
+      const image1 = {
+        name: 'foobarbaz.jpg',
+        lastModified: 1579597089586,
+        size: 4718960,
+        type: 'image/jpeg',
       };
 
-      return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
-        .call(
-          postCall,
-          CONFIGURATION.INCIDENT_ENDPOINT,
-          mapControlsToParams(action.payload.incident, action.payload.wizard)
-        )
-        .not.put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incident))
-        .run();
-    });
-
-    it('should success when logged in and setting high priority', () => {
-      const priorityId = 'high';
-      const action = {
-        payload: {
-          ...payload,
-          isAuthenticated: true,
-          incident: { priority: { id: priorityId } },
-        },
+      const image2 = {
+        name: 'omgwtfbbq.jpg',
+        lastModified: 1579597057799,
+        size: 2886977,
+        type: 'image/jpeg',
       };
 
-      return expectSaga(createIncident, action)
-        .provide([[matchers.call.fn(postCall), incident]])
-        .call.like({ fn: postCall })
-        .put(setPriority({ priority: priorityId, _signal: incident.id }))
-        .put(createIncidentSuccess(incident))
-        .run();
-    });
-
-    it('should dispatch error', () => {
-      const action = { payload };
+      actionWithFiles.payload.incident.images = [image1, image2];
 
       return expectSaga(createIncident, action)
         .provide([
-          [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
+          [matchers.call.fn(getPostData), { handling_message, ...postData }],
+          [matchers.call.fn(postIncidentSaga), incident],
         ])
-        .call.like({ fn: postCall })
-        .put(createIncidentError())
-        .put(replace('/incident/fout'))
+        .call(getPostData, action)
+        .call(postIncidentSaga, postData)
+        .call(uploadFile, { payload: { file: image1, id: incident.signal_id } })
+        .call(uploadFile, { payload: { file: image2, id: incident.signal_id } })
         .run();
     });
   });
-});
-
-describe('setPriorityHandler', () => {
-  const payload = { priority: { id: 'normal', label: 'Normaal' } };
-  const action = { payload };
-
-  it('should dispatch success', () =>
-    expectSaga(setPriorityHandler, action)
-      .provide([[matchers.call.fn(authPostCall), priority]])
-      .call(authPostCall, CONFIGURATION.PRIORITY_ENDPOINT, payload)
-      .put(setPrioritySuccess(priority))
-      .run());
-
-  it('should dispatch error', () =>
-    expectSaga(setPriorityHandler, action)
-      .provide([
-        [
-          matchers.call.fn(authPostCall),
-          throwError(new Error('Nope. Not possible')),
-        ],
-      ])
-      .call(authPostCall, CONFIGURATION.PRIORITY_ENDPOINT, payload)
-      .put(setPriorityError())
-      .put(showGlobalNotification({ variant: VARIANT_ERROR, title: 'Het zetten van de urgentie van deze melding is niet gelukt' }))
-      .run());
 });

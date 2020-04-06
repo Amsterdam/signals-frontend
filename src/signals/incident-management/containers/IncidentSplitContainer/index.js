@@ -8,18 +8,12 @@ import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
 import { goBack } from 'connected-react-router/immutable';
 import styled from 'styled-components';
 
-import { makeSelectCategories } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { requestIncident, requestAttachments } from 'models/incident/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
-import {
-  categoriesType,
-  incidentType,
-  attachmentsType,
-  dataListType,
-} from 'shared/types';
+import { incidentType, attachmentsType } from 'shared/types';
 
 import { splitIncident } from './actions';
 
@@ -40,14 +34,7 @@ const StyledWrapper = styled.div`
 `;
 
 export const IncidentSplitContainer = ({
-  incidentModel: {
-    incident,
-    attachments,
-    loading,
-    stadsdeelList,
-    priorityList,
-  },
-  categories,
+  incidentModel: { incident, attachments, loading },
   onRequestIncident,
   onRequestAttachments,
   onSplitIncident,
@@ -75,14 +62,12 @@ export const IncidentSplitContainer = ({
               <SplitForm
                 incident={incident}
                 attachments={attachments}
-                subcategories={categories.sub}
-                priorityList={priorityList}
                 onHandleSubmit={onSplitIncident}
                 onHandleCancel={onGoBack}
               />
             </Column>
             <Column span={4} push={1}>
-              <SplitDetail incident={incident} stadsdeelList={stadsdeelList} />
+              <SplitDetail incident={incident} />
             </Column>
           </Fragment>
         )}
@@ -96,13 +81,10 @@ IncidentSplitContainer.defaultProps = {
 };
 
 IncidentSplitContainer.propTypes = {
-  categories: categoriesType,
   incidentModel: PropTypes.shape({
     incident: incidentType,
     attachments: attachmentsType,
     loading: PropTypes.bool,
-    stadsdeelList: dataListType,
-    priorityList: dataListType,
   }),
   onRequestIncident: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
@@ -111,8 +93,7 @@ IncidentSplitContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  incidentModel: makeSelectIncidentModel(),
-  categories: makeSelectCategories(),
+  incidentModel: makeSelectIncidentModel,
 });
 
 export const mapDispatchToProps = dispatch =>
@@ -131,8 +112,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentSplitContainer', reducer });
 const withSaga = injectSaga({ key: 'incidentSplitContainer', saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect
-)(IncidentSplitContainer);
+export default compose(withReducer, withSaga, withConnect)(IncidentSplitContainer);

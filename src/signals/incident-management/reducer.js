@@ -5,6 +5,7 @@ import stadsdeel from './definitions/stadsdeelList';
 import status from './definitions/statusList';
 import feedback from './definitions/feedbackList';
 import source from './definitions/sourceList';
+import contact_details from './definitions/contactDetailsList';
 
 import {
   APPLY_FILTER,
@@ -33,12 +34,16 @@ export const initialState = fromJS({
   activeFilter: {
     // filter settings for the list of incidents
     name: '',
-    options: {},
+    options: {
+      priority: [],
+    },
   },
   editFilter: {
     // settings selected for editing
     name: '',
-    options: {},
+    options: {
+      priority: [],
+    },
   },
   feedback,
   filters: [],
@@ -54,6 +59,7 @@ export const initialState = fromJS({
   source,
   stadsdeel,
   status,
+  contact_details,
 });
 
 export default (state = initialState, action) => {
@@ -149,11 +155,13 @@ export default (state = initialState, action) => {
         .set('activeFilter', initialState.get('activeFilter'))
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
+        .set('loading', true)
         .set('page', initialState.get('page'))
         .set('searchQuery', action.payload);
 
     case RESET_SEARCH_QUERY:
       return state
+        .set('loading', true)
         .set('ordering', initialState.get('ordering'))
         .set('page', initialState.get('page'))
         .set('searchQuery', initialState.get('searchQuery'));

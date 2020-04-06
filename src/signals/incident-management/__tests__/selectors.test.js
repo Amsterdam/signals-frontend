@@ -1,6 +1,10 @@
 import { fromJS } from 'immutable';
 import * as definitions from 'signals/incident-management/definitions';
 import {
+  mainCategories as maincategory_slug,
+  subCategories as category_slug,
+} from 'utils/__tests__/fixtures';
+import {
   makeSelectFilterParams,
   makeSelectDataLists,
   makeSelectAllFilters,
@@ -14,6 +18,15 @@ import {
 import { FILTER_PAGE_SIZE } from '../constants';
 
 import { initialState } from '../reducer';
+
+const dataLists = {
+  priority: definitions.priorityList,
+  status: definitions.statusList,
+  feedback: definitions.feedbackList,
+  stadsdeel: definitions.stadsdeelList,
+  source: definitions.sourceList,
+  contact_details: definitions.contactDetailsList,
+};
 
 const filters = [
   {
@@ -56,21 +69,24 @@ const filters = [
 
 describe('signals/incident-management/selectors', () => {
   it('should select data lists', () => {
-    const dataLists = makeSelectDataLists();
-    expect(dataLists).toEqual({
+    expect(makeSelectDataLists()).toEqual({
       priority: definitions.priorityList,
       stadsdeel: definitions.stadsdeelList,
       status: definitions.statusList,
       feedback: definitions.feedbackList,
       source: definitions.sourceList,
+      contact_details: definitions.contactDetailsList,
     });
   });
 
   it('should select all filters', () => {
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), filters },
-    });
-    const allFilters = makeSelectAllFilters(state);
+    const state = fromJS({ ...initialState.toJS(), filters });
+    const allFilters = makeSelectAllFilters.resultFunc(
+      state,
+      dataLists,
+      maincategory_slug,
+      category_slug
+    );
 
     expect(allFilters.length).toEqual(filters.length);
     expect(allFilters[0].options.maincategory_slug).not.toEqual(
@@ -79,29 +95,47 @@ describe('signals/incident-management/selectors', () => {
   });
 
   it('should select active filter', () => {
-    const emptState = fromJS({
-      incidentManagement: { ...initialState.toJS() },
-    });
-    expect(makeSelectActiveFilter(emptState)).toEqual(initialState.toJS().activeFilter);
+    expect(
+      makeSelectActiveFilter.resultFunc(
+        initialState,
+        dataLists,
+        maincategory_slug,
+        category_slug
+      )
+    ).toEqual(initialState.toJS().activeFilter);
 
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), activeFilter: filters[0] },
-    });
+    const state = fromJS({ ...initialState.toJS(), activeFilter: filters[0] });
 
-    expect(makeSelectActiveFilter(state).id).toEqual(filters[0].id);
+    expect(
+      makeSelectActiveFilter.resultFunc(
+        state,
+        dataLists,
+        maincategory_slug,
+        category_slug
+      ).id
+    ).toEqual(filters[0].id);
   });
 
   it('should select edit filter', () => {
-    const emptState = fromJS({
-      incidentManagement: { ...initialState.toJS() },
-    });
-    expect(makeSelectEditFilter(emptState)).toEqual(initialState.toJS().editFilter);
+    expect(
+      makeSelectEditFilter.resultFunc(
+        initialState,
+        dataLists,
+        maincategory_slug,
+        category_slug
+      )
+    ).toEqual(initialState.toJS().editFilter);
 
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), editFilter: filters[2] },
-    });
+    const state = fromJS({ ...initialState.toJS(), editFilter: filters[2] });
 
-    expect(makeSelectEditFilter(state).id).toEqual(filters[2].id);
+    expect(
+      makeSelectEditFilter.resultFunc(
+        state,
+        dataLists,
+        maincategory_slug,
+        category_slug
+      ).id
+    ).toEqual(filters[2].id);
   });
 
   it('should select page', () => {
@@ -175,6 +209,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: '-created_at',
         page: 1,
         page_size: FILTER_PAGE_SIZE,
+        priority: [],
       });
 
       const state = fromJS({
@@ -198,6 +233,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: '-created_at',
         page: 1,
         page_size: FILTER_PAGE_SIZE,
+        priority: [],
       });
 
       const state2 = fromJS({
@@ -208,6 +244,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: 'created_at',
         page: 1,
         page_size: FILTER_PAGE_SIZE,
+        priority: [],
       });
     });
   });

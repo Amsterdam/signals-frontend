@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import {
-  Input as Field,
   Label as FieldLabel,
   styles,
   themeColor,
@@ -10,8 +9,21 @@ import {
   themeSpacing,
 } from '@datapunt/asc-ui';
 
-const StyledInput = styled(Field)`
-  ${styles.Input}
+const Hint = styled(Typography).attrs({
+  $as: 'span',
+})`
+  color: ${themeColor('tint', 'level5')};
+  display: block;
+  margin-bottom: ${themeSpacing(2)};
+  font-size: 16px;
+  line-height: 22px;
+`;
+
+const StyledInput = styled.input`
+  ${styles.InputStyle.componentStyle.rules}
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 22px;
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};
@@ -23,16 +35,6 @@ const StyledInput = styled(Field)`
       border: 2px solid ${themeColor('secondary')};
     }
   `}
-`;
-
-const Hint = styled(Typography).attrs({
-  $as: 'span',
-})`
-  color: ${themeColor('tint', 'level5')};
-  display: block;
-  margin-bottom: ${themeSpacing(2)};
-  font-size: 16px;
-  line-height: 22px;
 `;
 
 const Error = styled(Typography).attrs({
@@ -61,14 +63,14 @@ const Wrapper = styled.div`
   `}
 `;
 
-const Input = ({ className, hint, label, id, error, ...rest }) => (
+const Input = forwardRef(({ className, hint, label, id, error, ...rest }, ref) => (
   <Wrapper className={className} showError={Boolean(error)}>
     {label && <Label hasHint={Boolean(hint)} htmlFor={id} label={label} />}
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
-    <StyledInput id={id} showError={Boolean(error)} {...rest} />
+    <StyledInput id={id} showError={Boolean(error)} ref={ref} {...rest} />
   </Wrapper>
-);
+));
 
 Input.defaultProps = {
   className: '',

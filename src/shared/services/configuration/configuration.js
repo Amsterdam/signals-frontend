@@ -108,8 +108,12 @@ export class Configuration {
     return `${this.API_ROOT}signals/category/prediction`;
   }
 
-  get INCIDENT_ENDPOINT() {
-    return `${this.API_ROOT}signals/signal/`;
+  get INCIDENT_PUBLIC_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/public/signals/`;
+  }
+
+  get INCIDENT_PRIVATE_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/signals/`;
   }
 
   get INCIDENTS_ENDPOINT() {
@@ -130,6 +134,10 @@ export class Configuration {
 
   get AUTH_ME_ENDPOINT() {
     return `${this.API_ROOT}signals/v1/private/me/`;
+  }
+
+  get CATEGORIES_PRIVATE_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/categories/`;
   }
 
   get CATEGORIES_ENDPOINT() {

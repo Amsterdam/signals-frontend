@@ -286,11 +286,6 @@ describe('The auth service', () => {
         'accessToken'
       );
     });
-
-    it('Reloads the app', () => {
-      logout();
-      expect(global.location.reload).toHaveBeenCalledWith();
-    });
   });
 
   describe('Retrieving the return path', () => {

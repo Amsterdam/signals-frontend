@@ -1,27 +1,26 @@
 import some from 'lodash.some';
 import { Validators } from 'react-reactive-form';
-import { sourceList } from 'signals/incident-management/definitions';
+import { sourceList, priorityList, typesList } from 'signals/incident-management/definitions';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/check-visibility';
 import getStepControls from '../services/get-step-controls';
 
-const sourceValuesObj = {
-  '': 'Vul bron in',
-};
-sourceList.forEach(({ key, value }) => {
-  sourceValuesObj[key] = value;
-});
+const sourceValuesObj = sourceList.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), { '': 'Vul bron in' });
+const priorityValuesList = priorityList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
+const typesValuesList = typesList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
 
 export default {
   label: 'Beschrijf uw melding',
-  getNextStep: (wizard, incident, isAuthenticated) => {
-    if (!some(getStepControls(wizard.vulaan, incident), control => {
-      if (control.meta && !control.meta.ignoreVisibility) {
-        return checkVisibility(control, incident, isAuthenticated);
-      }
-      return false;
-    })) {
+  getNextStep: (wizard, incident) => {
+    if (
+      !some(getStepControls(wizard.vulaan, incident), control => {
+        if (control.meta && !control.meta.ignoreVisibility) {
+          return checkVisibility(control, incident);
+        }
+        return false;
+      })
+    ) {
       return 'incident/telefoon';
     }
     return false;
@@ -61,19 +60,16 @@ export default {
           path: 'text',
           placeholder: 'Beschrijf uw melding',
           maxLength: 1000,
-          doNotUpdateValue: true,
         },
         options: {
-          validators: [
-            Validators.required,
-            Validators.maxLength(1000),
-          ],
+          validators: [Validators.required, Validators.maxLength(1000)],
         },
         render: FormComponents.DescriptionWithClassificationInput,
       },
       category: {
         meta: {
           label: 'Categorie',
+          path: 'category',
           type: 'text',
         },
         options: {
@@ -84,19 +80,8 @@ export default {
       subcategory: {
         meta: {
           label: 'Subcategorie',
+          path: 'subcategory',
           type: 'text',
-        },
-        options: {
-          validators: [Validators.required],
-        },
-        render: FormComponents.HiddenInput,
-      },
-      subcategory_link: {
-        meta: {
-          label: 'Subcategorie',
-          path: 'category.sub_category',
-          type: 'text',
-          validateAsyncProp: 'incidentContainer.loadingClassification',
         },
         options: {
           validators: [Validators.required],
@@ -145,16 +130,23 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Wat is de urgentie?',
           path: 'priority',
-          values: {
-            normal: 'Normaal',
-            high: 'Hoog',
-          },
+          values: priorityValuesList,
         },
         options: {
           validators: [Validators.required],
         },
         authenticated: true,
-        render: FormComponents.SelectInput,
+        render: FormComponents.RadioInput,
+      },
+      type: {
+        meta: {
+          className: 'col-sm-12 col-md-6',
+          label: 'Type',
+          path: 'type',
+          values: typesValuesList,
+        },
+        authenticated: true,
+        render: FormComponents.RadioInput,
       },
       images_previews: {
         meta: {
@@ -170,10 +162,10 @@ export default {
       },
       images: {
         meta: {
-          label: 'Foto\'s toevoegen',
+          label: "Foto's toevoegen",
           subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
-          minFileSize: 30 * 2**10, // 30 KiB.
-          maxFileSize: 8 * 2**20, // 8 MiB.
+          minFileSize: 30 * 2 ** 10, // 30 KiB.
+          maxFileSize: 8 * 2 ** 20, // 8 MiB.
           allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
           maxNumberOfFiles: 3,
         },

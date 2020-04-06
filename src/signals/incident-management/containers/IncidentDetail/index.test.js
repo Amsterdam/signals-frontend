@@ -1,22 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import {
-  REQUEST_INCIDENT,
-  PATCH_INCIDENT,
-  REQUEST_ATTACHMENTS,
-  REQUEST_DEFAULT_TEXTS,
-  DISMISS_SPLIT_NOTIFICATION,
-  DISMISS_ERROR,
-} from 'models/incident/constants';
-import { REQUEST_HISTORY_LIST } from 'models/history/constants';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
+import categories from 'utils/__tests__/fixtures/categories_structured.json';
+import incidentJSON from 'utils/__tests__/fixtures/incident.json';
 
-import { IncidentDetail, mapDispatchToProps } from './index';
+import History from 'components/History';
+import { IncidentDetail } from '.';
 
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
-import History from './components/History';
 import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
@@ -29,6 +22,9 @@ import statusList, {
 } from '../../definitions/statusList';
 import stadsdeelList from '../../definitions/stadsdeelList';
 import priorityList from '../../definitions/priorityList';
+import typesList from '../../definitions/typesList';
+
+const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub);
 
 describe('<IncidentDetail />', () => {
   let wrapper;
@@ -44,100 +40,7 @@ describe('<IncidentDetail />', () => {
       patching: {},
       defaultTexts: [],
       error: false,
-      incident: {
-        reporter: {
-          email: '',
-          phone: '',
-        },
-        notes: [],
-        extra_properties: null,
-        _display: '3254 - i - A06j - 2019-09-25 14:35:58.843458+00:00',
-        priority: {
-          priority: 'high',
-          created_by: 'steve@apple.com',
-        },
-        created_at: '2019-09-25T16:35:58.843458+02:00',
-        has_attachments: true,
-        text: 'poep',
-        status: {
-          text: 'In behandeling via HNW app',
-          user: 'rob@apptimize.nl',
-          state: 'i',
-          state_display: 'In afwachting van behandeling',
-          target_api: null,
-          extra_properties: null,
-          created_at: '2019-09-26T11:10:04.118517+02:00',
-        },
-        location: {
-          extra_properties: {
-            original_address: {
-              postcode: '',
-              huisletter: 'D',
-              huisnummer: '342',
-              woonplaats: 'Amsterdam',
-              openbare_ruimte: 'Marnixstraat',
-              huisnummer_toevoeging: '',
-            },
-          },
-          geometrie: {
-            type: 'Point',
-            coordinates: [4.879088401794434, 52.3670312505349],
-          },
-          buurt_code: 'A06j',
-          created_by: 'steve@apple.com',
-          address: {
-            postcode: '',
-            huisletter: 'D',
-            huisnummer: 342,
-            woonplaats: 'Amsterdam',
-            openbare_ruimte: 'Marnixstraat',
-            huisnummer_toevoeging: '',
-          },
-          stadsdeel: 'A',
-          bag_validated: true,
-          address_text: 'Marnixstraat 342D Amsterdam',
-          id: 3566,
-        },
-        incident_date_end: null,
-        updated_at: '2019-09-26T11:10:04.119863+02:00',
-        _links: {
-          curies: {
-            name: 'sia',
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/relations',
-          },
-          self: {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254',
-          },
-          archives: {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/history',
-          },
-          'sia:attachments': {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments',
-          },
-          'sia:pdf': {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/pdf',
-          },
-        },
-        source: 'Meldkamer Handhaver',
-        id: 3254,
-        category: {
-          sub: 'Uitwerpselen',
-          sub_slug: 'hondenpoep',
-          main: 'Overlast in de openbare ruimte',
-          main_slug: 'overlast-in-de-openbare-ruimte',
-          category_url:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
-          departments: 'STW, THO',
-          created_by: null,
-          text: null,
-        },
-        incident_date_start: '2019-09-25T16:35:58+02:00',
-        text_extra: '',
-      },
+      incident: incidentJSON,
 
       attachments: [
         {
@@ -171,6 +74,8 @@ describe('<IncidentDetail />', () => {
       priorityList,
       changeStatusOptionList,
       statusList,
+      defaultTextsOptionList: statusList,
+      typesList,
     },
     historyModel: {
       list: [
@@ -203,19 +108,7 @@ describe('<IncidentDetail />', () => {
         },
       ],
     },
-    categories: {
-      sub: [
-        {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
-          value: 'Uitwerpselen',
-          slug: 'hondenpoep',
-          category_slug: 'overlast-in-de-openbare-ruimte',
-          handling_message:
-            '\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
-        },
-      ],
-    },
+    subCategories,
     onRequestIncident: jest.fn(),
     onPatchIncident: jest.fn(),
     onRequestHistoryList: jest.fn(),
@@ -400,64 +293,6 @@ describe('<IncidentDetail />', () => {
       });
 
       expect(props.onRequestDefaultTexts).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
-
-    it('onRequestIncident', () => {
-      mapDispatchToProps(dispatch).onRequestIncident(42);
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_INCIDENT,
-        payload: 42,
-      });
-    });
-
-    it('onPatchIncident', () => {
-      mapDispatchToProps(dispatch).onPatchIncident({ patch: 'foo' });
-      expect(dispatch).toHaveBeenCalledWith({
-        type: PATCH_INCIDENT,
-        payload: { patch: 'foo' },
-      });
-    });
-
-    it('onRequestHistoryList', () => {
-      mapDispatchToProps(dispatch).onRequestHistoryList(42);
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_HISTORY_LIST,
-        payload: 42,
-      });
-    });
-
-    it('onRequestAttachments', () => {
-      mapDispatchToProps(dispatch).onRequestAttachments(42);
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_ATTACHMENTS,
-        payload: 42,
-      });
-    });
-
-    it('onRequestDefaultTexts', () => {
-      mapDispatchToProps(dispatch).onRequestDefaultTexts({
-        main_slug: 'afval',
-        sub_slug: 'overige',
-      });
-      expect(dispatch).toHaveBeenCalledWith({
-        type: REQUEST_DEFAULT_TEXTS,
-        payload: { main_slug: 'afval', sub_slug: 'overige' },
-      });
-    });
-
-    it('onDismissSplitNotification', () => {
-      mapDispatchToProps(dispatch).onDismissSplitNotification();
-      expect(dispatch).toHaveBeenCalledWith({
-        type: DISMISS_SPLIT_NOTIFICATION,
-      });
-    });
-    it('onDismissError', () => {
-      mapDispatchToProps(dispatch).onDismissError();
-      expect(dispatch).toHaveBeenCalledWith({ type: DISMISS_ERROR });
     });
   });
 });

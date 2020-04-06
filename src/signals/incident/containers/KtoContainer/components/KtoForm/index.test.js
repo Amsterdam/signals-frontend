@@ -1,63 +1,15 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
+import { withAppContext } from 'test/utils';
+
+import ktoContainerMock from 'utils/__tests__/fixtures/kto.json';
+import ktoMock from '../../../../definitions/kto';
+
 
 import KtoForm, { andersOptionText } from './index';
-import formatConditionalForm from '../../../../services/format-conditional-form';
 
-jest.mock('../../../../services/format-conditional-form/');
 
-const mockForm = {
-  controls: {
-    tevreden: {
-      meta: {
-        isVisible: true,
-        label: 'Waarom bent u tevreden?',
-        values: {},
-      },
-    },
-    tevreden_anders: {
-      meta: {
-        isVisible: false,
-      },
-    },
-    niet_tevreden: {
-      meta: {
-        isVisible: true,
-        label: 'Waarom bent u ontevreden?',
-        values: {},
-      },
-    },
-    niet_tevreden_anders: {
-      meta: {
-        isVisible: false,
-      },
-    },
-    text_extra: {
-      meta: {
-        isVisible: true,
-        label: 'Wilt u verder nog iets vermelden of toelichten?',
-      },
-    },
-    allows_contact: {
-      meta: {
-        isVisible: true,
-        label: 'Mogen wij conact met u opnemen naar aanleiding vanuw feedback?',
-      },
-    },
-    is_satisfied: {
-      meta: {
-        isVisible: true,
-        label: 'Is tevreden?',
-      },
-    },
-    not_update: {
-      meta: {
-        isVisible: true,
-        doNotUpdateValue: true,
-      },
-    },
-  },
-};
 
 describe('<KtoForm />', () => {
   let props;
@@ -78,9 +30,6 @@ describe('<KtoForm />', () => {
       onStoreKto: jest.fn(),
     };
 
-    formatConditionalForm.mockImplementation(() => mockForm);
-    jest.useFakeTimers();
-
     wrapper = mount(
       <KtoForm {...props} />
     );
@@ -90,38 +39,59 @@ describe('<KtoForm />', () => {
     spy = jest.spyOn(instance, 'setValues');
   });
 
-  afterEach(() => {
-    jest.runAllTimers();
-    jest.resetAllMocks();
-  });
-
   describe('rendering', () => {
     it('expect to render YES form correctly', () => {
-      wrapper.setProps({
-        ktoContainer: {
-          form: {
-            yesNo: 'ja',
-          },
-          answers: {
-            'Antwoord JA': 'Antwoord JA',
-          },
-        },
-      });
-      expect(wrapper).toMatchSnapshot();
+      const { queryByText, rerender } = render(
+        withAppContext(
+          <KtoForm {...props} />,
+        ),
+      );
+
+      expect(queryByText(ktoMock.controls.tevreden.meta.label)).not.toBeInTheDocument();
+      expect(queryByText('Antwoord Ja')).not.toBeInTheDocument();
+      expect(queryByText(ktoMock.controls.text_extra.meta.label)).toBeInTheDocument();
+      expect(queryByText('Verstuur')).toBeInTheDocument();
+
+      const yesProps = {
+        ...props,
+        ...ktoContainerMock.yes,
+      };
+
+      rerender(
+        withAppContext(
+          <KtoForm {...yesProps} />,
+        ),
+      );
+
+      expect(queryByText(ktoMock.controls.tevreden.meta.label)).toBeInTheDocument();
+      expect(queryByText('Antwoord JA')).toBeInTheDocument();
     });
 
     it('expect to render NO form correctly', () => {
-      wrapper.setProps({
-        ktoContainer: {
-          form: {
-            yesNo: 'nee',
-          },
-          answers: {
-            'Antwoord NEE': 'Antwoord NEE',
-          },
-        },
-      });
-      expect(wrapper).toMatchSnapshot();
+      const { queryByText, rerender } = render(
+        withAppContext(
+          <KtoForm {...props} />,
+        ),
+      );
+
+      expect(queryByText(ktoMock.controls.niet_tevreden.meta.label)).not.toBeInTheDocument();
+      expect(queryByText('Antwoord NEE')).not.toBeInTheDocument();
+      expect(queryByText(ktoMock.controls.text_extra.meta.label)).toBeInTheDocument();
+      expect(queryByText('Verstuur')).toBeInTheDocument();
+
+      const noProps = {
+        ...props,
+        ...ktoContainerMock.no,
+      };
+
+      rerender(
+        withAppContext(
+          <KtoForm {...noProps} />,
+        ),
+      );
+
+      expect(queryByText(ktoMock.controls.niet_tevreden.meta.label)).toBeInTheDocument();
+      expect(queryByText('Antwoord NEE')).toBeInTheDocument();
     });
   });
 
@@ -179,7 +149,7 @@ describe('<KtoForm />', () => {
           label: andersOptionText,
         },
         niet_tevreden_anders: 'Meer over die melding',
-        text_extra: '',
+        text_extra: 'Zoveel te vertellen',
         is_satisfied: false,
       };
       instance.form.patchValue(form);
@@ -195,7 +165,7 @@ describe('<KtoForm />', () => {
         uuid: 'abc-42',
         form: {
           text: 'Meer over die melding',
-          text_extra: '',
+          text_extra: 'Zoveel te vertellen',
           allows_contact: false,
           is_satisfied: false,
         },

@@ -1,14 +1,8 @@
-/**
-*
-* IncidentForm
-*
-*/
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGenerator } from 'react-reactive-form';
-import defer from 'lodash.defer';
 import get from 'lodash.get';
+import isEqual from 'lodash.isequal';
 
 import formatConditionalForm from '../../services/format-conditional-form';
 
@@ -52,12 +46,10 @@ class IncidentForm extends React.Component {
     this.form.meta.incident = this.props.incidentContainer.incident;
     this.form.meta.submitting = this.state.submitting;
     if (this.state.loading !== prevState.loading && !this.state.loading && this.state.next) {
-      defer(() => {
-        if (this.form.valid) {
-          this.setIncident(this.state.formAction);
-          this.state.next();
-        }
-      });
+      if (this.form.valid) {
+        this.setIncident(this.state.formAction);
+        this.state.next();
+      }
     }
   }
 
@@ -68,7 +60,6 @@ class IncidentForm extends React.Component {
       wizard: this.props.wizard,
       incidentContainer: this.props.incidentContainer,
       submitting: this.state.submitting,
-      isAuthenticated: this.props.isAuthenticated,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
@@ -82,24 +73,24 @@ class IncidentForm extends React.Component {
       next: null,
     });
 
-    this.setValues(this.props.incidentContainer.incident, true);
+    this.setValues(this.props.incidentContainer.incident);
   }
 
-  setValues(incident, setAllValues) {
-    defer(() => {
-      Object.keys(this.form.controls).map(key => {
-        const control = this.form.controls[key];
+  setValues(incident) {
+    Object.keys(this.form.controls).forEach(key => {
+      const control = this.form.controls[key];
+      if ((control.disabled && control.meta.isVisible) || (control.enabled && !control.meta.isVisible)) {
         if (control.meta.isVisible) {
           control.enable();
         } else {
           control.disable();
         }
-        if (!control.meta.doNotUpdateValue || setAllValues) {
-          control.setValue(incident[key]);
-        }
-        return true;
-      });
+      }
+      if (!isEqual(incident[key], control.value)) {
+        control.setValue(incident[key]);
+      }
     });
+    this.form.updateValueAndValidity();
   }
 
   setIncident(formAction) {
@@ -112,7 +103,6 @@ class IncidentForm extends React.Component {
         this.props.createIncident({
           incident: this.props.incidentContainer.incident,
           wizard: this.props.wizard,
-          isAuthenticated: this.props.isAuthenticated,
         });
     }
   }
@@ -143,11 +133,11 @@ class IncidentForm extends React.Component {
 
   render() {
     return (
-      <div className="incident-form">
+      <div className="incident-form" data-testid="incidentForm">
         <form onSubmit={this.handleSubmit}>
           <FormGenerator
             onMount={this.setForm}
-            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident, this.props.isAuthenticated)}
+            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}
           />
         </form>
       </div>
@@ -170,7 +160,6 @@ IncidentForm.propTypes = {
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   postponeSubmitWhenLoading: PropTypes.string,
-  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default IncidentForm;

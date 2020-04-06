@@ -13,6 +13,7 @@ import {
   MenuItem,
   MenuToggle,
   themeColor,
+  themeSpacing,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -23,28 +24,31 @@ export const breakpoint = 1170;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
+    font-weight: 400;
     text-decoration: none;
   }
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
-      & {
-        max-width: 960px;
-        h1 {
-          margin-left: -20px;
-        }
-        h1 a {
-          &,
-          span {
-            width: 153px;
-          }
-        }
-        h1 a span {
-          background-image: url(${svg.LogoShort}) !important;
+
+  ${({ isFrontOffice, tall }) => isFrontOffice && tall && css`
+    & {
+      max-width: 960px;
+      h1 {
+        margin-left: ${themeSpacing(-5)};
+        font-weight: 400;
+      }
+
+      h1 a {
+        &,
+        span {
+          width: 153px;
         }
       }
-    `}
+
+      h1 a span {
+        background-image: url(${svg.LogoShort}) !important;
+      }
+    }
+  `}
+
   nav {
     width: 100%;
     ul {
@@ -85,29 +89,42 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  ${({ tall }) =>
-    !tall &&
-    css`
-      #header {
-        left: 0;
-        right: 0;
-        position: fixed;
+  position: relative;
+
+  #header {
+    z-index: 2;
+  }
+
+  ${({ tall }) => !tall && css`
+    #header {
+      left: 0;
+      right: 0;
+      position: fixed;
+    }
+  `}
+
+  ${({ isFrontOffice, tall }) => isFrontOffice && tall && css`
+    #header {
+      position: relative;
+
+      header {
+        height: 160px;
+        z-index: 0;
       }
-    `}
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
-      #header {
-        position: static;
+
+      @media screen and (max-width: 539px) {
         header {
-          height: 160px;
+          height: 50px;
         }
-        @media screen and (max-width: 539px) {
-          header {
-            height: 116px;
-          }
+
+        nav {
+          display: none;
         }
+      }
+
+      @media screen and (min-width: 540px) {
+        z-index: 0;
+        box-shadow: none;
         &:after {
           max-width: 1400px;
           margin-left: auto;
@@ -118,43 +135,43 @@ const HeaderWrapper = styled.div`
           left: 0;
           right: 0;
           height: 44px;
-          margin-top: -44px;
+          margin-top: ${themeSpacing(-11)};
           background-color: ${themeColor('tint', 'level2')};
           width: 100%;
         }
-        nav,
-        ul {
+      }
+
+      nav,
+      ul {
+        margin: 0;
+      }
+
+      > header {
+        flex-wrap: wrap;
+      }
+
+      h1 {
+        padding: 15px 0;
+        @media screen and (max-width: 990px) {
           margin: 0;
         }
-        > header {
-          flex-wrap: wrap;
-        }
-        h1 {
-          padding: 15px 0;
-          @media screen and (max-width: 990px) {
-            margin: 0;
+
+        a {
+          height: 68px;
+
+          span {
+            background-repeat: no-repeat;
+            background-size: auto 100%;
           }
-          a {
-            height: 68px;
-            span {
-              background-repeat: no-repeat;
-              background-size: auto 100%;
-            }
-            @media screen and (max-width: 539px) {
-              height: 41px;
-            }
-          }
-        }
-        nav ul {
-          justify-content: space-between;
-          a {
-            font-family: avenir next w01, arial, sans-serif;
-            font-size: 18px;
-            padding-left: 0;
+
+          @media screen and (max-width: 539px) {
+            margin-top: -3px;
+            height: 29px;
           }
         }
       }
-    `}
+    }
+  `}
 `;
 
 const MenuItems = ({ onLogOut, showItems }) => {
@@ -191,7 +208,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
       {showItems.settings &&
         (showItems.users || showItems.groups || showItems.departments) && (
-        <StyledMenuFlyout label="Instellingen">
+        <StyledMenuFlyout label="Instellingen" $as="span">
           {showItems.users && (
             <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
               Gebruikers
@@ -207,6 +224,12 @@ const MenuItems = ({ onLogOut, showItems }) => {
           {showItems.departments && (
             <StyledMenuButton $as={NavLink} to="/instellingen/afdelingen">
               Afdelingen
+            </StyledMenuButton>
+          )}
+
+          {showItems.categories && (
+            <StyledMenuButton $as={NavLink} to="/instellingen/categorieen">
+              Categorieën
             </StyledMenuButton>
           )}
         </StyledMenuFlyout>
@@ -270,7 +293,6 @@ export const SiteHeader = props => {
     <Fragment>
       <HeaderWrapper
         isFrontOffice={isFrontOffice}
-        title={title}
         tall={tall}
         className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
         data-testid="siteHeader"

@@ -10,7 +10,7 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import PageHeader from 'signals/settings/components/PageHeader';
 
 import { makeSelectUserCan } from 'containers/App/selectors';
-import makeSelectRolesModel from 'models/roles/selectors';
+import rolesModelSelector from 'models/roles/selectors';
 import { ROLE_URL } from 'signals/settings/routes';
 
 import RolesList from './components/RolesList';
@@ -41,7 +41,7 @@ export const RolesListContainer = ({
           <RolesList
             list={list}
             linksEnabled={Boolean(
-              userCan('view_group') || userCan('change_group')
+              userCan('change_group')
             )}
           />
         )}
@@ -78,7 +78,7 @@ RolesListContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  roles: makeSelectRolesModel,
+  roles: rolesModelSelector,
   userCan: makeSelectUserCan,
 });
 

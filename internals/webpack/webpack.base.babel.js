@@ -8,12 +8,9 @@ const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = options => ({
   mode: options.mode,
-  entry: [
-    '@babel/polyfill',
-    'formdata-polyfill',
-    'url-polyfill',
-    require.resolve('react-app-polyfill/ie11'),
-  ].concat(options.entry),
+  entry: ['@babel/polyfill', 'formdata-polyfill', 'url-polyfill', require.resolve('react-app-polyfill/ie11')].concat(
+    options.entry
+  ),
   // eslint-disable-next-line prefer-object-spread
   output: Object.assign(
     {
@@ -39,8 +36,7 @@ module.exports = options => ({
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: (resourcePath, context) =>
-                `${path.relative(path.dirname(resourcePath), context)}/`,
+              publicPath: (resourcePath, context) => `${path.relative(path.dirname(resourcePath), context)}/`,
               hmr: process.env.NODE_ENV === 'development',
             },
           },
@@ -114,10 +110,10 @@ module.exports = options => ({
       },
     ],
   },
-  plugins: options.plugins.concat([
+  plugins: [
     new CopyWebpackPlugin([
       {
-        from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets',
+        from: './node_modules/@datapunt/amsterdam-amaps/dist/nlmaps/dist/assets',
         to: './assets',
       },
     ]),
@@ -139,7 +135,9 @@ module.exports = options => ({
     }),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
-  ]).filter(Boolean),
+  ]
+    .concat(options.plugins)
+    .filter(Boolean),
   resolve: {
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js'],
