@@ -94,7 +94,7 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
       fireEvent(thirdItem, enterEvent);
     });
 
-    expect(enterEvent.preventDefault ).not.toHaveBeenCalled();
+    expect(enterEvent.preventDefault).not.toHaveBeenCalled();
 
     const arrowUpEvent = createEvent.keyDown(thirdItem, { key: 'ArrowUp', code: 38, keyCode: 38 });
     arrowUpEvent.preventDefault = jest.fn();

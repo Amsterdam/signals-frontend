@@ -8,7 +8,6 @@ import mapLocation from 'shared/services/map-location';
 import Header from '../Header';
 
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
-
   const value = handler().value || {};
 
   /* istanbul ignore next */
