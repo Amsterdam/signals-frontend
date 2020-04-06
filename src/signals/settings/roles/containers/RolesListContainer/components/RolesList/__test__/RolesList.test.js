@@ -31,19 +31,17 @@ describe('signals/settings/roles/containers/RolesListContainer/components/RolesL
 
     expect(
       container.querySelector('tr:nth-child(1) td:nth-child(1)')
-    ).toHaveTextContent(/^behandelaars$/);
+    ).toHaveTextContent(/^Behandelaar$/);
     expect(
       container.querySelector('tr:nth-child(1) td:nth-child(2)')
-    ).toHaveTextContent(
-      /^Can read from SIA, Can change the status of a signal$/
-    );
+    ).toHaveTextContent(/^Can read from SIA, Can change the status of a signal, Can create new /);
 
     expect(
-      container.querySelector('tr:nth-child(2) td:nth-child(1)')
-    ).toHaveTextContent(/^coordinatoren$/);
+      container.querySelector('tr:nth-child(4) td:nth-child(1)')
+    ).toHaveTextContent(/^Hele beperkte rol$/);
     expect(
-      container.querySelector('tr:nth-child(2) td:nth-child(2)')
-    ).toHaveTextContent(/^$/);
+      container.querySelector('tr:nth-child(4) td:nth-child(2)')
+    ).toHaveTextContent(/^Can create new signals$/);
 
     props.list = [];
     rerender(withAppContext(<RolesList {...props} />));

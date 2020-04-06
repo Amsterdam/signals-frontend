@@ -27,19 +27,13 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   });
 
   it('should render correctly', () => {
-    const { container, queryByTestId } = render(
-      withAppContext(<RoleForm {...props} />)
-    );
+    const { container, queryByTestId } = render(withAppContext(<RoleForm {...props} />));
 
-    expect(queryByTestId('rolesFormFieldName')).toHaveValue('behandelaars');
+    expect(queryByTestId('rolesFormFieldName')).toHaveValue('Behandelaar');
 
-    expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(
-      12
-    );
+    expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(16);
 
-    expect(
-      container.querySelectorAll('input[type="checkbox"]:checked').length
-    ).toBe(2);
+    expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBe(6);
   });
 
   it('should show error in required name field', () => {
@@ -94,7 +88,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
       name: 'behandelaars',
-      permission_ids: [110, 164],
+      permission_ids: [110, 164, 162, 163, 161, 111],
     });
   });
 

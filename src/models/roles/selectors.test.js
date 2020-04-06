@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import rolesModelSelector from './selectors';
+import { rolesModelSelector } from './selectors';
 import { initialState } from './reducer';
 
 

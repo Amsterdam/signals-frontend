@@ -52,12 +52,6 @@ const dataItemType = PropTypes.shape({
   value: PropTypes.string.isRequired,
 });
 
-const linksType = PropTypes.shape({
-  self: PropTypes.shape({
-    href: PropTypes.string.isRequired,
-  }).isRequired,
-}).isRequired;
-
 /**
  * Filter type validation for the data structure that comes from and goes to the API
  */
@@ -118,7 +112,11 @@ export const locationType = PropTypes.shape({
 
 export const incidentType = PropTypes.shape({
   _display: PropTypes.string,
-  _links: linksType,
+  _links: PropTypes.shape({
+    self: PropTypes.shape({
+      href: PropTypes.string.isRequired,
+    }),
+  }),
   category: PropTypes.shape({
     category_url: PropTypes.string.isRequired,
     departments: PropTypes.string,
@@ -238,7 +236,11 @@ export const departmentCategory = PropTypes.shape({
   is_responsible: PropTypes.bool,
   can_view: PropTypes.bool,
   category: PropTypes.shape({
-    _links: linksType,
+    _links: PropTypes.shape({
+      self: PropTypes.shape({
+        href: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
     _display: PropTypes.string.isRequired,
     departments: PropTypes.arrayOf(
       PropTypes.shape({
@@ -262,6 +264,12 @@ export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
   name: PropTypes.string.isRequired,
   codename: PropTypes.string.isRequired,
 }));
+
+const linksType = PropTypes.shape({
+  self: PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }).isRequired,
+}).isRequired;
 
 const userRolePermissionType = PropTypes.arrayOf(PropTypes.shape({
   id: PropTypes.number.isRequired,

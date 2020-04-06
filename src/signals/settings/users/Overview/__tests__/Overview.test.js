@@ -11,7 +11,7 @@ import {
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
-import inputRolesSelectorJSON from 'utils/__tests__/fixtures/inputRolesSelector.json';
+import inputSelectRolesSelectorJSON from 'utils/__tests__/fixtures/inputSelectRolesSelector.json';
 import { USER_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 import * as constants from 'containers/App/constants';
@@ -433,8 +433,8 @@ describe('signals/settings/users/containers/Overview', () => {
       .mockImplementation(() => () => true);
 
     jest
-      .spyOn(rolesSelectors, 'inputRolesSelector')
-      .mockImplementation(() => inputRolesSelectorJSON);
+      .spyOn(rolesSelectors, 'inputSelectRolesSelector')
+      .mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const { getByTestId } = render(usersOverviewWithAppContext());
 
@@ -524,8 +524,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should check if default filter values have been set', async () => {
     jest
-      .spyOn(rolesSelectors, 'inputRolesSelector')
-      .mockImplementation(() => inputRolesSelectorJSON);
+      .spyOn(rolesSelectors, 'inputSelectRolesSelector')
+      .mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const { getByTestId } = render(usersOverviewWithAppContext());
 
@@ -540,8 +540,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should select "Behandelaar" as filter and dispatch a fetch action', async () => {
     jest
-      .spyOn(rolesSelectors, 'inputRolesSelector')
-      .mockImplementation(() => inputRolesSelectorJSON);
+      .spyOn(rolesSelectors, 'inputSelectRolesSelector')
+      .mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const mockedState = { users: { filters: { role: 'Behandelaar' } } };
     const { getByTestId } = render(usersOverviewWithAppContext({}, {}, mockedState));
@@ -590,8 +590,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should select a value in the select filters and dispatch a fetch action', async () => {
     jest
-      .spyOn(rolesSelectors, 'inputRolesSelector')
-      .mockImplementation(() => inputRolesSelectorJSON);
+      .spyOn(rolesSelectors, 'inputSelectRolesSelector')
+      .mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const mockedState = { users: { filters: { is_active: true, role: 'Behandelaar' } } };
 
