@@ -82,6 +82,8 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     return () => {
       document.removeEventListener('keyup', handleKeyUp);
     };
+    // Disabling linter; just needs to execute on mount
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
