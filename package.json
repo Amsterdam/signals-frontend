@@ -25,6 +25,7 @@
     "lint:eslint": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "lint-staged",
+    "lint:fix": "npm run lint:js -- --fix",
     "lint": "npm run lint:js",
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
     "preanalyze": "npm run analyze:clean",
