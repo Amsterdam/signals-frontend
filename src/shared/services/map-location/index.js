@@ -28,7 +28,7 @@ export const wktPointToLocation = wktPoint => {
 /**
  * converts the location from `sia` location format to latlon format
  */
-const mapLocation = loc => {
+export const mapLocation = loc => {
   const value = {};
 
   if (loc.geometrie) {
@@ -69,7 +69,7 @@ export const formatAddress = address => {
   const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
   const display = address.openbare_ruimte
     ? `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`
-    : '_';
+    : '';
   return display;
 };
 
@@ -105,4 +105,3 @@ export const formatPDOKResponse = ({ response }) =>
     };
   });
 
-export default mapLocation;
