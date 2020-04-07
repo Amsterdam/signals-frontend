@@ -2,9 +2,10 @@ import React from 'react';
 import { render, fireEvent, wait, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import JSONResponse from 'components/AutoSuggest/__tests__/mockResponse.json';
+import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
 import PDOKAutoSuggest from '..';
+import { formatPDOKResponse } from '../../../shared/services/map-location';
 
 const mockResponse = JSON.stringify(JSONResponse);
 fetch.mockResponse(mockResponse);
@@ -70,11 +71,8 @@ describe('components/PDOKAutoSuggest', () => {
       fireEvent.click(firstElement);
     });
 
-    const { id, weergavenaam } = JSONResponse.response.docs[0];
+    const response = formatPDOKResponse(JSONResponse);
 
-    expect(onSelect).toHaveBeenCalledWith({
-      id,
-      value: weergavenaam,
-    });
+    expect(onSelect).toHaveBeenCalledWith(response[0]);
   });
 });
