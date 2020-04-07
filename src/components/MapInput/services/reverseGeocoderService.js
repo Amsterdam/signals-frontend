@@ -5,10 +5,10 @@ const flParams = pdokResponseFieldList.join(',');
 export const serviceURL =
     `http://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1&fl=${flParams}`;
 
-function formatRequest(baseUrl, wgs84point, distance = 50) {
+export const  formatRequest = (baseUrl, wgs84point, distance = 50) => {
   const xyRD = wgs84ToRd(wgs84point);
   return `${baseUrl}&X=${xyRD.x}&Y=${xyRD.y}&distance=${distance}`;
-}
+};
 
 const reverseGeocoderService = async location => {
   const wgs84point = {
