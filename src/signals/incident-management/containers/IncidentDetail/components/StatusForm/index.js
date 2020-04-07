@@ -168,7 +168,7 @@ class StatusForm extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <Row>
                 <StyledColumn span={6}>
-                  <StyledH4 $as="h4">Status wijzigen</StyledH4>
+                  <StyledH4 forwardedAs="h4">Status wijzigen</StyledH4>
 
                   <StyledCurrentStatus>
                     <Label htmlFor="currentStatus">Huidige status</Label>

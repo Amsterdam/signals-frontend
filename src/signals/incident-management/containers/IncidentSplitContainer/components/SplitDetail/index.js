@@ -18,7 +18,7 @@ const StyledWrapper = styled.aside`
 `;
 
 const StyledH4 = styled(Heading).attrs({
-  $as: 'h4',
+  forwardedAs: 'h4',
 })`
  font-weight: normal;
  margin-bottom: ${themeSpacing(2)};
