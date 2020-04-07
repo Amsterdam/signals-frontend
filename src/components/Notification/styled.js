@@ -82,7 +82,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled(Heading).attrs({
-  $as: 'h6',
+  forwardedAs: 'h6',
 })`
   color: white;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;

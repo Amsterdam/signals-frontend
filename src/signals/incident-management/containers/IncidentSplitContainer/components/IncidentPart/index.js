@@ -30,7 +30,7 @@ const IncidentPart = ({ index, attachments, splitForm }) => {
 
   return (
     <StyledWrapper>
-      <StyledH2 $as="h2" data-testid="incidentPartTitle">
+      <StyledH2 forwardedAs="h2" data-testid="incidentPartTitle">
         Deelmelding {index}
       </StyledH2>
 

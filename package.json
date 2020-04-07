@@ -59,7 +59,7 @@
     "@datapunt/amsterdam-amaps": "^3.0.2",
     "@datapunt/asc-assets": "^0.18.1",
     "@datapunt/asc-core": "^0.18.1",
-    "@datapunt/asc-ui": "^0.18.2",
+    "@datapunt/asc-ui": "^0.19.0",
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
     "@datapunt/matomo-tracker-js": "0.0.15",
     "@sentry/browser": "^5.15.4",
