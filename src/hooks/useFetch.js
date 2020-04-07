@@ -31,7 +31,7 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const get = async (url, params) => {
+  const get = async (url, params, requestOptions = {}) => {
     setLoading(true);
 
     const queryParams = Object.entries(params || {})
@@ -42,19 +42,26 @@ export default () => {
     const requestURL = [url, queryParams].filter(Boolean).join('?');
 
     try {
-      const response = await fetch(requestURL, {
+      const fetchResponse = await fetch(requestURL, {
         headers: requestHeaders,
         method: 'GET',
         signal,
+        ...requestOptions,
       });
       /* istanbul ignore else */
-      if (response.ok === false) {
-        throw response;
+      if (fetchResponse.ok === false) {
+        throw fetchResponse;
       }
 
-      const JSONResponse = await response.json();
+      let responseData;
 
-      setData(JSONResponse);
+      if (requestOptions.responseType === 'blob') {
+        responseData = await fetchResponse.blob();
+      } else {
+        responseData = await fetchResponse.json();
+      }
+
+      setData(responseData);
     } catch (e) {
       e.message = getErrorMessage(e);
       setError(e);
@@ -63,23 +70,30 @@ export default () => {
     }
   };
 
-  const modify = method => async (url, modifiedData) => {
+  const modify = method => async (url, modifiedData, requestOptions = {}) => {
     setLoading(true);
 
     try {
-      const response = await fetch(url, {
+      const modifyResponse = await fetch(url, {
         headers: requestHeaders,
         method,
         signal,
         body: JSON.stringify(modifiedData),
+        ...requestOptions,
       });
 
       /* istanbul ignore else */
-      if (response.ok === false) {
-        throw response;
+      if (modifyResponse.ok === false) {
+        throw modifyResponse;
       }
 
-      const responseData = await response.json();
+      let responseData;
+
+      if (requestOptions.responseType === 'blob') {
+        responseData = await modifyResponse.blob();
+      } else {
+        responseData = await modifyResponse.json();
+      }
 
       setData(responseData);
       setSuccess(true);

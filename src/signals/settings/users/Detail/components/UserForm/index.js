@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { themeSpacing, Row, Column } from '@datapunt/asc-ui';
@@ -40,12 +40,61 @@ const statusOptions = [
 
 const DEFAULT_STATUS_OPTION = 'true';
 
-const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => {
+const reducer = (state, { field, value }) => ({ ...state, [field]: value });
+
+const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
   const departments = useSelector(makeSelectDepartments);
-  const departmentList = departments.list.map(({ id, name }) => ({ id, value: name }));
+  const departmentList = departments.list.map(({ id, name }) => ({ id: String(id), value: name }));
+
   const userDepartments = data?.profile?.departments
-    .map(department => departmentList.find(({ value }) => value === department))
+    ?.map(department => departmentList.find(({ value }) => value === department))
     .filter(Boolean) || [];
+
+  const [state, dispatch] = React.useReducer(reducer, {
+    username: data.username,
+    first_name: data.first_name,
+    last_name: data.last_name,
+    note: data.profile && data.profile.note,
+    is_active: data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`,
+    departments: userDepartments,
+  });
+
+  const onChangeEvent = useCallback(event => {
+    onChange(event.target.name, event.target.value);
+  }, [onChange]);
+
+  const onChange = useCallback((field, value) => {
+    dispatch({ field, value });
+  }, [dispatch]);
+
+  const getFormData = useCallback(() => {
+    const form = { ...data, profile: { ...data.profile } };
+
+    form.username = state.username;
+    form.first_name = state.first_name;
+    form.last_name = state.last_name;
+    form.is_active = state.is_active === 'true';
+    form.profile.note = state.note;
+    form.profile.departments = state.departments.map(({ value }) => value);
+
+    const postPatch = { ...form, profile: { ...form.profile } };
+
+    delete postPatch.profile.departments;
+
+    postPatch.profile.department_ids = Object.values(state.departments) .map(({ id }) => id);
+
+    return { form, postPatch };
+  }, [data, state]);
+
+  const onSubmitForm = useCallback(event => {
+    event.preventDefault();
+    onSubmit(getFormData());
+  }, [getFormData, onSubmit]);
+
+  const onCancelForm = useCallback(event => {
+    event.preventDefault();
+    onCancel(getFormData());
+  }, [getFormData, onCancel]);
 
   return (
     <Form action="" data-testid="detailUserForm">
@@ -53,54 +102,59 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => {
         <StyledColumn>
           <FieldGroup>
             <Input
-              defaultValue={data.username}
+              value={state.username}
               id="username"
               name="username"
               label="E-mailadres"
               disabled={data.username !== undefined || readOnly}
               readOnly={readOnly}
+              onChange={onChangeEvent}
             />
           </FieldGroup>
 
           <FieldGroup>
             <Input
-              defaultValue={data.first_name}
+              value={state.first_name}
               id="first_name"
               name="first_name"
               label="Voornaam"
               disabled={readOnly}
+              onChange={onChangeEvent}
             />
           </FieldGroup>
 
           <FieldGroup>
             <Input
-              defaultValue={data.last_name}
+              value={state.last_name}
               id="last_name"
               name="last_name"
               label="Achternaam"
               disabled={readOnly}
+              onChange={onChangeEvent}
             />
           </FieldGroup>
 
           <FieldGroup>
             <Label as="span">Status</Label>
             <RadioButtonList
-              defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
+              defaultValue={state.is_active}
               groupName="is_active"
               hasEmptySelectionButton={false}
               options={statusOptions}
               disabled={readOnly}
+              onChange={(field, { key: value }) => { onChange(field, value); }}
             />
           </FieldGroup>
 
           <FieldGroup>
             <Label as="span">Afdeling</Label>
             <CheckboxList
-              defaultValue={userDepartments}
+              defaultValue={state.departments}
               groupName="departments"
-              name="department"
+              name="departments"
               options={departmentList}
               disabled={readOnly}
+              onChange={(field, value) => { onChange(field, value); }}
             />
           </FieldGroup>
         </StyledColumn>
@@ -108,7 +162,13 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => {
         <StyledColumn push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}>
           <FieldGroup>
             <Label as="span">Notitie</Label>
-            <TextArea id="note" name="note" rows="8" defaultValue={data.profile && data.profile.note} />
+            <TextArea
+              value={state.note}
+              id="note"
+              name="note"
+              rows="8"
+              onChange={onChangeEvent}
+            />
           </FieldGroup>
         </StyledColumn>
 
@@ -117,7 +177,7 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => {
         {!readOnly && (
           <StyledFormFooter
             cancelBtnLabel="Annuleren"
-            onCancel={onCancel}
+            onCancel={onCancelForm}
             submitBtnLabel="Opslaan"
             onSubmitForm={onSubmitForm}
           />
@@ -130,7 +190,7 @@ const UserForm = ({ data, onCancel, onSubmitForm, readOnly }) => {
 UserForm.defaultProps = {
   data: {},
   onCancel: null,
-  onSubmitForm: null,
+  onSubmit: null,
   readOnly: false,
 };
 
@@ -145,8 +205,20 @@ UserForm.propTypes = {
       note: PropTypes.string,
     }),
   }),
+  /**
+   * Callback handler called whenever form is canceled
+   * @param {Object} form data
+   * @param {Object.form} current form data (used for comparing form changes)
+   * @param {Object.postPatch} modified form data for post/patch requests
+   */
   onCancel: PropTypes.func,
-  onSubmitForm: PropTypes.func,
+  /**
+   * Callback handler called whenever form is submitted
+   * @param {Object} form data
+   * @param {Object.form} current form data (used for comparing form changes)
+   * @param {Object.postPatch} modified form data for post/patch requests
+   */
+  onSubmit: PropTypes.func,
   /** When true, none of the fields in the form can be edited */
   readOnly: PropTypes.bool,
 };

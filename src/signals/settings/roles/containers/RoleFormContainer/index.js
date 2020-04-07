@@ -65,7 +65,6 @@ export const RoleFormContainer = ({
     if (responseSuccess) {
       history.push(redirectURL);
     }
-
   }, [
     history,
     onResetResponse,
