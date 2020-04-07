@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { themeColor, Heading, styles, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
