@@ -47,15 +47,16 @@ const formatResponse = ({ response }) =>
 
 const OverviewMap = ({ ...rest }) => {
   const { dispatch } = useContext(MapContext);
+  const [initialMount, setInitialMount] = useState(false);
   const [map, setMap] = useState();
   const { options } = useSelector(makeSelectActiveFilter);
   const filterParams = useSelector(makeSelectFilterParams);
   const { get, data, isLoading } = useFetch();
-  const createdAfter = moment()
+
+  const { ...params } = filterParams;
+  params.created_after = moment()
     .subtract(1, 'days')
     .format('YYYY-MM-DDTkk:mm:ss');
-  const { ...params } = filterParams;
-  params.created_after = createdAfter;
 
   const onSelect = useCallback(
     option => {
@@ -70,25 +71,27 @@ const OverviewMap = ({ ...rest }) => {
   );
 
   useEffect(() => {
-    if (!options || isLoading) return;
+    if (!options || isLoading || !initialMount) return;
 
     const { name, ...initialActive } = initialState.get('activeFilter').toJS();
+    const paramsAreInitial = isEqual(initialActive.options, options);
 
-    const theSame = isEqual(initialActive.options, options);
-
-    if (theSame) return;
+    if (paramsAreInitial) return;
 
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
+    // Only execute when the value of filterParams changes; disabling linter
     // eslint-disable-next-line
   }, [filterParams]);
 
   // request data on mount
   useEffect(() => {
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
+    setInitialMount(true);
+
     // eslint-disable-next-line
   }, []);
 
-  // temporaryli disabling linter till the function below has been implemented
+  // temporarily disabling linter till the function below has been implemented
   // eslint-disable-next-line
   useEffect(() => {
     if (!data) return undefined;
