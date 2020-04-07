@@ -17,6 +17,7 @@ import Modal from 'components/Modal';
 import * as types from 'shared/types';
 import Pagination from 'components/Pagination';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
+import MapContext from 'containers/MapContext';
 
 import {
   makeSelectActiveFilter,
@@ -28,6 +29,7 @@ import {
 import { MAP_URL, INCIDENTS_URL } from '../../routes';
 
 import ListComponent from './components/List';
+import OverviewMap from './components/Map';
 import FilterTagList from '../FilterTagList';
 
 import './style.scss';
@@ -153,7 +155,13 @@ export const IncidentOverviewPageContainerComponent = ({
       </PageHeader>
 
       <Row>
-        {showsMap && <span data-testid="24HourMap">Kaart</span>}
+        {showsMap && (
+          <Column span={12}>
+            <MapContext>
+              <OverviewMap data-testid="24HourMap" />
+            </MapContext>
+          </Column>
+        )}
 
         {!showsMap && (
           <Column span={12} wrap>

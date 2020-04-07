@@ -120,6 +120,10 @@ export class Configuration {
     return `${this.API_ROOT}signals/v1/private/signals/`;
   }
 
+  get GEOGRAPHY_ENDPOINT() {
+    return `${this.API_ROOT}signals/v1/private/signals/geography`;
+  }
+
   get PRIORITY_ENDPOINT() {
     return `${this.API_ROOT}signals/auth/priority/`;
   }
