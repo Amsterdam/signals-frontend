@@ -13,9 +13,23 @@ export const address2pdok = address => {
     straatnaam: openbare_ruimte,
     huisnummer: `${huisnummer}`,
     huisletter: `${huisletter}` || '',
-    huisnummertoevoeging: huisnummer_toevoeging ?   `${huisnummer_toevoeging}` : '',
+    huisnummertoevoeging: huisnummer_toevoeging ? `${huisnummer_toevoeging}` : '',
     postcode,
     woonplaatsnaam: woonplaats,
+  };
+};
+
+export const centroideToLocation = centroide => {
+  if (!centroide.includes('POINT')) {
+    throw TypeError('Provided centroide geometry is not a point.');
+  }
+  const coordinate = centroide.split('(')[1].split(')')[0];
+  const lat = parseFloat(coordinate.split(' ')[1]);
+  const lng = parseFloat(coordinate.split(' ')[0]);
+
+  return {
+    lat,
+    lng,
   };
 };
 
@@ -39,10 +53,7 @@ const mapLocation = loc => {
   if (loc.query) {
     location.geometrie = {
       type: 'Point',
-      coordinates: [
-        loc.query.longitude,
-        loc.query.latitude,
-      ],
+      coordinates: [loc.query.longitude, loc.query.latitude],
     };
   }
 
