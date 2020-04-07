@@ -4,7 +4,7 @@ import { fireEvent, render, act } from '@testing-library/react';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
-import { withAppContext } from 'test/utils';
+import { withAppContext, history } from 'test/utils';
 import {
   priorityList,
   statusList,
@@ -241,6 +241,33 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     });
 
     expect(props.pageChangedAction).toHaveBeenCalledWith(pagenum);
+  });
+
+  it('should render a map', () => {
+    const incidents = generateIncidents();
+
+    const { queryByTestId, getByTestId } = render(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
+      )
+    );
+
+    expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument();
+    expect(queryByTestId('24HourMap')).not.toBeInTheDocument();
+
+    act(() => {
+      history.push('/manage/incidents/kaart');
+    });
+
+    expect(queryByTestId('incidentOverviewListComponent')).not.toBeInTheDocument();
+    expect(getByTestId('24HourMap')).toBeInTheDocument();
   });
 
   describe('filter modal', () => {
