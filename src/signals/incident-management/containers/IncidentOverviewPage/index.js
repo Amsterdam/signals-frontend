@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column, Button, themeSpacing, Paragraph, themeColor } from '@datapunt/asc-ui';
+import { Row, Column } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
-import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
@@ -15,7 +14,6 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
 import * as types from 'shared/types';
-import Pagination from 'components/Pagination';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import MapContext from 'containers/MapContext';
 
@@ -26,30 +24,20 @@ import {
   makeSelectOrdering,
   makeSelectPage,
 } from 'signals/incident-management/selectors';
-import { MAP_URL, INCIDENTS_URL } from '../../routes';
+import { MAP_URL } from '../../routes';
 
 import ListComponent from './components/List';
 import OverviewMap from './components/Map';
+import SubNav from './components/SubNav';
 import FilterTagList from '../FilterTagList';
-
-import './style.scss';
+import {
+  MapWrapper,
+  NoResults,
+  StyledButton,
+  StyledPagination,
+} from './styled';
 
 let lastActiveElement = null;
-
-const StyledButton = styled(Button)`
-  margin-left: 10px;
-`;
-
-const StyledPagination = styled(Pagination)`
-  margin-top: ${themeSpacing(12)};
-`;
-
-const NoResults = styled(Paragraph)`
-  width: 100%;
-  text-align: center;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  color: ${themeColor('tint', 'level4')};
-`;
 
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
@@ -127,8 +115,6 @@ export const IncidentOverviewPageContainerComponent = ({
     <div className="incident-overview-page" data-testid="incidentManagementOverviewPage">
       <PageHeader>
         <div>
-          <Link to={showsMap ? INCIDENTS_URL : MAP_URL}>{showsMap ? 'Lijst' : 'Kaart'}</Link>
-
           <StyledButton data-testid="myFiltersModalBtn" color="primary" onClick={openMyFiltersModal}>
             Mijn filters
           </StyledButton>
@@ -154,49 +140,51 @@ export const IncidentOverviewPageContainerComponent = ({
         <FilterTagList tags={activeFilter.options} />
       </PageHeader>
 
-      <Row>
-        {showsMap && (
-          <Column span={12}>
+      <SubNav showsMap={showsMap} />
+
+      {showsMap && (
+        <Row>
+          <MapWrapper>
             <MapContext>
               <OverviewMap data-testid="24HourMap" />
             </MapContext>
+          </MapWrapper>
+        </Row>
+      )}
+
+      {!showsMap && (
+        <Row>
+          <Column span={12}>
+            {loading && <LoadingIndicator />}
+
+            {canRenderList && (
+              <ListComponent
+                incidents={incidents.results}
+                onChangeOrdering={orderingChangedAction}
+                sort={ordering}
+                incidentsCount={count}
+                {...dataLists}
+              />
+            )}
+
+            {count === 0 && <NoResults>Geen meldingen</NoResults>}
           </Column>
-        )}
 
-        {!showsMap && (
-          <Column span={12} wrap>
-            <Column span={12}>
-              {loading && <LoadingIndicator />}
-
-              {canRenderList && (
-                <ListComponent
-                  incidents={incidents.results}
-                  onChangeOrdering={orderingChangedAction}
-                  sort={ordering}
-                  incidentsCount={count}
-                  {...dataLists}
-                />
-              )}
-
-              {count === 0 && <NoResults>Geen meldingen</NoResults>}
-            </Column>
-
-            <Column span={12}>
-              {canRenderList && (
-                <StyledPagination
-                  currentPage={page}
-                  hrefPrefix="/manage/incidents?page="
-                  onClick={pageToNavigateTo => {
-                    global.window.scrollTo(0, 0);
-                    pageChangedAction(pageToNavigateTo);
-                  }}
-                  totalPages={totalPages}
-                />
-              )}
-            </Column>
+          <Column span={12}>
+            {canRenderList && (
+              <StyledPagination
+                currentPage={page}
+                hrefPrefix="/manage/incidents?page="
+                onClick={pageToNavigateTo => {
+                  global.window.scrollTo(0, 0);
+                  pageChangedAction(pageToNavigateTo);
+                }}
+                totalPages={totalPages}
+              />
+            )}
           </Column>
-        )}
-      </Row>
+        </Row>
+      )}
     </div>
   );
 };
