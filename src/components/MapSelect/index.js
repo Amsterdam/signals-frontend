@@ -1,124 +1,144 @@
-import React from 'react';
+import React, { useLayoutEffect, useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import amaps from '@datapunt/amsterdam-amaps/dist/amaps';
-
-import 'leaflet/dist/leaflet';
-import 'leaflet/dist/leaflet.css';
-import '@datapunt/amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
+import styled from '@datapunt/asc-core';
+import { ViewerContainer } from '@datapunt/asc-ui';
+import WfsLayer from '@datapunt/amsterdam-react-maps/lib/components/WfsLayer';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
+import 'leaflet/dist/leaflet.css';
 import classNames from 'classnames';
-import isEqual from 'lodash.isequal';
 
-import './style.scss';
-import request from '../../utils/request';
-import MaxSelection from '../../utils/maxSelection';
+import Map from 'components/Map';
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import request from 'utils/request';
+import MaxSelection from 'utils/maxSelection';
+
 import ZoomMessageControl from './control/ZoomMessageControl';
 import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
 import ErrorControl from './control/ErrorControl';
 
+import './style.scss';
+
 const SELECTION_MAX_COUNT = 30;
 
-const ZOOM_MIN = 17;
-const ZOOM_INIT = 18;
+const StyledMap = styled(Map)`
+  height: 450px;
+  width: 100%;
+`;
 
-class MapSelect extends React.Component {
-  /**
-   * Multiple features select map
-   * Required geojson endpoint supporting bbox parameter
-   */
-  componentDidMount() {
-    const {
-      latlng: centerLatLng,
-      geojsonUrl,
-      onSelectionChange,
-      getIcon,
-      iconField,
-      idField,
-      zoomMin,
-      value,
-      selectionOnly,
-    } = this.props;
+const MapSelect = ({
+  geojsonUrl,
+  getIcon,
+  iconField,
+  idField,
+  latlng,
+  legend,
+  onSelectionChange,
+  selectionOnly,
+  value,
+}) => {
+  const zoomMin = 13;
+  const featuresLayer = useRef();
+  const [mapInstance, setMapInstance] = useState();
+  const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
+  const mapOptions = {
+    ...MAP_OPTIONS,
+    center: [latlng.latitude, latlng.longitude],
+    zoomControl: false,
+    minZoom: 10,
+    maxZoom: 15,
+    zoom: 14,
+  };
 
-    this.map = amaps.createMap({
-      center: {
-        latitude: centerLatLng.latitude,
-        longitude: centerLatLng.longitude,
-      },
-      layer: 'standaard',
-      target: 'mapSelect', // requires unique id because amaps doesn't support passing dom element (according to docs)
-      marker: false,
-      search: false,
-      zoom: ZOOM_INIT,
-    });
+  const errorControl = useMemo(
+    () =>
+      new ErrorControl({
+        position: 'topleft',
+        message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog eens.',
+      }),
+    []
+  );
 
-    const errorControl = new ErrorControl({
-      position: 'topleft',
-      message: 'Oops, de objecten kunnen niet worden getoond. Probeer het later nog eens.',
-    });
-
-    const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
-    this.selection = selection;
-
-    // istanbul ignore next
-    const fetchRequest = bbox_str => request(`${geojsonUrl}&bbox=${bbox_str}`)
-      .catch(e => {
-        console.error('Error loading feature geojson', e); // eslint-disable-line no-console
+  const fetchRequest = useCallback(
+    bbox_str =>
+      request(`${geojsonUrl}&bbox=${bbox_str}`).catch(() => {
         errorControl.show();
-      });
+      }),
+    [errorControl, geojsonUrl]
+  );
 
-    this.featuresLayer = BboxGeojsonLayer({
-      fetchRequest,
-    }, {
-      zoomMin,
+  const bboxGeoJsonLayer = useMemo(
+    () =>
+      BboxGeojsonLayer(
+        {
+          fetchRequest,
+        },
+        {
+          zoomMin,
 
-      filter(feature) {
-        if (selectionOnly) {
-          return selection.has(feature.properties[idField]);
+          zoomMax: 15,
+
+          filter: /* istanbul ignore next */ feature => {
+            if (selectionOnly) {
+              return selection.has(feature.properties[idField]);
+            }
+
+            return true;
+          },
+
+          pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
+            L.marker(latlong, {
+              icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField])),
+            }),
+
+          onEachFeature: /* istanbul ignore next */ (feature, layer) => {
+            if (onSelectionChange) {
+              // Check that the component is in write mode
+              layer.on({
+                click: e => {
+                  const _layer = e.target;
+                  const id = _layer.feature.properties[idField];
+                  selection.toggle(id);
+
+                  onSelectionChange(selection);
+                },
+              });
+            }
+          },
         }
-        return true;
-      },
+      ),
+    [fetchRequest, getIcon, iconField, idField, onSelectionChange, selection, selectionOnly]
+  );
 
-      pointToLayer(feature, latlng) {
-        // istanbul ignore next
-        return L.marker(latlng, {
-          icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField])),
-        });
-      },
+  useLayoutEffect(() => {
+    featuresLayer.current = bboxGeoJsonLayer;
+    // only execute on mount
+    // eslint-disable-next-line
+  }, []);
 
-      onEachFeature(feature, layer) {
-        if (onSelectionChange) {
-          // Check that the component is in write mode
-          // istanbul ignore next
-          layer.on({
-            click: e => {
-              const _layer = e.target;
-              const id = _layer.feature.properties[idField];
-              selection.toggle(id);
-              onSelectionChange(selection);
-            },
-          });
-        }
-      },
-    });
-    this.featuresLayer.addTo(this.map);
+  useEffect(() => {
+    if (!mapInstance) return undefined;
+
+    featuresLayer.current.addTo(mapInstance);
 
     const zoomMessageControl = new ZoomMessageControl({
       position: 'topleft',
       zoomMin,
     });
-    zoomMessageControl.addTo(this.map);
 
-    if (this.props.legend) {
+    zoomMessageControl.addTo(mapInstance);
+
+    /* istanbul ignore else */
+    if (legend) {
       // only show if legend items are provided
       const legendControl = new LegendControl({
         position: 'topright',
         zoomMin,
-        elements: this.props.legend,
+        elements: legend,
       });
-      legendControl.addTo(this.map);
-    }
 
+      legendControl.addTo(mapInstance);
+    }
 
     const div = L.DomUtil.create('div', 'loading-control');
     div.innerText = 'Bezig met laden...';
@@ -127,54 +147,55 @@ class MapSelect extends React.Component {
       position: 'topleft',
       element: div,
     });
-    loadingControl.addTo(this.map);
 
-    errorControl.addTo(this.map);
-  }
+    loadingControl.addTo(mapInstance);
 
-  componentDidUpdate(prevProps) {
-    const lat = this.props.latlng.latitude;
-    const lng = this.props.latlng.longitude;
-    if (lat !== prevProps.latlng.latitude || lng !== prevProps.latlng.longitude) {
-      this.map.panTo({
-        lat,
-        lng,
-      });
+    errorControl.addTo(mapInstance);
+
+    return () => {
+      mapInstance.remove();
+    };
+    // only execute when the mapInstance is available; disabling linter
+    // eslint-disable-next-line
+  }, [mapInstance]);
+
+  useEffect(/* istanbul ignore next */ () => {
+    if (!featuresLayer.current) return;
+
+    selection.set.clear();
+
+    for (const id of value) {
+      selection.add(id);
     }
 
-    const value = this.props.value;
-    if (isEqual(value, prevProps.value) === false) {
-      // Selection changed, update internal selection
-      this.selection.set.clear();
-      for (const id of value) {
-        this.selection.add(id);
-      }
+    // Let icons reflect new selection
+    featuresLayer.current.getLayers().forEach(layer => {
+      const properties = layer.feature.properties;
+      const id = properties[idField];
+      const iconType = properties[iconField];
+      const icon = getIcon(iconType, selection.has(id));
 
-      // Let icons reflect new selection
-      // istanbul ignore next
-      for (const layer of this.featuresLayer.getLayers()) {
-        const properties = layer.feature.properties;
-        const id = properties[this.props.idField];
-        const iconType = properties[this.props.iconField];
-        const icon = this.props.getIcon(iconType, this.selection.has(id));
-        layer.setIcon(icon);
-      }
-    }
-  }
+      layer.setIcon(icon);
+    });
+    // only execute when value changes; disabling linter
+    // eslint-disable-next-line
+  }, [value]);
 
-  render() {
-    return (
-      <div className={classNames('map-component', { write: this.props.onSelectionChange })}>
-        <div className="map">
-          <div className="map-container" id="mapSelect" />
-        </div>
-      </div>
-    );
-  }
-}
+  return (
+    <StyledMap
+      className={classNames('map-component', { write: onSelectionChange })}
+      data-testid="mapSelect"
+      mapOptions={mapOptions}
+      setInstance={setMapInstance}
+    >
+      <ViewerContainer data-testid="mapSelectViewerContainer">
+        <WfsLayer url={geojsonUrl} zoomLevel={16} />
+      </ViewerContainer>
+    </StyledMap>
+  );
+};
 
 MapSelect.defaultProps = {
-  zoomMin: ZOOM_MIN,
   value: [],
   selectionOnly: false,
 };
@@ -187,14 +208,15 @@ MapSelect.propTypes = {
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func,
   getIcon: PropTypes.func.isRequired,
-  legend: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    iconUrl: PropTypes.string.isRequired,
-  })),
+  legend: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      iconUrl: PropTypes.string.isRequired,
+    })
+  ),
   iconField: PropTypes.string.isRequired,
   idField: PropTypes.string.isRequired,
-  zoomMin: PropTypes.number,
-  value: PropTypes.array,
+  value: PropTypes.arrayOf(PropTypes.string),
   selectionOnly: PropTypes.bool,
 };
 

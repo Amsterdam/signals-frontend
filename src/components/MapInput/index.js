@@ -1,7 +1,10 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+
 import styled from '@datapunt/asc-core';
 import { Marker } from '@datapunt/react-maps';
+import 'leaflet/dist/leaflet.css';
+
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
