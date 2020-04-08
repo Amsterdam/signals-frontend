@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
+import { ViewerContainer } from '@datapunt/asc-ui';
 
 import MapContext from 'containers/MapContext/context';
 import { setAddressAction } from 'containers/MapContext/actions';
@@ -15,6 +16,8 @@ import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
 
+import DetailPanel from './components/DetailPanel';
+
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
@@ -26,9 +29,6 @@ const StyledMap = styled(Map)`
 `;
 
 const Autosuggest = styled(PDOKAutoSuggest)`
-  position: absolute;
-  top: 30px;
-  left: 20px;
   max-width: calc(100% - 40px);
   z-index: 401; // 400 is the minimum elevation were elements are shown above the map
 `;
@@ -48,6 +48,7 @@ const formatResponse = ({ response }) =>
 const OverviewMap = ({ ...rest }) => {
   const { dispatch } = useContext(MapContext);
   const [initialMount, setInitialMount] = useState(false);
+  const [showPanel, setShowPanel] = useState(false);
   const [map, setMap] = useState();
   const { options } = useSelector(makeSelectActiveFilter);
   const filterParams = useSelector(makeSelectFilterParams);
@@ -57,6 +58,7 @@ const OverviewMap = ({ ...rest }) => {
   params.created_after = moment()
     .subtract(1, 'days')
     .format('YYYY-MM-DDTkk:mm:ss');
+  params.created_before = moment().format('YYYY-MM-DDTkk:mm:ss');
 
   const onSelect = useCallback(
     option => {
@@ -69,6 +71,11 @@ const OverviewMap = ({ ...rest }) => {
     },
     [map, dispatch]
   );
+
+  // this handlers should act on marker clicks when marker cluster layer has been implemented
+  const onMapClick = useCallback(() => {
+    setShowPanel(true);
+  }, []);
 
   useEffect(() => {
     if (!options || isLoading || !initialMount) return;
@@ -104,16 +111,21 @@ const OverviewMap = ({ ...rest }) => {
       <StyledMap
         data-testid="overviewMap"
         mapOptions={MAP_OPTIONS}
-        // events={{ click: clickHandler }}
+        events={{ click: onMapClick }}
         setInstance={setMap}
-        // {...otherProps}
-      />
-      <Autosuggest
-        onSelect={onSelect}
-        gemeentenaam="amsterdam"
-        fieldList={['centroide_ll']}
-        formatResponse={formatResponse}
-      />
+      >
+        <ViewerContainer
+          topLeft={
+            <Autosuggest
+              onSelect={onSelect}
+              gemeentenaam="amsterdam"
+              fieldList={['centroide_ll']}
+              formatResponse={formatResponse}
+            />
+          }
+          topRight={showPanel && <DetailPanel incidentId={123} onClose={() => setShowPanel(false)} />}
+        />
+      </StyledMap>
     </Wrapper>
   );
 };
