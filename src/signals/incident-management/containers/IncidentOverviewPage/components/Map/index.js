@@ -64,6 +64,7 @@ const OverviewMap = ({ ...rest }) => {
   const filterParams = useSelector(makeSelectFilterParams);
   const { get, data, isLoading } = useFetch();
   const [layerInstance, setLayerInstance] = useState();
+  const [incidentId, setIncidentId] = useState(0);
 
   const { ...params } = filterParams;
   params.created_after = moment()
@@ -84,8 +85,11 @@ const OverviewMap = ({ ...rest }) => {
   );
 
   // this handlers should act on marker clicks when marker cluster layer has been implemented
-  const onMapClick = useCallback(() => {
-    setShowPanel(true);
+  const onMapClick = useCallback(id => {
+    if (id) {
+      setIncidentId(id);
+      setShowPanel(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -112,18 +116,20 @@ const OverviewMap = ({ ...rest }) => {
   useEffect(() => {
     if (!data || !layerInstance) return () => { };
     layerInstance.clearLayers();
-    data.features.forEach(item => {
-      const latlng = featureTolocation(item.geometry);
+    data.features.forEach(feature => {
+      const latlng = featureTolocation(feature.geometry);
       const marker = L.marker(latlng, {
         icon: smallMarkerIcon,
+
       });
+      marker.on('click', () => onMapClick(feature.properties?.id));
       layerInstance.addLayer(marker);
     });
 
     return () => {
       layerInstance.clearLayers();
     };
-  }, [layerInstance, data]);
+  }, [layerInstance, data, onMapClick]);
 
   return (
     <Wrapper {...rest}>
@@ -134,7 +140,6 @@ const OverviewMap = ({ ...rest }) => {
           maxZoom: 16,
           minZoom: 8,
         }}
-        events={{ click: onMapClick }}
         setInstance={setMap}
       >
         <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
@@ -147,7 +152,7 @@ const OverviewMap = ({ ...rest }) => {
               formatResponse={formatResponse}
             />
           }
-          topRight={showPanel && <DetailPanel incidentId={123} onClose={() => setShowPanel(false)} />}
+          topRight={showPanel && <DetailPanel incidentId={incidentId} onClose={() => setShowPanel(false)} />}
         />
       </StyledMap>
     </Wrapper>
