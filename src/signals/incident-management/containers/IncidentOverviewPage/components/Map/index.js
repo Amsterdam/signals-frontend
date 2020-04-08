@@ -14,8 +14,16 @@ import { centroideToLocation } from 'shared/services/map-location';
 import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
+// import { GeoJSON } from '@datapunt/react-maps';
+import { markerIcon } from 'shared/services/configuration/map-markers';
+
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+
 import L, { DomEvent } from 'leaflet';
-import { GeoJSON } from '@datapunt/react-maps';
+import 'leaflet.markercluster';
+
+import MarkerCluster from './components/MarkerCluster';
 
 const Wrapper = styled.div`
   position: relative;
@@ -47,29 +55,45 @@ const formatResponse = ({ response }) =>
     };
   });
 
-const markerStyle = {
-  weight: 2,
-  opacity: 1,
-  dashArray: '3',
-  color: '#ff0000',
-  fillColor: '#ff7800',
-  radius: 8,
-};
 
 const markerStyleActive = {
   weight: 5,
   dashArray: '',
 };
 
-const getOptions = onIncidentSelected => ({
+// const getOptions = onIncidentSelected => ({
+//   onEachFeature: (feature, layer) => {
+//     layer.on('click', event => {
+//       DomEvent.stopPropagation(event);
+//       event.target.setStyle(markerStyleActive);
+//       onIncidentSelected(feature, layer);
+
+//       // console.log(feature, layer._icon);
+//     });
+//   },
+//   pointToLayer: (feature, latlng) => L.circleMarker(latlng, markerStyle),
+// });
+
+const clusterLayerOptions = {
+  showCoverageOnHover: false,
+};
+
+export const getPointOptions = onIncidentSelected => ({
   onEachFeature: (feature, layer) => {
     layer.on('click', event => {
       DomEvent.stopPropagation(event);
       event.target.setStyle(markerStyleActive);
-      onIncidentSelected(feature);
+      onIncidentSelected(feature, layer._icon);
+      console.log(feature, layer._icon);
     });
   },
-  pointToLayer: (feature, latlng) => L.circleMarker(latlng, markerStyle),
+  pointToLayer: (feature, latlng) => {
+    const marker = L.marker(latlng, {
+      icon: markerIcon,
+    });
+    marker.feature = feature;
+    return marker;
+  },
 });
 
 const OverviewMap = ({ ...rest }) => {
@@ -119,24 +143,30 @@ const OverviewMap = ({ ...rest }) => {
     // eslint-disable-next-line
   }, []);
 
-  const onIncidentSelected = useCallback(feature => {
+  const onIncidentSelected = useCallback((feature, element) => {
     // trigger show the detail panel
-    console.log(feature);
+    console.log(feature, element);
   }, []);
 
+  // GeoJSON
+  // useEffect(() => {
+  //   if (!data || !layerInstance) return;
+  //   layerInstance.clearLayers();
+  //   layerInstance.addData(data);
+  // }, [data, layerInstance]);
+
   useEffect(() => {
-    if (!data) return;
-    if (layerInstance) {
-      layerInstance.clearLayers();
-      layerInstance.addData(data);
-    }
-    // handle the data retrieval;
-  }, [data, layerInstance]);
+    // if (!data || !layerInstance) return;
+    // layerInstance.clearLayers();
+    // const layer = L.geoJSON(data, getPointOptions(onIncidentSelected));
+    // layerInstance.addLayer(layer);
+  }, [layerInstance, data, onIncidentSelected]);
 
   return (
     <Wrapper {...rest}>
       <StyledMap data-testid="overviewMap" mapOptions={MAP_OPTIONS} setInstance={setMap}>
-        <GeoJSON setInstance={setLayerInstance} args={[data]} options={getOptions(onIncidentSelected)} />
+        {/* <GeoJSON setInstance={setLayerInstance} args={[data]} options={getOptions(onIncidentSelected)} /> */}
+        <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
       </StyledMap>
 
       <Autosuggest
