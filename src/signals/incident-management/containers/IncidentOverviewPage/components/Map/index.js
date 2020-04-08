@@ -14,6 +14,8 @@ import { centroideToLocation } from 'shared/services/map-location';
 import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
+import L, { DomEvent } from 'leaflet';
+import { GeoJSON } from '@datapunt/react-maps';
 
 const Wrapper = styled.div`
   position: relative;
@@ -45,6 +47,31 @@ const formatResponse = ({ response }) =>
     };
   });
 
+const markerStyle = {
+  weight: 2,
+  opacity: 1,
+  dashArray: '3',
+  color: '#ff0000',
+  fillColor: '#ff7800',
+  radius: 8,
+};
+
+const markerStyleActive = {
+  weight: 5,
+  dashArray: '',
+};
+
+const getOptions = onIncidentSelected => ({
+  onEachFeature: (feature, layer) => {
+    layer.on('click', event => {
+      DomEvent.stopPropagation(event);
+      event.target.setStyle(markerStyleActive);
+      onIncidentSelected(feature);
+    });
+  },
+  pointToLayer: (feature, latlng) => L.circleMarker(latlng, markerStyle),
+});
+
 const OverviewMap = ({ ...rest }) => {
   const { dispatch } = useContext(MapContext);
   const [initialMount, setInitialMount] = useState(false);
@@ -52,6 +79,7 @@ const OverviewMap = ({ ...rest }) => {
   const { options } = useSelector(makeSelectActiveFilter);
   const filterParams = useSelector(makeSelectFilterParams);
   const { get, data, isLoading } = useFetch();
+  const [layerInstance, setLayerInstance] = useState();
 
   const { ...params } = filterParams;
   params.created_after = moment()
@@ -91,23 +119,26 @@ const OverviewMap = ({ ...rest }) => {
     // eslint-disable-next-line
   }, []);
 
-  // temporarily disabling linter till the function below has been implemented
-  // eslint-disable-next-line
-  useEffect(() => {
-    if (!data) return undefined;
+  const onIncidentSelected = useCallback(feature => {
+    // trigger show the detail panel
+    console.log(feature);
+  }, []);
 
+  useEffect(() => {
+    if (!data) return;
+    if (layerInstance) {
+      layerInstance.clearLayers();
+      layerInstance.addData(data);
+    }
     // handle the data retrieval;
-  }, [data]);
+  }, [data, layerInstance]);
 
   return (
     <Wrapper {...rest}>
-      <StyledMap
-        data-testid="overviewMap"
-        mapOptions={MAP_OPTIONS}
-        // events={{ click: clickHandler }}
-        setInstance={setMap}
-        // {...otherProps}
-      />
+      <StyledMap data-testid="overviewMap" mapOptions={MAP_OPTIONS} setInstance={setMap}>
+        <GeoJSON setInstance={setLayerInstance} args={[data]} options={getOptions(onIncidentSelected)} />
+      </StyledMap>
+
       <Autosuggest
         onSelect={onSelect}
         gemeentenaam="amsterdam"
