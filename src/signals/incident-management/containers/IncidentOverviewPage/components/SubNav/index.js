@@ -51,9 +51,7 @@ export const Tab = styled.span`
   }
 `;
 
-export const Toggle = styled(Column).attrs({
-  span: 6,
-})`
+export const TabWrapper = styled(Column)`
   justify-content: flex-end;
   align-items: center;
   height: ${themeSpacing(8)};
@@ -61,9 +59,11 @@ export const Toggle = styled(Column).attrs({
 
 const SubNav = ({ showsMap }) => (
   <Wrapper data-testid="subNav">
-    <Column span={6}>{showsMap && <MapHeading>Afgelopen 24 uur</MapHeading>}</Column>
+    <Column span={{ small: 1, medium: 1, big: 3, large: 6, xLarge: 6 }}>
+      {showsMap && <MapHeading>Afgelopen 24 uur</MapHeading>}
+    </Column>
 
-    <Toggle>
+    <TabWrapper span={{ small: 1, medium: 1, big: 3, large: 6, xLarge: 6 }}>
       <TabContainer>
         {showsMap ? (
           <Fragment>
@@ -85,7 +85,7 @@ const SubNav = ({ showsMap }) => (
           </Fragment>
         )}
       </TabContainer>
-    </Toggle>
+    </TabWrapper>
   </Wrapper>
 );
 

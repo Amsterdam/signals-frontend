@@ -31,6 +31,7 @@ const Autosuggest = styled(PDOKAutoSuggest)`
   left: 20px;
   max-width: calc(100% - 40px);
   z-index: 401; // 400 is the minimum elevation were elements are shown above the map
+  width: 350px;
 `;
 
 const formatResponse = ({ response }) =>
