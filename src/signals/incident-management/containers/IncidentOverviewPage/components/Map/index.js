@@ -10,18 +10,12 @@ import Map from 'components/Map';
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import configuration from 'shared/services/configuration/configuration';
-import { centroideToLocation } from 'shared/services/map-location';
+import { centroideToLocation, feature2location } from 'shared/services/map-location';
 import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
-// import { GeoJSON } from '@datapunt/react-maps';
-import { markerIcon } from 'shared/services/configuration/map-markers';
-
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-
-import L, { DomEvent } from 'leaflet';
-import 'leaflet.markercluster';
+import {  smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import L from 'leaflet';
 
 import MarkerCluster from './components/MarkerCluster';
 
@@ -55,46 +49,11 @@ const formatResponse = ({ response }) =>
     };
   });
 
-
-const markerStyleActive = {
-  weight: 5,
-  dashArray: '',
-};
-
-// const getOptions = onIncidentSelected => ({
-//   onEachFeature: (feature, layer) => {
-//     layer.on('click', event => {
-//       DomEvent.stopPropagation(event);
-//       event.target.setStyle(markerStyleActive);
-//       onIncidentSelected(feature, layer);
-
-//       // console.log(feature, layer._icon);
-//     });
-//   },
-//   pointToLayer: (feature, latlng) => L.circleMarker(latlng, markerStyle),
-// });
-
 const clusterLayerOptions = {
   showCoverageOnHover: false,
+  zoomToBoundsOnClick: true,
+  disableClusteringAtZoom: 13,
 };
-
-export const getPointOptions = onIncidentSelected => ({
-  onEachFeature: (feature, layer) => {
-    layer.on('click', event => {
-      DomEvent.stopPropagation(event);
-      event.target.setStyle(markerStyleActive);
-      onIncidentSelected(feature, layer._icon);
-      console.log(feature, layer._icon);
-    });
-  },
-  pointToLayer: (feature, latlng) => {
-    const marker = L.marker(latlng, {
-      icon: markerIcon,
-    });
-    marker.feature = feature;
-    return marker;
-  },
-});
 
 const OverviewMap = ({ ...rest }) => {
   const { dispatch } = useContext(MapContext);
@@ -143,29 +102,33 @@ const OverviewMap = ({ ...rest }) => {
     // eslint-disable-next-line
   }, []);
 
-  const onIncidentSelected = useCallback((feature, element) => {
-    // trigger show the detail panel
-    console.log(feature, element);
-  }, []);
-
-  // GeoJSON
-  // useEffect(() => {
-  //   if (!data || !layerInstance) return;
-  //   layerInstance.clearLayers();
-  //   layerInstance.addData(data);
-  // }, [data, layerInstance]);
-
   useEffect(() => {
-    // if (!data || !layerInstance) return;
-    // layerInstance.clearLayers();
-    // const layer = L.geoJSON(data, getPointOptions(onIncidentSelected));
-    // layerInstance.addLayer(layer);
-  }, [layerInstance, data, onIncidentSelected]);
+    if (!data || !layerInstance) return () => { };
+    layerInstance.clearLayers();
+    data.features.forEach(item => {
+      const latlng = feature2location(item.geometry);
+      const marker = L.marker(latlng, {
+        icon: smallMarkerIcon,
+      });
+      layerInstance.addLayer(marker);
+    });
+
+    return () => {
+      layerInstance.clearLayers();
+    };
+  }, [layerInstance, data]);
 
   return (
     <Wrapper {...rest}>
-      <StyledMap data-testid="overviewMap" mapOptions={MAP_OPTIONS} setInstance={setMap}>
-        {/* <GeoJSON setInstance={setLayerInstance} args={[data]} options={getOptions(onIncidentSelected)} /> */}
+      <StyledMap
+        data-testid="overviewMap"
+        mapOptions={{
+          ...MAP_OPTIONS,
+          maxZoom: 16,
+          minZoom: 8,
+        }}
+        setInstance={setMap}
+      >
         <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
       </StyledMap>
 
