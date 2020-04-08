@@ -72,6 +72,7 @@ const OverviewMap = ({ ...rest }) => {
     [map, dispatch]
   );
 
+  // this handlers should act on marker clicks when marker cluster layer has been implemented
   const onMapClick = useCallback(() => {
     setShowPanel(true);
   }, []);
@@ -91,8 +92,6 @@ const OverviewMap = ({ ...rest }) => {
 
   // request data on mount
   useEffect(() => {
-    if (initialMount) return;
-
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
     setInitialMount(true);
 
