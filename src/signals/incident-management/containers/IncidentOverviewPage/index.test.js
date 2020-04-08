@@ -4,7 +4,7 @@ import { fireEvent, render, act } from '@testing-library/react';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
-import { withAppContext, history } from 'test/utils';
+import { withAppContext } from 'test/utils';
 import {
   priorityList,
   statusList,
@@ -243,10 +243,10 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     expect(props.pageChangedAction).toHaveBeenCalledWith(pagenum);
   });
 
-  it('should render a map', () => {
+  it('should render a map', async () => {
     const incidents = generateIncidents();
 
-    const { queryByTestId, getByTestId } = render(
+    const { queryByTestId, getByTestId, findByTestId } = render(
       withAppContext(
         <IncidentOverviewPageContainerComponent
           {...props}
@@ -259,15 +259,30 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     );
 
+    expect(getByTestId('subNav')).toBeInTheDocument();
+
     expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument();
     expect(queryByTestId('24HourMap')).not.toBeInTheDocument();
 
+    const subNavMapLink = await findByTestId('subNavMapLink');
+
     act(() => {
-      history.push('/manage/incidents/kaart');
+      fireEvent.click(subNavMapLink);
     });
+
+    const subNavListLink = await findByTestId('subNavListLink');
 
     expect(queryByTestId('incidentOverviewListComponent')).not.toBeInTheDocument();
     expect(getByTestId('24HourMap')).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(subNavListLink);
+    });
+
+    await findByTestId('subNavMapLink');
+
+    expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument();
+    expect(queryByTestId('24HourMap')).not.toBeInTheDocument();
   });
 
   describe('filter modal', () => {
