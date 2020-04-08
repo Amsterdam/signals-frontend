@@ -1,9 +1,9 @@
-import React, { memo, useContext, useState, useCallback, useEffect } from 'react';
+import React, { memo, useContext, useState, useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
-import { ViewerContainer } from '@datapunt/asc-ui';
+import { ViewerContainer, themeColor } from '@datapunt/asc-ui';
 
 import MapContext from 'containers/MapContext/context';
 import { setAddressAction } from 'containers/MapContext/actions';
@@ -15,7 +15,8 @@ import { centroideToLocation, featureTolocation } from 'shared/services/map-loca
 import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
-import {  smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import { markerIcon, smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import { Marker } from '@datapunt/react-maps';
 import L from 'leaflet';
 
 import MarkerCluster from './components/MarkerCluster';
@@ -27,9 +28,30 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
+const shadowColor = '#666666';
+const fillColor = '#004699';
+
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
+
+  .marker-cluster {
+    color: ${themeColor('tint', 'level1')};
+    background-color: ${themeColor('tint', 'level1')};
+    box-shadow: 1px 1px 1px ${shadowColor};
+
+    div {
+      width: 32px;
+      height: 32px;
+      margin-top: 4px;
+      margin-left: 4px;
+      background-color: ${fillColor};
+    }
+
+    span {
+      line-height: 34px;
+    }
+  }
 `;
 
 const Autosuggest = styled(PDOKAutoSuggest)`
@@ -65,6 +87,9 @@ const OverviewMap = ({ ...rest }) => {
   const { get, data, isLoading } = useFetch();
   const [layerInstance, setLayerInstance] = useState();
   const [incidentId, setIncidentId] = useState(0);
+  const [marker, setMarker] = useState();
+  const [location, setLocation] = useState();
+  const hasLocation = useMemo(() => location?.lat && location?.lng, [location]);
 
   const { ...params } = filterParams;
   params.created_after = moment()
@@ -84,11 +109,21 @@ const OverviewMap = ({ ...rest }) => {
     [map, dispatch]
   );
 
+  useEffect(() => {
+    if (!marker || !hasLocation) return;
+    if (showPanel) {
+      marker.setLatLng(location);
+    } else {
+      setLocation({ lat: 0, lng: 0 });
+    }
+  }, [marker, location, hasLocation, showPanel]);
+
   // this handlers should act on marker clicks when marker cluster layer has been implemented
-  const onMapClick = useCallback(id => {
+  const onMapClick = useCallback((latlng, id) => {
     if (id) {
       setIncidentId(id);
       setShowPanel(true);
+      setLocation(latlng);
     }
   }, []);
 
@@ -114,16 +149,17 @@ const OverviewMap = ({ ...rest }) => {
   }, []);
 
   useEffect(() => {
-    if (!data || !layerInstance) return () => { };
+    if (!data || !layerInstance) return () => {};
     layerInstance.clearLayers();
     data.features.forEach(feature => {
       const latlng = featureTolocation(feature.geometry);
-      const marker = L.marker(latlng, {
+      const clusteredMarker = L.marker(latlng, {
         icon: smallMarkerIcon,
-
       });
-      marker.on('click', () => onMapClick(feature.properties?.id));
-      layerInstance.addLayer(marker);
+      clusteredMarker.on('click', () => {
+        onMapClick(latlng, feature.properties?.id);
+      });
+      layerInstance.addLayer(clusteredMarker);
     });
 
     return () => {
@@ -142,6 +178,15 @@ const OverviewMap = ({ ...rest }) => {
         }}
         setInstance={setMap}
       >
+        {hasLocation ? (
+          <Marker
+            setInstance={setMarker}
+            args={[location]}
+            options={{
+              icon: markerIcon,
+            }}
+          />
+        ) : null}
         <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
         <ViewerContainer
           topLeft={
