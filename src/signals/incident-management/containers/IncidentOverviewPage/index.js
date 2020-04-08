@@ -1,31 +1,23 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import {
-  Row,
-  Column,
-  Button,
-  themeSpacing,
-  Paragraph,
-  themeColor,
-} from '@datapunt/asc-ui';
+import { Row, Column, Button, themeSpacing, Paragraph, themeColor } from '@datapunt/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import styled from 'styled-components';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
-import {
-  orderingChanged,
-  pageChanged,
-} from 'signals/incident-management/actions';
+import { orderingChanged, pageChanged } from 'signals/incident-management/actions';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
 import * as types from 'shared/types';
 import Pagination from 'components/Pagination';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
+import MapContext from 'containers/MapContext';
 
 import {
   makeSelectActiveFilter,
@@ -34,8 +26,10 @@ import {
   makeSelectOrdering,
   makeSelectPage,
 } from 'signals/incident-management/selectors';
+import { MAP_URL, INCIDENTS_URL } from '../../routes';
 
 import ListComponent from './components/List';
+import OverviewMap from './components/Map';
 import FilterTagList from '../FilterTagList';
 
 import './style.scss';
@@ -69,6 +63,8 @@ export const IncidentOverviewPageContainerComponent = ({
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
   const { count, loading, results } = incidents;
+  const location = useLocation();
+  const showsMap = location.pathname === MAP_URL;
 
   const openMyFiltersModal = useCallback(() => {
     disablePageScroll();
@@ -123,9 +119,7 @@ export const IncidentOverviewPageContainerComponent = ({
     };
   }, [escFunction, openFilterModal]);
 
-  const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [
-    count,
-  ]);
+  const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [count]);
 
   const canRenderList = results && results.length > 0 && totalPages > 0;
 
@@ -133,19 +127,13 @@ export const IncidentOverviewPageContainerComponent = ({
     <div className="incident-overview-page" data-testid="incidentManagementOverviewPage">
       <PageHeader>
         <div>
-          <StyledButton
-            data-testid="myFiltersModalBtn"
-            color="primary"
-            onClick={openMyFiltersModal}
-          >
+          <Link to={showsMap ? INCIDENTS_URL : MAP_URL}>{showsMap ? 'Lijst' : 'Kaart'}</Link>
+
+          <StyledButton data-testid="myFiltersModalBtn" color="primary" onClick={openMyFiltersModal}>
             Mijn filters
           </StyledButton>
 
-          <StyledButton
-            data-testid="filterModalBtn"
-            color="primary"
-            onClick={openFilterModal}
-          >
+          <StyledButton data-testid="filterModalBtn" color="primary" onClick={openFilterModal}>
             Filteren
           </StyledButton>
         </div>
@@ -159,12 +147,7 @@ export const IncidentOverviewPageContainerComponent = ({
           <MyFilters onClose={closeMyFiltersModal} />
         </Modal>
 
-        <Modal
-          data-testid="filterModal"
-          isOpen={modalFilterIsOpen}
-          onClose={closeFilterModal}
-          title="Filters"
-        >
+        <Modal data-testid="filterModal" isOpen={modalFilterIsOpen} onClose={closeFilterModal} title="Filters">
           <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
         </Modal>
 
@@ -172,37 +155,47 @@ export const IncidentOverviewPageContainerComponent = ({
       </PageHeader>
 
       <Row>
-        <Column span={12} wrap>
+        {showsMap && (
           <Column span={12}>
-            {loading && <LoadingIndicator />}
-
-            {canRenderList && (
-              <ListComponent
-                incidents={incidents.results}
-                onChangeOrdering={orderingChangedAction}
-                sort={ordering}
-                incidentsCount={count}
-                {...dataLists}
-              />
-            )}
-
-            {count === 0 && <NoResults>Geen meldingen</NoResults>}
+            <MapContext>
+              <OverviewMap data-testid="24HourMap" />
+            </MapContext>
           </Column>
+        )}
 
-          <Column span={12}>
-            {canRenderList && (
-              <StyledPagination
-                currentPage={page}
-                hrefPrefix="/manage/incidents?page="
-                onClick={pageToNavigateTo => {
-                  global.window.scrollTo(0, 0);
-                  pageChangedAction(pageToNavigateTo);
-                }}
-                totalPages={totalPages}
-              />
-            )}
+        {!showsMap && (
+          <Column span={12} wrap>
+            <Column span={12}>
+              {loading && <LoadingIndicator />}
+
+              {canRenderList && (
+                <ListComponent
+                  incidents={incidents.results}
+                  onChangeOrdering={orderingChangedAction}
+                  sort={ordering}
+                  incidentsCount={count}
+                  {...dataLists}
+                />
+              )}
+
+              {count === 0 && <NoResults>Geen meldingen</NoResults>}
+            </Column>
+
+            <Column span={12}>
+              {canRenderList && (
+                <StyledPagination
+                  currentPage={page}
+                  hrefPrefix="/manage/incidents?page="
+                  onClick={pageToNavigateTo => {
+                    global.window.scrollTo(0, 0);
+                    pageChangedAction(pageToNavigateTo);
+                  }}
+                  totalPages={totalPages}
+                />
+              )}
+            </Column>
           </Column>
-        </Column>
+        )}
       </Row>
     </div>
   );

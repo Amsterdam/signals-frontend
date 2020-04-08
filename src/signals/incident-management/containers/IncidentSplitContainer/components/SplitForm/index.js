@@ -152,7 +152,7 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
       )}
 
       <StyledBottomDisclaimer data-testid="splitFormBottomDisclaimer">
-        <StyledH4 $as="h4">Let op</StyledH4>
+        <StyledH4 forwardedAs="h4">Let op</StyledH4>
         <ul>
           <li>De persoon die de oorspronkelijke melding heeft gedaan, ontvangt een email per deelmelding.</li>
           <li>De oorspronkelijke melding wordt afgesloten als deze gesplitst wordt.</li>
