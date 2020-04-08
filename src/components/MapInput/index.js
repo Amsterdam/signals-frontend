@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
 import { Marker } from '@datapunt/react-maps';
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import { locationTofeature } from 'shared/services/map-location';
+import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
 import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
 import Map from '../Map';
@@ -80,7 +80,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
   return (
     <Wrapper>
-      <StyledAutosuggest value={addressValue} onSelect={onSelect} gemeentenaam="amsterdam" />
+      <StyledAutosuggest value={addressValue} onSelect={onSelect} formatResponse={formatPDOKResponse} gemeentenaam="amsterdam" />
       <StyledMap
         className={className}
         data-testid="map-input"
