@@ -160,6 +160,7 @@ const OverviewMap = ({ ...rest }) => {
       clusteredMarker.on('click', () => {
         onMapClick(latlng, feature.properties?.id);
       });
+      console.log(feature);
       layerInstance.addLayer(clusteredMarker);
     });
 
