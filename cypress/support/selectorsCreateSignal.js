@@ -4,6 +4,7 @@ export const CREATE_SIGNAL = {
   dropdownDag: '#incident_date-select-day',
   dropdownUur: '#incident_date-select-time-hours',
   dropdownMinuten: '#incident_date-select-time-minutes',
+  errorList: '.header__errors',
   imageAddressMarker: 'div[class="leaflet-pane leaflet-marker-pane"]',
   inputPhoneNumber: '[type=tel]',
   inputEmail: '[type=email]',
@@ -34,6 +35,12 @@ export const BOTEN = {
   radioButtonRondvaartbootJa: '#extra_boten_snelheid_rondvaartboot-ja1',
 };
 
+// Selectors specific for boten
+export const CONTAINERS = {
+  inputContainerSoort: '[class*=Input__Styled]',
+  inputContainerNummer: '[class*=Input__Styled]',
+};
+
 // Selectors specific for overlast jongerenx
 export const JONGEREN = {
   checkBoxVaker: '#extra_personen_overig_vaker',
@@ -43,8 +50,6 @@ export const JONGEREN = {
 
 // Selectors specific for lantaarnpaal
 export const LANTAARNPAAL = {
-  errorRadioGevaarlijkRequiredField: '.header__errors > :nth-child(1)',
-  errorRadioHoeveelRequiredField: ':nth-child(7) > .col-12 > .header > .header__errors > :nth-child(1)',
   radioButtonAanrijding: '#extra_straatverlichting-is_gevolg_van_aanrijding1',
   radioButtonOpGrond: '#extra_straatverlichting-lamp_op_grond_of_scheef1',
   radioButtonDeur: '#extra_straatverlichting-deurtje_weg_of_open1',
@@ -60,6 +65,16 @@ export const STANK_OVERLAST = {
   inputWeersomstandigheden: '[class*=Input__Styled]',
   radioButtonRaamOpen: '#extra_bedrijven_horeca_stank_ramen-ja1',
   radioButtonRaamGesloten: '#extra_bedrijven_horeca_stank_ramen-nee1',
+};
+
+// Selectors specific for lantaarnpaal
+export const VERKEERSLICHT = {
+  radioButtonAanrijding: '#extra_verkeerslicht-is_gevolg_van_aanrijding1',
+  radioButtonOpGrond: '#extra_verkeerslicht-verkeerslicht_op_grond_of_scheef1',
+  radioButtonDeur: '#extra_verkeerslicht-deurtje_weg_of_open1',
+  radioButtonLosseKabels: '#extra_verkeerslicht-losse_kabels_zichtbaar_of_lamp_los1',
+  radioButtonNietGevaarlijk: '#extra_verkeerslicht-niet_gevaarlijk1',
+  radioButtonEenLichtpunt: '#extra_verkeerslicht_hoeveel-1_lichtpunt1',
 };
 
 // Selectors for wegdek

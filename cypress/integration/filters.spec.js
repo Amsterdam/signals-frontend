@@ -27,7 +27,7 @@ describe('Filtering', () => {
     cy.get(MANAGE_SIGNALS.buttonCloseMijnFilters).should('be.visible').click();
   });
 
-  it('Should create a filter', () => {
+  it('Should create a filter and filter results', () => {
     // Open page to create filter
     cy.get(MANAGE_SIGNALS.buttonFilteren).should('be.visible').click();
 
@@ -46,25 +46,15 @@ describe('Filtering', () => {
     cy.get(MANAGE_SIGNALS.refreshIcon).should('be.visible');
     cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Centrum');
     cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Gemeld');
+    
+    // Check for every signal on each page whether stadsdeel is equal to centrum
+    cy.get(MANAGE_SIGNALS.paginationPages).children().each(($e1 => {
+      cy.get($e1).click();
+      cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e2 => {
+        expect($e2).to.have.text('Centrum');
+      });
+    }));
 
-    // Click on 4th column stadsdeel to sort ASC
-    cy.get('th').eq(3).should('contain', 'Stadsdeel').click();
-    cy.wait('@getSortedASC');
-    cy.get('th.sort.sort-up').should('be.visible');
-
-    // After sorting, first element should contain stadsdeel Centrum
-    cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('contain', 'Centrum');
-
-    // Click on 4th column stadsdeel to sort DESC
-    cy.get('th').eq(3).should('contain', 'Stadsdeel').click();
-    cy.wait('@getSortedDESC');
-    cy.get('th.sort.sort-down').should('be.visible');
-    cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
-
-    // After sorting, first element should still contain stadsdeel Centrum. Because there is a filter on Centrum
-    cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('contain', 'Centrum');
-
-    // Open private filters
     cy.get(MANAGE_SIGNALS.buttonMijnFilters).should('be.visible').click();
     cy.get('h4').should('contain', 'Status Gemeld Centrum');
 
@@ -88,7 +78,7 @@ describe('Filtering', () => {
     // Check if filter is deleted in signal view. At the moment it isn't.
   });
 
-  it('Should create e new filter, select all filters and reset to default values', () => {
+  it('Should create a new filter, select all filters and reset to default values', () => {
     cy.get(MANAGE_SIGNALS.buttonFilteren).should('be.visible').click();
     cy.get(FILTER.inputFilterName).type('Reset to default');
     cy.get(FILTER.checkboxRefresh).should('be.visible').check();
