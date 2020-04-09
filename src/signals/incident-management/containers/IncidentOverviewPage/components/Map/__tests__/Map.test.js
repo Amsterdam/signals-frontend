@@ -5,19 +5,13 @@ import MapContext from 'containers/MapContext';
 import { withAppContext } from 'test/utils';
 import * as actions from 'containers/MapContext/actions';
 import useFetch from 'hooks/useFetch';
-import autoSuggestResponse from 'utils/__tests__/fixtures/PDOKResponseData.json';
 import mockResponse from './mockResponse.json';
+
 import OverviewMap from '..';
 
 jest.mock('hooks/useFetch');
 const get = jest.fn();
 
-const mockPDOKResponse = JSON.stringify(autoSuggestResponse);
-// fetch.mockResponse(mockPDOKResponse);
-fetch.mockImplementation((a, b) => {
-  console.log('fetch', a, b);
-  return mockPDOKResponse;
-});
 
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,

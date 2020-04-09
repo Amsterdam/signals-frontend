@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
-import PDOKAutoSuggest from '..';
+import PDOKAutoSuggest, { formatResponseFunc } from '..';
 import { formatPDOKResponse } from '../../../shared/services/map-location';
 
 const mockResponse = JSON.stringify(JSONResponse);
@@ -27,6 +27,8 @@ describe('components/PDOKAutoSuggest', () => {
   it('should call fetch with the gemeentenaam', async () => {
     const { container, rerender } = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />));
     const input = container.querySelector('input[aria-autocomplete]');
+
+    input.focus();
 
     expect(fetch).not.toHaveBeenCalled();
 
@@ -55,8 +57,10 @@ describe('components/PDOKAutoSuggest', () => {
   });
 
   it('should call onSelect', async () => {
-    const { container, findByTestId } = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />));
+    const { container, findByTestId, rerender } = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />));
     const input = container.querySelector('input[aria-autocomplete]');
+
+    input.focus();
 
     act(() => {
       fireEvent.change(input, { target: { value: 'Amsterdam' } });
@@ -71,8 +75,26 @@ describe('components/PDOKAutoSuggest', () => {
       fireEvent.click(firstElement);
     });
 
-    const response = formatPDOKResponse(JSONResponse);
+    expect(onSelect).toHaveBeenCalledWith(formatResponseFunc(JSONResponse)[0]);
 
-    expect(onSelect).toHaveBeenCalledWith(response[0]);
+    rerender(withAppContext(<PDOKAutoSuggest onSelect={onSelect} formatResponse={formatPDOKResponse} />));
+
+    input.focus();
+
+    act(() => {
+      fireEvent.change(input, { target: { value: 'Amsterdam' } });
+    });
+
+    const suggestL = await findByTestId('suggestList');
+    const firstElem = suggestL.querySelector('li:nth-of-type(1)');
+
+    expect(onSelect).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      fireEvent.click(firstElem);
+    });
+
+    expect(onSelect).toHaveBeenCalledTimes(2);
+    expect(onSelect).toHaveBeenLastCalledWith(formatPDOKResponse(JSONResponse)[0]);
   });
 });

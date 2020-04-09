@@ -59,9 +59,8 @@ const Autosuggest = styled(PDOKAutoSuggest)`
   width: 350px;
 `;
 
-const formatResponse = ({ response }) => {
-  console.log('formatResponse', response);
-  return response.docs.map(result => {
+export const formatResponse = ({ response }) =>
+  response?.docs?.map(result => {
     const { id, weergavenaam, centroide_ll } = result;
     return {
       id,
@@ -71,7 +70,6 @@ const formatResponse = ({ response }) => {
       },
     };
   });
-};
 
 const clusterLayerOptions = {
   showCoverageOnHover: false,
