@@ -2,10 +2,9 @@ import { pdokResponseFieldList, formatPDOKResponse } from 'shared/services/map-l
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 
 const flParams = pdokResponseFieldList.join(',');
-export const serviceURL =
-    `http://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1&fl=${flParams}`;
+export const serviceURL = `https://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1&fl=${flParams}`;
 
-export const  formatRequest = (baseUrl, wgs84point, distance = 50) => {
+export const formatRequest = (baseUrl, wgs84point, distance = 50) => {
   const xyRD = wgs84ToRd(wgs84point);
   return `${baseUrl}&X=${xyRD.x}&Y=${xyRD.y}&distance=${distance}`;
 };

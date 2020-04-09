@@ -5,14 +5,14 @@ describe('formatRequest', () => {
     latitude: 42,
     longitude: 4,
   };
-  const result = 'http:/base-url&X=39180.476027290264&Y=-667797.6751788945&distance=';
+  const result = 'https://base-url&X=39180.476027290264&Y=-667797.6751788945&distance=';
 
   it('should format correct without distance', () => {
-    expect(formatRequest('http:/base-url', testLocation)).toEqual(`${result}50`);
+    expect(formatRequest('https://base-url', testLocation)).toEqual(`${result}50`);
   });
 
   it('should format correct with distance', () => {
-    expect(formatRequest('http:/base-url', testLocation, 20)).toEqual(`${result}20`);
+    expect(formatRequest('https://base-url', testLocation, 20)).toEqual(`${result}20`);
   });
 });
 
