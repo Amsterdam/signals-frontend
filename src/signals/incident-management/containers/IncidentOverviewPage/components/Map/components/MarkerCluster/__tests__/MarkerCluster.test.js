@@ -11,7 +11,7 @@ const options = {
 };
 const withMapContainer = Component => (<Map data-testid='map-test' options={options}>{Component}</Map>);
 
-describe('MarkerCluster', () => {
+describe('signals/incident-management/containes/IncidentOverviewPage/components/MarkerCluster', () => {
   it('should render the cluster layer in the map', () => {
     const setInstanceMock = jest.fn();
     const { getByTestId } = render(

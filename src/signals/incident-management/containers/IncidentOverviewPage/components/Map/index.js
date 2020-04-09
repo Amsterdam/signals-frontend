@@ -22,7 +22,6 @@ import MarkerCluster from './components/MarkerCluster';
 
 import DetailPanel from './components/DetailPanel';
 
-
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
@@ -60,8 +59,9 @@ const Autosuggest = styled(PDOKAutoSuggest)`
   width: 350px;
 `;
 
-const formatResponse = ({ response }) =>
-  response.docs.map(result => {
+const formatResponse = ({ response }) => {
+  console.log('formatResponse', response);
+  return response.docs.map(result => {
     const { id, weergavenaam, centroide_ll } = result;
     return {
       id,
@@ -71,6 +71,7 @@ const formatResponse = ({ response }) =>
       },
     };
   });
+};
 
 const clusterLayerOptions = {
   showCoverageOnHover: false,
@@ -137,6 +138,7 @@ const OverviewMap = ({ ...rest }) => {
     if (paramsAreInitial) return;
 
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
+
     // Only execute when the value of filterParams changes; disabling linter
     // eslint-disable-next-line
   }, [filterParams]);
@@ -201,7 +203,6 @@ const OverviewMap = ({ ...rest }) => {
           }
           topRight={showPanel && <DetailPanel incidentId={incidentId} onClose={() => setShowPanel(false)} />}
         />
-        <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
       </StyledMap>
     </Wrapper>
   );
