@@ -28,6 +28,8 @@ describe('components/PDOKAutoSuggest', () => {
     const { container, rerender } = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />));
     const input = container.querySelector('input[aria-autocomplete]');
 
+    input.focus();
+
     expect(fetch).not.toHaveBeenCalled();
 
     act(() => {
@@ -57,6 +59,8 @@ describe('components/PDOKAutoSuggest', () => {
   it('should call onSelect', async () => {
     const { container, findByTestId } = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />));
     const input = container.querySelector('input[aria-autocomplete]');
+
+    input.focus();
 
     act(() => {
       fireEvent.change(input, { target: { value: 'Amsterdam' } });

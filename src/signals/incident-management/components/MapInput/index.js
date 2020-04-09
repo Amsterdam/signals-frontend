@@ -14,7 +14,6 @@ export const MapInput = props => {
   // Can't use useCallback here, would break the rules of hooks
   const render = ({ handler }) => {
     const value = formatMapLocation(handler().value || {});
-    console.log(value);
     const { lat, lng } = value?.location || {};
     const mapOptions = {
       ...MAP_OPTIONS,
