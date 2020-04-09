@@ -15,13 +15,13 @@ import { centroideToLocation, featureTolocation } from 'shared/services/map-loca
 import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
-import { markerIcon, smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import { incidentIcon, markerIcon } from 'shared/services/configuration/map-markers';
 import { Marker } from '@datapunt/react-maps';
 import L from 'leaflet';
-
 import MarkerCluster from './components/MarkerCluster';
 
 import DetailPanel from './components/DetailPanel';
+
 
 const Wrapper = styled.div`
   position: relative;
@@ -75,6 +75,7 @@ const clusterLayerOptions = {
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
   disableClusteringAtZoom: 13,
+  spiderfyOnMaxZoom: false,
 };
 
 const OverviewMap = ({ ...rest }) => {
@@ -118,7 +119,6 @@ const OverviewMap = ({ ...rest }) => {
     }
   }, [marker, location, hasLocation, showPanel]);
 
-  // this handlers should act on marker clicks when marker cluster layer has been implemented
   const onMapClick = useCallback((latlng, id) => {
     if (id) {
       setIncidentId(id);
@@ -154,7 +154,7 @@ const OverviewMap = ({ ...rest }) => {
     data.features.forEach(feature => {
       const latlng = featureTolocation(feature.geometry);
       const clusteredMarker = L.marker(latlng, {
-        icon: smallMarkerIcon,
+        icon: incidentIcon,
       });
       clusteredMarker.on('click', () => {
         onMapClick(latlng, feature.properties?.id);
@@ -184,6 +184,7 @@ const OverviewMap = ({ ...rest }) => {
             args={[location]}
             options={{
               icon: markerIcon,
+              zIndexOffset: 100,
             }}
           />
         ) : null}
