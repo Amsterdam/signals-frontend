@@ -1,16 +1,25 @@
 /* eslint-disable global-require */
 import L from 'leaflet';
+import SelectIcon from '!!file-loader!../../../shared/images/icon-select-marker.svg'; // `-marker` suffix ensures the svg is imported as url
+import IncidentIcon from "!!file-loader!../../../shared/images/icon-incident-marker.svg"; // `-marker` suffix ensures the svg is imported as url
 
 export const smallMarkerIcon = L.icon({
-  iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
+  iconUrl: SelectIcon,
   iconSize: [20, 20],
   iconAnchor: [10, 19],
-  className: 'sia-marker-small',
+  className: 'map-marker-select-small',
 });
 
 export const markerIcon = L.icon({
-  iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
+  iconUrl: SelectIcon,
   iconSize: [40, 40],
   iconAnchor: [20, 39],
-  className: 'sia-map-marker',
+  className: 'map-marker-select',
+});
+
+export const incidentIcon = L.icon({
+  iconUrl: IncidentIcon,
+  iconSize: [40, 40],
+  iconAnchor: [20, 39],
+  className: 'map-marker-incident',
 });

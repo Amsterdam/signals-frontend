@@ -19,7 +19,7 @@ const Panel = styled.div`
 `;
 
 const DetailPanel = ({ incidentId, onClose }) => (
-  <Panel>
+  <Panel data-testid="mapDetailPanel">
     <AscLink as={Link} to={`${INCIDENT_URL}/${incidentId}`}>
       Melding {incidentId}
     </AscLink>
