@@ -57,6 +57,7 @@ const StyledMap = styled(Map)`
 const Autosuggest = styled(PDOKAutoSuggest)`
   max-width: calc(100% - 40px);
   z-index: 401; // 400 is the minimum elevation were elements are shown above the map
+  width: 350px;
 `;
 
 const formatResponse = ({ response }) =>
@@ -200,6 +201,7 @@ const OverviewMap = ({ ...rest }) => {
           }
           topRight={showPanel && <DetailPanel incidentId={incidentId} onClose={() => setShowPanel(false)} />}
         />
+        <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
       </StyledMap>
     </Wrapper>
   );
