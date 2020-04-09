@@ -11,10 +11,14 @@ import Map from 'components/Map';
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import configuration from 'shared/services/configuration/configuration';
-import { centroideToLocation } from 'shared/services/map-location';
+import { centroideToLocation, featureTolocation } from 'shared/services/map-location';
 import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
+import {  smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import L from 'leaflet';
+
+import MarkerCluster from './components/MarkerCluster';
 
 import DetailPanel from './components/DetailPanel';
 
@@ -46,6 +50,12 @@ const formatResponse = ({ response }) =>
     };
   });
 
+const clusterLayerOptions = {
+  showCoverageOnHover: false,
+  zoomToBoundsOnClick: true,
+  disableClusteringAtZoom: 13,
+};
+
 const OverviewMap = ({ ...rest }) => {
   const { dispatch } = useContext(MapContext);
   const [initialMount, setInitialMount] = useState(false);
@@ -54,6 +64,7 @@ const OverviewMap = ({ ...rest }) => {
   const { options } = useSelector(makeSelectActiveFilter);
   const filterParams = useSelector(makeSelectFilterParams);
   const { get, data, isLoading } = useFetch();
+  const [layerInstance, setLayerInstance] = useState();
 
   const { ...params } = filterParams;
   params.created_after = moment()
@@ -99,19 +110,31 @@ const OverviewMap = ({ ...rest }) => {
     // eslint-disable-next-line
   }, []);
 
-  // temporarily disabling linter till the function below has been implemented
-  // eslint-disable-next-line
   useEffect(() => {
-    if (!data) return undefined;
+    if (!data || !layerInstance) return () => { };
+    layerInstance.clearLayers();
+    data.features.forEach(item => {
+      const latlng = featureTolocation(item.geometry);
+      const marker = L.marker(latlng, {
+        icon: smallMarkerIcon,
+      });
+      layerInstance.addLayer(marker);
+    });
 
-    // handle the data retrieval;
-  }, [data]);
+    return () => {
+      layerInstance.clearLayers();
+    };
+  }, [layerInstance, data]);
 
   return (
     <Wrapper {...rest}>
       <StyledMap
         data-testid="overviewMap"
-        mapOptions={MAP_OPTIONS}
+        mapOptions={{
+          ...MAP_OPTIONS,
+          maxZoom: 16,
+          minZoom: 8,
+        }}
         events={{ click: onMapClick }}
         setInstance={setMap}
       >
@@ -126,6 +149,7 @@ const OverviewMap = ({ ...rest }) => {
           }
           topRight={showPanel && <DetailPanel incidentId={123} onClose={() => setShowPanel(false)} />}
         />
+        <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
       </StyledMap>
     </Wrapper>
   );

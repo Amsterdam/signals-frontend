@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AutoSuggest from 'components/AutoSuggest';
-import { pdokResponseFieldList, formatPDOKResponse } from 'shared/services/map-location';
+import { pdokResponseFieldList } from 'shared/services/map-location';
 
 const serviceParams = [
   ['fq', 'bron:BAG'],
@@ -13,14 +13,14 @@ const serviceParams = [
 ];
 const serviceURL = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
 const numOptionsDeterminer = data => data?.response?.docs?.length || 0;
-const formatResponseFunc = ({ response }) => response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }));
+export const formatResponseFunc = ({ response }) => response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }));
 
 /**
  * Geocoder component that specifically uses the PDOK location service to request information from
  *
  * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
  */
-const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatResponse, value, ...otherProps }) => {
+const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatResponse, value }) => {
   const fq = gemeentenaam && [['fq', `gemeentenaam:${gemeentenaam}`]];
   const fl = [['fl', fieldList.concat(['id', 'weergavenaam']).join(',')]];
   const params = fq
@@ -35,10 +35,9 @@ const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatR
       className={className}
       url={URL}
       numOptionsDeterminer={numOptionsDeterminer}
-      formatResponse={formatPDOKResponse}
+      formatResponse={formatResponse}
       onSelect={onSelect}
       value={value}
-      {...otherProps}
     />
   );
 };
