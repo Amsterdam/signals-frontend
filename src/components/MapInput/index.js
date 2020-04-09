@@ -35,6 +35,8 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   const hasLocation = location && location?.lat !== 0 && location.lng !== 0;
 
   useEffect(() => {
+    if (!value?.geometrie?.coordinates && !value?.addressText) return;
+
     dispatch(setValuesAction(value));
   }, [value, dispatch]);
 
