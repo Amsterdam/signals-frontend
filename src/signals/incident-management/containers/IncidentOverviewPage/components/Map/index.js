@@ -1,9 +1,9 @@
-import React, { memo, useContext, useState, useCallback, useEffect } from 'react';
+import React, { memo, useContext, useState, useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
-import { ViewerContainer } from '@datapunt/asc-ui';
+import { ViewerContainer, themeColor } from '@datapunt/asc-ui';
 
 import MapContext from 'containers/MapContext/context';
 import { setAddressAction } from 'containers/MapContext/actions';
@@ -15,9 +15,9 @@ import { centroideToLocation, featureTolocation } from 'shared/services/map-loca
 import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
-import {  smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import { incidentIcon, markerIcon } from 'shared/services/configuration/map-markers';
+import { Marker } from '@datapunt/react-maps';
 import L from 'leaflet';
-
 import MarkerCluster from './components/MarkerCluster';
 
 import DetailPanel from './components/DetailPanel';
@@ -30,6 +30,24 @@ const Wrapper = styled.div`
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
+
+  .marker-cluster {
+    color: ${themeColor('tint', 'level1')};
+    background-color: ${themeColor('tint', 'level1')};
+    box-shadow: 1px 1px 1px #666666;
+
+    div {
+      width: 32px;
+      height: 32px;
+      margin-top: 4px;
+      margin-left: 4px;
+      background-color: #004699;
+    }
+
+    span {
+      line-height: 34px;
+    }
+  }
 `;
 
 const Autosuggest = styled(PDOKAutoSuggest)`
@@ -38,8 +56,8 @@ const Autosuggest = styled(PDOKAutoSuggest)`
   width: 350px;
 `;
 
-const formatResponse = ({ response }) =>
-  response.docs.map(result => {
+export const formatResponse = ({ response }) =>
+  response?.docs?.map(result => {
     const { id, weergavenaam, centroide_ll } = result;
     return {
       id,
@@ -54,6 +72,7 @@ const clusterLayerOptions = {
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
   disableClusteringAtZoom: 13,
+  spiderfyOnMaxZoom: false,
 };
 
 const OverviewMap = ({ ...rest }) => {
@@ -65,6 +84,10 @@ const OverviewMap = ({ ...rest }) => {
   const filterParams = useSelector(makeSelectFilterParams);
   const { get, data, isLoading } = useFetch();
   const [layerInstance, setLayerInstance] = useState();
+  const [incidentId, setIncidentId] = useState(0);
+  const [marker, setMarker] = useState();
+  const [location, setLocation] = useState();
+  const hasLocation = useMemo(() => location?.lat && location?.lng, [location]);
 
   const { ...params } = filterParams;
   params.created_after = moment()
@@ -84,9 +107,21 @@ const OverviewMap = ({ ...rest }) => {
     [map, dispatch]
   );
 
-  // this handlers should act on marker clicks when marker cluster layer has been implemented
-  const onMapClick = useCallback(() => {
-    setShowPanel(true);
+  useEffect(() => {
+    if (!marker || !hasLocation) return;
+    if (showPanel) {
+      marker.setLatLng(location);
+    } else {
+      setLocation({ lat: 0, lng: 0 });
+    }
+  }, [marker, location, hasLocation, showPanel]);
+
+  const onMapClick = useCallback((latlng, id) => {
+    if (id) {
+      setIncidentId(id);
+      setShowPanel(true);
+      setLocation(latlng);
+    }
   }, []);
 
   useEffect(() => {
@@ -98,6 +133,7 @@ const OverviewMap = ({ ...rest }) => {
     if (paramsAreInitial) return;
 
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
+
     // Only execute when the value of filterParams changes; disabling linter
     // eslint-disable-next-line
   }, [filterParams]);
@@ -111,20 +147,26 @@ const OverviewMap = ({ ...rest }) => {
   }, []);
 
   useEffect(() => {
-    if (!data || !layerInstance) return () => { };
+    if (!data || !layerInstance) return () => {};
     layerInstance.clearLayers();
-    data.features.forEach(item => {
-      const latlng = featureTolocation(item.geometry);
-      const marker = L.marker(latlng, {
-        icon: smallMarkerIcon,
+    data.features.forEach(feature => {
+      const latlng = featureTolocation(feature.geometry);
+
+      const clusteredMarker = L.marker(latlng, {
+        icon: incidentIcon,
       });
-      layerInstance.addLayer(marker);
+
+      clusteredMarker.on('click', () => {
+        onMapClick(latlng, feature.properties?.id);
+      });
+
+      layerInstance.addLayer(clusteredMarker);
     });
 
     return () => {
       layerInstance.clearLayers();
     };
-  }, [layerInstance, data]);
+  }, [layerInstance, data, onMapClick]);
 
   return (
     <Wrapper {...rest}>
@@ -135,9 +177,19 @@ const OverviewMap = ({ ...rest }) => {
           maxZoom: 16,
           minZoom: 8,
         }}
-        events={{ click: onMapClick }}
         setInstance={setMap}
       >
+        {hasLocation ? (
+          <Marker
+            setInstance={setMarker}
+            args={[location]}
+            options={{
+              icon: markerIcon,
+              zIndexOffset: 100,
+            }}
+          />
+        ) : null}
+        <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
         <ViewerContainer
           topLeft={
             <Autosuggest
@@ -147,9 +199,8 @@ const OverviewMap = ({ ...rest }) => {
               formatResponse={formatResponse}
             />
           }
-          topRight={showPanel && <DetailPanel incidentId={123} onClose={() => setShowPanel(false)} />}
+          topRight={showPanel && <DetailPanel incidentId={incidentId} onClose={() => setShowPanel(false)} />}
         />
-        <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
       </StyledMap>
     </Wrapper>
   );

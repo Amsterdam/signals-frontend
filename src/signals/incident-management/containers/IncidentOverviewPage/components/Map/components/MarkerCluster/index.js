@@ -12,7 +12,7 @@ const MarkerClusterGroup = createLeafletComponent('markerClusterGroup');
 const MarkerCluster = ({ clusterOptions, setInstance }) => <MarkerClusterGroup setInstance={setInstance} options={clusterOptions} /> || null;
 
 MarkerCluster.propTypes = {
-  clusterOptions: PropTypes.shape({}),
+  clusterOptions: PropTypes.shape({}), // see leaflet.markercluster for the possible cluster options
   setInstance: PropTypes.func,
 };
 
