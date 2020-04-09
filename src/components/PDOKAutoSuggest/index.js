@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AutoSuggest from 'components/AutoSuggest';
+import { pdokResponseFieldList, formatPDOKResponse } from 'shared/services/map-location';
 
 const serviceParams = [
   ['fq', 'bron:BAG'],
   ['fq', 'type:adres'],
   // ['fl', '*'], // undocumented; requests all available field values from the API
+  ['fl', pdokResponseFieldList.join(',')],
   ['q', ''],
 ];
 const serviceURL = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
@@ -18,7 +20,7 @@ const formatResponseFunc = ({ response }) => response.docs.map(({ id, weergavena
  *
  * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
  */
-const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatResponse, value }) => {
+const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatResponse, value, ...otherProps }) => {
   const fq = gemeentenaam && [['fq', `gemeentenaam:${gemeentenaam}`]];
   const fl = [['fl', fieldList.concat(['id', 'weergavenaam']).join(',')]];
   const params = fq
@@ -33,9 +35,10 @@ const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatR
       className={className}
       url={URL}
       numOptionsDeterminer={numOptionsDeterminer}
-      formatResponse={formatResponse}
+      formatResponse={formatPDOKResponse}
       onSelect={onSelect}
       value={value}
+      {...otherProps}
     />
   );
 };

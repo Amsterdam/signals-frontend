@@ -41,7 +41,6 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
   const inputRef = useRef(null);
   const options = data && formatResponse(data);
   const activeId = options && options[activeIndex]?.id;
-
   const handleKeyDown = useCallback(
     event => {
       if (!showList) return;
@@ -181,6 +180,10 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
     },
     [onSelect]
   );
+
+  useEffect(() => {
+    inputRef.current.value = value;
+  }, [value]);
 
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
