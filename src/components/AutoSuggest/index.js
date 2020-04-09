@@ -35,6 +35,7 @@ const AbsoluteList = styled(SuggestList)`
  */
 const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, url, value }) => {
   const { get, data } = useFetch();
+  const [initialRender, setInitialRender] = useState(false);
   const [showList, setShowList] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const wrapperRef = useRef(null);
@@ -105,10 +106,16 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
     [data, numOptionsDeterminer, showList]
   );
 
+  useEffect(() => {
+    setInitialRender(true);
+  }, []);
+
   /**
    * Subscribe to activeIndex changes which happen after keyboard input
    */
   useEffect(() => {
+    if (!initialRender) return;
+
     if (activeIndex === -1) {
       inputRef.current.focus();
     }
