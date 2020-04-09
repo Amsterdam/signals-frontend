@@ -76,19 +76,33 @@ const MapSelect = ({
 
           zoomMax: 15,
 
-          filter: /* istanbul ignore next */ feature => {
-            if (selectionOnly) {
-              return selection.has(feature.properties[idField]);
-            }
+          /**
+           * Function that will be used to decide whether to include a feature or not. The default is to include all
+           * features.
+           *
+           * Note that this behaviour is difficult to test, hence the istanbul ignore
+           */
+          filter: /* istanbul ignore next */ feature =>
+            selectionOnly ? selection.has(feature.properties[idField]) : true,
 
-            return true;
-          },
-
+          /**
+           * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
+           * passing the GeoJSON point feature and its LatLng.
+           * Return value overridden to have it return a marker with a specific icon
+           *
+           * Note that this behaviour is difficult to test, hence the istanbul ignore
+           */
           pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
             L.marker(latlong, {
               icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField])),
             }),
 
+          /**
+           * Function called once for each created Feature, after it has been created and styled.
+           * Attaches click handler to markers that are rendered on the map
+           *
+           * Note that this behaviour is difficult to test, hence the istanbul ignore
+           */
           onEachFeature: /* istanbul ignore next */ (feature, layer) => {
             if (onSelectionChange) {
               // Check that the component is in write mode
@@ -108,12 +122,18 @@ const MapSelect = ({
     [fetchRequest, getIcon, iconField, idField, onSelectionChange, selection, selectionOnly]
   );
 
+  /**
+   * Set the features layer on mount
+   */
   useLayoutEffect(() => {
     featuresLayer.current = bboxGeoJsonLayer;
-    // only execute on mount
+    // only execute on mount; disabling linter
     // eslint-disable-next-line
   }, []);
 
+  /**
+   * Initialise the whole map when its instance can be retrieved from the DOM
+   */
   useEffect(() => {
     if (!mapInstance) return undefined;
 
@@ -126,7 +146,6 @@ const MapSelect = ({
 
     zoomMessageControl.addTo(mapInstance);
 
-    /* istanbul ignore else */
     if (legend) {
       // only show if legend items are provided
       const legendControl = new LegendControl({
@@ -157,27 +176,37 @@ const MapSelect = ({
     // eslint-disable-next-line
   }, [mapInstance]);
 
-  useEffect(/* istanbul ignore next */ () => {
-    if (!featuresLayer.current) return;
+  /**
+   * Registering to value changes
+   * Value changes happen when a marker on the map is clicked (see onEachFeature). Each marker is looped over and its
+   * correct icon is set based on the selected values.
+   *
+   * Note that this behaviour is next to impossible to test. Hence the istanbul ignore.
+   */
+  useEffect(
+    /* istanbul ignore next */ () => {
+      if (!featuresLayer.current) return;
 
-    selection.set.clear();
+      selection.set.clear();
 
-    for (const id of value) {
-      selection.add(id);
-    }
+      for (const id of value) {
+        selection.add(id);
+      }
 
-    // Let icons reflect new selection
-    featuresLayer.current.getLayers().forEach(layer => {
-      const properties = layer.feature.properties;
-      const id = properties[idField];
-      const iconType = properties[iconField];
-      const icon = getIcon(iconType, selection.has(id));
+      // Let icons reflect new selection
+      featuresLayer.current.getLayers().forEach(layer => {
+        const properties = layer.feature.properties;
+        const id = properties[idField];
+        const iconType = properties[iconField];
+        const icon = getIcon(iconType, selection.has(id));
 
-      layer.setIcon(icon);
-    });
-    // only execute when value changes; disabling linter
-    // eslint-disable-next-line
-  }, [value]);
+        layer.setIcon(icon);
+      });
+      // only execute when value changes; disabling linter
+      // eslint-disable-next-line
+    },
+    [value]
+  );
 
   return (
     <StyledMap

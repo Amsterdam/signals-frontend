@@ -60,7 +60,6 @@ describe('<MapSelect />', () => {
         latlng={latlng}
         onSelectionChange={onSelectionChange}
         getIcon={getIcon}
-        legend={legend}
         geojsonUrl={url}
         iconField="type_name"
         idField="objectnummer"
@@ -69,16 +68,28 @@ describe('<MapSelect />', () => {
 
     await findByTestId('mapSelect');
 
-    expect(LegendControl).toHaveBeenCalledWith({
-      position: 'topright',
-      zoomMin: 13,
-      elements: legend,
-    });
-
+    expect(LegendControl).not.toHaveBeenCalled();
     expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
-    expect(LegendControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled();
+  });
+
+  it('should render legend', async () => {
+    const { findByTestId } = render(
+      <MapSelect
+        latlng={latlng}
+        onSelectionChange={onSelectionChange}
+        getIcon={getIcon}
+        geojsonUrl={url}
+        legend={legend}
+        iconField="type_name"
+        idField="objectnummer"
+      />
+    );
+
+    await findByTestId('mapSelect');
+
+    expect(LegendControl).toHaveBeenCalled();
   });
 
   it('should do bbox fetch', async () => {
