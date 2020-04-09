@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import amaps from '@datapunt/amsterdam-amaps/dist/amaps';
+import amaps from '@datapunt/amsterdam-amaps/dist/amaps';
 
-// import 'leaflet/dist/leaflet';
+import 'leaflet/dist/leaflet';
 import 'leaflet/dist/leaflet.css';
 import '@datapunt/amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
@@ -20,7 +20,7 @@ import ErrorControl from './control/ErrorControl';
 const SELECTION_MAX_COUNT = 30;
 
 const ZOOM_MIN = 17;
-// const ZOOM_INIT = 18;
+const ZOOM_INIT = 18;
 
 class MapSelect extends React.Component {
   /**
@@ -29,7 +29,7 @@ class MapSelect extends React.Component {
    */
   componentDidMount() {
     const {
-      // latlng: centerLatLng,
+      latlng: centerLatLng,
       geojsonUrl,
       onSelectionChange,
       getIcon,
@@ -40,17 +40,17 @@ class MapSelect extends React.Component {
       selectionOnly,
     } = this.props;
 
-    // this.map = amaps.createMap({
-    //   center: {
-    //     latitude: centerLatLng.latitude,
-    //     longitude: centerLatLng.longitude,
-    //   },
-    //   layer: 'standaard',
-    //   target: 'mapSelect', // requires unique id because amaps doesn't support passing dom element (according to docs)
-    //   marker: false,
-    //   search: false,
-    //   zoom: ZOOM_INIT,
-    // });
+    this.map = amaps.createMap({
+      center: {
+        latitude: centerLatLng.latitude,
+        longitude: centerLatLng.longitude,
+      },
+      layer: 'standaard',
+      target: 'mapSelect', // requires unique id because amaps doesn't support passing dom element (according to docs)
+      marker: false,
+      search: false,
+      zoom: ZOOM_INIT,
+    });
 
     const errorControl = new ErrorControl({
       position: 'topleft',

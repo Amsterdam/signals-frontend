@@ -19,7 +19,7 @@ jest.mock('./control/LegendControl');
 jest.mock('./control/LoadingControl');
 jest.mock('./control/ErrorControl');
 
-describe.skip('<MapSelect />', () => {
+describe('<MapSelect />', () => {
   let mockLayer;
   let legend;
   const map = {};
