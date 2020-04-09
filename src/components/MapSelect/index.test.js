@@ -67,7 +67,7 @@ describe('<MapSelect />', () => {
       />
     );
 
-    await findByTestId('mapSelectViewerContainer');
+    await findByTestId('mapSelect');
 
     expect(LegendControl).toHaveBeenCalledWith({
       position: 'topright',
@@ -96,7 +96,7 @@ describe('<MapSelect />', () => {
       />
     );
 
-    await findByTestId('mapSelectViewerContainer');
+    await findByTestId('mapSelect');
 
     const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/;
     expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);
