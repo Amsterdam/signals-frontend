@@ -25,6 +25,20 @@ export const wktPointToLocation = wktPoint => {
   };
 };
 
+export const centroideToLocation = centroide => {
+  if (!centroide.includes('POINT')) {
+    throw TypeError('Provided centroide geometry is not a point.');
+  }
+  const coordinate = centroide.split('(')[1].split(')')[0];
+  const lat = parseFloat(coordinate.split(' ')[1]);
+  const lng = parseFloat(coordinate.split(' ')[0]);
+
+  return {
+    lat,
+    lng,
+  };
+};
+
 /**
  * converts the location from `sia` location format to latlon format
  */
@@ -104,4 +118,3 @@ export const formatPDOKResponse = ({ response }) =>
       },
     };
   });
-

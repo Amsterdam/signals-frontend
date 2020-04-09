@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { Map as MapComponent, TileLayer } from '@datapunt/react-maps';
 
 const StyledViewerContainer = styled(ViewerContainer)`
