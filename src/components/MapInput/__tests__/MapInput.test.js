@@ -1,10 +1,13 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import MapContext from 'containers/MapContext';
+import context from 'containers/MapContext/context';
 
 import { withAppContext } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
+
 import MapInput from '..';
 
 jest.mock('containers/MapContext/actions', () => ({
@@ -106,47 +109,37 @@ describe('components/MapInput', () => {
     });
 
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith({
-      geometrie: expect.objectContaining({ coordinates: [expect.any(Number), expect.any(Number)] }),
-      address: expect.objectContaining({
-        huisletter: expect.any(String),
-        huisnummer: expect.any(String),
-        huisnummertoevoeging: expect.any(String),
-        openbare_ruimte: expect.any(String),
-        postcode: expect.any(String),
-        woonplaats: expect.any(String),
-      }),
-    });
+    expect(onChange).toHaveBeenCalled();
   });
 
-  it.skip('should fill in the provided location/address value', () => {
+  it('should render marker', async () => {
     const location = {
       lat: 52.36058599633851,
       lng: 4.894292258032637,
     };
-    const value = {
-      location,
-      addressText: 'Nieuwe Looiersstr 47, 1017VB Amsterdam',
-      address: {
-        postcode: '1017VB',
-        huisletter: '',
-        huisnummer: '47',
-        woonplaats: 'Amsterdam',
-        openbare_ruimte: 'Nieuwe Looiersstr',
-        huisnummertoevoeging: '',
-      },
-    };
-    const mapOptions = {
-      ...MAP_OPTIONS,
-      center: [location.lat, location.lng],
-    };
 
-    const { container, getByTestId } = render(withMapContext(<MapInput mapOptions={mapOptions} value={value} />));
+    const { container, findByTestId, rerender } = render(
+      withAppContext(
+        <context.Provider value={{ state: {}, dispatch: () => {} }}>
+          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} />
+        </context.Provider>
+      )
+    );
 
-    const inputElement = getByTestId('autoSuggest').querySelector('input');
-    expect(inputElement.value).toEqual(value.addressText);
+    await findByTestId('map-input');
 
-    // Marker
-    expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
+    expect(container.querySelector(`.${markerIcon.options.className}`)).not.toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <context.Provider value={{ state: { location }, dispatch: () => {} }}>
+          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} />
+        </context.Provider>
+      )
+    );
+
+    await findByTestId('map-input');
+
+    expect(container.querySelector(`.${markerIcon.options.className}`)).toBeInTheDocument();
   });
 });

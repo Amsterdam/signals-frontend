@@ -4,8 +4,8 @@ import { withAppContext } from 'test/utils';
 
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
+import { formatPDOKResponse } from 'shared/services/map-location';
 import PDOKAutoSuggest, { formatResponseFunc } from '..';
-import { formatPDOKResponse } from '../../../shared/services/map-location';
 
 const mockResponse = JSON.stringify(JSONResponse);
 fetch.mockResponse(mockResponse);

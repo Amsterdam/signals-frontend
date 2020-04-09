@@ -56,7 +56,6 @@ class LocationForm extends React.Component {
 
   onQueryResult(location) {
     const newLocation = mapLocation(location);
-    console.log(location, newLocation);
     this.setState({
       newLocation,
     });

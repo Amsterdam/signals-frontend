@@ -119,6 +119,8 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
     if (activeIndex === -1) {
       inputRef.current.focus();
     }
+    // only respond to changed in activeIndex; disabling linter
+    // eslint-disable-next-line
   }, [activeIndex]);
 
   /**

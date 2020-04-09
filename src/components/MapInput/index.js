@@ -1,11 +1,16 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+
 import styled from '@datapunt/asc-core';
 import { Marker } from '@datapunt/react-maps';
+import { ViewerContainer } from '@datapunt/asc-ui';
+import 'leaflet/dist/leaflet.css';
+
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
+import { locationTofeature } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
 import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
+
 import Map from '../Map';
 import PDOKAutoSuggest from '../PDOKAutoSuggest';
 import reverseGeocoderService from './services/reverseGeocoderService';
@@ -19,12 +24,26 @@ const StyledMap = styled(Map)`
   width: 100%;
 `;
 
+const StyledViewerContainer = styled(ViewerContainer)`
+  & > * {
+    width: 100%;
+  }
+`;
+
 const StyledAutosuggest = styled(PDOKAutoSuggest)`
   position: absolute;
-  top: 30px;
-  left: 20px;
-  width: calc(100% - 40px);
+  left: 0;
+  width: 40%;
+  max-width: calc(100% - 40px);
   z-index: 401; // 400 is the minimum elevation were elements are shown above the map
+
+  @media (max-width: ${({ theme }) => theme.layouts.large.max}px) {
+    width: 60%;
+  }
+
+  @media (max-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    width: 100%;
+  }
 `;
 
 const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => {
@@ -43,46 +62,46 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   const clickHandler = useCallback(
     async event => {
       dispatch(setLocationAction(event.latlng));
+
       const response = await reverseGeocoderService(event.latlng);
+
       dispatch(
         setValuesAction({
           addressText: response.value,
           address: response.data.address,
         })
       );
+
       onChange({ geometrie: locationTofeature(event.latlng), address: response.data.address });
     },
     [dispatch, onChange]
   );
 
   const onSelect = useCallback(
-    option => {
-      // eslint-disable-next-line no-shadow
-      const { data, value } = option;
-
-      dispatch(setValuesAction({ location: data.location, address: data.address, addressText: value }));
+    /* istanbul ignore next */ option => {
+      dispatch(setValuesAction({ location: option.data.location, address: option.data.address, addressText: value }));
 
       onChange({
-        geometrie: locationTofeature(data.location),
-        address: data.address,
+        geometrie: locationTofeature(option.data.location),
+        address: option.data.address,
       });
 
       if (map) {
         const currentZoom = map.getZoom();
-        map.flyTo(data.location, currentZoom < 11 ? 11 : currentZoom);
+        map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom);
       }
     },
-    [map, dispatch, onChange]
+    [map, dispatch, onChange, value]
   );
 
   useEffect(() => {
     if (!marker || !hasLocation) return;
+
     marker.setLatLng(location);
   }, [marker, location, hasLocation]);
 
   return (
     <Wrapper>
-      <StyledAutosuggest value={addressValue} onSelect={onSelect} formatResponse={formatPDOKResponse} gemeentenaam="amsterdam" />
       <StyledMap
         className={className}
         data-testid="map-input"
@@ -91,6 +110,9 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         setInstance={setMap}
         {...otherProps}
       >
+        <StyledViewerContainer
+          topLeft={<StyledAutosuggest value={addressValue} onSelect={onSelect} gemeentenaam="amsterdam" />}
+        />
         {hasLocation && (
           <Marker
             setInstance={setMarker}
@@ -117,8 +139,8 @@ MapInput.propTypes = {
     addressText: PropTypes.string,
   }),
   onChange: PropTypes.func,
-  mapOptions: PropTypes.shape({})
-    .isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
+  /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */
+  mapOptions: PropTypes.shape({}).isRequired,
 };
 
 export default MapInput;
