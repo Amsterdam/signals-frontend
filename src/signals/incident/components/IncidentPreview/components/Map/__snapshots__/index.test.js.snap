@@ -273,7 +273,7 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
                 "icon": NewClass {
                   "_initHooksCalled": true,
                   "options": Object {
-                    "className": "sia-map-marker",
+                    "className": "map-marker-select",
                     "iconAnchor": Array [
                       20,
                       39,
@@ -282,7 +282,7 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
                       40,
                       40,
                     ],
-                    "iconUrl": "https://map.data.amsterdam.nl/dist/images/svg/marker.svg",
+                    "iconUrl": "ImageMock",
                   },
                 },
               }
@@ -432,7 +432,7 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
                 "icon": NewClass {
                   "_initHooksCalled": true,
                   "options": Object {
-                    "className": "sia-map-marker",
+                    "className": "map-marker-select",
                     "iconAnchor": Array [
                       20,
                       39,
@@ -441,7 +441,7 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
                       40,
                       40,
                     ],
-                    "iconUrl": "https://map.data.amsterdam.nl/dist/images/svg/marker.svg",
+                    "iconUrl": "ImageMock",
                   },
                 },
               }

@@ -53,11 +53,11 @@ describe('signals/incident-management/containes/IncidentOverviewPage/components/
 
   it.only('should render the cluster data', async () => {
     useFetch.mockImplementation(() => ({ get, data: mockResponse }));
-    const { findByTestId, debug } = render(withMapContext(<OverviewMap />));
+    const { container, findByTestId, debug } = render(withMapContext(<OverviewMap />));
     await findByTestId('overviewMap');
     debug();
 
-    // expect(container.querySelector('.leaflet-marker-icon')).toBeInTheDocument();
+    expect(container.querySelector('.leaflet-marker-icon')).toBeInTheDocument();
     // expect(container.querySelector('.map-marker-incident')).toBeInTheDocument();
   });
 
