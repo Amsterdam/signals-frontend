@@ -13,7 +13,7 @@ const serviceParams = [
 ];
 const serviceURL = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
 const numOptionsDeterminer = data => data?.response?.docs?.length || 0;
-const formatResponseFunc = ({ response }) => response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }));
+export const formatResponseFunc = ({ response }) => response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }));
 
 /**
  * Geocoder component that specifically uses the PDOK location service to request information from
