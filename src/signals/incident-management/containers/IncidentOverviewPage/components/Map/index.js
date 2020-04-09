@@ -27,9 +27,6 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const shadowColor = '#666666';
-const fillColor = '#004699';
-
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
@@ -37,14 +34,14 @@ const StyledMap = styled(Map)`
   .marker-cluster {
     color: ${themeColor('tint', 'level1')};
     background-color: ${themeColor('tint', 'level1')};
-    box-shadow: 1px 1px 1px ${shadowColor};
+    box-shadow: 1px 1px 1px #666666;
 
     div {
       width: 32px;
       height: 32px;
       margin-top: 4px;
       margin-left: 4px;
-      background-color: ${fillColor};
+      background-color: #004699;
     }
 
     span {
@@ -154,13 +151,15 @@ const OverviewMap = ({ ...rest }) => {
     layerInstance.clearLayers();
     data.features.forEach(feature => {
       const latlng = featureTolocation(feature.geometry);
+
       const clusteredMarker = L.marker(latlng, {
         icon: incidentIcon,
       });
+
       clusteredMarker.on('click', () => {
         onMapClick(latlng, feature.properties?.id);
       });
-      console.log(feature);
+
       layerInstance.addLayer(clusteredMarker);
     });
 
