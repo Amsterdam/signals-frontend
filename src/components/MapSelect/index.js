@@ -1,8 +1,6 @@
 import React, { useLayoutEffect, useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@datapunt/asc-core';
-import { ViewerContainer } from '@datapunt/asc-ui';
-import WfsLayer from '@datapunt/amsterdam-react-maps/lib/components/WfsLayer';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
 import 'leaflet/dist/leaflet.css';
 import classNames from 'classnames';
@@ -187,11 +185,7 @@ const MapSelect = ({
       data-testid="mapSelect"
       mapOptions={mapOptions}
       setInstance={setMapInstance}
-    >
-      <ViewerContainer data-testid="mapSelectViewerContainer">
-        <WfsLayer url={geojsonUrl} zoomLevel={16} />
-      </ViewerContainer>
-    </StyledMap>
+    />
   );
 };
 
