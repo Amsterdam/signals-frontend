@@ -14,7 +14,7 @@ services:
   lint-container:
     build:
       cache_from:
-        - repo.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
+        - docker-registry.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
       context: .
       target: base
     environment:
@@ -25,7 +25,7 @@ services:
   unittest-container:
     build:
       cache_from:
-        - repo.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
+        - docker-registry.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
       context: .
       target: base
     environment:
