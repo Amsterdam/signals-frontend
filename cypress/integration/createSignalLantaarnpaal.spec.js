@@ -59,7 +59,7 @@ describe('Create signal lantaarnpaal',() => {
     // Click on next without retry to invoke error message
     cy.contains('Volgende').click();
 
-    cy.get(LANTAARNPAAL.errorRadioGevaarlijkRequiredField).contains('Dit is een verplicht veld');
+    cy.get(CREATE_SIGNAL.errorList).should('contain','Dit is een verplicht veld');
 
     // Check on visibility of the message to make a phone call directly after selecting one of the first four options
     const messageCallDirectly = 'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.';
@@ -81,7 +81,7 @@ describe('Create signal lantaarnpaal',() => {
 
     // Click on next without retry to invoke error message
     cy.contains('Volgende').click();
-    cy.get(LANTAARNPAAL.errorRadioHoeveelRequiredField).contains('Dit is een verplicht veld');
+    cy.get(CREATE_SIGNAL.errorList).should('contain','Dit is een verplicht veld');
 
     cy.get(LANTAARNPAAL.radioButtonEenLichtpunt).click();
 

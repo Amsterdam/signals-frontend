@@ -5,7 +5,9 @@ export const MANAGE_SIGNALS = {
   buttonFilteren: '[data-testid=filterModalBtn]',
   firstSignalStadsdeelName: ':nth-child(1) > :nth-child(4) > a',
   filterTagList: '[data-testid=filterTagListTag]',
+  paginationPages: '[data-testid="pagination"] > ul',
   refreshIcon: '[class*=PageHeader__RefreshIcon]',
+  stadsdeelFromSignal: 'tr td:nth-child(4)',
 };
 
 // Selectors for Filteren page
