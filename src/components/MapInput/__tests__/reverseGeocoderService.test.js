@@ -132,7 +132,6 @@ describe('reverseGeocoderService', () => {
         postcode: serviceURLResponse.response.docs[0].postcode,
         woonplaats: serviceURLResponse.response.docs[0].woonplaatsnaam,
       },
-      stadsdeel: bagResponse.features[0].properties.code,
     },
   };
 
@@ -154,13 +153,13 @@ describe('reverseGeocoderService', () => {
 
   it('should return the correct location', async () => {
     fetch.resetMocks();
-    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse)).mockResponseOnce(JSON.stringify(bagResponse));
+    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse));
+
     const result = await reverseGeocoderService(testLocation);
 
-    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).toHaveBeenCalledTimes(1);
 
-    expect(fetch).toHaveBeenNthCalledWith(1, expect.stringContaining(serviceURL));
-    expect(fetch).toHaveBeenNthCalledWith(2, expect.stringContaining('https://api.data.amsterdam.nl/geosearch/bag/'));
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining(serviceURL));
 
     expect(result).toEqual(testResult);
   });

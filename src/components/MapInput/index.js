@@ -64,18 +64,18 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
+      const stadsdeel = await getStadsdeel(event.latlng);
 
       const onChangePayload = {
         geometrie: locationTofeature(event.latlng),
+        stadsdeel,
       };
 
       const addressText = response?.value || '';
       const address = response?.data?.address || '';
-      const stadsdeel = response?.data?.stadsdeel || '';
 
       if (response) {
         onChangePayload.address = response.data.address;
-        onChangePayload.stadsdeel = response.data.stadsdeel;
       }
 
       dispatch(
