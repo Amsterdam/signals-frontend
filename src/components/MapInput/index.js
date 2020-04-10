@@ -111,7 +111,14 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         {...otherProps}
       >
         <StyledViewerContainer
-          topLeft={<StyledAutosuggest value={addressValue} onSelect={onSelect} gemeentenaam="amsterdam" />}
+          topLeft={
+            <StyledAutosuggest
+              value={addressValue}
+              onSelect={onSelect}
+              gemeentenaam="amsterdam"
+              placeholder="Zoek adres"
+            />
+          }
         />
         {hasLocation && (
           <Marker
