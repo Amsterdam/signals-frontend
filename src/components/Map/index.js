@@ -15,7 +15,7 @@ const Map = ({ mapOptions, hasZoomControls, isInteractive, children, ...otherPro
     ...mapOptions,
     dragging: isInteractive && !hasTouchCapabilities,
     tap: isInteractive && !hasTouchCapabilities,
-    scrollWheelZoom: isInteractive && !hasTouchCapabilities,
+    scrollWheelZoom: false,
   };
 
   return (

@@ -189,6 +189,7 @@ const OverviewMap = ({ ...rest }) => {
           minZoom: 8,
         }}
         setInstance={setMap}
+        hasZoomControls
       >
         {hasLocation && (
           <Marker
