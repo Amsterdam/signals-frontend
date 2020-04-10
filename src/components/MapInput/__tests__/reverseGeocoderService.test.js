@@ -1,4 +1,4 @@
-import reverseGeocoderService, { formatRequest } from '../services/reverseGeocoderService';
+import reverseGeocoderService, { formatRequest, serviceURL } from '../services/reverseGeocoderService';
 
 describe('formatRequest', () => {
   const testLocation = {
@@ -22,7 +22,7 @@ describe('reverseGeocoderService', () => {
     lng: 4,
   };
 
-  const mockResponse = {
+  const serviceURLResponse = {
     response: {
       numFound: 1,
       start: 0,
@@ -41,24 +41,51 @@ describe('reverseGeocoderService', () => {
     },
   };
 
+  const bagResponse = {
+    features: [
+      {
+        properties: {
+          code: 'N',
+          display: 'Noord',
+          distance: 4467.47982312323,
+          id: '03630000000019',
+          type: 'gebieden/stadsdeel',
+          uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
+        },
+      },
+      {
+        properties: {
+          code: '61b',
+          display: 'Vogelbuurt Zuid',
+          distance: 109.145476159977,
+          id: '03630000000644',
+          type: 'gebieden/buurt',
+          uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
+          vollcode: 'N61b',
+        },
+      },
+    ],
+    type: 'FeatureCollection',
+  };
   const testResult = {
-    id: 'adr-a03ce477aaa2e95e9246139b631484ad',
-    value: 'Bloemgracht 189A-2, 1016KP Amsterdam',
+    id: serviceURLResponse.response.docs[0].id,
+    value: serviceURLResponse.response.docs[0].weergavenaam,
     data: {
       location: { lat: 52.37377195, lng: 4.87745608 },
       address: {
-        openbare_ruimte: 'Bloemgracht',
-        huisnummer: '189A-2',
+        openbare_ruimte: serviceURLResponse.response.docs[0].straatnaam,
+        huisnummer: serviceURLResponse.response.docs[0].huis_nlt,
         huisletter: '',
         huisnummertoevoeging: '',
-        postcode: '1016KP',
-        woonplaats: 'Amsterdam',
+        postcode: serviceURLResponse.response.docs[0].postcode,
+        woonplaats: serviceURLResponse.response.docs[0].woonplaatsnaam,
       },
+      stadsdeel: bagResponse.features[0].properties.code,
     },
   };
 
   beforeEach(() => {
-    fetch.mockResponseOnce(JSON.stringify(mockResponse));
+    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse)).mockResponseOnce(JSON.stringify(bagResponse));
   });
 
   afterEach(() => {
@@ -67,7 +94,12 @@ describe('reverseGeocoderService', () => {
 
   it('should return the correct location', async () => {
     const result = await reverseGeocoderService(testLocation);
-    expect(fetch).toHaveBeenCalledTimes(1);
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+
+    expect(fetch).toHaveBeenNthCalledWith(1, expect.stringContaining(serviceURL));
+    expect(fetch).toHaveBeenNthCalledWith(2, expect.stringContaining('https://api.data.amsterdam.nl/geosearch/bag/'));
+
     expect(result).toEqual(testResult);
   });
 });
