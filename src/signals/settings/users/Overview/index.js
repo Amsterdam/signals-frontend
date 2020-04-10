@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -82,7 +76,8 @@ const UsersOverviewContainer = () => {
   }, [pageNumFromQueryString, page]);
 
   const createOnChangeFilter = useCallback(
-    filter => value => {
+    filter => event => {
+      const { value } = event.target;
       if (filters[filter] === value) return;
 
       dispatch(setUserFilters({ username: value }));
@@ -92,20 +87,23 @@ const UsersOverviewContainer = () => {
     [dispatch, history, filters]
   );
 
-  const debouncedOnChangeFilter = useCallback(
-    debounce(createOnChangeFilter('username'), 250),
-    [createOnChangeFilter]
+  const debouncedOnChangeFilter = useCallback(debounce(createOnChangeFilter('username'), 250), [createOnChangeFilter]);
+
+  const selectUserActiveOnChange = useCallback(
+    event => {
+      event.preventDefault();
+      dispatch(setUserFilters({ is_active: event.target.value }));
+    },
+    [dispatch]
   );
 
-  const selectUserActiveOnChange = useCallback(event => {
-    event.preventDefault();
-    dispatch(setUserFilters({ is_active: event.target.value }));
-  }, [dispatch]);
-
-  const selectRoleOnChange = useCallback(event => {
-    event.preventDefault();
-    dispatch(setUserFilters({ role: event.target.value }));
-  }, [dispatch]);
+  const selectRoleOnChange = useCallback(
+    event => {
+      event.preventDefault();
+      dispatch(setUserFilters({ role: event.target.value }));
+    },
+    [dispatch]
+  );
 
   const onItemClick = useCallback(
     event => {
@@ -114,7 +112,11 @@ const UsersOverviewContainer = () => {
         return;
       }
 
-      const { currentTarget: { dataset: { itemId } } } = event;
+      const {
+        currentTarget: {
+          dataset: { itemId },
+        },
+      } = event;
 
       if (itemId) {
         history.push(`${USER_URL}/${itemId}`);
@@ -137,7 +139,7 @@ const UsersOverviewContainer = () => {
     <Fragment>
       <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}>
         {userCan('add_user') && (
-          <HeaderButton variant="primary" $as={Link} to={USER_URL}>
+          <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
             Gebruiker toevoegen
           </HeaderButton>
         )}
@@ -153,7 +155,10 @@ const UsersOverviewContainer = () => {
               filters={[
                 <StyledSearchbar
                   placeholder=""
-                  onChange={debouncedOnChangeFilter}
+                  onChange={event => {
+                    event.persist();
+                    debouncedOnChangeFilter(event);
+                  }}
                   value={filters.username}
                   data-testid="filterUsersByUsername"
                 />,

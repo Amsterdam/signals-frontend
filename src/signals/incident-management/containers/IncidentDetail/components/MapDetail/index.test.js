@@ -27,7 +27,7 @@ describe('<MapDetail />', () => {
     expect(getByTestId('map-detail')).toBeInTheDocument();
 
     // Marker
-    expect(container.querySelector('.sia-map-marker')).toBeInTheDocument();
+    expect(container.querySelector('.map-marker-select')).toBeInTheDocument();
   });
 
   it('should not render without value', () => {
@@ -38,6 +38,6 @@ describe('<MapDetail />', () => {
     expect(queryByTestId('map')).not.toBeInTheDocument();
 
     // Marker
-    expect(container.querySelector('.sia-map-marker')).not.toBeInTheDocument();
+    expect(container.querySelector('.map-marker-select')).not.toBeInTheDocument();
   });
 });

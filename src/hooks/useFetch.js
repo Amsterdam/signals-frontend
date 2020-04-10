@@ -26,19 +26,27 @@ export default () => {
     Accept: 'application/json',
   };
 
-  useEffect(() => () => {
-    controller.abort();
+  useEffect(
+    () => () => {
+      controller.abort();
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    []
+  );
 
   const get = async (url, params, requestOptions = {}) => {
     setLoading(true);
 
-    const queryParams = Object.entries(params || {})
-      .filter(([, value]) => Boolean(value))
-      .reduce((acc, [key, value]) => [...acc, `${key}=${value}`], [])
-      .join('&');
+    const arrayParams = Object.entries(params || {})
+      .filter(([key]) => Array.isArray(params[key]))
+      .flatMap(([key, value]) => value.flatMap(val => `${key}=${val}`));
 
+    const scalarParams = Object.entries(params || {})
+      .filter(([, value]) => Boolean(value))
+      .filter(([key]) => !Array.isArray(params[key]))
+      .reduce((acc, [key, value]) => [...acc, `${key}=${value}`], []);
+
+    const queryParams = arrayParams.concat(scalarParams).join('&');
     const requestURL = [url, queryParams].filter(Boolean).join('?');
 
     try {

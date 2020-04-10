@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { Map as MapComponent, TileLayer } from '@datapunt/react-maps';
 
 const StyledViewerContainer = styled(ViewerContainer)`
@@ -11,16 +11,17 @@ const StyledViewerContainer = styled(ViewerContainer)`
 
 const Map = ({ mapOptions, hasZoomControls, isInteractive, children, ...otherProps }) => {
   const hasTouchCapabilities = 'ontouchstart' in window;
+  const showZoom = hasZoomControls && isInteractive && !hasTouchCapabilities;
   const options = {
     ...mapOptions,
     dragging: isInteractive && !hasTouchCapabilities,
-    tap: isInteractive && !hasTouchCapabilities,
-    scrollWheelZoom: isInteractive && !hasTouchCapabilities,
+    tap: false,
+    scrollWheelZoom: false,
   };
 
   return (
     <MapComponent data-testid="map-base" options={options} {...otherProps}>
-      {hasZoomControls && <StyledViewerContainer bottomRight={<Zoom />} />}
+      {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
 
       {children}
 

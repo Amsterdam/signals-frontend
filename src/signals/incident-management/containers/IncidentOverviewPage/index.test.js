@@ -243,6 +243,48 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     expect(props.pageChangedAction).toHaveBeenCalledWith(pagenum);
   });
 
+  it('should render a map', async () => {
+    const incidents = generateIncidents();
+
+    const { queryByTestId, getByTestId, findByTestId } = render(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
+      )
+    );
+
+    expect(getByTestId('subNav')).toBeInTheDocument();
+
+    expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument();
+    expect(queryByTestId('24HourMap')).not.toBeInTheDocument();
+
+    const subNavMapLink = await findByTestId('subNavMapLink');
+
+    act(() => {
+      fireEvent.click(subNavMapLink);
+    });
+
+    const subNavListLink = await findByTestId('subNavListLink');
+
+    expect(queryByTestId('incidentOverviewListComponent')).not.toBeInTheDocument();
+    expect(getByTestId('24HourMap')).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(subNavListLink);
+    });
+
+    await findByTestId('subNavMapLink');
+
+    expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument();
+    expect(queryByTestId('24HourMap')).not.toBeInTheDocument();
+  });
+
   describe('filter modal', () => {
     it('opens filter modal', () => {
       const { queryByTestId, getByTestId } = render(
