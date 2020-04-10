@@ -146,13 +146,13 @@ describe('serviceResultToAddress', () => {
       woonplaatsnaam: 'Amsterdam',
       huis_nlt: '43G',
       weergavenaam: 'Achtergracht 43G, 1017WN Amsterdam',
-      straatnaam_verkort: 'Achtergr',
+      straatnaam: 'Achtergracht',
       id: 'adr-e26dbf16d329474aa79276d93db9bebd',
       postcode: '1017WN',
       centroide_ll: 'POINT(4.90225668 52.36150435)',
     };
     expect(serviceResultToAddress(data)).toEqual({
-      openbare_ruimte: 'Achtergr',
+      openbare_ruimte: 'Achtergracht',
       huisnummer: '43G',
       huisletter: '',
       huisnummertoevoeging: '',
@@ -172,7 +172,7 @@ describe('formatPDOKResponse', () => {
         data: {
           location: { lat: 52.36163457, lng: 4.90218585 },
           address: {
-            openbare_ruimte: 'Achtergr',
+            openbare_ruimte: 'Achtergracht',
             huisnummer: '43',
             huisletter: '',
             huisnummertoevoeging: '',
@@ -187,7 +187,7 @@ describe('formatPDOKResponse', () => {
         data: {
           location: { lat: 52.36150435, lng: 4.90225668 },
           address: {
-            openbare_ruimte: 'Achtergr',
+            openbare_ruimte: 'Achtergracht',
             huisnummer: '43G',
             huisletter: '',
             huisnummertoevoeging: '',

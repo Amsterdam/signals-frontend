@@ -32,7 +32,7 @@ describe('reverseGeocoderService', () => {
           woonplaatsnaam: 'Amsterdam',
           huis_nlt: '189A-2',
           weergavenaam: 'Bloemgracht 189A-2, 1016KP Amsterdam',
-          straatnaam_verkort: 'Bloemgr',
+          straatnaam: 'Bloemgracht',
           id: 'adr-a03ce477aaa2e95e9246139b631484ad',
           postcode: '1016KP',
           centroide_ll: 'POINT(4.87745608 52.37377195)',
@@ -47,7 +47,7 @@ describe('reverseGeocoderService', () => {
     data: {
       location: { lat: 52.37377195, lng: 4.87745608 },
       address: {
-        openbare_ruimte: 'Bloemgr',
+        openbare_ruimte: 'Bloemgracht',
         huisnummer: '189A-2',
         huisletter: '',
         huisnummertoevoeging: '',
