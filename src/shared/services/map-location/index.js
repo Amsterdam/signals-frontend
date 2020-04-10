@@ -107,7 +107,7 @@ export const pdokResponseFieldList = [
 ];
 
 export const formatPDOKResponse = ({ response }) =>
-  response.docs.map(result => {
+  response.docs?.map(result => {
     const { id, weergavenaam, centroide_ll } = result;
     return {
       id,
@@ -115,7 +115,6 @@ export const formatPDOKResponse = ({ response }) =>
       data: {
         location: wktPointToLocation(centroide_ll),
         address: serviceResultToAddress(result),
-
       },
     };
   });

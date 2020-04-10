@@ -136,12 +136,25 @@ describe('reverseGeocoderService', () => {
     },
   };
 
-  beforeEach(() => {
-    fetch.resetMocks();
-    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse)).mockResponseOnce(JSON.stringify(bagResponse));
+  it('should return a value from a response without a location', async () => {
+    const noneFoundResponse = {
+      response: {
+        numFound: 0,
+        start: 0,
+        maxScore: 0.0,
+        docs: [],
+      },
+    };
+    fetch.mockResponse(JSON.stringify(noneFoundResponse));
+
+    const result = await reverseGeocoderService(testLocation);
+
+    expect(result).toBeUndefined();
   });
 
   it('should return the correct location', async () => {
+    fetch.resetMocks();
+    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse)).mockResponseOnce(JSON.stringify(bagResponse));
     const result = await reverseGeocoderService(testLocation);
 
     expect(fetch).toHaveBeenCalledTimes(2);
