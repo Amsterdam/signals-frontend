@@ -97,4 +97,11 @@ describe('components/PDOKAutoSuggest', () => {
     expect(onSelect).toHaveBeenCalledTimes(2);
     expect(onSelect).toHaveBeenLastCalledWith(formatPDOKResponse(JSONResponse)[0]);
   });
+
+  it('should pass on props to underlying component', () => {
+    const placeholder = 'Foo bar';
+    const { container } = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} placeholder={placeholder} />));
+
+    expect(container.querySelector(`[placeholder="${placeholder}"]`)).toBeInTheDocument();
+  });
 });

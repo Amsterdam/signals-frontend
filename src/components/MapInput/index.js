@@ -128,6 +128,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
               value={addressValue}
               onSelect={onSelect}
               gemeentenaam="amsterdam"
+              placeholder="Zoek adres"
               formatResponse={formatPDOKResponse}
             />
           }
