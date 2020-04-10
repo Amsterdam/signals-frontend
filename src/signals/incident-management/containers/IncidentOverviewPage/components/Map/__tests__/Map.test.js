@@ -45,7 +45,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
     const markers = container.querySelectorAll(incidentIconSelector);
     const firstMarker = markers[0];
 
-    expect(container.firstChild).toMatchSnapshot();
     expect(queryByTestId('mapDetailPanel')).not.toBeInTheDocument();
     expect(firstMarker.classList.contains('map-marker-select')).toEqual(false);
 
