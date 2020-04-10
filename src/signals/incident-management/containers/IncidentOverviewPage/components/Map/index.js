@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState, useCallback, useEffect } from 'react';
+import React, { memo, useContext, useState, useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
@@ -83,10 +83,18 @@ const OverviewMap = ({ ...rest }) => {
   const [incidentId, setIncidentId] = useState(0);
 
   const { ...params } = filterParams;
-  params.created_after = moment()
-    .subtract(10, 'days')
-    .format('YYYY-MM-DDTkk:mm:ss');
-  params.created_before = moment().format('YYYY-MM-DDTkk:mm:ss');
+
+  // fixed query period (24 hours)
+  params.created_after = useMemo(
+    () =>
+      moment()
+        .subtract(1, 'days')
+        .format('YYYY-MM-DDTkk:mm:ss'),
+    []
+  );
+  params.created_before = useMemo(() => moment().format('YYYY-MM-DDTkk:mm:ss'), []);
+  // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
+  params.page_size = 4000;
 
   /**
    * AutoSuggest callback handler
