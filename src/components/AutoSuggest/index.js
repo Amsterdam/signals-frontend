@@ -33,7 +33,7 @@ const AbsoluteList = styled(SuggestList)`
  * - Home key focuses the input field at the first character
  * - End key focuses the input field at the last character
  */
-const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, url, value }) => {
+const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, placeholder, url, value }) => {
   const { get, data } = useFetch();
   const [initialRender, setInitialRender] = useState(false);
   const [showList, setShowList] = useState(false);
@@ -198,20 +198,21 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
       <div role="combobox" aria-controls="as-listbox" aria-expanded={showList} aria-haspopup="listbox">
         <Input
-          defaultValue={value}
-          onChange={onChange}
           aria-activedescendant={activeId}
           aria-autocomplete="list"
+          defaultValue={value}
+          onChange={onChange}
+          placeholder={placeholder}
           ref={inputRef}
         />
       </div>
       {showList && (
         <AbsoluteList
-          options={options}
-          role="listbox"
+          activeIndex={activeIndex}
           id="as-listbox"
           onSelectOption={onSelectOption}
-          activeIndex={activeIndex}
+          options={options}
+          role="listbox"
         />
       )}
     </Wrapper>
@@ -220,6 +221,7 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
 
 AutoSuggest.defaultProps = {
   className: '',
+  placeholder: '',
   value: '',
 };
 
@@ -247,6 +249,7 @@ AutoSuggest.propTypes = {
    * @param {String} option.value - Option text label
    */
   onSelect: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
   /**
    * Request URL from which options should be gotten and to which the search query should be appended
    * @example `//some-domain.com/api-endpoint?q=`
