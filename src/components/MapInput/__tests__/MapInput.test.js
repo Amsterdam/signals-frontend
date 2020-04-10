@@ -46,9 +46,11 @@ const geocoderResponse = {
   },
 };
 
-fetch.mockResponse(JSON.stringify(geocoderResponse));
-
 describe('components/MapInput', () => {
+  beforeEach(() => {
+    fetch.mockResponse(JSON.stringify(geocoderResponse));
+  });
+
   afterEach(() => {
     setValuesSpy.mockClear();
     setLocationSpy.mockClear();
@@ -86,7 +88,7 @@ describe('components/MapInput', () => {
     expect(setValuesSpy).toHaveBeenCalledWith(testLocation);
   });
 
-  it('should call handle click', async () => {
+  it('should handle click', async () => {
     const onChange = jest.fn();
     const { getByTestId, findByTestId } = render(
       withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
@@ -95,6 +97,7 @@ describe('components/MapInput', () => {
 
     expect(setLocationSpy).not.toHaveBeenCalled();
     expect(onChange).not.toHaveBeenCalled();
+    expect(setValuesSpy).toHaveBeenCalledTimes(1);
 
     act(() => {
       fireEvent.click(map, { clientX: 100, clientY: 100 });
@@ -108,8 +111,55 @@ describe('components/MapInput', () => {
       lng: expect.any(Number),
     });
 
+    expect(setValuesSpy).toHaveBeenCalledTimes(2);
+    expect(setValuesSpy).toHaveBeenLastCalledWith({
+      addressText: expect.stringMatching(/.+/),
+      address: expect.any(Object),
+    });
+
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalled();
+    expect(onChange).toHaveBeenCalledWith({
+      geometrie: expect.any(Object),
+      address: expect.any(Object),
+    });
+  });
+
+  it('should handle click when a location has no address', async () => {
+    const onChange = jest.fn();
+    const noneFoundResponse = {
+      response: {
+        numFound: 0,
+        start: 0,
+        maxScore: 0.0,
+        docs: [],
+      },
+    };
+    fetch.mockResponse(JSON.stringify(noneFoundResponse));
+
+    const { getByTestId, findByTestId } = render(
+      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
+    );
+    const map = getByTestId('map-input');
+
+    expect(setValuesSpy).toHaveBeenCalledTimes(1);
+    expect(onChange).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(map, { clientX: 100, clientY: 100 });
+    });
+
+    await findByTestId('map-input');
+
+    expect(setValuesSpy).toHaveBeenCalledTimes(2);
+    expect(setValuesSpy).toHaveBeenLastCalledWith({
+      addressText: '',
+      address: '',
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith({
+      geometrie: expect.any(Object),
+    });
   });
 
   it('should render marker', async () => {
