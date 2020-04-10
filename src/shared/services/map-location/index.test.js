@@ -63,7 +63,7 @@ describe('The map location service', () => {
       })
     ).toEqual({
       buurtcode: 'A02d',
-      stadsdeelcode: 'A',
+      stadsdeel: 'A',
     });
   });
 

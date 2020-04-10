@@ -13,7 +13,7 @@ import { setLocationAction, setValuesAction } from 'containers/MapContext/action
 
 import Map from '../Map';
 import PDOKAutoSuggest from '../PDOKAutoSuggest';
-import reverseGeocoderService from './services/reverseGeocoderService';
+import reverseGeocoderService, { getStadsdeel } from './services/reverseGeocoderService';
 
 const Wrapper = styled.div`
   position: relative;
@@ -64,9 +64,11 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
+      const stadsdeel = await getStadsdeel(event.latlng);
 
       const onChangePayload = {
         geometrie: locationTofeature(event.latlng),
+        stadsdeel,
       };
 
       const addressText = response?.value || '';
@@ -80,6 +82,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         setValuesAction({
           addressText,
           address,
+          stadsdeel,
         })
       );
 
@@ -89,12 +92,15 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   );
 
   const onSelect = useCallback(
-    /* istanbul ignore next */ option => {
+    /* istanbul ignore next */ async option => {
       dispatch(setValuesAction({ location: option.data.location, address: option.data.address, addressText: value }));
+
+      const stadsdeel = await getStadsdeel(option.data.location);
 
       onChange({
         geometrie: locationTofeature(option.data.location),
         address: option.data.address,
+        stadsdeel,
       });
 
       if (map) {
