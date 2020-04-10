@@ -87,8 +87,8 @@ export const formatAddress = address => {
   return display;
 };
 
-export const serviceResultToAddress = ({ straatnaam_verkort, huis_nlt, postcode, woonplaatsnaam }) => ({
-  openbare_ruimte: straatnaam_verkort,
+export const serviceResultToAddress = ({ straatnaam, huis_nlt, postcode, woonplaatsnaam }) => ({
+  openbare_ruimte: straatnaam,
   huisnummer: huis_nlt,
   huisletter: '',
   huisnummertoevoeging: '',
@@ -99,7 +99,7 @@ export const serviceResultToAddress = ({ straatnaam_verkort, huis_nlt, postcode,
 export const pdokResponseFieldList = [
   'id',
   'weergavenaam',
-  'straatnaam_verkort',
+  'straatnaam',
   'huis_nlt',
   'postcode',
   'woonplaatsnaam',
