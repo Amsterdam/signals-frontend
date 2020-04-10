@@ -89,10 +89,10 @@ const OverviewMap = ({ ...rest }) => {
     () =>
       moment()
         .subtract(1, 'days')
-        .format('YYYY-MM-DDTkk:mm:ss'),
+        .format('YYYY-MM-DDTHH:mm:ss'),
     []
   );
-  params.created_before = useMemo(() => moment().format('YYYY-MM-DDTkk:mm:ss'), []);
+  params.created_before = useMemo(() => moment().format('YYYY-MM-DDTHH:mm:ss'), []);
   // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
   params.page_size = 4000;
 
