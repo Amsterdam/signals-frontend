@@ -102,7 +102,7 @@ const OverviewMap = ({ ...rest }) => {
 
   const { ...params } = filterParams;
   params.created_after = moment()
-    .subtract(5, 'days')
+    .subtract(1, 'days')
     .format('YYYY-MM-DDTkk:mm:ss');
   params.created_before = moment().format('YYYY-MM-DDTkk:mm:ss');
 
