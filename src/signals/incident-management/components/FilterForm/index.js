@@ -384,7 +384,7 @@ const FilterForm = ({
         <Fieldset>
           <legend>Filter categorieën</legend>
 
-          <Label $as="span" htmlFor="not_used" isGroupHeader>
+          <Label forwardedAs="span" htmlFor="not_used" isGroupHeader>
             Categorie
           </Label>
 

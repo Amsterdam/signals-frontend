@@ -63,6 +63,29 @@ describe('hooks/useFetch', () => {
       );
     });
 
+    it('should construct a URL with complex query params', async () => {
+      const params = {
+        foo: 'bar',
+        qux: 'zork',
+        category: ['a', 'b', 'c'],
+      };
+
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+
+      act(() => {
+        result.current.get(URL, params);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        `${URL}?category=a&category=b&category=c&foo=bar&qux=zork`,
+        expect.objectContaining({
+          method: 'GET',
+        })
+      );
+    });
+
     it('should return errors that are thrown during fetch', async () => {
       const error = new Error();
       fetch.mockRejectOnce(error);

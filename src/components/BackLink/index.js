@@ -12,7 +12,7 @@ import {
 import { ChevronLeft } from '@datapunt/asc-assets';
 
 const LinkLabel = styled(Typography).attrs({
-  $as: 'span',
+  forwardedAs: 'span',
 })`
   font-size: 16px;
   color: ${themeColor('primary')};
@@ -51,7 +51,7 @@ const StyledIcon = styled(Icon)`
  * To be used on detail pages for navigating back to its corresponding overview page
  */
 const BackLink = ({ className, children, to }) => (
-  <StyledLink className={className} $as={Link} to={to} data-testid="backlink">
+  <StyledLink className={className} forwardedAs={Link} to={to} data-testid="backlink">
     <StyledIcon size={12}>
       <Chevron />
     </StyledIcon>

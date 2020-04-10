@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from 'components/Map';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { formatAddress } from 'shared/services/map-location';
 import { Marker } from '@datapunt/react-maps';

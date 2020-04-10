@@ -38,9 +38,9 @@ exports[`Preview component <Map /> should render address with toevoeging correct
       }
       wrap={false}
     >
-      <styled.div>
+      <Map__ItemWrapper>
         Location
-      </styled.div>
+      </Map__ItemWrapper>
     </Column>
     <Column
       debug={false}
@@ -58,11 +58,11 @@ exports[`Preview component <Map /> should render address with toevoeging correct
       }
       wrap={false}
     >
-      <styled.div>
+      <Map__ItemWrapper>
         <div>
           Hell 666C-3, 1087JC Amsterdam
         </div>
-      </styled.div>
+      </Map__ItemWrapper>
     </Column>
   </Column>
 </Row>
@@ -106,9 +106,9 @@ exports[`Preview component <Map /> should render only address correctly 1`] = `
       }
       wrap={false}
     >
-      <styled.div>
+      <Map__ItemWrapper>
         Location
-      </styled.div>
+      </Map__ItemWrapper>
     </Column>
     <Column
       debug={false}
@@ -126,11 +126,11 @@ exports[`Preview component <Map /> should render only address correctly 1`] = `
       }
       wrap={false}
     >
-      <styled.div>
+      <Map__ItemWrapper>
         <div>
           Hell 666C, 1087JC Amsterdam
         </div>
-      </styled.div>
+      </Map__ItemWrapper>
     </Column>
   </Column>
 </Row>
@@ -174,9 +174,9 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
       }
       wrap={false}
     >
-      <styled.div>
+      <Map__ItemWrapper>
         Location
-      </styled.div>
+      </Map__ItemWrapper>
     </Column>
     <Column
       debug={false}
@@ -194,11 +194,11 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
       }
       wrap={false}
     >
-      <styled.div>
+      <Map__ItemWrapper>
         <div>
           Geen adres gevonden
         </div>
-        <Styled(Component)
+        <Map__StyledMap
           data-testid="map-preview"
           isInteractive={false}
           mapOptions={
@@ -273,7 +273,7 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
                 "icon": NewClass {
                   "_initHooksCalled": true,
                   "options": Object {
-                    "className": "sia-map-marker",
+                    "className": "map-marker-select",
                     "iconAnchor": Array [
                       20,
                       39,
@@ -282,14 +282,14 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
                       40,
                       40,
                     ],
-                    "iconUrl": "https://map.data.amsterdam.nl/dist/images/svg/marker.svg",
+                    "iconUrl": "ImageMock",
                   },
                 },
               }
             }
           />
-        </Styled(Component)>
-      </styled.div>
+        </Map__StyledMap>
+      </Map__ItemWrapper>
     </Column>
   </Column>
 </Row>
@@ -333,9 +333,9 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
       }
       wrap={false}
     >
-      <styled.div>
+      <Map__ItemWrapper>
         Location
-      </styled.div>
+      </Map__ItemWrapper>
     </Column>
     <Column
       debug={false}
@@ -353,11 +353,11 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
       }
       wrap={false}
     >
-      <styled.div>
+      <Map__ItemWrapper>
         <div>
           Hell 666C, 1087JC Amsterdam
         </div>
-        <Styled(Component)
+        <Map__StyledMap
           data-testid="map-preview"
           isInteractive={false}
           mapOptions={
@@ -432,7 +432,7 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
                 "icon": NewClass {
                   "_initHooksCalled": true,
                   "options": Object {
-                    "className": "sia-map-marker",
+                    "className": "map-marker-select",
                     "iconAnchor": Array [
                       20,
                       39,
@@ -441,14 +441,14 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
                       40,
                       40,
                     ],
-                    "iconUrl": "https://map.data.amsterdam.nl/dist/images/svg/marker.svg",
+                    "iconUrl": "ImageMock",
                   },
                 },
               }
             }
           />
-        </Styled(Component)>
-      </styled.div>
+        </Map__StyledMap>
+      </Map__ItemWrapper>
     </Column>
   </Column>
 </Row>
