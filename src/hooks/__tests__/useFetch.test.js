@@ -63,6 +63,29 @@ describe('hooks/useFetch', () => {
       );
     });
 
+    it('should construct a URL with complex query params', async () => {
+      const params = {
+        foo: 'bar',
+        qux: 'zork',
+        category: ['a', 'b', 'c'],
+      };
+
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+
+      act(() => {
+        result.current.get(URL, params);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        `${URL}?category=a&category=b&category=c&foo=bar&qux=zork`,
+        expect.objectContaining({
+          method: 'GET',
+        })
+      );
+    });
+
     it('should return errors that are thrown during fetch', async () => {
       const error = new Error();
       fetch.mockRejectOnce(error);
@@ -121,6 +144,26 @@ describe('hooks/useFetch', () => {
       expect(getErrorMessage).toHaveBeenCalledWith(response);
       expect(result.current.error).toEqual(response);
       expect(result.current.isLoading).toEqual(false);
+    });
+
+    it('should apply request options', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+      const params = {};
+      const requestOptions = { responseType: 'blob' };
+
+      act(() => {
+        result.current.get(URL, params, requestOptions);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        URL,
+        expect.objectContaining({
+          method: 'GET',
+          ...requestOptions,
+        })
+      );
     });
   });
 
@@ -182,6 +225,26 @@ describe('hooks/useFetch', () => {
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
     });
+
+    it('should apply request options', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+      const formData = {};
+      const requestOptions = { responseType: 'blob' };
+
+      act(() => {
+        result.current.patch(URL, formData, requestOptions);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        URL,
+        expect.objectContaining({
+          method: 'PATCH',
+          ...requestOptions,
+        })
+      );
+    });
   });
 
   describe('post', () => {
@@ -230,7 +293,7 @@ describe('hooks/useFetch', () => {
       fetch.mockImplementation(() => response);
 
       act(() => {
-        result.current.post(formData);
+        result.current.post(URL, formData);
       });
 
       expect(result.current.isLoading).toEqual(true);
@@ -242,6 +305,26 @@ describe('hooks/useFetch', () => {
       expect(result.current.error).toEqual(response);
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
+    });
+
+    it('should apply request options', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+      const formData = {};
+      const requestOptions = { responseType: 'blob' };
+
+      act(() => {
+        result.current.post(URL, formData, requestOptions);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        URL,
+        expect.objectContaining({
+          method: 'POST',
+          ...requestOptions,
+        })
+      );
     });
   });
 });

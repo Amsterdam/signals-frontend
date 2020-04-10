@@ -1,67 +1,89 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Button, themeSpacing } from '@datapunt/asc-ui';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-
-import { incidentType, dataListType } from 'shared/types';
-
+import { smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import { incidentType } from 'shared/types';
+import { stadsdeelList } from 'signals/incident-management/definitions';
+import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 import MapDetail from '../../../MapDetail';
 
-import './style.scss';
+const MapTile = styled.div`
+  float: left;
+  margin-right: 10px;
+  padding: 0;
+  border-style: none;
+  cursor: pointer;
+`;
 
-const Location = ({
-  incident, stadsdeelList, onShowLocation, onEditLocation,
-}) => {
-  const address = incident.location.address;
-  return (
-    <dl className="location">
-      <dt className="location__definition" data-testid="location-definition">Locatie</dt>
-      <dd className="location__value">
-        <button
-          className="location__value-button-edit incident-detail__button--edit"
-          type="button"
-          onClick={onEditLocation}
-          data-testid="location-button-edit"
-        ></button>
-        <button
-          className="location__value-button-show"
-          type="button"
-          onClick={onShowLocation}
-          data-testid="location-button-show"
-        >
-          <MapDetail
-            value={incident.location}
-            hideAttribution
-            hideZoomControls
-            useSmallMarker
-            zoom="15"
-          />
-        </button>
-        {incident.location.address_text
-          ? (
-            <div className="location__value-address">
-              <div data-testid="location-value-address-stadsdeel">
-                Stadsdeel: {getListValueByKey(stadsdeelList, incident.location.stadsdeel)}
-              </div>
-              <div data-testid="location-value-address-street">
-                {address.openbare_ruimte} {address.huisnummer}
-                {address.huisletter}
-                {address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : ''}
-              </div>
-              <div data-testid="location-value-address-city">
-                {address.postcode} {address.woonplaats}
-              </div>
+const StyledMap = styled(MapDetail)`
+  height: 80px;
+  width: 80px;
+`;
+
+const Description = styled.dd`
+  position: relative;
+  display: flex;
+`;
+
+const EditButton = styled(Button)`
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
+
+const Address = styled.div`
+  margin-left: ${themeSpacing(12)};
+`;
+
+const Location = ({ incident: { location }, onShowLocation, onEditLocation }) => (
+  <Fragment>
+    <dt data-testid="detail-location">Locatie</dt>
+    <Description>
+      <EditButton
+        variant="application"
+        iconSize={20}
+        icon={<IconEdit />}
+        type="button"
+        onClick={onEditLocation}
+        data-testid="location-button-edit"
+      />
+
+      <MapTile role="button" onClick={onShowLocation} data-testid="location-button-show">
+        <StyledMap value={location} zoom={15} icon={smallMarkerIcon} />
+      </MapTile>
+
+      {location.address_text ? (
+        <Address>
+          {location.stadsdeel && (
+            <div data-testid="location-value-address-stadsdeel">
+              Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
             </div>
-          )
-          : <span data-testid="location-value-pinned">Locatie is gepind op de kaart</span>}
-      </dd>
-    </dl>
-  );
-};
+          )}
+
+          <div data-testid="location-value-address-street">
+            {location.address.openbare_ruimte && location.address.openbare_ruimte} {location.address.huisnummer && location.address.huisnummer}
+            {location.address.huisletter && location.address.huisletter}
+            {location.address.huisnummer_toevoeging ? `-${location.address.huisnummer_toevoeging}` : ''}
+          </div>
+
+          <div data-testid="location-value-address-city">
+            {location.address.postcode && location.address.postcode} {location.address.woonplaats && location.address.woonplaats}
+          </div>
+        </Address>
+      ) : (
+        <Address>
+          <span data-testid="location-value-pinned">Locatie is gepind op de kaart</span>
+        </Address>
+      )}
+    </Description>
+  </Fragment>
+);
 
 Location.propTypes = {
   incident: incidentType.isRequired,
-  stadsdeelList: dataListType.isRequired,
   onShowLocation: PropTypes.func.isRequired,
   onEditLocation: PropTypes.func.isRequired,
 };

@@ -12,7 +12,6 @@ export const INPUT_DELAY = 350;
 const Wrapper = styled.div`
   position: relative;
   z-index: 1;
-  min-width: 350px;
 `;
 
 const AbsoluteList = styled(SuggestList)`
@@ -34,15 +33,15 @@ const AbsoluteList = styled(SuggestList)`
  * - Home key focuses the input field at the first character
  * - End key focuses the input field at the last character
  */
-const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, url, value }) => {
+const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, placeholder, url, value }) => {
   const { get, data } = useFetch();
+  const [initialRender, setInitialRender] = useState(false);
   const [showList, setShowList] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const wrapperRef = useRef(null);
   const inputRef = useRef(null);
   const options = data && formatResponse(data);
   const activeId = options && options[activeIndex]?.id;
-
   const handleKeyDown = useCallback(
     event => {
       if (!showList) return;
@@ -76,17 +75,6 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
 
           break;
 
-        case 'Enter':
-          if (event.target === inputRef.current) {
-            return;
-          }
-
-          inputRef.current.value = event.target.innerText;
-
-          setActiveIndex(-1);
-          setShowList(false);
-          break;
-
         case 'Esc':
         case 'Escape':
           inputRef.current.value = '';
@@ -118,13 +106,21 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
     [data, numOptionsDeterminer, showList]
   );
 
+  useEffect(() => {
+    setInitialRender(true);
+  }, []);
+
   /**
    * Subscribe to activeIndex changes which happen after keyboard input
    */
   useEffect(() => {
+    if (!initialRender) return;
+
     if (activeIndex === -1) {
       inputRef.current.focus();
     }
+    // only respond to changed in activeIndex; disabling linter
+    // eslint-disable-next-line
   }, [activeIndex]);
 
   /**
@@ -194,24 +190,29 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
     [onSelect]
   );
 
+  useEffect(() => {
+    inputRef.current.value = value;
+  }, [value]);
+
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
       <div role="combobox" aria-controls="as-listbox" aria-expanded={showList} aria-haspopup="listbox">
         <Input
-          defaultValue={value}
-          onChange={onChange}
           aria-activedescendant={activeId}
           aria-autocomplete="list"
+          defaultValue={value}
+          onChange={onChange}
+          placeholder={placeholder}
           ref={inputRef}
         />
       </div>
       {showList && (
         <AbsoluteList
-          options={options}
-          role="listbox"
+          activeIndex={activeIndex}
           id="as-listbox"
           onSelectOption={onSelectOption}
-          activeIndex={activeIndex}
+          options={options}
+          role="listbox"
         />
       )}
     </Wrapper>
@@ -220,6 +221,7 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
 
 AutoSuggest.defaultProps = {
   className: '',
+  placeholder: '',
   value: '',
 };
 
@@ -247,6 +249,7 @@ AutoSuggest.propTypes = {
    * @param {String} option.value - Option text label
    */
   onSelect: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
   /**
    * Request URL from which options should be gotten and to which the search query should be appended
    * @example `//some-domain.com/api-endpoint?q=`
