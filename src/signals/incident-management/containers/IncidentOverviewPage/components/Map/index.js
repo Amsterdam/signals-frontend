@@ -183,13 +183,13 @@ const OverviewMap = ({ ...rest }) => {
     <Wrapper {...rest}>
       <StyledMap
         data-testid="overviewMap"
+        hasZoomControls
         mapOptions={{
           ...MAP_OPTIONS,
           maxZoom: 16,
           minZoom: 8,
         }}
         setInstance={setMap}
-        hasZoomControls
       >
         {hasLocation && (
           <Marker

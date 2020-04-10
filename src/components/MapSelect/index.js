@@ -202,9 +202,9 @@ const MapSelect = ({
 
         layer.setIcon(icon);
       });
-      // only execute when value changes; disabling linter
-      // eslint-disable-next-line
     },
+    // only execute when value changes; disabling linter
+    // eslint-disable-next-line
     [value]
   );
 
@@ -212,6 +212,7 @@ const MapSelect = ({
     <StyledMap
       className={classNames('map-component', { write: onSelectionChange })}
       data-testid="mapSelect"
+      hasZoomControls
       mapOptions={mapOptions}
       setInstance={setMapInstance}
     />

@@ -11,16 +11,17 @@ const StyledViewerContainer = styled(ViewerContainer)`
 
 const Map = ({ mapOptions, hasZoomControls, isInteractive, children, ...otherProps }) => {
   const hasTouchCapabilities = 'ontouchstart' in window;
+  const showZoom = hasZoomControls && isInteractive && !hasTouchCapabilities;
   const options = {
     ...mapOptions,
     dragging: isInteractive && !hasTouchCapabilities,
-    tap: isInteractive && !hasTouchCapabilities,
+    tap: false,
     scrollWheelZoom: false,
   };
 
   return (
     <MapComponent data-testid="map-base" options={options} {...otherProps}>
-      {hasZoomControls && <StyledViewerContainer bottomRight={<Zoom />} />}
+      {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
 
       {children}
 
