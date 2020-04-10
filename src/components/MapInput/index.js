@@ -71,15 +71,18 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
       const addressText = response?.value || '';
       const address = response?.data?.address || '';
+      const stadsdeel = response?.data?.stadsdeel || '';
 
       if (response) {
         onChangePayload.address = response.data.address;
+        onChangePayload.stadsdeel = response.data.stadsdeel;
       }
 
       dispatch(
         setValuesAction({
           addressText,
           address,
+          stadsdeel,
         })
       );
 

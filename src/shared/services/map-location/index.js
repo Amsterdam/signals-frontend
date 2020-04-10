@@ -54,7 +54,7 @@ export const mapLocation = loc => {
   }
 
   if (loc.stadsdeel) {
-    value.stadsdeelcode = loc.stadsdeel;
+    value.stadsdeel = loc.stadsdeel;
   }
 
   if (loc.address) {
@@ -115,6 +115,7 @@ export const formatPDOKResponse = ({ response }) =>
       data: {
         location: wktPointToLocation(centroide_ll),
         address: serviceResultToAddress(result),
+
       },
     };
   });

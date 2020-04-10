@@ -4,6 +4,20 @@ import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 const flParams = pdokResponseFieldList.join(',');
 export const serviceURL = `https://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1&fl=${flParams}`;
 
+
+function findFeatureByType(features, type) {
+  const feature = features.find(feat => feat.properties.type === type);
+  if (feature === undefined) return null;
+  return feature.properties;
+}
+
+const getStadsdeel = async({ lat, lng }) => {
+  const bagSserviceURL = `https://api.data.amsterdam.nl/geosearch/bag/?lat=${lat}&lon=${lng}&radius=50`;
+  const res = await fetch(bagSserviceURL).then(result => result.json());
+  const stadsdeel = findFeatureByType(res.features, 'gebieden/stadsdeel');
+  return stadsdeel !== undefined ? stadsdeel.code : null;
+};
+
 export const formatRequest = (baseUrl, wgs84point, distance = 50) => {
   const xyRD = wgs84ToRd(wgs84point);
   return `${baseUrl}&X=${xyRD.x}&Y=${xyRD.y}&distance=${distance}`;
@@ -15,10 +29,10 @@ const reverseGeocoderService = async location => {
     latitude: location.lat,
   };
   const url = formatRequest(serviceURL, wgs84point);
-  const result = await fetch(url);
-  const data = await result.json();
-  const response = formatPDOKResponse(data);
-  return response[0];
+  const result = await fetch(url).then(res => res.json());
+  const response = formatPDOKResponse(result)[0];
+  response.data.stadsdeel = await getStadsdeel(response.data.location);
+  return response;
 };
 
 export default reverseGeocoderService;
