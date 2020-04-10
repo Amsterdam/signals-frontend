@@ -15,8 +15,8 @@ import {
 
 import { fetchRoles, fetchPermissions } from 'models/roles/actions';
 import { fetchDepartments } from 'models/departments/actions';
-import { fetchCategories } from 'models/categories/actions';
 import useLocationReferrer from 'hooks/useLocationReferrer';
+import { fetchCategories } from 'models/categories/actions';
 
 import routes, {
   USERS_PAGED_URL,
