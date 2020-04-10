@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState, useCallback, useEffect, useMemo } from 'react';
+import React, { memo, useContext, useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
@@ -16,7 +16,6 @@ import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
 import { incidentIcon, markerIcon } from 'shared/services/configuration/map-markers';
-import { Marker } from '@datapunt/react-maps';
 import L from 'leaflet';
 import MarkerCluster from './components/MarkerCluster';
 
@@ -71,8 +70,6 @@ export const formatResponse = ({ response }) =>
 const clusterLayerOptions = {
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
-  disableClusteringAtZoom: 13,
-  spiderfyOnMaxZoom: false,
 };
 
 const OverviewMap = ({ ...rest }) => {
@@ -85,9 +82,6 @@ const OverviewMap = ({ ...rest }) => {
   const { get, data, isLoading } = useFetch();
   const [layerInstance, setLayerInstance] = useState();
   const [incidentId, setIncidentId] = useState(0);
-  const [marker, setMarker] = useState();
-  const [location, setLocation] = useState();
-  const hasLocation = useMemo(() => location?.lat && location?.lng, [location]);
 
   const { ...params } = filterParams;
   params.created_after = moment()
@@ -95,8 +89,13 @@ const OverviewMap = ({ ...rest }) => {
     .format('YYYY-MM-DDTkk:mm:ss');
   params.created_before = moment().format('YYYY-MM-DDTkk:mm:ss');
 
+  /**
+   * AutoSuggest callback handler
+   *
+   * Note that testing this functionality resembles integration testing, hence disabling istanbul coverage
+   */
   const onSelect = useCallback(
-    option => {
+    /* istanbul ignore next */ option => {
       dispatch(setAddressAction(option.value));
 
       if (map) {
@@ -107,22 +106,18 @@ const OverviewMap = ({ ...rest }) => {
     [map, dispatch]
   );
 
-  useEffect(() => {
-    if (!marker || !hasLocation) return;
-    if (showPanel) {
-      marker.setLatLng(location);
-    } else {
-      setLocation({ lat: 0, lng: 0 });
-    }
-  }, [marker, location, hasLocation, showPanel]);
+  const resetMarkerIcons = useCallback(() => {
+    map.eachLayer(layer => {
+      if (layer.getIcon && !layer.getAllChildMarkers) {
+        layer.setIcon(incidentIcon);
+      }
+    });
+  }, [map]);
 
-  const onMapClick = useCallback((latlng, id) => {
-    if (id) {
-      setIncidentId(id);
-      setShowPanel(true);
-      setLocation(latlng);
-    }
-  }, []);
+  const onClosePanel = useCallback(() => {
+    setShowPanel(false);
+    resetMarkerIcons();
+  }, [resetMarkerIcons]);
 
   useEffect(() => {
     if (!options || isLoading || !initialMount) return;
@@ -148,7 +143,7 @@ const OverviewMap = ({ ...rest }) => {
 
   useEffect(() => {
     if (!data || !layerInstance) return () => {};
-    layerInstance.clearLayers();
+
     data.features.forEach(feature => {
       const latlng = featureTolocation(feature.geometry);
 
@@ -156,8 +151,16 @@ const OverviewMap = ({ ...rest }) => {
         icon: incidentIcon,
       });
 
-      clusteredMarker.on('click', () => {
-        onMapClick(latlng, feature.properties?.id);
+      clusteredMarker.on('click', event => {
+        resetMarkerIcons();
+
+        event.target.setIcon(markerIcon);
+
+        /* istanbul ignore else */
+        if (feature.properties?.id) {
+          setIncidentId(feature.properties.id);
+          setShowPanel(true);
+        }
       });
 
       layerInstance.addLayer(clusteredMarker);
@@ -166,7 +169,7 @@ const OverviewMap = ({ ...rest }) => {
     return () => {
       layerInstance.clearLayers();
     };
-  }, [layerInstance, data, onMapClick]);
+  }, [layerInstance, data, map, resetMarkerIcons]);
 
   return (
     <Wrapper {...rest}>
@@ -179,16 +182,6 @@ const OverviewMap = ({ ...rest }) => {
         }}
         setInstance={setMap}
       >
-        {hasLocation ? (
-          <Marker
-            setInstance={setMarker}
-            args={[location]}
-            options={{
-              icon: markerIcon,
-              zIndexOffset: 100,
-            }}
-          />
-        ) : null}
         <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
         <ViewerContainer
           topLeft={
@@ -199,7 +192,7 @@ const OverviewMap = ({ ...rest }) => {
               formatResponse={formatResponse}
             />
           }
-          topRight={showPanel && <DetailPanel incidentId={incidentId} onClose={() => setShowPanel(false)} />}
+          topRight={showPanel && <DetailPanel incidentId={incidentId} onClose={onClosePanel} />}
         />
       </StyledMap>
     </Wrapper>

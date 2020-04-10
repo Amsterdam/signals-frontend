@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createLeafletComponent } from '@datapunt/react-maps';
-import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 import 'leaflet';
@@ -12,7 +11,11 @@ const MarkerClusterGroup = createLeafletComponent('markerClusterGroup');
 const MarkerCluster = ({ clusterOptions, setInstance }) => <MarkerClusterGroup setInstance={setInstance} options={clusterOptions} /> || null;
 
 MarkerCluster.propTypes = {
-  clusterOptions: PropTypes.shape({}), // see leaflet.markercluster for the possible cluster options
+  /**
+   * Marker cluster options object
+   * @see https://github.com/Leaflet/Leaflet.markercluster#options
+   */
+  clusterOptions: PropTypes.shape({}),
   setInstance: PropTypes.func,
 };
 

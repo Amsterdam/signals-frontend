@@ -1,0 +1,330 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`signals/incident-management/containers/IncidentOverviewPage/components/Map should render detail panel 1`] = `
+<div
+  class="Map__Wrapper-q7dcmt-0 jZrEsF"
+>
+  <div
+    class="Map__StyledMap-q7dcmt-1 dQygRr leaflet-container leaflet-grab leaflet-touch-drag"
+    data-testid="overviewMap"
+    style="position: relative;"
+    tabindex="0"
+  >
+    <div
+      class="leaflet-pane leaflet-map-pane"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="leaflet-pane leaflet-tile-pane"
+      >
+        <div
+          class="leaflet-layer "
+          style="z-index: 1;"
+        >
+          <div
+            class="leaflet-tile-container leaflet-zoom-animated"
+            style="z-index: 18; left: 0px; top: 0px;"
+          >
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t4.data.amsterdam.nl/topo_rd/10/472/540.png"
+              style="width: 256px; height: 256px; left: 282px; top: 339px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t3.data.amsterdam.nl/topo_rd/10/472/541.png"
+              style="width: 256px; height: 256px; left: 282px; top: 83px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t3.data.amsterdam.nl/topo_rd/10/471/540.png"
+              style="width: 256px; height: 256px; left: 26px; top: 339px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t1.data.amsterdam.nl/topo_rd/10/473/540.png"
+              style="width: 256px; height: 256px; left: 538px; top: 339px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t1.data.amsterdam.nl/topo_rd/10/472/539.png"
+              style="width: 256px; height: 256px; left: 282px; top: 595px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t4.data.amsterdam.nl/topo_rd/10/473/541.png"
+              style="width: 256px; height: 256px; left: 538px; top: 83px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t2.data.amsterdam.nl/topo_rd/10/471/541.png"
+              style="width: 256px; height: 256px; left: 26px; top: 83px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t4.data.amsterdam.nl/topo_rd/10/471/539.png"
+              style="width: 256px; height: 256px; left: 26px; top: 595px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t2.data.amsterdam.nl/topo_rd/10/473/539.png"
+              style="width: 256px; height: 256px; left: 538px; top: 595px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t2.data.amsterdam.nl/topo_rd/10/470/540.png"
+              style="width: 256px; height: 256px; left: -230px; top: 339px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t2.data.amsterdam.nl/topo_rd/10/472/538.png"
+              style="width: 256px; height: 256px; left: 282px; top: 851px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t2.data.amsterdam.nl/topo_rd/10/474/540.png"
+              style="width: 256px; height: 256px; left: 794px; top: 339px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t2.data.amsterdam.nl/topo_rd/10/472/542.png"
+              style="width: 256px; height: 256px; left: 282px; top: -173px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t3.data.amsterdam.nl/topo_rd/10/470/539.png"
+              style="width: 256px; height: 256px; left: -230px; top: 595px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t3.data.amsterdam.nl/topo_rd/10/473/542.png"
+              style="width: 256px; height: 256px; left: 538px; top: -173px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t1.data.amsterdam.nl/topo_rd/10/470/541.png"
+              style="width: 256px; height: 256px; left: -230px; top: 83px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t1.data.amsterdam.nl/topo_rd/10/474/541.png"
+              style="width: 256px; height: 256px; left: 794px; top: 83px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t3.data.amsterdam.nl/topo_rd/10/474/539.png"
+              style="width: 256px; height: 256px; left: 794px; top: 595px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t1.data.amsterdam.nl/topo_rd/10/471/538.png"
+              style="width: 256px; height: 256px; left: 26px; top: 851px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t3.data.amsterdam.nl/topo_rd/10/473/538.png"
+              style="width: 256px; height: 256px; left: 538px; top: 851px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t1.data.amsterdam.nl/topo_rd/10/471/542.png"
+              style="width: 256px; height: 256px; left: 26px; top: -173px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t4.data.amsterdam.nl/topo_rd/10/474/542.png"
+              style="width: 256px; height: 256px; left: 794px; top: -173px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t4.data.amsterdam.nl/topo_rd/10/470/542.png"
+              style="width: 256px; height: 256px; left: -230px; top: -173px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t4.data.amsterdam.nl/topo_rd/10/470/538.png"
+              style="width: 256px; height: 256px; left: -230px; top: 851px;"
+            />
+            <img
+              alt=""
+              class="leaflet-tile"
+              role="presentation"
+              src="https://t4.data.amsterdam.nl/topo_rd/10/474/538.png"
+              style="width: 256px; height: 256px; left: 794px; top: 851px;"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="leaflet-pane leaflet-shadow-pane leaflet-zoom-hide"
+      />
+      <div
+        class="leaflet-pane leaflet-overlay-pane"
+      >
+        <canvas
+          height="1229"
+          style="left: -102px; top: -102px; width: 1229px; height: 1229px;"
+          width="1229"
+        />
+      </div>
+      <div
+        class="leaflet-pane leaflet-marker-pane leaflet-zoom-hide"
+      >
+        <img
+          alt=""
+          class="leaflet-marker-icon map-marker-incident leaflet-zoom-hide leaflet-interactive"
+          src="ImageMock"
+          style="margin-left: -20px; margin-top: -39px; width: 40px; height: 40px; left: 795px; top: 1087px; z-index: 1087;"
+          tabindex="0"
+        />
+        <div
+          class="leaflet-marker-icon marker-cluster marker-cluster-small leaflet-zoom-hide leaflet-interactive"
+          style="margin-left: -20px; margin-top: -20px; width: 40px; height: 40px; left: 358px; top: 609px; z-index: 609;"
+          tabindex="0"
+        >
+          <div>
+            <span>
+              2
+            </span>
+          </div>
+        </div>
+        <div
+          class="leaflet-marker-icon marker-cluster marker-cluster-small leaflet-zoom-hide leaflet-interactive"
+          style="margin-left: -20px; margin-top: -20px; width: 40px; height: 40px; left: -405px; top: 228px; z-index: 228;"
+          tabindex="0"
+        >
+          <div>
+            <span>
+              2
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="leaflet-pane leaflet-tooltip-pane"
+      />
+      <div
+        class="leaflet-pane leaflet-popup-pane"
+      />
+    </div>
+    <div
+      class="leaflet-control-container"
+    >
+      <div
+        class="leaflet-top leaflet-left"
+      />
+      <div
+        class="leaflet-top leaflet-right"
+      />
+      <div
+        class="leaflet-bottom leaflet-left"
+      />
+      <div
+        class="leaflet-bottom leaflet-right"
+      >
+        <div
+          class="leaflet-control-attribution leaflet-control"
+        >
+          <a
+            href="https://leafletjs.com"
+            title="A JS library for interactive maps"
+          >
+            Leaflet
+          </a>
+           | Kaartgegevens CC-BY-4.0 Gemeente Amsterdam
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="sc-cmthru bEhulO"
+  >
+    <div
+      class="sc-hMFtBS gspQyK"
+    >
+      <div
+        class="AutoSuggest__Wrapper-sc-1l4rsm2-0 eHfHIv Map__Autosuggest-q7dcmt-2 dPyNBw"
+        data-testid="autoSuggest"
+      >
+        <div
+          aria-controls="as-listbox"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          role="combobox"
+        >
+          <div
+            class="Input__Wrapper-sc-1933jsg-4 hZBxPn"
+          >
+            
+            
+            
+            <input
+              aria-autocomplete="list"
+              class="Input__StyledInput-sc-1933jsg-1 cIXvqe"
+              id=""
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-hMFtBS jhkBcj"
+    />
+    <div
+      class="sc-hMFtBS fEpxzh"
+    />
+    <div
+      class="sc-hMFtBS hVaEyk"
+    />
+  </div>
+</div>
+`;
