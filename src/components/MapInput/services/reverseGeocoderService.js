@@ -5,11 +5,13 @@ const flParams = pdokResponseFieldList.join(',');
 export const serviceURL = `https://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1&fl=${flParams}`;
 
 
-function findFeatureByType(features, type) {
+export const findFeatureByType = (features, type) => {
   const feature = features.find(feat => feat.properties.type === type);
-  if (feature === undefined) return null;
+
+  if (!feature) return undefined;
+
   return feature.properties;
-}
+};
 
 export const getStadsdeel = async({ lat, lng }) => {
   const bagSserviceURL = `https://api.data.amsterdam.nl/geosearch/bag/?lat=${lat}&lon=${lng}&radius=50`;

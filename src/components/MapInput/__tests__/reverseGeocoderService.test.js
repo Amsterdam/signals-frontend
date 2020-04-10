@@ -1,4 +1,35 @@
-import reverseGeocoderService, { formatRequest, serviceURL } from '../services/reverseGeocoderService';
+import reverseGeocoderService, {
+  formatRequest,
+  serviceURL,
+  findFeatureByType,
+} from '../services/reverseGeocoderService';
+
+const bagResponse = {
+  features: [
+    {
+      properties: {
+        code: 'N',
+        display: 'Noord',
+        distance: 4467.47982312323,
+        id: '03630000000019',
+        type: 'gebieden/stadsdeel',
+        uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
+      },
+    },
+    {
+      properties: {
+        code: '61b',
+        display: 'Vogelbuurt Zuid',
+        distance: 109.145476159977,
+        id: '03630000000644',
+        type: 'gebieden/buurt',
+        uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
+        vollcode: 'N61b',
+      },
+    },
+  ],
+  type: 'FeatureCollection',
+};
 
 describe('formatRequest', () => {
   const testLocation = {
@@ -13,6 +44,16 @@ describe('formatRequest', () => {
 
   it('should format correct with distance', () => {
     expect(formatRequest('https://base-url', testLocation, 20)).toEqual(`${result}20`);
+  });
+});
+
+describe('findFeatureByType', () => {
+  it('should return findFeatureByType', () => {
+    expect(findFeatureByType(bagResponse.features, 'notInTheList')).toBeUndefined();
+  });
+
+  it('should return a feature', () => {
+    expect(findFeatureByType(bagResponse.features, 'gebieden/buurt')).toEqual(bagResponse.features[1].properties);
   });
 });
 
@@ -41,32 +82,6 @@ describe('reverseGeocoderService', () => {
     },
   };
 
-  const bagResponse = {
-    features: [
-      {
-        properties: {
-          code: 'N',
-          display: 'Noord',
-          distance: 4467.47982312323,
-          id: '03630000000019',
-          type: 'gebieden/stadsdeel',
-          uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
-        },
-      },
-      {
-        properties: {
-          code: '61b',
-          display: 'Vogelbuurt Zuid',
-          distance: 109.145476159977,
-          id: '03630000000644',
-          type: 'gebieden/buurt',
-          uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
-          vollcode: 'N61b',
-        },
-      },
-    ],
-    type: 'FeatureCollection',
-  };
   const testResult = {
     id: serviceURLResponse.response.docs[0].id,
     value: serviceURLResponse.response.docs[0].weergavenaam,
