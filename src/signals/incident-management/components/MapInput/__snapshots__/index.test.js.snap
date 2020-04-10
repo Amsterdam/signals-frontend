@@ -20,6 +20,7 @@ exports[`<MapInput /> should render correctly 1`] = `
     >
       <Memo(MapContext)>
         <MapInput
+          hasZoomControls={true}
           mapOptions={
             Object {
               "attributionControl": true,

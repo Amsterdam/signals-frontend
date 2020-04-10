@@ -116,8 +116,9 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
       <StyledMap
         className={className}
         data-testid="map-input"
-        mapOptions={mapOptions}
         events={{ click: clickHandler }}
+        hasZoomControls
+        mapOptions={mapOptions}
         setInstance={setMap}
         {...otherProps}
       >

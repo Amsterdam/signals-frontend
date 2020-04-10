@@ -31,7 +31,7 @@ export const MapInput = props => {
 
           <div className="map-input__control invoer">
             <MapContext>
-              <MapInputComponent value={value} onChange={onLocationChange} mapOptions={mapOptions}/>
+              <MapInputComponent value={value} onChange={onLocationChange} mapOptions={mapOptions} hasZoomControls />
             </MapContext>
           </div>
         </div>

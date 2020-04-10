@@ -174,6 +174,7 @@ const OverviewMap = ({ ...rest }) => {
     <Wrapper {...rest}>
       <StyledMap
         data-testid="overviewMap"
+        hasZoomControls
         mapOptions={{
           ...MAP_OPTIONS,
           maxZoom: 16,
