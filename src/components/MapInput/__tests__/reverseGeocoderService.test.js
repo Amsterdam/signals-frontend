@@ -1,4 +1,36 @@
-import reverseGeocoderService, { formatRequest } from '../services/reverseGeocoderService';
+import reverseGeocoderService, {
+  findFeatureByType,
+  formatRequest,
+  getStadsdeel,
+  serviceURL,
+} from '../services/reverseGeocoderService';
+
+const bagResponse = {
+  features: [
+    {
+      properties: {
+        code: 'N',
+        display: 'Noord',
+        distance: 4467.47982312323,
+        id: '03630000000019',
+        type: 'gebieden/stadsdeel',
+        uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
+      },
+    },
+    {
+      properties: {
+        code: '61b',
+        display: 'Vogelbuurt Zuid',
+        distance: 109.145476159977,
+        id: '03630000000644',
+        type: 'gebieden/buurt',
+        uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
+        vollcode: 'N61b',
+      },
+    },
+  ],
+  type: 'FeatureCollection',
+};
 
 describe('formatRequest', () => {
   const testLocation = {
@@ -16,13 +48,59 @@ describe('formatRequest', () => {
   });
 });
 
+describe('findFeatureByType', () => {
+  it('should return undefined', () => {
+    expect(findFeatureByType(bagResponse.features, 'notInTheList')).toBeUndefined();
+  });
+
+  it('should return a feature', () => {
+    expect(findFeatureByType(bagResponse.features, 'gebieden/buurt')).toEqual(bagResponse.features[1].properties);
+  });
+});
+
+describe('getStadsdeel', () => {
+  it('should return null', async () => {
+    const noResultResponse = {
+      features: [
+        {
+          properties: {
+            code: '61b',
+            display: 'Vogelbuurt Zuid',
+            distance: 109.145476159977,
+            id: '03630000000644',
+            type: 'gebieden/buurt',
+            uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
+            vollcode: 'N61b',
+          },
+        },
+      ],
+    };
+
+    fetch.mockResponse(JSON.stringify(noResultResponse));
+
+    const location = { lat: 52.37377195, lng: 4.87745608 };
+    const stadsdeel = await getStadsdeel(location);
+
+    expect(stadsdeel).toBeNull();
+  });
+
+  it('should return code', async () => {
+    fetch.mockResponse(JSON.stringify(bagResponse));
+
+    const location = { lat: 52.37377195, lng: 4.87745608 };
+    const stadsdeel = await getStadsdeel(location);
+
+    expect(stadsdeel).toEqual(bagResponse.features[0].properties.code);
+  });
+});
+
 describe('reverseGeocoderService', () => {
   const testLocation = {
     lat: 42,
     lng: 4,
   };
 
-  const mockResponse = {
+  const serviceURLResponse = {
     response: {
       numFound: 1,
       start: 0,
@@ -42,32 +120,48 @@ describe('reverseGeocoderService', () => {
   };
 
   const testResult = {
-    id: 'adr-a03ce477aaa2e95e9246139b631484ad',
-    value: 'Bloemgracht 189A-2, 1016KP Amsterdam',
+    id: serviceURLResponse.response.docs[0].id,
+    value: serviceURLResponse.response.docs[0].weergavenaam,
     data: {
       location: { lat: 52.37377195, lng: 4.87745608 },
       address: {
-        openbare_ruimte: 'Bloemgracht',
-        huisnummer: '189A-2',
+        openbare_ruimte: serviceURLResponse.response.docs[0].straatnaam,
+        huisnummer: serviceURLResponse.response.docs[0].huis_nlt,
         huisletter: '',
         huisnummertoevoeging: '',
-        postcode: '1016KP',
-        woonplaats: 'Amsterdam',
+        postcode: serviceURLResponse.response.docs[0].postcode,
+        woonplaats: serviceURLResponse.response.docs[0].woonplaatsnaam,
       },
+      stadsdeel: bagResponse.features[0].properties.code,
     },
   };
 
-  beforeEach(() => {
-    fetch.mockResponseOnce(JSON.stringify(mockResponse));
-  });
+  it('should return a value from a response without a location', async () => {
+    const noneFoundResponse = {
+      response: {
+        numFound: 0,
+        start: 0,
+        maxScore: 0.0,
+        docs: [],
+      },
+    };
+    fetch.mockResponse(JSON.stringify(noneFoundResponse));
 
-  afterEach(() => {
-    jest.resetAllMocks();
+    const result = await reverseGeocoderService(testLocation);
+
+    expect(result).toBeUndefined();
   });
 
   it('should return the correct location', async () => {
+    fetch.resetMocks();
+    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse)).mockResponseOnce(JSON.stringify(bagResponse));
     const result = await reverseGeocoderService(testLocation);
-    expect(fetch).toHaveBeenCalledTimes(1);
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+
+    expect(fetch).toHaveBeenNthCalledWith(1, expect.stringContaining(serviceURL));
+    expect(fetch).toHaveBeenNthCalledWith(2, expect.stringContaining('https://api.data.amsterdam.nl/geosearch/bag/'));
+
     expect(result).toEqual(testResult);
   });
 });

@@ -54,7 +54,7 @@ export const mapLocation = loc => {
   }
 
   if (loc.stadsdeel) {
-    value.stadsdeelcode = loc.stadsdeel;
+    value.stadsdeel = loc.stadsdeel;
   }
 
   if (loc.address) {
@@ -107,7 +107,7 @@ export const pdokResponseFieldList = [
 ];
 
 export const formatPDOKResponse = ({ response }) =>
-  response.docs.map(result => {
+  response.docs?.map(result => {
     const { id, weergavenaam, centroide_ll } = result;
     return {
       id,
