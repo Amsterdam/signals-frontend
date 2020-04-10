@@ -3,23 +3,32 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
-import { ViewerContainer, themeColor } from '@datapunt/asc-ui';
+import L from 'leaflet';
+import { ViewerContainer, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import MapContext from 'containers/MapContext/context';
 import { setAddressAction } from 'containers/MapContext/actions';
-import Map from 'components/Map';
-import PDOKAutoSuggest from 'components/PDOKAutoSuggest';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import configuration from 'shared/services/configuration/configuration';
-import { centroideToLocation, featureTolocation } from 'shared/services/map-location';
+import { featureTolocation, formatPDOKResponse } from 'shared/services/map-location';
 import { makeSelectFilterParams, makeSelectActiveFilter } from 'signals/incident-management/selectors';
 import { initialState } from 'signals/incident-management/reducer';
 import useFetch from 'hooks/useFetch';
 import { incidentIcon, markerIcon } from 'shared/services/configuration/map-markers';
-import L from 'leaflet';
+import Map from 'components/Map';
+import PDOKAutoSuggest from 'components/PDOKAutoSuggest';
 import MarkerCluster from './components/MarkerCluster';
 
 import DetailPanel from './components/DetailPanel';
+
+const StyledViewerContainer = styled(ViewerContainer)`
+  flex-direction: row;
+
+  & > * {
+    left: ${themeSpacing(4)};
+    right: ${themeSpacing(4)};
+  }
+`;
 
 const Wrapper = styled.div`
   position: relative;
@@ -53,19 +62,9 @@ const Autosuggest = styled(PDOKAutoSuggest)`
   max-width: calc(100% - 40px);
   z-index: 401; // 400 is the minimum elevation were elements are shown above the map
   width: 350px;
+  left: 0;
+  position: absolute;
 `;
-
-export const formatResponse = ({ response }) =>
-  response?.docs?.map(result => {
-    const { id, weergavenaam, centroide_ll } = result;
-    return {
-      id,
-      value: weergavenaam,
-      data: {
-        location: centroideToLocation(centroide_ll),
-      },
-    };
-  });
 
 const clusterLayerOptions = {
   showCoverageOnHover: false,
@@ -85,7 +84,7 @@ const OverviewMap = ({ ...rest }) => {
 
   const { ...params } = filterParams;
   params.created_after = moment()
-    .subtract(1, 'days')
+    .subtract(10, 'days')
     .format('YYYY-MM-DDTkk:mm:ss');
   params.created_before = moment().format('YYYY-MM-DDTkk:mm:ss');
 
@@ -183,13 +182,14 @@ const OverviewMap = ({ ...rest }) => {
         setInstance={setMap}
       >
         <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
-        <ViewerContainer
+        <StyledViewerContainer
           topLeft={
             <Autosuggest
-              onSelect={onSelect}
-              gemeentenaam="amsterdam"
               fieldList={['centroide_ll']}
-              formatResponse={formatResponse}
+              formatResponse={formatPDOKResponse}
+              gemeentenaam="amsterdam"
+              onSelect={onSelect}
+              placeholder="Zoom naar adres"
             />
           }
           topRight={showPanel && <DetailPanel incidentId={incidentId} onClose={onClosePanel} />}

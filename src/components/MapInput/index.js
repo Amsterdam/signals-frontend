@@ -7,7 +7,7 @@ import { ViewerContainer } from '@datapunt/asc-ui';
 import 'leaflet/dist/leaflet.css';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import { locationTofeature } from 'shared/services/map-location';
+import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
 import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
 
@@ -65,14 +65,25 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
       const response = await reverseGeocoderService(event.latlng);
 
+      const onChangePayload = {
+        geometrie: locationTofeature(event.latlng),
+      };
+
+      const addressText = response?.value || '';
+      const address = response?.data?.address || '';
+
+      if (response) {
+        onChangePayload.address = response.data.address;
+      }
+
       dispatch(
         setValuesAction({
-          addressText: response.value,
-          address: response.data.address,
+          addressText,
+          address,
         })
       );
 
-      onChange({ geometrie: locationTofeature(event.latlng), address: response.data.address });
+      onChange(onChangePayload);
     },
     [dispatch, onChange]
   );
@@ -111,7 +122,14 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         {...otherProps}
       >
         <StyledViewerContainer
-          topLeft={<StyledAutosuggest value={addressValue} onSelect={onSelect} gemeentenaam="amsterdam" />}
+          topLeft={
+            <StyledAutosuggest
+              value={addressValue}
+              onSelect={onSelect}
+              gemeentenaam="amsterdam"
+              formatResponse={formatPDOKResponse}
+            />
+          }
         />
         {hasLocation && (
           <Marker
