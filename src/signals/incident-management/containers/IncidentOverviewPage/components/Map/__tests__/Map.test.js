@@ -43,13 +43,40 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
     await findByTestId('overviewMap');
 
     const markers = container.querySelectorAll(incidentIconSelector);
+    const firstMarker = markers[0];
 
     expect(queryByTestId('mapDetailPanel')).not.toBeInTheDocument();
+    expect(firstMarker.classList.contains('map-marker-select')).toEqual(false);
+
+    act(() => {
+      fireEvent.click(firstMarker);
+    });
+
+    expect(firstMarker.classList.contains('map-marker-select')).toEqual(true);
+
+    expect(getByTestId('mapDetailPanel')).toBeInTheDocument();
+  });
+
+  it('should close detail panel', async () => {
+    const { container, queryByTestId, findByTestId } = render(withMapContext(<OverviewMap />));
+
+    await findByTestId('overviewMap');
+
+    const markers = container.querySelectorAll(incidentIconSelector);
 
     act(() => {
       fireEvent.click(markers[0]);
     });
 
-    expect(getByTestId('mapDetailPanel')).toBeInTheDocument();
+    const detailPanel = await findByTestId('mapDetailPanel');
+
+    expect(container.querySelectorAll('.map-marker-select')).toHaveLength(1);
+
+    act(() => {
+      fireEvent.click(detailPanel.querySelector('button'));
+    });
+
+    expect(queryByTestId('mapDetailPanel')).not.toBeInTheDocument();
+    expect(container.querySelectorAll('.map-marker-select')).toHaveLength(0);
   });
 });
