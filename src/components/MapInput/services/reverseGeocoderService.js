@@ -32,10 +32,6 @@ const reverseGeocoderService = async location => {
   const result = await fetch(url).then(res => res.json());
   const formattedResponse = formatPDOKResponse(result)[0];
 
-  if (formattedResponse) {
-    formattedResponse.data.stadsdeel = await getStadsdeel(formattedResponse.data.location);
-  }
-
   return formattedResponse;
 };
 

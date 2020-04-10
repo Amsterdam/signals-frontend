@@ -46,6 +46,33 @@ const geocoderResponse = {
   },
 };
 
+const bagResponse = {
+  features: [
+    {
+      properties: {
+        code: 'N',
+        display: 'Noord',
+        distance: 4467.47982312323,
+        id: '03630000000019',
+        type: 'gebieden/stadsdeel',
+        uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
+      },
+    },
+    {
+      properties: {
+        code: '61b',
+        display: 'Vogelbuurt Zuid',
+        distance: 109.145476159977,
+        id: '03630000000644',
+        type: 'gebieden/buurt',
+        uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
+        vollcode: 'N61b',
+      },
+    },
+  ],
+  type: 'FeatureCollection',
+};
+
 describe('components/MapInput', () => {
   beforeEach(() => {
     fetch.mockResponse(JSON.stringify(geocoderResponse));
@@ -89,33 +116,6 @@ describe('components/MapInput', () => {
   });
 
   it('should handle click', async () => {
-    const bagResponse = {
-      features: [
-        {
-          properties: {
-            code: 'N',
-            display: 'Noord',
-            distance: 4467.47982312323,
-            id: '03630000000019',
-            type: 'gebieden/stadsdeel',
-            uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
-          },
-        },
-        {
-          properties: {
-            code: '61b',
-            display: 'Vogelbuurt Zuid',
-            distance: 109.145476159977,
-            id: '03630000000644',
-            type: 'gebieden/buurt',
-            uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
-            vollcode: 'N61b',
-          },
-        },
-      ],
-      type: 'FeatureCollection',
-    };
-
     fetch.mockResponseOnce(JSON.stringify(geocoderResponse)).mockResponseOnce(JSON.stringify(bagResponse));
 
     const onChange = jest.fn();
@@ -165,7 +165,7 @@ describe('components/MapInput', () => {
         docs: [],
       },
     };
-    fetch.mockResponse(JSON.stringify(noneFoundResponse));
+    fetch.mockResponseOnce(JSON.stringify(noneFoundResponse)).mockResponseOnce(JSON.stringify(bagResponse));
 
     const { getByTestId, findByTestId } = render(
       withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
@@ -185,12 +185,13 @@ describe('components/MapInput', () => {
     expect(setValuesSpy).toHaveBeenLastCalledWith({
       addressText: '',
       address: '',
-      stadsdeel: '',
+      stadsdeel: bagResponse.features[0].properties.code,
     });
 
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith({
       geometrie: expect.any(Object),
+      stadsdeel: bagResponse.features[0].properties.code,
     });
   });
 
