@@ -45,7 +45,7 @@ const MapPreview = ({ label, value }) => {
               <div>{value.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>
 
               {lat && lng && (
-                <StyledMap data-testid="map-preview" mapOptions={options} isInteractive={false}>
+                <StyledMap data-testid="map-preview" mapOptions={options} canBeDragged={false}>
                   <Marker args={[{ lat, lng }]} options={{ icon: markerIcon }} />
                 </StyledMap>
               )}
