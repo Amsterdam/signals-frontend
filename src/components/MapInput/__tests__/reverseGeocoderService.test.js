@@ -127,8 +127,6 @@ describe('reverseGeocoderService', () => {
       address: {
         openbare_ruimte: serviceURLResponse.response.docs[0].straatnaam,
         huisnummer: serviceURLResponse.response.docs[0].huis_nlt,
-        huisletter: '',
-        huisnummertoevoeging: '',
         postcode: serviceURLResponse.response.docs[0].postcode,
         woonplaats: serviceURLResponse.response.docs[0].woonplaatsnaam,
       },
