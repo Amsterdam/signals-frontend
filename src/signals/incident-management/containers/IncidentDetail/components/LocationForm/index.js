@@ -6,14 +6,15 @@ import isEqual from 'lodash.isequal';
 import { incidentType, locationType } from 'shared/types';
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 
-import mapLocation from 'shared/services/map-location';
+import { mapLocation } from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import MapInput from '../../../../components/MapInput';
 import HiddenInput from '../../../../components/HiddenInput';
 
 import './style.scss';
 
-class LocationForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class LocationForm extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
 
@@ -76,7 +77,7 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
       type: PATCH_TYPE_LOCATION,
       patch: { location: { ...this.state.newLocation } },
     });
-  }
+  };
 
   render() {
     const { patching, error, onClose } = this.props;
@@ -116,7 +117,11 @@ class LocationForm extends React.Component { // eslint-disable-line react/prefer
                   data-testid="location-form-button-submit"
                 >
                   <span className="value">Locatie opslaan</span>
-                  {patching.location && <span className="working"><div className="progress-indicator progress-white"></div></span>}
+                  {patching.location && (
+                    <span className="working">
+                      <div className="progress-indicator progress-white"></div>
+                    </span>
+                  )}
                 </button>
                 <button
                   className="location-form__cancel action secundary-grey"
@@ -142,12 +147,15 @@ LocationForm.defaultProps = {
 
 LocationForm.propTypes = {
   incident: incidentType.isRequired,
-  error: PropTypes.oneOfType([PropTypes.shape({
-    response: {
-      status: PropTypes.number.isRequired,
-      ok: PropTypes.bool.isRequired,
-    },
-  }), PropTypes.bool]).isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.shape({
+      response: {
+        status: PropTypes.number.isRequired,
+        ok: PropTypes.bool.isRequired,
+      },
+    }),
+    PropTypes.bool,
+  ]).isRequired,
   patching: PropTypes.shape({
     location: PropTypes.bool,
   }).isRequired,

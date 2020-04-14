@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from 'components/Map';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { formatAddress } from 'shared/services/map-location';
 import { Marker } from '@datapunt/react-maps';
@@ -45,7 +45,7 @@ const MapPreview = ({ label, value }) => {
               <div>{value.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>
 
               {lat && lng && (
-                <StyledMap data-testid="map-preview" mapOptions={options} isInteractive={false}>
+                <StyledMap data-testid="map-preview" mapOptions={options} canBeDragged={false}>
                   <Marker args={[{ lat, lng }]} options={{ icon: markerIcon }} />
                 </StyledMap>
               )}

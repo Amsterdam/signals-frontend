@@ -23,10 +23,4 @@ describe('components/Map', () => {
     rerender(<Map mapOptions={MAP_OPTIONS} hasZoomControls />);
     expect(container.querySelector('button[title="Inzoomen"]')).toBeInTheDocument();
   });
-
-  it('should implement isInteractive', () => {
-    /**
-     *  the isInteractive prop uses the intern state of leaflet and therefore cannot be tested
-     */
-  });
 });

@@ -54,7 +54,7 @@ export const parseOutputFormData = options =>
         ) {
           entryValue = moment(options.created_before)
             .set({ hours: 23, minutes: 59, seconds: 59 })
-            .format('YYYY-MM-DDTkk:mm:ss');
+            .format('YYYY-MM-DDTHH:mm:ss');
         }
         break;
 
