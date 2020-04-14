@@ -13,6 +13,8 @@ import {
 const testAddress = {
   openbare_ruimte: 'Keizersgracht',
   huisnummer: 666,
+  huisletter: 'D',
+  huisnummer_toevoeging: 3,
   postcode: '1016EJ',
   woonplaats: 'Amsterdam',
 };
@@ -94,7 +96,14 @@ describe('formatAddress', () => {
   });
 
   it('should render the address name', () => {
-    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666, 1016EJ Amsterdam');
+    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D3, 1016EJ Amsterdam');
+  });
+
+  it('should render the address without toevoeging', () => {
+    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D3, 1016EJ Amsterdam');
+    expect(formatAddress({ ...testAddress, huisnummer_toevoeging: null })).toEqual(
+      'Keizersgracht 666D, 1016EJ Amsterdam'
+    );
   });
 });
 
@@ -122,10 +131,12 @@ describe('formatMapLocation', () => {
 
     const result = {
       location: { lat: 52, lng: 4 },
-      addressText: 'Keizersgracht 666, 1016EJ Amsterdam',
+      addressText: 'Keizersgracht 666D3, 1016EJ Amsterdam',
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,
+        huisletter: 'D',
+        huisnummer_toevoeging: 3,
         postcode: '1016EJ',
         woonplaats: 'Amsterdam',
       },
@@ -140,6 +151,8 @@ describe('formatMapLocation', () => {
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,
+        huisletter: '',
+        huisnummer_toevoeging: undefined,
         postcode: null,
         woonplaats: 'Amsterdam',
       },
@@ -159,6 +172,8 @@ describe('formatMapLocation', () => {
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,
+        huisletter: '',
+        huisnummer_toevoeging: undefined,
         postcode: null,
         woonplaats: 'Amsterdam',
       },

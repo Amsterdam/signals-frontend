@@ -46,9 +46,9 @@ export const mapLocation = loc => {
   return value;
 };
 
-const getAddressText = ({ openbare_ruimte, huisnummer, postcode, woonplaats }) =>
+const getAddressText = ({ openbare_ruimte, huisnummer, huisletter, huisnummer_toevoeging, postcode, woonplaats }) =>
   [
-    [openbare_ruimte, huisnummer],
+    [openbare_ruimte, `${huisnummer || ''}${huisletter || ''}${huisnummer_toevoeging || ''}`],
     [postcode, woonplaats],
   ]
     .flatMap(parts => parts.filter(Boolean).join(' '))
@@ -88,6 +88,16 @@ export const formatMapLocation = location => {
 
 export const formatAddress = address => getAddressText(address);
 
+/**
+ * Convert geocode response to object with values that can be consumed by our API
+ *
+ * @param {Object} address
+ * @param {String} address.straatnaam
+ * @param {String} address.huis_nlt
+ * @param {String} address.postcode
+ * @param {String} address.woonplaatsnaam
+ * @returns {Object}
+ */
 export const serviceResultToAddress = ({ straatnaam, huis_nlt, postcode, woonplaatsnaam }) => ({
   openbare_ruimte: straatnaam,
   huisnummer: huis_nlt,

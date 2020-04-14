@@ -4,6 +4,8 @@ export const initialState = {
   address: {
     openbare_ruimte: '',
     huisnummer: '',
+    huisletter: '',
+    huisnummertoevoeging: '',
     postcode: '',
     woonplaats: '',
   },
