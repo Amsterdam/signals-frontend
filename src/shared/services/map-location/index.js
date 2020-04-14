@@ -46,6 +46,14 @@ export const mapLocation = loc => {
   return value;
 };
 
+const getAddressText = ({ openbare_ruimte, huisnummer, huisnummer_toevoeging, postcode, woonplaats }) =>
+  [
+    [openbare_ruimte, huisnummer, huisnummer_toevoeging && `-${huisnummer_toevoeging}`],
+    [postcode, woonplaats],
+  ]
+    .flatMap(parts => parts.filter(Boolean).join(' '))
+    .join(', ');
+
 /**
  * Converts a location and address to values
  *
@@ -70,28 +78,14 @@ export const formatMapLocation = location => {
   }
 
   if (location.address) {
-    const { openbare_ruimte, huisnummer, postcode, woonplaats } = location.address;
-    const addressText = [
-      [openbare_ruimte, huisnummer],
-      [postcode, woonplaats],
-    ]
-      .flatMap(parts => parts.filter(Boolean).join(' '))
-      .join(', ');
-
-    value.addressText = addressText;
+    value.addressText = getAddressText(location.address);
     value.address = location.address;
   }
 
   return value;
 };
 
-export const formatAddress = address => {
-  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
-  const display = address.openbare_ruimte
-    ? `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`
-    : '';
-  return display;
-};
+export const formatAddress = address => getAddressText(address);
 
 export const serviceResultToAddress = ({ straatnaam, huis_nlt, postcode, woonplaatsnaam }) => ({
   openbare_ruimte: straatnaam,
