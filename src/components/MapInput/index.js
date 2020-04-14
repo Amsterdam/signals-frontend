@@ -1,10 +1,11 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from '@datapunt/asc-core';
 import { Marker } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import 'leaflet/dist/leaflet.css';
+import debounce from 'lodash/debounce';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
@@ -46,7 +47,21 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
   }
 `;
 
+/**
+ * Timeout by which clicks on the map are delayed so that potential double click can be captured
+ * Increasing the value lead to a perceivable delay between click and the placement of the marker. Decreasing the value
+ * could lead to a double click never being captured, because of the limited time to have both click registered.
+ */
+export const DOUBLE_CLICK_TIMEOUT = 200;
+
+/**
+ * Map component used in incident submission form
+ *
+ * Has a workaround to capture both click and double click events by delaying the clickhandler so that the browser has
+ * enough time to register a double click.
+ */
 const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => {
+  const doubleClick = useRef(false);
   const { state, dispatch } = useContext(MapContext);
   const [map, setMap] = useState();
   const [marker, setMarker] = useState();
@@ -59,8 +74,24 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
     dispatch(setValuesAction(value));
   }, [value, dispatch]);
 
-  const clickHandler = useCallback(
+  /**
+   * Capture doubleClick event
+   *
+   * Will prevent click events from being fired until the timeout has expired
+   */
+  const dblclick = useCallback(() => {
+    doubleClick.current = true;
+
+    const dblClickTimeout = setTimeout(() => {
+      doubleClick.current = false;
+      clearTimeout(dblClickTimeout);
+    }, DOUBLE_CLICK_TIMEOUT * 2);
+  }, []);
+
+  const click = useCallback(
     async event => {
+      if (doubleClick.current) return;
+
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
@@ -88,12 +119,16 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
       onChange(onChangePayload);
     },
-    [dispatch, onChange]
+    [dispatch, onChange, doubleClick]
   );
 
+  const clickHandler = useCallback(debounce(click, DOUBLE_CLICK_TIMEOUT), [click]);
+
   const onSelect = useCallback(
-    /* istanbul ignore next */ async option => {
-      dispatch(setValuesAction({ location: option.data.location, address: option.data.address, addressText: value }));
+    async option => {
+      dispatch(
+        setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value })
+      );
 
       const stadsdeel = await getStadsdeel(option.data.location);
 
@@ -103,12 +138,10 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         stadsdeel,
       });
 
-      if (map) {
-        const currentZoom = map.getZoom();
-        map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom);
-      }
+      const currentZoom = map.getZoom();
+      map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom);
     },
-    [map, dispatch, onChange, value]
+    [map, dispatch, onChange]
   );
 
   useEffect(() => {
@@ -122,7 +155,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
       <StyledMap
         className={className}
         data-testid="map-input"
-        events={{ click: clickHandler }}
+        events={{ click: clickHandler, dblclick }}
         hasZoomControls
         mapOptions={mapOptions}
         setInstance={setMap}
@@ -153,10 +186,15 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   );
 };
 
-MapInput.defaultProps = {};
-
 MapInput.propTypes = {
   className: PropTypes.string,
+  /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */
+  mapOptions: PropTypes.shape({}).isRequired,
+  /**
+   * Callback handler that is fired when a click on the map is registered or when an option in the autosuggest
+   * list is selected
+   */
+  onChange: PropTypes.func,
   value: PropTypes.shape({
     geometrie: PropTypes.shape({
       type: PropTypes.string,
@@ -164,9 +202,6 @@ MapInput.propTypes = {
     }),
     addressText: PropTypes.string,
   }),
-  onChange: PropTypes.func,
-  /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */
-  mapOptions: PropTypes.shape({}).isRequired,
 };
 
 export default MapInput;
