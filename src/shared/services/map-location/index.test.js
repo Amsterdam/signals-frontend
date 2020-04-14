@@ -114,6 +114,12 @@ describe('wktPointToLocation', () => {
       lng: 4.90225668,
     });
   });
+
+  it('should throw an error', () => {
+    expect(() => {
+      wktPointToLocation('POLYGON(4.90225668 52.36150435)');
+    }).toThrow();
+  });
 });
 
 describe('formatMapLocation', () => {
@@ -137,6 +143,60 @@ describe('formatMapLocation', () => {
     };
 
     expect(formatMapLocation(loc)).toEqual(result);
+  });
+
+  it('should disregard empty values', () => {
+    const location = {
+      geometrie: testFeature,
+      address: {
+        openbare_ruimte: 'Keizersgracht',
+        huisnummer: 666,
+        huisletter: '',
+        huisnummer_toevoeging: undefined,
+        postcode: null,
+        woonplaats: 'Amsterdam',
+      },
+    };
+
+    const result = {
+      location: { lat: 52, lng: 4 },
+      addressText: 'Keizersgracht 666, Amsterdam',
+      address: location.address,
+    };
+
+    expect(formatMapLocation(location)).toEqual(result);
+  });
+
+  it('should not return geometrie', () => {
+    const location = {
+      address: {
+        openbare_ruimte: 'Keizersgracht',
+        huisnummer: 666,
+        huisletter: '',
+        huisnummer_toevoeging: undefined,
+        postcode: null,
+        woonplaats: 'Amsterdam',
+      },
+    };
+
+    const result = {
+      addressText: 'Keizersgracht 666, Amsterdam',
+      address: location.address,
+    };
+
+    expect(formatMapLocation(location)).toEqual(result);
+  });
+
+  it('should not return address', () => {
+    const location = {
+      geometrie: testFeature,
+    };
+
+    const result = {
+      location: { lat: 52, lng: 4 },
+    };
+
+    expect(formatMapLocation(location)).toEqual(result);
   });
 });
 
