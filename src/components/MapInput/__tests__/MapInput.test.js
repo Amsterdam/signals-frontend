@@ -9,10 +9,10 @@ import { withAppContext, resolveAfterMs } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
+import { DOUBLE_CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
 
 import { findFeatureByType } from '../services/reverseGeocoderService';
-import MapInput, { DOUBLE_CLICK_TIMEOUT } from '..';
-
+import MapInput from '..';
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
   ...jest.requireActual('containers/MapContext/actions'),
@@ -207,40 +207,6 @@ describe('components/MapInput', () => {
       geometrie: expect.any(Object),
       stadsdeel: bagResponse.features[0].properties.code,
     });
-  });
-
-  it('should handle double click', async () => {
-    const onChange = jest.fn();
-    const { getByTestId, findByTestId } = render(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
-    );
-    const map = getByTestId('map-input');
-
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-    expect(onChange).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.doubleClick(map, { clientX: 100, clientY: 100 });
-    });
-
-    await findByTestId('map-input');
-
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-    expect(onChange).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.click(map, { clientX: 100, clientY: 100 });
-    });
-
-    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
-
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-    expect(onChange).not.toHaveBeenCalled();
-
-    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
-
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('should render marker', async () => {

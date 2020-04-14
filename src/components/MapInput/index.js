@@ -1,16 +1,16 @@
-import React, { useContext, useState, useEffect, useCallback, useRef } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from '@datapunt/asc-core';
 import { Marker } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import 'leaflet/dist/leaflet.css';
-import debounce from 'lodash/debounce';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
 import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
+import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
 
 import Map from '../Map';
 import PDOKAutoSuggest from '../PDOKAutoSuggest';
@@ -47,51 +47,15 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
   }
 `;
 
-/**
- * Timeout by which clicks on the map are delayed so that potential double click can be captured
- * Increasing the value lead to a perceivable delay between click and the placement of the marker. Decreasing the value
- * could lead to a double click never being captured, because of the limited time to have both click registered.
- */
-export const DOUBLE_CLICK_TIMEOUT = 200;
-
-/**
- * Map component used in incident submission form
- *
- * Has a workaround to capture both click and double click events by delaying the clickhandler so that the browser has
- * enough time to register a double click.
- */
 const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => {
-  const doubleClick = useRef(false);
   const { state, dispatch } = useContext(MapContext);
   const [map, setMap] = useState();
   const [marker, setMarker] = useState();
   const { location, addressText: addressValue } = state;
   const hasLocation = location && location?.lat !== 0 && location.lng !== 0;
 
-  useEffect(() => {
-    if (!value?.geometrie?.coordinates && !value?.addressText) return;
-
-    dispatch(setValuesAction(value));
-  }, [value, dispatch]);
-
-  /**
-   * Capture doubleClick event
-   *
-   * Will prevent click events from being fired until the timeout has expired
-   */
-  const dblclick = useCallback(() => {
-    doubleClick.current = true;
-
-    const dblClickTimeout = setTimeout(() => {
-      doubleClick.current = false;
-      clearTimeout(dblClickTimeout);
-    }, DOUBLE_CLICK_TIMEOUT * 2);
-  }, []);
-
-  const click = useCallback(
+  const clickFunc = useCallback(
     async event => {
-      if (doubleClick.current) return;
-
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
@@ -119,10 +83,8 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
       onChange(onChangePayload);
     },
-    [dispatch, onChange, doubleClick]
+    [dispatch, onChange]
   );
-
-  const clickHandler = useCallback(debounce(click, DOUBLE_CLICK_TIMEOUT), [click]);
 
   const onSelect = useCallback(
     async option => {
@@ -144,18 +106,26 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
     [map, dispatch, onChange]
   );
 
+  const { click, doubleClick } = useDelayedDoubleClick(clickFunc);
+
   useEffect(() => {
     if (!marker || !hasLocation) return;
 
     marker.setLatLng(location);
   }, [marker, location, hasLocation]);
 
+  useEffect(() => {
+    if (!value?.geometrie?.coordinates && !value?.addressText) return;
+
+    dispatch(setValuesAction(value));
+  }, [value, dispatch]);
+
   return (
     <Wrapper>
       <StyledMap
         className={className}
         data-testid="map-input"
-        events={{ click: clickHandler, dblclick }}
+        events={{ click, dblclick: doubleClick }}
         hasZoomControls
         mapOptions={mapOptions}
         setInstance={setMap}
