@@ -12,6 +12,7 @@ import MapContext from 'containers/MapContext/context';
 import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
 
+import isEqual from 'lodash.isequal';
 import Map from '../Map';
 import PDOKAutoSuggest from '../PDOKAutoSuggest';
 import reverseGeocoderService, { getStadsdeel } from './services/reverseGeocoderService';
@@ -115,10 +116,18 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   }, [marker, location, hasLocation]);
 
   useEffect(() => {
-    if (!value?.geometrie?.coordinates && !value?.addressText) return;
+    if (!map) return;
+    if (!value?.location && !value?.addressText) return;
+
+    if (value?.location?.lat > 0) {
+      if (map && !isEqual(value?.location, state.location)) {
+        const currentZoom = map.getZoom();
+        map.flyTo(value?.location, currentZoom);
+      }
+    }
 
     dispatch(setValuesAction(value));
-  }, [value, dispatch]);
+  }, [value, dispatch, map, state.location]);
 
   return (
     <Wrapper>
