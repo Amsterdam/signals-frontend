@@ -13,8 +13,6 @@ import {
 const testAddress = {
   openbare_ruimte: 'Keizersgracht',
   huisnummer: 666,
-  huisletter: 'D',
-  huisnummer_toevoeging: 3,
   postcode: '1016EJ',
   woonplaats: 'Amsterdam',
 };
@@ -38,7 +36,7 @@ describe('featureTolocation', () => {
   });
 });
 
-describe('The map location service', () => {
+describe('mapLocation', () => {
   it('should map geometry', () => {
     expect(
       mapLocation({
@@ -90,20 +88,13 @@ describe('The map location service', () => {
   });
 });
 
-describe('The formatAddress', () => {
+describe('formatAddress', () => {
   it('should return an empty string when no data', () => {
     expect(formatAddress({})).toEqual('');
   });
 
   it('should render the address name', () => {
-    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D-3, 1016EJ Amsterdam');
-  });
-
-  it('should render the address without toevoeging', () => {
-    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D-3, 1016EJ Amsterdam');
-    expect(formatAddress({ ...testAddress, huisnummer_toevoeging: null })).toEqual(
-      'Keizersgracht 666D, 1016EJ Amsterdam'
-    );
+    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666, 1016EJ Amsterdam');
   });
 });
 
@@ -135,8 +126,6 @@ describe('formatMapLocation', () => {
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,
-        huisletter: 'D',
-        huisnummer_toevoeging: 3,
         postcode: '1016EJ',
         woonplaats: 'Amsterdam',
       },
@@ -151,8 +140,6 @@ describe('formatMapLocation', () => {
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,
-        huisletter: '',
-        huisnummer_toevoeging: undefined,
         postcode: null,
         woonplaats: 'Amsterdam',
       },
@@ -172,8 +159,6 @@ describe('formatMapLocation', () => {
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,
-        huisletter: '',
-        huisnummer_toevoeging: undefined,
         postcode: null,
         woonplaats: 'Amsterdam',
       },
@@ -214,8 +199,6 @@ describe('serviceResultToAddress', () => {
     expect(serviceResultToAddress(data)).toEqual({
       openbare_ruimte: 'Achtergracht',
       huisnummer: '43G',
-      huisletter: '',
-      huisnummertoevoeging: '',
       postcode: '1017WN',
       woonplaats: 'Amsterdam',
     });
@@ -234,8 +217,6 @@ describe('formatPDOKResponse', () => {
           address: {
             openbare_ruimte: 'Achtergracht',
             huisnummer: '43',
-            huisletter: '',
-            huisnummertoevoeging: '',
             postcode: '1017WN',
             woonplaats: 'Amsterdam',
           },
@@ -249,8 +230,6 @@ describe('formatPDOKResponse', () => {
           address: {
             openbare_ruimte: 'Achtergracht',
             huisnummer: '43G',
-            huisletter: '',
-            huisnummertoevoeging: '',
             postcode: '1017WN',
             woonplaats: 'Amsterdam',
           },

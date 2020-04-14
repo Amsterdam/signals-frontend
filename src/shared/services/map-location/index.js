@@ -46,12 +46,13 @@ export const mapLocation = loc => {
   return value;
 };
 
-const getAddressText = ({ openbare_ruimte, huisnummer, huisnummer_toevoeging, postcode, woonplaats }) =>
+const getAddressText = ({ openbare_ruimte, huisnummer, postcode, woonplaats }) =>
   [
-    [openbare_ruimte, huisnummer, huisnummer_toevoeging && `-${huisnummer_toevoeging}`],
+    [openbare_ruimte, huisnummer],
     [postcode, woonplaats],
   ]
     .flatMap(parts => parts.filter(Boolean).join(' '))
+    .filter(Boolean)
     .join(', ');
 
 /**
@@ -90,8 +91,6 @@ export const formatAddress = address => getAddressText(address);
 export const serviceResultToAddress = ({ straatnaam, huis_nlt, postcode, woonplaatsnaam }) => ({
   openbare_ruimte: straatnaam,
   huisnummer: huis_nlt,
-  huisletter: '',
-  huisnummertoevoeging: '',
   postcode,
   woonplaats: woonplaatsnaam,
 });
