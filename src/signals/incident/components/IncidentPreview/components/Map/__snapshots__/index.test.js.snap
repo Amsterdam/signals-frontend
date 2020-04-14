@@ -60,7 +60,7 @@ exports[`Preview component <Map /> should render address with toevoeging correct
     >
       <Map__ItemWrapper>
         <div>
-          Hell 666C-3, 1087JC Amsterdam
+          Hell 666C3, 1087JC Amsterdam
         </div>
       </Map__ItemWrapper>
     </Column>

@@ -93,7 +93,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
   const onSelect = useCallback(
     /* istanbul ignore next */ async option => {
-      dispatch(setValuesAction({ location: option.data.location, address: option.data.address, addressText: value }));
+      dispatch(setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value }));
 
       const stadsdeel = await getStadsdeel(option.data.location);
 
@@ -108,7 +108,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom);
       }
     },
-    [map, dispatch, onChange, value]
+    [map, dispatch, onChange]
   );
 
   useEffect(() => {

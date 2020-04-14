@@ -89,7 +89,7 @@ exports[`<MapInput /> should render correctly 1`] = `
                 "postcode": "1012BL",
                 "woonplaats": "Amsterdam",
               },
-              "addressText": "Geldersekade 84, 1012BL Amsterdam",
+              "addressText": "Geldersekade 84B, 1012BL Amsterdam",
               "location": Object {
                 "lat": 4.901061058044434,
                 "lng": 52.374231891648414,
