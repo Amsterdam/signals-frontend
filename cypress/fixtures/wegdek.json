@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair"
+    ],
+    [0.9194096866973556]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad"
+    ],
+    [0.743921660215921]
+  ]
+}
