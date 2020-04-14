@@ -59,7 +59,7 @@ const Modal = ({ children, title, isOpen, onClose, ...rest }) => (
     <Header>
       <HeaderRow>
         <Column span={12}>
-          <Heading $as="h2">{title}</Heading>
+          <Heading forwardedAs="h2">{title}</Heading>
         </Column>
 
         <Button

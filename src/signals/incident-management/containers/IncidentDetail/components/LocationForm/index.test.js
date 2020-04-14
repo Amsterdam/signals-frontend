@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import { FieldGroup } from 'react-reactive-form';
 
-import mapLocation from 'shared/services/map-location';
+import { mapLocation } from 'shared/services/map-location';
 
 import LocationForm from './index';
 
@@ -49,9 +49,7 @@ describe('<LocationForm />', () => {
       onClose: jest.fn(),
     };
 
-    wrapper = shallow(
-      <LocationForm {...props} />
-    );
+    wrapper = shallow(<LocationForm {...props} />);
 
     instance = wrapper.instance();
 
@@ -71,7 +69,10 @@ describe('<LocationForm />', () => {
     let renderedFormGroup;
 
     beforeEach(() => {
-      renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+      renderedFormGroup = wrapper
+        .find(FieldGroup)
+        .shallow()
+        .dive();
     });
 
     it('should render buttons correctly', () => {
@@ -123,7 +124,7 @@ describe('<LocationForm />', () => {
       });
 
       // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
-      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
+      renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
       expect(props.onPatchIncident).toHaveBeenCalledWith({
         id: 42,
         patch: {
@@ -145,7 +146,6 @@ describe('<LocationForm />', () => {
 
       expect(props.onClose).toHaveBeenCalledTimes(1);
     });
-
 
     it('should not close the location form when result triggers an error', () => {
       wrapper.setProps({

@@ -1,0 +1,66 @@
+{
+  "response": {
+    "numFound": 2,
+    "start": 0,
+    "maxScore": 16.013206,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "43",
+        "weergavenaam": "Achtergracht 43, 1017WN Amsterdam",
+        "straatnaam": "Achtergracht",
+        "id": "adr-7e22b4ee3640202eff3203e63610c76e",
+        "postcode": "1017WN",
+        "centroide_ll": "POINT(4.90218585 52.36163457)"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "43G",
+        "weergavenaam": "Achtergracht 43G, 1017WN Amsterdam",
+        "straatnaam": "Achtergracht",
+        "id": "adr-e26dbf16d329474aa79276d93db9bebd",
+        "postcode": "1017WN",
+        "centroide_ll": "POINT(4.90225668 52.36150435)"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-7e22b4ee3640202eff3203e63610c76e": {
+      "suggest": [
+        "<b>Achtergracht</b> <b>43</b>, 1017WN Amsterdam"
+      ]
+    },
+    "adr-e26dbf16d329474aa79276d93db9bebd": {
+      "suggest": [
+        "<b>Achtergracht</b> <b>43G</b>, 1017WN Amsterdam"
+      ]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "achtergr",
+      {
+        "numFound": 2,
+        "startOffset": 0,
+        "endOffset": 8,
+        "suggestion": [
+          "achterbr",
+          "achtergra"
+        ]
+      }
+    ],
+    "collations": [
+      "collation",
+      {
+        "collationQuery": "achtergra 43",
+        "hits": 2,
+        "misspellingsAndCorrections": [
+          "achtergr",
+          "achtergra",
+          "43",
+          "43"
+        ]
+      }
+    ]
+  }
+}

@@ -20,17 +20,24 @@ export const SearchBarComponent = ({
   /**
    * Send search form input to actions
    *
-   * @param {String} searchInput
+   * @param {SyntheticEvent} event
    */
   const onSearchSubmit = useCallback(
-    searchInput => {
-      setSearchQueryAction(searchInput);
+    event => {
+      event.preventDefault();
+      event.persist();
+      const { value } = event.target.querySelector('input');
+
+      setSearchQueryAction(value);
     },
     [setSearchQueryAction]
   );
 
   const onChange = useCallback(
-    value => {
+    event => {
+      event.persist();
+      const { value } = event.target;
+
       if (value === '') {
         resetSearchQueryAction();
       }
@@ -39,14 +46,16 @@ export const SearchBarComponent = ({
   );
 
   return (
-    <SearchBar
-      className={className}
-      data-testid="searchBar"
-      placeholder="Zoek op meldingsnummer"
-      onChange={onChange}
-      onSubmit={onSearchSubmit}
-      value={query}
-    />
+    <form onSubmit={onSearchSubmit}>
+      <SearchBar
+        className={className}
+        data-testid="searchBar"
+        placeholder="Zoek op meldingsnummer"
+        onChange={onChange}
+        onClear={() => resetSearchQueryAction()}
+        value={query}
+      />
+    </form>
   );
 };
 

@@ -22,6 +22,7 @@ describe('signals/incident/containers/IncidentContainer', () => {
   it('should render correctly', () => {
     const { getByTestId } = render(withAppContext(<IncidentContainerComponent {...props} />));
 
+    expect(getByTestId('alertMessage')).toBeInTheDocument();
     expect(getByTestId('incidentWizard')).toBeInTheDocument();
   });
 });

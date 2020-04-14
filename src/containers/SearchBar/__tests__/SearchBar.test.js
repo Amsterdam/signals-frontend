@@ -1,12 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import SearchBarContainer, { SearchBarComponent } from '..';
 
 describe('containers/SearchBar', () => {
-  afterEach(cleanup);
-
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<SearchBarContainer />));
 
@@ -75,6 +73,29 @@ describe('containers/SearchBar', () => {
 
       const formInput = queryByTestId('searchBar').querySelector('input');
       fireEvent.change(formInput, { target: { value: '' } });
+
+      expect(resetSearchQueryAction).toHaveBeenCalledWith();
+    });
+
+
+    it('should reset query on clear', () => {
+      const query = 'Foo baz barrr';
+
+      const { container } = render(
+        withAppContext(
+          <SearchBarComponent
+            setSearchQueryAction={setSearchQueryAction}
+            resetSearchQueryAction={resetSearchQueryAction}
+            query={query}
+          />,
+        ),
+      );
+
+      expect(resetSearchQueryAction).not.toHaveBeenCalledWith();
+
+      act(() => {
+        fireEvent.click(container.querySelector('button[aria-label="Close"]'));
+      });
 
       expect(resetSearchQueryAction).toHaveBeenCalledWith();
     });
