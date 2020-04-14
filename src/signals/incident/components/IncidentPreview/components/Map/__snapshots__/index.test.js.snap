@@ -60,7 +60,7 @@ exports[`Preview component <Map /> should render address with toevoeging correct
     >
       <Map__ItemWrapper>
         <div>
-          Hell 666C-3, 1087JC Amsterdam
+          Hell 666, 1087JC Amsterdam
         </div>
       </Map__ItemWrapper>
     </Column>
@@ -128,7 +128,7 @@ exports[`Preview component <Map /> should render only address correctly 1`] = `
     >
       <Map__ItemWrapper>
         <div>
-          Hell 666C, 1087JC Amsterdam
+          Hell 666, 1087JC Amsterdam
         </div>
       </Map__ItemWrapper>
     </Column>
@@ -355,7 +355,7 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
     >
       <Map__ItemWrapper>
         <div>
-          Hell 666C, 1087JC Amsterdam
+          Hell 666, 1087JC Amsterdam
         </div>
         <Map__StyledMap
           data-testid="map-preview"
