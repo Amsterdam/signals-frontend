@@ -104,3 +104,5 @@ export const userObjects = (users = usersJSON) =>
         return obj;
       }, {})
   );
+
+export const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
