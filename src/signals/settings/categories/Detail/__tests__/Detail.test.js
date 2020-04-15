@@ -47,10 +47,7 @@ useConfirmedCancel.mockImplementation(() => confirmedCancel);
 
 describe('signals/settings/categories/Detail', () => {
   beforeEach(() => {
-    fetch.mockResponses(
-      [JSON.stringify(categoryJSON), { status: 200 }],
-      [JSON.stringify(historyJSON), { status: 200 }]
-    );
+    fetch.once(JSON.stringify(categoryJSON)).once(JSON.stringify(historyJSON));
 
     dispatch.mockReset();
     push.mockReset();
