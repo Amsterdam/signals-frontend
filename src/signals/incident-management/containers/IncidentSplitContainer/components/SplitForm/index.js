@@ -160,9 +160,19 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
         </ul>
       </StyledBottomDisclaimer>
 
-      <StyledSubmitButton data-testid="splitFormSubmit" variant="secondary" onClick={handleSubmit}>
+      <StyledSubmitButton
+        data-testid="splitFormSubmit"
+        variant="secondary"
+        onClick={event => {
+          event.persist();
+          const { target } = event;
+          target.disabled = true;
+          handleSubmit(event);
+        }}
+      >
         Splitsen
       </StyledSubmitButton>
+
       <StyledButton data-testid="splitFormCancel" variant="primaryInverted" onClick={onHandleCancel}>
         Annuleer
       </StyledButton>
