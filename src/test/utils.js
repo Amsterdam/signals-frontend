@@ -60,11 +60,7 @@ export const withAppContext = Component => (
 );
 
 // eslint-disable-next-line
-export const withCustomAppContext = Component => ({
-  themeCfg = {},
-  storeCfg = {},
-  routerCfg = {},
-}) => (
+export const withCustomAppContext = Component => ({ themeCfg = {}, storeCfg = {}, routerCfg = {} }) => (
   <ThemeProvider {...themeCfg}>
     <Provider store={store} {...storeCfg}>
       <ConnectedRouter history={history} {...routerCfg}>
@@ -104,3 +100,13 @@ export const userObjects = (users = usersJSON) =>
         return obj;
       }, {})
   );
+
+/**
+ * Timeboxed promise resolver
+ *
+ * Particularly useful when when functionality that is debounced with lodash.debounce
+ *
+ * @param {Number} timeMs
+ * @returns {Promise} Resolved promise
+ */
+export const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
