@@ -87,9 +87,9 @@ describe('components/MapInput', () => {
   });
 
   const testLocation = {
-    geometrie: {
-      type: 'Point',
-      coordinates: [4, 52],
+    location: {
+      lat: 52.374386493456036,
+      lng: 4.908941378935603,
     },
   };
 
