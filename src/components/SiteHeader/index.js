@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
 import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
+
 import {
   Header as HeaderComponent,
   MenuFlyOut,
@@ -27,19 +28,23 @@ const StyledHeader = styled(HeaderComponent)`
     font-weight: 400;
     text-decoration: none;
   }
-
-  ${({ isFrontOffice, tall }) => isFrontOffice && tall && css`
-    & {
-      max-width: 960px;
-      h1 {
-        margin-left: ${themeSpacing(-5)};
-        font-weight: 400;
-      }
-
-      h1 a {
-        &,
-        span {
-          width: 153px;
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
+      & {
+        max-width: 960px;
+        h1 {
+          margin-left: ${themeSpacing(-5)};
+        }
+        h1 a {
+          &,
+          span {
+            width: 153px;
+          }
+        }
+        h1 a span {
+          background-image: url(${svg.LogoShort}) !important;
         }
       }
 
@@ -186,21 +191,21 @@ const MenuItems = ({ onLogOut, showItems }) => {
           </SearchBarMenuItem>
 
           <MenuItem element="span">
-            <StyledMenuButton $as={NavLink} to="/manage/incidents">
+            <StyledMenuButton forwardedAs={NavLink} to="/manage/incidents">
               Afhandelen
             </StyledMenuButton>
           </MenuItem>
         </Fragment>
       )}
       <MenuItem element="span">
-        <StyledMenuButton $as={NavLink} to="/incident/beschrijf">
+        <StyledMenuButton forwardedAs="a" href="/incident/beschrijf">
           Melden
         </StyledMenuButton>
       </MenuItem>
 
       {showItems.defaultTexts && (
         <MenuItem element="span">
-          <StyledMenuButton $as={NavLink} to="/manage/standaard/teksten">
+          <StyledMenuButton forwardedAs={NavLink} to="/manage/standaard/teksten">
             Standaard teksten
           </StyledMenuButton>
         </MenuItem>
@@ -208,27 +213,27 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
       {showItems.settings &&
         (showItems.users || showItems.groups || showItems.departments) && (
-        <StyledMenuFlyout label="Instellingen" $as="span">
+        <StyledMenuFlyout label="Instellingen" forwardedAs="span">
           {showItems.users && (
-            <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
+            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/gebruikers">
               Gebruikers
             </StyledMenuButton>
           )}
 
           {showItems.groups && (
-            <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
+            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/rollen">
               Rollen
             </StyledMenuButton>
           )}
 
           {showItems.departments && (
-            <StyledMenuButton $as={NavLink} to="/instellingen/afdelingen">
+            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/afdelingen">
               Afdelingen
             </StyledMenuButton>
           )}
 
           {showItems.categories && (
-            <StyledMenuButton $as={NavLink} to="/instellingen/categorieen">
+            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/categorieen">
               Categorieën
             </StyledMenuButton>
           )}
@@ -239,7 +244,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
         <Fragment>
           <MenuItem>
             <StyledMenuButton
-              $as="a"
+              forwardedAs="a"
               href="https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365"
               target="_blank"
             >

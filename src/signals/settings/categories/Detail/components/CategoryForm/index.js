@@ -125,13 +125,12 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => (
           <Input
             as="textarea"
             defaultValue={data.handling_message}
-            // setting handling message isn't yet supported
-            disabled
+            disabled={readOnly}
             hint="Deze tekst krijgt de burger via e-mail bij het aanmaken van een melding"
             id="handling_message"
             label="Wat doen we met uw melding?"
             name="handling_message"
-            readOnly
+            readOnly={readOnly}
             rows="8"
           />
         </FieldGroup>

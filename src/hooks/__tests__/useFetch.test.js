@@ -2,13 +2,17 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import JSONresponse from 'utils/__tests__/fixtures/user.json';
 import { getErrorMessage } from 'shared/services/api/api';
 
-import useFetch, { headers } from '../useFetch';
+import useFetch from '../useFetch';
 
 jest.mock('shared/services/api/api');
 
 const URL = 'https://here-is-my.api/someId/6';
 
 describe('hooks/useFetch', () => {
+  afterEach(() => {
+    fetch.resetMocks();
+  });
+
   describe('get', () => {
     it('should request from URL on mount', async () => {
       fetch.mockResponseOnce(JSON.stringify(JSONresponse));
@@ -26,7 +30,9 @@ describe('hooks/useFetch', () => {
 
       expect(fetch).toHaveBeenCalledWith(
         URL,
-        expect.objectContaining({ headers })
+        expect.objectContaining({
+          method: 'GET',
+        })
       );
 
       await waitForNextUpdate();
@@ -51,7 +57,32 @@ describe('hooks/useFetch', () => {
 
       expect(fetch).toHaveBeenCalledWith(
         `${URL}?foo=bar&qux=zork`,
-        expect.objectContaining({ headers })
+        expect.objectContaining({
+          method: 'GET',
+        })
+      );
+    });
+
+    it('should construct a URL with complex query params', async () => {
+      const params = {
+        foo: 'bar',
+        qux: 'zork',
+        category: ['a', 'b', 'c'],
+      };
+
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+
+      act(() => {
+        result.current.get(URL, params);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        `${URL}?category=a&category=b&category=c&foo=bar&qux=zork`,
+        expect.objectContaining({
+          method: 'GET',
+        })
       );
     });
 
@@ -76,10 +107,7 @@ describe('hooks/useFetch', () => {
 
     it('should abort request on unmount', () => {
       fetch.mockResponseOnce(
-        () =>
-          new Promise(resolve =>
-            setTimeout(() => resolve(JSON.stringify(JSONresponse)), 100)
-          )
+        () => new Promise(resolve => setTimeout(() => resolve(JSON.stringify(JSONresponse)), 100))
       );
 
       const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort');
@@ -117,6 +145,26 @@ describe('hooks/useFetch', () => {
       expect(result.current.error).toEqual(response);
       expect(result.current.isLoading).toEqual(false);
     });
+
+    it('should apply request options', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+      const params = {};
+      const requestOptions = { responseType: 'blob' };
+
+      act(() => {
+        result.current.get(URL, params, requestOptions);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        URL,
+        expect.objectContaining({
+          method: 'GET',
+          ...requestOptions,
+        })
+      );
+    });
   });
 
   describe('patch', () => {
@@ -132,7 +180,6 @@ describe('hooks/useFetch', () => {
       const expectRequest = [
         URL,
         expect.objectContaining({
-          headers,
           body: JSON.stringify(formData),
           method: 'PATCH',
         }),
@@ -178,6 +225,26 @@ describe('hooks/useFetch', () => {
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
     });
+
+    it('should apply request options', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+      const formData = {};
+      const requestOptions = { responseType: 'blob' };
+
+      act(() => {
+        result.current.patch(URL, formData, requestOptions);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        URL,
+        expect.objectContaining({
+          method: 'PATCH',
+          ...requestOptions,
+        })
+      );
+    });
   });
 
   describe('post', () => {
@@ -196,7 +263,6 @@ describe('hooks/useFetch', () => {
       const expectRequest = [
         URL,
         expect.objectContaining({
-          headers,
           body: JSON.stringify(formData),
           method: 'POST',
         }),
@@ -227,7 +293,7 @@ describe('hooks/useFetch', () => {
       fetch.mockImplementation(() => response);
 
       act(() => {
-        result.current.post(formData);
+        result.current.post(URL, formData);
       });
 
       expect(result.current.isLoading).toEqual(true);
@@ -239,6 +305,26 @@ describe('hooks/useFetch', () => {
       expect(result.current.error).toEqual(response);
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
+    });
+
+    it('should apply request options', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+      const formData = {};
+      const requestOptions = { responseType: 'blob' };
+
+      act(() => {
+        result.current.post(URL, formData, requestOptions);
+      });
+
+      await waitForNextUpdate();
+
+      expect(fetch).toHaveBeenCalledWith(
+        URL,
+        expect.objectContaining({
+          method: 'POST',
+          ...requestOptions,
+        })
+      );
     });
   });
 });

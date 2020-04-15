@@ -1,97 +1,62 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import amaps from 'amsterdam-amaps/dist/amaps';
+import { ViewerContainer } from '@datapunt/asc-ui';
+import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
+import styled from 'styled-components';
+import { Map as MapComponent, TileLayer } from '@datapunt/react-maps';
 
-import 'leaflet/dist/leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
+const StyledViewerContainer = styled(ViewerContainer)`
+  z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
+`;
 
-import './style.scss';
+const Map = ({ mapOptions, hasZoomControls, canBeDragged, children, events, ...otherProps }) => {
+  const hasTouchCapabilities = 'ontouchstart' in window;
+  const showZoom = hasZoomControls && !hasTouchCapabilities;
+  const options = {
+    ...mapOptions,
+    dragging: canBeDragged && !hasTouchCapabilities,
+    tap: false,
+    scrollWheelZoom: false,
+  };
 
-const PREVIEW_ZOOM_LEVEL = '16';
-const smallIcon = global.window.L.icon({
-  iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
-  iconSize: [20, 20],
-  iconAnchor: [10, 19],
-});
-const defaultIcon = global.window.L.icon({
-  iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 39],
-});
+  return (
+    <MapComponent data-testid="map-base" options={options} events={events} {...otherProps}>
+      {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
 
-class Map extends React.Component {
-  componentDidMount() {
-    this.map = amaps.createMap({
-      center: {
-        latitude: this.props.latlng.latitude,
-        longitude: this.props.latlng.longitude,
-      },
-      layer: 'standaard',
-      target: 'mapdiv',
-      marker: true,
-      search: false,
-      zoom: this.props.zoom,
-    });
+      {children}
 
-    if (this.props.hideAttribution) {
-      this.map.attributionControl.remove();
-    }
-
-    if (this.props.hideZoomControls) {
-      this.map.zoomControl.remove();
-    }
-
-    this.renderMarker(this.props.latlng.latitude, this.props.latlng.longitude);
-  }
-
-  componentDidUpdate(prevProps) {
-    const lat = this.props.latlng.latitude;
-    const lng = this.props.latlng.longitude;
-    if (lat !== prevProps.latlng.latitude || lng !== prevProps.latlng.longitude) {
-      this.renderMarker(lat, lng);
-    }
-  }
-
-  map = {};
-
-  renderMarker(lat, lng) {
-    L.DomUtil.empty(this.map.getPane('markerPane'));
-
-    this.map.setView({ lat, lng });
-
-    const marker = L.marker(
-      [lat, lng],
-      { icon: this.props.useSmallMarker ? smallIcon : defaultIcon }
-    );
-    marker.addTo(this.map);
-  }
-
-  render() {
-    return (
-      <div className="map-component">
-        <div className="map">
-          <div className="map-container" id="mapdiv" />
-        </div>
-      </div>
-    );
-  }
-}
-
+      <TileLayer
+        args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
+        options={{
+          subdomains: ['t1', 't2', 't3', 't4'],
+          tms: true,
+          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
+        }}
+      />
+    </MapComponent>
+  );
+};
 Map.defaultProps = {
-  latlng: {},
-  hideAttribution: false,
-  hideZoomControls: false,
-  useSmallMarker: false,
-  zoom: PREVIEW_ZOOM_LEVEL,
+  canBeDragged: true,
+  hasZoomControls: false,
 };
 
 Map.propTypes = {
-  latlng: PropTypes.object,
-  hideAttribution: PropTypes.bool,
-  hideZoomControls: PropTypes.bool,
-  useSmallMarker: PropTypes.bool,
-  zoom: PropTypes.string,
+  canBeDragged: PropTypes.bool,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  hasZoomControls: PropTypes.bool,
+  /**
+   * Leaflet configuration options
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}
+   */
+  mapOptions: PropTypes.shape({
+    attributionControl: PropTypes.bool,
+  }).isRequired,
+  /**
+   * Map events
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
+   */
+  events: PropTypes.shape({}),
 };
 
 export default Map;

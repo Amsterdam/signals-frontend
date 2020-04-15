@@ -2,10 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { locationType } from 'shared/types';
-
+import { markerIcon } from 'shared/services/configuration/map-markers';
+import styled from 'styled-components';
 import MapDetail from '../MapDetail';
 
 import './style.scss';
+
+const StyledMap = styled(MapDetail)`
+  width: 100%;
+  height: 450px;
+`;
 
 const LocationPreview = ({ location, onEditLocation }) => (
   <div className="location-preview">
@@ -18,10 +24,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
       Locatie wijzigen
     </button>
 
-    <MapDetail
-      value={location}
-      zoom="16"
-    />
+    <StyledMap value={location} zoom={14} icon={markerIcon} hasZoomControls />
   </div>
 );
 

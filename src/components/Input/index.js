@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import {
@@ -10,7 +10,7 @@ import {
 } from '@datapunt/asc-ui';
 
 const Hint = styled(Typography).attrs({
-  $as: 'span',
+  forwardedAs: 'span',
 })`
   color: ${themeColor('tint', 'level5')};
   display: block;
@@ -38,7 +38,7 @@ const StyledInput = styled.input`
 `;
 
 const Error = styled(Typography).attrs({
-  $as: 'h6',
+  forwardedAs: 'h6',
 })`
   color: ${themeColor('secondary')};
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
@@ -63,14 +63,14 @@ const Wrapper = styled.div`
   `}
 `;
 
-const Input = ({ className, hint, label, id, error, ...rest }) => (
+const Input = forwardRef(({ className, hint, label, id, error, ...rest }, ref) => (
   <Wrapper className={className} showError={Boolean(error)}>
     {label && <Label hasHint={Boolean(hint)} htmlFor={id} label={label} />}
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
-    <StyledInput id={id} showError={Boolean(error)} {...rest} />
+    <StyledInput id={id} showError={Boolean(error)} ref={ref} {...rest} />
   </Wrapper>
-);
+));
 
 Input.defaultProps = {
   className: '',
