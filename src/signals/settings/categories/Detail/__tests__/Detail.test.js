@@ -32,9 +32,7 @@ jest.mock('models/categories/actions', () => ({
 jest.mock('../../../hooks/useConfirmedCancel');
 
 const userCan = jest.fn(() => () => true);
-jest
-  .spyOn(appSelectors, 'makeSelectUserCan')
-  .mockImplementation(userCan);
+jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(userCan);
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
@@ -50,14 +48,8 @@ useConfirmedCancel.mockImplementation(() => confirmedCancel);
 describe('signals/settings/categories/Detail', () => {
   beforeEach(() => {
     fetch.mockResponses(
-      [
-        JSON.stringify(categoryJSON),
-        { status: 200 },
-      ],
-      [
-        JSON.stringify(historyJSON),
-        { status: 200 },
-      ],
+      [JSON.stringify(categoryJSON), { status: 200 }],
+      [JSON.stringify(historyJSON), { status: 200 }]
     );
 
     dispatch.mockReset();
@@ -74,9 +66,7 @@ describe('signals/settings/categories/Detail', () => {
 
     await wait(() => container.querySelector('a'));
 
-    expect(container.querySelector('a').getAttribute('href')).toEqual(
-      routes.categories
-    );
+    expect(container.querySelector('a').getAttribute('href')).toEqual(routes.categories);
   });
 
   it('should render a backlink with the proper referrer', async () => {
@@ -121,11 +111,9 @@ describe('signals/settings/categories/Detail', () => {
     await wait(() => getByTestId('detailCategoryForm'));
     expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
 
-    document
-      .querySelectorAll('input[type="text"], textarea')
-      .forEach(element => {
-        expect(element.value).toEqual('');
-      });
+    document.querySelectorAll('input[type="text"], textarea').forEach(element => {
+      expect(element.value).toEqual('');
+    });
   });
 
   it('should render a form for an existing category', async () => {
@@ -138,9 +126,7 @@ describe('signals/settings/categories/Detail', () => {
     await findByTestId('detailCategoryForm');
 
     expect(document.querySelector('#name').value).toEqual(categoryJSON.name);
-    expect(document.querySelector('#description').value).toEqual(
-      categoryJSON.description
-    );
+    expect(document.querySelector('#description').value).toEqual(categoryJSON.description);
   });
 
   it('should call confirmedCancel', async () => {
@@ -148,9 +134,7 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: 456,
     }));
 
-    const { container, getByTestId, findByTestId } = render(
-      withAppContext(<CategoryDetailContainer />)
-    );
+    const { container, getByTestId, findByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
     await findByTestId('detailCategoryForm');
 
@@ -196,14 +180,8 @@ describe('signals/settings/categories/Detail', () => {
     fetch.resetMocks();
 
     fetch.mockResponses(
-      [
-        JSON.stringify(dataWithNullValue),
-        { status: 200 },
-      ],
-      [
-        JSON.stringify(historyJSON),
-        { status: 200 },
-      ],
+      [JSON.stringify(dataWithNullValue), { status: 200 }],
+      [JSON.stringify(historyJSON), { status: 200 }]
     );
 
     const categoryId = 10101;
@@ -211,9 +189,7 @@ describe('signals/settings/categories/Detail', () => {
       categoryId,
     }));
 
-    const { container, getByTestId, findByTestId } = render(
-      withAppContext(<CategoryDetailContainer />)
-    );
+    const { container, getByTestId, findByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
     await findByTestId('detailCategoryForm');
 
@@ -321,10 +297,34 @@ describe('signals/settings/categories/Detail', () => {
 
     await wait(() => getByTestId('detailCategoryForm'));
 
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification(expect.any(Object))
-    );
+    expect(dispatch).toHaveBeenCalledWith(showGlobalNotification(expect.any(Object)));
 
     expect(push).toHaveBeenCalledTimes(1);
+  });
+
+  it('should request history for existing category', async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId: undefined,
+    }));
+
+    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+
+    await wait(() => getByTestId('detailCategoryForm'));
+
+    expect(fetch).not.toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId: 900,
+    }));
+
+    fetch
+      .once(JSON.stringify(categoryJSON)) // GET response (category)
+      .once(JSON.stringify(historyJSON)); // GET response (history)
+
+    render(withAppContext(<CategoryDetailContainer />));
+
+    await wait(() => getByTestId('detailCategoryForm'));
+
+    expect(fetch).toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
   });
 });
