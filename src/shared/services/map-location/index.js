@@ -3,33 +3,16 @@ export const locationTofeature = location => ({
   coordinates: [location.lng, location.lat],
 });
 
-export const featureTolocation = feature => {
-  const { coordinates } = feature;
-  return {
-    lat: coordinates[1],
-    lng: coordinates[0],
-  };
-};
+export const featureTolocation = ({ coordinates }) => ({
+  lat: coordinates[1],
+  lng: coordinates[0],
+});
 
 export const wktPointToLocation = wktPoint => {
   if (!wktPoint.includes('POINT')) {
     throw TypeError('Provided WKT geometry is not a point.');
   }
   const coordinate = wktPoint.split('(')[1].split(')')[0];
-  const lat = parseFloat(coordinate.split(' ')[1]);
-  const lng = parseFloat(coordinate.split(' ')[0]);
-
-  return {
-    lat,
-    lng,
-  };
-};
-
-export const centroideToLocation = centroide => {
-  if (!centroide.includes('POINT')) {
-    throw TypeError('Provided centroide geometry is not a point.');
-  }
-  const coordinate = centroide.split('(')[1].split(')')[0];
   const lat = parseFloat(coordinate.split(' ')[1]);
   const lng = parseFloat(coordinate.split(' ')[0]);
 
@@ -63,35 +46,61 @@ export const mapLocation = loc => {
   return value;
 };
 
-export const formatMapLocation = loc => {
+const getAddressText = ({ openbare_ruimte, huisnummer, huisletter, huisnummer_toevoeging, postcode, woonplaats }) =>
+  [
+    [openbare_ruimte, `${huisnummer || ''}${huisletter || ''}${huisnummer_toevoeging || ''}`],
+    [postcode, woonplaats],
+  ]
+    .flatMap(parts => parts.filter(Boolean).join(' '))
+    .filter(Boolean)
+    .join(', ');
+
+/**
+ * Converts a location and address to values
+ *
+ * @param {Object} location
+ * @param {Object} location.geometrie
+ * @param {String} location.geometrie.type
+ * @param {Number[]} location.geometrie.coordinates
+ * @param {Object} location.address
+ * @param {String} location.address.openbare_ruimte
+ * @param {String} location.address.huisnummer
+ * @param {String} location.address.huisletter
+ * @param {String} location.address.huisnummertoevoeging
+ * @param {String} location.address.postcode
+ * @param {String} location.address.woonplaats
+ * @returns {Object}
+ */
+export const formatMapLocation = location => {
   const value = {};
 
-  if (loc.geometrie) {
-    value.location = featureTolocation(loc.geometrie);
+  if (location.geometrie) {
+    value.location = featureTolocation(location.geometrie);
   }
 
-  if (loc.address) {
-    const { openbare_ruimte, huisnummer, postcode, woonplaats } = loc.address;
-    value.addressText = `${openbare_ruimte} ${huisnummer}, ${postcode} ${woonplaats}`;
-    value.address = loc.address;
+  if (location.address) {
+    value.addressText = getAddressText(location.address);
+    value.address = location.address;
   }
 
   return value;
 };
 
-export const formatAddress = address => {
-  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
-  const display = address.openbare_ruimte
-    ? `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`
-    : '';
-  return display;
-};
+export const formatAddress = address => getAddressText(address);
 
+/**
+ * Convert geocode response to object with values that can be consumed by our API
+ *
+ * @param {Object} address
+ * @param {String} address.straatnaam
+ * @param {String} address.huis_nlt
+ * @param {String} address.postcode
+ * @param {String} address.woonplaatsnaam
+ * @returns {Object}
+ */
 export const serviceResultToAddress = ({ straatnaam, huis_nlt, postcode, woonplaatsnaam }) => ({
   openbare_ruimte: straatnaam,
   huisnummer: huis_nlt,
-  huisletter: '',
-  huisnummertoevoeging: '',
   postcode,
   woonplaats: woonplaatsnaam,
 });

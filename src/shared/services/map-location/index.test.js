@@ -38,7 +38,7 @@ describe('featureTolocation', () => {
   });
 });
 
-describe('The map location service', () => {
+describe('mapLocation', () => {
   it('should map geometry', () => {
     expect(
       mapLocation({
@@ -90,17 +90,17 @@ describe('The map location service', () => {
   });
 });
 
-describe('The formatAddress', () => {
+describe('formatAddress', () => {
   it('should return an empty string when no data', () => {
     expect(formatAddress({})).toEqual('');
   });
 
   it('should render the address name', () => {
-    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D-3, 1016EJ Amsterdam');
+    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D3, 1016EJ Amsterdam');
   });
 
   it('should render the address without toevoeging', () => {
-    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D-3, 1016EJ Amsterdam');
+    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D3, 1016EJ Amsterdam');
     expect(formatAddress({ ...testAddress, huisnummer_toevoeging: null })).toEqual(
       'Keizersgracht 666D, 1016EJ Amsterdam'
     );
@@ -114,6 +114,12 @@ describe('wktPointToLocation', () => {
       lng: 4.90225668,
     });
   });
+
+  it('should throw an error', () => {
+    expect(() => {
+      wktPointToLocation('POLYGON(4.90225668 52.36150435)');
+    }).toThrow();
+  });
 });
 
 describe('formatMapLocation', () => {
@@ -125,7 +131,7 @@ describe('formatMapLocation', () => {
 
     const result = {
       location: { lat: 52, lng: 4 },
-      addressText: 'Keizersgracht 666, 1016EJ Amsterdam',
+      addressText: 'Keizersgracht 666D3, 1016EJ Amsterdam',
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,
@@ -137,6 +143,60 @@ describe('formatMapLocation', () => {
     };
 
     expect(formatMapLocation(loc)).toEqual(result);
+  });
+
+  it('should disregard empty values', () => {
+    const location = {
+      geometrie: testFeature,
+      address: {
+        openbare_ruimte: 'Keizersgracht',
+        huisnummer: 666,
+        huisletter: '',
+        huisnummer_toevoeging: undefined,
+        postcode: null,
+        woonplaats: 'Amsterdam',
+      },
+    };
+
+    const result = {
+      location: { lat: 52, lng: 4 },
+      addressText: 'Keizersgracht 666, Amsterdam',
+      address: location.address,
+    };
+
+    expect(formatMapLocation(location)).toEqual(result);
+  });
+
+  it('should not return geometrie', () => {
+    const location = {
+      address: {
+        openbare_ruimte: 'Keizersgracht',
+        huisnummer: 666,
+        huisletter: '',
+        huisnummer_toevoeging: undefined,
+        postcode: null,
+        woonplaats: 'Amsterdam',
+      },
+    };
+
+    const result = {
+      addressText: 'Keizersgracht 666, Amsterdam',
+      address: location.address,
+    };
+
+    expect(formatMapLocation(location)).toEqual(result);
+  });
+
+  it('should not return address', () => {
+    const location = {
+      geometrie: testFeature,
+    };
+
+    const result = {
+      location: { lat: 52, lng: 4 },
+    };
+
+    expect(formatMapLocation(location)).toEqual(result);
   });
 });
 
@@ -154,8 +214,6 @@ describe('serviceResultToAddress', () => {
     expect(serviceResultToAddress(data)).toEqual({
       openbare_ruimte: 'Achtergracht',
       huisnummer: '43G',
-      huisletter: '',
-      huisnummertoevoeging: '',
       postcode: '1017WN',
       woonplaats: 'Amsterdam',
     });
@@ -174,8 +232,6 @@ describe('formatPDOKResponse', () => {
           address: {
             openbare_ruimte: 'Achtergracht',
             huisnummer: '43',
-            huisletter: '',
-            huisnummertoevoeging: '',
             postcode: '1017WN',
             woonplaats: 'Amsterdam',
           },
@@ -189,8 +245,6 @@ describe('formatPDOKResponse', () => {
           address: {
             openbare_ruimte: 'Achtergracht',
             huisnummer: '43G',
-            huisletter: '',
-            huisnummertoevoeging: '',
             postcode: '1017WN',
             woonplaats: 'Amsterdam',
           },
