@@ -102,7 +102,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
   return (
     <Header className="detail-header">
       <BackLinkContainer>
-        <StyledBackLink to={referrer} data-testid="detailHeaderBacklink">Terug naar overzicht</StyledBackLink>
+        <StyledBackLink to={referrer}>Terug naar overzicht</StyledBackLink>
       </BackLinkContainer>
 
       <HeadingContainer>
