@@ -38,7 +38,7 @@ const MapSelect = ({
   const zoomMin = 13;
   const featuresLayer = useRef();
   const [mapInstance, setMapInstance] = useState();
-  const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
+  const selection = useRef(new MaxSelection(SELECTION_MAX_COUNT, value));
   const mapOptions = {
     ...MAP_OPTIONS,
     center: [latlng.latitude, latlng.longitude],
@@ -66,59 +66,58 @@ const MapSelect = ({
   );
 
   const bboxGeoJsonLayer = useMemo(
-    () =>
-      BboxGeojsonLayer(
-        {
-          fetchRequest,
-        },
-        {
-          zoomMin,
+    () => BboxGeojsonLayer(
+      {
+        fetchRequest,
+      },
+      {
+        zoomMin,
 
-          zoomMax: 15,
+        zoomMax: 15,
 
-          /**
+        /**
            * Function that will be used to decide whether to include a feature or not. The default is to include all
            * features.
            *
            * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
-          filter: /* istanbul ignore next */ feature =>
-            selectionOnly ? selection.has(feature.properties[idField]) : true,
+        filter: /* istanbul ignore next */ feature =>
+          selectionOnly ? selection.current.has(feature.properties[idField]) : true,
 
-          /**
+        /**
            * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
            * passing the GeoJSON point feature and its LatLng.
            * Return value overridden to have it return a marker with a specific icon
            *
            * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
-          pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
-            L.marker(latlong, {
-              icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField])),
-            }),
+        pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
+          L.marker(latlong, {
+            icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
+          }),
 
-          /**
+        /**
            * Function called once for each created Feature, after it has been created and styled.
            * Attaches click handler to markers that are rendered on the map
            *
            * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
-          onEachFeature: /* istanbul ignore next */ (feature, layer) => {
-            if (onSelectionChange) {
-              // Check that the component is in write mode
-              layer.on({
-                click: e => {
-                  const _layer = e.target;
-                  const id = _layer.feature.properties[idField];
-                  selection.toggle(id);
+        onEachFeature: /* istanbul ignore next */ (feature, layer) => {
+          if (onSelectionChange) {
+            // Check that the component is in write mode
+            layer.on({
+              click: e => {
+                const _layer = e.target;
+                const id = _layer.feature.properties[idField];
+                selection.current.toggle(id);
 
-                  onSelectionChange(selection);
-                },
-              });
-            }
-          },
-        }
-      ),
+                onSelectionChange(selection.current);
+              },
+            });
+          }
+        },
+      }
+    ),
     [fetchRequest, getIcon, iconField, idField, onSelectionChange, selection, selectionOnly]
   );
 
@@ -187,10 +186,10 @@ const MapSelect = ({
     /* istanbul ignore next */ () => {
       if (!featuresLayer.current) return;
 
-      selection.set.clear();
+      selection.current.set.clear();
 
       for (const id of value) {
-        selection.add(id);
+        selection.current.add(id);
       }
 
       // Let icons reflect new selection
@@ -198,7 +197,7 @@ const MapSelect = ({
         const properties = layer.feature.properties;
         const id = properties[idField];
         const iconType = properties[iconField];
-        const icon = getIcon(iconType, selection.has(id));
+        const icon = getIcon(iconType, selection.current.has(id));
 
         layer.setIcon(icon);
       });
