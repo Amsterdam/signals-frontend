@@ -70,9 +70,13 @@ export default () => {
       }
 
       setData(responseData);
-    } catch (e) {
-      e.message = getErrorMessage(e);
-      setError(e);
+    } catch (exception) {
+      Object.defineProperty(exception, 'message', {
+        value: getErrorMessage(exception),
+        writable: false,
+      });
+
+      setError(exception);
     } finally {
       setLoading(false);
     }
@@ -105,10 +109,13 @@ export default () => {
 
       setData(responseData);
       setSuccess(true);
-    } catch (e) {
-      e.message = getErrorMessage(e);
+    } catch (exception) {
+      Object.defineProperty(exception, 'message', {
+        value: getErrorMessage(exception),
+        writable: false,
+      });
 
-      setError(e);
+      setError(exception);
       setSuccess(false);
     } finally {
       setLoading(false);
