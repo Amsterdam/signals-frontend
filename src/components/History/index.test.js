@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import historyJSON from 'utils/__tests__/fixtures/history.json';
@@ -14,8 +14,6 @@ describe('<History />', () => {
       list: historyJSON,
     };
   });
-
-  afterEach(cleanup);
 
   describe('rendering', () => {
     it('should render all items when list is defined', () => {
