@@ -60,7 +60,7 @@ exports[`Preview component <Map /> should render address with toevoeging correct
     >
       <Map__ItemWrapper>
         <div>
-          Hell 666C-3, 1087JC Amsterdam
+          Hell 666C3, 1087JC Amsterdam
         </div>
       </Map__ItemWrapper>
     </Column>
@@ -199,8 +199,8 @@ exports[`Preview component <Map /> should render only latlong correctly 1`] = `
           Geen adres gevonden
         </div>
         <Map__StyledMap
+          canBeDragged={false}
           data-testid="map-preview"
-          isInteractive={false}
           mapOptions={
             Object {
               "attributionControl": false,
@@ -358,8 +358,8 @@ exports[`Preview component <Map /> should render valid adrress and map with latl
           Hell 666C, 1087JC Amsterdam
         </div>
         <Map__StyledMap
+          canBeDragged={false}
           data-testid="map-preview"
-          isInteractive={false}
           mapOptions={
             Object {
               "attributionControl": false,

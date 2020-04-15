@@ -1,11 +1,19 @@
 import { SET_LOCATION, SET_ADDRESS, SET_VALUES } from './constants';
 
 export const initialState = {
+  address: {
+    openbare_ruimte: '',
+    huisnummer: '',
+    huisletter: '',
+    huisnummertoevoeging: '',
+    postcode: '',
+    woonplaats: '',
+  },
+  addressText: '',
   location: {
     lat: 0,
     lng: 0,
   },
-  addressText: '',
 };
 
 export default (state, action) => {

@@ -201,16 +201,33 @@ describe('signals/incident-management/saga', () => {
   });
 
   describe('search incidents', () => {
-    it('should fetchIncidents success', () => {
+    it('should dispatch search incidents success', () => {
       const q = 'Here be dragons';
+      const action = { type: ORDERING_CHANGED };
 
-      return expectSaga(searchIncidents, q)
-        .provide([[matchers.call.fn(authCall), incidentsJSON]])
+      return expectSaga(searchIncidents, action)
+        .provide([[select(makeSelectSearchQuery), q], [matchers.call.fn(authCall), incidentsJSON]])
+        .select(makeSelectSearchQuery)
         .put(applyFilterRefreshStop())
         .select(makeSelectFilterParams)
         .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
-        .put(push('/manage/incidents'))
+        .not.put(push('/manage/incidents'))
         .put(searchIncidentsSuccess(incidentsJSON))
+        .run();
+    });
+
+    it('should redirect when search query is set', () => {
+      const q = 'Here be dragons';
+      const action = { type: SET_SEARCH_QUERY };
+
+      return expectSaga(searchIncidents, action)
+        .provide([[select(makeSelectSearchQuery), q], [matchers.call.fn(authCall), incidentsJSON]])
+        .select(makeSelectSearchQuery)
+        .put(applyFilterRefreshStop())
+        .select(makeSelectFilterParams)
+        .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
+        .put(searchIncidentsSuccess(incidentsJSON))
+        .put(push('/manage/incidents'))
         .run();
     });
 

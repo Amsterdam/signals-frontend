@@ -10,6 +10,7 @@ import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
 import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
+import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
 
 import Map from '../Map';
 import PDOKAutoSuggest from '../PDOKAutoSuggest';
@@ -53,13 +54,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   const { location, addressText: addressValue } = state;
   const hasLocation = location && location?.lat !== 0 && location.lng !== 0;
 
-  useEffect(() => {
-    if (!value?.geometrie?.coordinates && !value?.addressText) return;
-
-    dispatch(setValuesAction(value));
-  }, [value, dispatch]);
-
-  const clickHandler = useCallback(
+  const clickFunc = useCallback(
     async event => {
       dispatch(setLocationAction(event.latlng));
 
@@ -92,8 +87,10 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   );
 
   const onSelect = useCallback(
-    /* istanbul ignore next */ async option => {
-      dispatch(setValuesAction({ location: option.data.location, address: option.data.address, addressText: value }));
+    async option => {
+      dispatch(
+        setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value })
+      );
 
       const stadsdeel = await getStadsdeel(option.data.location);
 
@@ -103,13 +100,13 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         stadsdeel,
       });
 
-      if (map) {
-        const currentZoom = map.getZoom();
-        map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom);
-      }
+      const currentZoom = map.getZoom();
+      map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom);
     },
-    [map, dispatch, onChange, value]
+    [map, dispatch, onChange]
   );
+
+  const { click, doubleClick } = useDelayedDoubleClick(clickFunc);
 
   useEffect(() => {
     if (!marker || !hasLocation) return;
@@ -117,12 +114,18 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
     marker.setLatLng(location);
   }, [marker, location, hasLocation]);
 
+  useEffect(() => {
+    if (!value?.geometrie?.coordinates && !value?.addressText) return;
+
+    dispatch(setValuesAction(value));
+  }, [value, dispatch]);
+
   return (
     <Wrapper>
       <StyledMap
         className={className}
         data-testid="map-input"
-        events={{ click: clickHandler }}
+        events={{ click, dblclick: doubleClick }}
         hasZoomControls
         mapOptions={mapOptions}
         setInstance={setMap}
@@ -153,10 +156,15 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   );
 };
 
-MapInput.defaultProps = {};
-
 MapInput.propTypes = {
   className: PropTypes.string,
+  /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */
+  mapOptions: PropTypes.shape({}).isRequired,
+  /**
+   * Callback handler that is fired when a click on the map is registered or when an option in the autosuggest
+   * list is selected
+   */
+  onChange: PropTypes.func,
   value: PropTypes.shape({
     geometrie: PropTypes.shape({
       type: PropTypes.string,
@@ -164,9 +172,6 @@ MapInput.propTypes = {
     }),
     addressText: PropTypes.string,
   }),
-  onChange: PropTypes.func,
-  /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */
-  mapOptions: PropTypes.shape({}).isRequired,
 };
 
 export default MapInput;

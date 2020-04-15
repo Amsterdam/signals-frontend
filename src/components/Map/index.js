@@ -9,18 +9,18 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
 `;
 
-const Map = ({ mapOptions, hasZoomControls, isInteractive, children, ...otherProps }) => {
+const Map = ({ mapOptions, hasZoomControls, canBeDragged, children, events, ...otherProps }) => {
   const hasTouchCapabilities = 'ontouchstart' in window;
-  const showZoom = hasZoomControls && isInteractive && !hasTouchCapabilities;
+  const showZoom = hasZoomControls && !hasTouchCapabilities;
   const options = {
     ...mapOptions,
-    dragging: isInteractive && !hasTouchCapabilities,
+    dragging: canBeDragged && !hasTouchCapabilities,
     tap: false,
     scrollWheelZoom: false,
   };
 
   return (
-    <MapComponent data-testid="map-base" options={options} {...otherProps}>
+    <MapComponent data-testid="map-base" options={options} events={events} {...otherProps}>
       {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
 
       {children}
@@ -37,21 +37,26 @@ const Map = ({ mapOptions, hasZoomControls, isInteractive, children, ...otherPro
   );
 };
 Map.defaultProps = {
+  canBeDragged: true,
   hasZoomControls: false,
-  isInteractive: true,
 };
 
 Map.propTypes = {
-  mapOptions: PropTypes.shape({
-    attributionControl: PropTypes.bool,
-  }).isRequired /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */,
+  canBeDragged: PropTypes.bool,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   hasZoomControls: PropTypes.bool,
   /**
-   *  determines if the component is read only
-   *  it sets the intern state of leaflet (Browser.touch) and therefore cannot be tested
-  */
-  isInteractive: PropTypes.bool,
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+   * Leaflet configuration options
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}
+   */
+  mapOptions: PropTypes.shape({
+    attributionControl: PropTypes.bool,
+  }).isRequired,
+  /**
+   * Map events
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
+   */
+  events: PropTypes.shape({}),
 };
 
 export default Map;

@@ -1,15 +1,18 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, wait } from '@testing-library/react';
+
 import MapContext from 'containers/MapContext';
 import context from 'containers/MapContext/context';
 
-import { withAppContext } from 'test/utils';
+import geoSearchJSON from 'utils/__tests__/fixtures/geosearch.json';
+import { withAppContext, resolveAfterMs } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
+import { DOUBLE_CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
 
+import { findFeatureByType } from '../services/reverseGeocoderService';
 import MapInput from '..';
-
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
   ...jest.requireActual('containers/MapContext/actions'),
@@ -134,6 +137,12 @@ describe('components/MapInput', () => {
 
     await findByTestId('map-input');
 
+    expect(setLocationSpy).not.toHaveBeenCalled();
+    expect(onChange).not.toHaveBeenCalled();
+    expect(setValuesSpy).toHaveBeenCalledTimes(1);
+
+    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+
     expect(setLocationSpy).toHaveBeenCalledTimes(1);
     expect(setLocationSpy).toHaveBeenCalledWith({
       lat: expect.any(Number),
@@ -181,6 +190,11 @@ describe('components/MapInput', () => {
 
     await findByTestId('map-input');
 
+    expect(setValuesSpy).toHaveBeenCalledTimes(1);
+    expect(onChange).not.toHaveBeenCalled();
+
+    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenLastCalledWith({
       addressText: '',
@@ -224,5 +238,76 @@ describe('components/MapInput', () => {
     await findByTestId('map-input');
 
     expect(container.querySelector(`.${markerIcon.options.className}`)).toBeInTheDocument();
+  });
+
+  it('should handle onSelect', async () => {
+    const onChange = jest.fn();
+    const { container, getByTestId, findByTestId } = render(
+      withAppContext(
+        <context.Provider
+          value={{
+            state: {
+              lat: 52.36058599633851,
+              lng: 4.894292258032637,
+            },
+            dispatch: () => {},
+          }}
+        >
+          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />
+        </context.Provider>
+      )
+    );
+
+    const firstTileSrc = container.querySelector('.leaflet-tile').getAttribute('src');
+
+    // provide input with value
+    const input = getByTestId('autoSuggest').querySelector('input');
+    const value = 'Midden';
+
+    input.focus();
+
+    act(() => {
+      fireEvent.change(input, { target: { value } });
+    });
+
+    const suggestList = await findByTestId('suggestList');
+    const firstElement = suggestList.querySelector('li:nth-of-type(1)');
+
+    expect(setValuesSpy).toHaveBeenCalledTimes(1);
+    expect(onChange).not.toHaveBeenCalled();
+
+    // mock the geosearch response
+    fetch.mockResponse(JSON.stringify(geoSearchJSON));
+
+    // click option in list
+    act(() => {
+      fireEvent.click(firstElement);
+    });
+
+    await findByTestId('map-input');
+
+    expect(setValuesSpy).toHaveBeenCalledTimes(2);
+    expect(setValuesSpy).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        location: expect.any(Object),
+        address: expect.any(Object),
+        addressText: input.value,
+      })
+    );
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        geometrie: expect.any(Object),
+        address: expect.any(Object),
+        stadsdeel: findFeatureByType(geoSearchJSON.features, 'gebieden/stadsdeel').code,
+      })
+    );
+
+    // the map should have panned to a different location; we can assert that by comparing the src attribute of the
+    // first tile in the DOM with the first tile of the previous render
+    const pannedFirstTileSrc = container.querySelector('.leaflet-tile').getAttribute('src');
+
+    expect(firstTileSrc).not.toEqual(pannedFirstTileSrc);
   });
 });

@@ -8,7 +8,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { locationType } from 'shared/types';
 import './style.scss';
 
-const MapDetail = ({ value, className, zoom, icon }) => {
+const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
   const location = value?.geometrie?.coordinates;
   const lat = location && location[1];
   const lng = location && location[0];
@@ -20,7 +20,7 @@ const MapDetail = ({ value, className, zoom, icon }) => {
   };
 
   return (lat && lng) ? (
-    <Map data-testid="map-detail" mapOptions={options} isInteractive={false} className={className}>
+    <Map data-testid="map-detail" mapOptions={options} canBeDragged={false} className={className} hasZoomControls={hasZoomControls}>
       <Marker args={[{ lat, lng }]} options={{ icon }} />
     </Map>
   ) : null;
@@ -28,14 +28,16 @@ const MapDetail = ({ value, className, zoom, icon }) => {
 
 MapDetail.defaultProps = {
   className: '',
+  hasZoomControls: false,
   icon: markerIcon,
 };
 
 MapDetail.propTypes = {
-  value: locationType.isRequired,
   className: PropTypes.string,
-  zoom: PropTypes.number.isRequired,
+  hasZoomControls: PropTypes.bool,
   icon: PropTypes.shape({}), // leaflet icon object
+  value: locationType.isRequired,
+  zoom: PropTypes.number.isRequired,
 };
 
 export default MapDetail;
