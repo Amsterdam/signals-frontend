@@ -100,20 +100,48 @@ describe('components/MapInput', () => {
     expect(getByTestId('autoSuggest')).toBeInTheDocument();
   });
 
-  it('should dispatch setValuesAction', () => {
+  it('should dispatch setValuesAction and move to the location', () => {
+    const movestartSpy = jest.fn();
+    const moveSpy = jest.fn();
     const { rerender } = render(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={{}} />));
 
     expect(setValuesSpy).not.toHaveBeenCalled();
 
     const value = { addressText: 'Foo' };
 
-    rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={value} />));
+    rerender(
+      withMapContext(
+        <MapInput
+          mapOptions={MAP_OPTIONS}
+          value={value}
+          events={{
+            movestart: movestartSpy,
+            move: moveSpy,
+          }}
+        />
+      )
+    );
 
+    expect(movestartSpy).not.toHaveBeenCalled();
+    expect(moveSpy).not.toHaveBeenCalled();
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
     expect(setValuesSpy).toHaveBeenCalledWith(value);
 
-    rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />));
+    rerender(
+      withMapContext(
+        <MapInput
+          mapOptions={MAP_OPTIONS}
+          value={testLocation}
+          events={{
+            movestart: movestartSpy,
+            move: moveSpy,
+          }}
+        />
+      )
+    );
 
+    expect(movestartSpy).toHaveBeenCalled();
+    expect(moveSpy).toHaveBeenCalled();
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenCalledWith(testLocation);
   });

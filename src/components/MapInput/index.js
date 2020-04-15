@@ -120,9 +120,9 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
     if (!value?.location && !value?.addressText) return;
 
     if (value?.location?.lat > 0) {
-      if (map && !isEqual(value?.location, state.location)) {
+      if (!isEqual(value?.location, state.location)) {
         const currentZoom = map.getZoom();
-        map.flyTo(value?.location, currentZoom);
+        map.flyTo(value.location, currentZoom);
       }
     }
 
@@ -175,9 +175,9 @@ MapInput.propTypes = {
    */
   onChange: PropTypes.func,
   value: PropTypes.shape({
-    geometrie: PropTypes.shape({
-      type: PropTypes.string,
-      coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+    location: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
     }),
     addressText: PropTypes.string,
   }),
