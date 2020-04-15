@@ -36,27 +36,25 @@ const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
   if (!allText) return null;
 
   return (
-    allText && (
-      <Fragment>
-        <StyledH4 $as="h4" data-testid="defaultTextsTitle">
-          Standaard teksten
-        </StyledH4>
+    <Fragment>
+      <StyledH4 forwardedAs="h4" data-testid="defaultTextsTitle">
+        Standaard teksten
+      </StyledH4>
 
-        {allText.templates.map(item => (
-          <StyledDefaultText key={JSON.stringify(item)}>
-            <StyledTitle data-testid="defaultTextsItemTitle">{item.title}</StyledTitle>
-            <div data-testid="defaultTextsItemText">{item.text}</div>
-            <StyledLink
-              data-testid="defaultTextsItemButton"
-              variant="inline"
-              onClick={e => onHandleUseDefaultText(e, item.text)}
-            >
-              Gebruik deze tekst
-            </StyledLink>
-          </StyledDefaultText>
-        ))}
-      </Fragment>
-    )
+      {allText.templates.map(item => (
+        <StyledDefaultText key={JSON.stringify(item)}>
+          <StyledTitle data-testid="defaultTextsItemTitle">{item.title}</StyledTitle>
+          <div data-testid="defaultTextsItemText">{item.text}</div>
+          <StyledLink
+            data-testid="defaultTextsItemButton"
+            variant="inline"
+            onClick={e => onHandleUseDefaultText(e, item.text)}
+          >
+            Gebruik deze tekst
+          </StyledLink>
+        </StyledDefaultText>
+      ))}
+    </Fragment>
   );
 };
 

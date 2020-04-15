@@ -4,19 +4,24 @@ import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+import { smallMarkerIcon } from 'shared/services/configuration/map-markers';
 import { incidentType } from 'shared/types';
 import { stadsdeelList } from 'signals/incident-management/definitions';
 import MapDetail from '../../../MapDetail';
 import HighLight from '../../../Highlight';
 import EditButton from '../../../EditButton';
 
-const MapTrigger = styled.div`
-  width: ${themeSpacing(10)};
+const MapTile = styled.div`
+  float: left;
+  margin-right: 10px;
+  padding: 0;
+  border-style: none;
+  cursor: pointer;
+`;
 
-  #mapdiv {
-    height: 80px !important;
-    width: 80px !important;
-  }
+const StyledMap = styled(MapDetail)`
+  height: 80px;
+  width: 80px;
 `;
 
 const Description = styled.dd`
@@ -50,9 +55,9 @@ const Location = ({ incident: { location }, onShowLocation, onEditLocation }) =>
       <StyledEditButton onClick={onEditLocation} />
 
       <StyledHighLight subscribeTo={location}>
-        <MapTrigger onClick={onShowLocation} data-testid="location-button-show">
-          <MapDetail value={location} hideAttribution hideZoomControls useSmallMarker zoom="15" />
-        </MapTrigger>
+        <MapTile role="button" onClick={onShowLocation} data-testid="location-button-show">
+          <StyledMap value={location} zoom={15} icon={smallMarkerIcon} />
+        </MapTile>
 
         {location.address_text ? (
           <Address>
