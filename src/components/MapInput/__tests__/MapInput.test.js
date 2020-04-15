@@ -227,7 +227,7 @@ describe('components/MapInput', () => {
     expect(container.querySelector(`.${markerIcon.options.className}`)).toBeInTheDocument();
   });
 
-  it.only('should clear location and not render marker', async () => {
+  it('should clear location and not render marker', async () => {
     const location = {
       lat: 52.36058599633851,
       lng: 4.894292258032637,
