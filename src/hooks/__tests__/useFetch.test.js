@@ -4,8 +4,6 @@ import { getErrorMessage } from 'shared/services/api/api';
 
 import useFetch from '../useFetch';
 
-// jest.mock('shared/services/api/api');
-
 const URL = 'https://here-is-my.api/someId/6';
 
 describe('hooks/useFetch', () => {
