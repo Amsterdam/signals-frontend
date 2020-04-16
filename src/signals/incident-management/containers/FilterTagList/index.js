@@ -13,6 +13,7 @@ import * as types from 'shared/types';
 
 const FilterWrapper = styled.div`
   margin-top: 10px;
+  flex-basis: 100%;
 `;
 
 const StyledTag = styled(Tag)`
@@ -119,7 +120,7 @@ export const FilterTagListComponent = props => {
   }
 
   return mainCategories && subCategories ? (
-    <FilterWrapper className="incident-overview-page__filter-tag-list">
+    <FilterWrapper>
       {Object.entries(tagsList).map(([tagKey, tag]) =>
         Array.isArray(tag)
           ? renderGroup(tag, mainCategories, map[tagKey], tagKey)

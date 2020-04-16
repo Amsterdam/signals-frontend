@@ -9,6 +9,7 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { fetchCategories } from 'models/categories/actions';
+import useLocationReferrer from 'hooks/useLocationReferrer';
 
 import LoginPage from 'components/LoginPage';
 
@@ -30,6 +31,8 @@ export const IncidentManagementModuleComponent = ({
   searchIncidentsAction,
   searchQuery,
 }) => {
+  const location = useLocationReferrer();
+
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
     // when the current session has not been authenticated
@@ -52,7 +55,7 @@ export const IncidentManagementModuleComponent = ({
   }
 
   return (
-    <Switch>
+    <Switch location={location}>
       <Route exact path={routes.incidents} component={IncidentOverviewPage} />
       <Route exact path={routes.incident} component={IncidentDetail} />
       <Route exact path={routes.split} component={IncidentSplitContainer} />

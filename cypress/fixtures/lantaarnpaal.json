@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair"
+    ],
+    [0.9769248841480287]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/lantaarnpaal-straatverlichting"
+    ],
+    [0.7963426229262803]
+  ]
+}

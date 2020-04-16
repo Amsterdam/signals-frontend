@@ -10,7 +10,7 @@ import {
 } from '@datapunt/asc-ui';
 
 const Hint = styled(Typography).attrs({
-  $as: 'span',
+  forwardedAs: 'span',
 })`
   color: ${themeColor('tint', 'level5')};
   display: block;
@@ -38,7 +38,7 @@ const StyledInput = styled.input`
 `;
 
 const Error = styled(Typography).attrs({
-  $as: 'h6',
+  forwardedAs: 'h6',
 })`
   color: ${themeColor('secondary')};
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;

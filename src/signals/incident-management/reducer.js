@@ -35,14 +35,12 @@ export const initialState = fromJS({
     // filter settings for the list of incidents
     name: '',
     options: {
-      priority: [],
     },
   },
   editFilter: {
     // settings selected for editing
     name: '',
     options: {
-      priority: [],
     },
   },
   feedback,

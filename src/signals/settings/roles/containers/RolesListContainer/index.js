@@ -28,7 +28,7 @@ export const RolesListContainer = ({
   <Fragment>
     <PageHeader title="Rollen">
       {userCan('add_group') && (
-        <HeaderButton variant="primary" $as={Link} to={ROLE_URL}>
+        <HeaderButton variant="primary" forwardedAs={Link} to={ROLE_URL}>
           Rol toevoegen
         </HeaderButton>
       )}
