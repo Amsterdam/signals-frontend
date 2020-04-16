@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button, Link as AscLink } from '@datapunt/asc-ui';
+import { Button, Link as AscLink, themeColor } from '@datapunt/asc-ui';
 import { Close } from '@datapunt/asc-assets';
 import { Link } from 'react-router-dom';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
@@ -9,7 +9,7 @@ import { INCIDENT_URL } from 'signals/incident-management/routes';
 const Panel = styled.div`
   padding: 12px;
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.1);
   z-index: 401;
   display: flex;
   align-items: center;
@@ -18,11 +18,23 @@ const Panel = styled.div`
   justify-content: space-between;
 `;
 
+const IncidentLink = styled(AscLink)`
+  font-size: 16px;
+  color: ${themeColor('primary')};
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    color: ${themeColor('secondary')};
+    text-decoration: underline;
+  }
+`;
+
 const DetailPanel = ({ incidentId, onClose }) => (
   <Panel data-testid="mapDetailPanel">
-    <AscLink as={Link} to={`${INCIDENT_URL}/${incidentId}`}>
+    <IncidentLink as={Link} to={`${INCIDENT_URL}/${incidentId}`}>
       Melding {incidentId}
-    </AscLink>
+    </IncidentLink>
     <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />
   </Panel>
 );
