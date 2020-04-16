@@ -236,6 +236,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
           groupName="statuses"
           hasToggle
           name="status"
+          onToggle={() => {}}
           options={statuses}
           toggleAllLabel={toggleAllLabel}
           toggleNothingLabel={toggleNothingLabel}
@@ -247,6 +248,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const nodeListIterator = container
       .querySelectorAll('input[type="checkbox"]:not(:last-of-type)')
       .values();
+
     for (const checkbox of nodeListIterator) {
       act(() => {
         fireEvent.click(checkbox);
@@ -316,6 +318,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           hasToggle
           name="status"
+          onToggle={() => {}}
           options={statuses}
           toggleAllLabel={toggleAllLabel}
           toggleNothingLabel={toggleNothingLabel}
@@ -359,6 +362,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           hasToggle
           name="status"
+          onToggle={() => {}}
           options={statuses}
           toggleAllLabel={toggleAllLabel}
           toggleNothingLabel={toggleNothingLabel}
