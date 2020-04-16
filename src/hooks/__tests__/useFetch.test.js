@@ -127,6 +127,7 @@ describe('hooks/useFetch', () => {
 
     it('should throw on error response', async () => {
       const response = { status: 401, ok: false, statusText: 'Unauthorized' };
+      const message = getErrorMessage(response);
 
       fetch.mockImplementation(() => response);
 
@@ -141,8 +142,8 @@ describe('hooks/useFetch', () => {
 
       await waitForNextUpdate();
 
-      expect(getErrorMessage).toHaveBeenCalledWith(response);
       expect(result.current.error).toEqual(response);
+      expect(result.current.error.message).toEqual(message);
       expect(result.current.isLoading).toEqual(false);
     });
 
@@ -204,6 +205,7 @@ describe('hooks/useFetch', () => {
 
     it('should throw on error response', async () => {
       const response = { status: 401, ok: false, statusText: 'Unauthorized' };
+      const message = getErrorMessage(response);
       const formData = { ...JSONresponse, is_active: false };
       const { result, waitForNextUpdate } = renderHook(() => useFetch());
 
@@ -222,6 +224,7 @@ describe('hooks/useFetch', () => {
       await waitForNextUpdate();
 
       expect(result.current.error).toEqual(response);
+      expect(result.current.error.message).toEqual(message);
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
     });
@@ -286,6 +289,7 @@ describe('hooks/useFetch', () => {
 
     it('should throw on error response', async () => {
       const response = { status: 401, ok: false, statusText: 'Unauthorized' };
+      const message = getErrorMessage(response);
       const formData = { ...JSONresponse, is_active: false };
       const { result, waitForNextUpdate } = renderHook(() => useFetch());
 
@@ -303,6 +307,7 @@ describe('hooks/useFetch', () => {
       await waitForNextUpdate();
 
       expect(result.current.error).toEqual(response);
+      expect(result.current.error.message).toEqual(message);
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
     });
