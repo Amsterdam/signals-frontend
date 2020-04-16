@@ -25,10 +25,6 @@ COPY .gitignore \
      babel.config.js \
       /app/
 
-# Install language packs
-RUN npm install --unsafe-perm -g full-icu
-ENV NODE_ICU_DATA="/usr/local/lib/node_modules/full-icu"
-
 COPY package.json \
      package-lock.json \
       /app/
