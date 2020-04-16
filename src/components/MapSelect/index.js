@@ -19,6 +19,10 @@ import './style.scss';
 
 const SELECTION_MAX_COUNT = 30;
 
+const Wrapper = styled.div`
+  position: relative;
+`;
+
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
@@ -66,58 +70,59 @@ const MapSelect = ({
   );
 
   const bboxGeoJsonLayer = useMemo(
-    () => BboxGeojsonLayer(
-      {
-        fetchRequest,
-      },
-      {
-        zoomMin,
+    () =>
+      BboxGeojsonLayer(
+        {
+          fetchRequest,
+        },
+        {
+          zoomMin,
 
-        zoomMax: 15,
+          zoomMax: 15,
 
-        /**
+          /**
            * Function that will be used to decide whether to include a feature or not. The default is to include all
            * features.
            *
            * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
-        filter: /* istanbul ignore next */ feature =>
-          selectionOnly ? selection.current.has(feature.properties[idField]) : true,
+          filter: /* istanbul ignore next */ feature =>
+            selectionOnly ? selection.current.has(feature.properties[idField]) : true,
 
-        /**
+          /**
            * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
            * passing the GeoJSON point feature and its LatLng.
            * Return value overridden to have it return a marker with a specific icon
            *
            * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
-        pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
-          L.marker(latlong, {
-            icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
-          }),
+          pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
+            L.marker(latlong, {
+              icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
+            }),
 
-        /**
+          /**
            * Function called once for each created Feature, after it has been created and styled.
            * Attaches click handler to markers that are rendered on the map
            *
            * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
-        onEachFeature: /* istanbul ignore next */ (feature, layer) => {
-          if (onSelectionChange) {
-            // Check that the component is in write mode
-            layer.on({
-              click: e => {
-                const _layer = e.target;
-                const id = _layer.feature.properties[idField];
-                selection.current.toggle(id);
+          onEachFeature: /* istanbul ignore next */ (feature, layer) => {
+            if (onSelectionChange) {
+              // Check that the component is in write mode
+              layer.on({
+                click: e => {
+                  const _layer = e.target;
+                  const id = _layer.feature.properties[idField];
+                  selection.current.toggle(id);
 
-                onSelectionChange(selection.current);
-              },
-            });
-          }
-        },
-      }
-    ),
+                  onSelectionChange(selection.current);
+                },
+              });
+            }
+          },
+        }
+      ),
     [fetchRequest, getIcon, iconField, idField, onSelectionChange, selection, selectionOnly]
   );
 
@@ -208,13 +213,15 @@ const MapSelect = ({
   );
 
   return (
-    <StyledMap
-      className={classNames('map-component', { write: onSelectionChange })}
-      data-testid="mapSelect"
-      hasZoomControls
-      mapOptions={mapOptions}
-      setInstance={setMapInstance}
-    />
+    <Wrapper>
+      <StyledMap
+        className={classNames('map-component', { write: onSelectionChange })}
+        data-testid="mapSelect"
+        hasZoomControls
+        mapOptions={mapOptions}
+        setInstance={setMapInstance}
+      />
+    </Wrapper>
   );
 };
 
