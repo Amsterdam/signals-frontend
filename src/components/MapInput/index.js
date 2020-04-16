@@ -109,6 +109,10 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
   const { click, doubleClick } = useDelayedDoubleClick(clickFunc);
 
+  const onClear = useCallback(() => {
+    dispatch(setLocationAction());
+  }, [dispatch]);
+
   useEffect(() => {
     if (!marker || !hasLocation) return;
 
@@ -143,11 +147,12 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         <StyledViewerContainer
           topLeft={
             <StyledAutosuggest
-              value={addressValue}
-              onSelect={onSelect}
-              gemeentenaam="amsterdam"
-              placeholder="Zoek adres"
               formatResponse={formatPDOKResponse}
+              gemeentenaam="amsterdam"
+              onClear={onClear}
+              onSelect={onSelect}
+              placeholder="Zoek adres"
+              value={addressValue}
             />
           }
         />
