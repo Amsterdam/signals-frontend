@@ -33,7 +33,16 @@ const AbsoluteList = styled(SuggestList)`
  * - Home key focuses the input field at the first character
  * - End key focuses the input field at the last character
  */
-const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect, placeholder, url, value }) => {
+const AutoSuggest = ({
+  className,
+  formatResponse,
+  numOptionsDeterminer,
+  onClear,
+  onSelect,
+  placeholder,
+  url,
+  value,
+}) => {
   const { get, data } = useFetch();
   const [initialRender, setInitialRender] = useState(false);
   const [showList, setShowList] = useState(false);
@@ -80,6 +89,7 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
           inputRef.current.value = '';
           setActiveIndex(-1);
           setShowList(false);
+          onClear();
           break;
 
         case 'Home':
@@ -103,7 +113,7 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
           break;
       }
     },
-    [data, numOptionsDeterminer, showList]
+    [data, numOptionsDeterminer, showList, onClear]
   );
 
   useEffect(() => {
@@ -174,9 +184,13 @@ const AutoSuggest = ({ className, formatResponse, numOptionsDeterminer, onSelect
         get(`${url}${encodeURIComponent(inputValue)}`);
       } else {
         setShowList(false);
+
+        if (inputValue.length === 0) {
+          onClear();
+        }
       }
     },
-    [get, url]
+    [get, onClear, url]
   );
 
   const onSelectOption = useCallback(
@@ -242,6 +256,8 @@ AutoSuggest.propTypes = {
    * @return {Number} The amount of options returned from the request
    */
   numOptionsDeterminer: PropTypes.func.isRequired,
+  /** Callback function that is called whenever the input field */
+  onClear: PropTypes.func,
   /**
    * Option select callback
    * @param {Object} option - The selected option
