@@ -4,7 +4,7 @@ import { getErrorMessage } from 'shared/services/api/api';
 
 import useFetch from '../useFetch';
 
-jest.mock('shared/services/api/api');
+// jest.mock('shared/services/api/api');
 
 const URL = 'https://here-is-my.api/someId/6';
 
@@ -88,6 +88,7 @@ describe('hooks/useFetch', () => {
 
     it('should return errors that are thrown during fetch', async () => {
       const error = new Error();
+      const message = getErrorMessage(error);
       fetch.mockRejectOnce(error);
 
       const { result, waitForNextUpdate } = renderHook(() => useFetch());
@@ -102,6 +103,7 @@ describe('hooks/useFetch', () => {
       await waitForNextUpdate();
 
       expect(result.current.error).toEqual(error);
+      expect(result.current.error.message).toEqual(message);
       expect(result.current.isLoading).toEqual(false);
     });
 
