@@ -133,26 +133,26 @@ describe('components/MapInput', () => {
       movestart: movestartSpy,
     };
 
-    const withMapContextState = Component => state =>
+    const withMapContextState = state => Component =>
       withAppContext(<context.Provider value={{ state, dispatch: () => {} }}>{Component}</context.Provider>);
 
     const state = { ...initialState };
 
     const { rerender } = render(
-      withMapContextState(<MapInput mapOptions={MAP_OPTIONS} value={{}} events={mapEvents} />)(state)
+      withMapContextState(state)(<MapInput mapOptions={MAP_OPTIONS} value={{}} events={mapEvents} />)
     );
 
     expect(movestartSpy).not.toHaveBeenCalled();
 
-    rerender(withMapContextState(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} events={mapEvents} />)(state));
+    rerender(withMapContextState(state)(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} events={mapEvents} />));
 
     expect(movestartSpy).toHaveBeenCalled();
     movestartSpy.mockClear();
 
     const stateWithLocation = { ...state, ...testLocation };
     rerender(
-      withMapContextState(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} events={mapEvents} />)(
-        stateWithLocation
+      withMapContextState(stateWithLocation)(
+        <MapInput mapOptions={MAP_OPTIONS} value={testLocation} events={mapEvents} />
       )
     );
 
