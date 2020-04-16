@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import BackLink from 'components/BackLink';
 import { themeColor, themeSpacing, Button, Heading } from '@datapunt/asc-ui';
 import { PATCH_TYPE_THOR } from 'models/incident/constants';
@@ -80,6 +80,7 @@ const ButtonLink = styled(Link)`
 `;
 
 const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
+  const location = useLocation();
   const status = incident?.status?.state;
   const canSplit = status === 'm' && !(incident && (incident._links['sia:children'] || incident._links['sia:parent']));
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === status);
@@ -96,10 +97,12 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
     },
   };
 
+  const referrer = location.referrer || `${baseUrl}/incidents`;
+
   return (
     <Header className="detail-header">
       <BackLinkContainer>
-        <StyledBackLink to={`${baseUrl}/incidents`}>Terug naar overzicht</StyledBackLink>
+        <StyledBackLink to={referrer}>Terug naar overzicht</StyledBackLink>
       </BackLinkContainer>
 
       <HeadingContainer>
