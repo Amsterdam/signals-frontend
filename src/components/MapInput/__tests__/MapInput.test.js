@@ -5,6 +5,7 @@ import MapContext from 'containers/MapContext';
 import context from 'containers/MapContext/context';
 
 import geoSearchJSON from 'utils/__tests__/fixtures/geosearch.json';
+import { INPUT_DELAY } from 'components/AutoSuggest';
 import { withAppContext, resolveAfterMs } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
@@ -350,5 +351,41 @@ describe('components/MapInput', () => {
     const pannedFirstTileSrc = container.querySelector('.leaflet-tile').getAttribute('src');
 
     expect(firstTileSrc).not.toEqual(pannedFirstTileSrc);
+  });
+
+  it('should clear location and not render marker', async () => {
+    const location = {
+      lat: 52.36058599633851,
+      lng: 4.894292258032637,
+    };
+    const addressText = 'Foo bar street 10';
+
+    const { findByTestId } = render(
+      withAppContext(
+        <context.Provider value={{ state: { location, addressText }, dispatch: () => {} }}>
+          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} />
+        </context.Provider>
+      )
+    );
+    const autoSuggest = await findByTestId('autoSuggest');
+    const input = autoSuggest.querySelector('input');
+
+    expect(setLocationSpy).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.change(input, { target: { value: addressText } });
+    });
+
+    await wait(() => resolveAfterMs(INPUT_DELAY));
+
+    expect(setLocationSpy).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.change(input, { target: { value: '' } });
+    });
+
+    await wait(() => resolveAfterMs(INPUT_DELAY));
+
+    expect(setLocationSpy).toHaveBeenCalledWith();
   });
 });
