@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor } from '@datapunt/asc-ui';
@@ -8,14 +8,15 @@ import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 
 const ImgWrapper = styled.div`
   position: relative;
-  width: auto;
-  max-width: 100%;
+  width: 100%;
+  max-width: ${({ maxWidth }) => maxWidth}px;
   z-index: 0;
+  display: block;
 
   & > img:not(:first-of-type):last-of-type {
     position: absolute;
-    left: calc(50% - 20px);
-    top: calc(50% - 20px);
+    left: calc(50% - ${({ markerSize }) => markerSize / 2}px);
+    top: calc(50% - ${({ markerSize }) => markerSize}px);
     pointer-events: none;
   }
 `;
@@ -52,6 +53,7 @@ const MapStatic = ({
   latitude,
   layers,
   longitude,
+  markerSize,
   showLoadingMessage,
   showMarker,
   width,
@@ -90,8 +92,8 @@ const MapStatic = ({
   }, [data]);
 
   return (
-    <ImgWrapper className={className} data-testid="mapStatic">
-      {!src && (
+    <ImgWrapper className={className} data-testid="mapStatic" maxWidth={width} markerSize={markerSize}>
+      {!src ? (
         <Fragment>
           {showLoadingMessage && isLoading && (
             <LoadingMessage data-testid="mapStaticLoadingMessage">Preview laden...</LoadingMessage>
@@ -105,9 +107,7 @@ const MapStatic = ({
             height={height}
           />
         </Fragment>
-      )}
-
-      {src && (
+      ) : (
         <Fragment>
           <Image className="map" data-testid="mapStaticImage" src={src} alt="" />
           {showMarker && (
@@ -115,6 +115,8 @@ const MapStatic = ({
               data-testid="mapStaticMarker"
               src="https://map.data.amsterdam.nl/dist/images/svg/marker.svg"
               alt="Gepinde locatie"
+              width={markerSize}
+              height={markerSize}
               tabIndex="-1"
             />
           )}
@@ -130,6 +132,7 @@ MapStatic.defaultProps = {
   format: 'jpeg',
   height: 300,
   layers: 'basiskaart',
+  markerSize: 40,
   showMarker: true,
   showLoadingMessage: true,
   width: 460,
@@ -145,8 +148,11 @@ MapStatic.propTypes = {
   /** Height in pixels of the image tile that should be generated */
   height: PropTypes.number,
   latitude: PropTypes.number.isRequired,
+  /** Indicator of the map style */
   layers: PropTypes.oneOf(['basiskaart', 'basiskaart-light', 'basiskaart-zwartwit']),
   longitude: PropTypes.number.isRequired,
+  /** Size in pixels of the marker */
+  markerSize: PropTypes.number,
   /** When false, will not show the loading message */
   showLoadingMessage: PropTypes.bool,
   /** When false, will not render marker at given latitude and longitude */
@@ -155,4 +161,4 @@ MapStatic.propTypes = {
   width: PropTypes.number,
 };
 
-export default MapStatic;
+export default memo(MapStatic);

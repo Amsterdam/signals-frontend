@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import { Button, themeSpacing } from '@datapunt/asc-ui';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-import { smallMarkerIcon } from 'shared/services/configuration/map-markers';
 import { incidentType } from 'shared/types';
 import { stadsdeelList } from 'signals/incident-management/definitions';
+import MapStatic from 'components/MapStatic';
+
 import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
-import MapDetail from '../../../MapDetail';
 
 const MapTile = styled.div`
   float: left;
@@ -16,11 +16,6 @@ const MapTile = styled.div`
   padding: 0;
   border-style: none;
   cursor: pointer;
-`;
-
-const StyledMap = styled(MapDetail)`
-  height: 80px;
-  width: 80px;
 `;
 
 const Description = styled.dd`
@@ -52,7 +47,14 @@ const Location = ({ incident: { location }, onShowLocation, onEditLocation }) =>
       />
 
       <MapTile role="button" onClick={onShowLocation} data-testid="location-button-show">
-        <StyledMap value={location} zoom={15} icon={smallMarkerIcon} />
+        <MapStatic
+          boundsScaleFactor={0.25}
+          height={80}
+          latitude={location.geometrie.coordinates[1]}
+          longitude={location.geometrie.coordinates[0]}
+          markerSize={20}
+          width={80}
+        />
       </MapTile>
 
       {location.address_text ? (
@@ -64,13 +66,15 @@ const Location = ({ incident: { location }, onShowLocation, onEditLocation }) =>
           )}
 
           <div data-testid="location-value-address-street">
-            {location.address.openbare_ruimte && location.address.openbare_ruimte} {location.address.huisnummer && location.address.huisnummer}
+            {location.address.openbare_ruimte && location.address.openbare_ruimte}{' '}
+            {location.address.huisnummer && location.address.huisnummer}
             {location.address.huisletter && location.address.huisletter}
             {location.address.huisnummer_toevoeging ? `-${location.address.huisnummer_toevoeging}` : ''}
           </div>
 
           <div data-testid="location-value-address-city">
-            {location.address.postcode && location.address.postcode} {location.address.woonplaats && location.address.woonplaats}
+            {location.address.postcode && location.address.postcode}{' '}
+            {location.address.woonplaats && location.address.woonplaats}
           </div>
         </Address>
       ) : (
