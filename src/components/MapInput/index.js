@@ -130,7 +130,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
     }
 
     dispatch(setValuesAction(value));
-  }, [value, dispatch, map, state]);
+  }, [value, dispatch, map, state.location]);
 
   return (
     <Wrapper>
