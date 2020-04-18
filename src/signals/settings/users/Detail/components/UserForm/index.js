@@ -170,10 +170,10 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
           <FieldGroup>
             <CheckboxList
               defaultValue={state.roles}
-              name="roles"
-              groupName="roles"
-              options={inputRoles}
               disabled={readOnly}
+              groupName="roles"
+              name="roles"
+              options={inputRoles}
               onChange={(field, value) => { onChange(field, value); }}
             />
           </FieldGroup>
@@ -182,10 +182,10 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
             <Label as="span">Afdeling</Label>
             <CheckboxList
               defaultValue={state.departments}
+              disabled={readOnly}
               groupName="departments"
               name="departments"
               options={departmentList}
-              disabled={readOnly}
               onChange={(field, value) => { onChange(field, value); }}
             />
           </FieldGroup>

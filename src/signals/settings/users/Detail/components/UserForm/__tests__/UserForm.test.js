@@ -92,7 +92,6 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
     expect(onSubmit).not.toHaveBeenCalled();
 
-
     act(() => { fireEvent.click(getByTestId('submitBtn')); });
 
     const submittedRoleIds = onSubmit.mock.calls[0][0].postPatch.role_ids;
