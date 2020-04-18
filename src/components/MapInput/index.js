@@ -119,10 +119,18 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
   }, [marker, location, hasLocation]);
 
   useEffect(() => {
-    if (!value?.geometrie?.coordinates && !value?.addressText) return;
+    if (!map) return;
+    if (!value?.location) return;
+
+    // This ensures that the map is centered on the location only the first time the map recieves a location from outside
+    // because state.location.lat is 0 only when the map is initialized.
+    if (state.location?.lat === 0) {
+      const currentZoom = map.getZoom();
+      map.flyTo(value.location, currentZoom);
+    }
 
     dispatch(setValuesAction(value));
-  }, [value, dispatch]);
+  }, [value, dispatch, map, state.location]);
 
   return (
     <Wrapper>
@@ -171,9 +179,9 @@ MapInput.propTypes = {
    */
   onChange: PropTypes.func,
   value: PropTypes.shape({
-    geometrie: PropTypes.shape({
-      type: PropTypes.string,
-      coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+    location: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
     }),
     addressText: PropTypes.string,
   }),

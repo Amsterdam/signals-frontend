@@ -4,7 +4,6 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@datapunt/asc-ui';
 import MatchMediaMock from 'match-media-mock';
-import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import isObject from 'lodash.isobject';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
@@ -66,17 +65,6 @@ export const withCustomAppContext = Component => ({ themeCfg = {}, storeCfg = {}
       <ConnectedRouter history={history} {...routerCfg}>
         {Component}
       </ConnectedRouter>
-    </Provider>
-  </ThemeProvider>
-);
-
-// eslint-disable-next-line
-export const withIntlAppContext = (Component, messages, locale = 'nl') => (
-  <ThemeProvider>
-    <Provider store={store}>
-      <IntlProvider locale={locale} messages={messages}>
-        <ConnectedRouter history={history}>{Component}</ConnectedRouter>
-      </IntlProvider>
     </Provider>
   </ThemeProvider>
 );
