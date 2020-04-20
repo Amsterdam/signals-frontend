@@ -12,7 +12,6 @@ import MapContext from 'containers/MapContext/context';
 import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
 
-import isEqual from 'lodash.isequal';
 import Map from '../Map';
 import PDOKAutoSuggest from '../PDOKAutoSuggest';
 import reverseGeocoderService, { getStadsdeel } from './services/reverseGeocoderService';
@@ -121,13 +120,13 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
   useEffect(() => {
     if (!map) return;
-    if (!value?.location && !value?.addressText) return;
+    if (!value?.location) return;
 
-    if (value?.location?.lat > 0) {
-      if (!isEqual(value?.location, state.location)) {
-        const currentZoom = map.getZoom();
-        map.flyTo(value.location, currentZoom);
-      }
+    // This ensures that the map is centered on the location only the first time the map recieves a location from outside
+    // because state.location.lat is 0 only when the map is initialized.
+    if (state.location?.lat === 0) {
+      const currentZoom = map.getZoom();
+      map.flyTo(value.location, currentZoom);
     }
 
     dispatch(setValuesAction(value));
