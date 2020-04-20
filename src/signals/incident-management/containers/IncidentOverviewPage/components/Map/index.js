@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 `;
 
 const StyledMap = styled(Map)`
-  height: 450px;
+  height: 600px;
   width: 100%;
 
   .marker-cluster {
