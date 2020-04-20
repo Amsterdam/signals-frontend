@@ -20,12 +20,12 @@ const MapPreview = ({ label, value }) => {
 
   return (
     <Row hasMargin={false}>
-      <Column span={{ small: 1, medium: 2, big: 6, large: 10, xLarge: 10 }} wrap>
+      <Column span={{ small: 1, medium: 2, big: 6, large: 10, xLarge: 11 }} wrap>
         <Column span={{ small: 1, medium: 2, big: 2, large: 2, xLarge: 2 }}>
           <ItemWrapper>{label}</ItemWrapper>
         </Column>
 
-        <Column span={{ small: 1, medium: 2, big: 4, large: 6, xLarge: 6 }}>
+        <Column span={{ small: 1, medium: 2, big: 4, large: 6, xLarge: 7 }}>
           {value && (
             <ItemWrapper>
               <div>{value.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>

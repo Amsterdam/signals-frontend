@@ -36,6 +36,7 @@ const LoadingMessage = styled.small`
 const Placeholder = styled.img`
   border: 1px dashed ${themeColor('tint', 'level3')};
   background-color: ${themeColor('tint', 'level2')};
+  max-width: 100%;
 `;
 
 const Error = styled(LoadingMessage)`
@@ -109,7 +110,7 @@ const MapStatic = ({
         </Fragment>
       ) : (
         <Fragment>
-          <Image className="map" data-testid="mapStaticImage" src={src} alt="" />
+          <Image className="map" data-testid="mapStaticImage" src={src} width={width} height={height} alt="" />
           {showMarker && (
             <img
               data-testid="mapStaticMarker"
