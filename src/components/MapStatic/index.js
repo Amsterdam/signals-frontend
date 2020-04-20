@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, memo } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor } from '@datapunt/asc-ui';
@@ -162,4 +162,4 @@ MapStatic.propTypes = {
   width: PropTypes.number,
 };
 
-export default memo(MapStatic);
+export default MapStatic;

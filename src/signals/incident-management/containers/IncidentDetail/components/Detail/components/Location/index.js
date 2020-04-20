@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button, themeSpacing } from '@datapunt/asc-ui';
@@ -37,6 +37,11 @@ const Location = ({ incident: { location }, onShowLocation, onEditLocation }) =>
   const latitude = location?.geometrie?.coordinates[1];
   const longitude = location?.geometrie?.coordinates[0];
 
+  const geometry = useMemo(() => ({
+    latitude,
+    longitude,
+  }), [longitude, latitude]);
+
   return (
     <Fragment>
       <dt data-testid="detail-location">Locatie</dt>
@@ -55,10 +60,9 @@ const Location = ({ incident: { location }, onShowLocation, onEditLocation }) =>
             <MapStatic
               boundsScaleFactor={0.25}
               height={80}
-              latitude={location.geometrie.coordinates[1]}
-              longitude={location.geometrie.coordinates[0]}
               markerSize={20}
               width={80}
+              {...geometry}
             />
           </MapTile>
         )}

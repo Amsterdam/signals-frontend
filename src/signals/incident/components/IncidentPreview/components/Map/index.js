@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
@@ -15,8 +15,13 @@ const ItemWrapper = styled.div`
  * Map preview with one or more markers
  */
 const MapPreview = ({ label, value }) => {
-  const longitude = value.geometrie.coordinates[0];
-  const latitude = value.geometrie.coordinates[1];
+  const longitude = value?.geometrie?.coordinates[0];
+  const latitude = value?.geometrie?.coordinates[1];
+
+  const geometry = useMemo(() => ({
+    latitude,
+    longitude,
+  }), [longitude, latitude]);
 
   return (
     <Row hasMargin={false} data-testid="mapPreview">
@@ -29,7 +34,7 @@ const MapPreview = ({ label, value }) => {
           {value && (
             <ItemWrapper>
               <div>{value?.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>
-              {value?.geometrie?.coordinates && <MapStatic latitude={latitude} longitude={longitude} width={640} />}
+              {latitude && longitude && <MapStatic width={640} {...geometry} />}
             </ItemWrapper>
           )}
         </Column>
