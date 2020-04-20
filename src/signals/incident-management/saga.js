@@ -21,6 +21,7 @@ import {
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
+import { makeSelectSearchQuery } from 'containers/App/selectors';
 
 import {
   applyFilterRefresh,
@@ -62,7 +63,6 @@ import { SPLIT_INCIDENT_SUCCESS } from './containers/IncidentSplitContainer/cons
 import {
   makeSelectActiveFilter,
   makeSelectFilterParams,
-  makeSelectSearchQuery,
 } from './selectors';
 
 export function* fetchProxy(action) {

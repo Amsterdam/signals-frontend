@@ -1,9 +1,6 @@
 import { fromJS } from 'immutable';
 
-import {
-  VARIANT_DEFAULT,
-  TYPE_DEFAULT,
-} from 'containers/Notification/constants';
+import { VARIANT_DEFAULT, TYPE_DEFAULT } from 'containers/Notification/constants';
 
 import {
   LOGIN_FAILED,
@@ -17,6 +14,7 @@ import {
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
 } from './constants';
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from '../../signals/incident-management/constants';
 
 // The initial state of the App
 export const initialState = fromJS({
@@ -34,6 +32,7 @@ export const initialState = fromJS({
     variant: VARIANT_DEFAULT,
     type: TYPE_DEFAULT,
   },
+  searchQuery: '',
 });
 
 function appReducer(state = initialState, action) {
@@ -74,9 +73,13 @@ function appReducer(state = initialState, action) {
       return state.set('upload', fromJS({}));
 
     case LOGOUT:
-      return state
-        .set('user', initialState.get('user'))
-        .set('upload', initialState.get('upload'));
+      return state.set('user', initialState.get('user')).set('upload', initialState.get('upload'));
+
+    case SET_SEARCH_QUERY:
+      return state.set('searchQuery', action.payload);
+
+    case RESET_SEARCH_QUERY:
+      return state.set('searchQuery', initialState.get('searchQuery'));
 
     default:
       return state;

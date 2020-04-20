@@ -9,7 +9,7 @@ import {
   setSearchQuery,
   resetSearchQuery,
 } from 'signals/incident-management/actions';
-import { makeSelectSearchQuery } from 'signals/incident-management/selectors';
+import { makeSelectSearchQuery } from 'containers/App/selectors';
 
 export const SearchBarComponent = ({
   className,

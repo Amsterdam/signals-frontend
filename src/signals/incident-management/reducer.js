@@ -154,15 +154,13 @@ export default (state = initialState, action) => {
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
         .set('loading', true)
-        .set('page', initialState.get('page'))
-        .set('searchQuery', action.payload);
+        .set('page', initialState.get('page'));
 
     case RESET_SEARCH_QUERY:
       return state
         .set('loading', true)
         .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'))
-        .set('searchQuery', initialState.get('searchQuery'));
+        .set('page', initialState.get('page'));
 
     default:
       return state;

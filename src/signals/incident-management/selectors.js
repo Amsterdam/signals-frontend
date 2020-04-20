@@ -179,15 +179,6 @@ export const makeSelectOrdering = createSelector(
   }
 );
 
-export const makeSelectSearchQuery = createSelector(
-  selectIncidentManagementDomain,
-  state => {
-    const obj = state.toJS();
-
-    return obj.searchQuery;
-  }
-);
-
 export const makeSelectIncidents = createSelector(
   selectIncidentManagementDomain,
   state => {
