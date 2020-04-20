@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button, Link as AscLink, themeColor } from '@datapunt/asc-ui';
+import { Button, Link as AscLink } from '@datapunt/asc-ui';
 import { Close } from '@datapunt/asc-assets';
 import { Link } from 'react-router-dom';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
@@ -18,17 +18,11 @@ const Panel = styled.div`
   justify-content: space-between;
 `;
 
-const IncidentLink = styled(AscLink)`
-  font-size: 16px;
-  color: ${themeColor('primary')};
-  font-weight: 700;
-`;
-
 const DetailPanel = ({ incidentId, onClose }) => (
   <Panel data-testid="mapDetailPanel">
-    <IncidentLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incidentId}`}>
+    <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incidentId}`}>
       Melding {incidentId}
-    </IncidentLink>
+    </AscLink>
     <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />
   </Panel>
 );
