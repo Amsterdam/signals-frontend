@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor } from '@datapunt/asc-ui';
@@ -61,17 +61,15 @@ const MapStatic = ({
 }) => {
   const { data, error, get, isLoading } = useFetch();
   const [src, setSrc] = useState();
-  const { x, y } = wgs84ToRd({ latitude, longitude });
-  const bbox = [
-    x - width / boundsScaleFactor,
-    y - height / boundsScaleFactor,
-    x + width / boundsScaleFactor,
-    y + height / boundsScaleFactor,
-  ].join(',');
-
-  useEffect(() => {
-    const params = {
-      bbox,
+  const { x, y } = useMemo(() => wgs84ToRd({ latitude, longitude }), [latitude, longitude]);
+  const params = useMemo(
+    () => ({
+      bbox: [
+        x - width / boundsScaleFactor,
+        y - height / boundsScaleFactor,
+        x + width / boundsScaleFactor,
+        y + height / boundsScaleFactor,
+      ].join(','),
       format,
       height,
       layers,
@@ -79,8 +77,11 @@ const MapStatic = ({
       srs: 'EPSG:28992',
       version: '1.1.1',
       width,
-    };
+    }),
+    [boundsScaleFactor, format, height, layers, width, x, y]
+  );
 
+  useEffect(() => {
     get('https://map.data.amsterdam.nl/maps/topografie', params, { responseType: 'blob' });
     // only execute on mount; disabling linter
     // eslint-disable-next-line
