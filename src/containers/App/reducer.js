@@ -15,7 +15,7 @@ import {
   UPLOAD_FAILURE,
   SET_SEARCH_QUERY,
   RESET_SEARCH_QUERY,
-} from 'containers/App/constants';
+} from './constants';
 
 // The initial state of the App
 export const initialState = fromJS({
