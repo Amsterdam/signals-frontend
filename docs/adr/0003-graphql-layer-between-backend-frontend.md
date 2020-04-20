@@ -58,11 +58,11 @@ Our GraphQL layer:
 
 # Backend Tools proposal
 
-- Lerna: A tool for creating and managing mono repos
-- Graphql Apollo:
-- type-graphql: A library which allows you to write GraphQL definitions in TypeScript
+- [https://lerna.js.org/](Lerna): A tool for creating and managing mono repos
+- [https://www.apollographql.com/](Apollo GraphQL): The industry standard GraphQL implementation
+- [https://typegraphql.com](type-graphql): A library which allows you to write GraphQL definitions in TypeScript
 - Express/Fastify: Middleware to serve our GraphQL layer
-- NestJS: Glue between many modern NodeJS backend development library
+- [https://nestjs.com](NestJS): Glue between many modern NodeJS backend implementations and tools
 
 # Frontend tools proposal
 
