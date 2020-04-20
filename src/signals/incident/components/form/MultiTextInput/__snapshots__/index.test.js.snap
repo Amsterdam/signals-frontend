@@ -32,7 +32,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
         <div
           key="input-field-name-1"
         >
-          <Input
+          <ForwardRef
             className="multi-text-input__input col-3"
             id="input-field-name-1"
             maxLength="15"
@@ -82,7 +82,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
         <div
           key="input-field-name-1"
         >
-          <Input
+          <ForwardRef
             className="multi-text-input__input "
             id="input-field-name-1"
             maxLength="15"

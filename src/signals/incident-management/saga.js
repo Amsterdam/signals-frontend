@@ -101,7 +101,7 @@ export function* fetchIncidents() {
   }
 }
 
-export function* searchIncidents() {
+export function* searchIncidents(action) {
   try {
     const q = yield select(makeSelectSearchQuery);
 
@@ -116,8 +116,11 @@ export function* searchIncidents() {
       ordering,
     });
 
-    yield put(push('/manage/incidents'));
     yield put(searchIncidentsSuccess(incidents));
+
+    if (action.type === SET_SEARCH_QUERY) {
+      yield put(push('/manage/incidents'));
+    }
   } catch (error) {
     if (error.response && error.response.status === 500) {
       // Getting an error response with status code 500 from the search endpoint
