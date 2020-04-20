@@ -22,17 +22,11 @@ const IncidentLink = styled(AscLink)`
   font-size: 16px;
   color: ${themeColor('primary')};
   font-weight: 700;
-  text-decoration: none;
-
-  &:hover {
-    color: ${themeColor('secondary')};
-    text-decoration: underline;
-  }
 `;
 
 const DetailPanel = ({ incidentId, onClose }) => (
   <Panel data-testid="mapDetailPanel">
-    <IncidentLink as={Link} to={`${INCIDENT_URL}/${incidentId}`}>
+    <IncidentLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incidentId}`}>
       Melding {incidentId}
     </IncidentLink>
     <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />
