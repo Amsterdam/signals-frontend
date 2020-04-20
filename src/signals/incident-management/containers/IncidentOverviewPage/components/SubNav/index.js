@@ -15,6 +15,8 @@ export const MapHeading = styled(Heading).attrs({
 })`
   margin: 0;
   font-size: 16px;
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 400;
 `;
 
 export const TabContainer = styled.div`

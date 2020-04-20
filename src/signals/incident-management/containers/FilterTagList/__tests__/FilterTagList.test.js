@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
-import { withAppContext, withIntlAppContext } from 'test/utils';
+import { withAppContext } from 'test/utils';
 import * as definitions from 'signals/incident-management/definitions';
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
 
@@ -10,7 +10,6 @@ import FilterTagList, {
   allLabelAppend,
   mapKeys,
 } from '..';
-import translations from '../../../../../translations/nl.json';
 
 const dataLists = {
   priority: definitions.priorityList,
@@ -52,14 +51,13 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   describe('date formatting', () => {
     it('renders created before', () => {
       const { queryByText } = render(
-        withIntlAppContext(
+        withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
             tags={{ ...tags, created_before: '2019-09-23' }}
             subCategories={subCategories}
             mainCategories={mainCategories}
-          />,
-          translations
+          />
         )
       );
 
@@ -70,14 +68,13 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('renders date after', () => {
       const { queryByText } = render(
-        withIntlAppContext(
+        withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
             tags={{ ...tags, created_after: '2019-09-17' }}
             subCategories={subCategories}
             mainCategories={mainCategories}
-          />,
-          translations
+          />
         )
       );
 
@@ -88,7 +85,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('renders both date after and date before', () => {
       const { queryByText } = render(
-        withIntlAppContext(
+        withAppContext(
           <FilterTagListComponent
             dataLists={dataLists}
             tags={{
@@ -98,8 +95,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             }}
             subCategories={subCategories}
             mainCategories={mainCategories}
-          />,
-          translations
+          />
         )
       );
 

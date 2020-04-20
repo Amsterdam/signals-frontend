@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { render, fireEvent, wait, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { withAppContext, resolveAfterMs } from 'test/utils';
 
 import AutoSuggest, { INPUT_DELAY } from '..';
 import JSONResponse from './mockResponse.json';
@@ -18,8 +18,6 @@ const props = {
   onSelect,
   url,
 };
-
-const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
 
 describe('src/components/AutoSuggest', () => {
   beforeEach(() => {
@@ -217,7 +215,10 @@ describe('src/components/AutoSuggest', () => {
     });
 
     test('Esc', async () => {
-      const { container, findByTestId, queryByTestId } = render(withAppContext(<AutoSuggest {...props} />));
+      const onClear = jest.fn();
+      const { container, findByTestId, queryByTestId } = render(
+        withAppContext(<AutoSuggest {...props} onClear={onClear} />)
+      );
       const input = container.querySelector('input');
 
       input.focus();
@@ -234,11 +235,13 @@ describe('src/components/AutoSuggest', () => {
       });
 
       expect(document.activeElement).toEqual(firstElement);
+      expect(onClear).not.toHaveBeenCalled();
 
       act(() => {
         fireEvent.keyDown(input, { key: 'Escape', code: 13, keyCode: 13 });
       });
 
+      expect(onClear).toHaveBeenCalled();
       expect(input.value).toEqual('');
       expect(document.activeElement).toEqual(input);
       expect(queryByTestId('suggestList')).not.toBeInTheDocument();
@@ -365,7 +368,7 @@ describe('src/components/AutoSuggest', () => {
       expect(suggestList).not.toBeInTheDocument();
     });
 
-    test('Any key (yes, such a key exists)', async() => {
+    test('Any key (yes, such a key exists)', async () => {
       const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
 
@@ -424,5 +427,29 @@ describe('src/components/AutoSuggest', () => {
     expect(input.value).toEqual(firstOption.value);
     expect(onSelect).toHaveBeenCalledTimes(1);
     expect(onSelect).toHaveBeenCalledWith(firstOption);
+  });
+
+  it('should call onClear', async () => {
+    const onClear = jest.fn();
+    const { container } = render(
+      withAppContext(<AutoSuggest {...props} onClear={onClear} />)
+    );
+    const input = container.querySelector('input');
+
+    act(() => {
+      fireEvent.change(input, { target: { value: 'Rembrandt' } });
+    });
+
+    await wait(() => resolveAfterMs(INPUT_DELAY));
+
+    expect(onClear).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.change(input, { target: { value: '' } });
+    });
+
+    await wait(() => resolveAfterMs(INPUT_DELAY));
+
+    expect(onClear).toHaveBeenCalled();
   });
 });

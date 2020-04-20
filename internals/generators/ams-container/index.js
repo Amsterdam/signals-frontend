@@ -39,11 +39,6 @@ module.exports = {
     name: 'wantSaga',
     default: true,
     message: 'Do you want sagas for asynchronous flows? (e.g. fetching data)',
-  }, {
-    type: 'confirm',
-    name: 'wantMessages',
-    default: false,
-    message: 'Do you want i18n messages (i.e. will this component use text)?',
   }],
   actions: data => {
     // Generate index.js and index.test.js
@@ -68,16 +63,6 @@ module.exports = {
       templateFile: './ams-container/test.js.hbs',
       abortOnFail: true,
     }];
-
-    // If component wants messages
-    if (data.wantMessages) {
-      actions.push({
-        type: 'add',
-        path: '../../src/containers/{{properCase name}}/messages.js',
-        templateFile: './ams-container/messages.js.hbs',
-        abortOnFail: true,
-      });
-    }
 
     // If they want actions and a reducer, generate actions.js, constants.js,
     // reducer.js and the corresponding tests for actions and the reducer
