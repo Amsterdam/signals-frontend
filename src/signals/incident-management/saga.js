@@ -22,6 +22,7 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 
 import {
   applyFilterRefresh,
@@ -51,10 +52,8 @@ import {
   PAGE_CHANGED,
   REMOVE_FILTER,
   REQUEST_INCIDENTS,
-  RESET_SEARCH_QUERY,
   SAVE_FILTER,
   SEARCH_INCIDENTS,
-  SET_SEARCH_QUERY,
   UPDATE_FILTER,
 } from './constants';
 

@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 import priority from './definitions/priorityList';
 import stadsdeel from './definitions/stadsdeelList';
 import status from './definitions/statusList';
@@ -24,8 +25,6 @@ import {
   SEARCH_INCIDENTS_ERROR,
   SEARCH_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
-  SET_SEARCH_QUERY,
-  RESET_SEARCH_QUERY,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
 } from './constants';

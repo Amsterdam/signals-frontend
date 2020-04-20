@@ -4,8 +4,8 @@ import { push } from 'connected-react-router/immutable';
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
+import { SET_SEARCH_QUERY, LOGOUT, LOGIN, AUTHENTICATE_USER, UPLOAD_REQUEST } from 'containers/App/constants';
 
-import { LOGOUT, LOGIN, AUTHENTICATE_USER, UPLOAD_REQUEST } from './constants';
 import {
   loginFailed,
   logoutFailed,
@@ -18,7 +18,6 @@ import {
 import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
-import { SET_SEARCH_QUERY } from '../../signals/incident-management/constants';
 
 export function* callLogin(action) {
   try {
@@ -111,7 +110,7 @@ export function* uploadFile(action) {
   }
 }
 
-export function* callSearchIncident() {
+export function* callSearchIncidents() {
   yield put(push('/manage/incidents'));
 }
 
@@ -121,6 +120,6 @@ export default function* watchAppSaga() {
     takeLatest(LOGOUT, callLogout),
     takeLatest(AUTHENTICATE_USER, callAuthorize),
     takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
-    takeLatest(SET_SEARCH_QUERY, callSearchIncident),
+    takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
   ]);
 }

@@ -13,8 +13,9 @@ import {
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
-} from './constants';
-import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from '../../signals/incident-management/constants';
+  SET_SEARCH_QUERY,
+  RESET_SEARCH_QUERY,
+} from 'containers/App/constants';
 
 // The initial state of the App
 export const initialState = fromJS({

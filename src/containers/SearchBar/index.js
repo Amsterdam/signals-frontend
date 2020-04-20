@@ -8,7 +8,7 @@ import { createStructuredSelector } from 'reselect';
 import {
   setSearchQuery,
   resetSearchQuery,
-} from 'signals/incident-management/actions';
+} from 'containers/App/actions';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
 
 export const SearchBarComponent = ({
