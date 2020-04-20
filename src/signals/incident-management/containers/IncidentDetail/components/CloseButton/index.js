@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@datapunt/asc-ui';
+import { Button, themeSpacing } from '@datapunt/asc-ui';
 import { Close as CloseIcon } from '@datapunt/asc-assets';
 import styled from 'styled-components';
 
 const StyledButton = styled(Button)`
   position: absolute;
-  top: 10px;
+  top: 40px;
   z-index: 1;
   right: ${({ theme }) => theme.layouts.small.margin}px;
+  margin-right: ${themeSpacing(4)};
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     right: ${({ theme }) => theme.layouts.medium.margin}px;

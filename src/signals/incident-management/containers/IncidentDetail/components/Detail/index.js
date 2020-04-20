@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Paragraph, themeColor, themeSpacing } from '@datapunt/asc-ui';
@@ -35,7 +35,8 @@ const DefinitionList = styled.dl`
     grid-template-columns: 3fr 4fr;
   }
 
-  dt, dd {
+  dt,
+  dd {
     @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
       padding: ${themeSpacing(2)} 0;
     }
@@ -52,40 +53,36 @@ const DefinitionList = styled.dl`
   }
 `;
 
-const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowAttachment }) => (
-  <Wrapper>
-    <DemiParagraph data-testid="detail-title">
-      {incident.text}
-    </DemiParagraph>
+const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowAttachment }) => {
+  const memoIncident = useMemo(() => incident, [incident]);
+  const memoAttachments = useMemo(() => attachments, [attachments]);
+  const location = useMemo(() => incident.location, [incident.location]);
 
-    <DefinitionList>
-      <dt>Overlast</dt>
-      <dd>
-        {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
-      </dd>
+  return (
+    <Wrapper>
+      <DemiParagraph data-testid="detail-title">{incident.text}</DemiParagraph>
 
-      <Location incident={incident} onShowLocation={onShowLocation} onEditLocation={onEditLocation} />
+      <DefinitionList>
+        <dt>Overlast</dt>
+        <dd>
+          {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
+        </dd>
 
-      {attachments && <Attachments attachments={attachments} onShowAttachment={onShowAttachment} />}
+        <Location location={location} onShowLocation={onShowLocation} onEditLocation={onEditLocation} />
 
-      {incident.extra_properties && <ExtraProperties items={incident.extra_properties} />}
+        {memoAttachments && <Attachments attachments={memoAttachments} onShowAttachment={onShowAttachment} />}
 
-      <dt data-testid="detail-email-definition">
-        E-mail melder
-      </dt>
-      <dd data-testid="detail-email-value">
-        {incident.reporter.email}
-      </dd>
+        {memoIncident.extra_properties && <ExtraProperties items={memoIncident.extra_properties} />}
 
-      <dt data-testid="detail-phone-definition">
-        Telefoon melder
-      </dt>
-      <dd data-testid="detail-phone-value">
-        {incident.reporter.phone}
-      </dd>
-    </DefinitionList>
-  </Wrapper>
-);
+        <dt data-testid="detail-email-definition">E-mail melder</dt>
+        <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
+
+        <dt data-testid="detail-phone-definition">Telefoon melder</dt>
+        <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
+      </DefinitionList>
+    </Wrapper>
+  );
+};
 
 Detail.propTypes = {
   incident: incidentType.isRequired,

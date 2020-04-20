@@ -108,6 +108,9 @@ export const locationType = PropTypes.shape({
   id: PropTypes.number,
   bag_validated: PropTypes.bool,
   stadsdeel: PropTypes.string,
+  geometrie: PropTypes.shape({
+    coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }),
 });
 
 export const incidentType = PropTypes.shape({

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-import { incidentType } from 'shared/types';
+import { locationType } from 'shared/types';
 import { stadsdeelList } from 'signals/incident-management/definitions';
 import MapStatic from 'components/MapStatic';
 
@@ -40,7 +40,7 @@ const StyledHighLight = styled(HighLight)`
   }
 `;
 
-const Location = ({ incident: { location }, onShowLocation, onEditLocation }) => {
+const Location = ({ location, onShowLocation, onEditLocation }) => {
   const latitude = location?.geometrie?.coordinates[1];
   const longitude = location?.geometrie?.coordinates[0];
 
@@ -104,7 +104,7 @@ const Location = ({ incident: { location }, onShowLocation, onEditLocation }) =>
 };
 
 Location.propTypes = {
-  incident: incidentType.isRequired,
+  location: locationType.isRequired,
   onShowLocation: PropTypes.func.isRequired,
   onEditLocation: PropTypes.func.isRequired,
 };

@@ -12,7 +12,6 @@ import { mapLocation } from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import MapInput from '../../../../components/MapInput';
 import HiddenInput from '../../../../components/HiddenInput';
-import CloseButton from '../CloseButton';
 
 const StyledColumn = styled(Column)`
   display: block;
@@ -25,11 +24,6 @@ const Form = styled.form`
   #nlmaps-geocoder-control-input {
     width: 33%;
   }
-`;
-
-const StyledCloseButton = styled(CloseButton)`
-  margin-right: ${themeSpacing(3)};
-  margin-top: ${themeSpacing(5)};
 `;
 
 const FormButton = styled(Button)`
@@ -116,8 +110,6 @@ class LocationForm extends React.Component {
           control={this.form}
           render={({ invalid }) => (
             <Form onSubmit={this.handleSubmit}>
-              <StyledCloseButton onClick={onClose} />
-
               <Row>
                 <StyledColumn span={12}>
                   <FieldControlWrapper

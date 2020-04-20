@@ -147,8 +147,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
       </Row>
 
       <StyledRow>
-        {state.preview && <CloseButton onClick={() => dispatch({ type: 'closeAll' })} />}
-
         <DetailContainer span={7}>
           <Detail
             incident={incident}
@@ -206,6 +204,8 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
             )}
           </Preview>
         )}
+
+        {state.preview && <CloseButton onClick={() => dispatch({ type: 'closeAll' })} />}
       </StyledRow>
     </Fragment>
   );

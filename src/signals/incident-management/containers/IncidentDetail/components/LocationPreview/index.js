@@ -1,20 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button, themeSpacing } from '@datapunt/asc-ui';
+import { Button, themeSpacing, Row, Column } from '@datapunt/asc-ui';
 import { locationType } from 'shared/types';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import MapDetail from '../MapDetail';
 
-const Wrapper = styled.div`
+const Wrapper = styled(Row)`
+  padding-top: 20px;
+`;
+
+const StyledColumn = styled(Column)`
+  display: block;
+  background: white;
   position: relative;
 `;
 
 const EditButton = styled(Button)`
-  position: absolute
+  position: absolute;
   top: ${themeSpacing(3)};
   left: ${themeSpacing(3)};
-  z-index: 500;
+  z-index: 401;
 `;
 
 const StyledMap = styled(MapDetail)`
@@ -24,11 +30,13 @@ const StyledMap = styled(MapDetail)`
 
 const LocationPreview = ({ location, onEditLocation }) => (
   <Wrapper>
-    <EditButton variant="secondary" onClick={onEditLocation} data-testid="location-preview-button-edit">
-      Locatie wijzigen
-    </EditButton>
+    <StyledColumn span={12}>
+      <EditButton variant="secondary" onClick={onEditLocation} data-testid="location-preview-button-edit">
+        Locatie wijzigen
+      </EditButton>
 
-    <StyledMap value={location} zoom={14} icon={markerIcon} hasZoomControls />
+      <StyledMap value={location} zoom={14} icon={markerIcon} hasZoomControls />
+    </StyledColumn>
   </Wrapper>
 );
 
