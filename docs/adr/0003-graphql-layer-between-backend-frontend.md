@@ -76,26 +76,24 @@ Our GraphQL layer:
 ## Backend
 
 - logic: All logic should be placed in service files, so they could be used in GraphQL resolvers,
-  and maybe in the future by REST controllers when needed, for example: departments/departments.service.ts
+  and maybe in the future by REST controllers when needed, for example: roles/roles.service.ts
 - graphql queries/mutations: GraphqQL queries and mutations should live in resolvers,
-  for example: departments/departments.resolver.ts
+  for example: roles/roles.resolver.ts
 
 ## Frontend
 
 - queries/mutations: GraphQL queries and mutations should live in one central place, for example:
-  src/graphql/departments.queries.js and src/graphql/departments.mutations.js or
-  src/graphql/departments.graphql.js
+  src/graphql/roles.queries.js and src/graphql/roles.mutations.js or
+  src/graphql/roles.graphql.js
 
 # Proof of Concept
 
 Since this proposal is quite big it would be smart to start with a proof of concept with
 strict requirements, here is a possible list of requirements:
 
-- The POC should expose one full endpoint of our current API through GraphQL (departments)
+- The POC should expose one full endpoint of our current API through GraphQL (roles)
 - The POC should generate interfaces/API reference/types/GraphQL definitions fully automated
-- The POC should not take longer then 3 full working days to setup
 - The POC focuses on the GraphQL backend implementation but the frontend should implement
   at least one query and two mutations on the frontend
 - The POC will have the test boiler plate in place
 - The POC will have simple and concise documentation about how it has been setup
-- The POC won't use authentication to keep it simple
