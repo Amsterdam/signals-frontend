@@ -61,15 +61,15 @@ Our GraphQL layer:
 - [https://lerna.js.org/](Lerna): A tool for creating and managing mono repos
 - [https://www.apollographql.com/](Apollo GraphQL): The industry standard GraphQL implementation
 - [https://typegraphql.com](type-graphql): A library which allows you to write GraphQL definitions in TypeScript
-- Express/Fastify: Middleware to serve our GraphQL layer
+- Express or Fastify: Middleware to serve our GraphQL layer
 - [https://nestjs.com](NestJS): Glue between many modern NodeJS backend implementations and tools
 
 # Frontend tools proposal
 
-- graphql-codegen: Generate GraphQL types/clients/interfaces, etc.
-- eslint-plugin-graphql: Live GraphQL validation on the frontend
-- graphql: Contains gql template function
-- Apollo boost/client/react-hooks: Libraries to work with GraphQL on the frontend
+- [https://graphql-code-generator.com/](GraphQL Code Generator): Generate GraphQL types/clients/interfaces, etc.
+- [https://github.com/apollographql/eslint-plugin-graphqlhl](eslint-plugin-graphql): Live GraphQL validation on the frontend
+- [https://graphql.org/graphql-js/](GraphQL.js): Contains gql template function
+- [https://www.apollographql.com/](Apollo GraphQL - boost/client/react-hooks): Libraries to work with GraphQL on the frontend
 
 # Application structure proposal
 
