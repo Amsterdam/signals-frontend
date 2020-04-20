@@ -23,6 +23,8 @@ if (process.env.CI) {
   global.console.warn = () => {};
 }
 
+global.URL.createObjectURL = jest.fn(() => 'https://url-from-data/image.jpg');
+
 /**
  * Element.closest() polyfill
  *
