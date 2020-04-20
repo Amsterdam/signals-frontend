@@ -219,20 +219,4 @@ describe('signals/incident-management/actions', () => {
       error,
     );
   });
-
-  it('should dispatch setSearchQuery action', () => {
-    const searchQuery = 'stoeptegels';
-    testActionCreator(
-      actions.setSearchQuery,
-      constants.SET_SEARCH_QUERY,
-      searchQuery,
-    );
-  });
-
-  it('should dispatch resetSearchQuery action', () => {
-    testActionCreator(
-      actions.resetSearchQuery,
-      constants.RESET_SEARCH_QUERY,
-    );
-  });
 });
