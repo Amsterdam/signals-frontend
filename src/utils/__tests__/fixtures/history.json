@@ -1,0 +1,38 @@
+[
+  {
+    "identifier": "UPDATED_CATEGORY_7",
+    "when": "2020-03-25T14:07:23.351516+01:00",
+    "what": "UPDATED_CATEGORY",
+    "action": "Service level agreement wijziging: 4 werkdagen",
+    "description": null,
+    "who": "me@mail.com",
+    "_category": 145
+  },
+  {
+    "identifier": "UPDATED_CATEGORY_6",
+    "when": "2020-03-25T11:14:17.266316+01:00",
+    "what": "UPDATED_CATEGORY",
+    "action": "Service level agreement wijziging: 5 werkdagen E-mail tekst wijziging: Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.",
+    "description": null,
+    "who": "you@mail.com",
+    "_category": 145
+  },
+  {
+    "identifier": "UPDATED_CATEGORY_4",
+    "when": "2020-03-17T16:59:27.902955+01:00",
+    "what": "UPDATED_CATEGORY",
+    "action": "Service level agreement wijziging: 5 werkdagen",
+    "description": null,
+    "who": "us@mail.com",
+    "_category": 145
+  },
+  {
+    "identifier": "UPDATED_CATEGORY_3",
+    "when": "2020-03-17T16:59:22.110095+01:00",
+    "what": "UPDATED_CATEGORY",
+    "action": "Service level agreement wijziging: 2 werkdagen",
+    "description": null,
+    "who": "him@mail.com",
+    "_category": 145
+  }
+]
