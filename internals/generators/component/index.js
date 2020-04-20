@@ -30,11 +30,6 @@ module.exports = {
     },
   }, {
     type: 'confirm',
-    name: 'wantMessages',
-    default: true,
-    message: 'Do you want i18n messages (i.e. will this component use text)?',
-  }, {
-    type: 'confirm',
     name: 'wantLoadable',
     default: false,
     message: 'Do you want to load the component asynchronously?',
@@ -64,16 +59,6 @@ module.exports = {
       templateFile: './component/test.js.hbs',
       abortOnFail: true,
     }];
-
-    // If they want a i18n messages file
-    if (data.wantMessages) {
-      actions.push({
-        type: 'add',
-        path: '../../src/components/{{properCase name}}/messages.js',
-        templateFile: './component/messages.js.hbs',
-        abortOnFail: true,
-      });
-    }
 
     return actions;
   },

@@ -14,6 +14,8 @@ import { DOUBLE_CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
 
 import { findFeatureByType } from '../services/reverseGeocoderService';
 import MapInput from '..';
+import { initialState } from '../../../containers/MapContext/reducer';
+
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
   ...jest.requireActual('containers/MapContext/actions'),
@@ -88,9 +90,9 @@ describe('components/MapInput', () => {
   });
 
   const testLocation = {
-    geometrie: {
-      type: 'Point',
-      coordinates: [4, 52],
+    location: {
+      lat: 52.374386493456036,
+      lng: 4.908941378935603,
     },
   };
 
@@ -106,7 +108,7 @@ describe('components/MapInput', () => {
 
     expect(setValuesSpy).not.toHaveBeenCalled();
 
-    const value = { addressText: 'Foo' };
+    const value = { addressText: 'Foo', ...testLocation };
 
     rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={value} />));
 
@@ -117,6 +119,45 @@ describe('components/MapInput', () => {
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenCalledWith(testLocation);
+
+    setValuesSpy.mockClear();
+    setLocationSpy.mockClear();
+
+    rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />));
+
+    expect(setValuesSpy).not.toHaveBeenCalled();
+  });
+
+  it('should move the map to the location when location is passed as parameter', async () => {
+    const movestartSpy = jest.fn();
+    const mapEvents = {
+      movestart: movestartSpy,
+    };
+
+    const withMapContextState = state => Component =>
+      withAppContext(<context.Provider value={{ state, dispatch: () => {} }}>{Component}</context.Provider>);
+
+    const state = { ...initialState };
+
+    const { rerender } = render(
+      withMapContextState(state)(<MapInput mapOptions={MAP_OPTIONS} value={{}} events={mapEvents} />)
+    );
+
+    expect(movestartSpy).not.toHaveBeenCalled();
+
+    rerender(withMapContextState(state)(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} events={mapEvents} />));
+
+    expect(movestartSpy).toHaveBeenCalled();
+    movestartSpy.mockClear();
+
+    const stateWithLocation = { ...state, ...testLocation };
+    rerender(
+      withMapContextState(stateWithLocation)(
+        <MapInput mapOptions={MAP_OPTIONS} value={testLocation} events={mapEvents} />
+      )
+    );
+
+    expect(movestartSpy).not.toHaveBeenCalled();
   });
 
   it('should handle click', async () => {
