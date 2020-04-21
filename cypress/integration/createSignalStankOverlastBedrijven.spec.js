@@ -7,7 +7,7 @@ describe('Create signal stank overlast bedrijven', () => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAddressRoute('1075LB 39');
+    cy.getAddressRoute();
 
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
@@ -23,9 +23,7 @@ describe('Create signal stank overlast bedrijven', () => {
 
     // Select found item  
     createSignal.selectAddress('Karperweg 39, 1075LB Amsterdam');
-    cy.wait('@lookup')
-      .wait('@location')
-      .wait('@geoSearchLocation');
+    cy.wait('@geoSearchLocation');
   });
 
   it('Should enter description and date', () => {
@@ -94,7 +92,8 @@ describe('Create signal stank overlast bedrijven', () => {
     cy.checkHeaderText('Controleer uw gegevens');
 
     // Check if map is visible
-    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
+    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
 
     // Check information provided by user
     cy.contains('Karperweg 39, 1075LB Amsterdam').should('be.visible');
@@ -107,12 +106,16 @@ describe('Create signal stank overlast bedrijven', () => {
     cy.contains('Het is erg warm buiten, de zon schijnt volop').should('be.visible');
     cy.contains('Ja, ramen of deuren staan open').should('be.visible');
     cy.contains('Nee, dit is de eerste keer').should('be.visible');
-
-    // Create signal
-    cy.clickButton('Verstuur');
   });
 
   it('Should show the last screen', () => {
+    cy.server();
+    cy.postSignalRoutePublic();
+
+    cy.clickButton('Verstuur');
+    
+    cy.wait('@postSignalPublic');
+    
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 

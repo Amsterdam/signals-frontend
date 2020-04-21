@@ -1,7 +1,7 @@
 // <reference types="Cypress" />
 
 import * as createSignal from '../support/commandsCreateSignal';
-import { CATEGORIES } from '../support/selectorsManageIncidents';
+import { CATEGORIES } from '../support/selectorsSettings';
 import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
 describe('Change servicebelofte', () => {
@@ -71,26 +71,19 @@ describe('Create a signal and validate service belofte', () => {
     localStorage.setItem('accessToken', 'TEST123');
   });
 
-  it('Should initiate create signal from manage', () => {
+  it('Should initiate create signal', () => {
     cy.server();
     cy.getManageSignalsRoutes();
+ 
+    cy.visitFetch('/incident/beschrijf/');
     
-    cy.visitFetch('/manage/incidents/');
-
-    // Wait till page is loaded
-    cy.wait('@getFilters');
-    cy.wait('@getCategories');
-    cy.wait('@getSignals');
-    cy.wait('@getUserInfo');
-    cy.openMenu();
-    cy.contains('Melden').click();
     cy.checkHeaderText('Beschrijf uw melding');
   });
 
   it('Should search for an address', () => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAddressRoute('1069HM 224');
+    cy.getAddressRoute();
 
     // Check h1
     cy.checkHeaderText('Beschrijf uw melding');
@@ -104,9 +97,7 @@ describe('Create a signal and validate service belofte', () => {
 
     // Select found item  
     createSignal.selectAddress('Lederambachtstraat 224, 1069HM Amsterdam');
-    cy.wait('@lookup')
-      .wait('@location')
-      .wait('@geoSearchLocation');
+    cy.wait('@geoSearchLocation');
   });
 
   it('Should enter description and date', () => {
@@ -144,11 +135,16 @@ describe('Create a signal and validate service belofte', () => {
 
     // Check h1
     cy.checkHeaderText('Controleer uw gegevens');
-
-    cy.clickButton('Verstuur');
   });
 
-  it('Should show the last screen', () => {
+  it('Should show the last screen', () => {   
+    cy.server();
+    cy.postSignalRoutePrivate();
+
+    cy.clickButton('Verstuur');
+
+    cy.wait('@postSignalPrivate');
+    
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
@@ -190,7 +186,7 @@ describe('Change back servicebelofte', () => {
     // Check URL
     cy.url().should('include', '/instellingen/categorieen/');
 
-    cy.checkHeader('Categorieën');
+    cy.checkHeaderText('Categorieën');
 
     // Open category Afwatering brug
     cy.contains('Afwatering brug').click();
@@ -212,7 +208,7 @@ describe('Change back servicebelofte', () => {
 
     // Check if Categorieën page opens again
     cy.url().should('include', '/instellingen/categorieen/page/1');
-    cy.checkHeader('Categorieën');
+    cy.checkHeaderText('Categorieën');
 
     // Check day change
     cy.reload(true);

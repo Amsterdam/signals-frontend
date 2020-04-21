@@ -7,7 +7,7 @@ describe('Create signal bedrijven en horeca', () =>{
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAddressRoute('1012AN 5A');
+    cy.getAddressRoute();
   
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
@@ -23,9 +23,7 @@ describe('Create signal bedrijven en horeca', () =>{
 
     // Select found item  
     createSignal.selectAddress('Zeedijk 5A, 1012AN Amsterdam'); 
-    cy.wait('@lookup')
-      .wait('@location')
-      .wait('@geoSearchLocation');
+    cy.wait('@geoSearchLocation');
   });
 
   it('Should enter description and date', () => {
@@ -92,8 +90,9 @@ describe('Create signal bedrijven en horeca', () =>{
     // Check h1
     cy.checkHeaderText('Controleer uw gegevens');
 
-    // Check if map is visible
-    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
+    // Check if map and marker are visible
+    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
 
     // Check information provided by user
     cy.contains('Zeedijk 5A, 1012AN Amsterdam').should('be.visible');
@@ -106,12 +105,16 @@ describe('Create signal bedrijven en horeca', () =>{
     cy.contains('Wildplassen').should('be.visible');
     cy.contains('Ja, het gebeurt vaker').should('be.visible');
     cy.contains('Elke dag').should('be.visible');
-
-    // Create signal
-    cy.clickButton('Verstuur');
   });
 
   it('Should show the last screen', () => {
+    cy.server();
+    cy.postSignalRoutePublic();
+
+    cy.clickButton('Verstuur');
+    
+    cy.wait('@postSignalPublic');
+    
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 

@@ -7,7 +7,7 @@ describe('Create signal lantaarnpaal',() => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAddressRoute('1077WV 59');
+    cy.getAddressRoute();
 
     // Open homepage
     cy.visitFetch('incident/beschrijf');
@@ -23,9 +23,7 @@ describe('Create signal lantaarnpaal',() => {
 
     // Select found item  
     createSignal.selectAddress('Prinses Irenestraat 59, 1077WV Amsterdam');
-    cy.wait('@lookup')
-      .wait('@location')
-      .wait('@geoSearchLocation');
+    cy.wait('@geoSearchLocation');
   });
 
   it('Should enter description and date and upload a picture', () => {
@@ -97,9 +95,10 @@ describe('Create signal lantaarnpaal',() => {
 
   it('Should select a light on map', () => {
     // Click on lamp based on coordinate
-    createSignal.selectLampOnCoordinate(338, 179);
+    createSignal.selectLampOnCoordinate(414, 135);
 
     // Check options in legend
+    cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
     cy.get('.legend-header').should('be.visible');
     cy.get('.legend-content').should('be.visible');
     cy.contains('Lantaarnpaal').should('be.visible');
@@ -140,25 +139,32 @@ describe('Create signal lantaarnpaal',() => {
     // Check h1
     cy.checkHeaderText('Controleer uw gegevens');
 
-    // Check if map is visible
-    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
+    // Check if map and marker are visible
+    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
 
     // Check on information provided by user
     cy.contains('Prinses Irenestraat 59, 1077WV Amsterdam').should('be.visible');
     cy.contains('De lantaarnpaal voor mijn deur is kapot').should('be.visible');
     cy.contains('Vandaag, 5:45').should('be.visible');
-    cy.get(CREATE_SIGNAL.imageAddressMarker).find("img").should('be.visible');
     cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
     cy.contains('Niet gevaarlijk').should('be.visible');
     cy.contains('1 lichtpunt').should('be.visible');
     cy.contains('Overig').should('be.visible');
-    cy.contains('013991').should('be.visible');
-
-    // Click on next
-    cy.clickButton('Verstuur');
+    cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
+    cy.contains('034575').should('be.visible');
   });
 
   it('Should show the last screen', () => {
+    cy.server();
+    cy.postSignalRoutePublic();
+    cy.postImageRoute();
+    
+    cy.clickButton('Verstuur');
+    
+    cy.wait('@postSignalPublic');
+    cy.wait('@postImage');
+
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 

@@ -3,12 +3,12 @@
 // Import all selector for manage incidents (MI)
 import { MANAGE_SIGNALS } from '../support/selectorsManageIncidents';
 
-describe('Filtering', () => {
+describe('Sorting', () => {
   beforeEach(() => {
     cy.server();
     cy.getManageSignalsRoutes();
-    cy.route('**/signals/v1/private/signals/?&page=1&ordering=stadsdeel,-created_at&page_size=50').as('getSortedASC');
-    cy.route('**/signals/v1/private/signals/?&page=1&ordering=-stadsdeel,-created_at&page_size=50').as('getSortedDESC');
+    cy.route('**/signals/v1/private/signals/?page=1&ordering=stadsdeel,-created_at&page_size=50').as('getSortedASC');
+    cy.route('**/signals/v1/private/signals/?page=1&ordering=-stadsdeel,-created_at&page_size=50').as('getSortedDESC');
     
     localStorage.setItem('accessToken', 'TEST123');
 

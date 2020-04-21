@@ -47,7 +47,7 @@ Cypress.Commands.add('checkHeaderText', h1 =>{
 });
 
 Cypress.Commands.add('openMenu',() =>{
-  cy.get('#header').find('[type=button]').click();
+  cy.get('[aria-label=Menu]').click();
 });
 
 Cypress.Commands.add('clickButton', buttonName => {

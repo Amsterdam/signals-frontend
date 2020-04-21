@@ -7,7 +7,7 @@ describe('Create signal boten',() => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAddressRoute('1096AC 7');
+    cy.getAddressRoute();
   
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
@@ -23,9 +23,7 @@ describe('Create signal boten',() => {
 
     // Select found item  
     createSignal.selectAddress('Korte Ouderkerkerdijk 7, 1096AC Amsterdam');
-    cy.wait('@lookup')
-      .wait('@location')
-      .wait('@geoSearchLocation');
+    cy.wait('@geoSearchLocation');
   });
 
   it('Should enter description and date', () => {
@@ -92,8 +90,9 @@ describe('Create signal boten',() => {
     // Check h1
     cy.checkHeaderText('Controleer uw gegevens');
 
-    // Check if map is visible
-    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
+    // Check if map and marker are visible
+    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
 
     // Check information provided by user
     cy.contains('Korte Ouderkerkerdijk 7, 1096AC Amsterdam').should('be.visible');
@@ -101,11 +100,16 @@ describe('Create signal boten',() => {
     cy.contains('Amsterdam Boat Center').should('be.visible');
     cy.contains('Bota Fogo').should('be.visible');
     cy.contains('De boot voer richting Ouderkerk aan de Amstel').should('be.visible');
-
-    cy.clickButton('Verstuur');
   });
 
   it('Should show the last screen', () => {
+    cy.server();
+    cy.postSignalRoutePublic();
+
+    cy.clickButton('Verstuur');
+
+    cy.wait('@postSignalPublic');
+
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 

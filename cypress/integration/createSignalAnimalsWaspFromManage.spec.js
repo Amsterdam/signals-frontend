@@ -22,12 +22,15 @@ describe('Create signal from incident management, animals', () => {
     cy.openMenu();
     cy.contains('Melden').click();
     cy.checkHeaderText('Beschrijf uw melding');
+
+    // Use visitfetch to open url, this enables Cypress to intercept fetch protocol
+    cy.visitFetch('incident/beschrijf');
   });
 
   it('Should search for an address', () => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAddressRoute('1012GX 23');
+    cy.getAddressRoute();
 
     // Check URL
     cy.url().should('include', '/incident/beschrijf');
@@ -44,9 +47,7 @@ describe('Create signal from incident management, animals', () => {
 
     // Select found item  
     createSignal.selectAddress('Oudekerksplein 23, 1012GX Amsterdam');
-    cy.wait('@lookup')
-      .wait('@location')
-      .wait('@geoSearchLocation');
+    cy.wait('@geoSearchLocation');
   });
 
   it('Should enter signal details', () => {
@@ -121,21 +122,23 @@ describe('Create signal from incident management, animals', () => {
     // Check h1
     cy.checkHeaderText('Controleer uw gegevens');
 
-    // Check if map is visible
-    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
+    // Check if map and marker are visible
+    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
 
     // Check information provided by user
     cy.contains('Oudekerksplein 23, 1012GX Amsterdam').should('be.visible');
     cy.contains('Er is een wespennest bij de hoofdingang van de Oude kerk');
-
-    // Check marker on map
-    cy.get(CREATE_SIGNAL.imageAddressMarker).find("img").should('be.visible');
-
-    // Click on next
-    cy.clickButton('Verstuur');
   });
 
   it('Should show the last screen', () => {
+    cy.server();
+    cy.postSignalRoutePrivate();
+
+    cy.clickButton('Verstuur');
+
+    cy.wait('@postSignalPrivate');
+
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 

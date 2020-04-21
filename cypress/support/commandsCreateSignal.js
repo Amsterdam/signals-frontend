@@ -1,14 +1,14 @@
 // General functionns for creating a signal
 export const searchAddress = address => {
-  cy.get('#nlmaps-geocoder-control-input')
+  cy.get('[data-testid=autoSuggest]')
     .type(address, { delay: 60 });
 };
 
 export const selectAddress = address => {
-  cy.get('#nlmaps-geocoder-control-results')
+  cy.get('[data-testid=suggestList] ')
     .should('be.visible')
     .and('contain.text', address)
-    .click();
+    .trigger('click');
 };
 
 export const inputDescription = description => {
