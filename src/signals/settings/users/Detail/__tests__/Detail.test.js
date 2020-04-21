@@ -8,7 +8,7 @@ import configuration from 'shared/services/configuration/configuration';
 
 import routes from 'signals/settings/routes';
 
-import userJSON from 'utils/__tests__/fixtures/userNew.json';
+import userJSON from 'utils/__tests__/fixtures/user.json';
 import rolesJson from 'utils/__tests__/fixtures/roles.json';
 import departmentsJson from 'utils/__tests__/fixtures/departments.json';
 import inputCheckboxRolesSelectorJson from
