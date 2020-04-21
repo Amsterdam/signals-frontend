@@ -76,6 +76,14 @@ describe('signals/incident-management/components/FilterForm', () => {
     });
   });
 
+  it('should check all checkboxes on the first group and not trigger an error', () => {
+    const { getAllByTestId } = render(withAppContext(<FilterForm {...formProps} />));
+
+    getAllByTestId('checkboxList')[0].querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      act(() => { fireEvent.click(checkbox); });
+    });
+  });
+
   it('should not rerender checkbox list group when state changes', () => {
     const { rerender, queryByTestId } = render(withAppContext(<FilterForm {...formProps} dataLists={dataLists} />));
 
