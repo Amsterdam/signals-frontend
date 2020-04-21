@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useMemo, useCallback, useReducer } from 'react'
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
+import cloneDeep from 'lodash.clonedeep';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
 
@@ -41,7 +42,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
 
   const isNewFilter = !filter.name;
 
-  const initialFormState = useMemo(() => init(filter), [filter]);
+  const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
 
   const currentState = useMemo(
     () => ({
