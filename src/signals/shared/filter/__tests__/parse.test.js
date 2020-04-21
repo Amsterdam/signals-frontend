@@ -1,45 +1,31 @@
 import priorityList from 'signals/incident-management/definitions/priorityList';
-import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import categories from 'utils/__tests__/fixtures/categories_private.json';
 import { filterForSub, filterForMain } from 'models/categories/selectors';
+import dataLists from 'signals/incident-management/definitions';
 
-import {
-  parseOutputFormData,
-  parseInputFormData,
-  parseToAPIData,
-} from '../parse';
+import { parseOutputFormData, parseInputFormData, parseToAPIData } from '../parse';
 
 const filteredSubCategories = categories.results.filter(filterForSub);
 const filteredMainCategories = categories.results.filter(filterForMain);
 
-describe('signals/shared/parse', () => {
-  const dataLists = {
-    stadsdeel: stadsdeelList,
-    maincategory_slug: filteredMainCategories,
-    priority: priorityList,
-    status: statusList,
-    category_slug: filteredSubCategories,
-  };
-
+describe('signals/shared/filter/parse', () => {
   describe('parseOutputFormData', () => {
     it('should parse output FormData', () => {
       const mainCategories = filteredMainCategories.filter(
-        ({ slug }) =>
-          slug === 'afval' || slug === 'wegen-verkeer-straatmeubilair'
+        ({ slug }) => slug === 'afval' || slug === 'wegen-verkeer-straatmeubilair'
       );
       const subCategories = filteredSubCategories.filter(
         ({ slug }) => slug === 'drijfvuil' || slug === 'maaien-snoeien'
       );
-      const stadsdeel = stadsdeelList.filter(
-        ({ key }) => key === 'A' || key === 'B'
-      );
+      const stadsdeel = stadsdeelList.filter(({ key }) => key === 'A' || key === 'B');
 
       const formState = {
         unparsed_key: 'Not parsed',
         maincategory_slug: mainCategories,
         category_slug: subCategories,
         stadsdeel,
+        contact_details: [dataLists.contact_details[0]],
       };
 
       const expected = {
@@ -47,6 +33,7 @@ describe('signals/shared/parse', () => {
         maincategory_slug: mainCategories.map(({ slug }) => slug),
         category_slug: subCategories.map(({ slug }) => slug),
         stadsdeel: stadsdeel.map(({ key }) => key),
+        contact_details: [dataLists.contact_details[0].key],
       };
 
       const parsedOutput = parseOutputFormData(formState);
@@ -112,6 +99,10 @@ describe('signals/shared/parse', () => {
       },
     };
 
+    const maincategory_slug = filteredMainCategories.filter(({ slug }) => slug === 'afval');
+
+    const category_slug = filteredSubCategories.filter(({ slug }) => subSlugs.includes(slug));
+
     const output = {
       name: 'Afval in Westpoort',
       options: {
@@ -122,23 +113,32 @@ describe('signals/shared/parse', () => {
           },
         ],
         address_text: '',
-        maincategory_slug: filteredMainCategories.filter(
-          ({ slug }) => slug === 'afval'
-        ),
-        category_slug: filteredSubCategories.filter(
-          ({ slug }) => subSlugs.includes(slug)
-        ),
+        maincategory_slug,
+        category_slug,
       },
     };
 
     it('should parse input FormData', () => {
-      const parsedInput = parseInputFormData(input, dataLists);
+      expect(parseInputFormData(input)).toEqual({
+        name: 'Afval in Westpoort',
+        options: {
+          stadsdeel: [
+            {
+              key: 'B',
+              value: 'Westpoort',
+            },
+          ],
+          address_text: '',
+          maincategory_slug: [],
+          category_slug: [],
+        },
+      });
 
-      expect(parsedInput).toEqual(output);
+      expect(parseInputFormData(input, { maincategory_slug, category_slug })).toEqual(output);
     });
 
     it('should return an empty object', () => {
-      expect(parseInputFormData({}, dataLists)).toEqual({ options: {} });
+      expect(parseInputFormData({}, { maincategory_slug, category_slug })).toEqual({ options: {} });
       expect(parseInputFormData({ options: {} }, dataLists)).toEqual({
         options: {},
       });
@@ -149,8 +149,8 @@ describe('signals/shared/parse', () => {
       // retrieved from the API. However, there can still be stored filters with those
       // inactive categories.
       const inactiveSlug = 'autom-verzinkbare-palen';
-      const category_slug = dataLists.category_slug.filter(({ slug }) => slug !== inactiveSlug);
-      const parsedInput = parseInputFormData(input, { ...dataLists, category_slug });
+      const catSlug = category_slug.filter(({ slug }) => slug !== inactiveSlug);
+      const parsedInput = parseInputFormData(input, { maincategory_slug, category_slug: catSlug });
       const outputSlugs = parsedInput.options.category_slug.map(({ slug }) => slug);
 
       expect(outputSlugs).not.toContain(inactiveSlug);

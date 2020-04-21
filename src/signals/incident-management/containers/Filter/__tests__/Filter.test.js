@@ -2,26 +2,15 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 import FilterForm from 'signals/incident-management/components/FilterForm';
-import * as definitions from 'signals/incident-management/definitions';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import Filter, { FilterContainerComponent } from '..';
 
-jest.mock('models/categories/selectors', () => {
+jest.mock('models/categories/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/categories/selectors'),
   // eslint-disable-next-line global-require
-  const structuredCategories = require('utils/__tests__/fixtures/categories_structured.json');
-  return {
-    __esModule: true,
-    ...jest.requireActual('models/categories/selectors'),
-    makeSelectStructuredCategories: jest.fn(() => structuredCategories),
-  };
-});
-
-const dataLists = {
-  priority: definitions.priorityList,
-  status: definitions.statusList,
-  feedback: definitions.feedbackList,
-  stadsdeel: definitions.stadsdeelList,
-};
+  makeSelectStructuredCategories: () => require('utils/__tests__/fixtures/categories_structured.json'),
+}));
 
 describe('signals/incident-management/containers/Filter', () => {
   const handlers = {
@@ -35,9 +24,7 @@ describe('signals/incident-management/containers/Filter', () => {
 
     const props = tree.find(FilterContainerComponent).props();
 
-    expect(props.dataLists).not.toBeUndefined();
     expect(props.filter).not.toBeUndefined();
-    expect(props.categories).not.toBeUndefined();
   });
 
   it('should have props from action creator', () => {
@@ -86,7 +73,6 @@ describe('signals/incident-management/containers/Filter', () => {
             onSaveFilter={() => { }}
             onUpdateFilter={() => { }}
             filter={filter}
-            dataLists={dataLists}
             categories={categories}
             {...handlers}
             onSubmit={onSubmit}
@@ -112,7 +98,6 @@ describe('signals/incident-management/containers/Filter', () => {
             onSaveFilter={() => { }}
             onUpdateFilter={() => { }}
             filter={filter}
-            dataLists={dataLists}
             categories={categories}
             onSubmit={onSubmit}
             onCancel={onCancel}

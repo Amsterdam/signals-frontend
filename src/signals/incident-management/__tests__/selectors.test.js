@@ -1,12 +1,10 @@
 import { fromJS } from 'immutable';
-import * as definitions from 'signals/incident-management/definitions';
 import {
   mainCategories as maincategory_slug,
   subCategories as category_slug,
 } from 'utils/__tests__/fixtures';
 import {
   makeSelectFilterParams,
-  makeSelectDataLists,
   makeSelectAllFilters,
   makeSelectActiveFilter,
   makeSelectEditFilter,
@@ -18,15 +16,6 @@ import {
 import { FILTER_PAGE_SIZE } from '../constants';
 
 import { initialState } from '../reducer';
-
-const dataLists = {
-  priority: definitions.priorityList,
-  status: definitions.statusList,
-  feedback: definitions.feedbackList,
-  stadsdeel: definitions.stadsdeelList,
-  source: definitions.sourceList,
-  contact_details: definitions.contactDetailsList,
-};
 
 const filters = [
   {
@@ -68,22 +57,10 @@ const filters = [
 ];
 
 describe('signals/incident-management/selectors', () => {
-  it('should select data lists', () => {
-    expect(makeSelectDataLists()).toEqual({
-      priority: definitions.priorityList,
-      stadsdeel: definitions.stadsdeelList,
-      status: definitions.statusList,
-      feedback: definitions.feedbackList,
-      source: definitions.sourceList,
-      contact_details: definitions.contactDetailsList,
-    });
-  });
-
   it('should select all filters', () => {
     const state = fromJS({ ...initialState.toJS(), filters });
     const allFilters = makeSelectAllFilters.resultFunc(
       state,
-      dataLists,
       maincategory_slug,
       category_slug
     );
@@ -101,7 +78,6 @@ describe('signals/incident-management/selectors', () => {
     expect(
       makeSelectActiveFilter.resultFunc(
         initialState,
-        dataLists,
         maincategory_slug,
         category_slug
       )
@@ -112,7 +88,6 @@ describe('signals/incident-management/selectors', () => {
     expect(
       makeSelectActiveFilter.resultFunc(
         state,
-        dataLists,
         maincategory_slug,
         category_slug
       ).id
@@ -123,7 +98,6 @@ describe('signals/incident-management/selectors', () => {
     expect(
       makeSelectEditFilter.resultFunc(
         initialState,
-        dataLists,
         maincategory_slug,
         category_slug
       )
@@ -134,7 +108,6 @@ describe('signals/incident-management/selectors', () => {
     expect(
       makeSelectEditFilter.resultFunc(
         state,
-        dataLists,
         maincategory_slug,
         category_slug
       ).id
