@@ -76,6 +76,23 @@ describe('signals/incident-management/components/FilterForm', () => {
     });
   });
 
+  it('should not rerender checkbox list group when state changes', () => {
+    const { rerender, queryByTestId } = render(withAppContext(<FilterForm {...formProps} dataLists={dataLists} />));
+
+    const firstRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
+
+    rerender(withAppContext(<FilterForm {...formProps} dataLists={dataLists} />));
+
+    const secondRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
+
+    rerender(withAppContext(<FilterForm {...formProps} dataLists={dataLists} />));
+
+    const thirdRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
+
+    expect(firstRenderId).toEqual(secondRenderId);
+    expect(secondRenderId).toEqual(thirdRenderId);
+  });
+
   it('should render a list of priority options', () => {
     const { container } = render(withAppContext(<FilterForm {...formProps} />));
 

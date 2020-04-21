@@ -200,7 +200,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   return (
     <Form action="" novalidate>
       <ControlsWrapper>
-        {state.filter.id && <input type="hidden" name="id" value={state.filter.id} />}
+        {filter.id && (
+          <input type="hidden" name="id" value={filter.id} />
+        )}
         <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
@@ -209,7 +211,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           </Label>
           <div className="invoer">
             <input
-              value={state.filter.name}
+              value={initialFormState.name}
               id="filter_name"
               name="name"
               onChange={onNameChange}
@@ -223,7 +225,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           </Label>
           <div className="antwoord">
             <input
-              defaultChecked={state.filter.refresh}
+              defaultChecked={initialFormState.refresh}
               id="filter_refresh"
               name="refresh"
               onClick={onRefreshChange}
@@ -239,7 +241,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           <legend>Filter parameters</legend>
 
           <CheckboxGroup
-            defaultValue={state.options.status}
+            defaultValue={initialFormState.options.status}
             label="Status"
             name="status"
             onChange={onGroupChange}
@@ -248,7 +250,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={state.options.stadsdeel}
+            defaultValue={initialFormState.options.stadsdeel}
             label="Stadsdeel"
             name="stadsdeel"
             onChange={onGroupChange}
@@ -257,7 +259,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={state.options.priority}
+            defaultValue={initialFormState.options.priority}
             hasToggle={false}
             label="Urgentie"
             name="priority"
@@ -267,7 +269,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={state.options.type}
+            defaultValue={initialFormState.options.type}
             hasToggle={false}
             label="Type"
             name="type"
@@ -277,7 +279,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={state.options.contact_details}
+            defaultValue={initialFormState.options.contact_details}
             hasToggle={false}
             label="Contact"
             name="contact_details"
@@ -287,7 +289,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <RadioGroup
-            defaultValue={state.options.feedback}
+            defaultValue={initialFormState.options.feedback}
             label="Feedback"
             name="feedback"
             onChange={onRadioChange}
@@ -330,13 +332,13 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="address_text"
               id="filter_address"
               onBlur={onAddressChange}
-              defaultValue={state.options.address_text}
+              defaultValue={initialFormState.options.address_text}
               type="text"
             />
           </FilterGroup>
 
           <CheckboxGroup
-            defaultValue={state.options.source}
+            defaultValue={initialFormState.options.source}
             label="Bron"
             name="source"
             onChange={onGroupChange}
