@@ -1,5 +1,7 @@
 import { fromJS } from 'immutable';
 
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
+
 import {
   APPLY_FILTER,
   CLEAR_EDIT_FILTER,
@@ -17,8 +19,6 @@ import {
   SEARCH_INCIDENTS_ERROR,
   SEARCH_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
-  SET_SEARCH_QUERY,
-  RESET_SEARCH_QUERY,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
 } from './constants';
@@ -141,15 +141,13 @@ export default (state = initialState, action) => {
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
         .set('loading', true)
-        .set('page', initialState.get('page'))
-        .set('searchQuery', action.payload);
+        .set('page', initialState.get('page'));
 
     case RESET_SEARCH_QUERY:
       return state
         .set('loading', true)
         .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'))
-        .set('searchQuery', initialState.get('searchQuery'));
+        .set('page', initialState.get('page'));
 
     default:
       return state;

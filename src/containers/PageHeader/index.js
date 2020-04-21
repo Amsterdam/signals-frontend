@@ -10,8 +10,8 @@ import PageHeader from 'components/PageHeader';
 import {
   makeSelectActiveFilter,
   makeSelectIncidentsCount,
-  makeSelectSearchQuery,
 } from 'signals/incident-management/selectors';
+import { makeSelectSearchQuery } from 'containers/App/selectors';
 
 import Refresh from '../../shared/images/icon-refresh.svg';
 

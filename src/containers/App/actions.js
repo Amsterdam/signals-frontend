@@ -11,6 +11,8 @@ import {
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
+  SET_SEARCH_QUERY,
+  RESET_SEARCH_QUERY,
 } from './constants';
 
 export const loginFailed = payload => ({
@@ -68,4 +70,14 @@ export const uploadSuccess = () => ({
 
 export const uploadFailure = () => ({
   type: UPLOAD_FAILURE,
+});
+
+
+export const setSearchQuery = payload => ({
+  type: SET_SEARCH_QUERY,
+  payload,
+});
+
+export const resetSearchQuery = () => ({
+  type: RESET_SEARCH_QUERY,
 });

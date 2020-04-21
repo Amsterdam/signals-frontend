@@ -17,13 +17,11 @@ import {
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
-  RESET_SEARCH_QUERY,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
   SAVE_FILTER,
   SEARCH_INCIDENTS_ERROR,
   SEARCH_INCIDENTS_SUCCESS,
-  SET_SEARCH_QUERY,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
   UPDATE_FILTER,
@@ -136,15 +134,6 @@ export const applyFilterRefresh = () => ({
 
 export const applyFilterRefreshStop = () => ({
   type: APPLY_FILTER_REFRESH_STOP,
-});
-
-export const setSearchQuery = payload => ({
-  type: SET_SEARCH_QUERY,
-  payload,
-});
-
-export const resetSearchQuery = () => ({
-  type: RESET_SEARCH_QUERY,
 });
 
 export const searchIncidents = () => ({
