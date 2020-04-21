@@ -1,12 +1,6 @@
 import { fromJS } from 'immutable';
 
 import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
-import priority from './definitions/priorityList';
-import stadsdeel from './definitions/stadsdeelList';
-import status from './definitions/statusList';
-import feedback from './definitions/feedbackList';
-import source from './definitions/sourceList';
-import contact_details from './definitions/contactDetailsList';
 
 import {
   APPLY_FILTER,
@@ -42,7 +36,6 @@ export const initialState = fromJS({
     options: {
     },
   },
-  feedback,
   filters: [],
   incidents: {
     count: undefined,
@@ -51,12 +44,7 @@ export const initialState = fromJS({
   loading: false,
   ordering: '-created_at',
   page: 1,
-  priority,
   searchQuery: '',
-  source,
-  stadsdeel,
-  status,
-  contact_details,
 });
 
 export default (state = initialState, action) => {

@@ -1,6 +1,8 @@
 import clonedeep from 'lodash.clonedeep';
 import moment from 'moment';
 
+import dataLists from 'signals/incident-management/definitions';
+
 const arrayFields = [
   'stadsdeel',
   'maincategory_slug',
@@ -9,6 +11,7 @@ const arrayFields = [
   'source',
   'priority',
   'contact_details',
+  'type',
 ];
 
 /**
@@ -30,28 +33,23 @@ export const parseOutputFormData = options =>
         entryValue = value.map(({ slug }) => slug);
         break;
 
-      case 'stadsdeel':
-      case 'source':
-      case 'status':
-      case 'priority':
       case 'contact_details':
+      case 'priority':
+      case 'source':
+      case 'stadsdeel':
+      case 'status':
+      case 'type':
         entryValue = value.map(({ key: itemKey }) => itemKey);
         break;
 
       case 'created_after':
-        if (
-          moment(options.created_after, 'YYYY-MM-DD').toISOString() !== null
-        ) {
-          entryValue = moment(options.created_after).format(
-            'YYYY-MM-DDT00:00:00'
-          );
+        if (moment(options.created_after, 'YYYY-MM-DD').toISOString() !== null) {
+          entryValue = moment(options.created_after).format('YYYY-MM-DDT00:00:00');
         }
         break;
 
       case 'created_before':
-        if (
-          moment(options.created_before, 'YYYY-MM-DD').toISOString() !== null
-        ) {
+        if (moment(options.created_before, 'YYYY-MM-DD').toISOString() !== null) {
           entryValue = moment(options.created_before)
             .set({ hours: 23, minutes: 59, seconds: 59 })
             .format('YYYY-MM-DDTHH:mm:ss');
@@ -63,9 +61,7 @@ export const parseOutputFormData = options =>
     }
 
     // make sure we do not return values that are either an 0-length string or an empty array
-    return entryValue && entryValue.length
-      ? { ...acc, [key]: entryValue }
-      : acc;
+    return entryValue && entryValue.length ? { ...acc, [key]: entryValue } : acc;
   }, {});
 
 /**
@@ -75,11 +71,12 @@ export const parseOutputFormData = options =>
  *
  * @param   {Object} filterData - Data to be passed on to the form
  * @param   {Object} filterData.options - options key/value object
- * @param   {Object} dataLists - collection of fixtures that is used to enrich the filter data with
+ * @param   {Object} [fixtureData={}] - collection of fixtures that is used to enrich the filter data with
  * @returns {Object}
  */
-export const parseInputFormData = (filterData, dataLists) => {
+export const parseInputFormData = (filterData, fixtureData = {}) => {
   const options = clonedeep(filterData.options || {});
+  const fields = { ...dataLists, ...fixtureData };
 
   if (Object.keys(options).length) {
     // replace string entries in filter data with objects from dataLists
@@ -87,11 +84,7 @@ export const parseInputFormData = (filterData, dataLists) => {
       .filter(fieldName => arrayFields.includes(fieldName))
       .forEach(fieldName => {
         options[fieldName] = options[fieldName]
-          .map(value =>
-            dataLists[fieldName].find(
-              ({ key, slug }) => key === value || slug === value
-            )
-          )
+          .map(value => fields[fieldName] && fields[fieldName].find(({ key, slug }) => key === value || slug === value))
           .filter(Boolean);
       });
   }
@@ -108,9 +101,7 @@ export const parseToAPIData = filterData => {
   Object.keys(options)
     .filter(fieldName => arrayFields.includes(fieldName))
     .forEach(fieldName => {
-      options[fieldName] = options[fieldName].map(
-        ({ slug, key }) => slug || key
-      );
+      options[fieldName] = options[fieldName].map(({ slug, key }) => slug || key);
     });
 
   return { ...filterData, options };
