@@ -1,4 +1,4 @@
-import { SET_LOCATION, SET_ADDRESS, SET_VALUES } from './constants';
+import { RESET_LOCATION, SET_LOCATION, SET_ADDRESS, SET_VALUES } from './constants';
 
 export const initialState = {
   address: {
@@ -18,6 +18,12 @@ export const initialState = {
 
 export default (state, action) => {
   switch (action.type) {
+    case RESET_LOCATION:
+      return {
+        ...state,
+        location: initialState.location,
+      };
+
     case SET_LOCATION:
       return {
         ...state,

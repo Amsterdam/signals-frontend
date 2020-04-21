@@ -34,7 +34,7 @@ const MapPreview = ({ label, value }) => {
           {value && (
             <ItemWrapper>
               <div>{value?.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>
-              {latitude && longitude && <MapStatic width={640} {...geometry} />}
+              {latitude && longitude && <MapStatic width={640} height={200} {...geometry} />}
             </ItemWrapper>
           )}
         </Column>
