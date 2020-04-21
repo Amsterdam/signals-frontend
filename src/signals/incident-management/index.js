@@ -10,11 +10,11 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { fetchCategories } from 'models/categories/actions';
 import useLocationReferrer from 'hooks/useLocationReferrer';
+import { makeSelectSearchQuery } from 'containers/App/selectors';
 
 import LoginPage from 'components/LoginPage';
 
 import IncidentOverviewPage from './containers/IncidentOverviewPage';
-import { makeSelectSearchQuery } from './selectors';
 import { getFilters, searchIncidents, requestIncidents } from './actions';
 import IncidentDetail from './containers/IncidentDetail';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';

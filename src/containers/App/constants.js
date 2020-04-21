@@ -18,3 +18,6 @@ export const UPLOAD_REQUEST = 'sia/App/UPLOAD_REQUEST';
 export const UPLOAD_PROGRESS = 'sia/App/UPLOAD_PROGRESS';
 export const UPLOAD_SUCCESS = 'sia/App/UPLOAD_SUCCESS';
 export const UPLOAD_FAILURE = 'sia/App/UPLOAD_FAILURE';
+
+export const SET_SEARCH_QUERY = 'sia/App/SET_SEARCH_QUERY';
+export const RESET_SEARCH_QUERY = 'sia/App/RESET_SEARCH_QUERY';
