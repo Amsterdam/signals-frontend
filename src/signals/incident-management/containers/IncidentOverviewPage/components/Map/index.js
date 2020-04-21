@@ -185,7 +185,8 @@ const OverviewMap = ({ ...rest }) => {
         mapOptions={{
           ...MAP_OPTIONS,
           maxZoom: 16,
-          minZoom: 8,
+          minZoom: 7,
+          zoom: 7,
         }}
         setInstance={setMap}
       >
