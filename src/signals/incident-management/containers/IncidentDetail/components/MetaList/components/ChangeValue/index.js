@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import React, { Fragment, useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
@@ -23,10 +23,6 @@ const CancelButton = styled(Button)`
   margin-top: -${themeSpacing(2)};
 `;
 
-const form = FormBuilder.group({
-  input: ['', Validators.required],
-});
-
 const ChangeValue = ({
   component,
   disabled,
@@ -42,6 +38,14 @@ const ChangeValue = ({
   valuePath,
 }) => {
   const [showForm, setShowForm] = useState(false);
+
+  const form = useMemo(
+    () =>
+      FormBuilder.group({
+        input: ['', Validators.required],
+      }),
+    []
+  );
 
   const handleSubmit = useCallback(
     event => {
@@ -60,13 +64,13 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [incident.id, patch, path, type, onPatchIncident]
+    [incident.id, patch, path, type, onPatchIncident, form]
   );
 
   const handleCancel = useCallback(() => {
     form.reset();
     setShowForm(false);
-  }, []);
+  }, [form]);
 
   const handleKeyUp = useCallback(
     event => {
@@ -88,7 +92,7 @@ const ChangeValue = ({
 
     form.controls.input.setValue(value);
     setShowForm(true);
-  }, [incident, valuePath, path]);
+  }, [incident, valuePath, path, form]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);

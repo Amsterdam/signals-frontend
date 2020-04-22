@@ -35,7 +35,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
         Locatie wijzigen
       </EditButton>
 
-      <StyledMap value={location} zoom={14} icon={markerIcon} hasZoomControls />
+      <StyledMap value={location} icon={markerIcon} hasZoomControls zoom={11} />
     </StyledColumn>
   </Wrapper>
 );

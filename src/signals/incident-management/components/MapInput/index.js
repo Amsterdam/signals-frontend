@@ -18,6 +18,7 @@ export const MapInput = props => {
     const mapOptions = {
       ...MAP_OPTIONS,
       center: (lat && lng) ? [lat, lng] : [...MAP_OPTIONS.center],
+      zoom: 11,
     };
 
     const onLocationChange = location => {

@@ -9,7 +9,7 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import History from 'components/History';
 import useFetch from 'hooks/useFetch';
 
-import './style.scss';
+// import './style.scss';
 
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
