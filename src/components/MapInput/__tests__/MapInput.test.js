@@ -178,8 +178,6 @@ describe('components/MapInput', () => {
     });
   });
 
-  // it('should ')
-
   it('should handle click when a location has no address', async () => {
     const onChange = jest.fn();
     const noneFoundResponse = {
