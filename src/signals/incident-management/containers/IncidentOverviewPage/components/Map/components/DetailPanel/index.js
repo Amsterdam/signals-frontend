@@ -9,7 +9,7 @@ import { INCIDENT_URL } from 'signals/incident-management/routes';
 const Panel = styled.div`
   padding: 12px;
   background: white;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  outline: 2px solid rgba(0, 0, 0, 0.1);
   z-index: 401;
   display: flex;
   align-items: center;
