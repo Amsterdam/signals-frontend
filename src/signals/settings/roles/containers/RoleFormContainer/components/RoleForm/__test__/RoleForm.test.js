@@ -27,11 +27,14 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   });
 
   it('should render correctly', () => {
-    const { container, queryByTestId } = render(withAppContext(<RoleForm {...props} />));
+    const { container, queryByTestId } = render(
+      withAppContext(<RoleForm {...props} />)
+    );
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('Behandelaar');
 
-    expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(16);
+    expect(container.querySelectorAll('input[type="checkbox"]').length)
+      .toBe(roles.permissions.length);
 
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBe(6);
   });
@@ -56,13 +59,13 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     const event = {
       target: {
-        value: 'nieuwe behandelaars',
+        value: 'nieuwe Behandelaar',
       },
     };
     fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue(
-      'nieuwe behandelaars'
+      'nieuwe Behandelaar'
     );
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
 
@@ -75,7 +78,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     const event = {
       target: {
-        value: 'behandelaars',
+        value: 'Behandelaar',
       },
     };
 
@@ -87,7 +90,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
-      name: 'behandelaars',
+      name: 'Behandelaar',
       permission_ids: [110, 164, 162, 163, 161, 111],
     });
   });
@@ -97,7 +100,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     const event = {
       target: {
-        value: 'behandelaars',
+        value: 'Behandelaar',
       },
     };
 
@@ -120,7 +123,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     const event = {
       target: {
-        value: 'nieuwe behandelaars',
+        value: 'nieuwe Behandelaar',
       },
     };
 
@@ -130,7 +133,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 
     expect(props.onSaveRole).toHaveBeenCalledWith({
-      name: 'nieuwe behandelaars',
+      name: 'nieuwe Behandelaar',
       permission_ids: [],
     });
   });
@@ -146,7 +149,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     const event = {
       target: {
-        value: 'nieuwe behandelaars',
+        value: 'nieuwe Behandelaar',
       },
     };
 
