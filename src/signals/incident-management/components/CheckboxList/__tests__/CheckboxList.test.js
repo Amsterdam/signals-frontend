@@ -498,6 +498,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
   });
 
   it('should fire the right amount of events with onToggle set and unset', () => {
+    jest.useFakeTimers();
     const onChangeMock = jest.fn();
     const onToggleMock = jest.fn();
 
@@ -517,12 +518,16 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     );
 
+    jest.runOnlyPendingTimers();
+
     expect(onChangeMock).not.toHaveBeenCalled();
     expect(onToggleMock).not.toHaveBeenCalled();
 
     for (const checkbox of container.querySelectorAll('input[type="checkbox"]').values()) {
       act(() => { fireEvent.click(checkbox); });
     }
+
+    jest.runOnlyPendingTimers();
 
     // since the onToggle prop has been defined it should call it
     // when all the checkboxes have been selected
@@ -550,6 +555,8 @@ describe('signals/incident-management/components/CheckboxList', () => {
     for (const checkbox of container.querySelectorAll('input[type="checkbox"]').values()) {
       act(() => { fireEvent.click(checkbox); });
     }
+
+    jest.runAllTimers();
 
     // since the onToggle prop has not been defined it should call the onChange event
     // on every checkbox selection
