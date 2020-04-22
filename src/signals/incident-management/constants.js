@@ -28,9 +28,6 @@ export const SAVE_FILTER = 'sia/incidentManagement/SAVE_FILTER';
 export const SAVE_FILTER_FAILED = 'sia/incidentManagement/SAVE_FILTER_FAILED';
 export const SAVE_FILTER_SUCCESS = 'sia/incidentManagement/SAVE_FILTER_SUCCESS';
 
-export const SET_SEARCH_QUERY = 'sia/incidentManagement/SET_SEARCH_QUERY';
-export const RESET_SEARCH_QUERY = 'sia/incidentManagement/RESET_SEARCH_QUERY';
-
 export const UPDATE_FILTER = 'sia/incidentManagement/UPDATE_FILTER';
 export const UPDATE_FILTER_FAILED = 'sia/incidentManagement/UPDATE_FILTER_FAILED';
 export const UPDATE_FILTER_SUCCESS = 'sia/incidentManagement/UPDATE_FILTER_SUCCESS';

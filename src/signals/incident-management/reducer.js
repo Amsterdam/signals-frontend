@@ -1,11 +1,6 @@
 import { fromJS } from 'immutable';
 
-import priority from './definitions/priorityList';
-import stadsdeel from './definitions/stadsdeelList';
-import status from './definitions/statusList';
-import feedback from './definitions/feedbackList';
-import source from './definitions/sourceList';
-import contact_details from './definitions/contactDetailsList';
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 
 import {
   APPLY_FILTER,
@@ -24,8 +19,6 @@ import {
   SEARCH_INCIDENTS_ERROR,
   SEARCH_INCIDENTS_SUCCESS,
   REQUEST_INCIDENTS,
-  SET_SEARCH_QUERY,
-  RESET_SEARCH_QUERY,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
 } from './constants';
@@ -43,7 +36,6 @@ export const initialState = fromJS({
     options: {
     },
   },
-  feedback,
   filters: [],
   incidents: {
     count: undefined,
@@ -52,12 +44,7 @@ export const initialState = fromJS({
   loading: false,
   ordering: '-created_at',
   page: 1,
-  priority,
   searchQuery: '',
-  source,
-  stadsdeel,
-  status,
-  contact_details,
 });
 
 export default (state = initialState, action) => {
@@ -154,15 +141,13 @@ export default (state = initialState, action) => {
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
         .set('loading', true)
-        .set('page', initialState.get('page'))
-        .set('searchQuery', action.payload);
+        .set('page', initialState.get('page'));
 
     case RESET_SEARCH_QUERY:
       return state
         .set('loading', true)
         .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'))
-        .set('searchQuery', initialState.get('searchQuery'));
+        .set('page', initialState.get('page'));
 
     default:
       return state;
