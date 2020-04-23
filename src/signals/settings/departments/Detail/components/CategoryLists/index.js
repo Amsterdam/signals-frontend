@@ -4,11 +4,7 @@ import styled from 'styled-components';
 import { Row, themeSpacing } from '@datapunt/asc-ui';
 import isEqual from 'lodash.isequal';
 
-import {
-  ControlsWrapper,
-  Fieldset,
-  Form,
-} from 'signals/incident-management/components/FilterForm/styled';
+import { ControlsWrapper, Fieldset, Form } from 'signals/incident-management/components/FilterForm/styled';
 import Label from 'components/Label';
 import FormFooter from 'components/FormFooter';
 
@@ -28,24 +24,21 @@ const StyledFieldset = styled(Fieldset)`
 `;
 
 /**
- * Component that renders two columns of checkboxes from the value of the
- * `subCategories` prop. Categories are grouped by their parent category.
- * Checkboxes in the `is_responsible` column have a one-on-one relation with
- * the checkboxes in the `can_view` column, meaning that when a `is_responsible`
- * checkbox is ticked, the corresponding checkbox in the `can_view` column is
- * also ticked and disabled. This doesn't go the other way around.
+ * Component that renders two columns of checkboxes from the value of the `subCategories` prop. Categories are grouped
+ * by their parent category.
+ * Checkboxes in the `is_responsible` column have a one-on-one relation with the checkboxes in the `can_view` column,
+ * meaning that when a `is_responsible` checkbox is ticked, the corresponding checkbox in the `can_view` column is also
+ * ticked and disabled. This doesn't go the other way around.
  *
  * The tick logic is handled by the component's reducer function.
  */
 const CategoryLists = ({ onCancel, onSubmit }) => {
-  const { categories, department, subCategories } = useContext(
-    DepartmentDetailContext
-  );
+  const { categories, department, subCategories } = useContext(DepartmentDetailContext);
 
-  const categoriesMapped = useMemo(
-    () => incoming(department.categories, subCategories),
-    [department.categories, subCategories]
-  );
+  const categoriesMapped = useMemo(() => incoming(department.categories, subCategories), [
+    department.categories,
+    subCategories,
+  ]);
   const [state, dispatch] = useReducer(reducer, categoriesMapped);
 
   const onSubmitForm = useCallback(
@@ -73,9 +66,7 @@ const CategoryLists = ({ onCancel, onSubmit }) => {
 
   const onChangeIsResponsibleCategories = useCallback(
     (slug, selectedSubCategories) => {
-      dispatch(
-        setIsResponsible({ slug, subCategories: selectedSubCategories })
-      );
+      dispatch(setIsResponsible({ slug, subCategories: selectedSubCategories }));
     },
     [dispatch]
   );
@@ -91,9 +82,7 @@ const CategoryLists = ({ onCancel, onSubmit }) => {
   const onIsResponsibleMainCategoryToggle = useCallback(
     (slug, isToggled) => {
       const selectedSubCategories = isToggled ? categories[slug].sub : [];
-      dispatch(
-        setIsResponsible({ slug, subCategories: selectedSubCategories })
-      );
+      dispatch(setIsResponsible({ slug, subCategories: selectedSubCategories }));
     },
     [categories, dispatch]
   );
