@@ -61,7 +61,7 @@ const AddNote = ({ id, onPatchIncident }) => {
       <section>
         <NewNoteButton
           data-testid="addNoteNewNoteButton"
-          variant="application"
+          variant="primary"
           type="button"
           onClick={() => setShowForm(true)}
         >

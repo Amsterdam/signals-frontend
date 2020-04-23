@@ -8,6 +8,7 @@ import { historyType } from 'shared/types';
 
 const H2 = styled(Heading)`
   ${styles.HeaderStyles} {
+    font-weight: 400;
     margin: ${themeSpacing(2)} 0;
   }
 `;
