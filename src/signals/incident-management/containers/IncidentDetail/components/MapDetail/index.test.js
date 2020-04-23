@@ -24,7 +24,7 @@ describe('<MapDetail />', () => {
     const { container, getByTestId } = render(<MapDetail {...props} />);
 
     // Map
-    expect(getByTestId('map-detail')).toBeInTheDocument();
+    expect(getByTestId('map-base')).toBeInTheDocument();
 
     // Marker
     expect(container.querySelector('.map-marker-select')).toBeInTheDocument();
