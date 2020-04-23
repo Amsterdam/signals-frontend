@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import { Heading, Link as AscLink, themeSpacing, themeColor } from '@datapunt/asc-ui';
 
 import { incidentType } from 'shared/types';
-
-import isVisible from './services/is-visible';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
 const Section = styled.section`
   padding: ${themeSpacing(4, 0)};
@@ -30,42 +29,57 @@ const Section = styled.section`
 const Header = styled.header`
   display: grid;
   position: relative;
-  grid-template-columns: 10fr 2fr;
+  column-gap: ${themeSpacing(5)};
+  grid-template-columns: 4fr 6fr;
 
-  @media (min-width: ${({ theme }) => theme.layouts.big.min}px) {
-    column-gap: ${({ theme }) => theme.layouts.big.gutter}px;
-  }
-
-  @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
-    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-  }
-
-  a {
-    position: absolute;
-    right: 0;
-  }
+  ${() =>
+    isAuthenticated() &&
+    css`
+      @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+        grid-template-columns: 4fr 6fr 2fr;
+      }
+    `}
 `;
 
-const Body = styled.div`
+const LinkContainer = styled.div`
+  text-align: right;
+
+  ${({ absolutePosLink }) =>
+    absolutePosLink &&
+    css`
+      position: relative;
+
+      a {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    `}
+`;
+
+const Ul = styled.ul`
   display: grid;
   grid-row-gap: ${themeSpacing(4)};
+  margin: 0;
+  padding: 0;
 `;
 
-const Dl = styled.div`
+const Li = styled.li`
   display: grid;
+  column-gap: ${themeSpacing(5)};
+  margin: 0;
 
-  @media (min-width: ${({ theme }) => theme.layouts.medium.min}px) {
-    column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
+  @media (min-width: ${({ theme }) => theme.layouts.big.min}px) {
     grid-template-columns: 4fr 6fr;
   }
 
-  @media (min-width: ${({ theme }) => theme.layouts.big.min}px) {
-    column-gap: ${({ theme }) => theme.layouts.big.gutter}px;
-  }
-
-  @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
-    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-  }
+  ${() =>
+    isAuthenticated() &&
+    css`
+      @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+        grid-template-columns: 4fr 6fr 2fr;
+      }
+    `}
 
   dt {
     color: ${themeColor('tint', 'level5')};
@@ -98,34 +112,42 @@ const IncidentPreview = ({ incident, preview }) => (
     {Object.entries(preview).map(([section, value]) => {
       const sectionHeading = heading(section);
       const hasHeading = Boolean(sectionHeading);
+      const visibleEntries = Object.entries(value).filter(([entryKey, { optional, authenticated }]) => {
+        if (authenticated && !isAuthenticated()) {
+          return false;
+        }
+
+        return !optional || (optional && Boolean(incident[entryKey]));
+      });
 
       return (
-        <Section hasHeading={hasHeading} key={section}>
-          <Header>
-            {sectionHeading}
-            <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-              Wijzigen
-            </AscLink>
-          </Header>
+        visibleEntries.length > 0 && (
+          <Section hasHeading={hasHeading} key={section}>
+            <Header>
+              {sectionHeading || <div />}
+              <LinkContainer absolutePosLink={!hasHeading}>
+                <AscLink as={Link} to={`/incident/${section}`} variant="inline">
+                  Wijzigen
+                </AscLink>
+              </LinkContainer>
+            </Header>
 
-          <Body>
-            {Object.entries(value).map(
-              ([itemKey, itemValue]) =>
-                isVisible(incident[itemKey], itemValue) && (
-                  <Dl key={itemKey}>
-                    <dt>{itemValue.label}</dt>
-                    <dd>
-                      {itemValue.render({
-                        ...itemValue,
-                        value: incident[itemKey],
-                        incident,
-                      })}
-                    </dd>
-                  </Dl>
-                )
-            )}
-          </Body>
-        </Section>
+            <Ul>
+              {visibleEntries.map(([itemKey, itemValue]) => (
+                <Li key={itemKey}>
+                  <dt>{itemValue.label}</dt>
+                  <dd>
+                    {itemValue.render({
+                      ...itemValue,
+                      value: incident[itemKey],
+                      incident,
+                    })}
+                  </dd>
+                </Li>
+              ))}
+            </Ul>
+          </Section>
+        )
       );
     })}
   </div>
