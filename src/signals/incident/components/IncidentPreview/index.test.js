@@ -215,10 +215,7 @@ describe('<IncidentPreview />', () => {
       expect(queryByText(incident.listObjectValue[0].label)).toBeInTheDocument();
       expect(queryByText(incident.listObjectValue[1].label)).toBeInTheDocument();
 
-      expect(queryByText(step.datetime.label)).toBeInTheDocument();
       expect(queryByText(incident.datetime.label)).toBeInTheDocument();
-
-      expect(queryByText(step.location.label)).toBeInTheDocument();
       expect(queryByText(incident.location.address_text)).toBeInTheDocument();
     });
   });
