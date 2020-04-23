@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
@@ -16,12 +16,18 @@ import {
   themeColor,
   themeSpacing,
 } from '@datapunt/asc-ui';
+import ConfigContext from 'components/ConfigContext';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 import Notification from 'containers/Notification';
 
 export const breakpoint = 1170;
+
+const getLogo = config => () =>
+  config.logoUrl && (props => (
+    <img alt="Logo" src={config.logoUrl} style={{ height: config.logoHeight }} {...props} />
+  ));
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -274,6 +280,8 @@ export const SiteHeader = props => {
   const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
   const homeLink = tall ? 'https://www.amsterdam.nl' : '/';
+  const config = useContext(ConfigContext);
+  const logo = useMemo(getLogo(config));
 
   const navigation = useMemo(
     () => (
@@ -309,6 +317,7 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
+          logo={logo}
         />
         {!tall && <Notification />}
       </HeaderWrapper>

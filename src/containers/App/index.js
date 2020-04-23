@@ -1,14 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
+import ConfigContext from 'components/ConfigContext';
 import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
+import LoadingIndicator from 'shared/components/LoadingIndicator';
 import NotFoundPage from 'components/NotFoundPage';
 import Footer from 'components/Footer';
 import SiteHeaderContainer from 'containers/SiteHeader';
@@ -23,7 +26,22 @@ import useLocationReferrer from 'hooks/useLocationReferrer';
 import reducer from './reducer';
 import saga from './saga';
 
+const getConfig = async setConfig => {
+  const response = await fetch("/config.json");
+  const config = await response.json();
+  setConfig({
+    ...config,
+    isLoading: false,
+  });
+};
+
 export const AppContainer = ({ resetIncidentAction }) => {
+  const [themeConfig, setThemeConfig] = useState({ isLoading: true });
+
+  useEffect(() => {
+    getConfig(setThemeConfig);
+  }, []);
+
   // on each component render, see if the current session is authenticated
   authenticate();
   const history = useHistory();
@@ -49,24 +67,32 @@ export const AppContainer = ({ resetIncidentAction }) => {
 
   return (
     <ThemeProvider>
-      <Fragment>
-        <SiteHeaderContainer />
+      <ConfigContext.Provider value={themeConfig}>
+        { themeConfig.isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <Fragment>
+            <SiteHeaderContainer />
 
-        <div className="app-container">
-          <Switch>
-            <Redirect exact from="/" to="/incident/beschrijf" />
-            <Redirect exact from="/login" to="/manage" />
-            <Redirect exact from="/manage" to="/manage/incidents" />
-            <Route path="/manage" component={IncidentManagementModule} />
-            <Route path="/instellingen" component={SettingsModule} />
-            <Route path="/incident" component={IncidentContainer} />
-            <Route path="/kto/:yesNo/:uuid" component={KtoContainer} />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </div>
+            <div className="app-container">
+              <div>
+                <Switch>
+                  <Redirect exact from="/" to="/incident/beschrijf" />
+                  <Redirect exact from="/login" to="/manage" />
+                  <Redirect exact from="/manage" to="/manage/incidents" />
+                  <Route path="/manage" component={IncidentManagementModule} />
+                  <Route path="/instellingen" component={SettingsModule} />
+                  <Route path="/incident" component={IncidentContainer} />
+                  <Route path="/kto/:yesNo/:uuid" component={KtoContainer} />
+                  <Route component={NotFoundPage} />
+                </Switch>
+              </div>
+            </div>
 
-        {!isAuthenticated() && <Footer />}
-      </Fragment>
+            {!isAuthenticated() && <Footer />}
+          </Fragment>
+        )}
+      </ConfigContext.Provider>
     </ThemeProvider>
   );
 };
