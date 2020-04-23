@@ -166,7 +166,7 @@ class StatusForm extends React.Component {
           control={this.form}
           render={({ invalid }) => (
             <form onSubmit={this.handleSubmit}>
-              <Row>
+              <Row hasMargin={false}>
                 <StyledColumn span={6}>
                   <StyledH4 forwardedAs="h4">Status wijzigen</StyledH4>
 
