@@ -3,5 +3,6 @@
   "defaultCommandTimeOut": 5000,
   "projectId": "b6phb4",
   "requestTimeout": 15000,
-  "responseTimeout": 15000 
+  "responseTimeout": 15000,
+  "video": false 
 }

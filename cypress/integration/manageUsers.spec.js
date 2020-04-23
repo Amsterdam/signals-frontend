@@ -9,6 +9,7 @@ describe('Filtering', () => {
   it('Should open the manage users screen', () => {
     cy.server();
     cy.getManageSignalsRoutes();
+    cy.route('/signals/v1/private/users/*').as('getUser');
 
     cy.visitFetch('/manage/incidents/');
 
@@ -22,6 +23,7 @@ describe('Filtering', () => {
     cy.contains('Gebruikers').click();
     cy.get('[aria-label="Menu"]').click();
 
+    cy.wait('@getUser');
     cy.url().should('include', '/instellingen/gebruikers/page/1');
   });
 
@@ -70,6 +72,7 @@ describe('Filtering', () => {
     cy.contains('Instellingen').click();
     cy.contains('Gebruikers').click();
     cy.get('[aria-label="Menu"]').click();
+    cy.wait('@getUser');
 
     cy.url().should('include', '/instellingen/gebruikers/page/1');
 
