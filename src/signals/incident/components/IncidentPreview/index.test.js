@@ -1,42 +1,33 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import * as reactRouterDom from 'react-router-dom';
+import { render } from '@testing-library/react';
 
+import { withAppContext } from 'test/utils';
 import PreviewComponents from './components';
 import IncidentPreview from './index';
 import isVisible from './services/is-visible';
 
 jest.mock('./services/is-visible');
 
-jest.mock('react-router-dom', () => ({
-  __esModule: true,
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({}),
-}));
-
 describe('<IncidentPreview />', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      incidentContainer: {
-        incident: {
-          phone: '0666 666 666',
-          email: 'duvel@uiteendoosje.nl',
-        },
+      incident: {
+        phone: '0666 666 666',
+        email: 'duvel@uiteendoosje.nl',
       },
       preview: {
         step1: {
           phone: {
             label: 'Uw (mobiele) telefoon',
-            render: PreviewComponents.PlainText,
+            render: ({ value }) => value,
           },
         },
         step2: {
           email: {
             label: 'Uw e-mailadres',
-            render: PreviewComponents.PlainText,
+            render: ({ value }) => value,
           },
         },
       },
@@ -48,88 +39,85 @@ describe('<IncidentPreview />', () => {
   });
 
   describe('rendering', () => {
-    it('expect to render correctly', () => {
+    it('expect to render correctly', async () => {
       isVisible.mockImplementation(() => true);
-      const { queryByText } = render(
+      const { queryByText, findByTestId } = render(
         withAppContext(<IncidentPreview {...props} />)
       );
 
-      expect(queryByText(props.incidentContainer.incident.phone)).toBeInTheDocument();
+      await findByTestId('incidentPreview');
+
+      expect(queryByText(props.incident.phone)).toBeInTheDocument();
       expect(queryByText(props.preview.step1.phone.label)).toBeInTheDocument();
-      expect(queryByText(props.incidentContainer.incident.email)).toBeInTheDocument();
+      expect(queryByText(props.incident.email)).toBeInTheDocument();
       expect(queryByText(props.preview.step2.email.label)).toBeInTheDocument();
     });
 
-    it('expect to render correctly with invisible items', () => {
-      const { queryByText } = render(
+    it('expect to render correctly with invisible items', async () => {
+      const { queryByText, findByTestId } = render(
         withAppContext(<IncidentPreview {...props} />)
       );
 
-      expect(queryByText(props.incidentContainer.incident.phone)).not.toBeInTheDocument();
+      await findByTestId('incidentPreview');
+
+      expect(queryByText(props.incident.phone)).not.toBeInTheDocument();
       expect(queryByText(props.preview.step1.phone.label)).not.toBeInTheDocument();
-      expect(queryByText(props.incidentContainer.incident.email)).not.toBeInTheDocument();
+      expect(queryByText(props.incident.email)).not.toBeInTheDocument();
       expect(queryByText(props.preview.step2.email.label)).not.toBeInTheDocument();
     });
   });
 
-  it('should trigger new page when clicking button', () => {
+  it('should have links', async () => {
     isVisible.mockImplementation(() => true);
-    const push = jest.fn();
-    jest
-      .spyOn(reactRouterDom, 'useHistory')
-      .mockImplementationOnce(() => ({ push }));
 
-    const { container } = render(
+    const { container, findByTestId } = render(
       withAppContext(<IncidentPreview {...props} />)
     );
-    expect(push).not.toHaveBeenCalled();
 
-    fireEvent.click(
-      container.querySelectorAll('button')[1]
-    );
+    await findByTestId('incidentPreview');
 
-    expect(push).toHaveBeenCalledWith('/incident/step2');
+    container.querySelectorAll('a').forEach(element => {
+      expect(element.href).toEqual(expect.stringMatching(/(step1|step2)/));
+    });
   });
 
   describe('rendering of all value types', () => {
     const alTypesProps = {
-      incidentContainer: {
-        incident: {
-          plain_text: 'Dit is een melding',
-          objectValue: {
-            id: 'horecabedrijf',
-            label: 'Horecabedrijf, zoals een café, restaurant',
+      incident: {
+        plain_text: 'Dit is een melding',
+        objectValue: {
+          id: 'horecabedrijf',
+          label: 'Horecabedrijf, zoals een café, restaurant',
+        },
+        listObjectValue: [{
+          id: 'uitgewaaierd_terras',
+          label: 'Uitgewaaierd terras',
+        }, {
+          id: 'doorloop',
+          label: 'Het terras belemmert de doorloop',
+        }],
+        datetime: {
+          id: 'Nu',
+          label: 'Nu',
+        },
+        location: {
+          address: {
+            openbare_ruimte: 'Zwanenburgwal',
+            huisnummer: '15',
+            huisletter: '',
+            huisnummer_toevoeging: '',
+            postcode: '1011VW',
+            woonplaats: 'Amsterdam',
           },
-          listObjectValue: [{
-            id: 'uitgewaaierd_terras',
-            label: 'Uitgewaaierd terras',
-          }, {
-            id: 'doorloop',
-            label: 'Het terras belemmert de doorloop',
-          }],
-          datetime: {
-            id: 'Nu',
-            label: 'Nu',
-          },
-          location: {
-            address: {
-              openbare_ruimte: 'Zwanenburgwal',
-              huisnummer: '15',
-              huisletter: '',
-              huisnummer_toevoeging: '',
-              postcode: '1011VW',
-              woonplaats: 'Amsterdam',
-            },
-            address_text: 'Zwanenburgwal 15, 1011VW Amsterdam',
-            buurt_code: 'A04i',
-            stadsdeel: 'A',
-            geometrie: {
-              type: 'Point',
-              coordinates: [
-                4.899258613586427,
-                52.36784357172409,
-              ],
-            },
+          address_text: 'Zwanenburgwal 15, 1011VW Amsterdam',
+          buurt_code: 'A04i',
+          stadsdeel: 'A',
+          geometrie: {
+            type: 'Point',
+            coordinates: [
+              4.899258613586427,
+              52.36784357172409,
+            ],
           },
         },
       },
@@ -137,11 +125,11 @@ describe('<IncidentPreview />', () => {
         step1: {
           plain_text: {
             label: 'Plain text',
-            render: PreviewComponents.PlainText,
+            render: ({ value }) => value,
           },
           objectValue: {
             label: 'Object value',
-            render: PreviewComponents.ObjectValue,
+            render: ({ value }) => value.label,
           },
           listObjectValue: {
             label: 'List object value',
@@ -159,14 +147,16 @@ describe('<IncidentPreview />', () => {
       },
     };
 
-    it('expect to render correctly', () => {
+    it('expect to render correctly', async () => {
       isVisible.mockImplementation(() => true);
 
-      const { queryByText } = render(
+      const { queryByText, findByTestId } = render(
         withAppContext(<IncidentPreview {...alTypesProps} />)
       );
 
-      const incident = alTypesProps.incidentContainer.incident;
+      await findByTestId('incidentPreview');
+
+      const { incident } = alTypesProps;
       const step = alTypesProps.preview.step1;
 
       expect(queryByText(step.plain_text.label))
