@@ -206,24 +206,6 @@ describe('signals/incident-management/saga', () => {
         .run();
     });
 
-    it('should redirect when search query is set', () => {
-      const q = 'Here be dragons';
-      const action = { type: SET_SEARCH_QUERY };
-
-      return expectSaga(searchIncidents, action)
-        .provide([
-          [select(makeSelectSearchQuery), q],
-          [matchers.call.fn(authCall), incidentsJSON],
-        ])
-        .select(makeSelectSearchQuery)
-        .put(applyFilterRefreshStop())
-        .select(makeSelectFilterParams)
-        .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
-        .put(searchIncidentsSuccess(incidentsJSON))
-        .put(push('/manage/incidents'))
-        .run();
-    });
-
     it('should dispatch success in case of a 500 error status', () => {
       const q = 'Here be dragons';
       const message = 'Internal server error';
