@@ -212,7 +212,6 @@ describe('<IncidentPreview />', () => {
       expect(queryByText(step.objectValue.label)).toBeInTheDocument();
       expect(queryByText(incident.objectValue.label)).toBeInTheDocument();
 
-      expect(queryByText(step.listObjectValue.label)).toBeInTheDocument();
       expect(queryByText(incident.listObjectValue[0].label)).toBeInTheDocument();
       expect(queryByText(incident.listObjectValue[1].label)).toBeInTheDocument();
 
