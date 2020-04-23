@@ -41,7 +41,8 @@ describe('Filtering', () => {
     cy.route('PATCH', '/signals/v1/private/users/*').as('patchUser');
     cy.get(USERS.userRow).eq(1).click();
     cy.wait('@getUser');
-    cy.url().should('include', '/instellingen/gebruiker/');
+    cy.url().should('match', /\/instellingen\/gebruiker\/\d+/);
+    
     cy.contains('div', 'GGD').find('input').check();
     cy.get(USERS.buttonOpslaan).click();
     cy.wait('@patchUser');

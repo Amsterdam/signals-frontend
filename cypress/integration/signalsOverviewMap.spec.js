@@ -10,7 +10,7 @@ describe('Signal overview Map', () => {
     localStorage.setItem('accessToken', 'TEST123');
   });
 
-  it.skip('Should setup the testdata', () => {
+  it('Should setup the testdata', () => {
     // Create 2 signals to use on the map
     requests.createSignalOverviewMap();
     requests.createSignalOverviewMap();
@@ -74,7 +74,7 @@ describe('Signal overview Map', () => {
 
   it('Should click on a cluster of signals and open signal details', () => {
     cy.get(OVERVIEW_MAP.overViewMap).click(468,300);
-    cy.get(OVERVIEW_MAP.markerSignal).first().click({ force: true });
+    cy.get(OVERVIEW_MAP.overViewMap).click(440,338);
     cy.get(OVERVIEW_MAP.detailPane).should('be.visible');
     
     cy.get(OVERVIEW_MAP.openSignalDetails).then($signalLink => {

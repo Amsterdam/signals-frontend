@@ -1,4 +1,4 @@
-export const createSignalOverviewMap= () => {
+export const createSignalOverviewMap = () => {
   cy.request({
     method: 'POST',
     url: 'http://localhost:8000/signals/v1/public/signals/',
@@ -24,7 +24,7 @@ export const createSignalOverviewMap= () => {
   });
 };
 
-export const createSignalFilters= () => {
+export const createSignalFilters = () => {
   cy.request({
     method: 'POST',
     url: 'http://localhost:8000/signals/v1/public/signals/',

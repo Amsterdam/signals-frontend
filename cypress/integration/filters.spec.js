@@ -16,13 +16,13 @@ describe('Filtering', () => {
     cy.visitFetch('/manage/incidents/');
 
     // Wait till page is loaded
-    // cy.wait('@getFilters');
+    cy.wait('@getFilters');
     cy.wait('@getCategories');
     cy.wait('@getSignals');
     cy.wait('@getUserInfo');
   });
 
-  it.skip('Should setup the testdata', () => {
+  it('Should setup the testdata', () => {
     overviewMap.createSignalFilters();
   });
 
