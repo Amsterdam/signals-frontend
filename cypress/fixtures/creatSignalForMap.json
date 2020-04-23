@@ -1,0 +1,18 @@
+{
+  "location": {
+    "geometrie": {"type": "Point", "coordinates": [4.89089949, 52.37316397]},
+    "address": {
+      "openbare_ruimte": "Nieuwezijds Voorburgwal",
+      "huisnummer": "147",
+      "postcode": "1012RJ",
+      "woonplaats": "Amsterdam"
+    },
+    "stadsdeel": "A"
+  },
+  "category": {
+    "sub_category": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte"
+  },
+  "reporter": {},
+  "incident_date_start": "2020-04-16T14:06:31+02:00",
+  "text": "Er staat een paard in de gang, ja ja een paard in de gang."
+}
