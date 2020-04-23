@@ -226,6 +226,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
   });
 
   it('should set toggled when all boxes are checked', async () => {
+    const onToggleMock = jest.fn();
     const groupId = 'barbazbaz';
     const toggleAllLabel = 'Select all';
     const toggleNothingLabel = 'Select none';
@@ -236,6 +237,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
           groupName="statuses"
           hasToggle
           name="status"
+          onToggle={onToggleMock}
           options={statuses}
           toggleAllLabel={toggleAllLabel}
           toggleNothingLabel={toggleNothingLabel}
@@ -243,10 +245,13 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     );
 
+    expect(onToggleMock).not.toHaveBeenCalled();
+
     // loop over all checkboxes but one and check them manually
     const nodeListIterator = container
       .querySelectorAll('input[type="checkbox"]:not(:last-of-type)')
       .values();
+
     for (const checkbox of nodeListIterator) {
       act(() => {
         fireEvent.click(checkbox);
@@ -261,6 +266,8 @@ describe('signals/incident-management/components/CheckboxList', () => {
         container.querySelector('input[type="checkbox"]:last-of-type')
       );
     });
+
+    expect(onToggleMock).toHaveBeenCalledTimes(1);
 
     expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
     expect(getByText(toggleNothingLabel)).toBeInTheDocument();
@@ -316,6 +323,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           hasToggle
           name="status"
+          onToggle={() => {}}
           options={statuses}
           toggleAllLabel={toggleAllLabel}
           toggleNothingLabel={toggleNothingLabel}
@@ -359,6 +367,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
         <CheckboxList
           hasToggle
           name="status"
+          onToggle={() => {}}
           options={statuses}
           toggleAllLabel={toggleAllLabel}
           toggleNothingLabel={toggleNothingLabel}
@@ -486,5 +495,65 @@ describe('signals/incident-management/components/CheckboxList', () => {
     );
 
     expect(container.querySelectorAll('input[type=checkbox][disabled]')).toHaveLength(statuses.length);
+  });
+
+  it('should fire the right amount of events with onToggle set and unset', () => {
+    const onChangeMock = jest.fn();
+    const onToggleMock = jest.fn();
+
+    const toggleAllLabel = 'Click here to select all';
+    const toggleNothingLabel = 'Click here to undo selection';
+
+    const { container, rerender } = render(
+      withAppContext(
+        <CheckboxList
+          name="status"
+          onChange={onChangeMock}
+          onToggle={onToggleMock}
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    expect(onChangeMock).not.toHaveBeenCalled();
+    expect(onToggleMock).not.toHaveBeenCalled();
+
+    for (const checkbox of container.querySelectorAll('input[type="checkbox"]').values()) {
+      act(() => { fireEvent.click(checkbox); });
+    }
+
+    // since the onToggle prop has been defined it should call it
+    // when all the checkboxes have been selected
+    expect(onChangeMock).toHaveBeenCalledTimes(statuses.length - 1);
+    expect(onToggleMock).toHaveBeenCalledTimes(1);
+
+    onToggleMock.mockClear();
+    onChangeMock.mockClear();
+
+    rerender(
+      withAppContext(
+        <CheckboxList
+          hasToggle
+          name="status"
+          onChange={onChangeMock}
+          options={statuses}
+          toggleAllLabel={toggleAllLabel}
+          toggleNothingLabel={toggleNothingLabel}
+        />
+      )
+    );
+
+    expect(onToggleMock).not.toHaveBeenCalled();
+
+    for (const checkbox of container.querySelectorAll('input[type="checkbox"]').values()) {
+      act(() => { fireEvent.click(checkbox); });
+    }
+
+    // since the onToggle prop has not been defined it should call the onChange event
+    // on every checkbox selection
+    expect(onToggleMock).not.toHaveBeenCalled();
+    expect(onChangeMock).toHaveBeenCalledTimes(statuses.length);
   });
 });

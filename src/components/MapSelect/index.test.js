@@ -66,7 +66,7 @@ describe('<MapSelect />', () => {
       />
     );
 
-    await findByTestId('mapSelect');
+    await findByTestId('map-base');
 
     expect(LegendControl).not.toHaveBeenCalled();
     expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
@@ -87,7 +87,7 @@ describe('<MapSelect />', () => {
       />
     );
 
-    await findByTestId('mapSelect');
+    await findByTestId('map-base');
 
     expect(LegendControl).toHaveBeenCalled();
   });
@@ -107,7 +107,7 @@ describe('<MapSelect />', () => {
       />
     );
 
-    await findByTestId('mapSelect');
+    await findByTestId('map-base');
 
     const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/;
     expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);

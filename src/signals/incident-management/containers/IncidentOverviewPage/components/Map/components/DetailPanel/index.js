@@ -9,7 +9,7 @@ import { INCIDENT_URL } from 'signals/incident-management/routes';
 const Panel = styled.div`
   padding: 12px;
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  outline: 2px solid rgba(0, 0, 0, 0.1);
   z-index: 401;
   display: flex;
   align-items: center;
@@ -20,7 +20,7 @@ const Panel = styled.div`
 
 const DetailPanel = ({ incidentId, onClose }) => (
   <Panel data-testid="mapDetailPanel">
-    <AscLink as={Link} to={`${INCIDENT_URL}/${incidentId}`}>
+    <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incidentId}`}>
       Melding {incidentId}
     </AscLink>
     <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />

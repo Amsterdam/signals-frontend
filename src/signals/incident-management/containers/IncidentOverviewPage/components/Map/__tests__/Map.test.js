@@ -16,7 +16,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   it('should render the map and the autosuggest', async () => {
     const { getByTestId, findByTestId } = render(withMapContext(<OverviewMap />));
 
-    await findByTestId('overviewMap');
+    await findByTestId('map-base');
 
     expect(getByTestId('autoSuggest')).toBeInTheDocument();
   });
@@ -24,7 +24,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   it('should render marker', async () => {
     const { container, findByTestId } = render(withMapContext(<OverviewMap />));
 
-    await findByTestId('overviewMap');
+    await findByTestId('map-base');
 
     const markers = container.querySelectorAll(incidentIconSelector);
 
@@ -40,7 +40,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   it('should render detail panel', async () => {
     const { container, queryByTestId, getByTestId, findByTestId } = render(withMapContext(<OverviewMap />));
 
-    await findByTestId('overviewMap');
+    await findByTestId('map-base');
 
     const markers = container.querySelectorAll(incidentIconSelector);
     const firstMarker = markers[0];
@@ -60,7 +60,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   it('should close detail panel', async () => {
     const { container, queryByTestId, findByTestId } = render(withMapContext(<OverviewMap />));
 
-    await findByTestId('overviewMap');
+    await findByTestId('map-base');
 
     const markers = container.querySelectorAll(incidentIconSelector);
 

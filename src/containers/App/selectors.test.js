@@ -13,6 +13,7 @@ import {
   makeSelectUserPermissions,
   makeSelectUserPermissionCodeNames,
   selectGlobal,
+  makeSelectSearchQuery,
 } from './selectors';
 
 const getPermissionCount = userData => {
@@ -332,6 +333,19 @@ describe('containers/App/selectors', () => {
           false
         );
       });
+    });
+  });
+
+  describe('makeSelectSearchQuery', () => {
+    const selectSearchSelector = makeSelectSearchQuery;
+    it('should select the searchQuery', () => {
+      const searchQuery = '12345';
+      const mockedState = fromJS({
+        global: {
+          searchQuery,
+        },
+      });
+      expect(selectSearchSelector(mockedState)).toEqual(searchQuery);
     });
   });
 });

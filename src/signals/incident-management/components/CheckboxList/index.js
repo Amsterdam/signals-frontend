@@ -200,8 +200,8 @@ const CheckboxList = ({
         setToggled(allOptionsChecked);
 
         // in case that a list of options contains of only one item, we need to call the `onToggle`
-        // callback function instead of the `onChange` callback
-        if (allOptionsChecked) {
+        // callback function instead of the `onChange` callback unless the `onToggle` is undefined
+        if (onToggle && allOptionsChecked) {
           onToggle(groupValue || name, allOptionsChecked);
         } else {
           onChange(groupValue || name, Array.from(modifiedState));
@@ -289,7 +289,7 @@ CheckboxList.defaultProps = {
   groupValue: '',
   hasToggle: false,
   onChange: () => {},
-  onToggle: () => {},
+  onToggle: undefined,
   title: null,
   toggleAllLabel: 'Alles selecteren',
   toggleNothingLabel: 'Niets selecteren',
