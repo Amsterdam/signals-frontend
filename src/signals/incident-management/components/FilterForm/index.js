@@ -200,9 +200,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   return (
     <Form action="" novalidate>
       <ControlsWrapper>
-        {filter.id && (
-          <input type="hidden" name="id" value={filter.id} />
-        )}
+        {filter.id && <input type="hidden" name="id" value={filter.id} />}
         <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
 
@@ -356,12 +354,14 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             Categorie
           </Label>
 
-          <CategoryGroups
-            categories={categories}
-            filterSlugs={filterSlugs}
-            onChange={onChangeCategories}
-            onToggle={onMainCategoryToggle}
-          />
+          {categories && (
+            <CategoryGroups
+              categories={categories}
+              filterSlugs={filterSlugs}
+              onChange={onChangeCategories}
+              onToggle={onMainCategoryToggle}
+            />
+          )}
         </Fieldset>
       </ControlsWrapper>
 

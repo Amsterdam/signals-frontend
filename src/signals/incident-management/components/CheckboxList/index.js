@@ -204,7 +204,10 @@ const CheckboxList = ({
         if (onToggle && allOptionsChecked) {
           onToggle(groupValue || name, allOptionsChecked);
         } else {
-          onChange(groupValue || name, Array.from(modifiedState));
+          const onChangeTimeout = global.setTimeout(() => {
+            global.clearTimeout(onChangeTimeout);
+            onChange(groupValue || name, Array.from(modifiedState));
+          }, 0);
         }
 
         return modifiedState;

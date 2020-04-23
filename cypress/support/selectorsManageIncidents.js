@@ -5,7 +5,7 @@ export const MANAGE_SIGNALS = {
   buttonFilteren: '[data-testid=filterModalBtn]',
   firstSignalStadsdeelName: ':nth-child(1) > :nth-child(4) > a',
   filterTagList: '[data-testid=filterTagListTag]',
-  paginationPages: '[data-testid="pagination"] > ul',
+  paginationPages: '[data-testid="pagination"] > ul > li',
   refreshIcon: '[class*=PageHeader__RefreshIcon]',
   stadsdeelFromSignal: 'tr td:nth-child(4)',
 };
@@ -45,10 +45,15 @@ export const MY_FILTERS = {
   buttonDeleteFilter: '[data-testid=handleRemoveFilterButton]',
 };
 
-// Selectors for Categories
-export const CATEGORIES = {
-  buttonOpslaan: '[data-testid=submitBtn]',
-  dropdownTypeOfDays: '#use_calendar_days',
-  inputDays: '#n_days',
-  inputMessage: '#handling_message',
+// Selectors for signals overview map
+export const OVERVIEW_MAP = {
+  autoSuggest: '[data-testid=autoSuggest]',
+  buttonBack: '[data-testid=backlink]',
+  buttonZoomOut: '[title="Uitzoomen"]',
+  buttonZoomIn: '[title="Inzoomen"]',
+  detailPane: '[data-testid=mapDetailPanel]',
+  openSignalDetails: '[data-testid=mapDetailPanel] > [href*="/manage"]',
+  markerCluster: '.leaflet-marker-icon',
+  markerSignal: '.map-marker-incident',
+  overViewMap: '[data-testid=map-base]',
 };
