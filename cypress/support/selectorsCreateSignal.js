@@ -53,7 +53,7 @@ export const JONGEREN = {
 
 // Selectors specific for lantaarnpaal
 export const LANTAARNPAAL = {
-  mapSelectLamp: '[data-testid=mapSelect]',
+  mapSelectLamp: '[data-testid=map-base]',
   radioButtonAanrijding: '#extra_straatverlichting-is_gevolg_van_aanrijding1',
   radioButtonOpGrond: '#extra_straatverlichting-lamp_op_grond_of_scheef1',
   radioButtonDeur: '#extra_straatverlichting-deurtje_weg_of_open1',
