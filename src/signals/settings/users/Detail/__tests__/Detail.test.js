@@ -81,7 +81,7 @@ jest.spyOn(rolesSelectors, 'inputCheckboxRolesSelector').mockImplementation(() =
   inputCheckboxRolesSelectorJson
 );
 
-jest.spyOn(rolesSelectors, 'rolesModelSelector').mockImplementation(() => rolesJson);
+jest.spyOn(rolesSelectors, 'rolesModelSelector').mockImplementation(() => ({ list: rolesJson }));
 
 describe('signals/settings/users/containers/Detail', () => {
   beforeEach(() => {

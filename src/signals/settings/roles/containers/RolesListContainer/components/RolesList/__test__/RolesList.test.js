@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
-import roles from 'utils/__tests__/fixtures/roles.json';
+import rolesJson from 'utils/__tests__/fixtures/roles.json';
 import { ROLE_URL } from 'signals/settings/routes';
 
 import RolesList from '..';
@@ -16,11 +16,7 @@ jest.mock('react-router-dom', () => ({
 describe('signals/settings/roles/containers/RolesListContainer/components/RolesList', () => {
   let props = {};
 
-  beforeEach(() => {
-    props = {
-      list: roles.list,
-    };
-  });
+  beforeEach(() => { props = { list: rolesJson }; });
 
   it('should render correctly', () => {
     const { container, rerender } = render(

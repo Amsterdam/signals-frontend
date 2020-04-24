@@ -275,46 +275,79 @@
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/168"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/10"
         }
       },
-      "_display": "signals | category | Bekijk all categorieën (overschrijft categorie rechten van afdeling)",
-      "id": 168,
-      "name": "Bekijk all categorieën (overschrijft categorie rechten van afdeling)",
-      "codename": "sia_can_view_all_categories"
+      "_display": "auth | groep | Can add group",
+      "id": 10,
+      "name": "Can add group",
+      "codename": "add_group"
     },
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/173"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/11"
         }
       },
-      "_display": "signals | department | Inzien van afdeling instellingen",
-      "id": 173,
-      "name": "Inzien van afdeling instellingen",
-      "codename": "sia_department_read"
+      "_display": "auth | groep | Can change group",
+      "id": 11,
+      "name": "Can change group",
+      "codename": "change_group"
     },
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/110"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/40"
         }
       },
-      "_display": "signals | signal | Leesrechten algemeen",
-      "id": 110,
-      "name": "Leesrechten algemeen",
-      "codename": "sia_read"
+      "_display": "auth | groep | Can view group",
+      "id": 40,
+      "name": "Can view group",
+      "codename": "view_group"
     },
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/111"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/39"
         }
       },
-      "_display": "signals | signal | Schrijfrechten algemeen",
-      "id": 111,
-      "name": "Schrijfrechten algemeen",
-      "codename": "sia_write"
+      "_display": "auth | recht | Can view permission",
+      "id": 39,
+      "name": "Can view permission",
+      "codename": "view_permission"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/13"
+        }
+      },
+      "_display": "auth | gebruiker | Can add user",
+      "id": 13,
+      "name": "Can add user",
+      "codename": "add_user"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/14"
+        }
+      },
+      "_display": "auth | gebruiker | Can change user",
+      "id": 14,
+      "name": "Can change user",
+      "codename": "change_user"
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/41"
+        }
+      },
+      "_display": "auth | gebruiker | Can view user",
+      "id": 41,
+      "name": "Can view user",
+      "codename": "view_user"
     }
   ],
   "profile": {

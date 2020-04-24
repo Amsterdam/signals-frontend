@@ -3,7 +3,8 @@ import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
 
-import roles from 'utils/__tests__/fixtures/roles.json';
+import rolesJson from 'utils/__tests__/fixtures/roles.json';
+import permissionsJson from 'utils/__tests__/fixtures/permissions.json';
 import { ROLES_URL } from 'signals/settings/routes';
 
 import RoleForm from '..';
@@ -16,8 +17,8 @@ jest.mock('react-router-dom', () => ({
 
 describe('/signals/settings/roles/components/RoleForm', () => {
   const props = {
-    role: roles.list[0],
-    permissions: roles.permissions,
+    role: rolesJson[0],
+    permissions: permissionsJson,
     onPatchRole: jest.fn(),
     onSaveRole: jest.fn(),
   };
@@ -34,7 +35,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('Behandelaar');
 
     expect(container.querySelectorAll('input[type="checkbox"]').length)
-      .toBe(roles.permissions.length);
+      .toBe(permissionsJson.length);
 
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBe(6);
   });

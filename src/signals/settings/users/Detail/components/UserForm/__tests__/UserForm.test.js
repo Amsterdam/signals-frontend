@@ -70,6 +70,8 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
   });
 
   it('should check all role checkboxes and submit them', () => {
+    jest.useFakeTimers();
+
     const onSubmit = jest.fn();
 
     const { container, getByTestId } = render(withAppContext(<UserForm onSubmit={onSubmit} />));
@@ -85,6 +87,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
     container.querySelectorAll('[name="roles"]').forEach(checkbox => {
       act(() => { fireEvent.click(checkbox); });
+      act(() => { jest.runOnlyPendingTimers(); });
     });
 
     expect(container.querySelectorAll('input[type="checkbox"]:checked'))
@@ -187,6 +190,8 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
   });
 
   it('should check an unchecked role checkbox', async () => {
+    jest.useFakeTimers();
+
     const { getByLabelText } = render(withAppContext(<UserForm />));
 
     const checkbox = getByLabelText('Regievoerder');
@@ -194,11 +199,14 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(checkbox.checked).toBe(false);
 
     act(() => { fireEvent.click(checkbox); });
+    act(() => { jest.runOnlyPendingTimers(); });
 
     expect(checkbox.checked).toBe(true);
   });
 
   it('should check an unchecked department checkbox', () => {
+    jest.useFakeTimers();
+
     const { getByLabelText } = render(withAppContext(<UserForm />));
 
     const checkbox = getByLabelText('Actie Service Centrum');
@@ -206,6 +214,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(checkbox.checked).toBe(false);
 
     act(() => { fireEvent.click(checkbox); });
+    act(() => { jest.runOnlyPendingTimers(); });
 
     expect(checkbox.checked).toBe(true);
   });

@@ -1,10 +1,10 @@
-import roles from 'utils/__tests__/fixtures/roles.json';
+import rolesJson from 'utils/__tests__/fixtures/roles.json';
 
 import formatRoles from '..';
 
 describe('formatRoles service', () => {
   it('should format roles', () => {
-    expect(formatRoles(roles.list)).toEqual([
+    expect(formatRoles(rolesJson)).toEqual([
       {
         Naam: 'Behandelaar',
         Rechten: 'Leesrechten algemeen, Wijzigen van status van een melding, Melding aanmaken, Notitie toevoegen bij een melding, Splitsen van een melding, Schrijfrechten algemeen',
