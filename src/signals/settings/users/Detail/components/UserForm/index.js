@@ -168,6 +168,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
           </FieldGroup>
 
           <FieldGroup>
+            <Label as="span">Rollen</Label>
             <CheckboxList
               defaultValue={state.roles}
               disabled={readOnly}
