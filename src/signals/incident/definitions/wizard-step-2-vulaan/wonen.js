@@ -873,4 +873,4 @@ export default {
       render: IncidentNavigation,
     },
   },
-}
+};
