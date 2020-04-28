@@ -389,6 +389,200 @@ export default {
         render: PreviewComponents.PlainText,
         optional: true,
       },
+
+
+      // wonen - woningdelen
+      extra_wonen_woningdelen_vermoeden: {
+        label: 'Vermoeden',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_woningdelen_eigenaar: {
+        label: 'Eigenaar',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_woningdelen_adres_huurder: {
+        label: 'Adres huurder',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woningdelen_aantal_personen: {
+        label: 'Aantal personen',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woningdelen_bewoners_familie: {
+        label: 'Bewoners familie',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woningdelen_samenwonen: {
+        label: 'Samenwonen',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woningdelen_wisselende_bewoners: {
+        label: 'Wisselende bewoners',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+
+      // wonen - onderhuur
+      extra_wonen_onderhuur_naam_huurder: {
+        label: 'Naam huurder',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_onderhuur_huurder_woont: {
+        label: 'Huurder woont',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_onderhuur_adres_huurder: {
+        label: 'Adres huurder',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_onderhuur_aantal_personen: {
+        label: 'Aantal personen',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_onderhuur_bewoners_familie: {
+        label: 'Bewoners familie',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_onderhuur_naam_bewoners: {
+        label: 'Naam bewoners',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_onderhuur_woon_periode: {
+        label: 'Woon periode',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+
+      // wonen - leegstand
+      extra_wonen_leegstand_naam_eigenaar: {
+        label: 'Naam eigenaar',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_leegstand_periode: {
+        label: 'Periode leegstand',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_leegstand_woning_gebruik: {
+        label: 'Woning gebruik',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_leegstand_naam_persoon: {
+        label: 'Naam persoon',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_leegstand_activiteit_in_woning: {
+        label: 'Activiteit in de woning',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_leegstand_iemand_aanwezig: {
+        label: 'Iemand aanwezig',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+
+      // wonen - leegstand en onderhuur
+      extra_wonen_iemand_aanwezig: {
+        label: 'Iemand aanwezig',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+
+      // wonen - vakantieverhuur
+      extra_wonen_vakantieverhuur_toeristen_aanwezig: {
+        label: 'Toeristen aanwezig',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_vakantieverhuur_bellen_of_formulier: {
+        label: 'Bellen of meldingsformulier',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_vakantieverhuur_aantal_mensen: {
+        label: 'Aantal personen',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_vakantieverhuur_hoe_vaak: {
+        label: 'Hoe vaak',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_vakantieverhuur_wanneer: {
+        label: 'Wanneer',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_vakantieverhuur_bewoning: {
+        label: 'Bewoning',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_vakantieverhuur_naam_bewoner: {
+        label: 'Naam bewoner',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+      extra_wonen_vakantieverhuur_online_aangeboden: {
+        label: 'Online aangeboden',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_vakantieverhuur_link_advertentie: {
+        label: 'Link advertentie',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+
+      // wonen - woonkwaliteit
+      extra_wonen_woonkwaliteit_direct_gevaar: {
+        label: 'Direct gevaar',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woonkwaliteit_gemeld_bij_eigenaar: {
+        label: 'Gemeld bij eigenaar',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woonkwaliteit_bewoner: {
+        label: 'Bewoner',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woonkwaliteit_namens_bewoner: {
+        label: 'Namens bewoner',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woonkwaliteit_toestemming_contact: {
+        label: 'Toestemming contact opnemen',
+        render: PreviewComponents.ObjectValue,
+        optional: true,
+      },
+      extra_wonen_woonkwaliteit_geen_contact: {
+        label: 'Toestemming contact opnemen',
+        render: PreviewComponents.PlainText,
+        optional: true,
+      },
+
     },
 
     telefoon: {
