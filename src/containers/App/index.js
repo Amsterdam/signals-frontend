@@ -4,7 +4,6 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 import ConfigContext from 'components/ConfigContext';
 import ThemeProvider from 'components/ThemeProvider';
@@ -26,21 +25,18 @@ import useLocationReferrer from 'hooks/useLocationReferrer';
 import reducer from './reducer';
 import saga from './saga';
 
-const getConfig = async setConfig => {
-  const response = await fetch("/config.json");
-  const config = await response.json();
-  setConfig({
-    ...config,
-    isLoading: false,
-  });
-};
-
 export const AppContainer = ({ resetIncidentAction }) => {
-  const [themeConfig, setThemeConfig] = useState({ isLoading: true });
+  const [themeConfig, setThemeConfig] = useState({
+    ...window.CONFIG,
+    isLoading: true,
+  });
 
-  useEffect(() => {
-    getConfig(setThemeConfig);
-  }, []);
+  const onLogoLoad = () => {
+    setThemeConfig({
+      ...themeConfig,
+      isLoading: false,
+    });
+  };
 
   // on each component render, see if the current session is authenticated
   authenticate();
@@ -68,8 +64,11 @@ export const AppContainer = ({ resetIncidentAction }) => {
   return (
     <ThemeProvider>
       <ConfigContext.Provider value={themeConfig}>
-        { themeConfig.isLoading ? (
-          <LoadingIndicator />
+        {themeConfig.isLoading ? (
+          <Fragment>
+            <img src={themeConfig.logoUrl} alt="Logo" onLoad={onLogoLoad} />
+            <LoadingIndicator />
+          </Fragment>
         ) : (
           <Fragment>
             <SiteHeaderContainer />
