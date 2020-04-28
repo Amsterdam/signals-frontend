@@ -1,5 +1,22 @@
 {
   "lang": "nl",
   "title": "SIA - Signalen Informatievoorziening Amsterdam",
-  "webAppTitle": "SIA"
+  "webAppTitle": "SIA",
+  "urls": {
+    "ROOT": "http://localhost:3001/",
+    "AUTH_ROOT": "https://acc.api.data.amsterdam.nl/",
+    "API_ROOT_MLTOOL": "https://acc.api.data.amsterdam.nl/",
+    "USERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/",
+    "ROLES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/",
+    "PERMISSIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/",
+    "SEARCH_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/search",
+    "PREDICTION_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/category/prediction",
+    "INCIDENT_PUBLIC_ENDPOINT": "signals/v1/public/signals/",
+    "INCIDENT_PRIVATE_ENDPOINT": "ignals/v1/private/signals/"
+  },
+  "maps": {
+    "GEMEENTE_NAAM": "amsterdam",
+    "BOUNDS": [],
+    "LOCK_TO_BOUNDS": true
+  }
 }

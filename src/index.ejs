@@ -16,7 +16,11 @@
     <title><%= title %></title>
 
     <script>
-      global.window.TEXTS = <%= texts %>;
+      global.TEXTS = <%= texts %>;
+      global.config = {
+        urls: <%= urls %>,
+        maps: <%= maps %>,
+      };
     </script>
   </head>
 
