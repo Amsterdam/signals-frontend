@@ -7,6 +7,8 @@ const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const siteSettings = require(path.join(process.cwd(), 'site_settings.json'));
+const texts = require(path.join(process.cwd(), 'texts.json'));
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -183,10 +185,11 @@ module.exports = require('./webpack.base.babel')({
       inject: true,
       base: 'https://acc.meldingen.amsterdam.nl/',
       templateParameters: {
-        // eslint-disable-next-line
-        ...require(path.join(process.cwd(), 'site_settings.json')),
-        // eslint-disable-next-line
-        texts: JSON.stringify(require(path.join(process.cwd(), 'texts.json'))),
+        title: siteSettings.title,
+        lang: siteSettings.lang,
+        webAppTitle: siteSettings.webAppTitle,
+        config: JSON.stringify(siteSettings.config),
+        texts: JSON.stringify(texts),
       },
     }),
   ],
