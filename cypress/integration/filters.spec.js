@@ -1,6 +1,6 @@
 // <reference types="Cypress" />
 
-// Import all selector for manage incidents (MI)
+import * as overviewMap from '../support/commandsRequests';
 import { MANAGE_SIGNALS, FILTER, FILTER_ALL_ITEMS, MY_FILTERS } from '../support/selectorsManageIncidents';
 
 describe('Filtering', () => {
@@ -8,17 +8,21 @@ describe('Filtering', () => {
     cy.server();
     cy.getManageSignalsRoutes();
     cy.route('DELETE', '**/signals/v1/private/me/filters/*').as('deleteFilter');
-    cy.route('**/signals/v1/private/signals/?stadsdeel=A&status=m&page=1&ordering=stadsdeel,-created_at&page_size=50').as('getSortedASC');
-    cy.route('**/signals/v1/private/signals/?stadsdeel=A&status=m&page=1&ordering=-stadsdeel,-created_at&page_size=50').as('getSortedDESC');
+    cy.route('/signals/v1/private/signals/?stadsdeel=B&status=m&page=1&ordering=-created_at&page_size=50').as('getFilteredSignals');
+    cy.route('POST' , '/signals/v1/private/me/filters/').as('postFilter');
+                
     localStorage.setItem('accessToken', 'TEST123');
 
     cy.visitFetch('/manage/incidents/');
 
     // Wait till page is loaded
-    cy.wait('@getFilters');
     cy.wait('@getCategories');
     cy.wait('@getSignals');
     cy.wait('@getUserInfo');
+  });
+
+  it('Should setup the testdata', () => {
+    overviewMap.createSignalFilters();
   });
 
   it('Should have no filters', () => {
@@ -32,34 +36,49 @@ describe('Filtering', () => {
     cy.get(MANAGE_SIGNALS.buttonFilteren).should('be.visible').click();
 
     // Input filter data
-    cy.get(FILTER.inputFilterName).type('Status Gemeld Centrum');
+    cy.get(FILTER.inputFilterName).type('Status Gemeld Westpoort');
     cy.get(FILTER.checkboxRefresh).should('be.visible').check();
     cy.get(FILTER.checkboxGemeld).check();
-    cy.get('#stadsdeel_A').check();
+    cy.get('#stadsdeel_B').check();
 
     // Save and apply filter
     cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
+    cy.wait('@postFilter');
+    cy.wait('@getFilteredSignals');
     cy.wait('@getFilters');
 
     // Check Filter data
-    cy.get('h1').should('contain', 'Status Gemeld Centrum (');
+    cy.get('h1').should('contain', 'Status Gemeld Westpoort (');
     cy.get(MANAGE_SIGNALS.refreshIcon).should('be.visible');
-    cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Centrum');
+    cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Westpoort');
     cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Gemeld');
-    
-    // Check for every signal on each page whether stadsdeel is equal to centrum
-    cy.get(MANAGE_SIGNALS.paginationPages).children().each(($e1 => {
-      cy.get($e1).click();
-      cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e2 => {
-        expect($e2).to.have.text('Centrum');
+
+    // Wait is needed to wait for filter to be applied. cy.wait('@getFilters') is not enough.
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
+    cy.get('body').then(body => {
+      if (body.find('[data-testid="pagination"]').length > 0) {
+        // Check if signals on first page have correct stadsdeel
+        cy.get(MANAGE_SIGNALS.paginationPages).first().click();
+        cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e1 => {
+          expect($e1).to.have.text('Westpoort');
+        });
+        // Check if signals on last page have correct stadsdeel
+        cy.get(MANAGE_SIGNALS.paginationPages).last().click();
+        cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e2 => {
+          expect($e2).to.have.text('Westpoort');
+        });
+      }
+      else cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e3 => {
+        expect($e3).to.have.text('Westpoort');
       });
-    }));
+    });
 
     cy.get(MANAGE_SIGNALS.buttonMijnFilters).should('be.visible').click();
-    cy.get('h4').should('contain', 'Status Gemeld Centrum');
+    cy.get('h4').should('contain', 'Status Gemeld Westpoort');
 
     // Check on 2 filter attributes
-    cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Gemeld').and('contain', 'Centrum');
+    cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Gemeld').and('contain', 'Westpoort');
   });
 
   it('Should delete all filters', () => {

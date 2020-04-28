@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
@@ -12,61 +12,66 @@ import IncidentPreview from '../IncidentPreview';
 import onNext from './services/on-next';
 
 const StyledH1 = styled(Heading)`
-  font-weight: 400;
   margin-top: ${themeSpacing(6)};
-  margin-bottom: 30px;
+  margin-bottom: ${themeSpacing(5)};
 `;
 
-const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, createIncident, incidentContainer }) => (
-  <div className="incident-wizard">
-    <Route
-      render={({ history }) => (
-        <Wizard history={history} onNext={wiz => onNext(wizardDefinition, wiz, incidentContainer.incident)}>
-          {incidentContainer.loading && <LoadingIndicator />}
+const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, createIncident, incidentContainer }) => {
+  const incident = useMemo(() => incidentContainer.incident, [incidentContainer.incident]);
 
-          {!incidentContainer.loading && (
-            <Steps>
-              {Object.keys(wizardDefinition).map(key => (
-                <Step
-                  key={key}
-                  id={`incident/${key}`}
-                  render={() => {
-                    const { form, formFactory, label, postponeSubmitWhenLoading, preview } = wizardDefinition[key];
-                    const shouldRender = preview || form || formFactory;
+  return (
+    <div className="incident-wizard">
+      <Route
+        render={({ history }) => (
+          <Wizard history={history} onNext={wiz => onNext(wizardDefinition, wiz, incident)}>
+            {incidentContainer.loading && <LoadingIndicator />}
 
-                    if (!shouldRender) {
-                      return null;
-                    }
+            {!incidentContainer.loading && (
+              <Steps>
+                {Object.keys(wizardDefinition).map(key => (
+                  <Step
+                    key={key}
+                    id={`incident/${key}`}
+                    render={() => {
+                      const { form, formFactory, label, postponeSubmitWhenLoading, preview } = wizardDefinition[key];
+                      const shouldRender = preview || form || formFactory;
 
-                    return (
-                      <div>
-                        <StyledH1>{label || key}</StyledH1>
+                      if (!shouldRender) {
+                        return null;
+                      }
 
-                        {preview && <IncidentPreview incidentContainer={incidentContainer} preview={preview} />}
+                      return (
+                        <article>
+                          <header>
+                            <StyledH1>{label || key}</StyledH1>
+                          </header>
 
-                        {(form || formFactory) && (
-                          <IncidentForm
-                            fieldConfig={form || formFactory(incidentContainer.incident)}
-                            incidentContainer={incidentContainer}
-                            getClassification={getClassification}
-                            updateIncident={updateIncident}
-                            createIncident={createIncident}
-                            wizard={wizardDefinition}
-                            postponeSubmitWhenLoading={postponeSubmitWhenLoading}
-                          />
-                        )}
-                      </div>
-                    );
-                  }}
-                />
-              ))}
-            </Steps>
-          )}
-        </Wizard>
-      )}
-    />
-  </div>
-);
+                          {preview && incident && <IncidentPreview incident={incident} preview={preview} />}
+
+                          {(form || formFactory) && (
+                            <IncidentForm
+                              fieldConfig={form || formFactory(incident)}
+                              incidentContainer={incidentContainer}
+                              getClassification={getClassification}
+                              updateIncident={updateIncident}
+                              createIncident={createIncident}
+                              wizard={wizardDefinition}
+                              postponeSubmitWhenLoading={postponeSubmitWhenLoading}
+                            />
+                          )}
+                        </article>
+                      );
+                    }}
+                  />
+                ))}
+              </Steps>
+            )}
+          </Wizard>
+        )}
+      />
+    </div>
+  );
+};
 
 IncidentWizard.propTypes = {
   incidentContainer: PropTypes.object.isRequired,

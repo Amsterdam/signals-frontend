@@ -11,14 +11,6 @@ import FilterTagList, {
   mapKeys,
 } from '..';
 
-const dataLists = {
-  priority: definitions.priorityList,
-  status: definitions.statusList,
-  feedback: definitions.feedbackList,
-  stadsdeel: definitions.stadsdeelList,
-  source: definitions.sourceList,
-};
-
 describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
     status: [definitions.statusList[1]],
@@ -43,7 +35,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     const props = tree.find(FilterTagListComponent).props();
 
-    expect(props.dataLists).not.toBeUndefined();
     expect(props.subCategories).not.toBeUndefined();
     expect(props.mainCategories).not.toBeUndefined();
   });
@@ -53,7 +44,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={{ ...tags, created_before: '2019-09-23' }}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -70,7 +60,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={{ ...tags, created_after: '2019-09-17' }}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -87,7 +76,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={{
               ...tags,
               created_before: '2019-09-23',
@@ -119,7 +107,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { rerender, queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={tags}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -136,7 +123,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       rerender(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={tagsWithMainCat}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -153,7 +139,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryAllByTestId, queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={tags}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -183,7 +168,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={groupedTags}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -201,7 +185,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryAllByTestId } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             subCategories={subCategories}
             mainCategories={mainCategories}
           />

@@ -38,7 +38,7 @@ const withContextProvider = Component =>
   );
 
 describe('signals/settings/departments/Detail/components/CategoryLists', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.resetAllMocks();
   });
 
@@ -97,6 +97,8 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
   });
 
   it('should update the state on is_responsible checkbox tick', () => {
+    jest.useFakeTimers();
+
     const { container, getByText } = render(
       withContextProvider(<CategoryLists {...props} />)
     );
@@ -113,12 +115,18 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
       fireEvent.click(checkbox);
     });
 
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+
     expect(container.querySelectorAll('input:checked')).toHaveLength(
       totalChecked + 1
     );
   });
 
   it('should update the state on is_responsible toggle click', () => {
+    jest.useFakeTimers();
+
     const { container, getByText } = render(
       withContextProvider(<CategoryLists {...props} />)
     );
@@ -159,6 +167,10 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
       fireEvent.click(toggleIsResponsible);
     });
 
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+
     // ticking an is_responsible checkbox should also check its can_view counterpart
     const extraTicked =
       numBoxes - numTickedIsResponsible + (numBoxes - numTickedCanView);
@@ -171,12 +183,18 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
       fireEvent.click(toggleIsResponsible);
     });
 
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+
     expect(container.querySelectorAll('input:checked')).toHaveLength(
       totalChecked - (numTickedIsResponsible + numTickedCanView)
     );
   });
 
   it('should update the state on is_responsible checkbox tick', () => {
+    jest.useFakeTimers();
+
     const { container, getByText } = render(
       withContextProvider(<CategoryLists {...props} />)
     );
@@ -193,12 +211,18 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
       fireEvent.click(checkbox);
     });
 
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+
     expect(container.querySelectorAll('input:checked')).toHaveLength(
       totalChecked + 2
     );
   });
 
   it('should update the state on can_view toggle click', () => {
+    jest.useFakeTimers();
+
     const { container, getByText } = render(
       withContextProvider(<CategoryLists {...props} />)
     );
@@ -228,6 +252,10 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
       fireEvent.click(toggle);
     });
 
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+
     const extraTicked = numBoxes - numTicked;
 
     expect(container.querySelectorAll('input:checked')).toHaveLength(
@@ -236,6 +264,10 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
 
     act(() => {
       fireEvent.click(toggle);
+    });
+
+    act(() => {
+      jest.runOnlyPendingTimers();
     });
 
     expect(container.querySelectorAll('input:checked')).toHaveLength(

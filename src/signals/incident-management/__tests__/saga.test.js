@@ -6,13 +6,10 @@ import { push } from 'connected-react-router/immutable';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import incidentsJSON from 'utils/__tests__/fixtures/incidents.json';
-import {
-  authCall,
-  authDeleteCall,
-  authPatchCall,
-  authPostCall,
-} from 'shared/services/api/api';
+import { authCall, authDeleteCall, authPatchCall, authPostCall } from 'shared/services/api/api';
 import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
+import { makeSelectSearchQuery } from 'containers/App/selectors';
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 import watchIncidentManagementSaga, {
   fetchProxy,
   doSaveFilter,
@@ -39,8 +36,6 @@ import {
   UPDATE_FILTER,
   SEARCH_INCIDENTS,
   REQUEST_INCIDENTS,
-  SET_SEARCH_QUERY,
-  RESET_SEARCH_QUERY,
   PAGE_CHANGED,
   ORDERING_CHANGED,
 } from '../constants';
@@ -62,11 +57,7 @@ import {
   requestIncidentsError,
   requestIncidents,
 } from '../actions';
-import {
-  makeSelectActiveFilter,
-  makeSelectFilterParams,
-  makeSelectSearchQuery,
-} from '../selectors';
+import { makeSelectActiveFilter, makeSelectFilterParams } from '../selectors';
 
 describe('signals/incident-management/saga', () => {
   it('should watchIncidentManagementSaga', () => {
@@ -104,9 +95,7 @@ describe('signals/incident-management/saga', () => {
   describe('fetch proxy', () => {
     it('should call fetchIncidents', () =>
       expectSaga(fetchProxy)
-        .provide([
-          [select(makeSelectSearchQuery), undefined],
-        ])
+        .provide([[select(makeSelectSearchQuery), undefined]])
         .call(fetchIncidents)
         .run());
 
@@ -115,9 +104,7 @@ describe('signals/incident-management/saga', () => {
       const action = { payload: searchQuery };
 
       return expectSaga(fetchProxy, action)
-        .provide([
-          [select(makeSelectSearchQuery), searchQuery],
-        ])
+        .provide([[select(makeSelectSearchQuery), searchQuery]])
         .call(searchIncidents, action)
         .run();
     });
@@ -206,28 +193,16 @@ describe('signals/incident-management/saga', () => {
       const action = { type: ORDERING_CHANGED };
 
       return expectSaga(searchIncidents, action)
-        .provide([[select(makeSelectSearchQuery), q], [matchers.call.fn(authCall), incidentsJSON]])
+        .provide([
+          [select(makeSelectSearchQuery), q],
+          [matchers.call.fn(authCall), incidentsJSON],
+        ])
         .select(makeSelectSearchQuery)
         .put(applyFilterRefreshStop())
         .select(makeSelectFilterParams)
         .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
         .not.put(push('/manage/incidents'))
         .put(searchIncidentsSuccess(incidentsJSON))
-        .run();
-    });
-
-    it('should redirect when search query is set', () => {
-      const q = 'Here be dragons';
-      const action = { type: SET_SEARCH_QUERY };
-
-      return expectSaga(searchIncidents, action)
-        .provide([[select(makeSelectSearchQuery), q], [matchers.call.fn(authCall), incidentsJSON]])
-        .select(makeSelectSearchQuery)
-        .put(applyFilterRefreshStop())
-        .select(makeSelectFilterParams)
-        .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
-        .put(searchIncidentsSuccess(incidentsJSON))
-        .put(push('/manage/incidents'))
         .run();
     });
 

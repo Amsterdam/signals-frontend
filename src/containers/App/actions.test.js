@@ -4,35 +4,32 @@ import userJson from 'utils/__tests__/fixtures/user.json';
 import {
   AUTHENTICATE_USER,
   AUTHORIZE_USER,
-
   SHOW_GLOBAL_NOTIFICATION,
   RESET_GLOBAL_NOTIFICATION,
-
   LOGIN,
   LOGOUT,
-
   UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
+  SET_SEARCH_QUERY,
+  RESET_SEARCH_QUERY,
 } from './constants';
 
 import {
   authenticateUser,
   authorizeUser,
-
   showGlobalNotification,
   resetGlobalNotification,
-
   doLogin,
   doLogout,
-
   uploadRequest,
   uploadProgress,
   uploadSuccess,
   uploadFailure,
+  setSearchQuery,
+  resetSearchQuery,
 } from './actions';
-
 
 describe('containers/App/actions', () => {
   it('should dispatch authenticate user action', () => {
@@ -89,5 +86,14 @@ describe('containers/App/actions', () => {
 
   it('should dispatch upload failure action', () => {
     testActionCreator(uploadFailure, UPLOAD_FAILURE);
+  });
+
+  it('should dispatch setSearchQuery action', () => {
+    const searchQuery = 'stoeptegels';
+    testActionCreator(setSearchQuery, SET_SEARCH_QUERY, searchQuery);
+  });
+
+  it('should dispatch resetSearchQuery action', () => {
+    testActionCreator(resetSearchQuery, RESET_SEARCH_QUERY);
   });
 });

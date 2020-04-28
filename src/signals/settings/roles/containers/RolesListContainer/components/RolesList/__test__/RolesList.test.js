@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
-import roles from 'utils/__tests__/fixtures/roles.json';
+import rolesJson from 'utils/__tests__/fixtures/roles.json';
 import { ROLE_URL } from 'signals/settings/routes';
 
 import RolesList from '..';
@@ -16,11 +16,7 @@ jest.mock('react-router-dom', () => ({
 describe('signals/settings/roles/containers/RolesListContainer/components/RolesList', () => {
   let props = {};
 
-  beforeEach(() => {
-    props = {
-      list: roles.list,
-    };
-  });
+  beforeEach(() => { props = { list: rolesJson }; });
 
   it('should render correctly', () => {
     const { container, rerender } = render(
@@ -31,19 +27,17 @@ describe('signals/settings/roles/containers/RolesListContainer/components/RolesL
 
     expect(
       container.querySelector('tr:nth-child(1) td:nth-child(1)')
-    ).toHaveTextContent(/^behandelaars$/);
+    ).toHaveTextContent(/^Behandelaar$/);
     expect(
       container.querySelector('tr:nth-child(1) td:nth-child(2)')
-    ).toHaveTextContent(
-      /^Can read from SIA, Can change the status of a signal$/
-    );
+    ).toHaveTextContent(/^Leesrechten algemeen, Wijzigen van status van een melding, Melding aanmaken/);
 
     expect(
-      container.querySelector('tr:nth-child(2) td:nth-child(1)')
-    ).toHaveTextContent(/^coordinatoren$/);
+      container.querySelector('tr:nth-child(4) td:nth-child(1)')
+    ).toHaveTextContent(/^Hele beperkte rol$/);
     expect(
-      container.querySelector('tr:nth-child(2) td:nth-child(2)')
-    ).toHaveTextContent(/^$/);
+      container.querySelector('tr:nth-child(4) td:nth-child(2)')
+    ).toHaveTextContent(/^Wijzigen van status van een melding, Melding aanmaken$/);
 
     props.list = [];
     rerender(withAppContext(<RolesList {...props} />));
