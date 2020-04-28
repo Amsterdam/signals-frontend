@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -126,8 +125,6 @@ module.exports = options => ({
       chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[contenthash].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
-
-    new CopyWebpackPlugin([{ from: path.resolve(process.cwd(), 'static') }]),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
   ]
