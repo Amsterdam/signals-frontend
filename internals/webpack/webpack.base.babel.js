@@ -7,9 +7,11 @@ const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = options => ({
   mode: options.mode,
+
   entry: ['@babel/polyfill', 'formdata-polyfill', 'url-polyfill', require.resolve('react-app-polyfill/ie11')].concat(
     options.entry
   ),
+
   // eslint-disable-next-line prefer-object-spread
   output: Object.assign(
     {
@@ -19,6 +21,7 @@ module.exports = options => ({
     options.output
   ), // Merge with env dependent settings
   optimization: options.optimization,
+
   module: {
     rules: [
       {
@@ -109,35 +112,42 @@ module.exports = options => ({
       },
     ],
   },
-  plugins: [
-    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
-    // inside your code for any environment checks; Terser will automatically
-    // drop any unreachable code.
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT) || 'dummy',
-    }),
 
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // all options are optional
-      filename: devMode ? 'css/[name].css' : 'css/[name].[contenthash].css',
-      chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[contenthash].css',
-      ignoreOrder: false, // Enable to remove warnings about conflicting order
-    }),
+  plugins: options.plugins_pre
+    .concat([
+      // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
+      // inside your code for any environment checks; Terser will automatically
+      // drop any unreachable code.
+      new webpack.EnvironmentPlugin({
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT) || 'dummy',
+      }),
 
-    process.env.ANALYZE && new BundleAnalyzerPlugin(),
-  ]
-    .concat(options.plugins)
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // all options are optional
+        filename: devMode ? 'css/[name].css' : 'css/[name].[contenthash].css',
+        chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[contenthash].css',
+        ignoreOrder: false, // Enable to remove warnings about conflicting order
+      }),
+
+      process.env.ANALYZE && new BundleAnalyzerPlugin(),
+    ])
+    .concat(options.plugins_post)
     .filter(Boolean),
+
   resolve: {
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
   },
+
   devtool: options.devtool,
+
   target: 'web', // Make web variables accessible to webpack, e.g. window
+
   performance: options.performance || {},
+
   externals: {
     globalConfig: JSON.stringify(
       // eslint-disable-next-line

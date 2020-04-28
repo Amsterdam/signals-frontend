@@ -147,25 +147,7 @@ module.exports = require('./webpack.base.babel')({
     },
   },
 
-  plugins: [
-    // Minify and optimize the index.html
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      },
-      inject: true,
-    }),
-
+  plugins_pre: [
     new WebpackPwaManifest({
       name: 'Signalen Informatievoorziening Amsterdam',
       short_name: 'SIA',
@@ -183,6 +165,34 @@ module.exports = require('./webpack.base.babel')({
       ],
     }),
 
+    // Minify and optimize the index.html
+    new HtmlWebpackPlugin({
+      template: 'src/index.ejs',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+      inject: true,
+      base: 'https://acc.meldingen.amsterdam.nl/',
+      templateParameters: {
+        lang: 'nl',
+        title: 'SIA - Signalen Informatievoorziening Amsterdam',
+        webAppTitle: 'SIA',
+        // eslint-disable-next-line
+        texts: JSON.stringify(require(path.join(process.cwd(), 'texts.json'))),
+      },
+    }),
+  ],
+
+  plugins_post: [
     new CompressionPlugin({
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/,
