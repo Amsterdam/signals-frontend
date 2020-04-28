@@ -26,9 +26,10 @@ import reducer from './reducer';
 import saga from './saga';
 
 export const AppContainer = ({ resetIncidentAction }) => {
+  const injectedConfig = window.CONFIG || {};
   const [themeConfig, setThemeConfig] = useState({
-    ...window.CONFIG,
-    isLoading: true,
+    ...injectedConfig,
+    isLoading: Boolean(injectedConfig.logoUrl),
   });
 
   const onLogoLoad = () => {
