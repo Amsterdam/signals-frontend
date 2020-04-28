@@ -183,9 +183,8 @@ module.exports = require('./webpack.base.babel')({
       inject: true,
       base: 'https://acc.meldingen.amsterdam.nl/',
       templateParameters: {
-        lang: 'nl',
-        title: 'SIA - Signalen Informatievoorziening Amsterdam',
-        webAppTitle: 'SIA',
+        // eslint-disable-next-line
+        ...require(path.join(process.cwd(), 'site_settings.json')),
         // eslint-disable-next-line
         texts: JSON.stringify(require(path.join(process.cwd(), 'texts.json'))),
       },
