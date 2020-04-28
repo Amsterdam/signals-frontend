@@ -7,7 +7,7 @@ describe('Overlast door door groep jongeren',() => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAddressRoute('1018CN 28-H');
+    cy.getAddressRoute();
 
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
@@ -23,9 +23,7 @@ describe('Overlast door door groep jongeren',() => {
 
     // Select found item  
     createSignal.selectAddress('Plantage Doklaan 28-H, 1018CN Amsterdam');
-    cy.wait('@lookup')
-      .wait('@location')
-      .wait('@geoSearchLocation');
+    cy.wait('@geoSearchLocation');
   });
 
   it('Should enter description and date', () => {
@@ -108,8 +106,9 @@ describe('Overlast door door groep jongeren',() => {
     // Check h1
     cy.checkHeaderText('Controleer uw gegevens');
   
-    // Check if map is visible
-    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
+    // Check if map and marker are visible
+    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
 
     // Check information provided by user
     cy.contains('Plantage Doklaan 28-H, 1018CN Amsterdam').should('be.visible');
@@ -117,14 +116,16 @@ describe('Overlast door door groep jongeren',() => {
     cy.contains('4 - 6').should('be.visible');
     cy.contains('Ja, het gebeurt vaker').should('be.visible');
     cy.contains('Bijna iedere dag').should('be.visible');
-
-    // Check marker on map
-    cy.get(CREATE_SIGNAL.imageAddressMarker).find("img").should('be.visible');
-
-    cy.clickButton('Verstuur');
   });
 
   it('Should show the last screen', () => {
+    cy.server();
+    cy.postSignalRoutePublic();
+
+    cy.clickButton('Verstuur');
+    
+    cy.wait('@postSignalPublic');
+    
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 
