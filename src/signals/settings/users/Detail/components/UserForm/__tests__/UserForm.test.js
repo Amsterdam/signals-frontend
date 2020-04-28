@@ -189,7 +189,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(radio2.checked).toBe(true);
   });
 
-  it('should check an unchecked role checkbox', async () => {
+  it('should check an unchecked role checkbox', () => {
     jest.useFakeTimers();
 
     const { getByLabelText } = render(withAppContext(<UserForm />));
