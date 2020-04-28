@@ -1,15 +1,23 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
+import { withAppContext } from 'test/utils';
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
-import { withAppContext } from 'test/utils';
-import routes from 'signals/settings/routes';
-import userJSON from 'utils/__tests__/fixtures/user.json';
-import departmentsJson from 'utils/__tests__/fixtures/departments.json';
-import * as modelSelectors from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
+
+import routes from 'signals/settings/routes';
+
+import userJSON from 'utils/__tests__/fixtures/user.json';
+import rolesJson from 'utils/__tests__/fixtures/roles.json';
+import departmentsJson from 'utils/__tests__/fixtures/departments.json';
+import inputCheckboxRolesSelectorJson from
+  'utils/__tests__/fixtures/inputCheckboxRolesSelector.json';
+
+import * as rolesSelectors from 'models/roles/selectors';
+import * as modelSelectors from 'models/departments/selectors';
 import * as appSelectors from 'containers/App/selectors';
+
 import useFetch from 'hooks/useFetch';
 
 import UserDetail from '..';
@@ -62,7 +70,18 @@ jest.mock('models/departments/selectors', () => ({
   ...jest.requireActual('models/departments/selectors'),
 }));
 
+jest.mock('models/roles/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/roles/selectors'),
+}));
+
 jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
+
+jest.spyOn(rolesSelectors, 'inputCheckboxRolesSelector').mockImplementation(() =>
+  inputCheckboxRolesSelectorJson
+);
+
+jest.spyOn(rolesSelectors, 'rolesModelSelector').mockImplementation(() => ({ list: rolesJson }));
 
 describe('signals/settings/users/containers/Detail', () => {
   beforeEach(() => {

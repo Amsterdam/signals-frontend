@@ -4,6 +4,10 @@ import { useSelector } from 'react-redux';
 import { themeSpacing, Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
+import { userType } from 'shared/types';
+
+import { rolesModelSelector, inputCheckboxRolesSelector } from 'models/roles/selectors';
+
 import { makeSelectDepartments } from 'models/departments/selectors';
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 import CheckboxList from 'signals/incident-management/components/CheckboxList';
@@ -43,11 +47,21 @@ const DEFAULT_STATUS_OPTION = 'true';
 const reducer = (state, { field, value }) => ({ ...state, [field]: value });
 
 const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
+  const inputRoles = useSelector(inputCheckboxRolesSelector);
+  const roles = useSelector(rolesModelSelector).list;
+
   const departments = useSelector(makeSelectDepartments);
   const departmentList = departments.list.map(({ id, name }) => ({ id: String(id), value: name }));
 
-  const userDepartments = data?.profile?.departments
+  const userDepartments = data
+    ?.profile
+    ?.departments
     ?.map(department => departmentList.find(({ value }) => value === department))
+    .filter(Boolean) || [];
+
+  const userRoles = data
+    ?.roles
+    ?.map(role => inputRoles.find(({ name }) => name === role.name))
     .filter(Boolean) || [];
 
   const [state, dispatch] = React.useReducer(reducer, {
@@ -57,6 +71,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     note: data.profile && data.profile.note,
     is_active: data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`,
     departments: userDepartments,
+    roles: userRoles,
   });
 
   const onChangeEvent = useCallback(event => {
@@ -77,14 +92,20 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     form.profile.note = state.note;
     form.profile.departments = state.departments.map(({ value }) => value);
 
+    form.roles = state.roles.map(({ name: stateRoleName }) =>
+      roles.filter(({ name: dataRoleName }) => dataRoleName === stateRoleName)[0]
+    );
+
     const postPatch = { ...form, profile: { ...form.profile } };
 
     delete postPatch.profile.departments;
+    postPatch.profile.department_ids = Object.values(state.departments).map(({ id }) => id);
 
-    postPatch.profile.department_ids = Object.values(state.departments) .map(({ id }) => id);
+    delete postPatch.roles;
+    postPatch.role_ids = Object.values(state.roles).map(({ key }) => key);
 
     return { form, postPatch };
-  }, [data, state]);
+  }, [data, roles, state]);
 
   const onSubmitForm = useCallback(event => {
     event.preventDefault();
@@ -147,13 +168,25 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
           </FieldGroup>
 
           <FieldGroup>
+            <Label as="span">Rollen</Label>
+            <CheckboxList
+              defaultValue={state.roles}
+              disabled={readOnly}
+              groupName="roles"
+              name="roles"
+              options={inputRoles}
+              onChange={(field, value) => { onChange(field, value); }}
+            />
+          </FieldGroup>
+
+          <FieldGroup>
             <Label as="span">Afdeling</Label>
             <CheckboxList
               defaultValue={state.departments}
+              disabled={readOnly}
               groupName="departments"
               name="departments"
               options={departmentList}
-              disabled={readOnly}
               onChange={(field, value) => { onChange(field, value); }}
             />
           </FieldGroup>
@@ -195,16 +228,7 @@ UserForm.defaultProps = {
 };
 
 UserForm.propTypes = {
-  data: PropTypes.shape({
-    username: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
-    is_active: PropTypes.bool,
-    profile: PropTypes.shape({
-      departments: PropTypes.arrayOf(PropTypes.string),
-      note: PropTypes.string,
-    }),
-  }),
+  data: userType,
   /**
    * Callback handler called whenever form is canceled
    * @param {Object} form data
