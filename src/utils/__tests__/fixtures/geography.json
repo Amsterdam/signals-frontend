@@ -1,0 +1,117 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.89536486,
+          52.42071836
+        ]
+      },
+      "properties": {
+        "id": 5100,
+        "created_at": "2020-04-09T10:45:44.414879+02:00"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.89536486,
+          52.42071836
+        ]
+      },
+      "properties": {
+        "id": 5099,
+        "created_at": "2020-04-09T10:45:21.149400+02:00"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.80740379,
+          52.34161489
+        ]
+      },
+      "properties": {
+        "id": 5098,
+        "created_at": "2020-04-09T09:47:26.613410+02:00"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.90746036,
+          52.35582303
+        ]
+      },
+      "properties": {
+        "id": 5097,
+        "created_at": "2020-04-09T09:03:51.089526+02:00"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.885752961964227,
+          52.370278876049724
+        ]
+      },
+      "properties": {
+        "id": 5096,
+        "created_at": "2020-04-09T08:01:22.475079+02:00"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.885726036870142,
+          52.370032430287594
+        ]
+      },
+      "properties": {
+        "id": 5095,
+        "created_at": "2020-04-09T07:57:49.292380+02:00"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.84805272072212,
+          52.38163951801653
+        ]
+      },
+      "properties": {
+        "id": 5094,
+        "created_at": "2020-04-08T15:57:22.581175+02:00"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.84784545355775,
+          52.381371661635754
+        ]
+      },
+      "properties": {
+        "id": 5093,
+        "created_at": "2020-04-08T15:54:46.501447+02:00"
+      }
+    }
+  ]
+}

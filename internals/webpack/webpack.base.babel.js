@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -111,13 +110,6 @@ module.exports = options => ({
     ],
   },
   plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: './node_modules/@datapunt/amsterdam-amaps/dist/nlmaps/dist/assets',
-        to: './assets',
-      },
-    ]),
-
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; Terser will automatically
     // drop any unreachable code.

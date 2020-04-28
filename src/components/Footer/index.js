@@ -52,7 +52,7 @@ const Footer = () => (
     <Disclaimer data-testid="disclaimer">
       <Row>
         <Column span={12}>
-          <StyledHeading $as="h2">Lukt het niet om een melding te doen?</StyledHeading>
+          <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
         </Column>
 
         <Column span={12}>

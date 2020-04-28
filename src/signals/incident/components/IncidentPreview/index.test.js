@@ -8,7 +8,6 @@ import IncidentPreview from './index';
 import isVisible from './services/is-visible';
 
 jest.mock('./services/is-visible');
-jest.mock('components/Map');
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -162,6 +161,7 @@ describe('<IncidentPreview />', () => {
 
     it('expect to render correctly', () => {
       isVisible.mockImplementation(() => true);
+
       const { queryByText } = render(
         withAppContext(<IncidentPreview {...alTypesProps} />)
       );
@@ -193,7 +193,7 @@ describe('<IncidentPreview />', () => {
 
       expect(queryByText(step.location.label))
         .toBeInTheDocument();
-      expect(queryByText(incident.location.address_text));
+      expect(queryByText(incident.location.address_text)).toBeInTheDocument();;
     });
   });
 });

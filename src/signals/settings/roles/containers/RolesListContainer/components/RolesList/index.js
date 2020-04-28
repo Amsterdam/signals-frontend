@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import ListComponent from 'components/List';

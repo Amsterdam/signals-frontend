@@ -18,33 +18,86 @@ exports[`<MapInput /> should render correctly 1`] = `
     <div
       className="map-input__control invoer"
     >
-      <MapInteractive
-        location={
-          Object {
-            "address": Object {
-              "huisletter": "B",
-              "huisnummer": "84",
-              "huisnummer_toevoeging": "",
-              "openbare_ruimte": "Geldersekade",
-              "postcode": "1012BL",
-              "woonplaats": "Amsterdam",
-            },
-            "address_text": "Geldersekade 84B- 1012BL Amsterdam",
-            "buurt_code": "A00c",
-            "extra_properties": null,
-            "geometrie": Object {
-              "coordinates": Array [
-                52.374231891648414,
+      <Memo(MapContext)>
+        <MapInput
+          hasZoomControls={true}
+          mapOptions={
+            Object {
+              "attributionControl": true,
+              "center": Array [
                 4.901061058044434,
+                52.374231891648414,
               ],
-              "type": "Point",
-            },
-            "id": 5,
-            "stadsdeel": "A",
+              "crs": Object {
+                "R": 6378137,
+                "code": "EPSG:28992",
+                "distance": [Function],
+                "getProjectedBounds": [Function],
+                "infinite": false,
+                "latLngToPoint": [Function],
+                "pointToLatLng": [Function],
+                "project": [Function],
+                "projection": Object {
+                  "bounds": Object {
+                    "max": Object {
+                      "x": 595401.92,
+                      "y": 903401,
+                    },
+                    "min": Object {
+                      "x": -285401,
+                      "y": 22598.08,
+                    },
+                  },
+                  "proj4def": "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,4.0812 +no_defs",
+                  "project": [Function],
+                  "unproject": [Function],
+                },
+                "scale": [Function],
+                "transformation": Object {
+                  "_a": 1,
+                  "_b": 285401.92,
+                  "_c": -1,
+                  "_d": 903401.92,
+                },
+                "unproject": [Function],
+                "wrapLatLng": [Function],
+                "wrapLatLngBounds": [Function],
+                "zoom": [Function],
+              },
+              "maxBounds": Array [
+                Array [
+                  52.25168,
+                  4.64034,
+                ],
+                Array [
+                  52.50536,
+                  5.10737,
+                ],
+              ],
+              "zoom": 10,
+              "zoomControl": false,
+            }
           }
-        }
-        map={false}
-      />
+          onChange={[Function]}
+          value={
+            Object {
+              "address": Object {
+                "huisletter": "B",
+                "huisnummer": "84",
+                "huisnummer_toevoeging": "",
+                "openbare_ruimte": "Geldersekade",
+                "postcode": "1012BL",
+                "woonplaats": "Amsterdam",
+              },
+              "addressText": "Geldersekade 84B, 1012BL Amsterdam",
+              "location": Object {
+                "lat": 4.901061058044434,
+                "lng": 52.374231891648414,
+              },
+            }
+          }
+        />
+      </Memo(MapContext)>
     </div>
   </div>
 </div>

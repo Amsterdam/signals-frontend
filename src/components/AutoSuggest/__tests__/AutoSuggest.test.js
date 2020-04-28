@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { render, fireEvent, wait, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { withAppContext, resolveAfterMs } from 'test/utils';
 
 import AutoSuggest, { INPUT_DELAY } from '..';
 import JSONResponse from './mockResponse.json';
@@ -18,8 +18,6 @@ const props = {
   onSelect,
   url,
 };
-
-const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
 
 describe('src/components/AutoSuggest', () => {
   beforeEach(() => {
@@ -44,6 +42,8 @@ describe('src/components/AutoSuggest', () => {
   it('should request external service', async () => {
     const { container } = render(withAppContext(<AutoSuggest {...props} />));
     const input = container.querySelector('input');
+
+    input.focus();
 
     act(() => {
       fireEvent.change(input, { target: { value: 'A' } });
@@ -77,6 +77,8 @@ describe('src/components/AutoSuggest', () => {
     const { container, rerender } = render(withAppContext(<AutoSuggest {...props} />));
     const input = container.querySelector('input');
 
+    input.focus();
+
     expect(input.value).toEqual('');
 
     const value = 'Foo bar bazzzz';
@@ -94,6 +96,8 @@ describe('src/components/AutoSuggest', () => {
     const { container, queryByTestId, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
     const input = container.querySelector('input');
 
+    input.focus();
+
     expect(queryByTestId('suggestList')).not.toBeInTheDocument();
 
     act(() => {
@@ -110,6 +114,8 @@ describe('src/components/AutoSuggest', () => {
     test('ArrowUp key', async () => {
       const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
+
+      input.focus();
 
       act(() => {
         fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 });
@@ -142,6 +148,8 @@ describe('src/components/AutoSuggest', () => {
       const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
 
+      input.focus();
+
       expect(input.getAttribute('aria-activedescendant')).toBeNull();
 
       act(() => {
@@ -171,6 +179,8 @@ describe('src/components/AutoSuggest', () => {
     test('ArrowUp and ArrowDown cycle', async () => {
       const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
+
+      input.focus();
 
       expect(input.getAttribute('aria-activedescendant')).toBeNull();
 
@@ -205,8 +215,13 @@ describe('src/components/AutoSuggest', () => {
     });
 
     test('Esc', async () => {
-      const { container, findByTestId, queryByTestId } = render(withAppContext(<AutoSuggest {...props} />));
+      const onClear = jest.fn();
+      const { container, findByTestId, queryByTestId } = render(
+        withAppContext(<AutoSuggest {...props} onClear={onClear} />)
+      );
       const input = container.querySelector('input');
+
+      input.focus();
 
       act(() => {
         fireEvent.change(input, { target: { value: 'Boom' } });
@@ -220,11 +235,13 @@ describe('src/components/AutoSuggest', () => {
       });
 
       expect(document.activeElement).toEqual(firstElement);
+      expect(onClear).not.toHaveBeenCalled();
 
       act(() => {
         fireEvent.keyDown(input, { key: 'Escape', code: 13, keyCode: 13 });
       });
 
+      expect(onClear).toHaveBeenCalled();
       expect(input.value).toEqual('');
       expect(document.activeElement).toEqual(input);
       expect(queryByTestId('suggestList')).not.toBeInTheDocument();
@@ -247,6 +264,8 @@ describe('src/components/AutoSuggest', () => {
     test('Home', async () => {
       const { container, findByTestId, getByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
+
+      input.focus();
 
       act(() => {
         fireEvent.change(input, { target: { value: 'Niezel' } });
@@ -282,6 +301,8 @@ describe('src/components/AutoSuggest', () => {
       const { container, findByTestId, getByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
       const value = 'Midden';
+
+      input.focus();
 
       act(() => {
         fireEvent.change(input, { target: { value } });
@@ -324,6 +345,8 @@ describe('src/components/AutoSuggest', () => {
       const input = container.querySelector('input[aria-autocomplete=list]');
       const nameField = container.querySelector('input[name=foo]');
 
+      input.focus();
+
       act(() => {
         fireEvent.change(input, { target: { value: 'Niezel' } });
       });
@@ -345,9 +368,11 @@ describe('src/components/AutoSuggest', () => {
       expect(suggestList).not.toBeInTheDocument();
     });
 
-    test('Any key (yes, such a key exists)', async() => {
+    test('Any key (yes, such a key exists)', async () => {
       const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
+
+      input.focus();
 
       act(() => {
         fireEvent.change(input, { target: { value: 'Meeuwenlaan' } });
@@ -402,5 +427,29 @@ describe('src/components/AutoSuggest', () => {
     expect(input.value).toEqual(firstOption.value);
     expect(onSelect).toHaveBeenCalledTimes(1);
     expect(onSelect).toHaveBeenCalledWith(firstOption);
+  });
+
+  it('should call onClear', async () => {
+    const onClear = jest.fn();
+    const { container } = render(
+      withAppContext(<AutoSuggest {...props} onClear={onClear} />)
+    );
+    const input = container.querySelector('input');
+
+    act(() => {
+      fireEvent.change(input, { target: { value: 'Rembrandt' } });
+    });
+
+    await wait(() => resolveAfterMs(INPUT_DELAY));
+
+    expect(onClear).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.change(input, { target: { value: '' } });
+    });
+
+    await wait(() => resolveAfterMs(INPUT_DELAY));
+
+    expect(onClear).toHaveBeenCalled();
   });
 });

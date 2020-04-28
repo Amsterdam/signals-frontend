@@ -61,7 +61,7 @@ const FilterItem = ({ filter, onApplyFilter, onEditFilter, onRemoveFilter, onClo
 
   return (
     <div className="filter-item">
-      <StyledH4 $as="h4">
+      <StyledH4 forwardedAs="h4">
         {filter.refresh && (<RefreshIcon />)}
         {filter.name}
       </StyledH4>

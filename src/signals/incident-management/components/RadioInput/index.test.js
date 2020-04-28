@@ -35,6 +35,22 @@ describe('<RadioInput />', () => {
     expect(getByText(new RegExp(currentValue.info))).toBeInTheDocument();
   });
 
+  it('should not display info text', () => {
+    const currentValue = priorityList[0];
+    const RenderFunc = RadioInput({
+      name: 'priority',
+      display: 'Urgentie',
+    });
+
+    const { queryByText } = render(
+      withAppContext(
+        <RenderFunc handler={handler} value={currentValue.key} />
+      )
+    );
+
+    expect(queryByText(new RegExp(currentValue.info))).not.toBeInTheDocument();
+  });
+
   it('should display a label', () => {
     const { container, rerender } = render(
       withAppContext(<RadioInputRender handler={handler} />)

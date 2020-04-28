@@ -13,6 +13,8 @@ import {
   UPLOAD_PROGRESS,
   UPLOAD_REQUEST,
   UPLOAD_SUCCESS,
+  SET_SEARCH_QUERY,
+  RESET_SEARCH_QUERY,
 } from './constants';
 
 describe('containers/App/reducer', () => {
@@ -204,5 +206,39 @@ describe('containers/App/reducer', () => {
           .set('upload', initialState.get('upload'))
       );
     });
+  });
+
+  it('should handle SET_SEARCH_QUERY', () => {
+    const setSearchQuery = {
+      type: SET_SEARCH_QUERY,
+      payload: 'stoeptegels',
+    };
+
+    expect(initialState.get('searchQuery')).toBe('');
+    const applied = state =>
+      state
+        .set('searchQuery', setSearchQuery.payload);
+
+    expect(appReducer(initialState, setSearchQuery)).toEqual(
+      applied(initialState)
+    );
+  });
+
+  it('should handle RESET_SEARCH_QUERY', () => {
+    const resetSearchQuery = {
+      type: RESET_SEARCH_QUERY,
+    };
+
+
+    const otherState = initialState.set('searchQuery', 'search-term');
+    expect(otherState.get('searchQuery')).toBe('search-term');
+
+    const applied = state =>
+      state
+        .set('searchQuery', initialState.get('searchQuery'));
+
+    expect(appReducer(otherState, resetSearchQuery)).toEqual(
+      applied(initialState)
+    );
   });
 });

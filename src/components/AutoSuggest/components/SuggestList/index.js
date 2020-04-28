@@ -51,13 +51,14 @@ const SuggestList = ({ activeIndex, className, role, options, onSelectOption, ..
   );
 
   const handleKeyDown = useCallback((event, option) => {
+    event.preventDefault();
+
     // preventing the page from scrolling when cycling through the list of options
     switch (event.key) {
       case 'Up':
       case 'ArrowUp':
       case 'Down':
       case 'ArrowDown':
-        event.preventDefault();
         break;
 
       case 'Enter':

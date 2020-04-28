@@ -78,7 +78,7 @@ export const DepartmentDetailContainer = ({
           <Row>
             <Column span={12}>
               <div>
-                <Heading $as="h2" styleAs="h4">
+                <Heading forwardedAs="h2" styleAs="h4">
                   Afdeling
                 </Heading>
                 <Paragraph>{data.name}</Paragraph>

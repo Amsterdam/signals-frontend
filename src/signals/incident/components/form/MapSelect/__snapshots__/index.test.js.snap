@@ -54,7 +54,6 @@ exports[`Form component <MapSelectFormComponent /> rendering should render the M
           onSelectionChange={[Function]}
           selectionOnly={false}
           value={Array []}
-          zoomMin={17}
         />
       </div>
     </Header>

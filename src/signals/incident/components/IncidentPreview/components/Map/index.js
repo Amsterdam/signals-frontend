@@ -1,54 +1,62 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import Map from '../../../../../../components/Map';
 
-import './style.scss';
+import styled from 'styled-components';
+import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { formatAddress } from 'shared/services/map-location';
+import MapStatic from 'components/MapStatic';
 
-const formatAddress = address => {
-  const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
-  const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
-  return display;
-};
+const ItemWrapper = styled.div`
+  padding: ${themeSpacing(5, 0)};
+  width: 100%;
+`;
 
 /**
  * Map preview with one or more markers
  */
-const MapPreview = ({ label, value }) => (
-  <div className="preview-map">
-    <div className="row">
-      <div className="col-5 col-md-4">
-        <div className="preview-map__item-label">{label}</div>
-      </div>
-      <div className="col-5 col-md-7">
-        <div className="preview-map__item-value">
-          {value
-            && (
-              <div>
-                <div>
-                  {value.address ? formatAddress(value.address) : 'Geen adres gevonden'}
-                </div>
-                {value.geometrie && value.geometrie.coordinates
-                  ? (
-                    <div className="preview-map__item-value-map">
-                      <Map
-                        latlng={{ latitude: value.geometrie.coordinates[1], longitude: value.geometrie.coordinates[0] }}
-                      />
-                    </div>
-                  )
-                  : ''}
-              </div>
-            )}
-        </div>
-      </div>
-    </div>
-  </div>
-);
+const MapPreview = ({ label, value }) => {
+  const longitude = value?.geometrie?.coordinates[0];
+  const latitude = value?.geometrie?.coordinates[1];
+
+  const geometry = useMemo(() => ({
+    latitude,
+    longitude,
+  }), [longitude, latitude]);
+
+  return (
+    <Row hasMargin={false} data-testid="mapPreview">
+      <Column span={{ small: 1, medium: 2, big: 6, large: 10, xLarge: 11 }} wrap>
+        <Column span={{ small: 1, medium: 2, big: 2, large: 2, xLarge: 2 }}>
+          <ItemWrapper>{label}</ItemWrapper>
+        </Column>
+
+        <Column span={{ small: 1, medium: 2, big: 4, large: 6, xLarge: 7 }}>
+          {value && (
+            <ItemWrapper>
+              <div>{value?.address ? formatAddress(value.address) : 'Geen adres gevonden'}</div>
+              {latitude && longitude && <MapStatic width={640} {...geometry} />}
+            </ItemWrapper>
+          )}
+        </Column>
+      </Column>
+    </Row>
+  );
+};
 
 MapPreview.propTypes = {
   label: PropTypes.string,
   value: PropTypes.shape({
-    address: PropTypes.object,
-    geometrie: PropTypes.object,
+    address: PropTypes.shape({
+      openbare_ruimte: PropTypes.string,
+      huisnummer: PropTypes.string,
+      huisletter: PropTypes.string,
+      huisnummer_toevoeging: PropTypes.string,
+      postcode: PropTypes.string,
+      woonplaats: PropTypes.string,
+    }),
+    geometrie: PropTypes.shape({
+      coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+    }),
   }),
 };
 

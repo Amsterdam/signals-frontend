@@ -1,10 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import * as BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
+import { render } from '@testing-library/react';
 
-import amaps from '@datapunt/amsterdam-amaps/dist/amaps';
-
-import request from '../../utils/request';
 import ZoomMessageControl from './control/ZoomMessageControl';
 import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
@@ -12,43 +8,94 @@ import ErrorControl from './control/ErrorControl';
 
 import MapSelect from './index';
 
-jest.mock('@datapunt/amsterdam-amaps/dist/amaps');
-jest.mock('../../utils/request');
 jest.mock('./control/ZoomMessageControl');
 jest.mock('./control/LegendControl');
 jest.mock('./control/LoadingControl');
 jest.mock('./control/ErrorControl');
 
+const fetchResponse = {
+  type: 'FeatureCollection',
+  name: 'klokken',
+  crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+  features: [
+    {
+      type: 'Feature',
+      properties: { ogc_fid: '48634', type_id: '1', type_name: 'Klok', objectnummer: '065121' },
+      geometry: { type: 'Point', coordinates: [4.883614, 52.37855] },
+    },
+    {
+      type: 'Feature',
+      properties: { ogc_fid: '93331', type_id: '1', type_name: 'Klok', objectnummer: '017431' },
+      geometry: { type: 'Point', coordinates: [4.877793, 52.379065] },
+    },
+  ],
+};
+
+fetch.mockResponse(JSON.stringify(fetchResponse));
+
 describe('<MapSelect />', () => {
-  let mockLayer;
-  let legend;
-  const map = {};
+  const legend = [{ key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' }];
+  const onSelectionChange = jest.fn();
+  const url = 'foo/geo.json?';
+  const getIcon = (type, isSelected) => {
+    if (isSelected) {
+      return L.divIcon({ className: 'my-div-icon-select' });
+    }
 
-  function createComponent() {
-    amaps.createMap.mockReturnValue(map);
+    return L.divIcon({ className: 'my-div-icon' });
+  };
+  const latlng = {
+    latitude: 4,
+    longitude: 52,
+  };
 
-    const latlng = {
-      latitude: 4,
-      longitude: 52,
-    };
-    const onSelectionChange = jest.fn();
+  beforeEach(() => {
+    jest.resetAllMocks();
+    fetch.resetMocks();
+  });
 
-    const getIcon = (type, isSelected) => {
-      if (isSelected) {
-        return L.divIcon({ className: 'my-div-icon-select' });
-      }
-      return L.divIcon({ className: 'my-div-icon' });
-    };
+  it('should render correctly', async () => {
+    const { findByTestId } = render(
+      <MapSelect
+        latlng={latlng}
+        onSelectionChange={onSelectionChange}
+        getIcon={getIcon}
+        geojsonUrl={url}
+        iconField="type_name"
+        idField="objectnummer"
+      />
+    );
 
-    legend = [
-      { key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' },
-    ];
-    const url = 'foo/geo.json?';
+    await findByTestId('map-base');
 
-    mockLayer = { addTo: jest.fn() };
-    BboxGeojsonLayer.default.mockReturnValue(mockLayer);
+    expect(LegendControl).not.toHaveBeenCalled();
+    expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
+    expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
+    expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled();
+  });
 
-    const wrapper = shallow(
+  it('should render legend', async () => {
+    const { findByTestId } = render(
+      <MapSelect
+        latlng={latlng}
+        onSelectionChange={onSelectionChange}
+        getIcon={getIcon}
+        geojsonUrl={url}
+        legend={legend}
+        iconField="type_name"
+        idField="objectnummer"
+      />
+    );
+
+    await findByTestId('map-base');
+
+    expect(LegendControl).toHaveBeenCalled();
+  });
+
+  it('should do bbox fetch', async () => {
+    expect(fetch).not.toHaveBeenCalled();
+
+    const { findByTestId } = render(
       <MapSelect
         latlng={latlng}
         onSelectionChange={onSelectionChange}
@@ -59,72 +106,10 @@ describe('<MapSelect />', () => {
         idField="objectnummer"
       />
     );
-    return wrapper;
-  }
 
-  beforeEach(() => {
-    BboxGeojsonLayer.default = jest.fn();
-    ZoomMessageControl.mockClear();
-    ErrorControl.mockClear();
-    LegendControl.mockClear();
-    LoadingControl.mockClear();
-  });
+    await findByTestId('map-base');
 
-  it('should render correctly', () => {
-    const wrapper = createComponent();
-
-    expect(wrapper).toMatchSnapshot();
-
-    expect(LegendControl).toHaveBeenCalledWith({
-      position: 'topright',
-      zoomMin: 17,
-      elements: legend,
-    });
-
-    expect(mockLayer.addTo).toHaveBeenCalled();
-    expect(amaps.createMap).toHaveBeenCalled();
-    expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
-    expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
-    expect(LegendControl.mock.instances[0].addTo).toHaveBeenCalled();
-    expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled();
-  });
-
-  it('should do bbox fetch', () => {
-    createComponent();
-
-    request.mockReturnValue(Promise.resolve());
-    BboxGeojsonLayer.default.mock.calls[0][0].fetchRequest('bbox_str');
-
-    expect(request).toHaveBeenCalledWith('foo/geo.json?&bbox=bbox_str');
-  });
-
-  it('should pan to new center', () => {
-    const wrapper = createComponent();
-    const lat = 42;
-    const lng = 777;
-    map.panTo = jest.fn();
-
-    wrapper.setProps({
-      latlng: {
-        latitude: lat,
-        longitude: lng,
-      },
-    });
-
-    expect(map.panTo).toHaveBeenCalledWith({
-      lat,
-      lng,
-    });
-  });
-
-  it('should change the icons based on the selection', () => {
-    const wrapper = createComponent();
-
-    mockLayer.getLayers = jest.fn(() => []);
-    wrapper.setProps({
-      value: ['foo'],
-    });
-
-    expect(wrapper.instance().selection.set).toEqual(new Set(['foo']));
+    const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/;
+    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);
   });
 });

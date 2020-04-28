@@ -33,10 +33,9 @@ export const IncidentContainerComponent = ({
   updateIncidentAction,
 }) => (
   <Row>
-    <Alert>
+    <Alert data-testid="alertMessage">
       We pakken op dit moment alleen urgente meldingen op. De afhandeling van uw melding kan daarom tijdelijk langer
-      duren dan de standaard afhandeltermijn die wordt vermeld in de bevestiging die u ontvangt na registratie van uw
-      melding. Dank voor uw begrip.
+      duren dan de standaard afhandeltermijn die in de bevestigingsmail van uw melding staat. Wij hopen op uw begrip.
     </Alert>
 
     <br />

@@ -2,6 +2,7 @@ import React from 'react';
 import {
   render,
   fireEvent,
+  act,
 } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
@@ -44,31 +45,47 @@ describe('<SplitForm />', () => {
     };
   });
 
-  describe('rendering', () => {
-    it('should render correctly', () => {
-      const { queryByTestId } = render(
-        withAppContext(<SplitForm {...props} />)
-      );
+  it('should render correctly', () => {
+    const { queryByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
 
-      expect(queryByTestId('splitFormDisclaimer')).toBeInTheDocument();
-      expect(queryByTestId('splitFormBottomDisclaimer')).toBeInTheDocument();
-    });
+    expect(queryByTestId('splitFormDisclaimer')).toBeInTheDocument();
+    expect(queryByTestId('splitFormBottomDisclaimer')).toBeInTheDocument();
   });
 
-  describe('events', () => {
-    it('should toggle visiblity of part 3 on and off and on again', () => {
-      const { getByTestId, queryAllByTestId } = render(
-        withAppContext(<SplitForm {...props} />)
-      );
+  it('should toggle visiblity of part 3 on and off and on again', () => {
+    const { getByTestId, queryAllByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
 
+    act(() => {
       fireEvent.click(getByTestId('splitFormPartAdd'));
-
-      expect(queryAllByTestId('incidentPartTitle')[2]).toHaveTextContent(/^Deelmelding 3$/);
-
-      fireEvent.click(getByTestId('splitFormPartRemove'));
-
-      expect(queryAllByTestId('incidentPartTitle')[2]).toBeUndefined();
     });
+
+    expect(queryAllByTestId('incidentPartTitle')[2]).toHaveTextContent(/^Deelmelding 3$/);
+
+    act(() => {
+      fireEvent.click(getByTestId('splitFormPartRemove'));
+    });
+
+    expect(queryAllByTestId('incidentPartTitle')[2]).toBeUndefined();
+  });
+
+  it('should disable submit button when clicked', () => {
+    const { getByTestId } = render(
+      withAppContext(<SplitForm {...props} />)
+    );
+
+    const splitFormSubmit = getByTestId('splitFormSubmit');
+
+    expect(splitFormSubmit.disabled).toEqual(false);
+
+    act(() => {
+      fireEvent.click(getByTestId('splitFormSubmit'));
+    });
+
+    expect(splitFormSubmit.disabled).toEqual(true);
   });
 
   it('should handle submit with 2 items', () => {
@@ -76,7 +93,9 @@ describe('<SplitForm />', () => {
       withAppContext(<SplitForm {...props} />)
     );
 
-    fireEvent.click(getByTestId('splitFormSubmit'));
+    act(() => {
+      fireEvent.click(getByTestId('splitFormSubmit'));
+    });
 
     expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate],
@@ -90,8 +109,13 @@ describe('<SplitForm />', () => {
       withAppContext(<SplitForm {...props} />)
     );
 
-    fireEvent.click(getByTestId('splitFormPartAdd'));
-    fireEvent.click(getByTestId('splitFormSubmit'));
+    act(() => {
+      fireEvent.click(getByTestId('splitFormPartAdd'));
+    });
+
+    act(() => {
+      fireEvent.click(getByTestId('splitFormSubmit'));
+    });
 
     expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate, mockCreate],
@@ -105,7 +129,9 @@ describe('<SplitForm />', () => {
       withAppContext(<SplitForm {...props} />)
     );
 
-    fireEvent.click(getByTestId('splitFormCancel'));
+    act(() => {
+      fireEvent.click(getByTestId('splitFormCancel'));
+    });
 
     expect(props.onHandleCancel).toHaveBeenCalled();
   });

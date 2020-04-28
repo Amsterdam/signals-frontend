@@ -55,7 +55,7 @@ export const IncidentSplitContainer = ({
         ) : (
           <Fragment>
             <Column span={12}>
-              <StyledH1 $as="h1">Splitsen</StyledH1>
+              <StyledH1 forwardedAs="h1">Splitsen</StyledH1>
             </Column>
 
             <Column span={7}>

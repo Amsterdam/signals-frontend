@@ -2,17 +2,19 @@ import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
+import { Tag } from '@datapunt/asc-ui';
+import moment from 'moment';
+
 import {
   makeSelectMainCategories,
   makeSelectSubCategories,
 } from 'models/categories/selectors';
-import { makeSelectDataLists } from 'signals/incident-management/selectors';
-import { Tag } from '@datapunt/asc-ui';
-import moment from 'moment';
+import dataLists from 'signals/incident-management/definitions';
 import * as types from 'shared/types';
 
 const FilterWrapper = styled.div`
   margin-top: 10px;
+  flex-basis: 100%;
 `;
 
 const StyledTag = styled(Tag)`
@@ -82,7 +84,6 @@ const renderTag = (key, mainCategories, list) => {
 export const FilterTagListComponent = props => {
   const {
     tags,
-    dataLists,
     mainCategories,
     subCategories,
   } = props;
@@ -119,7 +120,7 @@ export const FilterTagListComponent = props => {
   }
 
   return mainCategories && subCategories ? (
-    <FilterWrapper className="incident-overview-page__filter-tag-list">
+    <FilterWrapper>
       {Object.entries(tagsList).map(([tagKey, tag]) =>
         Array.isArray(tag)
           ? renderGroup(tag, mainCategories, map[tagKey], tagKey)
@@ -133,7 +134,6 @@ FilterTagListComponent.propTypes = {
   tags: types.filterType,
   mainCategories: types.dataListType,
   subCategories: types.dataListType,
-  dataLists: types.dataListsType.isRequired,
 };
 
 FilterTagListComponent.defaultProps = {
@@ -143,7 +143,6 @@ FilterTagListComponent.defaultProps = {
 const mapStateToProps = createStructuredSelector({
   mainCategories: makeSelectMainCategories,
   subCategories: makeSelectSubCategories,
-  dataLists: makeSelectDataLists,
 });
 
 const withConnect = connect(mapStateToProps);

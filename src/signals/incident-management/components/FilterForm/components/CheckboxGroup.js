@@ -6,18 +6,12 @@ import Label from 'components/Label';
 import CheckboxList from '../../CheckboxList';
 import { FilterGroup } from '../styled';
 
-const CheckboxGroup = ({
-  defaultValue,
-  label,
-  name,
-  hasToggle,
-  onChange,
-  onToggle,
-  options,
-}) =>
+const renderId = 0;
+
+const CheckboxGroup = ({ defaultValue, label, name, hasToggle, onChange, onToggle, options }) =>
   Array.isArray(options) &&
   options.length > 0 && (
-    <FilterGroup data-testid={`${name}CheckboxGroup`}>
+    <FilterGroup data-testid={`${name}CheckboxGroup`} data-render-id={renderId + 1}>
       <CheckboxList
         defaultValue={defaultValue}
         hasToggle={hasToggle}

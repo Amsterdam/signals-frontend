@@ -146,7 +146,7 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
         <Fragment>
           <dt data-testid="meta-list-parent-definition">Oorspronkelijke melding</dt>
           <dd>
-            <AscLink data-testid="meta-list-parent-link" forwardedAs={Link} to={`/manage/incident/${getId(parent)}`}>
+            <AscLink data-testid="meta-list-parent-link" as={Link} variant="inline" to={`/manage/incident/${getId(parent)}`}>
               {getId(parent)}
             </AscLink>
           </dd>
@@ -162,7 +162,7 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
                 className="childLink"
                 data-testid={`meta-list-children-link-${getId(child)}`}
                 key={child.href}
-                forwardedAs={Link}
+                as={Link}
                 variant="inline"
                 to={`/manage/incident/${getId(child)}`}
               >

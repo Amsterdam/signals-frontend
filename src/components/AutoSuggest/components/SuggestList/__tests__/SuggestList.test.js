@@ -90,14 +90,18 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
     const enterEvent = createEvent.keyDown(thirdItem, { key: 'Enter', code: 13, keyCode: 13 });
     enterEvent.preventDefault = jest.fn();
 
+    expect(enterEvent.preventDefault).not.toHaveBeenCalled();
+
     act(() => {
       fireEvent(thirdItem, enterEvent);
     });
 
-    expect(enterEvent.preventDefault).not.toHaveBeenCalled();
+    expect(enterEvent.preventDefault).toHaveBeenCalled();
 
     const arrowUpEvent = createEvent.keyDown(thirdItem, { key: 'ArrowUp', code: 38, keyCode: 38 });
     arrowUpEvent.preventDefault = jest.fn();
+
+    expect(arrowUpEvent.preventDefault).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent(thirdItem, arrowUpEvent);

@@ -39,7 +39,7 @@ const DefaultTexts = ({ defaultTexts, status, hasDefaultTexts, onHandleUseDefaul
       {hasDefaultTexts && allText
         ? (
           <Fragment>
-            <StyledH4 $as="h4" data-testid="defaultTextsTitle">Standaard teksten</StyledH4>
+            <StyledH4 forwardedAs="h4" data-testid="defaultTextsTitle">Standaard teksten</StyledH4>
 
             {allText.templates.map((item, index) => (
               <StyledDefaultText key={index}>

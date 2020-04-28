@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { Heading, Row, Paragraph } from '@datapunt/asc-ui';
+import { Heading, Row, Paragraph, themeSpacing } from '@datapunt/asc-ui';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
-  padding-top: 24px;
-  padding-bottom: 10px;
-  margin-bottom: 40px;
+  padding-top: ${themeSpacing(6)};
+  padding-bottom: ${themeSpacing(2)};
+  margin-bottom: ${themeSpacing(5)};
 `;
 
 const StyledHeading = styled(Heading)`
   font-weight: 400;
   margin: 0;
-  line-height: 24px;
+  line-height: ${themeSpacing(6)};
 `;
 
 const SubTitle = styled(Paragraph)`

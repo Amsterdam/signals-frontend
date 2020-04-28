@@ -1,4 +1,4 @@
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
 export const StyledTable = styled.table`

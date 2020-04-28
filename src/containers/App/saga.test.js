@@ -19,12 +19,14 @@ import watchAppSaga, {
   callAuthorize,
   uploadFileWrapper,
   uploadFile,
+  callSearchIncidents,
 } from './saga';
 import {
   LOGIN,
   LOGOUT,
   AUTHENTICATE_USER,
   UPLOAD_REQUEST,
+  SET_SEARCH_QUERY,
 } from './constants';
 import {
   loginFailed,
@@ -81,6 +83,7 @@ describe('containers/App/saga', () => {
         takeLatest(LOGOUT, callLogout),
         takeLatest(AUTHENTICATE_USER, callAuthorize),
         takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
+        takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
       ])
       .next()
       .isDone();
@@ -333,6 +336,13 @@ describe('containers/App/saga', () => {
       ); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next().value).toBeUndefined();
+    });
+  });
+
+  describe('callSelectIncidents', () => {
+    it('should navigate to the manage/incidents', () => {
+      const gen = callSearchIncidents();
+      expect(gen.next().value).toEqual(put(push('/manage/incidents'))); // eslint-disable-line redux-saga/yield-effects
     });
   });
 });

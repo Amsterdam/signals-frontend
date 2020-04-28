@@ -1,0 +1,29 @@
+{
+  "incident_time_hours": 9,
+  "phone": "06-12345678",
+  "location": {
+    "address": {
+      "openbare_ruimte": "Sandwijk",
+      "huisnummer": "43",
+      "huisletter": "",
+      "huisnummer_toevoeging": "",
+      "postcode": "1035LA",
+      "woonplaats": "Amsterdam"
+    },
+    "buurt_code": "N66d",
+    "stadsdeel": "N",
+    "geometrie": {"type": "Point", "coordinates": [4.89536486, 52.42071836]}
+  },
+  "incident_time_minutes": 0,
+  "incident_date": "Vandaag",
+  "datetime": {"id": "Nu", "label": "Nu"},
+  "email": "siafakemail@fake.nl",
+  "description": "Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?",
+  "category": {
+    "sub_category": "http://localhost:8000/signals/v1/public/terms/categories/schoon/sub_categories/veegzwerfvuil"
+  },
+  "subcategory": "veegzwerfvuil",
+  "reporter": {"phone": "06-12345678", "email": "siafakemail@fake.nl"},
+  "incident_date_start": "2020-03-23T14:26:27+01:00",
+  "text": "Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?"
+}

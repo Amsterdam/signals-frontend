@@ -4,9 +4,7 @@ import { initialState } from './reducer';
 
 const selectGlobal = state => (state && state.get('global')) || initialState;
 
-const makeSelectUser = createSelector(selectGlobal, globalState =>
-  globalState.get('user').toJS()
-);
+const makeSelectUser = createSelector(selectGlobal, globalState => globalState.get('user').toJS());
 
 /**
  * Selector that returns the list of permissions for the current user
@@ -31,9 +29,8 @@ const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
  *
  * @returns {String[]} - All permissions from assigned roles combined with extra permissions
  */
-const makeSelectUserPermissionCodeNames = createSelector(
-  makeSelectUserPermissions,
-  permissions => permissions.map(({ codename }) => codename)
+const makeSelectUserPermissionCodeNames = createSelector(makeSelectUserPermissions, permissions =>
+  permissions.map(({ codename }) => codename)
 );
 
 /**
@@ -50,9 +47,7 @@ const makeSelectUserCan = createSelector(
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
     capability =>
-      is_superuser !== false
-        ? is_superuser
-        : Boolean(permissions.find(codename => codename === capability))
+      is_superuser !== false ? is_superuser : Boolean(permissions.find(codename => codename === capability))
 );
 
 /**
@@ -106,16 +101,14 @@ const makeSelectUserCanAccess = createSelector(
     }
 );
 
-const makeSelectLoading = () =>
-  createSelector(selectGlobal, globalState => globalState.get('loading'));
+const makeSelectLoading = () => createSelector(selectGlobal, globalState => globalState.get('loading'));
 
-const makeSelectError = () =>
-  createSelector(selectGlobal, globalState => globalState.get('error'));
+const makeSelectError = () => createSelector(selectGlobal, globalState => globalState.get('error'));
 
 const makeSelectNotification = () =>
-  createSelector(selectGlobal, globalState =>
-    globalState.get('notification').toJS()
-  );
+  createSelector(selectGlobal, globalState => globalState.get('notification').toJS());
+
+const makeSelectSearchQuery = createSelector(selectGlobal, globalState => globalState.get('searchQuery'));
 
 export {
   makeSelectError,
@@ -127,4 +120,5 @@ export {
   makeSelectUserPermissionCodeNames,
   makeSelectUserPermissions,
   selectGlobal,
+  makeSelectSearchQuery,
 };

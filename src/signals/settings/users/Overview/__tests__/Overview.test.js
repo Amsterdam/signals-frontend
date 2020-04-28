@@ -8,7 +8,7 @@ import {
   act,
   cleanup,
 } from '@testing-library/react';
-import { history as memoryHistory, withCustomAppContext } from 'test/utils';
+import { history as memoryHistory, withCustomAppContext, resolveAfterMs } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import inputRolesSelectorJSON from 'utils/__tests__/fixtures/inputRolesSelector.json';
@@ -68,8 +68,6 @@ const usersOverviewWithAppContext = (
     ...overrideCfg,
   });
 };
-const resolveAfterMs = timeMs =>
-  new Promise(resolve => setTimeout(resolve, timeMs));
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
