@@ -227,17 +227,13 @@ export function getReturnPath() {
 }
 
 export const isAuthenticated = () => {
-  try {
-    const decoded = accessTokenParser(getAccessToken());
+  const decoded = accessTokenParser(getAccessToken());
 
-    if (!decoded.expiresAt) return false;
+  if (!decoded?.expiresAt) return false;
 
-    const hasExpired = decoded.expiresAt * 1000 < Date.now();
+  const hasExpired = decoded.expiresAt * 1000 < Date.now();
 
-    return !hasExpired;
-  } catch (exception) {
-    return false;
-  }
+  return !hasExpired;
 };
 
 export function getScopes() {
