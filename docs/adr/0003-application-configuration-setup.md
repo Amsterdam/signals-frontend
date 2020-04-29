@@ -71,7 +71,8 @@ All variables are injected into the application at build-time through environmen
 
 - Changes in variable values can only be applied by deploying the application
 
-
 ## Decision
 
 Taking the pros and cons, the application's architecture, the Datapunt infrastructure and upcoming client wishes into account, the decision is made to go for the [Server-side / container](#Server-side / container) option.
+
+The repository will contain default configuration options so that it can be run locally and still be deployed to (acc.)meldingen.amsterdam.nl without the application breaking.
