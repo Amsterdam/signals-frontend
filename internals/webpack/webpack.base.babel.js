@@ -113,7 +113,7 @@ module.exports = options => ({
     ],
   },
 
-  plugins: options.plugins_pre
+  plugins: (options.plugins_pre || [])
     .concat([
       // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
       // inside your code for any environment checks; Terser will automatically
@@ -133,7 +133,7 @@ module.exports = options => ({
 
       process.env.ANALYZE && new BundleAnalyzerPlugin(),
     ])
-    .concat(options.plugins_post)
+    .concat(options.plugins_post || [])
     .filter(Boolean),
 
   resolve: {
