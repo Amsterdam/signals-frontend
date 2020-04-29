@@ -15,8 +15,6 @@ export default {
       render: FormComponents.PlainText,
     },
 
-
-
     // woningdelen
     extra_wonen_woningdelen_vermoeden: {
       meta: {
@@ -41,7 +39,7 @@ export default {
           ],
         },
         label: 'Weet u wie de eigenaar is van de woning?',
-        shortLabel: 'Eigenaar',
+        shortLabel: 'Naam Eigenaar',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
       },
@@ -63,9 +61,9 @@ export default {
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
         values: {
-          zelfde_adres: 'Op het zelfde adres als de bewoners',
-          ander_adres: 'Op een ander adres dan de bewoners',
-          weet_ik_niet: 'Weet ik niet',
+          zelfde_adres: 'Ja, op hetzelfde adres als de bewoners',
+          ander_adres: 'Ja, op een ander adres dan de bewoners',
+          weet_ik_niet: 'Nee, weet ik niet',
         },
       },
       options: {
@@ -80,7 +78,7 @@ export default {
             'woningdelen',
           ],
         },
-        label: 'Hoeveel personen wonen er op dit adres?',
+        label: 'Hoeveel personen wonen op dit adres?',
         shortLabel: 'Aantal personen',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
@@ -89,7 +87,7 @@ export default {
           twee_personen: '2 personen',
           drie_personen: '3 personen',
           vier_personen: '4 personen',
-          vijf_of_meer_personen: '5 of meer  personen',
+          vijf_of_meer_personen: '5 of meer personen',
           weet_ik_niet: 'Weet ik niet',
         },
       },
@@ -137,12 +135,12 @@ export default {
             'vijf_of_meer_personen',
           ],
         },
-        label: 'Zijn de personen samen op het adres komen wonen?',
+        label: 'Zijn de personen tegelijk op het adres komen wonen?',
         shortLabel: 'Samenwonen',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
         values: {
-          ja: 'Ja, ze zijn samen op het adres komen wonen',
+          ja: 'Ja, ze zijn tegelijk op het adres komen wonen',
           nee: 'Nee, ze zijn op verschillende momenten op het adres komen wonen',
           weet_ik_niet: 'Weet ik niet',
         },
@@ -157,12 +155,12 @@ export default {
         ifAllOf: {
           subcategory: 'woningdelen',
         },
-        label: 'Komen er vaak nieuwe bewoners op het adres wonen?',
+        label: 'Komen er vaak andere bewoners op het adres wonen?',
         shortLabel: 'Wisselende bewoners',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
         values: {
-          ja: 'Ja, vaak wisselende bewoners op het adres',
+          ja: 'Ja, vaak andere bewoners op het adres',
           nee: 'Nee, dezelfde bewoners',
           weet_ik_niet: 'Weet ik niet',
         },
@@ -173,66 +171,7 @@ export default {
       render: FormComponents.RadioInput,
     },
 
-
-
-
-
     // onderhuur
-    extra_wonen_onderhuur_naam_huurder: {
-      meta: {
-        ifOneOf: {
-          subcategory: [
-            'onderhuur',
-          ],
-        },
-        label: 'Weet u wie de officiële huurder is van de woning?',
-        subtitle: 'De persoon die in de woning zou moeten wonen',
-        shortLabel: 'Naam huurder',
-        pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-8',
-      },
-      options: {
-        validators: [Validators.required],
-      },
-      render: FormComponents.TextInput,
-    },
-    extra_wonen_onderhuur_huurder_woont: {
-      meta: {
-        ifOneOf: {
-          subcategory: [
-            'onderhuur',
-          ],
-        },
-        label: 'Weet u waar de officiële huurder woont?',
-        shortLabel: 'Huurder woont',
-        pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-8',
-        values: {
-          aangegeven_adres: 'Op het aangegeven adres',
-          ander_adres: 'Op een ander adres',
-          weet_ik_niet: 'Weet ik niet',
-        },
-      },
-      options: {
-        validators: [Validators.required],
-      },
-      render: FormComponents.RadioInput,
-    },
-    extra_wonen_onderhuur_adres_huurder: {
-      meta: {
-        ifAllOf: {
-          subcategory: 'onderhuur',
-        },
-        ifOneOf: {
-          extra_wonen_onderhuur_huurder_woont: 'ander_adres',
-        },
-        label: 'Wat is het adres waar de officiële huurder woont?',
-        shortLabel: 'Adres huurder',
-        pathMerge: 'extra_properties',
-        className: 'col-sm-12 col-md-8',
-      },
-      render: FormComponents.TextInput,
-    },
     extra_wonen_onderhuur_aantal_personen: {
       meta: {
         ifOneOf: {
@@ -240,7 +179,7 @@ export default {
             'onderhuur',
           ],
         },
-        label: 'Hoeveel personen wonen er op dit adres?',
+        label: 'Hoeveel personen wonen op dit adres?',
         shortLabel: 'Aantal personen',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
@@ -324,8 +263,61 @@ export default {
       },
       render: FormComponents.RadioInput,
     },
-
-
+    extra_wonen_onderhuur_naam_huurder: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'onderhuur',
+          ],
+        },
+        label: 'Weet u wie de officiële huurder is van de woning?',
+        subtitle: 'De persoon die in de woning zou moeten wonen',
+        shortLabel: 'Naam huurder',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.TextInput,
+    },
+    extra_wonen_onderhuur_huurder_woont: {
+      meta: {
+        ifOneOf: {
+          subcategory: [
+            'onderhuur',
+          ],
+        },
+        label: 'Weet u waar de officiële huurder woont?',
+        shortLabel: 'Huurder woont',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+        values: {
+          aangegeven_adres: 'Ja, op het aangegeven adres',
+          ander_adres: 'Ja, op een ander adres',
+          weet_ik_niet: 'Nee, weet ik niet',
+        },
+      },
+      options: {
+        validators: [Validators.required],
+      },
+      render: FormComponents.RadioInput,
+    },
+    extra_wonen_onderhuur_adres_huurder: {
+      meta: {
+        ifAllOf: {
+          subcategory: 'onderhuur',
+        },
+        ifOneOf: {
+          extra_wonen_onderhuur_huurder_woont: 'ander_adres',
+        },
+        label: 'Wat is het adres waar de officiële huurder woont?',
+        shortLabel: 'Adres huurder',
+        pathMerge: 'extra_properties',
+        className: 'col-sm-12 col-md-8',
+      },
+      render: FormComponents.TextInput,
+    },
 
     // leegstand
     extra_wonen_leegstand_naam_eigenaar: {
@@ -352,7 +344,7 @@ export default {
             'leegstand',
           ],
         },
-        label: 'Hoe lang staat de woning al (minimaal) leeg?',
+        label: 'Hoe lang staat de woning al leeg?',
         shortLabel: 'Periode leegstand',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
@@ -441,7 +433,6 @@ export default {
       render: FormComponents.TextInput,
     },
 
-
     // leegstand en onderhuur
     extra_wonen_iemand_aanwezig: {
       meta: {
@@ -458,7 +449,6 @@ export default {
       },
       render: FormComponents.TextInput,
     },
-
 
     // vakantieverhuur
     extra_wonen_vakantieverhuur_toeristen_aanwezig: {
@@ -491,7 +481,7 @@ export default {
           ],
           extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
         },
-        label: 'In dit geval kunt u het beste telefonisch contact opnemen dan pakken wij u melding direct op?',
+        label: 'In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.',
         shortLabel: 'Bellen of meldingsformulier',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
@@ -517,7 +507,8 @@ export default {
         type: 'caution',
         value: [
           'Bel nu met 14 020',
-          'Vraag naar team Zoeklicht Direct. U wordt direct doorverbonden met een medewerker. Handhaving gaat indien mogelijk, meteen langs.'],
+          'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, meteen langs.',
+        ],
       },
       render: FormComponents.PlainText,
     },
@@ -551,7 +542,7 @@ export default {
           ],
           extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
         },
-        label: 'Zijn er vaker toeristen in de woning?',
+        label: 'Heeft u vaker toeristen in de woning gezien?',
         shortLabel: 'Hoe vaak',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
@@ -605,7 +596,7 @@ export default {
           extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
         },
         label: 'Weet u of er iemand op het adres woont?',
-        subtitle: 'De persoon die langdurig de woning bewoond',
+        subtitle: 'De persoon die langdurig de woning bewoont',
         shortLabel: 'Bewoning',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
@@ -684,12 +675,10 @@ export default {
         },
         className: 'col-sm-12 col-md-8',
         type: 'caution',
-        value: ['Mocht u in de toekomst zien dat er toeristen in de woning aanwezig zijn a.u.b. direct bellen met 14 020 en vragen naar team Zoeklicht Direct.'],
+        value: ['Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met 14 020 en vraag naar team Vakantieverhuur.'],
       },
       render: FormComponents.PlainText,
     },
-
-
 
     // woonkwaliteit
     extra_wonen_woonkwaliteit_direct_gevaar: {
@@ -699,7 +688,7 @@ export default {
             'woonkwaliteit',
           ],
         },
-        label: 'Vermoedt u dat er direct gevaar is?',
+        label: 'Denkt u dat er direct gevaar is?',
         subtitle: 'Bijvoorbeeld: u ruikt een sterke gaslucht of er dreigt een schoorsteen of balkon in te storten',
         shortLabel: 'Direct gevaar',
         pathMerge: 'extra_properties',
@@ -761,7 +750,7 @@ export default {
         },
         className: 'col-sm-12 col-md-8',
         type: 'caution',
-        value: ['Meldt uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen respons of wordt de klacht niet verholpen, vul dan dit formulier in'],
+        value: ['Meldt uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in'],
       },
       render: FormComponents.PlainText,
     },
@@ -865,7 +854,6 @@ export default {
       },
       render: FormComponents.TextInput,
     },
-
 
     // navigation
     $field_0: {
