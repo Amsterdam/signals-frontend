@@ -30,7 +30,11 @@ const Header = styled.header`
   display: grid;
   position: relative;
   column-gap: ${themeSpacing(5)};
-  grid-template-columns: 4fr 6fr;
+  grid-template-columns: 7fr 3fr;
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.min}px) {
+    grid-template-columns: 4fr 6fr;
+  }
 
   ${() =>
     isAuthenticated() &&
