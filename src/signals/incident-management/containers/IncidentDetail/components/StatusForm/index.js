@@ -37,6 +37,8 @@ const StyledCurrentStatus = styled.div`
 
 const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
+  font-family: AvenirNextLTW01-Regular, arial, sans-serif;
+  font-weight: 700;
 `;
 
 const StyledSpinner = styled(Spinner).attrs({
@@ -164,9 +166,9 @@ class StatusForm extends React.Component {
       <Fragment>
         <FieldGroup
           control={this.form}
-          render={({ invalid }) => (
+          render={() => (
             <form onSubmit={this.handleSubmit}>
-              <Row>
+              <Row hasMargin={false}>
                 <StyledColumn span={6}>
                   <StyledH4 forwardedAs="h4">Status wijzigen</StyledH4>
 
@@ -207,7 +209,6 @@ class StatusForm extends React.Component {
                   <StyledButton
                     data-testid="statusFormSubmitButton"
                     variant="secondary"
-                    disabled={invalid}
                     type="submit"
                     iconRight={patching.status ? <StyledSpinner /> : null}
                   >
