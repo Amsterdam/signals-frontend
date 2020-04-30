@@ -123,12 +123,6 @@ describe('Change a signal before submit and check signal details', () => {
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
       cy.contains('06-87654321').should('be.visible');
       cy.contains('mailsiafake@fake.nl').should('be.visible');
-
-    // Specific information
-      //   cy.contains('Een aantal lichtpunten die bij elkaar staan/hangen').should('not.be.visible');
-      //   cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet').should('not.be.visible');
-      //   cy.get(LANTAARNPAAL.mapSelectLamp).should('not.be.visible');
-      //   cy.contains('155632.07').should('not.be.visible');
     });
 
     it('Should edit phonenumber and email address', () => {
