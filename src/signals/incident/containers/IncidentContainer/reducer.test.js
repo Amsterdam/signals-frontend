@@ -156,6 +156,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   });
 
   describe('GET_CLASSIFICATION_SUCCESS', () => {
+    const intermediateState = initialState.set('incident', initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux'));
+
     it('sets category and subcategory', () => {
       expect(
         incidentContainerReducer(
@@ -180,8 +182,6 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
     });
 
     it('removes all extra_ props', () => {
-      const intermediateState = initialState.set('incident', initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux'));
-
       const newState = incidentContainerReducer(intermediateState, {
         type: GET_CLASSIFICATION_SUCCESS,
         payload: {
@@ -192,6 +192,54 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
 
       expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
       expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
+    });
+
+    it('only removes all extra_ props when category has changed', () => {
+      const type = GET_CLASSIFICATION_SUCCESS;
+      const payload = {
+        category: 'foo',
+        subcategory: 'bar',
+      };
+
+      const newState = incidentContainerReducer(intermediateState, { type, payload }).toJS();
+      newState.incident.extra_something = 'qux';
+
+      const updatedState = incidentContainerReducer(fromJS(newState), { type, payload });
+
+      expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
+
+      const changedPayload = {
+        category: 'zork',
+        subcategory: 'bar',
+      };
+
+      const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
+
+      expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
+    });
+
+    it('only removes all extra_ props when subcategory has changed', () => {
+      const type = GET_CLASSIFICATION_SUCCESS;
+      const payload = {
+        category: 'foo',
+        subcategory: 'bar',
+      };
+
+      const newState = incidentContainerReducer(intermediateState, { type, payload }).toJS();
+      newState.incident.extra_something = 'qux';
+
+      const updatedState = incidentContainerReducer(fromJS(newState), { type, payload });
+
+      expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
+
+      const changedPayload = {
+        category: 'foo',
+        subcategory: 'bazzz',
+      };
+
+      const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
+
+      expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
     });
   });
 

@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, Seq } from 'immutable';
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
@@ -12,7 +12,6 @@ import {
 
 export const initialState = fromJS({
   incident: {
-    custom_text: '',
     datetime: undefined,
     incident_date: 'Vandaag',
     incident_time_hours: 9,
@@ -40,13 +39,17 @@ export const initialState = fromJS({
   loadingClassification: false,
 });
 
-const getIncidentWithoutExtraProps = incident =>
-  fromJS(
-    Object.entries(incident.toJS()).reduce((acc, [key, val]) => {
-      const value = key.startsWith('extra') ? {} : { [key]: val };
-      return { ...acc, ...value };
-    }, {})
-  );
+const getIncidentWithoutExtraProps = (incident, { category, subcategory }) => {
+  const prevCategory = incident.get('category');
+  const prevSubcategory = incident.get('subcategory');
+  const hasChanged = prevCategory !== category || prevSubcategory !== subcategory;
+
+  if (!hasChanged) return incident;
+
+  const seq = Seq(incident).filter((val, key) => !key.startsWith('extra'));
+
+  return seq.toMap();
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -80,7 +83,7 @@ export default (state = initialState, action) => {
     case GET_CLASSIFICATION_SUCCESS:
       return state.set('loadingClassification', false).set(
         'incident',
-        getIncidentWithoutExtraProps(state.get('incident'))
+        getIncidentWithoutExtraProps(state.get('incident'), action.payload)
           .set('category', action.payload.category)
           .set('subcategory', action.payload.subcategory)
       );
