@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider as ASCThemeProvider } from '@datapunt/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
+import ConfigContext from 'components/ConfigContext';
 
-export const getConfig = () => {
-  const config = {};
+export const getConfig = defaultConfig => {
+  const config = defaultConfig || {};
   if (!isAuthenticated()) {
     config.maxGridWidth = 960;
     config.layouts = {
@@ -48,14 +49,17 @@ export const getConfig = () => {
   return config;
 };
 
-const ThemeProvider = ({ children }) => (
-  <ASCThemeProvider overrides={getConfig()}>
-    <Fragment>
-      <span data-testid="signalsThemeProvider" />
-      {children}
-    </Fragment>
-  </ASCThemeProvider>
-);
+const ThemeProvider = ({ children }) => {
+  const { styledComponents } = useContext(ConfigContext);
+  return (
+    <ASCThemeProvider overrides={getConfig(styledComponents)}>
+      <Fragment>
+        <span data-testid="signalsThemeProvider" />
+        {children}
+      </Fragment>
+    </ASCThemeProvider>
+  );
+};
 
 ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,

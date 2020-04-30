@@ -63,8 +63,8 @@ export const AppContainer = ({ resetIncidentAction }) => {
   }, [history]);
 
   return (
-    <ThemeProvider>
-      <ConfigContext.Provider value={themeConfig}>
+    <ConfigContext.Provider value={themeConfig}>
+      <ThemeProvider>
         {themeConfig.isLoading ? (
           <Fragment>
             <img src={themeConfig.logoUrl} alt="Logo" onLoad={onLogoLoad} />
@@ -92,8 +92,8 @@ export const AppContainer = ({ resetIncidentAction }) => {
             {!isAuthenticated() && <Footer />}
           </Fragment>
         )}
-      </ConfigContext.Provider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </ConfigContext.Provider>
   );
 };
 
