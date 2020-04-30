@@ -67,10 +67,16 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 ################################
 FROM nginx:stable-alpine
 
+RUN apk add --no-cache jq
+
 COPY --from=builder /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/
+COPY start.sh /start.sh
+COPY config.json /config.json
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
+
+CMD ["/start.sh"]
