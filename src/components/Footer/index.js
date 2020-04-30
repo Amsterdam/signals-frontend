@@ -1,13 +1,8 @@
-import React from 'react';
-import {
-  Row,
-  Column,
-  Heading,
-  Link,
-  themeColor,
-  themeSpacing,
-} from '@datapunt/asc-ui';
+import React, { useContext } from 'react';
+import { Row, Column, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
+
+import ConfigContext from 'components/ConfigContext';
 
 const Disclaimer = styled.div`
   background-color: ${themeColor('tint', 'level5')};
@@ -47,29 +42,35 @@ const FooterWrapper = styled.div`
   }
 `;
 
-const Footer = () => (
-  <FooterWrapper className="app-container no-print" data-testid="siteFooter">
-    <Disclaimer data-testid="disclaimer">
-      <Row>
-        <Column span={12}>
-          <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
-        </Column>
+const Footer = () => {
+  const config = useContext(ConfigContext);
 
-        <Column span={12}>
-          Bel het Gemeentelijk informatienummer: 14 020 <br />
-          op werkdagen van 08.00 tot 18.00 uur.
-        </Column>
-      </Row>
-    </Disclaimer>
+  return (
+    <FooterWrapper className="app-container no-print" data-testid="siteFooter">
+      <Disclaimer data-testid="disclaimer">
+        <Row>
+          <Column span={12}>
+            <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
+          </Column>
 
-    <Privacy>
-      <Row>
-        <Column span={12}>
-          <StyledLink href="https://www.amsterdam.nl/privacy/" variant="with-chevron">Privacy</StyledLink>
-        </Column>
-      </Row>
-    </Privacy>
-  </FooterWrapper>
-);
+          <Column span={12}>
+            {config.language.footer1} <br />
+            {config.language.footer2}
+          </Column>
+        </Row>
+      </Disclaimer>
+
+      <Privacy>
+        <Row>
+          <Column span={12}>
+            <StyledLink href={config.links.privacy} variant="with-chevron">
+              Privacy
+            </StyledLink>
+          </Column>
+        </Row>
+      </Privacy>
+    </FooterWrapper>
+  );
+};
 
 export default Footer;
