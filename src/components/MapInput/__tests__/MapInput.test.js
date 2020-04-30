@@ -5,6 +5,7 @@ import MapContext from 'containers/MapContext';
 import context from 'containers/MapContext/context';
 
 import geoSearchJSON from 'utils/__tests__/fixtures/geosearch.json';
+import { INPUT_DELAY } from 'components/AutoSuggest';
 import { withAppContext, resolveAfterMs } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
@@ -13,9 +14,13 @@ import { DOUBLE_CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
 
 import { findFeatureByType } from '../services/reverseGeocoderService';
 import MapInput from '..';
+
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
   ...jest.requireActual('containers/MapContext/actions'),
+  resetLocationAction: jest.fn(() => ({
+    type: 'type',
+  })),
   setLocationAction: jest.fn(payload => ({
     type: 'type',
     payload,
@@ -30,6 +35,7 @@ const withMapContext = Component => withAppContext(<MapContext>{Component}</MapC
 
 const setValuesSpy = jest.spyOn(actions, 'setValuesAction');
 const setLocationSpy = jest.spyOn(actions, 'setLocationAction');
+const resetLocationSpy = jest.spyOn(actions, 'resetLocationAction');
 const geocoderResponse = {
   response: {
     numFound: 1,
@@ -87,16 +93,16 @@ describe('components/MapInput', () => {
   });
 
   const testLocation = {
-    geometrie: {
-      type: 'Point',
-      coordinates: [4, 52],
+    location: {
+      lat: 52.36279769502027,
+      lng: 4.796855450052992,
     },
   };
 
   it('should render the map and the autosuggest', () => {
     const { getByTestId } = render(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />));
 
-    expect(getByTestId('map-input')).toBeInTheDocument();
+    expect(getByTestId('map-base')).toBeInTheDocument();
     expect(getByTestId('autoSuggest')).toBeInTheDocument();
   });
 
@@ -105,7 +111,7 @@ describe('components/MapInput', () => {
 
     expect(setValuesSpy).not.toHaveBeenCalled();
 
-    const value = { addressText: 'Foo' };
+    const value = { addressText: 'Foo', ...testLocation };
 
     rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={value} />));
 
@@ -116,16 +122,24 @@ describe('components/MapInput', () => {
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenCalledWith(testLocation);
+
+    setValuesSpy.mockClear();
+    setLocationSpy.mockClear();
+
+    rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />));
+
+    expect(setValuesSpy).not.toHaveBeenCalled();
   });
 
   it('should handle click', async () => {
     fetch.mockResponseOnce(JSON.stringify(geocoderResponse)).mockResponseOnce(JSON.stringify(bagResponse));
 
     const onChange = jest.fn();
-    const { getByTestId, findByTestId } = render(
+    const { findByTestId } = render(
       withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
     );
-    const map = getByTestId('map-input');
+
+    const map = await findByTestId('map-base');
 
     expect(setLocationSpy).not.toHaveBeenCalled();
     expect(onChange).not.toHaveBeenCalled();
@@ -135,7 +149,7 @@ describe('components/MapInput', () => {
       fireEvent.click(map, { clientX: 100, clientY: 100 });
     });
 
-    await findByTestId('map-input');
+    await findByTestId('map-base');
 
     expect(setLocationSpy).not.toHaveBeenCalled();
     expect(onChange).not.toHaveBeenCalled();
@@ -179,7 +193,7 @@ describe('components/MapInput', () => {
     const { getByTestId, findByTestId } = render(
       withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
     );
-    const map = getByTestId('map-input');
+    const map = getByTestId('map-base');
 
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
     expect(onChange).not.toHaveBeenCalled();
@@ -188,7 +202,7 @@ describe('components/MapInput', () => {
       fireEvent.click(map, { clientX: 100, clientY: 100 });
     });
 
-    await findByTestId('map-input');
+    await findByTestId('map-base');
 
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
     expect(onChange).not.toHaveBeenCalled();
@@ -223,7 +237,7 @@ describe('components/MapInput', () => {
       )
     );
 
-    await findByTestId('map-input');
+    await findByTestId('map-base');
 
     expect(container.querySelector(`.${markerIcon.options.className}`)).not.toBeInTheDocument();
 
@@ -235,20 +249,20 @@ describe('components/MapInput', () => {
       )
     );
 
-    await findByTestId('map-input');
+    await findByTestId('map-base');
 
     expect(container.querySelector(`.${markerIcon.options.className}`)).toBeInTheDocument();
   });
 
   it('should handle onSelect', async () => {
     const onChange = jest.fn();
-    const { container, getByTestId, findByTestId } = render(
+    const { getByTestId, findByTestId } = render(
       withAppContext(
         <context.Provider
           value={{
             state: {
-              lat: 52.36058599633851,
-              lng: 4.894292258032637,
+              lat: 51,
+              lng: 4,
             },
             dispatch: () => {},
           }}
@@ -258,13 +272,13 @@ describe('components/MapInput', () => {
       )
     );
 
-    const firstTileSrc = container.querySelector('.leaflet-tile').getAttribute('src');
-
     // provide input with value
     const input = getByTestId('autoSuggest').querySelector('input');
     const value = 'Midden';
 
-    input.focus();
+    act(() => {
+      input.focus();
+    });
 
     act(() => {
       fireEvent.change(input, { target: { value } });
@@ -284,7 +298,7 @@ describe('components/MapInput', () => {
       fireEvent.click(firstElement);
     });
 
-    await findByTestId('map-input');
+    await findByTestId('map-base');
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenLastCalledWith(
@@ -303,11 +317,41 @@ describe('components/MapInput', () => {
         stadsdeel: findFeatureByType(geoSearchJSON.features, 'gebieden/stadsdeel').code,
       })
     );
+  });
 
-    // the map should have panned to a different location; we can assert that by comparing the src attribute of the
-    // first tile in the DOM with the first tile of the previous render
-    const pannedFirstTileSrc = container.querySelector('.leaflet-tile').getAttribute('src');
+  it('should clear location and not render marker', async () => {
+    const location = {
+      lat: 52.36058599633851,
+      lng: 4.894292258032637,
+    };
+    const addressText = 'Foo bar street 10';
 
-    expect(firstTileSrc).not.toEqual(pannedFirstTileSrc);
+    const { findByTestId } = render(
+      withAppContext(
+        <context.Provider value={{ state: { location, addressText }, dispatch: () => {} }}>
+          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} />
+        </context.Provider>
+      )
+    );
+    const autoSuggest = await findByTestId('autoSuggest');
+    const input = autoSuggest.querySelector('input');
+
+    expect(resetLocationSpy).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.change(input, { target: { value: addressText } });
+    });
+
+    await wait(() => resolveAfterMs(INPUT_DELAY));
+
+    expect(resetLocationSpy).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.change(input, { target: { value: '' } });
+    });
+
+    await wait(() => resolveAfterMs(INPUT_DELAY));
+
+    expect(resetLocationSpy).toHaveBeenCalledWith();
   });
 });

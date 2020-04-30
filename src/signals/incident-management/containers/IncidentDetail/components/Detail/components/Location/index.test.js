@@ -1,12 +1,11 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { withAppContext } from 'test/utils';
 
 import Location from './index';
 
-jest.mock('../../../MapDetail', () => () => <div data-testid="location-map" />);
 jest.mock('shared/services/list-helper/list-helper');
 
 describe('<Location />', () => {
@@ -45,28 +44,33 @@ describe('<Location />', () => {
   });
 
   describe('rendering', () => {
-    it('should render correctly', () => {
-      const { getByText, queryByTestId, queryAllByTestId } = render(withAppContext(<Location {...props} />));
+    it('should render correctly', async () => {
+      const { findByText, queryByTestId, getByTestId } = render(withAppContext(<Location {...props} />));
 
-      expect(getByText('Locatie')).toBeInTheDocument();
+      await findByText('Locatie');
+
       expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^Stadsdeel: Centrum$/);
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
-      expect(queryAllByTestId('location-map')).toHaveLength(1);
+      expect(getByTestId('location-button-show')).toBeInTheDocument();
     });
 
-    it('should render correctly without huisnummer_toevoeging', () => {
+    it('should render correctly without huisnummer_toevoeging', async () => {
       props.incident.location.address.huisnummer_toevoeging = undefined;
-      const { queryByTestId } = render(withAppContext(<Location {...props} />));
+      const { findByTestId } = render(withAppContext(<Location {...props} />));
 
-      expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A$/);
+      const locAddress = await findByTestId('location-value-address-street');
+
+      expect(locAddress).toHaveTextContent(/^Rokin 123A$/);
     });
 
-    it('should render correctly without address', () => {
+    it('should render correctly without address', async () => {
       props.incident.location.address_text = undefined;
-      const { queryByTestId } = render(withAppContext(<Location {...props} />));
+      const { findByTestId, queryByTestId } = render(withAppContext(<Location {...props} />));
 
-      expect(queryByTestId('location-value-pinned')).toHaveTextContent(/^Locatie is gepind op de kaart$/);
+      const pinned = await findByTestId('location-value-pinned');
+
+      expect(pinned).toHaveTextContent(/^Locatie is gepind op de kaart$/);
       expect(queryByTestId('location-value-address-stadsdeel')).toBeNull();
       expect(queryByTestId('location-value-address-street')).toBeNull();
       expect(queryByTestId('location-value-address-city')).toBeNull();
@@ -74,16 +78,26 @@ describe('<Location />', () => {
   });
 
   describe('events', () => {
-    it('clicking the map should trigger showing the location', () => {
-      const { queryByTestId } = render(withAppContext(<Location {...props} />));
-      fireEvent.click(queryByTestId('location-button-show'));
+    it('clicking the map should trigger showing the location', async () => {
+      const { queryByTestId, findByTestId } = render(withAppContext(<Location {...props} />));
+
+      act(() => {
+        fireEvent.click(queryByTestId('location-button-show'));
+      });
+
+      await findByTestId('detail-location');
 
       expect(props.onShowLocation).toHaveBeenCalledTimes(1);
     });
 
-    it('clicking the edit button should trigger edit the location', () => {
-      const { queryByTestId } = render(withAppContext(<Location {...props} />));
-      fireEvent.click(queryByTestId('location-button-edit'));
+    it('clicking the edit button should trigger edit the location', async () => {
+      const { queryByTestId, findByTestId } = render(withAppContext(<Location {...props} />));
+
+      act(() => {
+        fireEvent.click(queryByTestId('location-button-edit'));
+      });
+
+      await findByTestId('detail-location');
 
       expect(props.onEditLocation).toHaveBeenCalledTimes(1);
     });

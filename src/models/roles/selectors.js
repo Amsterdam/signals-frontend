@@ -9,21 +9,23 @@ const selectRolesDomain = state => state.get('roles') || initialState;
 /**
  * Other specific selectors
  */
-export const inputRolesSelector = createSelector(
+const rolesInputOptions = state => [...state.get('list').toJS().map(role => ({
+  key: String(role.id),
+  name: role.name,
+  value: role.name,
+}))];
+
+export const inputSelectRolesSelector = createSelector(
   selectRolesDomain,
-  state => [
-    { key: 'all', name: 'Alles', value: '*' },
-    ...state.get('list').toJS().map(role => ({
-      key: role.id,
-      name: role.name,
-      value: role.name,
-    })),
-  ]
+  state => [{ key: 'all', name: 'Alles', value: '*' }, ...rolesInputOptions(state)]
+);
+
+export const inputCheckboxRolesSelector = createSelector(
+  selectRolesDomain,
+  state => rolesInputOptions(state)
 );
 
 /**
  * Default selector used by roles
  */
-const rolesModelSelector = createSelector(selectRolesDomain, state => state.toJS());
-
-export default rolesModelSelector;
+export const rolesModelSelector = createSelector(selectRolesDomain, state => state.toJS());

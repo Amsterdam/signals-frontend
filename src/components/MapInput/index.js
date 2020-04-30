@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useLayoutEffect, useContext, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from '@datapunt/asc-core';
@@ -9,7 +9,7 @@ import 'leaflet/dist/leaflet.css';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
-import { setLocationAction, setValuesAction } from 'containers/MapContext/actions';
+import { setLocationAction, setValuesAction, resetLocationAction } from 'containers/MapContext/actions';
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
 
 import Map from '../Map';
@@ -47,15 +47,17 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
   }
 `;
 
-const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => {
+const MapInput = ({ className, value, onChange, mapOptions, events }) => {
   const { state, dispatch } = useContext(MapContext);
   const [map, setMap] = useState();
   const [marker, setMarker] = useState();
   const { location, addressText: addressValue } = state;
-  const hasLocation = location && location?.lat !== 0 && location.lng !== 0;
+  const hasLocation = Boolean(location) && location?.lat !== 0 && location?.lng !== 0;
 
   const clickFunc = useCallback(
     async event => {
+      map.flyTo(event.latlng);
+
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
@@ -83,7 +85,7 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 
       onChange(onChangePayload);
     },
-    [dispatch, onChange]
+    [dispatch, onChange, map]
   );
 
   const onSelect = useCallback(
@@ -100,45 +102,50 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
         stadsdeel,
       });
 
-      const currentZoom = map.getZoom();
-      map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom);
+      map.flyTo(option.data.location);
     },
     [map, dispatch, onChange]
   );
 
   const { click, doubleClick } = useDelayedDoubleClick(clickFunc);
 
+  /**
+   * Subscribe to value prop changes
+   */
   useEffect(() => {
-    if (!marker || !hasLocation) return;
-
-    marker.setLatLng(location);
-  }, [marker, location, hasLocation]);
-
-  useEffect(() => {
-    if (!value?.geometrie?.coordinates && !value?.addressText) return;
+    // first component render has an empty object for `value` so we need to check for props
+    if (Object.keys(value).length === 0) return;
 
     dispatch(setValuesAction(value));
   }, [value, dispatch]);
 
+  // subscribe to changes in location and render the map in that location
+  // note that we're using setView instead of flyTo on the map instance to prevent remounts of this component
+  // to show an animation instead of just rendering the marker on the location where it should be
+  useLayoutEffect(() => {
+    if (!map || !marker || !hasLocation) return;
+
+    map.setView(location, 11);
+    marker.setLatLng(location);
+  }, [marker, location, hasLocation, map]);
+
   return (
-    <Wrapper>
+    <Wrapper data-testid="map-input" className={className}>
       <StyledMap
-        className={className}
-        data-testid="map-input"
-        events={{ click, dblclick: doubleClick }}
+        events={{ click, dblclick: doubleClick, ...events }}
         hasZoomControls
         mapOptions={mapOptions}
         setInstance={setMap}
-        {...otherProps}
       >
         <StyledViewerContainer
           topLeft={
             <StyledAutosuggest
-              value={addressValue}
-              onSelect={onSelect}
-              gemeentenaam="amsterdam"
-              placeholder="Zoek adres"
               formatResponse={formatPDOKResponse}
+              gemeentenaam="amsterdam"
+              onClear={() => dispatch(resetLocationAction())}
+              onSelect={onSelect}
+              placeholder="Zoek adres"
+              value={addressValue}
             />
           }
         />
@@ -157,8 +164,17 @@ const MapInput = ({ className, value, onChange, mapOptions, ...otherProps }) => 
 };
 
 MapInput.propTypes = {
+  /** @ignore */
   className: PropTypes.string,
-  /** leaflet options, See `https://leafletjs.com/reference-1.6.0.html#map-option` */
+  /**
+   * Leaflet map events
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
+   */
+  events: PropTypes.shape({}),
+  /**
+   * leaflet options
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}
+   */
   mapOptions: PropTypes.shape({}).isRequired,
   /**
    * Callback handler that is fired when a click on the map is registered or when an option in the autosuggest
@@ -166,11 +182,17 @@ MapInput.propTypes = {
    */
   onChange: PropTypes.func,
   value: PropTypes.shape({
-    geometrie: PropTypes.shape({
-      type: PropTypes.string,
-      coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+    location: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
     }),
     addressText: PropTypes.string,
+    address: PropTypes.shape({
+      huisnummer: PropTypes.string,
+      openbare_ruimte: PropTypes.string,
+      postcode: PropTypes.string,
+      woonplaats: PropTypes.string,
+    }),
   }),
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import roles from 'utils/__tests__/fixtures/roles.json';
+import rolesJson from 'utils/__tests__/fixtures/roles.json';
 
 import { RolesListContainer } from '..';
 
@@ -9,7 +9,7 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
   const props = {
     id: undefined,
     roles: {
-      list: roles.list,
+      list: rolesJson,
       permissions: [],
       loading: false,
       loadingPermissions: false,

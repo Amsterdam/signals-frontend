@@ -18,11 +18,10 @@ import {
   REQUEST_INCIDENTS,
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
-  RESET_SEARCH_QUERY,
-  SET_SEARCH_QUERY,
   SEARCH_INCIDENTS_SUCCESS,
   SEARCH_INCIDENTS_ERROR,
 } from '../constants';
+import { RESET_SEARCH_QUERY, SET_SEARCH_QUERY } from '../../../containers/App/constants';
 
 const errorMessage = 'Something went horribly wrong';
 const activeFilter = {
@@ -455,8 +454,7 @@ describe('signals/incident-management/reducer', () => {
         .set('activeFilter', initialState.get('activeFilter'))
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'))
-        .set('searchQuery', setSearchQuery.payload);
+        .set('page', initialState.get('page'));
 
     expect(reducer(initialState, setSearchQuery)).toEqual(
       applied(initialState)
@@ -475,8 +473,7 @@ describe('signals/incident-management/reducer', () => {
       state
         .set('loading', true)
         .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'))
-        .set('searchQuery', initialState.get('searchQuery'));
+        .set('page', initialState.get('page'));
 
     expect(reducer(initialState, resetSearchQuery)).toEqual(
       applied(initialState)

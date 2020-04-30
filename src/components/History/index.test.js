@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
+import historyJSON from 'utils/__tests__/fixtures/history.json';
 import History from '.';
 
 
@@ -10,36 +11,9 @@ describe('<History />', () => {
 
   beforeEach(() => {
     props = {
-      list: [
-        {
-          identifier: 'UPDATE_STATUS_6686',
-          when: '2019-07-31T15:10:28.696413+02:00',
-          what: 'UPDATE_STATUS',
-          action: 'Update status naar: Gesplitst',
-          description: 'Deze melding is opgesplitst.',
-          who: 'steve@apple.com',
-        },
-        {
-          identifier: 'UPDATE_PRIORITY_3790',
-          when: '2019-07-26T11:51:50.275505+02:00',
-          what: 'UPDATE_PRIORITY',
-          action: 'Prioriteit update naar: Normal',
-          description: null,
-          who: 'SIA systeem',
-        },
-        {
-          identifier: 'UPDATE_CATEGORY_ASSIGNMENT_3996',
-          when: '2019-07-26T11:51:50.273841+02:00',
-          what: 'UPDATE_CATEGORY_ASSIGNMENT',
-          action: 'Categorie gewijzigd naar: Geluidsoverlast installaties',
-          description: null,
-          who: 'Foo bar baz',
-        },
-      ],
+      list: historyJSON,
     };
   });
-
-  afterEach(cleanup);
 
   describe('rendering', () => {
     it('should render all items when list is defined', () => {

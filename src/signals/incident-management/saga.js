@@ -21,6 +21,8 @@ import {
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
+import { makeSelectSearchQuery } from 'containers/App/selectors';
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 
 import {
   applyFilterRefresh,
@@ -50,10 +52,8 @@ import {
   PAGE_CHANGED,
   REMOVE_FILTER,
   REQUEST_INCIDENTS,
-  RESET_SEARCH_QUERY,
   SAVE_FILTER,
   SEARCH_INCIDENTS,
-  SET_SEARCH_QUERY,
   UPDATE_FILTER,
 } from './constants';
 
@@ -62,7 +62,6 @@ import { SPLIT_INCIDENT_SUCCESS } from './containers/IncidentSplitContainer/cons
 import {
   makeSelectActiveFilter,
   makeSelectFilterParams,
-  makeSelectSearchQuery,
 } from './selectors';
 
 export function* fetchProxy(action) {
@@ -101,7 +100,7 @@ export function* fetchIncidents() {
   }
 }
 
-export function* searchIncidents(action) {
+export function* searchIncidents() {
   try {
     const q = yield select(makeSelectSearchQuery);
 
@@ -117,10 +116,6 @@ export function* searchIncidents(action) {
     });
 
     yield put(searchIncidentsSuccess(incidents));
-
-    if (action.type === SET_SEARCH_QUERY) {
-      yield put(push('/manage/incidents'));
-    }
   } catch (error) {
     if (error.response && error.response.status === 500) {
       // Getting an error response with status code 500 from the search endpoint

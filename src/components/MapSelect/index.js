@@ -19,9 +19,14 @@ import './style.scss';
 
 const SELECTION_MAX_COUNT = 30;
 
+const Wrapper = styled.div`
+  position: relative;
+`;
+
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
+  font-family: "AvenirNextLTW01-Regular", arial, sans-serif;
 `;
 
 const MapSelect = ({
@@ -38,7 +43,7 @@ const MapSelect = ({
   const zoomMin = 13;
   const featuresLayer = useRef();
   const [mapInstance, setMapInstance] = useState();
-  const selection = new MaxSelection(SELECTION_MAX_COUNT, value);
+  const selection = useRef(new MaxSelection(SELECTION_MAX_COUNT, value));
   const mapOptions = {
     ...MAP_OPTIONS,
     center: [latlng.latitude, latlng.longitude],
@@ -83,7 +88,7 @@ const MapSelect = ({
            * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
           filter: /* istanbul ignore next */ feature =>
-            selectionOnly ? selection.has(feature.properties[idField]) : true,
+            selectionOnly ? selection.current.has(feature.properties[idField]) : true,
 
           /**
            * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
@@ -94,7 +99,7 @@ const MapSelect = ({
            */
           pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
             L.marker(latlong, {
-              icon: getIcon(feature.properties[iconField], selection.has(feature.properties[idField])),
+              icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
             }),
 
           /**
@@ -110,9 +115,9 @@ const MapSelect = ({
                 click: e => {
                   const _layer = e.target;
                   const id = _layer.feature.properties[idField];
-                  selection.toggle(id);
+                  selection.current.toggle(id);
 
-                  onSelectionChange(selection);
+                  onSelectionChange(selection.current);
                 },
               });
             }
@@ -187,10 +192,10 @@ const MapSelect = ({
     /* istanbul ignore next */ () => {
       if (!featuresLayer.current) return;
 
-      selection.set.clear();
+      selection.current.set.clear();
 
       for (const id of value) {
-        selection.add(id);
+        selection.current.add(id);
       }
 
       // Let icons reflect new selection
@@ -198,7 +203,7 @@ const MapSelect = ({
         const properties = layer.feature.properties;
         const id = properties[idField];
         const iconType = properties[iconField];
-        const icon = getIcon(iconType, selection.has(id));
+        const icon = getIcon(iconType, selection.current.has(id));
 
         layer.setIcon(icon);
       });
@@ -209,13 +214,15 @@ const MapSelect = ({
   );
 
   return (
-    <StyledMap
-      className={classNames('map-component', { write: onSelectionChange })}
-      data-testid="mapSelect"
-      hasZoomControls
-      mapOptions={mapOptions}
-      setInstance={setMapInstance}
-    />
+    <Wrapper>
+      <StyledMap
+        className={classNames('map-component', { write: onSelectionChange })}
+        data-testid="mapSelect"
+        hasZoomControls
+        mapOptions={mapOptions}
+        setInstance={setMapInstance}
+      />
+    </Wrapper>
   );
 };
 

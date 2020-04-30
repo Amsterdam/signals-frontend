@@ -23,7 +23,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
 
   return (
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-      {meta && meta.isVisible ? (
+      {meta?.isVisible && (
         <div className={`${meta.className || 'col-12'} mode_input`}>
           <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
             <div className="invoer">
@@ -33,8 +33,6 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
             </div>
           </Header>
         </div>
-      ) : (
-        ''
       )}
     </div>
   );

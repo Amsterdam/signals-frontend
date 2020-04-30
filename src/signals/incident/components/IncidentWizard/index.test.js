@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
+import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
 import IncidentWizard from './index';
 
@@ -81,7 +82,7 @@ describe('<IncidentWizard />', () => {
 
     const { queryByTestId } = render(
       withAppContext(
-        <IncidentWizard {...propsWithPreview} />,
+        <IncidentWizard {...propsWithPreview} incidentContainer={{ incident: incidentJson }} />,
       ),
     );
 
