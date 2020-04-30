@@ -12,23 +12,42 @@ import {
 
 export const initialState = fromJS({
   incident: {
+    custom_text: '',
+    datetime: undefined,
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0,
+    category: '',
+    description: '',
+    email: '',
+    handling_message: '',
+    images_errors: [],
+    images_previews: [],
+    images: [],
+    location: undefined,
+    phone: undefined,
     priority: {
       id: 'normal',
       label: 'Normaal',
     },
+    source: undefined,
+    subcategory: '',
     type: {
       id: 'SIG',
       label: 'Melding',
     },
-    category: '',
-    subcategory: '',
-    handling_message: '',
   },
   loadingClassification: false,
 });
+
+const getIncidentWithoutExtraProps = incident =>
+  fromJS(
+    Object.entries(incident.toJS()).reduce((acc, [key, val]) => {
+      const keyVal = { [key]: val };
+      const value = key.startsWith('extra') ? {} : keyVal;
+      return { ...acc, ...value };
+    }, {})
+  );
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -60,6 +79,13 @@ export default (state = initialState, action) => {
       return state.set('loadingClassification', true);
 
     case GET_CLASSIFICATION_SUCCESS:
+      return state.set('loadingClassification', false).set(
+        'incident',
+        getIncidentWithoutExtraProps(state.get('incident'))
+          .set('category', action.payload.category)
+          .set('subcategory', action.payload.subcategory)
+      );
+
     case GET_CLASSIFICATION_ERROR:
       return state.set('loadingClassification', false).set(
         'incident',
