@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Paragraph, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
 import { incidentType, attachmentsType } from 'shared/types';
 
@@ -11,8 +11,8 @@ import Location from './components/Location';
 import Attachments from './components/Attachments';
 import ExtraProperties from './components/ExtraProperties';
 
-const DemiParagraph = styled(Paragraph)`
-  font-family: Avenir Next LT W01 Demi;
+const Title = styled(Heading)`
+  font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `;
 
@@ -30,7 +30,8 @@ const DefinitionList = styled.dl`
     grid-template-columns: 3fr 4fr;
   }
 
-  dt, dd {
+  dt,
+  dd {
     @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
       padding: ${themeSpacing(2)} 0;
     }
@@ -39,6 +40,7 @@ const DefinitionList = styled.dl`
   dt {
     color: ${themeColor('tint', 'level5')};
     margin: 0;
+    font-weight: 400;
   }
 
   dd {
@@ -49,9 +51,9 @@ const DefinitionList = styled.dl`
 
 const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowAttachment }) => (
   <article>
-    <DemiParagraph data-testid="detail-title">
+    <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
       {incident.text}
-    </DemiParagraph>
+    </Title>
 
     <DefinitionList>
       <dt>Overlast</dt>
@@ -65,19 +67,11 @@ const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowA
 
       {incident.extra_properties && <ExtraProperties items={incident.extra_properties} />}
 
-      <dt data-testid="detail-email-definition">
-        E-mail melder
-      </dt>
-      <dd data-testid="detail-email-value">
-        {incident.reporter.email}
-      </dd>
+      <dt data-testid="detail-email-definition">E-mail melder</dt>
+      <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
 
-      <dt data-testid="detail-phone-definition">
-        Telefoon melder
-      </dt>
-      <dd data-testid="detail-phone-value">
-        {incident.reporter.phone}
-      </dd>
+      <dt data-testid="detail-phone-definition">Telefoon melder</dt>
+      <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
     </DefinitionList>
   </article>
 );

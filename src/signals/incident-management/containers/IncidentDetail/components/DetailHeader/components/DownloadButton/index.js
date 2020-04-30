@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
-import { Button } from '@datapunt/asc-ui';
+import { Button as AscButton } from '@datapunt/asc-ui';
 import { Spinner } from '@datapunt/asc-assets';
 
 import useFetch from 'hooks/useFetch';
@@ -21,6 +21,11 @@ const Spinning = styled(Spinner)`
     transform-origin: 50% 50%;
     animation: ${rotate} 2s linear infinite;
   }
+`;
+
+const Button = styled(AscButton)`
+  font-family: AvenirNextLTW01-Regular, Arial, sans-serif;
+  font-weight: 700;
 `;
 
 const DownloadButton = ({ label, url, filename }) => {

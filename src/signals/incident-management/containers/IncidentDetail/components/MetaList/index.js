@@ -24,6 +24,7 @@ const List = styled.dl`
     color: ${themeColor('tint', 'level5')};
     margin-bottom: ${themeSpacing(1)};
     position: relative;
+    font-weight: 400;
   }
 
   dd {
