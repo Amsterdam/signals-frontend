@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
+import { isAuthenticated } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -24,8 +24,6 @@ import reducer from './reducer';
 import saga from './saga';
 
 export const AppContainer = ({ resetIncidentAction }) => {
-  // on each component render, see if the current session is authenticated
-  authenticate();
   const history = useHistory();
   const location = useLocationReferrer();
 
