@@ -16,7 +16,6 @@ const Info = styled.span`
 `;
 
 const ValueContainer = styled.div`
-  display: block;
   position: relative;
   margin-bottom: ${themeSpacing(3)};
   padding: 0 0 0 ${themeSpacing(9)};
