@@ -1,8 +1,6 @@
 import { createContext } from 'react';
 
-const defaultConfig = {
-  isLoading: true,
-};
+const defaultConfig = {};
 
 const ConfigContext = createContext(defaultConfig);
 

@@ -26,17 +26,11 @@ import reducer from './reducer';
 import saga from './saga';
 
 export const AppContainer = ({ resetIncidentAction }) => {
-  const injectedConfig = window.CONFIG || {};
-  const [themeConfig, setThemeConfig] = useState({
-    ...injectedConfig,
-    isLoading: Boolean(injectedConfig.logoUrl),
-  });
+  const config = window.CONFIG || {};
+  const [isLoading, setLoading] = useState(Boolean(config.logoUrl));
 
   const onLogoLoad = () => {
-    setThemeConfig({
-      ...themeConfig,
-      isLoading: false,
-    });
+    setLoading(false);
   };
 
   // on each component render, see if the current session is authenticated
@@ -63,11 +57,11 @@ export const AppContainer = ({ resetIncidentAction }) => {
   }, [history]);
 
   return (
-    <ConfigContext.Provider value={themeConfig}>
+    <ConfigContext.Provider value={config}>
       <ThemeProvider>
-        {themeConfig.isLoading ? (
+        {isLoading ? (
           <Fragment>
-            <img src={themeConfig.logoUrl} alt="Logo" onLoad={onLogoLoad} />
+            <img src={config.logoUrl} alt="Logo" onLoad={onLogoLoad} />
             <LoadingIndicator />
           </Fragment>
         ) : (
