@@ -43,8 +43,7 @@ export const initialState = fromJS({
 const getIncidentWithoutExtraProps = incident =>
   fromJS(
     Object.entries(incident.toJS()).reduce((acc, [key, val]) => {
-      const keyVal = { [key]: val };
-      const value = key.startsWith('extra') ? {} : keyVal;
+      const value = key.startsWith('extra') ? {} : { [key]: val };
       return { ...acc, ...value };
     }, {})
   );
