@@ -14,8 +14,8 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
     }
 }
 String BRANCH = "${env.BRANCH_NAME}"
-node('BS16') {
-    stage("Checkout") {
+node('BS16 || BS17') {
+      stage("Checkout") {
         def scmVars = checkout(scm)
         env.GIT_COMMIT = scmVars.GIT_COMMIT
         env.COMPOSE_DOCKER_CLI_BUILD = 1
