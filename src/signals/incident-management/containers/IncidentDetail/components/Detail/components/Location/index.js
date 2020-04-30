@@ -12,7 +12,7 @@ import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 
 const MapTile = styled.div`
   float: left;
-  margin-right: 10px;
+  margin-right: ${themeSpacing(4)};
   padding: 0;
   border-style: none;
   cursor: pointer;
@@ -27,10 +27,12 @@ const EditButton = styled(Button)`
   position: absolute;
   right: 0;
   top: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0 6px;
 `;
 
 const Address = styled.div`
-  margin-left: ${themeSpacing(12)};
 `;
 
 const Location = ({ incident: { location }, onShowLocation, onEditLocation }) => {
@@ -48,7 +50,7 @@ const Location = ({ incident: { location }, onShowLocation, onEditLocation }) =>
       <Description>
         <EditButton
           variant="application"
-          iconSize={20}
+          iconSize={18}
           icon={<IconEdit />}
           type="button"
           onClick={onEditLocation}
