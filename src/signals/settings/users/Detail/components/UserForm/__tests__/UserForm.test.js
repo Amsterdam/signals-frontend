@@ -2,8 +2,13 @@ import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
-import * as modelSelectors from 'models/departments/selectors';
+
 import departmentsJson from 'utils/__tests__/fixtures/departments.json';
+import inputCheckboxRolesSelectorJson from
+  'utils/__tests__/fixtures/inputCheckboxRolesSelector.json';
+
+import * as modelSelectors from 'models/departments/selectors';
+import * as rolesSelectors from 'models/roles/selectors';
 
 import UserForm from '..';
 
@@ -18,7 +23,14 @@ jest.mock('models/departments/selectors', () => ({
   ...jest.requireActual('models/departments/selectors'),
 }));
 
+jest.mock('models/roles/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/roles/selectors'),
+}));
+
 jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
+
+jest.spyOn(rolesSelectors, 'inputCheckboxRolesSelector').mockImplementation(() => inputCheckboxRolesSelectorJson);
 
 describe('signals/settings/users/containers/Detail/components/UserForm', () => {
   it('should render the correct fields', () => {
@@ -44,12 +56,53 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
       departmentsJson.results.find(({ name }) => name === 'Port of Amsterdam')
     );
 
-    expect(container.querySelectorAll('[name="departments"]')[uncheckedDepartmentIndex].checked).toBe(false);
+    expect(container.querySelectorAll('[name="departments"]')[uncheckedDepartmentIndex].checked)
+      .toBe(false);
+
+    expect(container.querySelectorAll('[name="roles"]'))
+      .toHaveLength(inputCheckboxRolesSelectorJson.length);
+
+    const uncheckedRoleIndex = inputCheckboxRolesSelectorJson.indexOf(
+      inputCheckboxRolesSelectorJson.find(({ name }) => name === 'Behandelaar')
+    );
+
+    expect(container.querySelectorAll('[name="roles"]')[uncheckedRoleIndex].checked).toBe(false);
+  });
+
+  it('should check all role checkboxes and submit them', () => {
+    jest.useFakeTimers();
+
+    const onSubmit = jest.fn();
+
+    const { container, getByTestId } = render(withAppContext(<UserForm onSubmit={onSubmit} />));
+
+    expect(container.querySelectorAll('[name="roles"]'))
+      .toHaveLength(inputCheckboxRolesSelectorJson.length);
+
+    const uncheckedRoleIndex = inputCheckboxRolesSelectorJson.indexOf(
+      inputCheckboxRolesSelectorJson.find(({ name }) => name === 'Behandelaar')
+    );
+
+    expect(container.querySelectorAll('[name="roles"]')[uncheckedRoleIndex].checked).toBe(false);
+
+    container.querySelectorAll('[name="roles"]').forEach(checkbox => {
+      act(() => { fireEvent.click(checkbox); });
+      act(() => { jest.runOnlyPendingTimers(); });
+    });
+
+    expect(container.querySelectorAll('input[type="checkbox"]:checked'))
+      .toHaveLength(inputCheckboxRolesSelectorJson.length);
+
+    expect(onSubmit).not.toHaveBeenCalled();
+
+    act(() => { fireEvent.click(getByTestId('submitBtn')); });
+
+    const submittedRoleIds = onSubmit.mock.calls[0][0].postPatch.role_ids;
+    expect(submittedRoleIds).toHaveLength(inputCheckboxRolesSelectorJson.length);
   });
 
   it('should make fields disabled', () => {
     const { container, rerender, queryByText } = render(withAppContext(<UserForm />));
-    // const numFields = container.querySelectorAll('input').length;
 
     expect(container.querySelectorAll('[disabled]')).toHaveLength(0);
     expect(queryByText('Opslaan')).toBeInTheDocument();
@@ -136,13 +189,33 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(radio2.checked).toBe(true);
   });
 
-  it('should check an unchecked checkbox', () => {
+  it('should check an unchecked role checkbox', () => {
+    jest.useFakeTimers();
+
+    const { getByLabelText } = render(withAppContext(<UserForm />));
+
+    const checkbox = getByLabelText('Regievoerder');
+
+    expect(checkbox.checked).toBe(false);
+
+    act(() => { fireEvent.click(checkbox); });
+    act(() => { jest.runOnlyPendingTimers(); });
+
+    expect(checkbox.checked).toBe(true);
+  });
+
+  it('should check an unchecked department checkbox', () => {
+    jest.useFakeTimers();
+
     const { getByLabelText } = render(withAppContext(<UserForm />));
 
     const checkbox = getByLabelText('Actie Service Centrum');
 
     expect(checkbox.checked).toBe(false);
-    fireEvent.click(checkbox);
+
+    act(() => { fireEvent.click(checkbox); });
+    act(() => { jest.runOnlyPendingTimers(); });
+
     expect(checkbox.checked).toBe(true);
   });
 });
