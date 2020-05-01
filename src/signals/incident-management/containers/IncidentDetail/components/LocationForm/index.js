@@ -108,7 +108,7 @@ class LocationForm extends React.Component {
       <div className="location-form">
         <FieldGroup
           control={this.form}
-          render={({ invalid }) => (
+          render={() => (
             <Form onSubmit={this.handleSubmit}>
               <Row>
                 <StyledColumn span={12}>
@@ -137,7 +137,6 @@ class LocationForm extends React.Component {
                   <FormButton
                     variant="secondary"
                     type="submit"
-                    disabled={invalid}
                     data-testid="location-form-button-submit"
                   >
                     <span className="value">Locatie opslaan</span>

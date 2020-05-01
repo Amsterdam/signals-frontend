@@ -16,15 +16,6 @@ import {
   makeSelectSearchQuery,
 } from './selectors';
 
-const getPermissionCount = userData => {
-  const numberOfPermissionsForRoles = userData.roles.reduce((acc, val) => {
-    const count = acc + val.permissions.length;
-    return count;
-  }, 0);
-
-  return numberOfPermissionsForRoles + userData.permissions.length;
-};
-
 describe('containers/App/selectors', () => {
   describe('selectGlobal', () => {
     it('should return the initialState', () => {
@@ -111,44 +102,7 @@ describe('containers/App/selectors', () => {
       });
 
       it("should return a list of a user's permissions", () => {
-        expect(makeSelectUserPermissions(state)).toHaveLength(
-          getPermissionCount(userJson)
-        );
-      });
-
-      it('should return a list of unique permissions', () => {
-        const userJsonWithDuplicatePerms = cloneDeep(userJson);
-        // add another role with all duplicate permissions
-        userJsonWithDuplicatePerms.roles.push(
-          userJsonWithDuplicatePerms.roles[0]
-        );
-
-        // add a duplicate permission to a role
-        userJsonWithDuplicatePerms.roles[0].permissions.push(
-          userJsonWithDuplicatePerms.permissions[0]
-        );
-
-        const duplicatePermsState = fromJS({
-          global: {
-            ...initialState.toJS(),
-            user: userJsonWithDuplicatePerms,
-          },
-        });
-
-        const permissionCount = getPermissionCount(userJson);
-        const dupePermissionCount = getPermissionCount(
-          userJsonWithDuplicatePerms
-        );
-
-        expect(permissionCount).not.toEqual(dupePermissionCount);
-
-        expect(makeSelectUserPermissions(duplicatePermsState)).not.toHaveLength(
-          dupePermissionCount
-        );
-
-        expect(makeSelectUserPermissions(duplicatePermsState)).toHaveLength(
-          getPermissionCount(userJson)
-        );
+        expect(makeSelectUserPermissions(state)).toHaveLength(16);
       });
     });
 

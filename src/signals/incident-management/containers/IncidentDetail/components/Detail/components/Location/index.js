@@ -14,7 +14,7 @@ import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 
 const MapTile = styled.div`
   float: left;
-  margin-right: 10px;
+  margin-right: ${themeSpacing(4)};
   padding: 0;
   border-style: none;
   cursor: pointer;
@@ -58,7 +58,7 @@ const Location = ({ location, onShowLocation, onEditLocation }) => {
       <Description>
         <StyledEditButton
           variant="application"
-          iconSize={20}
+          iconSize={18}
           icon={<IconEdit />}
           type="button"
           onClick={onEditLocation}

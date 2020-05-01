@@ -113,13 +113,6 @@ describe('<StatusForm />', () => {
     expect(queryByTestId('statusFormCancelButton')).toHaveTextContent(/^Annuleren$/);
   });
 
-  it('should disable the submit button when no status has been selected', () => {
-    const { queryByTestId } = render(
-      withAppContext(<StatusForm {...props} />)
-    );
-    expect(queryByTestId('statusFormSubmitButton')).toHaveAttribute('disabled');
-  });
-
   it('should close the status form when result is ok', () => {
     const { rerender } = render(
       withAppContext(<StatusForm {...props} />)
@@ -157,34 +150,6 @@ describe('<StatusForm />', () => {
       [wrapper, instance] = getComponent(props);
 
       renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
-    });
-
-    it('should enable the submit button when a status has been selected', () => {
-      const form = instance.form;
-      const formValue = {
-        status: 'b',
-      };
-      form.patchValue(formValue);
-      expect(form.value.status).toEqual(formValue.status);
-      expect(form.value.coordinates).toEqual(formValue.coordinates);
-      expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(false);
-    });
-
-    it('should enable the submit button when a status with a mandatory text have been selected', () => {
-      const form = instance.form;
-      const newStatus = {
-        status: 'o',
-      };
-      form.patchValue(newStatus);
-      expect(form.value.status).toEqual(newStatus.status);
-      expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(true);
-
-      const newText = {
-        text: 'bla',
-      };
-      form.patchValue(newText);
-      expect(form.value.text).toEqual(newText.text);
-      expect(renderedFormGroup.find('[data-testid="statusFormSubmitButton"]').prop('disabled')).toBe(false);
     });
 
     it('should set default text when it has triggered', () => {

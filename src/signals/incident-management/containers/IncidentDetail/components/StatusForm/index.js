@@ -39,6 +39,8 @@ const StyledCurrentStatus = styled.div`
 
 const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
+  font-family: AvenirNextLTW01-Regular, arial, sans-serif;
+  font-weight: 700;
 `;
 
 const Notification = styled.div`
@@ -131,7 +133,7 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
     <Fragment>
       <FieldGroup
         control={form}
-        render={({ invalid }) => (
+        render={() => (
           <Form onSubmit={handleSubmit}>
             <CloseButton onClick={onClose} />
 
@@ -183,7 +185,7 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
                   </Notification>
                 )}
 
-                <StyledButton data-testid="statusFormSubmitButton" disabled={invalid} type="submit" variant="secondary">
+                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary">
                   Status opslaan
                 </StyledButton>
 

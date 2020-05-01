@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Paragraph, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
 import { incidentType, attachmentsType } from 'shared/types';
 
@@ -16,8 +16,8 @@ const Wrapper = styled.article`
   z-index: 0;
 `;
 
-const DemiParagraph = styled(Paragraph)`
-  font-family: Avenir Next LT W01 Demi;
+const Title = styled(Heading)`
+  font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `;
 
@@ -45,6 +45,7 @@ const DefinitionList = styled.dl`
   dt {
     color: ${themeColor('tint', 'level5')};
     margin: 0;
+    font-weight: 400;
   }
 
   dd {
@@ -60,7 +61,9 @@ const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowA
 
   return (
     <Wrapper>
-      <DemiParagraph data-testid="detail-title">{incident.text}</DemiParagraph>
+      <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
+        {incident.text}
+      </Title>
 
       <DefinitionList>
         <dt>Overlast</dt>

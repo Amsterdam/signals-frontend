@@ -1,5 +1,6 @@
 // General selectors for creating a signal
 export const CREATE_SIGNAL = {
+  autoSuggest: '[data-testid="autoSuggest"]',
   buttonUploadFile: '#formUpload',
   dropdownDag: '#incident_date-select-day',
   dropdownUur: '#incident_date-select-time-hours',
@@ -8,8 +9,14 @@ export const CREATE_SIGNAL = {
   imageAddressMarker: 'div[class="leaflet-pane leaflet-marker-pane"]',
   inputPhoneNumber: '[type=tel]',
   inputEmail: '[type=email]',
-  imageFileUpload: '.preview-image__item-value-image',
+  imageFileUpload: '[class*=Image__ImageContainer]',
+  linkChangeEmailAddress: '[class*=IncidentPreview__LinkContainer] > [href="/incident/email"]',
+  linkChangePhoneNumber: '[class*=IncidentPreview__LinkContainer] > [href="/incident/telefoon"]',
+  linkChangeSignalInfo: '[class*=IncidentPreview__LinkContainer] > [href="/incident/beschrijf"]',
   mapContainer: '.leaflet-container',
+  mapStaticImage:'[data-testid=mapStaticImage]',
+  mapStaticMarker:'[data-testid=mapStaticMarker]', 
+  mapPreview: '[data-testid=map-preview]',
   radioButtonTijdstipNu: '#datetime-Nu1',
   radioButtonTijdstipEerder: '#datetime-Eerder1',
 };
@@ -50,7 +57,9 @@ export const JONGEREN = {
 
 // Selectors specific for lantaarnpaal
 export const LANTAARNPAAL = {
+  mapSelectLamp: '[data-testid=map-base]',
   radioButtonAanrijding: '#extra_straatverlichting-is_gevolg_van_aanrijding1',
+  radioButtonAantalLichtenpunten: '#extra_straatverlichting_hoeveel-meerdere_lichtpunten1',
   radioButtonOpGrond: '#extra_straatverlichting-lamp_op_grond_of_scheef1',
   radioButtonDeur: '#extra_straatverlichting-deurtje_weg_of_open1',
   radioButtonLosseKabels: '#extra_straatverlichting-losse_kabels_zichtbaar_of_lamp_los1',
@@ -69,6 +78,8 @@ export const STANK_OVERLAST = {
 
 // Selectors specific for lantaarnpaal
 export const VERKEERSLICHT = {
+  inputNummerVerkeerslicht: '[class*=Input__Styled]',
+  inputRijrichting: '[class*=Input__Styled]',
   radioButtonAanrijding: '#extra_verkeerslicht-is_gevolg_van_aanrijding1',
   radioButtonOpGrond: '#extra_verkeerslicht-verkeerslicht_op_grond_of_scheef1',
   radioButtonDeur: '#extra_verkeerslicht-deurtje_weg_of_open1',
