@@ -35,13 +35,19 @@ const DetailContainer = styled(Column)`
 const reducer = (state, action) => {
   switch (action.type) {
     case 'closeAll':
-      return { ...state, preview: '', attachment: '' };
+      return { ...state, preview: '', error: undefined, attachmentHref: '' };
 
     case 'showImage':
-      return { ...state, preview: action.type, attachment: action.payload };
+      return { ...state, preview: 'showImage', attachmentHref: action.payload };
+
+    case 'error':
+      return { ...state, error: action.payload };
+
+    case 'attachments':
+      return { ...state, attachments: action.payload };
 
     default:
-      return { ...state, preview: action.type, attachment: '' };
+      return { ...state, preview: action.type, attachmentHref: '' };
   }
 };
 
@@ -60,7 +66,9 @@ const Preview = styled.div`
 const IncidentDetail = ({ attachmentHref, previewState }) => {
   const [state, dispatch] = useReducer(reducer, {
     preview: previewState,
-    attachment: attachmentHref,
+    attachmentHref,
+    error: undefined,
+    attachments: undefined,
   });
   const { id } = useParams();
   const {
@@ -85,6 +93,14 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     // Disabling linter; just needs to execute on mount
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    dispatch({ type: 'error', payload: error });
+  }, [error]);
+
+  useEffect(() => {
+    dispatch({ type: 'attachments', payload: attachments?.results });
+  }, [attachments]);
 
   useEffect(() => {
     if (!id) return;
@@ -150,7 +166,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
         <DetailContainer span={7}>
           <Detail
             incident={incident}
-            attachments={attachments && attachments.results}
+            attachments={state.attachments}
             onShowLocation={() => dispatch({ type: 'showLocation' })}
             onEditLocation={() => dispatch({ type: 'editLocation' })}
             onShowAttachment={payload => dispatch({ type: 'showImage', payload })}
@@ -174,7 +190,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
             {state.preview === 'editStatus' && (
               <StatusForm
                 defaultTexts={defaultTexts}
-                error={error}
+                error={state.error}
                 incident={incident}
                 onClose={() => dispatch({ type: 'closeAll' })}
                 onPatchIncident={onPatchIncident}
@@ -187,7 +203,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
             {state.preview === 'editLocation' && (
               <LocationForm
-                error={error}
+                error={state.error}
                 incident={incident}
                 onClose={() => dispatch({ type: 'closeAll' })}
                 onDismissError={() => {}}
@@ -197,8 +213,8 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
             {state.preview === 'showImage' && (
               <AttachmentViewer
-                attachments={attachments && attachments.results}
-                href={state.attachment}
+                attachments={state.attachments}
+                href={state.attachmentHref}
                 onShowAttachment={payload => dispatch({ type: 'showImage', payload })}
               />
             )}

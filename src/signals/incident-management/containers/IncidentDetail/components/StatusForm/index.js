@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState, useEffect } from 'react';
+import React, { Fragment, useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
@@ -11,12 +11,10 @@ import statusList, {
   changeStatusOptionList,
 } from 'signals/incident-management/definitions/statusList';
 
-import Label from 'components/Label';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
-import CloseButton from '../CloseButton';
 
 const Form = styled.form`
   position: relative;
@@ -31,10 +29,6 @@ const StyledH4 = styled(Heading)`
   font-weight: normal;
   margin-bottom: ${themeSpacing(2)};
   margin-top: ${themeSpacing(5)};
-`;
-
-const StyledCurrentStatus = styled.div`
-  margin-bottom: ${themeSpacing(5)};
 `;
 
 const StyledButton = styled(Button)`
@@ -57,40 +51,40 @@ const Notification = styled.div`
   line-height: 22px;
 `;
 
-const form = FormBuilder.group({
-  status: ['', Validators.required],
-  text: [''],
-});
-
 const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident }) => {
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
   const [warning, setWarning] = useState('');
-  const [patchError, setPatchError] = useState();
+  const [patchError, setPatchError] = useState('');
+
+  const form = useMemo(
+    () =>
+      FormBuilder.group({
+        status: [currentStatus.key, Validators.required],
+        text: [''],
+      }),
+    [currentStatus.key]
+  );
 
   useEffect(() => {
-    setPatchError('');
-
     form.controls.status.valueChanges.subscribe(status => {
       const found = statusList.find(s => s.key === status);
 
       setWarning(found?.warning);
 
-      const textField = form.controls.text;
       const hasDefaultTexts = Boolean(defaultTextsOptionList.find(s => s.key === status));
 
       if (hasDefaultTexts) {
-        textField.setValidators([Validators.required]);
+        form.controls.text.setValidators([Validators.required]);
       } else {
-        textField.clearValidators();
+        form.controls.text.clearValidators();
       }
 
-      textField.updateValueAndValidity();
+      form.controls.text.updateValueAndValidity();
     });
-  }, []);
+  }, [form.controls.status.valueChanges, form.controls.text]);
 
   useEffect(() => {
     if (!error) {
-      setPatchError('');
       return;
     }
 
@@ -111,6 +105,7 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
           "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
         );
       } else {
+        setPatchError('');
         onPatchIncident({
           id: incident.id,
           type: PATCH_TYPE_STATUS,
@@ -120,36 +115,41 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
         });
       }
     },
-    [incident.id, onPatchIncident]
+    [incident.id, onPatchIncident, form.value.status, form.value.text]
   );
 
-  const handleUseDefaultText = useCallback((event, text) => {
-    event.preventDefault();
+  const handleUseDefaultText = useCallback(
+    (event, text) => {
+      event.preventDefault();
 
-    form.get('text').patchValue(text);
-  }, []);
+      form.get('text').patchValue(text);
+    },
+    [form]
+  );
 
   return (
     <Fragment>
+      <Row>
+        <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
+          <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
+
+          {patchError && (
+            <Notification warning data-testid="statusFormError">
+              {patchError}
+            </Notification>
+          )}
+        </StyledColumn>
+      </Row>
+
       <FieldGroup
         control={form}
-        render={() => (
+        render={({ invalid }) => (
           <Form onSubmit={handleSubmit}>
-            <CloseButton onClick={onClose} />
-
             <Row>
               <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
-                <StyledH4 $as="h4">Status wijzigen</StyledH4>
-
-                <StyledCurrentStatus>
-                  <Label htmlFor="currentStatus">Huidige status</Label>
-                  <div id="currentStatus">{currentStatus.value}</div>
-                </StyledCurrentStatus>
-
                 <FieldControlWrapper
                   control={form.get('status')}
                   data-testid="statusFormStatusField"
-                  display="Nieuwe status"
                   name="status"
                   render={RadioInput}
                   values={changeStatusOptionList}
@@ -179,13 +179,7 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
                   {warning}
                 </Notification>
 
-                {patchError && (
-                  <Notification warning data-testid="statusFormError">
-                    {patchError}
-                  </Notification>
-                )}
-
-                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary">
+                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
                   Status opslaan
                 </StyledButton>
 

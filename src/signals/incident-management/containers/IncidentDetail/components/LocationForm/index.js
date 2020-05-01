@@ -134,20 +134,16 @@ class LocationForm extends React.Component {
                     </div>
                   )}
 
-                  <FormButton
-                    variant="secondary"
-                    type="submit"
-                    data-testid="location-form-button-submit"
-                  >
+                  <FormButton variant="secondary" type="submit" data-testid="location-form-button-submit">
                     <span className="value">Locatie opslaan</span>
-                    {/* {patching.location && (
-                      <span className="working">
-                        <div className="progress-indicator progress-white"></div>
-                      </span>
-                    )} */}
                   </FormButton>
 
-                  <FormButton variant="tertiary" type="button" onClick={onClose} data-testid="location-form-button-cancel">
+                  <FormButton
+                    variant="tertiary"
+                    type="button"
+                    onClick={onClose}
+                    data-testid="location-form-button-cancel"
+                  >
                     Annuleren
                   </FormButton>
                 </StyledColumn>
@@ -161,7 +157,6 @@ class LocationForm extends React.Component {
 }
 
 LocationForm.defaultProps = {
-  // location: {},
   newLocation: {},
 };
 
@@ -175,11 +170,7 @@ LocationForm.propTypes = {
       },
     }),
     PropTypes.bool,
-  ]).isRequired,
-  // patching: PropTypes.shape({
-  //   location: PropTypes.bool,
-  // }).isRequired,
-  // location: locationType,
+  ]),
   newLocation: locationType,
 
   onPatchIncident: PropTypes.func.isRequired,
