@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { isAuthenticated } from 'shared/services/auth/auth';
+import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -26,6 +26,8 @@ import saga from './saga';
 export const AppContainer = ({ resetIncidentAction }) => {
   const history = useHistory();
   const location = useLocationReferrer();
+
+  authenticate();
 
   useEffect(() => {
     const { referrer } = location;
