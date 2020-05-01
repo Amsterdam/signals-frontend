@@ -2,28 +2,26 @@
 
 Date: 2020-04-30
 
+## Status
+
+**Accepted**
+
 ## Related tickets (not available for public)
 
 SIG-2568
 
-## Disclaimer
-
-Since this proposal is quite big the original author (jpoppe) has taken the liberty make this
-proposal a bit more opiniated then it normally should be. (One of the reasons is that the original
-author has done this implementation and fine tuned it a couple of times)
-
 ## Context
 
 Since our current backend only serves data through REST and there is no possibility to generate
-generate types/interfaces there is no automated way to validate data on the frontend which is coming
-from the backend.
+types and or interfaces, there is no also no automated way to validate data on the frontend
+which is coming from the backend.
 
-Besides of that there are too many inconstencies between different backend calls and the current
+Besides of that there are too many inconstensies between different backend calls and the current
 backend API documentation is not always correct and/or up to date because it's written manually
 and not generated from code.
 
-Because of this our `React components` are over complicated since we need to mangle data all the
-time to be able to send a POST/PUT request from data which got from a GET request.
+Because of this our `React components` are overcomplicated since we need to transform thr API output to a
+format that the API can consume and that leads to bloat and too much client-side logic.
 
 ## Proposal
 
@@ -31,13 +29,9 @@ We would like to introduce a thin layer between the backend and our frontend whi
 backend data through GraphQL Queries and should expose backend PUT/POST/DELETE actions via GraphQL
 mutations.
 
-We will also need to implement DTO's (Data Transfer Objects) so we can create/use data contracts
-between backend and frontend.
-
-## How
-
-Since this proposal will take quite some time/impact to implement I propose to start a POC with one
-endpoint which we could make acccessible through GraphQL.
+We will also need to implement
+[https://stackoverflow.com/questions/53531488/nestjs-why-do-we-need-dtos-and-interfaces-both-in-nestjs](Data Transfer Objects)
+so we could create/use data contracts between backend and frontend.
 
 # Technical requirements / proposals
 
@@ -86,7 +80,7 @@ Our GraphQL layer:
 
 # Proof of Concept
 
-Like already said, since this proposal is quite big it would be smart to start with a proof of concept with
+Since this proposal is quite big it would be smart to start with a proof of concept with
 strict requirements, here is a list of requirements:
 
 - The POC should expose one full endpoint of our current API through GraphQL (roles)
@@ -100,5 +94,5 @@ strict requirements, here is a list of requirements:
 # Notes
 
 - We should be careful with caching strategies and be sure we won't cache sensitive data
-- As suggested by Roy we should take a look to DataLoader when this POC has been implemented:
+- As suggested we should take a look to DataLoader when this POC has been implemented:
   [https://github.com/graphql/dataloader](GraphQL DataLoader)
