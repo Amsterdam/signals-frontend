@@ -5,7 +5,6 @@ import isEqual from 'lodash.isequal';
 import styled, { css } from 'styled-components';
 
 import {
-  Button,
   Spinner,
   Heading,
   Row,
@@ -16,6 +15,7 @@ import { incidentType, dataListType, defaultTextsType } from 'shared/types';
 import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 
 import Label from 'components/Label';
+import Button from 'components/Button';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
@@ -37,8 +37,6 @@ const StyledCurrentStatus = styled.div`
 
 const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
-  font-family: AvenirNextLTW01-Regular, arial, sans-serif;
-  font-weight: 700;
 `;
 
 const StyledSpinner = styled(Spinner).attrs({

@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button, themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@datapunt/asc-ui';
+import Button from 'components/Button';
 
 import TextArea from 'components/TextArea';
 import Label from 'components/Label';
@@ -13,7 +14,6 @@ const NewNoteButton = styled(Button)`
 
 const NoteButton = styled(Button)`
   margin: ${themeSpacing(8, 2, 4, 0)};
-  font-weight: 700;
 `;
 
 const AddNote = ({ id, onPatchIncident }) => {
@@ -61,7 +61,7 @@ const AddNote = ({ id, onPatchIncident }) => {
       <section>
         <NewNoteButton
           data-testid="addNoteNewNoteButton"
-          variant="primary"
+          variant="application"
           type="button"
           onClick={() => setShowForm(true)}
         >
