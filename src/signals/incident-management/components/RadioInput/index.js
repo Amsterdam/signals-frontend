@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(8)};
 `;
 
-const Info = styled.span`
+const Info = styled.p`
   color: ${themeColor('tint', 'level5')};
 `;
 
@@ -51,11 +51,9 @@ const RadioInput = ({ name, display, values }) => {
             ))}
 
             {info && (
-              <p>
-                <Info>
-                  {label}: {info}
-                </Info>
-              </p>
+              <Info>
+                {label}: {info}
+              </Info>
             )}
           </div>
         </div>
