@@ -88,7 +88,9 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
     },
   };
 
-  const referrer = location.referrer || `${baseUrl}/incidents`;
+  const mapOverviewLocation = '/manage/incidents/kaart';
+
+  const referrer = location.referrer === mapOverviewLocation ? mapOverviewLocation : `${baseUrl}/incidents`;
 
   return (
     <Header className="detail-header">
