@@ -8,18 +8,19 @@ Set `$SIA_TOKEN`:
 
     SIA_TOKEN=YOUR_SIA_TOKEN_FROM_LOCAL_STORAGE
 
+Backend OpenAPI documentation:
+
+    https://acc.api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/
+
 # Notes
 
 ## Todo
 mv categories_structured.json models-categories-selectors_makeSelectStructuredCategories.json
 mv postIncident.json postIncidentResponse.json
 PDOKResponseData.json
-
-category.json
 department.json
 geography.json
 geosearch.json
-history.json
 kto.json (formdata (origin unknown))
 
 ## Backend Endpoints
@@ -79,21 +80,39 @@ http 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/' "Authorizat
 
 ### v1-private-signals-id.json
 
-Old Name: incidents.json
+Old Name: incident.json
 Endpoint: v1/private/signals
 Key: results
-http 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > v1-private-signals.json
 
-Old Name: incident.json
+Example:
 
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > v1-private-signals.json
 
+### v1-private-catgories-id.json
+
+Old name: category.json
+Endpoint: v1/private/categories/23
+
+Example:
+
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/23' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > v1-private-catgories-id.json
+
+### v1-private-catgories-id-history.json
+
+Old name: history.json
+Endpoint: v1/private/categories/23/history.json
+Note: There is currently no history on acc
+
+Example:
+
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/23/history' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > v1-private-catgories-id-history.json
 
 ## Selectors
 
 ### models-categories-selectors.json
 
 Old Name: categories.json
-source: models/categories/selectors.js
+Source: models/categories/selectors.js
 
 List keys (main, mainToSub, sub):
 
@@ -101,29 +120,29 @@ List keys (main, mainToSub, sub):
 
 #### main
 
-selector: makeSelectMainCategories
+Selector: makeSelectMainCategories
 
 #### mainToSub
 
-selector: makeSelectStructuredCategories
+Selector: makeSelectStructuredCategories
 
 #### sub
 
-selector: makeSelectSubCategories
+Selector: makeSelectSubCategories
 
 ### modelsCategoriesSelectorsInputRoles.json
 
 Old Name: inputRolesSelector.json
-source: models/categories/selectors.js
-selector: inputRolesSelector
+Source: models/categories/selectors.js
+Selector: inputRolesSelector
 
 ### Hooks
 
 #### signalsSettingsFilterDataUseFetchUsers.json
 
 Old Name: filteredUserData.json
-source: signals/settings/users/Overview/hooks/useFetchUsers.js
-method: signals/settings/filterData.js
+Source: signals/settings/users/Overview/hooks/useFetchUsers.js
+Method: signals/settings/filterData.js
 
 ### Unused (To be removed)
 
