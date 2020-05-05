@@ -62,7 +62,6 @@ const Location = ({ location, onShowLocation, onEditLocation }) => {
           icon={<IconEdit />}
           type="button"
           onClick={onEditLocation}
-          data-testid="location-button-edit"
         />
 
         <StyledHighLight subscribeTo={location}>
