@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 
 import AttachmentViewer from './index';
 
@@ -8,42 +8,24 @@ describe('<AttachmentViewer />', () => {
     attachments: [
       {
         _display: 'Attachment object (678)',
-        _links: {
-          self: {
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3087/attachments',
-          },
-        },
         location: 'https://objectstore.eu/mock/image/1',
         is_image: true,
         created_at: '2019-08-05T08:19:16.372476+02:00',
       },
       {
         _display: 'Attachment object (679)',
-        _links: {
-          self: {
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3087/attachments',
-          },
-        },
         location: 'https://objectstore.eu/mock/image/2',
         is_image: true,
         created_at: '2019-08-05T08:19:17.205236+02:00',
       },
       {
         _display: 'Attachment object (680)',
-        _links: {
-          self: {
-            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3087/attachments',
-          },
-        },
         location: 'https://objectstore.eu/mock/image/3',
         is_image: true,
         created_at: '2019-08-05T08:19:18.389461+02:00',
       },
     ],
-    onShowAttachment: jest.fn(),
   };
-
-  afterEach(cleanup);
 
   describe('rendering', () => {
     it('on page 1 it should render the correct image and only next button', () => {
@@ -84,22 +66,72 @@ describe('<AttachmentViewer />', () => {
   });
 
   describe('events', () => {
-    it('should trigger opening previous image', () => {
+    it('should navigate on click', () => {
       const { queryByTestId } = render(
-        <AttachmentViewer {...props} href="https://objectstore.eu/mock/image/2" />
+        <AttachmentViewer {...props} href={props.attachments[1].location} />
       );
-      fireEvent.click(queryByTestId('attachment-viewer-button-previous'));
 
-      expect(props.onShowAttachment).toHaveBeenCalledWith('https://objectstore.eu/mock/image/1');
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[1].location);
+
+      act(() => {
+        fireEvent.click(queryByTestId('attachment-viewer-button-previous'));
+      });
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[0].location);
+
+      expect(queryByTestId('attachment-viewer-button-previous')).not.toBeInTheDocument();
+
+      act(() => {
+        fireEvent.click(queryByTestId('attachment-viewer-button-next'));
+      });
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[1].location);
+
+      act(() => {
+        fireEvent.click(queryByTestId('attachment-viewer-button-next'));
+      });
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[2].location);
+
+      expect(queryByTestId('attachment-viewer-button-next')).not.toBeInTheDocument();
     });
 
-    it('should trigger opening next image', () => {
+    it('should navigate on key press', () => {
       const { queryByTestId } = render(
-        <AttachmentViewer {...props} href="https://objectstore.eu/mock/image/2" />
+        <AttachmentViewer {...props} href={props.attachments[1].location} />
       );
-      fireEvent.click(queryByTestId('attachment-viewer-button-next'));
 
-      expect(props.onShowAttachment).toHaveBeenCalledWith('https://objectstore.eu/mock/image/3');
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[1].location);
+
+      act(() => {
+        fireEvent.keyDown(document, { key: 'ArrowLeft', code: 37, keyCode: 37 });
+      });
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[0].location);
+
+      act(() => {
+        fireEvent.keyDown(document, { key: 'ArrowLeft', code: 37, keyCode: 37 });
+      });
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[0].location);
+
+      act(() => {
+        fireEvent.keyDown(document, { key: 'ArrowRight', code: 39, keyCode: 39 });
+      });
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[1].location);
+
+      act(() => {
+        fireEvent.keyDown(document, { key: 'ArrowRight', code: 39, keyCode: 39 });
+      });
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[2].location);
+
+      act(() => {
+        fireEvent.keyDown(document, { key: 'ArrowRight', code: 39, keyCode: 39 });
+      });
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute('src', props.attachments[2].location);
     });
   });
 });
