@@ -21,7 +21,6 @@ import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
-// import SplitNotificationBar from './components/SplitNotificationBar';
 import LocationPreview from './components/LocationPreview';
 import CloseButton from './components/CloseButton';
 
@@ -102,6 +101,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     dispatch({ type: 'error', payload: error });
 
     if (error) {
+      let title = 'Bewerking niet mogelijk';
       let message;
 
       switch (error.status) {
@@ -110,10 +110,12 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
           break;
 
         case 401:
+          title = 'Geen bevoegdheid';
           message = 'Voor deze bewerking is een geautoriseerde sessie noodzakelijk';
           break;
 
         case 403:
+          title = 'Geen bevoegdheid';
           message = 'Je bent niet voldoende rechten om deze actie uit te voeren.';
           break;
 
@@ -125,7 +127,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
       storeDispatch(
         showGlobalNotification({
-          title: 'Bewerking niet mogelijk',
+          title,
           message,
           variant: VARIANT_ERROR,
           type: TYPE_LOCAL,
