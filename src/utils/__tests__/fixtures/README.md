@@ -6,27 +6,33 @@ You could obtain `SIA_TOKEN` from your `Local Storage` after you logged in into 
 
 Set `$SIA_TOKEN`:
 
-    SIA_TOKEN=YOUR_SIA_TOKEN_FROM_LOCAL_STORAGE
+    SIA_TOKEN=YOUR_SIA_TOKEN_FROM_LOCAL_STORAGE:
+
+You could also use the Chrome console to copy the `accessToken`:
+
+    copy(localStorage.getItem('accessToken'))
 
 Backend OpenAPI documentation:
 
     https://acc.api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/
 
-Notes:
+## Notes
+
+Commands:
 
     http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/' "Authorization:Bearer $SIA_TOKEN" | jq '.results[]  | select(.id == 2)'
 
-## Notes
+    cat department.json | jq '.categories'
+    cat department.json | jq '.categories | length'
+    cat departments.json | jq '.results[]  | select(.id == 2)'
 
 ### Todo
 
-kto.json (formdata (origin unknown))
-mv postIncident.json postIncidentResponse.json
-department.json
+kto.json: form data (origin unknown)
 
-## Backend Endpoints
+## HTTP Responses
 
-### signals-v1-private-roles.json
+### get-signals-v1-private-roles.json
 
 Old Name: roles.json
 Endpoint: signals/v1/private/roles/
@@ -34,45 +40,45 @@ Key: results
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/roles/' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > signals-v1-private-roles.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/roles/' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > get-signals-v1-private-roles.json
 
-### signals-v1-private-categories.json
+### get-signals-v1-private-categories.json
 
 Old Name: categories_private.json
 Endpoint: signals/v1/private/categories/
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/' "Authorization:Bearer $SIA_TOKEN" | jq > signals-v1-private-categories.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/' "Authorization:Bearer $SIA_TOKEN" | jq > get-signals-v1-private-categories.json
 
-### signals-v1-private-departments.json
+### get-signals-v1-private-departments.json
 
 Old Name: departments.json
 Endpoint: signals/v1/private/departments/
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/departments/' "Authorization:Bearer $SIA_TOKEN" | jq > v1-private-departments.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/departments/' "Authorization:Bearer $SIA_TOKEN" | jq > get-signals-v1-private-departments.json
 
-### signals-v1-private-users.json
+### get-signals-v1-private-users.json
 
 Old Name: users.json
 Endpoint: v1/private/users/
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/users/' "Authorization:Bearer $SIA_TOKEN" | jq > signals-v1-private-users.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/users/' "Authorization:Bearer $SIA_TOKEN" | jq > get-signals-v1-private-users.json
 
-### signals-v1-private-users-id.json
+### get-signals-v1-private-users-id.json
 
 Old Name: user.json
 Endpoint: v1/private/users/143
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/users/143' "Authorization:Bearer $SIA_TOKEN" | jq > signals-v1-private-users-id.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/users/143' "Authorization:Bearer $SIA_TOKEN" | jq > get-signals-v1-private-users-id.json
 
-### signals-v1-private-signals.json
+### get-signals-v1-private-signals.json
 
 Old Name: incidents.json
 Endpoint: v1/private/signals
@@ -80,28 +86,37 @@ Key: results
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > signals-v1-private-signals.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > get-signals-v1-private-signals.json
 
-### signals-v1-private-signals-id.json
+### get-signals-v1-private-signals-id.json
 
 Old Name: incident.json
-Endpoint: v1/private/signals
+Endpoint: v1/private/signals/123
 Key: results
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > signals-v1-private-signals.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/123' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > get-signals-v1-private-signals-id.json
 
-### signals-v1-private-catgories-id.json
+### get-signals-v1-private-categories-id.json
 
 Old name: category.json
 Endpoint: v1/private/categories/23
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/23' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > signals-v1-private-catgories-id.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/23' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > get-signals-v1-private-categories-id.json
 
-### signals-v1-private-catgories-id-history.json
+### get-signals-v1-private-departments-id.json
+
+Old name: department.json
+Endpoint: v1/private/department/6
+
+Example:
+
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/departments/6' "Authorization:Bearer $SIA_TOKEN" | jq > get-signals-v1-private-departments-id.json
+
+### get-signals-v1-private-categories-id-history.json
 
 Old name: history.json
 Endpoint: v1/private/categories/23/history.json
@@ -109,7 +124,22 @@ Note: There is currently no history on acc
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/23/history' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > signals-v1-private-catgories-id-history.json
+    http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/23/history' "Authorization:Bearer $SIA_TOKEN" | jq '.results' > get-signals-v1-private-categories-id-history.json
+
+### post-response-signals-v1-private-signals
+
+Old Name: postIncident.json
+Source: models/categories/selectors.js
+
+### get-geosearch-bag-lat-on-radius.json
+
+Also Used As (with different data): geosearch.json
+Old Name: geography.json
+Endpoint: geosearch/bag/?lat=52.37188789984033&lon=4.88888741680181&radius=50
+
+Example:
+
+    http 'https://acc.api.data.amsterdam.nl/geosearch/bag/?lat=52.37188789984033&lon=4.88888741680181&radius=50' "Authorization:Bearer $SIA_TOKEN" >
 
 ## Selectors
 
@@ -140,7 +170,7 @@ Selector: makeSelectStructuredCategories
 
 Selector: makeSelectSubCategories
 
-### modelsCategoriesSelectorsInputRoles.json
+### models-categories-selectors_inputRolesSelector.json
 
 Old Name: inputRolesSelector.json
 Source: models/categories/selectors.js
@@ -148,17 +178,7 @@ Selector: inputRolesSelector
 
 ## Other
 
-### geosearch-bag-lat-on-radius.json
-
-Also Used As (with different data): geosearch.json
-Old Name: geography.json
-Endpoint: geosearch/bag/?lat=52.37188789984033&lon=4.88888741680181&radius=50
-
-Example:
-
-    http 'https://acc.api.data.amsterdam.nl/geosearch/bag/?lat=52.37188789984033&lon=4.88888741680181&radius=50' "Authorization:Bearer $SIA_TOKEN" >
-
-### shared-services-map-location_formatPDOK.json
+### sharedServicesMapLocation_formatPDOK.json
 
 Old Name: PDOKResponseData.json
 Source: 'shared/services/map-location/index.js'
