@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import History from 'components/History';
 import useFetch from 'hooks/useFetch';
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 // import './style.scss';
 
@@ -64,6 +67,7 @@ const Preview = styled.div`
 `;
 
 const IncidentDetail = ({ attachmentHref, previewState }) => {
+  const storeDispatch = useDispatch();
   const [state, dispatch] = useReducer(reducer, {
     preview: previewState,
     attachmentHref,
@@ -96,7 +100,39 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
   useEffect(() => {
     dispatch({ type: 'error', payload: error });
-  }, [error]);
+
+    if (error) {
+      let message;
+
+      switch (error.status) {
+        case 500:
+          message = 'Een fout op de server heeft voorkomen dat deze actie uitgevoerd kon worden. Probeer het nogmaals.';
+          break;
+
+        case 401:
+          message = 'Voor deze bewerking is een geautoriseerde sessie noodzakelijk';
+          break;
+
+        case 403:
+          message = 'Je bent niet voldoende rechten om deze actie uit te voeren.';
+          break;
+
+        case 400:
+        default:
+          message = 'Deze wijziging is niet toegestaan in deze situatie.';
+          break;
+      }
+
+      storeDispatch(
+        showGlobalNotification({
+          title: 'Bewerking niet mogelijk',
+          message,
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      );
+    }
+  }, [error, storeDispatch]);
 
   useEffect(() => {
     dispatch({ type: 'attachments', payload: attachments?.results });

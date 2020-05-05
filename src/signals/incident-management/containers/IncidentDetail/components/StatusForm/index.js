@@ -51,10 +51,9 @@ const Notification = styled.div`
   line-height: 22px;
 `;
 
-const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident }) => {
+const StatusForm = ({ defaultTexts, incident, onClose, onPatchIncident }) => {
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
   const [warning, setWarning] = useState('');
-  const [patchError, setPatchError] = useState('');
 
   const form = useMemo(
     () =>
@@ -83,19 +82,6 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
     });
   }, [form.controls.status.valueChanges, form.controls.text]);
 
-  useEffect(() => {
-    if (!error) {
-      return;
-    }
-
-    const message =
-      error?.status === 403
-        ? 'Je bent niet geautoriseerd om dit te doen.'
-        : 'De gekozen status is niet mogelijk in deze situatie.';
-
-    setPatchError(message);
-  }, [error]);
-
   const handleSubmit = useCallback(
     event => {
       event.preventDefault();
@@ -105,7 +91,6 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
           "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
         );
       } else {
-        setPatchError('');
         onPatchIncident({
           id: incident.id,
           type: PATCH_TYPE_STATUS,
@@ -132,12 +117,6 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
       <Row>
         <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
           <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
-
-          {patchError && (
-            <Notification warning data-testid="statusFormError">
-              {patchError}
-            </Notification>
-          )}
         </StyledColumn>
       </Row>
 
@@ -197,7 +176,6 @@ const StatusForm = ({ defaultTexts, error, incident, onClose, onPatchIncident })
 
 StatusForm.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
-  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   incident: incidentType.isRequired,
   onClose: PropTypes.func.isRequired,
   onPatchIncident: PropTypes.func.isRequired,
