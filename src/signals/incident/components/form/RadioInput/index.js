@@ -6,21 +6,12 @@ import { themeColor } from '@datapunt/asc-ui';
 
 import Header from '../Header';
 
-const Info = styled.span`
+const Info = styled.p`
   color: ${themeColor('tint', 'level5')};
 `;
 
-const RadioInput = ({
-  handler,
-  touched,
-  hasError,
-  meta,
-  parent,
-  getError,
-  validatorsOrOpts,
-}) => {
-  const currentSelected =
-    parent.meta.incident && parent.meta.incident[meta.name];
+const RadioInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
+  const currentSelected = parent.meta.incident && parent.meta.incident[meta.name];
   let info;
   let label;
 
@@ -32,13 +23,7 @@ const RadioInput = ({
     <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
       {meta && meta.isVisible ? (
         <div className={`${meta.className || 'col-12'} mode_input`}>
-          <Header
-            meta={meta}
-            options={validatorsOrOpts}
-            touched={touched}
-            hasError={hasError}
-            getError={getError}
-          >
+          <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
             <div className="antwoorden">
               {meta.values &&
                 isObject(meta.values) &&
@@ -59,21 +44,15 @@ const RadioInput = ({
                         });
                       }}
                     />
-                    <label htmlFor={`${meta.name}-${key + 1}`}>
-                      {value.value || value}
-                    </label>
+                    <label htmlFor={`${meta.name}-${key + 1}`}>{value.value || value}</label>
                   </div>
                 ))}
 
-              <p>
-                {info ? (
-                  <Info>
-                    {label}: {info}
-                  </Info>
-                ) : (
-                  <br />
-                )}
-              </p>
+              {info && (
+                <Info>
+                  {label}: {info}
+                </Info>
+              )}
             </div>
           </Header>
         </div>

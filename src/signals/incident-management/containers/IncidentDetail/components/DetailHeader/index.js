@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import BackLink from 'components/BackLink';
-import { themeColor, themeSpacing, Button, Heading } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing, Button as AscButton, Heading, styles } from '@datapunt/asc-ui';
 import { PATCH_TYPE_THOR } from 'models/incident/constants';
 
 import { incidentType } from 'shared/types';
@@ -53,6 +53,10 @@ const HeadingContainer = styled.div`
   && > * {
     margin: 0;
   }
+
+  & > ${styles.HeaderStyles} {
+    font-weight: 400;
+  }
 `;
 
 const ButtonLink = styled(Link)`
@@ -63,8 +67,7 @@ const ButtonLink = styled(Link)`
   color: black;
   text-decoration: none;
   font-size: 16px;
-  font-weight: 500;
-  font-family: system-ui;
+  font-weight: 700;
 
   &:hover {
     background-color: ${themeColor('tint', 'level4')};
@@ -77,6 +80,11 @@ const ButtonLink = styled(Link)`
     outline-offset: 0px;
     outline-width: 3px;
   }
+`;
+
+const Button = styled(AscButton)`
+  font-family: AvenirNextLTW01-Regular, Arial, sans-serif;
+  font-weight: 700;
 `;
 
 const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
