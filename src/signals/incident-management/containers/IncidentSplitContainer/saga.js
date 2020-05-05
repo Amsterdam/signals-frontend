@@ -1,11 +1,13 @@
+import React, { Fragment } from 'react';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import * as Sentry from '@sentry/browser';
 import { push } from 'connected-react-router/immutable';
+import { NavLink } from 'react-router-dom';
 
 import { authPatchCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { showGlobalNotification } from 'containers/App/actions';
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
@@ -22,8 +24,24 @@ export function* splitIncident(action) {
         call(authPatchCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${child.id}`, formatUpdateIncident(payload.update[key]))
       )
     );
+
     yield put(splitIncidentSuccess({ id: payload.id, created }));
     yield put(push(`/manage/incident/${payload.id}`));
+    yield put(
+      showGlobalNotification({
+        title: 'De melding is succesvol gesplitst',
+        message: (
+          <Fragment>
+            Meldingen:&nbsp;
+            {created.children.map(child => (
+              <NavLink key={child.id} to={`/manage/incident/${child.id}`}>{child.id}</NavLink>
+            ))}
+          </Fragment>
+        ),
+        variant: VARIANT_SUCCESS,
+        type: TYPE_LOCAL,
+      })
+    );
   } catch (error) {
     yield put(splitIncidentError(error));
     yield put(push(`/manage/incident/${payload.id}`));

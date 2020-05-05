@@ -31,6 +31,7 @@ const StyledButton = styled(Button)`
 const CloseButton = ({ className, onClick }) => (
   <StyledButton
     className={className}
+    data-testid="closeButton"
     icon={<CloseIcon />}
     iconSize={16}
     onClick={onClick}

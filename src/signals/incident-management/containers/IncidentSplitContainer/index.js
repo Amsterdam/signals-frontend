@@ -50,7 +50,7 @@ export const IncidentSplitContainer = ({
   return (
     <StyledWrapper>
       <Row>
-        {loading ? (
+        {loading && !incident ? (
           <LoadingIndicator />
         ) : (
           <Fragment>
