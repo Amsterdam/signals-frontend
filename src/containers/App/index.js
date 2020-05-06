@@ -53,18 +53,16 @@ export const AppContainer = ({ resetIncidentAction }) => {
         <SiteHeaderContainer />
 
         <div className="app-container">
-          <div>
-            <Switch>
-              <Redirect exact from="/" to="/incident/beschrijf" />
-              <Redirect exact from="/login" to="/manage" />
-              <Redirect exact from="/manage" to="/manage/incidents" />
-              <Route path="/manage" component={IncidentManagementModule} />
-              <Route path="/instellingen" component={SettingsModule} />
-              <Route path="/incident" component={IncidentContainer} />
-              <Route path="/kto/:yesNo/:uuid" component={KtoContainer} />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </div>
+          <Switch>
+            <Redirect exact from="/" to="/incident/beschrijf" />
+            <Redirect exact from="/login" to="/manage" />
+            <Redirect exact from="/manage" to="/manage/incidents" />
+            <Route path="/manage" component={IncidentManagementModule} />
+            <Route path="/instellingen" component={SettingsModule} />
+            <Route path="/incident" component={IncidentContainer} />
+            <Route path="/kto/:yesNo/:uuid" component={KtoContainer} />
+            <Route component={NotFoundPage} />
+          </Switch>
         </div>
 
         {!isAuthenticated() && <Footer />}
