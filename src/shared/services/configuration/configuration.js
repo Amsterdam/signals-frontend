@@ -11,8 +11,7 @@ export const OVL_VERLICHTING_LAYER =
 
 export class Configuration {
   constructor(host) {
-    this.hostname =
-      host || (window && window.location && window.location.hostname);
+    this.hostname = host || (window && window.location && window.location.hostname);
     this.config = {};
     this.setConfig();
     this.loadGlobalConfig();
@@ -59,13 +58,17 @@ export class Configuration {
   }
 
   loadGlobalConfig() {
-    /* istanbul ignore next */
-    if (globalConfig) {
-      this.config = {
-        ...this.config,
-        ...globalConfig,
-      };
-    }
+    const envConfig = globalConfig || {};
+    const deployConfig = (window && window.CONFIG) || {};
+    this.config = {
+      ...this.config,
+      ...envConfig,
+      ...deployConfig,
+    };
+  }
+
+  get all() {
+    return this.config;
   }
 
   get USERS_ENDPOINT() {

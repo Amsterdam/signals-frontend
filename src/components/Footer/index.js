@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Row, Column, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import ConfigContext from 'components/ConfigContext';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 const Disclaimer = styled.div`
   background-color: ${themeColor('tint', 'level5')};
@@ -43,7 +43,7 @@ const FooterWrapper = styled.div`
 `;
 
 const Footer = () => {
-  const config = useContext(ConfigContext);
+  const config = CONFIGURATION.all;
 
   return (
     <FooterWrapper className="app-container no-print" data-testid="siteFooter">

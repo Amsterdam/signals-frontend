@@ -1,9 +1,9 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider as ASCThemeProvider } from '@datapunt/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
-import ConfigContext from 'components/ConfigContext';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 export const getConfig = defaultConfig => {
   const config = defaultConfig || {};
@@ -50,7 +50,7 @@ export const getConfig = defaultConfig => {
 };
 
 const ThemeProvider = ({ children }) => {
-  const { styledComponents } = useContext(ConfigContext);
+  const { styledComponents } = CONFIGURATION.all;
   return (
     <ASCThemeProvider overrides={getConfig(styledComponents)}>
       <Fragment>

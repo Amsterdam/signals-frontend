@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
@@ -16,11 +16,11 @@ import {
   themeColor,
   themeSpacing,
 } from '@datapunt/asc-ui';
-import ConfigContext from 'components/ConfigContext';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 import Notification from 'containers/Notification';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 export const breakpoint = 1170;
 
@@ -271,7 +271,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
 };
 
 export const SiteHeader = props => {
-  const config = useContext(ConfigContext);
+  const config = CONFIGURATION.all;
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
