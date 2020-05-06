@@ -20,11 +20,11 @@ node('BS16 || BS17') {
         env.GIT_COMMIT = scmVars.GIT_COMMIT
         env.COMPOSE_DOCKER_CLI_BUILD = 1
     }
-    // stage("Get cached build") {
-    //     docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-    //         docker.image("ois/signalsfrontend-base:acceptance").pull()
-    //     }
-    // }
+    stage("Get cached build") {
+        docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
+            docker.image("ois/signalsfrontend-base:acceptance").pull()
+        }
+    }
     stage("Lint") {
         String PROJECT = "sia-eslint-${env.BUILD_TAG}"
         tryStep "lint start", {
