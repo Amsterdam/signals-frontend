@@ -22,7 +22,11 @@ node('BS16 || BS17') {
     }
     stage("Get cached build") {
         docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-            docker.image("ois/signalsfrontend-base:acceptance").pull()
+            def image = docker.image("ois/signalsfrontend-base:acceptance")
+
+            if (image) {
+                image.pull()
+            }
         }
     }
     stage("Lint") {
@@ -59,7 +63,11 @@ node('BS16 || BS17') {
             tryStep "build", {
                 docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
                     def cachedImage = docker.image("ois/signalsfrontend:acceptance")
-                    cachedImage.pull()
+
+                    if (cachedImage) {
+                        cachedImage.pull()
+                    }
+
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
                     "--build-arg BUILD_ENV=acc " +
@@ -86,7 +94,11 @@ node('BS16 || BS17') {
             tryStep "build", {
                 docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
                     def cachedImage = docker.image("ois/signalsfrontend:production")
-                    cachedImage.pull()
+
+                    if (cachedImage) {
+                        cachedImage.pull()
+                    }
+
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                         "--shm-size 1G " +
                         "--build-arg BUILD_ENV=prod " +
