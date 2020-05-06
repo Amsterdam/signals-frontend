@@ -10,25 +10,3 @@ services:
     ipc: host
     ports:
       - "3001:80"
-
-  lint-container:
-    build:
-      cache_from:
-        - docker-registry.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
-      context: .
-      target: base
-    environment:
-      - CI=true
-      - TZ=Europe/Amsterdam
-    command: npm run lint
-
-  unittest-container:
-    build:
-      cache_from:
-        - docker-registry.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
-      context: .
-      target: base
-    environment:
-      - CI=true
-      - TZ=Europe/Amsterdam
-    command: npm run test
