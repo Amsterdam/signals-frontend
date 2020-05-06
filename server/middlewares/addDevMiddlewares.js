@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const config = require('../../config.json');
 
 function createWebpackMiddleware(compiler, publicPath) {
   return webpackDevMiddleware(compiler, {
@@ -29,7 +28,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
       if (err) {
         res.sendStatus(404);
       } else {
-        res.send(file.toString().replace('$SIGNALS_CONFIG', JSON.stringify(config)));
+        res.send(file.toString());
       }
     });
   });
