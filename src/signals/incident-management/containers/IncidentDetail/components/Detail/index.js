@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
@@ -10,6 +10,11 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 import Location from './components/Location';
 import Attachments from './components/Attachments';
 import ExtraProperties from './components/ExtraProperties';
+
+const Wrapper = styled.article`
+  position: relative;
+  z-index: 0;
+`;
 
 const Title = styled(Heading)`
   font-weight: 400;
@@ -49,36 +54,42 @@ const DefinitionList = styled.dl`
   }
 `;
 
-const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowAttachment }) => (
-  <article>
-    <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
-      {incident.text}
-    </Title>
+const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowAttachment }) => {
+  const memoIncident = useMemo(() => incident, [incident]);
+  const memoAttachments = useMemo(() => attachments, [attachments]);
+  const location = useMemo(() => incident.location, [incident.location]);
 
-    <DefinitionList>
-      <dt>Overlast</dt>
-      <dd>
-        {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
-      </dd>
+  return (
+    <Wrapper>
+      <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
+        {incident.text}
+      </Title>
 
-      <Location incident={incident} onShowLocation={onShowLocation} onEditLocation={onEditLocation} />
+      <DefinitionList>
+        <dt>Overlast</dt>
+        <dd>
+          {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
+        </dd>
 
-      <Attachments attachments={attachments} onShowAttachment={onShowAttachment} />
+        <Location location={location} onShowLocation={onShowLocation} onEditLocation={onEditLocation} />
 
-      {incident.extra_properties && <ExtraProperties items={incident.extra_properties} />}
+        {memoAttachments && <Attachments attachments={memoAttachments} onShowAttachment={onShowAttachment} />}
 
-      <dt data-testid="detail-email-definition">E-mail melder</dt>
-      <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
+        {memoIncident.extra_properties && <ExtraProperties items={memoIncident.extra_properties} />}
 
-      <dt data-testid="detail-phone-definition">Telefoon melder</dt>
-      <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
-    </DefinitionList>
-  </article>
-);
+        <dt data-testid="detail-email-definition">E-mail melder</dt>
+        <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
+
+        <dt data-testid="detail-phone-definition">Telefoon melder</dt>
+        <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
+      </DefinitionList>
+    </Wrapper>
+  );
+};
 
 Detail.propTypes = {
   incident: incidentType.isRequired,
-  attachments: attachmentsType.isRequired,
+  attachments: attachmentsType,
 
   onShowAttachment: PropTypes.func.isRequired,
   onShowLocation: PropTypes.func.isRequired,
