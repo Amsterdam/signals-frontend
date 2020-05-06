@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -40,6 +40,7 @@ const Img = styled.img`
 `;
 
 const AttachmentViewer = ({ href, attachments }) => {
+  const wrapperRef = useRef(null);
   const [currentHref, setCurrentHref] = useState(href);
   const index = attachments.findIndex(item => item.location === currentHref);
   const previous = index > 0 ? attachments[index - 1].location : false;
@@ -47,6 +48,12 @@ const AttachmentViewer = ({ href, attachments }) => {
 
   const handleKeyDown = useCallback(
     event => {
+      const refInTarget = event.target.contains(wrapperRef.current);
+
+      if (!refInTarget) {
+        return;
+      }
+
       switch (event.key) {
         case 'ArrowLeft':
           if (previous) {
@@ -79,7 +86,7 @@ const AttachmentViewer = ({ href, attachments }) => {
   }, [handleKeyDown]);
 
   return (
-    <Wrapper>
+    <Wrapper ref={wrapperRef}>
       {previous && (
         <PreviousButton
           data-testid="attachment-viewer-button-previous"
