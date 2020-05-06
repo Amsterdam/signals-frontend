@@ -20,11 +20,15 @@ node('BS16 || BS17') {
         env.GIT_COMMIT = scmVars.GIT_COMMIT
         env.COMPOSE_DOCKER_CLI_BUILD = 1
     }
-    // stage("Get cached build") {
-    //     docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-    //         docker.image("ois/signalsfrontend-base:acceptance").pull()
-    //     }
-    // }
+    stage("Get cached build") {
+        docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
+            def image = docker.image("ois/signalsfrontend-base:acceptance")
+
+            if (image) {
+                image.pull()
+            }
+        }
+    }
     stage("Lint") {
         String PROJECT = "sia-eslint-${env.BUILD_TAG}"
         tryStep "lint start", {
@@ -59,7 +63,11 @@ node('BS16 || BS17') {
             tryStep "build", {
                 docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
                     def cachedImage = docker.image("ois/signalsfrontend:acceptance")
-                    cachedImage.pull()
+
+                    if (cachedImage) {
+                        cachedImage.pull()
+                    }
+
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
                     "--build-arg BUILD_ENV=acc " +
@@ -86,7 +94,11 @@ node('BS16 || BS17') {
             tryStep "build", {
                 docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
                     def cachedImage = docker.image("ois/signalsfrontend:production")
-                    cachedImage.pull()
+
+                    if (cachedImage) {
+                        cachedImage.pull()
+                    }
+
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                         "--shm-size 1G " +
                         "--build-arg BUILD_ENV=prod " +
