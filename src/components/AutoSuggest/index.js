@@ -14,6 +14,10 @@ const Wrapper = styled.div`
   z-index: 1;
 `;
 
+const StyledInput = styled(Input)`
+  outline: 2px solid rgb(0,0,0,0.1);
+`;
+
 const AbsoluteList = styled(SuggestList)`
   position: absolute;
   width: 100%;
@@ -211,7 +215,7 @@ const AutoSuggest = ({
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
       <div role="combobox" aria-controls="as-listbox" aria-expanded={showList} aria-haspopup="listbox">
-        <Input
+        <StyledInput
           aria-activedescendant={activeId}
           aria-autocomplete="list"
           defaultValue={value}

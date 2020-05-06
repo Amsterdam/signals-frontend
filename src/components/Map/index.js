@@ -9,6 +9,14 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
 `;
 
+const StyledMap = styled(MapComponent)`
+  cursor: default;
+
+  &.leaflet-drag-target {
+    cursor: all-scroll;
+  }
+`;
+
 const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, events, setInstance }) => {
   const hasTouchCapabilities = 'ontouchstart' in window;
   const showZoom = hasZoomControls && !hasTouchCapabilities;
@@ -23,13 +31,7 @@ const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, e
   );
 
   return (
-    <MapComponent
-      className={className}
-      data-testid="map-base"
-      options={options}
-      events={events}
-      setInstance={setInstance}
-    >
+    <StyledMap className={className} data-testid="map-base" options={options} events={events} setInstance={setInstance}>
       {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
 
       {children}
@@ -42,7 +44,7 @@ const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, e
           attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
         }}
       />
-    </MapComponent>
+    </StyledMap>
   );
 };
 Map.defaultProps = {
