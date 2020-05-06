@@ -143,32 +143,39 @@ Example:
 
 ## Selectors
 
-### models-categories-selectors.json
+### selector-models-categories-selectors.json
 
 Old Name: categories.json
 Source: models/categories/selectors.js
 
 List keys (main, mainToSub, sub):
 
-    jq 'keys[]' < categories.json
+    jq 'keys[]' categories.json
 
-### models-categories-selectors_makeSelectStructuredCategories.json
+## Services
+
+### service-shared-services-map-categories.json
 
 Old name: categories_structured.json
-Source: models/categories/selectors.js
-Method: makeSelectStructuredCategories
+Source: shared/services/map-categories/index.js
+Method: mapCategories
+Method Input: get-signals-v1-private-categories.json
 
 #### main
 
+
 Selector: makeSelectMainCategories
+Dump to screen: jq '.main' categories.json
 
 #### mainToSub
 
 Selector: makeSelectStructuredCategories
+Dump to screen: jq '.mainToSub' categories.json
 
 #### sub
 
 Selector: makeSelectSubCategories
+Dump to screen: jq '.sub' categories.json
 
 ### models-categories-selectors_inputRolesSelector.json
 
