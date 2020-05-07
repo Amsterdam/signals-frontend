@@ -223,16 +223,24 @@ describe('components/MapInput', () => {
     });
   });
 
-  it('should render marker', async () => {
+  it('should render marker and center the map', async () => {
     const location = {
       lat: 52.36058599633851,
       lng: 4.894292258032637,
     };
 
+    const mapMoveSpy = jest.fn();
+
     const { container, findByTestId, rerender } = render(
       withAppContext(
         <context.Provider value={{ state: {}, dispatch: () => {} }}>
-          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} />
+          <MapInput
+            mapOptions={MAP_OPTIONS}
+            value={testLocation}
+            events={{
+              movestart: mapMoveSpy,
+            }}
+          />
         </context.Provider>
       )
     );
@@ -240,11 +248,18 @@ describe('components/MapInput', () => {
     await findByTestId('map-base');
 
     expect(container.querySelector(`.${markerIcon.options.className}`)).not.toBeInTheDocument();
+    expect(mapMoveSpy).not.toHaveBeenCalled();
 
     rerender(
       withAppContext(
         <context.Provider value={{ state: { location }, dispatch: () => {} }}>
-          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} />
+          <MapInput
+            mapOptions={MAP_OPTIONS}
+            value={testLocation}
+            events={{
+              movestart: mapMoveSpy,
+            }}
+          />
         </context.Provider>
       )
     );
@@ -252,6 +267,7 @@ describe('components/MapInput', () => {
     await findByTestId('map-base');
 
     expect(container.querySelector(`.${markerIcon.options.className}`)).toBeInTheDocument();
+    expect(mapMoveSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should handle onSelect', async () => {
