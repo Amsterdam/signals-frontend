@@ -379,6 +379,33 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
   });
 
+
+
+  it('should remove reset the filter filter the search box is cleared ', async () => {
+    const { findByTestId } = render(usersOverviewWithAppContext());
+
+    const filterByUserName = await findByTestId('filterUsersByUsername');
+    const filterByUserNameInput = filterByUserName.querySelector('input');
+    const filterValue = 'test1';
+
+    act(() => {
+      fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
+    });
+
+    await wait(() => resolveAfterMs(300));
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
+
+    const clearButton = filterByUserName.querySelector('button[aria-label="Close"]');
+    act(() => {
+      fireEvent.click(clearButton);
+    });
+
+    await findByTestId('filterUsersByUsername');
+    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenLastCalledWith(setUserFilters({ username: '' }));
+  });
+
   it('should not dispatch filter values when input value has not changed', async () => {
     const username = 'foo bar baz';
     const stateCfg = { users: { filters: { username } } };
