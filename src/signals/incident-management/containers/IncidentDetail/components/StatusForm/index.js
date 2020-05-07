@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
 
-import { Button, Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { incidentType, defaultTextsType } from 'shared/types';
 import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 import statusList, {
@@ -11,6 +11,7 @@ import statusList, {
   changeStatusOptionList,
 } from 'signals/incident-management/definitions/statusList';
 
+import Button from 'components/Button';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
@@ -33,8 +34,6 @@ const StyledH4 = styled(Heading)`
 
 const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
-  font-family: AvenirNextLTW01-Regular, arial, sans-serif;
-  font-weight: 700;
 `;
 
 const Notification = styled.div`

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -39,27 +39,39 @@ const Img = styled.img`
   margin: 0 auto;
 `;
 
-const AttachmentViewer = ({ href, attachments, onShowAttachment }) => {
-  const index = attachments.findIndex(item => item.location === href);
+const AttachmentViewer = ({ href, attachments }) => {
+  const wrapperRef = useRef(null);
+  const [currentHref, setCurrentHref] = useState(href);
+  const index = attachments.findIndex(item => item.location === currentHref);
   const previous = index > 0 ? attachments[index - 1].location : false;
   const next = index < attachments.length - 1 ? attachments[index + 1].location : false;
 
   const handleKeyDown = useCallback(
     event => {
+      const refInTarget = event.target.contains(wrapperRef.current);
+
+      if (!refInTarget) {
+        return;
+      }
+
       switch (event.key) {
         case 'ArrowLeft':
-          if (previous) onShowAttachment(previous);
+          if (previous) {
+            setCurrentHref(previous);
+          }
           break;
 
         case 'ArrowRight':
-          if (next) onShowAttachment(next);
+          if (next) {
+            setCurrentHref(next);
+          }
           break;
 
         default:
           break;
       }
     },
-    [next, previous, onShowAttachment]
+    [next, previous]
   );
 
   /**
@@ -74,12 +86,12 @@ const AttachmentViewer = ({ href, attachments, onShowAttachment }) => {
   }, [handleKeyDown]);
 
   return (
-    <Wrapper>
+    <Wrapper ref={wrapperRef}>
       {previous && (
         <PreviousButton
           data-testid="attachment-viewer-button-previous"
           icon={<ChevronLeft />}
-          onClick={() => onShowAttachment(previous)}
+          onClick={() => setCurrentHref(previous)}
         />
       )}
 
@@ -87,20 +99,20 @@ const AttachmentViewer = ({ href, attachments, onShowAttachment }) => {
         <NextButton
           data-testid="attachment-viewer-button-next"
           icon={<ChevronRight />}
-          onClick={() => onShowAttachment(next)}
+          onClick={() => setCurrentHref(next)}
         />
       )}
 
-      <Img src={href} data-testid="attachment-viewer-image" alt="uploaded afbeelding" />
+      <Img src={currentHref} data-testid="attachment-viewer-image" alt={attachments[index]._display} />
     </Wrapper>
   );
 };
 
 AttachmentViewer.propTypes = {
+  /** Current image's href */
   href: PropTypes.string.isRequired,
+  /** List of attachments */
   attachments: attachmentsType.isRequired,
-
-  onShowAttachment: PropTypes.func.isRequired,
 };
 
 export default AttachmentViewer;

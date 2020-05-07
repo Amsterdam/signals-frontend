@@ -15,28 +15,26 @@ describe('<Location />', () => {
     getListValueByKey.mockImplementation(() => 'Centrum');
 
     props = {
-      incident: {
-        location: {
-          extra_properties: null,
-          geometrie: {
-            type: 'Point',
-            coordinates: [4.892649650573731, 52.36918517949316],
-          },
-          buurt_code: 'A00d',
-          created_by: null,
-          address: {
-            postcode: '1012KP',
-            huisletter: 'A',
-            huisnummer: '123',
-            woonplaats: 'Amsterdam',
-            openbare_ruimte: 'Rokin',
-            huisnummer_toevoeging: 'H',
-          },
-          stadsdeel: 'A',
-          bag_validated: false,
-          address_text: 'Rokin 123-H 1012KP Amsterdam',
-          id: 3372,
+      location: {
+        extra_properties: null,
+        geometrie: {
+          type: 'Point',
+          coordinates: [4.892649650573731, 52.36918517949316],
         },
+        buurt_code: 'A00d',
+        created_by: null,
+        address: {
+          postcode: '1012KP',
+          huisletter: 'A',
+          huisnummer: '123',
+          woonplaats: 'Amsterdam',
+          openbare_ruimte: 'Rokin',
+          huisnummer_toevoeging: 'H',
+        },
+        stadsdeel: 'A',
+        bag_validated: false,
+        address_text: 'Rokin 123-H 1012KP Amsterdam',
+        id: 3372,
       },
       onShowLocation: jest.fn(),
       onEditLocation: jest.fn(),
@@ -56,7 +54,7 @@ describe('<Location />', () => {
     });
 
     it('should render correctly without huisnummer_toevoeging', async () => {
-      props.incident.location.address.huisnummer_toevoeging = undefined;
+      props.location.address.huisnummer_toevoeging = undefined;
       const { findByTestId } = render(withAppContext(<Location {...props} />));
 
       const locAddress = await findByTestId('location-value-address-street');
@@ -65,7 +63,7 @@ describe('<Location />', () => {
     });
 
     it('should render correctly without address', async () => {
-      props.incident.location.address_text = undefined;
+      props.location.address_text = undefined;
       const { findByTestId, queryByTestId } = render(withAppContext(<Location {...props} />));
 
       const pinned = await findByTestId('location-value-pinned');
@@ -81,6 +79,8 @@ describe('<Location />', () => {
     it('clicking the map should trigger showing the location', async () => {
       const { queryByTestId, findByTestId } = render(withAppContext(<Location {...props} />));
 
+      await findByTestId('location-button-show');
+
       act(() => {
         fireEvent.click(queryByTestId('location-button-show'));
       });
@@ -93,11 +93,13 @@ describe('<Location />', () => {
     it('clicking the edit button should trigger edit the location', async () => {
       const { queryByTestId, findByTestId } = render(withAppContext(<Location {...props} />));
 
-      act(() => {
-        fireEvent.click(queryByTestId('location-button-edit'));
-      });
+      await findByTestId('editButton');
 
-      await findByTestId('detail-location');
+      expect(props.onEditLocation).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(queryByTestId('editButton'));
+      });
 
       expect(props.onEditLocation).toHaveBeenCalledTimes(1);
     });

@@ -12,8 +12,7 @@ import useFetch from 'hooks/useFetch';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
-// import './style.scss';
-
+import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
 import AddNote from './components/AddNote';
@@ -211,6 +210,8 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
           />
 
           <AddNote id={id} onPatchIncident={onPatchIncident} />
+
+          <ChildIncidents incident={incident} />
 
           {history && <History list={history} />}
         </DetailContainer>
