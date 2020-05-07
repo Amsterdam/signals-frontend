@@ -14,7 +14,7 @@ import DataView from 'components/DataView';
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
 import SettingsContext from 'signals/settings/context';
 import { setUserFilters } from 'signals/settings/actions';
-import { inputRolesSelector } from 'models/roles/selectors';
+import { inputSelectRolesSelector } from 'models/roles/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import SelectInput from 'components/SelectInput';
 import useFetchUsers from './hooks/useFetchUsers';
@@ -59,7 +59,7 @@ const UsersOverviewContainer = () => {
     users,
   } = useFetchUsers({ page, filters });
   const userCan = useSelector(makeSelectUserCan);
-  const selectRoles = useSelector(inputRolesSelector);
+  const selectRoles = useSelector(inputSelectRolesSelector);
 
   /**
    * Get page number value from URL query string
@@ -75,16 +75,22 @@ const UsersOverviewContainer = () => {
     }
   }, [pageNumFromQueryString, page]);
 
-  const createOnChangeFilter = useCallback(
-    filter => event => {
-      const { value } = event.target;
-      if (filters[filter] === value) return;
-
+  const setUsernameFilter = useCallback(
+    value => {
       dispatch(setUserFilters({ username: value }));
       setPage(1);
       history.push(`${USERS_PAGED_URL}/1`);
     },
-    [dispatch, history, filters]
+    [dispatch, history]
+  );
+
+  const createOnChangeFilter = useCallback(
+    filter => event => {
+      const { value } = event.target;
+      if (filters[filter] === value) return;
+      setUsernameFilter(value);
+    },
+    [filters, setUsernameFilter]
   );
 
   const debouncedOnChangeFilter = useCallback(debounce(createOnChangeFilter('username'), 250), [createOnChangeFilter]);
@@ -159,6 +165,7 @@ const UsersOverviewContainer = () => {
                     event.persist();
                     debouncedOnChangeFilter(event);
                   }}
+                  onClear={() => setUsernameFilter('')}
                   value={filters.username}
                   data-testid="filterUsersByUsername"
                 />,

@@ -1,44 +1,160 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
+import { Heading, Link as AscLink, themeSpacing, themeColor } from '@datapunt/asc-ui';
+
+import { incidentType } from 'shared/types';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-import isVisible from './services/is-visible';
+const Section = styled.section`
+  padding: ${themeSpacing(4, 0)};
+  border-top: 2px solid ${themeColor('tint', 'level3')};
 
-import './style.scss';
+  &:last-of-type {
+    border-bottom: 2px solid ${themeColor('tint', 'level3')};
+  }
 
-function IncidentPreview({ incidentContainer, preview }) {
-  const history = useHistory();
+  ${({ hasHeading }) =>
+    hasHeading &&
+    css`
+      padding-bottom: ${themeSpacing(8)};
 
-  return (
-    <div className="incident-preview" data-testid="incidentPreview">
-      {Object.keys(preview).map(key => (
-        <div className="incident-preview__section" key={key}>
-          <button
-            aria-label="Bewerken"
-            className="incident-preview__button-edit link-functional edit"
-            onClick={() => history.push(`/incident/${key}`)}
-            type="button"
-          />
+      header {
+        padding-bottom: ${themeSpacing(3)};
+      }
+    `}
+`;
 
-          {Object.keys(preview[key]).map(subkey => (
-            <div key={subkey}>
-              {isVisible(incidentContainer.incident[subkey], preview[key][subkey], isAuthenticated()) &&
-                preview[key][subkey].render({
-                  ...preview[key][subkey],
-                  value: incidentContainer.incident[subkey],
-                  incident: incidentContainer.incident,
-                })}
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
+const Header = styled.header`
+  display: grid;
+  position: relative;
+  column-gap: ${themeSpacing(5)};
+  grid-template-columns: 10fr 2fr;
+
+  ${() =>
+    isAuthenticated() &&
+    css`
+      @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+        grid-template-columns: 4fr 6fr 2fr;
+      }
+    `}
+`;
+
+const LinkContainer = styled.div`
+  text-align: right;
+
+  ${({ absolutePosLink }) =>
+    absolutePosLink &&
+    css`
+      position: relative;
+
+      a {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    `}
+`;
+
+const Ul = styled.ul`
+  display: grid;
+  grid-row-gap: ${themeSpacing(4)};
+  margin: 0;
+  padding: 0;
+`;
+
+const Li = styled.li`
+  display: grid;
+  column-gap: ${themeSpacing(5)};
+  margin: 0;
+
+  @media (min-width: ${({ theme }) => theme.layouts.big.min}px) {
+    grid-template-columns: 4fr 6fr;
+  }
+
+  ${() =>
+    isAuthenticated() &&
+    css`
+      @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+        grid-template-columns: 4fr 6fr 2fr;
+      }
+    `}
+
+  dt {
+    color: ${themeColor('tint', 'level5')};
+  }
+`;
+
+const heading = previewKey => {
+  switch (previewKey) {
+    case 'beschrijf':
+      return (
+        <Heading as="h2" styleAs="h3">
+          Melding
+        </Heading>
+      );
+
+    case 'vulaan':
+      return (
+        <Heading as="h2" styleAs="h3">
+          Aanvullende informatie
+        </Heading>
+      );
+
+    default:
+      return null;
+  }
+};
+
+const IncidentPreview = ({ incident, preview }) => (
+  <div data-testid="incidentPreview">
+    {Object.entries(preview).map(([section, value]) => {
+      const sectionHeading = heading(section);
+      const hasHeading = Boolean(sectionHeading);
+      const visibleEntries = Object.entries(value).filter(([entryKey, { optional, authenticated }]) => {
+        if (authenticated && !isAuthenticated()) {
+          return false;
+        }
+
+        return !optional || (optional && Boolean(incident[entryKey]));
+      });
+
+      return (
+        visibleEntries.length > 0 && (
+          <Section hasHeading={hasHeading} key={section}>
+            <Header>
+              {sectionHeading || <div />}
+              <LinkContainer absolutePosLink={!hasHeading}>
+                <AscLink as={Link} to={`/incident/${section}`} variant="inline">
+                  Wijzigen
+                </AscLink>
+              </LinkContainer>
+            </Header>
+
+            <Ul>
+              {visibleEntries.map(([itemKey, itemValue]) => (
+                <Li key={itemKey}>
+                  <dt>{itemValue.label}</dt>
+                  <dd>
+                    {itemValue.render({
+                      ...itemValue,
+                      value: incident[itemKey],
+                      incident,
+                    })}
+                  </dd>
+                </Li>
+              ))}
+            </Ul>
+          </Section>
+        )
+      );
+    })}
+  </div>
+);
 
 IncidentPreview.propTypes = {
-  incidentContainer: PropTypes.object,
+  incident: incidentType.isRequired,
   preview: PropTypes.object,
 };
 

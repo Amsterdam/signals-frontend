@@ -80,33 +80,6 @@ describe('<LocationForm />', () => {
       expect(renderedFormGroup.find('location-form__cancel')).not.toBeNull();
     });
 
-    it('should disable the submit button when no location is selected', () => {
-      expect(renderedFormGroup.find('.location-form__submit').prop('disabled')).toBe(true);
-    });
-
-    it('should enable the submit button when a location has been selected', () => {
-      const form = instance.form;
-      const formValue = {
-        location: { stadsdeel: 'E' },
-        coordinates: '5,52',
-      };
-      form.patchValue(formValue);
-      expect(form.value.location).toEqual(formValue.location);
-      expect(form.value.coordinates).toEqual(formValue.coordinates);
-      expect(renderedFormGroup.find('.location-form__submit').prop('disabled')).toBe(false);
-    });
-
-    it('should enable the submit button when a location has been selected', () => {
-      const form = instance.form;
-      const formValue = {
-        location: { stadsdeel: 'E' },
-        coordinates: '5,52',
-      };
-      form.patchValue(formValue);
-      expect(form.value.location).toEqual(formValue.location);
-      expect(form.value.coordinates).toEqual(formValue.coordinates);
-    });
-
     it('should update the location and coordinates when the map returns a new value', () => {
       const form = instance.form;
       instance.onQueryResult();

@@ -11,7 +11,7 @@ import {
 import { history as memoryHistory, withCustomAppContext, resolveAfterMs } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
-import inputRolesSelectorJSON from 'utils/__tests__/fixtures/inputRolesSelector.json';
+import inputSelectRolesSelectorJSON from 'utils/__tests__/fixtures/inputSelectRolesSelector.json';
 import { USER_URL } from 'signals/settings/routes';
 import configuration from 'shared/services/configuration/configuration';
 import * as constants from 'containers/App/constants';
@@ -379,6 +379,33 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
   });
 
+
+
+  it('should remove reset the filter when the search box is cleared ', async () => {
+    const { findByTestId } = render(usersOverviewWithAppContext());
+
+    const filterByUserName = await findByTestId('filterUsersByUsername');
+    const filterByUserNameInput = filterByUserName.querySelector('input');
+    const filterValue = 'test1';
+
+    act(() => {
+      fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
+    });
+
+    await wait(() => resolveAfterMs(300));
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
+
+    const clearButton = filterByUserName.querySelector('button[aria-label="Close"]');
+    act(() => {
+      fireEvent.click(clearButton);
+    });
+
+    await findByTestId('filterUsersByUsername');
+    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenLastCalledWith(setUserFilters({ username: '' }));
+  });
+
   it('should not dispatch filter values when input value has not changed', async () => {
     const username = 'foo bar baz';
     const stateCfg = { users: { filters: { username } } };
@@ -431,8 +458,8 @@ describe('signals/settings/users/containers/Overview', () => {
       .mockImplementation(() => () => true);
 
     jest
-      .spyOn(rolesSelectors, 'inputRolesSelector')
-      .mockImplementation(() => inputRolesSelectorJSON);
+      .spyOn(rolesSelectors, 'inputSelectRolesSelector')
+      .mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const { getByTestId } = render(usersOverviewWithAppContext());
 
@@ -522,8 +549,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should check if default filter values have been set', async () => {
     jest
-      .spyOn(rolesSelectors, 'inputRolesSelector')
-      .mockImplementation(() => inputRolesSelectorJSON);
+      .spyOn(rolesSelectors, 'inputSelectRolesSelector')
+      .mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const { getByTestId } = render(usersOverviewWithAppContext());
 
@@ -538,8 +565,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should select "Behandelaar" as filter and dispatch a fetch action', async () => {
     jest
-      .spyOn(rolesSelectors, 'inputRolesSelector')
-      .mockImplementation(() => inputRolesSelectorJSON);
+      .spyOn(rolesSelectors, 'inputSelectRolesSelector')
+      .mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const mockedState = { users: { filters: { role: 'Behandelaar' } } };
     const { getByTestId } = render(usersOverviewWithAppContext({}, {}, mockedState));
@@ -588,8 +615,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
   it('should select a value in the select filters and dispatch a fetch action', async () => {
     jest
-      .spyOn(rolesSelectors, 'inputRolesSelector')
-      .mockImplementation(() => inputRolesSelectorJSON);
+      .spyOn(rolesSelectors, 'inputSelectRolesSelector')
+      .mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const mockedState = { users: { filters: { is_active: true, role: 'Behandelaar' } } };
 

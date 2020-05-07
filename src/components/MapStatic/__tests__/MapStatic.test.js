@@ -8,8 +8,6 @@ import blob from './static.jpg';
 const latitude = 52.37553393844094;
 const longitude = 4.879890711122719;
 
-global.URL.createObjectURL = jest.fn(() => 'https://url-from-data/image.jpg');
-
 fetch.mockResponse(new Blob([blob], { type: 'image/png' }));
 
 describe('components/MapStatic', () => {

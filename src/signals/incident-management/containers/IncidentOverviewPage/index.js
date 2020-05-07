@@ -16,10 +16,10 @@ import Modal from 'components/Modal';
 import * as types from 'shared/types';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import MapContext from 'containers/MapContext';
+import dataLists from 'signals/incident-management/definitions';
 
 import {
   makeSelectActiveFilter,
-  makeSelectDataLists,
   makeSelectIncidents,
   makeSelectOrdering,
   makeSelectPage,
@@ -41,7 +41,6 @@ let lastActiveElement = null;
 
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
-  dataLists,
   incidents,
   ordering,
   orderingChangedAction,
@@ -197,7 +196,6 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
-  dataLists: types.dataListsType.isRequired,
   incidents: PropTypes.shape({
     count: PropTypes.number,
     loading: PropTypes.bool,
@@ -211,7 +209,6 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   activeFilter: makeSelectActiveFilter,
-  dataLists: makeSelectDataLists,
   incidents: makeSelectIncidents,
   ordering: makeSelectOrdering,
   page: makeSelectPage,

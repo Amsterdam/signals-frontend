@@ -1,47 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Preview component <Image /> should render image correctly 1`] = `
-<div
-  className="preview-image"
->
-  <div
-    className="row"
-  >
-    <div
-      className="col-5 col-md-4"
-    >
-      <div
-        className="preview-image__item-label"
-      >
-        Image
-      </div>
-    </div>
-    <div
-      className="col-5 col-md-7"
-    >
-      <div
-        className="preview-image__item-value"
-      >
-        <div
-          className="preview-image__item-value-image"
-          key="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
-          style={
-            Object {
-              "backgroundImage": "URL(blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c)",
-            }
-          }
-        />
-        <div
-          className="preview-image__item-value-image"
-          key="blob:http://host/another-unique-key"
-          style={
-            Object {
-              "backgroundImage": "URL(blob:http://host/another-unique-key)",
-            }
-          }
-        />
-      </div>
-    </div>
-  </div>
-</div>
+<Image__ImageContainer>
+  <Image__Thumbnail
+    alt=""
+    key="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
+    src="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
+  />
+  <Image__Thumbnail
+    alt=""
+    key="blob:http://host/another-unique-key"
+    src="blob:http://host/another-unique-key"
+  />
+</Image__ImageContainer>
 `;

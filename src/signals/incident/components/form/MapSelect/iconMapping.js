@@ -9,6 +9,7 @@ import LichtmastSelectIcon from '!!file-loader!../../../../../shared/images/open
 import GrachtmastIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Grachtmast-marker.svg';
 import GrachtmastSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Grachtmast_select-marker.svg';
 import SchijnwerperIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Schijnwerper-marker.svg';
+import SchijnwerperSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Schijnwerper_select-marker.svg';
 import OverigSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overig_select-marker.svg';
 import OverigIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overig-marker.svg';
 
@@ -41,6 +42,10 @@ export const OVL_MAPPING = {
   Overig_lichtpunt: {
     default: L.icon({ ...defaultOptions, iconUrl: OverigIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: OverigSelectIcon }),
+  },
+  Schijnwerpers: {
+    default: L.icon({ ...defaultOptions, iconUrl: SchijnwerperIcon }),
+    selected: L.icon({ ...defaultOptions, iconUrl: SchijnwerperSelectIcon }),
   },
 };
 

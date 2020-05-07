@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
-import { Button } from '@datapunt/asc-ui';
 import { Spinner } from '@datapunt/asc-assets';
+import Button  from 'components/Button';
 
 import useFetch from 'hooks/useFetch';
 

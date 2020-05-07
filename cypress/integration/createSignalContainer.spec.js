@@ -7,7 +7,7 @@ describe('Create signal cointainer',() => {
   before(() => {
     cy.server();
     cy.defineGeoSearchRoutes();
-    cy.getAddressRoute('1012AB 15');
+    cy.getAddressRoute();
   
     // Open Homepage
     cy.visitFetch('incident/beschrijf');
@@ -23,9 +23,7 @@ describe('Create signal cointainer',() => {
 
     // Select found item  
     createSignal.selectAddress('Stationsplein 15, 1012AB Amsterdam');
-    cy.wait('@lookup')
-      .wait('@location')
-      .wait('@geoSearchLocation');
+    cy.wait('@geoSearchLocation');
   });
 
   it('Should enter description and date', () => {
@@ -87,19 +85,25 @@ describe('Create signal cointainer',() => {
     // Check h1
     cy.checkHeaderText('Controleer uw gegevens');
 
-    // Check if map is visible
-    cy.get(CREATE_SIGNAL.mapContainer).should('be.visible');
+    // Check if map and marker are visible
+    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
 
     // Check information provided by user
     cy.contains('Stationsplein 15, 1012AB Amsterdam').should('be.visible');
     cy.contains('De container voor de deur is kapot, de klep gaat niet open.').should('be.visible');
     cy.contains('Een restafval container').should('be.visible');
     cy.contains('Nummertje 666').should('be.visible');
-
-    cy.clickButton('Verstuur');
   });
 
   it('Should show the last screen', () => {
+    cy.server();
+    cy.postSignalRoutePublic();
+
+    cy.clickButton('Verstuur');
+
+    cy.wait('@postSignalPublic');
+    
     // Check URL
     cy.url().should('include', '/incident/bedankt');
 

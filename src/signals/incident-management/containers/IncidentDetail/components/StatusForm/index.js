@@ -5,7 +5,6 @@ import isEqual from 'lodash.isequal';
 import styled, { css } from 'styled-components';
 
 import {
-  Button,
   Spinner,
   Heading,
   Row,
@@ -16,6 +15,7 @@ import { incidentType, dataListType, defaultTextsType } from 'shared/types';
 import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 
 import Label from 'components/Label';
+import Button from 'components/Button';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
@@ -164,9 +164,9 @@ class StatusForm extends React.Component {
       <Fragment>
         <FieldGroup
           control={this.form}
-          render={({ invalid }) => (
+          render={() => (
             <form onSubmit={this.handleSubmit}>
-              <Row>
+              <Row hasMargin={false}>
                 <StyledColumn span={6}>
                   <StyledH4 forwardedAs="h4">Status wijzigen</StyledH4>
 
@@ -207,7 +207,6 @@ class StatusForm extends React.Component {
                   <StyledButton
                     data-testid="statusFormSubmitButton"
                     variant="secondary"
-                    disabled={invalid}
                     type="submit"
                     iconRight={patching.status ? <StyledSpinner /> : null}
                   >

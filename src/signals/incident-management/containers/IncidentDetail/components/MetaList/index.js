@@ -24,6 +24,7 @@ const List = styled.dl`
     color: ${themeColor('tint', 'level5')};
     margin-bottom: ${themeSpacing(1)};
     position: relative;
+    font-weight: 400;
   }
 
   dd {
@@ -49,7 +50,6 @@ const EditButton = styled(Button)`
 
 const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
   const [valueChanged, setValueChanged] = useState(false);
-  const children = get(incident, '_links.sia:children');
   const parent = get(incident, '_links.sia:parent');
   const subcategories = useSelector(makeSelectSubCategories);
   const subcatHighlightDisabled = ![
@@ -146,29 +146,9 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
         <Fragment>
           <dt data-testid="meta-list-parent-definition">Oorspronkelijke melding</dt>
           <dd>
-            <AscLink data-testid="meta-list-parent-link" as={Link} to={`/manage/incident/${getId(parent)}`}>
+            <AscLink data-testid="meta-list-parent-link" as={Link} variant="inline" to={`/manage/incident/${getId(parent)}`}>
               {getId(parent)}
             </AscLink>
-          </dd>
-        </Fragment>
-      )}
-
-      {children?.length > 0 && (
-        <Fragment>
-          <dt data-testid="meta-list-children-definition">Gesplitst in</dt>
-          <dd>
-            {children.map(child => (
-              <AscLink
-                className="childLink"
-                data-testid={`meta-list-children-link-${getId(child)}`}
-                key={child.href}
-                as={Link}
-                variant="inline"
-                to={`/manage/incident/${getId(child)}`}
-              >
-                {getId(child)}
-              </AscLink>
-            ))}
           </dd>
         </Fragment>
       )}
