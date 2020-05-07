@@ -233,11 +233,6 @@ export default {
         shortLabel: 'Naam bewoners',
         pathMerge: 'extra_properties',
         className: 'col-sm-12 col-md-8',
-        values: {
-          ja: 'Ja, de bewoners zijn familie',
-          nee: 'Nee, de bewoners zijn geen familie',
-          weet_ik_niet: 'Weet ik niet',
-        },
       },
       render: FormComponents.TextareaInput,
     },
