@@ -381,7 +381,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
 
 
-  it('should remove reset the filter filter the search box is cleared ', async () => {
+  it('should remove reset the filter when the search box is cleared ', async () => {
     const { findByTestId } = render(usersOverviewWithAppContext());
 
     const filterByUserName = await findByTestId('filterUsersByUsername');
