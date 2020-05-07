@@ -95,6 +95,7 @@
     "moment": "^2.22.2",
     "npm": "^6.14.4",
     "proj4": "^2.6.1",
+    "proxy-polyfill": "^0.3.1",
     "react": "^16.13.1",
     "react-albus": "^2.0.0",
     "react-app-polyfill": "^1.0.6",
