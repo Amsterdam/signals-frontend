@@ -7,15 +7,9 @@ import statusList, {
 } from 'signals/incident-management/definitions/statusList';
 
 import {
-  SPLIT_INCIDENT_SUCCESS,
-  SPLIT_INCIDENT_ERROR,
-} from 'signals/incident-management/containers/IncidentSplitContainer/constants';
-
-import {
   REQUEST_INCIDENT,
   REQUEST_INCIDENT_SUCCESS,
   REQUEST_INCIDENT_ERROR,
-  DISMISS_SPLIT_NOTIFICATION,
   PATCH_INCIDENT,
   PATCH_INCIDENT_SUCCESS,
   PATCH_INCIDENT_ERROR,
@@ -52,7 +46,6 @@ export const initialState = fromJS({
     [PATCH_TYPE_THOR]: false,
     [PATCH_TYPE_LOCATION]: false,
   },
-  split: false,
   typesList,
 });
 
@@ -73,9 +66,6 @@ function incidentModelReducer(state = initialState, action) {
 
     case REQUEST_INCIDENT_ERROR:
       return state.set('error', fromJS(action.payload)).set('loading', false);
-
-    case DISMISS_SPLIT_NOTIFICATION:
-      return state.set('split', false);
 
     case PATCH_INCIDENT:
       return state
@@ -131,10 +121,6 @@ function incidentModelReducer(state = initialState, action) {
 
     case REQUEST_DEFAULT_TEXTS_ERROR:
       return state.set('defaultTexts', fromJS([]));
-
-    case SPLIT_INCIDENT_SUCCESS:
-    case SPLIT_INCIDENT_ERROR:
-      return state.set('split', action.payload);
 
     default:
       return state;
