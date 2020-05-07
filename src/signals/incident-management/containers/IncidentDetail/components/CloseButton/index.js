@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@datapunt/asc-ui';
 import { Close as CloseIcon } from '@datapunt/asc-assets';
 import styled from 'styled-components';
+
+import Button from 'components/Button';
 
 const StyledButton = styled(Button)`
   position: absolute;
