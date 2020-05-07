@@ -25,7 +25,12 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 export const breakpoint = 1170;
 
 const getLogo = config => () =>
-  config.logoUrl && (props => <img alt="Logo" src={config.logoUrl} style={{ height: config.logoHeight }} {...props} />);
+  config.logoUrl &&
+  (props => (
+    <a href={config.links.home}>
+      <img alt="Logo" src={config.logoUrl} style={{ height: config.logoHeight }} {...props} />
+    </a>
+  ));
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
