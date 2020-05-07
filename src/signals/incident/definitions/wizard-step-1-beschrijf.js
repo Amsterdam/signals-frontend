@@ -57,6 +57,7 @@ export default {
       description: {
         meta: {
           label: 'Waar gaat het om?',
+          subtitle: 'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
           path: 'text',
           placeholder: 'Beschrijf uw melding',
           maxLength: 1000,
