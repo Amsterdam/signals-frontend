@@ -109,7 +109,7 @@ export const locationType = PropTypes.shape({
   bag_validated: PropTypes.bool,
   stadsdeel: PropTypes.string,
   geometrie: PropTypes.shape({
-    coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+    coordinates: PropTypes.arrayOf(PropTypes.number),
   }),
 });
 
