@@ -138,10 +138,4 @@ module.exports = options => ({
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
-  externals: {
-    globalConfig: JSON.stringify(
-      // eslint-disable-next-line
-      require(path.resolve(process.cwd(), 'environment.conf.json'))
-    ),
-  },
 });

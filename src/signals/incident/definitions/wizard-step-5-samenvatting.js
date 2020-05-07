@@ -1,6 +1,6 @@
+import configuration from 'shared/services/configuration/configuration';
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components';
-import { OVL_KLOKKEN_LAYER, OVL_VERLICHTING_LAYER } from '../../../shared/services/configuration/configuration';
 
 export default {
   label: 'Controleer uw gegevens',
@@ -79,7 +79,7 @@ export default {
       },
       extra_klok_nummer: {
         label: 'Klok(ken) op kaart',
-        render: props => PreviewComponents.MapSelectPreview({ ...props, endpoint: OVL_KLOKKEN_LAYER }),
+        render: props => PreviewComponents.MapSelectPreview({ ...props, endpoint: configuration.OVL_KLOKKEN_LAYER }),
         optional: true,
       },
       extra_klok_niet_op_kaart: {
@@ -110,7 +110,7 @@ export default {
       },
       extra_straatverlichting_nummer: {
         label: 'Lichtpunt(en) op kaart',
-        render: props => PreviewComponents.MapSelectPreview({ ...props, endpoint: OVL_VERLICHTING_LAYER }),
+        render: props => PreviewComponents.MapSelectPreview({ ...props, endpoint: configuration.OVL_VERLICHTING_LAYER }),
         optional: true,
       },
       extra_straatverlichting_niet_op_kaart: {
