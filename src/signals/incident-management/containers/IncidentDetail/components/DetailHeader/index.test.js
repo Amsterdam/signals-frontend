@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
+import { MAP_URL } from 'signals/incident-management/routes';
 
 import DetailHeader from './index';
 
@@ -104,13 +105,12 @@ describe('<DetailHeader />', () => {
 
     expect(getByTestId('backlink').href).toEqual(expect.stringContaining(incidentsUrl));
 
-    const mapReferrer = '/manage/incidents/kaart';
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
-      referrer: mapReferrer,
+      referrer: MAP_URL,
     }));
 
     rerender(withAppContext(<DetailHeader {...props} />));
 
-    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(mapReferrer));
+    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(MAP_URL));
   });
 });
