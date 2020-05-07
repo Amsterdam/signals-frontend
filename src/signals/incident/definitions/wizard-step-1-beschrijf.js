@@ -147,6 +147,9 @@ export default {
         },
         authenticated: true,
         render: FormComponents.RadioInput,
+        options: {
+          validators: [Validators.required],
+        },
       },
       images_previews: {
         meta: {
