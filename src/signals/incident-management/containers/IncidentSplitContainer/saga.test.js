@@ -4,8 +4,9 @@ import * as Sentry from '@sentry/browser';
 import * as actions from 'containers/App/actions';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { authPatchCall, authPostCall } from 'shared/services/api/api';
+import { showGlobalNotification } from 'containers/App/actions';
 
 import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
@@ -55,6 +56,11 @@ describe('IncidentSplitContainer saga', () => {
     );
     expect(gen.next().value).toEqual(put(splitIncidentSuccess({ id, created })));
     expect(gen.next().value).toEqual(put(push(`/manage/incident/${id}`)));
+    expect(gen.next().value).toEqual(put(showGlobalNotification({
+      title: 'De melding is succesvol gesplitst',
+      variant: VARIANT_SUCCESS,
+      type: TYPE_LOCAL,
+    })));
   });
 
   it('should fetchIncident error', () => {
