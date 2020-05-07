@@ -36,6 +36,7 @@ import History from 'components/History';
 
 import './style.scss';
 
+import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
 import AddNote from './components/AddNote';
@@ -260,6 +261,8 @@ export class IncidentDetail extends React.Component {
                         />
 
                         <AddNote id={id} onPatchIncident={onPatchIncident} />
+
+                        <ChildIncidents incident={incident} />
 
                         <History list={list} />
                       </Fragment>
