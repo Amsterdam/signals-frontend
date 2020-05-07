@@ -10,7 +10,7 @@ services:
     ipc: host
     ports:
       - "3001:80"
-  
+
   lint-container:
     build:
       cache_from:
