@@ -1,6 +1,5 @@
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
-  DISMISS_SPLIT_NOTIFICATION,
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
@@ -25,12 +24,6 @@ export function requestIncidentError(error) {
   return {
     type: REQUEST_INCIDENT_ERROR,
     payload: error,
-  };
-}
-
-export function dismissSplitNotification() {
-  return {
-    type: DISMISS_SPLIT_NOTIFICATION,
   };
 }
 
