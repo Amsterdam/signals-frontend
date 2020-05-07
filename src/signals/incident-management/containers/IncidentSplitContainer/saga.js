@@ -1,8 +1,6 @@
-import React, { Fragment } from 'react';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import * as Sentry from '@sentry/browser';
 import { push } from 'connected-react-router/immutable';
-import { NavLink } from 'react-router-dom';
 
 import { authPatchCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -30,14 +28,6 @@ export function* splitIncident(action) {
     yield put(
       showGlobalNotification({
         title: 'De melding is succesvol gesplitst',
-        message: (
-          <Fragment>
-            Meldingen:&nbsp;
-            {created.children.map(child => (
-              <NavLink key={child.id} to={`/manage/incident/${child.id}`}>{child.id}</NavLink>
-            ))}
-          </Fragment>
-        ),
         variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })

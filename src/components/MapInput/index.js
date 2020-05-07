@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useContext, useState, useEffect, useCallback } from 'react';
+import React, { useLayoutEffect, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from '@datapunt/asc-core';
@@ -54,10 +54,15 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
   const { location, addressText: addressValue } = state;
   const hasLocation = Boolean(location) && location?.lat !== 0 && location?.lng !== 0;
 
+  /**
+   * This reference ensures the map zooms to the marker location only when the marker location
+   * is provided from the parent and not on click action
+   */
+  const hasInitalViewRef = useRef(true);
+
   const clickFunc = useCallback(
     async event => {
-      map.flyTo(event.latlng);
-
+      hasInitalViewRef.current = false;
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
@@ -85,7 +90,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
 
       onChange(onChangePayload);
     },
-    [dispatch, onChange, map]
+    [dispatch, onChange]
   );
 
   const onSelect = useCallback(
@@ -125,7 +130,12 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
   useLayoutEffect(() => {
     if (!map || !marker || !hasLocation) return;
 
-    map.setView(location, 11);
+    if (hasInitalViewRef.current) {
+      const zoomLevel = map.getZoom();
+      map.setView(location, zoomLevel < 11 ? 11 : zoomLevel);
+      hasInitalViewRef.current = false;
+    }
+
     marker.setLatLng(location);
   }, [marker, location, hasLocation, map]);
 

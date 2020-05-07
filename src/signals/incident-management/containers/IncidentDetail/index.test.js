@@ -15,7 +15,6 @@ import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
-import SplitNotificationBar from './components/SplitNotificationBar';
 import LocationPreview from './components/LocationPreview';
 import statusList, {
   changeStatusOptionList,
@@ -132,7 +131,6 @@ describe('<IncidentDetail />', () => {
     it('should render default correctly', () => {
       expect(wrapper.find(LoadingIndicator)).toHaveLength(0);
 
-      expect(wrapper.find(SplitNotificationBar)).toHaveLength(1);
       expect(wrapper.find(DetailHeader)).toHaveLength(1);
       expect(wrapper.find(Detail)).toHaveLength(1);
       expect(wrapper.find(MetaList)).toHaveLength(1);
