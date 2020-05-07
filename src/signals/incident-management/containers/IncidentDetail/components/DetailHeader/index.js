@@ -6,6 +6,7 @@ import BackLink from 'components/BackLink';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
 import { PATCH_TYPE_THOR } from 'models/incident/constants';
 import Button from 'components/Button';
+import { MAP_URL } from 'signals/incident-management/routes';
 
 import { incidentType } from 'shared/types';
 
@@ -88,7 +89,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
     },
   };
 
-  const referrer = location.referrer || `${baseUrl}/incidents`;
+  const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : `${baseUrl}/incidents`;
 
   return (
     <Header className="detail-header">
