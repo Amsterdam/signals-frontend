@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
+import { MAP_URL } from 'signals/incident-management/routes';
 
 import DetailHeader from './index';
 
@@ -91,8 +92,9 @@ describe('<DetailHeader />', () => {
 
   it('should render a link with the correct referrer', () => {
     const { getByTestId, rerender } = render(withAppContext(<DetailHeader {...props} />));
+    const incidentsUrl = `${props.baseUrl}/incidents`;
 
-    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(`${props.baseUrl}/incidents`));
+    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(incidentsUrl));
 
     const referrer = '/some-url';
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
@@ -101,6 +103,14 @@ describe('<DetailHeader />', () => {
 
     rerender(withAppContext(<DetailHeader {...props} />));
 
-    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(referrer));
+    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(incidentsUrl));
+
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+      referrer: MAP_URL,
+    }));
+
+    rerender(withAppContext(<DetailHeader {...props} />));
+
+    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(MAP_URL));
   });
 });
