@@ -16,11 +16,11 @@ Since our current backend only serves data through REST and there is no possibil
 types and or interfaces, there is no also no automated way to validate data on the frontend
 which is coming from the backend.
 
-Besides of that there are too many inconstensies between different backend calls and the current
+Besides of that there are too many inconstencies between different backend calls and the current
 backend API documentation is not always correct and/or up to date because it's written manually
 and not generated from code.
 
-Because of this our `React components` are overcomplicated since we need to transform thr API output to a
+Because of this our `React components` are overcomplicated since we need to transform the API output to a
 format that the API can consume and that leads to bloat and too much client-side logic.
 
 ## Proposal
