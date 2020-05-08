@@ -9,6 +9,7 @@ import 'jest-localstorage-mock';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import fetchMock from 'jest-fetch-mock';
+import config from '../../environment.conf.json';
 
 fetchMock.enableMocks();
 
@@ -24,6 +25,7 @@ if (process.env.CI) {
 }
 
 global.URL.createObjectURL = jest.fn(() => 'https://url-from-data/image.jpg');
+global.window.CONFIG = config;
 
 /**
  * Element.closest() polyfill

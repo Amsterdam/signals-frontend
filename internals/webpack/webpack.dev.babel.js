@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const webpackBase = require('./webpack.base.babel');
-const config = require('../../config.json');
+const config = require('../../environment.conf.json');
 
 const configPlaceholder = '$SIGNALS_CONFIG';
 const configString = JSON.stringify(config);
