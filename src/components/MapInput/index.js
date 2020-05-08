@@ -198,7 +198,7 @@ MapInput.propTypes = {
     }),
     addressText: PropTypes.string,
     address: PropTypes.shape({
-      huisnummer: PropTypes.string,
+      huisnummer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       openbare_ruimte: PropTypes.string,
       postcode: PropTypes.string,
       woonplaats: PropTypes.string,

@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Row, Button, Column, themeColor } from '@datapunt/asc-ui';
 
 export const FooterWrapper = styled.footer`
-  border-top: 2px solid #e6e6e6;
   background: ${themeColor('tint', 'level1')};
   height: 66px;
   padding: 10px 0;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  left: 0;
   max-width: 1400px;
-  left: 50%;
-  transform: translate(-50%);
+
+  ${({ inline }) =>
+    !inline &&
+    css`
+      border-top: 2px solid #e6e6e6;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      left: 50%;
+      transform: translate(-50%);
+    `}
 `;
 
 export const ButtonContainer = styled(Column)`
@@ -47,14 +51,15 @@ export const CancelButton = styled(StyledButton).attrs({
 const FormFooter = ({
   cancelBtnLabel,
   className,
+  inline,
   onCancel,
   onResetForm,
   onSubmitForm,
   resetBtnLabel,
   submitBtnLabel,
 }) => (
-  <FooterWrapper className={className}>
-    <Row>
+  <FooterWrapper data-testid="formFooter" className={className} inline={inline}>
+    <Row hasMargin={!inline}>
       <ButtonContainer span={12}>
         {resetBtnLabel && (
           <ResetButton
@@ -94,6 +99,7 @@ const FormFooter = ({
 FormFooter.defaultProps = {
   cancelBtnLabel: '',
   className: '',
+  inline: false,
   onCancel: null,
   onResetForm: null,
   onSubmitForm: null,
@@ -104,6 +110,8 @@ FormFooter.defaultProps = {
 FormFooter.propTypes = {
   cancelBtnLabel: PropTypes.string,
   className: PropTypes.string,
+  /** When true, the component is positioned relative without borders or padding */
+  inline: PropTypes.bool,
   onCancel: PropTypes.func,
   onResetForm: PropTypes.func,
   onSubmitForm: PropTypes.func,
