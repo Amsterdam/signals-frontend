@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import isEqual from 'lodash.isequal';
 import styled from 'styled-components';
-import { Button, Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 
-import { incidentType, locationType } from 'shared/types';
+import { incidentType } from 'shared/types';
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
+import Button from 'components/Button';
 
 import { mapLocation } from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -34,8 +35,6 @@ const FormButton = styled(Button)`
   }
 `;
 
-// import './style.scss';
-
 class LocationForm extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -43,7 +42,7 @@ class LocationForm extends React.Component {
 
     this.state = {
       location: props.incident.location,
-      newLocation: props.newLocation,
+      newLocation: props.incident.location,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,14 +65,6 @@ class LocationForm extends React.Component {
   }
 
   componentDidUpdate() {
-    // const prevPatchingLocation = prevProps.patching && prevProps.patching.location;
-    // const patchingLocation = this.props.patching && this.props.patching.location;
-    // if (prevPatchingLocation !== patchingLocation && patchingLocation === false) {
-    //   const hasError = (this.props.error && this.props.error.response && !this.props.error.response.ok) || false;
-    //   if (!hasError) {
-    //     this.props.onClose();
-    //   }
-    // }
     this.form.updateValueAndValidity();
   }
 
@@ -88,7 +79,7 @@ class LocationForm extends React.Component {
   }
 
   form = FormBuilder.group({
-    coordinates: ['', Validators.required],
+    coordinates: [this.props.incident.location.geometrie.coordinates.join(','), Validators.required],
     location: this.props.incident.location,
   });
 
@@ -100,6 +91,7 @@ class LocationForm extends React.Component {
       type: PATCH_TYPE_LOCATION,
       patch: { location: { ...this.state.newLocation } },
     });
+    this.props.onClose();
   };
 
   render() {
@@ -139,10 +131,10 @@ class LocationForm extends React.Component {
                   </FormButton>
 
                   <FormButton
-                    variant="tertiary"
-                    type="button"
-                    onClick={onClose}
                     data-testid="location-form-button-cancel"
+                    onClick={onClose}
+                    type="button"
+                    variant="tertiary"
                   >
                     Annuleren
                   </FormButton>
@@ -156,10 +148,6 @@ class LocationForm extends React.Component {
   }
 }
 
-LocationForm.defaultProps = {
-  newLocation: {},
-};
-
 LocationForm.propTypes = {
   incident: incidentType.isRequired,
   error: PropTypes.oneOfType([
@@ -171,7 +159,6 @@ LocationForm.propTypes = {
     }),
     PropTypes.bool,
   ]),
-  newLocation: locationType,
 
   onPatchIncident: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,
