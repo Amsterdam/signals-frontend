@@ -59,7 +59,7 @@ Our GraphQL layer:
 - [https://graphql-code-generator.com/](GraphQL Code Generator): Generate GraphQL types/clients/interfaces, etc.
 - [https://github.com/apollographql/eslint-plugin-graphqlhl](eslint-plugin-graphql): Live GraphQL validation on the frontend
 - [https://graphql.org/graphql-js/](GraphQL.js): Contains gql template function
-  - [https://formidable.com/open-source/urql/](URQL - React GraphQL client, hooks, etc.): Library to work with GraphQL on the frontend
+- [https://formidable.com/open-source/urql/](URQL - React GraphQL client, hooks, etc.): Library to work with GraphQL on the frontend
 
 # Application structure proposal
 
