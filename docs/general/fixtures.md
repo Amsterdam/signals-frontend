@@ -2,6 +2,8 @@
 
 ## Intro
 
+NOTE: This is a living document, renames still have to be done.
+
 You could obtain `SIA_TOKEN` from your `Local Storage` after you logged in into `SIA` with your `ADW account`.
 
 Set `$SIA_TOKEN`:
@@ -16,26 +18,37 @@ Backend OpenAPI documentation:
 
     https://acc.api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/
 
+## Proposals
+
+### 'Consistent' import naming
+
+This is kind of hard with those long file names...
+
+import privateRolesFixture from 'get-signals-v1-private-roles.json'
+import inputRolesSelectorFixture form  selector-models-categories-selectors_inputRolesSelector.json
+
 ## Notes
+
+Tests to fix:
+
+  src/signals/settings/departments/Detail/components/CategoryLists/__tests__/CategoryLists.test.js
+  src/signals/settings/departments/Detail/components/__tests__/mapCategories.test.js
 
 Commands:
 
     http 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/' "Authorization:Bearer $SIA_TOKEN" | jq '.results[]  | select(.id == 2)'
-
-    cat department.json | jq '.categories'
-    cat department.json | jq '.categories | length'
-    cat departments.json | jq '.results[]  | select(.id == 2)'
-
-### Todo
-
-kto.json: form data (origin unknown)
+    jq '.categories' department.json
+    jq '.categories | length' department.json
+    jq '.results[] | select(.id == 2)' departments.json
 
 ## HTTP Responses
 
 ### get-signals-v1-private-roles.json
 
 Old Name: roles.json
+
 Endpoint: signals/v1/private/roles/
+
 Key: results
 
 Example:
@@ -45,6 +58,7 @@ Example:
 ### get-signals-v1-private-categories.json
 
 Old Name: categories_private.json
+
 Endpoint: signals/v1/private/categories/
 
 Example:
@@ -54,6 +68,7 @@ Example:
 ### get-signals-v1-private-departments.json
 
 Old Name: departments.json
+
 Endpoint: signals/v1/private/departments/
 
 Example:
@@ -63,6 +78,7 @@ Example:
 ### get-signals-v1-private-users.json
 
 Old Name: users.json
+
 Endpoint: v1/private/users/
 
 Example:
@@ -71,7 +87,11 @@ Example:
 
 ### get-signals-v1-private-users-id.json
 
+Notes: This fixture is pretty fragile since it needs a specific set of permissions the issue is when
+more then the required permissions are added (different type permissions) tests break badly
+
 Old Name: user.json
+
 Endpoint: v1/private/users/143
 
 Example:
@@ -81,7 +101,9 @@ Example:
 ### get-signals-v1-private-signals.json
 
 Old Name: incidents.json
+
 Endpoint: v1/private/signals
+
 Key: results
 
 Example:
@@ -91,7 +113,9 @@ Example:
 ### get-signals-v1-private-signals-id.json
 
 Old Name: incident.json
+
 Endpoint: v1/private/signals/123
+
 Key: results
 
 Example:
@@ -101,6 +125,7 @@ Example:
 ### get-signals-v1-private-categories-id.json
 
 Old name: category.json
+
 Endpoint: v1/private/categories/23
 
 Example:
@@ -110,6 +135,7 @@ Example:
 ### get-signals-v1-private-departments-id.json
 
 Old name: department.json
+
 Endpoint: v1/private/department/6
 
 Example:
@@ -119,7 +145,9 @@ Example:
 ### get-signals-v1-private-categories-id-history.json
 
 Old name: history.json
+
 Endpoint: v1/private/categories/23/history.json
+
 Note: There is currently no history on acc
 
 Example:
@@ -129,78 +157,99 @@ Example:
 ### post-response-signals-v1-private-signals
 
 Old Name: postIncident.json
+
 Source: models/categories/selectors.js
 
 ### get-geosearch-bag-lat-on-radius.json
 
-Also Used As (with different data): geosearch.json
+Also used as (with different data): geosearch.json
+
 Old Name: geography.json
+
 Endpoint: geosearch/bag/?lat=52.37188789984033&lon=4.88888741680181&radius=50
 
 Example:
 
-    http 'https://acc.api.data.amsterdam.nl/geosearch/bag/?lat=52.37188789984033&lon=4.88888741680181&radius=50' "Authorization:Bearer $SIA_TOKEN" >
+    http 'https://acc.api.data.amsterdam.nl/geosearch/bag/?lat=52.37188789984033&lon=4.88888741680181&radius=50' "Authorization:Bearer $SIA_TOKEN" > get-geosearch-bag-lat-on-radius.json
 
 ## Selectors
 
-### selector-models-categories-selectors.json
+### selector-models-categories-selectors_makeSelectStructuredCategories.json
 
-Old Name: categories.json
+Old Name: categories_structured.json
+
 Source: models/categories/selectors.js
-
-List keys (main, mainToSub, sub):
-
-    jq 'keys[]' categories.json
-
-## Services
-
-### service-shared-services-map-categories.json
-
-Old name: categories_structured.json
-Source: shared/services/map-categories/index.js
-Method: mapCategories
-Method Input: get-signals-v1-private-categories.json
-
-#### main
-
-
-Selector: makeSelectMainCategories
-Dump to screen: jq '.main' categories.json
-
-#### mainToSub
 
 Selector: makeSelectStructuredCategories
-Dump to screen: jq '.mainToSub' categories.json
 
-#### sub
+List keys (categories):
 
-Selector: makeSelectSubCategories
-Dump to screen: jq '.sub' categories.json
+    jq 'keys[]' categories_structured.json
 
-### models-categories-selectors_inputRolesSelector.json
+Cheatsheet:
+
+    jq '.results[] | select(.id == 2)' categories_structured.json
+
+### selector-models-categories-selectors_inputRolesSelector.json
 
 Old Name: inputRolesSelector.json
+
 Source: models/categories/selectors.js
+
 Selector: inputRolesSelector
 
 ## Other
 
-### sharedServicesMapLocation_formatPDOK.json
+### shared-services-map-location_formatPDOKResponse.json
 
 Old Name: PDOKResponseData.json
+
 Source: 'shared/services/map-location/index.js'
+
 Method: formatPDOKResponse
+
 Method Data Source:
     https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?fq=gemeentenaam:amsterdam&fl=id,weergavenaam&fq=bron:BAG&fq=type:adres&fl=id,weergavenaam,straatnaam,huis_nlt,postcode,woonplaatsnaam,centroide_ll&q=Kal
 
-### Hooks
+#### kto.json
 
-#### signalsSettingsFilterDataUseFetchUsers.json
+Type: Form data
+
+Origin: unknown
+
+Proposal: embed data into the related test
+
+Related test: signals/incident/containers/KtoContainer/components/KtoForm/index.test.js
+
+## Hooks
+
+### hook-signals-settings-users-overview-useFetchUsers_FilterDataUseFetchUsers.json
 
 Old Name: filteredUserData.json
+
 Source: signals/settings/users/Overview/hooks/useFetchUsers.js
+
 Method: signals/settings/filterData.js
 
-### Unused (To be removed)
+## Unused/Deprecated (To be removed)
 
-rm priority.json
+### priority.json
+
+Is not being used
+
+### service-shared-services-map-categories.json
+
+Old name: categories.json
+
+Source: shared/services/map-categories/index.js
+
+Method: mapCategories
+
+Method Input: get-signals-v1-private-categories.json
+
+List keys (main, mainToSub, sub):
+
+    jq 'keys[]' categories.json
+    jq '.main' categories.json
+    jq '.mainToSub' categories.json
+    jq '.sub' categories.json
