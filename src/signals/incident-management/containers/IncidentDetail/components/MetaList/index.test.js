@@ -68,19 +68,6 @@ describe('<MetaList />', () => {
       expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
     });
 
-    it('should render correctly with parent', () => {
-      props.incident._links['sia:parent'] = {
-        href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3094',
-      };
-
-      const { queryByTestId } = render(withAppContext(<MetaList {...props} />));
-
-      expect(queryByTestId('meta-list-parent-definition')).toHaveTextContent(/^Oorspronkelijke melding$/);
-      expect(queryByTestId('meta-list-parent-link')).toHaveTextContent(/^3094$/);
-
-      expect(queryByTestId('meta-list-parent-link')).toHaveAttribute('href', '/manage/incident/3094');
-    });
-
     it('should call onPatchIncident', async () => {
       const { getAllByTestId } = render(withAppContext(<MetaList {...props} />));
       const editButtons = getAllByTestId('editButton');
