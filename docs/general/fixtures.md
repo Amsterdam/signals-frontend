@@ -24,8 +24,10 @@ Backend OpenAPI documentation:
 
 This is kind of hard with those long file names...
 
+```js
 import privateRolesFixture from 'get-signals-v1-private-roles.json'
 import inputRolesSelectorFixture form  selector-models-categories-selectors_inputRolesSelector.json
+```
 
 ## Notes
 
@@ -160,7 +162,7 @@ Old Name: postIncident.json
 
 Source: models/categories/selectors.js
 
-### get-geosearch-bag-lat-on-radius.json
+### get-geosearch-bag-lat-ion-radius.json
 
 Also used as (with different data): geosearch.json
 
