@@ -1,136 +1,49 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-
-import { FieldGroup } from 'react-reactive-form';
-
-import { mapLocation } from 'shared/services/map-location';
+import { render, act, fireEvent } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import LocationForm from './index';
 
-jest.mock('shared/services/map-location');
+describe('incident-management/containers/IncidentDetail/components/LocationForm', () => {
+  it('should render a form', () => {
+    const { getByTestId } = render(
+      withAppContext(
+        <LocationForm
+          incidentId={incidentFixture.id}
+          location={incidentFixture.location}
+          onClose={() => {}}
+          onPatchIncident={() => {}}
+        />
+      )
+    );
 
-describe('<LocationForm />', () => {
-  let location;
-  let wrapper;
-  let props;
-  let instance;
-
-  beforeEach(() => {
-    location = {
-      extra_properties: null,
-      geometrie: {
-        type: 'Point',
-        coordinates: [4, 52],
-      },
-      buurt_code: 'A00d',
-      created_by: null,
-      address: {
-        postcode: '1012KP',
-        huisletter: 'A',
-        huisnummer: '123',
-        woonplaats: 'Amsterdam',
-        openbare_ruimte: 'Rokin',
-        huisnummer_toevoeging: 'H',
-      },
-      stadsdeel: 'A',
-      bag_validated: false,
-      address_text: 'Rokin 123-H 1012KP Amsterdam',
-      id: 3372,
-    };
-    props = {
-      incident: {
-        id: 42,
-        location,
-      },
-      patching: { location: false },
-      error: false,
-      onPatchIncident: jest.fn(),
-      onDismissError: jest.fn(),
-      onClose: jest.fn(),
-    };
-
-    wrapper = shallow(<LocationForm {...props} />);
-
-    instance = wrapper.instance();
-
-    mapLocation.mockImplementation(() => ({ ...location, stadsdeel: 'B' }));
+    expect(getByTestId('locationForm')).toBeInTheDocument();
+    expect(getByTestId('map-base')).toBeInTheDocument();
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  it('should call handlers', () => {
+    const onClose = jest.fn();
+    const onPatchIncident = jest.fn();
+    const { queryByTestId } = render(
+      withAppContext(
+        <LocationForm
+          incidentId={incidentFixture.id}
+          location={incidentFixture.location}
+          onClose={onClose}
+          onPatchIncident={onPatchIncident}
+        />
+      )
+    );
 
-  it('should contain the FieldGroup', () => {
-    expect(wrapper.find(FieldGroup)).toHaveLength(1);
-    expect(props.onDismissError).toHaveBeenCalledTimes(1);
-  });
+    expect(onClose).not.toHaveBeenCalled();
+    expect(onPatchIncident).not.toHaveBeenCalled();
 
-  describe('FieldGroup', () => {
-    let renderedFormGroup;
-
-    beforeEach(() => {
-      renderedFormGroup = wrapper
-        .find(FieldGroup)
-        .shallow()
-        .dive();
+    act(() => {
+      fireEvent.click(queryByTestId('submitBtn'));
     });
 
-    it('should render buttons correctly', () => {
-      expect(renderedFormGroup.find('location-form__submit')).not.toBeNull();
-      expect(renderedFormGroup.find('location-form__cancel')).not.toBeNull();
-    });
-
-    it('should update the location and coordinates when the map returns a new value', () => {
-      const form = instance.form;
-      instance.onQueryResult();
-      expect(form.value.coordinates).toEqual('4,52');
-      expect(form.value.location).toEqual({ ...location, stadsdeel: 'B' });
-    });
-
-    it('should call patch location when the form is submitted (search button is clicked)', () => {
-      wrapper.setProps({
-        incident: {
-          id: 42,
-          location: { stadsdeel: 'E' },
-        },
-        patching: { location: false },
-      });
-
-      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
-      renderedFormGroup.find('form').simulate('submit', { preventDefault() {} });
-      expect(props.onPatchIncident).toHaveBeenCalledWith({
-        id: 42,
-        patch: {
-          location: { stadsdeel: 'E' },
-        },
-        type: 'location',
-      });
-    });
-
-    it('should close the location form when result is ok', () => {
-      wrapper.setProps({
-        patching: { location: true },
-      });
-
-      wrapper.setProps({
-        patching: { location: false },
-        error: { response: { ok: true } },
-      });
-
-      expect(props.onClose).toHaveBeenCalledTimes(1);
-    });
-
-    it('should not close the location form when result triggers an error', () => {
-      wrapper.setProps({
-        patching: { location: true },
-      });
-
-      wrapper.setProps({
-        patching: { location: false },
-        error: { response: { ok: false, status: 500 } },
-      });
-
-      expect(props.onClose).not.toHaveBeenCalled();
-    });
+    expect(onPatchIncident).toHaveBeenCalled();
+    expect(onClose).toHaveBeenCalled();
   });
 });
