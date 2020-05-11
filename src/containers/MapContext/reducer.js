@@ -14,6 +14,7 @@ export const initialState = {
     lat: 0,
     lng: 0,
   },
+  loading: false,
 };
 
 export default (state, action) => {
@@ -28,6 +29,7 @@ export default (state, action) => {
       return {
         ...state,
         location: action.payload,
+        loading: true,
       };
 
     case SET_ADDRESS:
@@ -39,6 +41,7 @@ export default (state, action) => {
     case SET_VALUES:
       return {
         ...state,
+        loading: false,
         ...action.payload,
       };
 

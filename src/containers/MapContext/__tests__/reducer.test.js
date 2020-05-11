@@ -20,6 +20,7 @@ describe('containers/MapContext/reducer', () => {
 
     expect(reducer(initialState, action)).toEqual({
       ...initialState,
+      loading: true,
       location: action.payload,
     });
   });
@@ -50,6 +51,7 @@ describe('containers/MapContext/reducer', () => {
     expect(reducer(initialState, action)).toEqual({
       ...initialState,
       ...testValues,
+      loading: false,
     });
   });
 });

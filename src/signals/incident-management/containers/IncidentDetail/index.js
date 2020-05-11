@@ -7,19 +7,10 @@ import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import {
-  incidentType,
-  dataListType,
-  defaultTextsType,
-  attachmentsType,
-  historyType,
-} from 'shared/types';
+import { incidentType, dataListType, defaultTextsType, attachmentsType, historyType } from 'shared/types';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import {
-  makeSelectLoading,
-  makeSelectError,
-} from 'containers/App/selectors';
+import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import {
   requestIncident,
@@ -32,6 +23,7 @@ import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
 import History from 'components/History';
+import MapContext from 'containers/MapContext';
 
 import './style.scss';
 
@@ -81,8 +73,7 @@ export class IncidentDetail extends React.Component {
       const category = this.props.incidentModel.incident.category;
       if (
         !isEqual(
-          prevProps.incidentModel.incident &&
-            prevProps.incidentModel.incident.category,
+          prevProps.incidentModel.incident && prevProps.incidentModel.incident.category,
           this.props.incidentModel.incident.category
         )
       ) {
@@ -160,7 +151,6 @@ export class IncidentDetail extends React.Component {
       typesList,
     } = this.props.incidentModel;
     const { previewState, attachmentHref } = this.state;
-
     return (
       <Fragment>
         <div className="incident-detail">
@@ -171,12 +161,7 @@ export class IncidentDetail extends React.Component {
               {incident && (
                 <Row>
                   <Column span={12}>
-                    <DetailHeader
-                      incidentId={incident.id}
-                      status={incident?.status?.state}
-                      links={incident?._links}
-                      onPatchIncident={onPatchIncident}
-                    />
+                    <DetailHeader incident={incident} baseUrl="/manage" onPatchIncident={onPatchIncident} />
                   </Column>
                 </Row>
               )}
@@ -199,19 +184,18 @@ export class IncidentDetail extends React.Component {
                     )}
 
                     {previewState === 'showLocation' && (
-                      <LocationPreview
-                        location={incident.location}
-                        onEditLocation={this.onEditLocation}
-                      />
+                      <LocationPreview location={incident.location} onEditLocation={this.onEditLocation} />
                     )}
 
                     {previewState === 'editLocation' && (
-                      <LocationForm
-                        incidentId={incident.id}
-                        location={incident.location}
-                        onPatchIncident={onPatchIncident}
-                        onClose={this.onCloseAll}
-                      />
+                      <MapContext>
+                        <LocationForm
+                          incidentId={incident.id}
+                          location={incident.location}
+                          onPatchIncident={onPatchIncident}
+                          onClose={this.onCloseAll}
+                        />
+                      </MapContext>
                     )}
 
                     {previewState === 'editStatus' && (

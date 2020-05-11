@@ -2,14 +2,11 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
-import FormFooter from 'components/FormFooter';
-
 import { locationType } from 'shared/types';
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 
 import { mapLocation } from 'shared/services/map-location';
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import MapInput from '../../../../components/MapInput';
+import LocationInput from './components/LocationInput';
 
 const LocationForm = ({ incidentId, location, onPatchIncident, onClose }) => {
   const form = useMemo(
@@ -48,22 +45,12 @@ const LocationForm = ({ incidentId, location, onPatchIncident, onClose }) => {
     <FieldGroup
       control={form}
       render={() => (
-        <form data-testid="locationForm">
-          <FieldControlWrapper
-            control={form.get('location')}
-            name="location"
-            onQueryResult={onQueryResult}
-            render={MapInput}
-          />
-
-          <FormFooter
-            cancelBtnLabel="Annuleren"
-            inline
-            onCancel={onClose}
-            onSubmitForm={handleSubmit}
-            submitBtnLabel="Locatie opslaan"
-          />
-        </form>
+        <LocationInput
+          locationControl={form.get('location')}
+          onClose={onClose}
+          onQueryResult={onQueryResult}
+          handleSubmit={handleSubmit}
+        />
       )}
     />
   );

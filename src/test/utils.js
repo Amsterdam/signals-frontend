@@ -8,6 +8,7 @@ import Immutable from 'immutable';
 import isObject from 'lodash.isobject';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import loadModels from 'models';
+import MapContext from 'containers/MapContext';
 
 import configureStore from '../configureStore';
 
@@ -98,3 +99,6 @@ export const userObjects = (users = usersJSON) =>
  * @returns {Promise} Resolved promise
  */
 export const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
+
+
+export const withMapContext = Component => withAppContext(<MapContext>{Component}</MapContext>);
