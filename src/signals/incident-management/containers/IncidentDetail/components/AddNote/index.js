@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button, themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@datapunt/asc-ui';
+import Button from 'components/Button';
 
 import TextArea from 'components/TextArea';
 import Label from 'components/Label';
@@ -11,8 +12,8 @@ const NewNoteButton = styled(Button)`
   margin: ${themeSpacing(2, 2, 2, 0)};
 `;
 
-const SaveNoteButton = styled(Button)`
-  margin-right: ${themeSpacing(2)};
+const NoteButton = styled(Button)`
+  margin: ${themeSpacing(8, 2, 4, 0)};
 `;
 
 const AddNote = ({ id, onPatchIncident }) => {
@@ -75,8 +76,7 @@ const AddNote = ({ id, onPatchIncident }) => {
       <form action="">
         <Label htmlFor="addNoteText">Notitie toevoegen</Label>
         <TextArea id="addNoteText" ref={areaRef} onChange={onChange} rows={10} data-testid="addNoteText" value={note} />
-
-        <SaveNoteButton
+        <NoteButton
           data-testid="addNoteSaveNoteButton"
           disabled={!note}
           onClick={handleSubmit}
@@ -84,16 +84,16 @@ const AddNote = ({ id, onPatchIncident }) => {
           variant="secondary"
         >
           Opslaan
-        </SaveNoteButton>
+        </NoteButton>
 
-        <Button
+        <NoteButton
           data-testid="addNoteCancelNoteButton"
           variant="tertiary"
           type="button"
           onClick={() => setShowForm(false)}
         >
           Annuleren
-        </Button>
+        </NoteButton>
       </form>
     </section>
   );

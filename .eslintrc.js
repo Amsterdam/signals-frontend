@@ -75,6 +75,7 @@ module.exports = {
     'object-curly-spacing': [1, 'always'],
     'padded-blocks': ['error', 'never'],
     'prefer-template': 2,
+    'quote-props': [2, 'as-needed'],
     'react/destructuring-assignment': 0,
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',

@@ -24,7 +24,6 @@ import { makeSelectSubCategories } from 'models/categories/selectors';
 import {
   requestIncident,
   patchIncident,
-  dismissSplitNotification,
   requestAttachments,
   requestDefaultTexts,
   dismissError,
@@ -36,6 +35,7 @@ import History from 'components/History';
 
 import './style.scss';
 
+import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
 import AddNote from './components/AddNote';
@@ -43,7 +43,6 @@ import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
-import SplitNotificationBar from './components/SplitNotificationBar';
 import LocationPreview from './components/LocationPreview';
 
 const DetailContainer = styled(Column)`
@@ -144,7 +143,6 @@ export class IncidentDetail extends React.Component {
       subCategories,
       onPatchIncident,
       onDismissError,
-      onDismissSplitNotification,
     } = this.props;
     const { list } = this.props.historyModel;
     const {
@@ -157,7 +155,6 @@ export class IncidentDetail extends React.Component {
       loading,
       patching,
       priorityList,
-      split,
       stadsdeelList,
       statusList,
       typesList,
@@ -167,15 +164,6 @@ export class IncidentDetail extends React.Component {
     return (
       <Fragment>
         <div className="incident-detail">
-          <Row>
-            <Column span={12}>
-              <SplitNotificationBar
-                data={split}
-                onDismissSplitNotification={onDismissSplitNotification}
-              />
-            </Column>
-          </Row>
-
           {loading && <LoadingIndicator />}
 
           {!loading && (
@@ -261,6 +249,8 @@ export class IncidentDetail extends React.Component {
 
                         <AddNote id={id} onPatchIncident={onPatchIncident} />
 
+                        <ChildIncidents incident={incident} />
+
                         <History list={list} />
                       </Fragment>
                     )}
@@ -331,7 +321,6 @@ IncidentDetail.propTypes = {
   onRequestHistoryList: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
   onRequestDefaultTexts: PropTypes.func.isRequired,
-  onDismissSplitNotification: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,
 };
 
@@ -353,7 +342,6 @@ export const mapDispatchToProps = dispatch =>
       onRequestHistoryList: requestHistoryList,
       onRequestAttachments: requestAttachments,
       onRequestDefaultTexts: requestDefaultTexts,
-      onDismissSplitNotification: dismissSplitNotification,
       onDismissError: dismissError,
     },
     dispatch

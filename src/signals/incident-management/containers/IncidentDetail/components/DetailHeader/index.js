@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import BackLink from 'components/BackLink';
-import { themeColor, themeSpacing, Button, Heading } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
 import { PATCH_TYPE_THOR } from 'models/incident/constants';
+import Button from 'components/Button';
+import { MAP_URL } from 'signals/incident-management/routes';
 
 import { incidentType } from 'shared/types';
 
@@ -53,29 +55,19 @@ const HeadingContainer = styled.div`
   && > * {
     margin: 0;
   }
+
+  & > ${styles.HeaderStyles} {
+    font-weight: 400;
+  }
 `;
 
-const ButtonLink = styled(Link)`
-  border: 1px solid ${themeColor('tint', 'level7')};
-  background-color: ${themeColor('tint', 'level1')};
-  height: 32px;
-  padding: ${themeSpacing(1, 2)};
-  color: black;
+const ButtonLink = styled(Button)`
+  color: ${themeColor('tint', 'level7')};
   text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
-  font-family: system-ui;
 
   &:hover {
     background-color: ${themeColor('tint', 'level4')};
-    color: black;
-  }
-
-  &:focus {
-    outline-color: ${themeColor('support', 'focus')};
-    outline-style: solid;
-    outline-offset: 0px;
-    outline-width: 3px;
+    color: ${themeColor('tint', 'level7')};
   }
 `;
 
@@ -97,7 +89,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
     },
   };
 
-  const referrer = location.referrer || `${baseUrl}/incidents`;
+  const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : `${baseUrl}/incidents`;
 
   return (
     <Header className="detail-header">
@@ -113,7 +105,12 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
 
       <ButtonContainer>
         {canSplit && (
-          <ButtonLink to={`${baseUrl}/incident/${incident.id}/split`} data-testid="detail-header-button-split">
+          <ButtonLink
+            variant="application"
+            forwardedAs={Link}
+            to={`${baseUrl}/incident/${incident.id}/split`}
+            data-testid="detail-header-button-split"
+          >
             Splitsen
           </ButtonLink>
         )}

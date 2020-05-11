@@ -57,8 +57,8 @@ export default {
       description: {
         meta: {
           label: 'Waar gaat het om?',
+          subtitle: 'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
           path: 'text',
-          placeholder: 'Beschrijf uw melding',
           maxLength: 1000,
         },
         options: {
@@ -147,6 +147,9 @@ export default {
         },
         authenticated: true,
         render: FormComponents.RadioInput,
+        options: {
+          validators: [Validators.required],
+        },
       },
       images_previews: {
         meta: {

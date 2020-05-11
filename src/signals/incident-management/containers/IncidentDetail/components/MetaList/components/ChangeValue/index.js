@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import get from 'lodash.get';
 import set from 'lodash.set';
-import { Button, themeSpacing } from '@datapunt/asc-ui';
+import Button from 'components/Button';
+import { themeSpacing } from '@datapunt/asc-ui';
 
 import { incidentType, dataListType } from 'shared/types';
 

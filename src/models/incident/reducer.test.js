@@ -1,11 +1,6 @@
-import { fromJS } from 'immutable';
-
-import { SPLIT_INCIDENT_SUCCESS } from 'signals/incident-management/containers/IncidentSplitContainer/constants';
-
 import incidentModelReducer, { initialState } from './reducer';
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
-  DISMISS_SPLIT_NOTIFICATION,
   PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR, DISMISS_ERROR,
   REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR,
@@ -45,17 +40,6 @@ describe('models/incident/reducer', () => {
       incident: {
         id: 1,
       },
-    });
-  });
-
-  it('should handle the DISMISS_SPLIT_NOTIFICATION', () => {
-    const split = { id: 42, created: [{ id: 3 }] };
-    expect(
-      incidentModelReducer(fromJS({ split }), {
-        type: DISMISS_SPLIT_NOTIFICATION,
-      }).toJS()
-    ).toEqual({
-      split: false,
     });
   });
 
@@ -166,18 +150,6 @@ describe('models/incident/reducer', () => {
     ).toEqual({
       ...initialState.toJS(),
       attachments: [],
-    });
-  });
-
-  it('should handle the SPLIT_INCIDENT_SUCCESS ', () => {
-    const payload = { id: 42, created: [{ id: 3 }] };
-    expect(
-      incidentModelReducer(fromJS({}), {
-        type: SPLIT_INCIDENT_SUCCESS,
-        payload,
-      }).toJS()
-    ).toEqual({
-      split: payload,
     });
   });
 

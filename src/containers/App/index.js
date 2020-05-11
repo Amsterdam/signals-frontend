@@ -24,10 +24,10 @@ import reducer from './reducer';
 import saga from './saga';
 
 export const AppContainer = ({ resetIncidentAction }) => {
-  // on each component render, see if the current session is authenticated
-  authenticate();
   const history = useHistory();
   const location = useLocationReferrer();
+
+  authenticate();
 
   useEffect(() => {
     const { referrer } = location;

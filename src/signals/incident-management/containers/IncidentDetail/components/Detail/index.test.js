@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import Detail from './index';
@@ -58,8 +58,6 @@ describe('<Detail />', () => {
     onEditLocation: jest.fn(),
     onShowAttachment: jest.fn(),
   };
-
-  afterEach(cleanup);
 
   it('should render correctly', () => {
     const { queryByTestId, getByText } = render(withAppContext(<Detail {...props} />));
