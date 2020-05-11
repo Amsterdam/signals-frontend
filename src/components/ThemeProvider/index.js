@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ThemeProvider as ASCThemeProvider } from '@datapunt/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration';
 
 export const getConfig = defaultConfig => {
   const config = defaultConfig || {};
@@ -50,7 +50,7 @@ export const getConfig = defaultConfig => {
 };
 
 const ThemeProvider = ({ children }) => {
-  const { styledComponents } = CONFIGURATION.all;
+  const { styledComponents } = configuration;
   return (
     <ASCThemeProvider overrides={getConfig(styledComponents)}>
       <Fragment>

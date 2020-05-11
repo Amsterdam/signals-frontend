@@ -20,15 +20,15 @@ import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 import Notification from 'containers/Notification';
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration';
 
 export const breakpoint = 1170;
 
-const getLogo = config => () =>
-  config.logoUrl &&
+const getLogo = () =>
+  configuration.logoUrl &&
   (props => (
-    <a href={config.links.home}>
-      <img alt="Logo" src={config.logoUrl} style={{ height: config.logoHeight }} {...props} />
+    <a href={configuration.links.home}>
+      <img alt="Logo" src={configuration.logoUrl} style={{ height: configuration.logoHeight }} {...props} />
     </a>
   ));
 
@@ -276,12 +276,11 @@ const MenuItems = ({ onLogOut, showItems }) => {
 };
 
 export const SiteHeader = props => {
-  const config = CONFIGURATION.all;
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
-  const homeLink = tall ? config.links.home : '/';
-  const logo = useMemo(getLogo(config));
+  const homeLink = tall ? configuration.links.home : '/';
+  const logo = useMemo(getLogo);
 
   const navigation = useMemo(
     () => (

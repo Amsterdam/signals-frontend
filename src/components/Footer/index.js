@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Column, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration';
 
 const Disclaimer = styled.div`
   background-color: ${themeColor('tint', 'level5')};
@@ -42,35 +42,31 @@ const FooterWrapper = styled.div`
   }
 `;
 
-const Footer = () => {
-  const config = CONFIGURATION.all;
+const Footer = () => (
+  <FooterWrapper className="app-container no-print" data-testid="siteFooter">
+    <Disclaimer data-testid="disclaimer">
+      <Row>
+        <Column span={12}>
+          <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
+        </Column>
 
-  return (
-    <FooterWrapper className="app-container no-print" data-testid="siteFooter">
-      <Disclaimer data-testid="disclaimer">
-        <Row>
-          <Column span={12}>
-            <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
-          </Column>
+        <Column span={12}>
+          {configuration.language.footer1} <br />
+          {configuration.language.footer2}
+        </Column>
+      </Row>
+    </Disclaimer>
 
-          <Column span={12}>
-            {config.language.footer1} <br />
-            {config.language.footer2}
-          </Column>
-        </Row>
-      </Disclaimer>
-
-      <Privacy>
-        <Row>
-          <Column span={12}>
-            <StyledLink href={config.links.privacy} variant="with-chevron">
-              Privacy
-            </StyledLink>
-          </Column>
-        </Row>
-      </Privacy>
-    </FooterWrapper>
-  );
-};
+    <Privacy>
+      <Row>
+        <Column span={12}>
+          <StyledLink href={configuration.links.privacy} variant="with-chevron">
+            Privacy
+          </StyledLink>
+        </Column>
+      </Row>
+    </Privacy>
+  </FooterWrapper>
+);
 
 export default Footer;
