@@ -268,10 +268,22 @@ export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
   codename: PropTypes.string.isRequired,
 }));
 
-const linksType = PropTypes.shape({
+export const linksType = PropTypes.shape({
   self: PropTypes.shape({
     href: PropTypes.string.isRequired,
   }).isRequired,
+  'sia-attachments': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-parent': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-pdf': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-children': PropTypes.arrayOf(PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  })),
 }).isRequired;
 
 const userRolePermissionType = PropTypes.arrayOf(PropTypes.shape({

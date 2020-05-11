@@ -195,7 +195,12 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
       <Row>
         <Column span={12}>
-          <DetailHeader incident={incident} baseUrl="/manage" onPatchIncident={onPatchIncident} />
+          <DetailHeader
+            incidentId={incident.id}
+            status={incident?.status?.state}
+            links={incident?._links}
+            onPatchIncident={onPatchIncident}
+          />
         </Column>
       </Row>
 
@@ -242,11 +247,10 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
             {state.preview === 'editLocation' && (
               <LocationForm
-                error={state.error}
-                incident={incident}
-                onClose={() => dispatch({ type: 'closeAll' })}
-                onDismissError={() => {}}
+                incidentId={incident.id}
+                location={incident.location}
                 onPatchIncident={onPatchIncident}
+                onClose={() => dispatch({ type: 'closeAll' })}
               />
             )}
 
