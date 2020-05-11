@@ -206,7 +206,8 @@ export class IncidentDetail extends React.Component {
 
                     {previewState === 'editLocation' && (
                       <LocationForm
-                        incident={incident}
+                        incidentId={incident.id}
+                        location={incident.location}
                         onPatchIncident={onPatchIncident}
                         onClose={this.onCloseAll}
                       />

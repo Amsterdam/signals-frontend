@@ -1,52 +1,47 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
+import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import FormFooter from 'components/FormFooter';
 
-import { incidentType } from 'shared/types';
+import { locationType } from 'shared/types';
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 
 import { mapLocation } from 'shared/services/map-location';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import MapInput from '../../../../components/MapInput';
-import HiddenInput from '../../../../components/HiddenInput';
 
-const LocationForm = ({ incident, onPatchIncident, onClose }) => {
+const LocationForm = ({ incidentId, location, onPatchIncident, onClose }) => {
   const form = useMemo(
     () =>
       FormBuilder.group({
-        coordinates: [incident.location.geometrie.coordinates.join(','), Validators.required],
-        location: incident.location,
+        location,
       }),
-    [incident.location]
+    [location]
   );
 
   const onQueryResult = useCallback(
     value => {
       const newLocation = mapLocation(value);
-      const coordinates = newLocation.geometrie.coordinates.join(',');
 
       form.controls.location.setValue(newLocation);
-      form.controls.coordinates.setValue(coordinates);
     },
-    [form.controls.coordinates, form.controls.location]
+    [form.controls.location]
   );
 
   const handleSubmit = useCallback(
     event => {
       event.preventDefault();
-      const location = form.controls.location.value;
 
       onPatchIncident({
-        id: incident.id,
+        id: incidentId,
         type: PATCH_TYPE_LOCATION,
-        patch: { location },
+        patch: { location: form.value.location },
       });
 
       onClose();
     },
-    [onPatchIncident, form.controls.location.value, incident.id, onClose]
+    [onPatchIncident, form.value, incidentId, onClose]
   );
 
   return (
@@ -54,13 +49,6 @@ const LocationForm = ({ incident, onPatchIncident, onClose }) => {
       control={form}
       render={() => (
         <form data-testid="locationForm">
-          <FieldControlWrapper
-            control={form.get('coordinates')}
-            display="Coordinates"
-            name="coordinates"
-            render={HiddenInput}
-          />
-
           <FieldControlWrapper
             control={form.get('location')}
             name="location"
@@ -82,7 +70,8 @@ const LocationForm = ({ incident, onPatchIncident, onClose }) => {
 };
 
 LocationForm.propTypes = {
-  incident: incidentType.isRequired,
+  incidentId: PropTypes.number.isRequired,
+  location: locationType.isRequired,
   onClose: PropTypes.func.isRequired,
   onPatchIncident: PropTypes.func.isRequired,
 };

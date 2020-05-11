@@ -5,24 +5,35 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import LocationForm from './index';
 
-const coordinates = incidentFixture.location.geometrie.coordinates.join(',');
-
 describe('incident-management/containers/IncidentDetail/components/LocationForm', () => {
   it('should render a form', () => {
-    const { container, getByTestId } = render(
-      withAppContext(<LocationForm incident={incidentFixture} onClose={() => {}} onPatchIncident={() => {}} />)
+    const { getByTestId } = render(
+      withAppContext(
+        <LocationForm
+          incidentId={incidentFixture.id}
+          location={incidentFixture.location}
+          onClose={() => {}}
+          onPatchIncident={() => {}}
+        />
+      )
     );
 
     expect(getByTestId('locationForm')).toBeInTheDocument();
     expect(getByTestId('map-base')).toBeInTheDocument();
-    expect(container.querySelector('[type=hidden]').value).toEqual(coordinates);
   });
 
   it('should call handlers', () => {
     const onClose = jest.fn();
     const onPatchIncident = jest.fn();
     const { queryByTestId } = render(
-      withAppContext(<LocationForm incident={incidentFixture} onClose={onClose} onPatchIncident={onPatchIncident} />)
+      withAppContext(
+        <LocationForm
+          incidentId={incidentFixture.id}
+          location={incidentFixture.location}
+          onClose={onClose}
+          onPatchIncident={onPatchIncident}
+        />
+      )
     );
 
     expect(onClose).not.toHaveBeenCalled();
