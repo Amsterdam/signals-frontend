@@ -24,14 +24,6 @@ import configuration from 'shared/services/configuration/configuration';
 
 export const breakpoint = 1170;
 
-const getLogo = () =>
-  configuration.logoUrl &&
-  (props => (
-    <a href={configuration.links.home}>
-      <img alt="Logo" src={configuration.logoUrl} style={{ height: configuration.logoHeight }} {...props} />
-    </a>
-  ));
-
 const StyledHeader = styled(HeaderComponent)`
   a:link {
     font-weight: 400;
@@ -275,12 +267,19 @@ const MenuItems = ({ onLogOut, showItems }) => {
   );
 };
 
+const Logo =
+  configuration.logoUrl &&
+  (props => (
+    <a href={configuration.links.home}>
+      <img alt="Logo" src={configuration.logoUrl} style={{ height: configuration.logoHeight }} {...props} />
+    </a>
+  ));
+
 export const SiteHeader = props => {
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
   const homeLink = tall ? configuration.links.home : '/';
-  const logo = useMemo(getLogo);
 
   const navigation = useMemo(
     () => (
@@ -316,7 +315,7 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
-          logo={logo}
+          {...(Logo ? { logo: Logo } : {})}
         />
         {!tall && <Notification />}
       </HeaderWrapper>
