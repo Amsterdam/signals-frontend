@@ -5,15 +5,18 @@ import 'jest-styled-components';
 
 import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';
+import configuration from 'shared/services/configuration/configuration';
 
 import SiteHeader, { breakpoint } from '../index';
 
 const mmm = MatchMediaMock.create();
 
 jest.mock('shared/services/auth/auth');
+jest.mock('shared/services/configuration/configuration');
 
 describe('components/SiteHeader', () => {
   beforeEach(() => {
+    configuration.__reset();
     mmm.setConfig({ type: 'screen', width: breakpoint + 1 });
 
     // eslint-disable-next-line no-undef
@@ -92,6 +95,24 @@ describe('components/SiteHeader', () => {
 
     // toggle menu should be visible
     expect(document.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(2);
+  });
+
+  it('should render the Amsterdam logo by default', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+    const { container, rerender, queryByText } = render(
+      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
+    );
+
+    expect(queryByText('Gemeente Amsterdam')).toBeInTheDocument();
+    expect(container.querySelector('h1 img')).not.toBeInTheDocument();
+
+    configuration.logoUrl = 'logoUrl';
+
+    rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
+
+    expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
+    expect(queryByText('Gemeente Amsterdam')).not.toBeInTheDocument();
   });
 
   it('should render the correct homeLink', () => {
