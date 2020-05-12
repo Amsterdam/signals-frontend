@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
 import { showGlobalNotification } from 'containers/App/actions';
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants';
 import {
@@ -22,7 +22,7 @@ export function* fetchDefaultTexts(action) {
       `${CONFIGURATION.TERMS_ENDPOINT}${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`
     );
     const found = result.find(item => item.state === payload.state);
-    yield put(fetchDefaultTextsSuccess((found && found.templates) || []));
+    yield put(fetchDefaultTextsSuccess((found?.templates) || []));
   } catch (error) {
     yield put(fetchDefaultTextsError(error));
 
@@ -42,13 +42,26 @@ export function* fetchDefaultTexts(action) {
 export function* storeDefaultTexts(action) {
   try {
     const payload = action.payload;
+    const { subcategory } = payload;
     const result = yield call(
       authPostCall,
       `${CONFIGURATION.TERMS_ENDPOINT}${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
       [payload.post]
     );
-    const found = result.find(item => item.state === payload.post.state);
-    yield put(storeDefaultTextsSuccess((found && found.templates) || []));
+
+    const found = result.find(item => item?.state === payload.post.state);
+
+    yield put(storeDefaultTextsSuccess((found?.templates) || []));
+
+    const numStoredTemplates = found?.templates?.length || 0;
+
+    yield put(
+      showGlobalNotification({
+        title: `${numStoredTemplates} Standaard tekst${numStoredTemplates === 0 || numStoredTemplates > 1 ? 'en' : ''} opgeslagen voor ${subcategory.value}, ${payload.status.value}`,
+        variant: VARIANT_SUCCESS,
+        type: TYPE_LOCAL,
+      })
+    );
   } catch (error) {
     yield put(storeDefaultTextsError(error));
 
