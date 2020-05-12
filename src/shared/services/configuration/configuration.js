@@ -1,11 +1,8 @@
-import ProxyPolyfillBuilder from 'proxy-polyfill/src/proxy';
-const ProxyPolyfill = ProxyPolyfillBuilder();
-
 const applicationConfig = {
   ...(window.CONFIG || {}),
 };
 
-export default new ProxyPolyfill(applicationConfig, {
+const configProxy = new Proxy(applicationConfig, {
   get(target, name, receiver) {
     if (!Reflect.has(target, name)) {
       throw new Error(`Setting ${name} not available in configuration`);
@@ -13,4 +10,12 @@ export default new ProxyPolyfill(applicationConfig, {
 
     return Reflect.get(target, name, receiver);
   },
+
+  deleteProperty() {
+    throw new Error('Props cannot be deleted');
+  },
 });
+
+Object.preventExtensions(configProxy);
+
+export default configProxy;

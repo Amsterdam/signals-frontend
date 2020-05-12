@@ -15,10 +15,22 @@ describe('shared/services/configuration/configuration', () => {
     expect(foo).toEqual('bar');
   });
 
+  it('should not be able to set', () => {
+    expect(() => {
+      configuration.bar = 'foo';
+    }).toThrow();
+  });
+
+  it('should not be able to delete', () => {
+    expect(() => {
+      delete configuration.foo;
+    }).toThrow();
+  });
+
   it('should throw an error for missing props', () => {
     expect(() => {
       // eslint-disable-next-line
-      const missingProp = configuration.missing;
+      const { missing } = configuration;
     }).toThrow();
   });
 });
