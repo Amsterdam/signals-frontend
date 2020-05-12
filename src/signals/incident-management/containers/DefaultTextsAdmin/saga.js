@@ -45,7 +45,7 @@ export function* storeDefaultTexts(action) {
     const { subcategory } = payload;
     const result = yield call(
       authPostCall,
-      `${CONFIGURATION.TERMS_ENDPOINT}${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`,
+      `${CONFIGURATION.TERMS_ENDPOINT}${payload.main_slug}/sub_categories/${payload.subcategory.slug}/status-message-templates`,
       [payload.post]
     );
 
