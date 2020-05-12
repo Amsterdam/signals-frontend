@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import Button from 'components/Button';
 import styled from 'styled-components';
 import { incidentType, attachmentsType } from 'shared/types';
 
@@ -26,7 +27,7 @@ const StyledRemoveButton = styled(Button)`
 
 const StyledH4 = styled(Heading)`
   font-weight: normal;
-  margin-bottm: ${themeSpacing(2)};
+  margin-bottom: ${themeSpacing(2)};
 `;
 
 const StyledDisclaimer = styled.div`
