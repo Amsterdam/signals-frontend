@@ -20,6 +20,7 @@ import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 import Notification from 'containers/Notification';
+import Logo from 'components/Logo';
 import configuration from 'shared/services/configuration/configuration';
 
 export const breakpoint = 1170;
@@ -267,14 +268,6 @@ const MenuItems = ({ onLogOut, showItems }) => {
   );
 };
 
-const Logo =
-  configuration.logoUrl &&
-  (props => (
-    <a href={configuration.links.home}>
-      <img alt="Logo" src={configuration.logoUrl} style={{ height: configuration.logoHeight }} {...props} />
-    </a>
-  ));
-
 export const SiteHeader = props => {
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
@@ -315,7 +308,7 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
-          {...(Logo ? { logo: Logo } : {})}
+          {...(configuration.logoUrl ? { logo: Logo } : {})}
         />
         {!tall && <Notification />}
       </HeaderWrapper>
