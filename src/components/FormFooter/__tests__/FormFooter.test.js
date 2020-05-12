@@ -5,6 +5,22 @@ import 'jest-styled-components';
 import FormFooter from '..';
 
 describe('src/components/FormFooter', () => {
+  it('should render correctly', () => {
+    const { getByTestId, rerender } = render(
+      withAppContext(<FormFooter />)
+    );
+
+    expect(getByTestId('formFooter')).toHaveStyleRule('position', 'fixed');
+    expect(getByTestId('formFooter')).toHaveStyleRule('left', '50%');
+
+    rerender(
+      withAppContext(<FormFooter inline />)
+    );
+
+    expect(getByTestId('formFooter')).not.toHaveStyleRule('position', 'fixed');
+    expect(getByTestId('formFooter')).not.toHaveStyleRule('left', '50%');
+  });
+
   it('should render the correct buttons', () => {
     const { queryByTestId, container, rerender, getByText } = render(
       withAppContext(<FormFooter />)
