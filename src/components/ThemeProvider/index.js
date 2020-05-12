@@ -50,9 +50,9 @@ export const getConfig = defaultConfig => {
 };
 
 const ThemeProvider = ({ children }) => {
-  const { styledComponents } = configuration;
+  const { theme } = configuration;
   return (
-    <ASCThemeProvider overrides={getConfig(styledComponents)}>
+    <ASCThemeProvider overrides={getConfig(theme)}>
       <Fragment>
         <span data-testid="signalsThemeProvider" />
         {children}

@@ -1,6 +1,6 @@
 {
-  "logoUrl": null,
-  "logoHeight": 0,
+  "logoUrl": "https://logoipsum.com/logo/logo-8.svg",
+  "logoHeight": 80,
   "language": {
     "footer1": "Bel het Gemeentelijk informatienummer: 14 020",
     "footer2": "op werkdagen van 08.00 tot 18.00 uur."
@@ -9,7 +9,7 @@
     "home": "https://www.amsterdam.nl",
     "privacy": "https://www.amsterdam.nl/privacy/"
   },
-  "styledComponents": {},
+  "theme": {},
   "ROOT": "http://localhost:3001/",
   "AUTH_ROOT": "https://acc.api.data.amsterdam.nl/",
   "API_ROOT_MAPSERVER": "https://map.data.amsterdam.nl/",
