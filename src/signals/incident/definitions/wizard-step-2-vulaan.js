@@ -5,7 +5,6 @@ import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water';
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren';
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
-import wonen from './wizard-step-2-vulaan/wonen';
 
 export default {
   label: 'Dit hebben we nog van u nodig',
@@ -36,9 +35,6 @@ export default {
 
       case 'wegen-verkeer-straatmeubilair':
         return wegenVerkeerStraatmeubilair;
-
-      case 'wonen':
-        return wonen;
 
       default:
         return { controls: {} };
