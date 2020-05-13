@@ -207,4 +207,44 @@ describe('The check visibility service', () => {
       expect(checkVisibility(control, incident)).toBe(false);
     });
   });
+
+  describe('ifAllOf and ifOneOf', () => {
+    it('should pass both', () => {
+      expect(checkVisibility(control, incident)).toBe(true);
+
+      control.meta.ifAllOf = {
+        category: 'bar',
+      };
+
+      control.meta.ifOneOf = {
+        object_with_id: 'id',
+      };
+
+      expect(checkVisibility(control, incident)).toBe(true);
+    });
+
+    it('should pass neither', () => {
+      control.meta.ifAllOf = {
+        category: ['bar', 'wrong'],
+      };
+
+      control.meta.ifOneOf = {
+        subcategory: 'wrong',
+      };
+
+      expect(checkVisibility(control, incident)).toBe(false);
+    });
+
+    it('should return false when ifOneOf is falsy', () => {
+      control.meta.ifAllOf = {
+        category: 'bar',
+      };
+
+      control.meta.ifOneOf = {
+        subcategory: 'wrong',
+      };
+
+      expect(checkVisibility(control, incident)).toBe(false);
+    });
+  });
 });
