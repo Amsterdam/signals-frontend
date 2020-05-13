@@ -16,13 +16,16 @@ jest.mock('shared/services/configuration/configuration');
 
 describe('components/SiteHeader', () => {
   beforeEach(() => {
-    configuration.__reset();
     mmm.setConfig({ type: 'screen', width: breakpoint + 1 });
 
     // eslint-disable-next-line no-undef
     Object.defineProperty(window, 'matchMedia', {
       value: mmm,
     });
+  });
+
+  afterEach(() => {
+    configuration.__reset();
   });
 
   it('should render correctly when not authenticated', () => {
