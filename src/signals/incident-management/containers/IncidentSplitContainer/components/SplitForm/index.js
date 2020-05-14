@@ -113,6 +113,7 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
   }, [incident.id, isVisible, onHandleSubmit]);
 
   useEffect(() => {
+    if (!incident) return;
     Object.values(form.controls).forEach(part => {
       part.patchValue({
         subcategory: incident.category.category_url,
@@ -179,18 +180,6 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
       </StyledButton>
     </div>
   );
-};
-
-SplitForm.defaultProps = {
-  incident: {
-    category: {
-      category_url: '',
-    },
-    priority: {
-      priority: '',
-    },
-  },
-  attachments: [],
 };
 
 SplitForm.propTypes = {
