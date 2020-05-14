@@ -10,6 +10,24 @@
     "privacy": "https://www.amsterdam.nl/privacy/"
   },
   "theme": {},
+  "map": {
+    "tiles": {
+      "args": ["https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"],
+        "options": {
+          "subdomains": ["t1", "t2", "t3", "t4"],
+          "tms": true,
+          "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam"
+        }
+    },
+    "options": {
+      "maxBounds": [
+        [52.25168, 4.64034],
+        [52.50536, 5.10737]
+      ],
+      "center": [52.3731081, 4.8932945],
+      "zoom": 10
+    }
+  },
   "ROOT": "http://localhost:3001/",
   "AUTH_ROOT": "https://acc.api.data.amsterdam.nl/",
   "API_ROOT_MAPSERVER": "https://map.data.amsterdam.nl/",
