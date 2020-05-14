@@ -3,11 +3,11 @@ import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-const isValueEqual = (objToCompareTo, value, key, callback) =>
+const isValueEqual = (objToCompareTo, value, key, verificationFunc) =>
   (!isArray(value) && isEqual(value, objToCompareTo[key])) ||
-  (isArray(value) && callback.call(value, val => isValueEqual(objToCompareTo, val, key, callback))) ||
+  (isArray(value) && verificationFunc.call(value, val => isValueEqual(objToCompareTo, val, key, verificationFunc))) ||
   (isArray(objToCompareTo[key]) && objToCompareTo[key].includes(value)) ||
-  (isArray(objToCompareTo[key]) && callback.call(objToCompareTo[key], item => item.id === value)) ||
+  (isArray(objToCompareTo[key]) && verificationFunc.call(objToCompareTo[key], item => item.id === value)) ||
   (isObject(objToCompareTo[key]) && objToCompareTo[key].value && isEqual(value, objToCompareTo[key].value)) ||
   (isObject(objToCompareTo[key]) && objToCompareTo[key].id && isEqual(value, objToCompareTo[key].id));
 
@@ -23,8 +23,7 @@ const isValueEqual = (objToCompareTo, value, key, callback) =>
  */
 const evaluateConditions = (conditions, objToCompareTo) => {
   const validConditions = ['ifOneOf', 'ifAllOf'];
-  const filterForValidConditions = ([key]) => validConditions.includes(key);
-  const validEntries = Object.entries(conditions).filter(filterForValidConditions);
+  const validEntries = Object.entries(conditions).filter(([key]) => validConditions.includes(key));
 
   return validEntries
     .map(([comparisonKey, value]) => {
