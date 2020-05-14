@@ -9,7 +9,12 @@ import 'leaflet/dist/leaflet.css';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
 import MapContext from 'containers/MapContext/context';
-import { setLocationAction, setValuesAction, resetLocationAction } from 'containers/MapContext/actions';
+import {
+  setLocationAction,
+  setValuesAction,
+  resetLocationAction,
+  setLoadingAction,
+} from 'containers/MapContext/actions';
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
 
 import Map from '../Map';
@@ -63,6 +68,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
   const clickFunc = useCallback(
     async event => {
       hasInitalViewRef.current = false;
+      dispatch(setLoadingAction(true));
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
@@ -89,6 +95,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
       );
 
       onChange(onChangePayload);
+      dispatch(setLoadingAction(false));
     },
     [dispatch, onChange]
   );

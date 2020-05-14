@@ -4,6 +4,7 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import { locationType } from 'shared/types';
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
+import MapContext from 'containers/MapContext';
 
 import { mapLocation } from 'shared/services/map-location';
 import LocationInput from './components/LocationInput';
@@ -45,12 +46,14 @@ const LocationForm = ({ incidentId, location, onPatchIncident, onClose }) => {
     <FieldGroup
       control={form}
       render={() => (
-        <LocationInput
-          locationControl={form.get('location')}
-          onClose={onClose}
-          onQueryResult={onQueryResult}
-          handleSubmit={handleSubmit}
-        />
+        <MapContext>
+          <LocationInput
+            locationControl={form.get('location')}
+            onClose={onClose}
+            onQueryResult={onQueryResult}
+            handleSubmit={handleSubmit}
+          />
+        </MapContext>
       )}
     />
   );

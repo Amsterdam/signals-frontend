@@ -23,7 +23,6 @@ import { requestHistoryList } from 'models/history/actions';
 import makeSelectIncidentModel from 'models/incident/selectors';
 import makeSelectHistoryModel from 'models/history/selectors';
 import History from 'components/History';
-import MapContext from 'containers/MapContext';
 
 import './style.scss';
 
@@ -188,14 +187,12 @@ export class IncidentDetail extends React.Component {
                     )}
 
                     {previewState === 'editLocation' && (
-                      <MapContext>
-                        <LocationForm
-                          incidentId={incident.id}
-                          location={incident.location}
-                          onPatchIncident={onPatchIncident}
-                          onClose={this.onCloseAll}
-                        />
-                      </MapContext>
+                      <LocationForm
+                        incidentId={incident.id}
+                        location={incident.location}
+                        onPatchIncident={onPatchIncident}
+                        onClose={this.onCloseAll}
+                      />
                     )}
 
                     {previewState === 'editStatus' && (
