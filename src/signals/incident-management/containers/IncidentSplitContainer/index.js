@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -7,8 +7,6 @@ import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
 import { goBack } from 'connected-react-router/immutable';
 import styled from 'styled-components';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import useFetch from 'hooks/useFetch';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
@@ -20,6 +18,7 @@ import saga from './saga';
 
 import SplitDetail from './components/SplitDetail';
 import SplitForm from './components/SplitForm';
+import useFetchIncident from './services/useFetchIncident';
 
 const StyledH1 = styled(Heading)`
   font-weight: normal;
@@ -33,21 +32,12 @@ const StyledWrapper = styled.div`
 
 export const IncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
   const { id } = useParams();
-  const { isLoading: loading, data: incident, get: getIncident } = useFetch();
-  const { get: getIncidentAttachments, data: attachments } = useFetch();
-
-  useEffect(() => {
-    if (!id) return;
-    getIncident(`${CONFIGURATION.INCIDENTS_ENDPOINT}${id}`);
-    getIncidentAttachments(`${CONFIGURATION.INCIDENTS_ENDPOINT}${id}/attachments`);
-    // Disable linter to prevent infinite loop; only need to execute on `id` change;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  const { isLoading, incident, attachments } = useFetchIncident(id);
 
   return (
-    <StyledWrapper>
+    <StyledWrapper data-testid="incidentSplit">
       <Row>
-        {loading ? (
+        {isLoading ? (
           <LoadingIndicator />
         ) : (
           <Fragment>
@@ -56,14 +46,12 @@ export const IncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
             </Column>
 
             <Column span={7}>
-              {incident && attachments && (
-                <SplitForm
-                  incident={incident}
-                  attachments={attachments}
-                  onHandleSubmit={onSplitIncident}
-                  onHandleCancel={onGoBack}
-                />
-              )}
+              <SplitForm
+                incident={incident}
+                attachments={attachments}
+                onHandleSubmit={onSplitIncident}
+                onHandleCancel={onGoBack}
+              />
             </Column>
             <Column span={4} push={1}>
               <SplitDetail incident={incident} />

@@ -82,6 +82,8 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
   const [isVisible, setVisibility] = useState(false);
 
   const handleSubmit = useCallback(() => {
+    if (!incident) return;
+
     const create = [];
     const update = [];
     const parts = ['part1', 'part2'];
@@ -110,7 +112,7 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
       create,
       update,
     });
-  }, [incident.id, isVisible, onHandleSubmit]);
+  }, [incident, isVisible, onHandleSubmit]);
 
   useEffect(() => {
     if (!incident) return;
