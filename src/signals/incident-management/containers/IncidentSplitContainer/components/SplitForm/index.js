@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import React, { Fragment, useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import Button from 'components/Button';
@@ -51,37 +51,39 @@ const StyledBottomDisclaimer = styled(StyledDisclaimer)`
   margin: ${themeSpacing(5)} 0;
 `;
 
-const form = FormBuilder.group({
-  part1: FormBuilder.group({
-    subcategory: '', // incident.category.category_url,
-    text: '', // incident.text,
-    image: true,
-    note: '',
-    priority: 'normal', // incident.priority.priority,
-    type: 'SIG',
-  }),
-  part2: FormBuilder.group({
-    subcategory: '', // incident.category.category_url,
-    text: '', // incident.text,
-    image: true,
-    note: '',
-    priority: 'normal', // incident.priority.priority,
-    type: 'SIG',
-  }),
-  part3: FormBuilder.group({
-    subcategory: '', // incident.category.category_url,
-    text: '', // incident.text,
-    image: true,
-    note: '',
-    priority: 'normal', // incident.priority.priority,
-    type: 'SIG',
-  }),
-});
-
 const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) => {
   const [isVisible, setVisibility] = useState(false);
 
+  const form = useMemo(() => FormBuilder.group({
+    part1: FormBuilder.group({
+      subcategory: '', // incident.category.category_url,
+      text: '', // incident.text,
+      image: true,
+      note: '',
+      priority: 'normal', // incident.priority.priority,
+      type: 'SIG',
+    }),
+    part2: FormBuilder.group({
+      subcategory: '', // incident.category.category_url,
+      text: '', // incident.text,
+      image: true,
+      note: '',
+      priority: 'normal', // incident.priority.priority,
+      type: 'SIG',
+    }),
+    part3: FormBuilder.group({
+      subcategory: '', // incident.category.category_url,
+      text: '', // incident.text,
+      image: true,
+      note: '',
+      priority: 'normal', // incident.priority.priority,
+      type: 'SIG',
+    }),
+  }),[]);
+
   const handleSubmit = useCallback(() => {
+    if (!incident) return;
+
     const create = [];
     const update = [];
     const parts = ['part1', 'part2'];
@@ -110,7 +112,7 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
       create,
       update,
     });
-  }, [incident.id, isVisible, onHandleSubmit]);
+  }, [incident, isVisible, onHandleSubmit, form]);
 
   useEffect(() => {
     if (!incident) return;
@@ -122,7 +124,7 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
         type: incident.type.code,
       });
     });
-  }, [incident]);
+  }, [incident, form]);
 
   return (
     <div>
@@ -180,6 +182,11 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
       </StyledButton>
     </div>
   );
+};
+
+SplitForm.defaultProps = {
+  incident: null,
+  attachments: null,
 };
 
 SplitForm.propTypes = {
