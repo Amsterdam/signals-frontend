@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,6 +27,17 @@ const StyledInput = styled(Input)`
 export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly }) => {
   const formRef = useRef(null);
   const { isValid, validate, errors, event } = useFormValidation(formRef);
+  const [rolePermissions, setRolePermissions] = useState(role.permissions);
+
+  const handleChange = useCallback(id => onChangeEvent => {
+    if (!onChangeEvent) return;
+    const { checked } = onChangeEvent.target;
+    if (checked) {
+      setRolePermissions([...rolePermissions, permissions.find(p => p.id === id)]);
+    } else {
+      setRolePermissions([...rolePermissions.filter(p => p.id !== id)]);
+    }
+  }, [setRolePermissions, permissions, rolePermissions]);
 
   useEffect(() => {
     if (isValid && !readOnly) {
@@ -37,12 +48,12 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly 
   const history = useHistory();
 
   const handleSubmit = useCallback(
-    e => {
+    submitEvent => {
       const {
         target: {
           form: { elements },
         },
-      } = e;
+      } = submitEvent;
       const permission_ids = [];
       permissions.forEach(permission => {
         if (elements[`permission${permission.id}`].checked) {
@@ -92,7 +103,8 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly 
             <FieldLabel disabled={readOnly} htmlFor={`permission${permission.id}`} label={permission.name}>
               <Checkbox
                 id={`permission${permission.id}`}
-                checked={role.permissions.find(item => item.id === permission.id)}
+                checked={rolePermissions.find(item => item.id === permission.id)}
+                onChange={handleChange(permission.id)}
               />
             </FieldLabel>
           </div>
