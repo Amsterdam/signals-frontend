@@ -10,6 +10,10 @@ import FormFooter from 'components/FormFooter';
 
 import { ROLES_URL } from 'signals/settings/routes';
 
+const StyledForm = styled.form`
+  margin-bottom: ${themeSpacing(15)};
+`;
+
 const Label = styled(FieldLabel)`
   display: block;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
@@ -20,13 +24,7 @@ const StyledInput = styled(Input)`
   margin-bottom: ${themeSpacing(8)};
 `;
 
-export const RoleForm = ({
-  role,
-  permissions,
-  onPatchRole,
-  onSaveRole,
-  readOnly,
-}) => {
+export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly }) => {
   const formRef = useRef(null);
   const { isValid, validate, errors, event } = useFormValidation(formRef);
 
@@ -75,7 +73,7 @@ export const RoleForm = ({
 
   return (
     <div data-testid="rolesForm">
-      <form ref={formRef} noValidate>
+      <StyledForm ref={formRef} noValidate>
         <StyledInput
           data-testid="rolesFormFieldName"
           defaultValue={role.name}
@@ -91,16 +89,10 @@ export const RoleForm = ({
         <Label label="Rechten" />
         {permissions.map(permission => (
           <div key={permission.id}>
-            <FieldLabel
-              disabled={readOnly}
-              htmlFor={`permission${permission.id}`}
-              label={permission.name}
-            >
+            <FieldLabel disabled={readOnly} htmlFor={`permission${permission.id}`} label={permission.name}>
               <Checkbox
                 id={`permission${permission.id}`}
-                checked={role.permissions.find(
-                  item => item.id === permission.id
-                )}
+                checked={role.permissions.find(item => item.id === permission.id)}
               />
             </FieldLabel>
           </div>
@@ -114,7 +106,7 @@ export const RoleForm = ({
             submitBtnLabel="Opslaan"
           />
         )}
-      </form>
+      </StyledForm>
     </div>
   );
 };
