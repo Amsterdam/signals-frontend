@@ -160,7 +160,12 @@ export class IncidentDetail extends React.Component {
               {incident && (
                 <Row>
                   <Column span={12}>
-                    <DetailHeader incident={incident} baseUrl="/manage" onPatchIncident={onPatchIncident} />
+                    <DetailHeader
+                      incidentId={incident.id}
+                      status={incident?.status?.state}
+                      links={incident?._links}
+                      onPatchIncident={onPatchIncident}
+                    />
                   </Column>
                 </Row>
               )}
