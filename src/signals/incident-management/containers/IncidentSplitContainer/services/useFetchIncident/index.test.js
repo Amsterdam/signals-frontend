@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import * as reactRedux from 'react-redux';
 import { showGlobalNotification } from 'containers/App/actions';
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants';
 import useFetchIncident from './index';
 
 const dispatch = jest.fn();
@@ -16,25 +17,6 @@ describe('useFetchIncident service', () => {
     const { result } = renderHook(() => useFetchIncident());
     expect(result.current).toEqual({ isLoading: false, incident: undefined, attachements: undefined });
     expect(fetch).not.toHaveBeenCalled();
-  });
-
-  it('should return the incident data when id is provided', async () => {
-    const mockIncident = { name: 'incident' };
-    const mockAttachements = { results: [{ id: 1 }, { id: 2 }] };
-    fetch.mockResponseOnce(JSON.stringify(mockIncident)).mockResponseOnce(JSON.stringify(mockAttachements));
-
-    const { result, waitForNextUpdate } = renderHook(() => useFetchIncident(1));
-    expect(result.current.isLoading).toEqual(true);
-    expect(result.current.incident).toBeUndefined();
-    expect(result.current.attachments).toBeUndefined();
-    expect(result.current).toEqual({ isLoading: true, incident: undefined, attachements: undefined });
-
-    await waitForNextUpdate();
-
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(result.current.isLoading).toEqual(false);
-    expect(result.current.incident).toEqual(mockIncident);
-    expect(result.current.attachments).toEqual(mockAttachements.results);
   });
 
   it('should return the incident data when id is provided', async () => {
@@ -69,6 +51,13 @@ describe('useFetchIncident service', () => {
 
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(result.current.isLoading).toEqual(false);
-    expect(dispatch).not.toHaveBeenCalledWith(showGlobalNotification());
+    expect(dispatch).toHaveBeenCalledWith(
+      showGlobalNotification({
+        message: 'De melding gegevens konden niet opgehaald worden',
+        title: 'Splitsen',
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
   });
 });
