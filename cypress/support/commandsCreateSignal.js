@@ -1,7 +1,7 @@
 import { CREATE_SIGNAL } from "./selectorsCreateSignal";
 import { SIGNAL_DETAILS } from './selectorsSignalDetails';
 
-// General functionns for creating a signal
+// General functions for creating a signal
 export const checkCreationDate = () => {
   const todaysDate = Cypress.moment().format('DD-MM-YYYY');
   cy.get(SIGNAL_DETAILS.creationDate).should('contain', todaysDate);
@@ -76,15 +76,17 @@ export const setDescription = description => {
 export const setEmailAddress = emailAddress => {
   cy.url().should('include', '/incident/email');
   cy.checkHeaderText('Wilt u op de hoogte blijven?');
-  cy.get(CREATE_SIGNAL.inputEmail).clear().type(emailAddress);
-  cy.clickButton('Volgende');
+  if (emailAddress){
+    cy.get(CREATE_SIGNAL.inputEmail).clear().type(emailAddress);
+  }
 };
 
 export const setPhonenumber = phoneNumber => {
   cy.url().should('include', '/incident/telefoon');
   cy.checkHeaderText('Mogen we u bellen voor vragen?');
-  cy.get(CREATE_SIGNAL.inputPhoneNumber).clear().type(phoneNumber);
-  cy.clickButton('Volgende');
+  if (phoneNumber){
+    cy.get(CREATE_SIGNAL.inputPhoneNumber).clear().type(phoneNumber);
+  } 
 };
 
 export const setDateTime = dateTime => {
