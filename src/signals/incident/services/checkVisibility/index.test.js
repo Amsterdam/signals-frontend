@@ -26,6 +26,7 @@ describe('The check visibility service', () => {
         value: 'value',
       },
       array_with_object_with_id: [{ id: 'id' }],
+      array_with_object_with_value: [{ value: 'value' }],
     };
   });
 
@@ -245,6 +246,80 @@ describe('The check visibility service', () => {
       };
 
       expect(checkVisibility(control, incident)).toBe(false);
+    });
+  });
+
+  describe('nested', () => {
+    const objToCompareTo = {
+      object_with_id: {
+        id: 'id',
+      },
+      category: 'bar',
+      subcategory: 'foo',
+    };
+
+    it('should be true for ifOneOf > ifAllof', () => {
+      const controlObj = {
+        meta: {
+          ifOneOf: {
+            object_with_id: 'wrong',
+            ifAllOf: {
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          },
+        },
+      };
+
+      expect(checkVisibility(controlObj, objToCompareTo)).toBe(true);
+    });
+
+    it('should be true for ifAllOf > ifOneof', () => {
+      const controlObj = {
+        meta: {
+          ifAllOf: {
+            object_with_id: 'id',
+            ifOneOf: {
+              category: 'bar',
+              subcategory: 'wrong',
+            },
+          },
+        },
+      };
+
+      expect(checkVisibility(controlObj, objToCompareTo)).toBe(true);
+    });
+
+    it('should be true for ifOneof > ifOneof', () => {
+      const controlObj = {
+        meta: {
+          ifOneOf: {
+            object_with_id: 'wrong',
+            ifOneOf: {
+              category: 'bar',
+              subcategory: 'wrong',
+            },
+          },
+        },
+      };
+
+      expect(checkVisibility(controlObj, objToCompareTo)).toBe(true);
+    });
+
+    it('should be true for ifAllOf > ifAllOf', () => {
+      const controlObj = {
+        meta: {
+          ifAllOf: {
+            object_with_id: 'id',
+            ifAllOf: {
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          },
+        },
+      };
+
+      expect(checkVisibility(controlObj, objToCompareTo)).toBe(true);
     });
   });
 });

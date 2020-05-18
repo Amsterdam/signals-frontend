@@ -3,7 +3,7 @@ import { Validators } from 'react-reactive-form';
 import { sourceList, priorityList, typesList } from 'signals/incident-management/definitions';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
-import checkVisibility from '../services/check-visibility';
+import checkVisibility from '../services/checkVisibility';
 import getStepControls from '../services/get-step-controls';
 
 const sourceValuesObj = sourceList.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), { '': 'Vul bron in' });
