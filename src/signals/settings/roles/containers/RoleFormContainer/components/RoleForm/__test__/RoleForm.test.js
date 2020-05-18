@@ -67,7 +67,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
   });
 
-  it.only('should handle submit flow when patching an existing role', async () => {
+  it('should handle submit flow when patching an existing role', async () => {
     const { container, findByTestId, getByTestId } = render(withAppContext(<RoleForm {...props} />));
 
     const event = {
@@ -77,15 +77,28 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     };
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
-    expect(container.firstChild).toMatchSnapshot();
     fireEvent.change(getByTestId('rolesFormFieldName'), event);
-    
+
     act(() => {
       fireEvent.click(container.querySelectorAll('input[type="checkbox"]')[0]);
     });
-    
+
     await findByTestId('rolesFormFieldName');
-    
+
+    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+
+    expect(props.onPatchRole).toHaveBeenCalledWith({
+      id: 2,
+      name: 'Behandelaar',
+      permission_ids: [permissionsJson[0].id, 110, 164, 162, 163, 161, 111],
+    });
+
+    act(() => {
+      fireEvent.click(container.querySelectorAll('input[type="checkbox"]')[0]);
+    });
+
+    await findByTestId('rolesFormFieldName');
+
     fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
 
     expect(props.onPatchRole).toHaveBeenCalledWith({
