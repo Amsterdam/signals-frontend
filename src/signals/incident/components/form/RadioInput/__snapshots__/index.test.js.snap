@@ -1,10 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <RadioInput /> rendering should render no radio field when not visible 1`] = `
-<div
-  className=""
-/>
-`;
+exports[`Form component <RadioInput /> rendering should render no radio field when not visible 1`] = `""`;
 
 exports[`Form component <RadioInput /> rendering should render radio fields correctly 1`] = `
 <div
@@ -29,44 +25,30 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
       }
       touched={false}
     >
-      <div
-        className="antwoorden"
+      <RadioGroup
+        name="input-field-name"
       >
-        <div
-          className="antwoord"
+        <InputUsingDispatch
+          checked={true}
+          id="foo"
+          idAttr="input-field-name-foo1"
+          info=""
           key="foo"
-        >
-          <input
-            checked={true}
-            className="kenmerkradio"
-            id="input-field-name-foo1"
-            onChange={[Function]}
-            type="radio"
-          />
-          <label
-            htmlFor="input-field-name-foo1"
-          >
-            Foo
-          </label>
-        </div>
-        <div
-          className="antwoord"
+          label="Foo"
+          name="input-field-name"
+          resetsStateOnChange={false}
+        />
+        <InputUsingDispatch
+          checked={false}
+          id="bar"
+          idAttr="input-field-name-bar1"
+          info=""
           key="bar"
-        >
-          <input
-            checked={false}
-            className="kenmerkradio"
-            id="input-field-name-bar1"
-            onChange={[Function]}
-            type="radio"
-          />
-          <label
-            htmlFor="input-field-name-bar1"
-          >
-            Bar
-          </label>
-        </div>
-      </div>
+          label="Bar"
+          name="input-field-name"
+          resetsStateOnChange={false}
+        />
+      </RadioGroup>
     </Header>
   </div>
 </div>
@@ -91,11 +73,7 @@ exports[`Form component <RadioInput /> rendering should render zero radio fields
         }
       }
       touched={false}
-    >
-      <div
-        className="antwoorden"
-      />
-    </Header>
+    />
   </div>
 </div>
 `;
