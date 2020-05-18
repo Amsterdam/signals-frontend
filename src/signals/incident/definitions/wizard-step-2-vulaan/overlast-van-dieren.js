@@ -32,14 +32,18 @@ export default {
               <DefinitionComponents.Concat
                 items={[
                   'Voor dode huisdieren en dode vogels op straat kunt u contact opnemen met ',
-                  <DefinitionComponents.Anchor href="https://www.dierenambulance-amsterdam.nl/dieren/">Dierenambulance Amsterdam</DefinitionComponents.Anchor>,
+                  <DefinitionComponents.Anchor href="https://www.dierenambulance-amsterdam.nl/dieren/">
+                    Dierenambulance Amsterdam
+                  </DefinitionComponents.Anchor>,
                   '.',
                 ]}
               />,
               <DefinitionComponents.Concat
                 items={[
                   'Voor alle andere gevallen: bezoek onze pagina: ',
-                  <DefinitionComponents.Anchor href="https://www.amsterdam.nl/veelgevraagd/?caseid=%7BC46A5854-3DB0-4D7C-9244-58912C2E0E6A%7D">Melden van zieke, mishandelde en dode dieren, of overlast van dieren</DefinitionComponents.Anchor>,
+                  <DefinitionComponents.Anchor href="https://www.amsterdam.nl/veelgevraagd/?caseid=%7BC46A5854-3DB0-4D7C-9244-58912C2E0E6A%7D">
+                    Melden van zieke, mishandelde en dode dieren, of overlast van dieren
+                  </DefinitionComponents.Anchor>,
                   '.',
                 ]}
               />,
