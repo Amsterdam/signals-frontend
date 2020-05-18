@@ -39,15 +39,6 @@ describe('<SelectInput />', () => {
     expect(queryByTestId(props.name)).not.toBeNull();
   });
 
-  it('should render correctly with multiple select', () => {
-    const SelectInputRender = SelectInput({ ...props, multiple: true });
-    const { container } = render(withAppContext(
-      <SelectInputRender {...props} />
-    ));
-
-    expect(container.firstChild.querySelector('select[multiple]')).toBeTruthy();
-  });
-
   it('should render correctly with empty option select', () => {
     const emptyOptionText = 'All the things!!1!';
     const SelectInputRender = SelectInput({ ...props, emptyOptionText });
@@ -73,16 +64,5 @@ describe('<SelectInput />', () => {
         expect(option.textContent).toEqual(props.values[index].slug);
       }
     });
-  });
-
-  it('should render correctly with list size smaller than number of values', () => {
-    const size = 2;
-    const multiple = true;
-    const SelectInputRender = SelectInput({ ...props, size, multiple });
-    const { container } = render(withAppContext(
-      <SelectInputRender {...props} />
-    ));
-
-    expect(container.firstChild.querySelector('select').getAttribute('size')).toEqual(`${size}`);
   });
 });

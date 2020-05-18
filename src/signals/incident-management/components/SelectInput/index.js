@@ -1,53 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import Label from 'components/Label';
+import SelectInputComponent from 'components/SelectInput';
 
-import './style.scss';
+import { themeSpacing, themeColor, Paragraph } from '@datapunt/asc-ui';
 
-export const SelectInput = props => {
-  const {
-    name,
-    display,
-    values,
-    multiple,
-    useSlug,
-    emptyOptionText,
-    size,
-  } = props;
-  const options = values.map(({ key, value, slug }) => (
-    <option
-      key={useSlug ? slug : key}
-      title={key ? value : emptyOptionText || value}
-      value={useSlug ? slug : key}
-    >
-      {key ? value : emptyOptionText || value}
-    </option>
-  ));
-  const listSize = values.length > size ? size : values.length;
+const Wrapper = styled.div`
+  width: 100%;
+  margin-bottom: ${themeSpacing(5)};
+`;
 
-  const render = ({ handler }) => (
-    <div className="select-input">
-      <div className="mode_input text rij_verplicht">
-        {display && (
-          <Label htmlFor={`form${name}`}>{display}</Label>
-        )}
+const Info = styled(Paragraph)`
+  margin-top: ${themeSpacing(1)};
+  color: ${themeColor('tint', 'level5')};
+`;
 
-        <div className="select-input__control invoer">
-          <select
-            name={name}
-            data-testid={name}
-            id={`form${name}`}
-            {...handler()}
-            multiple={multiple}
-            size={multiple ? listSize : ''}
-          >
-            {options}
-          </select>
-        </div>
-      </div>
-    </div>
-  );
+export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
+  const options = values.map(({ key, value, slug }) => ({
+    key: useSlug ? slug : key,
+    name: key ? value : emptyOptionText || value,
+    value: useSlug ? slug : key,
+  }));
+
+  const render = ({ handler }) => {
+    const value = handler()?.value;
+    const keyName = useSlug ? 'slug' : 'key';
+    const { [keyName]: info } = (value && values.find(p => p && p[keyName] === value)) || {};
+
+    return (
+      <Wrapper>
+        {display && <Label htmlFor={`form${name}`}>{display}</Label>}
+
+        <SelectInputComponent name={name} data-testid={name} id={`form${name}`} {...handler()} options={options} />
+
+        {info && <Info>{info}</Info>}
+      </Wrapper>
+    );
+  };
 
   render.defaultProps = {
     touched: false,
