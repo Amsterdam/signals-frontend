@@ -1,12 +1,11 @@
 import React from 'react';
 import { render, fireEvent, act, wait } from '@testing-library/react';
 
-import MapContext from 'containers/MapContext';
 import context from 'containers/MapContext/context';
 
 import geoSearchJSON from 'utils/__tests__/fixtures/geosearch.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
-import { withAppContext, resolveAfterMs } from 'test/utils';
+import { withAppContext, resolveAfterMs , withMapContext } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
@@ -14,6 +13,7 @@ import { DOUBLE_CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
 
 import { findFeatureByType } from '../services/reverseGeocoderService';
 import MapInput from '..';
+
 
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
@@ -30,8 +30,6 @@ jest.mock('containers/MapContext/actions', () => ({
     payload,
   })),
 }));
-
-const withMapContext = Component => withAppContext(<MapContext>{Component}</MapContext>);
 
 const setValuesSpy = jest.spyOn(actions, 'setValuesAction');
 const setLocationSpy = jest.spyOn(actions, 'setLocationAction');

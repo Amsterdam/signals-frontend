@@ -1,14 +1,12 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import MapContext from 'containers/MapContext';
-import { withAppContext } from 'test/utils';
 import geographyJSON from 'utils/__tests__/fixtures/geography.json';
 import { incidentIcon, markerIcon } from 'shared/services/configuration/map-markers';
+import { withMapContext } from 'test/utils';
 import OverviewMap from '..';
 
 fetch.mockResponse(JSON.stringify(geographyJSON));
 
-const withMapContext = Component => withAppContext(<MapContext>{Component}</MapContext>);
 const markerIconSelector = `.${markerIcon.options.className}`;
 const incidentIconSelector = `.${incidentIcon.options.className}`;
 
