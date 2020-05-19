@@ -81,7 +81,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_straatverlichting_gevaar: {
       meta: {
@@ -130,7 +130,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_straatverlichting_probleem: {
       meta: {
@@ -159,7 +159,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_straatverlichting_nummer: {
       meta: {
@@ -256,7 +256,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_klok_gevaar: {
       meta: {
@@ -307,7 +307,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_klok_nummer: {
       meta: {
@@ -393,7 +393,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_verkeerslicht_gevaar: {
       meta: {
@@ -444,7 +444,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_verkeerslicht_probleem_voetganger: {
       meta: {
@@ -580,7 +580,7 @@ export default {
           nee: 'Nee, ik wil direct verder gaan',
         },
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_fietsrek_text: {
       meta: {

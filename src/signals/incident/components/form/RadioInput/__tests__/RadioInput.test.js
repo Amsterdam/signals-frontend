@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 
 import { resetExtraState, updateIncident } from 'signals/incident/containers/IncidentContainer/actions';
 
-import Input from './InputUsingDispatch';
+import RadioInput from '..';
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
@@ -17,7 +17,7 @@ describe('signals/incident/components/form/RadioInput/InputUsingDispatch', () =>
 
   it('renders an input element', () => {
     const idAttr = 'FooBar';
-    render(withAppContext(<Input id="fooBrrr" idAttr={idAttr} label="Label" name="Zork" />));
+    render(withAppContext(<RadioInput id="fooBrrr" idAttr={idAttr} label="Label" name="Zork" />));
 
     expect(document.getElementById(idAttr)).toBeInTheDocument();
   });
@@ -28,7 +28,7 @@ describe('signals/incident/components/form/RadioInput/InputUsingDispatch', () =>
     const label = 'Label';
     const info = 'info text';
 
-    render(withAppContext(<Input id={id} idAttr="FooBar" label={label} name={name} info={info} />));
+    render(withAppContext(<RadioInput id={id} idAttr="FooBar" label={label} name={name} info={info} />));
 
     expect(dispatch).not.toHaveBeenCalled();
 
@@ -48,7 +48,7 @@ describe('signals/incident/components/form/RadioInput/InputUsingDispatch', () =>
   });
 
   it('dispatches resetExtraState', () => {
-    const { rerender } = render(withAppContext(<Input id="fooBrrr" idAttr="FooBar" label="Label" name="Zork" />));
+    const { rerender } = render(withAppContext(<RadioInput id="fooBrrr" idAttr="FooBar" label="Label" name="Zork" />));
 
     expect(dispatch).not.toHaveBeenCalled();
 
@@ -58,7 +58,7 @@ describe('signals/incident/components/form/RadioInput/InputUsingDispatch', () =>
 
     expect(dispatch).not.toHaveBeenCalledWith(resetExtraState());
 
-    rerender(withAppContext(<Input id="fooBrrr" idAttr="FooBar" label="Label" name="Zork" resetsStateOnChange />));
+    rerender(withAppContext(<RadioInput id="fooBrrr" idAttr="FooBar" label="Label" name="Zork" resetsStateOnChange />));
 
     act(() => {
       fireEvent.click(document.querySelector('input[type=radio]'));

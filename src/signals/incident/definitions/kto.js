@@ -16,7 +16,7 @@ export default {
         },
         values: {}, // will be populated from endpoint
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
       options: {
         validators: [
           Validators.required,
@@ -42,7 +42,7 @@ export default {
         },
         values: {}, // will be populated from endpoint
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
       options: {
         validators: [
           Validators.required,

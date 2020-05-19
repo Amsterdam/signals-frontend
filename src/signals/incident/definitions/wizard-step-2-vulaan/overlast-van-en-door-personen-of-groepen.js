@@ -51,7 +51,7 @@ export default {
           onbekend: 'Onbekend',
         },
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_personen_overig_vaker: {
       meta: {
