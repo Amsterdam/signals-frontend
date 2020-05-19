@@ -57,10 +57,7 @@ node('BS16 || BS17') {
         }
         stage("Deploy to ACC") {
             tryStep "deployment", {
-                build job: 'SIA_Signalen_Amsterdam/signals-amsterdam',
-                parameters: [
-                    string(name: 'GIT_BRANCH_NAME', value: 'develop')
-                ]
+                build: SIA_Signalen_Amsterdam/signals-amsterdam/develop
             }
         }
     }
@@ -87,10 +84,7 @@ node('BS16 || BS17') {
         }
         stage("Deploy to PROD") {
             tryStep "deployment", {
-                build job: 'SIA_Signalen_Amsterdam/signals-amsterdam',
-                parameters: [
-                    string(name: 'GIT_BRANCH_NAME', value: 'master')
-                ]
+                build: SIA_Signalen_Amsterdam/signals-amsterdam/master
             }
         }
     }
