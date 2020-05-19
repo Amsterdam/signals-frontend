@@ -1,14 +1,7 @@
 import { Validators } from 'react-reactive-form';
 import FormComponents from '../../components/form';
 import PreviewComponents from '../../components/IncidentPreview/components';
-import {
-  renderPreview,
-  summary,
-  Label,
-  ObjectLabel,
-  SCSVLabel,
-  Null,
-} from '../wizard-step-5-samenvatting';
+import { renderPreview, summary, Label, ObjectLabel, SCSVLabel, Null } from '../wizard-step-5-samenvatting';
 
 describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
   describe('renderPreview', () => {
