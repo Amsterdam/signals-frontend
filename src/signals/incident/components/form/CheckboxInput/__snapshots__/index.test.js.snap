@@ -8,6 +8,7 @@ exports[`Form component <CheckboxInput /> rendering should render checkbox corre
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -52,6 +53,7 @@ exports[`Form component <CheckboxInput /> rendering should render multi checkbox
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -145,6 +147,7 @@ exports[`Form component <CheckboxInput /> rendering should render multi checkbox
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={

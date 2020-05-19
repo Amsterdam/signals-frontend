@@ -11,6 +11,7 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
       className="invoer antwoorden"
     >
       <Header
+        className=""
         meta={
           Object {
             "isVisible": true,
