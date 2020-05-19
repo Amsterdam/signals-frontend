@@ -43,7 +43,9 @@ describe('Create signal parkeeroverlast and check signal details',() => {
 
     it('Should enter a phonenumber and email address', () => {
       createSignal.setPhonenumber('0611');
+      cy.clickButton('Volgende');
       createSignal.setEmailAddress('siafakemail@fake.nl');
+      cy.clickButton('Volgende');
     });
 
     it('Should show a summary', () => {
