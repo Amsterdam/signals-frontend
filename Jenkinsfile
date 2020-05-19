@@ -57,7 +57,7 @@ node('BS16 || BS17') {
         }
         stage("Deploy to ACC") {
             tryStep "deployment", {
-                build: SIA_Signalen_Amsterdam/signals-amsterdam/develop
+                build job: '/SIA_Signalen_Amsterdam/signals-amsterdam/develop'
             }
         }
     }
@@ -84,7 +84,7 @@ node('BS16 || BS17') {
         }
         stage("Deploy to PROD") {
             tryStep "deployment", {
-                build: SIA_Signalen_Amsterdam/signals-amsterdam/master
+                build job: '/SIA_Signalen_Amsterdam/signals-amsterdam/master'
             }
         }
     }
