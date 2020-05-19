@@ -57,11 +57,8 @@ node('BS16 || BS17') {
         }
         stage("Deploy to ACC") {
             tryStep "deployment", {
-                build job: 'Subtask_Openstack_Playbook',
-                parameters: [
-                    [$class: 'StringParameterValue', name: 'INVENTORY', value: 'acceptance'],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-signals-frontend.yml'],
-                ]
+                build job: 'SIA_Signalen_Amsterdam/signals-amsterdam',
+                git branch: develop
             }
         }
     }
@@ -88,11 +85,8 @@ node('BS16 || BS17') {
         }
         stage("Deploy to PROD") {
             tryStep "deployment", {
-                build job: 'Subtask_Openstack_Playbook',
-                parameters: [
-                    [$class: 'StringParameterValue', name: 'INVENTORY', value: 'production'],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-signals-frontend.yml'],
-                ]
+                build job: 'SIA_Signalen_Amsterdam/signals-amsterdam',
+                git branch: master
             }
         }
     }
