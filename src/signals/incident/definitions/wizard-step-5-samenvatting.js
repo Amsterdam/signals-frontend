@@ -10,40 +10,46 @@ import { controls as wegenVerkeerStraatmeubilairControls } from './wizard-step-2
 import { controls as afvalControls } from './wizard-step-2-vulaan/afval';
 import { controls as overlastPersonenGroepenControls } from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
 
-const render = ({ render: renderFunc, meta }) => {
+export const ObjectLabel = ({ value }) => value.label;
+export const Label = ({ value }) => value;
+export const SCSVLabel = ({ value }) => value.join('; ');
+export const Null = () => null;
+
+export const renderPreview = ({ render: renderFunc, meta }) => {
   switch (renderFunc.name) {
-    case 'RadioInput':
-      return ({ value }) => value.label;
+    case 'RadioInputGroup':
+      return ObjectLabel;
 
     case 'CheckboxInput':
       return PreviewComponents.ListObjectValue;
 
     case 'MultiTextInput':
-      return ({ value }) => value.join('; ');
+      return SCSVLabel;
 
     case 'MapSelect':
       return props => PreviewComponents.MapSelectPreview({ ...props, endpoint: meta.endpoint });
 
     case 'TextInput':
     case 'TextareaInput':
-      return ({ value }) => value;
+      return Label;
 
     default:
-      return () => null;
+      return Null;
   }
 };
 
-const summary = controls => Object.entries(controls).reduce(
-  (acc, [key, val]) => ({
-    ...acc,
-    [key]: {
-      label: val.meta.shortLabel,
-      optional: val?.options?.validators?.includes(Validators.required) || true,
-      render: render(val),
-    },
-  }),
-  {}
-);
+export const summary = controls =>
+  Object.entries(controls).reduce(
+    (acc, [key, val]) => ({
+      ...acc,
+      [key]: {
+        label: val.meta.shortLabel,
+        optional: !val?.options?.validators.includes(Validators.required),
+        render: renderPreview(val),
+      },
+    }),
+    {}
+  );
 
 export default {
   label: 'Controleer uw gegevens',
