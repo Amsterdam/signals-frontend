@@ -4,9 +4,9 @@ export const CHANGE_CATEGORY = {
 };
 
 export const CHANGE_LOCATION = {
-  buttonCancelEditLocation: '[data-testid=location-form-button-cancel]',
+  buttonCancelEditLocation: '[data-testid=cancelBtn]',
   buttonEditLocation: '[class*=Location__Description] > [data-testid=editButton]',
-  buttonSubmitEditLocation: '[data-testid=location-form-button-submit]',
+  buttonSubmitEditLocation: '[data-testid=submitBtn]',
 };
 
 export const CHANGE_STATUS = {

@@ -15,7 +15,7 @@ describe('Create signal parkeeroverlast and check signal details',() => {
       cy.route('POST', '**/signals/category/prediction', 'fixture:parkeeroverlast.json').as('prediction');
 
       createSignal.checkDescriptionPage();
-      createSignal.setAddress('1098VZ 3','Anfieldroad 3, 1098VZ Amsterdam');
+      createSignal.setAddress('1098VZ 35','Anfieldroad 35, 1098VZ Amsterdam');
       createSignal.setDescription('Voor onze deur staat al minimaal 5 maanden een auto geparkeerd, deze wordt nooit verplaatst.');
       createSignal.setDateTime('Nu');
 
