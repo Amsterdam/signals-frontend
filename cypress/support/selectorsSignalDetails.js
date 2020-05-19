@@ -46,6 +46,7 @@ export const SIGNAL_DETAILS = {
   buttonCancel: '[data-testid=cancelButton]',
   buttonEdit: '[data-testid="editButton"]',
   buttonSubmit: '[data-testid=submitButton]',
+  creationDate: '[data-testid=meta-list-date-value]',
   department: '[data-testid="meta-list-department-value"]',
   email: '[data-testid="detail-email-value"]',
   historyAction: '[class*="History__Action"]',

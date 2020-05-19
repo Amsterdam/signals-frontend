@@ -8,12 +8,20 @@ Cypress.Commands.add('getAddressRoute', ()=> {
   cy.route('/locatieserver/v3/suggest?fq=*').as('getAddress');
 });
 
-// Loading the Manage Signals page
+// Routes for loading manage signals page
 Cypress.Commands.add('getManageSignalsRoutes', () => {
   cy.route('/signals/v1/private/me/filters/').as('getFilters');
   cy.route('/signals/v1/private/categories/*').as('getCategories');
   cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignals');
   cy.route('/signals/v1/private/me/').as('getUserInfo');
+});
+
+// Wait for loading the Manage Signals page
+Cypress.Commands.add('waitForManageSignalsRoutes', () => {
+  cy.wait('@getFilters');
+  cy.wait('@getCategories');
+  cy.wait('@getSignals');
+  cy.wait('@getUserInfo');
 });
 
 // Loading the Categories page
