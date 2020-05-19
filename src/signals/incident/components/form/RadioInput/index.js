@@ -29,9 +29,9 @@ const RadioInput = ({ handler, touched, hasError, meta, parent, getError, valida
   return (
     <StyledHeader meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       {meta.values && isObject(meta.values) && (
-        <RadioGroup name={meta.name}>
-          {Object.entries(meta.values).map(([key, value]) => (
-            <Fragment>
+        <Fragment>
+          <RadioGroup name={meta.name}>
+            {Object.entries(meta.values).map(([key, value]) => (
               <InputUsingDispatch
                 checked={handler().value.id === key}
                 id={key}
@@ -42,14 +42,14 @@ const RadioInput = ({ handler, touched, hasError, meta, parent, getError, valida
                 name={meta.name}
                 resetsStateOnChange={meta.resetsStateOnChange}
               />
-              {info && (
-                <Info>
-                  {label}: {info}
-                </Info>
-              )}
-            </Fragment>
-          ))}
-        </RadioGroup>
+            ))}
+          </RadioGroup>
+          {info && (
+            <Info>
+              {label}: {info}
+            </Info>
+          )}
+        </Fragment>
       )}
     </StyledHeader>
   );
