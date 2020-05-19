@@ -59,8 +59,8 @@ node('BS16 || BS17') {
             tryStep "deployment", {
                 build job: 'SIA_Signalen_Amsterdam/signals-amsterdam',
                 parameters: [
-                    string(name: 'GIT_BRANCH_NAME', value: 'develop'
-                }
+                    string(name: 'GIT_BRANCH_NAME', value: 'develop')
+                ]
             }
         }
     }
@@ -89,7 +89,7 @@ node('BS16 || BS17') {
             tryStep "deployment", {
                 build job: 'SIA_Signalen_Amsterdam/signals-amsterdam',
                 parameters: [
-                    string(name: 'GIT_BRANCH_NAME', value: 'master'
+                    string(name: 'GIT_BRANCH_NAME', value: 'master')
                 ]
             }
         }
