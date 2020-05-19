@@ -54,7 +54,7 @@ const woningdelen = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woningdelen_aantal_personen: {
     meta: {
@@ -78,7 +78,7 @@ const woningdelen = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woningdelen_bewoners_familie: {
     meta: {
@@ -104,7 +104,7 @@ const woningdelen = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woningdelen_samenwonen: {
     meta: {
@@ -130,7 +130,7 @@ const woningdelen = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woningdelen_wisselende_bewoners: {
     meta: {
@@ -151,7 +151,7 @@ const woningdelen = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
 };
 
@@ -178,7 +178,7 @@ const onderhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_onderhuur_bewoners_familie: {
     meta: {
@@ -204,7 +204,7 @@ const onderhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_onderhuur_naam_bewoners: {
     meta: {
@@ -238,7 +238,7 @@ const onderhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_onderhuur_naam_huurder: {
     meta: {
@@ -276,7 +276,7 @@ const onderhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_onderhuur_adres_huurder: {
     meta: {
@@ -348,7 +348,7 @@ const leegstand = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_leegstand_woning_gebruik: {
     meta: {
@@ -369,7 +369,7 @@ const leegstand = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_leegstand_naam_persoon: {
     meta: {
@@ -441,7 +441,7 @@ const woningkwaliteit = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woonkwaliteit_direct_gevaar_alert: {
     meta: {
@@ -479,7 +479,7 @@ const woningkwaliteit = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woonkwaliteit_direct_gevaar_ja: {
     meta: {
@@ -521,7 +521,7 @@ const woningkwaliteit = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woonkwaliteit_namens_bewoner: {
     meta: {
@@ -545,7 +545,7 @@ const woningkwaliteit = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woonkwaliteit_toestemming_contact: {
     meta: {
@@ -569,7 +569,7 @@ const woningkwaliteit = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_woonkwaliteit_toestemming_contact_ja: {
     meta: {
@@ -626,7 +626,7 @@ const vakantieverhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_vakantieverhuur_bellen_of_formulier: {
     meta: {
@@ -645,7 +645,7 @@ const vakantieverhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_vakantieverhuur_bellen: {
     meta: {
@@ -683,7 +683,7 @@ const vakantieverhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_vakantieverhuur_hoe_vaak: {
     meta: {
@@ -709,7 +709,7 @@ const vakantieverhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_vakantieverhuur_wanneer: {
     meta: {
@@ -729,7 +729,7 @@ const vakantieverhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_vakantieverhuur_bewoning: {
     meta: {
@@ -755,7 +755,7 @@ const vakantieverhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_vakantieverhuur_naam_bewoner: {
     meta: {
@@ -791,7 +791,7 @@ const vakantieverhuur = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_wonen_vakantieverhuur_link_advertentie: {
     meta: {
@@ -845,7 +845,7 @@ const overig = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
 };
 

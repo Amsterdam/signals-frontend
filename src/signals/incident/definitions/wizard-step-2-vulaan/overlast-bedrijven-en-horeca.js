@@ -33,7 +33,7 @@ export const controls = {
       },
     },
     options: { validators: [Validators.required] },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_bedrijven_horeca_naam: {
     meta: {
@@ -86,7 +86,7 @@ export const controls = {
         nee: 'Nee, ik woon er niet direct naast',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
 
   extra_bedrijven_horeca_muziek_ramen_dicht: {
@@ -106,7 +106,7 @@ export const controls = {
         nee: 'Nee, geen last met ramen en deuren gesloten',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_bedrijven_horeca_muziek_ramen_dicht_onderneming: {
     meta: {
@@ -125,7 +125,7 @@ export const controls = {
         nee: 'Nee, ramen en deuren zijn gesloten',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang: {
     meta: {
@@ -145,7 +145,7 @@ export const controls = {
         lang: 'Lang open',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
 
   extra_bedrijven_horeca_muziek_evenement: {
@@ -164,7 +164,7 @@ export const controls = {
       },
     },
     options: { validators: [Validators.required] },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
 
   extra_bedrijven_horeca_muziek_evenement_einde: {
@@ -316,7 +316,7 @@ export const controls = {
         nee: 'Nee, ramen en deuren zijn gesloten',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
 
   extra_bedrijven_horeca_vaker: {
@@ -337,7 +337,7 @@ export const controls = {
         nee: 'Nee, dit is de eerste keer',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_bedrijven_horeca_tijdstippen: {
     meta: {
@@ -375,7 +375,7 @@ export const controls = {
       },
     },
     options: { validators: [Validators.required] },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_installaties: {
     meta: {
@@ -396,7 +396,7 @@ export const controls = {
       },
     },
     options: { validators: [Validators.required] },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_overige: {
     meta: {
@@ -417,7 +417,7 @@ export const controls = {
       },
     },
     options: { validators: [Validators.required] },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_caution: {
     meta: {
@@ -449,7 +449,7 @@ export const controls = {
         not_now: 'Niet nu',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu: {
     meta: {

@@ -55,7 +55,7 @@ export const controls = {
         onbekend: 'Onbekend',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_personen_overig_vaker: {
     meta: {
@@ -71,7 +71,7 @@ export const controls = {
         ja: 'Ja, het gebeurt vaker:',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_personen_overig_vaker_momenten: {
     meta: {

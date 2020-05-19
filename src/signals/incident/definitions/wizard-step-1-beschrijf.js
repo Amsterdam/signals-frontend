@@ -100,7 +100,7 @@ export default {
         options: {
           validators: [Validators.required],
         },
-        render: FormComponents.RadioInput,
+        render: FormComponents.RadioInputGroup,
       },
       incident_date: {
         meta: {
@@ -136,7 +136,7 @@ export default {
           validators: [Validators.required],
         },
         authenticated: true,
-        render: FormComponents.RadioInput,
+        render: FormComponents.RadioInputGroup,
       },
       type: {
         meta: {
@@ -146,7 +146,7 @@ export default {
           values: typesValuesList,
         },
         authenticated: true,
-        render: FormComponents.RadioInput,
+        render: FormComponents.RadioInputGroup,
         options: {
           validators: [Validators.required],
         },

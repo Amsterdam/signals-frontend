@@ -81,7 +81,7 @@ export const controls = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_straatverlichting_gevaar: {
     meta: {
@@ -127,7 +127,7 @@ export const controls = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_straatverlichting_probleem: {
     meta: {
@@ -152,7 +152,7 @@ export const controls = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_straatverlichting_nummer: {
     meta: {
@@ -244,7 +244,7 @@ export const controls = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_klok_gevaar: {
     meta: {
@@ -292,7 +292,7 @@ export const controls = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_klok_nummer: {
     meta: {
@@ -378,7 +378,7 @@ export const controls = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_verkeerslicht_gevaar: {
     meta: {
@@ -426,7 +426,7 @@ export const controls = {
     options: {
       validators: [Validators.required],
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_verkeerslicht_probleem_voetganger: {
     meta: {
@@ -546,7 +546,7 @@ export const controls = {
         nee: 'Nee, ik wil direct verder gaan',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_fietsrek_text: {
     meta: {

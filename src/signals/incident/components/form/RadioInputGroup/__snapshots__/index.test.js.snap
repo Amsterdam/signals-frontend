@@ -3,7 +3,7 @@
 exports[`Form component <RadioInput /> rendering should render no radio field when not visible 1`] = `""`;
 
 exports[`Form component <RadioInput /> rendering should render radio fields correctly 1`] = `
-<RadioInput__StyledHeader
+<RadioInputGroup__StyledHeader
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -22,7 +22,7 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
   <RadioGroup
     name="input-field-name"
   >
-    <InputUsingDispatch
+    <RadioInput
       checked={true}
       id="foo"
       idAttr="input-field-name-foo1"
@@ -32,7 +32,7 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
       name="input-field-name"
       resetsStateOnChange={false}
     />
-    <InputUsingDispatch
+    <RadioInput
       checked={false}
       id="bar"
       idAttr="input-field-name-bar1"
@@ -43,11 +43,11 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
       resetsStateOnChange={false}
     />
   </RadioGroup>
-</RadioInput__StyledHeader>
+</RadioInputGroup__StyledHeader>
 `;
 
 exports[`Form component <RadioInput /> rendering should render zero radio fields when values are not supplied 1`] = `
-<RadioInput__StyledHeader
+<RadioInputGroup__StyledHeader
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={

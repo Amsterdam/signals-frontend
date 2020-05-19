@@ -27,7 +27,7 @@ export const controls = {
         nee: 'Nee',
       },
     },
-    render: FormComponents.RadioInput,
+    render: FormComponents.RadioInputGroup,
   },
   extra_boten_snelheid_rederij: {
     meta: {
