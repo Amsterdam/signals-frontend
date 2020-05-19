@@ -45,7 +45,7 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
       expect(summary(controls)).toEqual({
         extra_bedrijven_horeca_wat: {
           label: 'Soort bedrijf',
-          optional: false,
+          optional: true,
           render: ObjectLabel,
         },
         extra_bedrijven_horeca_naam: {

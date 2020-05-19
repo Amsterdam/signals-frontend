@@ -1,5 +1,3 @@
-import { Validators } from 'react-reactive-form';
-
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components';
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen';
@@ -44,7 +42,7 @@ export const summary = controls =>
       ...acc,
       [key]: {
         label: val.meta.shortLabel,
-        optional: !val?.options?.validators.includes(Validators.required),
+        optional: true,
         render: renderPreview(val),
       },
     }),
