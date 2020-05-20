@@ -48,7 +48,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     const { getByTestId, queryByTestId, queryByText } = render(withAppContext(<RoleForm {...emptyNameProps} />));
     expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
@@ -58,12 +60,17 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         value: 'nieuwe Behandelaar',
       },
     };
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
+
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+    });
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('nieuwe Behandelaar');
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
     expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
   });
 
@@ -77,15 +84,17 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     };
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
     act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
       fireEvent.click(container.querySelectorAll('input[type="checkbox"]')[0]);
     });
 
     await findByTestId('rolesFormFieldName');
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
@@ -99,7 +108,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     await findByTestId('rolesFormFieldName');
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
@@ -119,8 +130,10 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
 
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
-    fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+      fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+    });
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
   });
@@ -140,8 +153,10 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onSaveRole).not.toHaveBeenCalled();
 
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(props.onSaveRole).toHaveBeenCalledWith({
       name: 'nieuwe Behandelaar',
@@ -164,8 +179,10 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onSaveRole).not.toHaveBeenCalled();
 
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
-    fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+      fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+    });
 
     expect(props.onSaveRole).not.toHaveBeenCalled();
   });
@@ -183,7 +200,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(props.onSaveRole).not.toHaveBeenCalled();
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(props.onSaveRole).not.toHaveBeenCalled();
@@ -198,7 +217,9 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    act(() => {
+      fireEvent.click(getByTestId('cancelBtn'));
+    });
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(push).toHaveBeenCalledWith(ROLES_URL);
