@@ -21,11 +21,11 @@ node('BS16 || BS17') {
         env.COMPOSE_DOCKER_CLI_BUILD = 1
     }
 
-    if (BRANCH == "develop") {
-        stage("Build and push acceptance image") {
+    if (BRANCH == "develop" || branch == "master") {
+        stage("Build and push image") {
             tryStep "build", {
                 docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-                    def cachedImage = docker.image("ois/signalsfrontend:acceptance")
+                    def cachedImage = docker.image("ois/signalsfrontend:latest")
 
                     if (cachedImage) {
                         cachedImage.pull()
@@ -33,42 +33,25 @@ node('BS16 || BS17') {
 
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
                     "--shm-size 1G " +
-                    "--build-arg BUILD_ENV=acc " +
                     "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
                     "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
                     ".")
                     image.push()
-                    image.push("acceptance")
+                    image.push("latest")
                 }
             }
         }
+    }
+
+    if (BRANCH == "develop") {
         stage("Deploy to ACC") {
             tryStep "deployment", {
                 build job: '/SIA_Signalen_Amsterdam/signals-amsterdam/develop'
             }
         }
     }
+
     if (BRANCH == "master") {
-        stage("Build and Push Production image") {
-            tryStep "build", {
-                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-                    def cachedImage = docker.image("ois/signalsfrontend:production")
-
-                    if (cachedImage) {
-                        cachedImage.pull()
-                    }
-
-                    def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
-                        "--shm-size 1G " +
-                        "--build-arg BUILD_ENV=prod " +
-                        "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
-                        "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
-                        ".")
-                    image.push("production")
-                    image.push("latest")
-                }
-            }
-        }
         stage("Deploy to PROD") {
             tryStep "deployment", {
                 build job: '/SIA_Signalen_Amsterdam/signals-amsterdam/master'
