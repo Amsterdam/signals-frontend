@@ -25,7 +25,7 @@ const woningdelen = {
         wonen_overig: ['woningdelen', 'crimineleBewoning'],
       },
       label: 'Weet u wie de eigenaar is van de woning?',
-      shortLabel: 'Naam Eigenaar',
+      shortLabel: 'Naam eigenaar',
       pathMerge: 'extra_properties',
       className: 'col-sm-12 col-md-8',
     },
@@ -153,6 +153,19 @@ const woningdelen = {
     },
     render: FormComponents.RadioInputGroup,
   },
+  extra_wonen_woningdelen_iemand_aanwezig: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'woningdelen-spookburgers',
+        wonen_overig: ['woningdelen', 'crimineleBewoning'],
+      },
+      label: 'Op welke dag/tijd is er iemand op het adres?',
+      shortLabel: 'Iemand aanwezig',
+      pathMerge: 'extra_properties',
+      className: 'col-sm-12 col-md-8',
+    },
+    render: FormComponents.TextInput,
+  },
 };
 
 const onderhuur = {
@@ -191,13 +204,13 @@ const onderhuur = {
       ifOneOf: {
         extra_wonen_onderhuur_aantal_personen: ['drie_personen', 'vier_personen', 'vijf_of_meer_personen'],
       },
-      label: 'Zijn de bewoners familie van elkaar?',
+      label: 'Zijn de mensen die op dit adres wonen familie van elkaar?',
       shortLabel: 'Bewoners familie',
       pathMerge: 'extra_properties',
       className: 'col-sm-12 col-md-8',
       values: {
-        ja: 'Ja, de bewoners zijn familie',
-        nee: 'Nee, de bewoners zijn geen familie',
+        ja: 'Ja, ze zijn familie van elkaar',
+        nee: 'Nee, ze zijn geen familie van elkaar',
         weet_ik_niet: 'Weet ik niet',
       },
     },
@@ -231,7 +244,7 @@ const onderhuur = {
       className: 'col-sm-12 col-md-8',
       values: {
         langer_dan_zes_maanden: '6 maanden of langer',
-        korter_dan_zes_maanden: 'minder dan 6 maanden',
+        korter_dan_zes_maanden: 'Minder dan 6 maanden',
         weet_ik_niet: 'Weet ik niet',
       },
     },
@@ -239,6 +252,19 @@ const onderhuur = {
       validators: [Validators.required],
     },
     render: FormComponents.RadioInputGroup,
+  },
+  extra_wonen_onderhuur_iemand_aanwezig: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'onderhuur-en-adreskwaliteit',
+        wonen_overig: 'onderhuur',
+      },
+      label: 'Op welke dag/tijd is er iemand op het adres?',
+      shortLabel: 'Iemand aanwezig',
+      pathMerge: 'extra_properties',
+      className: 'col-sm-12 col-md-8',
+    },
+    render: FormComponents.TextInput,
   },
   extra_wonen_onderhuur_naam_huurder: {
     meta: {
@@ -289,22 +315,6 @@ const onderhuur = {
       },
       label: 'Wat is het adres waar de officiële huurder woont?',
       shortLabel: 'Adres huurder',
-      pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
-    },
-    render: FormComponents.TextInput,
-  },
-};
-
-const onderhuurWoningdelen = {
-  extra_wonen_iemand_aanwezig: {
-    meta: {
-      ifOneOf: {
-        subcategory: ['woningdelen-spookburgers', 'onderhuur-en-adreskwaliteit'],
-        wonen_overig: ['woningdelen', 'onderhuur'],
-      },
-      label: 'Op welke dag/tijd is er iemand op het adres?',
-      shortLabel: 'Iemand aanwezig',
       pathMerge: 'extra_properties',
       className: 'col-sm-12 col-md-8',
     },
@@ -376,8 +386,8 @@ const leegstand = {
       ifAllOf: {
         extra_wonen_leegstand_woning_gebruik: 'ja',
         ifOneOf: {
-          subcategory: 'onderhuur-en-adreskwaliteit',
-          wonen_overig: 'onderhuur',
+          subcategory: 'leegstand',
+          wonen_overig: 'leegstand',
         },
       },
       label: 'Wat is de naam van de persoon die soms in de woning is?',
@@ -392,8 +402,8 @@ const leegstand = {
       ifAllOf: {
         extra_wonen_leegstand_woning_gebruik: 'ja',
         ifOneOf: {
-          subcategory: 'onderhuur-en-adreskwaliteit',
-          wonen_overig: 'onderhuur',
+          subcategory: 'leegstand',
+          wonen_overig: 'leegstand',
         },
       },
       label: 'Wat doet deze persoon in de woning?',
@@ -408,8 +418,8 @@ const leegstand = {
       ifAllOf: {
         extra_wonen_leegstand_woning_gebruik: 'ja',
         ifOneOf: {
-          subcategory: 'onderhuur-en-adreskwaliteit',
-          wonen_overig: 'onderhuur',
+          subcategory: 'leegstand',
+          wonen_overig: 'leegstand',
         },
       },
       label: 'Op welke dag/tijd is deze persoon op het adres?',
@@ -558,6 +568,7 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_direct_gevaar: 'nee',
       },
       label: 'Mogen we contact met u opnemen om een afspraak te maken?',
+      subtitle: 'Om uw klacht goed te kunnen behandelen willen we vaak even komen kijken of met u overleggen',
       shortLabel: 'Toestemming contact opnemen',
       pathMerge: 'extra_properties',
       className: 'col-sm-12 col-md-8',
@@ -798,7 +809,7 @@ const vakantieverhuur = {
       ifOneOf: {
         extra_wonen_vakantieverhuur_online_aangeboden: 'ja',
       },
-      label: 'Link naar de advertentie van de woning?',
+      label: 'Link naar de advertentie van de woning',
       shortLabel: 'Link advertentie',
       pathMerge: 'extra_properties',
       className: 'col-sm-12 col-md-8',
@@ -832,13 +843,14 @@ const overig = {
       ifAllOf: {
         subcategory: 'wonen-overig',
       },
+      label: 'Uw melding gaat over:',
       values: {
         vakantieverhuur: 'Illegale toeristische verhuur in een woning of woonboot',
         onderhuur: 'Illegale onderhuur in een woning of woonboot',
         leegstand: 'Een woning of woonboot die opvallend lang leeg staat',
         crimineleBewoning: 'Criminele bewoning of activiteiten in een woning of woonboot',
         woningdelen: 'Woningdelen (de woning wordt door verschillende mensen gedeeld)',
-        woningkwaliteit: 'Achterstallig onderhoud',
+        woningkwaliteit: 'Achterstallig onderhoud of een gebrek aan een woning wordt niet verholpen door de eigenaar/beheerder',
       },
       resetsStateOnChange: true,
     },
@@ -872,8 +884,6 @@ export const controls = {
   ...woningdelen,
 
   ...onderhuur,
-
-  ...onderhuurWoningdelen,
 
   ...leegstand,
 
