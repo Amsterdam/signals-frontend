@@ -22,19 +22,6 @@ node('BS16 || BS17') {
     }
 
     if (BRANCH == "develop") {
-        stage("Build and push the base image to speed up lint and unittest builds") {
-            tryStep "build", {
-                def image_name = "ois/signalsfrontend-base"
-                docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
-                    def image = docker.build("${image_name}:${env.BUILD_NUMBER}",
-                    "--shm-size 1G " +
-                    "--target base " +
-                    ".")
-                    image.push()
-                    image.push("acceptance")
-                }
-            }
-        }
         stage("Build and push acceptance image") {
             tryStep "build", {
                 docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
