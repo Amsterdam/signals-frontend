@@ -18,15 +18,15 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY internals /app/internals
 COPY .gitignore \
-     .gitattributes \
-     .eslintrc.js \
-     .prettierrc \
-     jest.config.js \
-     babel.config.js \
+      .gitattributes \
+      .eslintrc.js \
+      .prettierrc \
+      jest.config.js \
+      babel.config.js \
       /app/
 
 COPY package.json \
-     package-lock.json \
+      package-lock.json \
       /app/
 
 # Install NPM dependencies, cleaning cache afterwards:
@@ -36,7 +36,6 @@ RUN npm --production=false \
       ci && \
       npm cache clean --force
 
-RUN echo {} > /app/environment.conf.json
 COPY src /app/src
 
 
@@ -49,9 +48,6 @@ WORKDIR /app
 
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
-
-ARG BUILD_ENV=prod
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
 ENV NODE_ENV=production
 RUN echo "run build"
@@ -72,11 +68,15 @@ RUN apk add --no-cache jq
 COPY --from=builder /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/
-COPY start.sh /start.sh
-COPY config.json /config.json
+
+COPY start.sh /usr/local/bin/start.sh
+
+RUN chmod +x /usr/local/bin/start.sh
+
+COPY environment.conf.json /environment.conf.json
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
+      && ln -sf /dev/stderr /var/log/nginx/error.log
 
-CMD ["/start.sh"]
+CMD ["/usr/local/bin/start.sh"]
