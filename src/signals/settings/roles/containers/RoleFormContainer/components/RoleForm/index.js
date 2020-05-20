@@ -30,7 +30,6 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly 
   const [rolePermissions, setRolePermissions] = useState(role.permissions);
 
   const handleChange = useCallback(id => onChangeEvent => {
-    if (!onChangeEvent) return;
     const { checked } = onChangeEvent.target;
     if (checked) {
       setRolePermissions([...rolePermissions, permissions.find(p => p.id === id)]);

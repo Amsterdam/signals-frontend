@@ -99,7 +99,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
       name: 'Behandelaar',
-      permission_ids: [permissionsJson[0].id, 110, 164, 162, 163, 161, 111],
+      permission_ids: [permissionsJson[0].id, ...rolesJson[0].permissions.map(p => p.id)],
     });
 
     act(() => {
@@ -115,7 +115,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
       name: 'Behandelaar',
-      permission_ids: [110, 164, 162, 163, 161, 111],
+      permission_ids: [...rolesJson[0].permissions.map(p => p.id)],
     });
   });
 
