@@ -21,7 +21,7 @@ node('BS16 || BS17') {
         env.COMPOSE_DOCKER_CLI_BUILD = 1
     }
 
-    if (BRANCH == "develop" || branch == "master") {
+    if (BRANCH == "develop" || BRANCH == "master") {
         stage("Build and push image") {
             tryStep "build", {
                 docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
