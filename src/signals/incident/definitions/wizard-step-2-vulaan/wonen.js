@@ -7,7 +7,7 @@ const woningdelen = {
   extra_wonen_woningdelen_vermoeden: {
     meta: {
       ifOneOf: {
-        subcategory: 'woningdelen',
+        subcategory: 'woningdelen-spookburgers',
         wonen_overig: ['woningdelen', 'crimineleBewoning'],
       },
       label: 'Weet u wat zich in deze woning afspeelt?',
@@ -21,7 +21,7 @@ const woningdelen = {
   extra_wonen_woningdelen_eigenaar: {
     meta: {
       ifOneOf: {
-        subcategory: 'woningdelen',
+        subcategory: 'woningdelen-spookburgers',
         wonen_overig: ['woningdelen', 'crimineleBewoning'],
       },
       label: 'Weet u wie de eigenaar is van de woning?',
@@ -37,7 +37,7 @@ const woningdelen = {
   extra_wonen_woningdelen_adres_huurder: {
     meta: {
       ifOneOf: {
-        subcategory: 'woningdelen',
+        subcategory: 'woningdelen-spookburgers',
         wonen_overig: ['woningdelen', 'crimineleBewoning'],
       },
       label: 'Weet u waar de officiële huurder woont?',
@@ -59,7 +59,7 @@ const woningdelen = {
   extra_wonen_woningdelen_aantal_personen: {
     meta: {
       ifOneOf: {
-        subcategory: 'woningdelen',
+        subcategory: 'woningdelen-spookburgers',
         wonen_overig: ['woningdelen', 'crimineleBewoning'],
       },
       label: 'Hoeveel personen wonen op dit adres?',
@@ -84,7 +84,7 @@ const woningdelen = {
     meta: {
       ifAllOf: {
         ifOneOf: {
-          subcategory: 'woningdelen',
+          subcategory: 'woningdelen-spookburgers',
           wonen_overig: ['woningdelen', 'crimineleBewoning'],
         },
       },
@@ -110,7 +110,7 @@ const woningdelen = {
     meta: {
       ifAllOf: {
         ifOneOf: {
-          subcategory: 'woningdelen',
+          subcategory: 'woningdelen-spookburgers',
           wonen_overig: ['woningdelen', 'crimineleBewoning'],
         },
       },
@@ -135,7 +135,7 @@ const woningdelen = {
   extra_wonen_woningdelen_wisselende_bewoners: {
     meta: {
       ifOneOf: {
-        subcategory: 'woningdelen',
+        subcategory: 'woningdelen-spookburgers',
         wonen_overig: ['woningdelen', 'crimineleBewoning'],
       },
       label: 'Komen er vaak andere bewoners op het adres wonen?',
@@ -159,7 +159,7 @@ const onderhuur = {
   extra_wonen_onderhuur_aantal_personen: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur',
+        subcategory: 'onderhuur-en-adreskwaliteit',
         wonen_overig: 'onderhuur',
       },
       label: 'Hoeveel personen wonen op dit adres?',
@@ -184,7 +184,7 @@ const onderhuur = {
     meta: {
       ifAllOf: {
         ifOneOf: {
-          subcategory: 'onderhuur',
+          subcategory: 'onderhuur-en-adreskwaliteit',
           wonen_overig: 'onderhuur',
         },
       },
@@ -209,7 +209,7 @@ const onderhuur = {
   extra_wonen_onderhuur_naam_bewoners: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur',
+        subcategory: 'onderhuur-en-adreskwaliteit',
         wonen_overig: 'onderhuur',
       },
       label: 'Wat zijn de namen van de mensen die op dit adres wonen?',
@@ -222,7 +222,7 @@ const onderhuur = {
   extra_wonen_onderhuur_woon_periode: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur',
+        subcategory: 'onderhuur-en-adreskwaliteit',
         wonen_overig: 'onderhuur',
       },
       label: 'Hoe lang wonen deze mensen al op dit adres?',
@@ -243,7 +243,7 @@ const onderhuur = {
   extra_wonen_onderhuur_naam_huurder: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur',
+        subcategory: 'onderhuur-en-adreskwaliteit',
         wonen_overig: 'onderhuur',
       },
       label: 'Weet u wie de officiële huurder is van de woning?',
@@ -260,7 +260,7 @@ const onderhuur = {
   extra_wonen_onderhuur_huurder_woont: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur',
+        subcategory: 'onderhuur-en-adreskwaliteit',
         wonen_overig: 'onderhuur',
       },
       label: 'Weet u waar de officiële huurder woont?',
@@ -281,7 +281,7 @@ const onderhuur = {
   extra_wonen_onderhuur_adres_huurder: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur',
+        subcategory: 'onderhuur-en-adreskwaliteit',
         wonen_overig: 'onderhuur',
       },
       ifAllOf: {
@@ -300,7 +300,7 @@ const onderhuurWoningdelen = {
   extra_wonen_iemand_aanwezig: {
     meta: {
       ifOneOf: {
-        subcategory: ['woningdelen', 'onderhuur'],
+        subcategory: ['woningdelen-spookburgers', 'onderhuur-en-adreskwaliteit'],
         wonen_overig: ['woningdelen', 'onderhuur'],
       },
       label: 'Op welke dag/tijd is er iemand op het adres?',
@@ -376,7 +376,7 @@ const leegstand = {
       ifAllOf: {
         extra_wonen_leegstand_woning_gebruik: 'ja',
         ifOneOf: {
-          subcategory: 'onderhuur',
+          subcategory: 'onderhuur-en-adreskwaliteit',
           wonen_overig: 'onderhuur',
         },
       },
@@ -392,7 +392,7 @@ const leegstand = {
       ifAllOf: {
         extra_wonen_leegstand_woning_gebruik: 'ja',
         ifOneOf: {
-          subcategory: 'onderhuur',
+          subcategory: 'onderhuur-en-adreskwaliteit',
           wonen_overig: 'onderhuur',
         },
       },
@@ -408,7 +408,7 @@ const leegstand = {
       ifAllOf: {
         extra_wonen_leegstand_woning_gebruik: 'ja',
         ifOneOf: {
-          subcategory: 'onderhuur',
+          subcategory: 'onderhuur-en-adreskwaliteit',
           wonen_overig: 'onderhuur',
         },
       },
