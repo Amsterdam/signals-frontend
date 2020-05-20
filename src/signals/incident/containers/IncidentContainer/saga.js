@@ -8,12 +8,15 @@ import { uploadFile } from 'containers/App/saga';
 import resolveClassification from 'shared/services/resolveClassification';
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params';
 import { isAuthenticated } from 'shared/services/auth/auth';
-import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
+import { CREATE_INCIDENT, GET_CLASSIFICATION, GET_QUESTIONS } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
   getClassificationError,
+  getQuestions,
+  getQuestionsSuccess,
+  getQuestionsError,
 } from './actions';
 
 export function* getClassification(action) {
@@ -25,10 +28,52 @@ export function* getClassification(action) {
     const classification = yield call(resolveClassification, result);
 
     yield put(getClassificationSuccess(classification));
+    yield put(getQuestions(classification));
   } catch (error) {
     const classification = yield call(resolveClassification);
 
     yield put(getClassificationError(classification));
+  }
+}
+
+const fetchQuestions = () => ({
+  _links: {},
+  count: 1,
+  results: [
+    {
+      key: 'extra_bedrijven_horeca_personen',
+      field_type: 'CHECKBOX',
+      meta: {
+        ifOneOf: {
+          extra_bedrijven_horeca_wat: [
+            'horecabedrijf',
+            'ander_soort_bedrijf',
+            'evenement_festival_markt',
+            'iets_anders',
+          ],
+        },
+        label: 'Wat is de oorzaak van de overlast?',
+        labelShort: 'Oorzaak overlast',
+        values: {
+          dronken_bezoekers: 'Dronken bezoekers',
+          schreeuwende_bezoekers: 'Schreeuwende bezoekers',
+          rokende_bezoekers: 'Rokende bezoekers',
+          teveel_fietsen: '(Teveel) fietsen',
+          wildplassen: 'Wildplassen',
+          overgeven: 'Overgeven',
+        },
+      },
+    },
+  ],
+});
+
+export function* getQuestionsHandler(action) {
+  try {
+    const { results: questions } = yield call(fetchQuestions, action.payload);
+
+    yield put(getQuestionsSuccess({ questions }));
+  } catch (error) {
+    yield put(getQuestionsError());
   }
 }
 
@@ -141,5 +186,9 @@ export function* getPostData(action) {
 }
 
 export default function* watchIncidentContainerSaga() {
-  yield all([takeLatest(GET_CLASSIFICATION, getClassification), takeLatest(CREATE_INCIDENT, createIncident)]);
+  yield all([
+    takeLatest(GET_CLASSIFICATION, getClassification),
+    takeLatest(GET_QUESTIONS, getQuestionsHandler),
+    takeLatest(CREATE_INCIDENT, createIncident),
+  ]);
 }

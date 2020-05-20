@@ -8,6 +8,9 @@ import {
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
   RESET_EXTRA_STATE,
+  GET_QUESTIONS,
+  GET_QUESTIONS_SUCCESS,
+  GET_QUESTIONS_ERROR,
 } from './constants';
 
 export const updateIncident = payload => ({
@@ -50,4 +53,19 @@ export const getClassificationError = payload => ({
 
 export const resetExtraState = () => ({
   type: RESET_EXTRA_STATE,
+});
+
+export const getQuestions = payload => ({
+  type: GET_QUESTIONS,
+  payload,
+});
+
+export const getQuestionsSuccess = payload => ({
+  type: GET_QUESTIONS_SUCCESS,
+  payload,
+});
+
+export const getQuestionsError = payload => ({
+  type: GET_QUESTIONS_ERROR,
+  payload,
 });

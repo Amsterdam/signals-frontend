@@ -9,6 +9,9 @@ import {
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
   RESET_EXTRA_STATE,
+  GET_QUESTIONS,
+  GET_QUESTIONS_SUCCESS,
+  GET_QUESTIONS_ERROR,
 } from './constants';
 
 export const initialState = fromJS({
@@ -30,6 +33,7 @@ export const initialState = fromJS({
       id: 'normal',
       label: 'Normaal',
     },
+    questions: [],
     source: undefined,
     subcategory: '',
     type: {
@@ -38,6 +42,7 @@ export const initialState = fromJS({
     },
   },
   loadingClassification: false,
+  loadingQuestions: false,
 });
 
 const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) => {
@@ -100,6 +105,17 @@ export default (state = initialState, action) => {
 
     case RESET_EXTRA_STATE:
       return state.set('incident', getIncidentWithoutExtraProps(state.get('incident'), action.payload));
+
+    case GET_QUESTIONS:
+      return state.set('loadingQuestions', true);
+
+    case GET_QUESTIONS_SUCCESS:
+      return state
+        .set('loadingQuestions', false)
+        .set('incident', state.get('incident').set('questions', action.payload.questions));
+
+    case GET_QUESTIONS_ERROR:
+      return state.set('loadingQuestions', false);
 
     default:
       return state;
