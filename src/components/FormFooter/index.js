@@ -55,6 +55,7 @@ const FormFooter = ({
   onCancel,
   onResetForm,
   onSubmitForm,
+  canSubmitForm,
   resetBtnLabel,
   submitBtnLabel,
 }) => (
@@ -62,11 +63,7 @@ const FormFooter = ({
     <Row hasMargin={!inline}>
       <ButtonContainer span={12}>
         {resetBtnLabel && (
-          <ResetButton
-            data-testid="resetBtn"
-            onClick={onResetForm}
-            type="reset"
-          >
+          <ResetButton data-testid="resetBtn" onClick={onResetForm} type="reset">
             {resetBtnLabel}
           </ResetButton>
         )}
@@ -75,6 +72,7 @@ const FormFooter = ({
           <SubmitButton
             data-testid="submitBtn"
             name="submit_button"
+            disabled={!canSubmitForm}
             onClick={onSubmitForm}
             type="submit"
           >
@@ -83,11 +81,7 @@ const FormFooter = ({
         )}
 
         {cancelBtnLabel && (
-          <CancelButton
-            data-testid="cancelBtn"
-            onClick={onCancel}
-            type="button"
-          >
+          <CancelButton data-testid="cancelBtn" onClick={onCancel} type="button">
             {cancelBtnLabel}
           </CancelButton>
         )}
@@ -103,6 +97,7 @@ FormFooter.defaultProps = {
   onCancel: null,
   onResetForm: null,
   onSubmitForm: null,
+  canSubmitForm: true,
   resetBtnLabel: '',
   submitBtnLabel: '',
 };
@@ -115,6 +110,7 @@ FormFooter.propTypes = {
   onCancel: PropTypes.func,
   onResetForm: PropTypes.func,
   onSubmitForm: PropTypes.func,
+  canSubmitForm: PropTypes.bool,
   resetBtnLabel: PropTypes.string,
   submitBtnLabel: PropTypes.string,
 };

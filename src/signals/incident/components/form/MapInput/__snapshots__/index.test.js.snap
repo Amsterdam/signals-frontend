@@ -8,6 +8,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={

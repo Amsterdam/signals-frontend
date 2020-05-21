@@ -14,6 +14,7 @@ exports[`Form component <MapSelectFormComponent /> rendering should render the M
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MapContext from 'containers/MapContext';
 import MapInputComponent from 'components/MapInput';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { formatMapLocation } from 'shared/services/map-location';
@@ -17,7 +16,7 @@ export const MapInput = props => {
     const { lat, lng } = value?.location || {};
     const mapOptions = {
       ...MAP_OPTIONS,
-      center: (lat && lng) ? [lat, lng] : [...MAP_OPTIONS.center],
+      center: lat && lng ? [lat, lng] : [...MAP_OPTIONS.center],
     };
 
     const onLocationChange = location => {
@@ -30,9 +29,7 @@ export const MapInput = props => {
           <Label htmlFor={`form${name}`}>{display}</Label>
 
           <div className="map-input__control invoer">
-            <MapContext>
-              <MapInputComponent value={value} onChange={onLocationChange} mapOptions={mapOptions} hasZoomControls />
-            </MapContext>
+            <MapInputComponent value={value} onChange={onLocationChange} mapOptions={mapOptions} hasZoomControls />
           </div>
         </div>
       </div>
