@@ -33,7 +33,7 @@ exports[`Form component <MapSelectFormComponent /> rendering should render the M
         className="invoer"
       >
         <MapSelect
-          geojsonUrl="https://map.data.amsterdam.nl/foo/bar?"
+          geojsonUrl="foo/bar?"
           getIcon={[Function]}
           iconField="type_name"
           idField="objectnummer"

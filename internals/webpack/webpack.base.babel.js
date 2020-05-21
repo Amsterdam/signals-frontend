@@ -7,9 +7,13 @@ const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = options => ({
   mode: options.mode,
-  entry: ['@babel/polyfill', 'formdata-polyfill', 'url-polyfill', require.resolve('react-app-polyfill/ie11')].concat(
-    options.entry
-  ),
+  entry: [
+    '@babel/polyfill',
+    'formdata-polyfill',
+    'url-polyfill',
+    'proxy-polyfill',
+    require.resolve('react-app-polyfill/ie11'),
+  ].concat(options.entry),
   // eslint-disable-next-line prefer-object-spread
   output: Object.assign(
     {
@@ -138,10 +142,4 @@ module.exports = options => ({
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
-  externals: {
-    globalConfig: JSON.stringify(
-      // eslint-disable-next-line
-      require(path.resolve(process.cwd(), 'environment.conf.json'))
-    ),
-  },
 });

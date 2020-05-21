@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Validators } from 'react-reactive-form';
 
+import configuration from 'shared/services/configuration/configuration';
 import DefinitionComponents from '../components';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
-import { OVL_KLOKKEN_LAYER, OVL_VERLICHTING_LAYER } from '../../../../shared/services/configuration/configuration';
 
 export default {
   controls: {
@@ -177,7 +177,7 @@ export default {
             'overig',
           ],
         },
-        endpoint: OVL_VERLICHTING_LAYER,
+        endpoint: configuration.OVL_VERLICHTING_LAYER,
         zoomMin: 18,
         legend_items: [
           'lichtmast',
@@ -323,7 +323,7 @@ export default {
             'overig',
           ],
         },
-        endpoint: OVL_KLOKKEN_LAYER,
+        endpoint: configuration.OVL_KLOKKEN_LAYER,
         legend_items: [
           'klok',
         ],

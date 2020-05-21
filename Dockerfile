@@ -36,7 +36,6 @@ RUN npm --production=false \
       ci && \
       npm cache clean --force
 
-RUN echo {} > /app/environment.conf.json
 COPY src /app/src
 
 
@@ -49,7 +48,6 @@ WORKDIR /app
 
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
-
 
 ENV NODE_ENV=production
 RUN echo "run build"

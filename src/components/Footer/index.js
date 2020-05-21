@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  Row,
-  Column,
-  Heading,
-  Link,
-  themeColor,
-  themeSpacing,
-} from '@datapunt/asc-ui';
+import { Row, Column, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
+
+import configuration from 'shared/services/configuration/configuration';
 
 const Disclaimer = styled.div`
   background-color: ${themeColor('tint', 'level5')};
@@ -56,8 +51,8 @@ const Footer = () => (
         </Column>
 
         <Column span={12}>
-          Bel het Gemeentelijk informatienummer: 14 020 <br />
-          op werkdagen van 08.00 tot 18.00 uur.
+          {configuration.language.footer1} <br />
+          {configuration.language.footer2}
         </Column>
       </Row>
     </Disclaimer>
@@ -65,7 +60,9 @@ const Footer = () => (
     <Privacy>
       <Row>
         <Column span={12}>
-          <StyledLink href="https://www.amsterdam.nl/privacy/" variant="with-chevron">Privacy</StyledLink>
+          <StyledLink href={configuration.links.privacy} variant="with-chevron">
+            Privacy
+          </StyledLink>
         </Column>
       </Row>
     </Privacy>
