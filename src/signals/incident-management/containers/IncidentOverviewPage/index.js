@@ -162,6 +162,7 @@ export const IncidentOverviewPageContainerComponent = ({
                 onChangeOrdering={orderingChangedAction}
                 sort={ordering}
                 incidentsCount={count}
+                isLoading={loading}
                 {...dataLists}
               />
             )}

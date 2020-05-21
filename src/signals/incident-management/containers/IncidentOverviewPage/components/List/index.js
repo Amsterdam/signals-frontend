@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -11,10 +12,7 @@ import './style.scss';
 const getDaysOpen = incident => {
   const statusesWithoutDaysOpen = ['o', 'a', 's', 'reopen requested'];
 
-  if (
-    incident.status &&
-    !statusesWithoutDaysOpen.includes(incident.status.state)
-  ) {
+  if (incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)) {
     const start = moment(incident.created_at.split('T')[0]);
     const duration = moment.duration(moment().diff(start));
 
@@ -24,34 +22,33 @@ const getDaysOpen = incident => {
   return '-';
 };
 
-const List = ({
-  sort,
-  incidents,
-  priority,
-  status,
-  stadsdeel,
-  onChangeOrdering,
-}) => {
-  const onSort = useCallback(
-    srt => () => {
-      const sortIsAsc = sort && sort.indexOf(sort) === 0;
+const TableBody = styled(Body)`
+  ${({ isLoading }) =>
+    isLoading &&
+    css`
+      filter: blur(4px);
+    `}
+`;
 
-      onChangeOrdering(sortIsAsc ? `-${srt}` : srt);
+const List = ({ sort, incidents, isLoading, priority, status, stadsdeel, onChangeOrdering }) => {
+  const onSort = useCallback(
+    str => () => {
+      const sortIsAsc = sort && sort.indexOf(str) === 0;
+
+      onChangeOrdering(sortIsAsc ? `-${str}` : str);
     },
     [sort, onChangeOrdering]
   );
 
   const sortClassName = useCallback(
     sortName => {
-      let className = '';
       const currentSort = sort && sort.split(',')[0];
 
       if (currentSort && currentSort.indexOf(sortName) > -1) {
-        className =
-          currentSort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
+        return currentSort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
       }
 
-      return className;
+      return '';
     },
     [sort]
   );
@@ -59,15 +56,12 @@ const List = ({
   return (
     <div className="list-component" data-testid="incidentOverviewListComponent">
       <div className="list-component__body">
-        <table
-          className="list-component__table"
-          cellSpacing="0"
-          cellPadding="0"
-        >
+        <table className="list-component__table" cellSpacing="0" cellPadding="0">
           <Header onSort={onSort} sortClassName={sortClassName} />
           <tbody>
-            <Body
+            <TableBody
               incidents={incidents}
+              isLoading={isLoading}
               priority={priority}
               status={status}
               stadsdeel={stadsdeel}
@@ -82,6 +76,7 @@ const List = ({
 
 List.propTypes = {
   incidents: PropTypes.arrayOf(types.incidentType).isRequired,
+  isLoading: PropTypes.bool,
   priority: types.dataListType.isRequired,
   status: types.dataListType.isRequired,
   stadsdeel: types.dataListType.isRequired,

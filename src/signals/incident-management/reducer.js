@@ -107,12 +107,13 @@ export default (state = initialState, action) => {
       return state.set('editFilter', state.get('activeFilter'));
 
     case PAGE_CHANGED:
-      return state.set('page', action.payload);
+      return state.set('page', action.payload).set('loading', true);
 
     case ORDERING_CHANGED:
       return state
         .set('page', initialState.get('page'))
-        .set('ordering', action.payload);
+        .set('ordering', action.payload)
+        .set('loading', true);
 
     case REQUEST_INCIDENTS:
       return state

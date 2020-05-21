@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const Header = ({ onSort, sortClassName }) => (
@@ -10,40 +10,22 @@ const Header = ({ onSort, sortClassName }) => (
       <th onClick={onSort('days_open')} className={sortClassName('days_open')}>
         Dag
       </th>
-      <th
-        onClick={onSort('created_at')}
-        className={sortClassName('created_at')}
-      >
+      <th onClick={onSort('created_at')} className={sortClassName('created_at')}>
         Datum en tijd
       </th>
-      <th
-        onClick={onSort('stadsdeel,-created_at')}
-        className={sortClassName('stadsdeel')}
-      >
+      <th onClick={onSort('stadsdeel')} className={sortClassName('stadsdeel')}>
         Stadsdeel
       </th>
-      <th
-        onClick={onSort('sub_category,-created_at')}
-        className={sortClassName('sub_category')}
-      >
+      <th onClick={onSort('sub_category')} className={sortClassName('sub_category')}>
         Subcategorie
       </th>
-      <th
-        onClick={onSort('status,-created_at')}
-        className={sortClassName('status')}
-      >
+      <th onClick={onSort('status')} className={sortClassName('status')}>
         Status
       </th>
-      <th
-        onClick={onSort('priority,-created_at')}
-        className={sortClassName('priority')}
-      >
+      <th onClick={onSort('priority')} className={sortClassName('priority')}>
         Urgentie
       </th>
-      <th
-        onClick={onSort('address,-created_at')}
-        className={sortClassName('address')}
-      >
+      <th onClick={onSort('address')} className={sortClassName('address')}>
         Adres
       </th>
     </tr>
@@ -55,4 +37,4 @@ Header.propTypes = {
   sortClassName: PropTypes.func.isRequired,
 };
 
-export default memo(Header);
+export default Header;
