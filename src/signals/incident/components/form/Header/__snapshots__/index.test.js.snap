@@ -2,7 +2,7 @@
 
 exports[`Form component <Header /> error messages should render custom error 1`] = `
 <div
-  className="header header--invalid"
+  className=" header header--invalid"
 >
   <div
     className="header__label"
@@ -43,7 +43,7 @@ exports[`Form component <Header /> error messages should render custom error 1`]
 
 exports[`Form component <Header /> error messages should render email error 1`] = `
 <div
-  className="header header--invalid"
+  className=" header header--invalid"
 >
   <div
     className="header__label"
@@ -84,7 +84,7 @@ exports[`Form component <Header /> error messages should render email error 1`] 
 
 exports[`Form component <Header /> error messages should render maxLength error 1`] = `
 <div
-  className="header header--invalid"
+  className=" header header--invalid"
 >
   <div
     className="header__label"
@@ -125,7 +125,7 @@ exports[`Form component <Header /> error messages should render maxLength error 
 
 exports[`Form component <Header /> error messages should render no error when element is only touched 1`] = `
 <div
-  className="header "
+  className=" header "
 >
   <div
     className="header__label"
@@ -164,7 +164,7 @@ exports[`Form component <Header /> error messages should render no error when el
 
 exports[`Form component <Header /> error messages should render optional field message 1`] = `
 <div
-  className="header "
+  className=" header "
 >
   <div
     className="header__label"
@@ -203,7 +203,7 @@ exports[`Form component <Header /> error messages should render optional field m
 
 exports[`Form component <Header /> error messages should render required error 1`] = `
 <div
-  className="header header--invalid"
+  className=" header header--invalid"
 >
   <div
     className="header__label"
@@ -244,7 +244,7 @@ exports[`Form component <Header /> error messages should render required error 1
 
 exports[`Form component <Header /> should render correctly 1`] = `
 <div
-  className="header "
+  className=" header "
 >
   <div
     className="header__label"
@@ -283,7 +283,7 @@ exports[`Form component <Header /> should render correctly 1`] = `
 
 exports[`Form component <Header /> should render when label is not available 1`] = `
 <div
-  className="header "
+  className=" header "
 >
   <div
     className="header__label"

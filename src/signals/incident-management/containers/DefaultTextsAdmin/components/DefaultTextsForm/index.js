@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
-import { Button, themeColor  } from '@datapunt/asc-ui';
+import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { Button, themeColor } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import { dataListType, defaultTextsType } from 'shared/types';
@@ -11,6 +11,7 @@ import TextInput from 'signals/incident-management/components/TextInput';
 import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
 import HiddenInput from 'signals/incident-management/components/HiddenInput';
 import { reCategory } from 'shared/services/resolveClassification';
+import { statusList } from 'signals/incident-management/definitions';
 
 import { ChevronDown, ChevronUp } from '@datapunt/asc-assets';
 
@@ -39,101 +40,72 @@ const StyledButton = styled(Button)`
     margin-top: -1px;
   }
 `;
-export const form = FormBuilder.group({
-  item0: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item1: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item2: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item3: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item4: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item5: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item6: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item7: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item8: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  item9: FormBuilder.group({
-    title: [''],
-    text: [''],
-  }),
-  categoryUrl: ['', Validators.required],
-  state: ['', Validators.required],
-});
 
-const items = Object.keys(form.controls).slice(0, -2);
+const DEFAULT_TEXT_FIELDS = 15;
 
-const DefaultTextsForm =({
-  categoryUrl,
-  state,
-  defaultTexts,
-  subCategories,
-  onSubmitTexts,
-  onOrderDefaultTexts,
-}) => {
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    const category = form.get('categoryUrl').value;
-    const payload = {
-      post: {
-        state: form.get('state').value,
-        templates: [],
-      },
-    };
-    const found = subCategories.find(
-      sub =>
-        sub._links &&
-        sub._links.self &&
-        sub._links.self.public &&
-        sub._links.self.public === category
+const DefaultTextsForm = ({ categoryUrl, state, defaultTexts, subCategories, onSubmitTexts, onOrderDefaultTexts }) => {
+  const form = useMemo(() => {
+    const fields = [...new Array(DEFAULT_TEXT_FIELDS).keys()].reduce(
+      (acc, key) => ({
+        ...acc,
+        [`item${key}`]: FormBuilder.group({
+          title: [''],
+          text: [''],
+        }),
+      }),
+      {}
     );
-    /* istanbul ignore else */
-    if (found) {
-      const [, main_slug, sub_slug] = found._links.self.public.match(reCategory);
-      payload.sub_slug = sub_slug;
-      payload.main_slug = main_slug;
 
-      items.forEach(item => {
-        const data = form.get(item).value;
-        if (data.text && data.title) {
-          payload.post.templates.push({ ...data });
-        }
-      });
-      onSubmitTexts(payload);
-    }
+    return FormBuilder.group(fields);
+  }, []);
 
-    form.updateValueAndValidity();
-  };
+  const items = Object.keys(form.controls).slice(0, -2);
 
-  const changeOrdering = (e, index, type) => {
-    e.preventDefault();
-    onOrderDefaultTexts({ index, type });
-    form.updateValueAndValidity();
-  };
+  const handleSubmit = useCallback(
+    e => {
+      e.preventDefault();
+
+      const category = form.get('categoryUrl').value;
+      const payload = {
+        post: {
+          state: form.get('state').value,
+          templates: [],
+        },
+      };
+      const found = subCategories.find(sub => sub?._links?.self?.public === category);
+
+      /* istanbul ignore else */
+      if (found) {
+        const [, main_slug] = found._links.self.public.match(reCategory);
+        payload.subcategory = found;
+        payload.main_slug = main_slug;
+        payload.status = statusList.find(({ key }) => key === form.get('state').value);
+
+        items.forEach(item => {
+          const data = form.get(item).value;
+
+          if (data.text && data.title) {
+            payload.post.templates.push({ ...data });
+          }
+        });
+
+        onSubmitTexts(payload);
+      }
+
+      form.updateValueAndValidity();
+    },
+    [form, onSubmitTexts, subCategories, items]
+  );
+
+  const changeOrdering = useCallback(
+    (e, index, type) => {
+      e.preventDefault();
+
+      onOrderDefaultTexts({ index, type });
+      form.updateValueAndValidity();
+    },
+    [form, onOrderDefaultTexts]
+  );
 
   useEffect(() => {
     items.forEach((item, index) => {
@@ -143,42 +115,29 @@ const DefaultTextsForm =({
     });
 
     form.updateValueAndValidity();
-  }, [defaultTexts]);
+  }, [defaultTexts, form, items]);
 
   useEffect(() => {
     form.patchValue({ categoryUrl });
     form.updateValueAndValidity();
-  }, [categoryUrl]);
+  }, [categoryUrl, form]);
 
   useEffect(() => {
     form.patchValue({ state });
     form.updateValueAndValidity();
-  }, [state]);
+  }, [form, state]);
 
   return (
     <StyledWrapper>
       <FieldGroup
         control={form}
         render={({ invalid }) => (
-          <form
-            data-testid="defaultTextFormForm"
-            onSubmit={handleSubmit}
-            className="default-texts-form__form"
-          >
-            <FieldControlWrapper
-              render={HiddenInput}
-              name="state"
-              control={form.get('state')}
-            />
-
-            <FieldControlWrapper
-              render={HiddenInput}
-              name="categoryUrl"
-              control={form.get('categoryUrl')}
-            />
+          <form data-testid="defaultTextFormForm" onSubmit={handleSubmit} className="default-texts-form__form">
+            <FieldControlWrapper render={HiddenInput} name="state" control={form.get('state')} />
+            <FieldControlWrapper render={HiddenInput} name="categoryUrl" control={form.get('categoryUrl')} />
 
             {items.map((item, index) => (
-              <div key={item}>
+              <Fragment key={item}>
                 <StyledLeftColumn>
                   <FieldControlWrapper
                     placeholder="Titel"
@@ -199,9 +158,7 @@ const DefaultTextsForm =({
                     size={44}
                     variant="blank"
                     data-testid={`defaultTextFormItemButton${index}Up`}
-                    disabled={
-                      index === 0 || !form.get(`${item}.text`).value
-                    }
+                    disabled={index === 0 || !form.get(`${item}.text`).value}
                     iconSize={16}
                     icon={<ChevronUp />}
                     onClick={e => changeOrdering(e, index, 'up')}
@@ -210,25 +167,17 @@ const DefaultTextsForm =({
                     size={44}
                     variant="blank"
                     data-testid={`defaultTextFormItemButton${index}Down`}
-                    disabled={
-                      index === items.length - 1
-                      || !form.get(`item${index + 1}.text`).value
-                    }
+                    disabled={index === items.length - 1 || !form.get(`item${index + 1}.text`).value}
                     iconSize={16}
                     icon={<ChevronDown />}
                     onClick={e => changeOrdering(e, index, 'down')}
                   />
                 </StyledRightColumn>
-              </div>
+              </Fragment>
             ))}
 
             <div>
-              <Button
-                data-testid="defaultTextFormSubmitButton"
-                variant="secondary"
-                type="submit"
-                disabled={invalid}
-              >
+              <Button data-testid="defaultTextFormSubmitButton" variant="secondary" type="submit" disabled={invalid}>
                 Opslaan
               </Button>
             </div>

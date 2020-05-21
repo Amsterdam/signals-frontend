@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { withMapContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import LocationForm from './index';
@@ -8,7 +8,7 @@ import LocationForm from './index';
 describe('incident-management/containers/IncidentDetail/components/LocationForm', () => {
   it('should render a form', () => {
     const { getByTestId } = render(
-      withAppContext(
+      withMapContext(
         <LocationForm
           incidentId={incidentFixture.id}
           location={incidentFixture.location}
@@ -26,7 +26,7 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
     const onClose = jest.fn();
     const onPatchIncident = jest.fn();
     const { queryByTestId } = render(
-      withAppContext(
+      withMapContext(
         <LocationForm
           incidentId={incidentFixture.id}
           location={incidentFixture.location}

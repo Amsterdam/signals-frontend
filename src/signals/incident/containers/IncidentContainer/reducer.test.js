@@ -10,6 +10,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  RESET_EXTRA_STATE,
 } from './constants';
 
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
@@ -265,6 +266,25 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         },
         loadingClassification: false,
       });
+    });
+  });
+
+  describe('RESET_EXTRA_STATE', () => {
+    const intermediateState = initialState.set(
+      'incident',
+      initialState
+        .get('incident')
+        .set('extra_something', 'foo bar')
+        .set('extra_something_else', 'baz qux')
+    );
+
+    it('returns partially reset state', () => {
+      const newState = incidentContainerReducer(intermediateState, {
+        type: RESET_EXTRA_STATE,
+      });
+
+      expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
+      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
     });
   });
 });

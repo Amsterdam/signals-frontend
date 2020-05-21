@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen"
+    ],
+    [0.6794297873470461]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen/sub_categories/leegstand"
+    ],
+    [0.6523012732691783]
+  ]
+}

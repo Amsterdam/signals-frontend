@@ -8,6 +8,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -46,6 +47,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -90,6 +92,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={

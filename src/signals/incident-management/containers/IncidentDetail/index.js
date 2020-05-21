@@ -7,19 +7,10 @@ import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import {
-  incidentType,
-  dataListType,
-  defaultTextsType,
-  attachmentsType,
-  historyType,
-} from 'shared/types';
+import { incidentType, dataListType, defaultTextsType, attachmentsType, historyType } from 'shared/types';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import {
-  makeSelectLoading,
-  makeSelectError,
-} from 'containers/App/selectors';
+import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import {
   requestIncident,
@@ -81,8 +72,7 @@ export class IncidentDetail extends React.Component {
       const category = this.props.incidentModel.incident.category;
       if (
         !isEqual(
-          prevProps.incidentModel.incident &&
-            prevProps.incidentModel.incident.category,
+          prevProps.incidentModel.incident && prevProps.incidentModel.incident.category,
           this.props.incidentModel.incident.category
         )
       ) {
@@ -160,7 +150,6 @@ export class IncidentDetail extends React.Component {
       typesList,
     } = this.props.incidentModel;
     const { previewState, attachmentHref } = this.state;
-
     return (
       <Fragment>
         <div className="incident-detail">
@@ -199,10 +188,7 @@ export class IncidentDetail extends React.Component {
                     )}
 
                     {previewState === 'showLocation' && (
-                      <LocationPreview
-                        location={incident.location}
-                        onEditLocation={this.onEditLocation}
-                      />
+                      <LocationPreview location={incident.location} onEditLocation={this.onEditLocation} />
                     )}
 
                     {previewState === 'editLocation' && (

@@ -18,6 +18,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 global.window.L = L;
 global.window.alert = msg => msg;
+global.window.CONFIG = config;
 
 if (process.env.CI) {
   // prevent pollution of the build log when running tests in CI
@@ -25,7 +26,6 @@ if (process.env.CI) {
 }
 
 global.URL.createObjectURL = jest.fn(() => 'https://url-from-data/image.jpg');
-global.window.CONFIG = config;
 
 /**
  * Element.closest() polyfill
