@@ -5,6 +5,8 @@ import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import styled from 'styled-components';
 import { Map as MapComponent, TileLayer } from '@datapunt/react-maps';
 
+import configuration from 'shared/services/configuration/configuration';
+
 const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
 `;
@@ -36,14 +38,7 @@ const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, e
 
       {children}
 
-      <TileLayer
-        args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
-        options={{
-          subdomains: ['t1', 't2', 't3', 't4'],
-          tms: true,
-          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-        }}
-      />
+      <TileLayer args={configuration.map.tiles.args} options={configuration.map.tiles.options} />
     </StyledMap>
   );
 };
