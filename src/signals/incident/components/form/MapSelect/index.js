@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
 import MapSelectComponent from 'components/MapSelect';
 
 import Header from '../Header';
@@ -39,8 +38,7 @@ const MapSelect = ({
   };
 
   const latlng = getLatlng(parent.meta);
-  const apiRoot = CONFIGURATION.API_ROOT_MAPSERVER;
-  const url = apiRoot + meta.endpoint;
+  const url = meta.endpoint;
   const filtered_legend = filter_legend(LEGEND_ITEMS, meta.legend_items);
 
   // Get selection array from "handler".
