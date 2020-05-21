@@ -108,6 +108,9 @@ export const locationType = PropTypes.shape({
   id: PropTypes.number,
   bag_validated: PropTypes.bool,
   stadsdeel: PropTypes.string,
+  geometrie: PropTypes.shape({
+    coordinates: PropTypes.arrayOf(PropTypes.number),
+  }),
 });
 
 export const incidentType = PropTypes.shape({
@@ -264,3 +267,49 @@ export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
   name: PropTypes.string.isRequired,
   codename: PropTypes.string.isRequired,
 }));
+
+export const linksType = PropTypes.shape({
+  self: PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }).isRequired,
+  'sia-attachments': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-parent': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-pdf': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-children': PropTypes.arrayOf(PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  })),
+}).isRequired;
+
+const userRolePermissionType = PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  codename: PropTypes.string.isRequired,
+  _display: PropTypes.string.isRequired,
+  _links: linksType,
+}));
+
+const userRoleType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  _display: PropTypes.string.isRequired,
+  _links: linksType,
+  permissons: userRolePermissionType,
+});
+
+export const userType = PropTypes.shape({
+  username: PropTypes.string,
+  first_name: PropTypes.string,
+  last_name: PropTypes.string,
+  is_active: PropTypes.bool,
+  roles: PropTypes.arrayOf(userRoleType),
+  profile: PropTypes.shape({
+    departments: PropTypes.arrayOf(PropTypes.string),
+    note: PropTypes.string,
+  }),
+});

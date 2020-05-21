@@ -1,9 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -13,6 +11,7 @@ module.exports = options => ({
     '@babel/polyfill',
     'formdata-polyfill',
     'url-polyfill',
+    'proxy-polyfill',
     require.resolve('react-app-polyfill/ie11'),
   ].concat(options.entry),
   // eslint-disable-next-line prefer-object-spread
@@ -40,8 +39,7 @@ module.exports = options => ({
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: (resourcePath, context) =>
-                `${path.relative(path.dirname(resourcePath), context)}/`,
+              publicPath: (resourcePath, context) => `${path.relative(path.dirname(resourcePath), context)}/`,
               hmr: process.env.NODE_ENV === 'development',
             },
           },
@@ -116,13 +114,6 @@ module.exports = options => ({
     ],
   },
   plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: './node_modules/amsterdam-amaps/dist/nlmaps/dist/assets',
-        to: './assets',
-      },
-    ]),
-
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; Terser will automatically
     // drop any unreachable code.
@@ -151,10 +142,4 @@ module.exports = options => ({
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
-  externals: {
-    globalConfig: JSON.stringify(
-      // eslint-disable-next-line
-      require(path.resolve(process.cwd(), 'environment.conf.json'))
-    ),
-  },
 });

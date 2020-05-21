@@ -2,9 +2,9 @@ import React from 'react';
 import { render, cleanup, act } from '@testing-library/react';
 import { withAppContext, history } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
-import App from './index';
+import App, { AppContainer } from './index';
 
-jest.mock('components/MapInteractive');
+jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
   ...jest.requireActual('shared/services/auth/auth'),
@@ -26,6 +26,18 @@ describe('<App />', () => {
     listenSpy.mockRestore();
   });
 
+  it('should call authenticate', () => {
+    jest.spyOn(auth, 'authenticate');
+
+    expect(auth.authenticate).not.toHaveBeenCalled();
+
+    render(
+      withAppContext(<App />),
+    );
+
+    expect(auth.authenticate).toHaveBeenCalled();
+  });
+
   it('should scroll to top on history change', () => {
     render(
       withAppContext(<App />),
@@ -40,6 +52,33 @@ describe('<App />', () => {
     expect(spyScrollTo).toHaveBeenCalledWith(0, 0);
   });
 
+  it('should reset incident on page unload', () => {
+    act(() => {
+      history.push('/');
+    });
+
+    const resetIncidentAction = jest.fn();
+
+    const { rerender } = render(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
+
+    expect(resetIncidentAction).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/incident/bedankt');
+    });
+
+    rerender(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
+
+    expect(resetIncidentAction).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/');
+    });
+
+    rerender(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
+
+    expect(resetIncidentAction).toHaveBeenCalled();
+  });
 
   it('should render correctly', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);

@@ -39,10 +39,7 @@ const getTransformedData = formData => {
  * @param   {Object} - Second object to compare against the first object
  * @returns {Boolean}
  */
-const isEqual = (
-  { description, handling_message, is_active, name, sla },
-  othValue
-) =>
+const isEqual = ({ description, handling_message, is_active, name, sla }, othValue) =>
   [
     description === othValue.description,
     handling_message === othValue.handling_message,
@@ -62,6 +59,7 @@ const CategoryDetail = () => {
   const isExistingCategory = categoryId !== undefined;
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch();
+  const historyFetch = useFetch();
 
   const confirmedCancel = useConfirmedCancel(redirectURL);
 
@@ -69,14 +67,13 @@ const CategoryDetail = () => {
 
   const categoryURL = `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}`;
 
-  const shouldRenderForm =
-    !isExistingCategory || (isExistingCategory && Boolean(data));
+  const shouldRenderForm = !isExistingCategory || (isExistingCategory && Boolean(data));
 
   const userCan = useSelector(makeSelectUserCan);
 
   const userCanSubmitForm =
-    (isExistingCategory && userCan('change_category')) ||
-    (!isExistingCategory && userCan('add_category'));
+    (isExistingCategory && userCan('change_category')) || (!isExistingCategory && userCan('add_category'));
+
 
   useFetchResponseNotification({
     entityName,
@@ -87,13 +84,7 @@ const CategoryDetail = () => {
     redirectURL,
   });
 
-  const refetchCategories = useCallback(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  const title = `${entityName} ${
-    isExistingCategory ? 'wijzigen' : 'toevoegen'
-  }`;
+  const title = `${entityName} ${isExistingCategory ? 'wijzigen' : 'toevoegen'}`;
 
   const getFormData = useCallback(
     event => {
@@ -102,10 +93,7 @@ const CategoryDetail = () => {
         .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
         // convert line endings
         // by spec, the HTML value should contain \r\n, but the API only contains \n
-        .map(([key, val]) => [
-          key,
-          typeof val === 'string' ? val.replace(/\r\n/g, '\n') : val,
-        ])
+        .map(([key, val]) => [key, typeof val === 'string' ? val.replace(/\r\n/g, '\n') : val])
         // reduce the entries() array to an object, merging it with the initial data
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
 
@@ -149,13 +137,14 @@ const CategoryDetail = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      refetchCategories();
+      dispatch(fetchCategories());
     }
-  }, [isSuccess, refetchCategories]);
+  }, [isSuccess, dispatch]);
 
   useEffect(() => {
     if (isExistingCategory) {
       get(categoryURL);
+      historyFetch.get(`${categoryURL}/history`);
     }
 
     // Disabling linter; only need to execute on mount; defining the dependencies
@@ -165,10 +154,7 @@ const CategoryDetail = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={title}
-        BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
-      />
+      <PageHeader title={title} BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>} />
 
       {isLoading && <LoadingIndicator />}
 
@@ -176,6 +162,7 @@ const CategoryDetail = () => {
         {shouldRenderForm && (
           <CategoryForm
             data={data}
+            history={historyFetch.data}
             onCancel={onCancel}
             onSubmitForm={onSubmit}
             readOnly={!userCanSubmitForm}

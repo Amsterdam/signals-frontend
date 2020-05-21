@@ -1,8 +1,16 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Wizard, WithWizard } from 'react-albus';
+import * as auth from 'shared/services/auth/auth';
 
 import IncidentNavigation from './index';
+
+jest.mock('shared/services/auth/auth', () => ({
+  __esModule: true,
+  ...jest.requireActual('shared/services/auth/auth'),
+}));
+
+jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
 describe('<IncidentNavigation />', () => {
   let props;
@@ -31,7 +39,6 @@ describe('<IncidentNavigation />', () => {
           incident: {},
         },
         submitting: false,
-        isAuthenticated: false,
         wizard: {
           beschrijf: {
             nextButtonLabel: 'Volgende',

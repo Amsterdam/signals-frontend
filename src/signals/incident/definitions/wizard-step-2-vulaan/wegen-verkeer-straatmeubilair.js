@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Validators } from 'react-reactive-form';
 
+import configuration from 'shared/services/configuration/configuration';
 import DefinitionComponents from '../components';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
-import { OVL_KLOKKEN_LAYER, OVL_VERLICHTING_LAYER } from '../../../../shared/services/configuration/configuration';
 
 export default {
   controls: {
@@ -81,7 +81,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_straatverlichting_gevaar: {
       meta: {
@@ -130,7 +130,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_straatverlichting_probleem: {
       meta: {
@@ -159,7 +159,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_straatverlichting_nummer: {
       meta: {
@@ -177,7 +177,7 @@ export default {
             'overig',
           ],
         },
-        endpoint: OVL_VERLICHTING_LAYER,
+        endpoint: configuration.OVL_VERLICHTING_LAYER,
         zoomMin: 18,
         legend_items: [
           'lichtmast',
@@ -256,7 +256,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_klok_gevaar: {
       meta: {
@@ -307,7 +307,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_klok_nummer: {
       meta: {
@@ -323,7 +323,7 @@ export default {
             'overig',
           ],
         },
-        endpoint: OVL_KLOKKEN_LAYER,
+        endpoint: configuration.OVL_KLOKKEN_LAYER,
         legend_items: [
           'klok',
         ],
@@ -393,7 +393,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_verkeerslicht_gevaar: {
       meta: {
@@ -444,7 +444,7 @@ export default {
           Validators.required,
         ],
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_verkeerslicht_probleem_voetganger: {
       meta: {
@@ -580,7 +580,7 @@ export default {
           nee: 'Nee, ik wil direct verder gaan',
         },
       },
-      render: FormComponents.RadioInput,
+      render: FormComponents.RadioInputGroup,
     },
     extra_fietsrek_text: {
       meta: {

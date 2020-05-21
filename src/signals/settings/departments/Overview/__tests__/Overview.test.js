@@ -1,16 +1,25 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { render, fireEvent, waitForElement, act } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  waitForElement,
+  act,
+  cleanup,
+} from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext } from 'test/utils';
 import departmentsJson from 'utils/__tests__/fixtures/departments.json';
 import { DEPARTMENT_URL } from 'signals/settings/routes';
 
-import DepartmentOverview, { DepartmentOverviewContainer } from '..';
+import * as modelSelectors from 'models/departments/selectors';
+import * as appSelectors from 'containers/App/selectors';
+
+import DepartmentOverview from '..';
 
 const departments = {
   ...departmentsJson,
+  count: departmentsJson.count,
   list: departmentsJson.results,
   results: undefined,
 };
@@ -25,102 +34,86 @@ jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
   push,
 }));
 
+jest.mock('models/departments/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual(''),
+}));
+
+jest.mock('models/departments/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/departments/selectors'),
+}));
+
+jest
+  .spyOn(appSelectors, 'makeSelectUserCan')
+  .mockImplementation(() => () => {});
+
 describe('signals/settings/departments/Overview', () => {
   beforeEach(() => {
     push.mockReset();
-  });
 
-  it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<DepartmentOverview />));
-
-    const containerProps = tree.find(DepartmentOverviewContainer).props();
-
-    expect(containerProps.departments).not.toBeUndefined();
+    jest
+      .spyOn(modelSelectors, 'makeSelectDepartments')
+      .mockImplementation(() => ({ ...departments, loading: false }));
   });
 
   it('should show a loading indicator while loading', () => {
-    const { queryByTestId, rerender } = render(
-      withAppContext(
-        <DepartmentOverviewContainer
-          departments={{ ...departments, loading: true }}
-          userCan={() => {}}
-        />
-      )
-    );
+    jest
+      .spyOn(modelSelectors, 'makeSelectDepartments')
+      .mockImplementation(() => ({ ...departments, loading: true }));
+
+    const { queryByTestId } = render(withAppContext(<DepartmentOverview />));
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+  });
 
-    rerender(
-      withAppContext(
-        <DepartmentOverviewContainer
-          departments={{ ...departments, loading: false }}
-          userCan={() => {}}
-        />
-      )
-    );
+  it('should not show a loading indicator when data has loaded', () => {
+    const { queryByTestId } = render(withAppContext(<DepartmentOverview />));
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
   it('should render a title', () => {
-    const { getByText, rerender } = render(
-      withAppContext(<DepartmentOverviewContainer userCan={() => {}} />)
-    );
+    jest
+      .spyOn(modelSelectors, 'makeSelectDepartments')
+      .mockImplementation(() => ({ list: [], loading: true }));
+
+    const { getByText } = render(withAppContext(<DepartmentOverview />));
 
     expect(getByText('Afdelingen')).toBeInTheDocument();
+  });
 
-    rerender(
-      withAppContext(
-        <DepartmentOverviewContainer
-          departments={departments}
-          userCan={() => {}}
-        />
-      )
-    );
+  it('should render a title when departments are loaded', () => {
+    const { getByText } = render(withAppContext(<DepartmentOverview />));
 
     expect(getByText(`Afdelingen (${departments.count})`)).toBeInTheDocument();
   });
 
   it('should render a list', () => {
     const { container, rerender } = render(
-      withAppContext(<DepartmentOverviewContainer userCan={() => {}} />)
-    );
-
-    expect(container.querySelector('table')).not.toBeInTheDocument();
-
-    rerender(
-      withAppContext(
-        <DepartmentOverviewContainer
-          departments={{ ...departments, loading: true }}
-          userCan={() => {}}
-        />
-      )
-    );
-
-    expect(container.querySelector('table')).not.toBeInTheDocument();
-
-    rerender(
-      withAppContext(
-        <DepartmentOverviewContainer
-          departments={{ ...departments, loading: false }}
-          userCan={() => {}}
-        />
-      )
+      withAppContext(<DepartmentOverview />)
     );
 
     expect(container.querySelector('table')).toBeInTheDocument();
+
+    cleanup();
+
+    jest
+      .spyOn(modelSelectors, 'makeSelectDepartments')
+      .mockImplementation(() => ({ list: [], loading: true }));
+
+    rerender(withAppContext(<DepartmentOverview />));
+
+    expect(container.querySelector('table')).not.toBeInTheDocument();
   });
 
   it('should push on list item click', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true);
+
     const { id } = departmentsJson.results[12];
-    const { container } = render(
-      withAppContext(
-        <DepartmentOverviewContainer
-          departments={{ ...departments, loading: false }}
-          userCan={() => true}
-        />
-      )
-    );
+    const { container } = render(withAppContext(<DepartmentOverview />));
 
     const row = await waitForElement(
       () => container.querySelector(`tr[data-item-id="${id}"]`),
@@ -159,15 +152,11 @@ describe('signals/settings/departments/Overview', () => {
   });
 
   it('should not push on list item click when permissions are insufficient', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => false);
     const { id } = departmentsJson.results[9];
-    const { container } = render(
-      withAppContext(
-        <DepartmentOverviewContainer
-          departments={{ ...departments, loading: false }}
-          userCan={() => false}
-        />
-      )
-    );
+    const { container } = render(withAppContext(<DepartmentOverview />));
 
     const row = await waitForElement(
       () => container.querySelector(`tr[data-item-id="${id}"]`),

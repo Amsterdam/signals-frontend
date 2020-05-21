@@ -1,25 +1,26 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import './style.scss';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { List, ListItem } from '@datapunt/asc-ui';
 
-const ListObjectValue = ({ label, value }) => (
-  <div className="list-object-value">
-    <div className="row">
-      <div className="col-5 col-md-4">
-        <div className="list-object-value__item-label">{label}</div>
-      </div>
-      <div className="col-5 col-md-7">
-        <ul className="list-object-value__item-value">
-          { value.map(item => <li key={item.label}>{item.label}</li>) }
-        </ul>
-      </div>
-    </div>
-  </div>
+const StyledList = styled(List)`
+  margin-bottom: 0;
+`;
+
+const ListObjectValue = ({ value }) => (
+  <StyledList>
+    {value?.map(item => (
+      <ListItem key={item.label}>{item.label}</ListItem>
+    ))}
+  </StyledList>
 );
 
 ListObjectValue.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.array.isRequired,
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default ListObjectValue;

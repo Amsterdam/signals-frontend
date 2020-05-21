@@ -1,17 +1,7 @@
-/**
- * app.js
- *
- * This is the entry file for the application, only setup and boilerplate
- * code.
- */
-
-// Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router/immutable';
-import moment from 'moment';
-import 'moment/src/locale/nl';
 import * as Sentry from '@sentry/browser';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import Immutable from 'immutable';
@@ -21,14 +11,11 @@ import history from 'utils/history';
 import App from 'containers/App';
 import { authenticateUser } from 'containers/App/actions';
 import { authenticate } from 'shared/services/auth/auth';
+import configuration from 'shared/services/configuration/configuration';
 import loadModels from 'models';
 
-// Import Language Provider
-import LanguageProvider from 'containers/LanguageProvider';
-
-/* eslint-disable import/no-webpack-loader-syntax */
+// eslint-disable-next-lin import/no-webpack-loader-syntax
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-/* eslint-enable import/no-webpack-loader-syntax */
 
 // Import CSS and Global Styles
 import 'amsterdam-stijl/dist/css/ams-stijl.css';
@@ -37,20 +24,22 @@ import './polyfills';
 
 import configureStore from './configureStore';
 
-// Import i18n messages
-import { translationMessages } from './i18n';
-
 const environment = process.env.NODE_ENV;
-const release = process.env.GIT_COMMIT;
 
-Sentry.init({
-  environment,
-  dsn: 'https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27',
-  release,
-});
+try {
+  const dsn = configuration?.sentry?.dsn;
+  const release = process.env.GIT_COMMIT;
+  if (dsn) {
+    Sentry.init({
+      environment,
+      dsn,
+      release,
+    });
+  }
+} catch (error) {
+  // noop
+}
 
-// load locale for date formatting
-moment.locale('nl');
 
 // Create redux store with history
 const initialState = Immutable.Map();
@@ -60,22 +49,27 @@ const MOUNT_NODE = document.getElementById('app');
 loadModels(store);
 
 // Setup Matomo
-const hostname = window && window.location && window.location.hostname;
-const MatomoInstance = new MatomoTracker({
-  urlBase: 'https://analytics.data.amsterdam.nl/',
-  siteId: hostname === 'meldingen.amsterdam.nl' ? 13 : 14,
-});
+try {
+  const urlBase = configuration?.matomo?.urlBase;
+  const siteId = configuration?.matomo?.siteId;
 
-MatomoInstance.trackPageView();
+  if (urlBase && siteId) {
+    const MatomoInstance = new MatomoTracker({
+      urlBase,
+      siteId,
+    });
+    MatomoInstance.trackPageView();
+  }
+} catch (error) {
+  // noop
+}
 
-const render = messages => {
+const render = () => {
   ReactDOM.render(
     <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </LanguageProvider>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
     </Provider>,
     MOUNT_NODE
   );
@@ -85,30 +79,13 @@ if (module.hot) {
   // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
-  module.hot.accept(['./i18n', 'containers/App'], () => {
+  module.hot.accept(['containers/App'], () => {
     ReactDOM.unmountComponentAtNode(MOUNT_NODE);
-    render(translationMessages);
+    render();
   });
 }
 
-// Chunked polyfill for browsers without Intl support
-if (!window.Intl) {
-  new Promise(resolve => {
-    resolve(import('intl'));
-  })
-    .then(() =>
-      Promise.all([
-        import('intl/locale-data/jsonp/en.js'),
-        import('intl/locale-data/jsonp/nl.js'),
-      ])
-    )
-    .then(() => render(translationMessages))
-    .catch(err => {
-      throw err;
-    });
-} else {
-  render(translationMessages);
-}
+render();
 
 // Authenticate and start the authorization process
 const credentials = authenticate();

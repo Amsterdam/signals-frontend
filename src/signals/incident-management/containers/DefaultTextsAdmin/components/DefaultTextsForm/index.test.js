@@ -1,13 +1,15 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
+
 import { store, withAppContext } from 'test/utils';
-import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
+import categoriesPrivateFixture from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { makeSelectSubCategories } from 'models/categories/selectors';
+import { statusList } from 'signals/incident-management/definitions';
 
 import DefaultTextsForm from '.';
 
-store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
+store.dispatch(fetchCategoriesSuccess(categoriesPrivateFixture));
 
 const subCategories = makeSelectSubCategories(store.getState());
 
@@ -80,11 +82,15 @@ describe('<DefaultTextsForm />', () => {
         withAppContext(<DefaultTextsForm {...props} />)
       );
 
-      fireEvent.click(getByTestId('defaultTextFormItemButton1Down'));
+      act(() => {
+        fireEvent.click(getByTestId('defaultTextFormItemButton1Down'));
+      });
 
       expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({ index: 1, type: 'down' });
 
-      fireEvent.click(getByTestId('defaultTextFormItemButton1Up'));
+      act(() => {
+        fireEvent.click(getByTestId('defaultTextFormItemButton1Up'));
+      });
 
       expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({ index: 1, type: 'up' });
     });
@@ -101,7 +107,10 @@ describe('<DefaultTextsForm />', () => {
 
       expect(props.onSubmitTexts).not.toHaveBeenCalled();
 
-      fireEvent.click(getByTestId('defaultTextFormSubmitButton'));
+      act(() => {
+        fireEvent.click(getByTestId('defaultTextFormSubmitButton'));
+      });
+
       expect(props.onSubmitTexts).not.toHaveBeenCalled();
     });
 
@@ -110,11 +119,17 @@ describe('<DefaultTextsForm />', () => {
         withAppContext(<DefaultTextsForm {...props} />)
       );
 
-      fireEvent.click(getByTestId('defaultTextFormSubmitButton'));
+      act(() => {
+        fireEvent.click(getByTestId('defaultTextFormSubmitButton'));
+      });
+
+      const status = statusList.find(({ key }) => key === 'o');
+      const subcategory = subCategories.find(({ slug }) => slug === 'asbest-accu');
 
       expect(props.onSubmitTexts).toHaveBeenCalledWith({
         main_slug: 'afval',
-        sub_slug: 'asbest-accu',
+        subcategory,
+        status,
         post: {
           state: 'o',
           templates: props.defaultTexts,

@@ -1,97 +1,63 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import isObject from 'lodash.isobject';
-import { themeColor } from '@datapunt/asc-ui';
+import { useDispatch } from 'react-redux';
+import { Radio, Label } from '@datapunt/asc-ui';
 
-import Header from '../Header';
+import { resetExtraState, updateIncident } from 'signals/incident/containers/IncidentContainer/actions';
 
-const Info = styled.span`
-  color: ${themeColor('tint', 'level5')};
+const StyledLabel = styled(Label)`
+  & > * {
+    font-family: AvenirNextLTW01-Regular, arial, sans-serif;
+  }
 `;
 
-const RadioInput = ({
-  handler,
-  touched,
-  hasError,
-  meta,
-  parent,
-  getError,
-  validatorsOrOpts,
-}) => {
-  const currentSelected =
-    parent.meta.incident && parent.meta.incident[meta.name];
-  let info;
-  let label;
+const RadioInput = ({ checked, id, idAttr, label, info, name, resetsStateOnChange }) => {
+  const dispatch = useDispatch();
 
-  if (currentSelected &&  meta.values) {
-    ({ info, value: label } = meta.values[currentSelected.id]);
-  }
+  const onChange = useCallback(() => {
+    if (resetsStateOnChange) {
+      dispatch(resetExtraState());
+    }
+
+    dispatch(
+      updateIncident({
+        [name]: {
+          id,
+          label,
+          info,
+        },
+      })
+    );
+  }, [dispatch, id, info, label, name, resetsStateOnChange]);
 
   return (
-    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-      {meta && meta.isVisible ? (
-        <div className={`${meta.className || 'col-12'} mode_input`}>
-          <Header
-            meta={meta}
-            options={validatorsOrOpts}
-            touched={touched}
-            hasError={hasError}
-            getError={getError}
-          >
-            <div className="antwoorden">
-              {meta.values &&
-                isObject(meta.values) &&
-                Object.entries(meta.values).map(([key, value]) => (
-                  <div className="antwoord" key={key}>
-                    <input
-                      id={`${meta.name}-${key + 1}`}
-                      className="kenmerkradio"
-                      type="radio"
-                      checked={handler().value.id === key}
-                      onChange={() => {
-                        parent.meta.updateIncident({
-                          [meta.name]: {
-                            id: key,
-                            label: value.value || value,
-                            info: value.info,
-                          },
-                        });
-                      }}
-                    />
-                    <label htmlFor={`${meta.name}-${key + 1}`}>
-                      {value.value || value}
-                    </label>
-                  </div>
-                ))}
-
-              <p>
-                {info ? (
-                  <Info>
-                    {label}: {info}
-                  </Info>
-                ) : (
-                  <br />
-                )}
-              </p>
-            </div>
-          </Header>
-        </div>
-      ) : (
-        ''
-      )}
-    </div>
+    <StyledLabel htmlFor={idAttr} label={label}>
+      <Radio
+        checked={checked}
+        data-testid="inputUsingDispatch"
+        id={idAttr}
+        onChange={onChange}
+        type="radio"
+      />
+    </StyledLabel>
   );
 };
 
+RadioInput.defaultProps = {
+  checked: false,
+  info: '',
+  resetsStateOnChange: false,
+};
+
 RadioInput.propTypes = {
-  handler: PropTypes.func,
-  touched: PropTypes.bool,
-  getError: PropTypes.func.isRequired,
-  hasError: PropTypes.func.isRequired,
-  meta: PropTypes.object,
-  parent: PropTypes.object,
-  validatorsOrOpts: PropTypes.object,
+  checked: PropTypes.bool,
+  id: PropTypes.string.isRequired,
+  idAttr: PropTypes.string.isRequired,
+  info: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  resetsStateOnChange: PropTypes.bool,
 };
 
 export default RadioInput;

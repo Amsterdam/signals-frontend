@@ -32,7 +32,6 @@ exports[`<IncidentNavigation /> rendering render correctly button with submittin
         "incidentContainer": Object {
           "incident": Object {},
         },
-        "isAuthenticated": false,
         "submitting": true,
         "updateIncident": [MockFunction],
         "wizard": Object {
@@ -145,7 +144,6 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
         "incidentContainer": Object {
           "incident": Object {},
         },
-        "isAuthenticated": false,
         "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
@@ -251,7 +249,6 @@ exports[`<IncidentNavigation /> rendering render correctly last step with no but
         "incidentContainer": Object {
           "incident": Object {},
         },
-        "isAuthenticated": false,
         "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
@@ -346,7 +343,6 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
         "incidentContainer": Object {
           "incident": Object {},
         },
-        "isAuthenticated": false,
         "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
@@ -466,7 +462,6 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
         "incidentContainer": Object {
           "incident": Object {},
         },
-        "isAuthenticated": false,
         "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {
@@ -561,7 +556,6 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
         "incidentContainer": Object {
           "incident": Object {},
         },
-        "isAuthenticated": false,
         "submitting": false,
         "updateIncident": [MockFunction],
         "wizard": Object {

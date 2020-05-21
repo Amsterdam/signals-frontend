@@ -1,8 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import get from 'lodash.get';
 import set from 'lodash.set';
+import Button from 'components/Button';
+import { themeSpacing } from '@datapunt/asc-ui';
 
 import { incidentType, dataListType } from 'shared/types';
 
@@ -10,138 +13,178 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import SelectInput from 'signals/incident-management/components/SelectInput';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 
-import './style.scss';
+const EditButton = styled(Button)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: ${themeSpacing(0, 1.5)};
+`;
 
-class ChangeValue extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  form = FormBuilder.group({ // eslint-disable-line react/sort-comp
-    input: ['', Validators.required],
-  });
+const SaveButton = styled(Button)`
+  margin-right: ${themeSpacing(2)};
+  margin-top: -${themeSpacing(2)};
+`;
 
-  constructor(props) {
-    super(props);
+const CancelButton = styled(Button)`
+  margin-top: -${themeSpacing(2)};
+`;
 
-    this.state = {
-      formVisible: false,
+const form = FormBuilder.group({
+  input: ['', Validators.required],
+});
+
+const ChangeValue = ({
+  component,
+  disabled,
+  display,
+  incident,
+  list,
+  onPatchIncident,
+  patch,
+  path,
+  sort,
+  type,
+  valueClass,
+  valuePath,
+}) => {
+  const [showForm, setShowForm] = useState(false);
+
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
+
+      const payload = { ...patch };
+
+      set(payload, path, form.value.input);
+
+      onPatchIncident({
+        id: incident.id,
+        type,
+        patch: { ...payload },
+      });
+
+      form.reset();
+      setShowForm(false);
+    },
+    [incident.id, patch, path, type, onPatchIncident]
+  );
+
+  const handleCancel = useCallback(() => {
+    form.reset();
+    setShowForm(false);
+  }, []);
+
+  const handleKeyUp = useCallback(
+    event => {
+      switch (event.key) {
+        case 'Esc':
+        case 'Escape':
+          handleCancel();
+          break;
+
+        default:
+          break;
+      }
+    },
+    [handleCancel]
+  );
+
+  const onShowForm = useCallback(() => {
+    const value = get(incident, valuePath || path);
+
+    form.controls.input.setValue(value);
+    setShowForm(true);
+  }, [incident, valuePath, path]);
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.removeEventListener('keyup', handleKeyUp);
     };
-    this.showForm = this.showForm.bind(this);
-    this.hideForm = this.hideForm.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-  }
+    // Disabling linter; only execute on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const payload = { ...this.props.patch };
-    set(payload, this.props.path, this.form.value.input);
-    this.props.onPatchIncident({
-      id: this.props.incident.id,
-      type: this.props.type,
-      patch: { ...payload },
-    });
-
-    this.form.reset();
-    this.hideForm();
-  }
-
-  handleCancel() {
-    this.form.reset();
-    this.hideForm();
-  }
-
-  showForm() {
-    this.form.controls.input.setValue(get(this.props.incident, this.props.valuePath || this.props.path));
-    this.setState({ formVisible: true });
-  }
-
-  hideForm() {
-    this.setState({ formVisible: false });
-  }
-
-  render() {
-    const {
-      component, display, definitionClass, valueClass, list, incident, path, valuePath, sort, disabled,
-    } = this.props;
-    const { formVisible } = this.state;
-    return (
-      <dl className="change-value">
-        <dt className={definitionClass}>
-          {display}
-        </dt>
-
-        {formVisible
-          ? (
-            <FieldGroup
-              strict={false}
-              control={this.form}
-              render={() => (
-                <form onSubmit={this.handleSubmit} className="change-value__form">
-                  <Fragment>
-                    <FieldControlWrapper
-                      render={component}
-                      name="input"
-                      values={list}
-                      className="change-value__form-input"
-                      control={this.form.get('input')}
-                      disabled={disabled}
-                      sort={sort}
-                    />
-
-                    <button
-                      className="change-value__form-submit action primary"
-                      type="submit"
-                    >
-                      Opslaan
-                    </button>
-                    <button
-                      className="change-value__form-cancel action secundary-grey"
-                      type="button"
-                      onClick={this.handleCancel}
-                    >
-                      Annuleren
-                    </button>
-                  </Fragment>
-                </form>
-              )}
+  const editForm = (
+    <FieldGroup
+      strict={false}
+      control={form}
+      render={() => (
+        <form onSubmit={handleSubmit} data-testid="changeValueForm">
+          <Fragment>
+            <FieldControlWrapper
+              render={component}
+              name="input"
+              values={list}
+              control={form.get('input')}
+              disabled={disabled}
+              sort={sort}
             />
-          )
-          : (
-            <dd className={valueClass}>
-              <button
-                className="change-value__edit incident-detail__button--edit"
-                type="button"
-                onClick={this.showForm}
-                disabled={disabled}
-              />
-              <span className="change-value__value">{getListValueByKey(list, get(incident, valuePath || path))}</span>
-            </dd>
-          )}
-      </dl>
-    );
-  }
-}
+
+            <SaveButton data-testid="submitButton" variant="secondary" type="submit">
+              Opslaan
+            </SaveButton>
+
+            <CancelButton data-testid="cancelButton" variant="tertiary" type="button" onClick={handleCancel}>
+              Annuleren
+            </CancelButton>
+          </Fragment>
+        </form>
+      )}
+    />
+  );
+
+  return (
+    <Fragment>
+      <dt>
+        {display}
+        {!showForm && (
+          <EditButton
+            data-testid="editButton"
+            disabled={disabled}
+            icon={<IconEdit />}
+            iconSize={18}
+            onClick={onShowForm}
+            variant="application"
+          />
+        )}
+      </dt>
+
+      {showForm ? (
+        <dd>{editForm}</dd>
+      ) : (
+        <dd className={valueClass}>
+          <span data-testid="valuePath">{getListValueByKey(list, get(incident, valuePath || path))}</span>
+        </dd>
+      )}
+    </Fragment>
+  );
+};
 
 ChangeValue.defaultProps = {
   component: SelectInput,
-  valuePath: '',
-  patch: {},
   disabled: false,
+  patch: {},
+  valueClass: '',
+  valuePath: '',
 };
 
 ChangeValue.propTypes = {
   component: PropTypes.func,
-  incident: incidentType.isRequired,
-  definitionClass: PropTypes.string.isRequired,
-  valueClass: PropTypes.string.isRequired,
-  list: dataListType.isRequired,
-  display: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-  valuePath: PropTypes.string,
-  patch: PropTypes.object,
   disabled: PropTypes.bool,
+  display: PropTypes.string.isRequired,
+  incident: incidentType.isRequired,
+  list: dataListType.isRequired,
+  onPatchIncident: PropTypes.func.isRequired,
+  patch: PropTypes.object,
+  path: PropTypes.string.isRequired,
   sort: PropTypes.bool,
   type: PropTypes.string.isRequired,
-
-  onPatchIncident: PropTypes.func.isRequired,
+  valueClass: PropTypes.string,
+  valuePath: PropTypes.string,
 };
 
 export default ChangeValue;

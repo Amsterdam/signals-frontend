@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -90,4 +90,4 @@ List.propTypes = {
   sort: PropTypes.string,
 };
 
-export default memo(List);
+export default List;

@@ -110,7 +110,7 @@ describe('models/categories/selectors', () => {
     const slugs = subCategories.map(({ slug }) => slug).sort();
     const keys = categoriesJson.results
       .filter(filterForSub)
-      .filter(({ is_active}) => is_active)
+      .filter(({ is_active }) => is_active)
       .map(({ slug }) => slug)
       .sort();
 

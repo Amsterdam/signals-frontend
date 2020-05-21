@@ -1,12 +1,12 @@
 import { fromJS } from 'immutable';
-import makeSelectRolesModel from './selectors';
+import { rolesModelSelector } from './selectors';
 import { initialState } from './reducer';
 
 
-describe('makeSelectRolesModel', () => {
+describe('rolesModelSelector', () => {
   it('should select the initial state', () => {
     const mockedState = fromJS({});
-    expect(makeSelectRolesModel(mockedState)).toEqual(initialState.toJS());
+    expect(rolesModelSelector(mockedState)).toEqual(initialState.toJS());
   });
 
   it('should select the roles', () => {
@@ -17,6 +17,6 @@ describe('makeSelectRolesModel', () => {
     const mockedState = fromJS({
       roles,
     });
-    expect(makeSelectRolesModel(mockedState)).toEqual(roles);
+    expect(rolesModelSelector(mockedState)).toEqual(roles);
   });
 });

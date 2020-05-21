@@ -68,6 +68,10 @@ export default ({ hoofdrubriek = [[], []], subrubriek = [[], []] } = {}) => {
         subcategory = 'overig-wegen-verkeer-straatmeubilair';
         break;
 
+      case 'wonen':
+        subcategory = 'wonen-overig';
+        break;
+
       default:
         subcategory = DEFAULT_CLASSIFICATION;
     }

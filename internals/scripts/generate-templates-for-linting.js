@@ -33,17 +33,17 @@ const removeTestsDirFrom = (relativePath) => () => rimraf.sync(path.join(__dirna
 const plop = nodePlop('./index');
 
 const componentGen = plop.getGenerator('component');
-componentGen.runActions({ name: 'RbGeneratedComponentEsclass', type: 'React.Component', wantMessages: true, wantLoadable: true, })
+componentGen.runActions({ name: 'RbGeneratedComponentEsclass', type: 'React.Component', wantLoadable: true, })
   .then(checkForErrors)
   .then(removeTestsDirFrom('components/RbGeneratedComponentEsclass'))
   .catch(reportErrorsFor('component/React.Component'));
 
-componentGen.runActions({ name: 'RbGeneratedComponentEsclasspure', type: 'React.PureComponent', wantMessages: true, wantLoadable: true })
+componentGen.runActions({ name: 'RbGeneratedComponentEsclasspure', type: 'React.PureComponent', wantLoadable: true })
   .then(checkForErrors)
   .then(removeTestsDirFrom('components/RbGeneratedComponentEsclasspure'))
   .catch(reportErrorsFor('component/React.PureComponent'));
 
-componentGen.runActions({ name: 'RbGeneratedComponentStatelessfunction', type: 'Stateless Function', wantMessages: true, wantLoadable: true })
+componentGen.runActions({ name: 'RbGeneratedComponentStatelessfunction', type: 'Stateless Function', wantLoadable: true })
   .then(checkForErrors)
   .then(removeTestsDirFrom('components/RbGeneratedComponentStatelessfunction'))
   .catch(reportErrorsFor('component/Stateless Function'));
@@ -55,7 +55,6 @@ containerGen.runActions({
   wantHeaders: true,
   wantActionsAndReducer: true,
   wantSagas: true,
-  wantMessages: true,
   wantLoadable: true,
 })
   .then(checkForErrors)
@@ -68,7 +67,6 @@ containerGen.runActions({
   wantHeaders: true,
   wantActionsAndReducer: true,
   wantSagas: true,
-  wantMessages: true,
   wantLoadable: true,
 })
   .then(checkForErrors)
@@ -81,13 +79,8 @@ containerGen.runActions({
   wantHeaders: true,
   wantActionsAndReducer: true,
   wantSagas: true,
-  wantMessages: true,
   wantLoadable: true,
 })
   .then(checkForErrors)
   .then(removeTestsDirFrom('containers/RbGeneratedContainerStateless'))
   .catch(reportErrorsFor('container/Stateless'));
-
-const languageGen = plop.getGenerator('language');
-languageGen.runActions({ language: 'fr' })
-  .catch(reportErrorsFor('language'));

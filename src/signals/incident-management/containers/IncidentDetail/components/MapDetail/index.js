@@ -1,38 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Map from 'components/Map';
+import { markerIcon } from 'shared/services/configuration/map-markers';
+import { Marker } from '@datapunt/react-maps';
 
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { locationType } from 'shared/types';
-
 import './style.scss';
 
-const MapDetail = ({
-  value, hideAttribution, hideZoomControls, useSmallMarker, zoom,
-}) => {
-  const location = value && value.geometrie && value.geometrie.coordinates;
-  const latlng = location ? { latitude: location[1], longitude: location[0] } : null;
-  return (
-    <div className="map-detail">
-      {latlng
-        ? (
-          <Map
-            latlng={latlng}
-            hideAttribution={hideAttribution}
-            hideZoomControls={hideZoomControls}
-            useSmallMarker={useSmallMarker}
-            zoom={zoom}
-          />
-        ) : ''}
-    </div>
-  );
+const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
+  const location = value?.geometrie?.coordinates;
+  const lat = location && location[1];
+  const lng = location && location[0];
+  const options = {
+    ...MAP_OPTIONS,
+    zoom,
+    attributionControl: false,
+    center: [lat, lng],
+  };
+
+  return (lat && lng) ? (
+    <Map mapOptions={options} canBeDragged={false} className={className} hasZoomControls={hasZoomControls}>
+      <Marker args={[{ lat, lng }]} options={{ icon }} />
+    </Map>
+  ) : null;
+};
+
+MapDetail.defaultProps = {
+  className: '',
+  hasZoomControls: false,
+  icon: markerIcon,
 };
 
 MapDetail.propTypes = {
+  className: PropTypes.string,
+  hasZoomControls: PropTypes.bool,
+  icon: PropTypes.shape({}), // leaflet icon object
   value: locationType.isRequired,
-  hideAttribution: PropTypes.bool,
-  hideZoomControls: PropTypes.bool,
-  useSmallMarker: PropTypes.bool,
-  zoom: PropTypes.string,
+  zoom: PropTypes.number.isRequired,
 };
 
 export default MapDetail;

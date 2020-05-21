@@ -12,7 +12,7 @@ import {
   requestDashboardError,
 } from './actions';
 
-export const requestURL = `${CONFIGURATION.API_ROOT}signals/experimental/dashboards/1`;
+export const requestURL = CONFIGURATION.DASHBOARD_ENDPOINT;
 
 export function* fetchDashboard() {
   try {

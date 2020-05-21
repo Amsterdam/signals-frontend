@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
-import { withAppContext, withIntlAppContext } from 'test/utils';
+import { withAppContext } from 'test/utils';
 import * as definitions from 'signals/incident-management/definitions';
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
 
@@ -10,15 +10,6 @@ import FilterTagList, {
   allLabelAppend,
   mapKeys,
 } from '..';
-import translations from '../../../../../translations/nl.json';
-
-const dataLists = {
-  priority: definitions.priorityList,
-  status: definitions.statusList,
-  feedback: definitions.feedbackList,
-  stadsdeel: definitions.stadsdeelList,
-  source: definitions.sourceList,
-};
 
 describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
@@ -44,7 +35,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     const props = tree.find(FilterTagListComponent).props();
 
-    expect(props.dataLists).not.toBeUndefined();
     expect(props.subCategories).not.toBeUndefined();
     expect(props.mainCategories).not.toBeUndefined();
   });
@@ -52,14 +42,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   describe('date formatting', () => {
     it('renders created before', () => {
       const { queryByText } = render(
-        withIntlAppContext(
+        withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={{ ...tags, created_before: '2019-09-23' }}
             subCategories={subCategories}
             mainCategories={mainCategories}
-          />,
-          translations
+          />
         )
       );
 
@@ -70,14 +58,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('renders date after', () => {
       const { queryByText } = render(
-        withIntlAppContext(
+        withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={{ ...tags, created_after: '2019-09-17' }}
             subCategories={subCategories}
             mainCategories={mainCategories}
-          />,
-          translations
+          />
         )
       );
 
@@ -88,9 +74,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('renders both date after and date before', () => {
       const { queryByText } = render(
-        withIntlAppContext(
+        withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={{
               ...tags,
               created_before: '2019-09-23',
@@ -98,8 +83,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             }}
             subCategories={subCategories}
             mainCategories={mainCategories}
-          />,
-          translations
+          />
         )
       );
 
@@ -123,7 +107,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { rerender, queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={tags}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -140,7 +123,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       rerender(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={tagsWithMainCat}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -157,7 +139,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryAllByTestId, queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={tags}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -187,7 +168,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryByText } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             tags={groupedTags}
             subCategories={subCategories}
             mainCategories={mainCategories}
@@ -205,7 +185,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const { queryAllByTestId } = render(
         withAppContext(
           <FilterTagListComponent
-            dataLists={dataLists}
             subCategories={subCategories}
             mainCategories={mainCategories}
           />
