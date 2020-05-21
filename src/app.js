@@ -25,15 +25,21 @@ import './polyfills';
 import configureStore from './configureStore';
 
 const environment = process.env.NODE_ENV;
-const dsn = configuration.sentry && configuration.sentry.dsn;
-const release = process.env.GIT_COMMIT;
-if (dsn) {
-  Sentry.init({
-    environment,
-    dsn,
-    release,
-  });
+
+try {
+  const dsn = configuration?.sentry?.dsn;
+  const release = process.env.GIT_COMMIT;
+  if (dsn) {
+    Sentry.init({
+      environment,
+      dsn,
+      release,
+    });
+  }
+} catch (error) {
+  // noop
 }
+
 
 // Create redux store with history
 const initialState = Immutable.Map();
@@ -43,14 +49,19 @@ const MOUNT_NODE = document.getElementById('app');
 loadModels(store);
 
 // Setup Matomo
-const urlBase = configuration.matomo && configuration.matomo.urlBase;
-const siteId = configuration.matomo && configuration.matomo.siteId;
-if (urlBase && siteId) {
-  const MatomoInstance = new MatomoTracker({
-    urlBase,
-    siteId,
-  });
-  MatomoInstance.trackPageView();
+try {
+  const urlBase = configuration?.matomo?.urlBase;
+  const siteId = configuration?.matomo?.siteId;
+
+  if (urlBase && siteId) {
+    const MatomoInstance = new MatomoTracker({
+      urlBase,
+      siteId,
+    });
+    MatomoInstance.trackPageView();
+  }
+} catch (error) {
+  // noop
 }
 
 const render = () => {
