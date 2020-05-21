@@ -14,6 +14,7 @@ exports[`Form component <FileInput /> rendering should render upload field corre
     className="col-12 mode_input file"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -72,6 +73,7 @@ exports[`Form component <FileInput /> rendering should render upload field with 
     className="col-12 mode_input file"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -148,6 +150,7 @@ exports[`Form component <FileInput /> rendering should render upload field with 
     className="col-12 mode_input file"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={

@@ -6,7 +6,6 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { requestIncidentSuccess } from 'models/incident/actions';
-import makeSelectIncidentModel from 'models/incident/selectors';
 
 import { IncidentSplitContainer } from './index';
 
@@ -18,7 +17,6 @@ jest.mock('react-router-dom', () => ({
 store.dispatch(requestIncidentSuccess(incidentJson));
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
-const incidentModel = makeSelectIncidentModel(store.getState());
 jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   id: '42',
 }));
@@ -31,24 +29,23 @@ jest.mock('../../components/FieldControlWrapper', () => ({
 }));
 
 describe('<IncidentSplitContainer />', () => {
-  it('should render correctly', () => {
+  it('should render correctly', async () => {
     const props = {
-      incidentModel,
-      onRequestIncident: jest.fn(),
-      onRequestAttachments: jest.fn(),
       onSplitIncident: jest.fn(),
       onGoBack: jest.fn(),
     };
 
-    const { getByTestId, queryAllByTestId, rerender } = render(
-      withAppContext(<IncidentSplitContainer {...props} incidentModel={{ ...incidentModel, loading: true }} />)
-    );
+    fetch.mockResponseOnce(JSON.stringify(incidentJson));
 
-    expect(getByTestId('loadingIndicator')).toBeInTheDocument();
-
-    rerender(
+    const { queryByTestId, queryAllByTestId, findByTestId } = render(
       withAppContext(<IncidentSplitContainer {...props} />)
     );
+
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+
+    await findByTestId('incidentSplit');
+
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
 
     expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(
       /^Deelmelding 1$/
@@ -56,8 +53,5 @@ describe('<IncidentSplitContainer />', () => {
     expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(
       /^Deelmelding 2$/
     );
-
-    expect(props.onRequestIncident).toHaveBeenCalledWith('42');
-    expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
   });
 });

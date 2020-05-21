@@ -1,5 +1,11 @@
-import { resetLocationAction, setLocationAction, setAddressAction, setValuesAction } from '../actions';
-import { RESET_LOCATION, SET_LOCATION, SET_ADDRESS, SET_VALUES } from '../constants';
+import {
+  resetLocationAction,
+  setLocationAction,
+  setAddressAction,
+  setValuesAction,
+  setLoadingAction,
+} from '../actions';
+import { RESET_LOCATION, SET_LOCATION, SET_ADDRESS, SET_VALUES, SET_LOADING } from '../constants';
 
 describe('containers/MapContext/actions', () => {
   test('setLocationAction', () => {
@@ -37,6 +43,17 @@ describe('containers/MapContext/actions', () => {
 
     expect(setValuesAction(payload)).toEqual({
       type: SET_VALUES,
+      payload,
+    });
+  });
+
+  test('setLoadingAction', () => {
+    const payload = {
+      some: 'object',
+    };
+
+    expect(setLoadingAction(payload)).toEqual({
+      type: SET_LOADING,
       payload,
     });
   });

@@ -58,7 +58,7 @@ describe('<DetailHeader />', () => {
 
     expect(queryByTestId('detail-header-button-split')).not.toBeInTheDocument();
 
-    rerender(withAppContext(<DetailHeader {...props} links={{ self: { href: 'self' }}} />));
+    rerender(withAppContext(<DetailHeader {...props} links={{ self: { href: 'self' } }} />));
 
     expect(queryByTestId('detail-header-button-split')).toBeInTheDocument();
   });

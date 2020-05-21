@@ -8,6 +8,7 @@ exports[`Form component <SelectInput /> rendering should render empty select fie
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -48,6 +49,7 @@ exports[`Form component <SelectInput /> rendering should render select field cor
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={

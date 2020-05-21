@@ -5,6 +5,7 @@ export const MANAGE_SIGNALS = {
   buttonFilteren: '[data-testid=filterModalBtn]',
   firstSignalStadsdeelName: ':nth-child(1) > :nth-child(4) > a',
   filterTagList: '[data-testid=filterTagListTag]',
+  linkSignal: '[href*="/manage/incident/"]',
   paginationPages: '[data-testid="pagination"] > ul > li',
   refreshIcon: '[class*=PageHeader__RefreshIcon]',
   stadsdeelFromSignal: 'tr td:nth-child(4)',
