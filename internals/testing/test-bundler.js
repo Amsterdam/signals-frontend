@@ -26,7 +26,6 @@ if (process.env.CI) {
 }
 
 global.URL.createObjectURL = jest.fn(() => 'https://url-from-data/image.jpg');
-global.window.CONFIG = config;
 
 /**
  * Element.closest() polyfill
