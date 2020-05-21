@@ -1,0 +1,9 @@
+figure {
+  display: inline-block;
+  margin: 30px 1px;
+
+  figcaption {
+    background-color: $color-superlightgrey;
+    padding: 3px 5px 2px;
+  }
+}

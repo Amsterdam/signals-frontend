@@ -1,0 +1,42 @@
+h1,
+h2,
+h3,
+h4 {
+  font-family: $avenirnextdemi;
+}
+
+h1 {
+  @include font(32px, 40px);
+}
+
+h2,
+h3 {
+  @include font(24px, 30px);
+}
+
+h4 {
+  @include font(20px, 28px);
+}
+
+a {
+  color: $color-text-darkgrey;
+
+  &:active,
+  &:hover {
+    color: $color-red;
+  }
+}
+
+.formulier {
+  @include font-size(16px);
+}
+
+@each $name, $color in $colors {
+  .row.bg-#{$name} {
+    @include richcontent-on-bg($color);
+  }
+
+  *[class*="col"].bg-#{$name} *[class*="col"] {
+    @include richcontent-on-bg($color);
+  }
+}

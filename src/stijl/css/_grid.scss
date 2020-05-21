@@ -1,0 +1,64 @@
+@import '../scss/ams-breakpoints';
+@import '../scss/ams-colorpalette';
+
+$enable-flex:               true;
+$enable-grid-classes:       true;
+
+/*!
+ * Bootstrap Grid v4.1.1 (https://getbootstrap.com/)
+ * Copyright 2011-2018 The Bootstrap Authors
+ * Copyright 2011-2018 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+@at-root {
+  @-ms-viewport { width: device-width; } // stylelint-disable-line at-rule-no-vendor-prefix
+}
+
+html {
+  box-sizing: border-box;
+  -ms-overflow-style: scrollbar;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+$grid-breakpoints: (
+        xs: $grid-bp-xsmall,
+        sm: $grid-bp-small,
+        md: $grid-bp-medium,
+        lg: $grid-bp-large,
+        xl: $grid-bp-xlarge
+);
+
+$container-max-widths: (
+        sm: $grid-mq-small,
+        md: $grid-mq-medium,
+        lg: $grid-mq-large,
+        xl: $grid-mq-xlarge
+);
+
+@import "../../node_modules/bootstrap/scss/mixins/breakpoints";
+@import "../../node_modules/bootstrap/scss/mixins/grid-framework";
+@import "../../node_modules/bootstrap/scss/mixins/grid";
+
+@import "../../node_modules/bootstrap/scss/grid";
+@import "../../node_modules/bootstrap/scss/utilities/display";
+@import "../../node_modules/bootstrap/scss/utilities/flex";
+
+.app-container {
+  background-color: $ams-wit;
+  max-width: $content-area-on-top-of-sidebars-width;
+}
+
+.row {
+  .row + .row {
+    margin-top: 0;
+  }
+}

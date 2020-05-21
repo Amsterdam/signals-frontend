@@ -1,0 +1,97 @@
+.outer-wrapper {
+  @include base-font;
+}
+
+.grid-pagina {
+  @include font(18px, 25px);
+
+  h2,
+  h3,
+  h4 {
+    color: $color-black;
+  }
+}
+
+.nieuwsartikel {
+  .grid-pagina {
+    color: $color-superdarkgrey;
+  }
+}
+
+.contents-wrapper {
+  *[class*="col"] {
+    h1 {
+      float: none;
+      padding: 0;
+    }
+  }
+}
+
+.subsitetitle {
+  @include line-height(25px);
+
+  a {
+    @include line-height(35px);
+  }
+}
+
+ul.list-unstyled {
+  @extend %list-unstyled;
+}
+
+#{$rich-content-class} {
+  @include rich-content-styles;
+
+  h2,
+  h3 {
+    @include font(20px, 28px);
+  }
+
+  h4 {
+    @include font(18px, 28px);
+  }
+
+  &.inleiding {
+    p:not(:last-child) {
+      margin-bottom: 1em;
+    }
+  }
+
+  * + ul.links,
+  & + ul.links {
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: $grid-mq-small) {
+  .grid-pagina {
+    @include font(16px, 22px);
+  }
+
+  .outer-wrapper {
+    @include font(16px, 22px);
+  }
+
+  h1 {
+    @include font(24px, 30px);
+  }
+
+  h2,
+  h3,
+  h4 {
+    @include font(20px, 28px);
+  }
+}
+
+.row {
+  & > *[class*="col"] {
+    .grid-inside {
+      #{$rich-content-class} {
+        & > h3:first-child,
+        & > h4:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

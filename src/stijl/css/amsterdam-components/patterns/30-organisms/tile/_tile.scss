@@ -1,0 +1,84 @@
+.grid-tegel {
+  clear: none;
+  float: left;
+  width: 220px;
+
+  > .row {
+    > *[class*="col"] {
+      @extend %icon-gallery-caret-right-lightgrey;
+      background-color: map-get($colors, superlightgrey);
+      background-position: calc(100% - 10px) calc(100% - 10px);
+      background-repeat: no-repeat;
+      box-shadow: inset -3px 0 0 0 $color-grey;
+      min-height: 250px;
+
+      &:hover {
+        background-color: $color-white;
+        cursor: pointer;
+      }
+    }
+  }
+
+
+  .tegel_image { // sass-lint:disable-line class-name-format
+    img {
+      display: block;
+      float: none;
+      height: 124px;
+      padding: 0;
+      position: static;
+      top: 0;
+      width: 220px;
+
+      @media screen and (max-width: $grid-mq-small) {
+        @include image-auto-size;
+      }
+    }
+  }
+
+  h2 {
+    margin-left: 0;
+  }
+
+  h2,
+  h3 {
+    @include font(18px, 24px);
+    margin-bottom: 16px;
+    margin-top: 0;
+
+    a {
+      background: none;
+      color: $color-black;
+      max-height: 60px; // Line-height * 3
+      overflow: hidden;
+      padding-left: 0;
+
+      &:hover,
+      &:active,
+      &:focus,
+      &:visited {
+        color: $color-black;
+      }
+    }
+  }
+
+  .tegel_text { // sass-lint:disable-line class-name-format
+    padding: 15px;
+  }
+
+  &.datatile {
+    .tegel_text { // sass-lint:disable-line class-name-format
+      font-size: .8rem;
+      height: 200px;
+      overflow: hidden;
+
+      h2 {
+        @include font(16px, 20px);
+      }
+
+      p {
+        margin-bottom: 1em;
+      }
+    }
+  }
+}

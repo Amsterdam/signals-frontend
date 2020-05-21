@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Label from 'components/Label';
-import { themeColor, themeSpacing } from '@datapunt/asc-ui';
-
-import './style.scss';
+import { RadioGroup, Radio, Label as AscLabel, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,13 +11,6 @@ const Wrapper = styled.div`
 const Info = styled.p`
   color: ${themeColor('tint', 'level5')};
 `;
-
-const ValueContainer = styled.div`
-  position: relative;
-  margin-bottom: ${themeSpacing(3)};
-  padding: 0 0 0 ${themeSpacing(9)};
-`;
-
 
 const RadioInput = ({ name, display, values }) => {
   const Render = ({ handler, value: current }) => {
@@ -35,27 +25,27 @@ const RadioInput = ({ name, display, values }) => {
     return (
       <Wrapper>
         <div className="mode_input text rij_verplicht">
-          {display && <Label htmlFor={`form${name}`}>{display}</Label>}
+          {display && <AscLabel htmlFor={`form${name}`} label={<strong>{display}</strong>} />}
 
-          <div className="invoer">
+          <RadioGroup name={name}>
             {values?.map(({ key, value }) => (
-              <ValueContainer key={`${name}-${key}`}>
-                <input
+              <AscLabel key={key} label={value}>
+                <Radio
+                  defaultChecked={current === key}
                   id={`${name}-${key}`}
                   data-testid={`${name}-${key}`}
-                  className="kenmerkradio"
+                  // className="kenmerkradio"
                   {...handler('radio', key)}
                 />
-                <label htmlFor={`${name}-${key}`}>{value}</label>
-              </ValueContainer>
+              </AscLabel>
             ))}
+          </RadioGroup>
 
-            {info && (
-              <Info>
-                {label}: {info}
-              </Info>
-            )}
-          </div>
+          {info && (
+            <Info>
+              {label}: {info}
+            </Info>
+          )}
         </div>
       </Wrapper>
     );

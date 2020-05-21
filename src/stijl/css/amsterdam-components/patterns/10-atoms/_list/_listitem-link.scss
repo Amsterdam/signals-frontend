@@ -1,0 +1,40 @@
+.links {
+  @extend %list-unstyled;
+
+  li {
+    margin: 0 0 8px;
+
+    a {
+      @include avenirnextdemi;
+      display: inline-block;
+      padding: 0 0 0 15px;
+      text-decoration: none;
+
+      &,
+      &:visited {
+        @extend %icon-caret-right-black;
+        background-position: 0 5px;
+        color: $color-black;
+      }
+
+      &:active,
+      &:hover {
+        @extend %icon-caret-right-red;
+        background-position: 0 5px;
+        color: $color-red;
+        text-decoration: underline;
+      }
+
+      &.outsite {
+        @extend %icon-external-link-black;
+        background-position: 0 7px;
+        color: $color-black;
+
+        &:hover {
+          @extend %icon-external-link-red;
+          color: $color-red;
+        }
+      }
+    }
+  }
+}

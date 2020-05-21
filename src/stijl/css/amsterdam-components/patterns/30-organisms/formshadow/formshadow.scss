@@ -1,0 +1,21 @@
+.formulier-section .formshadow {
+  background-color: $color-superlightgrey;
+  border-top: 4px solid $color-black;
+  min-height: 34px;
+
+  form {
+    margin: 15px;
+    padding-bottom: 15px;
+
+    + form {
+      border-top: 2px solid $color-lightgrey;
+      margin-top: 15px;
+      padding-top: 30px;
+    }
+  }
+
+  @media screen and (max-width: $grid-mq-medium) {
+    border-bottom: 4px solid $color-black;
+    border-top: 0;
+  }
+}

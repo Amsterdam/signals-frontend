@@ -1,0 +1,358 @@
+$list-entry-caret-padding: 16px;
+
+.iprox-rich-content {
+  + .results,
+  + .resultaten {
+    margin-top: 50px;
+  }
+}
+
+.counter {
+  margin-bottom: 20px;
+}
+
+.inleiding + .counter {
+  margin-top: 20px;
+}
+
+.resultaat {
+  width: 100%;
+
+  h2 a,
+  h3 a,
+  .holder {
+    padding-left: $list-entry-caret-padding;
+  }
+
+  h2,
+  h3 {
+    @include font(18px, 25px);
+    margin-bottom: 3px;
+    margin-top: 0;
+
+    a {
+      display: block;
+
+      &,
+      &:visited {
+        background: url("#{$core-svg-path}caret-right-black.svg") 0 6px no-repeat;
+        color: $color-black;
+      }
+
+      &:active,
+      &:hover {
+        background: url("#{$core-svg-path}caret-right-red.svg") 0 6px no-repeat;
+        color: $color-red;
+        text-decoration: underline;
+      }
+
+      &.outsite {
+        background: url("#{$core-svg-path}external-link-black.svg") 0 6px no-repeat;
+
+        &:hover {
+          background: url("#{$core-svg-path}external-link-red.svg") 0 6px no-repeat;
+        }
+      }
+    }
+
+    &.person {
+      a {
+        background: none;
+        padding-left: 4px;
+
+        &::before {
+          background-repeat: no-repeat;
+          content: "";
+          display: inline-block;
+          height: 20px;
+          margin-left: -30px;
+          margin-right: 6px;
+          width: 20px;
+        }
+      }
+
+      &.person-male {
+        a::before {
+          background-image: url("#{$core-svg-path}man.svg");
+        }
+
+        &.person-not-at-work {
+          a::before {
+            background-image: url("#{$core-svg-path}man_afwezig.svg");
+          }
+        }
+
+        &.person-at-work a::before {
+          background-image: url("#{$core-svg-path}man_aanwezig.svg");
+        }
+      }
+
+      &.person-female {
+        a::before {
+          background-image: url("#{$core-svg-path}vrouw.svg");
+        }
+
+        &.person-not-at-work {
+          a::before {
+            background-image: url("#{$core-svg-path}vrouw_afwezig.svg");
+          }
+        }
+
+        &.person-at-work a::before {
+          background-image: url("#{$core-svg-path}vrouw_aanwezig.svg");
+        }
+      }
+
+      ~ .holder {
+        padding-left: 0;
+      }
+
+      &.person-male,
+      &.person-female {
+        a {
+          padding-left: 30px;
+        }
+
+        ~ .holder {
+          padding-left: 26px;
+        }
+      }
+    }
+  }
+
+  .data-row {
+    margin-top: .4em;
+
+    + .data-row {
+      .data-label {
+        padding-top: .4em;
+      }
+    }
+  }
+
+  .holder {
+    @include font(16px, 20px);
+    color: $color-black;
+
+    .tekst {
+      padding: 0 0 10px;
+    }
+
+    .meta {
+      color: $color-text-darkgrey;
+      display: inline-block;
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    a.meta,
+    .meta a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .meta + .meta {
+      &::before {
+        content: "|";
+        padding: 0 6px 0 2px;
+      }
+    }
+  }
+
+  &.has_img { // sass-lint:disable-line class-name-format
+    img,
+    .empty-image,
+    .entry-image {
+      height: 124px;
+      width: 220px;
+    }
+
+    .empty-image {
+      box-shadow: inset -10px 0 0 0 $color-lightgrey;
+    }
+
+    h2,
+    h3 {
+      &.link + a {
+        background: none;
+        display: inline-block;
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+@mixin listentries-on-bg($color) {
+  .resultaat {
+    h2,
+    h3 {
+      a {
+        @if best-contrast-on($color) == #fff {
+          &,
+          &:active,
+          &:hover,
+          &:visited {
+            background: url("#{$core-svg-path}caret-right-white.svg") 0 6px no-repeat;
+          }
+
+          &.outsite,
+          &.outside:active,
+          &.outsite:hover,
+          &.outside:visited {
+            background: url("#{$core-svg-path}external-link-white.svg") 0 6px no-repeat;
+          }
+        }
+        @else {
+          &:hover,
+          &:active {
+            background: url("#{$core-svg-path}caret-right-red.svg") 0 6px no-repeat;
+          }
+
+          &,
+          &:visited {
+            background: url("#{$core-svg-path}caret-right-black.svg") 0 6px no-repeat;
+          }
+
+          &.outside:hover,
+          &.outside:active {
+            background: url("#{$core-svg-path}external-link-red.svg") 0 6px no-repeat;
+          }
+
+          &.outsite,
+          &.outside:visited {
+            background: url("#{$core-svg-path}external-link-black.svg") 0 6px no-repeat;
+          }
+        }
+      }
+    }
+
+    .holder .meta {
+      @if best-contrast-on($color) == #000 {
+        @extend %dark-color-on-bg;
+      }
+
+      @else if best-contrast-on($color) == #fff {
+        @extend %light-color-on-bg;
+      }
+    }
+  }
+}
+
+@each $name, $color in $colors {
+  .row.bg-#{$name} {
+    @include listentries-on-bg($color);
+  }
+
+  *[class*="col"].bg-#{$name} *[class*="col"] {
+    @include listentries-on-bg($color);
+  }
+}
+
+.resultaat + .resultaat {
+  margin-top: 30px;
+}
+
+.resultaat + h2,
+.resultaat + h3 {
+  float: left;
+  width: 100%;
+}
+
+@media screen and (min-width: #{$grid-mq-small + 1px}) {
+  *[class*="col"].col-6, // sass-lint:disable-line class-name-format
+  *[class*="col"].col-8, // sass-lint:disable-line class-name-format
+  *[class*="col"].col-9, // sass-lint:disable-line class-name-format
+  *[class*="col"].col-12 { // sass-lint:disable-line class-name-format
+    .resultaat {
+      &.has_img { // sass-lint:disable-line class-name-format
+        min-height: 124px;
+        position: relative;
+
+        h2,
+        h3,
+        .holder {
+          margin-left: 230px;
+        }
+
+        .entry-image,
+        .empty-image {
+          float: left;
+          position: absolute;
+          top: 4px;
+        }
+      }
+    }
+  }
+}
+
+@mixin list-entry-small {
+  .resultaat {
+    h2,
+    h3 {
+      @include font(16px, 22px);
+
+      a,
+      a.outsite {
+        &,
+        &:active,
+        &:hover,
+        &:visited {
+          background-position: 0 5px;
+        }
+      }
+    }
+
+    .holder {
+      @include font-size(14px);
+
+      .tekst {
+        padding: 0 0 5px;
+      }
+    }
+
+    img {
+      padding-left: $list-entry-caret-padding;
+    }
+
+    &.has_img { // sass-lint:disable-line class-name-format
+      img,
+      .entry-image {
+        height: 102px;
+        width: 180px;
+      }
+
+      .empty-image {
+        display: none;
+      }
+    }
+  }
+}
+
+*[class*="col"] {
+  .col-3 { // sass-lint:disable-line class-name-format
+    &:not(.galerij) {
+      @include list-entry-small;
+    }
+  }
+}
+
+@media screen and (max-width: $grid-mq-small) {
+  @include list-entry-small;
+
+  .resultaat {
+    .data-label {
+      display: none;
+    }
+  }
+}
+
+.col-3 {
+  .resultaat {
+    .data-label {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,39 @@
+.contents-wrapper {
+  .multizone:not(:first-child) {
+    padding-bottom: 30px;
+    padding-top: 30px;
+
+    &.zone-separator {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+}
+
+.container {
+  > h1 {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  > h1,
+  > .source {
+    @media screen and (min-width: #{$grid-mq-small + 1px}) {
+      padding-left: calc((100% - (#{$grid-bp-medium} - 20px)) / 2);
+      padding-right: calc((100% - (#{$grid-bp-medium} - 20px)) / 2);
+    }
+
+    @media screen and (min-width: #{$grid-mq-medium + 1px}) {
+      padding-left: calc((100% - (#{$grid-bp-large} - 20px)) / 2);
+      padding-right: calc((100% - (#{$grid-bp-large} - 20px)) / 2);
+    }
+  }
+}
+
+section > h1 {
+  font-size: 1.5rem !important;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}

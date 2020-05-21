@@ -1,0 +1,40 @@
+.invoer {
+  textarea {
+    @extend %regular-input-normal;
+
+    &:focus {
+      @extend %regular-input-focus;
+    }
+
+    &[readonly],
+    &[disabled] {
+      @extend %disabled-input;
+    }
+  }
+}
+
+.row_ongeldig { // sass-lint:disable-line class-name-format
+  .invoer textarea {
+    @extend %invalid-input-normal;
+
+    &:focus {
+      @extend %invalid-input-focus;
+    }
+  }
+}
+
+.row_geldig { // sass-lint:disable-line class-name-format
+  .invoer textarea {
+    @extend %valid-input-normal;
+
+    &:focus {
+      @extend %valid-input-focus;
+    }
+  }
+}
+
+.mode_readonly { // sass-lint:disable-line class-name-format
+  .invoer textarea {
+    @extend %disabled-input;
+  }
+}

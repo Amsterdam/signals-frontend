@@ -1,0 +1,112 @@
+.ui-datepicker {
+  @include avenirnext;
+  border: 2px solid $color-black;
+
+  .ui-state-hover {
+    background: none !important;
+    border: 0 !important;
+  }
+
+  .ui-datepicker-header {
+    background: none;
+    border: 0;
+  }
+
+  .ui-datepicker-title {
+    @include avenirnextdemi;
+    @include font-size(16px);
+    line-height: 1.8rem;
+  }
+
+  .ui-icon {
+    text-indent: -99999px;
+  }
+
+  .ui-datepicker-prev,
+  .ui-datepicker-next {
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $color-superlightgrey;
+      cursor: pointer;
+    }
+
+    span {
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      margin-left: -4px;
+      margin-top: -8px;
+    }
+  }
+
+  .ui-datepicker-next {
+    span {
+      @extend %icon-caret-right-black;
+    }
+
+    &-hover {
+      right: 2px;
+      top: 2px;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      span {
+        @extend %icon-caret-right-red;
+      }
+    }
+  }
+
+  .ui-datepicker-prev {
+    span {
+      @extend %icon-caret-left-black;
+    }
+
+    &-hover {
+      left: 2px;
+      top: 2px;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      span {
+        @extend %icon-caret-left-red;
+      }
+    }
+  }
+
+  .ui-datepicker-calendar {
+    thead th span {
+      @include font(12px, 30px);
+    }
+
+    tbody td {
+      a {
+        @include avenirnextdemi;
+        background: none;
+        border: 0;
+        text-align: center;
+
+        &:hover {
+          color: $color-red;
+          text-decoration: underline;
+        }
+      }
+
+      &.ui-datepicker-today {
+        a {
+          border: 1px solid $color-black;
+        }
+      }
+
+      &.ui-datepicker-current-day {
+        a {
+          background-color: $color-red;
+          color: $color-white;
+        }
+      }
+    }
+  }
+}

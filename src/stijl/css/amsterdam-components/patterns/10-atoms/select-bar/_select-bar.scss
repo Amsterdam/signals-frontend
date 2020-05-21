@@ -1,0 +1,49 @@
+.doorkijk {
+  background-color: $color-superdarkgrey;
+  float: left;
+  font-size: .9em;
+  line-height: $rowheight;
+  padding: 0 10px;
+  width: calc(100% - 10px);
+
+  ul {
+    margin: 0;
+
+    li {
+      @include avenirnextdemi;
+      color: $color-grey;
+      float: left;
+      margin-right: 16px;
+      overflow: hidden;
+
+      a {
+        @include avenirnextdemi;
+        color: $color-white;
+        text-decoration: none;
+        white-space: nowrap;
+
+        &.selected,
+        &:hover {
+          color: $color-red;
+        }
+
+        &:visited {
+          color: $color-white;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $grid-mq-medium) {
+  .doorkijk {
+    ul {
+      list-style: none;
+
+      li {
+        border-bottom: 1px solid $color-darkgrey;
+        width: 100%;
+      }
+    }
+  }
+}

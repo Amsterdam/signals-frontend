@@ -1,0 +1,58 @@
+.input-explanation {
+  @include font-size(14px);
+  margin-top: 8px;
+
+  a {
+    color: $color-darkgrey;
+
+    &:hover {
+      color: $color-red;
+    }
+  }
+
+  &.open,
+  &.closed {
+    a {
+      &::after {
+        background-size: 12px;
+        content: "";
+        display: inline-block;
+        height: 8px;
+        margin-left: 5px;
+        width: 12px;
+      }
+    }
+  }
+
+  &.open {
+    a {
+      &::after {
+        @extend %icon-caret-up-darkgrey;
+      }
+
+      &:hover {
+        &::after {
+          @extend %icon-caret-up-red;
+        }
+      }
+    }
+  }
+
+  &.closed {
+    a {
+      &::after {
+        @extend %icon-caret-down-darkgrey;
+      }
+
+      &:hover {
+        &::after {
+          @extend %icon-caret-down-red;
+        }
+      }
+    }
+  }
+
+  .toelichting {
+    color: $color-darkgrey;
+  }
+}

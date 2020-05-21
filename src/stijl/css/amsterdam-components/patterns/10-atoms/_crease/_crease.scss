@@ -1,0 +1,25 @@
+.crease_holder { // sass-lint:disable-line class-name-format
+  position: absolute;
+
+  .crease_outer { // sass-lint:disable-line class-name-format
+    background-color: $color-white;
+
+    .crease {
+      border-bottom: 15px solid transparent;
+      border-left: 15px solid $color-black;
+      border-right: 15px solid transparent;
+      border-top: 15px solid $color-black;
+    }
+  }
+}
+
+.bg-black { // sass-lint:disable-line class-name-format
+  .crease_holder { // sass-lint:disable-line class-name-format
+    .crease_outer { // sass-lint:disable-line class-name-format
+      .crease {
+        border-left-color: $color-darkgrey;
+        border-top-color: $color-darkgrey;
+      }
+    }
+  }
+}

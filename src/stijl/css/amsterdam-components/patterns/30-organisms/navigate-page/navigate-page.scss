@@ -1,0 +1,64 @@
+.navigate_page {
+  margin-bottom: 55px;
+  margin-top: 25px;
+
+  .leftnavigate,
+  .rightnavigate {
+    .navigate_content { // sass-lint:disable-line class-name-format
+      a {
+        @include avenirnextdemi;
+        background-repeat: no-repeat;
+        background-size: 10px;
+        color: $color-black;
+        display: inline-block;
+        font-size: 1rem;
+        height: 20px;
+        line-height: 18px;
+        text-decoration: none;
+        white-space: nowrap;
+
+        &:hover,
+        &:focus,
+        &:active {
+          color: #ec0000;
+        }
+      }
+    }
+  }
+
+  .leftnavigate {
+    .navigate_content { // sass-lint:disable-line class-name-format
+      float: left;
+
+      a {
+        @extend %icon-caret-left-black;
+        background-position: 0 2px;
+        padding-left: 20px;
+
+        &:hover,
+        &:focus,
+        &:active {
+          @extend %icon-caret-left-red;
+        }
+      }
+    }
+  }
+
+  .rightnavigate {
+    .navigate_content { // sass-lint:disable-line class-name-format
+      float: right;
+
+      a {
+        @extend %icon-caret-right-black;
+        background-position: 100% 2px;
+        padding-right: 20px;
+
+        &:hover,
+        &:focus,
+        &:active {
+          @extend %icon-caret-right-red;
+        }
+      }
+    }
+  }
+}

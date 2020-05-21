@@ -1,0 +1,130 @@
+// TODO
+// disabled for now, as the svg images are missing
+
+//.type-treeview {
+//  @extend %megamenu-treeview;
+//
+//  @media screen and (max-width: $grid-mq-medium) {
+//    .links {
+//      > li {
+//        margin-bottom: 0;
+//
+//        &,
+//        &.expanded {
+//          > a {
+//            color: $color-text-darkgrey;
+//
+//            &:hover,
+//            &:focus,
+//            &:active {
+//              color: $color-red;
+//            }
+//          }
+//        }
+//
+//        &.expanded {
+//          > a,
+//          li.expanded > a {
+//            border-left: 8px solid $color-red;
+//          }
+//        }
+//
+//        li {
+//          border-left: 8px solid $color-lightgrey;
+//          margin-bottom: 0;
+//
+//          a {
+//            background: none;
+//            color: $color-text-darkgrey;
+//            padding-left: 10px;
+//
+//            &:hover,
+//            &:focus,
+//            &:active {
+//              color: $color-red;
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  @media screen and (min-width: $grid-mq-medium + 1) {
+//    .links {
+//      li {
+//        line-height: 1.5em;
+//
+//        &.selected {
+//          a {
+//            font-weight: 700;
+//          }
+//        }
+//
+//        a {
+//          @include avenirnext;
+//
+//          padding-left: 1.2em;
+//
+//          &:hover,
+//          &:active {
+//            background: none;
+//          }
+//        }
+//
+//        ul {
+//          display: block;
+//          margin: .5em 0 .5em 1em;
+//        }
+//      }
+//
+//      > li {
+//        a {
+//          > span {
+//            display: inline-block;
+//
+//            &::before {
+//              background-image: url("#{$core-svg-path}treeview-plus-black.svg");
+//              background-repeat: no-repeat;
+//              content: "";
+//              display: inline-block;
+//              height: 12px;
+//              margin-left: -20px;
+//              margin-right: 3px;
+//              width: 12px;
+//            }
+//          }
+//
+//          &:hover {
+//            > span {
+//              &::before {
+//                background-image: url("#{$core-svg-path}treeview-plus-red.svg");
+//              }
+//            }
+//          }
+//        }
+//
+//        &.expanded {
+//          a {
+//            > span {
+//              &::before {
+//                background-image: url("#{$core-svg-path}treeview-minus-black.svg");
+//              }
+//            }
+//
+//            &:hover {
+//              > span {
+//                &::before {
+//                  background-image: url("#{$core-svg-path}treeview-minus-red.svg");
+//                }
+//              }
+//            }
+//          }
+//        }
+//
+//        > a {
+//          padding-left: .5em;
+//        }
+//      }
+//    }
+//  }
+//}

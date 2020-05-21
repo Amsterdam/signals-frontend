@@ -1,0 +1,16 @@
+.progress-wrapper {
+  background-color: $color-white;
+  border: 1px solid $color-black;
+  display: inline-block;
+  padding: 20px;
+  padding-bottom: 5px;
+
+  .progress-indicator {
+    font-size: 6px;
+  }
+
+  .progress-txt {
+    margin-top: 5px;
+    text-align: center;
+  }
+}

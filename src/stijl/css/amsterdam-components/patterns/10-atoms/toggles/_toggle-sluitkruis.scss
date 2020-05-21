@@ -1,0 +1,8 @@
+.sluitkruis {
+  @extend %icon-close-thick-darkgrey;
+  direction: ltr;
+  display: inline-block;
+  height: 21px;
+  text-indent: -9999px;
+  width: 21px;
+}

@@ -1,0 +1,25 @@
+$avenirheavy: "Avenir LT W01 85 Heavy", arial, sans-serif;
+$avenirmedium: "Avenir LT W01 65 Medium", verdana, sans-serif;
+$avenirnextdemi: "Avenir Next LT W01 Demi", arial, sans-serif;
+$avenirnext: "AvenirNextLTW01-Regular", verdana, sans-serif;
+$avenirnextmedium: "AvenirNextLTW01-Medium", verdana, sans-serif;
+
+@mixin avenirheavy {
+  font-family: $avenirheavy;
+}
+
+@mixin avenirmedium {
+  font-family: $avenirmedium;
+}
+
+@mixin avenirnextdemi {
+  font-family: $avenirnextdemi;
+}
+
+@mixin avenirnext {
+  font-family: $avenirnext;
+}
+
+@mixin avenirnextmedium {
+  font-family: $avenirnextmedium;
+}

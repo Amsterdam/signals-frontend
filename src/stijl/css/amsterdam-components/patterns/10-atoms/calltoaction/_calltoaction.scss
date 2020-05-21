@@ -1,0 +1,188 @@
+@mixin calltoaction($border-width) {
+  @include avenirnextdemi;
+  cursor: pointer;
+  display: inline-block;
+  margin: 6px 0;
+
+  &,
+  &:visited {
+    border-width: $border-width;
+    padding: (11px - $border-width) (15px - $border-width) (12px - $border-width);
+  }
+
+  &:active,
+  &:hover {
+    border-width: $border-width * 2;
+    padding: (11px - ($border-width * 2)) (15px - ($border-width * 2)) (12px - ($border-width * 2));
+    text-decoration: none !important;
+  }
+}
+
+.Calltoaction-rood a, // sass-lint:disable-line class-name-format
+a.Calltoaction-rood, // sass-lint:disable-line class-name-format
+.calltoaction-red a,
+a.calltoaction-red {
+  @include calltoaction(0);
+  text-decoration: none;
+
+  &,
+  span {
+    color: $color-white !important;
+  }
+
+  .sizespec {
+    &::after {
+      @extend %icon-document-white;
+    }
+  }
+
+  &,
+  &:visited {
+    background-color: $color-red;
+  }
+
+  &:active,
+  &:hover {
+    background-color: darken($color-red, 10%);
+
+    .sizespec {
+      &::after {
+        @extend %icon-document-white;
+      }
+    }
+  }
+}
+
+.Calltoaction-blauw a, // sass-lint:disable-line class-name-format
+a.Calltoaction-blauw, // sass-lint:disable-line class-name-format
+.calltoaction-blue a,
+a.calltoaction-blue {
+  @include calltoaction(0);
+  text-decoration: none;
+
+  &,
+  span {
+    color: $color-white !important;
+  }
+
+  .sizespec {
+    &::after {
+      @extend %icon-document-white;
+    }
+  }
+
+  &,
+  &:visited {
+    background-color: $color-darkblue;
+  }
+
+  &:active,
+  &:hover {
+    background-color: darken($color-darkblue, 10%);
+
+    .sizespec {
+      &::after {
+        @extend %icon-document-white;
+      }
+    }
+  }
+}
+
+.Calltoaction-wit a, // sass-lint:disable-line class-name-format
+a.Calltoaction-wit, // sass-lint:disable-line class-name-format
+.calltoaction-white a,
+a.calltoaction-white {
+  @include calltoaction(1px);
+  border-color: $color-darkblue;
+  border-style: solid;
+  text-decoration: none;
+
+  &,
+  span {
+    color: $color-darkblue !important;
+  }
+
+  .sizespec {
+    &::after {
+      @extend %icon-document-blue;
+    }
+  }
+
+  &,
+  &:visited,
+  &:active,
+  &:hover {
+    background-color: $color-white;
+    color: $color-darkblue !important;
+
+    .sizespec {
+      &::after {
+        @extend %icon-document-blue;
+      }
+    }
+  }
+}
+
+.Calltoaction-grijs a, // sass-lint:disable-line class-name-format
+a.Calltoaction-grijs, // sass-lint:disable-line class-name-format
+.calltoaction-grey a,
+a.calltoaction-grey {
+  @include calltoaction(0);
+  text-decoration: none;
+
+  &,
+  span {
+    color: $color-black !important;
+  }
+
+  &,
+  &:visited {
+    background-color: $color-lightgrey;
+  }
+
+  &:active,
+  &:hover {
+    background-color: darken($color-lightgrey, 10%);
+
+    .sizespec {
+      &::after {
+        @extend %icon-document-black;
+      }
+    }
+  }
+}
+
+* + a.Calltoaction-rood, // sass-lint:disable-line class-name-format
+a.Calltoaction-rood + *, // sass-lint:disable-line class-name-format
+* + a.Calltoaction-blauw, // sass-lint:disable-line class-name-format
+a.Calltoaction-blauw + *, // sass-lint:disable-line class-name-format
+* + a.Calltoaction-wit, // sass-lint:disable-line class-name-format
+a.Calltoaction-wit + *, // sass-lint:disable-line class-name-format
+* + a.Calltoaction-grijs, // sass-lint:disable-line class-name-format
+a.Calltoaction-grijs + *, // sass-lint:disable-line class-name-format
+* + .Calltoaction-rood a, // sass-lint:disable-line class-name-format
+.Calltoaction-rood a + *, // sass-lint:disable-line class-name-format
+* + .Calltoaction-blauw a, // sass-lint:disable-line class-name-format
+.Calltoaction-blauw a + *, // sass-lint:disable-line class-name-format
+* + .Calltoaction-wit a, // sass-lint:disable-line class-name-format
+.Calltoaction-wit a + *, // sass-lint:disable-line class-name-format
+* + .Calltoaction-grijs a, // sass-lint:disable-line class-name-format
+.Calltoaction-grijs a + *, // sass-lint:disable-line class-name-format
+* + a.calltoaction-red,
+a.calltoaction-red + *,
+* + a.calltoaction-blue,
+a.calltoaction-blue + *,
+* + a.calltoaction-white,
+a.calltoaction-white + *,
+* + a.calltoaction-grey,
+a.calltoaction-grey + *,
+* + .calltoaction-red a,
+.calltoaction-red a + *,
+* + .calltoaction-blue a,
+.calltoaction-blue a + *,
+* + .calltoaction-white a,
+.calltoaction-white a + *,
+* + .calltoaction-grey a,
+.calltoaction-grey a + * {
+  margin-top: 20px;
+}

@@ -1,0 +1,45 @@
+.grid-foto:not(.galerij) {
+  .grid-inside {
+    background-color: $color-superlightgrey;
+    background-repeat: no-repeat;
+    box-shadow: inset -3px 0 0 0 $color-grey;
+    padding-bottom: 60px;
+    position: relative;
+
+    &:hover {
+      background-color: $color-white;
+      box-shadow: inset -3px 0 0 0 $color-black;
+
+      h2 {
+        @extend %icon-gallery-caret-right-black;
+        background-color: $color-white;
+        box-shadow: inset -3px 0 0 0 $color-black;
+      }
+    }
+  }
+
+  img {
+    @include image-auto-size;
+    display: block;
+  }
+
+  h2 {
+    @extend %icon-gallery-caret-right-lightgrey;
+    @include font(16px, 21px);
+    background-color: map-get($colors, superlightgrey);
+    background-position: calc(100% - 10px) calc(100% - 10px);
+    background-repeat: no-repeat;
+    bottom: 0;
+    box-shadow: inset -3px 0 0 0 $color-grey;
+    color: $color-black;
+    left: 0;
+    margin: 0;
+    padding: 10px 30px 10px 10px;
+    position: absolute;
+    width: calc(100% - 40px);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

@@ -124,15 +124,6 @@ module.exports = require('./webpack.base.babel')({
           chunks: 'all',
           enforce: true,
         },
-        amsStyles: {
-          name: 'ams-style',
-          test: ({ constructor, context }) =>
-            constructor.name === 'CssModule' &&
-            context &&
-            context.indexOf('/node_modules/amsterdam-stijl/') >= 0,
-          chunks: 'all',
-          enforce: true,
-        },
         datePickerStyles: {
           name: 'react-datepicker',
           test: ({ constructor, context = '' }) =>

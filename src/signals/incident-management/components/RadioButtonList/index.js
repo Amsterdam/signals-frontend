@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import Label from 'components/Label';
+import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
 
 const FilterGroup = styled.div`
   position: relative;
@@ -33,38 +32,34 @@ const RadioButtonList = ({
     )}
 
     {hasEmptySelectionButton && emptySelectionLabel && (
-      <div className="antwoord">
-        <input
-          defaultChecked={defaultValue === ''}
+      <Label htmlFor={`empty_${groupName}`} label={emptySelectionLabel}>
+        <Radio
+          checked={defaultValue === ''}
           disabled={disabled}
           id={`empty_${groupName}`}
-          name={groupName}
           onChange={() => {
             onChange(groupName, { key: '' });
           }}
-          type="radio"
           value=""
         />
-        <label htmlFor={`empty_${groupName}`}>{emptySelectionLabel}</label>
-      </div>
+      </Label>
     )}
 
-    {options.map(option => (
-      <div className="antwoord" key={option.key}>
-        <input
-          defaultChecked={option.key === defaultValue}
-          disabled={disabled}
-          id={option.key}
-          name={groupName}
-          onChange={() => {
-            onChange(groupName, option);
-          }}
-          type="radio"
-          value={option.key}
-        />
-        <label htmlFor={option.key}>{option.value}</label>
-      </div>
-    ))}
+    <RadioGroup name={groupName}>
+      {options.map(option => (
+        <Label key={option.key} htmlFor={option.key} label={option.value}>
+          <Radio
+            checked={option.key === defaultValue}
+            disabled={disabled}
+            id={option.key}
+            onChange={() => {
+              onChange(groupName, option);
+            }}
+            value={option.key}
+          />
+        </Label>
+      ))}
+    </RadioGroup>
   </FilterGroup>
 );
 

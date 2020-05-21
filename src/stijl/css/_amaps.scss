@@ -1,0 +1,221 @@
+$square-sizing: 32px;
+$ams-box-shadow: 2px 2px 0 0 $ams-middendonkergrijs;
+
+.embed-search {
+  @include avenirnext;
+  left: 10px;
+  max-width: 329px;
+  position: absolute;
+  top: 10px;
+  width: calc(100% - 20px);
+  z-index: 401;
+
+  &__form {
+    box-shadow: $ams-box-shadow;
+    display: flex;
+
+    &>input {
+      @include avenirheavy;
+      border: 0px;
+      box-shadow: rgb(118, 118, 118) 0px 0px 0px 1px inset;
+      box-sizing: border-box;
+      font-size: 16px;
+      height: $square-sizing;
+      margin: 0px;
+      padding: 1px 10px;
+      width: 100%;
+
+      &::-ms-clear {
+        display: none;
+      }
+
+      &::placeholder {
+        @include avenirnext;
+      }
+      &::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        @include avenirnext;
+      }
+      &::-moz-placeholder {
+        /* Firefox 19+ */
+        @include avenirnext;
+      }
+      &:-ms-input-placeholder {
+        /* IE 10+ */
+        @include avenirnext;
+      }
+      &:-moz-placeholder {
+        /* Firefox 18- */
+        @include avenirnext;
+      }
+
+    }
+  }
+
+  &__clear {
+    background: none;
+    border: none;
+    cursor: pointer;
+    height: 25px;
+    outline: none;
+    position: absolute;
+    right: 35px;
+    top: 4px;
+    padding: 0;
+    width: 25px;
+
+    &:hover {
+      svg {
+        fill: $ams-rood;
+      }
+    }
+  }
+
+  &__button.primary.action {
+    background-color: $ams-rood;    
+    border: 0px;
+    height: $square-sizing;
+    margin: 0px;
+    padding: 11px 15px;
+    position: relative;
+    width: $square-sizing;
+
+    &:before {
+      content: url("../images/svg/search-icon-white.svg");
+      display: block;
+      fill: $ams-wit;
+      height: 24px;
+      left: 50%;
+      position: absolute;
+      top: 55%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $ams-rood-hover; // override amsterdam.css
+    }
+  }
+
+  &__auto-suggest {
+    background-color: $ams-wit;
+    border: 2px solid $ams-zwart;
+    width: calc(100% - #{$square-sizing}); // full width, (minus submit button)
+    box-shadow: $ams-box-shadow;
+    box-sizing: border-box;
+    margin-top: -2px;
+
+    ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+        font-size: 0;
+      }
+    }
+
+    &__item {
+      box-sizing: border-box;
+      color: $ams-zwart;
+      display: inline-block;
+      font-size: 1rem;
+      text-decoration: none;
+      text-overflow: ellipsis;
+      padding: 0 6px 0 7px;
+      width: 100%;
+      height: $square-sizing;
+      line-height: $square-sizing;
+      overflow: hidden;
+      white-space: nowrap;
+
+      &:hover,
+      &--active {
+        background-color: $ams-lichtgrijs;
+        box-sizing: border-box;
+        color: inherit;
+        font-weight: inherit;
+      }
+
+      &--highlight {
+        @include avenirheavy;
+      }
+    }
+  }
+}
+
+// a lot of !imporants, to ensure the leaflet style is overridden
+.embed-zoom>button,
+.embed-zoom>a,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  @include avenirnext;
+  @extend %button-action;
+  background-color: $ams-wit !important;
+  border: 1px solid $ams-pinkish-grey !important;
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 0 $ams-middendonkergrijs !important;
+  box-sizing: border-box;
+  clear: both !important;
+  color: $ams-donkerantraciet !important;
+  display: block !important;
+  height: $square-sizing !important;
+  line-height: $square-sizing !important;
+  margin: 1px !important;
+  outline: none !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  text-align: center !important;
+  width: $square-sizing !important;
+  font-weight: normal !important;
+
+  &:hover,
+  &:focus {
+    background-color: $ams-pinkish-grey !important;
+    border: 1px solid $ams-zwart !important;
+    color: $ams-zwart !important;
+    &:before {
+      color: $ams-zwart !important;
+    }
+  }
+
+  &:before {
+    display: block;
+    color: $ams-donkerantraciet !important;
+    width: $square-sizing;
+    height: $square-sizing;
+  }
+}
+
+.leaflet-control-zoom-in {
+  font-size: 1.4rem !important;
+  &:before {
+    content: '+';
+  }
+}
+
+.leaflet-control-zoom-out {
+  font-size: 1.1rem !important;
+  &:before {
+    // this '−' sign is wider that the normal '-' sign on your keyboard. Why? I do not know.
+    // therefore we are hiding the regular '-' sign in the button, and show this.
+    // for integrality we also do this with the '+' sign (nothing special about that one)
+    content: '−';
+  }
+}
+
+.leaflet-bar {
+  border: none !important;
+
+}
+
+.embed-marker {
+  &:before {
+    content: url("../images/svg/marker.svg");
+  }
+}
+
+.leaflet-control-attribution {
+  @include avenirnext;
+}

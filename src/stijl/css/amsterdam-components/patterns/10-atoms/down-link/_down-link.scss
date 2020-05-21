@@ -1,0 +1,74 @@
+.bigdown {
+  list-style: none;
+
+  a {
+    @include avenirnextdemi;
+    background-image: none !important;
+    padding-left: 0 !important;
+
+    &,
+    &:visited {
+      color: $color-black;
+      text-decoration: none;
+    }
+
+    &::before {
+      background: url("#{$core-svg-path}caret-down-black.svg") no-repeat 2px 5px;
+      background-size: 1em;
+      content: "";
+      display: inline-block;
+      height: 1em;
+      padding-left: .5em;
+      width: 1em;
+    }
+
+    &:active,
+    &:hover {
+      color: $color-red;
+      text-decoration: underline;
+
+      &::before {
+        @extend %icon-caret-down-red;
+      }
+    }
+  }
+}
+
+@mixin bigdown-on-bg($color) {
+  .bigdown {
+    a {
+      @if best-contrast-on($color) == #fff {
+        &::before,
+        &:active::before,
+        &:hover::before,
+        &:visited::before {
+          @extend %icon-caret-down-white;
+          @extend %light-color-on-bg;
+        }
+      }
+      @else {
+        &::before,
+        &:visited::before {
+          @extend %icon-caret-down-black;
+          @extend %dark-color-on-bg;
+        }
+
+        &:hover::before,
+        &:active::before {
+          @extend %icon-caret-down-red;
+          color: $color-red;
+        }
+      }
+    }
+  }
+}
+
+@each $name, $color in $colors {
+  .row.bg-#{$name} {
+    @include bigdown-on-bg($color);
+  }
+
+  *[class*="col"].bg-#{$name} *[class*="col"] {
+    @include bigdown-on-bg($color);
+  }
+}

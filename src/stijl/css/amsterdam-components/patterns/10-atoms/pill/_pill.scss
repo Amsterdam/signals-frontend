@@ -1,0 +1,30 @@
+$pill-spacing: 5px;
+
+.pill {
+  @include font(14px, 22px);
+  border-radius: 11px;
+  display: inline-block;
+  height: 22px;
+  padding: 0 8px;
+  text-align: center;
+
+  &,
+  &.pill-red {
+    background-color: $color-red;
+    color: $color-white !important;
+  }
+
+  &.pill-blue {
+    background-color: $color-darkblue;
+  }
+
+  &.pill-grey {
+    background-color: $color-lightgrey;
+    color: $color-black !important;
+  }
+}
+
+.pill + *,
+* + .pill {
+  margin-left: $pill-spacing;
+}

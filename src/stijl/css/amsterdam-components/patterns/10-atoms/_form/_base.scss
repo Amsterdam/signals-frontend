@@ -1,0 +1,15 @@
+.antwoord {
+  display: block;
+  margin-bottom: 10px;
+  padding: 0 0 0 38px;
+  position: relative;
+}
+
+.row + .row,
+.row + .knoppen {
+  margin-top: 20px;
+}
+
+fieldset {
+  margin-bottom: 20px;
+}

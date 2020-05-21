@@ -1,0 +1,92 @@
+.sitelogo {
+  margin: 20px 0;
+  min-height: 34px;
+  position: relative;
+
+  .mainlogo {
+    display: inline-block;
+    min-height: 68px;
+
+    &:not(.freeform-logo) .logoset {
+      position: absolute;
+      top: 0;
+    }
+
+    &.freeform-logo {
+      margin-left: 30px;
+
+      .logoset,
+      .logotexts {
+        float: left;
+      }
+
+      .logoset {
+        .screen-logo {
+          max-height: 46px;
+        }
+      }
+
+      .logotext {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  @media screen and (max-width: $grid-mq-small) {
+    margin: 10px 0;
+
+    .mainlogo {
+      float: left;
+      min-height: 41px;
+
+      &.freeform-logo {
+        margin-left: 0;
+      }
+    }
+
+    .subsitetitle {
+      display: block;
+      margin-left: 120px;
+      margin-top: -6px;
+
+      a {
+        line-height: 1;
+      }
+    }
+  }
+
+  @media screen and (min-width: #{$grid-mq-small + 1px}) {
+    a.mainlogo {
+      float: left;
+    }
+
+    .subsitetitle {
+      margin-left: 140px;
+      margin-top: -3px;
+    }
+  }
+}
+
+.grid-header-logo .sitelogo {
+  display: inline-block;
+  margin-left: 15px;
+
+  @media screen and (min-width: #{$grid-mq-medium + 1px}) {
+    margin-left: -30px;
+
+    .logoset {
+      top: 1px;
+    }
+  }
+
+  @media screen and (max-width: $grid-mq-medium) and (min-width: #{$grid-mq-small + 1px}) {
+    margin-left: -15px;
+    min-height: 68px;
+  }
+}
+
+@media screen and (max-width: $grid-mq-small) {
+  .grid-header-logo .sitelogo {
+    margin-right: 15px;
+  }
+}

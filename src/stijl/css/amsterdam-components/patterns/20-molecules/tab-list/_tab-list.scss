@@ -1,0 +1,103 @@
+.tabs {
+  @extend %list-unstyled;
+
+  li {
+    float: left;
+    list-style: none;
+    margin-bottom: 11px;
+    position: relative;
+
+    + li {
+      margin-left: 4px;
+    }
+
+    a {
+      @include avenirnextdemi;
+      background-color: $color-superlightgrey;
+      border-right: 4px solid $color-grey;
+      display: inline-block;
+      padding: 6px 10px;
+      text-decoration: none;
+
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: $color-white;
+        border-color: $color-text-mediumgrey;
+
+        &::after {
+          border-left: 11px solid transparent;
+          border-top: 11px solid $color-text-mediumgrey;
+          bottom: -11px;
+          content: "";
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+
+    &.selected {
+      a {
+        background-color: $color-red;
+        border-color: $color-black;
+        border-width: 3px;
+        color: $color-white;
+
+        &::after {
+          border-left: 11px solid transparent;
+          border-top: 11px solid $color-black;
+          bottom: -11px;
+          content: "";
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $grid-mq-small) {
+  .tabs {
+    li {
+      margin-bottom: 0;
+
+      &,
+      a {
+        box-sizing: border-box;
+        width: 100%;
+      }
+
+      a {
+        margin-bottom: 3px;
+        overflow: hidden;
+        position: relative;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover,
+        &:focus,
+        &:active {
+          &::after {
+            border-bottom: 11px solid $color-text-mediumgrey;
+            border-top: 0;
+            bottom: 0;
+            right: -3px;
+          }
+        }
+      }
+
+      &.selected {
+        a::after {
+          border-bottom: 11px solid $color-black;
+          border-top: 0;
+          bottom: 0;
+          right: -3px;
+        }
+      }
+
+      + li {
+        margin-left: 0;
+      }
+    }
+  }
+}

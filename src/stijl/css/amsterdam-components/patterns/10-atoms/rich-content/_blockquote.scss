@@ -1,0 +1,15 @@
+blockquote,
+p.Quote { // sass-lint:disable-line class-name-format
+  background: url("#{$core-svg-path}quote.svg") no-repeat;
+  background-position: 0 0;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 60px;
+}
+
+@media screen and (max-width: 539px) {
+  blockquote {
+    background: url("#{$core-svg-path}quote-small.svg") no-repeat;
+    padding-left: 35px;
+  }
+}

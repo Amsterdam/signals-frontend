@@ -1,0 +1,28 @@
+.logoset {
+  display: inline-block;
+  min-height: 68px;
+
+  .screen-logo {
+    height: 68px;
+  }
+
+  .alt-logo {
+    display: none;
+    height: 68px;
+  }
+
+  .print-logo {
+    display: none;
+    width: 24px;
+  }
+
+  @media screen and (max-width: $grid-mq-small) {
+    .screen-logo {
+      height: 41px;
+    }
+
+    .alt-logo {
+      height: 41px;
+    }
+  }
+}

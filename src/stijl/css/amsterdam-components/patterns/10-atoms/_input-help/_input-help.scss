@@ -1,0 +1,18 @@
+.input-help {
+  @include font-size(14px);
+  color: $color-darkgrey;
+}
+
+.row_ongeldig { // sass-lint:disable-line class-name-format
+  .input-help {
+    color: $color-red;
+  }
+}
+
+.bg-lightgrey { // sass-lint:disable-line class-name-format
+  .row_ongeldig { // sass-lint:disable-line class-name-format
+    .input-help {
+      color: $color-darkgrey;
+    }
+  }
+}

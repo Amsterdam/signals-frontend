@@ -1,0 +1,45 @@
+.grid-rol-uitgelicht {
+  .afbeelding {
+    margin-bottom: 8px;
+
+    img {
+      @include image-auto-size;
+    }
+  }
+
+  .blok-titel,
+  .summary {
+    padding-left: 20px;
+  }
+
+  .blok-titel {
+    @include font(16, 18);
+    background: url("#{$core-svg-path}featured-caret-right-black.svg") no-repeat 5px 2px;
+    margin-bottom: 4px;
+
+    a:hover {
+      text-decoration: none;
+    }
+  }
+
+  .summary {
+    @include font(16, 20);
+  }
+}
+
+.hasbgcolor {
+  @each $name, $color in $colors {
+    &.bg-#{$name} {
+      .grid-rol-uitgelicht {
+        .blok-titel {
+          @if best-contrast-on($color) == #fff {
+            background: url("#{$core-svg-path}featured-caret-right-white.svg") no-repeat 5px 2px;
+          }
+          @else  {
+            background: url("#{$core-svg-path}featured-caret-right-black.svg") no-repeat 5px 2px;
+          }
+        }
+      }
+    }
+  }
+}

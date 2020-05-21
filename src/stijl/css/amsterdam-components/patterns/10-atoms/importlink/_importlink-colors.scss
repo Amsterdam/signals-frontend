@@ -1,0 +1,43 @@
+@mixin importlink-on-bg($color) {
+  .importLink,
+  .download a {
+    @if best-contrast-on($color) == #fff {
+      &,
+      &:active,
+      &:hover,
+      &:visited {
+        span {
+          @extend %light-color-on-bg;
+        }
+
+        .sizespec::after {
+          @extend %icon-document-white;
+        }
+      }
+    }
+    @else {
+      &,
+      &:hover,
+      &:active,
+      &:visited {
+        span {
+          @extend %dark-color-on-bg;
+        }
+
+        .sizespec::after {
+          @extend %icon-document-black;
+        }
+      }
+    }
+  }
+}
+
+@each $name, $color in $colors {
+  .row.bg-#{$name} {
+    @include importlink-on-bg($color);
+  }
+
+  *[class*="col"].bg-#{$name} *[class*="col"] {
+    @include importlink-on-bg($color);
+  }
+}

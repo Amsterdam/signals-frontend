@@ -1,0 +1,21 @@
+@import '../scss/ams-font';
+
+
+html, body {
+  font-family: $avenirnext;
+}
+
+th {
+  font-family: $avenirheavy;
+}
+
+b {
+  font-family: $avenirheavy;
+}
+
+h2, h3 {
+  &.condensed {
+    margin: .5rem 0 .2rem;
+    font-size: 1.2rem;
+  }
+}

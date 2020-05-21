@@ -1,0 +1,31 @@
+.file {
+  .invoer {
+    input[type="file"] {
+      @include visuallyhidden;
+    }
+
+    button {
+      @extend %button-regular;
+    }
+
+    label {
+      @extend %button-tertiair;
+    }
+
+    button {
+      margin-left: 4px;
+
+      &::after {
+        background: url("#{$core-svg-path}close-icon-black.svg") no-repeat;
+        border: 0;
+        content: "";
+        display: inline-block;
+        height: 14px;
+        margin-left: 10px;
+        padding: 0;
+        vertical-align: middle;
+        width: 14px;
+      }
+    }
+  }
+}

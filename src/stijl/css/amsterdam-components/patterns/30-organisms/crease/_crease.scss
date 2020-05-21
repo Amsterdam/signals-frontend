@@ -1,0 +1,47 @@
+.hascrease {
+  *[class*="col"] {
+    box-sizing: border-box;
+    padding: 0 10px 34px;
+    position: relative;
+    width: 100%;
+
+    .grid-inside {
+      #{$rich-content-class} + ul.links {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  &.grid-rol-afbeelding {
+    *[class*="col"] {
+      padding-bottom: 0;
+
+      .grid-inside {
+        .afbeelding {
+          margin-left: -20px;
+          margin-right: -20px;
+
+          img {
+            margin-bottom: -6px;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .crease_holder { // sass-lint:disable-line class-name-format
+    bottom: 0;
+    right: 0;
+  }
+}
+
+@each $name, $color in $colors {
+  .bg-#{$name} *[class*="col"].hascrease {
+    .crease_holder { // sass-lint:disable-line class-name-format
+      .crease_outer { // sass-lint:disable-line class-name-format
+        @extend %bgcolor-#{$name};
+      }
+    }
+  }
+}

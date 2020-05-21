@@ -1,0 +1,13 @@
+.row {
+  &.row_ongeldig { // sass-lint:disable-line class-name-format
+    @extend %invalid-border;
+  }
+
+  &.row_geldig { // sass-lint:disable-line class-name-format
+    @extend %valid-border;
+  }
+
+  &.mode_display { // sass-lint:disable-line class-name-format
+    @extend %input-mode-display;
+  }
+}

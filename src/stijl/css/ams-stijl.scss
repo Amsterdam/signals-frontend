@@ -1,0 +1,34 @@
+//
+//  AMSTERDAM style
+//  Contains all the styles (including the embeded map styles) bundeled in one css
+//
+
+// import font sass on top
+// @import 'font';
+
+// html, body {
+//   padding: 0;
+//   margin: 0;
+// }
+
+// base amsterdam.nl grid and components
+// @import 'grid';
+// @import 'amsterdam-components/amsterdam-components';
+
+// variables used in other sass files below
+@import '../scss/ams-colorpalette';
+
+body.with-sidebars {
+  background-color: $ams-background-sidebars;
+}
+
+// sass
+// @import 'modal';
+@import 'table';
+// @import 'typography';
+// @import 'loader';
+// @import 'card';
+// @import 'grid-extensions';
+
+// embeded map component
+// @import 'amaps';

@@ -1,0 +1,20 @@
+.subsitetitle {
+  @media screen and (min-width: #{$grid-mq-small + 1px}) {
+    display: block;
+    margin-left: 140px;
+  }
+
+  a {
+    @include avenirnextdemi;
+    color: $color-black;
+    text-decoration: none;
+
+    @media screen and (max-width: $grid-mq-small) {
+      @include font-size(18);
+    }
+
+    @media screen and (min-width: #{$grid-mq-small + 1px}) {
+      @include font-size(28);
+    }
+  }
+}

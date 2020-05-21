@@ -1,0 +1,44 @@
+.error-summary {
+  background-color: $color-white;
+  border: 2px solid $color-red;
+  margin-top: 30px;
+  padding: 20px 10px 20px 20px;
+
+  h2 {
+    @include avenirnextdemi;
+    @include font-size(18px);
+    color: $color-red;
+    margin: 0;
+  }
+
+  + .iprox-rich-content {
+    margin-bottom: 15px;
+  }
+
+  ul {
+    list-style: square;
+    margin: 4px 0 4px 20px;
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    a {
+      color: $color-darkblue;
+      padding: 4px 0;
+      text-decoration: underline;
+
+      &:hover {
+        color: $color-red;
+      }
+    }
+  }
+}
+
+.hasbgcolor .error-summary ul a {
+  color: $color-darkblue;
+
+  &:hover {
+    color: $color-red;
+  }
+}
