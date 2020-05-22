@@ -2,6 +2,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CREATE_SIGNAL, WONEN } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+
 describe('Create signal wonen leegstand and check signal details',() => {
   describe('Create signal wonen leegstand',() => {
     before(() => {
