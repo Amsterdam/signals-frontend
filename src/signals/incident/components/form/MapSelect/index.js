@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
 
-import MapSelect from 'components/MapSelect';
+import MapSelectComponent from 'components/MapSelect';
 
 import Header from '../Header';
 import { getOVLIcon, LEGEND_ITEMS } from './iconMapping';
@@ -23,7 +23,7 @@ const getLatlng = meta => {
   };
 };
 
-const MapSelectFormComponent = ({
+const MapSelect = ({
   handler,
   touched,
   hasError,
@@ -59,7 +59,7 @@ const MapSelectFormComponent = ({
           >
             <div className="invoer">
               {latlng && (
-                <MapSelect
+                <MapSelectComponent
                   latlng={latlng}
                   onSelectionChange={onSelectionChange}
                   getIcon={getOVLIcon}
@@ -79,7 +79,7 @@ const MapSelectFormComponent = ({
   );
 };
 
-MapSelectFormComponent.propTypes = {
+MapSelect.propTypes = {
   handler: PropTypes.func.isRequired,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
@@ -96,4 +96,4 @@ MapSelectFormComponent.propTypes = {
   validatorsOrOpts: PropTypes.object,
 };
 
-export default MapSelectFormComponent;
+export default MapSelect;

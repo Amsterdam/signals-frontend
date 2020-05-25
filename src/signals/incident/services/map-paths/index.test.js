@@ -15,7 +15,7 @@ describe('The map paths service', () => {
           description: {
             meta: {
               label: 'Omschrijving',
-              labelShort: 'Omschr.',
+              shortLabel: 'Omschr.',
               pathMerge: 'extra_properties',
               isVisible: true,
             },
