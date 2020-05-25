@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useMemo, useCallback, useReducer } from 'react';
+import React, { Fragment, useLayoutEffect, useMemo, useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import cloneDeep from 'lodash.clonedeep';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
+import { Label as AscLabel } from '@datapunt/asc-ui';
 
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
@@ -12,6 +13,7 @@ import { parseOutputFormData } from 'signals/shared/filter/parse';
 import * as types from 'shared/types';
 import Label from 'components/Label';
 import Input from 'components/Input';
+import Checkbox from 'components/Checkbox';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
@@ -208,30 +210,21 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             Filternaam
           </Label>
           <div className="invoer">
-            <input
+            <Input
               value={initialFormState.name}
               id="filter_name"
               name="name"
               onChange={onNameChange}
               placeholder="Geef deze filterinstelling een naam om deze op te slaan"
-              type="text"
             />
           </div>
 
           <Label htmlFor="filter_refresh" isGroupHeader>
             Automatisch verversen
           </Label>
-          <div className="antwoord">
-            <input
-              defaultChecked={initialFormState.refresh}
-              id="filter_refresh"
-              name="refresh"
-              onClick={onRefreshChange}
-              type="checkbox"
-            />
-            <label htmlFor="filter_refresh">
-              <RefreshIcon width={16} height={18} /> Automatisch verversen
-            </label>
+          <div>
+            <Checkbox checked={initialFormState.refresh} id="filter_refresh" name="refresh" onClick={onRefreshChange} />
+            <AscLabel htmlFor="filter_refresh" label={<Fragment><RefreshIcon width={16} height={18} /> Automatisch verversen</Fragment>} />
           </div>
         </Fieldset>
 

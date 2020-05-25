@@ -1,7 +1,0 @@
-a.action {
-  @extend %button-action;
-}
-
-a.action + a.action {
-  margin-left: 10px;
-}

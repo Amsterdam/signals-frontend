@@ -14,6 +14,7 @@ const RadioGroup = ({ defaultValue, onChange, options, name, label }) =>
         {label}
       </Label>
       <RadioButtonList
+        hasEmptySelectionButton
         defaultValue={defaultValue}
         groupName={name}
         onChange={onChange}

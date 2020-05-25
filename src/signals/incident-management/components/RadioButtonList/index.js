@@ -31,21 +31,21 @@ const RadioButtonList = ({
       </Label>
     )}
 
-    {hasEmptySelectionButton && emptySelectionLabel && (
-      <Label htmlFor={`empty_${groupName}`} label={emptySelectionLabel}>
-        <Radio
-          checked={defaultValue === ''}
-          disabled={disabled}
-          id={`empty_${groupName}`}
-          onChange={() => {
-            onChange(groupName, { key: '' });
-          }}
-          value=""
-        />
-      </Label>
-    )}
-
     <RadioGroup name={groupName}>
+      {hasEmptySelectionButton && emptySelectionLabel && (
+        <Label htmlFor={`empty_${groupName}`} label={emptySelectionLabel}>
+          <Radio
+            checked={defaultValue === ''}
+            disabled={disabled}
+            id={`empty_${groupName}`}
+            onChange={() => {
+              onChange(groupName, { key: '' });
+            }}
+            value=""
+          />
+        </Label>
+      )}
+
       {options.map(option => (
         <Label key={option.key} htmlFor={option.key} label={option.value}>
           <Radio

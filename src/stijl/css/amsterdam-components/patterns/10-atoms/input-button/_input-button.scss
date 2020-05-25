@@ -1,8 +1,0 @@
-input[type="submit"] {
-  @extend %button-regular;
-}
-
-input[type="reset"],
-button.reset {
-  @extend %button-reset;
-}
