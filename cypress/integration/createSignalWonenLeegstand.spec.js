@@ -113,6 +113,7 @@ describe('Create signal wonen leegstand and check signal details',() => {
       localStorage.setItem('accessToken', (Cypress.env('token')));
       cy.server();
       cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutes();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
@@ -120,6 +121,7 @@ describe('Create signal wonen leegstand and check signal details',() => {
   
     it('Should show the signal details', () => {
       cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
+      cy.waitForSignalDetailsRoutes();
     
       cy.contains('Woning heeft leeg gestaan. Soms is iemand in de avond aanwezig. Het is verschrikkelijk.');
     

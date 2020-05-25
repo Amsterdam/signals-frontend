@@ -30,7 +30,7 @@ describe('Create signal wonen vakantie verhuur and check signal details',() => {
       
       // Check if field is mandatory
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld').and('be.visible');
       
       // Input specific information
       cy.contains('Zijn de toeristen nu aanwezig in de woning?').should('be.visible');
@@ -42,18 +42,18 @@ describe('Create signal wonen vakantie verhuur and check signal details',() => {
       cy.contains('In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.').should('be.visible');
 
       cy.get(WONEN.radioButtonVerderTelefonisch).check().should('be.checked');
-      cy.contains('Bel nu met 14 020');
-      cy.contains('Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, meteen langs.');
+      cy.contains('Bel nu met 14 020').should('be.visible');
+      cy.contains('Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, meteen langs.').should('be.visible');
 
       cy.get(WONEN.radioButtonVerderMeldformulier).check().should('be.checked');
       cy.contains('Bel nu met 14 020').should('not.be.visible');
       cy.contains('Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, meteen langs.').should('not.be.visible');
       cy.contains('Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met 14 020 en vraag naar team Vakantieverhuur.').should('be.visible');
       
-      cy.contains('Hoeveel toeristen zijn er in de woning?');
+      cy.contains('Hoeveel toeristen zijn er meestal in de woning?').should('be.visible');
       cy.get(WONEN.radioButtonHoeveelVierOfMinder).check().should('be.checked');
       cy.get(WONEN.radioButtonHoeveelVijfOfMeer).check().should('be.checked');
-      cy.contains('Heeft u vaker toeristen in de woning gezien?');
+      cy.contains('Heeft u vaker toeristen in de woning gezien?').should('be.visible');
       cy.contains('Is dit meestal in het weekend of doordeweeks?').should('not.be.visible');
       cy.get(WONEN.radioButtonHoeVaakEersteKeer).check().should('be.checked');
       cy.contains('Is dit meestal in het weekend of doordeweeks?').should('not.be.visible');
@@ -68,8 +68,8 @@ describe('Create signal wonen vakantie verhuur and check signal details',() => {
       cy.get(WONEN.radioButtonWanneerDoordeweeks).check().should('be.checked');
       cy.get(WONEN.radioButtonWanneerWisselend).check().should('be.checked');
 
-      cy.contains('Weet u of er iemand op het adres woont?');
-      cy.contains('De persoon die langdurig de woning bewoont');
+      cy.contains('Weet u of er iemand op het adres woont?').should('be.visible');;
+      cy.contains('De persoon die langdurig de woning bewoont').should('be.visible');;
       cy.get(WONEN.radioButtonBewoningWeetIkNiet).check().should('be.checked');
       cy.contains('Wat is de naam van de persoon die op het adres woont?').should('not.be.visible');
       cy.get(WONEN.radioButtonBewoningNee).check().should('be.checked');
@@ -77,11 +77,12 @@ describe('Create signal wonen vakantie verhuur and check signal details',() => {
       cy.get(WONEN.radioButtonBewoningJa).check().should('be.checked');
       cy.contains('Wat is de naam van de persoon die op het adres woont?').should('be.visible');
       cy.get(WONEN.inputBewoner).eq(0).type('Gijsbrecht van Aemstel');
-      cy.contains('Weet u of de woning op internet wordt aangeboden voor verhuur?');
+
+      cy.contains('Weet u of de woning op internet wordt aangeboden voor verhuur?').should('be.visible');;
       cy.get(WONEN.radioButtonOnlineNee).check().should('be.checked');
-      cy.contains('Link naar de advertentie van de woning?').should('not.be.visible');
+      cy.contains('Link naar de advertentie van de woning').should('not.be.visible');
       cy.get(WONEN.radioButtonOnlineJa).check().should('be.checked');
-      cy.contains('Link naar de advertentie van de woning?').should('be.visible');
+      cy.contains('Link naar de advertentie van de woning').should('be.visible');
       cy.get(WONEN.inputLink).eq(1).type('https://amsterdam.intercontinental.com/nl/');
 
       cy.contains('Volgende').click();
@@ -101,10 +102,10 @@ describe('Create signal wonen vakantie verhuur and check signal details',() => {
       createSignal.checkSummaryPage();
 
       // Check information provided by user
-      cy.contains('Prof. Tulpplein 18, 1018GX Amsterdam').should('be.visible');
+      cy.contains('Prof. Tulpplein 1, 1018GX Amsterdam').should('be.visible');
       cy.contains('Ik zie regelmatig toeristen met rolkoffers in dit gebouw naar binnen gaan. Volgens mij wordt het illegaal verhuurd.').should('be.visible');
 
-      cy.contains('Aanvullende informatie');
+      cy.contains('Aanvullende informatie').should('be.visible');
       cy.contains('Toeristen aanwezig').should('be.visible');
       cy.contains('Ja, er zijn nu toeristen aanwezig').should('be.visible');
       cy.contains('Bellen of meldingsformulier').should('be.visible');
@@ -139,6 +140,7 @@ describe('Create signal wonen vakantie verhuur and check signal details',() => {
       localStorage.setItem('accessToken', (Cypress.env('token')));
       cy.server();
       cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutes();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
@@ -146,7 +148,8 @@ describe('Create signal wonen vakantie verhuur and check signal details',() => {
   
     it('Should show the signal details', () => {
       cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
-    
+      cy.waitForSignalDetailsRoutes();
+
       cy.contains('Ik zie regelmatig toeristen met rolkoffers in dit gebouw naar binnen gaan. Volgens mij wordt het illegaal verhuurd.');
     
       // Check if map and marker are visible
@@ -155,7 +158,7 @@ describe('Create signal wonen vakantie verhuur and check signal details',() => {
 
       // Check signal data
       cy.get(SIGNAL_DETAILS.stadsdeel).contains('Stadsdeel: ').and('contain', 'Centrum').should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet).contains('Prof. Tulpplein').and('contain', '18').should('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).contains('Prof. Tulpplein').and('contain', '1').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).contains('1018GX').and('contain', 'Amsterdam').should('be.visible');
       cy.get(SIGNAL_DETAILS.email).should('be.visible');
       cy.get(SIGNAL_DETAILS.phoneNumber).should('be.visible');
