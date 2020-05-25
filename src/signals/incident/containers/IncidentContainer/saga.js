@@ -78,6 +78,21 @@ const fetchQuestions = () => ({
       },
       options: { validators: ['REQUIRED'] },
     },
+    {
+      field_type: 'TEXT',
+      key: 'email',
+      meta: {
+        label: 'Wat is uw e-mailadres?',
+        subtitle: 'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
+        path: 'reporter.email',
+        placeholder: 'E-mailadres',
+        type: 'email',
+        autoRemove: /[^a-zA-Z0-9@.!#$%&'*+\-/=?^_`{|}~;]/g,
+      },
+      options: {
+        validators: ['EMAIL', ['MAX_LENGTH', 9]],
+      },
+    },
   ],
 });
 

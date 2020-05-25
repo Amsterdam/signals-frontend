@@ -18,14 +18,18 @@ const mapFieldNameToComponent = {
   INCIDENT_NAVIGATION: IncidentNavigation,
   PLAIN_TEXT: FormComponents.PlainText,
   RADIO_GROUP: FormComponents.RadioInputGroup,
+  TEXT: FormComponents.TextInput,
 };
 
 const mapValidatorToFn = {
+  EMAIL: Validators.email,
+  MAX_LENGTH: Validators.maxLength,
   REQUIRED: Validators.required,
 };
 
 const expandFieldType = key => mapFieldNameToComponent[key];
-const expandValidator = key => mapValidatorToFn[key];
+const expandValidatorFn = ([key, ...args]) => mapValidatorToFn[key].apply(null, args);
+const expandValidator = key => (Array.isArray(key) ? expandValidatorFn(key) : mapValidatorToFn[key]);
 
 const expandQuestions = memoize(questions => ({
   controls: Object.keys(questions).reduce(
