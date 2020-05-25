@@ -6,6 +6,7 @@ import { postCall, authPostCall } from 'shared/services/api/api';
 import configuration from 'shared/services/configuration/configuration';
 import { uploadFile } from 'containers/App/saga';
 import resolveClassification from 'shared/services/resolveClassification';
+import resolveQuestions from 'shared/services/resolve-questions';
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, GET_QUESTIONS } from './constants';
@@ -69,7 +70,8 @@ const fetchQuestions = () => ({
 
 export function* getQuestionsHandler(action) {
   try {
-    const { results: questions } = yield call(fetchQuestions, action.payload);
+    const { results: rawQuestions } = yield call(fetchQuestions, action.payload);
+    const questions = yield call(resolveQuestions, rawQuestions);
 
     yield put(getQuestionsSuccess({ questions }));
   } catch (error) {
