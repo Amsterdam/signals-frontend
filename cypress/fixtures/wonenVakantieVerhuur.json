@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen"
+    ],
+    [0.6908800456619791]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen/sub_categories/vakantieverhuur"
+    ],
+    [0.6110070031381253]
+  ]
+}
