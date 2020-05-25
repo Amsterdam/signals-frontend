@@ -1,9 +1,19 @@
 export default questions => ({
-  controls: questions.reduce(
+  custom_text: {
+    meta: {
+      label: 'Dit hebt u net ingevuld:',
+      type: 'citation',
+      value: '{incident.description}',
+      ignoreVisibility: true,
+    },
+    render: 'PLAIN_TEXT',
+  },
+  ...questions.reduce(
     (acc, question) => ({
       ...acc,
       [question.key]: {
         meta: question.meta,
+        options: question.options,
         render: question.field_type,
       },
     }),

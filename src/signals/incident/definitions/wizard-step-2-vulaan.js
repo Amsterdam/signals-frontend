@@ -1,3 +1,6 @@
+import { Validators } from 'react-reactive-form';
+import memoize from 'lodash/memoize';
+
 import afval from './wizard-step-2-vulaan/afval';
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
@@ -7,6 +10,39 @@ import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-do
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
 import wonen from './wizard-step-2-vulaan/wonen';
 
+import FormComponents from '../components/form';
+import IncidentNavigation from '../components/IncidentNavigation';
+
+const mapFieldNameToComponent = {
+  CHECKBOX: FormComponents.CheckboxInput,
+  INCIDENT_NAVIGATION: IncidentNavigation,
+  PLAIN_TEXT: FormComponents.PlainText,
+  RADIO_GROUP: FormComponents.RadioInputGroup,
+};
+
+const mapValidatorToFn = {
+  REQUIRED: Validators.required,
+};
+
+const expandFieldType = key => mapFieldNameToComponent[key];
+const expandValidator = key => mapValidatorToFn[key];
+
+const expandQuestions = memoize(questions => ({
+  controls: Object.keys(questions).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: {
+        ...questions[key],
+        options: {
+          validators: (questions[key].options?.validators || []).map(expandValidator),
+        },
+        render: expandFieldType(questions[key].render),
+      },
+    }),
+    {}
+  ),
+}));
+
 export default {
   label: 'Dit hebben we nog van u nodig',
   nextButtonLabel: 'Volgende',
@@ -14,12 +50,12 @@ export default {
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
-  formFactory: ({ category }) => {
+  formFactory: ({ category, questions }) => {
     switch (category) {
       case 'afval':
         return afval;
 
-      case 'overlast-bedrijven-en-horeca':
+      case '-overlast-bedrijven-en-horeca':
         return overlastBedrijvenEnHoreca;
 
       case 'overlast-in-de-openbare-ruimte':
@@ -41,7 +77,7 @@ export default {
         return wonen;
 
       default:
-        return { controls: {} };
+        return questions ? expandQuestions(questions) : { controls: {} };
     }
   },
 };

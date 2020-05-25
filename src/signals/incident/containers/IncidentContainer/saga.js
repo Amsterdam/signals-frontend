@@ -39,19 +39,14 @@ export function* getClassification(action) {
 
 const fetchQuestions = () => ({
   _links: {},
-  count: 1,
+  count: 2,
   results: [
     {
-      key: 'extra_bedrijven_horeca_personen',
       field_type: 'CHECKBOX',
+      key: 'extra_bedrijven_horeca_personen',
       meta: {
-        ifOneOf: {
-          extra_bedrijven_horeca_wat: [
-            'horecabedrijf',
-            'ander_soort_bedrijf',
-            'evenement_festival_markt',
-            'iets_anders',
-          ],
+        ifAllOf: {
+          category: 'overlast-bedrijven-en-horeca',
         },
         label: 'Wat is de oorzaak van de overlast?',
         labelShort: 'Oorzaak overlast',
@@ -64,6 +59,24 @@ const fetchQuestions = () => ({
           overgeven: 'Overgeven',
         },
       },
+    },
+    {
+      field_type: 'RADIO_GROUP',
+      key: 'extra_bedrijven_horeca_wat',
+      meta: {
+        ifAllOf: {
+          category: 'overlast-bedrijven-en-horeca',
+        },
+        label: 'Uw melding gaat over:',
+        labelShort: 'Soort bedrijf',
+        values: {
+          horecabedrijf: 'Horecabedrijf, zoals een café, restaurant, snackbar of kantine',
+          ander_soort_bedrijf: 'Ander soort bedrijf, zoals een winkel, supermarkt of sportschool',
+          evenement_festival_markt: 'Evenement, zoals een festival, feest of markt',
+          iets_anders: 'Iets anders',
+        },
+      },
+      options: { validators: ['REQUIRED'] },
     },
   ],
 });
