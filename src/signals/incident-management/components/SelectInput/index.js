@@ -32,7 +32,7 @@ export const SelectInput = ({ name, display, values, useSlug, emptyOptionText })
       <Wrapper>
         {display && <Label htmlFor={`form${name}`}>{display}</Label>}
 
-        <SelectInputComponent name={name} data-testid={name} id={`form${name}`} {...handler()} options={options} />
+        <SelectInputComponent name={name} data-testid={name} id={`form${name}`} {...handler()} options={options}/>
 
         {description && <Info>{description}</Info>}
       </Wrapper>

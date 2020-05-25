@@ -11,9 +11,13 @@ const SelectInput = ({ onChange, name, options, value }) => (
   </Select>
 );
 
+SelectInput.defaultValues = {
+  onChange: () => { },
+};
+
 SelectInput.propTypes = {
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
