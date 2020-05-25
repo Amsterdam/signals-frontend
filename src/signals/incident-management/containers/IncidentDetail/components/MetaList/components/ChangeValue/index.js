@@ -22,6 +22,13 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
+const DisplayValue = styled.div`
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 85%;
+`;
+
 const SaveButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
   margin-top: -${themeSpacing(2)};
@@ -157,7 +164,7 @@ const ChangeValue = ({
         <dd>{editForm}</dd>
       ) : (
         <dd className={valueClass}>
-          <span data-testid="valuePath">{getListValueByKey(list, get(incident, valuePath || path))}</span>
+          <DisplayValue data-testid="valuePath">{getListValueByKey(list, get(incident, valuePath || path))}</DisplayValue>
         </dd>
       )}
     </Fragment>

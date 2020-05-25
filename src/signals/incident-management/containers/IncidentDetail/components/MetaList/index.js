@@ -1,11 +1,11 @@
-import React, { useLayoutEffect, useCallback, useState } from 'react';
+import React, { useLayoutEffect, useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import {  makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
 import { incidentType } from 'shared/types';
@@ -44,9 +44,21 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
+const getCategoryName = ({ name, departments }) => {
+  const departmensStringList = departments?.length ? ` (${departments.map(({ code }) => code).join(',')})` : '';
+  return `${name}${departmensStringList}`;
+};
+
 const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
   const [valueChanged, setValueChanged] = useState(false);
   const subcategories = useSelector(makeSelectSubCategories);
+  const subcategoryOptions = useMemo(() => subcategories.map(
+    category => ({
+      ...category,
+      value: getCategoryName(category),
+    })
+  ), [subcategories]);
+
   const subcatHighlightDisabled = ![
     'm',
     'reopened',
@@ -115,11 +127,11 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
         </Highlight>
       )}
 
-      {subcategories && (
+      {subcategoryOptions && (
         <Highlight subscribeTo={incident.category.sub_slug} valueChanged={valueChanged}>
           <ChangeValue
             display="Subcategorie"
-            list={subcategories}
+            list={subcategoryOptions}
             incident={incident}
             path="category.sub_category"
             valuePath="category.category_url"
