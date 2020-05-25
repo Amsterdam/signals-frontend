@@ -24,15 +24,8 @@ const TextAreaInput = props => {
             {...handler()}
             placeholder={placeholder}
             rows={rows}
+            helpText={maxLength > 0 && `${value ? value.length : '0'}/${maxLength} tekens`}
           />
-          { maxLength
-            && (
-              <div className="input-help">
-                <span className="text-area-input__counter">
-                  {`${value ? value.length : '0'}/${maxLength} tekens` }
-                </span>
-              </div>
-            )}
         </div>
       </div>
     </div>

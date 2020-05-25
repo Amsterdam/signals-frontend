@@ -26,22 +26,13 @@ const DescriptionWithClassificationInput = ({
             hasError={hasError}
             getError={getError}
           >
-            <div className="invoer">
-              <TextArea
-                rows={meta.rows || 6}
-                placeholder={meta.placeholder}
-                {...handler()}
-                onBlur={e => get(e, meta, parent)}
-              />
-              { meta.maxLength
-              && (
-                <div className="input-help">
-                  <span className="text-area-input__counter">
-                    {`${value ? value.length : '0'}/${meta.maxLength} tekens` }
-                  </span>
-                </div>
-              )}
-            </div>
+            <TextArea
+              rows={meta.rows || 6}
+              placeholder={meta.placeholder}
+              {...handler()}
+              onBlur={e => get(e, meta, parent)}
+              helpText={meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
+            />
           </Header>
         </div>
       )

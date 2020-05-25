@@ -18,6 +18,15 @@
   font-weight: normal;
 }
 
+.col-12,
+.col-md-6,
+.col-sm-12 {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  max-width: 100%;
+}
+
 @media (min-width: 576px) {
   .col-sm-12 {
     flex: 0 0 100%;
@@ -62,6 +71,11 @@ h1, h2, h3, h4, th, strong {
 
 label {
   font-size: 1rem !important;
+
+  & > div {
+    /* Overwriting styling from @datapunt/asc-ui */
+    padding: 0 !important;
+  }
 }
 
 ul li {

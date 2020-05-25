@@ -21,15 +21,10 @@ exports[`Form component <SelectInput /> rendering should render empty select fie
       }
       touched={false}
     >
-      <div
-        className="invoer"
-      >
-        <select
-          onChange={[Function]}
-          type="select"
-          value="baz"
-        />
-      </div>
+      <SelectInput
+        onChange={[Function]}
+        value="baz"
+      />
     </Header>
   </div>
 </div>
@@ -66,34 +61,26 @@ exports[`Form component <SelectInput /> rendering should render select field cor
       }
       touched={false}
     >
-      <div
-        className="invoer"
-      >
-        <select
-          onChange={[Function]}
-          type="select"
-          value="baz"
-        >
-          <option
-            key="input-field-name-foo"
-            value="foo"
-          >
-            Foo
-          </option>
-          <option
-            key="input-field-name-bar"
-            value="bar"
-          >
-            Bar
-          </option>
-          <option
-            key="input-field-name-baz"
-            value="baz"
-          >
-            Baz
-          </option>
-        </select>
-      </div>
+      <SelectInput
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "Foo",
+              "value": "foo",
+            },
+            Object {
+              "name": "Bar",
+              "value": "bar",
+            },
+            Object {
+              "name": "Baz",
+              "value": "baz",
+            },
+          ]
+        }
+        value="baz"
+      />
     </Header>
   </div>
 </div>
