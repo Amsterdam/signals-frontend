@@ -26,8 +26,7 @@ export const SelectInput = ({ name, display, values, useSlug, emptyOptionText })
 
   const render = ({ handler }) => {
     const value = handler()?.value;
-    const keyName = useSlug ? 'slug' : 'key';
-    const { [keyName]: info } = (value && values.find(p => p && p[keyName] === value)) || {};
+    const { description } = (value && values.find(p => p && p.description === value)) || {};
 
     return (
       <Wrapper>
@@ -35,7 +34,7 @@ export const SelectInput = ({ name, display, values, useSlug, emptyOptionText })
 
         <SelectInputComponent name={name} data-testid={name} id={`form${name}`} {...handler()} options={options} />
 
-        {info && <Info>{info}</Info>}
+        {description && <Info>{description}</Info>}
       </Wrapper>
     );
   };
