@@ -27,7 +27,7 @@ export const SelectInput = ({ name, display, values, useSlug, emptyOptionText })
   const render = ({ handler }) => {
     const value = handler()?.value;
     const keyName = useSlug ? 'slug' : 'key';
-    const { _description: description } = (value && values.find(p => p && p[keyName] === value)) || {};
+    const { _display: description } = (value && values.find(p => p && p[keyName] === value)) || {};
 
     return (
       <Wrapper>
