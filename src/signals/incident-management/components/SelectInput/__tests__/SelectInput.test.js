@@ -13,9 +13,9 @@ describe('<SelectInput />', () => {
       display: 'display',
       handler: jest.fn(),
       values: [
-        { key: '', value: 'none', slug: '' },
-        { key: '1', value: 'item1', slug: 'item-1' },
-        { key: '2', value: 'item2', slug: 'item-2' },
+        { key: '', value: 'none', slug: '', _display: '' },
+        { key: '1', value: 'item1', slug: 'item-1', _display: 'description-1' },
+        { key: '2', value: 'item2', slug: 'item-2', _display: 'description-2' },
       ],
       multiple: false,
       emptyOptionText: 'all items',

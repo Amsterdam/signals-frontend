@@ -1,20 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-import Select from 'components/SelectInput';
+import SelectInputComponent from 'components/SelectInput';
 
-import './style.scss';
+import { themeSpacing } from '@datapunt/asc-ui';
 
-export const SelectInput = props => {
-  const { name, display, values, useSlug, emptyOptionText } = props;
+const Wrapper = styled.div`
+  width: 100%;
+  margin-bottom: ${themeSpacing(5)};
+`;
+
+export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
   const options = values.map(({ key, value, slug }) => ({
+    key: useSlug ? slug : key,
     name: key ? value : emptyOptionText || value,
     value: useSlug ? slug : key,
   }));
 
   const render = ({ handler }) => (
-    <div className="select-input__control">
-      <Select
+    <Wrapper>
+      <SelectInputComponent
         label={<strong>{display}</strong>}
         name={name}
         data-testid={name}
@@ -22,7 +28,7 @@ export const SelectInput = props => {
         {...handler()}
         options={options}
       />
-    </div>
+    </Wrapper>
   );
 
   render.defaultProps = {

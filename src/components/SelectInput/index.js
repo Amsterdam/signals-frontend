@@ -13,10 +13,14 @@ const SelectInput = ({ label, onChange, name, options, value }) => (
   </Select>
 );
 
+SelectInput.defaultProps = {
+  onChange: () => {},
+};
+
 SelectInput.propTypes = {
   label: PropTypes.node,
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
