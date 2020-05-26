@@ -31,21 +31,24 @@ const expandFieldType = key => mapFieldNameToComponent[key];
 const expandValidatorFn = ([key, ...args]) => mapValidatorToFn[key].apply(null, args);
 const expandValidator = key => (Array.isArray(key) ? expandValidatorFn(key) : mapValidatorToFn[key]);
 
-const expandQuestions = memoize(questions => ({
-  controls: Object.keys(questions).reduce(
-    (acc, key) => ({
-      ...acc,
-      [key]: {
-        ...questions[key],
-        options: {
-          validators: (questions[key].options?.validators || []).map(expandValidator),
+const expandQuestions = memoize(
+  questions => ({
+    controls: Object.keys(questions).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: {
+          ...questions[key],
+          options: {
+            validators: (questions[key].options?.validators || []).map(expandValidator),
+          },
+          render: expandFieldType(questions[key].render),
         },
-        render: expandFieldType(questions[key].render),
-      },
-    }),
-    {}
-  ),
-}));
+      }),
+      {}
+    ),
+  }),
+  (questions, category, subcategory) => `${category}${subcategory}`
+);
 
 export default {
   label: 'Dit hebben we nog van u nodig',
@@ -54,7 +57,7 @@ export default {
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
-  formFactory: ({ category, questions }) => {
+  formFactory: ({ category, subcategory, questions }) => {
     switch (category) {
       case 'afval':
         return afval;
@@ -81,7 +84,7 @@ export default {
         return wonen;
 
       default:
-        return questions ? expandQuestions(questions) : { controls: {} };
+        return questions ? expandQuestions(questions, category, subcategory) : { controls: {} };
     }
   },
 };
