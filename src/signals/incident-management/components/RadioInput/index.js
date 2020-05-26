@@ -34,7 +34,6 @@ const RadioInput = ({ name, display, values }) => {
                   defaultChecked={current === key}
                   id={`${name}-${key}`}
                   data-testid={`${name}-${key}`}
-                  // className="kenmerkradio"
                   {...handler('radio', key)}
                 />
               </AscLabel>

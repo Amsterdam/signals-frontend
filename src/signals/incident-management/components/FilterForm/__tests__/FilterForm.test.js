@@ -77,15 +77,15 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should not rerender checkbox list group when state changes', () => {
-    const { rerender, queryByTestId } = render(withAppContext(<FilterForm {...formProps} dataLists={dataLists} />));
+    const { rerender, queryByTestId } = render(withAppContext(<FilterForm {...formProps} />));
 
     const firstRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
 
-    rerender(withAppContext(<FilterForm {...formProps} dataLists={dataLists} />));
+    rerender(withAppContext(<FilterForm {...formProps} />));
 
     const secondRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
 
-    rerender(withAppContext(<FilterForm {...formProps} dataLists={dataLists} />));
+    rerender(withAppContext(<FilterForm {...formProps} />));
 
     const thirdRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
 

@@ -216,6 +216,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="name"
               onChange={onNameChange}
               placeholder="Geef deze filterinstelling een naam om deze op te slaan"
+              type="text"
             />
           </div>
 

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as types from 'shared/types';
@@ -14,7 +14,6 @@ const RadioGroup = ({ defaultValue, onChange, options, name, label }) =>
         {label}
       </Label>
       <RadioButtonList
-        hasEmptySelectionButton
         defaultValue={defaultValue}
         groupName={name}
         onChange={onChange}
@@ -35,4 +34,4 @@ RadioGroup.propTypes = {
   options: types.dataListType.isRequired,
 };
 
-export default memo(RadioGroup);
+export default RadioGroup;

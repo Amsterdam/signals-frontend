@@ -23,45 +23,38 @@ const RadioButtonList = ({
   onChange,
   options,
   title,
-}) => (
-  <FilterGroup>
-    {title && (
-      <Label as="span" isGroupHeader={false}>
-        {title}
-      </Label>
-    )}
+}) => {
+  const radioOptions = [...options];
 
-    <RadioGroup name={groupName}>
-      {hasEmptySelectionButton && emptySelectionLabel && (
-        <Label htmlFor={`empty_${groupName}`} label={emptySelectionLabel}>
-          <Radio
-            checked={defaultValue === ''}
-            disabled={disabled}
-            id={`empty_${groupName}`}
-            onChange={() => {
-              onChange(groupName, { key: '' });
-            }}
-            value=""
-          />
+  if (hasEmptySelectionButton && emptySelectionLabel) {
+    radioOptions.unshift({ key: '', name: 'empty', value: emptySelectionLabel });
+  }
+
+  return (
+    <FilterGroup>
+      {title && (
+        <Label as="span" isGroupHeader={false}>
+          {title}
         </Label>
       )}
 
-      {options.map(option => (
-        <Label key={option.key} htmlFor={option.key} label={option.value}>
-          <Radio
-            checked={option.key === defaultValue}
-            disabled={disabled}
-            id={option.key}
-            onChange={() => {
-              onChange(groupName, option);
-            }}
-            value={option.key}
-          />
-        </Label>
-      ))}
-    </RadioGroup>
-  </FilterGroup>
-);
+      <RadioGroup name={groupName} disabled={disabled}>
+        {radioOptions.map(option => (
+          <Label key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
+            <Radio
+              checked={option.key === defaultValue}
+              id={option.key || option.name}
+              onChange={() => {
+                onChange(groupName, option);
+              }}
+              value={option.key}
+            />
+          </Label>
+        ))}
+      </RadioGroup>
+    </FilterGroup>
+  );
+};
 
 RadioButtonList.defaultProps = {
   emptySelectionLabel: 'Alles',

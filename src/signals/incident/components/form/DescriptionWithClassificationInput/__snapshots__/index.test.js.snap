@@ -20,7 +20,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       }
       touched={false}
     >
-      <TextArea
+      <ForwardRef
         helpText={false}
         onBlur={[Function]}
         placeholder="type here"
@@ -58,7 +58,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       }
       touched={false}
     >
-      <TextArea
+      <ForwardRef
         helpText="0/3000 tekens"
         onBlur={[Function]}
         placeholder="type here"
@@ -90,7 +90,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       }
       touched={false}
     >
-      <TextArea
+      <ForwardRef
         helpText="4/3000 tekens"
         onBlur={[Function]}
         placeholder="type here"
