@@ -26,7 +26,11 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
             wizardStep && (
               <div className="incident-navigation">
                 {!hideSubmit && wizardStep.previousButtonLabel ? (
-                  <PreviousButton className={wizardStep.previousButtonClass} onClick={previous}>
+                  <PreviousButton
+                    className={wizardStep.previousButtonClass}
+                    onClick={previous}
+                    data-testid="previousButton"
+                  >
                     {wizardStep.previousButtonLabel}
                   </PreviousButton>
                 ) : (
@@ -34,7 +38,7 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
                 )}
 
                 {!hideSubmit && wizardStep.nextButtonLabel && (
-                  <NextButton onClick={e => handleSubmit(e, next, wizardStep.formAction)}>
+                  <NextButton onClick={e => handleSubmit(e, next, wizardStep.formAction)} data-testid="nextButton">
                     <span className="value">{wizardStep.nextButtonLabel}</span>
                     {submitting && (
                       <span className="working">

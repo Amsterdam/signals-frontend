@@ -91,6 +91,7 @@ exports[`<IncidentNavigation /> rendering render correctly button with submittin
   <span />
   <NextButton
     className=""
+    data-testid="nextButton"
     onClick={[Function]}
   >
     <span
@@ -200,6 +201,7 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
   <span />
   <NextButton
     className=""
+    data-testid="nextButton"
     onClick={[Function]}
   >
     <span
@@ -393,12 +395,14 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
 >
   <PreviousButton
     className="previous-class"
+    data-testid="previousButton"
     onClick={[MockFunction]}
   >
     Vorige
   </PreviousButton>
   <NextButton
     className=""
+    data-testid="nextButton"
     onClick={[Function]}
   >
     <span
@@ -600,12 +604,14 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
 >
   <PreviousButton
     className="previous-class"
+    data-testid="previousButton"
     onClick={[MockFunction]}
   >
     Vorige
   </PreviousButton>
   <NextButton
     className=""
+    data-testid="nextButton"
     onClick={[Function]}
   >
     <span

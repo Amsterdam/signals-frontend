@@ -7,9 +7,7 @@ import Label from 'components/Label';
 import './style.scss';
 
 const TextAreaInput = props => {
-  const {
-    name, display, placeholder, rows, maxLength,
-  } = props;
+  const { name, display, placeholder, rows, maxLength } = props;
   const render = ({ handler, value }) => (
     <div className="text-area-input">
       <div className="mode_input text rij_verplicht">

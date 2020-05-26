@@ -26,11 +26,14 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
             <div className="datetime-input__earlier">
               <div className="datetime-input__earlier-date">
                 <Select
+                  name="day"
+                  data-testid="selectDay"
                   label={<strong>Dag</strong>}
-                  value={parent.value.incident_date}
+                  value={`${parent.value.incident_date}`}
                   onChange={e => parent.meta.updateIncident({ incident_date: e.target.value })}
                   options={[...Array(7).keys()].map(offset => ({
                     value: formatDate(offset),
+                    key: formatDate(offset, 'label'),
                     name: formatDate(offset, 'label'),
                   }))}
                 />
@@ -39,17 +42,21 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
               <div className="datetime-input__earlier-time">
                 <div>
                   <Select
+                    name="hours"
+                    data-testid="selectHours"
                     label={<strong>Tijd</strong>}
-                    value={parent.value.incident_time_hours}
+                    value={`${parent.value.incident_time_hours}`}
                     onChange={e => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
-                    options={[...Array(24).keys()].map(value => ({ value, name: value }))}
+                    options={[...Array(24).keys()].map(value => ({ value, key: value, name: value }))}
                   />
                 </div>
                 <span className="datetime-input__earlier-time-label">uur</span>
                 <Select
-                  value={parent.value.incident_time_minutes}
+                  name="minutes"
+                  data-testid="selectMinutes"
+                  value={`${parent.value.incident_time_minutes}`}
                   onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
-                  options={[...Array(12).keys()].map(minute => ({ value: minute * 5, name: minute * 5 }))}
+                  options={[...Array(12).keys()].map(minute => ({ value: minute * 5, name: minute * 5, key: minute * 5 }))}
                 />
                 <span className="datetime-input__earlier-time-label">min</span>
               </div>

@@ -13,6 +13,7 @@ const StyledButton = styled(Button)`
 const PreviousButton = ({ className, children, onClick }) => (
   <StyledButton
     className={className}
+    data-testid="previousButton"
     iconLeft={<ChevronLeft />}
     iconSize={14}
     onClick={onClick}

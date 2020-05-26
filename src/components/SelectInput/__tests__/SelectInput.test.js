@@ -17,6 +17,7 @@ describe('<SelectInput />', () => {
         { key: 'inactive', name: 'Niet actief', value: false },
       ],
       value: '*',
+      label: 'Foo',
     };
   });
 

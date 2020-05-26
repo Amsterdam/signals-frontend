@@ -11,6 +11,7 @@ const StyledButton = styled(Button)`
 const NextButton = ({ className, children, onClick }) => (
   <StyledButton
     className={className}
+    data-testid="nextButton"
     onClick={onClick}
     taskflow
     type="submit"

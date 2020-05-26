@@ -9,6 +9,9 @@ const Bar = styled.div`
   }
 `;
 
+/**
+ * Button container that merely adds margin between children
+ */
 const ButtonBar = ({ className, children }) => <Bar className={className}>{children}</Bar>;
 
 ButtonBar.defaultProps = {

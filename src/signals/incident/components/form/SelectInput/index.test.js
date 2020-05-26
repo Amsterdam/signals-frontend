@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import Select from 'components/SelectInput';
 import SelectInput from './index';
 
 describe('Form component <SelectInput />', () => {
@@ -104,7 +105,7 @@ describe('Form component <SelectInput />', () => {
         },
       });
 
-      wrapper.find('select').simulate('change', event);
+      wrapper.find(Select).simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {

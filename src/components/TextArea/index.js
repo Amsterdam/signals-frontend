@@ -5,9 +5,7 @@ import { styles, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 const { InputStyle } = styles;
 
-const ForwardedRefTextArea = forwardRef((props, ref) => <textarea {...props} ref={ref} />);
-
-const StyledArea = styled(ForwardedRefTextArea)`
+const StyledArea = styled.textarea`
   ${InputStyle.componentStyle.rules}
   font-family: inherit;
   vertical-align: top; /* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
@@ -19,12 +17,12 @@ const HelpText = styled.div`
   margin-top: ${themeSpacing(2)};
 `;
 
-const TextArea = ({ helpText, ...props }) => (
+const TextArea =  forwardRef(({ helpText, ...props }, ref) => (
   <Fragment>
-    <StyledArea {...props} />
+    <StyledArea {...props} ref={ref} />
     {helpText && <HelpText>{helpText}</HelpText>}
   </Fragment>
-);
+));
 
 TextArea.propTypes = {
   helpText: PropTypes.node,

@@ -22,7 +22,9 @@ exports[`Form component <SelectInput /> rendering should render empty select fie
       touched={false}
     >
       <SelectInput
+        name="input-field-name"
         onChange={[Function]}
+        options={Array []}
         value="baz"
       />
     </Header>
@@ -62,20 +64,24 @@ exports[`Form component <SelectInput /> rendering should render select field cor
       touched={false}
     >
       <SelectInput
+        name="input-field-name"
         onChange={[Function]}
         options={
           Array [
             Object {
-              "name": "Foo",
-              "value": "foo",
+              "key": "foo",
+              "name": "foo",
+              "value": "Foo",
             },
             Object {
-              "name": "Bar",
-              "value": "bar",
+              "key": "bar",
+              "name": "bar",
+              "value": "Bar",
             },
             Object {
-              "name": "Baz",
-              "value": "baz",
+              "key": "baz",
+              "name": "baz",
+              "value": "Baz",
             },
           ]
         }

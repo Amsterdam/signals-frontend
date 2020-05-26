@@ -12,7 +12,8 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
       <div className={`${meta.className || 'col-12'} mode_input`}>
         <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
           <Select
-            value={handler().value.id}
+            name={meta.name}
+            value={`${handler().value.id}`}
             onChange={e =>
               parent.meta.updateIncident({
                 [meta.name]: {
@@ -22,9 +23,9 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
               })
             }
             options={
-              meta.values &&
-              isObject(meta.values) &&
-              Object.entries(meta.values).map(([value, name]) => ({ name, value }))
+              meta.values && isObject(meta.values)
+                ? Object.entries(meta.values).map(([key, value]) => ({ key, name: key, value }))
+                : []
             }
           />
         </Header>
