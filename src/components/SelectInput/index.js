@@ -6,14 +6,20 @@ import { Select } from '@datapunt/asc-ui';
 const SelectInput = ({ onChange, name, options, value }) => (
   <Select value={value} onChange={onChange} data-testid={name}>
     {options.map(option => (
-      <option key={`${name}-${option.key}`} value={option.value}>{option.name}</option>
+      <option key={`${name}-${option.key}`} value={option.value}>
+        {option.name}
+      </option>
     ))}
   </Select>
 );
 
+SelectInput.defaultProps = {
+  onChange: () => {},
+};
+
 SelectInput.propTypes = {
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
