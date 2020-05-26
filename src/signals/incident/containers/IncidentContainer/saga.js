@@ -93,6 +93,25 @@ const fetchQuestions = () => ({
         validators: ['EMAIL', ['MAX_LENGTH', 9]],
       },
     },
+    {
+      field_type: 'PLAIN_TEXT',
+      key: 'plain_text',
+      meta: {
+        label: 'Extra caution text',
+        type: 'caution',
+        value: 'Single caution value',
+        ignoreVisibility: true,
+      },
+    },
+    {
+      field_type: 'PLAIN_TEXT',
+      key: 'more_plain_text',
+      meta: {
+        label: 'Extra alert text',
+        type: 'alert',
+        value: ['Multiple lines', ' of alert', 'value'],
+      },
+    },
   ],
 });
 
