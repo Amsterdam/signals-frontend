@@ -1,10 +1,8 @@
-import React, { Fragment, useLayoutEffect, useCallback, useState } from 'react';
+import React, { useLayoutEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import get from 'lodash.get';
 import { useSelector } from 'react-redux';
-import { Link as AscLink, Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
@@ -16,8 +14,6 @@ import RadioInput from 'signals/incident-management/components/RadioInput';
 import ChangeValue from './components/ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
-
-const getId = item => item.href.match(/\/(\d+)$/)[1];
 
 const List = styled.dl`
   dt {
@@ -50,7 +46,6 @@ const EditButton = styled(Button)`
 
 const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
   const [valueChanged, setValueChanged] = useState(false);
-  const parent = get(incident, '_links.sia:parent');
   const subcategories = useSelector(makeSelectSubCategories);
   const subcatHighlightDisabled = ![
     'm',
@@ -141,17 +136,6 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
       </Highlight>
-
-      {parent && (
-        <Fragment>
-          <dt data-testid="meta-list-parent-definition">Oorspronkelijke melding</dt>
-          <dd>
-            <AscLink data-testid="meta-list-parent-link" as={Link} variant="inline" to={`/manage/incident/${getId(parent)}`}>
-              {getId(parent)}
-            </AscLink>
-          </dd>
-        </Fragment>
-      )}
 
       <Highlight subscribeTo={incident.category.departments} valueChanged={valueChanged}>
         <dt data-testid="meta-list-department-definition">Verantwoordelijke afdeling</dt>

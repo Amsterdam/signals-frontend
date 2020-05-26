@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon"
+    ],
+    [0.8369306624025026]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/graffitiwildplak"
+    ],
+    [0.9321023402006703]
+  ]
+}

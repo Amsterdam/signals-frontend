@@ -1,4 +1,4 @@
-import { RESET_LOCATION, SET_LOCATION, SET_ADDRESS, SET_VALUES } from './constants';
+import { RESET_LOCATION, SET_LOCATION, SET_ADDRESS, SET_VALUES, SET_LOADING } from './constants';
 
 export const initialState = {
   address: {
@@ -14,6 +14,7 @@ export const initialState = {
     lat: 0,
     lng: 0,
   },
+  loading: false,
 };
 
 export default (state, action) => {
@@ -40,6 +41,12 @@ export default (state, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
       };
 
     default:
