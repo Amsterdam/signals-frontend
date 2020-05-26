@@ -22,11 +22,12 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-const DisplayValue = styled.div`
+const DisplayValue = styled.span`
+    display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 85%;
+    max-width: calc(100% - ${themeSpacing(10)});
 `;
 
 const SaveButton = styled(Button)`
