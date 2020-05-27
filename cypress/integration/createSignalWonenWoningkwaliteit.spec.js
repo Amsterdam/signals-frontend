@@ -1,6 +1,6 @@
 // <reference types="Cypress" />
 import * as createSignal from '../support/commandsCreateSignal';
-import { CREATE_SIGNAL, WONEN } from '../support/selectorsCreateSignal';
+import { CREATE_SIGNAL, WONEN_WONINGKWALITEIT } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 
 describe('Create signal wonen woningkwaliteit and check signal details',() => {
@@ -34,36 +34,36 @@ describe('Create signal wonen woningkwaliteit and check signal details',() => {
       // Input specific information
       cy.contains('Denkt u dat er direct gevaar is?').should('be.visible');
       cy.contains('Bijvoorbeeld: u ruikt een sterke gaslucht of er dreigt een schoorsteen of balkon in te storten').should('be.visible');
-      cy.get(WONEN.radioButtonGevaarJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonGevaarJa).check().should('be.checked');
       cy.contains('Bel 112 en vul dit formulier niet verder in').should('be.visible').and($labels => {
         expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
       });
-      cy.get(WONEN.radioButtonGevaarNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonGevaarNee).check().should('be.checked');
 
       cy.contains('Hebt u de klacht al bij uw verhuurder, eigenaar of VvE gemeld?').should('be.visible');
-      cy.get(WONEN.radioButtonKlachtGemeldNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonKlachtGemeldNee).check().should('be.checked');
       cy.contains('Meldt uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in').should('be.visible');
-      cy.get(WONEN.radioButtonKlachtGemeldJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonKlachtGemeldJa).check().should('be.checked');
       cy.contains('Meldt uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in').should('not.be.visible');
 
       cy.contains('Bent u zelf bewoner van het adres?').should('be.visible');
-      cy.get(WONEN.radioButtonBewonerJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonBewonerJa).check().should('be.checked');
       cy.contains('Doet u de melding namens de bewoner van het adres?').should('not.be.visible');
-      cy.get(WONEN.radioButtonBewonerNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonBewonerNee).check().should('be.checked');
 
       cy.contains('Doet u de melding namens de bewoner van het adres?').should('be.visible');
-      cy.get(WONEN.radioButtonNamensBewonerJa).check().should('be.checked');
-      cy.get(WONEN.radioButtonNamensBewonerNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonNamensBewonerJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonNamensBewonerNee).check().should('be.checked');
       
       cy.contains('Mogen we contact met u opnemen om een afspraak te maken?').should('be.visible');
       cy.contains('Om uw klacht goed te kunnen behandelen willen we vaak even komen kijken of met u overleggen').should('be.visible');
-      cy.get(WONEN.radioButtonContactJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonContactJa).check().should('be.checked');
       cy.contains('Let op! Vul uw telefoonnummer in op de volgende pagina.').should('be.visible');
-      cy.get(WONEN.radioButtonContactNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonContactNee).check().should('be.checked');
       cy.contains('Let op! Vul uw telefoonnummer in op de volgende pagina.').should('not.be.visible');
       cy.contains('Waarom heeft u liever geen contact?').should('be.visible');
 
-      cy.get(WONEN.inputGeenContact).type('Vertel ik liever niet');
+      cy.get(WONEN_WONINGKWALITEIT.inputGeenContact).type('Vertel ik liever niet');
 
       cy.contains('Volgende').click();
     });
