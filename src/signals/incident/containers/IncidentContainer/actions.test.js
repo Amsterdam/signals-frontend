@@ -9,6 +9,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  RESET_EXTRA_STATE,
 } from './constants';
 
 import {
@@ -20,6 +21,7 @@ import {
   getClassification,
   getClassificationSuccess,
   getClassificationError,
+  resetExtraState,
 } from './actions';
 
 describe('Incident container actions', () => {
@@ -64,5 +66,11 @@ describe('Incident container actions', () => {
 
   it('should dispatch classification error action', () => {
     testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR);
+  });
+
+  test('resetExtraState', () => {
+    expect(resetExtraState()).toEqual({
+      type: RESET_EXTRA_STATE,
+    });
   });
 });

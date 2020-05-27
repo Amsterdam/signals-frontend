@@ -8,6 +8,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -47,6 +48,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -90,6 +92,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={

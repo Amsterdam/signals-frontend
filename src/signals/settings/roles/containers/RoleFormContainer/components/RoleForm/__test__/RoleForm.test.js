@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as reactRouterDom from 'react-router-dom';
 
@@ -28,14 +28,11 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   });
 
   it('should render correctly', () => {
-    const { container, queryByTestId } = render(
-      withAppContext(<RoleForm {...props} />)
-    );
+    const { container, queryByTestId } = render(withAppContext(<RoleForm {...props} />));
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('Behandelaar');
 
-    expect(container.querySelectorAll('input[type="checkbox"]').length)
-      .toBe(permissionsJson.length);
+    expect(container.querySelectorAll('input[type="checkbox"]').length).toBe(permissionsJson.length);
 
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBe(6);
   });
@@ -48,12 +45,12 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         name: '',
       },
     };
-    const { getByTestId, queryByTestId, queryByText } = render(
-      withAppContext(<RoleForm {...emptyNameProps} />)
-    );
+    const { getByTestId, queryByTestId, queryByText } = render(withAppContext(<RoleForm {...emptyNameProps} />));
     expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(queryByTestId('rolesFormFieldName')).toHaveValue('');
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
@@ -63,19 +60,22 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         value: 'nieuwe Behandelaar',
       },
     };
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
 
-    expect(queryByTestId('rolesFormFieldName')).toHaveValue(
-      'nieuwe Behandelaar'
-    );
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+    });
+
+    expect(queryByTestId('rolesFormFieldName')).toHaveValue('nieuwe Behandelaar');
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
     expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
   });
 
-  it('should handle submit flow when patching an existing role', () => {
-    const { getByTestId } = render(withAppContext(<RoleForm {...props} />));
+  it('should handle submit flow when patching an existing role', async () => {
+    const { container, findByTestId, getByTestId } = render(withAppContext(<RoleForm {...props} />));
 
     const event = {
       target: {
@@ -85,14 +85,37 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
 
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+      fireEvent.click(container.querySelectorAll('input[type="checkbox"]')[0]);
+    });
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    await findByTestId('rolesFormFieldName');
+
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(props.onPatchRole).toHaveBeenCalledWith({
       id: 2,
       name: 'Behandelaar',
-      permission_ids: [110, 164, 162, 163, 161, 111],
+      permission_ids: [permissionsJson[0].id, ...rolesJson[0].permissions.map(p => p.id)],
+    });
+
+    act(() => {
+      fireEvent.click(container.querySelectorAll('input[type="checkbox"]')[0]);
+    });
+
+    await findByTestId('rolesFormFieldName');
+
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
+
+    expect(props.onPatchRole).toHaveBeenCalledWith({
+      id: 2,
+      name: 'Behandelaar',
+      permission_ids: [...rolesJson[0].permissions.map(p => p.id)],
     });
   });
 
@@ -107,8 +130,10 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
 
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
-    fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+      fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+    });
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
   });
@@ -118,9 +143,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
       ...props,
       role: undefined,
     };
-    const { getByTestId } = render(
-      withAppContext(<RoleForm {...noRoleProps} />)
-    );
+    const { getByTestId } = render(withAppContext(<RoleForm {...noRoleProps} />));
 
     const event = {
       target: {
@@ -130,8 +153,10 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onSaveRole).not.toHaveBeenCalled();
 
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(props.onSaveRole).toHaveBeenCalledWith({
       name: 'nieuwe Behandelaar',
@@ -144,9 +169,7 @@ describe('/signals/settings/roles/components/RoleForm', () => {
       ...props,
       role: undefined,
     };
-    const { getByTestId } = render(
-      withAppContext(<RoleForm {...noRoleProps} readOnly />)
-    );
+    const { getByTestId } = render(withAppContext(<RoleForm {...noRoleProps} readOnly />));
 
     const event = {
       target: {
@@ -156,8 +179,10 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
     expect(props.onSaveRole).not.toHaveBeenCalled();
 
-    fireEvent.change(getByTestId('rolesFormFieldName'), event);
-    fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.change(getByTestId('rolesFormFieldName'), event);
+      fireEvent.submit(document.forms[0], { preventDefault: jest.fn() });
+    });
 
     expect(props.onSaveRole).not.toHaveBeenCalled();
   });
@@ -170,14 +195,14 @@ describe('/signals/settings/roles/components/RoleForm', () => {
         name: '',
       },
     };
-    const { getByTestId } = render(
-      withAppContext(<RoleForm {...emptyNameProps} />)
-    );
+    const { getByTestId } = render(withAppContext(<RoleForm {...emptyNameProps} />));
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(props.onSaveRole).not.toHaveBeenCalled();
 
-    fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    act(() => {
+      fireEvent.click(getByTestId('submitBtn'), { preventDefault: jest.fn() });
+    });
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(props.onSaveRole).not.toHaveBeenCalled();
@@ -185,16 +210,16 @@ describe('/signals/settings/roles/components/RoleForm', () => {
 
   it('should handle cancel flow', () => {
     const push = jest.fn();
-    jest
-      .spyOn(reactRouterDom, 'useHistory')
-      .mockImplementation(() => ({ push }));
+    jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
 
     const { getByTestId } = render(withAppContext(<RoleForm {...props} />));
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    act(() => {
+      fireEvent.click(getByTestId('cancelBtn'));
+    });
 
     expect(props.onPatchRole).not.toHaveBeenCalled();
     expect(push).toHaveBeenCalledWith(ROLES_URL);

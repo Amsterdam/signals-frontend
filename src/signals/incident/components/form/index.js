@@ -6,7 +6,7 @@ import HandlingMessage from './HandlingMessage';
 import HiddenInput from './HiddenInput';
 import MultiTextInput from './MultiTextInput';
 import PlainText from './PlainText';
-import RadioInput from './RadioInput';
+import RadioInputGroup from './RadioInputGroup';
 import RedirectButton from './RedirectButton';
 import SelectInput from './SelectInput';
 import TextInput from './TextInput';
@@ -25,7 +25,7 @@ export default {
   MapSelect,
   MultiTextInput,
   PlainText,
-  RadioInput,
+  RadioInputGroup,
   RedirectButton,
   SelectInput,
   TextInput,

@@ -11,6 +11,7 @@ import history from 'utils/history';
 import App from 'containers/App';
 import { authenticateUser } from 'containers/App/actions';
 import { authenticate } from 'shared/services/auth/auth';
+import configuration from 'shared/services/configuration/configuration';
 import loadModels from 'models';
 
 // eslint-disable-next-lin import/no-webpack-loader-syntax
@@ -24,13 +25,21 @@ import './polyfills';
 import configureStore from './configureStore';
 
 const environment = process.env.NODE_ENV;
-const release = process.env.GIT_COMMIT;
 
-Sentry.init({
-  environment,
-  dsn: 'https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27',
-  release,
-});
+try {
+  const dsn = configuration?.sentry?.dsn;
+  const release = process.env.GIT_COMMIT;
+  if (dsn) {
+    Sentry.init({
+      environment,
+      dsn,
+      release,
+    });
+  }
+} catch (error) {
+  // noop
+}
+
 
 // Create redux store with history
 const initialState = Immutable.Map();
@@ -40,13 +49,20 @@ const MOUNT_NODE = document.getElementById('app');
 loadModels(store);
 
 // Setup Matomo
-const hostname = window && window.location && window.location.hostname;
-const MatomoInstance = new MatomoTracker({
-  urlBase: 'https://analytics.data.amsterdam.nl/',
-  siteId: hostname === 'meldingen.amsterdam.nl' ? 13 : 14,
-});
+try {
+  const urlBase = configuration?.matomo?.urlBase;
+  const siteId = configuration?.matomo?.siteId;
 
-MatomoInstance.trackPageView();
+  if (urlBase && siteId) {
+    const MatomoInstance = new MatomoTracker({
+      urlBase,
+      siteId,
+    });
+    MatomoInstance.trackPageView();
+  }
+} catch (error) {
+  // noop
+}
 
 const render = () => {
   ReactDOM.render(
