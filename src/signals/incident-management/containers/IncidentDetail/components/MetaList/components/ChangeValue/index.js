@@ -139,11 +139,11 @@ const ChangeValue = ({
 
   return (
     <Fragment>
-      <dt>
+      <dt data-testid={`meta-list-${type}-definition`}>
         {display}
         {!showForm && (
           <EditButton
-            data-testid="editButton"
+            data-testid={`edit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`}
             disabled={disabled}
             icon={<IconEdit />}
             iconSize={18}
@@ -154,10 +154,10 @@ const ChangeValue = ({
       </dt>
 
       {showForm ? (
-        <dd>{editForm}</dd>
+        <dd data-testid={`meta-list-${type}-value`}>{editForm}</dd>
       ) : (
-        <dd className={valueClass}>
-          <span data-testid="valuePath">{getListValueByKey(list, get(incident, valuePath || path))}</span>
+        <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
+          <span>{getListValueByKey(list, get(incident, valuePath || path))}</span>
         </dd>
       )}
     </Fragment>

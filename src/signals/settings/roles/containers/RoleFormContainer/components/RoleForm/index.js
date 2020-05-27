@@ -101,6 +101,7 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly 
           <div key={permission.id}>
             <FieldLabel disabled={readOnly} htmlFor={`permission${permission.id}`} label={permission.name}>
               <Checkbox
+                data-testid={`checkbox-permissions_${permission.id}`}
                 id={`permission${permission.id}`}
                 checked={rolePermissions.find(item => item.id === permission.id)}
                 onChange={handleChange(permission.id)}

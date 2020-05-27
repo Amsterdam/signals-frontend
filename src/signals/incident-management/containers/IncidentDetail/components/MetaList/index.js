@@ -78,7 +78,7 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
 
       <Highlight subscribeTo={incident.status.state} valueChanged={valueChanged}>
         <dt data-testid="meta-list-status-definition">
-          <EditButton icon={<IconEdit />} iconSize={18} variant="application" type="button" onClick={onEditStatus} />
+          <EditButton data-testid="editStatusButton" icon={<IconEdit />} iconSize={18} variant="application" type="button" onClick={onEditStatus} />
           Status
         </dt>
         <dd className="alert" data-testid="meta-list-status-value">

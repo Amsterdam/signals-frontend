@@ -267,6 +267,7 @@ const CheckboxList = ({
           <Wrapper disabled={defaultOption.disabled} key={optionId}>
             <StyledCheckbox
               checked={isChecked(groupId) || isChecked(uid)}
+              data-testid={`checkbox-${optionId}`}
               data-id={uid}
               disabled={defaultOption.disabled}
               id={optionId}
