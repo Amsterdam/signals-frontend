@@ -37,7 +37,7 @@ export function* getClassification(action) {
   }
 }
 
-const fetchQuestions = () => ({
+export const fetchQuestions = () => ({
   _links: {},
   count: 2,
   results: [
@@ -115,7 +115,7 @@ const fetchQuestions = () => ({
   ],
 });
 
-export function* getQuestionsHandler(action) {
+export function* getQuestionsSaga(action) {
   try {
     const { results: rawQuestions } = yield call(fetchQuestions, action.payload);
     const questions = yield call(resolveQuestions, rawQuestions);
@@ -237,7 +237,7 @@ export function* getPostData(action) {
 export default function* watchIncidentContainerSaga() {
   yield all([
     takeLatest(GET_CLASSIFICATION, getClassification),
-    takeLatest(GET_QUESTIONS, getQuestionsHandler),
+    takeLatest(GET_QUESTIONS, getQuestionsSaga),
     takeLatest(CREATE_INCIDENT, createIncident),
   ]);
 }

@@ -10,6 +10,7 @@ import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json';
 
 import configuration from 'shared/services/configuration/configuration';
 import resolveClassification from 'shared/services/resolveClassification';
+import resolveQuestions from 'shared/services/resolve-questions';
 import * as auth from 'shared/services/auth/auth';
 import { authPostCall, postCall } from 'shared/services/api/api';
 
@@ -20,6 +21,8 @@ import mapControlsToParams from '../../services/map-controls-to-params';
 import * as constants from './constants';
 import watchIncidentContainerSaga, {
   getClassification,
+  fetchQuestions,
+  getQuestionsSaga,
   createIncident,
   postIncident as postIncidentSaga,
   getPostData,
@@ -49,6 +52,39 @@ const predictionResponse = {
     [`https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/${subcategory}`],
     [0.5757328735244648],
   ],
+};
+
+const resolvedPrediction = {
+  category,
+  subcategory,
+};
+
+const questionsResponse = [
+  {
+    key: 'key1',
+    meta: 'meta1',
+    options: 'options1',
+    field_type: 'field_type1',
+  },
+  {
+    key: 'key2',
+    meta: 'meta2',
+    options: 'options2',
+    field_type: 'field_type2',
+  },
+];
+
+const resolvedQuestions = {
+  key1: {
+    meta: 'meta1',
+    options: 'options1',
+    render: 'field_type1',
+  },
+  key2: {
+    meta: 'meta2',
+    options: 'options2',
+    render: 'field_type2',
+  },
 };
 
 const wizard = {
@@ -93,6 +129,7 @@ describe('IncidentContainer saga', () => {
       .next()
       .all([
         takeLatest(constants.GET_CLASSIFICATION, getClassification),
+        takeLatest(constants.GET_QUESTIONS, getQuestionsSaga),
         takeLatest(constants.CREATE_INCIDENT, createIncident),
       ]);
   });
@@ -104,7 +141,8 @@ describe('IncidentContainer saga', () => {
       expectSaga(getClassification, { payload })
         .provide([[matchers.call.fn(postCall), predictionResponse]])
         .call(resolveClassification, predictionResponse)
-        .put.like({ action: { type: constants.GET_CLASSIFICATION_SUCCESS } })
+        .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
+        .put.actionType(constants.GET_QUESTIONS)
         .run());
 
     it('should dispatch error', () => {
@@ -120,6 +158,28 @@ describe('IncidentContainer saga', () => {
         .put({ type: constants.GET_CLASSIFICATION_ERROR, payload: errorResponse })
         .run();
     });
+  });
+
+  describe('getQuestionsSaga', () => {
+    const payload = resolvedPrediction;
+
+    it('should dispatch success', () =>
+      expectSaga(getQuestionsSaga, { payload })
+        .provide([
+          [matchers.call.fn(fetchQuestions), { results: questionsResponse }],
+          [matchers.call.fn(resolveQuestions), resolvedQuestions],
+        ])
+        .call(fetchQuestions, resolvedPrediction)
+        .call(resolveQuestions, questionsResponse)
+        .put({ type: constants.GET_QUESTIONS_SUCCESS, payload: { questions: resolvedQuestions } })
+        .run());
+
+    it('should dispatch error', () =>
+      expectSaga(getQuestionsSaga, { payload })
+        .provide([[matchers.call.fn(fetchQuestions), throwError(new Error('whoops!!!1!'))]])
+        .call.fn(fetchQuestions)
+        .put.actionType(constants.GET_QUESTIONS_ERROR)
+        .run());
   });
 
   describe('postIncident', () => {
