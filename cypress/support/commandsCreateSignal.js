@@ -53,9 +53,8 @@ export const searchAddress = address => {
 };
 
 export const selectAddress = address => {
-  cy.get('[data-testid=suggestList] ')
-    .should('be.visible')
-    .and('contain.text', address)
+  cy.get('[data-testid=suggestList] > li ')
+    .contains(new RegExp(`^${  address  }$`, "g"))
     .trigger('click');
 };
 
