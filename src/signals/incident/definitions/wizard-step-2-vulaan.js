@@ -62,7 +62,7 @@ export default {
       case 'afval':
         return afval;
 
-      case '-overlast-bedrijven-en-horeca':
+      case 'overlast-bedrijven-en-horeca':
         return overlastBedrijvenEnHoreca;
 
       case 'overlast-in-de-openbare-ruimte':
