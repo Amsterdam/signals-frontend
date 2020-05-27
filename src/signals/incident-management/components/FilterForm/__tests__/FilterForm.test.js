@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, act, wait } from '@testing-library/react';
+import { fireEvent, render, act, wait, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import priorityList from 'signals/incident-management/definitions/priorityList';
@@ -27,6 +27,15 @@ jest.mock('models/categories/selectors', () => ({
 }));
 
 describe('signals/incident-management/components/FilterForm', () => {
+  it('should render a name field', () => {
+    const { getByTestId } = render(
+      withAppContext(<FilterForm {...formProps} filter={{ id: 1234, name: 'FooBar', options: {} }} />)
+    );
+
+    expect(getByTestId('filterName')).toBeInTheDocument();
+    expect(getByTestId('filterName').value).toEqual('FooBar');
+  });
+
   it('should render filter fields', () => {
     const { container } = render(withAppContext(<FilterForm {...formProps} />));
 
@@ -34,10 +43,21 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(container.querySelectorAll('input[type="text"][name="address_text"]')).toHaveLength(1);
   });
 
-  it('should render a refresh checkbox', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} filter={{ options: {} }} />));
+  it('should render a refresh checkbox', async () => {
+    const { findByTestId } = render(withAppContext(<FilterForm {...formProps} filter={{ options: {} }} />));
 
-    expect(container.querySelector('input[type="checkbox"][name="refresh"]')).toBeTruthy();
+    const refreshCheckbox = await findByTestId('filterRefresh');
+
+    expect(refreshCheckbox).toBeInTheDocument();
+    expect(refreshCheckbox.checked).toBe(false);
+
+    cleanup();
+
+    const renderProps = render(withAppContext(<FilterForm {...formProps} filter={{ options: {}, refresh: true }} />));
+
+    const refreshCb = await renderProps.findByTestId('filterRefresh');
+
+    expect(refreshCb.checked).toBe(true);
   });
 
   it('should handle checking the refresh box', () => {
