@@ -124,11 +124,11 @@ const ChangeValue = ({
               sort={sort}
             />
 
-            <SaveButton data-testid="submitButton" variant="secondary" type="submit">
+            <SaveButton data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="secondary" type="submit">
               Opslaan
             </SaveButton>
 
-            <CancelButton data-testid="cancelButton" variant="tertiary" type="button" onClick={handleCancel}>
+            <CancelButton data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="tertiary" type="button" onClick={handleCancel}>
               Annuleren
             </CancelButton>
           </Fragment>

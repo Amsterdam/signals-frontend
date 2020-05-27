@@ -70,13 +70,13 @@ describe('<MetaList />', () => {
 
     it('should call onPatchIncident', async () => {
       const { getAllByTestId } = render(withAppContext(<MetaList {...props} />));
-      const editButtons = getAllByTestId('editButton');
+      const editButtons = getAllByTestId('editPriorityButton');
 
       act(() => {
         fireEvent.click(editButtons[0]);
       });
 
-      const submitButtons = getAllByTestId('submitButton');
+      const submitButtons = getAllByTestId('submitPriorityButton');
 
       expect(props.onPatchIncident).not.toHaveBeenCalled();
 
