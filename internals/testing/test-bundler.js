@@ -9,6 +9,7 @@ import 'jest-localstorage-mock';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import fetchMock from 'jest-fetch-mock';
+import config from '../../environment.conf.json';
 
 fetchMock.enableMocks();
 
@@ -17,6 +18,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 global.window.L = L;
 global.window.alert = msg => msg;
+global.window.CONFIG = config;
 
 if (process.env.CI) {
   // prevent pollution of the build log when running tests in CI

@@ -5,12 +5,14 @@ import 'jest-styled-components';
 
 import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';
+import configuration from 'shared/services/configuration/configuration';
 
 import SiteHeader, { breakpoint } from '../index';
 
 const mmm = MatchMediaMock.create();
 
 jest.mock('shared/services/auth/auth');
+jest.mock('shared/services/configuration/configuration');
 
 describe('components/SiteHeader', () => {
   beforeEach(() => {
@@ -22,6 +24,10 @@ describe('components/SiteHeader', () => {
     });
   });
 
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   it('should render correctly when not authenticated', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
@@ -29,18 +35,14 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, rerender, queryByText } = render(
-      withAppContext(<SiteHeader />)
-    );
+    const { container, rerender, queryByText } = render(withAppContext(<SiteHeader />));
 
     // menu items
     expect(queryByText('Melden')).not.toBeInTheDocument();
     expect(queryByText('Help')).not.toBeInTheDocument();
 
     // inline menu should not be visible
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
-      0
-    );
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
 
     cleanup();
 
@@ -70,16 +72,16 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, queryByText } = render(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
+    const { container, queryByText } = render(
+      withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />)
+    );
 
     // menu items
     expect(queryByText('Melden')).toBeInTheDocument();
     expect(queryByText('Help')).toBeInTheDocument();
 
     // inline menu should be visible, with a dropdown for instellingen
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
-      1
-    );
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
 
     expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2');
 
@@ -98,32 +100,40 @@ describe('components/SiteHeader', () => {
     expect(document.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(2);
   });
 
+  it('should render the Amsterdam logo by default', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+    const { container, rerender, queryByText } = render(
+      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
+    );
+
+    expect(queryByText('Gemeente Amsterdam')).toBeInTheDocument();
+    expect(container.querySelector('h1 img')).not.toBeInTheDocument();
+
+    configuration.logoUrl = 'logoUrl';
+
+    rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
+
+    expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
+    expect(queryByText('Gemeente Amsterdam')).not.toBeInTheDocument();
+  });
+
   it('should render the correct homeLink', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
     const { container, rerender } = render(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
-      ),
+      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
     );
 
     expect(container.querySelector('h1 a[href="https://www.amsterdam.nl"]')).toBeInTheDocument();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
-      ),
-    );
+    rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
     expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/manage/incidents' }} />,
-      ),
-    );
+    rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/manage/incidents' }} />));
 
     expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
   });
@@ -185,13 +195,9 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, rerender } = render(
-      withAppContext(<SiteHeader location={{ pathname: '/' }} />)
-    );
+    const { container, rerender } = render(withAppContext(<SiteHeader location={{ pathname: '/' }} />));
 
-    expect(
-      container.querySelector('.siteHeader').classList.contains('isTall')
-    ).toEqual(true);
+    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
 
     cleanup();
 
@@ -199,9 +205,7 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader />));
 
-    expect(
-      container.querySelector('.siteHeader').classList.contains('isShort')
-    ).toEqual(true);
+    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
 
     cleanup();
 
@@ -213,9 +217,7 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader />));
 
-    expect(
-      container.querySelector('.siteHeader').classList.contains('isTall')
-    ).toEqual(true);
+    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
 
     cleanup();
 
@@ -223,19 +225,12 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader />));
 
-    expect(
-      container.querySelector('.siteHeader').classList.contains('isShort')
-    ).toEqual(true);
+    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
   });
 
   it('should show buttons based on permissions', () => {
     const { queryByText } = render(
-      withAppContext(
-        <SiteHeader
-          showItems={{ defaultTexts: true }}
-          location={{ pathname: '/incident/beschrijf' }}
-        />
-      )
+      withAppContext(<SiteHeader showItems={{ defaultTexts: true }} location={{ pathname: '/incident/beschrijf' }} />)
     );
 
     expect(queryByText('Standaard teksten')).not.toBeNull();
@@ -244,9 +239,7 @@ describe('components/SiteHeader', () => {
   it('should render correctly when logged in', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    const { container, queryByText } = render(
-      withAppContext(<SiteHeader location={{ pathname: '/' }} />)
-    );
+    const { container, queryByText } = render(withAppContext(<SiteHeader location={{ pathname: '/' }} />));
 
     // afhandelen menu item
     expect(queryByText('Afhandelen')).toBeInTheDocument();
@@ -267,9 +260,7 @@ describe('components/SiteHeader', () => {
 
     const onLogOut = jest.fn();
 
-    const { getByText } = render(
-      withAppContext(<SiteHeader onLogOut={onLogOut} />)
-    );
+    const { getByText } = render(withAppContext(<SiteHeader onLogOut={onLogOut} />));
 
     const logOutButton = getByText('Uitloggen');
 
@@ -288,7 +279,9 @@ describe('components/SiteHeader', () => {
   });
 
   it('should show items', () => {
-    const { rerender, queryByText } = render(withAppContext(<SiteHeader showItems={{ settings: false, users: true, groups: true }} />));
+    const { rerender, queryByText } = render(
+      withAppContext(<SiteHeader showItems={{ settings: false, users: true, groups: true }} />)
+    );
 
     expect(queryByText('Instellingen')).not.toBeInTheDocument();
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();

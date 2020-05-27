@@ -83,29 +83,4 @@ describe('Form component <RadioInput />', () => {
       expect(wrapper).toMatchSnapshot();
     });
   });
-
-  describe('events', () => {
-    const event = { target: { value: 'foo' } };
-
-    it('sets incident when value changes', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-        },
-      });
-
-      wrapper
-        .find('input')
-        .first()
-        .simulate('change', event);
-
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': {
-          id: 'foo',
-          label: 'Foo',
-        },
-      });
-    });
-  });
 });

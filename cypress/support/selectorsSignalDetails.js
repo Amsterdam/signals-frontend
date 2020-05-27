@@ -4,9 +4,9 @@ export const CHANGE_CATEGORY = {
 };
 
 export const CHANGE_LOCATION = {
-  buttonCancelEditLocation: '[data-testid=location-form-button-cancel]',
+  buttonCancelEditLocation: '[data-testid=cancelBtn]',
   buttonEditLocation: '[class*=Location__Description] > [data-testid=editButton]',
-  buttonSubmitEditLocation: '[data-testid=location-form-button-submit]',
+  buttonSubmitEditLocation: '[data-testid=submitBtn]',
 };
 
 export const CHANGE_STATUS = {
@@ -46,6 +46,7 @@ export const SIGNAL_DETAILS = {
   buttonCancel: '[data-testid=cancelButton]',
   buttonEdit: '[data-testid="editButton"]',
   buttonSubmit: '[data-testid=submitButton]',
+  creationDate: '[data-testid=meta-list-date-value]',
   department: '[data-testid="meta-list-department-value"]',
   email: '[data-testid="detail-email-value"]',
   historyAction: '[class*="History__Action"]',

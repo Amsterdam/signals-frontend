@@ -8,6 +8,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={
@@ -64,6 +65,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
     className="col-12 mode_input"
   >
     <Header
+      className=""
       getError={[MockFunction]}
       hasError={[MockFunction]}
       meta={

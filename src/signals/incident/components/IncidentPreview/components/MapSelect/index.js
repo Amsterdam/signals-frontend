@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
-import configuration from 'shared/services/configuration/configuration';
 import { incidentType } from 'shared/types';
 
 import MapSelect from 'components/MapSelect';
@@ -27,7 +26,7 @@ const MapSelectPreview = ({ value, endpoint, incident }) => (
   <Fragment>
     <Values>{value.join('; ')}</Values>
     <MapSelect
-      geojsonUrl={`${configuration.API_ROOT_MAPSERVER}${endpoint}`}
+      geojsonUrl={endpoint}
       getIcon={getOVLIcon}
       iconField="type_name"
       idField="objectnummer"

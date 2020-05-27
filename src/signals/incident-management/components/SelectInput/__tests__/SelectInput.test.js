@@ -13,9 +13,9 @@ describe('<SelectInput />', () => {
       display: 'display',
       handler: jest.fn(),
       values: [
-        { key: '', value: 'none', slug: '' },
-        { key: '1', value: 'item1', slug: 'item-1' },
-        { key: '2', value: 'item2', slug: 'item-2' },
+        { key: '', value: 'none', slug: '', _display: '' },
+        { key: '1', value: 'item1', slug: 'item-1', _display: 'description-1' },
+        { key: '2', value: 'item2', slug: 'item-2', _display: 'description-2' },
       ],
       multiple: false,
       emptyOptionText: 'all items',
@@ -37,15 +37,6 @@ describe('<SelectInput />', () => {
     expect(options).toHaveLength(props.values.length);
     expect(options[0].textContent).toEqual('all items');
     expect(queryByTestId(props.name)).not.toBeNull();
-  });
-
-  it('should render correctly with multiple select', () => {
-    const SelectInputRender = SelectInput({ ...props, multiple: true });
-    const { container } = render(withAppContext(
-      <SelectInputRender {...props} />
-    ));
-
-    expect(container.firstChild.querySelector('select[multiple]')).toBeTruthy();
   });
 
   it('should render correctly with empty option select', () => {
@@ -73,16 +64,5 @@ describe('<SelectInput />', () => {
         expect(option.textContent).toEqual(props.values[index].slug);
       }
     });
-  });
-
-  it('should render correctly with list size smaller than number of values', () => {
-    const size = 2;
-    const multiple = true;
-    const SelectInputRender = SelectInput({ ...props, size, multiple });
-    const { container } = render(withAppContext(
-      <SelectInputRender {...props} />
-    ));
-
-    expect(container.firstChild.querySelector('select').getAttribute('size')).toEqual(`${size}`);
   });
 });
