@@ -5,11 +5,8 @@ import styled from 'styled-components';
 import Label from 'components/Label';
 import SelectInputComponent from 'components/SelectInput';
 
-import { themeSpacing } from '@datapunt/asc-ui';
-
 const Wrapper = styled.div`
   width: 100%;
-  margin-bottom: ${themeSpacing(5)};
 `;
 
 export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
