@@ -36,7 +36,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
                 checked={handler().value.id === key}
                 id={key}
                 idAttr={`${meta.name}-${key + 1}`}
-                info={value.info}
+                info={value?.info}
                 key={key}
                 label={value.value || value}
                 name={meta.name}
