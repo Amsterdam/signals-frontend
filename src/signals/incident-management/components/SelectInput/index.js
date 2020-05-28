@@ -5,16 +5,8 @@ import styled from 'styled-components';
 import Label from 'components/Label';
 import SelectInputComponent from 'components/SelectInput';
 
-import { themeSpacing, themeColor, Paragraph } from '@datapunt/asc-ui';
-
 const Wrapper = styled.div`
   width: 100%;
-  margin-bottom: ${themeSpacing(5)};
-`;
-
-const Info = styled(Paragraph)`
-  margin-top: ${themeSpacing(1)};
-  color: ${themeColor('tint', 'level5')};
 `;
 
 export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
@@ -24,21 +16,14 @@ export const SelectInput = ({ name, display, values, useSlug, emptyOptionText })
     value: useSlug ? slug : key,
   }));
 
-  const render = ({ handler }) => {
-    const value = handler()?.value;
-    const keyName = useSlug ? 'slug' : 'key';
-    const { _display: description } = (value && values.find(p => p && p[keyName] === value)) || {};
+  const render = ({ handler }) => (
+    <Wrapper>
+      {display && <Label htmlFor={`form${name}`}>{display}</Label>}
 
-    return (
-      <Wrapper>
-        {display && <Label htmlFor={`form${name}`}>{display}</Label>}
+      <SelectInputComponent name={name} data-testid={name} id={`form${name}`} {...handler()} options={options}/>
 
-        <SelectInputComponent name={name} data-testid={name} id={`form${name}`} {...handler()} options={options}/>
-
-        {description && <Info>{description}</Info>}
-      </Wrapper>
-    );
-  };
+    </Wrapper>
+  );
 
   render.defaultProps = {
     touched: false,
