@@ -7,11 +7,15 @@ import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 
 describe('Signal overview Map', () => {
   beforeEach(() => { 
-    localStorage.setItem('accessToken', 'TEST123');
+    localStorage.setItem('accessToken', (Cypress.env('token')));
   });
 
   it('Should setup the testdata', () => {
-    // Create 2 signals to use on the map
+    // Create signals to use on the map
+    requests.createSignalOverviewMap();
+    requests.createSignalOverviewMap();
+    requests.createSignalOverviewMap();
+    requests.createSignalOverviewMap();
     requests.createSignalOverviewMap();
     requests.createSignalOverviewMap();
   });
@@ -108,7 +112,6 @@ describe('Signal overview Map', () => {
     cy.contains('Overig openbare ruimte').should('be.visible');
 
     cy.get(SIGNAL_DETAILS.mainCategory).contains('Overlast in de openbare ruimte').should('be.visible');
-    cy.get(SIGNAL_DETAILS.department).contains('ASC').should('be.visible');
     cy.get(SIGNAL_DETAILS.source).contains('online').should('be.visible');
   });
 

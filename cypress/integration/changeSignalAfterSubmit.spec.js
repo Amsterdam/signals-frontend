@@ -115,7 +115,6 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.type).contains('Melding').should('be.visible');
       cy.get(SIGNAL_DETAILS.subCategory).contains('Graffiti / wildplak').should('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).contains('Schoon').should('be.visible');
-      cy.get(SIGNAL_DETAILS.department).contains('STW').should('be.visible');
       cy.get(SIGNAL_DETAILS.source).contains('online').should('be.visible');
     });
   });
@@ -294,7 +293,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.historyAction).contains('Type update naar: Groot onderhoud').should('be.visible');
     });
 
-    it('Should change Category', () => {
+    it('Should change category', () => {
       // Open Signal
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
@@ -317,7 +316,6 @@ describe('Change signal after submit', () => {
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.subCategory).contains('Overig openbare ruimte').should('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).contains('Overlast in de openbare ruimte').should('be.visible');
-      cy.get(SIGNAL_DETAILS.department).contains('ASC').should('be.visible');
       
       // Check history
       cy.get(SIGNAL_DETAILS.historyAction).contains('Categorie gewijzigd naar: Overig openbare ruimte').should('be.visible');

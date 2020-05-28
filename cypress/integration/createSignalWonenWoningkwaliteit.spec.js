@@ -144,7 +144,6 @@ describe('Create signal wonen woningkwaliteit and check signal details',() => {
       cy.get(SIGNAL_DETAILS.type).contains('Melding').should('be.visible');
       cy.contains('Woningkwaliteit').should('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).contains('Wonen').should('be.visible');
-      cy.get(SIGNAL_DETAILS.department).contains('WON').should('be.visible');
       cy.get(SIGNAL_DETAILS.source).contains('online').should('be.visible');
     });
   });
