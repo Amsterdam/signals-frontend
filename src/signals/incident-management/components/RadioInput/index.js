@@ -2,17 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Label from 'components/Label';
-import { themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@datapunt/asc-ui';
+
+import InfoText from 'components/InfoText';
 
 import './style.scss';
 
 const Wrapper = styled.div`
   width: 100%;
-  margin-bottom: ${themeSpacing(8)};
-`;
-
-const Info = styled.p`
-  color: ${themeColor('tint', 'level5')};
+  margin-bottom: ${themeSpacing(6)};
 `;
 
 const ValueContainer = styled.div`
@@ -20,7 +18,6 @@ const ValueContainer = styled.div`
   margin-bottom: ${themeSpacing(3)};
   padding: 0 0 0 ${themeSpacing(9)};
 `;
-
 
 const RadioInput = ({ name, display, values }) => {
   const Render = ({ handler, value: current }) => {
@@ -50,11 +47,7 @@ const RadioInput = ({ name, display, values }) => {
               </ValueContainer>
             ))}
 
-            {info && (
-              <Info>
-                {label}: {info}
-              </Info>
-            )}
+            {info && <InfoText text={`${label}: ${info}`} />}
           </div>
         </div>
       </Wrapper>

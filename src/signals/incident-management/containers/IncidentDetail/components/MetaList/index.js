@@ -118,16 +118,17 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
       {subcategories && (
         <Highlight subscribeTo={incident.category.sub_slug} valueChanged={valueChanged}>
           <ChangeValue
-            display="Subcategorie"
-            list={subcategories}
-            incident={incident}
-            path="category.sub_category"
-            valuePath="category.category_url"
-            patch={{ status: { state: 'm' } }}
-            type="subcategory"
-            sort
             disabled={subcatHighlightDisabled}
+            display="Subcategorie"
+            incident={incident}
+            infoKey="description"
+            list={subcategories}
             onPatchIncident={patchIncident}
+            patch={{ status: { state: 'm' } }}
+            path="category.sub_category"
+            sort
+            type="subcategory"
+            valuePath="category.category_url"
           />
         </Highlight>
       )}
