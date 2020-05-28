@@ -138,11 +138,6 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
         <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
       </Highlight>
 
-      <Highlight subscribeTo={incident.category.departments} valueChanged={valueChanged}>
-        <dt data-testid="meta-list-department-definition">Verantwoordelijke afdeling</dt>
-        <dd data-testid="meta-list-department-value">{incident.category.departments}</dd>
-      </Highlight>
-
       <dt data-testid="meta-list-source-definition">Bron</dt>
       <dd data-testid="meta-list-source-value">{incident.source}</dd>
     </List>
