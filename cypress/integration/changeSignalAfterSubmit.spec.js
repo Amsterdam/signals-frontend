@@ -14,7 +14,7 @@ describe('Change signal after submit', () => {
     });
 
     it('Should search for an address', () => {
-    // Search on address
+      // Search on address
       createSignal.searchAddress("Plein '40-'45 11A, 1063KR Amsterdam");
       cy.wait('@getAddress');
 
@@ -27,7 +27,7 @@ describe('Change signal after submit', () => {
       cy.server();
       cy.route('POST', '**/signals/category/prediction', 'fixture:graffiti.json').as('prediction');
 
-      createSignal.inputDescription('Mijn hele huis zit onder de graffiti');
+      createSignal.setDescription('Mijn hele huis zit onder de graffiti');
       cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click();
       cy.clickButton('Volgende');
     });
@@ -70,7 +70,7 @@ describe('Change signal after submit', () => {
     
       // Capture signal id
       cy.get('.bedankt').first().then($signalLabel => {
-      // Get the signal id
+        // Get the signal id
         const signalNumber = $signalLabel.text().match(/\d+/)[0];
         cy.log(signalNumber);
         // Set the signal id in variable for later use
@@ -83,16 +83,15 @@ describe('Change signal after submit', () => {
       localStorage.setItem('accessToken', (Cypress.env('token')));
       cy.server();
       cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutes();
       cy.visitFetch('/manage/incidents/');
-      cy.wait('@getFilters');
-      cy.wait('@getCategories');
-      cy.wait('@getSignals');
-      cy.wait('@getUserInfo');
+      cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
 
     it('Should show the signal details', () => {
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
+      cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
       cy.contains('Mijn hele huis zit onder de graffiti');
     
@@ -125,19 +124,18 @@ describe('Change signal after submit', () => {
       localStorage.setItem('accessToken', (Cypress.env('token')));
       cy.server();
       cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutes();
       cy.getAddressRoute();
       cy.defineGeoSearchRoutes();
       cy.visitFetch('/manage/incidents/');
-      cy.wait('@getFilters');
-      cy.wait('@getCategories');
-      cy.wait('@getSignals');
-      cy.wait('@getUserInfo');
+      cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
   
     it('Should change location', () => {
       // Open Signal
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
+      cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
       // Edit signal location
@@ -171,6 +169,7 @@ describe('Change signal after submit', () => {
     it('Should change status', () => {
       // Open Signal
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
+      cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
       // Edit signal status
@@ -224,6 +223,7 @@ describe('Change signal after submit', () => {
     it('Should change urgency', () => {
       // Open Signal
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
+      cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
       
       // Edit signal urgency 
@@ -259,6 +259,7 @@ describe('Change signal after submit', () => {
     it('Should change type', () => {
       // Open Signal
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
+      cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
       
       // Edit signal type
@@ -296,6 +297,7 @@ describe('Change signal after submit', () => {
     it('Should change Category', () => {
       // Open Signal
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
+      cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
       // Edit signal category

@@ -211,7 +211,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           </Label>
           <div className="invoer">
             <Input
-              value={initialFormState.name}
+              data-testid="filterName"
+              value={initialFormState.filter.name}
               id="filter_name"
               name="name"
               onChange={onNameChange}
@@ -224,8 +225,21 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             Automatisch verversen
           </Label>
           <div>
-            <Checkbox checked={initialFormState.refresh} id="filter_refresh" name="refresh" onClick={onRefreshChange} />
-            <AscLabel htmlFor="filter_refresh" label={<Fragment><RefreshIcon width={16} height={18} /> Automatisch verversen</Fragment>} />
+            <Checkbox
+              data-testid="filterRefresh"
+              checked={state.filter.refresh}
+              id="filter_refresh"
+              name="refresh"
+              onClick={onRefreshChange}
+            />
+            <AscLabel
+              htmlFor="filter_refresh"
+              label={
+                <Fragment>
+                  <RefreshIcon width={16} height={18} /> Automatisch verversen
+                </Fragment>
+              }
+            />
           </div>
         </Fieldset>
 

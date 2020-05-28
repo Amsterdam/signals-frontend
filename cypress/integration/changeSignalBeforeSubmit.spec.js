@@ -31,9 +31,13 @@ describe('Change a signal before submit and check signal details', () => {
     });
 
     it('Should enter specific information', () => {
+      cy.server();
+      cy.route('/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as('getOpenbareVerlichting');
+
       cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).click();
       cy.get(LANTAARNPAAL.radioButtonAantalLichtenpunten).click();
       cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet').should('be.visible').click();
+      cy.wait('@getOpenbareVerlichting');
       createSignal.selectLampOnCoordinate(434, 183);
       cy.clickButton('Volgende');
     });
@@ -198,17 +202,15 @@ describe('Change a signal before submit and check signal details', () => {
       localStorage.setItem('accessToken', (Cypress.env('token')));
       cy.server();
       cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutes();
       cy.visitFetch('/manage/incidents/');
-      cy.wait('@getFilters');
-      cy.wait('@getCategories');
-      cy.wait('@getSignals');
-      cy.wait('@getUserInfo');
+      cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
   
     it('Should show the signal details', () => {
       cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
-    
+      cy.waitForSignalDetailsRoutes();
       cy.contains('Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?');
     
       // Check if map and marker are visible

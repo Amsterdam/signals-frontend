@@ -1,15 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { RadioGroup, Radio, Label as AscLabel, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { RadioGroup, Radio, Label as AscLabel, themeSpacing } from '@datapunt/asc-ui';
+
+import InfoText from 'components/InfoText';
 
 const Wrapper = styled.div`
   width: 100%;
-  margin-bottom: ${themeSpacing(8)};
-`;
-
-const Info = styled.p`
-  color: ${themeColor('tint', 'level5')};
+  margin-bottom: ${themeSpacing(6)};
 `;
 
 const RadioInput = ({ name, display, values }) => {
@@ -40,11 +38,7 @@ const RadioInput = ({ name, display, values }) => {
             ))}
           </RadioGroup>
 
-          {info && (
-            <Info>
-              {label}: {info}
-            </Info>
-          )}
+          {info && <InfoText text={`${label}: ${info}`} />}
         </div>
       </Wrapper>
     );

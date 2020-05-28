@@ -7,13 +7,17 @@ const StyledList = styled(List)`
   margin-bottom: 0;
 `;
 
-const ListObjectValue = ({ value }) => (
-  <StyledList>
-    {value?.map(item => (
-      <ListItem key={item.label}>{item.label}</ListItem>
-    ))}
-  </StyledList>
-);
+const ListObjectValue = ({ value }) =>
+  Array.isArray(value) &&
+  value.length > 0 && (
+    <StyledList>
+      {value
+        .filter(({ label }) => Boolean(label))
+        .map(item => (
+          <ListItem key={item.label}>{item.label}</ListItem>
+        ))}
+    </StyledList>
+  );
 
 ListObjectValue.propTypes = {
   value: PropTypes.arrayOf(
