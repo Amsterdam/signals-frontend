@@ -21,7 +21,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
       }
       touched={false}
     >
-      <TextArea__StyledArea
+      <ForwardRef
         onBlur={[Function]}
         placeholder="type here"
       />
@@ -60,7 +60,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
       }
       touched={false}
     >
-      <TextArea__StyledArea
+      <ForwardRef
         onBlur={[Function]}
         placeholder="type here"
       />
@@ -104,7 +104,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
       }
       touched={false}
     >
-      <TextArea__StyledArea
+      <ForwardRef
         onBlur={[Function]}
         placeholder="type here"
       />

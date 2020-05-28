@@ -48,9 +48,6 @@ describe('<MetaList />', () => {
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
       expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentJson.category.main);
 
-      expect(queryByTestId('meta-list-department-definition')).toHaveTextContent(/^Verantwoordelijke afdeling$/);
-      expect(queryByTestId('meta-list-department-value')).toHaveTextContent(incidentJson.category.departments);
-
       expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
       expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentJson.source);
     });

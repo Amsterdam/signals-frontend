@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import React, { useMemo, Fragment, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
@@ -8,11 +8,12 @@ import Button from 'components/Button';
 import { themeSpacing } from '@datapunt/asc-ui';
 
 import { incidentType, dataListType } from 'shared/types';
-
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
+import InfoText from 'components/InfoText';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+
 import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 
 const EditButton = styled(Button)`
@@ -24,22 +25,18 @@ const EditButton = styled(Button)`
 
 const SaveButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
-  margin-top: -${themeSpacing(2)};
 `;
 
-const CancelButton = styled(Button)`
-  margin-top: -${themeSpacing(2)};
+const ButtonBar = styled.div`
+  margin-top: ${themeSpacing(6)};
 `;
-
-const form = FormBuilder.group({
-  input: ['', Validators.required],
-});
 
 const ChangeValue = ({
   component,
   disabled,
   display,
   incident,
+  infoKey,
   list,
   onPatchIncident,
   patch,
@@ -50,6 +47,15 @@ const ChangeValue = ({
   valuePath,
 }) => {
   const [showForm, setShowForm] = useState(false);
+  const [info, setInfo] = useState('');
+
+  const form = useMemo(
+    () =>
+      FormBuilder.group({
+        input: ['', Validators.required],
+      }),
+    []
+  );
 
   const handleSubmit = useCallback(
     event => {
@@ -68,13 +74,13 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [incident.id, patch, path, type, onPatchIncident]
+    [incident.id, patch, path, type, onPatchIncident, form]
   );
 
   const handleCancel = useCallback(() => {
     form.reset();
     setShowForm(false);
-  }, []);
+  }, [form]);
 
   const handleKeyUp = useCallback(
     event => {
@@ -91,12 +97,36 @@ const ChangeValue = ({
     [handleCancel]
   );
 
+  const handleChange = useCallback(
+    event => {
+      const { value } = event.target;
+
+      showInfo(value);
+    },
+    [showInfo]
+  );
+
+  const showInfo = useCallback(
+    value => {
+      if (infoKey) {
+        const valueItem = list.find(({ key }) => key === value);
+
+        if (valueItem) {
+          setInfo(valueItem[infoKey]);
+        }
+      }
+    },
+    [infoKey, list]
+  );
+
   const onShowForm = useCallback(() => {
     const value = get(incident, valuePath || path);
 
     form.controls.input.setValue(value);
     setShowForm(true);
-  }, [incident, valuePath, path]);
+
+    showInfo(value);
+  }, [incident, valuePath, path, showInfo, form]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -113,24 +143,28 @@ const ChangeValue = ({
       strict={false}
       control={form}
       render={() => (
-        <form onSubmit={handleSubmit} data-testid="changeValueForm">
+        <form onSubmit={handleSubmit} onChange={handleChange} data-testid="changeValueForm">
           <Fragment>
             <FieldControlWrapper
-              render={component}
-              name="input"
-              values={list}
               control={form.get('input')}
               disabled={disabled}
+              name="input"
+              render={component}
               sort={sort}
+              values={list}
             />
 
-            <SaveButton data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="secondary" type="submit">
-              Opslaan
-            </SaveButton>
+            {info && <InfoText text={info} />}
 
-            <CancelButton data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="tertiary" type="button" onClick={handleCancel}>
-              Annuleren
-            </CancelButton>
+            <ButtonBar>
+              <SaveButton data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="secondary" type="submit">
+                Opslaan
+              </SaveButton>
+
+              <Button data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="tertiary" type="button" onClick={handleCancel}>
+                Annuleren
+              </Button>
+            </ButtonBar>
           </Fragment>
         </form>
       )}
@@ -167,6 +201,7 @@ const ChangeValue = ({
 ChangeValue.defaultProps = {
   component: SelectInput,
   disabled: false,
+  infoKey: '',
   patch: {},
   valueClass: '',
   valuePath: '',
@@ -177,6 +212,8 @@ ChangeValue.propTypes = {
   disabled: PropTypes.bool,
   display: PropTypes.string.isRequired,
   incident: incidentType.isRequired,
+  /** Indicator that is used to determine which list item prop should be used to display info text between the form field and the buttons */
+  infoKey: PropTypes.string,
   list: dataListType.isRequired,
   onPatchIncident: PropTypes.func.isRequired,
   patch: PropTypes.object,

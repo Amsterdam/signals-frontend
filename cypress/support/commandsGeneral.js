@@ -51,12 +51,7 @@ Cypress.Commands.add('openMenu',() =>{
 });
 
 Cypress.Commands.add('clickButton', buttonName => {
-  const click = $el => $el.click();
   cy.contains(buttonName)
     .should('be.visible')
-    .pipe(click)
-    .should($el => {
-      // eslint-disable-next-line no-unused-expressions
-      expect($el).to.not.be.visible;
-    });
+    .click();
 });

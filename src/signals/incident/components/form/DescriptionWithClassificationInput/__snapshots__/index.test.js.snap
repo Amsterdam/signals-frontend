@@ -23,7 +23,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       <div
         className="invoer"
       >
-        <TextArea__StyledArea
+        <ForwardRef
           onBlur={[Function]}
           placeholder="type here"
           rows={6}
@@ -64,7 +64,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       <div
         className="invoer"
       >
-        <TextArea__StyledArea
+        <ForwardRef
           onBlur={[Function]}
           placeholder="type here"
           rows={6}
@@ -108,7 +108,7 @@ exports[`Form component <DescriptionWithClassificationInput /> rendering should 
       <div
         className="invoer"
       >
-        <TextArea__StyledArea
+        <ForwardRef
           onBlur={[Function]}
           placeholder="type here"
           rows={6}

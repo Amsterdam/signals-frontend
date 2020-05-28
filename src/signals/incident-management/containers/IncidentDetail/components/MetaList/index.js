@@ -118,16 +118,17 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
       {subcategories && (
         <Highlight subscribeTo={incident.category.sub_slug} valueChanged={valueChanged}>
           <ChangeValue
-            display="Subcategorie"
-            list={subcategories}
-            incident={incident}
-            path="category.sub_category"
-            valuePath="category.category_url"
-            patch={{ status: { state: 'm' } }}
-            type="subcategory"
-            sort
             disabled={subcatHighlightDisabled}
+            display="Subcategorie"
+            incident={incident}
+            infoKey="description"
+            list={subcategories}
             onPatchIncident={patchIncident}
+            patch={{ status: { state: 'm' } }}
+            path="category.sub_category"
+            sort
+            type="subcategory"
+            valuePath="category.category_url"
           />
         </Highlight>
       )}
@@ -135,11 +136,6 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
       <Highlight subscribeTo={incident.category.main_slug} valueChanged={valueChanged}>
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
-      </Highlight>
-
-      <Highlight subscribeTo={incident.category.departments} valueChanged={valueChanged}>
-        <dt data-testid="meta-list-department-definition">Verantwoordelijke afdeling</dt>
-        <dd data-testid="meta-list-department-value">{incident.category.departments}</dd>
       </Highlight>
 
       <dt data-testid="meta-list-source-definition">Bron</dt>

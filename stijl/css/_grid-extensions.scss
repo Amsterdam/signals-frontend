@@ -1,0 +1,43 @@
+.breakout-zone {
+  padding-top: 10px !important; // override amssterdam.css
+  &.fullwidth {
+    padding-bottom: 20px !important; // override amssterdam.css
+    margin-bottom: 10px;
+    margin-top: 10px;
+    h4 {
+      margin-top: 10px !important;
+      margin-bottom: 10px !important;
+    }
+  }
+}
+
+.pad-top-bottom {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.margin-top-bottom {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.grid-title + .fullwidth {
+  margin-top: -20px;
+}
+
+.fullwidth {
+  box-shadow: 50vw 0 0 0 $ams-top-menu, -50vw 0 0 0 $ams-top-menu;
+}
+
+// .grid-zone.bgcolor_darkgrey {
+//   .grid-element {
+//     .links li a.outsite {
+//       background: url("../images/svg/external-link-white.svg") no-repeat 0 7px;
+//       color: $ams-wit;
+//     }
+//   }
+// }
+
+.row p {
+  margin: .5em 0;
+}

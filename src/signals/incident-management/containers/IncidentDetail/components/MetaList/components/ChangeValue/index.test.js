@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render, act, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
@@ -31,11 +31,14 @@ describe('<ChangeValue />', () => {
 
   beforeEach(() => {
     props = {
-      incident: incidentJson,
+      incident: {
+        ...incidentJson,
+        someValue: 'c',
+      },
       list: [
-        { key: 'c', value: 'Cee' },
+        { key: 'c', value: 'Cee', description: 'Foo bar baz' },
         { key: 'b', value: 'Bee' },
-        { key: 'a', value: 'Aaaaaaaa' },
+        { key: 'a', value: 'Aaaaaaaa', description: 'Zork' },
       ],
       display: 'De letter',
       path: 'incident.mockPath',
@@ -143,5 +146,36 @@ describe('<ChangeValue />', () => {
     });
 
     await expectInitialState(renderProps);
+  });
+
+  it('should render info text', async () => {
+    const renderProps = render(withAppContext(<ChangeValue {...props} infoKey="description" />));
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('editButton'));
+    });
+
+    expect(renderProps.queryByTestId('infoText')).not.toBeInTheDocument();
+
+    cleanup();
+
+    render(withAppContext(<ChangeValue {...props} infoKey="description" valuePath="someValue" />));
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('editButton'));
+    });
+
+    expect(renderProps.queryByTestId('infoText')).toBeInTheDocument();
+    expect(renderProps.queryByTestId('infoText').textContent).toEqual('Foo bar baz');
+
+    act(() => {
+      fireEvent.change(document.querySelector('select'), { target: { value: 'a' } });
+    });
+
+    expect(renderProps.queryByTestId('infoText').textContent).toEqual('Zork');
   });
 });
