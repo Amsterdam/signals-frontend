@@ -1,0 +1,21 @@
+@function rem($px, $context: $browser-context) {
+  @if (unitless($px)) {
+    $px: $px * 1px;
+  }
+
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return $px / $context * 1rem;
+}
+
+//-- Sprite function
+
+@function calcposx($spritepositionx, $spritesize, $offsetx) {
+  @return ($spritepositionx - 1) * -$spritesize + $offsetx;
+}
+
+@function calcposy($spritepositiony, $spritesize, $offsety) {
+  @return ($spritepositiony - 1) * -$spritesize + $offsety;
+}
