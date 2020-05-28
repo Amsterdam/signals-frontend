@@ -24,11 +24,11 @@ const EditButton = styled(Button)`
 `;
 
 const DisplayValue = styled.span`
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: calc(100% - ${themeSpacing(10)});
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - ${themeSpacing(10)});
 `;
 
 const SaveButton = styled(Button)`
@@ -199,7 +199,9 @@ const ChangeValue = ({
         <dd>{editForm}</dd>
       ) : (
         <dd className={valueClass}>
-          <DisplayValue data-testid="valuePath">{getListValueByKey(list, get(incident, valuePath || path))}</DisplayValue>
+          <DisplayValue data-testid="valuePath">
+            {getListValueByKey(list, get(incident, valuePath || path))}
+          </DisplayValue>
         </dd>
       )}
     </Fragment>
