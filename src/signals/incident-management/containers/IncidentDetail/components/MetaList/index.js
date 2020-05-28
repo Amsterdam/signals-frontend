@@ -44,7 +44,7 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-const getCategoryName = ({ name, departments }) => {
+export const getCategoryName = ({ name, departments }) => {
   const departmensStringList = departments?.length ? ` (${departments.map(({ code }) => code).join(',')})` : '';
   return `${name}${departmensStringList}`;
 };
