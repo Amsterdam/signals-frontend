@@ -209,7 +209,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           </Label>
           <div className="invoer">
             <input
-              value={initialFormState.name}
+              data-testid="filterName"
+              defaultValue={initialFormState.filter.name}
               id="filter_name"
               name="name"
               onChange={onNameChange}
@@ -223,7 +224,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           </Label>
           <div className="antwoord">
             <input
-              defaultChecked={initialFormState.refresh}
+              data-testid="filterRefresh"
+              defaultChecked={initialFormState.filter.refresh}
               id="filter_refresh"
               name="refresh"
               onClick={onRefreshChange}
