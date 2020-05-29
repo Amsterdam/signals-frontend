@@ -22,18 +22,10 @@ exports[`Form component <TextareaInput /> rendering should render character coun
       touched={false}
     >
       <ForwardRef
+        helpText="0/300 tekens"
         onBlur={[Function]}
         placeholder="type here"
       />
-      <div
-        className="input-help"
-      >
-        <span
-          className="text-area-input__counter"
-        >
-          0/300 tekens
-        </span>
-      </div>
     </Header>
   </div>
 </div>
@@ -61,18 +53,10 @@ exports[`Form component <TextareaInput /> rendering should render character coun
       touched={false}
     >
       <ForwardRef
+        helpText="4/300 tekens"
         onBlur={[Function]}
         placeholder="type here"
       />
-      <div
-        className="input-help"
-      >
-        <span
-          className="text-area-input__counter"
-        >
-          4/300 tekens
-        </span>
-      </div>
     </Header>
   </div>
 </div>
@@ -105,6 +89,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
       touched={false}
     >
       <ForwardRef
+        helpText={false}
         onBlur={[Function]}
         placeholder="type here"
       />

@@ -18,7 +18,6 @@ import loadModels from 'models';
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
 
 // Import CSS and Global Styles
-import 'amsterdam-stijl/dist/css/ams-stijl.css';
 import './global.scss';
 import './polyfills';
 

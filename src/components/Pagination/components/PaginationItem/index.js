@@ -18,7 +18,7 @@ const StyledItem = styled(AscLink)`
   color: black;
   cursor: pointer;
   display: flex;
-  font-family: "AvenirNextLTW01-Regular", arial, sans-serif;
+  font-family: Avenir Next LT W01-Regular, arial, sans-serif;
   height: 100%;
   margin: 0;
   outline: none;

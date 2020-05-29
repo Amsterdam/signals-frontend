@@ -322,8 +322,8 @@ describe('signals/settings/users/containers/Detail', () => {
 
     // ensure that a boolean value is a string value
     expect(
-      getByTestId('detailUserForm').querySelector('[name="is_active"][value="false"][checked]')
-    ).toBeInTheDocument();
+      getByTestId('detailUserForm').querySelector('[name="is_active"][value="false"]').checked
+    ).toBe(true);
 
     expect(patch).not.toHaveBeenCalled();
 
