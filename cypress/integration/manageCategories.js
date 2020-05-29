@@ -130,55 +130,55 @@ describe('Change category', () => {
       cy.get(SIGNAL_DETAILS.infoText).should('contain', 'Dit is het verhaal van de brug die moest afwateren');
     }); 
   });
-  // describe('Change back servicebelofte', () => {
-  //   before(() =>  {
-  //     localStorage.setItem('accessToken', (Cypress.env('token')));
+  describe('Change back servicebelofte', () => {
+    before(() =>  {
+      localStorage.setItem('accessToken', (Cypress.env('token')));
 
-  //     cy.server();
-  //     cy.getManageSignalsRoutes();
-  //     cy.getCategoriesRoutes();
+      cy.server();
+      cy.getManageSignalsRoutes();
+      cy.getCategoriesRoutes();
 
-  //     cy.visitFetch('/manage/incidents/');
+      cy.visitFetch('/manage/incidents/');
 
-  //     cy.waitForManageSignalsRoutes();
-  //   });
+      cy.waitForManageSignalsRoutes();
+    });
 
-  //   it('Change back servicebelofte of category', () => {
-  //     // Open Categorieën menu
-  //     cy.openMenu();
-  //     cy.contains('Instellingen').click();
-  //     cy.contains('Categorieën').click();
+    it('Change back servicebelofte of category', () => {
+      // Open Categorieën menu
+      cy.openMenu();
+      cy.contains('Instellingen').click();
+      cy.contains('Categorieën').click();
 
-  //     // Wait for loading the Categorieën page
-  //     cy.wait('@getDepartments');
-  //     cy.wait('@getRoles');
-  //     cy.wait('@getPermissions');
-  //     cy.wait('@getCategories');
+      // Wait for loading the Categorieën page
+      cy.wait('@getDepartments');
+      cy.wait('@getRoles');
+      cy.wait('@getPermissions');
+      cy.wait('@getCategories');
 
-  //     cy.url().should('include', '/instellingen/categorieen/');
-  //     cy.checkHeaderText('Categorieën');
+      cy.url().should('include', '/instellingen/categorieen/');
+      cy.checkHeaderText('Categorieën');
 
-  //     // Open category Afwatering brug
-  //     cy.contains('Afwatering brug').click();
-  //     cy.url().should('include', 'instellingen/categorie/');
-  //     cy.wait('@getCategories');
+      // Open category Afwatering brug
+      cy.contains('Afwatering brug').click();
+      cy.url().should('include', 'instellingen/categorie/');
+      cy.wait('@getCategories');
 
-  //     // Change category
-  //     cy.get(CATEGORIES.inputDays).clear().type('5');
-  //     cy.get(CATEGORIES.dropdownTypeOfDays).select('Werkdagen');
-  //     cy.get(CATEGORIES.inputMessage).clear().type('  Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.');
-  //     cy.get(CATEGORIES.buttonOpslaan).click();
+      // Change category
+      cy.get(CATEGORIES.inputDays).clear().type('5');
+      cy.get(CATEGORIES.dropdownTypeOfDays).select('Werkdagen');
+      cy.get(CATEGORIES.inputMessage).clear().type('  Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.');
+      cy.get(CATEGORIES.buttonOpslaan).click();
 
-  //     // Wait for saving the data
-  //     cy.wait('@patchCategory');
-  //     cy.wait('@getCategories');
+      // Wait for saving the data
+      cy.wait('@patchCategory');
+      cy.wait('@getCategories');
 
-  //     // Check if Categorieën page opens again
-  //     cy.url().should('include', '/instellingen/categorieen/page/1');
-  //     cy.checkHeaderText('Categorieën');
+      // Check if Categorieën page opens again
+      cy.url().should('include', '/instellingen/categorieen/page/1');
+      cy.checkHeaderText('Categorieën');
 
-  //     // Check day change
-  //     cy.get('[data-testid=dataViewBody] > [data-testid=dataViewBodyRow]',{ timeout: 10000 }).first().contains('5 werkdagen');
-  //   });
-  // });
+      // Check day change
+      cy.get('[data-testid=dataViewBody] > [data-testid=dataViewBodyRow]',{ timeout: 10000 }).first().contains('5 werkdagen');
+    });
+  });
 });
