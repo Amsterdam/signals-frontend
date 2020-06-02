@@ -41,11 +41,6 @@ function getDomain(domain) {
   return domain || domainList[0];
 }
 
-const encodedScopes = encodeURIComponent(scopes.join(' '));
-// The URI we need to redirect to for communication with the OAuth2
-// authorization service
-export const AUTH_PATH = domain => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
-
 // The keys of values we need to store in the session storage
 //
 // `location.pathname` string at the moment we redirect to the
@@ -159,8 +154,6 @@ export function login(domain) {
   // const callback = encodeURIComponent(`${location.protocol}//${location.host}${location.pathname}`);
   // Get a random string to prevent CSRF
   const stateToken = stateTokenGenerator();
-  const encodedStateToken = encodeURIComponent(stateToken);
-
   if (!stateToken) {
     throw new Error('crypto library is not available on the current browser');
   }
@@ -170,8 +163,20 @@ export function login(domain) {
   localStorage.setItem(STATE_TOKEN, stateToken);
   localStorage.setItem(OAUTH_DOMAIN, domain);
 
-  const redirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
-  global.location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
+  const encodedDomain = encodeURIComponent(getDomain(domain));
+  const encodedScopes = encodeURIComponent(scopes.join(' '));
+  const encodedStateToken = encodeURIComponent(stateToken);
+  const encodedRedirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
+
+  global.location.assign(
+    `${CONFIGURATION.AUTH_ROOT}oauth2/authorize` +
+    `?idp_id=${encodedDomain}` +
+    `&response_type=token` +
+    `&client_id=sia` +
+    `&scope=${encodedScopes}` +
+    `&state=${encodedStateToken}` +
+    `&redirect_uri=${encodedRedirectUri}`
+  );
 }
 
 export function logout() {
