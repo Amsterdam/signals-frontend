@@ -24,7 +24,7 @@ const mapPaths = (params, incident, wizard) => {
               ...(mapMerge[meta.pathMerge] || []),
               {
                 id: name,
-                label: meta.labelShort || meta.label || '',
+                label: meta.shortLabel || meta.label || '',
                 category_url,
                 answer,
               },

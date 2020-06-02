@@ -1,28 +1,98 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import BackLink from 'components/BackLink';
-import { themeSpacing } from '@datapunt/asc-ui';
-import { PATCH_TYPE_THOR } from 'models/incident/constants';
+import { Link, useLocation } from 'react-router-dom';
+import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
 
-import { incidentType } from 'shared/types';
+import BackLink from 'components/BackLink';
+import { PATCH_TYPE_THOR } from 'models/incident/constants';
+import Button from 'components/Button';
+import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
+import { linksType } from 'shared/types';
 
 import DownloadButton from './components/DownloadButton';
 
-import './style.scss';
+const Header = styled.header`
+  display: grid;
+  padding: ${themeSpacing(2, 0)};
+  border-bottom: 1px solid ${themeColor('tint', 'level3')};
+  width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
+    grid-template-columns: 7fr 4fr;
+  }
+
+  @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
+    grid-template-columns: 7fr 1fr 4fr;
+  }
+`;
+
+const BackLinkContainer = styled.div`
+  grid-column-start: 1;
+  grid-column-end: 4;
+`;
 
 const StyledBackLink = styled(BackLink)`
   margin: ${themeSpacing(4)} 0;
 `;
 
-const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
-  const status = incident && incident.status && incident.status.state;
-  const canSplit = (status === 'm') && !(incident && (incident._links['sia:children'] || incident._links['sia:parent']));
+const ButtonContainer = styled.div`
+  grid-column-start: 3;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  & > * {
+    margin-left: ${themeSpacing(2)};
+  }
+`;
+
+const HeadingContainer = styled.div`
+  display: flex;
+
+  && > * {
+    margin: 0;
+  }
+
+  & > ${styles.HeaderStyles} {
+    font-weight: 400;
+  }
+`;
+
+const StyledHeading = styled(Heading)`
+  font-size: 16px;
+  margin: 0;
+
+  & > *:not(:first-child)::before {
+    content: ' / ';
+    white-space: pre;
+  }
+`;
+
+const ButtonLink = styled(Button)`
+  color: ${themeColor('tint', 'level7')};
+  text-decoration: none;
+
+  &:hover {
+    background-color: ${themeColor('tint', 'level4')};
+    color: ${themeColor('tint', 'level7')};
+  }
+`;
+
+const ParentLink = styled(Link)`
+  text-decoration: underline;
+  color: black;
+`;
+
+const DetailHeader = ({ status, incidentId, links, onPatchIncident }) => {
+  const location = useLocation();
+  const canSplit = status === 'm' && !(links?.['sia:children'] || links?.['sia:parent']);
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === status);
-  const downloadLink = incident._links && incident._links['sia:pdf'] && incident._links['sia:pdf'].href;
+  const downloadLink = links?.['sia:pdf']?.href;
   const patch = {
-    id: incident.id,
+    id: incidentId,
     type: PATCH_TYPE_THOR,
     patch: {
       status: {
@@ -33,56 +103,61 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
     },
   };
 
+  const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : INCIDENTS_URL;
+  const parentId = links?.['sia:parent']?.href?.split('/').pop();
+
   return (
-    <header className="detail-header">
-      <div className="row">
-        <div className="col-12">
-          <StyledBackLink to={`${baseUrl}/incidents`}>Terug naar overzicht</StyledBackLink>
-        </div>
+    <Header className="detail-header">
+      <BackLinkContainer>
+        <StyledBackLink to={referrer}>Terug naar overzicht</StyledBackLink>
+      </BackLinkContainer>
 
-        <div className="col-6 detail-header__title align-self-center" data-testid="detail-header-title">
-          Melding {incident.id}
-        </div>
-        <div className="col-6 detail-header__buttons d-flex justify-content-end">
-          {canSplit
-            ? (
-              <Link
-                to={`${baseUrl}/incident/${incident.id}/split`}
-                className="incident-detail__button align-self-center"
-                data-testid="detail-header-button-split"
-              >
-                Splitsen
-              </Link>
-            ) : ''}
+      <HeadingContainer>
+        <StyledHeading data-testid="detail-header-title">
+          Melding&nbsp;
+          {parentId && (
+            <ParentLink data-testid="parentLink" to={`${INCIDENT_URL}/${parentId}`}>
+              {parentId}
+            </ParentLink>
+          )}
+          <span>{incidentId}</span>
+        </StyledHeading>
+      </HeadingContainer>
 
-          {canThor
-            ? (
-              <button
-                className="incident-detail__button align-self-center"
-                type="button"
-                onClick={() => onPatchIncident(patch)}
-                data-testid="detail-header-button-thor"
-              >
-                THOR
-              </button>
-            ) : ''}
+      <ButtonContainer>
+        {canSplit && (
+          <ButtonLink
+            variant="application"
+            forwardedAs={Link}
+            to={`${INCIDENT_URL}/${incidentId}/split`}
+            data-testid="detail-header-button-split"
+          >
+            Splitsen
+          </ButtonLink>
+        )}
 
-          <DownloadButton
-            label="PDF"
-            url={downloadLink}
-            filename={`SIA melding ${incident.id}.pdf`}
-            data-testid="detail-header-button-download"
-          />
-        </div>
-      </div>
-    </header>
+        {canThor && (
+          <Button variant="application" onClick={() => onPatchIncident(patch)} data-testid="detail-header-button-thor">
+            THOR
+          </Button>
+        )}
+
+        <DownloadButton
+          label="PDF"
+          url={downloadLink}
+          filename={`SIA melding ${incidentId}.pdf`}
+          data-testid="detail-header-button-download"
+        />
+      </ButtonContainer>
+    </Header>
   );
 };
 
 DetailHeader.propTypes = {
-  incident: incidentType.isRequired,
-  baseUrl: PropTypes.string.isRequired,
+  incidentId: PropTypes.number.isRequired,
+  links: linksType,
   onPatchIncident: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default DetailHeader;

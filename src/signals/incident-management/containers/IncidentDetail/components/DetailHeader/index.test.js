@@ -1,101 +1,126 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+import * as reactRouterDom from 'react-router-dom';
+import { MAP_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import DetailHeader from './index';
 
 jest.mock('./components/DownloadButton', () => () => <div data-testid="detail-header-button-download" />);
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    referrer: undefined,
+  }),
+}));
 
 describe('<DetailHeader />', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      incident: {
-        id: 42,
-        status: {
-          state: 'm',
-        },
-        _links: {
-          'sia:pdf': { href: 'https://api.data.amsterdam.nl/signals/v1/private/signals/3076/pdf' },
-        },
-      },
-      baseUrl: '/manage',
+      status: 'm',
+      incidentId: 1234,
+      links: incidentFixture._links,
       onPatchIncident: jest.fn(),
     };
   });
 
-  afterEach(cleanup);
+  it('should render parent link', () => {
+    const { queryByTestId, rerender } = render(withAppContext(<DetailHeader {...props} />));
 
-  describe('rendering', () => {
-    it('should render all buttons when state is gemeld and no parent or children are present', () => {
-      const { queryByTestId, queryAllByTestId } = render(
-        withAppContext(<DetailHeader {...props} />)
-      );
+    expect(queryByTestId('parentLink')).not.toBeInTheDocument();
 
-      expect(queryByTestId('backlink')).toHaveTextContent(/^Terug naar overzicht$/);
-      expect(queryByTestId('detail-header-title')).toHaveTextContent(/^Melding 42$/);
-      expect(queryByTestId('detail-header-button-split')).toHaveTextContent(/^Splitsen$/);
-      expect(queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
-      expect(queryAllByTestId('detail-header-button-download')).toHaveLength(1);
+    rerender(
+      withAppContext(
+        <DetailHeader {...props} links={{ ...props.links, 'sia:parent': { href: '//href-to-parent/5678' } }} />
+      )
+    );
+
+    expect(queryByTestId('parentLink')).toBeInTheDocument();
+    expect(queryByTestId('parentLink').href).toEqual(expect.stringContaining('5678'));
+  });
+
+  it('should render all buttons when state is gemeld and no parent or children are present', () => {
+    const { queryByTestId, queryAllByTestId } = render(withAppContext(<DetailHeader {...props} />));
+
+    expect(queryByTestId('backlink')).toHaveTextContent(/^Terug naar overzicht$/);
+    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Melding ${props.incidentId}`);
+    expect(queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
+    expect(queryAllByTestId('detail-header-button-download')).toHaveLength(1);
+  });
+
+  it('should render no split button when children are present', () => {
+    const { queryByTestId, rerender } = render(withAppContext(<DetailHeader {...props} />));
+
+    expect(queryByTestId('detail-header-button-split')).not.toBeInTheDocument();
+
+    rerender(withAppContext(<DetailHeader {...props} links={{ self: { href: 'self' } }} />));
+
+    expect(queryByTestId('detail-header-button-split')).toBeInTheDocument();
+  });
+
+  it('should render no split button when parent is present', () => {
+    const { queryByTestId } = render(withAppContext(<DetailHeader {...props} />));
+
+    expect(queryByTestId('detail-header-button-split')).toBeNull();
+  });
+
+  it('should render no split button when state is not m', () => {
+    const { queryByTestId } = render(withAppContext(<DetailHeader {...props} status="o" />));
+
+    expect(queryByTestId('detail-header-button-split')).toBeNull();
+  });
+
+  it('should render no thor button when state is not m, i, b, h, send failed or reopened', () => {
+    const { queryByTestId } = render(withAppContext(<DetailHeader {...props} status="o" />));
+
+    expect(queryByTestId('detail-header-button-thor')).toBeNull();
+  });
+
+  it('test clicking the thor button', () => {
+    const { queryByTestId } = render(withAppContext(<DetailHeader {...props} />));
+
+    act(() => {
+      fireEvent.click(queryByTestId('detail-header-button-thor'));
     });
 
-    it('should render no split button when children are present', () => {
-      props.incident._links['sia:children'] = [{ mock: 'child' }];
-      const { queryByTestId } = render(
-        withAppContext(<DetailHeader {...props} />)
-      );
-
-      expect(queryByTestId('detail-header-button-split')).toBeNull();
-    });
-
-    it('should render no split button when parent is present', () => {
-      props.incident._links['sia:parent'] = { mock: 'parent' };
-      const { queryByTestId } = render(
-        withAppContext(<DetailHeader {...props} />)
-      );
-
-      expect(queryByTestId('detail-header-button-split')).toBeNull();
-    });
-
-    it('should render no split button when state is not m', () => {
-      props.incident.status.state = 'o';
-      const { queryByTestId } = render(
-        withAppContext(<DetailHeader {...props} />)
-      );
-
-      expect(queryByTestId('detail-header-button-split')).toBeNull();
-    });
-
-
-    it('should render no thor button when state is not m, i, b, h, send failed or reopened', () => {
-      props.incident.status.state = 'o';
-      const { queryByTestId } = render(
-        withAppContext(<DetailHeader {...props} />)
-      );
-
-      expect(queryByTestId('detail-header-button-thor')).toBeNull();
+    expect(props.onPatchIncident).toHaveBeenCalledWith({
+      id: props.incidentId,
+      type: 'thor',
+      patch: {
+        status: {
+          state: 'ready to send',
+          text: 'Te verzenden naar THOR',
+          target_api: 'sigmax',
+        },
+      },
     });
   });
 
-  describe('events', () => {
-    it('test clicking the thor button', () => {
-      const { queryByTestId } = render(
-        withAppContext(<DetailHeader {...props} />)
-      );
+  it('should render a link with the correct referrer', () => {
+    const { getByTestId, rerender } = render(withAppContext(<DetailHeader {...props} />));
 
-      fireEvent.click(queryByTestId('detail-header-button-thor'));
-      expect(props.onPatchIncident).toHaveBeenCalledWith({
-        id: 42,
-        type: 'thor',
-        patch: {
-          status: {
-            state: 'ready to send',
-            text: 'Te verzenden naar THOR',
-            target_api: 'sigmax',
-          },
-        },
-      });
-    });
+    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(INCIDENTS_URL));
+
+    const referrer = '/some-url';
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+      referrer,
+    }));
+
+    rerender(withAppContext(<DetailHeader {...props} />));
+
+    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(INCIDENTS_URL));
+
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+      referrer: MAP_URL,
+    }));
+
+    rerender(withAppContext(<DetailHeader {...props} />));
+
+    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(MAP_URL));
   });
 });

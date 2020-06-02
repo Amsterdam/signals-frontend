@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-
 import { Validators } from 'react-reactive-form';
 
+import RadioInputGroup from 'signals/incident/containers/KtoContainer/components/RadioInputGroup';
 import FormComponents from '../components/form';
 
 export default {
@@ -16,11 +16,9 @@ export default {
         },
         values: {}, // will be populated from endpoint
       },
-      render: FormComponents.RadioInput,
+      render: RadioInputGroup,
       options: {
-        validators: [
-          Validators.required,
-        ],
+        validators: [Validators.required],
       },
     },
     tevreden_anders: {
@@ -42,11 +40,9 @@ export default {
         },
         values: {}, // will be populated from endpoint
       },
-      render: FormComponents.RadioInput,
+      render: RadioInputGroup,
       options: {
-        validators: [
-          Validators.required,
-        ],
+        validators: [Validators.required],
       },
     },
     niet_tevreden_anders: {
@@ -65,9 +61,7 @@ export default {
         maxLength: 1000,
       },
       options: {
-        validators: [
-          Validators.maxLength(1000),
-        ],
+        validators: [Validators.maxLength(1000)],
       },
       render: FormComponents.TextareaInput,
     },

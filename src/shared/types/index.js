@@ -108,6 +108,9 @@ export const locationType = PropTypes.shape({
   id: PropTypes.number,
   bag_validated: PropTypes.bool,
   stadsdeel: PropTypes.string,
+  geometrie: PropTypes.shape({
+    coordinates: PropTypes.arrayOf(PropTypes.number),
+  }),
 });
 
 export const incidentType = PropTypes.shape({
@@ -117,21 +120,24 @@ export const incidentType = PropTypes.shape({
       href: PropTypes.string.isRequired,
     }),
   }),
-  category: PropTypes.shape({
-    category_url: PropTypes.string.isRequired,
-    departments: PropTypes.string,
-    main: PropTypes.string,
-    main_slug: PropTypes.string,
-    sub: PropTypes.string,
-    sub_slug: PropTypes.string,
-    text: PropTypes.string,
-    created_at: dateType,
-    has_attachmens: PropTypes.bool,
-    id: PropTypes.number,
-    incident_date_end: dateType,
-    incident_date_start: dateType,
-    location: locationType,
-  }),
+  category: PropTypes.oneOfType([
+    PropTypes.shape({
+      category_url: PropTypes.string.isRequired,
+      departments: PropTypes.string,
+      main: PropTypes.string,
+      main_slug: PropTypes.string,
+      sub: PropTypes.string,
+      sub_slug: PropTypes.string,
+      text: PropTypes.string,
+      created_at: dateType,
+      has_attachmens: PropTypes.bool,
+      id: PropTypes.number,
+      incident_date_end: dateType,
+      incident_date_start: dateType,
+      location: locationType,
+    }),
+    PropTypes.string,
+  ]),
   notes: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,
@@ -264,3 +270,49 @@ export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
   name: PropTypes.string.isRequired,
   codename: PropTypes.string.isRequired,
 }));
+
+export const linksType = PropTypes.shape({
+  self: PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }).isRequired,
+  'sia-attachments': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-parent': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-pdf': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-children': PropTypes.arrayOf(PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  })),
+}).isRequired;
+
+const userRolePermissionType = PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  codename: PropTypes.string.isRequired,
+  _display: PropTypes.string.isRequired,
+  _links: linksType,
+}));
+
+const userRoleType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  _display: PropTypes.string.isRequired,
+  _links: linksType,
+  permissons: userRolePermissionType,
+});
+
+export const userType = PropTypes.shape({
+  username: PropTypes.string,
+  first_name: PropTypes.string,
+  last_name: PropTypes.string,
+  is_active: PropTypes.bool,
+  roles: PropTypes.arrayOf(userRoleType),
+  profile: PropTypes.shape({
+    departments: PropTypes.arrayOf(PropTypes.string),
+    note: PropTypes.string,
+  }),
+});

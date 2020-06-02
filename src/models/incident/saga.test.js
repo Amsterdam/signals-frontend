@@ -168,7 +168,7 @@ describe('models/incident/saga', () => {
       ];
 
       patchTypes.forEach(async type => {
-        await expectSaga(patchIncident, { ... action, payload: { ...action.payload, type }})
+        await expectSaga(patchIncident, { ... action, payload: { ...action.payload, type } })
           .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
           .put(patchIncidentError({ type, error }))
           .put(actions.showGlobalNotification({

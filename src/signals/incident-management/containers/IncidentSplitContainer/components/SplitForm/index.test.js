@@ -1,89 +1,92 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-} from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
+
 import { withAppContext } from 'test/utils';
+import incident from 'utils/__tests__/fixtures/incident.json';
 
 import SplitForm from './index';
-
-import priorityList from '../../../../definitions/priorityList';
 
 describe('<SplitForm />', () => {
   const mockCreate = {
     category: {
-      sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
+      sub_category: incident.category.category_url,
     },
     reuse_parent_image: true,
-    text: undefined,
+    text: incident.text,
+    type: {
+      code: incident.type.code,
+    },
   };
   const mockUpdate = {
     image: true,
     note: '',
-    priority: 'high',
-    subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
-    text: undefined,
+    priority: incident.priority.priority,
+    subcategory: incident.category.category_url,
+    text: incident.text,
+    type: incident.type.code,
   };
   let props;
 
   beforeEach(() => {
     props = {
-      incident: {
-        id: '42',
-        category: {
-          main_slug: 'afval',
-          sub_slug: 'poep',
-          category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/poep',
-        },
-        priority: {
-          priority: 'high',
-        },
-      },
+      incident,
       attachments: [],
-      subcategories: [{
-        key: 'poep',
-        value: 'Poep',
-        slug: 'poep',
-      }],
-      priorityList,
+      subcategories: [
+        {
+          key: 'poep',
+          value: 'Poep',
+          slug: 'poep',
+        },
+      ],
       onHandleCancel: jest.fn(),
       onHandleSubmit: jest.fn(),
     };
   });
 
-  describe('rendering', () => {
-    it('should render correctly', () => {
-      const { queryByTestId } = render(
-        withAppContext(<SplitForm {...props} />)
-      );
+  it('should render correctly', () => {
+    const { queryByTestId, queryAllByText } = render(withAppContext(<SplitForm {...props} />));
 
-      expect(queryByTestId('splitFormDisclaimer')).not.toBeNull();
-      expect(queryByTestId('splitFormBottomDisclaimer')).not.toBeNull();
-    });
+    expect(queryAllByText(incident.text)).toHaveLength(2);
+    expect(queryByTestId('splitFormDisclaimer')).toBeInTheDocument();
+    expect(queryByTestId('splitFormBottomDisclaimer')).toBeInTheDocument();
   });
 
-  describe('events', () => {
-    it('should toggle visiblity of part 3 on and off and on again', () => {
-      const { getByTestId, queryAllByTestId } = render(
-        withAppContext(<SplitForm {...props} />)
-      );
+  it('should toggle visiblity of part 3 on and off and on again', () => {
+    const { getByTestId, queryAllByTestId } = render(withAppContext(<SplitForm {...props} />));
 
+    act(() => {
       fireEvent.click(getByTestId('splitFormPartAdd'));
-
-      expect(queryAllByTestId('incidentPartTitle')[2]).toHaveTextContent(/^Deelmelding 3$/);
-
-      fireEvent.click(getByTestId('splitFormPartRemove'));
-
-      expect(queryAllByTestId('incidentPartTitle')[2]).toBeUndefined();
     });
+
+    expect(queryAllByTestId('incidentPartTitle')[2]).toHaveTextContent(/^Deelmelding 3$/);
+
+    act(() => {
+      fireEvent.click(getByTestId('splitFormPartRemove'));
+    });
+
+    expect(queryAllByTestId('incidentPartTitle')[2]).toBeUndefined();
+  });
+
+  it('should disable submit button when clicked', () => {
+    const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
+
+    const splitFormSubmit = getByTestId('splitFormSubmit');
+
+    expect(splitFormSubmit.disabled).toEqual(false);
+
+    act(() => {
+      fireEvent.click(getByTestId('splitFormSubmit'));
+    });
+
+    expect(splitFormSubmit.disabled).toEqual(true);
   });
 
   it('should handle submit with 2 items', () => {
-    const { getByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
 
-    fireEvent.click(getByTestId('splitFormSubmit'));
+    act(() => {
+      fireEvent.click(getByTestId('splitFormSubmit'));
+    });
 
     expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate],
@@ -93,12 +96,15 @@ describe('<SplitForm />', () => {
   });
 
   it('should handle submit with 3 items', () => {
-    const { getByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
 
-    fireEvent.click(getByTestId('splitFormPartAdd'));
-    fireEvent.click(getByTestId('splitFormSubmit'));
+    act(() => {
+      fireEvent.click(getByTestId('splitFormPartAdd'));
+    });
+
+    act(() => {
+      fireEvent.click(getByTestId('splitFormSubmit'));
+    });
 
     expect(props.onHandleSubmit).toHaveBeenCalledWith({
       create: [mockCreate, mockCreate, mockCreate],
@@ -108,12 +114,23 @@ describe('<SplitForm />', () => {
   });
 
   it('should handle cancel', () => {
-    const { getByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
 
-    fireEvent.click(getByTestId('splitFormCancel'));
+    act(() => {
+      fireEvent.click(getByTestId('splitFormCancel'));
+    });
 
     expect(props.onHandleCancel).toHaveBeenCalled();
+  });
+
+  it('should handle empty incidents', () => {
+    const { getByTestId, queryAllByText } = render(withAppContext(<SplitForm {...props} incident={null} />));
+    expect(queryAllByText(incident.text)).toHaveLength(0);
+
+    act(() => {
+      fireEvent.click(getByTestId('splitFormSubmit'));
+    });
+
+    expect(props.onHandleSubmit).not.toHaveBeenCalled();
   });
 });

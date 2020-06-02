@@ -226,9 +226,15 @@ export function getReturnPath() {
   return returnPath;
 }
 
-export function isAuthenticated() {
-  return Boolean(getAccessToken());
-}
+export const isAuthenticated = () => {
+  const decoded = accessTokenParser(getAccessToken());
+
+  if (!decoded?.expiresAt) return false;
+
+  const hasExpired = decoded.expiresAt * 1000 < Date.now();
+
+  return !hasExpired;
+};
 
 export function getScopes() {
   return tokenData.scopes || [];

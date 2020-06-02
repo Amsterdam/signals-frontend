@@ -160,6 +160,19 @@ describe('The resolve classification service', () => {
       });
     });
 
+    describe('wonen', () => {
+      it('should return wonen-overig when minimum subcategory chance is not met and maincategory chance is met', () => {
+        hoofdrubriek[0][0] =
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen';
+        hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
+
+        expect(resolveClassification({ subrubriek, hoofdrubriek })).toEqual({
+          category: 'wonen',
+          subcategory: 'wonen-overig',
+        });
+      });
+    });
+
     describe('unknown-category', () => {
       it('should return overig when minimum subcategory chance is not met and maincategory chance is met', () => {
         hoofdrubriek[0][0] =

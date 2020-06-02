@@ -24,7 +24,7 @@ const Div = styled.div`
 `;
 
 const Title = styled(Heading).attrs({
-  $as: 'h4',
+  forwardedAs: 'h4',
 })`
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   color: ${({ isNotification }) =>

@@ -1,9 +1,6 @@
 .datetime-input {
-  position: relative;
-  margin-top: -20px;
-
-  &__label {
-    margin: 8px 0 3px;
+  label {
+    margin-top: 8px;
   }
 
   &__earlier-date {
@@ -11,8 +8,10 @@
   }
 
   &__earlier-time {
-    &-hours,
-    &-minutes {
+    display: flex;
+    align-items: flex-end;
+
+    select {
       width: 80px !important;
     }
 

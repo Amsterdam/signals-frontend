@@ -20,6 +20,18 @@ jest.mock('./services/state-token-generator/state-token-generator');
 jest.mock('./services/access-token-parser/access-token-parser');
 
 const history = createBrowserHistory();
+/* tokens generated with https://www.jsonwebtoken.io/ */
+// token contains 'exp' prop with a date in the past
+const expiredToken =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImp0aSI6IjZhNTc3NzZlLTczYWYtNDM3ZS1hMmJiLThmYTkxYWVhN2QxYSIsImlhdCI6MTU4ODE2Mjk2MywiZXhwIjoxMjQyMzQzfQ.RbJHkXRPmFZMYDJs-gxhk7vWYlIYZi8uik83Q0V1nas';
+
+// token doesn't have 'exp' prop
+const invalidToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+
+// token contains 'exp' prop with a date far into the future
+const validToken =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImp0aSI6ImMxOWRhNDgwLTAyM2UtNGM2YS04NDM2LWNhMzNkYzZjYzVlMyIsImlhdCI6MTU4ODE2NDUyMCwiZXhwIjoxNTg4MTY4MTQ1MH0.LMA3E950H0EACrvME7Gps1Y-Q43Fux1q8YCJUl9pbYE';
 
 describe('The auth service', () => {
   const noop = () => {};
@@ -353,15 +365,46 @@ describe('The auth service', () => {
   });
 
   describe('isAuthenticated', () => {
-    it('checks for logged in status', () => {
-      savedAccessToken = '123AccessToken';
-
-      expect(isAuthenticated()).toEqual(true);
-    });
-    it('checks for logged out status', () => {
-      savedAccessToken = '';
+    it('returns false for expired token', () => {
+      global.localStorage.getItem.mockImplementation(key => {
+        switch (key) {
+          case 'accessToken':
+            return expiredToken;
+          default:
+            return '';
+        }
+      });
 
       expect(isAuthenticated()).toEqual(false);
+    });
+
+    it('returns false for invalid token', () => {
+      global.localStorage.getItem.mockImplementation(key => {
+        switch (key) {
+          case 'accessToken':
+            return invalidToken;
+          default:
+            return '';
+        }
+      });
+
+      expect(isAuthenticated()).toEqual(false);
+    });
+
+    it('returns true', () => {
+      const actual = jest.requireActual('./services/access-token-parser/access-token-parser').default;
+      parseAccessToken.mockImplementation(actual);
+
+      global.localStorage.getItem.mockImplementation(key => {
+        switch (key) {
+          case 'accessToken':
+            return validToken;
+          default:
+            return '';
+        }
+      });
+
+      expect(isAuthenticated()).toEqual(true);
     });
   });
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-
-import { FieldGroup } from 'react-reactive-form';
+import { fireEvent, render, act, cleanup } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
+import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
@@ -9,22 +9,40 @@ import ChangeValue from './index';
 
 jest.mock('shared/services/list-helper/list-helper');
 
+
+const expectInitialState = async ({ getByTestId, queryByTestId, findByTestId }) => {
+  const editButton = await findByTestId('editButton');
+  const valuePath = getByTestId('valuePath');
+
+  expect(valuePath).toBeInTheDocument();
+  expect(editButton).toBeInTheDocument();
+  expect(queryByTestId('changeValueForm')).not.toBeInTheDocument();
+};
+
+const expectEditState = async ({ queryByTestId, findByTestId }) => {
+  const editButton = queryByTestId('editButton');
+  const valuePath = queryByTestId('valuePath');
+
+  const changeValueForm = await findByTestId('changeValueForm');
+
+  expect(valuePath).not.toBeInTheDocument();
+  expect(editButton).not.toBeInTheDocument();
+  expect(changeValueForm).toBeInTheDocument();
+};
+
 describe('<ChangeValue />', () => {
-  let wrapper;
   let props;
-  let instance;
 
   beforeEach(() => {
     props = {
       incident: {
-        id: 42,
+        ...incidentJson,
+        someValue: 'c',
       },
-      definitionClass: 'definition-class',
-      valueClass: 'value-class',
       list: [
-        { key: 'c', value: 'Cee' },
+        { key: 'c', value: 'Cee', description: 'Foo bar baz' },
         { key: 'b', value: 'Bee' },
-        { key: 'a', value: 'Aaaaaaaa' },
+        { key: 'a', value: 'Aaaaaaaa', description: 'Zork' },
       ],
       display: 'De letter',
       path: 'incident.mockPath',
@@ -35,12 +53,6 @@ describe('<ChangeValue />', () => {
       onPatchIncident: jest.fn(),
     };
 
-    wrapper = shallow(
-      <ChangeValue {...props} />
-    );
-
-    instance = wrapper.instance();
-
     getListValueByKey.mockImplementation(() => 'mock waarde');
   });
 
@@ -48,70 +60,126 @@ describe('<ChangeValue />', () => {
     jest.resetAllMocks();
   });
 
-  describe('show value', () => {
-    it('should show value and not form', () => {
-      expect(wrapper.find(`.${props.definitionClass}`)).toHaveLength(1);
+  it('should render correctly', async () => {
+    const renderProps = render(withAppContext(<ChangeValue {...props} />));
 
-      expect(wrapper.find(`.${props.valueClass} button`)).toHaveLength(1);
-      expect(wrapper.find(`.${props.valueClass} .change-value__value`)).toHaveLength(1);
+    await expectInitialState(renderProps);
 
-      expect(wrapper.find(FieldGroup)).toHaveLength(0);
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('editButton'));
     });
 
-    it('should show the form when edit button has been clicked ', () => {
-      wrapper.find(`.${props.valueClass} button`).simulate('click');
+    await expectEditState(renderProps);
+  });
 
-      expect(wrapper.find(`.${props.valueClass} button`)).toHaveLength(0);
-      expect(wrapper.find(`.${props.valueClass} .change-value__value`)).toHaveLength(0);
+  it('should call onPatchIncident', async () => {
+    const { getByTestId, findByTestId } = render(withAppContext(<ChangeValue {...props} />));
 
-      expect(wrapper.find(FieldGroup)).toHaveLength(1);
+    const editButton = getByTestId('editButton');
+
+    act(() => {
+      fireEvent.click(editButton);
+    });
+
+    const submitBtn = await findByTestId('submitButton');
+
+    expect(props.onPatchIncident).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(props.onPatchIncident).toHaveBeenCalledWith({
+      id: incidentJson.id,
+      type: props.type,
+      patch: {
+        incident: expect.any(Object),
+      },
     });
   });
 
-  describe('show form', () => {
-    let renderedFormGroup;
+  it('should hide form on cancel', async () => {
+    const renderProps = render(withAppContext(<ChangeValue {...props} />));
 
-    beforeEach(() => {
-      wrapper.setState({ formVisible: true });
-      renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('editButton'));
     });
 
-    it('should contain the FieldGroup', () => {
-      expect(wrapper.find(FieldGroup)).toHaveLength(1);
+    await expectEditState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('cancelButton'));
     });
 
-    it('should render field and buttons correctly', () => {
-      expect(renderedFormGroup.find('.change-value__form-input')).toHaveLength(1);
+    await expectInitialState(renderProps);
+  });
 
-      expect(renderedFormGroup.find('.change-value__form-submit')).toHaveLength(1);
-      expect(renderedFormGroup.find('.change-value__form-cancel')).toHaveLength(1);
+  it('should hide form on ESC', async () => {
+    const renderProps = render(withAppContext(<ChangeValue {...props} />));
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('editButton'));
     });
 
-    it('cancel button should hide the form', () => {
-      renderedFormGroup.find('.change-value__form-cancel').simulate('click');
+    await expectEditState(renderProps);
 
-      expect(wrapper.find(FieldGroup)).toHaveLength(0);
+    act(() => {
+      fireEvent.keyUp(document, { key: 'ArrowUp', code: 38, keyCode: 38 });
     });
 
-    it('should call category update when the form is submitted (search button is clicked)', () => {
-      const form = instance.form;
-      const formValue = {
-        input: 'b',
-      };
-      form.setValue(formValue);
-      expect(form.value.input).toEqual(formValue.input);
+    await expectEditState(renderProps);
 
-      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
-      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
-      expect(props.onPatchIncident).toHaveBeenCalledWith({
-        id: 42,
-        type: 'mockType',
-        patch: {
-          incident: {
-            mockPath: 'b',
-          },
-        },
-      });
+    act(() => {
+      fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 });
     });
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('editButton'));
+    });
+
+    await expectEditState(renderProps);
+
+    act(() => {
+      fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 });
+    });
+
+    await expectInitialState(renderProps);
+  });
+
+  it('should render info text', async () => {
+    const renderProps = render(withAppContext(<ChangeValue {...props} infoKey="description" />));
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('editButton'));
+    });
+
+    expect(renderProps.queryByTestId('infoText')).not.toBeInTheDocument();
+
+    cleanup();
+
+    render(withAppContext(<ChangeValue {...props} infoKey="description" valuePath="someValue" />));
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId('editButton'));
+    });
+
+    expect(renderProps.queryByTestId('infoText')).toBeInTheDocument();
+    expect(renderProps.queryByTestId('infoText').textContent).toEqual('Foo bar baz');
+
+    act(() => {
+      fireEvent.change(document.querySelector('select'), { target: { value: 'a' } });
+    });
+
+    expect(renderProps.queryByTestId('infoText').textContent).toEqual('Zork');
   });
 });

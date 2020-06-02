@@ -50,6 +50,5 @@ server.listen(port, host, async err => {
   }
 
   const scheme = SSL ? 'https' : 'http';
-
   logger.appStarted(port, prettyHost, undefined, scheme);
 });

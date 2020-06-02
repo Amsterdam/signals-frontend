@@ -29,7 +29,7 @@ const Toggle = styled.label`
     background-color: rgb(254, 200, 19);
   }
 
-  & + input[type='checkbox'] {
+  & input[type='checkbox'] {
     visibility: hidden;
     margin-left: -99999em;
   }
@@ -139,7 +139,9 @@ const CheckboxList = ({
    * @returns {(Object|undefined)}
    */
   const getOption = useCallback(
-    id => options.find(option => option.id === id || option.key === id),
+    // id is always a string, because it comes from an HTML data- attribute
+    // cast the comparing value to a string to make sure that we're comparing the same things
+    id => options.find(option => `${option.id}` === id || `${option.key}` === id),
     [options]
   );
 
@@ -198,11 +200,14 @@ const CheckboxList = ({
         setToggled(allOptionsChecked);
 
         // in case that a list of options contains of only one item, we need to call the `onToggle`
-        // callback function instead of the `onChange` callback
-        if (allOptionsChecked) {
+        // callback function instead of the `onChange` callback unless the `onToggle` is undefined
+        if (onToggle && allOptionsChecked) {
           onToggle(groupValue || name, allOptionsChecked);
         } else {
-          onChange(groupValue || name, Array.from(modifiedState));
+          const onChangeTimeout = global.setTimeout(() => {
+            global.clearTimeout(onChangeTimeout);
+            onChange(groupValue || name, Array.from(modifiedState));
+          }, 0);
         }
 
         return modifiedState;
@@ -287,7 +292,7 @@ CheckboxList.defaultProps = {
   groupValue: '',
   hasToggle: false,
   onChange: () => {},
-  onToggle: () => {},
+  onToggle: undefined,
   title: null,
   toggleAllLabel: 'Alles selecteren',
   toggleNothingLabel: 'Niets selecteren',

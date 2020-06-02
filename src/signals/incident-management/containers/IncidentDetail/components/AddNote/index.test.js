@@ -1,102 +1,98 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-
-import { FieldGroup } from 'react-reactive-form';
+import { render, fireEvent, act } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import AddNote from './index';
 
-jest.mock('shared/services/list-helper/list-helper');
-
 describe('<AddNote />', () => {
-  let wrapper;
-  let props;
-  let instance;
-
-  beforeEach(() => {
-    props = {
-      id: '42',
-      onPatchIncident: jest.fn(),
-    };
-
-    wrapper = shallow(
-      <AddNote {...props} />
-    );
-
-    instance = wrapper.instance();
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  const props = {
+    id: '42',
+    onPatchIncident: jest.fn(),
+  };
 
   describe('show value', () => {
-    it('should show value and not form', () => {
-      expect(wrapper.find('.add-note__show-form')).toHaveLength(1);
-      expect(wrapper.find(FieldGroup)).toHaveLength(0);
-    });
+    it('should show the form ', () => {
+      const { getByTestId, queryByTestId } = render(withAppContext(<AddNote {...props} />));
 
-    it('should show the form when edit button has been clicked ', () => {
-      wrapper.find('.add-note__show-form').simulate('click');
+      expect(getByTestId('addNoteNewNoteButton')).toBeInTheDocument();
+      expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
 
-      expect(wrapper.find(FieldGroup)).toHaveLength(1);
+      act(() => {
+        fireEvent.click(getByTestId('addNoteNewNoteButton'));
+      });
+
+      expect(getByTestId('addNoteSaveNoteButton')).toBeInTheDocument();
+      expect(queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument();
+      expect(getByTestId('addNoteCancelNoteButton')).toBeInTheDocument();
+
+      act(() => {
+        fireEvent.click(getByTestId('addNoteCancelNoteButton'));
+      });
+
+      expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
+      expect(queryByTestId('addNoteCancelNoteButton')).not.toBeInTheDocument();
+      expect(queryByTestId('addNoteNewNoteButton')).toBeInTheDocument();
     });
   });
 
-  describe('show form', () => {
-    let renderedFormGroup;
+  it('should call onPatchIncident', async () => {
+    const { getByTestId, findByTestId } = render(withAppContext(<AddNote {...props} />));
 
-    beforeEach(() => {
-      wrapper.setState({ formVisible: true });
-      renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+    act(() => {
+      fireEvent.click(getByTestId('addNoteNewNoteButton'));
     });
 
-    it('should contain the FieldGroup', () => {
-      expect(wrapper.find(FieldGroup)).toHaveLength(1);
+    const addNoteTextArea = await findByTestId('addNoteText');
+    const value = 'Here be a note';
+    const saveNoteButton = getByTestId('addNoteSaveNoteButton');
+
+    act(() => {
+      fireEvent.change(addNoteTextArea, { target: { value } });
     });
 
-    it('should render field and buttons correctly', () => {
-      expect(renderedFormGroup.find('.add-note__form-input')).toHaveLength(1);
-
-      expect(renderedFormGroup.find('.add-note__form-submit')).toHaveLength(1);
-      expect(renderedFormGroup.find('.add-note__form-cancel')).toHaveLength(1);
+    act(() => {
+      fireEvent.click(saveNoteButton);
     });
 
-    it('cancel button should hide the form', () => {
-      renderedFormGroup.find('.add-note__form-cancel').simulate('click');
+    expect(props.onPatchIncident).toHaveBeenCalledWith({
+      id: '42',
+      type: 'notes',
+      patch: {
+        notes: [{ text: value }],
+      },
+    });
+  });
 
-      expect(wrapper.find(FieldGroup)).toHaveLength(0);
+  it('should clear the textarea', async () => {
+    const { getByTestId, findByTestId } = render(withAppContext(<AddNote {...props} />));
+    const value = 'Here be a note';
+
+    act(() => {
+      fireEvent.click(getByTestId('addNoteNewNoteButton'));
     });
 
-    it('should disable the submit button when no category is selected', () => {
-      expect(renderedFormGroup.find('.add-note__form-submit').prop('disabled')).toBe(true);
+    const addNoteTextArea = await findByTestId('addNoteText');
+
+    expect(addNoteTextArea.value).toEqual('');
+
+    const saveNoteButton = getByTestId('addNoteSaveNoteButton');
+
+    act(() => {
+      fireEvent.change(addNoteTextArea, { target: { value } });
     });
 
-    it('should enable the submit button when a  category is selected', () => {
-      const form = instance.form;
-      const formValue = { text: 'test' };
-      form.patchValue(formValue);
-      expect(form.value.sub_category).toEqual(formValue.sub_category);
-      expect(renderedFormGroup.find('.add-note__form-submit').prop('disabled')).toBe(false);
+    expect(addNoteTextArea.value).toEqual(value);
+
+    act(() => {
+      fireEvent.click(saveNoteButton);
     });
 
-    it('should call category update when the form is submitted (submit button is clicked)', () => {
-      const text = 'yooooo';
-      const form = instance.form;
-      const formValue = {
-        text,
-      };
-      form.setValue(formValue);
-      expect(form.value.input).toEqual(formValue.input);
+    const newNoteButton = await findByTestId('addNoteNewNoteButton');
 
-      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
-      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
-      expect(props.onPatchIncident).toHaveBeenCalledWith({
-        id: '42',
-        type: 'notes',
-        patch: {
-          notes: [{ text }],
-        },
-      });
+    act(() => {
+      fireEvent.click(newNoteButton);
     });
+
+    expect(getByTestId('addNoteText').value).toEqual('');
   });
 });

@@ -1,12 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
-import {
-  Switch,
-  Route,
-  Redirect,
-  withRouter,
-  useHistory,
-} from 'react-router-dom';
-import { compose } from 'redux';
+import PropTypes from 'prop-types';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { compose, bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
@@ -20,15 +16,26 @@ import SiteHeaderContainer from 'containers/SiteHeader';
 import IncidentManagementModule from 'signals/incident-management';
 import SettingsModule from 'signals/settings';
 import IncidentContainer from 'signals/incident/containers/IncidentContainer';
+import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
 import KtoContainer from 'signals/incident/containers/KtoContainer';
+import useLocationReferrer from 'hooks/useLocationReferrer';
 
 import reducer from './reducer';
 import saga from './saga';
 
-const App = () => {
-  // on each component render, see if the current session is authenticated
-  authenticate();
+export const AppContainer = ({ resetIncidentAction }) => {
   const history = useHistory();
+  const location = useLocationReferrer();
+
+  authenticate();
+
+  useEffect(() => {
+    const { referrer } = location;
+
+    if (referrer === '/incident/bedankt') {
+      resetIncidentAction();
+    }
+  }, [location, resetIncidentAction]);
 
   useEffect(() => {
     const unlisten = history.listen(() => {
@@ -64,7 +71,20 @@ const App = () => {
   );
 };
 
+AppContainer.propTypes = {
+  resetIncidentAction: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      resetIncidentAction: resetIncident,
+    },
+    dispatch
+  );
+
+const withConnect = connect(null, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
-export default compose(withReducer, withSaga, withRouter)(App);
+export default compose(withReducer, withSaga, withConnect)(AppContainer);

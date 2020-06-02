@@ -1,4 +1,3 @@
-// Important modules this config uses
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
@@ -7,6 +6,7 @@ const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const template = require('./template');
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -34,6 +34,7 @@ module.exports = require('./webpack.base.babel')({
             comments: false,
             ascii_only: true,
           },
+          keep_fnames: true,
         },
         parallel: true,
         cache: true,
@@ -124,15 +125,6 @@ module.exports = require('./webpack.base.babel')({
           chunks: 'all',
           enforce: true,
         },
-        amsStyles: {
-          name: 'ams-style',
-          test: ({ constructor, context }) =>
-            constructor.name === 'CssModule' &&
-            context &&
-            context.indexOf('/node_modules/amsterdam-stijl/') >= 0,
-          chunks: 'all',
-          enforce: true,
-        },
         datePickerStyles: {
           name: 'react-datepicker',
           test: ({ constructor, context = '' }) =>
@@ -150,7 +142,7 @@ module.exports = require('./webpack.base.babel')({
   plugins: [
     // Minify and optimize the index.html
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      ...template,
       minify: {
         removeComments: true,
         collapseWhitespace: true,

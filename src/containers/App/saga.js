@@ -1,23 +1,11 @@
-import {
-  all,
-  call,
-  put,
-  take,
-  takeEvery,
-  takeLatest,
-} from 'redux-saga/effects';
+import { all, call, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router/immutable';
 
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
+import { SET_SEARCH_QUERY, LOGOUT, LOGIN, AUTHENTICATE_USER, UPLOAD_REQUEST } from 'containers/App/constants';
 
-import {
-  LOGOUT,
-  LOGIN,
-  AUTHENTICATE_USER,
-  UPLOAD_REQUEST,
-} from './constants';
 import {
   loginFailed,
   logoutFailed,
@@ -50,12 +38,7 @@ export function* callLogout() {
   try {
     // This forces the remove of the grip cookies.
     if (getOauthDomain() === 'grip') {
-      window
-        .open(
-          'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t',
-          '_blank'
-        )
-        .close();
+      window.open('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank').close();
     }
 
     yield call(logout);
@@ -77,12 +60,7 @@ export function* callAuthorize(action) {
     const accessToken = action.payload && action.payload.accessToken;
 
     if (accessToken) {
-      const user = yield call(
-        authCall,
-        CONFIGURATION.AUTH_ME_ENDPOINT,
-        null,
-        accessToken
-      );
+      const user = yield call(authCall, CONFIGURATION.AUTH_ME_ENDPOINT, null, accessToken);
 
       yield put(authorizeUser(user));
     }
@@ -109,12 +87,7 @@ export function* uploadFileWrapper(action) {
 }
 
 export function* uploadFile(action) {
-  const channel = yield call(
-    fileUploadChannel,
-    CONFIGURATION.IMAGE_ENDPOINT,
-    action.payload.file,
-    action.payload.id
-  );
+  const channel = yield call(fileUploadChannel, CONFIGURATION.IMAGE_ENDPOINT, action.payload.file, action.payload.id);
   const forever = true;
   while (forever) {
     const { progress = 0, error, success } = yield take(channel);
@@ -137,11 +110,16 @@ export function* uploadFile(action) {
   }
 }
 
+export function* callSearchIncidents() {
+  yield put(push('/manage/incidents'));
+}
+
 export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGIN, callLogin),
     takeLatest(LOGOUT, callLogout),
     takeLatest(AUTHENTICATE_USER, callAuthorize),
     takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
+    takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
   ]);
 }

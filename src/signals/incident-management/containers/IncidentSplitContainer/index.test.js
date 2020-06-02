@@ -1,16 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { mount } from 'enzyme';
 import * as reactRouterDom from 'react-router-dom';
 import { store, withAppContext } from 'test/utils';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { requestIncidentSuccess } from 'models/incident/actions';
-import { makeSelectSubCategories } from 'models/categories/selectors';
-import makeSelectIncidentModel from 'models/incident/selectors';
 
-import IncidentSplit, { IncidentSplitContainer } from './index';
+import { IncidentSplitContainer } from './index';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -20,17 +17,9 @@ jest.mock('react-router-dom', () => ({
 store.dispatch(requestIncidentSuccess(incidentJson));
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
-const subCategories = makeSelectSubCategories(store.getState());
-const incidentModel = makeSelectIncidentModel(store.getState());
-
 jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   id: '42',
 }));
-
-jest.mock('models/incident/selectors', () =>
-  // eslint-disable-next-line global-require
-  jest.fn(() => require('utils/__tests__/fixtures/incident.json'))
-);
 
 // mocking a deeply nested component to prevent having to mock
 // multiple data providers and child components
@@ -40,51 +29,23 @@ jest.mock('../../components/FieldControlWrapper', () => ({
 }));
 
 describe('<IncidentSplitContainer />', () => {
-  it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<IncidentSplit />));
-    const containerProps = tree.find(IncidentSplitContainer).props();
-
-    expect(containerProps.incidentModel).toBeDefined();
-    expect(containerProps.subCategories).toBeDefined();
-  });
-
-  it('should have props from action creator', () => {
-    const tree = mount(withAppContext(<IncidentSplit />));
-
-    const containerProps = tree.find(IncidentSplitContainer).props();
-
-    expect(containerProps.onRequestIncident).toBeDefined();
-    expect(typeof containerProps.onRequestIncident).toEqual('function');
-
-    expect(containerProps.onRequestAttachments).toBeDefined();
-    expect(typeof containerProps.onRequestAttachments).toEqual('function');
-
-    expect(containerProps.onSplitIncident).toBeDefined();
-    expect(typeof containerProps.onSplitIncident).toEqual('function');
-
-    expect(containerProps.onGoBack).toBeDefined();
-    expect(typeof containerProps.onGoBack).toEqual('function');
-  });
-
-  it('should render correctly', () => {
+  it('should render correctly', async () => {
     const props = {
-      subCategories,
-      incidentModel,
-      onRequestIncident: jest.fn(),
-      onRequestAttachments: jest.fn(),
       onSplitIncident: jest.fn(),
       onGoBack: jest.fn(),
     };
 
-    const { getByTestId, queryAllByTestId, rerender } = render(
-      withAppContext(<IncidentSplitContainer {...props} incidentModel={{ ...incidentModel, loading: true }} />)
-    );
+    fetch.mockResponseOnce(JSON.stringify(incidentJson));
 
-    expect(getByTestId('loadingIndicator')).toBeInTheDocument();
-
-    rerender(
+    const { queryByTestId, queryAllByTestId, findByTestId } = render(
       withAppContext(<IncidentSplitContainer {...props} />)
     );
+
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+
+    await findByTestId('incidentSplit');
+
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
 
     expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(
       /^Deelmelding 1$/
@@ -92,8 +53,5 @@ describe('<IncidentSplitContainer />', () => {
     expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(
       /^Deelmelding 2$/
     );
-
-    expect(props.onRequestIncident).toHaveBeenCalledWith('42');
-    expect(props.onRequestAttachments).toHaveBeenCalledWith('42');
   });
 });

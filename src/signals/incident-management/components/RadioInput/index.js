@@ -1,55 +1,46 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Label from 'components/Label';
-import { themeColor } from '@datapunt/asc-ui';
+import { RadioGroup, Radio, Label as AscLabel, themeSpacing } from '@datapunt/asc-ui';
 
-import './style.scss';
+import InfoText from 'components/InfoText';
 
-const Info = styled.span`
-  color: ${themeColor('tint', 'level5')};
+const Wrapper = styled.div`
+  width: 100%;
+  margin-bottom: ${themeSpacing(6)};
 `;
 
-export const RadioInput = ({ name, display, values }) => {
+const RadioInput = ({ name, display, values }) => {
   const Render = ({ handler, value: current }) => {
     let info;
     let label;
+    const currentValue = values?.find(({ key }) => key === current);
 
-    if (current && values) {
-      ({ info, value: label } = values.find(({ key }) => key === current));
+    if (currentValue) {
+      ({ info, value: label } = currentValue);
     }
 
     return (
-      <div className="radio-input">
+      <Wrapper>
         <div className="mode_input text rij_verplicht">
-          {display && <Label htmlFor={`form${name}`}>{display}</Label>}
+          {display && <AscLabel htmlFor={`form${name}`} label={<strong>{display}</strong>} />}
 
-          <div className="radio-input__control invoer">
-            {values &&
-              values.map(({ key, value }) => (
-                <div className="antwoord" key={`${name}-${key}`}>
-                  <input
-                    id={`${name}-${key}`}
-                    data-testid={`${name}-${key}`}
-                    className="kenmerkradio"
-                    {...handler('radio', key)}
-                  />
-                  <label htmlFor={`${name}-${key}`}>{value}</label>
-                </div>
-              ))}
+          <RadioGroup name={name}>
+            {values?.map(({ key, value }) => (
+              <AscLabel key={key} label={value}>
+                <Radio
+                  defaultChecked={current === key}
+                  id={`${name}-${key}`}
+                  data-testid={`${name}-${key}`}
+                  {...handler('radio', key)}
+                />
+              </AscLabel>
+            ))}
+          </RadioGroup>
 
-            <p>
-              {info ? (
-                <Info>
-                  {label}: {info}
-                </Info>
-              ) : (
-                <br />
-              )}
-            </p>
-          </div>
+          {info && <InfoText text={`${label}: ${info}`} />}
         </div>
-      </div>
+      </Wrapper>
     );
   };
 

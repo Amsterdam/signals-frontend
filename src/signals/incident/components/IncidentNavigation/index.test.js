@@ -1,8 +1,16 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Wizard, WithWizard } from 'react-albus';
+import * as auth from 'shared/services/auth/auth';
 
 import IncidentNavigation from './index';
+
+jest.mock('shared/services/auth/auth', () => ({
+  __esModule: true,
+  ...jest.requireActual('shared/services/auth/auth'),
+}));
+
+jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
 describe('<IncidentNavigation />', () => {
   let props;
@@ -31,7 +39,6 @@ describe('<IncidentNavigation />', () => {
           incident: {},
         },
         submitting: false,
-        isAuthenticated: false,
         wizard: {
           beschrijf: {
             nextButtonLabel: 'Volgende',
@@ -168,7 +175,7 @@ describe('<IncidentNavigation />', () => {
       context.wizard.step = { id: 'incident/beschrijf' };
       const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-      withWizardWrapper.find('button').simulate('click', event);
+      withWizardWrapper.find('[data-testid="nextButton"]').simulate('click', event);
 
       expect(props.meta.handleSubmit).toHaveBeenCalledWith(event, context.wizard.next, 'UPDATE_INCIDENT');
     });
@@ -179,7 +186,7 @@ describe('<IncidentNavigation />', () => {
       context.wizard.step = { id: 'incident/email' };
       const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-      withWizardWrapper.find('button').last().simulate('click', event);
+      withWizardWrapper.find('[data-testid="nextButton"]').simulate('click', event);
 
       expect(props.meta.handleSubmit).toHaveBeenCalledWith(event, context.wizard.next, undefined);
     });
@@ -188,7 +195,7 @@ describe('<IncidentNavigation />', () => {
       context.wizard.step = { id: 'incident/email' };
       const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-      withWizardWrapper.find('button').first().simulate('click');
+      withWizardWrapper.find('[data-testid="previousButton"]').simulate('click');
 
       expect(context.wizard.previous).toHaveBeenCalled();
       expect(props.meta.handleSubmit).not.toHaveBeenCalled();
@@ -200,7 +207,7 @@ describe('<IncidentNavigation />', () => {
       context.wizard.step = { id: 'incident/samenvatting' };
       const withWizardWrapper = shallow(withWizard.get(0), { context });
 
-      withWizardWrapper.find('button').last().simulate('click', event);
+      withWizardWrapper.find('[data-testid="nextButton"]').simulate('click', event);
 
       expect(props.meta.handleSubmit).toHaveBeenCalledWith(event, context.wizard.next, 'CREATE_INCIDENT');
     });

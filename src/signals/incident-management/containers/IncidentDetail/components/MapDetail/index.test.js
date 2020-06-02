@@ -1,15 +1,18 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
+import { markerIcon } from 'shared/services/configuration/map-markers';
 import MapDetail from './index';
 
 describe('<MapDetail />', () => {
-  let wrapper;
   const props = {
     value: {
-      geometrie: { coordinates: [0, 0] },
+      geometrie: { coordinates: [4, 42] },
     },
+    zoom: 15,
+    icon: markerIcon,
   };
+
   beforeEach(() => {
   });
 
@@ -18,15 +21,23 @@ describe('<MapDetail />', () => {
   });
 
   it('should render correctly', () => {
-    wrapper = shallow(<MapDetail {...props} />);
+    const { container, getByTestId } = render(<MapDetail {...props} />);
 
-    expect(wrapper).toMatchSnapshot();
+    // Map
+    expect(getByTestId('map-base')).toBeInTheDocument();
+
+    // Marker
+    expect(container.querySelector('.map-marker-select')).toBeInTheDocument();
   });
 
-  it('should render correctly without location', () => {
+  it('should not render without value', () => {
     props.value = {};
-    wrapper = shallow(<MapDetail {...props} />);
+    const { container, queryByTestId } = render(<MapDetail {...props} />);
 
-    expect(wrapper).toMatchSnapshot();
+    // Map
+    expect(queryByTestId('map')).not.toBeInTheDocument();
+
+    // Marker
+    expect(container.querySelector('.map-marker-select')).not.toBeInTheDocument();
   });
 });

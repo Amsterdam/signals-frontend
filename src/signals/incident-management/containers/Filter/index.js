@@ -1,14 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
-import { makeSelectStructuredCategories } from 'models/categories/selectors';
-import {
-  makeSelectEditFilter,
-  makeSelectDataLists,
-} from 'signals/incident-management/selectors';
+import { makeSelectEditFilter } from 'signals/incident-management/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import * as types from 'shared/types';
 
@@ -21,17 +17,18 @@ import {
 } from 'signals/incident-management/actions';
 
 export const FilterContainerComponent = ({
-  categories,
-  dataLists,
   onApplyFilter,
   onCancel,
   onFilterEditCancel,
   onSubmit,
+  filter,
   ...rest
 }) => {
+  const editFilter = useMemo(() => filter, [filter]);
+
   const onFormSubmit = useCallback(
-    (event, filter) => {
-      onApplyFilter(filter);
+    (event, filterData) => {
+      onApplyFilter(filterData);
       onSubmit(event);
     },
     [onApplyFilter, onSubmit]
@@ -42,20 +39,10 @@ export const FilterContainerComponent = ({
     onCancel();
   }, [onFilterEditCancel, onCancel]);
 
-  return (
-    <FilterForm
-      {...rest}
-      onCancel={onEditCancel}
-      categories={categories}
-      dataLists={dataLists}
-      onSubmit={onFormSubmit}
-    />
-  );
+  return <FilterForm {...rest} filter={editFilter} onCancel={onEditCancel} onSubmit={onFormSubmit} />;
 };
 
 FilterContainerComponent.propTypes = {
-  categories: types.categoriesType.isRequired,
-  dataLists: types.dataListsType.isRequired,
   filter: types.filterType.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -68,8 +55,6 @@ FilterContainerComponent.propTypes = {
 
 const mapStateToProps = () =>
   createStructuredSelector({
-    categories: makeSelectStructuredCategories,
-    dataLists: makeSelectDataLists,
     filter: makeSelectEditFilter,
   });
 

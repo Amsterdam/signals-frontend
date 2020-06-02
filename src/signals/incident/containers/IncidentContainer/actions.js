@@ -1,9 +1,3 @@
-/*
- *
- * IncidentContainer actions
- *
- */
-
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
@@ -13,9 +7,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-  SET_PRIORITY,
-  SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR,
+  RESET_EXTRA_STATE,
 } from './constants';
 
 export const updateIncident = payload => ({
@@ -56,15 +48,6 @@ export const getClassificationError = payload => ({
   payload,
 });
 
-export const setPriority = payload => ({
-  type: SET_PRIORITY,
-  payload,
-});
-
-export const setPrioritySuccess = () => ({
-  type: SET_PRIORITY_SUCCESS,
-});
-
-export const setPriorityError = () => ({
-  type: SET_PRIORITY_ERROR,
+export const resetExtraState = () => ({
+  type: RESET_EXTRA_STATE,
 });

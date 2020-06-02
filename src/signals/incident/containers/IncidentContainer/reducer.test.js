@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { has, fromJS } from 'immutable';
 import incidentContainerReducer, { initialState } from './reducer';
 
 import {
@@ -10,9 +10,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-  SET_PRIORITY,
-  SET_PRIORITY_SUCCESS,
-  SET_PRIORITY_ERROR,
+  RESET_EXTRA_STATE,
 } from './constants';
 
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
@@ -23,14 +21,18 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   });
 
   it('default wizard state should contain date, time, and priority', () => {
-    expect(initialState.get('incident')).toEqual(
-      fromJS({
+    expect(initialState.get('incident').toJS()).toEqual(
+      expect.objectContaining({
         incident_date: 'Vandaag',
         incident_time_hours: 9,
         incident_time_minutes: 0,
         priority: {
           id: 'normal',
           label: 'Normaal',
+        },
+        type: {
+          id: 'SIG',
+          label: 'Melding',
         },
         category: '',
         subcategory: '',
@@ -155,6 +157,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   });
 
   describe('GET_CLASSIFICATION_SUCCESS', () => {
+    const intermediateState = initialState.set('incident', initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux'));
+
     it('sets category and subcategory', () => {
       expect(
         incidentContainerReducer(
@@ -176,6 +180,67 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         },
         loadingClassification: false,
       });
+    });
+
+    it('removes all extra_ props', () => {
+      const newState = incidentContainerReducer(intermediateState, {
+        type: GET_CLASSIFICATION_SUCCESS,
+        payload: {
+          category: 'Overlast in de openbare ruimte',
+          subcategory: 'Honden(poep)',
+        },
+      });
+
+      expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
+      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
+    });
+
+    it('only removes all extra_ props when category has changed', () => {
+      const type = GET_CLASSIFICATION_SUCCESS;
+      const payload = {
+        category: 'foo',
+        subcategory: 'bar',
+      };
+
+      const newState = incidentContainerReducer(intermediateState, { type, payload }).toJS();
+      newState.incident.extra_something = 'qux';
+
+      const updatedState = incidentContainerReducer(fromJS(newState), { type, payload });
+
+      expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
+
+      const changedPayload = {
+        category: 'zork',
+        subcategory: 'bar',
+      };
+
+      const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
+
+      expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
+    });
+
+    it('only removes all extra_ props when subcategory has changed', () => {
+      const type = GET_CLASSIFICATION_SUCCESS;
+      const payload = {
+        category: 'foo',
+        subcategory: 'bar',
+      };
+
+      const newState = incidentContainerReducer(intermediateState, { type, payload }).toJS();
+      newState.incident.extra_something = 'qux';
+
+      const updatedState = incidentContainerReducer(fromJS(newState), { type, payload });
+
+      expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
+
+      const changedPayload = {
+        category: 'foo',
+        subcategory: 'bazzz',
+      };
+
+      const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
+
+      expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
     });
   });
 
@@ -204,46 +269,22 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
     });
   });
 
-  describe('SET_PRIORITY', () => {
-    it('sets priority', () => {
-      expect(
-        incidentContainerReducer(fromJS({}), {
-          type: SET_PRIORITY,
-          payload: {
-            _signal: 666,
-            priority: 'normal',
-          },
-        }).toJS()
-      ).toEqual({
-        priority: {
-          _signal: 666,
-          priority: 'normal',
-        },
-      });
-    });
-  });
+  describe('RESET_EXTRA_STATE', () => {
+    const intermediateState = initialState.set(
+      'incident',
+      initialState
+        .get('incident')
+        .set('extra_something', 'foo bar')
+        .set('extra_something_else', 'baz qux')
+    );
 
-  describe('SET_PRIORITY_SUCCESS', () => {
-    it('sets priority', () => {
-      expect(
-        incidentContainerReducer(fromJS({}), {
-          type: SET_PRIORITY_SUCCESS,
-        }).toJS()
-      ).toEqual({
-        priority: {},
+    it('returns partially reset state', () => {
+      const newState = incidentContainerReducer(intermediateState, {
+        type: RESET_EXTRA_STATE,
       });
-    });
-  });
 
-  describe('SET_PRIORITY_ERROR', () => {
-    it('sets priority', () => {
-      expect(
-        incidentContainerReducer(fromJS({}), {
-          type: SET_PRIORITY_ERROR,
-        }).toJS()
-      ).toEqual({
-        priority: {},
-      });
+      expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
+      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
     });
   });
 });

@@ -7,7 +7,6 @@ import { string2date, string2time } from 'shared/services/string-parser/string-p
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import incident from 'utils/__tests__/fixtures/incident.json';
-import stadsdeelList from '../../../../definitions/stadsdeelList';
 
 import SplitDetail from './index';
 
@@ -17,7 +16,6 @@ jest.mock('shared/services/list-helper/list-helper');
 describe('<SplitDetail />', () => {
   const props = {
     incident,
-    stadsdeelList,
     onPatchIncident: jest.fn(),
     onEditStatus: jest.fn(),
     onShowAttachment: jest.fn(),

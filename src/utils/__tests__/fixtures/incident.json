@@ -15,7 +15,18 @@
     },
     "sia:pdf": {
       "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/pdf"
-    }
+    },
+    "sia:children": [
+      {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5319"
+      },
+      {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5320"
+      },
+      {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5321"
+      }
+    ]
   },
   "id": 4440,
   "signal_id": "6acdb051-41aa-4984-b7f3-e2177036bf92",
@@ -78,6 +89,12 @@
   },
   "priority": {
     "priority": "normal"
+  },
+  "notes": [],
+  "type": {
+    "code": "QUE",
+    "created_at": "2020-03-13T11:23:17.932429+01:00",
+    "created_by": "me@email.com"
   },
   "created_at": "2020-02-06T08:50:15.634692+01:00",
   "updated_at": "2020-02-06T08:50:15.667022+01:00",

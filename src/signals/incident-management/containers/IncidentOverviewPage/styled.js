@@ -1,0 +1,24 @@
+import styled from 'styled-components';
+import { Column, Button, themeSpacing, Paragraph, themeColor } from '@datapunt/asc-ui';
+import Pagination from 'components/Pagination';
+
+export const StyledButton = styled(Button)`
+  margin-left: 10px;
+`;
+
+export const StyledPagination = styled(Pagination)`
+  margin-top: ${themeSpacing(12)};
+`;
+
+export const NoResults = styled(Paragraph)`
+  width: 100%;
+  text-align: center;
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  color: ${themeColor('tint', 'level4')};
+`;
+
+export const MapWrapper = styled(Column).attrs({
+  span: 12,
+})`
+  flex-direction: column;
+`;

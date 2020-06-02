@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
 import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
+
 import {
   Header as HeaderComponent,
   MenuFlyOut,
@@ -19,11 +20,14 @@ import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 import Notification from 'containers/Notification';
+import Logo from 'components/Logo';
+import configuration from 'shared/services/configuration/configuration';
 
 export const breakpoint = 1170;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
+    font-weight: 400;
     text-decoration: none;
   }
   ${({ isFrontOffice, tall }) =>
@@ -45,7 +49,13 @@ const StyledHeader = styled(HeaderComponent)`
           background-image: url(${svg.LogoShort}) !important;
         }
       }
-    `}
+
+      h1 a span {
+        background-image: url(${svg.LogoShort}) !important;
+      }
+    }
+  `}
+
   nav {
     width: 100%;
     ul {
@@ -86,8 +96,11 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 const HeaderWrapper = styled.div`
-  z-index: 1;
   position: relative;
+
+  #header {
+    z-index: 2;
+  }
 
   ${({ tall }) =>
     !tall &&
@@ -98,13 +111,13 @@ const HeaderWrapper = styled.div`
         position: fixed;
       }
     `}
+
   ${({ isFrontOffice, tall }) =>
     isFrontOffice &&
     tall &&
     css`
       #header {
         position: relative;
-        z-index: 2;
 
         header {
           height: 160px;
@@ -115,6 +128,7 @@ const HeaderWrapper = styled.div`
           header {
             height: 50px;
           }
+
           nav {
             display: none;
           }
@@ -138,10 +152,12 @@ const HeaderWrapper = styled.div`
             width: 100%;
           }
         }
+
         nav,
         ul {
           margin: 0;
         }
+
         > header {
           flex-wrap: wrap;
         }
@@ -151,12 +167,15 @@ const HeaderWrapper = styled.div`
           @media screen and (max-width: 990px) {
             margin: 0;
           }
+
           a {
             height: 68px;
+
             span {
               background-repeat: no-repeat;
               background-size: auto 100%;
             }
+
             @media screen and (max-width: 539px) {
               margin-top: -3px;
               height: 29px;
@@ -179,49 +198,48 @@ const MenuItems = ({ onLogOut, showItems }) => {
           </SearchBarMenuItem>
 
           <MenuItem element="span">
-            <StyledMenuButton $as={NavLink} to="/manage/incidents">
+            <StyledMenuButton forwardedAs={NavLink} to="/manage/incidents">
               Afhandelen
             </StyledMenuButton>
           </MenuItem>
         </Fragment>
       )}
       <MenuItem element="span">
-        <StyledMenuButton $as={NavLink} to="/incident/beschrijf">
+        <StyledMenuButton forwardedAs="a" href="/incident/beschrijf">
           Melden
         </StyledMenuButton>
       </MenuItem>
 
       {showItems.defaultTexts && (
         <MenuItem element="span">
-          <StyledMenuButton $as={NavLink} to="/manage/standaard/teksten">
+          <StyledMenuButton forwardedAs={NavLink} to="/manage/standaard/teksten">
             Standaard teksten
           </StyledMenuButton>
         </MenuItem>
       )}
 
-      {showItems.settings &&
-        (showItems.users || showItems.groups || showItems.departments) && (
-        <StyledMenuFlyout label="Instellingen" $as="span">
+      {showItems.settings && (showItems.users || showItems.groups || showItems.departments) && (
+        <StyledMenuFlyout label="Instellingen" forwardedAs="span">
           {showItems.users && (
-            <StyledMenuButton $as={NavLink} to="/instellingen/gebruikers">
+            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/gebruikers">
               Gebruikers
             </StyledMenuButton>
           )}
 
           {showItems.groups && (
-            <StyledMenuButton $as={NavLink} to="/instellingen/rollen">
+            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/rollen">
               Rollen
             </StyledMenuButton>
           )}
 
           {showItems.departments && (
-            <StyledMenuButton $as={NavLink} to="/instellingen/afdelingen">
+            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/afdelingen">
               Afdelingen
             </StyledMenuButton>
           )}
 
           {showItems.categories && (
-            <StyledMenuButton $as={NavLink} to="/instellingen/categorieen">
+            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/categorieen">
               Categorieën
             </StyledMenuButton>
           )}
@@ -232,22 +250,15 @@ const MenuItems = ({ onLogOut, showItems }) => {
         <Fragment>
           <MenuItem>
             <StyledMenuButton
-              $as="a"
+              forwardedAs="a"
               href="https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365"
               target="_blank"
             >
               Help
             </StyledMenuButton>
           </MenuItem>
-          <MenuItem
-            element="button"
-            data-testid="logout-button"
-            onClick={onLogOut}
-          >
-            <StyledMenuButton
-              iconSize={16}
-              iconLeft={<LogoutIcon focusable="false" />}
-            >
+          <MenuItem element="button" data-testid="logout-button" onClick={onLogOut}>
+            <StyledMenuButton iconSize={16} iconLeft={<LogoutIcon focusable="false" />}>
               Uitloggen
             </StyledMenuButton>
           </MenuItem>
@@ -261,7 +272,7 @@ export const SiteHeader = props => {
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
-  const homeLink = tall ? 'https://www.amsterdam.nl' : '/';
+  const homeLink = tall ? configuration.links.home : '/';
 
   const navigation = useMemo(
     () => (
@@ -297,6 +308,7 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
+          {...(configuration.logoUrl ? { logo: Logo } : {})}
         />
         {!tall && <Notification />}
       </HeaderWrapper>

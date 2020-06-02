@@ -3,7 +3,8 @@ import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-import { incidentType, dataListType } from 'shared/types';
+import { incidentType } from 'shared/types';
+import { stadsdeelList } from 'signals/incident-management/definitions';
 
 const StyledWrapper = styled.aside`
   dt {
@@ -17,15 +18,15 @@ const StyledWrapper = styled.aside`
 `;
 
 const StyledH4 = styled(Heading).attrs({
-  $as: 'h4',
+  forwardedAs: 'h4',
 })`
  font-weight: normal;
  margin-bottom: ${themeSpacing(2)};
 `;
 
-const SplitDetail = ({ incident, stadsdeelList }) => (
+const SplitDetail = ({ incident }) => (
   <StyledWrapper>
-    {incident ?
+    {incident &&
       (
         <Fragment>
           <StyledH4 data-testid="splitDetailTitle">Melding {incident.id}</StyledH4>
@@ -53,19 +54,16 @@ const SplitDetail = ({ incident, stadsdeelList }) => (
             {incident.category.departments ? <dd data-testid="splitDetailValueDepartment">{incident.category.departments}</dd> : null}
           </dl>
         </Fragment>
-      )
-      : null}
+      )}
   </StyledWrapper>
 );
 
 SplitDetail.defaultProps = {
   incident: null,
-  stadsdeelList: [],
 };
 
 SplitDetail.propTypes = {
   incident: incidentType,
-  stadsdeelList: dataListType,
 };
 
 export default SplitDetail;

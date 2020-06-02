@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +10,10 @@ import FormFooter from 'components/FormFooter';
 
 import { ROLES_URL } from 'signals/settings/routes';
 
+const StyledForm = styled.form`
+  margin-bottom: ${themeSpacing(15)};
+`;
+
 const Label = styled(FieldLabel)`
   display: block;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
@@ -20,15 +24,19 @@ const StyledInput = styled(Input)`
   margin-bottom: ${themeSpacing(8)};
 `;
 
-export const RoleForm = ({
-  role,
-  permissions,
-  onPatchRole,
-  onSaveRole,
-  readOnly,
-}) => {
+export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly }) => {
   const formRef = useRef(null);
   const { isValid, validate, errors, event } = useFormValidation(formRef);
+  const [rolePermissions, setRolePermissions] = useState(role.permissions);
+
+  const handleChange = useCallback(id => onChangeEvent => {
+    const { checked } = onChangeEvent.target;
+    if (checked) {
+      setRolePermissions([...rolePermissions, permissions.find(p => p.id === id)]);
+    } else {
+      setRolePermissions([...rolePermissions.filter(p => p.id !== id)]);
+    }
+  }, [setRolePermissions, permissions, rolePermissions]);
 
   useEffect(() => {
     if (isValid && !readOnly) {
@@ -39,12 +47,12 @@ export const RoleForm = ({
   const history = useHistory();
 
   const handleSubmit = useCallback(
-    e => {
+    submitEvent => {
       const {
         target: {
           form: { elements },
         },
-      } = e;
+      } = submitEvent;
       const permission_ids = [];
       permissions.forEach(permission => {
         if (elements[`permission${permission.id}`].checked) {
@@ -75,7 +83,7 @@ export const RoleForm = ({
 
   return (
     <div data-testid="rolesForm">
-      <form ref={formRef} noValidate>
+      <StyledForm ref={formRef} noValidate>
         <StyledInput
           data-testid="rolesFormFieldName"
           defaultValue={role.name}
@@ -91,18 +99,12 @@ export const RoleForm = ({
         <Label label="Rechten" />
         {permissions.map(permission => (
           <div key={permission.id}>
-            <FieldLabel
-              disabled={readOnly}
-              htmlFor={`permission${permission.id}`}
-              label={permission.name}
-            >
-              <Checkbox
-                id={`permission${permission.id}`}
-                checked={role.permissions.find(
-                  item => item.id === permission.id
-                )}
-              />
-            </FieldLabel>
+            <Checkbox
+              id={`permission${permission.id}`}
+              checked={rolePermissions.find(item => item.id === permission.id)}
+              onChange={handleChange(permission.id)}
+            />
+            <FieldLabel disabled={readOnly} htmlFor={`permission${permission.id}`} label={permission.name} />
           </div>
         ))}
 
@@ -114,7 +116,7 @@ export const RoleForm = ({
             submitBtnLabel="Opslaan"
           />
         )}
-      </form>
+      </StyledForm>
     </div>
   );
 };

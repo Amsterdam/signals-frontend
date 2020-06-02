@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import MapSelect from 'components/MapSelect';
+import MapSelectComponent from 'components/MapSelect';
 
 import Header from '../Header';
 import { getOVLIcon, LEGEND_ITEMS } from './iconMapping';
@@ -24,7 +23,7 @@ const getLatlng = meta => {
   };
 };
 
-const MapSelectFormComponent = ({
+const MapSelect = ({
   handler,
   touched,
   hasError,
@@ -39,8 +38,7 @@ const MapSelectFormComponent = ({
   };
 
   const latlng = getLatlng(parent.meta);
-  const apiRoot = CONFIGURATION.API_ROOT_MAPSERVER;
-  const url = apiRoot + meta.endpoint;
+  const url = meta.endpoint;
   const filtered_legend = filter_legend(LEGEND_ITEMS, meta.legend_items);
 
   // Get selection array from "handler".
@@ -61,7 +59,7 @@ const MapSelectFormComponent = ({
           >
             <div className="invoer">
               {latlng && (
-                <MapSelect
+                <MapSelectComponent
                   latlng={latlng}
                   onSelectionChange={onSelectionChange}
                   getIcon={getOVLIcon}
@@ -81,7 +79,7 @@ const MapSelectFormComponent = ({
   );
 };
 
-MapSelectFormComponent.propTypes = {
+MapSelect.propTypes = {
   handler: PropTypes.func.isRequired,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
@@ -98,4 +96,4 @@ MapSelectFormComponent.propTypes = {
   validatorsOrOpts: PropTypes.object,
 };
 
-export default MapSelectFormComponent;
+export default MapSelect;

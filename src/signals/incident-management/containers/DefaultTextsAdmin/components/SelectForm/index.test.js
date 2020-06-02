@@ -64,7 +64,7 @@ describe('<SelectForm />', () => {
     });
 
     it('should trigger fetch default texts when a new status has been selected', () => {
-      const { getByDisplayValue} = render(
+      const { getByDisplayValue } = render(
         withAppContext(<SelectForm {...props} />)
       );
       const newStatus = 'ingepland';
@@ -84,7 +84,7 @@ describe('<SelectForm />', () => {
         _links: undefined,
       }));
 
-      const { getByDisplayValue} = render(
+      const { getByDisplayValue } = render(
         withAppContext(<SelectForm {...props} subCategories={invalidSubCategories} />)
       );
 

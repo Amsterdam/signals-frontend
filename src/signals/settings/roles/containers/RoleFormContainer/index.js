@@ -19,7 +19,7 @@ import {
   makeSelectUserCan,
 } from 'containers/App/selectors';
 
-import makeSelectRolesModel from 'models/roles/selectors';
+import { rolesModelSelector } from 'models/roles/selectors';
 import { patchRole, saveRole, resetResponse } from 'models/roles/actions';
 
 import RoleForm from './components/RoleForm';
@@ -65,7 +65,6 @@ export const RoleFormContainer = ({
     if (responseSuccess) {
       history.push(redirectURL);
     }
-
   }, [
     history,
     onResetResponse,
@@ -137,7 +136,7 @@ RoleFormContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  roles: makeSelectRolesModel,
+  roles: rolesModelSelector,
   userCan: makeSelectUserCan,
 });
 

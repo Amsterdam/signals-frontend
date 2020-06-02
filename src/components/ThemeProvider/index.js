@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { ThemeProvider as ASCThemeProvider } from '@datapunt/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
+import configuration from 'shared/services/configuration/configuration';
 
-export const getConfig = () => {
-  const config = {};
+export const getConfig = defaultConfig => {
+  const config = defaultConfig || {};
   if (!isAuthenticated()) {
     config.maxGridWidth = 960;
     config.layouts = {
@@ -48,14 +49,17 @@ export const getConfig = () => {
   return config;
 };
 
-const ThemeProvider = ({ children }) => (
-  <ASCThemeProvider overrides={getConfig()}>
-    <Fragment>
-      <span data-testid="signalsThemeProvider" />
-      {children}
-    </Fragment>
-  </ASCThemeProvider>
-);
+const ThemeProvider = ({ children }) => {
+  const { theme } = configuration;
+  return (
+    <ASCThemeProvider overrides={getConfig(theme)}>
+      <Fragment>
+        <span data-testid="signalsThemeProvider" />
+        {children}
+      </Fragment>
+    </ASCThemeProvider>
+  );
+};
 
 ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,

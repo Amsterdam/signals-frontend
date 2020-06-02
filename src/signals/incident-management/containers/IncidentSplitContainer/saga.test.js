@@ -4,8 +4,9 @@ import * as Sentry from '@sentry/browser';
 import * as actions from 'containers/App/actions';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { authPatchCall, authPostCall } from 'shared/services/api/api';
+import { showGlobalNotification } from 'containers/App/actions';
 
 import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
@@ -31,9 +32,7 @@ describe('IncidentSplitContainer saga', () => {
 
   it('should watchIncidentDetailContainerSaga', () => {
     const gen = watchIncidentDetailContainerSaga();
-    expect(gen.next().value).toEqual(
-      takeLatest(SPLIT_INCIDENT, splitIncident)
-    );
+    expect(gen.next().value).toEqual(takeLatest(SPLIT_INCIDENT, splitIncident));
   });
 
   it('should splitIncident success', () => {
@@ -41,10 +40,27 @@ describe('IncidentSplitContainer saga', () => {
       children: [{ id: 43 }, { id: 44 }, { id: 45 }],
     };
     const gen = splitIncident(action);
-    expect(gen.next().value).toEqual(authPostCall(`${CONFIGURATION.INCIDENTS_ENDPOINT}${id}/split`, action.payload.create));
-    expect(gen.next(created).value).toEqual(all(created.children.map((child, key) => authPatchCall(`${CONFIGURATION.INCIDENTS_ENDPOINT}${child.id}`, formatUpdateIncident(action.payload.update[key])))));
+    expect(gen.next().value).toEqual(
+      call(authPostCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}/split`, action.payload.create)
+    );
+    expect(gen.next(created).value).toEqual(
+      all(
+        created.children.map((child, key) =>
+          call(
+            authPatchCall,
+            `${CONFIGURATION.INCIDENTS_ENDPOINT}${child.id}`,
+            formatUpdateIncident(action.payload.update[key])
+          )
+        )
+      )
+    );
     expect(gen.next().value).toEqual(put(splitIncidentSuccess({ id, created })));
     expect(gen.next().value).toEqual(put(push(`/manage/incident/${id}`)));
+    expect(gen.next().value).toEqual(put(showGlobalNotification({
+      title: 'De melding is succesvol gesplitst',
+      variant: VARIANT_SUCCESS,
+      type: TYPE_LOCAL,
+    })));
   });
 
   it('should fetchIncident error', () => {
@@ -62,11 +78,13 @@ describe('IncidentSplitContainer saga', () => {
 
     gen.next();
 
-    expect(notificationSpy).toHaveBeenCalledWith(expect.objectContaining({
-      message: 'De melding kon niet gesplitst worden',
-      variant: VARIANT_ERROR,
-      type: TYPE_LOCAL,
-    }));
+    expect(notificationSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: 'De melding kon niet gesplitst worden',
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
 
     expect(gen.next().value).toEqual(call([Sentry, 'captureException'], error));
   });

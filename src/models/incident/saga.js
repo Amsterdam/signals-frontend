@@ -38,7 +38,6 @@ export function* fetchIncident(action) {
 
     yield put(requestIncidentSuccess(incident));
   } catch (error) {
-
     yield put(requestIncidentError(error));
 
     yield put(showGlobalNotification({

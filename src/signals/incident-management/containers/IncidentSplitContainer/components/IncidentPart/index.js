@@ -2,13 +2,17 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import { attachmentsType, dataListType } from 'shared/types';
+import { useSelector } from 'react-redux';
 
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import CopyFileInput from '../../../../components/CopyFileInput';
-import RadioInput from '../../../../components/RadioInput';
-import SelectInput from '../../../../components/SelectInput';
-import TextAreaInput from '../../../../components/TextAreaInput';
+import { makeSelectSubCategories } from 'models/categories/selectors';
+import { attachmentsType } from 'shared/types';
+import { priorityList, typesList } from 'signals/incident-management/definitions';
+
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import CopyFileInput from 'signals/incident-management/components/CopyFileInput';
+import RadioInput from 'signals/incident-management/components/RadioInput';
+import SelectInput from 'signals/incident-management/components/SelectInput';
+import TextAreaInput from 'signals/incident-management/components/TextAreaInput';
 
 const StyledWrapper = styled.div`
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
@@ -21,64 +25,76 @@ const StyledH2 = styled(Heading)`
   margin-bottom: ${themeSpacing(3)};
 `;
 
-const IncidentPart = ({ index, attachments, subcategories, priorityList, splitForm }) => (
-  <StyledWrapper>
-    <StyledH2
-      $as="h2"
-      data-testid="incidentPartTitle"
-    >Deelmelding {index}</StyledH2>
-    {splitForm ?
-      <Fragment>
-        <FieldControlWrapper
-          data-testid="incidentPartFieldSubcategory"
-          render={SelectInput}
-          name={`part${index}.subcategory`}
-          display="Subcategorie"
-          control={splitForm.get(`part${index}.subcategory`)}
-          values={subcategories}
-          sort
-        />
-        <FieldControlWrapper
-          data-testid="incidentPartFieldText"
-          render={TextAreaInput}
-          name={`part${index}.text`}
-          display="Omschrijving"
-          control={splitForm.get(`part${index}.text`)}
-          rows={5}
-        />
+const IncidentPart = ({ index, attachments, splitForm }) => {
+  const subcategories = useSelector(makeSelectSubCategories);
 
-        {attachments && attachments.length ?
+  return (
+    <StyledWrapper>
+      <StyledH2 forwardedAs="h2" data-testid="incidentPartTitle">
+        Deelmelding {index}
+      </StyledH2>
+
+      {splitForm && (
+        <Fragment>
           <FieldControlWrapper
-            render={CopyFileInput}
-            name={`part${index}.image`}
-            control={splitForm.get(`part${index}.image`)}
-            values={attachments}
-          /> : null
-        }
-        <FieldControlWrapper
-          render={TextAreaInput}
-          name={`part${index}.note`}
-          display="Notitie"
-          control={splitForm.get(`part${index}.note`)}
-          rows={5}
-        />
-        <FieldControlWrapper
-          render={RadioInput}
-          name={`part${index}.priority`}
-          display="Urgentie"
-          control={splitForm.get(`part${index}.priority`)}
-          values={priorityList}
-        />
+            data-testid="incidentPartFieldSubcategory"
+            render={SelectInput}
+            name={`part${index}.subcategory`}
+            display="Subcategorie"
+            control={splitForm.get(`part${index}.subcategory`)}
+            values={subcategories || []}
+            sort
+          />
 
-      </Fragment>
-      : null}
-  </StyledWrapper>
-);
+          <FieldControlWrapper
+            data-testid="incidentPartFieldText"
+            render={TextAreaInput}
+            name={`part${index}.text`}
+            display="Omschrijving"
+            control={splitForm.get(`part${index}.text`)}
+            rows={5}
+          />
+
+          {attachments?.length > 0 && (
+            <FieldControlWrapper
+              render={CopyFileInput}
+              name={`part${index}.image`}
+              control={splitForm.get(`part${index}.image`)}
+              values={attachments}
+            />
+          )}
+
+          <FieldControlWrapper
+            render={TextAreaInput}
+            name={`part${index}.note`}
+            display="Notitie"
+            control={splitForm.get(`part${index}.note`)}
+            rows={5}
+          />
+
+          <FieldControlWrapper
+            render={RadioInput}
+            name={`part${index}.priority`}
+            display="Urgentie"
+            control={splitForm.get(`part${index}.priority`)}
+            values={priorityList}
+          />
+
+          <FieldControlWrapper
+            render={RadioInput}
+            name={`part${index}.type`}
+            display="Type"
+            control={splitForm.get(`part${index}.type`)}
+            values={typesList}
+          />
+        </Fragment>
+      )}
+    </StyledWrapper>
+  );
+};
 
 IncidentPart.defaultProps = {
   attachments: [],
-  subcategories: [],
-  priorityList: [],
   splitForm: null,
 };
 
@@ -88,11 +104,12 @@ IncidentPart.propTypes = {
     priority: PropTypes.shape({
       priority: PropTypes.string,
     }),
+    type: PropTypes.shape({
+      code: PropTypes.string.isRequired,
+    }),
   }),
   index: PropTypes.string.isRequired,
   attachments: attachmentsType,
-  subcategories: dataListType,
-  priorityList: dataListType,
   splitForm: PropTypes.shape({
     get: PropTypes.func,
   }),

@@ -1,97 +1,76 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import amaps from 'amsterdam-amaps/dist/amaps';
+import { ViewerContainer } from '@datapunt/asc-ui';
+import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
+import styled from 'styled-components';
+import { Map as MapComponent, TileLayer } from '@datapunt/react-maps';
 
-import 'leaflet/dist/leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'amsterdam-amaps/dist/nlmaps/dist/assets/css/nlmaps.css';
+import configuration from 'shared/services/configuration/configuration';
 
-import './style.scss';
+const StyledViewerContainer = styled(ViewerContainer)`
+  z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
+`;
 
-const PREVIEW_ZOOM_LEVEL = '16';
-const smallIcon = global.window.L.icon({
-  iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
-  iconSize: [20, 20],
-  iconAnchor: [10, 19],
-});
-const defaultIcon = global.window.L.icon({
-  iconUrl: 'https://map.data.amsterdam.nl/dist/images/svg/marker.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 39],
-});
+const StyledMap = styled(MapComponent)`
+  cursor: default;
 
-class Map extends React.Component {
-  componentDidMount() {
-    this.map = amaps.createMap({
-      center: {
-        latitude: this.props.latlng.latitude,
-        longitude: this.props.latlng.longitude,
-      },
-      layer: 'standaard',
-      target: 'mapdiv',
-      marker: true,
-      search: false,
-      zoom: this.props.zoom,
-    });
-
-    if (this.props.hideAttribution) {
-      this.map.attributionControl.remove();
-    }
-
-    if (this.props.hideZoomControls) {
-      this.map.zoomControl.remove();
-    }
-
-    this.renderMarker(this.props.latlng.latitude, this.props.latlng.longitude);
+  &.leaflet-drag-target {
+    cursor: all-scroll;
   }
+`;
 
-  componentDidUpdate(prevProps) {
-    const lat = this.props.latlng.latitude;
-    const lng = this.props.latlng.longitude;
-    if (lat !== prevProps.latlng.latitude || lng !== prevProps.latlng.longitude) {
-      this.renderMarker(lat, lng);
-    }
-  }
+const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, events, setInstance }) => {
+  const hasTouchCapabilities = 'ontouchstart' in window;
+  const showZoom = hasZoomControls && !hasTouchCapabilities;
+  const options = useMemo(
+    () => ({
+      ...mapOptions,
+      dragging: canBeDragged && !hasTouchCapabilities,
+      tap: false,
+      scrollWheelZoom: false,
+    }),
+    [canBeDragged, hasTouchCapabilities, mapOptions]
+  );
 
-  map = {};
+  return (
+    <StyledMap className={className} data-testid="map-base" options={options} events={events} setInstance={setInstance}>
+      {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
 
-  renderMarker(lat, lng) {
-    L.DomUtil.empty(this.map.getPane('markerPane'));
+      {children}
 
-    this.map.setView({ lat, lng });
-
-    const marker = L.marker(
-      [lat, lng],
-      { icon: this.props.useSmallMarker ? smallIcon : defaultIcon }
-    );
-    marker.addTo(this.map);
-  }
-
-  render() {
-    return (
-      <div className="map-component">
-        <div className="map">
-          <div className="map-container" id="mapdiv" />
-        </div>
-      </div>
-    );
-  }
-}
-
+      <TileLayer args={configuration.map.tiles.args} options={configuration.map.tiles.options} />
+    </StyledMap>
+  );
+};
 Map.defaultProps = {
-  latlng: {},
-  hideAttribution: false,
-  hideZoomControls: false,
-  useSmallMarker: false,
-  zoom: PREVIEW_ZOOM_LEVEL,
+  canBeDragged: true,
+  className: '',
+  hasZoomControls: false,
 };
 
 Map.propTypes = {
-  latlng: PropTypes.object,
-  hideAttribution: PropTypes.bool,
-  hideZoomControls: PropTypes.bool,
-  useSmallMarker: PropTypes.bool,
-  zoom: PropTypes.string,
+  /** When false, the map cannot be dragged by mouse or touch */
+  canBeDragged: PropTypes.bool,
+  children: PropTypes.node,
+  /** @ignore */
+  className: PropTypes.string,
+  /**
+   * Map events
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
+   */
+  events: PropTypes.shape({}),
+  hasZoomControls: PropTypes.bool,
+  /**
+   * Leaflet configuration options
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}
+   */
+  mapOptions: PropTypes.shape({
+    attributionControl: PropTypes.bool,
+  }).isRequired,
+  /**
+   * useState function that sets a reference to the map instance
+   */
+  setInstance: PropTypes.func,
 };
 
 export default Map;

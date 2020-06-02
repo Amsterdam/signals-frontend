@@ -1,61 +1,66 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import 'whatwg-fetch';
-import { isAuthenticated, getAccessToken } from 'shared/services/auth/auth';
+import styled, { keyframes } from 'styled-components';
+import { Spinner } from '@datapunt/asc-assets';
+import Button  from 'components/Button';
 
-class DownloadButton extends React.Component {
-  constructor(props) {
-    super(props);
+import useFetch from 'hooks/useFetch';
 
-    this.handleDownload = this.handleDownload.bind(this);
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
   }
 
-  handleDownload(url, filename) {
-    const headers = {};
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
-    if (isAuthenticated()) {
-      headers.Authorization = `Bearer ${getAccessToken()}`;
+const Spinning = styled(Spinner)`
+  & > * {
+    transform-origin: 50% 50%;
+    animation: ${rotate} 2s linear infinite;
+  }
+`;
+
+const DownloadButton = ({ label, url, filename }) => {
+  const { get, isLoading, data } = useFetch();
+
+  useEffect(() => {
+    if (!data) return;
+
+    if (navigator.msSaveOrOpenBlob) {
+      navigator.msSaveOrOpenBlob(data, filename);
+    } else {
+      const href = URL.createObjectURL(data);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+
+      window.URL.revokeObjectURL(href);
+      document.body.removeChild(link);
     }
+  }, [data, filename]);
 
-    fetch(url, {
-      method: 'GET',
-      headers,
-      responseType: 'blob',
-    }).then(response => response.blob())
-      .then(blob => {
-        /* istanbul ignore next */
-        if (navigator.msSaveOrOpenBlob) {
-          navigator.msSaveOrOpenBlob(blob, filename);
-        } else {
-          const href = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = href;
-          link.download = filename;
-          document.body.appendChild(link);
-          link.click();
+  const handleDownload = useCallback(() => {
+    get(url, {}, { responseType: 'blob' });
+  }, [get, url]);
 
-          window.URL.revokeObjectURL(href);
-          document.body.removeChild(link);
-        }
-      });
-  }
-
-  render() {
-    const { label, url, filename } = this.props;
-    return (
-      <div className="download-button align-self-center">
-        <button
-          className="incident-detail__button"
-          type="button"
-          data-testid="download-button"
-          onClick={() => this.handleDownload(url, filename, getAccessToken())}
-        >
-          {label}
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <Button
+      disabled={isLoading}
+      iconRight={isLoading && <Spinning />}
+      iconSize={20}
+      variant="application"
+      data-testid="download-button"
+      onClick={handleDownload}
+    >
+      {label}
+    </Button>
+  );
+};
 
 DownloadButton.propTypes = {
   url: PropTypes.string.isRequired,

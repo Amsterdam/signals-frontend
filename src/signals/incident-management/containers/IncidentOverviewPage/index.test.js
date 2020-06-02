@@ -5,12 +5,6 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
 import { withAppContext } from 'test/utils';
-import {
-  priorityList,
-  statusList,
-  stadsdeelList,
-  feedbackList,
-} from 'signals/incident-management/definitions';
 import * as constants from 'signals/incident-management/constants';
 
 import IncidentOverviewPage, {
@@ -75,12 +69,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       categories: {},
       orderingChangedAction: jest.fn(),
       pageChangedAction: jest.fn(),
-      dataLists: {
-        priority: priorityList,
-        status: statusList,
-        stadsdeel: stadsdeelList,
-        feedback: feedbackList,
-      },
     };
   });
 
@@ -192,7 +180,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       .props();
 
     expect(containerProps.activeFilter).not.toBeUndefined();
-    expect(containerProps.dataLists).not.toBeUndefined();
     expect(containerProps.ordering).not.toBeUndefined();
     expect(containerProps.page).not.toBeUndefined();
   });
@@ -241,6 +228,48 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     });
 
     expect(props.pageChangedAction).toHaveBeenCalledWith(pagenum);
+  });
+
+  it('should render a map', async () => {
+    const incidents = generateIncidents();
+
+    const { queryByTestId, getByTestId, findByTestId } = render(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          incidents={{
+            count: incidents.length,
+            results: incidents,
+            loading: false,
+          }}
+        />
+      )
+    );
+
+    expect(getByTestId('subNav')).toBeInTheDocument();
+
+    expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument();
+    expect(queryByTestId('24HourMap')).not.toBeInTheDocument();
+
+    const subNavMapLink = await findByTestId('subNavMapLink');
+
+    act(() => {
+      fireEvent.click(subNavMapLink);
+    });
+
+    const subNavListLink = await findByTestId('subNavListLink');
+
+    expect(queryByTestId('incidentOverviewListComponent')).not.toBeInTheDocument();
+    expect(getByTestId('24HourMap')).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(subNavListLink);
+    });
+
+    await findByTestId('subNavMapLink');
+
+    expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument();
+    expect(queryByTestId('24HourMap')).not.toBeInTheDocument();
   });
 
   describe('filter modal', () => {

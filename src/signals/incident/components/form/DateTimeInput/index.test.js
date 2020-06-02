@@ -61,7 +61,7 @@ describe('Form component <DateTimeInput />', () => {
       });
 
       wrapper
-        .find('.datetime-input__earlier-day')
+        .find('[data-testid="selectDay"]')
         .simulate('change', { target: { value: '2018-07-21' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
@@ -78,7 +78,7 @@ describe('Form component <DateTimeInput />', () => {
       });
 
       wrapper
-        .find('.datetime-input__earlier-time-hours')
+        .find('[data-testid="selectHours"]')
         .simulate('change', { target: { value: '13' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
@@ -95,7 +95,7 @@ describe('Form component <DateTimeInput />', () => {
       });
 
       wrapper
-        .find('.datetime-input__earlier-time-minutes')
+        .find('[data-testid="selectMinutes"]')
         .simulate('change', { target: { value: '42' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({

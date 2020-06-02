@@ -4,11 +4,11 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@datapunt/asc-ui';
 import MatchMediaMock from 'match-media-mock';
-import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import isObject from 'lodash.isobject';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import loadModels from 'models';
+import MapContext from 'containers/MapContext';
 
 import configureStore from '../configureStore';
 
@@ -60,27 +60,12 @@ export const withAppContext = Component => (
 );
 
 // eslint-disable-next-line
-export const withCustomAppContext = Component => ({
-  themeCfg = {},
-  storeCfg = {},
-  routerCfg = {},
-}) => (
+export const withCustomAppContext = Component => ({ themeCfg = {}, storeCfg = {}, routerCfg = {} }) => (
   <ThemeProvider {...themeCfg}>
     <Provider store={store} {...storeCfg}>
       <ConnectedRouter history={history} {...routerCfg}>
         {Component}
       </ConnectedRouter>
-    </Provider>
-  </ThemeProvider>
-);
-
-// eslint-disable-next-line
-export const withIntlAppContext = (Component, messages, locale = 'nl') => (
-  <ThemeProvider>
-    <Provider store={store}>
-      <IntlProvider locale={locale} messages={messages}>
-        <ConnectedRouter history={history}>{Component}</ConnectedRouter>
-      </IntlProvider>
     </Provider>
   </ThemeProvider>
 );
@@ -104,3 +89,16 @@ export const userObjects = (users = usersJSON) =>
         return obj;
       }, {})
   );
+
+/**
+ * Timeboxed promise resolver
+ *
+ * Particularly useful when when functionality that is debounced with lodash.debounce
+ *
+ * @param {Number} timeMs
+ * @returns {Promise} Resolved promise
+ */
+export const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
+
+
+export const withMapContext = Component => withAppContext(<MapContext>{Component}</MapContext>);
