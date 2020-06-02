@@ -95,59 +95,39 @@ function catchError() {
 }
 
 /**
- * Returns the access token from the params specified.
- *
- * Only does so in case the params form a valid callback from the OAuth2
- * authorization service.
- *
- * @param {Object.<string, string>} params The parameters returned.
- * @return {string} The access token in case the params for a valid callback,
- * null otherwise.
- */
-function getAccessTokenFromParams(params) {
-  if (!params) {
-    return null;
-  }
-
-  const stateToken = localStorage.getItem(STATE_TOKEN);
-
-  // The state param must be exactly the same as the state token we
-  // have saved in the session (to prevent CSRF)
-  const stateTokenValid = params.state && params.state === stateToken;
-
-  // It is a callback when all authorization parameters are defined
-  // in the params the fastest check is not to check if all
-  // parameters are defined but to check that no undefined parameter
-  // can be found
-  const paramsValid = !AUTH_PARAMS.some(param => params[param] === undefined);
-
-  if (paramsValid && !stateTokenValid) {
-    // This is a callback, but the state token does not equal the
-    // one we have saved; report to Sentry
-    throw new Error(`Authenticator encountered an invalid state token (${params.state})`);
-  }
-
-  return stateTokenValid && paramsValid ? params.access_token : null;
-}
-
-/**
  * Gets the access token and return path, and clears the session storage.
  */
 function handleCallback() {
+  // Parse query string into object
   const params = queryStringParser(global.location.hash);
-  const accessToken = getAccessTokenFromParams(params);
-
-  if (accessToken) {
-    tokenData = accessTokenParser(accessToken);
-    localStorage.setItem(ACCESS_TOKEN, accessToken);
-    returnPath = localStorage.getItem(RETURN_PATH);
-    localStorage.removeItem(RETURN_PATH);
-    localStorage.removeItem(STATE_TOKEN);
-
-    // Clean up URL; remove query and hash
-    // https://stackoverflow.com/questions/4508574/remove-hash-from-url
-    global.history.replaceState('', document.title, global.location.pathname);
+  if (!params) {
+    return;
   }
+
+  // Make sure all required parameters are there
+  if (AUTH_PARAMS.some(param => params[param] === undefined)) {
+    return;
+  }
+
+  // The state param must be exactly the same as the state token we
+  // have saved in the session (to prevent CSRF)
+  const localStateToken = localStorage.getItem(STATE_TOKEN);
+  if (decodeURIComponent(params.state) !== localStateToken) {
+    throw new Error(`Authenticator encountered an invalid state token (${params.state})`);
+  }
+
+  const accessToken = params.access_token;
+
+  tokenData = accessTokenParser(accessToken);
+  localStorage.setItem(ACCESS_TOKEN, accessToken);
+
+  returnPath = localStorage.getItem(RETURN_PATH);
+  localStorage.removeItem(RETURN_PATH);
+  localStorage.removeItem(STATE_TOKEN);
+
+  // Clean up URL; remove query and hash
+  // https://stackoverflow.com/questions/4508574/remove-hash-from-url
+  global.history.replaceState('', document.title, global.location.pathname);
 }
 
 /**
