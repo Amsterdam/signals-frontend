@@ -76,6 +76,7 @@ describe('Create signal parkeeroverlast and check signal details',() => {
       localStorage.setItem('accessToken', (Cypress.env('token')));
       cy.server();
       cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutes();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
@@ -83,7 +84,8 @@ describe('Create signal parkeeroverlast and check signal details',() => {
   
     it('Should show the signal details', () => {
       cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
-    
+      cy.waitForSignalDetailsRoutes();
+      
       cy.contains('Voor onze deur staat al minimaal 5 maanden een auto geparkeerd, deze wordt nooit verplaatst.');
     
       // Check if map and marker are visible
@@ -109,7 +111,6 @@ describe('Create signal parkeeroverlast and check signal details',() => {
       cy.get(SIGNAL_DETAILS.urgency).contains('Normaal').should('be.visible');
       cy.get(SIGNAL_DETAILS.type).contains('Melding').should('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).contains('Overlast in de openbare ruimte').should('be.visible');
-      cy.get(SIGNAL_DETAILS.department).contains('ASC, THO').should('be.visible');
       cy.get(SIGNAL_DETAILS.source).contains('online').should('be.visible');
     });
   });

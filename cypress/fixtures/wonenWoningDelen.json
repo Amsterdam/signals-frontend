@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen"
+    ],
+    [0.4387786677220244]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen/sub_categories/woningdelen-spookburgers"
+    ],
+    [0.45256872171222345]
+  ]
+}

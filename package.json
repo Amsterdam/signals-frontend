@@ -133,7 +133,6 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/react-hooks": "^3.2.1",
     "add-asset-html-webpack-plugin": "3.1.3",
-    "amsterdam-stijl": "^3.0.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^24.9.0",

@@ -1,5 +1,11 @@
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-breakpoints.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-colorpalette.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-extends.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-font.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-mixins.scss";
+@import './stijl/scss/ams-colorpalette';
+
+@import "./stijl/css/amsterdam-components/mixin/mixin-all";
+
+@mixin avenirnextdemi {
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+}
+
+@mixin avenirnext {
+  font-family: Avenir Next LT W01-Regular, verdana, sans-serif;
+}

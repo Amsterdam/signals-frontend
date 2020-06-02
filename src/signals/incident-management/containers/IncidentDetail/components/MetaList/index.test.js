@@ -7,7 +7,7 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 
-import MetaList from './index';
+import MetaList, { getCategoryName }from './index';
 
 jest.mock('shared/services/string-parser/string-parser');
 
@@ -44,12 +44,11 @@ describe('<MetaList />', () => {
       expect(queryByText('Normaal')).toBeInTheDocument();
 
       expect(queryByText('Subcategorie')).toBeInTheDocument();
-      expect(queryByText(incidentJson.category.sub)).toBeInTheDocument();
+      const subcategory = categoriesPrivate.results.find(cat => cat.name === incidentJson.category.sub);
+      const categoryName = getCategoryName({ name: incidentJson.category.sub, departments: subcategory.departments });
+      expect(queryByText(categoryName)).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
       expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentJson.category.main);
-
-      expect(queryByTestId('meta-list-department-definition')).toHaveTextContent(/^Verantwoordelijke afdeling$/);
-      expect(queryByTestId('meta-list-department-value')).toHaveTextContent(incidentJson.category.departments);
 
       expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
       expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentJson.source);
@@ -85,6 +84,20 @@ describe('<MetaList />', () => {
       });
 
       expect(props.onPatchIncident).toHaveBeenCalled();
+    });
+  });
+
+  describe('getCategoryName', () => {
+    it('should create the correct category name', () => {
+      const category = {
+        name: 'Foo',
+        departments:[
+          { code: 'Bar' },
+          { code: 'Baz' },
+        ],
+      };
+
+      expect(getCategoryName(category)).toEqual('Foo (Bar,Baz)');
     });
   });
 });

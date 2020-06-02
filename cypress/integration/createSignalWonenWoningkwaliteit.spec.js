@@ -42,7 +42,7 @@ describe('Create signal wonen woningkwaliteit and check signal details',() => {
 
       cy.contains('Hebt u de klacht al bij uw verhuurder, eigenaar of VvE gemeld?').should('be.visible');
       cy.get(WONEN_WONINGKWALITEIT.radioButtonKlachtGemeldNee).check().should('be.checked');
-      cy.contains('Meldt uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in').should('be.visible');
+      cy.contains('Meld uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in').should('be.visible');
       cy.get(WONEN_WONINGKWALITEIT.radioButtonKlachtGemeldJa).check().should('be.checked');
       cy.contains('Meldt uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in').should('not.be.visible');
 
@@ -144,7 +144,6 @@ describe('Create signal wonen woningkwaliteit and check signal details',() => {
       cy.get(SIGNAL_DETAILS.type).contains('Melding').should('be.visible');
       cy.contains('Woningkwaliteit').should('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).contains('Wonen').should('be.visible');
-      cy.get(SIGNAL_DETAILS.department).contains('WON').should('be.visible');
       cy.get(SIGNAL_DETAILS.source).contains('online').should('be.visible');
     });
   });

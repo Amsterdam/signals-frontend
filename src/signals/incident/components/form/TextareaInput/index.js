@@ -25,15 +25,8 @@ const TextareaInput = ({
                 onBlur={e => parent.meta.updateIncident({
                   [meta.name]: meta.autoRemove ? e.target.value.replace(meta.autoRemove, '') : e.target.value,
                 })}
+                helpText={meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
               />
-              { meta.maxLength
-              && (
-                <div className="input-help">
-                  <span className="text-area-input__counter">
-                    {`${value ? value.length : '0'}/${meta.maxLength} tekens` }
-                  </span>
-                </div>
-              )}
             </Fragment>
           </Header>
         </div>

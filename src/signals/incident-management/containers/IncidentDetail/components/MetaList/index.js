@@ -1,11 +1,11 @@
-import React, { useLayoutEffect, useCallback, useState } from 'react';
+import React, { useLayoutEffect, useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import {  makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
 import { incidentType } from 'shared/types';
@@ -44,9 +44,21 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
+export const getCategoryName = ({ name, departments }) => {
+  const departmensStringList = departments?.length ? ` (${departments.map(({ code }) => code).join(',')})` : '';
+  return `${name}${departmensStringList}`;
+};
+
 const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
   const [valueChanged, setValueChanged] = useState(false);
   const subcategories = useSelector(makeSelectSubCategories);
+  const subcategoryOptions = useMemo(() => subcategories.map(
+    category => ({
+      ...category,
+      value: getCategoryName(category),
+    })
+  ), [subcategories]);
+
   const subcatHighlightDisabled = ![
     'm',
     'reopened',
@@ -115,14 +127,14 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
         </Highlight>
       )}
 
-      {subcategories && (
+      {subcategoryOptions && (
         <Highlight subscribeTo={incident.category.sub_slug} valueChanged={valueChanged}>
           <ChangeValue
             disabled={subcatHighlightDisabled}
             display="Subcategorie"
+            list={subcategoryOptions}
             incident={incident}
             infoKey="description"
-            list={subcategories}
             onPatchIncident={patchIncident}
             patch={{ status: { state: 'm' } }}
             path="category.sub_category"
@@ -136,11 +148,6 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
       <Highlight subscribeTo={incident.category.main_slug} valueChanged={valueChanged}>
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
-      </Highlight>
-
-      <Highlight subscribeTo={incident.category.departments} valueChanged={valueChanged}>
-        <dt data-testid="meta-list-department-definition">Verantwoordelijke afdeling</dt>
-        <dd data-testid="meta-list-department-value">{incident.category.departments}</dd>
       </Highlight>
 
       <dt data-testid="meta-list-source-definition">Bron</dt>
