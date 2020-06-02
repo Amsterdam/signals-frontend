@@ -25,6 +25,8 @@ const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, e
   const options = useMemo(
     () => ({
       ...mapOptions,
+      maxZoom: mapOptions.maxZoom || configuration.map.options.maxZoom,
+      minZoom: mapOptions.minZoom || configuration.map.options.minZoom,
       dragging: canBeDragged && !hasTouchCapabilities,
       tap: false,
       scrollWheelZoom: false,
@@ -66,6 +68,8 @@ Map.propTypes = {
    */
   mapOptions: PropTypes.shape({
     attributionControl: PropTypes.bool,
+    maxZoom: PropTypes.number,
+    minZoom: PropTypes.number,
   }).isRequired,
   /**
    * useState function that sets a reference to the map instance
