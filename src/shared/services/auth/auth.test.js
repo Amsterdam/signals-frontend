@@ -12,11 +12,11 @@ import {
   authenticate,
 } from './auth';
 import queryStringParser from './services/query-string-parser/query-string-parser';
-import stateTokenGenerator from './services/state-token-generator/state-token-generator';
+import randomStringGenerator from './services/random-string-generator/random-string-generator';
 import parseAccessToken from './services/access-token-parser/access-token-parser';
 
 jest.mock('./services/query-string-parser/query-string-parser');
-jest.mock('./services/state-token-generator/state-token-generator');
+jest.mock('./services/random-string-generator/random-string-generator');
 jest.mock('./services/access-token-parser/access-token-parser');
 
 const history = createBrowserHistory();
@@ -41,7 +41,7 @@ describe('The auth service', () => {
   let savedReturnPath;
   let savedStateToken;
   let savedOauthDomain;
-  let stateToken;
+  let randomString;
 
   beforeEach(() => {
     global.localStorage.getItem.mockImplementation(key => {
@@ -64,10 +64,10 @@ describe('The auth service', () => {
     jest.spyOn(global.location, 'reload').mockImplementation(noop);
 
     queryStringParser.mockImplementation(() => queryObject);
-    stateTokenGenerator.mockImplementation(() => stateToken);
+    randomStringGenerator.mockImplementation(() => randomString);
 
     queryObject = {};
-    stateToken = '123StateToken';
+    randomString = '123StateToken';
     savedStateToken = '';
     savedReturnPath = '';
     savedAccessToken = '';
@@ -251,7 +251,7 @@ describe('The auth service', () => {
 
   describe('Login process', () => {
     it('throws an error when the crypto library is not supported by the browser', () => {
-      stateToken = '';
+      randomString = '';
       expect(() => {
         login();
       }).toThrow('crypto library is not available on the current browser');
@@ -272,7 +272,7 @@ describe('The auth service', () => {
       );
       expect(global.localStorage.setItem).toHaveBeenCalledWith(
         'stateToken',
-        stateToken
+        randomString
       );
     });
 

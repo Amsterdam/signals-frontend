@@ -1,5 +1,5 @@
 import queryStringParser from './services/query-string-parser/query-string-parser';
-import stateTokenGenerator from './services/state-token-generator/state-token-generator';
+import randomStringGenerator from './services/random-string-generator/random-string-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
 import CONFIGURATION from '../configuration/configuration';
 
@@ -153,7 +153,7 @@ export function login(domain) {
   // Get the URI the OAuth2 authorization service needs to use as callback
   // const callback = encodeURIComponent(`${location.protocol}//${location.host}${location.pathname}`);
   // Get a random string to prevent CSRF
-  const stateToken = stateTokenGenerator();
+  const stateToken = randomStringGenerator();
   if (!stateToken) {
     throw new Error('crypto library is not available on the current browser');
   }

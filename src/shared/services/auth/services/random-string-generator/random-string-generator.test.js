@@ -1,4 +1,4 @@
-import stateTokenGenerator from './state-token-generator';
+import randomStringGenerator from './random-string-generator';
 
 describe('The state token generator service', () => {
   const byteString = '048>IYceiv{ÈÌÐàð';
@@ -46,23 +46,23 @@ describe('The state token generator service', () => {
   it('uses the msCrypto library when crypto is not available (IE11)', () => {
     global.msCrypto = global.crypto;
     global.crypto = undefined;
-    const stateToken = stateTokenGenerator();
+    const randomString = randomStringGenerator();
 
     expect(global.btoa).toHaveBeenCalledWith(byteString);
-    expect(stateToken).toBe(asciiString);
+    expect(randomString).toBe(asciiString);
   });
 
   it('returns an empty string when the crypto library is not available', () => {
     global.crypto = undefined;
-    const stateToken = stateTokenGenerator();
+    const randomString = randomStringGenerator();
 
     expect(global.btoa).not.toHaveBeenCalled();
-    expect(stateToken).toBe('');
+    expect(randomString).toBe('');
   });
 
   it('it generates a random string of characters and url encodes it', () => {
-    const stateToken = stateTokenGenerator();
+    const randomString = randomStringGenerator();
     expect(global.btoa).toHaveBeenCalledWith(byteString);
-    expect(stateToken).toBe(asciiString);
+    expect(randomString).toBe(asciiString);
   });
 });
