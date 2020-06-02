@@ -1,9 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { themeSpacing } from '@datapunt/asc-ui';
 
 import { Validators } from 'react-reactive-form';
 
 import './style.scss';
+
+const Children = styled.div`
+  display: flex;
+  flex-flow: column;
+
+  & > * + * {
+    margin-top: ${themeSpacing(2)};
+  }
+`;
 
 const Header = ({
   className, meta, options, touched, hasError, getError, children,
@@ -43,9 +54,9 @@ const Header = ({
       </div>
     </div>
 
-    <div className="header__children">
+    <Children>
       {children}
-    </div>
+    </Children>
   </div>
 );
 
