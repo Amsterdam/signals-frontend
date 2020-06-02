@@ -106,6 +106,7 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly 
                 checked={rolePermissions.find(item => item.id === permission.id)}
                 onChange={handleChange(permission.id)}
               />
+              <span>&nbsp;</span>
             </FieldLabel>
           </div>
         ))}

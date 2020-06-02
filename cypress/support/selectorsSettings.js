@@ -3,6 +3,7 @@ export const CATEGORIES = {
   buttonOpslaan: '[data-testid=submitBtn]',
   dropdownTypeOfDays: '#use_calendar_days',
   inputDays: '#n_days',
+  inputDescription: '#description',
   inputMessage: '#handling_message',
 };
 

@@ -29,7 +29,7 @@ const Toggle = styled.label`
     background-color: rgb(254, 200, 19);
   }
 
-  & + input[type='checkbox'] {
+  & input[type='checkbox'] {
     visibility: hidden;
     margin-left: -99999em;
   }
