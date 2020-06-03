@@ -42,12 +42,10 @@ function getDomain(domain) {
 }
 
 // The keys of values we need to store in the local storage
-const RETURN_PATH_KEY = 'returnPath'; // The path to return to after login
 const STATE_TOKEN_KEY = 'stateToken'; // OAuth2 state token
 const ACCESS_TOKEN_KEY = 'accessToken'; // OAuth2 access token
 const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
 
-let returnPath;
 let tokenData = {};
 
 /**
@@ -105,9 +103,6 @@ function handleCallback() {
 
   tokenData = accessTokenParser(accessToken);
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-
-  returnPath = localStorage.getItem(RETURN_PATH_KEY);
-  localStorage.removeItem(RETURN_PATH_KEY);
   localStorage.removeItem(STATE_TOKEN_KEY);
 
   // Clean up URL; remove query and hash
@@ -151,7 +146,6 @@ export function login(domain) {
   }
 
   localStorage.removeItem(ACCESS_TOKEN_KEY);
-  localStorage.setItem(RETURN_PATH_KEY, global.location.hash);
   localStorage.setItem(STATE_TOKEN_KEY, stateToken);
   localStorage.setItem(OAUTH_DOMAIN_KEY, domain);
 
@@ -185,20 +179,9 @@ export function logout() {
  *
  */
 export function initAuth() {
-  returnPath = '';
   restoreAccessToken(); // Restore acces token from local storage
   catchError(); // Catch any error from the OAuth2 authorization service
   handleCallback(); // Handle a callback from the OAuth2 authorization service
-}
-
-/**
- * Gets the return path that was saved before the login process was initiated.
- *
- * @returns {string} The return path where we moved away from when the login
- * process was initiated.
- */
-export function getReturnPath() {
-  return returnPath;
 }
 
 export const isAuthenticated = () => {

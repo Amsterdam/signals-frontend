@@ -3,7 +3,6 @@ import {
   initAuth,
   login,
   logout,
-  getReturnPath,
   getOauthDomain,
   getAuthHeaders,
   isAuthenticated,
@@ -38,7 +37,6 @@ describe('The auth service', () => {
 
   let queryObject;
   let savedAccessToken;
-  let savedReturnPath;
   let savedStateToken;
   let savedOauthDomain;
   let randomString;
@@ -50,8 +48,6 @@ describe('The auth service', () => {
           return savedAccessToken;
         case 'stateToken':
           return savedStateToken;
-        case 'returnPath':
-          return savedReturnPath;
         case 'oauthDomain':
           return savedOauthDomain;
         default:
@@ -69,7 +65,6 @@ describe('The auth service', () => {
     queryObject = {};
     randomString = '123StateToken';
     savedStateToken = '';
-    savedReturnPath = '';
     savedAccessToken = '';
   });
 
@@ -184,18 +179,11 @@ describe('The auth service', () => {
           state: '123StateToken',
         };
         savedStateToken = '123StateToken';
-        savedReturnPath = '/path/leading/back';
 
         initAuth();
         expect(global.localStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
-        );
-        expect(global.localStorage.getItem).toHaveBeenCalledWith(
-          'returnPath'
-        );
-        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
-          'returnPath'
         );
         expect(global.localStorage.removeItem).toHaveBeenCalledWith(
           'stateToken'
@@ -214,7 +202,6 @@ describe('The auth service', () => {
           extra: 'sauce',
         };
         savedStateToken = '123StateToken';
-        savedReturnPath = '/path/leading/back';
 
         initAuth();
         expect(global.localStorage.setItem).toHaveBeenCalledWith(
@@ -240,9 +227,6 @@ describe('The auth service', () => {
           '123AccessToken'
         );
         expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
-          'returnPath'
-        );
-        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
           'stateToken'
         );
       });
@@ -265,10 +249,6 @@ describe('The auth service', () => {
 
       expect(global.localStorage.removeItem).toHaveBeenCalledWith(
         'accessToken'
-      );
-      expect(global.localStorage.setItem).toHaveBeenCalledWith(
-        'returnPath',
-        hash
       );
       expect(global.localStorage.setItem).toHaveBeenCalledWith(
         'stateToken',
@@ -309,15 +289,12 @@ describe('The auth service', () => {
         state: '123StateToken',
       };
       savedStateToken = '123StateToken';
-      savedReturnPath = '/path/leading/back';
 
       initAuth();
-      expect(getReturnPath()).toBe(savedReturnPath);
     });
 
     it('returns an empty string when the callback was unsuccessful', () => {
       initAuth();
-      expect(getReturnPath()).toBe('');
     });
 
     it('returns an empty string when there was an error callback', () => {
@@ -328,11 +305,6 @@ describe('The auth service', () => {
       expect(() => {
         initAuth();
       }).toThrow();
-      expect(getReturnPath()).toBe('');
-    });
-
-    it('returns an empty string without any callback', () => {
-      expect(getReturnPath()).toBe('');
     });
   });
 
