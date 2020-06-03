@@ -1,63 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <MapSelectFormComponent /> rendering should render no map field when not visible 1`] = `
-<div
-  className=""
-/>
-`;
+exports[`Form component <MapSelectFormComponent /> rendering should render no map field when not visible 1`] = `""`;
 
 exports[`Form component <MapSelectFormComponent /> rendering should render the MapSelect component 1`] = `
-<div
-  className="row"
+<Header
+  className="mapSelect"
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "endpoint": "foo/bar?",
+      "isVisible": true,
+      "legend_items": Array [
+        "klok",
+      ],
+      "name": "my_question",
+    }
+  }
+  touched={false}
 >
   <div
-    className="col-12 mode_input"
+    className="invoer"
   >
-    <Header
-      className=""
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      meta={
+    <MapSelect
+      geojsonUrl="foo/bar?"
+      getIcon={[Function]}
+      iconField="type_name"
+      idField="objectnummer"
+      latlng={
         Object {
-          "endpoint": "foo/bar?",
-          "isVisible": true,
-          "legend_items": Array [
-            "klok",
-          ],
-          "name": "my_question",
+          "latitude": 52.37248465266875,
+          "longitude": 4.900312721729279,
         }
       }
-      touched={false}
-    >
-      <div
-        className="invoer"
-      >
-        <MapSelect
-          geojsonUrl="foo/bar?"
-          getIcon={[Function]}
-          iconField="type_name"
-          idField="objectnummer"
-          latlng={
-            Object {
-              "latitude": 52.37248465266875,
-              "longitude": 4.900312721729279,
-            }
-          }
-          legend={
-            Array [
-              Object {
-                "iconUrl": "ImageMock",
-                "key": "klok",
-                "label": "Klok",
-              },
-            ]
-          }
-          onSelectionChange={[Function]}
-          selectionOnly={false}
-          value={Array []}
-        />
-      </div>
-    </Header>
+      legend={
+        Array [
+          Object {
+            "iconUrl": "ImageMock",
+            "key": "klok",
+            "label": "Klok",
+          },
+        ]
+      }
+      onSelectionChange={[Function]}
+      selectionOnly={false}
+      value={Array []}
+    />
   </div>
-</div>
+</Header>
 `;
