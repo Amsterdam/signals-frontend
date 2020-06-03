@@ -20,7 +20,7 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
   const incident = useMemo(() => incidentContainer.incident, [incidentContainer.incident]);
 
   return (
-    <div data-testid="incidentWizard" className="incident-wizard">
+    <div className="incident-wizard">
       <Route
         render={({ history }) => (
           <Wizard history={history} onNext={wiz => onNext(wizardDefinition, wiz, incident)}>
