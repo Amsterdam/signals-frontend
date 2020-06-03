@@ -1,12 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { FormGenerator } from 'react-reactive-form';
 import get from 'lodash.get';
 import isEqual from 'lodash.isequal';
+import { themeSpacing } from '@datapunt/asc-ui';
 
 import formatConditionalForm from '../../services/format-conditional-form';
 
-import './style.scss';
+// import './style.scss';
+
+const Form = styled.form`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: ${themeSpacing(8)};
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    grid-template-columns: 8fr 4fr;
+    grid-column-gap: ${themeSpacing(5)};
+  }
+
+  & > * {
+    grid-column-start: 1;
+  }
+
+  .incident-navigation, .mapSelect, .mapInput, .caution {
+    grid-column-end: 3;
+  }
+`;
 
 class IncidentForm extends React.Component {
   constructor(props) {
@@ -134,12 +155,12 @@ class IncidentForm extends React.Component {
   render() {
     return (
       <div className="incident-form" data-testid="incidentForm">
-        <form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <FormGenerator
             onMount={this.setForm}
             fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}
           />
-        </form>
+        </Form>
       </div>
     );
   }
