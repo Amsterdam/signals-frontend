@@ -1,162 +1,184 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, act, fireEvent } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import CheckboxInput from './index';
 
 describe('Form component <CheckboxInput />', () => {
-  let wrapper;
-  let handler;
-  let touched;
-  let getError;
-  let hasError;
-  let parent;
-
-  beforeEach(() => {
-    handler = jest.fn();
-    touched = false;
-    getError = jest.fn();
-    hasError = jest.fn();
-    parent = {
-      meta: {
-        updateIncident: jest.fn(),
-      },
-    };
-
-    wrapper = shallow(
-      <CheckboxInput
-        handler={handler}
-        parent={parent}
-        touched={touched}
-        hasError={hasError}
-        getError={getError}
-      />
-    );
-
-    handler.mockImplementation(() => ({
-      value: {
-        value: true,
-        label: 'Ja dat wil ik',
-      },
-    }));
-  });
-
   describe('rendering', () => {
-    it('should render checkbox correctly', () => {
-      wrapper.setProps({
+    it('should render a checkbox', () => {
+      const props = {
         meta: {
           name: 'input-field-name',
           value: 'Ja, dat is goed',
           isVisible: true,
         },
-      });
+        handler: () => ({
+          value: {
+            value: true,
+            label: 'Ja dat wil ik',
+          },
+        }),
+      };
 
-      expect(wrapper).toMatchSnapshot();
+      const { container } = render(withAppContext(<CheckboxInput {...props} />));
+
+      const checkbox = container.querySelector('input[type="checkbox"]');
+
+      expect(checkbox).toBeInTheDocument();
+      expect(checkbox.name).toEqual(props.meta.name);
     });
 
-    it('should render multi checkbox correctly', () => {
-      handler = handler.mockImplementation(() => ({
-        value: ['blue'],
-      }));
-
-      wrapper.setProps({
+    it('should render multiple checkbox', () => {
+      const props = {
         meta: {
           name: 'input-field-name',
           values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
           isVisible: true,
         },
-      });
+        handler: () => ({
+          value: ['blue'],
+        }),
+      };
 
-      expect(wrapper).toMatchSnapshot();
+      const { container } = render(withAppContext(<CheckboxInput {...props} />));
+
+      const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+
+      expect(checkboxes).toHaveLength(Object.keys(props.meta.values).length);
+
+      checkboxes.forEach((element, index) => {
+        const key = Object.keys(props.meta.values)[index];
+
+        expect(element.name).toEqual(`${props.meta.name}-${key}1`);
+        expect(Object.keys(props.meta.values).includes(element.value)).toBe(true);
+
+        if (element.value === props.handler().value) {
+          expect(element.checked).toBe(true);
+        } else {
+          expect(element.checked).toBe(false);
+        }
+      });
     });
 
     it('should render multi checkbox without value correctly', () => {
-      handler = handler.mockImplementation(() => ({ value: undefined }));
-
-      wrapper.setProps({
+      const props = {
         meta: {
           name: 'input-field-name',
           values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
           isVisible: true,
         },
-      });
+        handler: () => ({
+          value: undefined,
+        }),
+      };
 
-      expect(wrapper).toMatchSnapshot();
+      const { container } = render(withAppContext(<CheckboxInput {...props} />));
+
+      const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+
+      checkboxes.forEach(element => {
+        expect(element.checked).toBe(false);
+      });
     });
 
-    it('should render no checkbox when not visible', () => {
-      wrapper.setProps({
+    it('should not render checkboxes', () => {
+      const props = {
         meta: {
           name: 'input-field-name',
           isVisible: false,
         },
-      });
+        handler: () => ({
+          value: {
+            value: true,
+            label: 'Ja dat wil ik',
+          },
+        }),
+      };
 
-      expect(wrapper).toMatchSnapshot();
+      const { container } = render(withAppContext(<CheckboxInput {...props} />));
+
+      const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+
+      expect(checkboxes).toHaveLength(0);
     });
   });
 
   describe('events', () => {
     it('can be checked and unchecked with default values', () => {
-      wrapper.setProps({
+      const updateIncident = jest.fn();
+      const props = {
         meta: {
           name: 'input-field-name',
           value: 'Ja, dat is goed',
           isVisible: true,
         },
-      });
-
-      const checkEevent = { target: { checked: true } };
-      wrapper.find('input').simulate('click', checkEevent);
-
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': {
-          value: true,
-          label: 'Ja, dat is goed',
+        parent: {
+          meta: {
+            updateIncident,
+          },
         },
+        handler: () => ({
+          value: {
+            value: true,
+            label: 'Ja dat wil ik',
+          },
+        }),
+      };
+
+      const { container } = render(withAppContext(<CheckboxInput {...props} />));
+
+      const checkbox = container.querySelector('input[type="checkbox"]');
+
+      expect(updateIncident).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(checkbox);
       });
 
-      const uncheckEevent = { target: { checked: false } };
-      wrapper.find('input').simulate('click', uncheckEevent);
-
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': { value: false, label: 'Ja, dat is goed' },
+      expect(updateIncident).toHaveBeenCalledWith({
+        [props.meta.name]: {
+          value: !props.handler().value,
+          label: props.meta.value,
+        },
       });
     });
 
     it('can be checked and unchecked with multiple values', () => {
-      handler = handler.mockImplementation(() => ({
-        value: [{ id: 'blue', label: 'Blauw' }],
-      }));
-
-      wrapper.setProps({
+      const updateIncident = jest.fn();
+      const props = {
         meta: {
           name: 'input-field-name',
           values: { red: 'Rood', blue: 'Blauw', green: 'Groen' },
           isVisible: true,
         },
+        parent: {
+          meta: {
+            updateIncident,
+          },
+        },
+        handler: () => ({
+          value: [{ id: 'blue', label: 'Blauw' }],
+        }),
+      };
+
+      const { container } = render(withAppContext(<CheckboxInput {...props} />));
+
+      expect(container.querySelectorAll('[checked]')).toHaveLength(1);
+
+      const unchecked = container.querySelector('input[type="checkbox"]:not([checked])');
+
+      expect(updateIncident).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(unchecked);
       });
 
-      const checkEevent = { target: { checked: true } };
-      wrapper
-        .find('input[type="checkbox"]')
-        .at(2)
-        .simulate('click', checkEevent);
-
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [
+      expect(updateIncident).toHaveBeenCalledWith({
+        [props.meta.name]: [
           { id: 'blue', label: 'Blauw' },
-          { id: 'green', label: 'Groen' },
+          { id: 'red', label: 'Rood' },
         ],
-      });
-
-      const uncheckEevent = { target: { checked: false } };
-      wrapper
-        .find('input[type="checkbox"]')
-        .at(2)
-        .simulate('click', uncheckEevent);
-
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': [{ id: 'blue', label: 'Blauw' }],
       });
     });
   });
