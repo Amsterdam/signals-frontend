@@ -13,6 +13,7 @@ const Info = styled.p`
 
 const StyledHeader = styled(Header)`
   margin-top: ${themeSpacing(5)};
+  max-width: 620px;
 `;
 
 const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {

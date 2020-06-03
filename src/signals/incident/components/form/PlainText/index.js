@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import isArray from 'lodash.isarray';
 import isString from 'lodash.isstring';
 import get from 'lodash.get';
@@ -14,31 +15,30 @@ function renderText(value, parent) {
   return mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
 }
 
+const Label = styled.div`
+  font-family: Avenir Next LT W01 Demi;
+`;
+
 const PlainText = ({ meta, parent }) => (
   <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-    {meta && meta.isVisible
-      ? (
-        <div className={`${meta.className || 'col-12'} mode_input`}>
-          <div className={`${meta.type || ''} plain-text__box`}>
-            <div className="label">{meta.label}</div>
-            {meta.value && isString(meta.value)
-              ? renderText(meta.value, parent)
-              : ''}
+    {meta && meta.isVisible ? (
+      <div className={`${meta.className || 'col-12'} mode_input`}>
+        <div className={`${meta.type || ''} plain-text__box`}>
+          <Label>{meta.label}</Label>
+          {meta.value && isString(meta.value) && renderText(meta.value, parent)}
 
-            {meta.value && isArray(meta.value)
-              ? meta.value.map((paragraph, key) => (
-                <div
-                  key={`${meta.name}-${key + 1}`}
-                  className={`plain-text__box-p plain-text__box-p-${key + 1}`}
-                >
-                  {renderText(paragraph, parent)}
-                </div>
-              ))
-              : ''}
-          </div>
+          {meta.value &&
+            isArray(meta.value) &&
+            meta.value.map((paragraph, key) => (
+              <div key={`${meta.name}-${key + 1}`} className={`plain-text__box-p plain-text__box-p-${key + 1}`}>
+                {renderText(paragraph, parent)}
+              </div>
+            ))}
         </div>
-      )
-      : ''}
+      </div>
+    ) : (
+      ''
+    )}
   </div>
 );
 

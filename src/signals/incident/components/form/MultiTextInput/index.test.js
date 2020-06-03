@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Input } from '@datapunt/asc-ui';
+import Input from 'components/Input';
+import Button from 'components/Button';
 
 import MultiTextInput from './index';
 
@@ -106,7 +107,7 @@ describe('Form component <MultiTextInput />', () => {
         },
       });
 
-      wrapper.find('button').simulate('click', event);
+      wrapper.find(Button).simulate('click', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': ['Lorem', ''],
