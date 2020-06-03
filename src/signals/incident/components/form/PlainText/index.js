@@ -19,28 +19,21 @@ const Label = styled.div`
   font-family: Avenir Next LT W01 Demi;
 `;
 
-const PlainText = ({ meta, parent }) => (
-  <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-    {meta && meta.isVisible ? (
-      <div className={`${meta.className || 'col-12'} mode_input`}>
-        <div className={`${meta.type || ''} plain-text__box`}>
-          <Label>{meta.label}</Label>
-          {meta.value && isString(meta.value) && renderText(meta.value, parent)}
+const PlainText = ({ meta, parent }) =>
+  meta?.isVisible && (
+    <div className={`${meta.type || ''} plain-text__box`}>
+      <Label>{meta.label}</Label>
+      {meta.value && isString(meta.value) && renderText(meta.value, parent)}
 
-          {meta.value &&
-            isArray(meta.value) &&
-            meta.value.map((paragraph, key) => (
-              <div key={`${meta.name}-${key + 1}`} className={`plain-text__box-p plain-text__box-p-${key + 1}`}>
-                {renderText(paragraph, parent)}
-              </div>
-            ))}
-        </div>
-      </div>
-    ) : (
-      ''
-    )}
-  </div>
-);
+      {meta.value &&
+        isArray(meta.value) &&
+        meta.value.map((paragraph, key) => (
+          <div key={`${meta.name}-${key + 1}`} className={`plain-text__box-p plain-text__box-p-${key + 1}`}>
+            {renderText(paragraph, parent)}
+          </div>
+        ))}
+    </div>
+  );
 
 PlainText.propTypes = {
   meta: PropTypes.object,

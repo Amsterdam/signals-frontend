@@ -1,98 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <MapInput /> rendering should render map field correctly 1`] = `
-<div
-  className="row"
+<Header
+  className="mapInput"
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "isVisible": true,
+      "name": "input-field-name",
+    }
+  }
+  touched={false}
 >
   <div
-    className="col-12 mode_input"
+    className="invoer"
   >
-    <Header
-      className=""
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      meta={
-        Object {
-          "isVisible": true,
-          "name": "input-field-name",
-        }
-      }
-      touched={false}
-    >
-      <div
-        className="invoer"
-      >
-        <Memo(MapContext)>
-          <MapInput
-            mapOptions={
-              Object {
-                "attributionControl": true,
-                "center": Array [
-                  52.3731081,
-                  4.8932945,
-                ],
-                "crs": Object {
-                  "R": 6378137,
-                  "code": "EPSG:28992",
-                  "distance": [Function],
-                  "getProjectedBounds": [Function],
-                  "infinite": false,
-                  "latLngToPoint": [Function],
-                  "pointToLatLng": [Function],
-                  "project": [Function],
-                  "projection": Object {
-                    "bounds": Object {
-                      "max": Object {
-                        "x": 595401.92,
-                        "y": 903401,
-                      },
-                      "min": Object {
-                        "x": -285401,
-                        "y": 22598.08,
-                      },
-                    },
-                    "proj4def": "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,4.0812 +no_defs",
-                    "project": [Function],
-                    "unproject": [Function],
+    <Memo(MapContext)>
+      <MapInput
+        mapOptions={
+          Object {
+            "attributionControl": true,
+            "center": Array [
+              52.3731081,
+              4.8932945,
+            ],
+            "crs": Object {
+              "R": 6378137,
+              "code": "EPSG:28992",
+              "distance": [Function],
+              "getProjectedBounds": [Function],
+              "infinite": false,
+              "latLngToPoint": [Function],
+              "pointToLatLng": [Function],
+              "project": [Function],
+              "projection": Object {
+                "bounds": Object {
+                  "max": Object {
+                    "x": 595401.92,
+                    "y": 903401,
                   },
-                  "scale": [Function],
-                  "transformation": Object {
-                    "_a": 1,
-                    "_b": 285401.92,
-                    "_c": -1,
-                    "_d": 903401.92,
+                  "min": Object {
+                    "x": -285401,
+                    "y": 22598.08,
                   },
-                  "unproject": [Function],
-                  "wrapLatLng": [Function],
-                  "wrapLatLngBounds": [Function],
-                  "zoom": [Function],
                 },
-                "maxBounds": Array [
-                  Array [
-                    52.25168,
-                    4.64034,
-                  ],
-                  Array [
-                    52.50536,
-                    5.10737,
-                  ],
-                ],
-                "zoom": 10,
-                "zoomControl": false,
-              }
-            }
-            onChange={[Function]}
-            value={Object {}}
-          />
-        </Memo(MapContext)>
-      </div>
-    </Header>
+                "proj4def": "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,4.0812 +no_defs",
+                "project": [Function],
+                "unproject": [Function],
+              },
+              "scale": [Function],
+              "transformation": Object {
+                "_a": 1,
+                "_b": 285401.92,
+                "_c": -1,
+                "_d": 903401.92,
+              },
+              "unproject": [Function],
+              "wrapLatLng": [Function],
+              "wrapLatLngBounds": [Function],
+              "zoom": [Function],
+            },
+            "maxBounds": Array [
+              Array [
+                52.25168,
+                4.64034,
+              ],
+              Array [
+                52.50536,
+                5.10737,
+              ],
+            ],
+            "zoom": 10,
+            "zoomControl": false,
+          }
+        }
+        onChange={[Function]}
+        value={Object {}}
+      />
+    </Memo(MapContext)>
   </div>
-</div>
+</Header>
 `;
 
-exports[`Form component <MapInput /> rendering should render no map field when not visible 1`] = `
-<div
-  className=""
-/>
-`;
+exports[`Form component <MapInput /> rendering should render no map field when not visible 1`] = `""`;

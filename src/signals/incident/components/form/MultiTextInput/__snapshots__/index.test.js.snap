@@ -1,99 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <MultiTextInput /> rendering should render multi text correctly 1`] = `
-<MultiTextInput__Wrapper>
-  <Header
-    className=""
-    getError={[MockFunction]}
-    hasError={[MockFunction]}
-    meta={
-      Object {
-        "isVisible": true,
-        "itemClassName": "col-3",
-        "name": "input-field-name",
-        "placeholder": "type here",
-      }
+<Header
+  className=""
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "isVisible": true,
+      "itemClassName": "col-3",
+      "name": "input-field-name",
+      "placeholder": "type here",
     }
-    touched={false}
+  }
+  touched={false}
+>
+  <input
+    type="hidden"
+    value={
+      Array [
+        "Lorem",
+      ]
+    }
+  />
+  <div
+    key="input-field-name-1"
   >
-    <input
-      type="hidden"
-      value={
-        Array [
-          "Lorem",
-        ]
-      }
+    <MultiTextInput__StyledInput
+      id="input-field-name-1"
+      maxLength="15"
+      name="input-field-name-1"
+      onChange={[Function]}
+      onKeyPress={[Function]}
+      pattern="[0-9.,;]+"
+      placeholder="type here"
+      type="text"
+      value="Lorem"
     />
-    <div
-      key="input-field-name-1"
-    >
-      <ForwardRef
-        className=""
-        error=""
-        hint=""
-        id="input-field-name-1"
-        label=""
-        maxLength="15"
-        name="input-field-name-1"
-        onChange={[Function]}
-        onKeyPress={[Function]}
-        pattern="[0-9.,;]+"
-        placeholder="type here"
-        type="text"
-        value="Lorem"
-      />
-    </div>
-    <Button
-      onClick={[Function]}
-      variant="textButton"
-    />
-  </Header>
-</MultiTextInput__Wrapper>
+  </div>
+  <Button
+    onClick={[Function]}
+    variant="textButton"
+  />
+</Header>
 `;
 
 exports[`Form component <MultiTextInput /> rendering should render multi text without value correctly 1`] = `
-<MultiTextInput__Wrapper>
-  <Header
-    className=""
-    getError={[MockFunction]}
-    hasError={[MockFunction]}
-    meta={
-      Object {
-        "isVisible": true,
-        "name": "input-field-name",
-        "placeholder": "type here",
-      }
+<Header
+  className=""
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "isVisible": true,
+      "name": "input-field-name",
+      "placeholder": "type here",
     }
-    touched={false}
+  }
+  touched={false}
+>
+  <input
+    type="hidden"
+  />
+  <div
+    key="input-field-name-1"
   >
-    <input
-      type="hidden"
+    <MultiTextInput__StyledInput
+      id="input-field-name-1"
+      maxLength="15"
+      name="input-field-name-1"
+      onChange={[Function]}
+      onKeyPress={[Function]}
+      pattern="[0-9.,;]+"
+      placeholder="type here"
+      type="text"
+      value=""
     />
-    <div
-      key="input-field-name-1"
-    >
-      <ForwardRef
-        className=""
-        error=""
-        hint=""
-        id="input-field-name-1"
-        label=""
-        maxLength="15"
-        name="input-field-name-1"
-        onChange={[Function]}
-        onKeyPress={[Function]}
-        pattern="[0-9.,;]+"
-        placeholder="type here"
-        type="text"
-        value=""
-      />
-    </div>
-    <Button
-      onClick={[Function]}
-      variant="textButton"
-    />
-  </Header>
-</MultiTextInput__Wrapper>
+  </div>
+  <Button
+    onClick={[Function]}
+    variant="textButton"
+  />
+</Header>
 `;
 
-exports[`Form component <MultiTextInput /> rendering should render no multi text when not visible 1`] = `<MultiTextInput__Wrapper />`;
+exports[`Form component <MultiTextInput /> rendering should render no multi text when not visible 1`] = `""`;

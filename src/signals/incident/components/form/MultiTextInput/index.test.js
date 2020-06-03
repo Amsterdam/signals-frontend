@@ -1,9 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Input from 'components/Input';
 import Button from 'components/Button';
 
-import MultiTextInput from './index';
+import MultiTextInput, { StyledInput } from './index';
 
 describe('Form component <MultiTextInput />', () => {
   const metaFields = {
@@ -92,7 +91,7 @@ describe('Form component <MultiTextInput />', () => {
         },
       });
 
-      wrapper.find(Input).simulate('change', event);
+      wrapper.find(StyledInput).simulate('change', event);
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': ['Ipsum'],
@@ -125,8 +124,8 @@ describe('Form component <MultiTextInput />', () => {
       const invalidKeyEvent = { key: '@', preventDefault: jest.fn() };
       const validKeyEvent = { key: '5', preventDefault: jest.fn() };
 
-      wrapper.find(Input).simulate('keypress', invalidKeyEvent);
-      wrapper.find(Input).simulate('keypress', validKeyEvent);
+      wrapper.find(StyledInput).simulate('keypress', invalidKeyEvent);
+      wrapper.find(StyledInput).simulate('keypress', validKeyEvent);
 
       expect(invalidKeyEvent.preventDefault).toHaveBeenCalled();
       expect(validKeyEvent.preventDefault).not.toHaveBeenCalled();

@@ -52,7 +52,7 @@ export const getCategoryName = ({ name, departments }) => {
 const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
   const [valueChanged, setValueChanged] = useState(false);
   const subcategories = useSelector(makeSelectSubCategories);
-  const subcategoryOptions = useMemo(() => subcategories.map(
+  const subcategoryOptions = useMemo(() => subcategories?.map(
     category => ({
       ...category,
       value: getCategoryName(category),
