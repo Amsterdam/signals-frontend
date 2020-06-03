@@ -37,7 +37,7 @@ function addItem(oldFields, meta, parent) {
   parent.meta.updateIncident({ [meta.name]: fields });
 }
 
-const StyledInput = styled(Input)`
+export const StyledInput = styled(Input)`
   margin-bottom: 8px;
   width: 25%;
   min-width: 175px;

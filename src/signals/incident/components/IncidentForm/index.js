@@ -8,9 +8,7 @@ import { themeSpacing } from '@datapunt/asc-ui';
 
 import formatConditionalForm from '../../services/format-conditional-form';
 
-// import './style.scss';
-
-const Form = styled.form`
+export const Form = styled.form`
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: ${themeSpacing(8)};

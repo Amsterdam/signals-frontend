@@ -70,7 +70,7 @@ Header.propTypes = {
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   getError: PropTypes.func,
-  children: PropTypes.object,
+  children: PropTypes.node,
 };
 
 export default Header;
