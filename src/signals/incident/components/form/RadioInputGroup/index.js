@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import isObject from 'lodash.isobject';
-import { themeColor, RadioGroup, themeSpacing } from '@datapunt/asc-ui';
+import { themeColor, RadioGroup } from '@datapunt/asc-ui';
 
 import Header from '../Header';
 import RadioInput from '../RadioInput';
@@ -12,7 +12,6 @@ const Info = styled.p`
 `;
 
 const StyledHeader = styled(Header)`
-  margin-top: ${themeSpacing(5)};
   max-width: 620px;
 `;
 

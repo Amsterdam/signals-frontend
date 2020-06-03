@@ -18,53 +18,49 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
       .format(format);
   }
 
-  return (
-    <div className={`${meta?.isVisible ? 'row' : ''}`}>
-      {meta?.isVisible && (
-        <div className={`${meta.className || 'col-12'} mode_input datetime-input`}>
-          <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-            <div className="datetime-input__earlier">
-              <div className="datetime-input__earlier-date">
-                <Select
-                  name="day"
-                  data-testid="selectDay"
-                  label={<strong>Dag</strong>}
-                  value={`${parent.value.incident_date}`}
-                  onChange={e => parent.meta.updateIncident({ incident_date: e.target.value })}
-                  options={[...Array(7).keys()].map(offset => ({
-                    value: formatDate(offset),
-                    key: formatDate(offset, 'label'),
-                    name: formatDate(offset, 'label'),
-                  }))}
-                />
-              </div>
+  if (!meta?.isVisible) return null;
 
-              <div className="datetime-input__earlier-time">
-                <div>
-                  <Select
-                    name="hours"
-                    data-testid="selectHours"
-                    label={<strong>Tijd</strong>}
-                    value={`${parent.value.incident_time_hours}`}
-                    onChange={e => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
-                    options={[...Array(24).keys()].map(value => ({ value, key: value, name: value }))}
-                  />
-                </div>
-                <span className="datetime-input__earlier-time-label">uur</span>
-                <Select
-                  name="minutes"
-                  data-testid="selectMinutes"
-                  value={`${parent.value.incident_time_minutes}`}
-                  onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
-                  options={[...Array(12).keys()].map(minute => ({ value: minute * 5, name: minute * 5, key: minute * 5 }))}
-                />
-                <span className="datetime-input__earlier-time-label">min</span>
-              </div>
-            </div>
-          </Header>
+  return (
+    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+      <div className="datetime-input__earlier">
+        <div className="datetime-input__earlier-date">
+          <Select
+            name="day"
+            data-testid="selectDay"
+            label={<strong>Dag</strong>}
+            value={`${parent.value.incident_date}`}
+            onChange={e => parent.meta.updateIncident({ incident_date: e.target.value })}
+            options={[...Array(7).keys()].map(offset => ({
+              value: formatDate(offset),
+              key: formatDate(offset, 'label'),
+              name: formatDate(offset, 'label'),
+            }))}
+          />
         </div>
-      )}
-    </div>
+
+        <div className="datetime-input__earlier-time">
+          <div>
+            <Select
+              name="hours"
+              data-testid="selectHours"
+              label={<strong>Tijd</strong>}
+              value={`${parent.value.incident_time_hours}`}
+              onChange={e => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
+              options={[...Array(24).keys()].map(value => ({ value, key: value, name: value }))}
+            />
+          </div>
+          <span className="datetime-input__earlier-time-label">uur</span>
+          <Select
+            name="minutes"
+            data-testid="selectMinutes"
+            value={`${parent.value.incident_time_minutes}`}
+            onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
+            options={[...Array(12).keys()].map(minute => ({ value: minute * 5, name: minute * 5, key: minute * 5 }))}
+          />
+          <span className="datetime-input__earlier-time-label">min</span>
+        </div>
+      </div>
+    </Header>
   );
 };
 

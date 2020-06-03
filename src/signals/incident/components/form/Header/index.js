@@ -16,49 +16,48 @@ const Children = styled.div`
   }
 `;
 
-const Header = ({
-  className, meta, options, touched, hasError, getError, children,
-}) => (
-  <div className={`${className} header ${touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom')) ? 'header--invalid' : ''}`}>
-    <div className="header__label">
-      {meta && meta.label}
-      {(meta.label && (!options || !options.validators)) || (options && options.validators && !options.validators.includes(Validators.required))
-        ? <span className="header--not-required">(optioneel)</span>
-        : ''}
+const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
+  const containsErrors =
+    touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
+
+  return (
+    <div className={className}>
+      {meta.label && (
+        <div className="header__label">
+          {meta.label}
+
+          {!options ||
+            !options.validators ||
+            (options && options.validators && !options.validators.includes(Validators.required) && (
+              <span className="header--not-required">(optioneel)</span>
+            ))}
+        </div>
+      )}
+
+      {meta?.subtitle && <div className="header__subtitle">{meta.subtitle}</div>}
+
+      {containsErrors && (
+        <div className="header__errors">
+          {touched && hasError('required') && <div className="header__errors__item">Dit is een verplicht veld</div>}
+
+          {touched && hasError('email') && (
+            <div className="header__errors__item">Het moet een geldig e-mailadres zijn</div>
+          )}
+
+          {touched && hasError('maxLength') && (
+            <div className="header__errors__item">
+              U kunt maximaal ${getError('maxLength').requiredLength} tekens invoeren.
+            </div>
+          )}
+
+          {touched && hasError('custom') && <div className="header__errors__item">{getError('custom')}</div>}
+        </div>
+      )}
+
+      <Children>{children}</Children>
     </div>
-    <div className="header__subtitle">{meta && meta.subtitle}</div>
-
-    <div className="header__errors">
-      <div className="header__errors__item">
-        {touched
-        && hasError('required')
-        && 'Dit is een verplicht veld'}
-      </div>
-
-      <div className="header__errors__item">
-        {touched
-        && hasError('email')
-        && 'Het moet een geldig e-mailadres zijn'}
-      </div>
-
-      <div className="header__errors__item">
-        {touched
-        && hasError('maxLength')
-        && `U kunt maximaal ${getError('maxLength').requiredLength} tekens invoeren.`}
-      </div>
-
-      <div className="header__errors__item">
-        {touched
-        && hasError('custom')
-        && getError('custom')}
-      </div>
-    </div>
-
-    <Children>
-      {children}
-    </Children>
-  </div>
-);
+  );
+};
 
 Header.defaultProps = {
   className: '',
