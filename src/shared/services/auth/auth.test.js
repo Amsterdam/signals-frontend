@@ -265,7 +265,7 @@ describe('The auth service', () => {
       expect(window.location.assign).toHaveBeenCalledWith(
         'https://acc.api.data.amsterdam.nl/oauth2/authorize' +
         '?client_id=sia' +
-        '&response_type=token' +
+        '&response_type=id_token' +
         '&scope=openid%20email%20profile' +
         '&state=123StateToken' +
         '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +

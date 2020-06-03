@@ -157,7 +157,7 @@ export function login(domain) {
   global.location.assign(
     `${CONFIGURATION.OIDC_AUTH_ENDPOINT}` +
     `?client_id=${CONFIGURATION.OIDC_CLIENT_ID}` +
-    `&response_type=token` +
+    `&response_type=id_token` +
     `&scope=${encodedScopes}` +
     `&state=${encodedStateToken}` +
     `&redirect_uri=${encodedRedirectUri}` +
