@@ -94,7 +94,7 @@ function handleCallback() {
   }
 
   // The state param must be exactly the same as the state token we
-  // have saved in the session (to prevent CSRF)
+  // have saved in local storage (to prevent CSRF)
   const localStateToken = localStorage.getItem(STATE_TOKEN_KEY);
   if (decodeURIComponent(params.state) !== localStateToken) {
     throw new Error(`Authenticator encountered an invalid state token (${params.state})`);

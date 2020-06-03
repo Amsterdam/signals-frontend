@@ -13,6 +13,7 @@ import {
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import randomStringGenerator from './services/random-string-generator/random-string-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
+import CONFIGURATION from '../configuration/configuration';
 
 jest.mock('./services/query-string-parser/query-string-parser');
 jest.mock('./services/random-string-generator/random-string-generator');
@@ -116,7 +117,7 @@ describe('The auth service', () => {
         }).toThrow();
       });
 
-      it('removes the state token from the session storage', () => {
+      it('removes the state token from the local storage', () => {
         queryObject = {
           error: 'invalid_request',
         };
@@ -199,7 +200,7 @@ describe('The auth service', () => {
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
       });
 
-      it('Updates the session storage', () => {
+      it('Updates local storage', () => {
         const queryString =
           '?access_token=123AccessToken&token_type=token&expires_in=36000&state=random-string';
         global.location.hash = queryString;
@@ -272,7 +273,7 @@ describe('The auth service', () => {
       }).toThrow('crypto library is not available on the current browser');
     });
 
-    it('Updates the session storage', () => {
+    it('Updates the local storage', () => {
       const hash = '#?the=current-hash';
       global.location.hash = hash;
 
@@ -292,14 +293,16 @@ describe('The auth service', () => {
     });
 
     it('Redirects to the auth service', () => {
-      const url = 'https://data.amsterdam.nl/the/current/path';
-      history.push(url);
+      const originalEndpoint = CONFIGURATION.OIDC_AUTH_ENDPOINT;
+      const originalClientId = CONFIGURATION.OIDC_CLIENT_ID;
+      CONFIGURATION.OIDC_AUTH_ENDPOINT = 'https://example.com/oauth2/authorize';
+      CONFIGURATION.OIDC_CLIENT_ID = 'test';
 
       login();
 
       expect(window.location.assign).toHaveBeenCalledWith(
-        'https://acc.api.data.amsterdam.nl/oauth2/authorize' +
-        '?client_id=sia' +
+        'https://example.com/oauth2/authorize' +
+        '?client_id=test' +
         '&response_type=id_token' +
         '&scope=openid%20email%20profile' +
         '&state=random-string' +
@@ -307,11 +310,14 @@ describe('The auth service', () => {
         '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
         '&idp_id=datapunt'
       );
+
+      CONFIGURATION.OIDC_AUTH_ENDPOINT = originalEndpoint;
+      CONFIGURATION.OIDC_CLIENT_ID = originalClientId;
     });
   });
 
   describe('Logout process', () => {
-    it('Removes the access token from the session storage', () => {
+    it('Removes the access token from local storage', () => {
       logout();
       expect(global.localStorage.removeItem).toHaveBeenCalledWith(
         'accessToken'
