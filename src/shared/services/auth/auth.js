@@ -42,18 +42,10 @@ function getDomain(domain) {
 }
 
 // The keys of values we need to store in the local storage
-//
-// `location.pathname` string at the moment we redirect to the
-// OAuth2 authorization service, and need to get back to afterwards
-const RETURN_PATH = 'returnPath';
-// The OAuth2 state(token) (OAuth terminology, has nothing to do with
-// our app state), which is a random string
-const STATE_TOKEN = 'stateToken';
-// The access token returned by the OAuth2 authorization service
-// containing user userScopes and name
-const ACCESS_TOKEN = 'accessToken';
-
-const OAUTH_DOMAIN = 'oauthDomain';
+const RETURN_PATH_KEY = 'returnPath'; // The path to return to after login
+const STATE_TOKEN_KEY = 'stateToken'; // OAuth2 state token
+const ACCESS_TOKEN_KEY = 'accessToken'; // OAuth2 access token
+const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
 
 let returnPath;
 let tokenData = {};
@@ -66,7 +58,7 @@ let tokenData = {};
  * service.
  */
 function handleError(code, description) {
-  localStorage.removeItem(STATE_TOKEN);
+  localStorage.removeItem(STATE_TOKEN_KEY);
 
   // Remove parameters from the URL, as set by the error callback from the
   // OAuth2 authorization service, to clean up the URL.
@@ -104,7 +96,7 @@ function handleCallback() {
 
   // The state param must be exactly the same as the state token we
   // have saved in the session (to prevent CSRF)
-  const localStateToken = localStorage.getItem(STATE_TOKEN);
+  const localStateToken = localStorage.getItem(STATE_TOKEN_KEY);
   if (decodeURIComponent(params.state) !== localStateToken) {
     throw new Error(`Authenticator encountered an invalid state token (${params.state})`);
   }
@@ -112,11 +104,11 @@ function handleCallback() {
   const accessToken = params.access_token;
 
   tokenData = accessTokenParser(accessToken);
-  localStorage.setItem(ACCESS_TOKEN, accessToken);
+  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
 
-  returnPath = localStorage.getItem(RETURN_PATH);
-  localStorage.removeItem(RETURN_PATH);
-  localStorage.removeItem(STATE_TOKEN);
+  returnPath = localStorage.getItem(RETURN_PATH_KEY);
+  localStorage.removeItem(RETURN_PATH_KEY);
+  localStorage.removeItem(STATE_TOKEN_KEY);
 
   // Clean up URL; remove query and hash
   // https://stackoverflow.com/questions/4508574/remove-hash-from-url
@@ -129,11 +121,11 @@ function handleCallback() {
  * @returns {string} The access token.
  */
 export function getAccessToken() {
-  return localStorage.getItem(ACCESS_TOKEN);
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
 export function getOauthDomain() {
-  return localStorage.getItem(OAUTH_DOMAIN);
+  return localStorage.getItem(OAUTH_DOMAIN_KEY);
 }
 
 /**
@@ -158,10 +150,10 @@ export function login(domain) {
     throw new Error('crypto library is not available on the current browser');
   }
 
-  localStorage.removeItem(ACCESS_TOKEN);
-  localStorage.setItem(RETURN_PATH, global.location.hash);
-  localStorage.setItem(STATE_TOKEN, stateToken);
-  localStorage.setItem(OAUTH_DOMAIN, domain);
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.setItem(RETURN_PATH_KEY, global.location.hash);
+  localStorage.setItem(STATE_TOKEN_KEY, stateToken);
+  localStorage.setItem(OAUTH_DOMAIN_KEY, domain);
 
   const encodedDomain = encodeURIComponent(getDomain(domain));
   const encodedScopes = encodeURIComponent(scopes.join(' '));
@@ -180,8 +172,8 @@ export function login(domain) {
 }
 
 export function logout() {
-  localStorage.removeItem(ACCESS_TOKEN);
-  localStorage.removeItem(OAUTH_DOMAIN);
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(OAUTH_DOMAIN_KEY);
 }
 
 /**
