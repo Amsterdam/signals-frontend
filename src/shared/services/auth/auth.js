@@ -41,7 +41,7 @@ function getDomain(domain) {
   return domain || domainList[0];
 }
 
-// The keys of values we need to store in the session storage
+// The keys of values we need to store in the local storage
 //
 // `location.pathname` string at the moment we redirect to the
 // OAuth2 authorization service, and need to get back to afterwards
@@ -88,7 +88,7 @@ function catchError() {
 }
 
 /**
- * Gets the access token and return path, and clears the session storage.
+ * Gets the access token and return path, and clears the local storage.
  */
 function handleCallback() {
   // Parse query string into object
@@ -124,7 +124,7 @@ function handleCallback() {
 }
 
 /**
- * Returns the access token from session storage when available.
+ * Returns the access token from local storage when available.
  *
  * @returns {string} The access token.
  */
@@ -137,7 +137,7 @@ export function getOauthDomain() {
 }
 
 /**
- * Restores the access token from session storage when available.
+ * Restores the access token from local storage when available.
  */
 function restoreAccessToken() {
   const accessToken = getAccessToken();
@@ -194,7 +194,7 @@ export function logout() {
  */
 export function initAuth() {
   returnPath = '';
-  restoreAccessToken(); // Restore acces token from session storage
+  restoreAccessToken(); // Restore acces token from local storage
   catchError(); // Catch any error from the OAuth2 authorization service
   handleCallback(); // Handle a callback from the OAuth2 authorization service
 }

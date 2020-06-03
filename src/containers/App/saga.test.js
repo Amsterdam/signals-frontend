@@ -46,14 +46,14 @@ jest.mock('shared/services/map-categories');
 jest.mock('shared/services/file-upload-channel');
 
 describe('containers/App/saga', () => {
-  let origSessionStorage;
+  let origLocalStorage;
 
   beforeEach(() => {
     randomStringGenerator.mockImplementation(
       () => 'n8vd9fv528934n797cv342bj3h56'
     );
     global.window.open = jest.fn();
-    origSessionStorage = global.localStorage;
+    origLocalStorage = global.localStorage;
     global.localStorage = {
       getItem: key => {
         switch (key) {
@@ -71,7 +71,7 @@ describe('containers/App/saga', () => {
   });
 
   afterEach(() => {
-    global.localStorage = origSessionStorage;
+    global.localStorage = origLocalStorage;
     jest.resetAllMocks();
   });
 
