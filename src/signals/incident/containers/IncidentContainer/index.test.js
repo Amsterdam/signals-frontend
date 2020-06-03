@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import { IncidentContainerComponent } from '.';
@@ -19,10 +19,18 @@ describe('signals/incident/containers/IncidentContainer', () => {
     createIncidentAction: jest.fn(),
   };
 
-  it('should render correctly', () => {
-    const { getByTestId } = render(withAppContext(<IncidentContainerComponent {...props} />));
+  it('should load wizard definition lazily', async () => {
+    const { queryByTestId, getByTestId, findByTestId } = render(withAppContext(<IncidentContainerComponent {...props} />));
 
     expect(getByTestId('alertMessage')).toBeInTheDocument();
-    expect(getByTestId('incidentWizard')).toBeInTheDocument();
+    expect(queryByTestId('incidentWizard')).not.toBeInTheDocument();
+
+    let incidentWizard;
+
+    await act(async () => {
+      incidentWizard = await findByTestId('incidentWizard');
+    });
+
+    expect(incidentWizard).toBeInTheDocument();
   });
 });

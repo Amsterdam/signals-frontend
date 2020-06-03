@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -6,15 +6,14 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Row, Column, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
-import { isAuthenticated } from 'shared/services/auth/auth';
+import LoadingIndicator from 'shared/components/LoadingIndicator';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-
-import wizardDefinition from '../../definitions/wizard';
 import { getClassification, updateIncident, createIncident } from './actions';
 import { makeSelectIncidentContainer } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+
 import './style.scss';
 
 import IncidentWizard from '../../components/IncidentWizard';
@@ -31,27 +30,44 @@ export const IncidentContainerComponent = ({
   getClassificationAction,
   incidentContainer,
   updateIncidentAction,
-}) => (
-  <Row>
-    <Alert data-testid="alertMessage">
-      We pakken op dit moment alleen urgente meldingen op. De afhandeling van uw melding kan daarom tijdelijk langer
-      duren dan de standaard afhandeltermijn die in de bevestigingsmail van uw melding staat. Wij hopen op uw begrip.
-    </Alert>
+}) => {
+  const [definition, setDefinition] = useState();
 
-    <br />
+  useEffect(() => {
+    const loadDefinition = async () => {
+      import(
+        /* webpackChunkName: "wizardDefinition", webpackMode: "lazy" */ '../../definitions/wizard'
+      ).then(wizardDefinition => setDefinition(wizardDefinition.default));
+    };
 
-    <Column span={12}>
-      <IncidentWizard
-        wizardDefinition={wizardDefinition}
-        getClassification={getClassificationAction}
-        updateIncident={updateIncidentAction}
-        createIncident={createIncidentAction}
-        incidentContainer={incidentContainer}
-        isAuthenticated={isAuthenticated()}
-      />
-    </Column>
-  </Row>
-);
+    loadDefinition();
+  }, []);
+
+  return (
+    <Row>
+      <Alert data-testid="alertMessage">
+        We pakken op dit moment alleen urgente meldingen op. De afhandeling van uw melding kan daarom tijdelijk langer
+        duren dan de standaard afhandeltermijn die in de bevestigingsmail van uw melding staat. Wij hopen op uw begrip.
+      </Alert>
+
+      <br />
+
+      <Column span={12}>
+        {!definition ? (
+          <LoadingIndicator />
+        ) : (
+          <IncidentWizard
+            wizardDefinition={definition}
+            getClassification={getClassificationAction}
+            updateIncident={updateIncidentAction}
+            createIncident={createIncidentAction}
+            incidentContainer={incidentContainer}
+          />
+        )}
+      </Column>
+    </Row>
+  );
+};
 
 IncidentContainerComponent.propTypes = {
   createIncidentAction: PropTypes.func.isRequired,
