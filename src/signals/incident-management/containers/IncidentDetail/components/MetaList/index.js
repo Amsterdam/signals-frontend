@@ -45,7 +45,7 @@ const EditButton = styled(Button)`
 `;
 
 export const getCategoryName = ({ name, departments }) => {
-  const departmensStringList = departments?.length ? ` (${departments.map(({ code }) => code).join(',')})` : '';
+  const departmensStringList = departments?.length ? ` (${departments.map(({ code }) => code).join(', ')})` : '';
   return `${name}${departmensStringList}`;
 };
 
