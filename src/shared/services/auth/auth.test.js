@@ -12,7 +12,7 @@ import {
 } from './auth';
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import randomStringGenerator from './services/random-string-generator/random-string-generator';
-import parseAccessToken from './services/access-token-parser/access-token-parser';
+import accessTokenParser from './services/access-token-parser/access-token-parser';
 
 jest.mock('./services/query-string-parser/query-string-parser');
 jest.mock('./services/random-string-generator/random-string-generator');
@@ -38,6 +38,7 @@ describe('The auth service', () => {
   let queryObject;
   let savedAccessToken;
   let savedStateToken;
+  let savedNonce;
   let savedOauthDomain;
   let randomString;
 
@@ -48,6 +49,8 @@ describe('The auth service', () => {
           return savedAccessToken;
         case 'stateToken':
           return savedStateToken;
+        case 'nonce':
+          return savedNonce;
         case 'oauthDomain':
           return savedOauthDomain;
         default:
@@ -59,12 +62,14 @@ describe('The auth service', () => {
     jest.spyOn(global.location, 'assign').mockImplementation(noop);
     jest.spyOn(global.location, 'reload').mockImplementation(noop);
 
+    accessTokenParser.mockImplementation(() => ({}));
     queryStringParser.mockImplementation(() => queryObject);
     randomStringGenerator.mockImplementation(() => randomString);
 
     queryObject = {};
-    randomString = '123StateToken';
+    randomString = 'random-string';
     savedStateToken = '';
+    savedNonce = '';
     savedAccessToken = '';
   });
 
@@ -150,35 +155,61 @@ describe('The auth service', () => {
     describe('receiving a successful callback from the auth service', () => {
       it('throws an error when the state token received does not match the one saved', () => {
         const queryString =
-          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=invalidStateToken';
+          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=invalid-state-token';
         global.location.hash = `${queryString}`;
         queryObject = {
           access_token: '123AccessToken',
           token_type: 'token',
           expires_in: '36000',
-          state: 'invalidStateToken',
+          state: 'invalid-state-token',
         };
-        savedStateToken = '123StateToken';
+        savedStateToken = 'state-token';
 
         expect(() => {
           initAuth();
         }).toThrow(
-          'Authenticator encountered an invalid state token (invalidStateToken)'
+          'Authenticator encountered an invalid state token (invalid-state-token)'
+        );
+        expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
+      });
+
+      it('throws an error when the nonce received does not match the one saved', () => {
+        accessTokenParser.mockImplementation(() => ({
+          nonce: 'invalid-random-nonce',
+        }));
+
+        const queryString =
+          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=state-token';
+        global.location.hash = `${queryString}`;
+        queryObject = {
+          access_token: '123AccessToken',
+          token_type: 'token',
+          expires_in: '36000',
+          state: 'state-token',
+        };
+
+        savedStateToken = 'state-token';
+        savedNonce = 'random-nonce';
+
+        expect(() => {
+          initAuth();
+        }).toThrow(
+          'Authenticator encountered an invalid nonce (invalid-random-nonce)'
         );
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
       });
 
       it('Updates the session storage', () => {
         const queryString =
-          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=123StateToken';
+          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=random-string';
         global.location.hash = queryString;
         queryObject = {
           access_token: '123AccessToken',
           token_type: 'token',
           expires_in: '36000',
-          state: '123StateToken',
+          state: 'random-string',
         };
-        savedStateToken = '123StateToken';
+        savedStateToken = 'random-string';
 
         initAuth();
         expect(global.localStorage.setItem).toHaveBeenCalledWith(
@@ -192,16 +223,16 @@ describe('The auth service', () => {
 
       it('Works when receiving unexpected parameters', () => {
         const queryString =
-          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=123StateToken&extra=sauce';
+          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=random-string&extra=sauce';
         global.location.hash = queryString;
         queryObject = {
           access_token: '123AccessToken',
           token_type: 'token',
           expires_in: '36000',
-          state: '123StateToken',
+          state: 'random-string',
           extra: 'sauce',
         };
-        savedStateToken = '123StateToken';
+        savedStateToken = 'random-string';
 
         initAuth();
         expect(global.localStorage.setItem).toHaveBeenCalledWith(
@@ -212,14 +243,14 @@ describe('The auth service', () => {
 
       it('Does not work when a parameter is missing', () => {
         const queryString =
-          '?access_token=123AccessToken&token_type=token&state=123StateToken';
+          '?access_token=123AccessToken&token_type=token&state=random-string';
         global.location.hash = queryString;
         queryObject = {
           access_token: '123AccessToken',
           token_type: 'token',
-          state: '123StateToken',
+          state: 'random-string',
         };
-        savedStateToken = '123StateToken';
+        savedStateToken = 'random-string';
 
         initAuth();
         expect(global.localStorage.setItem).not.toHaveBeenCalledWith(
@@ -254,6 +285,10 @@ describe('The auth service', () => {
         'stateToken',
         randomString
       );
+      expect(global.localStorage.setItem).toHaveBeenCalledWith(
+        'nonce',
+        randomString
+      );
     });
 
     it('Redirects to the auth service', () => {
@@ -267,7 +302,8 @@ describe('The auth service', () => {
         '?client_id=sia' +
         '&response_type=id_token' +
         '&scope=openid%20email%20profile' +
-        '&state=123StateToken' +
+        '&state=random-string' +
+        '&nonce=random-string' +
         '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
         '&idp_id=datapunt'
       );
@@ -289,9 +325,9 @@ describe('The auth service', () => {
         access_token: '123AccessToken',
         token_type: 'token',
         expires_in: '36000',
-        state: '123StateToken',
+        state: 'random-string',
       };
-      savedStateToken = '123StateToken';
+      savedStateToken = 'random-string';
 
       initAuth();
     });
@@ -368,7 +404,7 @@ describe('The auth service', () => {
 
     it('returns true', () => {
       const actual = jest.requireActual('./services/access-token-parser/access-token-parser').default;
-      parseAccessToken.mockImplementation(actual);
+      accessTokenParser.mockImplementation(actual);
 
       global.localStorage.getItem.mockImplementation(key => {
         switch (key) {
@@ -385,8 +421,6 @@ describe('The auth service', () => {
 
   describe('getScopes', () => {
     it('should return a an empty array', () => {
-      parseAccessToken.mockImplementation(() => ({}));
-
       savedAccessToken = '123AccessToken';
       initAuth();
       const scopes = getScopes();
@@ -395,7 +429,7 @@ describe('The auth service', () => {
     });
 
     it('should return the scopes', () => {
-      parseAccessToken.mockImplementation(() => ({
+      accessTokenParser.mockImplementation(() => ({
         scopes: ['SIG/ALL'],
       }));
 
@@ -409,8 +443,6 @@ describe('The auth service', () => {
 
   describe('getName', () => {
     it('should return a an empty string', () => {
-      parseAccessToken.mockImplementation(() => ({}));
-
       savedAccessToken = '123AccessToken';
       initAuth();
       const name = getName();
@@ -419,7 +451,7 @@ describe('The auth service', () => {
     });
 
     it('should return the scopes', () => {
-      parseAccessToken.mockImplementation(() => ({
+      accessTokenParser.mockImplementation(() => ({
         name: 'Jan Klaasen',
       }));
 
@@ -433,7 +465,7 @@ describe('The auth service', () => {
 
   describe('authenticate', () => {
     it('should authenticate with credentials with accessToken', () => {
-      parseAccessToken.mockImplementation(() => ({
+      accessTokenParser.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL'],
       }));
@@ -447,7 +479,7 @@ describe('The auth service', () => {
     });
 
     it('should not authenticate without accessToken', () => {
-      parseAccessToken.mockImplementation(() => ({
+      accessTokenParser.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL'],
       }));

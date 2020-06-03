@@ -42,7 +42,8 @@ function getDomain(domain) {
 }
 
 // The keys of values we need to store in the local storage
-const STATE_TOKEN_KEY = 'stateToken'; // OAuth2 state token
+const STATE_TOKEN_KEY = 'stateToken'; // OAuth2 state token (prevent CSRF)
+const NONCE_KEY = 'nonce'; // OpenID Connect nonce (prevent replay attacks)
 const ACCESS_TOKEN_KEY = 'accessToken'; // OAuth2 access token
 const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
 
@@ -102,8 +103,15 @@ function handleCallback() {
   const accessToken = params.access_token;
 
   tokenData = accessTokenParser(accessToken);
+  const localNonce = localStorage.getItem(NONCE_KEY);
+  if (tokenData.nonce && tokenData.nonce !== localNonce) {
+    throw new Error(`Authenticator encountered an invalid nonce (${tokenData.nonce})`);
+  }
+
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+
   localStorage.removeItem(STATE_TOKEN_KEY);
+  localStorage.removeItem(NONCE_KEY);
 
   // Clean up URL; remove query and hash
   // https://stackoverflow.com/questions/4508574/remove-hash-from-url
@@ -145,13 +153,21 @@ export function login(domain) {
     throw new Error('crypto library is not available on the current browser');
   }
 
+  const nonce = randomStringGenerator();
+  if (!nonce) {
+    throw new Error('crypto library is not available on the current browser');
+  }
+
   localStorage.removeItem(ACCESS_TOKEN_KEY);
+
   localStorage.setItem(STATE_TOKEN_KEY, stateToken);
+  localStorage.setItem(NONCE_KEY, nonce);
   localStorage.setItem(OAUTH_DOMAIN_KEY, domain);
 
   const encodedDomain = encodeURIComponent(getDomain(domain));
   const encodedScopes = encodeURIComponent(scopes.join(' '));
   const encodedStateToken = encodeURIComponent(stateToken);
+  const encodedNonce = encodeURIComponent(nonce);
   const encodedRedirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
 
   global.location.assign(
@@ -160,6 +176,7 @@ export function login(domain) {
     `&response_type=id_token` +
     `&scope=${encodedScopes}` +
     `&state=${encodedStateToken}` +
+    `&nonce=${encodedNonce}` +
     `&redirect_uri=${encodedRedirectUri}` +
     `&idp_id=${encodedDomain}`
   );
