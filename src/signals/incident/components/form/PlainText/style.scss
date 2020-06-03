@@ -6,18 +6,18 @@
   &__box {
     &.citation,
     &.disclaimer {
-      background-color: $ams-background-sidebars;
+      background-color: #e5e5e5;
       padding: 20px;
     }
 
     &.caution {
-      border-left: 3px solid $ams-rood;
+      border-left: 3px solid #ec0000;
       padding-left: 10px;
     }
 
     &.alert {
-      color: $ams-rood;
-      border: 2px solid $ams-rood;
+      color: #ec0000;
+      border: 2px solid #ec0000;
       padding:  9px 20px 0;
       @include avenirnextdemi();
     }
