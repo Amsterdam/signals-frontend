@@ -10,9 +10,7 @@ exports[`Form component <PlainText /> rendering should render multiple parargrap
     <div
       className="citation plain-text__box"
     >
-      <div
-        className="label"
-      />
+      <PlainText__Label />
       <div
         className="plain-text__box-p plain-text__box-p-1"
         key="undefined-1"
@@ -66,9 +64,7 @@ exports[`Form component <PlainText /> rendering should render plain text alert c
     <div
       className="alert plain-text__box"
     >
-      <div
-        className="label"
-      />
+      <PlainText__Label />
       Lorem Ipsum
     </div>
   </div>
@@ -85,9 +81,7 @@ exports[`Form component <PlainText /> rendering should render plain text caution
     <div
       className="caution plain-text__box"
     >
-      <div
-        className="label"
-      />
+      <PlainText__Label />
       Lorem Ipsum
     </div>
   </div>
@@ -104,9 +98,7 @@ exports[`Form component <PlainText /> rendering should render plain text citatio
     <div
       className="citation plain-text__box"
     >
-      <div
-        className="label"
-      />
+      <PlainText__Label />
       Lorem Ipsum
     </div>
   </div>
@@ -123,9 +115,7 @@ exports[`Form component <PlainText /> rendering should render plain text correct
     <div
       className=" plain-text__box"
     >
-      <div
-        className="label"
-      />
+      <PlainText__Label />
       Lorem Ipsum
     </div>
   </div>
