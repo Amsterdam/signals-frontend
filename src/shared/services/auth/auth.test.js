@@ -263,10 +263,13 @@ describe('The auth service', () => {
       login();
 
       expect(window.location.assign).toHaveBeenCalledWith(
-        'https://acc.api.data.amsterdam.nl/' +
-          'oauth2/authorize?idp_id=datapunt&response_type=token&client_id=sia' +
-          '&scope=openid%20email%20profile' +
-          '&state=123StateToken&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents'
+        'https://acc.api.data.amsterdam.nl/oauth2/authorize' +
+        '?client_id=sia' +
+        '&response_type=token' +
+        '&scope=openid%20email%20profile' +
+        '&state=123StateToken' +
+        '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
+        '&idp_id=datapunt'
       );
     });
   });
