@@ -97,7 +97,7 @@ describe('<MetaList />', () => {
         ],
       };
 
-      expect(getCategoryName(category)).toEqual('Foo (Bar,Baz)');
+      expect(getCategoryName(category)).toEqual('Foo (Bar, Baz)');
     });
   });
 });
