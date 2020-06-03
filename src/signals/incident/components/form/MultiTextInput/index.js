@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import map from 'lodash.map';
-// import { Input } from '@datapunt/asc-ui';
+
 import Input from 'components/Input';
 import Button from 'components/Button';
 
