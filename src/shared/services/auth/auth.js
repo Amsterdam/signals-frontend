@@ -158,7 +158,7 @@ export function login(domain) {
     `${CONFIGURATION.OIDC_AUTH_ENDPOINT}` +
     `?idp_id=${encodedDomain}` +
     `&response_type=token` +
-    `&client_id=sia` +
+    `&client_id=${CONFIGURATION.OIDC_CLIENT_ID}` +
     `&scope=${encodedScopes}` +
     `&state=${encodedStateToken}` +
     `&redirect_uri=${encodedRedirectUri}`
