@@ -1,6 +1,9 @@
 {
   "logoUrl": null,
+  "logoWidth": 0,
   "logoHeight": 0,
+  "logoWidthSmall": 0,
+  "logoHeightSmall": 0,
   "sentry": {
     "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
   },
