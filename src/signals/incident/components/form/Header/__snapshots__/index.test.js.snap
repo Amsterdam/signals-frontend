@@ -35,9 +35,7 @@ exports[`Form component <Header /> error messages should render custom error 1`]
       custom error message
     </div>
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
@@ -76,9 +74,7 @@ exports[`Form component <Header /> error messages should render email error 1`] 
       className="header__errors__item"
     />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
@@ -117,9 +113,7 @@ exports[`Form component <Header /> error messages should render maxLength error 
       className="header__errors__item"
     />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
@@ -156,9 +150,7 @@ exports[`Form component <Header /> error messages should render no error when el
       className="header__errors__item"
     />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
@@ -195,9 +187,7 @@ exports[`Form component <Header /> error messages should render optional field m
       className="header__errors__item"
     />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
@@ -236,9 +226,7 @@ exports[`Form component <Header /> error messages should render required error 1
       className="header__errors__item"
     />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
@@ -275,9 +263,7 @@ exports[`Form component <Header /> should render correctly 1`] = `
       className="header__errors__item"
     />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
@@ -307,8 +293,6 @@ exports[`Form component <Header /> should render when label is not available 1`]
       className="header__errors__item"
     />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
