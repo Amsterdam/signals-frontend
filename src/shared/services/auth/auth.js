@@ -155,7 +155,7 @@ export function login(domain) {
   const encodedRedirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
 
   global.location.assign(
-    `${CONFIGURATION.AUTH_ROOT}oauth2/authorize` +
+    `${CONFIGURATION.OIDC_AUTH_ENDPOINT}` +
     `?idp_id=${encodedDomain}` +
     `&response_type=token` +
     `&client_id=sia` +
