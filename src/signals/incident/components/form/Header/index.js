@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import styled, { css } from 'styled-components';
+import { themeSpacing, themeColor } from '@datapunt/asc-ui';
 
 import { Validators } from 'react-reactive-form';
-
-import './style.scss';
 
 const Children = styled.div`
   display: flex;
@@ -16,46 +14,73 @@ const Children = styled.div`
   }
 `;
 
+const Wrapper = styled.div`
+  ${({ invalid }) =>
+    invalid &&
+    css`
+      border-left: ${themeColor('support', 'invalid')} 2px solid;
+      padding-left: ${themeSpacing(3)};
+    `}
+`;
+
+const Label = styled.div`
+  font-family: Avenir Next LT W01 Demi;
+  margin-bottom: 10px;
+`;
+
+const Optional = styled.span`
+  font-family: Avenir Next LT W01-Regular;
+  margin-left: ${themeSpacing(2)};
+`;
+
+const ErrorItem = styled.div`
+  color: ${themeColor('support', 'invalid')};
+  font-size: 14px;
+  margin-bottom: ${themeSpacing(1)};
+`;
+
+const SubTitle = styled.div`
+  color: ${themeColor('tint', 'level5')};
+  margin-top: ${themeSpacing(-1)};
+  margin-bottom: ${themeSpacing(2)};
+`;
+
 const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
   const containsErrors =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
 
   return (
-    <div className={className}>
+    <Wrapper className={className} invalid={containsErrors}>
       {meta.label && (
-        <div className="header__label">
+        <Label>
           {meta.label}
 
           {!options ||
             !options.validators ||
             (options && options.validators && !options.validators.includes(Validators.required) && (
-              <span className="header--not-required">(optioneel)</span>
+              <Optional>(optioneel)</Optional>
             ))}
-        </div>
+        </Label>
       )}
 
-      {meta?.subtitle && <div className="header__subtitle">{meta.subtitle}</div>}
+      {meta?.subtitle && <SubTitle>{meta.subtitle}</SubTitle>}
 
       {containsErrors && (
         <div className="header__errors">
-          {touched && hasError('required') && <div className="header__errors__item">Dit is een verplicht veld</div>}
+          {touched && hasError('required') && <ErrorItem>Dit is een verplicht veld</ErrorItem>}
 
-          {touched && hasError('email') && (
-            <div className="header__errors__item">Het moet een geldig e-mailadres zijn</div>
-          )}
+          {touched && hasError('email') && <ErrorItem>Het moet een geldig e-mailadres zijn</ErrorItem>}
 
           {touched && hasError('maxLength') && (
-            <div className="header__errors__item">
-              U kunt maximaal ${getError('maxLength').requiredLength} tekens invoeren.
-            </div>
+            <ErrorItem>U kunt maximaal ${getError('maxLength').requiredLength} tekens invoeren.</ErrorItem>
           )}
 
-          {touched && hasError('custom') && <div className="header__errors__item">{getError('custom')}</div>}
+          {touched && hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
         </div>
       )}
 
       <Children>{children}</Children>
-    </div>
+    </Wrapper>
   );
 };
 
