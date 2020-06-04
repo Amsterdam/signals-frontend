@@ -7,6 +7,7 @@ import { controls as overlastOpHetWaterControls } from './wizard-step-2-vulaan/o
 import { controls as wegenVerkeerStraatmeubilairControls } from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
 import { controls as afvalControls } from './wizard-step-2-vulaan/afval';
 import { controls as overlastPersonenGroepenControls } from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
+import FormComponents from '../components/form';
 
 export const ObjectLabel = ({ value }) => value.label;
 export const Label = ({ value }) => value;
@@ -19,7 +20,11 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
       return ObjectLabel;
 
     case 'CheckboxInput':
-      return PreviewComponents.ListObjectValue;
+      if (meta.values) {
+        return PreviewComponents.ListObjectValue;
+      }
+
+      return () => 'Ja';
 
     case 'MultiTextInput':
       return SCSVLabel;
@@ -59,6 +64,20 @@ export default {
   formAction: 'CREATE_INCIDENT',
   form: {
     controls: {
+      page_summary: {
+        meta: {
+          value: 'summary',
+        },
+        render: FormComponents.HiddenInput,
+      },
+      extra_allow_sharing: {
+        meta: {
+          shortLabel: 'Toestemming contactgegevens delen',
+          value: 'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
+          pathMerge: 'extra_properties',
+        },
+        render: FormComponents.EmphasisCheckboxInput,
+      },
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,
@@ -69,12 +88,12 @@ export default {
     beschrijf: {
       source: {
         label: 'Bron',
-        render: ({ value }) => value.label,
+        render: ({ value }) => value?.label,
         authenticated: true,
       },
       priority: {
         label: 'Urgentie',
-        render: ({ value }) => value.label,
+        render: ({ value }) => value?.label,
         authenticated: true,
       },
       location: {

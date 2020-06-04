@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash.map';
 import isObject from 'lodash.isobject';
+import { Label } from '@datapunt/asc-ui';
+
 import Checkbox from 'components/Checkbox';
 
 import Header from '../Header';
@@ -16,6 +18,7 @@ function updateIncidentCheckboxMulti(checked, value, key, oldValue, meta, parent
   } else {
     output = output.filter(item => item.id !== key);
   }
+
   parent.meta.updateIncident({ [meta.name]: output });
 }
 
@@ -44,21 +47,21 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
               ))}
             </Fragment>
           ) : (
-            <div>
+            <div className="checkboxWrapper">
               <Checkbox
                 id={meta.name}
                 name={meta.name}
                 checked={handler().value.value}
-                onClick={e =>
+                onClick={e => {
                   parent.meta.updateIncident({
                     [meta.name]: {
                       label: meta.value,
                       value: e.target.checked,
                     },
-                  })
-                }
+                  });
+                }}
               />
-              <label htmlFor={meta.name}>{meta.value}</label>
+              <Label htmlFor={meta.name} label={meta.value} />
             </div>
           )}
         </Header>
