@@ -17,6 +17,7 @@ describe('<SelectInput />', () => {
         { key: 'inactive', name: 'Niet actief', value: false },
       ],
       value: '*',
+      label: 'Foo',
     };
   });
 
@@ -25,7 +26,7 @@ describe('<SelectInput />', () => {
   it('should render correctly', () => {
     const { container } = render(withAppContext(<SelectInput {...props} />));
 
-    const options = container.firstChild.querySelectorAll('option');
+    const options = container.querySelectorAll('option');
     expect(options).toHaveLength(props.options.length);
     expect(options[0].textContent).toEqual('Alles');
   });

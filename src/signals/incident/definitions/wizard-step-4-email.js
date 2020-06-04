@@ -20,6 +20,7 @@ export default {
           placeholder: 'E-mailadres',
           type: 'email',
           autoRemove: /[^a-zA-Z0-9@.!#$%&'*+\-/=?^_`{|}~;]/g,
+          autoFocus: true,
         },
         render: FormComponents.TextInput,
         options: {

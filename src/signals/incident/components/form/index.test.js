@@ -7,7 +7,6 @@ import HiddenInput from './HiddenInput';
 import MultiTextInput from './MultiTextInput';
 import PlainText from './PlainText';
 import RadioInputGroup from './RadioInputGroup';
-import RedirectButton from './RedirectButton';
 import SelectInput from './SelectInput';
 import TextInput from './TextInput';
 import TextareaInput from './TextareaInput';
@@ -30,7 +29,6 @@ describe('Form components', () => {
       MultiTextInput,
       PlainText,
       RadioInputGroup,
-      RedirectButton,
       SelectInput,
       TextInput,
       TextareaInput,

@@ -2,169 +2,92 @@
 
 exports[`Form component <Header /> error messages should render custom error 1`] = `
 <div
-  className=" header header--invalid"
+  className=""
 >
   <div
     className="header__label"
   >
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
+    <Component />
   </div>
-  <div
-    className="header__subtitle"
-  />
   <div
     className="header__errors"
   >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
     <div
       className="header__errors__item"
     >
       custom error message
     </div>
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
 exports[`Form component <Header /> error messages should render email error 1`] = `
 <div
-  className=" header header--invalid"
+  className=""
 >
   <div
     className="header__label"
   >
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
+    <Component />
   </div>
-  <div
-    className="header__subtitle"
-  />
   <div
     className="header__errors"
   >
-    <div
-      className="header__errors__item"
-    />
     <div
       className="header__errors__item"
     >
       Het moet een geldig e-mailadres zijn
     </div>
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
 exports[`Form component <Header /> error messages should render maxLength error 1`] = `
 <div
-  className=" header header--invalid"
+  className=""
 >
   <div
     className="header__label"
   >
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
+    <Component />
   </div>
-  <div
-    className="header__subtitle"
-  />
   <div
     className="header__errors"
   >
     <div
       className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
     >
-      U kunt maximaal 666 tekens invoeren.
+      U kunt maximaal $
+      666
+       tekens invoeren.
     </div>
-    <div
-      className="header__errors__item"
-    />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
 exports[`Form component <Header /> error messages should render no error when element is only touched 1`] = `
 <div
-  className=" header "
+  className=""
 >
   <div
     className="header__label"
   >
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
+    <Component />
   </div>
-  <div
-    className="header__subtitle"
-  />
-  <div
-    className="header__errors"
-  >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-  </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
 exports[`Form component <Header /> error messages should render optional field message 1`] = `
 <div
-  className=" header "
+  className=""
 >
   <div
     className="header__label"
@@ -176,48 +99,20 @@ exports[`Form component <Header /> error messages should render optional field m
       (optioneel)
     </span>
   </div>
-  <div
-    className="header__subtitle"
-  />
-  <div
-    className="header__errors"
-  >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-  </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
 exports[`Form component <Header /> error messages should render required error 1`] = `
 <div
-  className=" header header--invalid"
+  className=""
 >
   <div
     className="header__label"
   >
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
+    <Component />
   </div>
-  <div
-    className="header__subtitle"
-  />
   <div
     className="header__errors"
   >
@@ -226,89 +121,29 @@ exports[`Form component <Header /> error messages should render required error 1
     >
       Dit is een verplicht veld
     </div>
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
   </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
 exports[`Form component <Header /> should render correctly 1`] = `
 <div
-  className=" header "
+  className=""
 >
   <div
     className="header__label"
   >
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
+    <Component />
   </div>
-  <div
-    className="header__subtitle"
-  />
-  <div
-    className="header__errors"
-  >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-  </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;
 
 exports[`Form component <Header /> should render when label is not available 1`] = `
 <div
-  className=" header "
+  className=""
 >
-  <div
-    className="header__label"
-  />
-  <div
-    className="header__subtitle"
-  />
-  <div
-    className="header__errors"
-  >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-  </div>
-  <div
-    className="header__children"
-  />
+  <Header__Children />
 </div>
 `;

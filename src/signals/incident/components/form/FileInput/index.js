@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import Header from '../Header';
@@ -125,58 +125,50 @@ const FileInput = ({
   const numberOfEmtpy = (maxNumberOfFiles - previews.length - 1);
   const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
 
+  if (!meta?.isVisible) return null;
+
   return (
-    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-      {meta && meta.isVisible
-        ? (
-          <div className={`${meta.className || 'col-12'} mode_input file`}>
-            <Header
-              meta={meta}
-              options={validatorsOrOpts}
-              touched={touched}
-              hasError={hasError}
-              getError={getError}
-            >
-              <div className="file-input">
-                {previews.length ? previews.map(preview => (
-                  <div key={preview} className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}>
-                    {preview.includes('loading')
-                      ? <div className="progress-indicator progress-red"></div>
-                      : (
-                        <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
-                          <button aria-label="Verwijder deze foto" type="button" className="file-input__preview-button-delete" onClick={e => removeFile(e, preview, previews, handler().value)} />
-                        </div>
-                      )}
+    <Fragment>
+      <Header
+        meta={meta}
+        options={validatorsOrOpts}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      >
+        <div className="file-input">
+          {previews.length > 0 && previews.map(preview => (
+            <div key={preview} className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}>
+              {preview.includes('loading')
+                ? <div className="progress-indicator progress-red"></div>
+                : (
+                  <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
+                    <button aria-label="Verwijder deze foto" type="button" className="file-input__preview-button-delete" onClick={e => removeFile(e, preview, previews, handler().value)} />
                   </div>
-                )) : '' }
+                )}
+            </div>
+          ))}
 
-                {previews.length < maxNumberOfFiles
-                  ? (
-                    <div className="file-input__button">
-                      <label htmlFor="formUpload" className="file-input__button-label">
-                        <div className="file-input__button-label-icon" />
-                      </label>
-                      <input
-                        type="file"
-                        id="formUpload"
-                        accept={meta.allowedFileTypes}
-                        onChange={handleChange}
-                        multiple
-                      />
-                    </div>
-                  )
-                  : ''}
+          {previews.length < maxNumberOfFiles && (
+            <div className="file-input__button">
+              <label htmlFor="formUpload" className="file-input__button-label">
+                <div className="file-input__button-label-icon" />
+              </label>
+              <input
+                type="file"
+                id="formUpload"
+                accept={meta.allowedFileTypes}
+                onChange={handleChange}
+                multiple
+              />
+            </div>
+          )}
 
-                {empty.map(item => (<div key={item} className="file-input__empty">&nbsp;</div>))}
-              </div>
-            </Header>
-            {errors && errors.length
-              ? errors.map(error => <div key={error} className="file-input__error">{error}</div>)
-              : ''}
-          </div>
-        )
-        : ''}
-    </div>
+          {empty.map(item => (<div key={item} className="file-input__empty">&nbsp;</div>))}
+        </div>
+      </Header>
+      {errors?.length > 0 && errors.map(error => <div key={error} className="file-input__error">{error}</div>)}
+    </Fragment>
   );
 };
 

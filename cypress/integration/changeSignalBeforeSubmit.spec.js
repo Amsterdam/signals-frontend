@@ -234,7 +234,6 @@ describe('Change a signal before submit and check signal details', () => {
       cy.get(SIGNAL_DETAILS.urgency).contains('Normaal').should('be.visible');
       cy.get(SIGNAL_DETAILS.type).contains('Melding').should('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).contains('Schoon').should('be.visible');
-      cy.get(SIGNAL_DETAILS.department).contains('STW').should('be.visible');
       cy.get(SIGNAL_DETAILS.source).contains('online').should('be.visible');
     });
   });

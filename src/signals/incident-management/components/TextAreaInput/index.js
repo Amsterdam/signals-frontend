@@ -7,9 +7,7 @@ import Label from 'components/Label';
 import './style.scss';
 
 const TextAreaInput = props => {
-  const {
-    name, display, placeholder, rows, maxLength,
-  } = props;
+  const { name, display, placeholder, rows, maxLength } = props;
   const render = ({ handler, value }) => (
     <div className="text-area-input">
       <div className="mode_input text rij_verplicht">
@@ -24,15 +22,8 @@ const TextAreaInput = props => {
             {...handler()}
             placeholder={placeholder}
             rows={rows}
+            helpText={maxLength > 0 && `${value ? value.length : '0'}/${maxLength} tekens`}
           />
-          { maxLength
-            && (
-              <div className="input-help">
-                <span className="text-area-input__counter">
-                  {`${value ? value.length : '0'}/${maxLength} tekens` }
-                </span>
-              </div>
-            )}
         </div>
       </div>
     </div>

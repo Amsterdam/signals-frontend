@@ -1,100 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <SelectInput /> rendering should render empty select field when values are not supplied 1`] = `
-<div
-  className="row"
+<Header
+  className=""
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "isVisible": true,
+      "name": "input-field-name",
+      "placeholder": "type here",
+      "values": undefined,
+    }
+  }
+  touched={false}
 >
-  <div
-    className="col-12 mode_input"
-  >
-    <Header
-      className=""
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      meta={
-        Object {
-          "isVisible": true,
-          "name": "input-field-name",
-          "placeholder": "type here",
-          "values": undefined,
-        }
-      }
-      touched={false}
-    >
-      <div
-        className="invoer"
-      >
-        <select
-          onChange={[Function]}
-          type="select"
-          value="baz"
-        />
-      </div>
-    </Header>
-  </div>
-</div>
+  <SelectInput
+    name="input-field-name"
+    onChange={[Function]}
+    options={Array []}
+    value="baz"
+  />
+</Header>
 `;
 
-exports[`Form component <SelectInput /> rendering should render no select field when not visible 1`] = `
-<div
-  className=""
-/>
-`;
+exports[`Form component <SelectInput /> rendering should render no select field when not visible 1`] = `""`;
 
 exports[`Form component <SelectInput /> rendering should render select field correctly 1`] = `
-<div
-  className="row"
+<Header
+  className=""
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "isVisible": true,
+      "name": "input-field-name",
+      "placeholder": "type here",
+      "values": Object {
+        "bar": "Bar",
+        "baz": "Baz",
+        "foo": "Foo",
+      },
+    }
+  }
+  touched={false}
 >
-  <div
-    className="col-12 mode_input"
-  >
-    <Header
-      className=""
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      meta={
+  <SelectInput
+    name="input-field-name"
+    onChange={[Function]}
+    options={
+      Array [
         Object {
-          "isVisible": true,
-          "name": "input-field-name",
-          "placeholder": "type here",
-          "values": Object {
-            "bar": "Bar",
-            "baz": "Baz",
-            "foo": "Foo",
-          },
-        }
-      }
-      touched={false}
-    >
-      <div
-        className="invoer"
-      >
-        <select
-          onChange={[Function]}
-          type="select"
-          value="baz"
-        >
-          <option
-            key="input-field-name-foo"
-            value="foo"
-          >
-            Foo
-          </option>
-          <option
-            key="input-field-name-bar"
-            value="bar"
-          >
-            Bar
-          </option>
-          <option
-            key="input-field-name-baz"
-            value="baz"
-          >
-            Baz
-          </option>
-        </select>
-      </div>
-    </Header>
-  </div>
-</div>
+          "key": "foo",
+          "name": "foo",
+          "value": "Foo",
+        },
+        Object {
+          "key": "bar",
+          "name": "bar",
+          "value": "Bar",
+        },
+        Object {
+          "key": "baz",
+          "name": "baz",
+          "value": "Baz",
+        },
+      ]
+    }
+    value="baz"
+  />
+</Header>
 `;

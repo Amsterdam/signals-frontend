@@ -12,4 +12,12 @@ describe('components/TextArea', () => {
 
     expect(container.querySelector('textarea[cols="40"][rows="5"].txtArea')).toBeTruthy();
   });
+
+  it('renders help text', () => {
+    const { getByText } = render(
+      withAppContext(<TextArea cols="40" rows="5" className="txtArea" helpText="You have entered 0/10 characters" />),
+    );
+
+    expect(getByText('You have entered 0/10 characters')).toBeInTheDocument();
+  });
 });

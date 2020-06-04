@@ -1,9 +1,61 @@
-@import "config.scss";
+@import "./config.scss";
+
+@import "./stijl/css/amsterdam-components/patterns/20-molecules/notification/notification";
+@import "./stijl/css/grid-extensions";
+
+@font-face {
+  font-family: "Avenir Next LT W01-Regular";
+  src: url("./stijl/fonts/AvenirNext/2cd55546-ec00-4af9-aeca-4a3cd186da53.woff2") format("woff2"),
+  url("./stijl/fonts/AvenirNext/1e9892c0-6927-4412-9874-1b82801ba47a.woff") format("woff");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Avenir Next LT W01 Demi";
+  src: url("./stijl/fonts/AvenirNextDemi/aad99a1f-7917-4dd6-bbb5-b07cedbff64f.woff2") format("woff2"),
+  url("./stijl/fonts/AvenirNextDemi/91b50bbb-9aa1-4d54-9159-ec6f19d14a7c.woff") format("woff");
+  font-weight: normal;
+}
+
+.col-3,
+.col-12,
+.col-md-6,
+.col-sm-12 {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  max-width: 100%;
+}
+
+.col-3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+@media (min-width: 576px) {
+  .col-sm-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 760px) {
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+*, :after, :before {
+  box-sizing: inherit;
+}
 
 html,
 body {
   height: 100%;
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -15,6 +67,20 @@ body {
   font-size: 1rem;
   line-height: 22px;
   overflow-y: scroll;
+  background-color: $ams-background-sidebars;
+}
+
+h1, h2, h3, h4, th, strong {
+  @include avenirnextdemi();
+}
+
+label {
+  font-size: 1rem !important;
+
+  & > div {
+    /* Overwriting styling from @datapunt/asc-ui */
+    padding: 0 !important;
+  }
 }
 
 ul li {
@@ -23,38 +89,71 @@ ul li {
   text-indent: 0;
   list-style-type: none;
 }
+table {
+  text-align: left;
+  border-collapse: collapse;
 
-h1 {
-  @include avenirnextdemi();
-  font-size: 30px;
-  line-height: 38px;
-  font-weight: normal !important;
-}
-h2 {
-  @include avenirnextdemi();
-  font-size: 24px;
-  line-height: 30px;
-  font-weight: normal !important;
-}
-h3 {
-  @include avenirnextdemi();
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: normal !important;
-}
-h4 {
-  @include avenirnextdemi();
-  font-size: 18px;
-  line-height: 25px;
-  font-weight: normal !important;
+  tr {
+    padding: .5rem;
+
+    &:hover {
+      background-color: $ams-top-menu;
+      td {
+        box-shadow: 0 1px 0 1px $ams-top-menu;
+      }
+    }
+  }
+
+  td, th {
+    padding: .5rem;
+  }
+
+  thead {
+    tr {
+      &:hover {
+        background: inherit;
+      }
+    }
+
+    th {
+      border-top: 1px solid $ams-zwart;
+      border-bottom: 1px solid $ams-zwart;
+    }
+  }
+
+  td {
+    border-bottom: 1px solid $ams-middengrijs;
+    box-shadow: 0 1px 0 1px $ams-wit;
+  }
 }
 
 dd {
   margin: 0;
 }
 
+.antwoord {
+  display: block;
+  margin-bottom: 10px;
+  padding: 0 0 0 38px;
+  position: relative;
+}
+
+.row + .row,
+.row + .knoppen {
+  margin-top: 20px;
+}
+
+fieldset {
+  margin-bottom: 20px;
+}
+
 .pre-wrap {
   white-space: pre-wrap;
+}
+
+.input-help {
+  font-size: .875rem;
+  color: #666;
 }
 
 #app {
