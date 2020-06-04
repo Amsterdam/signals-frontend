@@ -1,7 +1,21 @@
 import React from 'react';
 import { LogoShort } from '@datapunt/asc-assets';
 import styled, { css } from 'styled-components';
-import { srOnlyStyle, breakpoint, themeSpacing, focusStyleOutline } from '@datapunt/asc-ui/lib/utils';
+import { breakpoint, themeSpacing, themeColor } from '@datapunt/asc-ui';
+
+export const srOnlyStyle = () => ({ srOnly }) =>
+  srOnly
+    ? css`
+        border-width: 0;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      `
+    : '';
 
 export const LogoStyle = styled(LogoShort)`
   display: block;
@@ -19,14 +33,22 @@ const AmsterdamLogoStyle = styled.a`
   width: 68px;
   flex-shrink: 0;
   margin-right: ${themeSpacing(3)};
-  ${focusStyleOutline()}
-  ${({ tall }) => tall && css`
-    @media screen and ${breakpoint('min-width', 'laptopM')} {
-      margin-right: ${themeSpacing(10)};
-    }
-  `};
-`;
 
+  &&:focus {
+    outline-color: ${themeColor('support', 'focus')};
+    outline-style: solid;
+    outline-offset: 0px;
+    outline-width: 3px;
+  }
+
+  ${({ tall }) =>
+    tall &&
+    css`
+      @media screen and ${breakpoint('min-width', 'laptopM')} {
+        margin-right: ${themeSpacing(10)};
+      }
+    `};
+`;
 
 const AmsterdamLogo = ({ ...otherProps }) => (
   <AmsterdamLogoStyle {...otherProps}>

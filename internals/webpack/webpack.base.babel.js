@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const devMode = process.env.NODE_ENV !== 'production';
+const __rootdir = process.cwd();
 
 module.exports = options => ({
   mode: options.mode,
@@ -17,7 +18,7 @@ module.exports = options => ({
   // eslint-disable-next-line prefer-object-spread
   output: Object.assign(
     {
-      path: path.resolve(process.cwd(), 'build'),
+      path: path.resolve(__rootdir, 'build'),
       publicPath: '/',
     },
     options.output
@@ -138,6 +139,10 @@ module.exports = options => ({
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
+    alias: {
+      '@datapunt/asc-ui': path.resolve(__rootdir, 'node_modules/@datapunt/asc-ui/lib'),
+      '@datapunt/asc-assets': path.resolve(__rootdir, 'node_modules/@datapunt/asc-assets/lib'),
+    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
