@@ -57,11 +57,12 @@ const Location = ({ location, onShowLocation, onEditLocation }) => {
       <dt data-testid="detail-location">Locatie</dt>
       <Description>
         <StyledEditButton
-          variant="application"
-          iconSize={18}
+          data-testid="editLocationButton"
           icon={<IconEdit />}
-          type="button"
+          iconSize={18}
           onClick={onEditLocation}
+          type="button"
+          variant="application"
         />
 
         <StyledHighLight subscribeTo={location}>

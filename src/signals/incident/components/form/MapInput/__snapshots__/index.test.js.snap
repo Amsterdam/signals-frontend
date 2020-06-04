@@ -61,6 +61,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
               "wrapLatLngBounds": [Function],
               "zoom": [Function],
             },
+            "gemeentenaam": "amsterdam",
             "maxBounds": Array [
               Array [
                 52.25168,
@@ -71,6 +72,8 @@ exports[`Form component <MapInput /> rendering should render map field correctly
                 5.10737,
               ],
             ],
+            "maxZoom": 14,
+            "minZoom": 8,
             "zoom": 10,
             "zoomControl": false,
           }

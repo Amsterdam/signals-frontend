@@ -7,7 +7,7 @@
   }
 
   &__subtitle {
-    color: $ams-donkergrijs;
+    color: #767676;
     margin-top: -5px;
     margin-bottom: 8px;
   }
@@ -19,14 +19,14 @@
 
   &__errors {
     &__item {
-      color: $ams-rood;
+      color: #ec0000;
       font-size: 14px;
       margin-bottom: 4px;
     }
   }
 
   &--invalid {
-    border-left: $ams-rood 2px solid;
+    border-left: #ec0000 2px solid;
     padding-left: 12px;
   }
 }
