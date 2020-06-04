@@ -69,13 +69,17 @@ describe('<MetaList />', () => {
 
     it('should call onPatchIncident', async () => {
       const { getAllByTestId } = render(withAppContext(<MetaList {...props} />));
-      const editButtons = getAllByTestId('editButton');
+
+      // priority button data-testid attribute is dynamically generated in the ChangeValue component:
+      const editTestId = 'editPriorityButton';
+      const submitTestId = 'submitPriorityButton';
+      const editButtons = getAllByTestId(editTestId);
 
       act(() => {
         fireEvent.click(editButtons[0]);
       });
 
-      const submitButtons = getAllByTestId('submitButton');
+      const submitButtons = getAllByTestId(submitTestId);
 
       expect(props.onPatchIncident).not.toHaveBeenCalled();
 
@@ -92,12 +96,12 @@ describe('<MetaList />', () => {
       const category = {
         name: 'Foo',
         departments:[
-          { code: 'Bar' },
-          { code: 'Baz' },
+          { code: 'Bar', is_responsible: true },
+          { code: 'Baz', is_responsible: false },
         ],
       };
 
-      expect(getCategoryName(category)).toEqual('Foo (Bar, Baz)');
+      expect(getCategoryName(category)).toEqual('Foo (Bar)');
     });
   });
 });

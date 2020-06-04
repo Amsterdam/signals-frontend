@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
-import {  makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
 import { incidentType } from 'shared/types';
@@ -45,19 +45,21 @@ const EditButton = styled(Button)`
 `;
 
 export const getCategoryName = ({ name, departments }) => {
-  const departmensStringList = departments?.length ? ` (${departments.map(({ code }) => code).join(', ')})` : '';
+  const departmensStringList = departments?.length > 0 ? ` (${departments.filter(({ is_responsible }) => is_responsible).map(({ code }) => code).join(', ')})` : '';
   return `${name}${departmensStringList}`;
 };
 
 const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
   const [valueChanged, setValueChanged] = useState(false);
   const subcategories = useSelector(makeSelectSubCategories);
-  const subcategoryOptions = useMemo(() => subcategories?.map(
-    category => ({
-      ...category,
-      value: getCategoryName(category),
-    })
-  ), [subcategories]);
+  const subcategoryOptions = useMemo(
+    () =>
+      subcategories?.map(category => ({
+        ...category,
+        value: getCategoryName(category),
+      })),
+    [subcategories]
+  );
 
   const subcatHighlightDisabled = ![
     'm',
@@ -90,7 +92,14 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
 
       <Highlight subscribeTo={incident.status.state} valueChanged={valueChanged}>
         <dt data-testid="meta-list-status-definition">
-          <EditButton icon={<IconEdit />} iconSize={18} variant="application" type="button" onClick={onEditStatus} />
+          <EditButton
+            data-testid="editStatusButton"
+            icon={<IconEdit />}
+            iconSize={18}
+            variant="application"
+            type="button"
+            onClick={onEditStatus}
+          />
           Status
         </dt>
         <dd className="alert" data-testid="meta-list-status-value">

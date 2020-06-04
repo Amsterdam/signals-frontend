@@ -1,15 +1,22 @@
 import React from 'react';
-import { Row, Column, Paragraph } from '@datapunt/asc-ui';
+import styled from 'styled-components';
+import { Row, Column, Paragraph, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { login } from 'shared/services/auth/auth';
 
 import Button from 'components/Button';
 import ButtonBar from 'components/ButtonBar';
 
+const Notification = styled.div`
+  border-left: 3px solid ${themeColor('secondary')};
+  margin: ${themeSpacing(6)} 0;
+  padding-left: ${themeSpacing(5)};
+`;
+
 const LoginPage = () => (
   <Row data-testid="loginPage">
     <Column span={12}>
-      <div className="notification notification-red margin-top-bottom">
+      <Notification>
         <Paragraph>Om deze pagina te zien dient u ingelogd te zijn.</Paragraph>
 
         <ButtonBar>
@@ -33,7 +40,7 @@ const LoginPage = () => (
             <span className="value">Inloggen ADW</span>
           </Button>
         </ButtonBar>
-      </div>
+      </Notification>
     </Column>
   </Row>
 );

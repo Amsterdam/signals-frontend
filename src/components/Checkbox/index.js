@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Checkbox as AscCheckbox, themeSpacing } from '@datapunt/asc-ui';
 
-const Wrapper = styled.span`
+const Wrapper = styled.div`
   display: inline-block;
   background: white;
   padding-right: ${themeSpacing(2)};

@@ -8,6 +8,7 @@ import 'leaflet/dist/leaflet.css';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
+import configuration from 'shared/services/configuration/configuration';
 import MapContext from 'containers/MapContext/context';
 import {
   setLocationAction,
@@ -158,7 +159,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
           topLeft={
             <StyledAutosuggest
               formatResponse={formatPDOKResponse}
-              gemeentenaam="amsterdam"
+              gemeentenaam={configuration.map.options.gemeentenaam}
               onClear={() => dispatch(resetLocationAction())}
               onSelect={onSelect}
               placeholder="Zoek adres"
