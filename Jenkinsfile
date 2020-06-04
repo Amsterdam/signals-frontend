@@ -44,17 +44,29 @@ node('BS16 || BS17') {
     }
 
     if (BRANCH == "develop") {
-        stage("Deploy to ACC") {
+        stage("Deploy Amsterdam ACC") {
             tryStep "deployment", {
                 build job: '/SIA_Signalen_Amsterdam/signals-amsterdam/develop'
+            }
+        }
+
+        stage("Deploy Weesp ACC") {
+            tryStep "deployment", {
+                build job: '/SIA_Signalen_Amsterdam/signals-weesp/develop'
             }
         }
     }
 
     if (BRANCH == "master") {
-        stage("Deploy to PROD") {
+        stage("Deploy Amsterdam PROD") {
             tryStep "deployment", {
                 build job: '/SIA_Signalen_Amsterdam/signals-amsterdam/master'
+            }
+        }
+
+        stage("Deploy Weesp PROD") {
+            tryStep "deployment", {
+                build job: '/SIA_Signalen_Amsterdam/signals-weesp/master'
             }
         }
     }

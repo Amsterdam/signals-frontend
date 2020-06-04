@@ -45,14 +45,14 @@ const EditButton = styled(Button)`
 `;
 
 export const getCategoryName = ({ name, departments }) => {
-  const departmensStringList = departments?.length ? ` (${departments.map(({ code }) => code).join(',')})` : '';
+  const departmensStringList = departments?.length ? ` (${departments.map(({ code }) => code).join(', ')})` : '';
   return `${name}${departmensStringList}`;
 };
 
 const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
   const [valueChanged, setValueChanged] = useState(false);
   const subcategories = useSelector(makeSelectSubCategories);
-  const subcategoryOptions = useMemo(() => subcategories.map(
+  const subcategoryOptions = useMemo(() => subcategories?.map(
     category => ({
       ...category,
       value: getCategoryName(category),

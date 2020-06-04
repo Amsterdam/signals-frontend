@@ -24,6 +24,7 @@ export const Form = styled.form`
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     grid-template-columns: 8fr 4fr;
+    grid-column-gap: ${themeSpacing(5)};
 
     ${({ isSummary }) => isSummary && css`
       grid-template-columns: 4fr 6fr;

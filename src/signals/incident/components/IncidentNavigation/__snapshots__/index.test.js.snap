@@ -73,13 +73,11 @@ exports[`<IncidentNavigation /> rendering render correctly button with submittin
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        0
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
@@ -183,13 +181,11 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        0
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
@@ -286,13 +282,11 @@ exports[`<IncidentNavigation /> rendering render correctly last step with no but
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        0
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
@@ -378,13 +372,11 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        0
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
@@ -495,13 +487,11 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        0
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
@@ -587,13 +577,11 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        0
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
