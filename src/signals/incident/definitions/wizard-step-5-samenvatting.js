@@ -19,7 +19,11 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
       return ObjectLabel;
 
     case 'CheckboxInput':
-      return PreviewComponents.ListObjectValue;
+      if (meta.values) {
+        return PreviewComponents.ListObjectValue;
+      }
+
+      return () => 'Ja';
 
     case 'MultiTextInput':
       return SCSVLabel;
