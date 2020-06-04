@@ -165,11 +165,11 @@ const ChangeValue = ({
             {info && <InfoText text={info} />}
 
             <ButtonBar>
-              <SaveButton data-testid="submitButton" variant="secondary" type="submit">
+              <SaveButton data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="secondary" type="submit">
                 Opslaan
               </SaveButton>
 
-              <Button data-testid="cancelButton" variant="tertiary" type="button" onClick={handleCancel}>
+              <Button data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="tertiary" type="button" onClick={handleCancel}>
                 Annuleren
               </Button>
             </ButtonBar>
@@ -181,11 +181,11 @@ const ChangeValue = ({
 
   return (
     <Fragment>
-      <dt>
+      <dt data-testid={`meta-list-${type}-definition`}>
         {display}
         {!showForm && (
           <EditButton
-            data-testid="editButton"
+            data-testid={`edit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`}
             disabled={disabled}
             icon={<IconEdit />}
             iconSize={18}
@@ -196,9 +196,9 @@ const ChangeValue = ({
       </dt>
 
       {showForm ? (
-        <dd>{editForm}</dd>
+        <dd data-testid={`meta-list-${type}-value`}>{editForm}</dd>
       ) : (
-        <dd className={valueClass}>
+        <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
           <DisplayValue data-testid="valuePath">
             {getListValueByKey(list, get(incident, valuePath || path))}
           </DisplayValue>
