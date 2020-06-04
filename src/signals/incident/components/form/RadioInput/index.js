@@ -8,7 +8,7 @@ import { resetExtraState, updateIncident } from 'signals/incident/containers/Inc
 
 const StyledLabel = styled(Label)`
   & > * {
-    font-family: Avenir Next LT W01-Regular, arial, sans-serif;
+    font-weight: 400 !important;
   }
 `;
 

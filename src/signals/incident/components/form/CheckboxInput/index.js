@@ -19,53 +19,46 @@ function updateIncidentCheckboxMulti(checked, value, key, oldValue, meta, parent
   parent.meta.updateIncident({ [meta.name]: output });
 }
 
-const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => (
-  <div className={`${meta?.isVisible ? 'row' : ''}`}>
-    {meta?.isVisible && (
-      <div className={`${meta.className || 'col-12'} mode_input`}>
-        <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-          {isObject(meta.values) ? (
-            <Fragment>
-              <input type="hidden" {...handler()} />
+const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
+  meta?.isVisible && (
+    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+      {isObject(meta.values) ? (
+        <Fragment>
+          <input type="hidden" {...handler()} />
 
-              {map(meta.values, (value, key) => (
-                <div key={key}>
-                  <Checkbox
-                    id={`${meta.name}-${key + 1}`}
-                    name={`${meta.name}-${key + 1}`}
-                    value={key}
-                    checked={(handler().value || []).find(item => item.id === key)}
-                    onClick={e =>
-                      updateIncidentCheckboxMulti(e.target.checked, value, key, handler().value, meta, parent)
-                    }
-                  />
-                  <label htmlFor={`${meta.name}-${key + 1}`}>{value}</label>
-                </div>
-              ))}
-            </Fragment>
-          ) : (
-            <div>
+          {map(meta.values, (value, key) => (
+            <div key={key}>
               <Checkbox
-                id={meta.name}
-                name={meta.name}
-                checked={handler().value.value}
-                onClick={e =>
-                  parent.meta.updateIncident({
-                    [meta.name]: {
-                      label: meta.value,
-                      value: e.target.checked,
-                    },
-                  })
-                }
+                id={`${meta.name}-${key + 1}`}
+                name={`${meta.name}-${key + 1}`}
+                value={key}
+                checked={(handler().value || []).find(item => item.id === key)}
+                onClick={e => updateIncidentCheckboxMulti(e.target.checked, value, key, handler().value, meta, parent)}
               />
-              <label htmlFor={meta.name}>{meta.value}</label>
+              <label htmlFor={`${meta.name}-${key + 1}`}>{value}</label>
             </div>
-          )}
-        </Header>
-      </div>
-    )}
-  </div>
-);
+          ))}
+        </Fragment>
+      ) : (
+        <div>
+          <Checkbox
+            id={meta.name}
+            name={meta.name}
+            checked={handler().value.value}
+            onClick={e =>
+              parent.meta.updateIncident({
+                [meta.name]: {
+                  label: meta.value,
+                  value: e.target.checked,
+                },
+              })
+            }
+          />
+          <label htmlFor={meta.name}>{meta.value}</label>
+        </div>
+      )}
+    </Header>
+  );
 
 CheckboxInput.propTypes = {
   handler: PropTypes.func,

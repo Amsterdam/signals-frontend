@@ -21,20 +21,14 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
     parent.meta.updateIncident({ location });
   };
 
-  return (
-    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-      {meta?.isVisible && (
-        <div className={`${meta.className || 'col-12'} mode_input`}>
-          <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-            <div className="invoer">
-              <MapContext>
-                <MapInputComponent onChange={onLocationChange} value={value} mapOptions={mapOptions} />
-              </MapContext>
-            </div>
-          </Header>
-        </div>
-      )}
-    </div>
+  return meta?.isVisible && (
+    <Header className="mapInput" meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+      <div className="invoer">
+        <MapContext>
+          <MapInputComponent onChange={onLocationChange} value={value} mapOptions={mapOptions} />
+        </MapContext>
+      </div>
+    </Header>
   );
 };
 

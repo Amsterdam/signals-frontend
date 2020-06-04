@@ -10,7 +10,7 @@ import { controls as overlastPersonenGroepenControls } from './wizard-step-2-vul
 
 export const ObjectLabel = ({ value }) => value.label;
 export const Label = ({ value }) => value;
-export const SCSVLabel = ({ value }) => value.join('; ');
+export const SCSVLabel = ({ value }) => value.filter(Boolean).join('; ');
 export const Null = () => null;
 
 export const renderPreview = ({ render: renderFunc, meta }) => {
