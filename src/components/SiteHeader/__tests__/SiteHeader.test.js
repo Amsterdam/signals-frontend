@@ -7,7 +7,7 @@ import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';
 import configuration from 'shared/services/configuration/configuration';
 
-import SiteHeader, { breakpoint } from '../index';
+import SiteHeader, { menuBreakpoint } from '../index';
 
 const mmm = MatchMediaMock.create();
 
@@ -16,7 +16,7 @@ jest.mock('shared/services/configuration/configuration');
 
 describe('components/SiteHeader', () => {
   beforeEach(() => {
-    mmm.setConfig({ type: 'screen', width: breakpoint + 1 });
+    mmm.setConfig({ type: 'screen', width: menuBreakpoint + 1 });
 
     // eslint-disable-next-line no-undef
     Object.defineProperty(window, 'matchMedia', {
@@ -47,12 +47,8 @@ describe('components/SiteHeader', () => {
     cleanup();
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
+    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
 
-    // eslint-disable-next-line no-undef
-    Object.defineProperty(window, 'matchMedia', {
-      value: mmm,
-    });
 
     act(() => {
       history.push('/manage');
@@ -88,7 +84,7 @@ describe('components/SiteHeader', () => {
     cleanup();
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
+    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
 
     act(() => {
       history.push('/manage');

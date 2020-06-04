@@ -5,8 +5,8 @@ import {
   Paragraph,
   themeSpacing,
   themeColor,
+  ascDefaultTheme as theme,
 } from '@datapunt/asc-ui';
-import { ascDefaultTheme as theme } from '@datapunt/asc-core';
 import {
   SITE_HEADER_BOTTOM_GAP_HEIGHT,
   SITE_HEADER_HEIGHT_TALL,
