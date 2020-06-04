@@ -28,7 +28,7 @@ const EmphasisCheckboxInput = props => (
 
 EmphasisCheckboxInput.propTypes = {
   /**
-   * Each form control in reac-reactive-form expects to get a 'parent' prop. This prop isn't passed on when
+   * Each form control in react-reactive-form expects to get a 'parent' prop. This prop isn't passed on when
    * rendering a form control component in another component. The '_parent' prop needs to be passed through
    * as 'parent' prop to make the damn thing work.
    */

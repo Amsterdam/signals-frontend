@@ -70,11 +70,11 @@ export default {
         },
         render: FormComponents.HiddenInput,
       },
-      extra_allow_sharing: {
+      sharing_allowed: {
         meta: {
           shortLabel: 'Toestemming contactgegevens delen',
           value: 'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
-          pathMerge: 'extra_properties',
+          path: 'reporter.sharing_allowed',
         },
         render: FormComponents.EmphasisCheckboxInput,
       },
