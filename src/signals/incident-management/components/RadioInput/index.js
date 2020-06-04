@@ -35,7 +35,7 @@ const RadioInput = ({ name, display, values }) => {
             {values?.map(({ key, value }) => (
               <StyledLabel key={key} label={value}>
                 <Radio
-                  defaultChecked={current === key}
+                  checked={current === key}
                   id={`${name}-${key}`}
                   data-testid={`${name}-${key}`}
                   {...handler('radio', key)}
