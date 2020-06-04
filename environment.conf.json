@@ -32,7 +32,10 @@
         [52.50536, 5.10737]
       ],
       "center": [52.3731081, 4.8932945],
-      "zoom": 10
+      "zoom": 10,
+      "maxZoom": 14,
+      "minZoom": 8,
+      "gemeentenaam": "amsterdam"
     }
   },
   "ROOT": "http://localhost:3001/",

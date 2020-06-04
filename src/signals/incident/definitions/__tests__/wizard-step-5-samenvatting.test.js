@@ -10,7 +10,8 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
       expect(renderPreview({ render: { name: 'TextInput' } })).toEqual(Label);
       expect(renderPreview({ render: { name: 'TextareaInput' } })).toEqual(Label);
       expect(renderPreview({ render: { name: 'MultiTextInput' } })).toEqual(SCSVLabel);
-      expect(renderPreview({ render: { name: 'CheckboxInput' } })).toEqual(PreviewComponents.ListObjectValue);
+      expect(renderPreview({ render: { name: 'CheckboxInput' }, meta: { values: {} } })).toEqual(PreviewComponents.ListObjectValue);
+      expect(renderPreview({ render: { name: 'CheckboxInput' }, meta: { value: '' } })).toEqual(expect.any(Function));
       expect(renderPreview({ render: { name: 'SomethingElse' } })).toEqual(Null);
     });
   });

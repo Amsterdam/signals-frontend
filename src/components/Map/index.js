@@ -19,12 +19,16 @@ const StyledMap = styled(MapComponent)`
   }
 `;
 
+const ZoomButtons = styled.div``;
+
 const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, events, setInstance }) => {
   const hasTouchCapabilities = 'ontouchstart' in window;
   const showZoom = hasZoomControls && !hasTouchCapabilities;
   const options = useMemo(
     () => ({
       ...mapOptions,
+      maxZoom: mapOptions.maxZoom || configuration.map.options.maxZoom,
+      minZoom: mapOptions.minZoom || configuration.map.options.minZoom,
       dragging: canBeDragged && !hasTouchCapabilities,
       tap: false,
       scrollWheelZoom: false,
@@ -34,7 +38,15 @@ const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, e
 
   return (
     <StyledMap className={className} data-testid="map-base" options={options} events={events} setInstance={setInstance}>
-      {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
+      {showZoom && (
+        <StyledViewerContainer
+          bottomRight={
+            <ZoomButtons data-testid="mapZoom">
+              <Zoom />
+            </ZoomButtons>
+          }
+        />
+      )}
 
       {children}
 
@@ -66,6 +78,8 @@ Map.propTypes = {
    */
   mapOptions: PropTypes.shape({
     attributionControl: PropTypes.bool,
+    maxZoom: PropTypes.number,
+    minZoom: PropTypes.number,
   }).isRequired,
   /**
    * useState function that sets a reference to the map instance
