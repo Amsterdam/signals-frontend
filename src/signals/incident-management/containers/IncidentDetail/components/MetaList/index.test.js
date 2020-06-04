@@ -96,12 +96,12 @@ describe('<MetaList />', () => {
       const category = {
         name: 'Foo',
         departments:[
-          { code: 'Bar' },
-          { code: 'Baz' },
+          { code: 'Bar', is_responsible: true },
+          { code: 'Baz', is_responsible: false },
         ],
       };
 
-      expect(getCategoryName(category)).toEqual('Foo (Bar, Baz)');
+      expect(getCategoryName(category)).toEqual('Foo (Bar)');
     });
   });
 });
