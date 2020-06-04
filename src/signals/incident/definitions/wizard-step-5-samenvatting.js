@@ -20,7 +20,7 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
       return ObjectLabel;
 
     case 'CheckboxInput':
-      if (meta.values) {
+      if (meta?.values) {
         return PreviewComponents.ListObjectValue;
       }
 
