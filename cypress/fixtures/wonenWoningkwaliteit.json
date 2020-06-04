@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen"
+    ],
+    [0.5979988343365864]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen/sub_categories/woningkwaliteit"
+    ],
+    [0.5832784799039843]
+  ]
+}

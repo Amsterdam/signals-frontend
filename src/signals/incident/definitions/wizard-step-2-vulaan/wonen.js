@@ -504,7 +504,7 @@ const woningkwaliteit = {
       className: 'col-sm-12 col-md-8',
       type: 'caution',
       value: [
-        'Meldt uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in',
+        'Meld uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in.',
       ],
     },
     render: FormComponents.PlainText,

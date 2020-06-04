@@ -1,350 +1,295 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <DateTimeInput /> rendering should render date time field correctly 1`] = `
-<div
-  className="row"
+<Header
+  className=""
+  meta={
+    Object {
+      "isVisible": true,
+      "name": "input-field-name",
+    }
+  }
 >
   <div
-    className="col-12 mode_input datetime-input"
+    className="datetime-input__earlier"
   >
     <div
-      className="invoer antwoorden"
+      className="datetime-input__earlier-date"
     >
-      <Header
-        className=""
-        meta={
-          Object {
-            "isVisible": true,
-            "name": "input-field-name",
-          }
+      <SelectInput
+        data-testid="selectDay"
+        label={
+          <strong>
+            Dag
+          </strong>
         }
-      >
-        <div
-          className="datetime-input__earlier"
-        >
-          <div
-            className="datetime-input__label"
-          >
-            <label
-              htmlFor="input-field-name-select-day"
-            >
-              Dag
-            </label>
-          </div>
-          <div
-            className="invoer datetime-input__earlier-date"
-          >
-            <select
-              className="datetime-input__earlier-day"
-              id="input-field-name-select-day"
-              onChange={[Function]}
-            >
-              <option
-                key="select-day-option-0"
-                value="Vandaag"
-              >
-                Vandaag
-              </option>
-              <option
-                key="select-day-option-1"
-                value="2017-02-13"
-              >
-                Monday 13 February
-              </option>
-              <option
-                key="select-day-option-2"
-                value="2017-02-12"
-              >
-                Sunday 12 February
-              </option>
-              <option
-                key="select-day-option-3"
-                value="2017-02-11"
-              >
-                Saturday 11 February
-              </option>
-              <option
-                key="select-day-option-4"
-                value="2017-02-10"
-              >
-                Friday 10 February
-              </option>
-              <option
-                key="select-day-option-5"
-                value="2017-02-09"
-              >
-                Thursday 9 February
-              </option>
-              <option
-                key="select-day-option-6"
-                value="2017-02-08"
-              >
-                Wednesday 8 February
-              </option>
-            </select>
-          </div>
-          <div
-            className="datetime-input__label"
-          >
-            <label
-              htmlFor="input-field-name-select-time-hours"
-            >
+        name="day"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "key": "Vandaag",
+              "name": "Vandaag",
+              "value": "Vandaag",
+            },
+            Object {
+              "key": "Monday 13 February",
+              "name": "Monday 13 February",
+              "value": "2017-02-13",
+            },
+            Object {
+              "key": "Sunday 12 February",
+              "name": "Sunday 12 February",
+              "value": "2017-02-12",
+            },
+            Object {
+              "key": "Saturday 11 February",
+              "name": "Saturday 11 February",
+              "value": "2017-02-11",
+            },
+            Object {
+              "key": "Friday 10 February",
+              "name": "Friday 10 February",
+              "value": "2017-02-10",
+            },
+            Object {
+              "key": "Thursday 9 February",
+              "name": "Thursday 9 February",
+              "value": "2017-02-09",
+            },
+            Object {
+              "key": "Wednesday 8 February",
+              "name": "Wednesday 8 February",
+              "value": "2017-02-08",
+            },
+          ]
+        }
+        value="undefined"
+      />
+    </div>
+    <div
+      className="datetime-input__earlier-time"
+    >
+      <div>
+        <SelectInput
+          data-testid="selectHours"
+          label={
+            <strong>
               Tijd
-            </label>
-          </div>
-          <div
-            className="invoer datetime-input__earlier-time"
-          >
-            <select
-              className="datetime-input__earlier-time-hours"
-              id="input-field-name-select-time-hours"
-              onChange={[Function]}
-              value={9}
-            >
-              <option
-                key="select-time-hours-option-0"
-                value={0}
-              >
-                0
-              </option>
-              <option
-                key="select-time-hours-option-1"
-                value={1}
-              >
-                1
-              </option>
-              <option
-                key="select-time-hours-option-2"
-                value={2}
-              >
-                2
-              </option>
-              <option
-                key="select-time-hours-option-3"
-                value={3}
-              >
-                3
-              </option>
-              <option
-                key="select-time-hours-option-4"
-                value={4}
-              >
-                4
-              </option>
-              <option
-                key="select-time-hours-option-5"
-                value={5}
-              >
-                5
-              </option>
-              <option
-                key="select-time-hours-option-6"
-                value={6}
-              >
-                6
-              </option>
-              <option
-                key="select-time-hours-option-7"
-                value={7}
-              >
-                7
-              </option>
-              <option
-                key="select-time-hours-option-8"
-                value={8}
-              >
-                8
-              </option>
-              <option
-                key="select-time-hours-option-9"
-                value={9}
-              >
-                9
-              </option>
-              <option
-                key="select-time-hours-option-10"
-                value={10}
-              >
-                10
-              </option>
-              <option
-                key="select-time-hours-option-11"
-                value={11}
-              >
-                11
-              </option>
-              <option
-                key="select-time-hours-option-12"
-                value={12}
-              >
-                12
-              </option>
-              <option
-                key="select-time-hours-option-13"
-                value={13}
-              >
-                13
-              </option>
-              <option
-                key="select-time-hours-option-14"
-                value={14}
-              >
-                14
-              </option>
-              <option
-                key="select-time-hours-option-15"
-                value={15}
-              >
-                15
-              </option>
-              <option
-                key="select-time-hours-option-16"
-                value={16}
-              >
-                16
-              </option>
-              <option
-                key="select-time-hours-option-17"
-                value={17}
-              >
-                17
-              </option>
-              <option
-                key="select-time-hours-option-18"
-                value={18}
-              >
-                18
-              </option>
-              <option
-                key="select-time-hours-option-19"
-                value={19}
-              >
-                19
-              </option>
-              <option
-                key="select-time-hours-option-20"
-                value={20}
-              >
-                20
-              </option>
-              <option
-                key="select-time-hours-option-21"
-                value={21}
-              >
-                21
-              </option>
-              <option
-                key="select-time-hours-option-22"
-                value={22}
-              >
-                22
-              </option>
-              <option
-                key="select-time-hours-option-23"
-                value={23}
-              >
-                23
-              </option>
-            </select>
-            <span
-              className="datetime-input__earlier-time-label"
-            >
-              uur
-            </span>
-            <select
-              className="datetime-input__earlier-time-minutes"
-              id="input-field-name-select-time-minutes"
-              onChange={[Function]}
-              value={0}
-            >
-              <option
-                key="select-time-minutes-option-0"
-                value={0}
-              >
-                0
-              </option>
-              <option
-                key="select-time-minutes-option-5"
-                value={5}
-              >
-                5
-              </option>
-              <option
-                key="select-time-minutes-option-10"
-                value={10}
-              >
-                10
-              </option>
-              <option
-                key="select-time-minutes-option-15"
-                value={15}
-              >
-                15
-              </option>
-              <option
-                key="select-time-minutes-option-20"
-                value={20}
-              >
-                20
-              </option>
-              <option
-                key="select-time-minutes-option-25"
-                value={25}
-              >
-                25
-              </option>
-              <option
-                key="select-time-minutes-option-30"
-                value={30}
-              >
-                30
-              </option>
-              <option
-                key="select-time-minutes-option-35"
-                value={35}
-              >
-                35
-              </option>
-              <option
-                key="select-time-minutes-option-40"
-                value={40}
-              >
-                40
-              </option>
-              <option
-                key="select-time-minutes-option-45"
-                value={45}
-              >
-                45
-              </option>
-              <option
-                key="select-time-minutes-option-50"
-                value={50}
-              >
-                50
-              </option>
-              <option
-                key="select-time-minutes-option-55"
-                value={55}
-              >
-                55
-              </option>
-            </select>
-            <span
-              className="datetime-input__earlier-time-label"
-            >
-              min
-            </span>
-          </div>
-        </div>
-      </Header>
+            </strong>
+          }
+          name="hours"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "key": 0,
+                "name": 0,
+                "value": 0,
+              },
+              Object {
+                "key": 1,
+                "name": 1,
+                "value": 1,
+              },
+              Object {
+                "key": 2,
+                "name": 2,
+                "value": 2,
+              },
+              Object {
+                "key": 3,
+                "name": 3,
+                "value": 3,
+              },
+              Object {
+                "key": 4,
+                "name": 4,
+                "value": 4,
+              },
+              Object {
+                "key": 5,
+                "name": 5,
+                "value": 5,
+              },
+              Object {
+                "key": 6,
+                "name": 6,
+                "value": 6,
+              },
+              Object {
+                "key": 7,
+                "name": 7,
+                "value": 7,
+              },
+              Object {
+                "key": 8,
+                "name": 8,
+                "value": 8,
+              },
+              Object {
+                "key": 9,
+                "name": 9,
+                "value": 9,
+              },
+              Object {
+                "key": 10,
+                "name": 10,
+                "value": 10,
+              },
+              Object {
+                "key": 11,
+                "name": 11,
+                "value": 11,
+              },
+              Object {
+                "key": 12,
+                "name": 12,
+                "value": 12,
+              },
+              Object {
+                "key": 13,
+                "name": 13,
+                "value": 13,
+              },
+              Object {
+                "key": 14,
+                "name": 14,
+                "value": 14,
+              },
+              Object {
+                "key": 15,
+                "name": 15,
+                "value": 15,
+              },
+              Object {
+                "key": 16,
+                "name": 16,
+                "value": 16,
+              },
+              Object {
+                "key": 17,
+                "name": 17,
+                "value": 17,
+              },
+              Object {
+                "key": 18,
+                "name": 18,
+                "value": 18,
+              },
+              Object {
+                "key": 19,
+                "name": 19,
+                "value": 19,
+              },
+              Object {
+                "key": 20,
+                "name": 20,
+                "value": 20,
+              },
+              Object {
+                "key": 21,
+                "name": 21,
+                "value": 21,
+              },
+              Object {
+                "key": 22,
+                "name": 22,
+                "value": 22,
+              },
+              Object {
+                "key": 23,
+                "name": 23,
+                "value": 23,
+              },
+            ]
+          }
+          value="9"
+        />
+      </div>
+      <span
+        className="datetime-input__earlier-time-label"
+      >
+        uur
+      </span>
+      <SelectInput
+        data-testid="selectMinutes"
+        name="minutes"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "key": 0,
+              "name": 0,
+              "value": 0,
+            },
+            Object {
+              "key": 5,
+              "name": 5,
+              "value": 5,
+            },
+            Object {
+              "key": 10,
+              "name": 10,
+              "value": 10,
+            },
+            Object {
+              "key": 15,
+              "name": 15,
+              "value": 15,
+            },
+            Object {
+              "key": 20,
+              "name": 20,
+              "value": 20,
+            },
+            Object {
+              "key": 25,
+              "name": 25,
+              "value": 25,
+            },
+            Object {
+              "key": 30,
+              "name": 30,
+              "value": 30,
+            },
+            Object {
+              "key": 35,
+              "name": 35,
+              "value": 35,
+            },
+            Object {
+              "key": 40,
+              "name": 40,
+              "value": 40,
+            },
+            Object {
+              "key": 45,
+              "name": 45,
+              "value": 45,
+            },
+            Object {
+              "key": 50,
+              "name": 50,
+              "value": 50,
+            },
+            Object {
+              "key": 55,
+              "name": 55,
+              "value": 55,
+            },
+          ]
+        }
+        value="0"
+      />
+      <span
+        className="datetime-input__earlier-time-label"
+      >
+        min
+      </span>
     </div>
   </div>
-</div>
+</Header>
 `;
 
-exports[`Form component <DateTimeInput /> rendering should render no date time field when not visible 1`] = `
-<div
-  className=""
-/>
-`;
+exports[`Form component <DateTimeInput /> rendering should render no date time field when not visible 1`] = `""`;

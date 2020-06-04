@@ -3,7 +3,8 @@
 exports[`Form component <RadioInput /> rendering should render no radio field when not visible 1`] = `""`;
 
 exports[`Form component <RadioInput /> rendering should render radio fields correctly 1`] = `
-<RadioInputGroup__StyledHeader
+<Header
+  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -43,11 +44,12 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
       resetsStateOnChange={false}
     />
   </RadioGroup>
-</RadioInputGroup__StyledHeader>
+</Header>
 `;
 
 exports[`Form component <RadioInput /> rendering should render zero radio fields when values are not supplied 1`] = `
-<RadioInputGroup__StyledHeader
+<Header
+  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={

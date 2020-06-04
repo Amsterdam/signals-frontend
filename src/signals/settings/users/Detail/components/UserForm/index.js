@@ -196,6 +196,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
           <FieldGroup>
             <Label as="span">Notitie</Label>
             <TextArea
+              disabled={readOnly}
               value={state.note}
               id="note"
               name="note"

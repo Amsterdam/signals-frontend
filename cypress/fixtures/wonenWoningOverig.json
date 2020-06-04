@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen"
+    ],
+    [0.6063071777941199]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen/sub_categories/wonen-overig"
+    ],
+    [0.32027792679288203]
+  ]
+}

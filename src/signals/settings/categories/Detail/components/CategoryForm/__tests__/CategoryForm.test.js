@@ -49,12 +49,12 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     const { container, rerender, queryByText } = render(withAppContext(<CategoryForm />));
     const numFields = container.querySelectorAll('input, textarea, select').length;
 
-    expect(container.querySelectorAll('[disabled]')).toHaveLength(0);
+    expect(container.querySelectorAll('input[disabled], textarea[disabled], select[disabled]')).toHaveLength(0);
     expect(queryByText('Opslaan')).toBeInTheDocument();
 
     rerender(withAppContext(<CategoryForm readOnly />));
 
-    expect(container.querySelectorAll('[disabled]')).toHaveLength(numFields);
+    expect(container.querySelectorAll('input[disabled], textarea[disabled], select[disabled]')).toHaveLength(numFields);
     expect(queryByText('Opslaan')).not.toBeInTheDocument();
   });
 

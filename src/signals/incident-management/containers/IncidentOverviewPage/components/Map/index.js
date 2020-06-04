@@ -69,6 +69,25 @@ const Autosuggest = styled(PDOKAutoSuggest)`
 const clusterLayerOptions = {
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
+  chunkedLoading: true,
+  iconCreateFunction: cluster => {
+    const childCount = cluster.getChildCount();
+    let c = ' marker-cluster-';
+
+    if (childCount < 10) {
+      c += 'small';
+    } else if (childCount < 100) {
+      c += 'medium';
+    } else {
+      c += 'large';
+    }
+
+    return new L.DivIcon({
+      html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
+      className: `marker-cluster ${c}`,
+      iconSize: new L.Point(40, 40),
+    });
+  },
 };
 
 const OverviewMap = ({ ...rest }) => {

@@ -82,6 +82,9 @@ const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowA
 
         <dt data-testid="detail-phone-definition">Telefoon melder</dt>
         <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
+
+        <dt data-testid="detail-sharing-definition">Toestemming contactgegevens delen</dt>
+        <dd data-testid="detail-sharing-value">{incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}</dd>
       </DefinitionList>
     </Wrapper>
   );
