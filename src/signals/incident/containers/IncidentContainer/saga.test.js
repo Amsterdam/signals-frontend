@@ -241,6 +241,47 @@ describe('IncidentContainer saga', () => {
         .returns(postData)
         .run();
     });
+
+    it('converts values into a supported format', () => {
+      const mapControlsToParamsResponse = {
+        reporter: {
+          email: 'me@domain.com',
+          phone: '14020',
+          sharing_allowed: {
+            label: 'Foo',
+            value: true,
+          },
+        },
+      };
+
+      const postData = {
+        text: payloadIncident.text,
+        category: {
+          sub_category,
+        },
+        handling_message,
+        priority: {
+          priority: payloadIncident.priority.id,
+        },
+        type: {
+          code: payloadIncident.type.id,
+        },
+        reporter: {
+          ...mapControlsToParamsResponse.reporter,
+          sharing_allowed: mapControlsToParamsResponse.reporter.sharing_allowed.value,
+        },
+      };
+
+      return expectSaga(getPostData, action)
+        .provide([
+          [matchers.call.fn(request), categoryResponse],
+          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
+        ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
+        .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
+        .returns(postData)
+        .run();
+    });
   });
 
   describe('createIncident', () => {

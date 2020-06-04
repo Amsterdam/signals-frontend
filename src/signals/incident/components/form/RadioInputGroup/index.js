@@ -11,10 +11,6 @@ const Info = styled.p`
   color: ${themeColor('tint', 'level5')};
 `;
 
-const StyledHeader = styled(Header)`
-  max-width: 620px;
-`;
-
 const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const currentSelected = parent.meta.incident && parent.meta.incident[meta.name];
   let info;
@@ -27,7 +23,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
   if (!meta?.isVisible) return null;
 
   return (
-    <StyledHeader meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       {meta.values && isObject(meta.values) && (
         <Fragment>
           <RadioGroup name={meta.name}>
@@ -51,7 +47,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
           )}
         </Fragment>
       )}
-    </StyledHeader>
+    </Header>
   );
 };
 

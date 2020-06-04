@@ -1,4 +1,5 @@
 import CheckboxInput from './CheckboxInput';
+import EmphasisCheckboxInput from './EmphasisCheckboxInput';
 import DescriptionWithClassificationInput from './DescriptionWithClassificationInput';
 import DateTimeInput from './DateTimeInput';
 import FileInput from './FileInput';
@@ -14,6 +15,7 @@ import MapInput from './MapInput';
 import MapSelect from './MapSelect';
 
 export default {
+  EmphasisCheckboxInput,
   CheckboxInput,
   DateTimeInput,
   DescriptionWithClassificationInput,
