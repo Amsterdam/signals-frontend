@@ -107,5 +107,20 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
         'input-field-name': 'diabolo',
       });
     });
+
+    it('doesn\'t call the predictions for empty values', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+        },
+      });
+
+      wrapper.find(TextArea).simulate('blur', { target: { value: '' } });
+      expect(parent.meta.getClassification).not.toHaveBeenCalled();
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': '',
+      });
+    });
   });
 });
