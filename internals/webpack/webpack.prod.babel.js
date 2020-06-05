@@ -54,16 +54,13 @@ module.exports = require('./webpack.base.babel')({
         vendor: {
           test: /[\\/]node_modules[\\/](?!@datapunt[\\/]asc-ui)(?!leaflet)(?!react-reactive-form)/,
           name(module) {
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1];
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
             return `npm.${packageName.replace('@', '')}`;
           },
           reuseExistingChunk: true,
         },
         ascUI: {
-          test: ({ context }) =>
-            context && context.indexOf('/node_modules/@datapunt/asc-ui/') >= 0,
+          test: ({ context }) => context && context.indexOf('/node_modules/@datapunt/asc-ui/') >= 0,
           reuseExistingChunk: true,
           name: 'npm.asc-ui',
         },
@@ -110,8 +107,7 @@ module.exports = require('./webpack.base.babel')({
           enforce: true,
         },
         reactiveForm: {
-          test: ({ context }) =>
-            context && context.indexOf('react-reactive-form') >= 0,
+          test: ({ context }) => context && context.indexOf('react-reactive-form') >= 0,
           reuseExistingChunk: true,
           name: 'npm.react-reactive-form',
           chunks: 'all',
@@ -130,8 +126,7 @@ module.exports = require('./webpack.base.babel')({
           test: ({ constructor, context = '' }) =>
             constructor.name === 'CssModule' &&
             context &&
-            (context.indexOf('react-datepicker') >= 0 ||
-              context.indexOf('popper') >= 0),
+            (context.indexOf('react-datepicker') >= 0 || context.indexOf('popper') >= 0),
           chunks: 'all',
           enforce: true,
         },
@@ -165,6 +160,7 @@ module.exports = require('./webpack.base.babel')({
       theme_color: '#ec0000',
       inject: true,
       ios: true,
+      fingerprints: false,
       display: 'fullscreen',
       orientation: 'portrait',
       icons: [
@@ -215,7 +211,6 @@ module.exports = require('./webpack.base.babel')({
   ],
 
   performance: {
-    assetFilter: assetFilename =>
-      !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
+    assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
   },
 });
