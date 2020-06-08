@@ -41,7 +41,7 @@ To specify the Node version for your project you could create an **.nvmrc** file
 
 ## Configuration
 
-Configuration for theming and API endpoint URLs is defined in
+Configuration for theming, map and API endpoint URLs is defined in
 `environment.conf.json`.
 
 ## Development
