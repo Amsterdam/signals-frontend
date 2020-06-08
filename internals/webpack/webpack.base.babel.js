@@ -139,10 +139,6 @@ module.exports = options => ({
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
-    alias: {
-      '@datapunt/asc-ui': path.resolve(__rootdir, 'node_modules/@datapunt/asc-ui/lib'),
-      '@datapunt/asc-assets': path.resolve(__rootdir, 'node_modules/@datapunt/asc-assets/lib'),
-    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window

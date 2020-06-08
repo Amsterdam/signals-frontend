@@ -65,6 +65,7 @@ const StyledMenuButton = styled(MenuButton)`
   background: transparent;
   font-size: 16px;
   font-family: inherit;
+  font-weight: 400;
   color: ${themeColor('tint', 'level6')};
 `;
 

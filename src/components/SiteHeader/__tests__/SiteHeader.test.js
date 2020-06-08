@@ -99,11 +99,10 @@ describe('components/SiteHeader', () => {
   it('should render the Amsterdam logo by default', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    const { container, rerender, queryByText } = render(
+    const { container, rerender } = render(
       withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
     );
 
-    expect(queryByText('Gemeente Amsterdam')).toBeInTheDocument();
     expect(container.querySelector('h1 img')).not.toBeInTheDocument();
 
     configuration.logoUrl = 'logoUrl';
@@ -111,7 +110,6 @@ describe('components/SiteHeader', () => {
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
     expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
-    expect(queryByText('Gemeente Amsterdam')).not.toBeInTheDocument();
   });
 
   it('should render the correct homeLink', () => {
