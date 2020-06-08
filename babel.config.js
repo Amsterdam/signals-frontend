@@ -14,6 +14,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
+        modules: false,
         useBuiltIns: 'usage',
         targets: {
           esmodules: true,
@@ -34,7 +35,6 @@ module.exports = {
     },
     test: {
       plugins: [
-        '@babel/plugin-transform-modules-commonjs',
         'dynamic-import-node',
       ],
     },
