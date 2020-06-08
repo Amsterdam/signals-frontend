@@ -45,7 +45,6 @@ export const controls = {
   },
   extra_wegen_gladheid: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       ifAllOf: {
         subcategory: 'gladheid',
       },
@@ -61,13 +60,37 @@ export const controls = {
     },
     render: FormComponents.PlainText,
   },
-
+  extra_straatverlichting_probleem: {
+    meta: {
+      label: 'Wat is het probleem?',
+      shortLabel: 'Probleem',
+      ifAllOf: {
+        subcategory: 'lantaarnpaal-straatverlichting',
+      },
+      values: {
+        lamp_doet_het_niet: 'Lamp doet het niet',
+        lamp_brandt_overdag: 'Lamp brandt overdag',
+        geeft_lichthinder: 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
+        lamp_is_vervuild: 'Lichtpunt is vervuild of heeft aanslag',
+        lamp_is_zichtbaar_beschadigd: 'Lichtpunt is zichtbaar beschadigd en/of incompleet',
+        overig: 'Overig',
+      },
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: [Validators.required],
+    },
+    render: FormComponents.RadioInputGroup,
+  },
   extra_straatverlichting: {
     meta: {
       label: 'Is de situatie gevaarlijk?',
       shortLabel: 'Is de situatie gevaarlijk?',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
+      },
+      ifOneOf: {
+        extra_straatverlichting_probleem: ['lamp_doet_het_niet', 'lamp_is_zichtbaar_beschadigd', 'overig'],
       },
       values: {
         is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
@@ -85,7 +108,6 @@ export const controls = {
   },
   extra_straatverlichting_gevaar: {
     meta: {
-      className: 'col-sm-12 col-md-8',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
       },
@@ -101,58 +123,6 @@ export const controls = {
       value: ['Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.'],
     },
     render: FormComponents.PlainText,
-  },
-  extra_straatverlichting_hoeveel: {
-    meta: {
-      label: 'Om hoeveel lichtpunten gaat het?',
-      shortLabel: 'Aantal lichtpunten',
-      ifAllOf: {
-        subcategory: 'lantaarnpaal-straatverlichting',
-      },
-      ifOneOf: {
-        extra_straatverlichting: [
-          'is_gevolg_van_aanrijding',
-          'lamp_op_grond_of_scheef',
-          'deurtje_weg_of_open',
-          'losse_kabels_zichtbaar_of_lamp_los',
-          'niet_gevaarlijk',
-        ],
-      },
-      values: {
-        '1_lichtpunt': '1 lichtpunt',
-        meerdere_lichtpunten: 'Een aantal lichtpunten die bij elkaar staan/hangen',
-      },
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: [Validators.required],
-    },
-    render: FormComponents.RadioInputGroup,
-  },
-  extra_straatverlichting_probleem: {
-    meta: {
-      label: 'Wat is het probleem?',
-      shortLabel: 'Probleem',
-      ifAllOf: {
-        subcategory: 'lantaarnpaal-straatverlichting',
-      },
-      ifOneOf: {
-        extra_straatverlichting_hoeveel: ['1_lichtpunt', 'meerdere_lichtpunten'],
-      },
-      values: {
-        lamp_doet_het_niet: 'Lamp doet het niet',
-        lamp_brandt_overdag: 'Lamp brandt overdag',
-        geeft_lichthinder: 'Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)',
-        lamp_is_vervuild: 'Lichtpunt is vervuild of heeft aanslag',
-        lamp_is_zichtbaar_beschadigd: 'Lichtpunt is zichtbaar beschadigd en/of incompleet',
-        overig: 'Overig',
-      },
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: [Validators.required],
-    },
-    render: FormComponents.RadioInputGroup,
   },
   extra_straatverlichting_nummer: {
     meta: {
@@ -248,7 +218,6 @@ export const controls = {
   },
   extra_klok_gevaar: {
     meta: {
-      className: 'col-sm-12 col-md-8',
       ifAllOf: {
         subcategory: 'klok',
       },
@@ -382,7 +351,6 @@ export const controls = {
   },
   extra_verkeerslicht_gevaar: {
     meta: {
-      className: 'col-sm-12 col-md-8',
       ifAllOf: {
         subcategory: 'verkeerslicht',
       },
@@ -525,7 +493,6 @@ export const controls = {
       ifAllOf: {
         subcategory: 'verkeerslicht',
       },
-      className: 'col-sm-12 col-md-6',
       ifOneOf: {
         extra_verkeerslicht_welk: ['voetganger', 'fiets', 'auto', 'tram_bus'],
       },
@@ -550,7 +517,6 @@ export const controls = {
   },
   extra_fietsrek_text: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       ifAllOf: {
         subcategory: 'fietsrek-nietje',
         extra_fietsrek_aanvragen: 'ja',
