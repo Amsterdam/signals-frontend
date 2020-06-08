@@ -55,6 +55,7 @@
     "Chrome >= 42"
   ],
   "dependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.10.1",
     "@datapunt/amsterdam-react-maps": "^0.1.2",
     "@datapunt/asc-assets": "^0.20.0",
     "@datapunt/asc-ui": "^0.20.0",
