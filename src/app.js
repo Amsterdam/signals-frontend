@@ -14,7 +14,7 @@ import { authenticate } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 import loadModels from 'models';
 
-// eslint-disable-next-line import/no-webpack-loader-syntax
+// Make sure these icons are picked up by webpack
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
 import '!file-loader?name=[name].[ext]!./images/icon_180x180.png';
 
