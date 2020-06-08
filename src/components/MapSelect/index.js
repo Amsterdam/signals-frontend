@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
 import 'leaflet/dist/leaflet.css';
 import classNames from 'classnames';
