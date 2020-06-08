@@ -5,16 +5,14 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const devMode = process.env.NODE_ENV !== 'production';
 const __rootdir = process.cwd();
+const esModules = [
+  path.resolve(__rootdir, 'node_modules/@datapunt/asc-assets'),
+  path.resolve(__rootdir, 'node_modules/@datapunt/asc-ui'),
+];
 
 module.exports = options => ({
   mode: options.mode,
-  entry: [
-    '@babel/polyfill',
-    'formdata-polyfill',
-    'url-polyfill',
-    'proxy-polyfill',
-    require.resolve('react-app-polyfill/ie11'),
-  ].concat(options.entry),
+  entry: options.entry,
   // eslint-disable-next-line prefer-object-spread
   output: Object.assign(
     {
@@ -29,6 +27,7 @@ module.exports = options => ({
       {
         test: /\.jsx?$/, // Transform all .js and .jsx files required somewhere with Babel
         exclude: /node_modules/,
+        include: [path.resolve(__rootdir, 'src'), ...esModules],
         use: {
           loader: 'babel-loader',
           options: options.babelQuery,

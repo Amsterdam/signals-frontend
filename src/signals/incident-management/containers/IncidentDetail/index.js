@@ -38,6 +38,7 @@ import LocationPreview from './components/LocationPreview';
 const DetailContainer = styled(Column)`
   flex-direction: column;
   position: relative;
+  justify-content: flex-start;
 `;
 
 export class IncidentDetail extends React.Component {
