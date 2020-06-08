@@ -1,150 +1,169 @@
 // <reference types="Cypress" />
-
 import * as createSignal from '../support/commandsCreateSignal';
-import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
+import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 
-describe('Create signal from incident management, animals', () => {
-  beforeEach(() => {
-    localStorage.setItem('accessToken', 'TEST123');
+describe('Create signal animals from incident management and chek signal details', () => {
+  describe('Create signal animals', () => {
+    beforeEach(() => {
+      localStorage.setItem('accessToken', Cypress.env('token'));
+    });
+
+    it('Initiate create signal from manage', () => {
+      cy.server();
+      cy.getManageSignalsRoutes();
+
+      cy.visitFetch('/manage/incidents/');
+
+      // Wait till page is loaded
+      cy.waitForManageSignalsRoutes();
+      cy.openMenu();
+      cy.contains('Melden').click();
+      cy.checkHeaderText('Beschrijf uw melding');
+
+      cy.visitFetch('incident/beschrijf');
+    });
+
+    it('Should search for an address', () => {
+      cy.server();
+      cy.defineGeoSearchRoutes();
+      cy.getAddressRoute();
+      cy.route('POST', '**/signals/category/prediction', 'fixture:wespen.json').as('prediction');
+
+      createSignal.checkDescriptionPage();
+      // Select source
+      cy.get('select').select('Telefoon – Stadsdeel');
+
+      createSignal.setAddress('1012GX 23', 'Oudekerksplein 23, 1012GX Amsterdam');
+      createSignal.setDescription('Er is een wespennest bij de hoofdingang van de Oude kerk');
+      createSignal.setDateTime('Nu');
+
+      // Check Urgency
+      cy.contains('Wat is de urgentie?').should('be.visible');
+      cy.contains('Hoog')
+        .should('be.visible')
+        .click();
+      cy.contains('Hoog: melding met spoed oppakken').should('be.visible');
+      cy.contains('Laag')
+        .should('be.visible')
+        .click();
+      cy.contains('Laag: interne melding zonder servicebelofte').should('be.visible');
+      cy.contains('Normaal')
+        .should('be.visible')
+        .click();
+
+      // Check Type
+      cy.contains('Type').should('be.visible');
+      cy.contains('Klacht')
+        .should('be.visible')
+        .click();
+
+      cy.contains('Volgende').click();
+    });
+
+    it('Should enter specific information', () => {
+      createSignal.checkSpecificInformationPage();
+
+      cy.contains(Cypress.env('description')).should('be.visible');
+
+      cy.contains('Let op: u kunt met dit formulier een melding doen van:');
+      cy.contains('Dierenambulance Amsterdam')
+        .should('have.attr', 'href')
+        .and('include', 'dierenambulance-amsterdam');
+      cy.contains('overlast van dieren')
+        .should('have.attr', 'href')
+        .and('include', 'veelgevraagd');
+
+      cy.contains('Volgende').click();
+    });
+
+    it('Should enter a phonenumber and email address', () => {
+      cy.contains('Volgende').click();
+      cy.contains('Volgende').click();
+    });
+
+    it('Should show a summary', () => {
+      cy.server();
+      cy.postSignalRoutePrivate();
+
+      createSignal.checkSummaryPage();
+
+      // Check information provided by user
+      cy.contains(Cypress.env('address')).should('be.visible');
+      cy.contains(Cypress.env('description')).should('be.visible');
+      cy.contains('Verstuur').click();
+      cy.wait('@postSignalPrivate');
+    });
+
+    it('Should show the last screen', () => {
+      createSignal.checkThanksPage();
+      // Capture signal id to check details later
+      createSignal.getSignalId();
+    });
   });
+  describe('Check data created signal', () => {
+    before(() => {
+      localStorage.setItem('accessToken', Cypress.env('token'));
+      cy.server();
+      cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutes();
+      cy.visitFetch('/manage/incidents/');
+      cy.waitForManageSignalsRoutes();
+      cy.log(Cypress.env('signalId'));
+    });
 
-  it('Initiate create signal from manage', () => {
-    cy.server();
-    cy.getManageSignalsRoutes();
-    
-    cy.visitFetch('/manage/incidents/');
+    it('Should show the signal details', () => {
+      cy.get('[href*="/manage/incident/"]')
+        .contains(Cypress.env('signalId'))
+        .click();
+      cy.waitForSignalDetailsRoutes();
 
-    // Wait till page is loaded
-    cy.wait('@getFilters');
-    cy.wait('@getCategories');
-    cy.wait('@getSignals');
-    cy.wait('@getUserInfo');
-    cy.openMenu();
-    cy.contains('Melden').click();
-    cy.checkHeaderText('Beschrijf uw melding');
+      createSignal.checkSignalDetailsPage();
+      cy.contains(Cypress.env('description')).should('be.visible');
 
-    // Use visitfetch to open url, this enables Cypress to intercept fetch protocol
-    cy.visitFetch('incident/beschrijf');
-  });
+      cy.get(SIGNAL_DETAILS.stadsdeel)
+        .should('have.text', 'Stadsdeel: Centrum')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet)
+        .should('have.text', 'Oudekerksplein 23')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity)
+        .should('have.text', '1012GX Amsterdam')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.email)
+        .should('have.text', '')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber)
+        .should('have.text', '')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails)
+        .should('have.text', 'Nee')
+        .and('be.visible');
 
-  it('Should search for an address', () => {
-    cy.server();
-    cy.defineGeoSearchRoutes();
-    cy.getAddressRoute();
+      // Check if status is 'gemeld' with red coloured text
+      cy.get(SIGNAL_DETAILS.status)
+        .should('have.text', 'Gemeld')
+        .and('be.visible')
+        .and($labels => {
+          expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
+        });
 
-    // Check URL
-    cy.url().should('include', '/incident/beschrijf');
+      createSignal.checkCreationDate();
 
-    // Check h1
-    cy.checkHeaderText('Beschrijf uw melding');
-
-    // Select source
-    cy.get('select').select('Telefoon – Stadsdeel');
-
-    // Search address
-    createSignal.searchAddress('1012GX 23');
-    cy.wait('@getAddress');
-
-    // Select found item  
-    createSignal.selectAddress('Oudekerksplein 23, 1012GX Amsterdam');
-    cy.wait('@geoSearchLocation');
-  });
-
-  it('Should enter signal details', () => {
-    cy.server();
-    cy.route('POST', '**/signals/category/prediction', 'fixture:wespen.json').as('prediction');
-    createSignal.inputDescription('Er is een wespennest bij de hoofdingang van de Oude kerk');
-
-    // Select datetime
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click();
-
-    // Check Urgency
-    cy.contains('Wat is de urgentie?').should('be.visible');
-    cy.contains('Hoog').should('be.visible').click();
-    cy.contains('Hoog: melding met spoed oppakken').should('be.visible');
-    cy.contains('Laag').should('be.visible').click();
-    cy.contains('Laag: interne melding zonder servicebelofte').should('be.visible');
-    cy.contains('Normaal').should('be.visible').click();
-
-    // Check Type
-    cy.contains('Type').should('be.visible');
-    cy.contains('Klacht').should('be.visible').click();
-
-    // Click on next
-    cy.clickButton('Volgende');
-  });
-
-  it('Should enter specific information', () => {
-    // Check URL
-    cy.url().should('include', '/incident/vulaan');
-
-    // Check h1
-    cy.checkHeaderText('Dit hebben we nog van u nodig');
-    cy.contains('Er is een wespennest bij de hoofdingang van de Oude kerk');
-
-    // Check text
-    cy.contains('Let op: u kunt met dit formulier een melding doen van:');
-
-    // Check link dieren ambulance
-    cy.contains('Dierenambulance Amsterdam').should('have.attr', 'href').and('include', 'dierenambulance-amsterdam');
-
-    // Check link melden dierenoverlast
-    cy.contains('overlast van dieren').should('have.attr', 'href').and('include', 'veelgevraagd');
-
-    // Click on next
-    cy.clickButton('Volgende');
-  });
-
-  it('Should enter a phonenumber', () => {
-    // Check URL
-    cy.url().should('include', '/incident/telefoon');
-
-    // Check h1
-    cy.checkHeaderText('Mogen we u bellen voor vragen?');
-
-    cy.clickButton('Volgende');
-  });
-
-  it('Should enter an email address', () => {
-    // Check URL
-    cy.url().should('include', '/incident/email');
-
-    // Check h1
-    cy.checkHeaderText('Wilt u op de hoogte blijven?');
-
-    cy.clickButton('Volgende');
-  });
-
-  it('Should show an overview', () => {
-    // Check URL
-    cy.url().should('include', '/incident/samenvatting');
-
-    // Check h1
-    cy.checkHeaderText('Controleer uw gegevens');
-
-    // Check if map and marker are visible
-    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-
-    // Check information provided by user
-    cy.contains('Oudekerksplein 23, 1012GX Amsterdam').should('be.visible');
-    cy.contains('Er is een wespennest bij de hoofdingang van de Oude kerk');
-  });
-
-  it('Should show the last screen', () => {
-    cy.server();
-    cy.postSignalRoutePrivate();
-
-    cy.clickButton('Verstuur');
-
-    cy.wait('@postSignalPrivate');
-
-    // Check URL
-    cy.url().should('include', '/incident/bedankt');
-
-    // Check h1
-    cy.checkHeaderText('Bedankt!');
-
-    // TODO capture signal id
+      cy.get(SIGNAL_DETAILS.urgency)
+        .should('have.text', 'Normaal')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.type)
+        .should('have.text', 'Klacht')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory)
+        .should('have.text', 'Wespen (GGD)')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory)
+        .should('have.text', 'Overlast van dieren')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.source)
+        .should('have.text', 'Telefoon – Stadsdeel')
+        .and('be.visible');
+    });
   });
 });

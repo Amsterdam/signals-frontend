@@ -1,19 +1,22 @@
 // General selectors for signal details
 export const CHANGE_CATEGORY = {
+  buttonCancel: '[data-testid=cancelSubcategoryButton]',
+  buttonEdit: '[data-testid=editSubcategoryButton]',
+  buttonSubmit: '[data-testid=submitSubcategoryButton]',
   inputCategory: '[data-testid=input]',
 };
 
 export const CHANGE_LOCATION = {
-  buttonCancelEditLocation: '[data-testid=cancelBtn]',
-  buttonEditLocation: '[class*=Location__Description] > [data-testid=editButton]',
-  buttonSubmitEditLocation: '[data-testid=submitBtn]',
+  buttonCancel: '[data-testid=cancelBtn]',
+  buttonEdit: '[class*=Location__Description] > [data-testid=editButton]',
+  buttonSubmit: '[data-testid=submitBtn]',
 };
 
 export const CHANGE_STATUS = {
-  buttonCancelEditStatus: '[data-testid=statusFormCancelButton]',
-  buttonCloseEditStatus: '[class*="incident-detail__preview-close"]',
-  buttonEditStatus: '[class*="MetaList__EditButton"]',
-  buttonSubmitStatus: '[data-testid=statusFormSubmitButton]',
+  buttonCancel: '[data-testid=statusFormCancelButton]',
+  buttonClose: '[class*="incident-detail__preview-close"]',
+  buttonEdit: '[data-testid=editStatusButton]',
+  buttonSubmit: '[data-testid=statusFormSubmitButton]',
   currentStatus: '#currentStatus',
   inputToelichting: '[data-testid=text]',
   radioButtonGemeld: '[data-testid=status-m]',
@@ -27,6 +30,9 @@ export const CHANGE_STATUS = {
 };
 
 export const CHANGE_TYPE = {
+  buttonCancel: '[data-testid=cancelTypeButton]',
+  buttonEdit: '[data-testid=editTypeButton]',
+  buttonSubmit: '[data-testid=submitTypeButton]',
   radioButtonMelding: '[data-testid=input-SIG]',
   radioButtonAanvraag: '[data-testid=input-REQ]',
   radioButtonVraag: '[data-testid=input-QUE]',
@@ -35,6 +41,9 @@ export const CHANGE_TYPE = {
 };
 
 export const CHANGE_URGENCY = {
+  buttonCancel: '[data-testid=cancelPriorityButton]',
+  buttonEdit: '[data-testid=editPriorityButton]',
+  buttonSubmit: '[data-testid=submitPriorityButton]',
   radioButtonHoog: '[data-testid=input-high]',
   radioButtonLaag: '[data-testid=input-low]',
   radioButtonNormaal: '[data-testid=input-normal]',
@@ -51,12 +60,18 @@ export const SIGNAL_DETAILS = {
   historyAction: '[class*="History__Action"]',
   historyListItem: '[data-testid="history-list-item-description"]',
   infoText: '[data-testid=infoText]',
+  labelEmail: '[data-testid=detail-email-definition]',
+  labelLocatie: '[data-testid=detail-location]',
+  labelOverlast: '[class*=Detail__DefinitionList] > :nth-child(1)',
+  labelTelefoon: '[data-testid=detail-phone-definition]',
+  labelToestemming: '[data-testid=detail-sharing-definition]',
   mainCategory: '[data-testid="meta-list-main-category-value"]',
   phoneNumber: '[data-testid="detail-phone-value"]',
+  shareContactDetails: '[data-testid="detail-sharing-value"]',
   source: '[data-testid="meta-list-source-value"]',
   stadsdeel: '[data-testid="location-value-address-stadsdeel"]',
   status: '[data-testid="meta-list-status-value"]',
-  subCategory: '[data-testid="valuePath"]',
-  type: '[data-testid="valuePath"]',
-  urgency: '[data-testid="valuePath"]',
+  subCategory: '[data-testid="meta-list-subcategory-value"]',
+  type: '[data-testid="meta-list-type-value"]',
+  urgency: '[data-testid="meta-list-priority-value"]',
 };
