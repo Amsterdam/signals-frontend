@@ -50,11 +50,11 @@ node('BS16 || BS17') {
             }
         }
 
-        stage("Deploy Weesp ACC") {
-            tryStep "deployment", {
-                build job: '/SIA_Signalen_Amsterdam/signals-weesp/develop'
-            }
-        }
+        // stage("Deploy Weesp ACC") {
+        //     tryStep "deployment", {
+        //         build job: '/SIA_Signalen_Amsterdam/signals-weesp/develop'
+        //     }
+        // }
     }
 
     if (BRANCH == "master") {
@@ -64,10 +64,10 @@ node('BS16 || BS17') {
             }
         }
 
-        stage("Deploy Weesp PROD") {
-            tryStep "deployment", {
-                build job: '/SIA_Signalen_Amsterdam/signals-weesp/master'
-            }
-        }
+        // stage("Deploy Weesp PROD") {
+        //     tryStep "deployment", {
+        //         build job: '/SIA_Signalen_Amsterdam/signals-weesp/master'
+        //     }
+        // }
     }
 }
