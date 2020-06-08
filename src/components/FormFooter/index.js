@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Row, Button, Column, themeColor } from '@datapunt/asc-ui';
+import { Row, Column, themeColor } from '@datapunt/asc-ui';
+import Button from 'components/Button';
 
 export const FooterWrapper = styled.footer`
   background: ${themeColor('tint', 'level1')};
