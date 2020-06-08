@@ -16,9 +16,6 @@ import loadModels from 'models';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-import '!file-loader?name=[name].[ext]!./images/icon_120x120.png';
-import '!file-loader?name=[name].[ext]!./images/icon_152x152.png';
-import '!file-loader?name=[name].[ext]!./images/icon_167x167.png';
 import '!file-loader?name=[name].[ext]!./images/icon_180x180.png';
 
 // Import CSS and Global Styles
