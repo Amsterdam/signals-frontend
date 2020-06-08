@@ -49,7 +49,6 @@ export const controls = {
       },
       label: 'Weet u het nummer van de container?',
       shortLabel: 'Container nummer',
-      className: 'col-sm-12 col-md-6',
       pathMerge: 'extra_properties',
     },
     render: FormComponents.TextInput,

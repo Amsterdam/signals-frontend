@@ -14,7 +14,6 @@ const woningdelen = {
       subtitle: 'Vermoedens over bijvoorbeeld illegale activiteiten',
       shortLabel: 'Vermoeden',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -27,7 +26,6 @@ const woningdelen = {
       label: 'Weet u wie de eigenaar is van de woning?',
       shortLabel: 'Naam eigenaar',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     options: {
       validators: [Validators.required],
@@ -44,7 +42,6 @@ const woningdelen = {
       subtitle: 'De persoon die in de woning zou moeten wonen',
       shortLabel: 'Adres huurder',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         zelfde_adres: 'Ja, op hetzelfde adres als de bewoners',
         ander_adres: 'Ja, op een ander adres dan de bewoners',
@@ -65,7 +62,6 @@ const woningdelen = {
       label: 'Hoeveel personen wonen op dit adres?',
       shortLabel: 'Aantal personen',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         een_persoon: '1 persoon',
         twee_personen: '2 personen',
@@ -94,7 +90,6 @@ const woningdelen = {
       label: 'Zijn de bewoners familie van elkaar?',
       shortLabel: 'Bewoners familie',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, de bewoners zijn familie',
         nee: 'Nee, de bewoners zijn geen familie',
@@ -120,7 +115,6 @@ const woningdelen = {
       label: 'Zijn de personen tegelijk op het adres komen wonen?',
       shortLabel: 'Samenwonen',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, ze zijn tegelijk op het adres komen wonen',
         nee: 'Nee, ze zijn op verschillende momenten op het adres komen wonen',
@@ -141,7 +135,6 @@ const woningdelen = {
       label: 'Komen er vaak andere bewoners op het adres wonen?',
       shortLabel: 'Wisselende bewoners',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, vaak andere bewoners op het adres',
         nee: 'Nee, dezelfde bewoners',
@@ -162,7 +155,6 @@ const woningdelen = {
       label: 'Op welke dag/tijd is er iemand op het adres?',
       shortLabel: 'Iemand aanwezig',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -178,7 +170,6 @@ const onderhuur = {
       label: 'Hoeveel personen wonen op dit adres?',
       shortLabel: 'Aantal personen',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         een_persoon: '1 persoon',
         twee_personen: '2 personen',
@@ -207,7 +198,6 @@ const onderhuur = {
       label: 'Zijn de mensen die op dit adres wonen familie van elkaar?',
       shortLabel: 'Bewoners familie',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, ze zijn familie van elkaar',
         nee: 'Nee, ze zijn geen familie van elkaar',
@@ -228,7 +218,6 @@ const onderhuur = {
       label: 'Wat zijn de namen van de mensen die op dit adres wonen?',
       shortLabel: 'Naam bewoners',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextareaInput,
   },
@@ -241,7 +230,6 @@ const onderhuur = {
       label: 'Hoe lang wonen deze mensen al op dit adres?',
       shortLabel: 'Woon periode',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         langer_dan_zes_maanden: '6 maanden of langer',
         korter_dan_zes_maanden: 'Minder dan 6 maanden',
@@ -262,7 +250,6 @@ const onderhuur = {
       label: 'Op welke dag/tijd is er iemand op het adres?',
       shortLabel: 'Iemand aanwezig',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -276,7 +263,6 @@ const onderhuur = {
       subtitle: 'De persoon die in de woning zou moeten wonen',
       shortLabel: 'Naam huurder',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     options: {
       validators: [Validators.required],
@@ -292,7 +278,6 @@ const onderhuur = {
       label: 'Weet u waar de officiële huurder woont?',
       shortLabel: 'Huurder woont',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         aangegeven_adres: 'Ja, op het aangegeven adres',
         ander_adres: 'Ja, op een ander adres',
@@ -316,7 +301,6 @@ const onderhuur = {
       label: 'Wat is het adres waar de officiële huurder woont?',
       shortLabel: 'Adres huurder',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -332,7 +316,6 @@ const leegstand = {
       label: 'Weet u wie de eigenaar is van de woning?',
       shortLabel: 'Naam eigenaar',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     options: {
       validators: [Validators.required],
@@ -348,7 +331,6 @@ const leegstand = {
       label: 'Hoe lang staat de woning al leeg?',
       shortLabel: 'Periode leegstand',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         langer_dan_zes_maanden: '6 maanden of langer',
         korter_dan_zes_maanden: 'minder dan 6 maanden',
@@ -369,7 +351,6 @@ const leegstand = {
       label: 'Wordt de woning af en toe nog gebruikt?',
       shortLabel: 'Woning gebruik',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, soms is er iemand in de woning',
         nee: 'Nee, er is nooit iemand in de woning',
@@ -393,7 +374,6 @@ const leegstand = {
       label: 'Wat is de naam van de persoon die soms in de woning is?',
       shortLabel: 'Naam persoon',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -409,7 +389,6 @@ const leegstand = {
       label: 'Wat doet deze persoon in de woning?',
       shortLabel: 'Activiteit in de woning',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -425,7 +404,6 @@ const leegstand = {
       label: 'Op welke dag/tijd is deze persoon op het adres?',
       shortLabel: 'Iemand aanwezig',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -442,7 +420,6 @@ const woningkwaliteit = {
       subtitle: 'Bijvoorbeeld: u ruikt een sterke gaslucht of er dreigt een schoorsteen of balkon in te storten',
       shortLabel: 'Direct gevaar',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, er is direct gevaar',
         nee: 'Nee',
@@ -462,7 +439,6 @@ const woningkwaliteit = {
       ifAllOf: {
         extra_wonen_woonkwaliteit_direct_gevaar: 'ja',
       },
-      className: 'col-sm-12 col-md-8',
       type: 'alert',
       value: ['Bel 112 en vul dit formulier niet verder in'],
     },
@@ -480,7 +456,6 @@ const woningkwaliteit = {
       label: 'Hebt u de klacht al bij uw verhuurder, eigenaar of VvE gemeld?',
       shortLabel: 'Gemeld bij eigenaar',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja',
         nee: 'Nee',
@@ -501,7 +476,6 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_direct_gevaar: 'nee',
         extra_wonen_woonkwaliteit_gemeld_bij_eigenaar: 'nee',
       },
-      className: 'col-sm-12 col-md-8',
       type: 'caution',
       value: [
         'Meld uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in.',
@@ -522,7 +496,6 @@ const woningkwaliteit = {
       label: 'Bent u zelf bewoner van het adres?',
       shortLabel: 'Bewoner',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, ik woon op dit adres',
         nee: 'Nee, ik woon niet op dit adres',
@@ -546,7 +519,6 @@ const woningkwaliteit = {
       label: 'Doet u de melding namens de bewoner van het adres?',
       shortLabel: 'Namens bewoner',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, ik doe de melding namens de bewoner',
         nee: 'Nee',
@@ -571,7 +543,6 @@ const woningkwaliteit = {
       subtitle: 'Om uw klacht goed te kunnen behandelen willen we vaak even komen kijken of met u overleggen',
       shortLabel: 'Toestemming contact opnemen',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, u mag contact met mij opnemen',
         nee: 'Nee, liever geen contact',
@@ -592,7 +563,6 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_toestemming_contact: 'ja',
         extra_wonen_woonkwaliteit_direct_gevaar: 'nee',
       },
-      className: 'col-sm-12 col-md-8',
       type: 'caution',
       value: ['Let op! Vul uw telefoonnummer in op de volgende pagina.'],
     },
@@ -611,7 +581,6 @@ const woningkwaliteit = {
       label: 'Waarom heeft u liever geen contact?',
       shortLabel: 'Liever geen contact',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -627,7 +596,6 @@ const vakantieverhuur = {
       label: 'Zijn de toeristen nu aanwezig in de woning?',
       shortLabel: 'Toeristen aanwezig',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, er zijn nu toeristen aanwezig',
         nee: 'Nee, er zijn nu geen toeristen aanwezig',
@@ -647,7 +615,6 @@ const vakantieverhuur = {
       label: 'In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.',
       shortLabel: 'Bellen of meldingsformulier',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         bellen: 'Ik neem telefonisch contact op',
         formulier: 'Ik ga verder met dit meldformulier',
@@ -661,9 +628,9 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_bellen: {
     meta: {
       ifAllOf: {
+        extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
         extra_wonen_vakantieverhuur_bellen_of_formulier: 'bellen',
       },
-      className: 'col-sm-12 col-md-8',
       type: 'caution',
       value: [
         'Bel nu met 14 020',
@@ -685,7 +652,6 @@ const vakantieverhuur = {
       label: 'Hoeveel toeristen zijn er meestal in de woning?',
       shortLabel: 'Aantal personen',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         vier_of_minder: '4 of minder personen',
         vijf_of_meer: '5 of meer personen',
@@ -709,7 +675,6 @@ const vakantieverhuur = {
       label: 'Heeft u vaker toeristen in de woning gezien?',
       shortLabel: 'Hoe vaak',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         maandelijks: 'Ongeveer één keer per maand',
         wekelijks: 'Ongeveer één keer per week',
@@ -730,7 +695,6 @@ const vakantieverhuur = {
       label: 'Is dit meestal in het weekend of doordeweeks?',
       shortLabel: 'Wanneer',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         weekend: 'Meestal in het weekend',
         doordeweeks: 'Meestal doordeweeks',
@@ -756,7 +720,6 @@ const vakantieverhuur = {
       subtitle: 'De persoon die langdurig de woning bewoont',
       shortLabel: 'Bewoning',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, er woont iemand op het adres',
         nee: 'Nee, er woont niemand op het adres',
@@ -776,7 +739,6 @@ const vakantieverhuur = {
       label: 'Wat is de naam van de persoon die op het adres woont?',
       shortLabel: 'Naam bewoner',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
     },
     render: FormComponents.TextInput,
   },
@@ -793,7 +755,6 @@ const vakantieverhuur = {
       label: 'Weet u of de woning op internet wordt aangeboden voor verhuur?',
       shortLabel: 'Online aangeboden',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       values: {
         ja: 'Ja, ik heb de woning op internet gezien',
         nee: 'Nee, weet ik niet',
@@ -812,7 +773,6 @@ const vakantieverhuur = {
       label: 'Link naar de advertentie van de woning',
       shortLabel: 'Link advertentie',
       pathMerge: 'extra_properties',
-      className: 'col-sm-12 col-md-8',
       type: 'url',
     },
     render: FormComponents.TextInput,
@@ -827,7 +787,6 @@ const vakantieverhuur = {
 
         },
       },
-      className: 'col-sm-12 col-md-8',
       type: 'caution',
       value: [
         'Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met 14 020 en vraag naar team Vakantieverhuur.',
