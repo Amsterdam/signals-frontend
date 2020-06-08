@@ -20,6 +20,7 @@ const Toggle = styled.label`
   text-decoration: underline;
   font-size: 16px;
   line-height: 20px;
+  white-space: nowrap;
 
   &:hover {
     color: rgb(236, 0, 0);
