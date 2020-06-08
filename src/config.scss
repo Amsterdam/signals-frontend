@@ -1,11 +1,9 @@
-@import './stijl/scss/ams-colorpalette';
-
-@import "./stijl/css/amsterdam-components/mixin/mixin-all";
-
 @mixin avenirnextdemi {
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 400 !important;
 }
 
 @mixin avenirnext {
   font-family: Avenir Next LT W01-Regular, verdana, sans-serif;
+  font-weight: 400 !important;
 }

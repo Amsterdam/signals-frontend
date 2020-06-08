@@ -11,6 +11,12 @@ const FilterGroup = styled.div`
   }
 `;
 
+const StyledLabel = styled(Label)`
+  * {
+    font-weight: normal
+  }
+`;
+
 /**
  * Component that renders a group of radio buttons
  */
@@ -40,7 +46,7 @@ const RadioButtonList = ({
 
       <RadioGroup name={groupName} disabled={disabled}>
         {radioOptions.map(option => (
-          <Label key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
+          <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
             <Radio
               checked={option.key === defaultValue}
               id={option.key || option.name}
@@ -49,7 +55,7 @@ const RadioButtonList = ({
               }}
               value={option.key}
             />
-          </Label>
+          </StyledLabel>
         ))}
       </RadioGroup>
     </FilterGroup>

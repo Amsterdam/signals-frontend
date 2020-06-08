@@ -99,12 +99,15 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly 
         <Label label="Rechten" />
         {permissions.map(permission => (
           <div key={permission.id}>
-            <Checkbox
-              id={`permission${permission.id}`}
-              checked={rolePermissions.find(item => item.id === permission.id)}
-              onChange={handleChange(permission.id)}
-            />
-            <FieldLabel disabled={readOnly} htmlFor={`permission${permission.id}`} label={permission.name} />
+            <FieldLabel disabled={readOnly} htmlFor={`permission${permission.id}`} label={permission.name}>
+              <Checkbox
+                data-testid={`checkbox-permissions_${permission.id}`}
+                id={`permission${permission.id}`}
+                checked={rolePermissions.find(item => item.id === permission.id)}
+                onChange={handleChange(permission.id)}
+              />
+              <span>&nbsp;</span>
+            </FieldLabel>
           </div>
         ))}
 

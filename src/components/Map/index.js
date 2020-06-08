@@ -19,6 +19,8 @@ const StyledMap = styled(MapComponent)`
   }
 `;
 
+const ZoomButtons = styled.div``;
+
 const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, events, setInstance }) => {
   const hasTouchCapabilities = 'ontouchstart' in window;
   const showZoom = hasZoomControls && !hasTouchCapabilities;
@@ -36,7 +38,15 @@ const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, e
 
   return (
     <StyledMap className={className} data-testid="map-base" options={options} events={events} setInstance={setInstance}>
-      {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
+      {showZoom && (
+        <StyledViewerContainer
+          bottomRight={
+            <ZoomButtons data-testid="mapZoom">
+              <Zoom />
+            </ZoomButtons>
+          }
+        />
+      )}
 
       {children}
 

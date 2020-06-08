@@ -212,7 +212,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           <div className="invoer">
             <Input
               data-testid="filterName"
-              value={initialFormState.filter.name}
+              defaultValue={initialFormState.filter.name}
               id="filter_name"
               name="name"
               onChange={onNameChange}

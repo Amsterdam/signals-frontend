@@ -23,19 +23,35 @@
   "theme": {},
   "map": {
     "tiles": {
-      "args": ["https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"],
+      "args": [
+        "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
+      ],
       "options": {
-        "subdomains": ["t1", "t2", "t3", "t4"],
+        "subdomains": [
+          "t1",
+          "t2",
+          "t3",
+          "t4"
+        ],
         "tms": true,
         "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam"
       }
     },
     "options": {
       "maxBounds": [
-        [52.25168, 4.64034],
-        [52.50536, 5.10737]
+        [
+          52.25168,
+          4.64034
+        ],
+        [
+          52.50536,
+          5.10737
+        ]
       ],
-      "center": [52.3731081, 4.8932945],
+      "center": [
+        52.3731081,
+        4.8932945
+      ],
       "zoom": 10,
       "maxZoom": 14,
       "minZoom": 8,
@@ -47,7 +63,7 @@
   "API_ROOT_MAPSERVER": "https://map.data.amsterdam.nl/",
   "USERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/",
   "ROLES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/",
-  "PERMISSIONS_ENDPOINT":"https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/",
+  "PERMISSIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/",
   "SEARCH_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/search",
   "PREDICTION_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/category/prediction",
   "INCIDENT_PUBLIC_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/signals/",
@@ -64,7 +80,6 @@
   "IMAGE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/signal/image/",
   "FILTERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters/",
   "DEPARTMENTS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/",
-  "DASHBOARD_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/experimental/dashboards/1",
   "OVL_KLOKKEN_LAYER": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
   "OVL_VERLICHTING_LAYER": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326"
 }

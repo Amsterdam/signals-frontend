@@ -1,99 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <TextareaInput /> rendering should render character counter correctly 1`] = `
-<div
-  className="row"
+<Header
+  className=""
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "isVisible": true,
+      "maxLength": 300,
+      "name": "input-field-name",
+      "placeholder": "type here",
+    }
+  }
+  touched={false}
 >
-  <div
-    className="col-12 mode_input"
-  >
-    <Header
-      className=""
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      meta={
-        Object {
-          "isVisible": true,
-          "maxLength": 300,
-          "name": "input-field-name",
-          "placeholder": "type here",
-        }
-      }
-      touched={false}
-    >
-      <ForwardRef
-        helpText="0/300 tekens"
-        onBlur={[Function]}
-        placeholder="type here"
-      />
-    </Header>
-  </div>
-</div>
+  <ForwardRef
+    helpText="0/300 tekens"
+    onBlur={[Function]}
+    placeholder="type here"
+  />
+</Header>
 `;
 
 exports[`Form component <TextareaInput /> rendering should render character counter with value correctly 1`] = `
-<div
-  className="row"
+<Header
+  className=""
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "isVisible": true,
+      "maxLength": 300,
+      "name": "input-field-name",
+      "placeholder": "type here",
+    }
+  }
+  touched={false}
 >
-  <div
-    className="col-12 mode_input"
-  >
-    <Header
-      className=""
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      meta={
-        Object {
-          "isVisible": true,
-          "maxLength": 300,
-          "name": "input-field-name",
-          "placeholder": "type here",
-        }
-      }
-      touched={false}
-    >
-      <ForwardRef
-        helpText="4/300 tekens"
-        onBlur={[Function]}
-        placeholder="type here"
-      />
-    </Header>
-  </div>
-</div>
+  <ForwardRef
+    helpText="4/300 tekens"
+    onBlur={[Function]}
+    placeholder="type here"
+  />
+</Header>
 `;
 
-exports[`Form component <TextareaInput /> rendering should render no text area field when not visible 1`] = `
-<div
-  className=""
-/>
-`;
+exports[`Form component <TextareaInput /> rendering should render no text area field when not visible 1`] = `""`;
 
 exports[`Form component <TextareaInput /> rendering should render text area field correctly 1`] = `
-<div
-  className="row"
+<Header
+  className=""
+  getError={[MockFunction]}
+  hasError={[MockFunction]}
+  meta={
+    Object {
+      "isVisible": true,
+      "name": "input-field-name",
+      "placeholder": "type here",
+    }
+  }
+  touched={false}
 >
-  <div
-    className="col-12 mode_input"
-  >
-    <Header
-      className=""
-      getError={[MockFunction]}
-      hasError={[MockFunction]}
-      meta={
-        Object {
-          "isVisible": true,
-          "name": "input-field-name",
-          "placeholder": "type here",
-        }
-      }
-      touched={false}
-    >
-      <ForwardRef
-        helpText={false}
-        onBlur={[Function]}
-        placeholder="type here"
-      />
-    </Header>
-  </div>
-</div>
+  <ForwardRef
+    helpText={false}
+    onBlur={[Function]}
+    placeholder="type here"
+  />
+</Header>
 `;

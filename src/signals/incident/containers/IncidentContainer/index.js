@@ -21,7 +21,7 @@ import IncidentWizard from '../../components/IncidentWizard';
 
 const Alert = styled.div`
   color: white;
-  background-color: ${themeColor('secondary')};
+  background-color: ${themeColor('support', 'invalid')};
   margin-top: ${themeSpacing(5)};
   padding: ${themeSpacing(4)};
 `;

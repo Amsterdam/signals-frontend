@@ -12,26 +12,14 @@ const filter_legend = (items, types) => items.filter(element => types.includes(e
 const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
 
 const getLatlng = meta => {
-  const coords = get(
-    meta,
-    'incidentContainer.incident.location.geometrie.coordinates',
-    DEFAULT_COORDS,
-  );
+  const coords = get(meta, 'incidentContainer.incident.location.geometrie.coordinates', DEFAULT_COORDS);
   return {
     latitude: coords[1],
     longitude: coords[0],
   };
 };
 
-const MapSelect = ({
-  handler,
-  touched,
-  hasError,
-  meta,
-  parent,
-  getError,
-  validatorsOrOpts,
-}) => {
+const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const onSelectionChange = selection => {
     const value = Array.from(selection.set.values());
     parent.meta.updateIncident({ [meta.name]: value });
@@ -47,35 +35,32 @@ const MapSelect = ({
   const value = handler().value;
   const selection = Array.isArray(value) ? value : [];
   return (
-    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-      {meta && meta.isVisible && (
-        <div className={`${meta.className || 'col-12'} mode_input`}>
-          <Header
-            meta={meta}
-            options={validatorsOrOpts}
-            touched={touched}
-            hasError={hasError}
-            getError={getError}
-          >
-            <div className="invoer">
-              {latlng && (
-                <MapSelectComponent
-                  latlng={latlng}
-                  onSelectionChange={onSelectionChange}
-                  getIcon={getOVLIcon}
-                  legend={filtered_legend}
-                  geojsonUrl={url}
-                  iconField="type_name"
-                  idField="objectnummer"
-                  zoomMin={meta.zoomMin}
-                  value={selection}
-                />
-              )}
-            </div>
-          </Header>
+    meta?.isVisible && (
+      <Header
+        className="mapSelect"
+        meta={meta}
+        options={validatorsOrOpts}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      >
+        <div className="invoer">
+          {latlng && (
+            <MapSelectComponent
+              latlng={latlng}
+              onSelectionChange={onSelectionChange}
+              getIcon={getOVLIcon}
+              legend={filtered_legend}
+              geojsonUrl={url}
+              iconField="type_name"
+              idField="objectnummer"
+              zoomMin={meta.zoomMin}
+              value={selection}
+            />
+          )}
         </div>
-      )}
-    </div>
+      </Header>
+    )
   );
 };
 

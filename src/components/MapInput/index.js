@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { Marker } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import 'leaflet/dist/leaflet.css';

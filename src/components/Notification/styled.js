@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Button, Heading, Paragraph, themeSpacing, themeColor } from '@datapunt/asc-ui';
 import { SITE_HEADER_BOTTOM_GAP_HEIGHT, SITE_HEADER_HEIGHT_TALL } from 'containers/SiteHeader/constants';
-
 import { ONCLOSE_TIMEOUT, VARIANT_ERROR, VARIANT_SUCCESS } from 'containers/Notification/constants';
 
 export const Wrapper = styled.div`
