@@ -1,3 +1,4 @@
+import configuration from 'shared/services/configuration/configuration';
 import afval from './wizard-step-2-vulaan/afval';
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
@@ -15,6 +16,9 @@ export default {
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
   formFactory: ({ category }) => {
+    const noExtraProps = { controls: {} };
+    if(!configuration.hasExtraProps) return noExtraProps;
+
     switch (category) {
       case 'afval':
         return afval;
@@ -41,7 +45,7 @@ export default {
         return wonen;
 
       default:
-        return { controls: {} };
+        return noExtraProps;
     }
   },
 };
