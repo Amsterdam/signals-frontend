@@ -3,7 +3,7 @@ const path = require('path');
 
 const template = {};
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line
   const config = require('../../environment.conf.json');
 
