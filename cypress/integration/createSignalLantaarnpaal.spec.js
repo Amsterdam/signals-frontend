@@ -40,55 +40,78 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       cy.contains('Volgende').click();
       cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
 
+      cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet)
+        .check()
+        .should('be.checked')
+        .and('be.visible');
+      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag)
+        .check()
+        .should('be.checked')
+        .and('be.visible');
+      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder)
+        .check()
+        .should('be.checked')
+        .and('be.visible');
+      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemVies)
+        .check()
+        .should('be.checked')
+        .and('be.visible');
+      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd)
+        .check()
+        .should('be.checked')
+        .and('be.visible');
+      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemOverig)
+        .check()
+        .should('be.checked')
+        .and('be.visible');
+      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
+      cy.wait('@getOpenbareVerlichting');
+
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
       const messageCallDirectly = 'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.';
 
-      cy.get(LANTAARNPAAL.radioButtonAanrijding).click();
-      cy.contains(messageCallDirectly);
-      cy.get(LANTAARNPAAL.radioButtonOpGrond).click();
-      cy.contains(messageCallDirectly);
-      cy.get(LANTAARNPAAL.radioButtonDeur).click();
-      cy.contains(messageCallDirectly);
-      cy.get(LANTAARNPAAL.radioButtonLosseKabels).click();
-      cy.contains(messageCallDirectly);
-      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).click();
-      cy.contains(messageCallDirectly).should('not.exist');
-
-      // Click on next to invoke error message
-      cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
-
-      cy.get(LANTAARNPAAL.radioButtonEenLichtpunt).click();
-
-      cy.contains('Lamp doet het niet')
-        .should('be.visible')
-        .click();
-      cy.contains('Lamp brandt overdag')
-        .should('be.visible')
-        .click();
-      cy.contains('Geeft lichthinder (schijnt bijvoorbeeld in de slaapkamer)')
-        .should('be.visible')
-        .click();
-      cy.contains('Lichtpunt is vervuild of heeft aanslag')
-        .should('be.visible')
-        .click();
-      cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet')
-        .should('be.visible')
-        .click();
-      cy.contains('Overig')
-        .should('be.visible')
-        .click();
-      cy.wait('@getOpenbareVerlichting');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijk3OfMeerKapot)
+        .check()
+        .should('be.checked');
+      cy.contains(messageCallDirectly).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkAanrijding)
+        .check()
+        .should('be.checked');
+      cy.contains(messageCallDirectly).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkOpGrond)
+        .check()
+        .should('be.checked');
+      cy.contains(messageCallDirectly).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkDeur)
+        .check()
+        .should('be.checked');
+      cy.contains(messageCallDirectly).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkLosseKabels)
+        .check()
+        .should('be.checked');
+      cy.contains(messageCallDirectly).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk)
+        .check()
+        .should('be.checked');
+      cy.contains(messageCallDirectly).should('not.be.visible');
     });
 
     it('Should select a light on map', () => {
       // Click on lamp based on coordinate
       createSignal.selectLampOnCoordinate(414, 135);
+      cy.contains('Het gaat om lamp of lantaarnpaal met nummer: 034575').should('be.visible');
 
       // Check options in legend
       cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
-      cy.get('.legend-header').should('be.visible');
-      cy.get('.legend-content').should('be.visible');
+      cy.get(LANTAARNPAAL.legendHeader)
+        .should('have.text', 'Legenda')
+        .and('be.visible');
+      cy.get(LANTAARNPAAL.legendContentText).should('be.visible');
       cy.contains('Lantaarnpaal').should('be.visible');
       cy.contains('Grachtmast').should('be.visible');
       cy.contains('Lamp aan kabel').should('be.visible');
@@ -115,11 +138,14 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
       cy.contains('Vandaag, 5:45').should('be.visible');
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
-      cy.contains('Niet gevaarlijk').should('be.visible');
-      cy.contains('1 lichtpunt').should('be.visible');
+      cy.contains('Probleem').should('be.visible');
       cy.contains('Overig').should('be.visible');
-      cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
+      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
+      cy.contains('Nee, niet gevaarlijk').should('be.visible');
+      cy.contains('Lichtpunt(en) op kaart').should('be.visible');
       cy.contains('034575').should('be.visible');
+      cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
+      cy.get(LANTAARNPAAL.markerOnMap).should('be.visible');
 
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
@@ -169,6 +195,13 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       cy.get(SIGNAL_DETAILS.shareContactDetails)
         .should('have.text', 'Nee')
         .and('be.visible');
+
+      // Open and close uploaded picture
+      cy.get(SIGNAL_DETAILS.photo)
+        .should('be.visible')
+        .click();
+      cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
+      cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
