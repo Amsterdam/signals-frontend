@@ -1,22 +1,17 @@
 // <reference types="Cypress" />
 import { USERS } from '../support/selectorsSettings';
 
-describe('Filtering', () => {
+describe('Manage users', () => {
   beforeEach(() => {
-    localStorage.setItem('accessToken', 'TEST123');
+    localStorage.setItem('accessToken', Cypress.env('token'));
   });
 
   it('Should open the manage users screen', () => {
     cy.server();
     cy.getManageSignalsRoutes();
     cy.route('/signals/v1/private/users/*').as('getUser');
-
     cy.visitFetch('/manage/incidents/');
-
-    cy.wait('@getFilters');
-    cy.wait('@getCategories');
-    cy.wait('@getSignals');
-    cy.wait('@getUserInfo');
+    cy.waitForManageSignalsRoutes();
 
     cy.openMenu();
     cy.contains('Instellingen').click();
@@ -24,50 +19,57 @@ describe('Filtering', () => {
     cy.wait('@getUser');
     cy.get('[aria-label="Menu"]').click();
 
-    
     cy.url().should('include', '/instellingen/gebruikers/page/1');
   });
 
   // This test case can be executed when we start every test with a clean database
-  it.skip('Should add a user', () => {  
+  it.skip('Should add a user', () => {
     cy.get(USERS.inputMail).type('sia@fakemail.nl');
     cy.get(USERS.inputVoornaam).type('Simon');
     cy.get(USERS.inputAchternaam).type('Ia');
-    cy.contains('div', 'GGD').find('input').check();
+    cy.contains('div', 'GGD')
+      .find('input')
+      .check();
     cy.get(USERS.inputNotitie).type('Dit is de belangrijkste gebruiker van SIA, let op!');
     cy.get(USERS.buttonOpslaan).click();
   });
 
-  it('Should add a department to a user', () => { 
+  it('Should add a department to a user', () => {
     cy.server();
     cy.route('/signals/v1/private/users/*').as('getUser');
     cy.route('PATCH', '/signals/v1/private/users/*').as('patchUser');
-    cy.get(USERS.userRow).eq(1).click();
+    cy.get(USERS.userRow)
+      .eq(1)
+      .click();
     cy.wait('@getUser');
     cy.url().should('match', /\/instellingen\/gebruiker\/\d+/);
-    
-    cy.contains('div', 'GGD').find('input').check();
+
+    cy.contains('div', 'GGD')
+      .find('input')
+      .check();
     cy.get(USERS.buttonOpslaan).click();
     cy.wait('@patchUser');
-    cy.get(USERS.userRow).eq(1).click();
-    cy.contains('div', 'GGD').find('input').should('be.checked');
-    cy.contains('div', 'GGD').find('input').uncheck();
+    cy.get(USERS.userRow)
+      .eq(1)
+      .click();
+    cy.contains('div', 'GGD')
+      .find('input')
+      .should('be.checked');
+    cy.contains('div', 'GGD')
+      .find('input')
+      .uncheck();
     cy.get(USERS.buttonOpslaan).click();
     cy.wait('@patchUser');
     cy.wait('@getUser');
   });
 
-  it('Should add multiple departments to a user', () => {  
+  it('Should add multiple departments to a user', () => {
     cy.server();
     cy.getManageSignalsRoutes();
     cy.route('/signals/v1/private/users/*').as('getUser');
     cy.route('PATCH', '/signals/v1/private/users/*').as('patchUser');
     cy.visitFetch('/manage/incidents/');
-
-    cy.wait('@getFilters');
-    cy.wait('@getCategories');
-    cy.wait('@getSignals');
-    cy.wait('@getUserInfo');
+    cy.waitForManageSignalsRoutes();
 
     cy.openMenu();
     cy.contains('Instellingen').click();
@@ -77,19 +79,34 @@ describe('Filtering', () => {
 
     cy.url().should('include', '/instellingen/gebruikers/page/1');
 
-    cy.get(USERS.userRow).eq(1).click();
+    cy.get(USERS.userRow)
+      .eq(1)
+      .click();
     cy.url().should('include', '/instellingen/gebruiker/');
-    cy.contains('div', 'Omgevingsdienst').find('input').check();
-    cy.contains('div', 'Stadswerken').find('input').check();
+    cy.contains('div', 'Omgevingsdienst')
+      .find('input')
+      .check();
+    cy.contains('div', 'Stadswerken')
+      .find('input')
+      .check();
     cy.get(USERS.buttonOpslaan).click();
     cy.wait('@patchUser');
-    cy.get(USERS.userRow).eq(1).click();
-    cy.contains('div', 'Omgevingsdienst').find('input').should('be.checked');
-    cy.contains('div', 'Stadswerken').find('input').should('be.checked');
-    cy.contains('div', 'Omgevingsdienst').find('input').uncheck();
-    cy.contains('div', 'Stadswerken').find('input').uncheck();
+    cy.get(USERS.userRow)
+      .eq(1)
+      .click();
+    cy.contains('div', 'Omgevingsdienst')
+      .find('input')
+      .should('be.checked');
+    cy.contains('div', 'Stadswerken')
+      .find('input')
+      .should('be.checked');
+    cy.contains('div', 'Omgevingsdienst')
+      .find('input')
+      .uncheck();
+    cy.contains('div', 'Stadswerken')
+      .find('input')
+      .uncheck();
     cy.get(USERS.buttonOpslaan).click();
     cy.wait('@patchUser');
   });
 });
-
