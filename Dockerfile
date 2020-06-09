@@ -17,24 +17,21 @@ RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY internals /app/internals
+
+COPY assets /app/assets
+
 COPY .gitignore \
       .gitattributes \
       .eslintrc.js \
       .prettierrc \
       jest.config.js \
       babel.config.js \
-      /app/
-
-COPY package.json \
+      package.json \
       package-lock.json \
       /app/
 
 # Install NPM dependencies, cleaning cache afterwards:
-RUN npm --production=false \
-      --unsafe-perm \
-      --no-progress \
-      ci && \
-      npm cache clean --force
+RUN npm --production=false --unsafe-perm --no-progress ci && npm cache clean --force
 
 COPY src /app/src
 
