@@ -132,7 +132,7 @@ module.exports = options => ({
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
 
-    new CopyPlugin({ patterns: [{ from: 'assets', to: 'assets' }] }),
+    new CopyPlugin({ patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }] }),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
   ]
