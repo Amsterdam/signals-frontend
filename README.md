@@ -79,12 +79,12 @@ When deploying the docker container, there are some files you can overwrite for
 branding purposes.
 
 - `environment.conf.json` with configuration for theming and endpoint URLs.
-- The logo, as defined by `logoUrl` in `environment.conf.json`.
+- The logo, as defined by `logo.url` in `environment.conf.json`.
 - `favicon.png` the favicon, needs to be a PNG.
 - `manifest.json` with configuration for the PWA.
 - `icon_...x....png` the icons for the PWA in various sizes, need to be PNGs.
 
-The logo displayed on the website is defined by the `logoUrl` parameter in
+The logo displayed on the website is defined by the `logo.url` parameter in
 `environment.conf.json`. This can be a remote URL or a local file path. Define
 for instance `/logo.svg` and you can inject your own `logo.svg` when starting
 the docker container.
