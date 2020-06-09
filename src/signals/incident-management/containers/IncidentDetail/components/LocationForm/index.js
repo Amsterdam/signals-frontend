@@ -1,5 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Row, Column } from '@datapunt/asc-ui';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import { locationType } from 'shared/types';
@@ -8,6 +10,12 @@ import MapContext from 'containers/MapContext';
 
 import { mapLocation } from 'shared/services/map-location';
 import LocationInput from './components/LocationInput';
+
+const StyledColumn = styled(Column)`
+  display: block;
+  background: white;
+  position: relative;
+`;
 
 const LocationForm = ({ incidentId, location, onPatchIncident, onClose }) => {
   const form = useMemo(
@@ -43,19 +51,23 @@ const LocationForm = ({ incidentId, location, onPatchIncident, onClose }) => {
   );
 
   return (
-    <FieldGroup
-      control={form}
-      render={() => (
-        <MapContext>
-          <LocationInput
-            locationControl={form.get('location')}
-            onClose={onClose}
-            onQueryResult={onQueryResult}
-            handleSubmit={handleSubmit}
-          />
-        </MapContext>
-      )}
-    />
+    <Row>
+      <StyledColumn span={12}>
+        <FieldGroup
+          control={form}
+          render={() => (
+            <MapContext>
+              <LocationInput
+                locationControl={form.get('location')}
+                onClose={onClose}
+                onQueryResult={onQueryResult}
+                handleSubmit={handleSubmit}
+              />
+            </MapContext>
+          )}
+        />
+      </StyledColumn>
+    </Row>
   );
 };
 

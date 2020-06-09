@@ -97,9 +97,11 @@ const StatusForm = ({ defaultTexts, incident, onClose, onPatchIncident }) => {
             status: { state: form.value.status, text: form.value.text },
           },
         });
+
+        onClose();
       }
     },
-    [incident.id, onPatchIncident, form.value.status, form.value.text]
+    [incident.id, onPatchIncident, form.value.status, form.value.text, onClose]
   );
 
   const handleUseDefaultText = useCallback(

@@ -31,6 +31,7 @@ const DetailContainer = styled(Column)`
   flex-direction: column;
   position: relative;
   z-index: 1;
+  justify-content: flex-start;
 `;
 
 const reducer = (state, action) => {
@@ -205,7 +206,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
       </Row>
 
       <StyledRow>
-        <DetailContainer span={7}>
+        <DetailContainer span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}>
           <Detail
             incident={incident}
             attachments={state.attachments}
@@ -221,7 +222,10 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
           {history && <History list={history} />}
         </DetailContainer>
 
-        <DetailContainer span={4} push={1}>
+        <DetailContainer
+          span={{ small: 1, medium: 2, big: 3, large: 4, xLarge: 4 }}
+          push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
+        >
           <MetaList
             incident={incident}
             onPatchIncident={onPatchIncident}
