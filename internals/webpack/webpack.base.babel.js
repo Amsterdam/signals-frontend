@@ -1,11 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
+const pkgDir = require('pkg-dir');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyPlugin = require('copy-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
-const __rootdir = process.cwd();
+const __rootdir = pkgDir.sync();
 
 module.exports = options => ({
   mode: options.mode,
