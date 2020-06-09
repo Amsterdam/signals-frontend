@@ -160,6 +160,9 @@ describe('IncidentContainer saga', () => {
         category: {
           sub_category,
         },
+        reporter: {
+          sharing_allowed: false,
+        },
       };
 
       const mapControlsToParamsResponse = {
@@ -193,6 +196,9 @@ describe('IncidentContainer saga', () => {
         handling_message,
         category: {
           sub_category,
+        },
+        reporter: {
+          sharing_allowed: false,
         },
       };
 
@@ -228,6 +234,9 @@ describe('IncidentContainer saga', () => {
         },
         type: {
           code: payloadIncident.type.id,
+        },
+        reporter: {
+          sharing_allowed: false,
         },
       };
 
