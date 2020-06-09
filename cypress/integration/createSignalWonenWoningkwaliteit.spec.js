@@ -172,14 +172,7 @@ describe('Create signal wonen woningkwaliteit and check signal details', () => {
         .should('have.text', 'Nee')
         .and('be.visible');
 
-      // Check if status is 'gemeld' with red coloured text
-      cy.get(SIGNAL_DETAILS.status)
-        .should('have.text', 'Gemeld')
-        .and('be.visible')
-        .and($labels => {
-          expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
-        });
-
+      createSignal.checkRedTextStatus('Gemeld');
       createSignal.checkCreationDate();
       cy.get(SIGNAL_DETAILS.urgency)
         .should('have.text', 'Normaal')

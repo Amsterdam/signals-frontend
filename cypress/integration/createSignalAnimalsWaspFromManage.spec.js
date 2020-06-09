@@ -139,16 +139,8 @@ describe('Create signal animals from incident management and chek signal details
         .should('have.text', 'Nee')
         .and('be.visible');
 
-      // Check if status is 'gemeld' with red coloured text
-      cy.get(SIGNAL_DETAILS.status)
-        .should('have.text', 'Gemeld')
-        .and('be.visible')
-        .and($labels => {
-          expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
-        });
-
       createSignal.checkCreationDate();
-
+      createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency)
         .should('have.text', 'Normaal')
         .and('be.visible');

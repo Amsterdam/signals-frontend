@@ -18,6 +18,15 @@ export const checkDescriptionPage = () => {
   cy.contains('Voeg een foto toe om de situatie te verduidelijken').should('be.visible');
 };
 
+export const checkRedTextStatus = status => {
+  cy.get(SIGNAL_DETAILS.status)
+    .should('have.text', status)
+    .and('be.visible')
+    .and($labels => {
+      expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
+    });
+};
+
 export const checkSignalDetailsPage = () => {
   cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
