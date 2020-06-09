@@ -14,7 +14,6 @@ module.exports = api => {
             firefox: 68,
           },
           corejs: 3,
-          debug: true,
         },
       ];
 
