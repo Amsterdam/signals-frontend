@@ -20,6 +20,7 @@ const Toggle = styled.label`
   text-decoration: underline;
   font-size: 16px;
   line-height: 20px;
+  white-space: nowrap;
 
   &:hover {
     color: rgb(236, 0, 0);
@@ -267,6 +268,7 @@ const CheckboxList = ({
           <Wrapper disabled={defaultOption.disabled} key={optionId}>
             <StyledCheckbox
               checked={isChecked(groupId) || isChecked(uid)}
+              data-testid={`checkbox-${optionId}`}
               data-id={uid}
               disabled={defaultOption.disabled}
               id={optionId}

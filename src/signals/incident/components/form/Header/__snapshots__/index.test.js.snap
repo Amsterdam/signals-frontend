@@ -1,298 +1,132 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <Header /> error messages should render custom error 1`] = `
-<div
-  className=" header header--invalid"
+<Header__Wrapper
+  className=""
+  invalid={true}
 >
-  <div
-    className="header__label"
-  >
+  <Header__Label>
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
-  </div>
-  <div
-    className="header__subtitle"
-  />
+    <Component />
+  </Header__Label>
   <div
     className="header__errors"
   >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    >
+    <Header__ErrorItem>
       custom error message
-    </div>
+    </Header__ErrorItem>
   </div>
   <Header__Children />
-</div>
+</Header__Wrapper>
 `;
 
 exports[`Form component <Header /> error messages should render email error 1`] = `
-<div
-  className=" header header--invalid"
+<Header__Wrapper
+  className=""
+  invalid={true}
 >
-  <div
-    className="header__label"
-  >
+  <Header__Label>
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
-  </div>
-  <div
-    className="header__subtitle"
-  />
+    <Component />
+  </Header__Label>
   <div
     className="header__errors"
   >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    >
+    <Header__ErrorItem>
       Het moet een geldig e-mailadres zijn
-    </div>
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
+    </Header__ErrorItem>
   </div>
   <Header__Children />
-</div>
+</Header__Wrapper>
 `;
 
 exports[`Form component <Header /> error messages should render maxLength error 1`] = `
-<div
-  className=" header header--invalid"
+<Header__Wrapper
+  className=""
+  invalid={true}
 >
-  <div
-    className="header__label"
-  >
+  <Header__Label>
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
-  </div>
-  <div
-    className="header__subtitle"
-  />
+    <Component />
+  </Header__Label>
   <div
     className="header__errors"
   >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    >
-      U kunt maximaal 666 tekens invoeren.
-    </div>
-    <div
-      className="header__errors__item"
-    />
+    <Header__ErrorItem>
+      U kunt maximaal $
+      666
+       tekens invoeren.
+    </Header__ErrorItem>
   </div>
   <Header__Children />
-</div>
+</Header__Wrapper>
 `;
 
 exports[`Form component <Header /> error messages should render no error when element is only touched 1`] = `
-<div
-  className=" header "
+<Header__Wrapper
+  className=""
 >
-  <div
-    className="header__label"
-  >
+  <Header__Label>
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
-  </div>
-  <div
-    className="header__subtitle"
-  />
-  <div
-    className="header__errors"
-  >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-  </div>
+    <Component />
+  </Header__Label>
   <Header__Children />
-</div>
+</Header__Wrapper>
 `;
 
 exports[`Form component <Header /> error messages should render optional field message 1`] = `
-<div
-  className=" header "
+<Header__Wrapper
+  className=""
+  invalid={false}
 >
-  <div
-    className="header__label"
-  >
+  <Header__Label>
     naam
-    <span
-      className="header--not-required"
-    >
+    <Header__Optional>
       (optioneel)
-    </span>
-  </div>
-  <div
-    className="header__subtitle"
-  />
-  <div
-    className="header__errors"
-  >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-  </div>
+    </Header__Optional>
+  </Header__Label>
   <Header__Children />
-</div>
+</Header__Wrapper>
 `;
 
 exports[`Form component <Header /> error messages should render required error 1`] = `
-<div
-  className=" header header--invalid"
+<Header__Wrapper
+  className=""
+  invalid={true}
 >
-  <div
-    className="header__label"
-  >
+  <Header__Label>
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
-  </div>
-  <div
-    className="header__subtitle"
-  />
+    <Component />
+  </Header__Label>
   <div
     className="header__errors"
   >
-    <div
-      className="header__errors__item"
-    >
+    <Header__ErrorItem>
       Dit is een verplicht veld
-    </div>
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
+    </Header__ErrorItem>
   </div>
   <Header__Children />
-</div>
+</Header__Wrapper>
 `;
 
 exports[`Form component <Header /> should render correctly 1`] = `
-<div
-  className=" header "
+<Header__Wrapper
+  className=""
+  invalid={false}
 >
-  <div
-    className="header__label"
-  >
+  <Header__Label>
     naam
-    <span
-      className="header--not-required"
-    >
-      (optioneel)
-    </span>
-  </div>
-  <div
-    className="header__subtitle"
-  />
-  <div
-    className="header__errors"
-  >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-  </div>
+    <Component />
+  </Header__Label>
   <Header__Children />
-</div>
+</Header__Wrapper>
 `;
 
 exports[`Form component <Header /> should render when label is not available 1`] = `
-<div
-  className=" header "
+<Header__Wrapper
+  className=""
+  invalid={false}
 >
-  <div
-    className="header__label"
-  />
-  <div
-    className="header__subtitle"
-  />
-  <div
-    className="header__errors"
-  >
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-    <div
-      className="header__errors__item"
-    />
-  </div>
   <Header__Children />
-</div>
+</Header__Wrapper>
 `;

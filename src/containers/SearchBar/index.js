@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { SearchBar } from '@datapunt/asc-ui';
+import { SearchBar, styles } from '@datapunt/asc-ui';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -10,6 +10,14 @@ import {
   resetSearchQuery,
 } from 'containers/App/actions';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
+import styled from 'styled-components';
+
+
+const StyledSearchBar = styled(SearchBar)`
+  ${styles.TextFieldStyle} > input {
+    padding: 10px; /* needed to style the textboxes as according to the design system */
+  }
+`;
 
 export const SearchBarComponent = ({
   className,
@@ -47,7 +55,7 @@ export const SearchBarComponent = ({
 
   return (
     <form onSubmit={onSearchSubmit}>
-      <SearchBar
+      <StyledSearchBar
         className={className}
         data-testid="searchBar"
         placeholder="Zoek op meldingsnummer"

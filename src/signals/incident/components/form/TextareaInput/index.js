@@ -4,36 +4,23 @@ import TextArea from 'components/TextArea';
 
 import Header from '../Header';
 
-const TextareaInput = ({
-  handler, touched, value, hasError, meta, parent, getError, validatorsOrOpts,
-}) => (
-  <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-    {meta && meta.isVisible
-      ? (
-        <div className={`${meta.className || 'col-12'} mode_input`}>
-          <Header
-            meta={meta}
-            options={validatorsOrOpts}
-            touched={touched}
-            hasError={hasError}
-            getError={getError}
-          >
-            <Fragment>
-              <TextArea
-                placeholder={meta.placeholder}
-                {...handler()}
-                onBlur={e => parent.meta.updateIncident({
-                  [meta.name]: meta.autoRemove ? e.target.value.replace(meta.autoRemove, '') : e.target.value,
-                })}
-                helpText={meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
-              />
-            </Fragment>
-          </Header>
-        </div>
-      )
-      : ''}
-  </div>
-);
+const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getError, validatorsOrOpts }) =>
+  meta?.isVisible && (
+    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+      <Fragment>
+        <TextArea
+          placeholder={meta.placeholder}
+          {...handler()}
+          onBlur={e =>
+            parent.meta.updateIncident({
+              [meta.name]: meta.autoRemove ? e.target.value.replace(meta.autoRemove, '') : e.target.value,
+            })
+          }
+          helpText={meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
+        />
+      </Fragment>
+    </Header>
+  );
 
 TextareaInput.propTypes = {
   handler: PropTypes.func,

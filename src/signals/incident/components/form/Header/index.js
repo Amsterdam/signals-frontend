@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import styled, { css } from 'styled-components';
+import { themeSpacing, themeColor } from '@datapunt/asc-ui';
 
 import { Validators } from 'react-reactive-form';
-
-import './style.scss';
 
 const Children = styled.div`
   display: flex;
@@ -16,49 +14,75 @@ const Children = styled.div`
   }
 `;
 
-const Header = ({
-  className, meta, options, touched, hasError, getError, children,
-}) => (
-  <div className={`${className} header ${touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom')) ? 'header--invalid' : ''}`}>
-    <div className="header__label">
-      {meta && meta.label}
-      {(meta.label && (!options || !options.validators)) || (options && options.validators && !options.validators.includes(Validators.required))
-        ? <span className="header--not-required">(optioneel)</span>
-        : ''}
-    </div>
-    <div className="header__subtitle">{meta && meta.subtitle}</div>
+const Wrapper = styled.div`
+  ${({ invalid }) =>
+    invalid &&
+    css`
+      border-left: ${themeColor('support', 'invalid')} 2px solid;
+      padding-left: ${themeSpacing(3)};
+    `}
+`;
 
-    <div className="header__errors">
-      <div className="header__errors__item">
-        {touched
-        && hasError('required')
-        && 'Dit is een verplicht veld'}
-      </div>
+const Label = styled.div`
+  font-family: Avenir Next LT W01 Demi;
+  margin-bottom: 10px;
+`;
 
-      <div className="header__errors__item">
-        {touched
-        && hasError('email')
-        && 'Het moet een geldig e-mailadres zijn'}
-      </div>
+const Optional = styled.span`
+  font-family: Avenir Next LT W01-Regular;
+  margin-left: ${themeSpacing(2)};
+`;
 
-      <div className="header__errors__item">
-        {touched
-        && hasError('maxLength')
-        && `U kunt maximaal ${getError('maxLength').requiredLength} tekens invoeren.`}
-      </div>
+const ErrorItem = styled.div`
+  color: ${themeColor('support', 'invalid')};
+  font-size: 14px;
+  margin-bottom: ${themeSpacing(1)};
+`;
 
-      <div className="header__errors__item">
-        {touched
-        && hasError('custom')
-        && getError('custom')}
-      </div>
-    </div>
+const SubTitle = styled.div`
+  color: ${themeColor('tint', 'level5')};
+  margin-top: ${themeSpacing(-1)};
+  margin-bottom: ${themeSpacing(2)};
+`;
 
-    <Children>
-      {children}
-    </Children>
-  </div>
-);
+const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
+  const containsErrors =
+    touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
+
+  return (
+    <Wrapper className={className} invalid={containsErrors}>
+      {meta.label && (
+        <Label>
+          {meta.label}
+
+          {!options ||
+            !options.validators ||
+            (options && options.validators && !options.validators.includes(Validators.required) && (
+              <Optional>(optioneel)</Optional>
+            ))}
+        </Label>
+      )}
+
+      {meta?.subtitle && <SubTitle>{meta.subtitle}</SubTitle>}
+
+      {containsErrors && (
+        <div className="header__errors">
+          {touched && hasError('required') && <ErrorItem>Dit is een verplicht veld</ErrorItem>}
+
+          {touched && hasError('email') && <ErrorItem>Het moet een geldig e-mailadres zijn</ErrorItem>}
+
+          {touched && hasError('maxLength') && (
+            <ErrorItem>U kunt maximaal ${getError('maxLength').requiredLength} tekens invoeren.</ErrorItem>
+          )}
+
+          {touched && hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
+        </div>
+      )}
+
+      <Children>{children}</Children>
+    </Wrapper>
+  );
+};
 
 Header.defaultProps = {
   className: '',
@@ -71,7 +95,7 @@ Header.propTypes = {
   touched: PropTypes.bool,
   hasError: PropTypes.func,
   getError: PropTypes.func,
-  children: PropTypes.object,
+  children: PropTypes.node,
 };
 
 export default Header;

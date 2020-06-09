@@ -1,8 +1,5 @@
 @import "./config.scss";
 
-@import "./stijl/css/amsterdam-components/patterns/20-molecules/notification/notification";
-@import "./stijl/css/grid-extensions";
-
 @font-face {
   font-family: "Avenir Next LT W01-Regular";
   src: url("./stijl/fonts/AvenirNext/2cd55546-ec00-4af9-aeca-4a3cd186da53.woff2") format("woff2"),
@@ -67,7 +64,7 @@ body {
   font-size: 1rem;
   line-height: 22px;
   overflow-y: scroll;
-  background-color: $ams-background-sidebars;
+  background-color: #e5e5e5;
 }
 
 h1, h2, h3, h4, th, strong {
@@ -97,9 +94,9 @@ table {
     padding: .5rem;
 
     &:hover {
-      background-color: $ams-top-menu;
+      background-color: #f3f3f3;
       td {
-        box-shadow: 0 1px 0 1px $ams-top-menu;
+        box-shadow: 0 1px 0 1px #f3f3f3;
       }
     }
   }
@@ -116,14 +113,14 @@ table {
     }
 
     th {
-      border-top: 1px solid $ams-zwart;
-      border-bottom: 1px solid $ams-zwart;
+      border-top: 1px solid #000000;
+      border-bottom: 1px solid #000000;
     }
   }
 
   td {
-    border-bottom: 1px solid $ams-middengrijs;
-    box-shadow: 0 1px 0 1px $ams-wit;
+    border-bottom: 1px solid #bebebe;
+    box-shadow: 0 1px 0 1px #ffffff;
   }
 }
 
@@ -159,7 +156,7 @@ fieldset {
 #app {
   min-height: 100%;
   min-width: 100%;
-  background-color: $ams-background-sidebars;
+  background-color: #e5e5e5;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -172,7 +169,7 @@ fieldset {
   .app-container {
     padding-bottom: 20px;
     margin: 0 auto;
-    background-color: $ams-wit;
+    background-color: #ffffff;
     flex: 1 0 auto;
     width: 100%;
     z-index: 0;

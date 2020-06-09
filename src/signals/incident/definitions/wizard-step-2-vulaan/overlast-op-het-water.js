@@ -16,7 +16,6 @@ const intro = {
 export const controls = {
   extra_boten_snelheid_rondvaartboot: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-snel-varen',
       },
@@ -31,7 +30,6 @@ export const controls = {
   },
   extra_boten_snelheid_rederij: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       label: 'Wat is de naam van de rederij?',
       shortLabel: 'Rederij',
       subtitle: 'Als u begint met typen verschijnt vanzelf een lijst met rederijen',
@@ -111,7 +109,6 @@ export const controls = {
   },
   extra_boten_snelheid_naamboot: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       label: 'Wat is de naam van de boot?',
       shortLabel: 'Naam boot',
       pathMerge: 'extra_properties',

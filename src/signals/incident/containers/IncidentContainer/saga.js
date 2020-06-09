@@ -205,6 +205,11 @@ export function* getPostData(action) {
     handling_message,
   };
 
+  primedPostData.reporter = {
+    ...primedPostData.reporter,
+    sharing_allowed: primedPostData.reporter?.sharing_allowed?.value || false,
+  };
+
   const validFields = [
     'category',
     'extra_properties',

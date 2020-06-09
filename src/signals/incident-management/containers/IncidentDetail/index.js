@@ -11,7 +11,6 @@ import { incidentType, dataListType, defaultTextsType, attachmentsType, historyT
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import { makeSelectSubCategories } from 'models/categories/selectors';
 import {
   requestIncident,
   patchIncident,
@@ -130,7 +129,6 @@ export class IncidentDetail extends React.Component {
       match: {
         params: { id },
       },
-      subCategories,
       onPatchIncident,
       onDismissError,
     } = this.props;
@@ -242,12 +240,11 @@ export class IncidentDetail extends React.Component {
                   </DetailContainer>
 
                   <DetailContainer span={4} push={1}>
-                    {incident && subCategories && (
+                    {incident && (
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}
                         typesList={typesList}
-                        subcategories={subCategories}
                         onPatchIncident={onPatchIncident}
                         onEditStatus={this.onEditStatus}
                       />
@@ -293,7 +290,6 @@ IncidentDetail.propTypes = {
   historyModel: PropTypes.shape({
     list: historyType.isRequired,
   }).isRequired,
-  subCategories: dataListType,
 
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -315,7 +311,6 @@ const mapStateToProps = () =>
     loading: makeSelectLoading(),
     error: makeSelectError(),
     incidentModel: makeSelectIncidentModel,
-    subCategories: makeSelectSubCategories,
     historyModel: makeSelectHistoryModel(),
   });
 

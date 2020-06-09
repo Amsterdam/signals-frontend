@@ -10,6 +10,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
 import { DOUBLE_CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
+import configuration from 'shared/services/configuration/configuration';
 
 import { findFeatureByType } from '../services/reverseGeocoderService';
 import MapInput from '..';
@@ -30,6 +31,8 @@ jest.mock('containers/MapContext/actions', () => ({
     payload,
   })),
 }));
+
+jest.mock('shared/services/configuration/configuration');
 
 const setValuesSpy = jest.spyOn(actions, 'setValuesAction');
 const setLocationSpy = jest.spyOn(actions, 'setLocationAction');
@@ -221,6 +224,44 @@ describe('components/MapInput', () => {
     });
   });
 
+  it('should take stadsdeel value from configuration with click on map', async () => {
+    const stadsdeel = 'W';
+    configuration.map.options.stadsdeel = stadsdeel;
+
+    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
+
+    const onChange = jest.fn();
+    const { findByTestId } = render(
+      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
+    );
+
+    const map = await findByTestId('map-base');
+
+    expect(onChange).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(map, { clientX: 100, clientY: 100 });
+    });
+
+    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+
+    expect(setValuesSpy).toHaveBeenCalledTimes(2);
+    expect(setValuesSpy).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        stadsdeel,
+      })
+    );
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        stadsdeel,
+      })
+    );
+
+    delete configuration.map.options.stadsdeel;
+  });
+
   it('should render marker and center the map', async () => {
     const location = {
       lat: 52.36058599633851,
@@ -267,6 +308,7 @@ describe('components/MapInput', () => {
     expect(container.querySelector(`.${markerIcon.options.className}`)).toBeInTheDocument();
     expect(mapMoveSpy).toHaveBeenCalledTimes(1);
   });
+
 
   it('should handle onSelect', async () => {
     const onChange = jest.fn();
@@ -331,6 +373,64 @@ describe('components/MapInput', () => {
         stadsdeel: findFeatureByType(geoSearchJSON.features, 'gebieden/stadsdeel').code,
       })
     );
+  });
+
+  it('should handle onSelect with stadsdeel from configuration', async () => {
+    const stadsdeel = '@foo@';
+    configuration.map.options.stadsdeel = stadsdeel;
+
+
+    const onChange = jest.fn();
+    const { getByTestId, findByTestId } = render(
+      withAppContext(
+        <context.Provider
+          value={{
+            state: {
+              lat: 51,
+              lng: 4,
+            },
+            dispatch: () => {},
+          }}
+        >
+          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />
+        </context.Provider>
+      )
+    );
+
+    // provide input with value
+    const input = getByTestId('autoSuggest').querySelector('input');
+    const value = 'Midden';
+
+    act(() => {
+      input.focus();
+    });
+
+    act(() => {
+      fireEvent.change(input, { target: { value } });
+    });
+
+    const suggestList = await findByTestId('suggestList');
+    const firstElement = suggestList.querySelector('li:nth-of-type(1)');
+
+    expect(onChange).not.toHaveBeenCalled();
+
+    // mock the geosearch response
+    fetch.mockResponse(JSON.stringify(geoSearchJSON));
+
+    // click option in list
+    act(() => {
+      fireEvent.click(firstElement);
+    });
+
+    await findByTestId('map-base');
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        stadsdeel,
+      })
+    );
+
+    delete configuration.map.options.stadsdeel;
   });
 
   it('should clear location and not render marker', async () => {

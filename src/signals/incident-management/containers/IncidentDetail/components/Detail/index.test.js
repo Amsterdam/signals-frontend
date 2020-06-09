@@ -11,6 +11,7 @@ describe('<Detail />', () => {
       reporter: {
         email: 'steve@apple.com',
         phone: '098754321',
+        sharing_allowed: true,
       },
       location: {
         address: {
@@ -68,6 +69,8 @@ describe('<Detail />', () => {
     expect(queryByTestId('detail-email-value')).toHaveTextContent(props.incident.reporter.email);
     expect(queryByTestId('detail-phone-definition')).toHaveTextContent(/^Telefoon melder$/);
     expect(queryByTestId('detail-phone-value')).toHaveTextContent(props.incident.reporter.phone);
+    expect(queryByTestId('detail-sharing-definition')).toHaveTextContent('Toestemming contactgegevens delen');
+    expect(queryByTestId('detail-sharing-value')).toHaveTextContent('Ja');
 
     expect(getByText(props.incident.extra_properties[0].label)).toBeInTheDocument();
     expect(getByText(props.incident.extra_properties[1].label)).toBeInTheDocument();

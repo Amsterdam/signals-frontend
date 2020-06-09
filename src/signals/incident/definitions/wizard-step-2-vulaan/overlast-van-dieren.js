@@ -18,7 +18,6 @@ export default {
 
     extra_dieren_text: {
       meta: {
-        className: 'col-sm-12 col-md-6',
         ifAllOf: {
           category: 'overlast-van-dieren',
         },
