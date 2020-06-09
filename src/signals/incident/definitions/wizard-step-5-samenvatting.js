@@ -26,6 +26,9 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
 
       return () => 'Ja';
 
+    case 'SelectInput':
+      return ({ value }) => value?.label;
+
     case 'MultiTextInput':
       return SCSVLabel;
 
@@ -73,7 +76,8 @@ export default {
       sharing_allowed: {
         meta: {
           shortLabel: 'Toestemming contactgegevens delen',
-          value: 'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
+          value:
+            'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
           path: 'reporter.sharing_allowed',
         },
         render: FormComponents.EmphasisCheckboxInput,
