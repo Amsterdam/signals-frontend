@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "target": "es6",
+    "baseUrl": "./src",
+    "paths": {
+      "shared/": [
+        "./shared/*"
+      ],
+      "components/": [
+        "./components/*"
+      ],
+      "containers/": [
+        "./containers/*"
+      ],
+      "hooks/": [
+        "./hooks/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
+}
