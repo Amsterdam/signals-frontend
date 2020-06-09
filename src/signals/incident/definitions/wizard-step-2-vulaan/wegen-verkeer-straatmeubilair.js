@@ -111,9 +111,13 @@ export const controls = {
     meta: {
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
+        ifOneOf: {
+          extra_straatverlichting_probleem: ['lamp_doet_het_niet', 'lamp_is_zichtbaar_beschadigd', 'overig'],
+        },
       },
       ifOneOf: {
         extra_straatverlichting: [
+          'drie_of_meer_kapot',
           'is_gevolg_van_aanrijding',
           'lamp_op_grond_of_scheef',
           'deurtje_weg_of_open',
