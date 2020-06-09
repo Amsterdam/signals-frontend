@@ -18,8 +18,6 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY internals /app/internals
 
-COPY assets /app/assets
-
 COPY .gitignore \
       .gitattributes \
       .eslintrc.js \
@@ -35,13 +33,14 @@ RUN npm --production=false --unsafe-perm --no-progress ci && npm cache clean --f
 
 COPY src /app/src
 
-
 ################################
 # Build
 ################################
 FROM node:8.15-stretch AS builder
 COPY --from=base /app /app
 WORKDIR /app
+
+COPY assets /app/assets
 
 ARG GIT_COMMIT
 ENV GIT_COMMIT ${GIT_COMMIT}
