@@ -18,34 +18,10 @@ export const checkDescriptionPage = () => {
   cy.contains('Voeg een foto toe om de situatie te verduidelijken').should('be.visible');
 };
 
-export const checkSpecificInformationPage = () => {
-  cy.url().should('include', '/incident/vulaan');
-  cy.checkHeaderText('Dit hebben we nog van u nodig');
-  cy.contains('Dit hebt u net ingevuld:').should('be.visible');
-};
-
-export const checkSummaryPage = () => {
-  cy.url().should('include', '/incident/samenvatting');
-  cy.checkHeaderText('Controleer uw gegevens');
-  // Check if map and marker are visible
-  cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-  cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-  cy.contains(
-    'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.'
-  ).should('be.visible');
-};
-
-export const checkThanksPage = () => {
-  cy.url().should('include', '/incident/bedankt');
-  cy.checkHeaderText('Bedankt!');
-};
-
 export const checkSignalDetailsPage = () => {
   cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
-  // Check if map and marker are visible
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
   cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-  // check all labels: overlast, locatie, email-melder, telefoon melder
   cy.get(SIGNAL_DETAILS.labelEmail)
     .should('have.text', 'E-mail melder')
     .and('be.visible');
@@ -61,6 +37,27 @@ export const checkSignalDetailsPage = () => {
   cy.get(SIGNAL_DETAILS.labelToestemming)
     .should('have.text', 'Toestemming contactgegevens delen')
     .and('be.visible');
+};
+
+export const checkSpecificInformationPage = () => {
+  cy.url().should('include', '/incident/vulaan');
+  cy.checkHeaderText('Dit hebben we nog van u nodig');
+  cy.contains('Dit hebt u net ingevuld:').should('be.visible');
+};
+
+export const checkSummaryPage = () => {
+  cy.url().should('include', '/incident/samenvatting');
+  cy.checkHeaderText('Controleer uw gegevens');
+  cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+  cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
+  cy.contains(
+    'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.'
+  ).should('be.visible');
+};
+
+export const checkThanksPage = () => {
+  cy.url().should('include', '/incident/bedankt');
+  cy.checkHeaderText('Bedankt!');
 };
 
 export const getSignalId = () => {
@@ -93,6 +90,17 @@ export const setAddress = (searchAdress, selectAdress) => {
   cy.wait('@geoSearchLocation');
 };
 
+export const setDateTime = dateTime => {
+  if (dateTime === 'Nu') {
+    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click();
+  } else {
+    cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click();
+    cy.get(CREATE_SIGNAL.dropdownDag).select('Vandaag');
+    cy.get(CREATE_SIGNAL.dropdownUur).select('5');
+    cy.get(CREATE_SIGNAL.dropdownMinuten).select('45');
+  }
+};
+
 export const setDescription = description => {
   Cypress.env('description', description);
   cy.get('textarea')
@@ -120,17 +128,6 @@ export const setPhonenumber = phoneNumber => {
     cy.get(CREATE_SIGNAL.inputPhoneNumber)
       .clear()
       .type(phoneNumber);
-  }
-};
-
-export const setDateTime = dateTime => {
-  if (dateTime === 'Nu') {
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click();
-  } else {
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click();
-    cy.get(CREATE_SIGNAL.dropdownDag).select('Vandaag');
-    cy.get(CREATE_SIGNAL.dropdownUur).select('5');
-    cy.get(CREATE_SIGNAL.dropdownMinuten).select('45');
   }
 };
 
