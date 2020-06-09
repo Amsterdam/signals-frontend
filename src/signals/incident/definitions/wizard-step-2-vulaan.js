@@ -17,7 +17,7 @@ export default {
   formAction: 'UPDATE_INCIDENT',
   formFactory: ({ category }) => {
     const noExtraProps = { controls: {} };
-    if(!configuration.hasExtraProps) return noExtraProps;
+    if (!configuration.showVulaanControls) return noExtraProps;
 
     switch (category) {
       case 'afval':
