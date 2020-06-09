@@ -1,9 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const prettierOptions = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8')
-);
+const prettierOptions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8'));
 
 module.exports = {
   parser: 'babel-eslint',
@@ -69,7 +67,7 @@ module.exports = {
     'no-confusing-arrow': 0,
     'no-console': 1,
     'no-restricted-syntax': 0,
-    'no-underscore-dangle': [0, {allow: ['_display', '_links']}],
+    'no-underscore-dangle': [0, { allow: ['_display', '_links'] }],
     'no-unused-vars': 2,
     'no-use-before-define': 0,
     'object-curly-spacing': [1, 'always'],
@@ -104,7 +102,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       webpack: {
-        config: './internals/webpack/webpack.prod.babel.js',
+        config: './internals/webpack/webpack.dev.babel.js',
       },
     },
   },
