@@ -23,7 +23,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   };
 
   const siteTitlePlaceholder = '$SIGNALS_SITE_TITLE';
-  const siteTitleString = combinedConfig.siteTitle;
+  const siteTitleString = combinedConfig.language.siteTitle;
   const configPlaceholder = '$SIGNALS_CONFIG';
   const configString = JSON.stringify(combinedConfig);
   const indexFile = path.join(__dirname, '..', '..', 'src', 'index.html');
