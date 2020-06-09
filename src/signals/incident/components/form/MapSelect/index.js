@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
+import styled from 'styled-components';
+import { themeSpacing } from '@datapunt/asc-ui';
 
 import MapSelectComponent from 'components/MapSelect';
 
@@ -19,6 +21,11 @@ const getLatlng = meta => {
   };
 };
 
+const Selection = styled.span`
+  display: inline-block;
+  margin-top: ${themeSpacing(3)};
+`;
+
 const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const onSelectionChange = selection => {
     const value = Array.from(selection.set.values());
@@ -34,9 +41,11 @@ const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validat
   // So make sure selection is array:
   const value = handler().value;
   const selection = Array.isArray(value) ? value : [];
+
   return (
     meta?.isVisible && (
       <Header
+        // className value is referenced by form component
         className="mapSelect"
         meta={meta}
         options={validatorsOrOpts}
@@ -44,21 +53,18 @@ const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validat
         hasError={hasError}
         getError={getError}
       >
-        <div className="invoer">
-          {latlng && (
-            <MapSelectComponent
-              latlng={latlng}
-              onSelectionChange={onSelectionChange}
-              getIcon={getOVLIcon}
-              legend={filtered_legend}
-              geojsonUrl={url}
-              iconField="type_name"
-              idField="objectnummer"
-              zoomMin={meta.zoomMin}
-              value={selection}
-            />
-          )}
-        </div>
+        <MapSelectComponent
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          getIcon={getOVLIcon}
+          legend={filtered_legend}
+          geojsonUrl={url}
+          iconField="type_name"
+          idField="objectnummer"
+          zoomMin={meta.zoomMin}
+          value={selection}
+        />
+        {selection.length > 0 && <Selection>Het gaat om lamp of lantaarnpaal met nummer: {selection.join('; ')}</Selection>}
       </Header>
     )
   );

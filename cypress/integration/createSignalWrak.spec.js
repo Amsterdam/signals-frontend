@@ -27,9 +27,7 @@ describe('Create signal parkeeroverlast and check signal details', () => {
     it('Should enter specific information', () => {
       createSignal.checkSpecificInformationPage();
 
-      cy.contains('Voor het Velodrome ligt een fietswrak, het lijkt een beetje op die van Tom Dumoulin.').should(
-        'be.visible'
-      );
+      cy.contains(Cypress.env('description')).should('be.visible');
       cy.contains(
         'Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?'
       ).should('be.visible');
@@ -61,13 +59,11 @@ describe('Create signal parkeeroverlast and check signal details', () => {
       createSignal.checkSummaryPage();
 
       // Check information provided by user
-      cy.contains('Sloterweg 1045, 1066CD Amsterdam').should('be.visible');
-      cy.contains('Voor het Velodrome ligt een fietswrak, het lijkt een beetje op die van Tom Dumoulin.').should(
-        'be.visible'
-      );
+      cy.contains(Cypress.env('address')).should('be.visible');
+      cy.contains(Cypress.env('description')).should('be.visible');
+      cy.contains(Cypress.env('phoneNumber')).should('be.visible');
+      cy.contains(Cypress.env('emailAddress')).should('be.visible');
       cy.contains('Het is een Cervélo P5, rood met wit het voorwiel ontbreekt.').should('be.visible');
-      cy.contains('+31612312112').should('be.visible');
-      cy.contains('siafakemail@fake.nl').should('be.visible');
 
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
@@ -97,7 +93,7 @@ describe('Create signal parkeeroverlast and check signal details', () => {
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
-      cy.contains('Voor het Velodrome ligt een fietswrak, het lijkt een beetje op die van Tom Dumoulin.');
+      cy.contains(Cypress.env('description')).should('be.visible');
 
       cy.get(SIGNAL_DETAILS.stadsdeel)
         .should('have.text', 'Stadsdeel: Nieuw-West')
@@ -109,21 +105,14 @@ describe('Create signal parkeeroverlast and check signal details', () => {
         .should('have.text', '1066CD Amsterdam')
         .and('be.visible');
       cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', 'siafakemail@fake.nl')
+        .should('have.text', Cypress.env('emailAddress'))
         .and('be.visible');
       cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '+31612312112')
+        .should('have.text', Cypress.env('phoneNumber'))
         .and('be.visible');
 
-      // Check if status is 'gemeld' with red coloured text
-      cy.get(SIGNAL_DETAILS.status)
-        .should('have.text', 'Gemeld')
-        .and('be.visible')
-        .and($labels => {
-          expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
-        });
-
       createSignal.checkCreationDate();
+      createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency)
         .should('have.text', 'Normaal')
         .and('be.visible');

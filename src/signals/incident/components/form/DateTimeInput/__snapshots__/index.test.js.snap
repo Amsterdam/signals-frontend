@@ -212,76 +212,78 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
       >
         uur
       </span>
-      <SelectInput
-        data-testid="selectMinutes"
-        name="minutes"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "key": 0,
-              "name": 0,
-              "value": 0,
-            },
-            Object {
-              "key": 5,
-              "name": 5,
-              "value": 5,
-            },
-            Object {
-              "key": 10,
-              "name": 10,
-              "value": 10,
-            },
-            Object {
-              "key": 15,
-              "name": 15,
-              "value": 15,
-            },
-            Object {
-              "key": 20,
-              "name": 20,
-              "value": 20,
-            },
-            Object {
-              "key": 25,
-              "name": 25,
-              "value": 25,
-            },
-            Object {
-              "key": 30,
-              "name": 30,
-              "value": 30,
-            },
-            Object {
-              "key": 35,
-              "name": 35,
-              "value": 35,
-            },
-            Object {
-              "key": 40,
-              "name": 40,
-              "value": 40,
-            },
-            Object {
-              "key": 45,
-              "name": 45,
-              "value": 45,
-            },
-            Object {
-              "key": 50,
-              "name": 50,
-              "value": 50,
-            },
-            Object {
-              "key": 55,
-              "name": 55,
-              "value": 55,
-            },
-          ]
-        }
-        value="0"
-      />
+      <div>
+        <SelectInput
+          data-testid="selectMinutes"
+          name="minutes"
+          onChange={[Function]}
+          options={
+            Array [
+              Object {
+                "key": 0,
+                "name": 0,
+                "value": 0,
+              },
+              Object {
+                "key": 5,
+                "name": 5,
+                "value": 5,
+              },
+              Object {
+                "key": 10,
+                "name": 10,
+                "value": 10,
+              },
+              Object {
+                "key": 15,
+                "name": 15,
+                "value": 15,
+              },
+              Object {
+                "key": 20,
+                "name": 20,
+                "value": 20,
+              },
+              Object {
+                "key": 25,
+                "name": 25,
+                "value": 25,
+              },
+              Object {
+                "key": 30,
+                "name": 30,
+                "value": 30,
+              },
+              Object {
+                "key": 35,
+                "name": 35,
+                "value": 35,
+              },
+              Object {
+                "key": 40,
+                "name": 40,
+                "value": 40,
+              },
+              Object {
+                "key": 45,
+                "name": 45,
+                "value": 45,
+              },
+              Object {
+                "key": 50,
+                "name": 50,
+                "value": 50,
+              },
+              Object {
+                "key": 55,
+                "name": 55,
+                "value": 55,
+              },
+            ]
+          }
+          value="0"
+        />
+      </div>
       <span
         className="datetime-input__earlier-time-label"
       >
