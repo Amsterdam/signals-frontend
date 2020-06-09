@@ -47,12 +47,6 @@
     "*.js": "eslint --ignore-pattern internals/scripts"
   },
   "pre-commit": "lint:staged",
-  "browserslist": [
-    "last 2 versions",
-    "> 3% in NL",
-    "Firefox >= 68",
-    "Chrome >= 42"
-  ],
   "dependencies": {
     "@datapunt/amsterdam-react-maps": "^0.1.2",
     "@datapunt/asc-assets": "^0.20.0",
