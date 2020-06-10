@@ -52,18 +52,18 @@ exports[`Form component <SelectInput /> rendering should render select field cor
       Array [
         Object {
           "key": "foo",
-          "name": "foo",
-          "value": "Foo",
+          "name": "Foo",
+          "value": "foo",
         },
         Object {
           "key": "bar",
-          "name": "bar",
-          "value": "Bar",
+          "name": "Bar",
+          "value": "bar",
         },
         Object {
           "key": "baz",
-          "name": "baz",
-          "value": "Baz",
+          "name": "Baz",
+          "value": "baz",
         },
       ]
     }
