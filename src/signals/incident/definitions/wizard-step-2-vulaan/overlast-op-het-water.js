@@ -20,6 +20,7 @@ export const controls = {
         subcategory: 'overlast-op-het-water-snel-varen',
       },
       label: 'Gaat de melding over een rondvaartboot?',
+      shortLabel: 'Rondvaartboot',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',

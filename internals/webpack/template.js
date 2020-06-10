@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const merge = require('lodash.merge');
 
 const template = {};
 
@@ -17,11 +18,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
     console.log(`You can use \`${devConfigFile}\` for configuration overwrites in your development environment.\n`);
   }
 
-  const combinedConfig = {
-    ...config,
-    ...devConfig,
-  };
-
+  const combinedConfig = merge({}, config, devConfig);
   const siteTitlePlaceholder = '$SIGNALS_SITE_TITLE';
   const siteTitleString = combinedConfig.language.siteTitle;
   const configPlaceholder = '$SIGNALS_CONFIG';

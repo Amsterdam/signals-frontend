@@ -100,6 +100,7 @@ const MapSelect = ({
           pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
             L.marker(latlong, {
               icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
+              alt: feature.properties.objectnummer,
             }),
 
           /**

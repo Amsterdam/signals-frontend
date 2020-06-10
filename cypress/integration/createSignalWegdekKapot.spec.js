@@ -1,112 +1,122 @@
 // <reference types="Cypress" />
-
 import * as createSignal from '../support/commandsCreateSignal';
-import { CREATE_SIGNAL, WEGDEK } from '../support/selectorsCreateSignal';
+import { WEGDEK } from '../support/selectorsCreateSignal';
+import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 
-describe('Create signal wegdek kapot', () => {
-  before(() => {
-    cy.server();
-    cy.defineGeoSearchRoutes();
-    cy.getAddressRoute();
+describe('Create signal wegdek kapot and check signal details', () => {
+  describe('Create signal wegdek kapot', () => {
+    before(() => {
+      cy.visitFetch('incident/beschrijf');
+    });
 
-    // Open Homepage
-    cy.visitFetch('incident/beschrijf');
+    it('Should search for an address', () => {
+      cy.server();
+      cy.defineGeoSearchRoutes();
+      cy.getAddressRoute();
+      cy.route('POST', '**/signals/category/prediction', 'fixture:wegdek.json').as('prediction');
+
+      createSignal.checkDescriptionPage();
+      createSignal.setAddress('1105AT 50', 'Schepenbergweg 50, 1105AT Amsterdam');
+      createSignal.setDescription('Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?');
+      createSignal.setDateTime('Nu');
+
+      cy.contains('Volgende').click();
+    });
+
+    it('Should enter specific information', () => {
+      createSignal.checkSpecificInformationPage();
+
+      cy.contains(Cypress.env('description')).should('be.visible');
+
+      // Select road type
+      cy.contains('Hebt u verteld om wat voor soort wegdek het gaat?');
+      cy.get(WEGDEK.inputSoortWegdek).type('Asfalt');
+
+      cy.contains('Volgende').click();
+    });
+
+    it('Should enter a phonenumber and email address', () => {
+      cy.contains('Volgende').click();
+      cy.contains('Volgende').click();
+    });
+
+    it('Should show a summary', () => {
+      cy.server();
+      cy.postSignalRoutePublic();
+
+      createSignal.checkSummaryPage();
+
+      // Check information provided by user
+      cy.contains(Cypress.env('address')).should('be.visible');
+      cy.contains(Cypress.env('description')).should('be.visible');
+      cy.contains('Asfalt');
+
+      cy.contains('Verstuur').click();
+      cy.wait('@postSignalPublic');
+    });
+
+    it('Should show the last screen', () => {
+      createSignal.checkThanksPage();
+      // Capture signal id to check details later
+      createSignal.getSignalId();
+    });
   });
+  describe('Check data created signal', () => {
+    before(() => {
+      localStorage.setItem('accessToken', Cypress.env('token'));
+      cy.server();
+      cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutes();
+      cy.visitFetch('/manage/incidents/');
+      cy.waitForManageSignalsRoutes();
+      cy.log(Cypress.env('signalId'));
+    });
 
-  it('Should search for an address', () => {
-    // Check on h1
-    cy.checkHeaderText('Beschrijf uw melding');
+    it('Should show the signal details', () => {
+      cy.get('[href*="/manage/incident/"]')
+        .contains(Cypress.env('signalId'))
+        .click();
+      cy.waitForSignalDetailsRoutes();
 
-    // Search on address
-    createSignal.searchAddress('1105AT 50');
-    cy.wait('@getAddress');
+      createSignal.checkSignalDetailsPage();
+      cy.contains(Cypress.env('description')).should('be.visible');
 
-    // Select found item  
-    createSignal.selectAddress('Schepenbergweg 50, 1105AT Amsterdam');
-    cy.wait('@geoSearchLocation');
-  });
+      cy.get(SIGNAL_DETAILS.stadsdeel)
+        .should('have.text', 'Stadsdeel: Zuidoost')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet)
+        .should('have.text', 'Schepenbergweg 50')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity)
+        .should('have.text', '1105AT Amsterdam')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.email)
+        .should('have.text', '')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber)
+        .should('have.text', '')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails)
+        .should('have.text', 'Nee')
+        .and('be.visible');
 
-  it('Should enter description and date', () => {
-    cy.server();
-    cy.route('POST', '**/signals/category/prediction', 'fixture:wegdek.json').as('prediction');
-
-    createSignal.inputDescription('Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?');
-
-    // Select datetime
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click();
-
-    // Click on next
-    cy.clickButton('Volgende');
-  });
-
-  it('Should enter specific information', () => { 
-    // Check URL
-    cy.url().should('include', '/incident/vulaan');
-
-    // Check h1
-    cy.checkHeaderText('Dit hebben we nog van u nodig');
-    cy.contains('Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?');
-
-    // Select road type
-    cy.contains('Hebt u verteld om wat voor soort wegdek het gaat?');
-    cy.get(WEGDEK.inputSoortWegdek).type('Asfalt');
-
-    // Click on next
-    cy.contains('Volgende').click();
-  });
-
-  it('Should enter a phonenumber', () => {
-    // Check URL
-    cy.url().should('include', '/incident/telefoon');
-
-    // Check h1
-    cy.checkHeaderText('Mogen we u bellen voor vragen?');
-
-    // Click on next
-    cy.clickButton('Volgende');
-  });
-
-  it('Should enter an email adress', () => {
-    // Check URL
-    cy.url().should('include', '/incident/email');
-
-    // Check h1
-    cy.checkHeaderText('Wilt u op de hoogte blijven?');
-
-    // Click on next
-    cy.clickButton('Volgende');
-  });
-
-  it('Should show an overview', () => {
-    // Check URL
-    cy.url().should('include', '/incident/samenvatting');
-
-    // Check h1
-    cy.checkHeaderText('Controleer uw gegevens');
-
-    // Check if map and marker are visible
-    cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-    cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-
-    // Check road type
-    cy.contains('Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?');
-    cy.contains('Asfalt');
-  });
-
-  it('Should show the last screen', () => {
-    cy.server();
-    cy.postSignalRoutePublic();
-
-    cy.clickButton('Verstuur');
-    
-    cy.wait('@postSignalPublic');
-
-    // Check URL
-    cy.url().should('include', '/incident/bedankt');
-
-    // Check h1
-    cy.checkHeaderText('Bedankt!');
-
-    // TODO capture signal id
+      createSignal.checkCreationDate();
+      createSignal.checkRedTextStatus('Gemeld');
+      cy.get(SIGNAL_DETAILS.urgency)
+        .should('have.text', 'Normaal')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.type)
+        .should('have.text', 'Melding')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory)
+        .should('have.text', 'Onderhoud stoep, straat en fietspad (STW)')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory)
+        .should('have.text', 'Wegen, verkeer, straatmeubilair')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.source)
+        .should('have.text', 'online')
+        .and('be.visible');
+    });
   });
 });

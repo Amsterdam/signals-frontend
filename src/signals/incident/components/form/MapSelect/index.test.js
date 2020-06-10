@@ -1,90 +1,82 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import MapSelectFormComponent from './index';
-import MaxSelection from '../../../../../utils/maxSelection';
+import { render, fireEvent, act } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
-describe('Form component <MapSelectFormComponent />', () => {
-  let handler;
-  let touched;
-  let getError;
-  let hasError;
-  let parent;
-  let meta;
+import MapSelect from '.';
 
-  beforeEach(() => {
-    handler = jest.fn();
-    handler.mockReturnValue({ value: '' });
-    getError = jest.fn();
-    hasError = jest.fn();
-  });
+const jsonResponse = {
+  type: 'FeatureCollection',
+  name: 'verlichting',
+  crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+  features: [
+    {
+      type: 'Feature',
+      properties: { ogc_fid: '1845', type_id: '5', type_name: 'Grachtmast', objectnummer: '002635' },
+      geometry: { type: 'Point', coordinates: [4.896506, 52.370984] },
+    },
+    {
+      type: 'Feature',
+      properties: { ogc_fid: '1882', type_id: '5', type_name: 'Grachtmast', objectnummer: '147329' },
+      geometry: { type: 'Point', coordinates: [4.895565, 52.371467] },
+    },
+  ],
+};
 
-  const createComponent = () => {
-    touched = false;
-    parent = {
-      meta: {
-        updateIncident: jest.fn(),
-      },
-    };
-    meta = {
-      name: 'my_question',
-      isVisible: true,
-      endpoint: 'foo/bar?',
-      legend_items: ['klok'],
-    };
-
-    return shallow(
-      <MapSelectFormComponent
-        handler={handler}
-        parent={parent}
-        touched={touched}
-        hasError={hasError}
-        getError={getError}
-        meta={meta}
-      />
-    );
+describe('signals/incident/components/form/MapSelect', () => {
+  const parent = {
+    meta: {
+      updateIncident: jest.fn(),
+    },
   };
 
+  const meta = {
+    name: 'my_question',
+    isVisible: true,
+    endpoint: 'foo/bar?',
+    legend_items: ['klok'],
+  };
+
+  const handler = () => ({ value: 'foo' });
+
   describe('rendering', () => {
-    it('should render the MapSelect component', () => {
-      const wrapper = createComponent();
+    it('should render the map component', () => {
+      const { container, queryByTestId, rerender } = render(
+        withAppContext(<MapSelect parent={parent} meta={meta} handler={handler} />)
+      );
 
-      expect(wrapper).toMatchSnapshot();
+      expect(queryByTestId('map-base')).toBeInTheDocument();
+      expect(container.firstChild.classList.contains('mapSelect')).toBeTruthy();
+
+      rerender(withAppContext(<MapSelect parent={parent} meta={{ ...meta, isVisible: false }} handler={handler} />));
+
+      expect(queryByTestId('map-base')).not.toBeInTheDocument();
     });
 
-    it('should use the handler value', () => {
-      handler.mockReturnValue({ value: ['obj1'] });
-      const wrapper = createComponent();
+    it('should render selected item numbers', () => {
+      const { getByText } = render(
+        withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value: ['9673465', '808435'] })} />)
+      );
 
-      expect(wrapper.find('MapSelect').props().value).toEqual(['obj1']);
+      expect(getByText('Het gaat om lamp of lantaarnpaal met nummer: 9673465; 808435')).toBeInTheDocument();
     });
 
-    it('should update selection', () => {
-      const wrapper = createComponent();
+    it('should call parent.meta.updateIncident', async () => {
+      fetch.mockResponse(JSON.stringify(jsonResponse));
 
-      const selection = new MaxSelection(3);
-      selection.add('obj002');
-      wrapper
-        .find('MapSelect')
-        .props()
-        .onSelectionChange(selection);
+      const value = ['002635', '147329'];
+      const { container, findByTestId } = render(
+        withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value })} />)
+      );
 
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        my_question: ['obj002'],
+      await findByTestId('map-base');
+
+      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(container.querySelector(`img[alt="${value[0]}"]`));
       });
-    });
 
-    it('should render no map field when not visible', () => {
-      const wrapper = createComponent();
-
-      wrapper.setProps({
-        meta: {
-          ...meta,
-          isVisible: false,
-        },
-      });
-
-      expect(handler).toHaveBeenCalledWith();
-      expect(wrapper).toMatchSnapshot();
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({ [meta.name]: [value[1]] });
     });
   });
 });
