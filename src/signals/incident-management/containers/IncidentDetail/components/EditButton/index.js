@@ -14,10 +14,10 @@ const StyledButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-const EditButton = ({ className, disabled, onClick }) => (
+const EditButton = ({ className, disabled, onClick, ...rest }) => (
   <StyledButton
     className={className}
-    data-testid="editButton"
+    data-testid={rest['data-testid'] || 'editButton'}
     disabled={disabled}
     icon={<IconEdit />}
     iconSize={18}

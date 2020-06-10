@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
 import History from 'components/History';
 import useFetch from 'hooks/useFetch';
 import { showGlobalNotification } from 'containers/App/actions';
@@ -48,6 +47,9 @@ const reducer = (state, action) => {
     case 'attachments':
       return { ...state, attachments: action.payload };
 
+    case 'defaultTexts':
+      return { ...state, defaultTexts: action.payload };
+
     default:
       return { ...state, preview: action.type, attachmentHref: '' };
   }
@@ -67,25 +69,23 @@ const Preview = styled.div`
 
 const IncidentDetail = ({ attachmentHref, previewState }) => {
   const storeDispatch = useDispatch();
+  const { id } = useParams();
   const [state, dispatch] = useReducer(reducer, {
     preview: previewState,
     attachmentHref,
     error: undefined,
     attachments: undefined,
   });
-  const { id } = useParams();
   const {
-    isLoading: incidentIsLoading,
     isSuccess: patchIncidentSuccess,
     error,
     get: getIncident,
     data: incident,
     patch: patchIncident,
   } = useFetch();
-  const { get: getHistory, data: history, isLoading: historyIsLoading } = useFetch();
-  const { get: getAttachments, data: attachments, isLoading: attachmentsIsLoading } = useFetch();
-  const { get: getDefaultTexts, data: defaultTexts, isLoading: defaultTextsIsLoading } = useFetch();
-  const isLoading = incidentIsLoading || historyIsLoading || attachmentsIsLoading || defaultTextsIsLoading;
+  const { get: getHistory, data: history } = useFetch();
+  const { get: getAttachments, data: attachments } = useFetch();
+  const { get: getDefaultTexts, data: defaultTexts } = useFetch();
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -141,6 +141,10 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   }, [attachments]);
 
   useEffect(() => {
+    dispatch({ type: 'defaultTexts', payload: defaultTexts });
+  }, [defaultTexts]);
+
+  useEffect(() => {
     if (!id) return;
 
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
@@ -154,9 +158,18 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
     const { main_slug, sub_slug } = incident.category;
 
-    getDefaultTexts(`${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`);
     getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`);
-    getAttachments(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`);
+
+    // retrieve default texts only once per page load
+    if (!state.defaultTexts) {
+      getDefaultTexts(`${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`);
+    }
+
+    // retrieve attachments only once per page load
+    if (!state.attachments) {
+      getAttachments(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`);
+    }
+
     // disabling linter; only need to update when the incident changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incident]);
@@ -192,9 +205,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
   return (
     <Fragment>
-      {isLoading && <LoadingIndicator />}
-
-      <Row>
+      <Row data-testid="incidentDetail">
         <Column span={12}>
           <DetailHeader
             incidentId={incident.id}
@@ -237,7 +248,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
           <Preview>
             {state.preview === 'editStatus' && (
               <StatusForm
-                defaultTexts={defaultTexts}
+                defaultTexts={state.defaultTexts}
                 error={state.error}
                 incident={incident}
                 onClose={() => dispatch({ type: 'closeAll' })}
