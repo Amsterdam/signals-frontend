@@ -118,6 +118,7 @@ module.exports = require('./webpack.base.babel')({
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
     new OfflinePlugin({
       ServiceWorker: {
+        navigateFallbackBlacklist: [/^\/assets/],
         events: true,
       },
       relativePaths: false,
