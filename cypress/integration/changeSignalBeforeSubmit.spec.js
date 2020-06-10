@@ -30,13 +30,21 @@ describe('Change a signal before submit and check signal details', () => {
       );
       createSignal.checkSpecificInformationPage();
 
-      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).click();
-      cy.get(LANTAARNPAAL.radioButtonAantalLichtenpunten).click();
-      cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet')
-        .should('be.visible')
-        .click();
+      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd)
+        .check()
+        .should('be.checked')
+        .and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk)
+        .check()
+        .should('be.checked');
       cy.wait('@getOpenbareVerlichting');
-      createSignal.selectLampOnCoordinate(434, 183);
+      cy.get(LANTAARNPAAL.checkBoxNietOpKaart)
+        .check()
+        .should('be.checked');
+      cy.contains('Wat is het nummer op de lamp of lantaarnpaal?').should('be.visible');
+      cy.contains('+ Voeg een extra nummer toe').click();
+      cy.get(LANTAARNPAAL.inputLampNummer1).type('11.11');
+      cy.get(LANTAARNPAAL.inputLampNummer2).type('100.199');
       cy.contains('Volgende').click();
     });
 
@@ -55,10 +63,10 @@ describe('Change a signal before submit and check signal details', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
 
       // Check if specific information is visible
-      cy.contains('Een aantal lichtpunten die bij elkaar staan/hangen').should('be.visible');
-      cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet').should('be.visible');
-      cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
-      cy.contains('155632.07').should('be.visible');
+      cy.contains('Lamp of lantaarnpaal is beschadigd of niet compleet').should('be.visible');
+      cy.contains('Nee, niet gevaarlijk').should('be.visible');
+      cy.get(LANTAARNPAAL.mapSelectLamp).should('not.be.visible');
+      cy.contains('11.11; 100.199').should('be.visible');
 
       // Check if mail and phonenumber are visible
       cy.contains(Cypress.env('phoneNumber')).should('be.visible');
