@@ -1,199 +1,217 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { shallow } from 'enzyme';
+import { render, fireEvent, act } from '@testing-library/react';
+
 import { withAppContext } from 'test/utils';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
+import { changeStatusOptionList } from '../../../../definitions/statusList';
 
-import { FieldGroup } from 'react-reactive-form';
+import StatusForm from '.';
 
-import StatusForm from './index';
+const defaultTexts = [
+  {
+    state: 'ingepland',
+    templates: [
+      { title: 'Ingepland', text: 'Over 1 dag' },
+      { title: 'Ingepland', text: 'Over 2 dagen' },
+      { title: '', text: '' },
+    ],
+  },
+  {
+    state: 'o',
+    templates: [
+      { title: 'Niet opgelost', text: 'Geen probleem gevonden' },
+      { title: 'Niet opgelost', text: 'Niet voor regio Amsterdam' },
+      { title: 'Opgelost', text: 'Lamp vervangen' },
+      { title: 'Opgelost', text: 'Lantaarnpaal vervangen' },
+    ],
+  },
+];
 
-import statusList, { changeStatusOptionList, defaultTextsOptionList } from '../../../../definitions/statusList';
+const onClose = jest.fn();
+const onPatchIncident = jest.fn();
 
-jest.mock('./components/DefaultTexts', () => () => <div data-testid="status-form-default-texts" />);
-
-describe('<StatusForm />', () => {
-  let wrapper;
-  let props;
-  let instance;
-
+describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   beforeEach(() => {
-    props = {
-      incident: {
-        id: 42,
-        status: {
-          state: 'reopen requested',
-        },
-      },
-      patching: { location: false },
-      error: false,
-      changeStatusOptionList,
-      defaultTextsOptionList,
-      statusList,
-      defaultTexts: [],
-      onPatchIncident: jest.fn(),
-      onDismissError: jest.fn(),
-      onClose: jest.fn(),
-    };
+    onClose.mockReset();
+    onPatchIncident.mockReset();
   });
 
-  const getComponent = prps => {
-    const wrap = shallow(
-      <StatusForm {...prps} />
+  it('renders correctly', () => {
+    const { container, getByTestId, getByText } = render(
+      withAppContext(
+        <StatusForm
+          incident={incidentFixture}
+          defaultTexts={defaultTexts}
+          onClose={onClose}
+          onPatchIncident={onPatchIncident}
+        />
+      )
     );
 
-    const inst = wrap.instance();
+    expect(container.querySelector('textarea')).toBeInTheDocument();
+    expect(getByTestId('statusFormSubmitButton')).toBeInTheDocument();
+    expect(getByTestId('statusFormCancelButton')).toBeInTheDocument();
 
-    return [wrap, inst];
-  };
-
-  afterEach(() => {
-    jest.resetAllMocks();
+    Object.values(changeStatusOptionList).forEach(({ value }) => {
+      expect(getByText(value)).toBeInTheDocument();
+    });
   });
 
-  it('should contain the FieldGroup', () => {
-    [wrapper] = getComponent(props);
+  it('shows default texts', () => {
+    const stateWithTexts = defaultTexts[0].state;
 
-    expect(wrapper.find(FieldGroup)).toHaveLength(1);
-    expect(props.onDismissError).toHaveBeenCalledTimes(1);
-  });
-
-  it('should contain render unauthorized error', () => {
-    props.error = {
-      response: {
-        status: 403,
-      },
-    };
-
-    const { queryByTestId } = render(
-      withAppContext(<StatusForm {...props} />)
+    const { getByText, getByTestId, queryByTestId } = render(
+      withAppContext(
+        <StatusForm
+          incident={incidentFixture}
+          defaultTexts={defaultTexts}
+          onClose={onClose}
+          onPatchIncident={onPatchIncident}
+        />
+      )
     );
 
-    expect(queryByTestId('statusFormError')).toHaveTextContent(/^Je bent niet geautoriseerd om dit te doen\.$/);
-  });
+    const radioButton = getByTestId(`status-${stateWithTexts}`);
 
-  it('should contain render other error', () => {
-    props.error = {
-      response: {
-        status: 400,
-      },
-    };
+    expect(queryByTestId('defaultTextsTitle')).not.toBeInTheDocument();
 
-    const { queryByTestId } = render(
-      withAppContext(<StatusForm {...props} />)
-    );
-
-    expect(queryByTestId('statusFormError')).toHaveTextContent(/^De gekozen status is niet mogelijk in deze situatie\.$/);
-  });
-
-
-  it('should contain loading indicator when patching error', () => {
-    props.patching = {
-      status: true,
-    };
-
-    const { queryByTestId } = render(
-      withAppContext(<StatusForm {...props} />)
-    );
-
-    expect(queryByTestId('statusFormSpinner')).not.toBeNull();
-  });
-
-  it('should render form correctly', () => {
-    const { queryByText, queryByTestId } = render(
-      withAppContext(<StatusForm {...props} />)
-    );
-
-    expect(queryByText('Huidige status')).not.toBeNull();
-    expect(queryByText('Verzoek tot heropenen')).not.toBeNull();
-
-    expect(queryByText('Nieuwe status')).not.toBeNull();
-    expect(queryByText('In behandeling')).not.toBeNull();
-
-    expect(queryByTestId('statusFormSubmitButton')).toHaveTextContent(/^Status opslaan$/);
-    expect(queryByTestId('statusFormCancelButton')).toHaveTextContent(/^Annuleren$/);
-  });
-
-  it('should close the status form when result is ok', () => {
-    const { rerender } = render(
-      withAppContext(<StatusForm {...props} />)
-    );
-
-    props.patching = { status: false };
-    props.error = { response: { ok: true } };
-
-    rerender(
-      withAppContext(<StatusForm {...props} />)
-    );
-
-    expect(props.onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not close the status form when result triggers an error', () => {
-    const { rerender } = render(
-      withAppContext(<StatusForm {...props} />)
-    );
-
-    props.patching = { status: false };
-    props.error = { response: { ok: false, status: 500 } };
-
-    rerender(
-      withAppContext(<StatusForm {...props} />)
-    );
-
-    expect(props.onClose).not.toHaveBeenCalled();
-  });
-
-  describe('FieldGroup', () => {
-    let renderedFormGroup;
-
-    beforeEach(() => {
-      [wrapper, instance] = getComponent(props);
-
-      renderedFormGroup = wrapper.find(FieldGroup).shallow().dive();
+    act(() => {
+      fireEvent.click(radioButton);
     });
 
-    it('should set default text when it has triggered', () => {
-      instance.handleUseDefaultText({ preventDefault: jest.fn() }, 'default text');
+    expect(queryByTestId('defaultTextsTitle')).toBeInTheDocument();
 
-      expect(instance.form.value.text).toEqual('default text');
+    Object.values(defaultTexts[0].templates).forEach(({ text }) => {
+      if (text) expect(getByText(text)).toBeInTheDocument();
     });
+  });
 
-    it('should call patch status when the form is submitted (submit button is clicked)', () => {
-      const form = instance.form;
-      const formValues = {
-        status: 'o',
-        text: 'boooooo',
-      };
-      form.patchValue(formValues);
+  it('does not show default texts', () => {
+    const { getByTestId, queryByTestId } = render(
+      withAppContext(
+        <StatusForm
+          incident={incidentFixture}
+          defaultTexts={defaultTexts}
+          onClose={onClose}
+          onPatchIncident={onPatchIncident}
+        />
+      )
+    );
 
-      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
-      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
-      expect(props.onPatchIncident).toHaveBeenCalledWith({
-        id: 42,
-        patch: {
-          status: {
-            state: 'o',
-            text: 'boooooo',
-          },
-        },
-        type: 'status',
+    expect(queryByTestId('defaultTextsTitle')).not.toBeInTheDocument();
+
+    act(() => {
+      changeStatusOptionList.forEach(({ key }) => {
+        const radioButton = getByTestId(`status-${key}`);
+        fireEvent.click(radioButton);
+
+        expect(queryByTestId('defaultTextsTitle')).not.toBeInTheDocument();
       });
     });
-
-    it('should show an alert when the text contains template characters', () => {
-      global.alert = jest.fn();
-      const form = instance.form;
-      const formValues = {
-        status: 'o',
-        text: 'Bedankt voor het melden, binnen {{ aantal }} werkdagen zal uw verzoek in behandeling worden genomen.',
-      };
-      form.patchValue(formValues);
-
-      // click on the submit button doesn't work in Enzyme, this is the way to test submit functionality
-      renderedFormGroup.find('form').simulate('submit', { preventDefault() { } });
-
-      expect(global.alert).toHaveBeenCalled();
-      expect(props.onPatchIncident).not.toHaveBeenCalledWith();
-    });
   });
+
+  it('applies default text selection', () => {
+    const stateWithTexts = defaultTexts[0].state;
+
+    const { container, getByTestId, getAllByTestId } = render(
+      withAppContext(
+        <StatusForm
+          incident={incidentFixture}
+          defaultTexts={defaultTexts}
+          onClose={onClose}
+          onPatchIncident={onPatchIncident}
+        />
+      )
+    );
+
+    const radioButton = getByTestId(`status-${stateWithTexts}`);
+
+    act(() => {
+      fireEvent.click(radioButton);
+    });
+
+    const textarea = container.querySelector('textarea');
+    expect(textarea).toBeInTheDocument();
+    expect(textarea.value).toEqual('');
+
+    act(() => {
+      fireEvent.click(radioButton);
+    });
+
+    const useTextButton1 = getAllByTestId('defaultTextsItemButton')[0];
+
+    act(() => {
+      fireEvent.click(useTextButton1);
+    });
+
+    expect(textarea.value).toEqual(defaultTexts[0].templates[0].text);
+
+    const useTextButton2 = getAllByTestId('defaultTextsItemButton')[1];
+
+    act(() => {
+      fireEvent.click(useTextButton2);
+    });
+
+    expect(textarea.value).toEqual(defaultTexts[0].templates[1].text);
+  });
+
+  it('should alert on presence of specific characters', () => {
+    global.alert = jest.fn();
+
+    const { container, getByTestId } = render(
+      withAppContext(
+        <StatusForm
+          incident={incidentFixture}
+          defaultTexts={defaultTexts}
+          onClose={onClose}
+          onPatchIncident={onPatchIncident}
+        />
+      )
+    );
+
+    act(() => {
+      fireEvent.click(getByTestId('statusFormSubmitButton'));
+    });
+
+    expect(global.alert).not.toHaveBeenCalled();
+
+    const textarea = container.querySelector('textarea');
+
+    act(() => {
+      fireEvent.change(textarea, { target: { value: '{{ replace_me }}' } });
+    });
+
+    act(() => {
+      fireEvent.click(getByTestId('statusFormSubmitButton'));
+    });
+
+    expect(global.alert).toHaveBeenCalled();
+
+    global.alert.mockRestore();
+  });
+
+  it('should handle submit', () => {
+    const { getByTestId } = render(
+      withAppContext(
+        <StatusForm
+          incident={incidentFixture}
+          defaultTexts={defaultTexts}
+          onClose={onClose}
+          onPatchIncident={onPatchIncident}
+        />
+      )
+    );
+
+    expect(onClose).not.toHaveBeenCalled();
+    expect(onPatchIncident).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(getByTestId('statusFormSubmitButton'));
+    });
+
+    expect(onPatchIncident).toHaveBeenCalled();
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('', () => {});
 });

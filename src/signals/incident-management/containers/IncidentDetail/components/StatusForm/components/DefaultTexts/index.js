@@ -41,19 +41,22 @@ const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
         Standaard teksten
       </StyledH4>
 
-      {allText.templates.map(item => (
-        <StyledDefaultText key={JSON.stringify(item)}>
-          <StyledTitle data-testid="defaultTextsItemTitle">{item.title}</StyledTitle>
-          <div data-testid="defaultTextsItemText">{item.text}</div>
-          <StyledLink
-            data-testid="defaultTextsItemButton"
-            variant="inline"
-            onClick={e => onHandleUseDefaultText(e, item.text)}
-          >
-            Gebruik deze tekst
-          </StyledLink>
-        </StyledDefaultText>
-      ))}
+      {allText.templates
+        .filter(({ title, text }) => title && text)
+        .map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <StyledDefaultText key={`${index}${status}${JSON.stringify(item)}`}>
+            <StyledTitle data-testid="defaultTextsItemTitle">{item.title}</StyledTitle>
+            <div data-testid="defaultTextsItemText">{item.text}</div>
+            <StyledLink
+              data-testid="defaultTextsItemButton"
+              variant="inline"
+              onClick={e => onHandleUseDefaultText(e, item.text)}
+            >
+              Gebruik deze tekst
+            </StyledLink>
+          </StyledDefaultText>
+        ))}
     </Fragment>
   );
 };
