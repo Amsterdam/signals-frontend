@@ -51,15 +51,46 @@ export const JONGEREN = {
   radioButtonAantalPersonen: '#extra_personen_overig-4-61',
 };
 
+export const KLOK = {
+  checkBoxNietOpKaart: '#extra_klok_niet_op_kaart',
+  iconKlok: '.leaflet-marker-icon',
+  inputKlokNummer1: '#extra_klok_niet_op_kaart_nummer-1',
+  inputKlokNummer2: '#extra_klok_niet_op_kaart_nummer-2',
+  legendContentText: '.legend-content-text',
+  legendHeader: '.legend-header',
+  mapSelectKlok: '[data-testid=map-base]',
+  radioButtonGevaarlijkAanrijding: '#extra_klok-is_gevolg_van_aanrijding1',
+  radioButtonGevaarlijkDeurtje: '#extra_klok-deurtje_weg_of_open1',
+  radioButtonGevaarlijkLosseKabels: '#extra_klok-losse_kabels_zichtbaar_of_lamp_los1',
+  radioButtonGevaarlijkNietGevaarlijk: '#extra_klok-niet_gevaarlijk1',
+  radioButtonGevaarlijkOpGrondOfScheef: '#extra_klok-klok_op_grond_of_scheef1',
+  radioButtonProbleemBeschadigd: '#extra_klok_probleem-klok_is_zichtbaar_beschadigd1',
+  radioButtonProbleemNietOpTijd: '#extra_klok_probleem-klok_staat_niet_op_tijd_of_stil1',
+  radioButtonProbleemOverig: '#extra_klok_probleem-overig1',
+  radioButtonProbleemVervuild: '#extra_klok_probleem-klok_is_vervuild1',
+};
+
 export const LANTAARNPAAL = {
+  checkBoxNietOpKaart: '#extra_straatverlichting_niet_op_kaart',
+  inputLampNummer1: '#extra_straatverlichting_niet_op_kaart_nummer-1',
+  inputLampNummer2: '#extra_straatverlichting_niet_op_kaart_nummer-2',
+  legendContentText: '.legend-content-text',
+  legendHeader: '.legend-header',
   mapSelectLamp: '[data-testid=map-base]',
-  radioButtonAanrijding: '#extra_straatverlichting-is_gevolg_van_aanrijding1',
-  radioButtonAantalLichtenpunten: '#extra_straatverlichting_hoeveel-meerdere_lichtpunten1',
-  radioButtonOpGrond: '#extra_straatverlichting-lamp_op_grond_of_scheef1',
-  radioButtonDeur: '#extra_straatverlichting-deurtje_weg_of_open1',
-  radioButtonLosseKabels: '#extra_straatverlichting-losse_kabels_zichtbaar_of_lamp_los1',
+  markerOnMap: '.leaflet-marker-icon',
+  radioButtonProbleemBeschadigd: '#extra_straatverlichting_probleem-lamp_is_zichtbaar_beschadigd1',
+  radioButtonProbleemBrandtOverdag: '#extra_straatverlichting_probleem-lamp_brandt_overdag1',
+  radioButtonProbleemDoetNiet: '#extra_straatverlichting_probleem-lamp_doet_het_niet1',
+  radioButtonProbleemLichthinder: '#extra_straatverlichting_probleem-geeft_lichthinder1',
+  radioButtonProbleemOverig: '#extra_straatverlichting_probleem-overig1',
+  radioButtonProbleemVies: '#extra_straatverlichting_probleem-lamp_is_vervuild1',
+  radioButtonGevaarlijkAanrijding: '#extra_straatverlichting-is_gevolg_van_aanrijding1',
+  radioButtonGevaarlijkAantalLichtenpunten: '#extra_straatverlichting_hoeveel-meerdere_lichtpunten1',
+  radioButtonGevaarlijk3OfMeerKapot: '#extra_straatverlichting-drie_of_meer_kapot1',
+  radioButtonGevaarlijkOpGrond: '#extra_straatverlichting-lamp_op_grond_of_scheef1',
+  radioButtonGevaarlijkDeur: '#extra_straatverlichting-deurtje_weg_of_open1',
+  radioButtonGevaarlijkLosseKabels: '#extra_straatverlichting-losse_kabels_zichtbaar_of_lamp_los1',
   radioButtonNietGevaarlijk: '#extra_straatverlichting-niet_gevaarlijk1',
-  radioButtonEenLichtpunt: '#extra_straatverlichting_hoeveel-1_lichtpunt1',
 };
 
 // Selectors for stankoverlast

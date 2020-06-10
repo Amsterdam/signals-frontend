@@ -268,7 +268,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
           </Preview>
         )}
 
-        {state.preview && <CloseButton onClick={() => dispatch({ type: 'closeAll' })} />}
+        {state.preview && <CloseButton aria-label="Sluiten" onClick={() => dispatch({ type: 'closeAll' })} />}
       </StyledRow>
     </Fragment>
   );
