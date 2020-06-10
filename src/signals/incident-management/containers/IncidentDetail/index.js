@@ -172,6 +172,7 @@ export class IncidentDetail extends React.Component {
                 <Row>
                   <DetailContainer span={12}>
                     <button
+                      aria-label="Sluiten"
                       className="incident-detail__preview-close incident-detail__button--close"
                       type="button"
                       onClick={this.onCloseAll}

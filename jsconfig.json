@@ -1,23 +1,13 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": false,
     "module": "commonjs",
     "target": "es6",
     "baseUrl": "./src",
-    "paths": {
-      "shared/": [
-        "./shared/*"
-      ],
-      "components/": [
-        "./components/*"
-      ],
-      "containers/": [
-        "./containers/*"
-      ],
-      "hooks/": [
-        "./hooks/*"
-      ]
-    }
+  },
+  "env": {
+    "NODE_ENV": "development",
+    "BABEL_ENV": "development"
   },
   "exclude": [
     "node_modules",

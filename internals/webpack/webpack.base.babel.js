@@ -135,15 +135,9 @@ module.exports = options => ({
     .concat(options.plugins)
     .filter(Boolean),
   resolve: {
-    modules: ['node_modules', 'src'],
+    modules: [path.resolve(__rootdir, 'src'), 'node_modules'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
-    alias: {
-      signals: path.resolve(__rootdir, 'src/signals/'),
-      components: path.resolve(__rootdir, 'src/components/'),
-      containers: path.resolve(__rootdir, 'src/containers/'),
-      hooks: path.resolve(__rootdir, 'src/hooks/'),
-    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
