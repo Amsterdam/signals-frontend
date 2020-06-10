@@ -9,7 +9,7 @@ import { controls as afvalControls } from './wizard-step-2-vulaan/afval';
 import { controls as overlastPersonenGroepenControls } from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
 import FormComponents from '../components/form';
 
-export const ObjectLabel = ({ value }) => value.label;
+export const ObjectLabel = ({ value }) => value?.label;
 export const Label = ({ value }) => value;
 export const SCSVLabel = ({ value }) => value.filter(Boolean).join('; ');
 export const Null = () => null;
@@ -17,6 +17,7 @@ export const Null = () => null;
 export const renderPreview = ({ render: renderFunc, meta }) => {
   switch (renderFunc.name) {
     case 'RadioInputGroup':
+    case 'SelectInput':
       return ObjectLabel;
 
     case 'CheckboxInput':
@@ -73,7 +74,8 @@ export default {
       sharing_allowed: {
         meta: {
           shortLabel: 'Toestemming contactgegevens delen',
-          value: 'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
+          value:
+            'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
           path: 'reporter.sharing_allowed',
         },
         render: FormComponents.EmphasisCheckboxInput,

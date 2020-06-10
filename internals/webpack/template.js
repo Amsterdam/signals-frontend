@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const merge = require('lodash.merge');
 
 const template = {};
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line
   const config = require('../../environment.conf.json');
 
@@ -17,11 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
     console.log(`You can use \`${devConfigFile}\` for configuration overwrites in your development environment.\n`);
   }
 
-  const combinedConfig = {
-    ...config,
-    ...devConfig,
-  };
-
+  const combinedConfig = merge({}, config, devConfig);
   const configPlaceholder = '$SIGNALS_CONFIG';
   const configString = JSON.stringify(combinedConfig);
   const indexFile = path.join(__dirname, '..', '..', 'src', 'index.html');

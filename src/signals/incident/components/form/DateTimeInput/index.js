@@ -50,13 +50,15 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
             />
           </div>
           <span className="datetime-input__earlier-time-label">uur</span>
-          <Select
-            name="minutes"
-            data-testid="selectMinutes"
-            value={`${parent.value.incident_time_minutes}`}
-            onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
-            options={[...Array(12).keys()].map(minute => ({ value: minute * 5, name: minute * 5, key: minute * 5 }))}
-          />
+          <div>
+            <Select
+              name="minutes"
+              data-testid="selectMinutes"
+              value={`${parent.value.incident_time_minutes}`}
+              onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
+              options={[...Array(12).keys()].map(minute => ({ value: minute * 5, name: minute * 5, key: minute * 5 }))}
+            />
+          </div>
           <span className="datetime-input__earlier-time-label">min</span>
         </div>
       </div>

@@ -43,8 +43,6 @@ export const Form = styled.form`
         }
       `}
     `}
-
-    grid-column-gap: ${themeSpacing(5)};
   }
 `;
 
