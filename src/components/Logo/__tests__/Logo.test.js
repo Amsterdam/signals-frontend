@@ -13,8 +13,10 @@ describe('components/Logo', () => {
     configuration.logo.url = 'https://logoipsum.com/logo/logo-8.svg';
     configuration.logo.width = 80;
     configuration.logo.height = 80;
+    configuration.logo.maxHeight = 70;
     configuration.logo.smallWidth = 40;
     configuration.logo.smallHeight = 40;
+    configuration.logo.smallMaxHeight = 30;
   });
 
   afterEach(() => {
@@ -27,6 +29,7 @@ describe('components/Logo', () => {
     expect(container.querySelector(`a[href="${configuration.links.home}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[height="${configuration.logo.height}"]`)).toBeInTheDocument();
+    expect(container.querySelector(`img[max-height="${configuration.logo.maxHeight}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[width="${configuration.logo.width}"]`)).toBeInTheDocument();
   });
 
@@ -36,6 +39,7 @@ describe('components/Logo', () => {
     expect(container.querySelector(`a[href="${configuration.links.home}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[height="${configuration.logo.height}"]`)).toBeInTheDocument();
+    expect(container.querySelector(`img[max-height="${configuration.logo.maxHeight}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[width="${configuration.logo.width}"]`)).toBeInTheDocument();
   });
 
@@ -45,6 +49,7 @@ describe('components/Logo', () => {
     expect(container.querySelector(`a[href="/"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[height="${configuration.logo.smallHeight}"]`)).toBeInTheDocument();
+    expect(container.querySelector(`img[max-height="${configuration.logo.smallMaxHeight}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[width="${configuration.logo.smallWidth}"]`)).toBeInTheDocument();
   });
 

@@ -9,6 +9,7 @@ export const Logo = props => (
       src={configuration.logo.url}
       width={props.tall ? configuration.logo.width : configuration.logo.smallWidth}
       height={props.tall ? configuration.logo.height : configuration.logo.smallHeight}
+      max-height={props.tall ? configuration.logo.maxHeight : configuration.logo.smallMaxHeight}
       {...props}
     />
   </a>
