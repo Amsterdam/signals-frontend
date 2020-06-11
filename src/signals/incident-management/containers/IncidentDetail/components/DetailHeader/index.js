@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
 
 import BackLink from 'components/BackLink';
@@ -9,6 +10,7 @@ import { PATCH_TYPE_THOR } from 'models/incident/constants';
 import Button from 'components/Button';
 import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
 import { linksType } from 'shared/types';
+import { patchIncident as patchIncidentAction } from 'models/incident/actions';
 
 import DownloadButton from './components/DownloadButton';
 
@@ -86,7 +88,8 @@ const ParentLink = styled(Link)`
   color: black;
 `;
 
-const DetailHeader = ({ status, incidentId, links, onPatchIncident }) => {
+const DetailHeader = ({ status, incidentId, links }) => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const canSplit = status === 'm' && !(links?.['sia:children'] || links?.['sia:parent']);
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === status);
@@ -105,6 +108,10 @@ const DetailHeader = ({ status, incidentId, links, onPatchIncident }) => {
 
   const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : INCIDENTS_URL;
   const parentId = links?.['sia:parent']?.href?.split('/').pop();
+
+  const patchIncident = useCallback(() => {
+    dispatch(patchIncidentAction(patch));
+  }, [dispatch, patch]);
 
   return (
     <Header className="detail-header">
@@ -137,7 +144,7 @@ const DetailHeader = ({ status, incidentId, links, onPatchIncident }) => {
         )}
 
         {canThor && (
-          <Button variant="application" onClick={() => onPatchIncident(patch)} data-testid="detail-header-button-thor">
+          <Button variant="application" onClick={patchIncident} data-testid="detail-header-button-thor">
             THOR
           </Button>
         )}
@@ -156,7 +163,6 @@ const DetailHeader = ({ status, incidentId, links, onPatchIncident }) => {
 DetailHeader.propTypes = {
   incidentId: PropTypes.number.isRequired,
   links: linksType,
-  onPatchIncident: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,
 };
 

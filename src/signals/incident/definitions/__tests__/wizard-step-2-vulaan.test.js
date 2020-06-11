@@ -18,6 +18,10 @@ jest.mock('lodash/memoize', () => ({
 }));
 
 describe('Wizard step 2 vulaan, formFactory', () => {
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   describe('Hard coded questions', () => {
     it('should return questions based on category', () => {
       const actual = formFactory({
@@ -38,15 +42,16 @@ describe('Wizard step 2 vulaan, formFactory', () => {
 
       expect(actual).toEqual(expected);
     });
+
+    it('should return empty controls when showVulaanControls is false', () => {
+      configuration.showVulaanControls = false;
+      expect(step2.formFactory({ category: 'afval' }).controls).toEqual({});
+    });
   });
 
   describe('Fetch questions from backend', () => {
     beforeEach(() => {
       configuration.fetchQuestionsFromBackend = true;
-    });
-
-    afterEach(() => {
-      configuration.__reset();
     });
 
     it('should return empty controls without questions', () => {

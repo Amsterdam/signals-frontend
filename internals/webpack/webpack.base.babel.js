@@ -1,10 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
+const pkgDir = require('pkg-dir');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CopyPlugin = require('copy-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
-const __rootdir = process.cwd();
+const __rootdir = pkgDir.sync();
+
 const esModules = [
   path.resolve(__rootdir, 'node_modules/@datapunt/asc-assets'),
   path.resolve(__rootdir, 'node_modules/@datapunt/asc-ui'),
@@ -130,12 +133,14 @@ module.exports = options => ({
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
 
+    new CopyPlugin({ patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }] }),
+
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
   ]
     .concat(options.plugins)
     .filter(Boolean),
   resolve: {
-    modules: ['node_modules', 'src'],
+    modules: [path.resolve(__rootdir, 'src'), 'node_modules'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
   },

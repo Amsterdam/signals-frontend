@@ -1,28 +1,32 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
-import isEqual from 'lodash.isequal';
 import styled, { css } from 'styled-components';
+import { useDispatch } from 'react-redux';
 
-import {
-  Spinner,
-  Heading,
-  Row,
-  Column,
-  themeSpacing,
-} from '@datapunt/asc-ui';
-import { incidentType, dataListType, defaultTextsType } from 'shared/types';
+import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { incidentType, defaultTextsType } from 'shared/types';
 import { PATCH_TYPE_STATUS } from 'models/incident/constants';
+import statusList, {
+  defaultTextsOptionList,
+  changeStatusOptionList,
+} from 'signals/incident-management/definitions/statusList';
+import { patchIncident } from 'models/incident/actions';
 
-import Label from 'components/Label';
 import Button from 'components/Button';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
 
+const Form = styled.form`
+  position: relative;
+  width: 100%;
+`;
+
 const StyledColumn = styled(Column)`
   display: block;
+  background: white;
 `;
 
 const StyledH4 = styled(Heading)`
@@ -31,17 +35,9 @@ const StyledH4 = styled(Heading)`
   margin-top: ${themeSpacing(5)};
 `;
 
-const StyledCurrentStatus = styled.div`
-  margin-bottom: ${themeSpacing(5)};
-`;
-
 const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
 `;
-
-const StyledSpinner = styled(Spinner).attrs({
-  'data-testid': 'statusFormSpinner',
-})``;
 
 const Notification = styled.div`
   ${({ warning }) =>
@@ -57,206 +53,137 @@ const Notification = styled.div`
   line-height: 22px;
 `;
 
-class StatusForm extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  form = FormBuilder.group({
-    // eslint-disable-line react/sort-comp
-    status: ['', Validators.required],
-    text: [''],
-  });
+const StatusForm = ({ defaultTexts, incident, onClose }) => {
+  const currentStatus = statusList.find(({ key }) => key === incident.status.state);
+  const [warning, setWarning] = useState('');
+  const dispatch = useDispatch();
 
-  constructor(props) {
-    super(props);
+  const form = useMemo(
+    () =>
+      FormBuilder.group({
+        status: [currentStatus.key, Validators.required],
+        text: [''],
+      }),
+    [currentStatus.key]
+  );
 
-    this.state = {
-      warning: props.warning,
-      hasDefaultTexts: props.hasDefaultTexts,
-    };
+  useEffect(() => {
+    form.controls.status.valueChanges.subscribe(status => {
+      const found = statusList.find(s => s.key === status);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUseDefaultText = this.handleUseDefaultText.bind(this);
-  }
+      setWarning(found?.warning);
 
-  componentDidMount() {
-    this.form.controls.status.valueChanges.subscribe(status => {
-      const found = this.props.statusList.find(s => s.key === status);
-      this.setState({
-        warning: (found && found.warning) || '',
-      });
-      this.props.onDismissError();
+      const hasDefaultTexts = Boolean(defaultTextsOptionList.find(s => s.key === status));
 
-      const textField = this.form.controls.text;
-      const hasDefaultTexts = Boolean(
-        this.props.defaultTextsOptionList.find(s => s.key === status)
-      );
       if (hasDefaultTexts) {
-        textField.setValidators([Validators.required]);
+        form.controls.text.setValidators([Validators.required]);
       } else {
-        textField.clearValidators();
+        form.controls.text.clearValidators();
       }
-      this.setState({ hasDefaultTexts });
 
-      textField.updateValueAndValidity();
+      form.controls.text.updateValueAndValidity();
     });
+  }, [form.controls.status.valueChanges, form.controls.text]);
 
-    this.props.onDismissError();
-  }
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
 
-  componentDidUpdate(prevProps) {
-    if (
-      !isEqual(
-        prevProps.patching && prevProps.patching.status,
-        this.props.patching && this.props.patching.status
-      ) &&
-      this.props.patching.status === false
-    ) {
-      const hasError =
-        (this.props.error &&
-          this.props.error.response &&
-          !this.props.error.response.ok) ||
-        false;
-      if (!hasError) {
-        this.form.reset();
-        this.props.onClose();
+      if (/(?:{{|}})/gi.test(form.value.text)) {
+        global.alert(
+          "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
+        );
+      } else {
+        dispatch(
+          patchIncident({
+            id: incident.id,
+            type: PATCH_TYPE_STATUS,
+            patch: {
+              status: { state: form.value.status, text: form.value.text },
+            },
+          })
+        );
+
+        onClose();
       }
-    }
-    this.form.updateValueAndValidity();
-  }
+    },
+    [incident.id, form.value.status, form.value.text, onClose, dispatch]
+  );
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { value } = this.form;
+  const handleUseDefaultText = useCallback(
+    (event, text) => {
+      event.preventDefault();
 
-    if (/(?:{{|}})/gi.test(value.text)) {
-      global.alert("Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan.");
-    } else {
-      this.props.onPatchIncident({
-        id: this.props.incident.id,
-        type: PATCH_TYPE_STATUS,
-        patch: {
-          status: { state: value.status, text: value.text },
-        },
-      });
-    }
-  }
+      form.get('text').patchValue(text);
+    },
+    [form]
+  );
 
-  handleUseDefaultText(e, text) {
-    e.preventDefault();
+  return (
+    <Fragment>
+      <Row>
+        <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
+          <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
+        </StyledColumn>
+      </Row>
 
-    this.form.get('text').patchValue(text);
-  }
+      <FieldGroup
+        control={form}
+        render={({ invalid }) => (
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
+                <FieldControlWrapper
+                  control={form.get('status')}
+                  data-testid="statusFormStatusField"
+                  name="status"
+                  render={RadioInput}
+                  values={changeStatusOptionList}
+                />
+              </StyledColumn>
 
-  render() {
-    const {
-      incident,
-      patching,
-      error,
-      statusList,
-      changeStatusOptionList,
-      onClose,
-      defaultTexts,
-    } = this.props;
-    const { warning, hasDefaultTexts } = this.state;
-    const currentStatus = statusList.find(
-      status => status.key === incident.status.state
-    );
-    return (
-      <Fragment>
-        <FieldGroup
-          control={this.form}
-          render={() => (
-            <form onSubmit={this.handleSubmit}>
-              <Row hasMargin={false}>
-                <StyledColumn span={6}>
-                  <StyledH4 forwardedAs="h4">Status wijzigen</StyledH4>
+              <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
+                <DefaultTexts
+                  defaultTexts={defaultTexts}
+                  onHandleUseDefaultText={handleUseDefaultText}
+                  status={form.get('status').value}
+                />
+              </StyledColumn>
+            </Row>
 
-                  <StyledCurrentStatus>
-                    <Label htmlFor="currentStatus">Huidige status</Label>
-                    <div id="currentStatus">{currentStatus.value}</div>
-                  </StyledCurrentStatus>
+            <Row>
+              <StyledColumn span={12}>
+                <FieldControlWrapper
+                  control={form.get('text')}
+                  display="Toelichting"
+                  name="text"
+                  render={TextAreaInput}
+                  rows={10}
+                />
 
-                  <FieldControlWrapper
-                    data-testid="statusFormStatusField"
-                    display="Nieuwe status"
-                    render={RadioInput}
-                    name="status"
-                    control={this.form.get('status')}
-                    values={changeStatusOptionList}
-                  />
-                  <FieldControlWrapper
-                    render={TextAreaInput}
-                    name="text"
-                    display="Toelichting"
-                    control={this.form.get('text')}
-                    rows={10}
-                  />
+                <Notification warning data-testid="statusFormWarning">
+                  {warning}
+                </Notification>
 
-                  <Notification warning data-testid="statusFormWarning">
-                    {warning}
-                  </Notification>
+                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
+                  Status opslaan
+                </StyledButton>
 
-                  <Notification warning data-testid="statusFormError">
-                    {error && error.response && error.response.status === 403
-                      ? 'Je bent niet geautoriseerd om dit te doen.'
-                      : ''}
-                    {error && error.response && error.response.status !== 403
-                      ? 'De gekozen status is niet mogelijk in deze situatie.'
-                      : ''}
-                  </Notification>
-
-                  <StyledButton
-                    data-testid="statusFormSubmitButton"
-                    variant="secondary"
-                    type="submit"
-                    iconRight={patching.status ? <StyledSpinner /> : null}
-                  >
-                    Status opslaan
-                  </StyledButton>
-                  <StyledButton
-                    data-testid="statusFormCancelButton"
-                    variant="tertiary"
-                    onClick={onClose}
-                  >
-                    Annuleren
-                  </StyledButton>
-                </StyledColumn>
-                <StyledColumn span={6}>
-                  <DefaultTexts
-                    defaultTexts={defaultTexts}
-                    status={this.form.get('status').value}
-                    hasDefaultTexts={hasDefaultTexts}
-                    onHandleUseDefaultText={this.handleUseDefaultText}
-                  />
-                </StyledColumn>
-              </Row>
-            </form>
-          )}
-        />
-      </Fragment>
-    );
-  }
-}
-
-StatusForm.defaultProps = {
-  warning: '',
-  hasDefaultTexts: false,
+                <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
+                  Annuleren
+                </StyledButton>
+              </StyledColumn>
+            </Row>
+          </Form>
+        )}
+      />
+    </Fragment>
+  );
 };
 
 StatusForm.propTypes = {
-  incident: incidentType.isRequired,
-  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
-  patching: PropTypes.shape({
-    status: PropTypes.bool,
-  }).isRequired,
-  warning: PropTypes.string,
-  hasDefaultTexts: PropTypes.bool,
-  changeStatusOptionList: dataListType.isRequired,
-  defaultTextsOptionList: dataListType.isRequired,
-  statusList: dataListType.isRequired,
   defaultTexts: defaultTextsType.isRequired,
-
-  onPatchIncident: PropTypes.func.isRequired,
-  onDismissError: PropTypes.func.isRequired,
+  incident: incidentType.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

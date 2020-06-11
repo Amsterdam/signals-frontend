@@ -55,6 +55,7 @@
     }
   },
   "fetchQuestionsFromBackend": false,
+  "showVulaanControls": true,
   "API_ROOT_MAPSERVER": "https://map.data.amsterdam.nl/",
   "AUTH_ME_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/",
   "AUTH_ROOT": "https://acc.api.data.amsterdam.nl/",

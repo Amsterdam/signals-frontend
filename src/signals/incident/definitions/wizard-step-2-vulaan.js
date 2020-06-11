@@ -47,6 +47,9 @@ export default {
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
   formFactory: ({ category, subcategory, questions }) => {
+    const noExtraProps = { controls: {} };
+    if (!configuration?.showVulaanControls) return noExtraProps;
+
     if (configuration.fetchQuestionsFromBackend) {
       return expandQuestions(questions || {}, category, subcategory);
     }
@@ -77,7 +80,7 @@ export default {
         return wonen;
 
       default:
-        return { controls: {} };
+        return noExtraProps;
     }
   },
 };
