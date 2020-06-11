@@ -21,6 +21,7 @@ const Toggle = styled.label`
   font-size: 16px;
   line-height: 20px;
   white-space: nowrap;
+  position:relative ;
 
   &:hover {
     color: rgb(236, 0, 0);
@@ -31,8 +32,10 @@ const Toggle = styled.label`
   }
 
   & input[type='checkbox'] {
+    position: absolute;
+    left:0;
+    top:0;
     visibility: hidden;
-    margin-left: -99999em;
   }
 `;
 
