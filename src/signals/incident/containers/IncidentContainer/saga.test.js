@@ -33,6 +33,8 @@ jest.mock('shared/services/auth/auth', () => ({
   ...jest.requireActual('shared/services/auth/auth'),
 }));
 
+jest.mock('shared/services/configuration/configuration');
+
 // POST incident API response
 const incident = JSON.stringify(incidentJSON);
 
@@ -125,6 +127,10 @@ const categoryResponse = {
 };
 
 describe('IncidentContainer saga', () => {
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   it('should watchAppSaga', () => {
     testSaga(watchIncidentContainerSaga)
       .next()
@@ -138,13 +144,24 @@ describe('IncidentContainer saga', () => {
   describe('getClassification', () => {
     const payload = 'Grof vuil op straat';
 
-    it('should dispatch success', () =>
+    it('should dispatch success without fetching questions', () =>
       expectSaga(getClassification, { payload })
         .provide([[matchers.call.fn(postCall), predictionResponse]])
         .call(resolveClassification, predictionResponse)
         .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
-        .put.actionType(constants.GET_QUESTIONS)
+        .not.put.actionType(constants.GET_QUESTIONS)
         .run());
+
+    it('should fetch questions when flag enabled', () => {
+      configuration.fetchQuestionsFromBackend = true;
+
+      return expectSaga(getClassification, { payload })
+        .provide([[matchers.call.fn(postCall), predictionResponse]])
+        .call(resolveClassification, predictionResponse)
+        .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
+        .put.actionType(constants.GET_QUESTIONS)
+        .run();
+    });
 
     it('should dispatch error', () => {
       const errorResponse = { foo: 'bar' };

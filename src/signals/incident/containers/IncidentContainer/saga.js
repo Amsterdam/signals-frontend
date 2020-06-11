@@ -29,7 +29,10 @@ export function* getClassification(action) {
     const classification = yield call(resolveClassification, result);
 
     yield put(getClassificationSuccess(classification));
-    yield put(getQuestions(classification));
+
+    if (configuration.fetchQuestionsFromBackend) {
+      yield put(getQuestions(classification));
+    }
   } catch (error) {
     const classification = yield call(resolveClassification);
 
