@@ -3,8 +3,10 @@
     "url": null,
     "width": 0,
     "height": 0,
+    "maxHeight": 0,
     "smallWidth": 0,
-    "smallHeight": 0
+    "smallHeight": 0,
+    "smallMaxHeight": 0
   },
   "sentry": {
     "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
