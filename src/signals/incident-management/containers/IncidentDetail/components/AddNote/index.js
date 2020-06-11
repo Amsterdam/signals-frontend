@@ -2,11 +2,13 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
-import Button from 'components/Button';
+import { useDispatch } from 'react-redux';
 
+import Button from 'components/Button';
 import TextArea from 'components/TextArea';
 import Label from 'components/Label';
 import { PATCH_TYPE_NOTES } from 'models/incident/constants';
+import { patchIncident } from 'models/incident/actions';
 
 const NewNoteButton = styled(Button)`
   margin: ${themeSpacing(2, 2, 2, 0)};
@@ -16,7 +18,8 @@ const NoteButton = styled(Button)`
   margin: ${themeSpacing(8, 2, 4, 0)};
 `;
 
-const AddNote = ({ id, onPatchIncident }) => {
+const AddNote = ({ id }) => {
+  const dispatch = useDispatch();
   const areaRef = useRef(null);
   const [showForm, setShowForm] = useState(false);
   const [note, setNote] = useState('');
@@ -29,16 +32,18 @@ const AddNote = ({ id, onPatchIncident }) => {
 
       const notes = [{ text: note }];
 
-      onPatchIncident({
-        id,
-        type: PATCH_TYPE_NOTES,
-        patch: { notes },
-      });
+      dispatch(
+        patchIncident({
+          id,
+          type: PATCH_TYPE_NOTES,
+          patch: { notes },
+        })
+      );
 
       setNote('');
       setShowForm(false);
     },
-    [id, onPatchIncident, note]
+    [id, dispatch, note]
   );
 
   const onChange = useCallback(
@@ -101,7 +106,6 @@ const AddNote = ({ id, onPatchIncident }) => {
 
 AddNote.propTypes = {
   id: PropTypes.string.isRequired,
-  onPatchIncident: PropTypes.func.isRequired,
 };
 
 export default AddNote;

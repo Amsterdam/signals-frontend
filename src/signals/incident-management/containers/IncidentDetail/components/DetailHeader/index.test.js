@@ -1,9 +1,13 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import * as reactRedux from 'react-redux';
 import * as reactRouterDom from 'react-router-dom';
+
+import { withAppContext } from 'test/utils';
 import { MAP_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
+import { patchIncident } from 'models/incident/actions';
+import { PATCH_TYPE_THOR } from 'models/incident/constants';
 
 import DetailHeader from './index';
 
@@ -17,6 +21,9 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
+const dispatch = jest.fn();
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+
 describe('<DetailHeader />', () => {
   let props;
 
@@ -25,7 +32,6 @@ describe('<DetailHeader />', () => {
       status: 'm',
       incidentId: 1234,
       links: incidentFixture._links,
-      onPatchIncident: jest.fn(),
     };
   });
 
@@ -84,13 +90,15 @@ describe('<DetailHeader />', () => {
   it('test clicking the thor button', () => {
     const { queryByTestId } = render(withAppContext(<DetailHeader {...props} />));
 
+    expect(dispatch).not.toHaveBeenCalled();
+
     act(() => {
       fireEvent.click(queryByTestId('detail-header-button-thor'));
     });
 
-    expect(props.onPatchIncident).toHaveBeenCalledWith({
+    expect(dispatch).toHaveBeenCalledWith(patchIncident({
       id: props.incidentId,
-      type: 'thor',
+      type: PATCH_TYPE_THOR,
       patch: {
         status: {
           state: 'ready to send',
@@ -98,7 +106,7 @@ describe('<DetailHeader />', () => {
           target_api: 'sigmax',
         },
       },
-    });
+    }));
   });
 
   it('should render a link with the correct referrer', () => {
