@@ -13,10 +13,10 @@ describe('components/Logo', () => {
     configuration.logo.url = 'https://logoipsum.com/logo/logo-8.svg';
     configuration.logo.width = 80;
     configuration.logo.height = 80;
-    configuration.logo.maxHeight = 70;
+    configuration.logo.maxHeight = '69px';
     configuration.logo.smallWidth = 40;
     configuration.logo.smallHeight = 40;
-    configuration.logo.smallMaxHeight = 30;
+    configuration.logo.smallMaxHeight = '29px';
   });
 
   afterEach(() => {
