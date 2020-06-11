@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Row, Column } from '@datapunt/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectSaga from 'utils/injectSaga';
@@ -19,13 +18,6 @@ import './style.scss';
 
 import IncidentWizard from '../../components/IncidentWizard';
 
-const Alert = styled.div`
-  color: white;
-  background-color: ${themeColor('support', 'invalid')};
-  margin-top: ${themeSpacing(5)};
-  padding: ${themeSpacing(4)};
-`;
-
 export const IncidentContainerComponent = ({
   createIncidentAction,
   getClassificationAction,
@@ -33,12 +25,6 @@ export const IncidentContainerComponent = ({
   updateIncidentAction,
 }) => (
   <Row>
-    <Alert data-testid="alertMessage">
-      We pakken op dit moment alleen urgente meldingen op. De afhandeling van uw melding kan daarom tijdelijk langer
-      duren dan de standaard afhandeltermijn die in de bevestigingsmail van uw melding staat. Wij hopen op uw begrip.
-    </Alert>
-
-    <br />
 
     <Column span={12}>
       <IncidentWizard
