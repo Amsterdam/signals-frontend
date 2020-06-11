@@ -1,36 +1,17 @@
 import styled, { css } from 'styled-components';
-import {
-  Button,
-  Heading,
-  Paragraph,
-  themeSpacing,
-  themeColor,
-  ascDefaultTheme as theme,
-} from '@datapunt/asc-ui';
-import {
-  SITE_HEADER_BOTTOM_GAP_HEIGHT,
-  SITE_HEADER_HEIGHT_TALL,
-} from 'containers/SiteHeader/constants';
-
-import {
-  ONCLOSE_TIMEOUT,
-  VARIANT_ERROR,
-  VARIANT_SUCCESS,
-} from 'containers/Notification/constants';
-
-export const BG_COLOR_ERROR = themeColor('support', 'invalid')({ theme });
-export const BG_COLOR_NOTICE = themeColor('primary')({ theme });
-export const BG_COLOR_SUCCESS = themeColor('support', 'valid')({ theme });
+import { Button, Heading, Paragraph, themeSpacing, themeColor } from '@datapunt/asc-ui';
+import { SITE_HEADER_BOTTOM_GAP_HEIGHT, SITE_HEADER_HEIGHT_TALL } from 'containers/SiteHeader/constants';
+import { ONCLOSE_TIMEOUT, VARIANT_ERROR, VARIANT_SUCCESS } from 'containers/Notification/constants';
 
 export const Wrapper = styled.div`
-  background-color: ${({ variant }) => {
+  background-color: ${({ theme, variant }) => {
     switch (variant) {
       case VARIANT_ERROR:
-        return BG_COLOR_ERROR;
+        return themeColor('support', 'invalid')({ theme });
       case VARIANT_SUCCESS:
-        return BG_COLOR_SUCCESS;
+        return themeColor('support', 'valid')({ theme });
       default:
-        return BG_COLOR_NOTICE;
+        return themeColor('primary')({ theme });
     }
   }};
 
@@ -39,8 +20,7 @@ export const Wrapper = styled.div`
   margin-left: 50vw;
   max-width: 1400px;
   min-height: ${SITE_HEADER_BOTTOM_GAP_HEIGHT}px;
-  position: ${({ top }) =>
-    top === SITE_HEADER_HEIGHT_TALL ? 'absolute' : 'fixed'};
+  position: ${({ top }) => (top === SITE_HEADER_HEIGHT_TALL ? 'absolute' : 'fixed')};
   top: ${({ top }) => top}px;
   transform: translateX(-50vw) translateY(0);
   transition-property: transform opacity;

@@ -19,6 +19,8 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   }
 
   const combinedConfig = merge({}, config, devConfig);
+  const siteTitlePlaceholder = '$SIGNALS_SITE_TITLE';
+  const siteTitleString = combinedConfig.language.siteTitle;
   const configPlaceholder = '$SIGNALS_CONFIG';
   const configString = JSON.stringify(combinedConfig);
   const indexFile = path.join(__dirname, '..', '..', 'src', 'index.html');
@@ -26,6 +28,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   template.templateContent = fs
     .readFileSync(indexFile)
     .toString()
+    .replace(siteTitlePlaceholder, siteTitleString)
     .replace(configPlaceholder, configString);
 } else {
   template.template = 'src/index.html';

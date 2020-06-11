@@ -54,9 +54,7 @@ module.exports = require('./webpack.base.babel')({
         vendor: {
           test: /[\\/]node_modules[\\/](?!@datapunt[\\/]asc-ui)(?!leaflet)(?!react-reactive-form)/,
           name(module) {
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1];
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
             return `npm.${packageName.replace('@', '')}`;
           },
           reuseExistingChunk: true,
@@ -91,12 +89,13 @@ module.exports = require('./webpack.base.babel')({
       theme_color: '#ec0000',
       inject: true,
       ios: true,
+      fingerprints: false,
       display: 'fullscreen',
       orientation: 'portrait',
       icons: [
         {
           src: path.resolve('src/images/logo.png'),
-          sizes: [96, 128, 192, 256, 384, 512],
+          sizes: [192],
         },
       ],
     }),
@@ -142,7 +141,6 @@ module.exports = require('./webpack.base.babel')({
   ],
 
   performance: {
-    assetFilter: assetFilename =>
-      !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
+    assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
   },
 });

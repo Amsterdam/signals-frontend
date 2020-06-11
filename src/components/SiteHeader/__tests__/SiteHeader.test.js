@@ -49,7 +49,6 @@ describe('components/SiteHeader', () => {
     // narrow window toggle
     mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
 
-
     act(() => {
       history.push('/manage');
     });
@@ -105,7 +104,7 @@ describe('components/SiteHeader', () => {
 
     expect(container.querySelector('h1 img')).not.toBeInTheDocument();
 
-    configuration.logoUrl = 'logoUrl';
+    configuration.logo.url = 'logoUrl';
 
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
