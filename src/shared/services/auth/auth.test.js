@@ -303,8 +303,8 @@ describe('The auth service', () => {
       expect(window.location.assign).toHaveBeenCalledWith(
         'https://example.com/oauth2/authorize' +
         '?client_id=test' +
-        '&response_type=id_token' +
-        '&scope=openid%20email%20profile' +
+        '&response_type=token' +
+        '&scope=SIG%2FALL' +
         '&state=random-string' +
         '&nonce=random-string' +
         '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +

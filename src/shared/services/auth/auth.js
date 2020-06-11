@@ -21,13 +21,6 @@ const ERROR_MESSAGES = {
 // The parameters the OAuth2 authorization service will return on success
 const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 
-// The requested OpenID scopes
-const scopes = [
-  'openid',
-  'email',
-  'profile',
-];
-
 const domainList = [
   'datapunt',
   'grip',
@@ -164,17 +157,19 @@ export function login(domain) {
   localStorage.setItem(NONCE_KEY, nonce);
   localStorage.setItem(OAUTH_DOMAIN_KEY, domain);
 
-  const encodedDomain = encodeURIComponent(getDomain(domain));
-  const encodedScopes = encodeURIComponent(scopes.join(' '));
+  const encodedClientId = encodeURIComponent(CONFIGURATION.OIDC_CLIENT_ID);
+  const encodedResponseType = encodeURIComponent(CONFIGURATION.OIDC_RESPONSE_TYPE);
+  const encodedScope = encodeURIComponent(CONFIGURATION.OIDC_SCOPE);
   const encodedStateToken = encodeURIComponent(stateToken);
   const encodedNonce = encodeURIComponent(nonce);
   const encodedRedirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
+  const encodedDomain = encodeURIComponent(getDomain(domain));
 
   global.location.assign(
     `${CONFIGURATION.OIDC_AUTH_ENDPOINT}` +
-    `?client_id=${CONFIGURATION.OIDC_CLIENT_ID}` +
-    `&response_type=id_token` +
-    `&scope=${encodedScopes}` +
+    `?client_id=${encodedClientId}` +
+    `&response_type=${encodedResponseType}` +
+    `&scope=${encodedScope}` +
     `&state=${encodedStateToken}` +
     `&nonce=${encodedNonce}` +
     `&redirect_uri=${encodedRedirectUri}` +

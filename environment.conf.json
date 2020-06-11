@@ -56,6 +56,8 @@
   },
   "ROOT": "http://localhost:3001/",
   "OIDC_CLIENT_ID": "sia",
+  "OIDC_RESPONSE_TYPE": "token",
+  "OIDC_SCOPE": "SIG/ALL",
   "OIDC_AUTH_ENDPOINT": "https://acc.api.data.amsterdam.nl/oauth2/authorize",
   "API_ROOT_MAPSERVER": "https://map.data.amsterdam.nl/",
   "USERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/",
