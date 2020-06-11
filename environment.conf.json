@@ -54,6 +54,7 @@
       "gemeentenaam": "amsterdam"
     }
   },
+  "showVulaanControls": true,
   "ROOT": "http://localhost:3001/",
   "AUTH_ROOT": "https://acc.api.data.amsterdam.nl/",
   "API_ROOT_MAPSERVER": "https://map.data.amsterdam.nl/",
