@@ -1,17 +1,17 @@
-import resolveQuestions from '.';
+import { resolveQuestions } from './services';
 
 const mockedQuestions = [
   {
     key: 'key1',
     meta: 'meta1',
-    options: 'options1',
-    field_type: 'field_type1',
+    field_type: 'checkbox_input',
   },
   {
     key: 'key2',
-    meta: 'meta2',
-    options: 'options2',
-    field_type: 'field_type2',
+    meta: {
+      validators: ['required', ['max_length', 100]],
+    },
+    field_type: 'radio_input',
   },
 ];
 
@@ -27,28 +27,36 @@ describe('The resolve classification service', () => {
     expect(result).toHaveProperty('key1');
     expect(result).toHaveProperty('key2');
     expect(Object.keys(result).length).toBe(4);
-    expect(result.key1).toMatchObject({
-      meta: 'meta1',
-      options: 'options1',
-      render: 'field_type1',
-    });
-    expect(result.key2).toMatchObject({
-      meta: 'meta2',
-      options: 'options2',
-      render: 'field_type2',
-    });
   });
-  it('should pass meta and options props and add render prop', () => {
+  it('should pass meta prop', () => {
     const result = resolveQuestions(mockedQuestions);
     expect(result.key1).toMatchObject({
       meta: 'meta1',
-      options: 'options1',
-      render: 'field_type1',
     });
     expect(result.key2).toMatchObject({
-      meta: 'meta2',
-      options: 'options2',
-      render: 'field_type2',
+      meta: {},
+    });
+  });
+  it('should add render prop', () => {
+    const result = resolveQuestions(mockedQuestions);
+    expect(result.key1).toMatchObject({
+      render: 'CheckboxInput',
+    });
+    expect(result.key2).toMatchObject({
+      render: 'RadioInputGroup',
+    });
+  });
+  it('should add options prop with validators', () => {
+    const result = resolveQuestions(mockedQuestions);
+    expect(result.key1).toMatchObject({
+      options: {
+        validators: [],
+      },
+    });
+    expect(result.key2).toMatchObject({
+      options: {
+        validators: ['required', ['maxLength', 100]],
+      },
     });
   });
 });

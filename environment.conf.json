@@ -73,6 +73,7 @@
   "PERMISSIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/",
   "PREDICTION_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/category/prediction",
   "PRIORITY_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/auth/priority/",
+  "QUESTIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/questions/",
   "ROLES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/",
   "ROOT": "http://localhost:3001/",
   "SEARCH_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/search",

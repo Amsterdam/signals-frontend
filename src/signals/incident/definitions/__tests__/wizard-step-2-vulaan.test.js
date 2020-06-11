@@ -3,6 +3,7 @@ import memoize from 'lodash/memoize';
 
 import step2 from '../wizard-step-2-vulaan';
 import FormComponents from '../../components/form';
+import IncidentNavigation from '../../components/IncidentNavigation';
 
 const { formFactory } = step2;
 
@@ -31,7 +32,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       subcategory: 'subcategory',
       questions: {
         key1: {
-          render: 'TEXT',
+          render: 'TextInput',
         },
       },
     });
@@ -47,6 +48,28 @@ describe('Wizard step 2 vulaan, formFactory', () => {
     expect(actual).toEqual(expected);
   });
 
+  it('should expand render prop to component for IncidentNavigation as well', () => {
+    const actual = formFactory({
+      category: 'category',
+      subcategory: 'subcategory',
+      questions: {
+        key1: {
+          render: 'IncidentNavigation',
+        },
+      },
+    });
+    const expected = {
+      controls: {
+        key1: {
+          options: { validators: [] },
+          render: IncidentNavigation,
+        },
+      },
+    };
+
+    expect(actual).toEqual(expected);
+  });
+
   it('should expand validators', () => {
     const actual = formFactory({
       category: 'category',
@@ -54,9 +77,9 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       questions: {
         key1: {
           options: {
-            validators: ['REQUIRED'],
+            validators: ['required'],
           },
-          render: 'TEXT',
+          render: 'TextInput',
         },
       },
     });
@@ -79,9 +102,9 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       questions: {
         key1: {
           options: {
-            validators: ['REQUIRED', 'EMAIL'],
+            validators: ['required', 'email'],
           },
-          render: 'TEXT',
+          render: 'TextInput',
         },
       },
     });
@@ -106,9 +129,9 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       questions: {
         key1: {
           options: {
-            validators: [['MAX_LENGTH', 16]],
+            validators: [['maxLength', 16]],
           },
-          render: 'TEXT',
+          render: 'TextInput',
         },
       },
     });

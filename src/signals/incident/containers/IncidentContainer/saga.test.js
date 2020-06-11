@@ -10,7 +10,6 @@ import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json';
 
 import configuration from 'shared/services/configuration/configuration';
 import resolveClassification from 'shared/services/resolveClassification';
-import resolveQuestions from 'shared/services/resolve-questions';
 import * as auth from 'shared/services/auth/auth';
 import { authPostCall, postCall } from 'shared/services/api/api';
 
@@ -21,12 +20,12 @@ import mapControlsToParams from '../../services/map-controls-to-params';
 import * as constants from './constants';
 import watchIncidentContainerSaga, {
   getClassification,
-  fetchQuestions,
   getQuestionsSaga,
   createIncident,
   postIncident as postIncidentSaga,
   getPostData,
 } from './saga';
+import { resolveQuestions } from './services';
 import { createIncidentSuccess, createIncidentError } from './actions';
 
 jest.mock('shared/services/auth/auth', () => ({
@@ -58,6 +57,8 @@ const resolvedPrediction = {
   category,
   subcategory,
 };
+
+const questionsUrl = `${configuration.QUESTIONS_ENDPOINT}?main_slug=${category}&sub_slug=${subcategory}`;
 
 const questionsResponse = [
   {
@@ -166,18 +167,18 @@ describe('IncidentContainer saga', () => {
     it('should dispatch success', () =>
       expectSaga(getQuestionsSaga, { payload })
         .provide([
-          [matchers.call.fn(fetchQuestions), { results: questionsResponse }],
+          [matchers.call.fn(request), { results: questionsResponse }],
           [matchers.call.fn(resolveQuestions), resolvedQuestions],
         ])
-        .call(fetchQuestions, resolvedPrediction)
+        .call(request, questionsUrl)
         .call(resolveQuestions, questionsResponse)
         .put({ type: constants.GET_QUESTIONS_SUCCESS, payload: { questions: resolvedQuestions } })
         .run());
 
     it('should dispatch error', () =>
       expectSaga(getQuestionsSaga, { payload })
-        .provide([[matchers.call.fn(fetchQuestions), throwError(new Error('whoops!!!1!'))]])
-        .call.fn(fetchQuestions)
+        .provide([[matchers.call.fn(request), throwError(new Error('whoops!!!1!'))]])
+        .call(request, questionsUrl)
         .put.actionType(constants.GET_QUESTIONS_ERROR)
         .run());
   });

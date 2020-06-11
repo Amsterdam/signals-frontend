@@ -13,23 +13,10 @@ import wonen from './wizard-step-2-vulaan/wonen';
 import FormComponents from '../components/form';
 import IncidentNavigation from '../components/IncidentNavigation';
 
-const mapFieldNameToComponent = {
-  CHECKBOX: FormComponents.CheckboxInput,
-  INCIDENT_NAVIGATION: IncidentNavigation,
-  PLAIN_TEXT: FormComponents.PlainText,
-  RADIO_GROUP: FormComponents.RadioInputGroup,
-  TEXT: FormComponents.TextInput,
-};
-
-const mapValidatorToFn = {
-  EMAIL: Validators.email,
-  MAX_LENGTH: Validators.maxLength,
-  REQUIRED: Validators.required,
-};
-
-const expandFieldType = key => mapFieldNameToComponent[key];
-const expandValidatorFn = ([key, ...args]) => mapValidatorToFn[key].apply(null, args);
-const expandValidator = key => (Array.isArray(key) ? expandValidatorFn(key) : mapValidatorToFn[key]);
+const mapFieldNameToComponent = key => (key === 'IncidentNavigation' ? IncidentNavigation : FormComponents[key]);
+const mapValidatorToFn = key => Validators[key];
+const expandValidatorFn = ([key, ...args]) => mapValidatorToFn(key)(...args);
+const expandValidator = key => (Array.isArray(key) ? expandValidatorFn(key) : mapValidatorToFn(key));
 
 const expandQuestions = memoize(
   questions => ({
@@ -41,7 +28,7 @@ const expandQuestions = memoize(
           options: {
             validators: (questions[key].options?.validators || []).map(expandValidator),
           },
-          render: expandFieldType(questions[key].render),
+          render: mapFieldNameToComponent(questions[key].render),
         },
       }),
       {}

@@ -6,9 +6,9 @@ import { postCall, authPostCall } from 'shared/services/api/api';
 import configuration from 'shared/services/configuration/configuration';
 import { uploadFile } from 'containers/App/saga';
 import resolveClassification from 'shared/services/resolveClassification';
-import resolveQuestions from 'shared/services/resolve-questions';
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params';
 import { isAuthenticated } from 'shared/services/auth/auth';
+import { resolveQuestions } from './services';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, GET_QUESTIONS } from './constants';
 import {
   createIncidentSuccess,
@@ -37,87 +37,12 @@ export function* getClassification(action) {
   }
 }
 
-export const fetchQuestions = () => ({
-  _links: {},
-  count: 2,
-  results: [
-    {
-      field_type: 'CHECKBOX',
-      key: 'extra_bedrijven_horeca_personen',
-      meta: {
-        ifAllOf: {
-          category: 'overlast-bedrijven-en-horeca',
-        },
-        label: 'Wat is de oorzaak van de overlast?',
-        labelShort: 'Oorzaak overlast',
-        values: {
-          dronken_bezoekers: 'Dronken bezoekers',
-          schreeuwende_bezoekers: 'Schreeuwende bezoekers',
-          rokende_bezoekers: 'Rokende bezoekers',
-          teveel_fietsen: '(Teveel) fietsen',
-          wildplassen: 'Wildplassen',
-          overgeven: 'Overgeven',
-        },
-      },
-    },
-    {
-      field_type: 'RADIO_GROUP',
-      key: 'extra_bedrijven_horeca_wat',
-      meta: {
-        ifAllOf: {
-          category: 'overlast-bedrijven-en-horeca',
-        },
-        label: 'Uw melding gaat over:',
-        labelShort: 'Soort bedrijf',
-        values: {
-          horecabedrijf: 'Horecabedrijf, zoals een café, restaurant, snackbar of kantine',
-          ander_soort_bedrijf: 'Ander soort bedrijf, zoals een winkel, supermarkt of sportschool',
-          evenement_festival_markt: 'Evenement, zoals een festival, feest of markt',
-          iets_anders: 'Iets anders',
-        },
-      },
-      options: { validators: ['REQUIRED'] },
-    },
-    {
-      field_type: 'TEXT',
-      key: 'email',
-      meta: {
-        label: 'Wat is uw e-mailadres?',
-        subtitle: 'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
-        path: 'reporter.email',
-        placeholder: 'E-mailadres',
-        type: 'email',
-        autoRemove: /[^a-zA-Z0-9@.!#$%&'*+\-/=?^_`{|}~;]/g,
-      },
-      options: {
-        validators: ['EMAIL', ['MAX_LENGTH', 9]],
-      },
-    },
-    {
-      field_type: 'PLAIN_TEXT',
-      key: 'plain_text',
-      meta: {
-        label: 'Extra caution text',
-        type: 'caution',
-        value: 'Single caution value',
-        ignoreVisibility: true,
-      },
-    },
-    {
-      field_type: 'PLAIN_TEXT',
-      key: 'more_plain_text',
-      meta: {
-        label: 'Extra alert text',
-        type: 'alert',
-        value: ['Multiple lines', ' of alert', 'value'],
-      },
-    },
-  ],
-});
-
 export function* getQuestionsSaga(action) {
+  const { category, subcategory } = action.payload;
+  const url = `${configuration.QUESTIONS_ENDPOINT}?main_slug=${category}&sub_slug=${subcategory}`;
+
   try {
-    const { results: rawQuestions } = yield call(fetchQuestions, action.payload);
+    const { results: rawQuestions } = yield call(request, url);
     const questions = yield call(resolveQuestions, rawQuestions);
 
     yield put(getQuestionsSuccess({ questions }));
