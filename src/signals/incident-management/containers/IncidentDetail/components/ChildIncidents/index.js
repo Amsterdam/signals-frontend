@@ -12,9 +12,10 @@ const Title = styled(Heading)`
 `;
 
 const ChildIncidents = ({ incident }) => {
+  const incidentLinks = incident?._links;
   const children = useMemo(
     () =>
-      incident?._links?.['sia:children']?.map(({ href }) => {
+      incidentLinks?.['sia:children']?.map(({ href }) => {
         const id = href.substring(href.lastIndexOf('/') + 1, href.length);
 
         return {
@@ -24,7 +25,7 @@ const ChildIncidents = ({ incident }) => {
           },
         };
       }),
-    [incident]
+    [incidentLinks]
   );
 
   if (!children?.length) {

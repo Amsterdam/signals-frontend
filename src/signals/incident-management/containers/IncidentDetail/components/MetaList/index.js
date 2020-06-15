@@ -46,7 +46,13 @@ const EditButton = styled(Button)`
 `;
 
 export const getCategoryName = ({ name, departments }) => {
-  const departmensStringList = departments?.length > 0 ? ` (${departments.filter(({ is_responsible }) => is_responsible).map(({ code }) => code).join(', ')})` : '';
+  const departmensStringList =
+    departments?.length > 0
+      ? ` (${departments
+        .filter(({ is_responsible }) => is_responsible)
+        .map(({ code }) => code)
+        .join(', ')})`
+      : '';
   return `${name}${departmensStringList}`;
 };
 
@@ -54,14 +60,14 @@ const MetaList = ({ incident, onEditStatus }) => {
   const dispatch = useDispatch();
   const [valueChanged, setValueChanged] = useState(false);
   const subcategories = useSelector(makeSelectSubCategories);
-  const subcategoryOptions = useMemo(
-    () =>
-      subcategories?.map(category => ({
-        ...category,
-        value: getCategoryName(category),
-      })),
-    [subcategories]
-  );
+  const subcategoryOptions = useMemo(() => {
+    if (!subcategories) return null;
+
+    return subcategories.map(category => ({
+      ...category,
+      value: getCategoryName(category),
+    }));
+  }, [subcategories]);
 
   const subcatHighlightDisabled = ![
     'm',

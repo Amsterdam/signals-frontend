@@ -1,8 +1,4 @@
-const fs = require('fs');
-const path = require('path');
 require('@babel/register');
-
-const prettierOptions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8'));
 
 module.exports = {
   parser: 'babel-eslint',
