@@ -1,6 +1,11 @@
 {
-  "logoUrl": null,
-  "logoHeight": 0,
+  "logo": {
+    "url": null,
+    "width": 0,
+    "height": 0,
+    "smallWidth": 0,
+    "smallHeight": 0
+  },
   "sentry": {
     "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
   },
@@ -9,6 +14,7 @@
     "siteId": 14
   },
   "language": {
+    "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
     "footer1": "Bel het Gemeentelijk informatienummer: 14 020",
     "footer2": "op werkdagen van 08.00 tot 18.00 uur."
   },
@@ -70,6 +76,10 @@
   "INCIDENTS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/",
   "INCIDENT_PRIVATE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/",
   "INCIDENT_PUBLIC_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/signals/",
+  "OIDC_AUTH_ENDPOINT": "https://acc.api.data.amsterdam.nl/oauth2/authorize",
+  "OIDC_CLIENT_ID": "sia",
+  "OIDC_RESPONSE_TYPE": "token",
+  "OIDC_SCOPE": "SIG/ALL",
   "OVL_KLOKKEN_LAYER": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
   "OVL_VERLICHTING_LAYER": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
   "PERMISSIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/",

@@ -1,10 +1,9 @@
 import queryStringParser from './services/query-string-parser/query-string-parser';
-import stateTokenGenerator from './services/state-token-generator/state-token-generator';
+import randomStringGenerator from './services/random-string-generator/random-string-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
 import CONFIGURATION from '../configuration/configuration';
 
-// A map of the error keys, that the OAuth2 authorization service can
-// return, to a full description
+// A map of the error keys, that the OAuth2 authorization service can return, to a full description
 const ERROR_MESSAGES = {
   invalid_request: 'The request is missing a required parameter, includes an invalid parameter value, '
     + 'includes a parameter more than once, or is otherwise malformed.',
@@ -19,16 +18,8 @@ const ERROR_MESSAGES = {
     + 'temporary overloading or maintenance of the server.',
 };
 
-// The parameters the OAuth2 authorization service will return on
-// success
+// The parameters the OAuth2 authorization service will return on success
 const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
-
-// All the userScopes this City Daty frontend needs for communication with
-// the backend APIs
-const scopes = [
-  // Signals
-  'SIG/ALL',
-];
 
 const domainList = [
   'datapunt',
@@ -43,26 +34,12 @@ function getDomain(domain) {
   return domain || domainList[0];
 }
 
-const encodedScopes = encodeURIComponent(scopes.join(' '));
-// The URI we need to redirect to for communication with the OAuth2
-// authorization service
-export const AUTH_PATH = domain => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
+// The keys of values we need to store in the local storage
+const STATE_TOKEN_KEY = 'stateToken'; // OAuth2 state token (prevent CSRF)
+const NONCE_KEY = 'nonce'; // OpenID Connect nonce (prevent replay attacks)
+const ACCESS_TOKEN_KEY = 'accessToken'; // OAuth2 access token
+const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
 
-// The keys of values we need to store in the session storage
-//
-// `location.pathname` string at the moment we redirect to the
-// OAuth2 authorization service, and need to get back to afterwards
-const RETURN_PATH = 'returnPath';
-// The OAuth2 state(token) (OAuth terminology, has nothing to do with
-// our app state), which is a random string
-const STATE_TOKEN = 'stateToken';
-// The access token returned by the OAuth2 authorization service
-// containing user userScopes and name
-const ACCESS_TOKEN = 'accessToken';
-
-const OAUTH_DOMAIN = 'oauthDomain';
-
-let returnPath;
 let tokenData = {};
 
 /**
@@ -73,7 +50,7 @@ let tokenData = {};
  * service.
  */
 function handleError(code, description) {
-  localStorage.removeItem(STATE_TOKEN);
+  localStorage.removeItem(STATE_TOKEN_KEY);
 
   // Remove parameters from the URL, as set by the error callback from the
   // OAuth2 authorization service, to clean up the URL.
@@ -95,76 +72,60 @@ function catchError() {
 }
 
 /**
- * Returns the access token from the params specified.
- *
- * Only does so in case the params form a valid callback from the OAuth2
- * authorization service.
- *
- * @param {Object.<string, string>} params The parameters returned.
- * @return {string} The access token in case the params for a valid callback,
- * null otherwise.
+ * Gets the access token and return path, and clears the local storage.
  */
-function getAccessTokenFromParams(params) {
+function handleCallback() {
+  // Parse query string into object
+  const params = queryStringParser(global.location.hash);
   if (!params) {
-    return null;
+    return;
   }
 
-  const stateToken = localStorage.getItem(STATE_TOKEN);
+  // Make sure all required parameters are there
+  if (AUTH_PARAMS.some(param => params[param] === undefined)) {
+    return;
+  }
 
   // The state param must be exactly the same as the state token we
-  // have saved in the session (to prevent CSRF)
-  const stateTokenValid = params.state && params.state === stateToken;
-
-  // It is a callback when all authorization parameters are defined
-  // in the params the fastest check is not to check if all
-  // parameters are defined but to check that no undefined parameter
-  // can be found
-  const paramsValid = !AUTH_PARAMS.some(param => params[param] === undefined);
-
-  if (paramsValid && !stateTokenValid) {
-    // This is a callback, but the state token does not equal the
-    // one we have saved; report to Sentry
+  // have saved in local storage (to prevent CSRF)
+  const localStateToken = localStorage.getItem(STATE_TOKEN_KEY);
+  if (decodeURIComponent(params.state) !== localStateToken) {
     throw new Error(`Authenticator encountered an invalid state token (${params.state})`);
   }
 
-  return stateTokenValid && paramsValid ? params.access_token : null;
-}
+  const accessToken = params.access_token;
 
-/**
- * Gets the access token and return path, and clears the session storage.
- */
-function handleCallback() {
-  const params = queryStringParser(global.location.hash);
-  const accessToken = getAccessTokenFromParams(params);
-
-  if (accessToken) {
-    tokenData = accessTokenParser(accessToken);
-    localStorage.setItem(ACCESS_TOKEN, accessToken);
-    returnPath = localStorage.getItem(RETURN_PATH);
-    localStorage.removeItem(RETURN_PATH);
-    localStorage.removeItem(STATE_TOKEN);
-
-    // Clean up URL; remove query and hash
-    // https://stackoverflow.com/questions/4508574/remove-hash-from-url
-    global.history.replaceState('', document.title, global.location.pathname);
+  tokenData = accessTokenParser(accessToken);
+  const localNonce = localStorage.getItem(NONCE_KEY);
+  if (tokenData.nonce && tokenData.nonce !== localNonce) {
+    throw new Error(`Authenticator encountered an invalid nonce (${tokenData.nonce})`);
   }
+
+  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+
+  localStorage.removeItem(STATE_TOKEN_KEY);
+  localStorage.removeItem(NONCE_KEY);
+
+  // Clean up URL; remove query and hash
+  // https://stackoverflow.com/questions/4508574/remove-hash-from-url
+  global.history.replaceState('', document.title, global.location.pathname);
 }
 
 /**
- * Returns the access token from session storage when available.
+ * Returns the access token from local storage when available.
  *
  * @returns {string} The access token.
  */
 export function getAccessToken() {
-  return localStorage.getItem(ACCESS_TOKEN);
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
 export function getOauthDomain() {
-  return localStorage.getItem(OAUTH_DOMAIN);
+  return localStorage.getItem(OAUTH_DOMAIN_KEY);
 }
 
 /**
- * Restores the access token from session storage when available.
+ * Restores the access token from local storage when available.
  */
 function restoreAccessToken() {
   const accessToken = getAccessToken();
@@ -180,25 +141,45 @@ export function login(domain) {
   // Get the URI the OAuth2 authorization service needs to use as callback
   // const callback = encodeURIComponent(`${location.protocol}//${location.host}${location.pathname}`);
   // Get a random string to prevent CSRF
-  const stateToken = stateTokenGenerator();
-  const encodedStateToken = encodeURIComponent(stateToken);
-
+  const stateToken = randomStringGenerator();
   if (!stateToken) {
     throw new Error('crypto library is not available on the current browser');
   }
 
-  localStorage.removeItem(ACCESS_TOKEN);
-  localStorage.setItem(RETURN_PATH, global.location.hash);
-  localStorage.setItem(STATE_TOKEN, stateToken);
-  localStorage.setItem(OAUTH_DOMAIN, domain);
+  const nonce = randomStringGenerator();
+  if (!nonce) {
+    throw new Error('crypto library is not available on the current browser');
+  }
 
-  const redirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
-  global.location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+
+  localStorage.setItem(STATE_TOKEN_KEY, stateToken);
+  localStorage.setItem(NONCE_KEY, nonce);
+  localStorage.setItem(OAUTH_DOMAIN_KEY, domain);
+
+  const encodedClientId = encodeURIComponent(CONFIGURATION.OIDC_CLIENT_ID);
+  const encodedResponseType = encodeURIComponent(CONFIGURATION.OIDC_RESPONSE_TYPE);
+  const encodedScope = encodeURIComponent(CONFIGURATION.OIDC_SCOPE);
+  const encodedStateToken = encodeURIComponent(stateToken);
+  const encodedNonce = encodeURIComponent(nonce);
+  const encodedRedirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
+  const encodedDomain = encodeURIComponent(getDomain(domain));
+
+  global.location.assign(
+    `${CONFIGURATION.OIDC_AUTH_ENDPOINT}` +
+    `?client_id=${encodedClientId}` +
+    `&response_type=${encodedResponseType}` +
+    `&scope=${encodedScope}` +
+    `&state=${encodedStateToken}` +
+    `&nonce=${encodedNonce}` +
+    `&redirect_uri=${encodedRedirectUri}` +
+    `&idp_id=${encodedDomain}`
+  );
 }
 
 export function logout() {
-  localStorage.removeItem(ACCESS_TOKEN);
-  localStorage.removeItem(OAUTH_DOMAIN);
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(OAUTH_DOMAIN_KEY);
 }
 
 /**
@@ -210,20 +191,9 @@ export function logout() {
  *
  */
 export function initAuth() {
-  returnPath = '';
-  restoreAccessToken(); // Restore acces token from session storage
+  restoreAccessToken(); // Restore acces token from local storage
   catchError(); // Catch any error from the OAuth2 authorization service
   handleCallback(); // Handle a callback from the OAuth2 authorization service
-}
-
-/**
- * Gets the return path that was saved before the login process was initiated.
- *
- * @returns {string} The return path where we moved away from when the login
- * process was initiated.
- */
-export function getReturnPath() {
-  return returnPath;
 }
 
 export const isAuthenticated = () => {
