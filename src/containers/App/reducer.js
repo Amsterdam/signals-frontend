@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 
 import { VARIANT_DEFAULT, TYPE_DEFAULT } from 'containers/Notification/constants';
 
-import { APPLY_FILTER } from "signals/incident-management/constants";
+import { APPLY_FILTER } from 'signals/incident-management/constants';
 import {
   LOGIN_FAILED,
   LOGOUT_FAILED,
@@ -81,8 +81,6 @@ function appReducer(state = initialState, action) {
       return state.set('searchQuery', action.payload);
 
     case RESET_SEARCH_QUERY:
-      return state.set('searchQuery', initialState.get('searchQuery'));
-
     case APPLY_FILTER:
       return state.set('searchQuery', initialState.get('searchQuery'));
 
