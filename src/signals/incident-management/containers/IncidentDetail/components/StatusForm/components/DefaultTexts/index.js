@@ -1,8 +1,7 @@
-/* eslint-disable react/no-array-index-key */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link, Heading, themeColor, themeSpacing  } from '@datapunt/asc-ui';
+import { Link, Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 
@@ -19,7 +18,7 @@ const StyledDefaultText = styled.div`
 `;
 
 const StyledTitle = styled.div`
-  font-family: "Avenir Next LT W01 Demi";
+  font-family: 'Avenir Next LT W01 Demi';
   margin-bottom: ${themeSpacing(2)};
 `;
 
@@ -31,46 +30,41 @@ const StyledLink = styled(Link)`
   cursor: pointer;
 `;
 
-const DefaultTexts = ({ defaultTexts, status, hasDefaultTexts, onHandleUseDefaultText }) => {
-  const allText = (defaultTexts && defaultTexts.length && defaultTexts.find(text => text.state === status));
+const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
+  const allText = defaultTexts?.length > 0 && defaultTexts.find(text => text.state === status);
+
+  if (!allText) return null;
 
   return (
-    <div>
-      {hasDefaultTexts && allText
-        ? (
-          <Fragment>
-            <StyledH4 forwardedAs="h4" data-testid="defaultTextsTitle">Standaard teksten</StyledH4>
+    <Fragment>
+      <StyledH4 forwardedAs="h4" data-testid="defaultTextsTitle">
+        Standaard teksten
+      </StyledH4>
 
-            {allText.templates.map((item, index) => (
-              <StyledDefaultText key={index}>
-                <StyledTitle
-                  data-testid="defaultTextsItemTitle"
-                >{item.title}</StyledTitle>
-                <div
-                  data-testid="defaultTextsItemText"
-                >{item.text}</div>
-                <StyledLink
-                  data-testid="defaultTextsItemButton"
-                  variant="inline"
-                  onClick={e => onHandleUseDefaultText(e, item.text)}
-                >
-                  Gebruik deze tekst
-                </StyledLink>
-              </StyledDefaultText>
-            ))}
-          </Fragment>
-        )
-        : ''}
-    </div>
+      {allText.templates
+        .filter(({ title, text }) => title && text)
+        .map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <StyledDefaultText key={`${index}${status}${JSON.stringify(item)}`}>
+            <StyledTitle data-testid="defaultTextsItemTitle">{item.title}</StyledTitle>
+            <div data-testid="defaultTextsItemText">{item.text}</div>
+            <StyledLink
+              data-testid="defaultTextsItemButton"
+              variant="inline"
+              onClick={e => onHandleUseDefaultText(e, item.text)}
+            >
+              Gebruik deze tekst
+            </StyledLink>
+          </StyledDefaultText>
+        ))}
+    </Fragment>
   );
 };
 
 DefaultTexts.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
-  status: PropTypes.string.isRequired,
-  hasDefaultTexts: PropTypes.bool.isRequired,
-
   onHandleUseDefaultText: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default DefaultTexts;

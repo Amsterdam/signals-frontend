@@ -1,13 +1,14 @@
 import React, { useLayoutEffect, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { Marker } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import 'leaflet/dist/leaflet.css';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
+import configuration from 'shared/services/configuration/configuration';
 import MapContext from 'containers/MapContext/context';
 import {
   setLocationAction,
@@ -72,7 +73,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
-      const stadsdeel = await getStadsdeel(event.latlng);
+      const stadsdeel = configuration?.map?.options?.stadsdeel || (await getStadsdeel(event.latlng));
 
       const onChangePayload = {
         geometrie: locationTofeature(event.latlng),
@@ -106,7 +107,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
         setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value })
       );
 
-      const stadsdeel = await getStadsdeel(option.data.location);
+      const stadsdeel = configuration?.map?.options?.stadsdeel || (await getStadsdeel(option.data.location));
 
       onChange({
         geometrie: locationTofeature(option.data.location),
@@ -158,7 +159,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
           topLeft={
             <StyledAutosuggest
               formatResponse={formatPDOKResponse}
-              gemeentenaam="amsterdam"
+              gemeentenaam={configuration.map.options.gemeentenaam}
               onClear={() => dispatch(resetLocationAction())}
               onSelect={onSelect}
               placeholder="Zoek adres"

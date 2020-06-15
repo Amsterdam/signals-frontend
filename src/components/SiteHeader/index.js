@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
-import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
+import { Logout as LogoutIcon } from '@datapunt/asc-assets';
 
 import {
   Header as HeaderComponent,
@@ -15,6 +15,7 @@ import {
   MenuToggle,
   themeColor,
   themeSpacing,
+  breakpoint,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -22,8 +23,9 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice';
 import Notification from 'containers/Notification';
 import Logo from 'components/Logo';
 import configuration from 'shared/services/configuration/configuration';
+import AmsterdamLogo from 'components/AmsterdamLogo';
 
-export const breakpoint = 1170;
+export const menuBreakpoint = 1170;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -39,22 +41,17 @@ const StyledHeader = styled(HeaderComponent)`
         h1 {
           margin-left: ${themeSpacing(-5)};
         }
-        h1 a {
-          &,
-          span {
-            width: 153px;
+
+        @media screen and ${breakpoint('min-width', 'tabletS')} {
+          h1 a {
+            &,
+            span {
+              width: 153px;
+            }
           }
         }
-        h1 a span {
-          background-image: url(${svg.LogoShort}) !important;
-        }
       }
-
-      h1 a span {
-        background-image: url(${svg.LogoShort}) !important;
-      }
-    }
-  `}
+    `}
 
   nav {
     width: 100%;
@@ -68,6 +65,7 @@ const StyledMenuButton = styled(MenuButton)`
   background: transparent;
   font-size: 16px;
   font-family: inherit;
+  font-weight: 400;
   color: ${themeColor('tint', 'level6')};
 `;
 
@@ -85,7 +83,7 @@ const StyledMenuFlyout = styled(MenuFlyOut)`
 const SearchBarMenuItem = styled(MenuItem)`
   margin-right: 0;
   max-width: 365px;
-  @media screen and (min-width: ${breakpoint + 1}px) {
+  @media screen and (min-width: ${menuBreakpoint + 1}px) {
     margin-right: auto;
     flex-basis: 365px;
   }
@@ -276,7 +274,7 @@ export const SiteHeader = props => {
 
   const navigation = useMemo(
     () => (
-      <Media query={`(max-width: ${breakpoint}px)`}>
+      <Media query={`(max-width: ${menuBreakpoint}px)`}>
         {matches =>
           matches ? (
             <MenuToggle align="right">
@@ -308,7 +306,7 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
-          {...(configuration.logoUrl ? { logo: Logo } : {})}
+          {...(configuration.logo?.url ? { logo: Logo } : { logo: AmsterdamLogo })}
         />
         {!tall && <Notification />}
       </HeaderWrapper>

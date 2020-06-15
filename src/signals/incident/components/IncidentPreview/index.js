@@ -86,6 +86,10 @@ const Li = styled.li`
   }
 `;
 
+const Wrapper = styled.div`
+  margin-bottom: ${themeSpacing(8)};
+`;
+
 const heading = previewKey => {
   switch (previewKey) {
     case 'beschrijf':
@@ -108,7 +112,7 @@ const heading = previewKey => {
 };
 
 const IncidentPreview = ({ incident, preview }) => (
-  <div data-testid="incidentPreview">
+  <Wrapper data-testid="incidentPreview">
     {Object.entries(preview).map(([section, value]) => {
       const sectionHeading = heading(section);
       const hasHeading = Boolean(sectionHeading);
@@ -150,7 +154,7 @@ const IncidentPreview = ({ incident, preview }) => (
         )
       );
     })}
-  </div>
+  </Wrapper>
 );
 
 IncidentPreview.propTypes = {

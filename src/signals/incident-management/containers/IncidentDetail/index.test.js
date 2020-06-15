@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
-import incidentJSON from 'utils/__tests__/fixtures/incident.json';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import History from 'components/History';
 import { IncidentDetail } from '.';
@@ -39,7 +39,7 @@ describe('<IncidentDetail />', () => {
       patching: {},
       defaultTexts: [],
       error: false,
-      incident: incidentJSON,
+      incident: incidentFixture,
 
       attachments: [
         {
@@ -285,6 +285,7 @@ describe('<IncidentDetail />', () => {
         incidentModel: {
           ...props.incidentModel,
           incident: {
+            ...props.incidentModel.incident,
             category: { category_url: 'bar' },
           },
         },

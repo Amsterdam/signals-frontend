@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 import { Wizard, Step, Steps } from 'react-albus';
 import formatConditionalForm from '../../services/format-conditional-form';
 
-import IncidentForm from './index';
+import IncidentForm, { Form } from './index';
 
 import phoneForm from '../../definitions/wizard-step-3-telefoon';
 
@@ -126,7 +126,7 @@ describe('<IncidentForm />', () => {
     });
 
     it('clicking submit should preventDefault', () => {
-      formWrapper.find('form').simulate('submit', event);
+      formWrapper.find(Form).simulate('submit', event);
 
       expect(event.preventDefault).toHaveBeenCalled();
     });

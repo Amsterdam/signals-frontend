@@ -38,10 +38,12 @@ module.exports = webpackBase({
       exclude: /a\.js|node_modules/, // exclude node_modules
       failOnError: false, // show a warning when there is a circular dependency
     }),
-    new CopyPlugin([
-      { from: path.join(process.cwd(), 'src/sw-proxy.js') },
-      { from: path.join(process.cwd(), 'src/sw-proxy-responses.js'), force: true },
-    ]),
+    new CopyPlugin({
+      patterns: [
+        { from: path.join(process.cwd(), 'src/sw-proxy.js') },
+        { from: path.join(process.cwd(), 'src/sw-proxy-responses.js'), force: true },
+      ],
+    }),
   ],
 
   // Emit a source map for easier debugging

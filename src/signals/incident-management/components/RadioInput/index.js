@@ -10,6 +10,12 @@ const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(6)};
 `;
 
+const StyledLabel = styled(AscLabel)`
+  * {
+    font-weight: normal
+  }
+`;
+
 const RadioInput = ({ name, display, values }) => {
   const Render = ({ handler, value: current }) => {
     let info;
@@ -27,14 +33,14 @@ const RadioInput = ({ name, display, values }) => {
 
           <RadioGroup name={name}>
             {values?.map(({ key, value }) => (
-              <AscLabel key={key} label={value}>
+              <StyledLabel key={key} label={value}>
                 <Radio
-                  defaultChecked={current === key}
+                  checked={current === key}
                   id={`${name}-${key}`}
                   data-testid={`${name}-${key}`}
                   {...handler('radio', key)}
                 />
-              </AscLabel>
+              </StyledLabel>
             ))}
           </RadioGroup>
 

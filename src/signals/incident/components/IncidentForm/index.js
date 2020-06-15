@@ -1,12 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled, { css } from 'styled-components';
 import { FormGenerator } from 'react-reactive-form';
 import get from 'lodash.get';
 import isEqual from 'lodash.isequal';
+import { themeSpacing } from '@datapunt/asc-ui';
 
+import { isAuthenticated } from 'shared/services/auth/auth';
 import formatConditionalForm from '../../services/format-conditional-form';
 
-import './style.scss';
+export const Form = styled.form`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: ${themeSpacing(8)};
+
+  & > * {
+    grid-column-start: 1;
+  }
+
+  .incident-navigation, .mapSelect, .mapInput, .caution {
+    grid-column-end: 3;
+  }
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    grid-template-columns: 8fr 4fr;
+    grid-column-gap: ${themeSpacing(5)};
+
+    ${({ isSummary }) => isSummary && css`
+      grid-template-columns: 4fr 6fr;
+
+      & > *:not(.incident-navigation) {
+        grid-column-start: 2;
+      }
+
+      ${() => isSummary && isAuthenticated() && css`
+        @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+          grid-template-columns: 4fr 6fr 2fr;
+
+          & > .incident-navigation {
+            grid-column-end: 4;
+          }
+        }
+      `}
+    `}
+  }
+`;
 
 class IncidentForm extends React.Component {
   constructor(props) {
@@ -56,14 +94,11 @@ class IncidentForm extends React.Component {
   setForm(form) {
     this.form = form;
     this.form.meta = {
-      form: this.form,
       wizard: this.props.wizard,
       incidentContainer: this.props.incidentContainer,
-      submitting: this.state.submitting,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
-      createIncident: this.props.createIncident,
     };
 
     this.setState({
@@ -132,14 +167,17 @@ class IncidentForm extends React.Component {
   }
 
   render() {
+    const fields = this?.form?.value || {};
+    const isSummary = Object.keys(fields).includes('page_summary');
+
     return (
       <div className="incident-form" data-testid="incidentForm">
-        <form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} isSummary={isSummary}>
           <FormGenerator
             onMount={this.setForm}
             fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}
           />
-        </form>
+        </Form>
       </div>
     );
   }

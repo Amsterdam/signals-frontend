@@ -1,4 +1,3 @@
-import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 import { useState, useEffect } from 'react';
 
 import { PAGE_SIZE } from 'containers/App/constants';

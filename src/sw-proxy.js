@@ -12,17 +12,13 @@ const handleActivate = () => {
   return self.clients.claim();
 };
 
-const delayResponse = (time, response) =>
-  new Promise(resolve => setTimeout(() => resolve(response), time));
+const delayResponse = (time, response) => new Promise(resolve => setTimeout(() => resolve(response), time));
 const compose = (...fns) => x => fns.reduce((res, f) => res || f(x), false);
 
 const getResponseFor = (url, method) => {
-  const exactUrlMatch = ({ reqUrl, reqMethod }) =>
-    url === reqUrl && method === reqMethod;
+  const exactUrlMatch = ({ reqUrl, reqMethod }) => url.startsWith(reqUrl) && method === reqMethod;
   const patternUrlMatch = ({ reqUrl, reqMethod }) =>
-    reqUrl.includes('*') &&
-    new RegExp(reqUrl.replace('*', '(.+)')).test(url) &&
-    method === reqMethod;
+    reqUrl.includes('*') && new RegExp(reqUrl.replace('*', '(.+)')).test(url) && method === reqMethod;
   const exactOrPatternMatch = compose(exactUrlMatch, patternUrlMatch);
 
   /* eslint-disable no-undef */
@@ -38,10 +34,7 @@ const handleFetch = async e => {
   if (response) {
     const { headers, status, statusText, delay, resMethod } = response;
     const redirectUrl = response.reqUrl.includes('*')
-      ? reqUrl.replace(
-          new RegExp(response.reqUrl.replace('*', '(.+)')),
-          response.redirectUrl
-        )
+      ? reqUrl.replace(new RegExp(response.reqUrl.replace('*', '(.+)')), response.redirectUrl)
       : response.redirectUrl;
     const init = {
       headers,
@@ -59,18 +52,10 @@ const handleFetch = async e => {
 
     const msg = `[SW-PROXY] proxying request ${reqMethod}: ${reqUrl}`;
     console.log(
-      `${msg} ${redirectUrl ? `-> ${redirectUrl}` : ``} ${
-        response.file ? `-> serving: ${response.file}` : ``
-      }`
+      `${msg} ${redirectUrl ? `-> ${redirectUrl}` : ``} ${response.file ? `-> serving: ${response.file}` : ``}`
     );
 
-    e.waitUntil(
-      Promise.resolve(
-        e.respondWith(
-          delay ? delayResponse(delay, proxyResponse) : proxyResponse
-        )
-      )
-    );
+    e.waitUntil(Promise.resolve(e.respondWith(delay ? delayResponse(delay, proxyResponse) : proxyResponse)));
   }
 };
 

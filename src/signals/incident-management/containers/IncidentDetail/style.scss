@@ -16,11 +16,11 @@
   }
 
   &__button {
-    background-color: $ams-wit;
-    color: $ams-donkerantraciet;
+    background-color: #ffffff;
+    color: #666666;
     border-width: 1px;
     padding: 7px 12px;
-    border-color: $ams-pinkish-grey;
+    border-color: #cccccc;
     border-style: solid;
     cursor: pointer;
     display: inline-block;
@@ -31,8 +31,8 @@
     text-decoration: none;
 
     &:hover {
-      border-color: $ams-zwart;
-      color: $ams-zwart;
+      border-color: #000000;
+      color: #000000;
     }
 
     &--download,
@@ -44,20 +44,20 @@
       width: 32px;
       height: 32px;
       text-decoration: none;
-      border-color: $ams-pinkish-grey;
+      border-color: #cccccc;
       border-width: 1px;
       border-style: solid;
       cursor: pointer;
       background-repeat: no-repeat;
-      background-color: $ams-wit;
+      background-color: #ffffff;
 
       &:hover {
-        border-color: $ams-zwart;
-        color: $ams-zwart;
+        border-color: #000000;
+        color: #000000;
       }
 
       &:disabled {
-        border-color: $ams-background-sidebars !important;
+        border-color: #e5e5e5 !important;
         cursor: default;
       }
     }
@@ -103,7 +103,7 @@
   &__tab-container {
     padding-top: 20px;
     min-height: 300px;
-    border-top: 1px solid $ams-middendonkergrijs;
+    border-top: 1px solid #999999;
   }
 
   &__image--max-width {

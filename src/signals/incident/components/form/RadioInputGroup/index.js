@@ -2,17 +2,13 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import isObject from 'lodash.isobject';
-import { themeColor, RadioGroup, themeSpacing } from '@datapunt/asc-ui';
+import { themeColor, RadioGroup } from '@datapunt/asc-ui';
 
 import Header from '../Header';
 import RadioInput from '../RadioInput';
 
 const Info = styled.p`
   color: ${themeColor('tint', 'level5')};
-`;
-
-const StyledHeader = styled(Header)`
-  margin-top: ${themeSpacing(5)};
 `;
 
 const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
@@ -27,7 +23,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
   if (!meta?.isVisible) return null;
 
   return (
-    <StyledHeader meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       {meta.values && isObject(meta.values) && (
         <Fragment>
           <RadioGroup name={meta.name}>
@@ -51,7 +47,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
           )}
         </Fragment>
       )}
-    </StyledHeader>
+    </Header>
   );
 };
 

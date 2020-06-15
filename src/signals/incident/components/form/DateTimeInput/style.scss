@@ -1,13 +1,10 @@
 .datetime-input {
-  label {
-    margin-top: 8px;
-  }
-
   &__earlier-date {
     width: 240px;
   }
 
   &__earlier-time {
+    margin-top: 8px;
     display: flex;
     align-items: flex-end;
 

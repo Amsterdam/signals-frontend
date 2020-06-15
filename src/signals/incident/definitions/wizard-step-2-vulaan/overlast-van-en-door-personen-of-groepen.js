@@ -19,7 +19,6 @@ const intro = {
 export const controls = {
   extra_jongeren_text: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
         subcategory: 'jongerenoverlast',
@@ -41,7 +40,6 @@ export const controls = {
   },
   extra_personen_overig: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
       },
@@ -59,7 +57,6 @@ export const controls = {
   },
   extra_personen_overig_vaker: {
     meta: {
-      className: 'col-sm-12 col-md-6',
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
       },
