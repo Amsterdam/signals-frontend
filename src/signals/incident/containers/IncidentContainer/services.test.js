@@ -15,7 +15,7 @@ const mockedQuestions = [
   },
 ];
 
-describe('The resolve classification service', () => {
+describe('The resolve questions service', () => {
   it('should return summary and navigation buttons', () => {
     const result = resolveQuestions([]);
     expect(result).toHaveProperty('custom_text');
