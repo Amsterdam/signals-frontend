@@ -1,4 +1,12 @@
 {
+  "meta": {
+    "androidIcon": "/icon_192x192.png",
+    "backgroundColor": "#ffffff",
+    "favicon": "/favicon.png",
+    "iosIcon": "/icon_180x180.png",
+    "statusBarStyle": "default",
+    "themeColor": "#ec0000"
+  },
   "logo": {
     "url": null,
     "width": 0,
@@ -14,6 +22,8 @@
     "siteId": 14
   },
   "language": {
+    "title": "Signalen Informatievoorziening Amsterdam",
+    "shortTitle": "SIA",
     "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
     "footer1": "Bel het Gemeentelijk informatienummer: 14 020",
     "footer2": "op werkdagen van 08.00 tot 18.00 uur."

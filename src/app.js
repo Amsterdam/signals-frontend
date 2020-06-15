@@ -19,6 +19,8 @@ import loadModels from 'models';
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
 // eslint-disable-next-line import/no-unresolved,import/extensions
 import '!file-loader?name=[name].[ext]!./images/icon_180x180.png';
+// eslint-disable-next-line import/no-unresolved,import/extensions
+import '!file-loader?name=[name].[ext]!./images/icon_192x192.png';
 
 // Import CSS and Global Styles
 import './global.scss';
