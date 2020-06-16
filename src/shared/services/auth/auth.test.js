@@ -59,6 +59,23 @@ describe('The auth service', () => {
       }
     });
 
+    Object.defineProperties(global, {
+      location: {
+        writable: true,
+        value: {
+          ...global.location,
+          assign: jest.fn(),
+          reload: jest.fn(),
+        },
+      },
+    });
+
+    Object.defineProperty(global.history, 'replaceState', {
+      writable: true,
+      configurable: true,
+      value: jest.fn(),
+    });
+
     jest.spyOn(global.history, 'replaceState').mockImplementation(noop);
     jest.spyOn(global.location, 'assign').mockImplementation(noop);
     jest.spyOn(global.location, 'reload').mockImplementation(noop);
@@ -78,6 +95,7 @@ describe('The auth service', () => {
     global.history.replaceState.mockRestore();
     global.location.assign.mockRestore();
     global.location.reload.mockRestore();
+    // global.location.search.mockRestore();
 
     global.localStorage.removeItem.mockReset();
     global.localStorage.setItem.mockReset();

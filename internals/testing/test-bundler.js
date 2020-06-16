@@ -1,11 +1,12 @@
 import '@testing-library/jest-dom/extend-expect';
-import L from 'leaflet-headless';
+import L from 'leaflet';
 import 'core-js/stable';
 import 'regenerator-runtime';
 import 'url-polyfill';
 import 'raf/polyfill';
 import 'jest-localstorage-mock';
 
+import { JSDOM } from 'jsdom';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import fetchMock from 'jest-fetch-mock';
@@ -16,6 +17,23 @@ fetchMock.enableMocks();
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
 
+const { window } = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`, { pretendToBeVisual: true, resources: 'usable' });
+
+global.window = window;
+global.document = window.document;
+
+// Monkey patch Leaflet
+const originalInit = L.Map.prototype.initialize;
+L.Map.prototype.initialize = function initialize(id, options) {
+  const extendedOptions = L.extend(options || {}, {
+    fadeAnimation: false,
+    zoomAnimation: false,
+    markerZoomAnimation: false,
+    preferCanvas: true,
+  });
+
+  return originalInit.call(this, id, extendedOptions);
+};
 global.window.L = L;
 global.window.alert = msg => msg;
 global.window.CONFIG = config;
@@ -34,14 +52,41 @@ global.URL.createObjectURL = jest.fn(() => 'https://url-from-data/image.jpg');
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/closest}
  * @see {@link https://github.com/jsdom/jsdom/issues/1555}
  */
-window.Element.prototype.closest = function closest(selector) {
-  let el = this;
-  while (el) {
-    if (el.matches(selector)) {
-      return el;
-    }
-    el = el.parentElement;
-  }
+// window.Element.prototype.closest = function closest(selector) {
+//   let el = this;
+//   while (el) {
+//     if (el.matches(selector)) {
+//       return el;
+//     }
+//     el = el.parentElement;
+//   }
 
-  return el;
-};
+//   return el;
+// };
+
+// Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+//   value: () => ({
+//     fillRect: () => {},
+//     clearRect: () => {},
+//     putImageData: () => {},
+//     createImageData: () => [],
+//     setTransform: () => {},
+//     // drawImage: () => {},
+//     save: () => {},
+//     fillText: () => {},
+//     restore: () => {},
+//     beginPath: () => {},
+//     moveTo: () => {},
+//     lineTo: () => {},
+//     closePath: () => {},
+//     stroke: () => {},
+//     translate: () => {},
+//     scale: () => {},
+//     rotate: () => {},
+//     arc: () => {},
+//     fill: () => {},
+//     transform: () => {},
+//     rect: () => {},
+//     clip: () => {},
+//   }),
+// });
