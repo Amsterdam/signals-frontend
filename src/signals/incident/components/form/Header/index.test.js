@@ -1,5 +1,4 @@
 import React from 'react';
-// import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 import { Validators } from 'react-reactive-form';
 
@@ -7,28 +6,7 @@ import { withAppContext } from 'test/utils';
 
 import Header from './index';
 
-describe('Form component <Header />', () => {
-  // let wrapper;
-  // let meta;
-  // let options;
-  // let touched;
-  // let getError;
-  // let hasError;
-
-  beforeEach(() => {
-    // meta = {
-    //   label: 'naam',
-    // };
-    // options = {};
-    // touched = false;
-    // getError = jest.fn();
-    // hasError = jest.fn();
-
-    // wrapper = shallow(
-    //   <Header meta={meta} options={options} touched={touched} hasError={hasError} getError={getError} />
-    // );
-  });
-
+describe('signals/incidents/components/form/Header', () => {
   it('should render label', () => {
     const label = 'Foo barrrr';
     const { getByText } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} />));
