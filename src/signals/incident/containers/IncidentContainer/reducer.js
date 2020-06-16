@@ -42,7 +42,6 @@ export const initialState = fromJS({
     },
   },
   loadingClassification: false,
-  loadingQuestions: false,
 });
 
 const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) => {
@@ -107,15 +106,13 @@ export default (state = initialState, action) => {
       return state.set('incident', getIncidentWithoutExtraProps(state.get('incident'), action.payload));
 
     case GET_QUESTIONS:
-      return state.set('loadingQuestions', true);
+      return state;
 
     case GET_QUESTIONS_SUCCESS:
-      return state
-        .set('loadingQuestions', false)
-        .set('incident', state.get('incident').set('questions', action.payload.questions));
+      return state.set('incident', state.get('incident').set('questions', action.payload.questions));
 
     case GET_QUESTIONS_ERROR:
-      return state.set('loadingQuestions', false);
+      return state;
 
     default:
       return state;

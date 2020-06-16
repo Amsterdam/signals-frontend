@@ -275,20 +275,19 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   });
 
   describe('GET_QUESTIONS', () => {
-    it('sets loading state', () => {
+    it('does nothing', () => {
       expect(
         incidentContainerReducer(fromJS({ incident: {} }), {
           type: GET_QUESTIONS,
         }).toJS()
       ).toEqual({
         incident: {},
-        loadingQuestions: true,
       });
     });
   });
 
   describe('GET_QUESTIONS_SUCCESS', () => {
-    it('sets questions and loading state', () => {
+    it('sets questions', () => {
       expect(
         incidentContainerReducer(
           fromJS({
@@ -309,13 +308,12 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             key1: {},
           },
         },
-        loadingQuestions: false,
       });
     });
   });
 
   describe('GET_QUESTIONS_ERROR', () => {
-    it('sets loading state', () => {
+    it('does nothing', () => {
       expect(
         incidentContainerReducer(
           fromJS({
@@ -327,7 +325,6 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         ).toJS()
       ).toEqual({
         incident: {},
-        loadingQuestions: false,
       });
     });
   });
