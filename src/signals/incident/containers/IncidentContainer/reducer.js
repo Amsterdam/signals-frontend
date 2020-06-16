@@ -9,9 +9,7 @@ import {
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
   RESET_EXTRA_STATE,
-  GET_QUESTIONS,
   GET_QUESTIONS_SUCCESS,
-  GET_QUESTIONS_ERROR,
 } from './constants';
 
 export const initialState = fromJS({
@@ -105,14 +103,8 @@ export default (state = initialState, action) => {
     case RESET_EXTRA_STATE:
       return state.set('incident', getIncidentWithoutExtraProps(state.get('incident'), action.payload));
 
-    case GET_QUESTIONS:
-      return state;
-
     case GET_QUESTIONS_SUCCESS:
       return state.set('incident', state.get('incident').set('questions', action.payload.questions));
-
-    case GET_QUESTIONS_ERROR:
-      return state;
 
     default:
       return state;

@@ -10,9 +10,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
-  GET_QUESTIONS,
   GET_QUESTIONS_SUCCESS,
-  GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
 } from './constants';
 
@@ -274,18 +272,6 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
     });
   });
 
-  describe('GET_QUESTIONS', () => {
-    it('does nothing', () => {
-      expect(
-        incidentContainerReducer(fromJS({ incident: {} }), {
-          type: GET_QUESTIONS,
-        }).toJS()
-      ).toEqual({
-        incident: {},
-      });
-    });
-  });
-
   describe('GET_QUESTIONS_SUCCESS', () => {
     it('sets questions', () => {
       expect(
@@ -308,23 +294,6 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             key1: {},
           },
         },
-      });
-    });
-  });
-
-  describe('GET_QUESTIONS_ERROR', () => {
-    it('does nothing', () => {
-      expect(
-        incidentContainerReducer(
-          fromJS({
-            incident: {},
-          }),
-          {
-            type: GET_QUESTIONS_ERROR,
-          }
-        ).toJS()
-      ).toEqual({
-        incident: {},
       });
     });
   });
