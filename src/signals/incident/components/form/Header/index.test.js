@@ -6,7 +6,7 @@ import { withAppContext } from 'test/utils';
 
 import Header from './index';
 
-describe('signals/incidents/components/form/Header', () => {
+describe('signals/incident/components/form/Header', () => {
   it('should render label', () => {
     const label = 'Foo barrrr';
     const { getByText } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} />));
@@ -61,40 +61,43 @@ describe('signals/incidents/components/form/Header', () => {
 
   it('should render required error', () => {
     const hasError = prop => prop === 'required';
+    const error = 'Dit is een verplicht veld';
 
     const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} touched />));
 
-    expect(queryByText('Dit is een verplicht veld')).not.toBeInTheDocument();
+    expect(queryByText(error)).not.toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={hasError} touched />));
 
-    expect(queryByText('Dit is een verplicht veld')).toBeInTheDocument();
+    expect(queryByText(error)).toBeInTheDocument();
   });
 
   it('should render email error', () => {
     const hasError = prop => prop === 'email';
+    const error = 'Het moet een geldig e-mailadres zijn';
 
     const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} touched />));
 
-    expect(queryByText('Het moet een geldig e-mailadres zijn')).not.toBeInTheDocument();
+    expect(queryByText(error)).not.toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={hasError} touched />));
 
-    expect(queryByText('Het moet een geldig e-mailadres zijn')).toBeInTheDocument();
+    expect(queryByText(error)).toBeInTheDocument();
   });
 
   it('should render maxLength error', () => {
     const requiredLength = 300;
     const hasError = prop => prop === 'maxLength';
     const getError = () => ({ requiredLength });
+    const error = `U kunt maximaal ${requiredLength} tekens invoeren.`;
 
     const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
 
-    expect(queryByText(`U kunt maximaal ${requiredLength} tekens invoeren.`)).not.toBeInTheDocument();
+    expect(queryByText(error)).not.toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={hasError} getError={getError} touched />));
 
-    expect(queryByText(`U kunt maximaal ${requiredLength} tekens invoeren.`)).toBeInTheDocument();
+    expect(queryByText(error)).toBeInTheDocument();
   });
 
   it('should render custom error', () => {
@@ -114,9 +117,14 @@ describe('signals/incidents/components/form/Header', () => {
   it('should not render error when not touched', () => {
     const hasError = prop => prop === 'required';
     const touched = false;
+    const error = 'Dit is een verplicht veld';
 
-    const { queryByText } = render(withAppContext(<Header hasError={hasError} touched={touched} />));
+    const { queryByText, rerender } = render(withAppContext(<Header hasError={hasError} touched={touched} />));
 
-    expect(queryByText('Dit is een verplicht veld')).not.toBeInTheDocument();
+    expect(queryByText(error)).not.toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={hasError} touched />));
+
+    expect(queryByText(error)).toBeInTheDocument();
   });
 });
