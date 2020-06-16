@@ -1,5 +1,5 @@
 {
-  "meta": {
+  "head": {
     "androidIcon": "/icon_192x192.png",
     "backgroundColor": "#ffffff",
     "favicon": "/favicon.png",

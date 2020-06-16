@@ -20,16 +20,16 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
 
   const combinedConfig = merge({}, config, devConfig);
   const placeholders = {
-    $SIGNALS_ANDROID_ICON: combinedConfig.meta.androidIcon,
-    $SIGNALS_BACKGROUND_COLOR: combinedConfig.meta.backgroundColor,
+    $SIGNALS_ANDROID_ICON: combinedConfig.head.androidIcon,
+    $SIGNALS_BACKGROUND_COLOR: combinedConfig.head.backgroundColor,
     $SIGNALS_CONFIG: JSON.stringify(combinedConfig),
-    $SIGNALS_FAVICON: combinedConfig.meta.favicon,
-    $SIGNALS_IOS_ICON: combinedConfig.meta.iosIcon,
+    $SIGNALS_FAVICON: combinedConfig.head.favicon,
+    $SIGNALS_IOS_ICON: combinedConfig.head.iosIcon,
     $SIGNALS_PWA_SHORT_TITLE: combinedConfig.language.shortTitle,
     $SIGNALS_PWA_TITLE: combinedConfig.language.title,
     $SIGNALS_SITE_TITLE: combinedConfig.language.siteTitle,
-    $SIGNALS_STATUS_BAR_STYLE: combinedConfig.meta.statusBarStyle,
-    $SIGNALS_THEME_COLOR: combinedConfig.meta.themeColor,
+    $SIGNALS_STATUS_BAR_STYLE: combinedConfig.head.statusBarStyle,
+    $SIGNALS_THEME_COLOR: combinedConfig.head.themeColor,
   };
   const indexFile = path.join(__dirname, '..', '..', 'src', 'index.html');
   const templateString = fs.readFileSync(indexFile).toString();
