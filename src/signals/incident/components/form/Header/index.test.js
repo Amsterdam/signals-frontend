@@ -23,6 +23,14 @@ describe('signals/incidents/components/form/Header', () => {
 
     expect(queryByText('(optioneel)')).toBeInTheDocument();
 
+    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: undefined }} />));
+
+    expect(queryByText('(optioneel)')).toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: [] }} />));
+
+    expect(queryByText('(optioneel)')).toBeInTheDocument();
+
     rerender(withAppContext(<Header hasError={() => {}} options={{}} />));
 
     expect(queryByText('(optioneel)')).not.toBeInTheDocument();
