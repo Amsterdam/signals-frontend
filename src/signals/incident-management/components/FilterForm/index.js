@@ -30,6 +30,7 @@ import {
   setGroupOptions,
   setMainCategory,
   setName,
+  setNoteKeyword,
   setRefresh,
 } from './actions';
 import reducer, { init } from './reducer';
@@ -164,8 +165,15 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   );
 
   const onAddressChange = useCallback(
-    e => {
-      dispatch(setAddress(e.target.value));
+    event => {
+      dispatch(setAddress(event.target.value));
+    },
+    [dispatch]
+  );
+
+  const onNotesChange = useCallback(
+    event => {
+      dispatch(setNoteKeyword(event.target.value));
     },
     [dispatch]
   );
@@ -241,6 +249,19 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               }
             />
           </div>
+        </Fieldset>
+
+        <Fieldset>
+          <FilterGroup>
+            <Label htmlFor="filter_notes" isGroupHeader>Zoek in notitie</Label>
+            <Input
+              name="note_keyword"
+              id="filter_notes"
+              onBlur={onNotesChange}
+              defaultValue={initialFormState.options.note_keyword}
+              type="text"
+            />
+          </FilterGroup>
         </Fieldset>
 
         <Fieldset>
