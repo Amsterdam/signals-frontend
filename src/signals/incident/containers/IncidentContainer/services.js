@@ -60,5 +60,3 @@ export const resolveQuestions = questions => ({
     render: fieldTypeMap.incident_navigation,
   },
 });
-
-export default resolveQuestions;
