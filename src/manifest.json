@@ -16,6 +16,6 @@
   "name": "$SIGNALS_PWA_TITLE",
   "orientation": "portrait",
   "short_name": "$SIGNALS_PWA_SHORT_TITLE",
-  "start_url": ".",
+  "start_url": "/",
   "theme_color": "$SIGNALS_THEME_COLOR"
 }
