@@ -236,7 +236,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(addressField.value).toEqual('');
       expect(noteField.value).toEqual('');
       expect(afvalToggle.checked).toEqual(false);
-      expect(container.querySelectorAll('input[type"checkbox"]:checked').length).toEqual(0);
+      expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toEqual(0);
     });
   });
 
