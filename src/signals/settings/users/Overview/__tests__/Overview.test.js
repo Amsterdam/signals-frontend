@@ -147,6 +147,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const { getByText, queryByTestId } = render(usersOverviewWithAppContext());
 
+    // eslint-disable-next-line testing-library/prefer-find-by
     await wait(() => queryByTestId('loadingIndicator'));
 
     expect(getByText('Gebruikers')).toBeInTheDocument();
@@ -205,6 +206,7 @@ describe('signals/settings/users/containers/Overview', () => {
       usersOverviewWithAppContext()
     );
 
+    // eslint-disable-next-line testing-library/prefer-find-by
     await wait(() => queryByTestId('loadingIndicator'));
 
     expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
@@ -273,6 +275,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const { push, scrollTo } = testContext;
     const { getByText } = render(usersOverviewWithAppContext());
 
+    // eslint-disable-next-line testing-library/prefer-find-by
     await wait(() => getByText('2'));
 
     act(() => {
