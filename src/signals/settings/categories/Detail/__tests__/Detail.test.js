@@ -81,9 +81,9 @@ describe('signals/settings/categories/Detail', () => {
   });
 
   it('should render the correct page title for a new category', async () => {
-    const { getByText } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByText, getByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByText('Categorie toevoegen'));
+    await findByText('Categorie toevoegen');
     expect(getByText('Categorie toevoegen')).toBeInTheDocument();
   });
 
@@ -92,9 +92,9 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: categoryJSON.id,
     }));
 
-    const { getByText } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByText, getByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByText('Categorie wijzigen'));
+    await findByText('Categorie wijzigen');
     expect(getByText('Categorie wijzigen')).toBeInTheDocument();
   });
 
@@ -103,9 +103,9 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: undefined,
     }));
 
-    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId, getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
     expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
 
     document.querySelectorAll('input[type="text"], textarea').forEach(element => {
@@ -241,7 +241,7 @@ describe('signals/settings/categories/Detail', () => {
       categoryId,
     }));
 
-    const { getByTestId, findByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId, getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
     await findByTestId('detailCategoryForm');
 
@@ -262,7 +262,7 @@ describe('signals/settings/categories/Detail', () => {
     );
 
     // on patch success, re-request all categories
-    await wait(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
 
     expect(dispatch).toHaveBeenCalledWith(fetchCategories());
   });
@@ -278,9 +278,9 @@ describe('signals/settings/categories/Detail', () => {
       categoryId,
     }));
 
-    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId, getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
     expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
 
     const submitBtn = getByTestId('submitBtn');
@@ -292,7 +292,7 @@ describe('signals/settings/categories/Detail', () => {
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
 
     expect(dispatch).toHaveBeenCalledWith(showGlobalNotification(expect.any(Object)));
 
@@ -304,9 +304,9 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: undefined,
     }));
 
-    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
 
     expect(fetch).not.toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
 
@@ -320,7 +320,7 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
 
     expect(fetch).toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
   });
