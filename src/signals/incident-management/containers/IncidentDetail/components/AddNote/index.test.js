@@ -1,13 +1,19 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
+import * as reactRedux from 'react-redux';
+
 import { withAppContext } from 'test/utils';
+import { patchIncident } from 'models/incident/actions';
+import { PATCH_TYPE_NOTES } from 'models/incident/constants';
 
 import AddNote from './index';
+
+const dispatch = jest.fn();
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 
 describe('<AddNote />', () => {
   const props = {
     id: '42',
-    onPatchIncident: jest.fn(),
   };
 
   describe('show value', () => {
@@ -50,17 +56,21 @@ describe('<AddNote />', () => {
       fireEvent.change(addNoteTextArea, { target: { value } });
     });
 
+    expect(dispatch).not.toHaveBeenCalled();
+
     act(() => {
       fireEvent.click(saveNoteButton);
     });
 
-    expect(props.onPatchIncident).toHaveBeenCalledWith({
-      id: '42',
-      type: 'notes',
-      patch: {
-        notes: [{ text: value }],
-      },
-    });
+    expect(dispatch).toHaveBeenCalledWith(
+      patchIncident({
+        id: props.id,
+        type: PATCH_TYPE_NOTES,
+        patch: {
+          notes: [{ text: value }],
+        },
+      })
+    );
   });
 
   it('should clear the textarea', async () => {

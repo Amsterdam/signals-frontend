@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -54,86 +53,10 @@ module.exports = require('./webpack.base.babel')({
         vendor: {
           test: /[\\/]node_modules[\\/](?!@datapunt[\\/]asc-ui)(?!leaflet)(?!react-reactive-form)/,
           name(module) {
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1];
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
             return `npm.${packageName.replace('@', '')}`;
           },
           reuseExistingChunk: true,
-        },
-        ascUI: {
-          test: ({ context }) =>
-            context && context.indexOf('/node_modules/@datapunt/asc-ui/') >= 0,
-          reuseExistingChunk: true,
-          name: 'npm.asc-ui',
-        },
-        lodash: {
-          test: /lodash/,
-          reuseExistingChunk: true,
-          name: 'npm.lodash',
-        },
-        incident: {
-          test: /[\\/]signals[\\/]incident[\\/]/,
-          reuseExistingChunk: true,
-          name: 'incident',
-        },
-        incidentManagement: {
-          test: /[\\/]signals[\\/]incident-management[\\/]/,
-          reuseExistingChunk: true,
-          name: 'incident-management',
-        },
-        styledComponents: {
-          test: /[\\/]node_modules[\\/](polished|styled-components|stylis|emotion)/,
-          reuseExistingChunk: true,
-          name: 'styled',
-        },
-        polyfill: {
-          test: /([Pp]olyfill|whatwg-fetch|promise|object-assign)/,
-          reuseExistingChunk: true,
-          name: 'polyfills',
-        },
-        react: {
-          test: /[\\/]node_modules[\\/](react)(-dom|-router|-is)?[\\/]/,
-          reuseExistingChunk: true,
-          name: 'react',
-        },
-        redux: {
-          test: /[\\/]node_modules[\\/](connected-)?(redux-immutable|immutable|react|history|redux|reselect)(-router)?(-redux|-saga)?[\\/]/,
-          reuseExistingChunk: true,
-          name: 'redux',
-        },
-        leaflet: {
-          test: /leaflet/,
-          reuseExistingChunk: true,
-          name: 'npm.leaflet',
-          chunks: 'all',
-          enforce: true,
-        },
-        reactiveForm: {
-          test: ({ context }) =>
-            context && context.indexOf('react-reactive-form') >= 0,
-          reuseExistingChunk: true,
-          name: 'npm.react-reactive-form',
-          chunks: 'all',
-          enforce: true,
-        },
-        datePicker: {
-          test: ({ context }) =>
-            context && (context.indexOf('react-datepicker') >= 0 || context.indexOf('popper') >= 0),
-          reuseExistingChunk: true,
-          name: 'npm.react-datepicker',
-          chunks: 'all',
-          enforce: true,
-        },
-        datePickerStyles: {
-          name: 'react-datepicker',
-          test: ({ constructor, context = '' }) =>
-            constructor.name === 'CssModule' &&
-            context &&
-            (context.indexOf('react-datepicker') >= 0 ||
-              context.indexOf('popper') >= 0),
-          chunks: 'all',
-          enforce: true,
         },
       },
     },
@@ -156,23 +79,6 @@ module.exports = require('./webpack.base.babel')({
         minifyURLs: true,
       },
       inject: true,
-    }),
-
-    new WebpackPwaManifest({
-      name: 'Signalen Informatievoorziening Amsterdam',
-      short_name: 'SIA',
-      background_color: '#ffffff',
-      theme_color: '#ec0000',
-      inject: true,
-      ios: true,
-      display: 'fullscreen',
-      orientation: 'portrait',
-      icons: [
-        {
-          src: path.resolve('src/images/logo.png'),
-          sizes: [96, 128, 192, 256, 384, 512],
-        },
-      ],
     }),
 
     new CompressionPlugin({
@@ -215,7 +121,6 @@ module.exports = require('./webpack.base.babel')({
   ],
 
   performance: {
-    assetFilter: assetFilename =>
-      !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
+    assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
   },
 });

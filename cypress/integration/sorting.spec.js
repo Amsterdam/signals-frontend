@@ -9,21 +9,17 @@ describe('Sorting', () => {
     cy.getManageSignalsRoutes();
     cy.route('**/signals/v1/private/signals/?page=1&ordering=stadsdeel,-created_at&page_size=50').as('getSortedASC');
     cy.route('**/signals/v1/private/signals/?page=1&ordering=-stadsdeel,-created_at&page_size=50').as('getSortedDESC');
-    
-    localStorage.setItem('accessToken', 'TEST123');
-
+    localStorage.setItem('accessToken', Cypress.env('token'));
     cy.visitFetch('/manage/incidents/');
-
-    // Wait till page is loaded
-    cy.wait('@getFilters');
-    cy.wait('@getCategories');
-    cy.wait('@getSignals');
-    cy.wait('@getUserInfo');
+    cy.waitForManageSignalsRoutes();
   });
 
   it('Should have no filters', () => {
-  // Click on 4th column stadsdeel to sort ASC
-    cy.get('th').eq(3).should('contain', 'Stadsdeel').click();
+    // Click on 4th column stadsdeel to sort ASC
+    cy.get('th')
+      .eq(3)
+      .should('contain', 'Stadsdeel')
+      .click();
     cy.wait('@getSortedASC');
     cy.get('th.sort.sort-up').should('be.visible');
 
@@ -31,7 +27,10 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('contain', 'Centrum');
 
     // Click on 4th column stadsdeel to sort DESC
-    cy.get('th').eq(3).should('contain', 'Stadsdeel').click();
+    cy.get('th')
+      .eq(3)
+      .should('contain', 'Stadsdeel')
+      .click();
     cy.wait('@getSortedDESC');
     cy.get('th.sort.sort-down').should('be.visible');
 

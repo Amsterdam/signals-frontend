@@ -13,7 +13,6 @@ import LoadingIndicator from 'shared/components/LoadingIndicator';
 import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import {
   requestIncident,
-  patchIncident,
   requestAttachments,
   requestDefaultTexts,
   dismissError,
@@ -129,7 +128,6 @@ export class IncidentDetail extends React.Component {
       match: {
         params: { id },
       },
-      onPatchIncident,
       onDismissError,
     } = this.props;
     const { list } = this.props.historyModel;
@@ -162,7 +160,6 @@ export class IncidentDetail extends React.Component {
                       incidentId={incident.id}
                       status={incident?.status?.state}
                       links={incident?._links}
-                      onPatchIncident={onPatchIncident}
                     />
                   </Column>
                 </Row>
@@ -172,6 +169,7 @@ export class IncidentDetail extends React.Component {
                 <Row>
                   <DetailContainer span={12}>
                     <button
+                      aria-label="Sluiten"
                       className="incident-detail__preview-close incident-detail__button--close"
                       type="button"
                       onClick={this.onCloseAll}
@@ -193,7 +191,6 @@ export class IncidentDetail extends React.Component {
                       <LocationForm
                         incidentId={incident.id}
                         location={incident.location}
-                        onPatchIncident={onPatchIncident}
                         onClose={this.onCloseAll}
                       />
                     )}
@@ -207,7 +204,6 @@ export class IncidentDetail extends React.Component {
                         defaultTextsOptionList={defaultTextsOptionList}
                         statusList={statusList}
                         defaultTexts={defaultTexts}
-                        onPatchIncident={onPatchIncident}
                         onDismissError={onDismissError}
                         onClose={this.onCloseAll}
                       />
@@ -230,7 +226,7 @@ export class IncidentDetail extends React.Component {
                           onShowAttachment={this.onShowAttachment}
                         />
 
-                        <AddNote id={id} onPatchIncident={onPatchIncident} />
+                        <AddNote id={id} />
 
                         <ChildIncidents incident={incident} />
 
@@ -245,7 +241,6 @@ export class IncidentDetail extends React.Component {
                         incident={incident}
                         priorityList={priorityList}
                         typesList={typesList}
-                        onPatchIncident={onPatchIncident}
                         onEditStatus={this.onEditStatus}
                       />
                     )}
@@ -298,7 +293,6 @@ IncidentDetail.propTypes = {
   }),
 
   onRequestIncident: PropTypes.func.isRequired,
-  onPatchIncident: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
   onRequestDefaultTexts: PropTypes.func.isRequired,
@@ -318,7 +312,6 @@ export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       onRequestIncident: requestIncident,
-      onPatchIncident: patchIncident,
       onRequestHistoryList: requestHistoryList,
       onRequestAttachments: requestAttachments,
       onRequestDefaultTexts: requestDefaultTexts,

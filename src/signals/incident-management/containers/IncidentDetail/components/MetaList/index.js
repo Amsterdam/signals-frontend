@@ -1,12 +1,13 @@
 import React, { useLayoutEffect, useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
+import { patchIncident as patchIncidentAction } from 'models/incident/actions';
 
 import { incidentType } from 'shared/types';
 import RadioInput from 'signals/incident-management/components/RadioInput';
@@ -49,7 +50,8 @@ export const getCategoryName = ({ name, departments }) => {
   return `${name}${departmensStringList}`;
 };
 
-const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
+const MetaList = ({ incident, onEditStatus }) => {
+  const dispatch = useDispatch();
   const [valueChanged, setValueChanged] = useState(false);
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
@@ -78,9 +80,10 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
   const patchIncident = useCallback(
     patchedData => {
       setValueChanged(true);
-      onPatchIncident(patchedData);
+
+      dispatch(patchIncidentAction(patchedData));
     },
-    [onPatchIncident]
+    [dispatch]
   );
 
   return (
@@ -168,7 +171,6 @@ const MetaList = ({ incident, onEditStatus, onPatchIncident }) => {
 MetaList.propTypes = {
   incident: incidentType.isRequired,
   onEditStatus: PropTypes.func.isRequired,
-  onPatchIncident: PropTypes.func.isRequired,
 };
 
 export default MetaList;

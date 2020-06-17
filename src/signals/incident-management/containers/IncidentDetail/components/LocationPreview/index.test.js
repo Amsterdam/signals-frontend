@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import LocationPreview from './index';
 
@@ -39,7 +40,8 @@ describe('<LocationPreview />', () => {
   describe('rendering', () => {
     it('should render correctly', () => {
       const { queryByTestId, queryAllByTestId } = render(
-        <LocationPreview {...props} />
+        withAppContext(
+          <LocationPreview {...props} />)
       );
 
       expect(queryByTestId('location-preview-button-edit')).toHaveTextContent(/^Locatie wijzigen$/);
@@ -50,7 +52,9 @@ describe('<LocationPreview />', () => {
   describe('events', () => {
     it('clicking the edit button should trigger edit the location', () => {
       const { queryByTestId } = render(
-        <LocationPreview {...props} />
+        withAppContext(
+          <LocationPreview {...props} />
+        )
       );
       fireEvent.click(queryByTestId('location-preview-button-edit'));
 
