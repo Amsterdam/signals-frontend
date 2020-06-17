@@ -634,7 +634,7 @@ const vakantieverhuur = {
       type: 'caution',
       value: [
         'Bel nu met 14 020',
-        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, meteen langs.',
+        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, binnen 24 uur langs.',
       ],
     },
     render: FormComponents.PlainText,
