@@ -21,6 +21,7 @@ import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
 import CheckboxGroup from './components/CheckboxGroup';
 import RadioGroup from './components/RadioGroup';
+
 import {
   reset,
   setAddress,
@@ -33,6 +34,7 @@ import {
   setNoteKeyword,
   setRefresh,
 } from './actions';
+
 import reducer, { init } from './reducer';
 
 /**

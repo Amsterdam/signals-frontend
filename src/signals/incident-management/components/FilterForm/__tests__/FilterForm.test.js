@@ -208,34 +208,25 @@ describe('signals/incident-management/components/FilterForm', () => {
     const nameField = container.querySelector('input[type="text"][name="name"]');
     const dateField = container.querySelector('input[id="filter_created_before"]');
     const addressField = container.querySelector('input[type="text"][name="address_text"]');
+    const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
     const afvalToggle = container.querySelector('input[type="checkbox"][value="afval"]');
 
-    act(() => {
-      fireEvent.change(nameField, { target: { value: 'My filter' } });
-    });
-    act(() => {
-      fireEvent.change(dateField, { target: { value: '1970-01-01' } });
-    });
-    act(() => {
-      fireEvent.change(addressField, {
-        target: { value: 'Weesperstraat 113' },
-      });
-    });
-    act(() => {
-      fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true }));
-    });
+    act(() => { fireEvent.change(nameField, { target: { value: 'My filter' } }); });
+    act(() => { fireEvent.change(dateField, { target: { value: '1970-01-01' } }); });
+    act(() => { fireEvent.change(addressField, { target: { value: 'Weesperstraat 113' } }); });
+    act(() => { fireEvent.change(noteField, { target: { value: 'test123' } }); });
+    act(() => { fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true })); });
 
     wait(() => {
       expect(nameField.value).toEqual('My filter');
       expect(dateField.value).toEqual('1970-01-01');
       expect(addressField.value).not.toBeFalsy();
+      expect(noteField.value).toEqual('test123');
       expect(afvalToggle.checked).toEqual(true);
       expect(container.querySelectorAll('input[type"checkbox"]:checked').length).toBeGreaterThan(1);
     });
 
-    act(() => {
-      fireEvent.click(container.querySelector('button[type="reset"]'));
-    });
+    act(() => { fireEvent.click(container.querySelector('button[type="reset"]')); });
 
     wait(() => {
       expect(onClearFilter).toHaveBeenCalled();
@@ -243,6 +234,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(nameField.value).toEqual('');
       expect(dateField.value).toEqual('');
       expect(addressField.value).toEqual('');
+      expect(noteField.value).toEqual('');
       expect(afvalToggle.checked).toEqual(false);
       expect(container.querySelectorAll('input[type"checkbox"]:checked').length).toEqual(0);
     });
@@ -305,6 +297,25 @@ describe('signals/incident-management/components/FilterForm', () => {
     await wait();
 
     expect(container.querySelector('input[type="text"][name="address_text"]').value).toEqual('Weesperstraat 113/117');
+  });
+
+  it('should watch for changes in note_keyword field value', async () => {
+    const { container } = render(
+      withAppContext(
+        <FilterForm {...formProps} filter={{ name: 'My saved filter', options: { note_keyword: 'test123' } }} />
+      )
+    );
+
+    const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
+
+    act(() => {
+      fireEvent.change(noteField, { target: { value: 'test123' } });
+      fireEvent.blur(noteField);
+    });
+
+    await wait();
+
+    expect(container.querySelector('input[type="text"][name="note_keyword"]').value).toEqual('test123');
   });
 
   it('should watch for changes in radio button lists', async () => {
