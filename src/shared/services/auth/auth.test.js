@@ -1,4 +1,3 @@
-import { createBrowserHistory } from 'history';
 import {
   initAuth,
   login,
@@ -19,7 +18,6 @@ jest.mock('./services/query-string-parser/query-string-parser');
 jest.mock('./services/random-string-generator/random-string-generator');
 jest.mock('./services/access-token-parser/access-token-parser');
 
-const history = createBrowserHistory();
 /* tokens generated with https://www.jsonwebtoken.io/ */
 // token contains 'exp' prop with a date in the past
 const expiredToken =
@@ -66,6 +64,8 @@ describe('The auth service', () => {
           ...global.location,
           assign: jest.fn(),
           reload: jest.fn(),
+          // search: jest.fn(),
+          // hash: jest.fn(),
         },
       },
     });
@@ -79,6 +79,8 @@ describe('The auth service', () => {
     jest.spyOn(global.history, 'replaceState').mockImplementation(noop);
     jest.spyOn(global.location, 'assign').mockImplementation(noop);
     jest.spyOn(global.location, 'reload').mockImplementation(noop);
+    global.location.search = '';
+    global.location.hash = '';
 
     accessTokenParser.mockImplementation(() => ({}));
     queryStringParser.mockImplementation(() => queryObject);
@@ -95,7 +97,6 @@ describe('The auth service', () => {
     global.history.replaceState.mockRestore();
     global.location.assign.mockRestore();
     global.location.reload.mockRestore();
-    // global.location.search.mockRestore();
 
     global.localStorage.removeItem.mockReset();
     global.localStorage.setItem.mockReset();
@@ -107,9 +108,7 @@ describe('The auth service', () => {
         const queryString =
           '?error=invalid_request&error_description=invalid%20request';
 
-        const url = `https://data.amsterdam.nl/${queryString}`;
-        history.push(url);
-
+        global.location.search = queryString;
         queryObject = {
           error: 'invalid_request',
           error_description: 'invalid request',
@@ -175,7 +174,7 @@ describe('The auth service', () => {
       it('throws an error when the state token received does not match the one saved', () => {
         const queryString =
           '?access_token=123AccessToken&token_type=token&expires_in=36000&state=invalid-state-token';
-        global.location.hash = `${queryString}`;
+        global.location.hash = `#${queryString}`;
         queryObject = {
           access_token: '123AccessToken',
           token_type: 'token',
@@ -199,7 +198,7 @@ describe('The auth service', () => {
 
         const queryString =
           '?access_token=123AccessToken&token_type=token&expires_in=36000&state=state-token';
-        global.location.hash = `${queryString}`;
+        global.location.hash = `#${queryString}`;
         queryObject = {
           access_token: '123AccessToken',
           token_type: 'token',

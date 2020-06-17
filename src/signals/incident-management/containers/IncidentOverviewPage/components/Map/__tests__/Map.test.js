@@ -28,6 +28,8 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
 
     expect(container.querySelectorAll(markerIconSelector)).toHaveLength(0);
 
+    expect(container).toMatchSnapshot();
+
     act(() => {
       fireEvent.click(markers[0]);
     });

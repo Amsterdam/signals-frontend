@@ -3,7 +3,6 @@ import L from 'leaflet';
 import 'core-js/stable';
 import 'regenerator-runtime';
 import 'url-polyfill';
-import 'raf/polyfill';
 import 'jest-localstorage-mock';
 
 import { JSDOM } from 'jsdom';
