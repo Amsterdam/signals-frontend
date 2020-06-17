@@ -4,7 +4,6 @@ import {
   fireEvent,
   waitForElement,
   act,
-  cleanup,
 } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
@@ -32,11 +31,6 @@ jest.mock('react-router-dom', () => ({
 const push = jest.fn();
 jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
   push,
-}));
-
-jest.mock('models/departments/selectors', () => ({
-  __esModule: true,
-  ...jest.requireActual(''),
 }));
 
 jest.mock('models/departments/selectors', () => ({
@@ -90,17 +84,17 @@ describe('signals/settings/departments/Overview', () => {
   });
 
   it('should render a list', () => {
-    const { container, rerender } = render(
+    const { container, rerender, unmount } = render(
       withAppContext(<DepartmentOverview />)
     );
 
     expect(container.querySelector('table')).toBeInTheDocument();
 
-    cleanup();
-
     jest
       .spyOn(modelSelectors, 'makeSelectDepartments')
       .mockImplementation(() => ({ list: [], loading: true }));
+
+    unmount();
 
     rerender(withAppContext(<DepartmentOverview />));
 

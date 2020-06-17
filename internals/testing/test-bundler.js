@@ -63,30 +63,3 @@ global.URL.createObjectURL = jest.fn(() => 'https://url-from-data/image.jpg');
 
 //   return el;
 // };
-
-// Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
-//   value: () => ({
-//     fillRect: () => {},
-//     clearRect: () => {},
-//     putImageData: () => {},
-//     createImageData: () => [],
-//     setTransform: () => {},
-//     // drawImage: () => {},
-//     save: () => {},
-//     fillText: () => {},
-//     restore: () => {},
-//     beginPath: () => {},
-//     moveTo: () => {},
-//     lineTo: () => {},
-//     closePath: () => {},
-//     stroke: () => {},
-//     translate: () => {},
-//     scale: () => {},
-//     rotate: () => {},
-//     arc: () => {},
-//     fill: () => {},
-//     transform: () => {},
-//     rect: () => {},
-//     clip: () => {},
-//   }),
-// });

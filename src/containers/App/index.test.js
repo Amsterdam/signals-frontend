@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, act } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { withAppContext, history } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
 import App, { AppContainer } from './index';
@@ -59,13 +59,15 @@ describe('<App />', () => {
 
     const resetIncidentAction = jest.fn();
 
-    const { rerender } = render(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
+    const { rerender, unmount } = render(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
 
     expect(resetIncidentAction).not.toHaveBeenCalled();
 
     act(() => {
       history.push('/incident/bedankt');
     });
+
+    unmount();
 
     rerender(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
 
@@ -75,6 +77,8 @@ describe('<App />', () => {
       history.push('/');
     });
 
+    unmount();
+
     rerender(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
 
     expect(resetIncidentAction).toHaveBeenCalled();
@@ -83,7 +87,7 @@ describe('<App />', () => {
   it('should render correctly', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
 
-    const { getByTestId, queryByTestId, rerender } = render(
+    const { getByTestId, queryByTestId, rerender, unmount } = render(
       withAppContext(<App />),
     );
 
@@ -92,33 +96,13 @@ describe('<App />', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
 
-    cleanup();
+    unmount();
 
     rerender(
       withAppContext(<App />),
     );
 
     expect(queryByTestId('siteFooter')).not.toBeInTheDocument();
-  });
-
-  it('should render the correct theme', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
-
-    const { queryByTestId, rerender } = render(
-      withAppContext(<App />),
-    );
-
-    expect(queryByTestId('signalsThemeProvider')).not.toBeNull();
-
-    cleanup();
-
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
-
-    rerender(
-      withAppContext(<App />),
-    );
-
-    expect(queryByTestId('signalsThemeProvider')).toBeNull();
   });
 
   describe('routing', () => {
@@ -137,7 +121,7 @@ describe('<App />', () => {
     it('should redirect from "/login" to "/manage/incidents"', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-      render(
+      const { rerender, unmount } = render(
         withAppContext(<App />),
       );
 
@@ -147,11 +131,11 @@ describe('<App />', () => {
 
       expect(history.location.pathname).toEqual('/manage/incidents');
 
-      cleanup();
+      unmount();
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-      render(
+      rerender(
         withAppContext(<App />),
       );
 
@@ -165,7 +149,7 @@ describe('<App />', () => {
     it('should redirect from "/manage" to "/manage/incidents"', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-      render(
+      const { rerender, unmount } = render(
         withAppContext(<App />),
       );
 
@@ -175,11 +159,11 @@ describe('<App />', () => {
 
       expect(history.location.pathname).toEqual('/manage/incidents');
 
-      cleanup();
+      unmount();
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-      render(
+      rerender(
         withAppContext(<App />),
       );
 

@@ -28,6 +28,8 @@ const StyledH2 = styled(Heading)`
 const IncidentPart = ({ index, attachments, splitForm }) => {
   const subcategories = useSelector(makeSelectSubCategories);
 
+  if (!subcategories) return null;
+
   return (
     <StyledWrapper>
       <StyledH2 forwardedAs="h2" data-testid="incidentPartTitle">
@@ -42,7 +44,7 @@ const IncidentPart = ({ index, attachments, splitForm }) => {
             name={`part${index}.subcategory`}
             display="Subcategorie"
             control={splitForm.get(`part${index}.subcategory`)}
-            values={subcategories || []}
+            values={subcategories}
             sort
           />
 

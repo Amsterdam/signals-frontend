@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import CategoryForm from '..';
@@ -70,7 +70,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
       },
     };
 
-    const { container, rerender } = render(withAppContext(<CategoryForm data={data} />));
+    const { container, rerender, unmount } = render(withAppContext(<CategoryForm data={data} />));
 
     expect(container.querySelector('[name="name"]').value).toBe(data.name);
     expect(container.querySelector('[name="description"]').value).toBe(data.description);
@@ -80,7 +80,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     expect(container.querySelector('[name="is_active"][value="true"]').checked).toBe(true);
     expect(container.querySelector('[name="is_active"][value="false"]').checked).toBe(false);
 
-    cleanup();
+    unmount();
 
     rerender(withAppContext(<CategoryForm data={{ ...data, sla: { n_days: 10, use_calendar_days: true } }} />));
 
@@ -94,7 +94,9 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
 
     expect(onCancel).not.toHaveBeenCalled();
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    act(() => {
+      fireEvent.click(getByTestId('cancelBtn'));
+    });
 
     expect(onCancel).toHaveBeenCalled();
   });
