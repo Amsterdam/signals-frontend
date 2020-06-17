@@ -244,7 +244,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     wait(() => {
       expect(onClearFilter).toHaveBeenCalled();
 
-      // expect(nameField.value).toEqual('');
+      expect(nameField.value).toEqual('');
       expect(dateField.value).toEqual('');
       expect(addressField.value).toEqual('');
       expect(afvalToggle.checked).toEqual(false);
