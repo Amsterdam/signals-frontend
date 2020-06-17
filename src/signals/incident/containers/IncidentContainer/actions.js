@@ -7,6 +7,9 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  GET_QUESTIONS,
+  GET_QUESTIONS_SUCCESS,
+  GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
 } from './constants';
 
@@ -45,6 +48,21 @@ export const getClassificationSuccess = payload => ({
 
 export const getClassificationError = payload => ({
   type: GET_CLASSIFICATION_ERROR,
+  payload,
+});
+
+export const getQuestions = payload => ({
+  type: GET_QUESTIONS,
+  payload,
+});
+
+export const getQuestionsSuccess = payload => ({
+  type: GET_QUESTIONS_SUCCESS,
+  payload,
+});
+
+export const getQuestionsError = payload => ({
+  type: GET_QUESTIONS_ERROR,
   payload,
 });
 

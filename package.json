@@ -36,10 +36,10 @@
     "start:tunnel": "cross-env BABEL_ENV=production NODE_ENV=production ENABLE_TUNNEL=true node server",
     "start": "cross-env NODE_ENV=development BABEL_ENV=development node server -- --port=3001",
     "test:clean": "rimraf ./coverage",
-    "test:no-coverage": "cross-env jest ",
-    "test:only": "cross-env jest --watch --onlyChanged --coverage --verbose false",
-    "test:update": "cross-env jest --updateSnapshot --coverage --verbose false",
-    "test:watch": "cross-env jest --watchAll --coverage --verbose false",
+    "test:no-coverage": "cross-env NODE_ENV=test jest ",
+    "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage --verbose false",
+    "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage --verbose false",
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage --verbose false",
     "test": "cross-env NODE_ENV=test jest --coverage"
   },
   "lint-staged": {
