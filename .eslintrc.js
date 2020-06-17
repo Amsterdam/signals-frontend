@@ -6,8 +6,14 @@ const prettierOptions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.pre
 
 module.exports = {
   parser: 'babel-eslint',
-  extends: ['airbnb', 'plugin:cypress/recommended', 'prettier', 'prettier/react'],
-  plugins: ['cypress', 'prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y'],
+  extends: [
+    'airbnb',
+    'plugin:cypress/recommended',
+    'prettier',
+    'prettier/react',
+    'plugin:testing-library/react'
+  ],
+  plugins: ['cypress', 'prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y', 'testing-library'],
   env: {
     browser: true,
     'cypress/globals': true,
@@ -98,6 +104,7 @@ module.exports = {
     'react/jsx-fragments': [1, 'element'],
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-indent': [2, 2, { checkAttributes: true }],
+    'testing-library/prefer-wait-for': 2,
     semi: 2,
   },
   settings: {
