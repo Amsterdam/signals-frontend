@@ -223,7 +223,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(addressField.value).not.toBeFalsy();
       expect(noteField.value).toEqual('test123');
       expect(afvalToggle.checked).toEqual(true);
-      expect(container.querySelectorAll('input[type"checkbox"]:checked').length).toBeGreaterThan(1);
+      expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBeGreaterThan(1);
     });
 
     act(() => { fireEvent.click(container.querySelector('button[type="reset"]')); });
