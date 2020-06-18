@@ -255,8 +255,11 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
 
         <Fieldset>
           <FilterGroup>
-            <Label htmlFor="filter_notes" isGroupHeader>Zoek in notitie</Label>
+            <Label htmlFor="filter_notes" isGroupHeader>
+              Zoek in notitie
+            </Label>
             <Input
+              data-testid="filterNotes"
               name="note_keyword"
               id="filter_notes"
               onBlur={onNotesChange}
