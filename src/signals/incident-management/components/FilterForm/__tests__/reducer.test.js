@@ -10,6 +10,7 @@ import {
   SET_GROUP_OPTIONS,
   SET_MAIN_CATEGORY,
   SET_NAME,
+  SET_NOTE_KEYWORD,
   SET_REFRESH,
   SET_SAVE_BUTTON_LABEL,
 } from '../constants';
@@ -41,6 +42,21 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
     expect(
       reducer(state, { type: SET_ADDRESS, payload: address_text })
     ).toEqual(stateWithAddress);
+  });
+
+  it('should handle SET_NOTE_KEYWORD', () => {
+    const note_keyword = 'testnote';
+    const stateWithNoteKeyword = {
+      ...state,
+      options: {
+        ...state.options,
+        note_keyword,
+      },
+    };
+
+    expect(
+      reducer(state, { type: SET_NOTE_KEYWORD, payload: note_keyword })
+    ).toEqual(stateWithNoteKeyword);
   });
 
   it('should handle SET_NAME', () => {

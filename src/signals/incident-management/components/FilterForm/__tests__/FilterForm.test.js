@@ -208,34 +208,25 @@ describe('signals/incident-management/components/FilterForm', () => {
     const nameField = container.querySelector('input[type="text"][name="name"]');
     const dateField = container.querySelector('input[id="filter_created_before"]');
     const addressField = container.querySelector('input[type="text"][name="address_text"]');
+    const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
     const afvalToggle = container.querySelector('input[type="checkbox"][value="afval"]');
 
-    act(() => {
-      fireEvent.change(nameField, { target: { value: 'My filter' } });
-    });
-    act(() => {
-      fireEvent.change(dateField, { target: { value: '1970-01-01' } });
-    });
-    act(() => {
-      fireEvent.change(addressField, {
-        target: { value: 'Weesperstraat 113' },
-      });
-    });
-    act(() => {
-      fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true }));
-    });
+    act(() => { fireEvent.change(nameField, { target: { value: 'My filter' } }); });
+    act(() => { fireEvent.change(dateField, { target: { value: '1970-01-01' } }); });
+    act(() => { fireEvent.change(addressField, { target: { value: 'Weesperstraat 113' } }); });
+    act(() => { fireEvent.change(noteField, { target: { value: 'test123' } }); });
+    act(() => { fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true })); });
 
     wait(() => {
       expect(nameField.value).toEqual('My filter');
       expect(dateField.value).toEqual('1970-01-01');
       expect(addressField.value).not.toBeFalsy();
+      expect(noteField.value).toEqual('test123');
       expect(afvalToggle.checked).toEqual(true);
-      expect(container.querySelectorAll('input[type"checkbox"]:checked').length).toBeGreaterThan(1);
+      expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBeGreaterThan(1);
     });
 
-    act(() => {
-      fireEvent.click(container.querySelector('button[type="reset"]'));
-    });
+    act(() => { fireEvent.click(container.querySelector('button[type="reset"]')); });
 
     wait(() => {
       expect(onClearFilter).toHaveBeenCalled();
@@ -243,8 +234,9 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(nameField.value).toEqual('');
       expect(dateField.value).toEqual('');
       expect(addressField.value).toEqual('');
+      expect(noteField.value).toEqual('');
       expect(afvalToggle.checked).toEqual(false);
-      expect(container.querySelectorAll('input[type"checkbox"]:checked').length).toEqual(0);
+      expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toEqual(0);
     });
   });
 
@@ -280,7 +272,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL);
   });
 
-  it('should watch for changes in address_text field value', async () => {
+  it('should watch for changes in address_text field value', () => {
     const { container } = render(
       withAppContext(
         <FilterForm
@@ -302,12 +294,27 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.blur(addressField);
     });
 
-    await wait();
-
     expect(container.querySelector('input[type="text"][name="address_text"]').value).toEqual('Weesperstraat 113/117');
   });
 
-  it('should watch for changes in radio button lists', async () => {
+  it('should watch for changes in note_keyword field value', () => {
+    const { container } = render(
+      withAppContext(
+        <FilterForm {...formProps} filter={{ name: 'My saved filter', options: { note_keyword: 'test123' } }} />
+      )
+    );
+
+    const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
+
+    act(() => {
+      fireEvent.change(noteField, { target: { value: 'test123' } });
+      fireEvent.blur(noteField);
+    });
+
+    expect(container.querySelector('input[type="text"][name="note_keyword"]').value).toEqual('test123');
+  });
+
+  it('should watch for changes in radio button lists', () => {
     const { container } = render(withAppContext(<FilterForm {...formProps} />));
 
     const priorityRadioButtons = container.querySelectorAll('input[type="radio"][name="feedback"]');
@@ -317,12 +324,10 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.click(buttonInList);
     });
 
-    await wait();
-
     expect(buttonInList.checked).toEqual(true);
   });
 
-  it('should watch for changes in checkbox lists', async () => {
+  it('should watch for changes in checkbox lists', () => {
     const { container } = render(withAppContext(<FilterForm {...formProps} />));
 
     const sourceCheckboxes = container.querySelectorAll('input[type="checkbox"][name="source"]');
@@ -332,17 +337,13 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.click(boxInList);
     });
 
-    await wait();
-
     expect(boxInList.checked).toEqual(true);
   });
 
-  it('should watch for changes on checkbox list toggle', async () => {
+  it('should watch for changes on checkbox list toggle', () => {
     const { container, getByTestId } = render(withAppContext(<FilterForm {...formProps} />));
 
     const toggle = getByTestId('sourceCheckboxGroup').querySelector('label').firstChild;
-
-    await wait();
 
     container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
       expect(element.checked).toEqual(false);
@@ -351,8 +352,6 @@ describe('signals/incident-management/components/FilterForm', () => {
     act(() => {
       fireEvent.click(toggle);
     });
-
-    await wait();
 
     container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
       expect(element.checked).toEqual(true);
@@ -362,14 +361,12 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.click(toggle);
     });
 
-    await wait();
-
     container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
       expect(element.checked).toEqual(false);
     });
   });
 
-  it('should watch for changes in category checkbox lists', async () => {
+  it('should watch for changes in category checkbox lists', () => {
     const { container } = render(withAppContext(<FilterForm {...formProps} />));
 
     const mainCategorySlug = 'afval';
@@ -380,8 +377,6 @@ describe('signals/incident-management/components/FilterForm', () => {
     act(() => {
       fireEvent.click(checkboxes[3]);
     });
-
-    await wait();
 
     expect(Array.from(checkboxes).every(element => !element.checked)).toEqual(false);
     expect(checkboxes[3].checked).toEqual(true);
