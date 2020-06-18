@@ -82,7 +82,6 @@
     "lodash.set": "^4.3.2",
     "lodash.some": "^4.6.0",
     "lodash.sortby": "^4.7.0",
-    "moment": "^2.26.0",
     "proj4": "^2.6.2",
     "react": "^16.13.1",
     "react-albus": "^2.0.0",
