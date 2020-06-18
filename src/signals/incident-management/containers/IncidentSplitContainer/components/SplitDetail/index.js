@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { incidentType } from 'shared/types';
 import { stadsdeelList } from 'signals/incident-management/definitions';

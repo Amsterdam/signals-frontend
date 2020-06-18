@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, cleanup, act } from '@testing-library/react';
 import * as reactRedux from 'react-redux';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { store, withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';

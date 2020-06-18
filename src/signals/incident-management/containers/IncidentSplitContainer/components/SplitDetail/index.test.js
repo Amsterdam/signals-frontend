@@ -3,7 +3,7 @@ import {
   render,
 } from '@testing-library/react';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import incident from 'utils/__tests__/fixtures/incident.json';

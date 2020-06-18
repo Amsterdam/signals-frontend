@@ -1,24 +1,26 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import { dateToString } from 'shared/services/date-formatter';
+import nl from 'date-fns/locale/nl';
 import CustomInput from './CustomInput';
+registerLocale('nl', nl);
 
 const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => (
   <Fragment>
     <DatePicker
       autoComplete="off"
       customInput={<CustomInput label={label} id={id} />}
-      dateFormat="DD-MM-YYYY"
+      dateFormat="dd-MM-yyyy"
       id={id}
       locale="nl"
-      onSelect={onSelect}
+      onChange={onSelect}
       selected={selectedDate}
     />
 
     {selectedDate && (
       <input
-        value={selectedDate.format('YYYY-MM-DD')}
+        value={dateToString(selectedDate)}
         name={name}
         readOnly
         type="hidden"
@@ -45,7 +47,7 @@ CalendarInput.propTypes = {
    */
   onSelect: PropTypes.func.isRequired,
   /** Date value */
-  selectedDate: PropTypes.instanceOf(moment),
+  selectedDate: PropTypes.instanceOf(Date),
 };
 
 export default CalendarInput;

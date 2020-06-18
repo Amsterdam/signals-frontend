@@ -1,7 +1,6 @@
 import React, { Fragment, useLayoutEffect, useMemo, useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
-import moment from 'moment';
 import cloneDeep from 'lodash.clonedeep';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
@@ -14,6 +13,7 @@ import * as types from 'shared/types';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
+import { dateToISOString } from 'shared/services/date-formatter';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
@@ -82,8 +82,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     state.options.maincategory_slug,
   ]);
 
-  const dateFrom = state.options.created_after && moment(state.options.created_after);
-  const dateBefore = state.options.created_before && moment(state.options.created_before);
+  const dateFrom = state.options.created_after && new Date(state.options.created_after);
+  const dateBefore = state.options.created_before && new Date(state.options.created_before);
 
   const onSubmitForm = useCallback(
     event => {
@@ -337,7 +337,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               <CalendarInput
                 id="filter_created_after"
                 onSelect={dateValue => {
-                  updateFilterDate('created_after', dateValue && moment(dateValue).format('YYYY-MM-DD'));
+                  updateFilterDate('created_after', dateValue && dateToISOString(dateValue));
                 }}
                 selectedDate={dateFrom}
                 label="Vanaf"
@@ -347,7 +347,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               <CalendarInput
                 id="filter_created_before"
                 onSelect={dateValue => {
-                  updateFilterDate('created_before', dateValue && dateValue.format('YYYY-MM-DD'));
+                  updateFilterDate('created_before', dateValue && dateToISOString(dateValue));
                 }}
                 selectedDate={dateBefore}
                 label="Tot en met"

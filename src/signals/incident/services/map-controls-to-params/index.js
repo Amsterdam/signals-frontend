@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { dateToISOString } from 'shared/services/date-formatter';
 
 import mapValues from '../map-values';
 import mapPaths from '../map-paths';
@@ -11,11 +12,11 @@ export default (incident, wizard) => {
   let datetime;
 
   if (incident.datetime && incident.datetime.id === 'Nu') {
-    datetime = moment();
+    datetime = Date.now;
   } else if (incident.incident_date) {
     const date =
       incident.incident_date && incident.incident_date === 'Vandaag'
-        ? moment().format('YYYY-MM-DD')
+        ? dateToISOString(Date.now)
         : incident.incident_date;
 
     const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;

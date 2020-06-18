@@ -1,4 +1,4 @@
-import { string2date, string2time } from './string-parser';
+import { string2date, string2time } from '.';
 
 describe('The string parser service', () => {
   it('should return the correct date value', () => {
