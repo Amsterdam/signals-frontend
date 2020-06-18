@@ -32,8 +32,10 @@ describe('Create signal Verkeerslicht and check signal details', () => {
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
-
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Is de situatie gevaarlijk?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
 
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
       const messageCallDirectly = 'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.';
@@ -42,8 +44,6 @@ describe('Create signal Verkeerslicht and check signal details', () => {
         .check()
         .should('be.checked');
       cy.contains(messageCallDirectly);
-      // Commented step, because there is a bug. If the error message is solved, it moves to the next question
-      // cy.get(CREATE_SIGNAL.errorList).should('not.contain','Dit is een verplicht veld');
       cy.get(VERKEERSLICHT.radioButtonOpGrond)
         .check()
         .should('be.checked');
@@ -63,7 +63,10 @@ describe('Create signal Verkeerslicht and check signal details', () => {
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Welk verkeerslicht werkt niet juist?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
 
       // Check all options for voetganger
       cy.get(VERKEERSLICHT.radioButtonTypeVoetganger)

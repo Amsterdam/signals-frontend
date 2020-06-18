@@ -29,44 +29,48 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       cy.route('/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as(
         'getOpenbareVerlichting'
       );
+      const questionDangerous = 'Is de situatie gevaarlijk?';
 
       createSignal.checkSpecificInformationPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Wat is het probleem?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
 
       cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet)
         .check()
         .should('be.checked')
         .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
+      cy.contains(questionDangerous).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag)
         .check()
         .should('be.checked')
         .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
+      cy.contains(questionDangerous).should('not.be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder)
         .check()
         .should('be.checked')
         .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
+      cy.contains(questionDangerous).should('not.be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemVies)
         .check()
         .should('be.checked')
         .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
+      cy.contains(questionDangerous).should('not.be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd)
         .check()
         .should('be.checked')
         .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
+      cy.contains(questionDangerous).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemOverig)
         .check()
         .should('be.checked')
         .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
+      cy.contains(questionDangerous).should('be.visible');
       cy.wait('@getOpenbareVerlichting');
 
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
