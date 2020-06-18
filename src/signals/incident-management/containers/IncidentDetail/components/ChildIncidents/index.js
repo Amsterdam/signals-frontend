@@ -12,10 +12,9 @@ const Title = styled(Heading)`
 `;
 
 const ChildIncidents = ({ incident }) => {
-  const incidentLinks = incident?._links;
   const children = useMemo(
     () =>
-      incidentLinks?.['sia:children']?.map(({ href }) => {
+      incident?._links?.['sia:children']?.map(({ href }) => {
         const id = href.substring(href.lastIndexOf('/') + 1, href.length);
 
         return {
@@ -25,7 +24,9 @@ const ChildIncidents = ({ incident }) => {
           },
         };
       }),
-    [incidentLinks]
+    // disabling linter; we want to allow possible null incident
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [incident]
   );
 
   if (!children?.length) {
