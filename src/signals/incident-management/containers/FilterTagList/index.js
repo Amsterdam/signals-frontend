@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Tag } from '@datapunt/asc-ui';
-import moment from 'moment';
+import parseISO from 'date-fns/parseISO';
+import format from 'date-fns/format';
 
 import {
   makeSelectMainCategories,
@@ -102,10 +103,10 @@ export const FilterTagListComponent = props => {
 
     return [
       'Datum:',
-      tagsList.created_after && moment(tagsList.created_after).format('DD-MM-YYYY'),
+      tagsList.created_after && format(parseISO(tagsList.created_after),'DD-MM-YYYY'),
       't/m',
       (tagsList.created_before &&
-        moment(tagsList.created_before).format('DD-MM-YYYY')) ||
+        format(parseISO(tagsList.created_before),'DD-MM-YYYY')) ||
       'nu',
     ]
       .filter(Boolean)

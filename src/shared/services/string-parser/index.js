@@ -1,4 +1,4 @@
-import { dateToString, dateToTime } from 'shared/services/date-formatter';
+import { dateToString, dateToTime } from 'shared/services/date-utils';
 
 export const string2date = value => {
   if (!value) return '';

@@ -1,5 +1,5 @@
-import moment from 'moment';
-import { dateToISOString } from 'shared/services/date-formatter';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
 
 import mapValues from '../map-values';
 import mapPaths from '../map-paths';
@@ -12,16 +12,16 @@ export default (incident, wizard) => {
   let datetime;
 
   if (incident.datetime && incident.datetime.id === 'Nu') {
-    datetime = Date.now;
+    datetime = new Date();
   } else if (incident.incident_date) {
     const date =
       incident.incident_date && incident.incident_date === 'Vandaag'
-        ? dateToISOString(Date.now)
+        ? format(new Date(), 'YYYY-MM-DD')
         : incident.incident_date;
 
     const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
 
-    datetime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
+    datetime = parse(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
   }
 
   let params = defaultParams;

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import { dateToString } from 'shared/services/date-formatter';
+import { dateToString } from 'shared/services/date-utils';
 import nl from 'date-fns/locale/nl';
 import CustomInput from './CustomInput';
 registerLocale('nl', nl);

@@ -13,7 +13,7 @@ import * as types from 'shared/types';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
-import { dateToISOString } from 'shared/services/date-formatter';
+import { dateToISOString } from 'shared/services/date-utils';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';

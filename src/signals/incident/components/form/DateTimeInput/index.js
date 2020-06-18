@@ -1,6 +1,7 @@
 import React from 'react';
+import format from 'date-fns/format';
+import subDays from 'date-fns/subDays';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import Select from 'components/SelectInput';
 import Header from '../Header';
@@ -9,13 +10,11 @@ import './style.scss';
 
 const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   function formatDate(offset, type = 'value') {
-    const format = type === 'label' ? 'dddd D MMMM' : 'YYYY-MM-DD';
+    const dateFormat = type === 'label' ? 'dddd D MMMM' : 'YYYY-MM-DD';
     if (offset === 0) {
       return 'Vandaag';
     }
-    return moment()
-      .subtract(offset, 'days')
-      .format(format);
+    return format(subDays(new Date(), offset), dateFormat);
   }
 
   if (!meta?.isVisible) return null;
@@ -56,7 +55,11 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
               data-testid="selectMinutes"
               value={`${parent.value.incident_time_minutes}`}
               onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
-              options={[...Array(12).keys()].map(minute => ({ value: minute * 5, name: minute * 5, key: minute * 5 }))}
+              options={[...Array(12).keys()].map(minute => ({
+                value: minute * 5,
+                name: minute * 5,
+                key: minute * 5,
+              }))}
             />
           </div>
           <span className="datetime-input__earlier-time-label">min</span>

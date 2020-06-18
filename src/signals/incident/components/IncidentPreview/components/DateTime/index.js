@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import parse from 'date-fns/parse';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 
 const getValue = (value, incident) => {
   if (value && value.id === 'Nu') {
@@ -9,12 +11,12 @@ const getValue = (value, incident) => {
     return '';
   }
 
-  const time = moment(`${incident.incident_time_hours}:${incident.incident_time_minutes}`, 'H:m').format('H:mm');
+  const time = format(parse(`${incident.incident_time_hours}:${incident.incident_time_minutes}`, 'H:m'),('H:mm'));
   if (incident.incident_date === 'Vandaag') {
     return `Vandaag, ${time}`;
   }
 
-  return `${moment(incident.incident_date).format('dddd D MMMM')}, ${time}`;
+  return `${format(parseISO(incident.incident_date),'dddd D MMMM')}, ${time}`;
 };
 
 const DateTime = ({ value, incident }) => getValue(value, incident);
