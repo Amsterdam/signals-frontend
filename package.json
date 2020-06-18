@@ -2,6 +2,7 @@
   "name": "sia",
   "version": "1.16.0",
   "description": "Signalen Informatievoorziening Amsterdam based on react-boilerplate ",
+  "//": "This is a comment",
   "repository": {
     "type": "git",
     "url": "https://github.com/Amsterdam/signals-frontend.git"
@@ -36,10 +37,10 @@
     "start:tunnel": "cross-env BABEL_ENV=production NODE_ENV=production ENABLE_TUNNEL=true node server",
     "start": "cross-env NODE_ENV=development BABEL_ENV=development node server -- --port=3001",
     "test:clean": "rimraf ./coverage",
-    "test:no-coverage": "cross-env jest ",
-    "test:only": "cross-env jest --watch --onlyChanged --coverage --verbose false",
-    "test:update": "cross-env jest --updateSnapshot --coverage --verbose false",
-    "test:watch": "cross-env jest --watchAll --coverage --verbose false",
+    "test:no-coverage": "cross-env NODE_ENV=test jest ",
+    "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage --verbose false",
+    "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage --verbose false",
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage --verbose false",
     "test": "cross-env NODE_ENV=test jest --coverage"
   },
   "lint-staged": {
@@ -195,8 +196,7 @@
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.7.2",
-    "webpack-hot-middleware": "^2.25.0",
-    "webpack-pwa-manifest": "^4.2.0"
+    "webpack-hot-middleware": "^2.25.0"
   },
   "private": true
 }

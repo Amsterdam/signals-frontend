@@ -5,7 +5,7 @@ const applicationConfig = {
 const configProxy = new Proxy(applicationConfig, {
   get(target, name, receiver) {
     if (!Reflect.has(target, name)) {
-      throw new Error(`Setting ${name} not available in configuration`);
+      return undefined;
     }
 
     return Reflect.get(target, name, receiver);
