@@ -42,7 +42,7 @@ CalendarInput.propTypes = {
   name: PropTypes.string.isRequired,
   /**
    * Date selection callback function
-   * @param {String} dateValue - Date value formatted by Moment
+   * @param {String} dateValue - Date value
    * @param {Event} event - Object from the event that triggered the callback
    */
   onSelect: PropTypes.func.isRequired,
