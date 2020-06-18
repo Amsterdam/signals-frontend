@@ -30,7 +30,10 @@ describe('Create signal wonen woningkwaliteit and check signal details', () => {
 
       // Check if field is mandatory
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Denkt u dat er direct gevaar is?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
 
       // Input specific information
       cy.contains('Denkt u dat er direct gevaar is?').should('be.visible');

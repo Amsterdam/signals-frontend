@@ -80,3 +80,15 @@ Cypress.Commands.add('waitForSignalDetailsRoutes', () => {
   cy.wait('@getMap');
   cy.wait('@getTerms');
 });
+
+Cypress.Commands.add('postNoteRoutes', () => {
+  cy.route('PATCH', '/signals/v1/private/signals/*').as('patchNote');
+  cy.route('/signals/v1/private/signals/?page=*').as('getSignal');
+  cy.route('**/history').as('getHistory');
+});
+
+Cypress.Commands.add('waitForPostNoteRoutes', () => {
+  cy.wait('@patchNote');
+  cy.wait('@getSignal');
+  cy.wait('@getHistory');
+});

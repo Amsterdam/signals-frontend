@@ -279,7 +279,7 @@ describe('Change signal after submit', () => {
 
       // Check history
       cy.get(SIGNAL_DETAILS.historyAction)
-        .contains('Prioriteit update naar: Hoog')
+        .contains('Urgentie update naar: Hoog')
         .should('be.visible');
     });
 

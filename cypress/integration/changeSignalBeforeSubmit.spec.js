@@ -95,9 +95,8 @@ describe('Change a signal before submit and check signal details', () => {
       );
       createSignal.setDateTime('Eerder');
 
-      // Upload a file (uses cypress-file-upload plugin)
-      const fileName = 'logo.png';
-      cy.get(CREATE_SIGNAL.buttonUploadFile).attachFile(fileName);
+      createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
+
       cy.contains('Volgende').click();
 
       // Change phonenumber
