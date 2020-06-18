@@ -106,8 +106,8 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const { ...params } = filterParams;
 
   // fixed query period (24 hours)
-  params.created_after = useMemo(() => format(subDays(new Date(), -1), 'YYYY-MM-DDTHH:mm:ss'), []);
-  params.created_before = useMemo(() => format(new Date(), 'YYYY-MM-DDTHH:mm:ss'), []);
+  params.created_after = useMemo(() => format(subDays(new Date(), -1), 'yyyy-MM-ddTHH:mm:ss'), []);
+  params.created_before = useMemo(() => format(new Date(), 'yyyy-MM-ddTHH:mm:ss'), []);
 
   // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
   params.page_size = 4000;

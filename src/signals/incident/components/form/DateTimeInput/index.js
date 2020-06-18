@@ -2,19 +2,22 @@ import React from 'react';
 import format from 'date-fns/format';
 import subDays from 'date-fns/subDays';
 import PropTypes from 'prop-types';
-
+import { nl } from 'date-fns/locale';
 import Select from 'components/SelectInput';
+import { capitalizeFirstLetter } from 'shared/services/date-utils';
 import Header from '../Header';
 
 import './style.scss';
 
+
 const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   function formatDate(offset, type = 'value') {
-    const dateFormat = type === 'label' ? 'dddd D MMMM' : 'YYYY-MM-DD';
+    const dateFormat = type === 'label' ? 'EEEE d MMMM' : 'yyyy-MM-dd';
     if (offset === 0) {
       return 'Vandaag';
     }
-    return format(subDays(new Date(), offset), dateFormat);
+
+    return capitalizeFirstLetter(format(subDays(new Date(), offset), dateFormat, { locale: nl }));
   }
 
   if (!meta?.isVisible) return null;

@@ -45,14 +45,14 @@ export const parseOutputFormData = options =>
         break;
 
       case 'created_after':
-        if (isValid(parse(options.created_after, 'YYYY-MM-DD'))) {
-          entryValue = format(parse(options.created_after, 'YYYY-MM-DD'), 'YYYY-MM-DDT00:00:00');
+        if (isValid(parse(options.created_after, 'yyyy-MM-dd'))) {
+          entryValue = format(parse(options.created_after, 'yyyy-MM-dd'), 'yyyy-MM-ddT00:00:00');
         }
         break;
 
       case 'created_before':
-        if (isValid(parse(options.created_before, 'YYYY-MM-DD'))) {
-          entryValue = format(parse(options.created_before, 'YYYY-MM-DD'), 'YYYY-MM-DDT23:59:59');
+        if (isValid(parse(options.created_before, 'yyyy-MM-dd'))) {
+          entryValue = format(parse(options.created_before, 'yyyy-MM-dd'), 'yyyy-MM-ddT23:59:59');
         }
         break;
 

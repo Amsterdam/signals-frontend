@@ -16,12 +16,12 @@ export default (incident, wizard) => {
   } else if (incident.incident_date) {
     const date =
       incident.incident_date && incident.incident_date === 'Vandaag'
-        ? format(new Date(), 'YYYY-MM-DD')
+        ? format(new Date(), 'yyyy-MM-dd')
         : incident.incident_date;
 
     const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
 
-    datetime = parse(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
+    datetime = parse(`${date} ${time}`, 'yyyy-MM-dd HH:mm');
   }
 
   let params = defaultParams;

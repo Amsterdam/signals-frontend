@@ -21,3 +21,5 @@ export const dateToTime = date => (
     `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 );
 
+
+export const capitalizeFirstLetter = value => value && (value[0].toUpperCase() + value.substring(1));

@@ -20,7 +20,7 @@ class List extends React.Component {
     const statusesWithoutDaysOpen = ['o', 'a', 's', 'reopen requested'];
     if (incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)) {
       const start = parseISO(incident.created_at);
-      return differenceInCalendarDays(start, new Date());
+      return -differenceInCalendarDays(start, new Date());
     }
 
     return '-';
