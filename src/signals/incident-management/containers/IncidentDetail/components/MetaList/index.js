@@ -60,6 +60,8 @@ const MetaList = ({ incident, onEditStatus }) => {
         ...category,
         value: getCategoryName(category),
       })),
+    // disabling linter; we want to allow possible null subcategories
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [subcategories]
   );
 
