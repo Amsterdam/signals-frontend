@@ -23,17 +23,12 @@ Modify your shell startup file and add the following line to load the *nvm* scri
 
 Install a specific node version with *nvm* and make it the active node version:
 
-    nvm install 11.15.0
-    nvm use 11.15.0
+    nvm install 11.15
+    nvm use 11.15
 
-If you would like to use your system *Node* version as default, you could alias it to the default🐚
+If you would like to use your system *Node* version as default, you could alias it to the default:
 
     nvm alias default system
-
-To specify the Node version for your project you could create an **.nvmrc** file, for example:
-
-    echo 11.15.0 > ~/projects/signals-frontend/.nvmrc
-    npm start
 
 ## Installation
 
