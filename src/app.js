@@ -59,6 +59,9 @@ if (urlBase && siteId) {
 }
 
 const render = () => {
+  // eslint-disable-next-line no-undef,no-console
+  console.log(`Signals: version: ${VERSION}, build: ${process.env.NODE_ENV}`);
+
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
