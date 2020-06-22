@@ -87,17 +87,3 @@ render();
 // Authenticate and start the authorization process
 const credentials = authenticate();
 store.dispatch(authenticateUser(credentials));
-
-// Install ServiceWorker and AppCache in the end since
-// it's not most important operation and if main code fails,
-// we do not want it installed
-if (process.env.NODE_ENV === 'production') {
-  // eslint-disable-next-line global-require
-  const runtime = require('offline-plugin/runtime');
-
-  runtime.install({
-    onUpdateReady: () => {
-      runtime.applyUpdate();
-    },
-  });
-}
