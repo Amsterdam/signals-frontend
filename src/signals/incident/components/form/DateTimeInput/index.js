@@ -9,18 +9,29 @@ import Header from '../Header';
 
 import './style.scss';
 
-
-const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
-  function formatDate(offset, type = 'value') {
-    const dateFormat = type === 'label' ? 'EEEE d MMMM' : 'yyyy-MM-dd';
-    if (offset === 0) {
-      return 'Vandaag';
-    }
-
-    return capitalizeFirstLetter(format(subDays(new Date(), offset), dateFormat, { locale: nl }));
+const formatDate = (offset, type = 'value') => {
+  const dateFormat = type === 'label' ? 'EEEE d MMMM' : 'yyyy-MM-dd';
+  if (offset === 0) {
+    return 'Vandaag';
   }
 
+  const date = subDays(new Date(), offset);
+  return capitalizeFirstLetter(format(date, dateFormat, { locale: nl }));
+};
+
+
+const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   if (!meta?.isVisible) return null;
+
+  const options = [...Array(7).keys()].map(offset => {
+    const name = formatDate(offset, 'label');
+    const value = formatDate(offset);
+    return ({
+      value,
+      key: name,
+      name,
+    });
+  });
 
   return (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
@@ -32,11 +43,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
             label={<strong>Dag</strong>}
             value={`${parent.value.incident_date}`}
             onChange={e => parent.meta.updateIncident({ incident_date: e.target.value })}
-            options={[...Array(7).keys()].map(offset => ({
-              value: formatDate(offset),
-              key: formatDate(offset, 'label'),
-              name: formatDate(offset, 'label'),
-            }))}
+            options={options}
           />
         </div>
 

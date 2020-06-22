@@ -7,5 +7,6 @@ describe('The string parser service', () => {
 
   it('should return the correct time value', () => {
     expect(string2time('1970-07-21T11:55:00')).toEqual('11:55');
+    expect(string2time('1970-07-21T08:05:00')).toEqual('08:05');
   });
 });

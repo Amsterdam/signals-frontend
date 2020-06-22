@@ -11,7 +11,7 @@ import { patchIncident } from 'models/incident/actions';
 
 import MetaList, { getCategoryName }from './index';
 
-jest.mock('shared/services/string-parser/string-parser');
+jest.mock('shared/services/string-parser');
 
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 

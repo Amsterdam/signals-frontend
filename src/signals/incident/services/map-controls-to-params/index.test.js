@@ -47,8 +47,6 @@ describe('The map controls to params service', () => {
     const spy = jest.spyOn(global, 'Date').mockImplementation(() => dateMock);
     global.Date.now = jest.fn(() => new Date(isodate).getTime());
 
-    // const spy = mockDate(isodate);
-
     expect(
       mapControlsToParams(
         {

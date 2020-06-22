@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 import { capitalizeFirstLetter } from 'shared/services/date-utils';
 import parseISO from 'date-fns/parseISO';
@@ -13,7 +12,7 @@ const getValue = (value, incident) => {
     return '';
   }
 
-  const time = format(parse(`${incident.incident_time_hours}:${incident.incident_time_minutes}`, 'H:m', new Date()), ('H:mm'));
+  const time = `${incident.incident_time_hours}:${String(incident.incident_time_minutes).padStart(2, '0')}`;
   if (incident.incident_date === 'Vandaag') {
     return `Vandaag, ${time}`;
   }

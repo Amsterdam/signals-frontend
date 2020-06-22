@@ -10,7 +10,7 @@ import incident from 'utils/__tests__/fixtures/incident.json';
 
 import SplitDetail from './index';
 
-jest.mock('shared/services/string-parser/string-parser');
+jest.mock('shared/services/string-parser');
 jest.mock('shared/services/list-helper/list-helper');
 
 describe('<SplitDetail />', () => {
