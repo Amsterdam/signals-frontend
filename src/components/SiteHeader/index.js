@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
+
 import { Logout as LogoutIcon } from '@datapunt/asc-assets';
 
 import {
@@ -272,6 +273,8 @@ export const SiteHeader = props => {
   const title = tall ? '' : 'SIA';
   const homeLink = tall ? configuration.links.home : '/';
 
+  console.log('poppe:', isFrontOffice, configuration.logo);
+
   const navigation = useMemo(
     () => (
       <Media query={`(max-width: ${menuBreakpoint}px)`}>
@@ -306,7 +309,9 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
-          {...(configuration.logo?.url ? { logo: Logo } : { logo: AmsterdamLogo })}
+          logo={
+            !configuration.logo?.url || (configuration.logo?.skipBackOffice && !isFrontOffice) ? AmsterdamLogo : Logo
+          }
         />
         {!tall && <Notification />}
       </HeaderWrapper>

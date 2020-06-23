@@ -7,20 +7,25 @@ import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';
 import configuration from 'shared/services/configuration/configuration';
 
+import useIsFrontOffice from 'hooks/useIsFrontOffice';
+
 import SiteHeader, { menuBreakpoint } from '../index';
 
-const mmm = MatchMediaMock.create();
+const matchMediaMock = MatchMediaMock.create();
 
+jest.mock('hooks/useIsFrontOffice');
 jest.mock('shared/services/auth/auth');
 jest.mock('shared/services/configuration/configuration');
 
 describe('components/SiteHeader', () => {
   beforeEach(() => {
-    mmm.setConfig({ type: 'screen', width: menuBreakpoint + 1 });
+    useIsFrontOffice.mockReturnValue(true);
+
+    matchMediaMock.setConfig({ type: 'screen', width: menuBreakpoint + 1 });
 
     // eslint-disable-next-line no-undef
     Object.defineProperty(window, 'matchMedia', {
-      value: mmm,
+      value: matchMediaMock,
     });
   });
 
@@ -47,7 +52,7 @@ describe('components/SiteHeader', () => {
     cleanup();
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
+    matchMediaMock.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
 
     act(() => {
       history.push('/manage');
@@ -83,7 +88,7 @@ describe('components/SiteHeader', () => {
     cleanup();
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
+    matchMediaMock.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
 
     act(() => {
       history.push('/manage');
@@ -109,6 +114,35 @@ describe('components/SiteHeader', () => {
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
     expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
+  });
+
+  it('should render the correct logo on front office', () => {
+    useIsFrontOffice.mockReturnValue(true);
+
+    configuration.logo.url = 'logoUrl';
+
+    configuration.logo.skipBackOffice = false;
+    const { container, rerender } = render(withAppContext(<SiteHeader permissions={[]} />));
+    expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
+
+    configuration.logo.skipBackOffice = true;
+    rerender(withAppContext(<SiteHeader permissions={[]} />));
+    expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
+  });
+
+
+  it('should render the correct logo on back office', () => {
+    useIsFrontOffice.mockReturnValue(false);
+
+    configuration.logo.url = 'logoUrl';
+
+    configuration.logo.skipBackOffice = false;
+    const { container, rerender } = render(withAppContext(<SiteHeader permissions={[]} />));
+    expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
+
+    configuration.logo.skipBackOffice = true;
+    rerender(withAppContext(<SiteHeader permissions={[]} />));
+    expect(container.querySelector('h1 img[src="logoUrl"]')).not.toBeInTheDocument();
   });
 
   it('should render the correct homeLink', () => {
