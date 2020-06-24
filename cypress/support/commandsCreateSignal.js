@@ -1,5 +1,6 @@
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
 import { SIGNAL_DETAILS } from './selectorsSignalDetails';
+import { MANAGE_SIGNALS } from './selectorsManageIncidents';
 
 export const addNote = noteText => {
   cy.get(SIGNAL_DETAILS.buttonAddNote).click();
@@ -89,6 +90,18 @@ export const getSignalId = () => {
 
 export const searchAddress = address => {
   cy.get('[data-testid=autoSuggest]').type(address, { delay: 60 });
+};
+
+export const searchAndCheck = (searchTerm, selector) => {
+  cy.getSignalDetailsRoutes();
+  cy.get(MANAGE_SIGNALS.searchBar).type(`${searchTerm}{enter}`);
+  cy.wait('@getSearchResults');
+  cy.get(MANAGE_SIGNALS.searchResultsTag).should('have.text', `Zoekresultaten voor "${searchTerm}"`).and('be.visible');
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(500);
+  cy.get('[href*="/manage/incident/"]').first().click();
+  cy.waitForSignalDetailsRoutes();
+  cy.get(selector).should('contain', `${searchTerm}`);
 };
 
 export const selectAddress = address => {
