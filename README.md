@@ -7,28 +7,9 @@ See https://github.com/Amsterdam/react-boilerplate.git for more information on t
 ## Requirements
 
   -  npm >= 6.11
-  -  node v12.0
+  -  node 12.18
 
 This project relies on the[ `leaflet-headless`](https://www.npmjs.com/package/leaflet-headless) package. On OSX, you'll need to have [`cairo`](https://formulae.brew.sh/formula/cairo), [`pango`](https://formulae.brew.sh/formula/pango) and [`cmake`](https://formulae.brew.sh/formula/cmake) installed.
-
-## Node versions
-
-If you are running Node 12 or later you could use *nvm* (we need an older version of Node until we upgrade leaflet)
-
-Install *nvm* from source or with your preferred package manager.
-
-Modify your shell startup file and add the following line to load the *nvm* script when you login:
-
-    source /usr/share/nvm/init-nvm.sh
-
-Install a specific node version with *nvm* and make it the active node version:
-
-    nvm install 11.15
-    nvm use 11.15
-
-If you would like to use your system *Node* version as default, you could alias it to the default:
-
-    nvm alias default system
 
 ## Installation
 
