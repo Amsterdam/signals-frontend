@@ -230,9 +230,8 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(onClearFilter).toHaveBeenCalled();
 
-    // FIXME: dateField is not cleared on reset
+    // skip testing dateField; handled by react-datepicker and not possible to verify until package has been updated
     // expect(dateField.value).toEqual('');
-
     expect(addressField.value).toEqual('');
     expect(nameField.value).toEqual('');
     expect(noteField.value).toEqual('');
