@@ -123,7 +123,14 @@ module.exports = require('./webpack.base.babel')({
       safeToUseOptionalCaches: true,
     }),
 
-    new CopyPlugin({ patterns: [{ from: path.resolve(__rootdir, 'src', 'manifest.json'), to: path.resolve(__rootdir, 'build', 'manifest.json') }] }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__rootdir, 'src', 'manifest.json'),
+          to: path.resolve(__rootdir, 'build', 'manifest.json'),
+        },
+      ],
+    }),
   ],
 
   performance: {
