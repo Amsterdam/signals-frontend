@@ -111,9 +111,10 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   );
 
   const onResetForm = useCallback(() => {
+    console.log('calling on reset form');
     dispatch(reset());
     onClearFilter();
-  }, [onClearFilter]);
+  }, [dispatch, onClearFilter]);
 
   // callback handler that is called whenever a checkbox is (un)checked in the list of
   // category checkbox groups
@@ -203,7 +204,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const onGroupToggle = useCallback(
     (groupName, isToggled) => {
       const options = isToggled ? dataLists[groupName] : [];
-
       dispatch(setGroupOptions({ [groupName]: options }));
     },
     [dispatch]
@@ -222,7 +222,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           <div className="invoer">
             <Input
               data-testid="filterName"
-              defaultValue={initialFormState.filter.name}
+              defaultValue={state.filter.name}
               id="filter_name"
               name="name"
               onChange={onNameChange}
@@ -263,7 +263,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="note_keyword"
               id="filter_notes"
               onBlur={onNotesChange}
-              defaultValue={initialFormState.options.note_keyword}
+              onChange={onNotesChange}
+              value={state.options.note_keyword}
               type="text"
             />
           </FilterGroup>
@@ -273,7 +274,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           <legend>Filter parameters</legend>
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.status}
+            defaultValue={state.options.status}
             label="Status"
             name="status"
             onChange={onGroupChange}
@@ -282,7 +283,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.stadsdeel}
+            defaultValue={state.options.stadsdeel}
             label="Stadsdeel"
             name="stadsdeel"
             onChange={onGroupChange}
@@ -291,7 +292,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.priority}
+            defaultValue={state.options.priority}
             hasToggle={false}
             label="Urgentie"
             name="priority"
@@ -301,7 +302,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.type}
+            defaultValue={state.options.type}
             hasToggle={false}
             label="Type"
             name="type"
@@ -311,7 +312,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.contact_details}
+            defaultValue={state.options.contact_details}
             hasToggle={false}
             label="Contact"
             name="contact_details"
@@ -321,7 +322,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <RadioGroup
-            defaultValue={initialFormState.options.feedback}
+            defaultValue={state.options.feedback}
             label="Feedback"
             name="feedback"
             onChange={onRadioChange}
@@ -364,13 +365,14 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="address_text"
               id="filter_address"
               onBlur={onAddressChange}
-              defaultValue={initialFormState.options.address_text}
+              onChange={onAddressChange}
+              value={state.options.address_text}
               type="text"
             />
           </FilterGroup>
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.source}
+            defaultValue={state.options.source}
             label="Bron"
             name="source"
             onChange={onGroupChange}
