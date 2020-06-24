@@ -138,7 +138,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [categories, dispatch]
   );
 
-  const onNameChange = useCallback(
+  const onNameBlur = useCallback(
     event => {
       const { value } = event.target;
 
@@ -166,14 +166,14 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [dispatch]
   );
 
-  const onAddressChange = useCallback(
+  const onAddressBlur = useCallback(
     event => {
       dispatch(setAddress(event.target.value));
     },
     [dispatch]
   );
 
-  const onNotesChange = useCallback(
+  const onNotesBlur = useCallback(
     event => {
       dispatch(setNoteKeyword(event.target.value));
     },
@@ -224,8 +224,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               value={state.filter.name}
               id="filter_name"
               name="name"
-              onBlur={onNameChange}
-              onChange={onNameChange}
+              onBlur={onNameBlur}
               placeholder="Geef deze filterinstelling een naam om deze op te slaan"
               type="text"
             />
@@ -262,8 +261,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               data-testid="filterNotes"
               name="note_keyword"
               id="filter_notes"
-              onBlur={onNotesChange}
-              onChange={onNotesChange}
+              onBlur={onNotesBlur}
               value={state.options.note_keyword}
               type="text"
             />
@@ -365,8 +363,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               data-testid="filterAddress"
               name="address_text"
               id="filter_address"
-              onBlur={onAddressChange}
-              onChange={onAddressChange}
+              onBlur={onAddressBlur}
               value={state.options.address_text}
               type="text"
             />
