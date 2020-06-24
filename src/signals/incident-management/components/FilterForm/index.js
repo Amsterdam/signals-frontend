@@ -222,9 +222,10 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           <div className="invoer">
             <Input
               data-testid="filterName"
-              defaultValue={state.filter.name}
+              value={state.filter.name}
               id="filter_name"
               name="name"
+              onBlur={onNameChange}
               onChange={onNameChange}
               placeholder="Geef deze filterinstelling een naam om deze op te slaan"
               type="text"

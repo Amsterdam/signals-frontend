@@ -217,17 +217,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     act(() => { fireEvent.change(noteField, { target: { value: 'test123' } }); });
     act(() => { fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true })); });
 
-    expect(nameField.value).toEqual('My filter');
-    expect(dateField.value).toEqual('1970-01-01');
-    expect(addressField.value).not.toBeFalsy();
-    expect(noteField.value).toEqual('test123');
-
     await findByTestId('filterName');
 
     expect(nameField.value).toEqual('My filter');
     expect(dateField.value).toEqual('1970-01-01');
     expect(addressField.value).not.toBeFalsy();
     expect(afvalToggle.checked).toEqual(true);
+    expect(noteField.value).toEqual('test123');
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBeGreaterThan(1);
 
     await act(async () => { fireEvent.click(container.querySelector('button[type="reset"]')); });
@@ -238,8 +234,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     // expect(dateField.value).toEqual('');
 
     expect(addressField.value).toEqual('');
-    expect(noteField.value).toEqual('');
     expect(nameField.value).toEqual('');
+    expect(noteField.value).toEqual('');
     expect(afvalToggle.checked).toEqual(false);
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toEqual(0);
   });
