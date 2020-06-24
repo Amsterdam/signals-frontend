@@ -5,9 +5,11 @@ import styled from 'styled-components';
 
 import configuration from 'shared/services/configuration/configuration';
 
+const { width, smallWidth, height, smallHeight } = configuration.logo;
+
 const StyledLogo = styled.img`
-  width: ${props => props.tall === true ? configuration.logo.width : configuration.logo.smallWidth};
-  height: ${props => props.tall === true ? configuration.logo.height : configuration.logo.smallHeight};
+  width: ${props => props.tall === true ? width : smallWidth};
+  height: ${props => props.tall === true ? height : smallHeight};
   max-height: ${props => props.tall === true ? '56px' : '32px'};
 `;
 
