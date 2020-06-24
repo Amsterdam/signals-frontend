@@ -38,6 +38,7 @@ export const BEDRIJVEN_HORECA = {
 export const BOTEN = {
   inputNaamBoot: '[class*=Input__StyledInput]',
   inputNogMeer: '[class*=TextArea__StyledArea]',
+  radioButtonRondvaartbootNee: '#extra_boten_snelheid_rondvaartboot-nee1',
   radioButtonRondvaartbootJa: '#extra_boten_snelheid_rondvaartboot-ja1',
 };
 
