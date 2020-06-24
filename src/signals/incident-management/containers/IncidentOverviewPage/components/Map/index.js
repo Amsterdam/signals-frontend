@@ -217,7 +217,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
             <Autosuggest
               fieldList={['centroide_ll']}
               formatResponse={formatPDOKResponse}
-              gemeentenaam="amsterdam"
+              municipality="amsterdam"
               onSelect={onSelect}
               placeholder="Zoom naar adres"
             />

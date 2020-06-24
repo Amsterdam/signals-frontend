@@ -11,7 +11,7 @@ const mockResponse = JSON.stringify(JSONResponse);
 
 const onSelect = jest.fn();
 const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
-const gemeentenaamQs = 'fq=gemeentenaam:';
+const municipalityQs = 'fq=gemeentenaam:';
 const fieldListQs = 'fl=';
 const defaultFieldsQs = 'id,weergavenaam';
 
@@ -62,21 +62,21 @@ describe('components/PDOKAutoSuggest', () => {
     });
   });
 
-  describe('gemeentenaam', () => {
-    it('should call fetch without gemeentenaam by default', async () => {
+  describe('municipality', () => {
+    it('should call fetch without municipality by default', async () => {
       await renderAndSearch();
-      expect(fetch).toHaveBeenCalledWith(expect.not.stringContaining(gemeentenaamQs), expect.anything());
+      expect(fetch).toHaveBeenCalledWith(expect.not.stringContaining(municipalityQs), expect.anything());
     });
 
-    it('should call fetch with gemeentenaam', async () => {
-      await renderAndSearch('Dam', { gemeentenaam: 'amsterdam' });
-      expect(fetch).toHaveBeenCalledWith(expect.stringContaining(`${gemeentenaamQs}"amsterdam"`), expect.anything());
+    it('should call fetch with municipality', async () => {
+      await renderAndSearch('Dam', { municipality: 'amsterdam' });
+      expect(fetch).toHaveBeenCalledWith(expect.stringContaining(`${municipalityQs}"amsterdam"`), expect.anything());
     });
 
-    it('should work with an array for gemeentenaam', async () => {
-      await renderAndSearch('Dam', { gemeentenaam: ['utrecht', 'amsterdam'] });
+    it('should work with an array for municipality', async () => {
+      await renderAndSearch('Dam', { municipality: ['utrecht', 'amsterdam'] });
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${gemeentenaamQs}"utrecht" "amsterdam"`),
+        expect.stringContaining(`${municipalityQs}"utrecht" "amsterdam"`),
         expect.anything()
       );
     });

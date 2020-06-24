@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import AutoSuggest from 'components/AutoSuggest';
 import { pdokResponseFieldList } from 'shared/services/map-location';
 
+const municipalityFilterName = 'gemeentenaam';
 const serviceParams = [
   ['fq', 'bron:BAG'],
   ['fq', 'type:adres'],
@@ -21,10 +22,10 @@ export const formatResponseFunc = ({ response }) =>
  *
  * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
  */
-const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatResponse, value, ...rest }) => {
-  const gemeentenaamArray = Array.isArray(gemeentenaam) ? gemeentenaam : gemeentenaam ? [gemeentenaam] : [];
-  const gemeentenaamString = gemeentenaamArray.map(item => `"${item}"`).join(' ');
-  const fq = gemeentenaam ? [['fq', `gemeentenaam:${gemeentenaamString}`]] : [];
+const PDOKAutoSuggest = ({ className, fieldList, municipality, onSelect, formatResponse, value, ...rest }) => {
+  const municipalityArray = Array.isArray(municipality) ? municipality : municipality ? [municipality] : [];
+  const municipalityString = municipalityArray.map(item => `"${item}"`).join(' ');
+  const fq = municipality ? [['fq', `${municipalityFilterName}:${municipalityString}`]] : [];
   const fl = [['fl', fieldList.concat(['id', 'weergavenaam']).join(',')]];
   const params = [...fq, ...fl, ...serviceParams];
   const queryParams = params.map(([key, val]) => `${key}=${val}`).join('&');
@@ -60,7 +61,7 @@ PDOKAutoSuggest.propTypes = {
    * Can be a single name, like amsterdam, or an array of one or more names,
    * which will be combined using a logical OR
    */
-  gemeentenaam: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+  municipality: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   onSelect: PropTypes.func.isRequired,
   formatResponse: PropTypes.func,
   value: PropTypes.string,

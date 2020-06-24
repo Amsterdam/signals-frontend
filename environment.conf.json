@@ -67,7 +67,7 @@
       "zoom": 10,
       "maxZoom": 14,
       "minZoom": 8,
-      "gemeentenaam": "amsterdam"
+      "municipality": "amsterdam"
     }
   },
   "fetchQuestionsFromBackend": false,
