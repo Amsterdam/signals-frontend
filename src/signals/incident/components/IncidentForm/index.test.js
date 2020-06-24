@@ -65,7 +65,7 @@ describe('<IncidentForm />', () => {
 
   describe('rendering', () => {
     it('expect to render correctly', () => {
-      const { container, queryByText, queryAllByText } = render(
+      const { container, queryByText } = render(
         withAppContext(
           <Wizard>
             <Steps>
@@ -83,7 +83,6 @@ describe('<IncidentForm />', () => {
       expect(queryByText(mockForm.controls.privacy_text.meta.label)).not.toBeInTheDocument();
 
       expect(container.querySelectorAll('input').length).toEqual(1);
-      expect(queryAllByText('(optioneel)').length).toEqual(1);
 
       expect(queryByText(phoneForm.nextButtonLabel)).toBeInTheDocument();
       expect(queryByText(phoneForm.previousButtonLabel)).toBeInTheDocument();

@@ -1,6 +1,12 @@
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
 import { SIGNAL_DETAILS } from './selectorsSignalDetails';
 
+export const addNote = noteText => {
+  cy.get(SIGNAL_DETAILS.buttonAddNote).click();
+  cy.get(SIGNAL_DETAILS.inputNoteText).type(noteText);
+  cy.get(SIGNAL_DETAILS.buttonSaveNote).click();
+};
+
 // General functions for creating a signal
 export const checkCreationDate = () => {
   const todaysDate = Cypress.moment().format('DD-MM-YYYY');
@@ -138,6 +144,21 @@ export const setPhonenumber = phoneNumber => {
       .clear()
       .type(phoneNumber);
   }
+};
+
+export const uploadFile = (fileName, fileType = '', selector) => {
+  cy.get(selector).then(subject => {
+    cy.fixture(fileName, 'base64')
+      .then(Cypress.Blob.base64StringToBlob)
+      .then(blob => {
+        const el = subject[0];
+        const testFile = new File([blob], fileName, { type: fileType });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(testFile);
+        el.files = dataTransfer.files;
+      });
+  });
+  cy.get(CREATE_SIGNAL.buttonUploadFile).trigger('change', { force: true });
 };
 
 // Functions specific for Lantaarnpaal

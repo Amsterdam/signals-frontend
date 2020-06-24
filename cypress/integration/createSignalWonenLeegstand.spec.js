@@ -32,7 +32,7 @@ describe('Create signal wonen leegstand and check signal details', () => {
 
       // Check if fields are mandatory
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList)
+      cy.get(CREATE_SIGNAL.errorItem)
         .should('contain', 'Dit is een verplicht veld')
         .and('have.length', 3);
 

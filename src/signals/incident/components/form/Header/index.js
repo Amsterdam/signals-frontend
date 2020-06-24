@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@datapunt/asc-ui';
@@ -48,35 +48,32 @@ const SubTitle = styled.div`
 const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
   const containsErrors =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
+  const isOptional = !options?.validators?.includes(Validators.required);
 
   return (
     <Wrapper className={className} invalid={containsErrors}>
-      {meta.label && (
+      {meta?.label && (
         <Label>
           {meta.label}
 
-          {!options ||
-            !options.validators ||
-            (options && options.validators && !options.validators.includes(Validators.required) && (
-              <Optional>(optioneel)</Optional>
-            ))}
+          {isOptional && <Optional>(optioneel)</Optional>}
         </Label>
       )}
 
       {meta?.subtitle && <SubTitle>{meta.subtitle}</SubTitle>}
 
-      {containsErrors && (
-        <div className="header__errors">
-          {touched && hasError('required') && <ErrorItem>Dit is een verplicht veld</ErrorItem>}
+      {touched && containsErrors && (
+        <Fragment>
+          {hasError('required') && <ErrorItem>Dit is een verplicht veld</ErrorItem>}
 
-          {touched && hasError('email') && <ErrorItem>Het moet een geldig e-mailadres zijn</ErrorItem>}
+          {hasError('email') && <ErrorItem>Het moet een geldig e-mailadres zijn</ErrorItem>}
 
-          {touched && hasError('maxLength') && (
-            <ErrorItem>U kunt maximaal ${getError('maxLength').requiredLength} tekens invoeren.</ErrorItem>
+          {hasError('maxLength') && (
+            <ErrorItem>U kunt maximaal {getError('maxLength').requiredLength} tekens invoeren.</ErrorItem>
           )}
 
-          {touched && hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
-        </div>
+          {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
+        </Fragment>
       )}
 
       <Children>{children}</Children>
@@ -90,10 +87,13 @@ Header.defaultProps = {
 
 Header.propTypes = {
   className: PropTypes.string,
-  meta: PropTypes.object,
-  options: PropTypes.object,
+  meta: PropTypes.shape({
+    label: PropTypes.string,
+    subtitle: PropTypes.string,
+  }),
+  options: PropTypes.shape({}),
   touched: PropTypes.bool,
-  hasError: PropTypes.func,
+  hasError: PropTypes.func.isRequired,
   getError: PropTypes.func,
   children: PropTypes.node,
 };

@@ -8,12 +8,16 @@ import { uploadFile } from 'containers/App/saga';
 import resolveClassification from 'shared/services/resolveClassification';
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params';
 import { isAuthenticated } from 'shared/services/auth/auth';
-import { CREATE_INCIDENT, GET_CLASSIFICATION } from './constants';
+import { resolveQuestions } from './services';
+import { CREATE_INCIDENT, GET_CLASSIFICATION, GET_QUESTIONS } from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
   getClassificationSuccess,
   getClassificationError,
+  getQuestions,
+  getQuestionsSuccess,
+  getQuestionsError,
 } from './actions';
 
 export function* getClassification(action) {
@@ -25,10 +29,28 @@ export function* getClassification(action) {
     const classification = yield call(resolveClassification, result);
 
     yield put(getClassificationSuccess(classification));
+
+    if (configuration.fetchQuestionsFromBackend) {
+      yield put(getQuestions(classification));
+    }
   } catch (error) {
     const classification = yield call(resolveClassification);
 
     yield put(getClassificationError(classification));
+  }
+}
+
+export function* getQuestionsSaga(action) {
+  const { category, subcategory } = action.payload;
+  const url = `${configuration.QUESTIONS_ENDPOINT}?main_slug=${category}&sub_slug=${subcategory}`;
+
+  try {
+    const { results: rawQuestions } = yield call(request, url);
+    const questions = yield call(resolveQuestions, rawQuestions);
+
+    yield put(getQuestionsSuccess({ questions }));
+  } catch (error) {
+    yield put(getQuestionsError());
   }
 }
 
@@ -146,5 +168,9 @@ export function* getPostData(action) {
 }
 
 export default function* watchIncidentContainerSaga() {
-  yield all([takeLatest(GET_CLASSIFICATION, getClassification), takeLatest(CREATE_INCIDENT, createIncident)]);
+  yield all([
+    takeLatest(GET_CLASSIFICATION, getClassification),
+    takeLatest(GET_QUESTIONS, getQuestionsSaga),
+    takeLatest(CREATE_INCIDENT, createIncident),
+  ]);
 }
