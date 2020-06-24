@@ -111,7 +111,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   );
 
   const onResetForm = useCallback(() => {
-    console.log('calling on reset form');
     dispatch(reset());
     onClearFilter();
   }, [dispatch, onClearFilter]);
