@@ -64,8 +64,6 @@ describe('The auth service', () => {
           ...global.location,
           assign: jest.fn(),
           reload: jest.fn(),
-          // search: jest.fn(),
-          // hash: jest.fn(),
         },
       },
     });
