@@ -45,6 +45,16 @@ jest.mock('shared/services/api/api');
 jest.mock('shared/services/map-categories');
 jest.mock('shared/services/file-upload-channel');
 
+Object.defineProperties(global, {
+  location: {
+    writable: true,
+    value: {
+      ...global.location,
+      reload: jest.fn(),
+    },
+  },
+});
+
 describe('containers/App/saga', () => {
   let origLocalStorage;
 

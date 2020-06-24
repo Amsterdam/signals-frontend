@@ -7,7 +7,7 @@ See https://github.com/Amsterdam/react-boilerplate.git for more information on t
 ## Requirements
 
   -  npm >= 6.11
-  -  node >= v10.16 < v12.0
+  -  node v12.0
 
 This project relies on the[ `leaflet-headless`](https://www.npmjs.com/package/leaflet-headless) package. On OSX, you'll need to have [`cairo`](https://formulae.brew.sh/formula/cairo), [`pango`](https://formulae.brew.sh/formula/pango) and [`cmake`](https://formulae.brew.sh/formula/cmake) installed.
 
