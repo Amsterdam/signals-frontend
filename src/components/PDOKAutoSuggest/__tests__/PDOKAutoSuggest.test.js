@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, wait, act } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json';
@@ -36,7 +36,7 @@ describe('components/PDOKAutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'Amsterdam' } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('fq=gemeentenaam:amsterdam'), expect.anything());
@@ -47,7 +47,7 @@ describe('components/PDOKAutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'Westerp' } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(fetch).toHaveBeenLastCalledWith(

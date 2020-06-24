@@ -43,22 +43,19 @@ const StyledButton = styled(Button)`
 
 const DEFAULT_TEXT_FIELDS = 15;
 
+const fields = [...new Array(DEFAULT_TEXT_FIELDS).keys()].reduce(
+  (acc, key) => ({
+    ...acc,
+    [`item${key}`]: FormBuilder.group({
+      title: [''],
+      text: [''],
+    }),
+  }),
+  {}
+);
+
 const DefaultTextsForm = ({ categoryUrl, state, defaultTexts, subCategories, onSubmitTexts, onOrderDefaultTexts }) => {
-  const form = useMemo(() => {
-    const fields = [...new Array(DEFAULT_TEXT_FIELDS).keys()].reduce(
-      (acc, key) => ({
-        ...acc,
-        [`item${key}`]: FormBuilder.group({
-          title: [''],
-          text: [''],
-        }),
-      }),
-      {}
-    );
-
-    return FormBuilder.group(fields);
-  }, []);
-
+  const form = useMemo(() => FormBuilder.group(fields), []);
   const items = Object.keys(form.controls).slice(0, -2);
 
   const handleSubmit = useCallback(
