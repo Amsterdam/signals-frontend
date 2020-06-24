@@ -273,8 +273,6 @@ export const SiteHeader = props => {
   const title = tall ? '' : 'SIA';
   const homeLink = tall ? configuration.links.home : '/';
 
-  console.log('poppe:', isFrontOffice, configuration.logo);
-
   const navigation = useMemo(
     () => (
       <Media query={`(max-width: ${menuBreakpoint}px)`}>
