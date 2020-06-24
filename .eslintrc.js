@@ -63,6 +63,7 @@ module.exports = {
     'newline-per-chained-call': 0,
     'no-confusing-arrow': 0,
     'no-console': 1,
+    'no-nested-ternary': 0,
     'no-restricted-syntax': 0,
     'no-underscore-dangle': [0, { allow: ['_display', '_links'] }],
     'no-unused-vars': 2,

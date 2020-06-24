@@ -8,13 +8,35 @@ import { formatPDOKResponse } from 'shared/services/map-location';
 import PDOKAutoSuggest, { formatResponseFunc } from '..';
 
 const mockResponse = JSON.stringify(JSONResponse);
-fetch.mockResponse(mockResponse);
 
 const onSelect = jest.fn();
 const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
+const gemeentenaamQs = 'fq=gemeentenaam:';
+const fieldListQs = 'fl=';
+const defaultFieldsQs = 'id,weergavenaam';
+
+const renderAndSearch = async (value = 'Dam', props = {}) => {
+  const result = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} {...props} />));
+  const input = result.container.querySelector('input[aria-autocomplete]');
+
+  input.focus();
+
+  act(() => {
+    fireEvent.change(input, { target: { value } });
+  });
+
+  await wait(() => resolveAfterMs(INPUT_DELAY));
+
+  return result;
+};
 
 describe('components/PDOKAutoSuggest', () => {
   beforeEach(() => {
+    fetch.mockResponse(mockResponse);
+  });
+
+  afterEach(() => {
+    fetch.mockReset();
     onSelect.mockReset();
   });
 
@@ -24,78 +46,90 @@ describe('components/PDOKAutoSuggest', () => {
     expect(getByTestId('autoSuggest')).toBeInTheDocument();
   });
 
-  it('should call fetch with the gemeentenaam', async () => {
-    const { container, rerender } = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />));
-    const input = container.querySelector('input[aria-autocomplete]');
+  describe('fetch', () => {
+    it('should not be called on focus', () => {
+      const result = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />));
+      const input = result.container.querySelector('input[aria-autocomplete]');
 
-    input.focus();
+      input.focus();
 
-    expect(fetch).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Amsterdam' } });
+      expect(fetch).not.toHaveBeenCalled();
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
-
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('fq=gemeentenaam:amsterdam'), expect.anything());
-
-    rerender(withAppContext(<PDOKAutoSuggest onSelect={onSelect} gemeentenaam="(amsterdam OR weesp)" />));
-
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Westerp' } });
+    it('should be called on change', async () => {
+      await renderAndSearch();
+      expect(fetch).toHaveBeenCalledTimes(1);
     });
-
-    await wait(() => resolveAfterMs(INPUT_DELAY));
-
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetch).toHaveBeenLastCalledWith(
-      expect.stringContaining('fq=gemeentenaam:(amsterdam OR weesp)'),
-      expect.anything()
-    );
   });
 
-  it('should call onSelect', async () => {
-    const { container, findByTestId, rerender } = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />));
-    const input = container.querySelector('input[aria-autocomplete]');
-
-    input.focus();
-
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Amsterdam' } });
+  describe('gemeentenaam', () => {
+    it('should call fetch without gemeentenaam by default', async () => {
+      await renderAndSearch();
+      expect(fetch).toHaveBeenCalledWith(expect.not.stringContaining(gemeentenaamQs), expect.anything());
     });
 
-    const suggestList = await findByTestId('suggestList');
-    const firstElement = suggestList.querySelector('li:nth-of-type(1)');
-
-    expect(onSelect).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.click(firstElement);
+    it('should call fetch with gemeentenaam', async () => {
+      await renderAndSearch('Dam', { gemeentenaam: 'amsterdam' });
+      expect(fetch).toHaveBeenCalledWith(expect.stringContaining(`${gemeentenaamQs}"amsterdam"`), expect.anything());
     });
 
-    expect(onSelect).toHaveBeenCalledWith(formatResponseFunc(JSONResponse)[0]);
+    it('should work with an array for gemeentenaam', async () => {
+      await renderAndSearch('Dam', { gemeentenaam: ['utrecht', 'amsterdam'] });
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`${gemeentenaamQs}"utrecht" "amsterdam"`),
+        expect.anything()
+      );
+    });
+  });
 
-    rerender(withAppContext(<PDOKAutoSuggest onSelect={onSelect} formatResponse={formatPDOKResponse} />));
-
-    input.focus();
-
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Amsterdam' } });
+  describe('fieldList', () => {
+    it('should call fetch with default field list', async () => {
+      await renderAndSearch();
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`${fieldListQs}${defaultFieldsQs}`),
+        expect.anything()
+      );
     });
 
-    const suggestL = await findByTestId('suggestList');
-    const firstElem = suggestL.querySelector('li:nth-of-type(1)');
+    it('should call fetch with extra fields', async () => {
+      await renderAndSearch('Dam', { fieldList: ['name', 'type'] });
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`${fieldListQs}name,type,${defaultFieldsQs}`),
+        expect.anything()
+      );
+    });
+  });
 
-    expect(onSelect).toHaveBeenCalledTimes(1);
+  describe('onSelect', () => {
+    it('should be called with default format function', async () => {
+      const { findByTestId } = await renderAndSearch();
+      const suggestList = await findByTestId('suggestList');
+      const firstElement = suggestList.querySelector('li:nth-of-type(1)');
 
-    act(() => {
-      fireEvent.click(firstElem);
+      expect(onSelect).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(firstElement);
+      });
+
+      expect(onSelect).toHaveBeenCalledTimes(1);
+      expect(onSelect).toHaveBeenCalledWith(formatResponseFunc(JSONResponse)[0]);
     });
 
-    expect(onSelect).toHaveBeenCalledTimes(2);
-    expect(onSelect).toHaveBeenLastCalledWith(formatPDOKResponse(JSONResponse)[0]);
+    it('should be called with custom format function', async () => {
+      const { findByTestId } = await renderAndSearch('Dam', { formatResponse: formatPDOKResponse });
+      const suggestList = await findByTestId('suggestList');
+      const firstElement = suggestList.querySelector('li:nth-of-type(1)');
+
+      expect(onSelect).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(firstElement);
+      });
+
+      expect(onSelect).toHaveBeenCalledTimes(1);
+      expect(onSelect).toHaveBeenCalledWith(formatPDOKResponse(JSONResponse)[0]);
+    });
   });
 
   it('should pass on props to underlying component', () => {
