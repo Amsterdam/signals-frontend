@@ -362,6 +362,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               Adres
             </Label>
             <Input
+              data-testid="filterAddress"
               name="address_text"
               id="filter_address"
               onBlur={onAddressChange}

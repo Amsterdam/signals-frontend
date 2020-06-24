@@ -1,7 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { withAppContext } from 'test/utils';
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
 import configuration from 'shared/services/configuration/configuration';
@@ -100,16 +100,18 @@ describe('signals/settings/users/containers/Detail', () => {
   it ('should render a backlink', () => {
     const referrer = '/some-page-we-came-from';
     let getByTestId;
+    let rerender;
+    let unmount;
 
-    act(() => { ({ getByTestId } = render(withAppContext(<UserDetail />))); });
+    act(() => { ({ getByTestId, rerender, unmount } = render(withAppContext(<UserDetail />))); });
 
     expect(getByTestId('backlink').getAttribute('href')).toEqual(routes.users);
 
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({ referrer }));
 
-    cleanup();
+    unmount();
 
-    act(() => { ({ getByTestId } = render(withAppContext(<UserDetail />))); });
+    act(() => { rerender(withAppContext(<UserDetail />)); });
 
     expect(getByTestId('backlink').closest('a').getAttribute('href')).toEqual(referrer);
   });
@@ -159,15 +161,15 @@ describe('signals/settings/users/containers/Detail', () => {
 
     useFetch.mockImplementation(() => ({ ...useFetchResponse, isLoading: true }));
 
-    const { queryByTestId } = render(withAppContext(<UserDetail />));
+    const { queryByTestId, getByTestId, rerender, unmount } = render(withAppContext(<UserDetail />));
 
     expect(queryByTestId('detailUserForm')).toBeNull();
 
-    cleanup();
+    unmount();
 
     useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    rerender(withAppContext(<UserDetail />));
 
     expect(getByTestId('detailUserForm')).toBeInTheDocument();
   });

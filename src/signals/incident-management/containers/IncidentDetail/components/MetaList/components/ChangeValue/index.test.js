@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, act, cleanup } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
@@ -166,9 +166,9 @@ describe('<ChangeValue />', () => {
 
     expect(renderProps.queryByTestId('infoText')).not.toBeInTheDocument();
 
-    cleanup();
+    renderProps.unmount();
 
-    render(withAppContext(<ChangeValue {...props} infoKey="description" valuePath="someValue" />));
+    renderProps.rerender(withAppContext(<ChangeValue {...props} infoKey="description" valuePath="someValue" />));
 
     await expectInitialState(renderProps);
 

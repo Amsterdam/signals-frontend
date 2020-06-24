@@ -1,11 +1,15 @@
 const path = require('path');
+const pkgDir = require('pkg-dir');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const template = require('./template');
+
+const __rootdir = pkgDir.sync();
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -117,6 +121,15 @@ module.exports = require('./webpack.base.babel')({
 
       // Removes warning for about `additional` section usage
       safeToUseOptionalCaches: true,
+    }),
+
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__rootdir, 'src', 'manifest.json'),
+          to: path.resolve(__rootdir, 'build', 'manifest.json'),
+        },
+      ],
     }),
   ],
 

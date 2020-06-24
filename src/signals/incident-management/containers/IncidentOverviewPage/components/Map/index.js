@@ -1,4 +1,5 @@
 import React, { memo, useContext, useState, useCallback, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
@@ -90,10 +91,10 @@ const clusterLayerOptions = {
   },
 };
 
-const OverviewMap = ({ ...rest }) => {
+const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const { dispatch } = useContext(MapContext);
   const [initialMount, setInitialMount] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
+  const [showPanel, setShowPanel] = useState(showPanelOnInit);
   const [map, setMap] = useState();
   const { options } = useSelector(makeSelectActiveFilter);
   const filterParams = useSelector(makeSelectFilterParams);
@@ -226,6 +227,14 @@ const OverviewMap = ({ ...rest }) => {
       </StyledMap>
     </Wrapper>
   );
+};
+
+OverviewMap.defaultProps = {
+  showPanelOnInit: false,
+};
+
+OverviewMap.propTypes = {
+  showPanelOnInit: PropTypes.bool,
 };
 
 export default memo(OverviewMap);

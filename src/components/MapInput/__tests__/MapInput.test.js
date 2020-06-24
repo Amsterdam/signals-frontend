@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, wait } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 
 import context from 'containers/MapContext/context';
 
@@ -156,7 +156,7 @@ describe('components/MapInput', () => {
     expect(onChange).not.toHaveBeenCalled();
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
 
-    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
 
     expect(setLocationSpy).toHaveBeenCalledTimes(1);
     expect(setLocationSpy).toHaveBeenCalledWith({
@@ -208,7 +208,7 @@ describe('components/MapInput', () => {
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
     expect(onChange).not.toHaveBeenCalled();
 
-    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenLastCalledWith({
@@ -243,7 +243,7 @@ describe('components/MapInput', () => {
       fireEvent.click(map, { clientX: 100, clientY: 100 });
     });
 
-    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenLastCalledWith(
@@ -456,7 +456,7 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value: addressText } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(resetLocationSpy).not.toHaveBeenCalled();
 
@@ -464,7 +464,7 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value: '' } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(resetLocationSpy).toHaveBeenCalledWith();
   });
