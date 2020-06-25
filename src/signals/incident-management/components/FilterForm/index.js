@@ -221,7 +221,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           <div className="invoer">
             <Input
               data-testid="filterName"
-              value={state.filter.name}
+              defaultValue={state.filter.name}
               id="filter_name"
               name="name"
               onBlur={onNameBlur}
@@ -262,7 +262,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="note_keyword"
               id="filter_notes"
               onBlur={onNotesBlur}
-              value={state.options.note_keyword}
+              defaultValue={state.options.note_keyword}
               type="text"
             />
           </FilterGroup>
@@ -364,7 +364,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="address_text"
               id="filter_address"
               onBlur={onAddressBlur}
-              value={state.options.address_text}
+              defaultValue={state.options.address_text}
               type="text"
             />
           </FilterGroup>
