@@ -44,3 +44,7 @@ if (process.env.CI) {
 }
 
 global.URL.createObjectURL = jest.fn(() => 'https://url-from-data/image.jpg');
+global.URL.revokeObjectURL = jest.fn();
+
+const noop = () => {};
+Object.defineProperty(global.window, 'scrollTo', { value: noop, writable: true });

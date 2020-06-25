@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, wait, act } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 import { withAppContext } from 'test/utils';
@@ -61,7 +61,7 @@ describe('signals/settings/categories/Detail', () => {
   it('should render a backlink', async () => {
     const { container } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => container.querySelector('a'));
+    await waitFor(() => container.querySelector('a'));
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(routes.categories);
   });
@@ -75,7 +75,7 @@ describe('signals/settings/categories/Detail', () => {
 
     const { container } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => container.querySelector('a'));
+    await waitFor(() => container.querySelector('a'));
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(referrer);
   });
@@ -83,7 +83,7 @@ describe('signals/settings/categories/Detail', () => {
   it('should render the correct page title for a new category', async () => {
     const { getByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByText('Categorie toevoegen'));
+    await waitFor(() => getByText('Categorie toevoegen'));
     expect(getByText('Categorie toevoegen')).toBeInTheDocument();
   });
 
@@ -94,7 +94,7 @@ describe('signals/settings/categories/Detail', () => {
 
     const { getByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByText('Categorie wijzigen'));
+    await waitFor(() => getByText('Categorie wijzigen'));
     expect(getByText('Categorie wijzigen')).toBeInTheDocument();
   });
 
@@ -105,7 +105,7 @@ describe('signals/settings/categories/Detail', () => {
 
     const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await waitFor(() => getByTestId('detailCategoryForm'));
     expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
 
     document.querySelectorAll('input[type="text"], textarea').forEach(element => {
@@ -262,7 +262,7 @@ describe('signals/settings/categories/Detail', () => {
     );
 
     // on patch success, re-request all categories
-    await wait(() => getByTestId('detailCategoryForm'));
+    await waitFor(() => getByTestId('detailCategoryForm'));
 
     expect(dispatch).toHaveBeenCalledWith(fetchCategories());
   });
@@ -280,7 +280,7 @@ describe('signals/settings/categories/Detail', () => {
 
     const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await waitFor(() => getByTestId('detailCategoryForm'));
     expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
 
     const submitBtn = getByTestId('submitBtn');
@@ -292,7 +292,7 @@ describe('signals/settings/categories/Detail', () => {
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await waitFor(() => getByTestId('detailCategoryForm'));
 
     expect(dispatch).toHaveBeenCalledWith(showGlobalNotification(expect.any(Object)));
 
@@ -306,7 +306,7 @@ describe('signals/settings/categories/Detail', () => {
 
     const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await waitFor(() => getByTestId('detailCategoryForm'));
 
     expect(fetch).not.toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
 
@@ -320,7 +320,7 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />));
 
-    await wait(() => getByTestId('detailCategoryForm'));
+    await waitFor(() => getByTestId('detailCategoryForm'));
 
     expect(fetch).toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
   });

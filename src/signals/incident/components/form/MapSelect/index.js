@@ -70,6 +70,10 @@ const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validat
   );
 };
 
+MapSelect.defaultProps = {
+  hasError: () => {},
+};
+
 MapSelect.propTypes = {
   handler: PropTypes.func.isRequired,
   touched: PropTypes.bool,
