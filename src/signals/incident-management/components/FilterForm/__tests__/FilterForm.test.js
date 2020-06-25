@@ -258,7 +258,10 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(submitButton.textContent).toEqual(DEFAULT_SUBMIT_BUTTON_LABEL);
 
-    act(() => { fireEvent.change(nameField, { target: { value: 'My filter' } }); });
+    act(() => {
+      fireEvent.change(nameField, { target: { value: 'My filter' } });
+      fireEvent.blur(nameField);
+    });
 
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL);
 
@@ -282,13 +285,9 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     const addressField = container.querySelector('input[type="text"][name="address_text"]');
 
-    await act(async () => {
-      fireEvent.change(addressField, { target: { value: 'Weesperstraat 113/117' } });
-    });
+    await act(async () => { fireEvent.change(addressField, { target: { value: 'Weesperstraat 113/117' } }); });
 
-    await act(async () => {
-      fireEvent.blur(addressField);
-    });
+    await act(async () => { fireEvent.blur(addressField); });
 
     await findByTestId('filterAddress');
 
@@ -449,6 +448,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       act(() => {
         fireEvent.change(nameField, { target: { value: 'New name' } });
+        fireEvent.blur(nameField);
       });
 
       act(() => {
@@ -502,6 +502,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       act(() => {
         fireEvent.change(nameField, { target: { value: 'My changed filter' } });
+        fireEvent.blur(nameField);
       });
 
       act(() => {
