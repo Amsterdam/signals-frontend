@@ -1,5 +1,6 @@
-import moment from 'moment';
-
+import format from 'date-fns/format';
+import formatISO from 'date-fns/formatISO';
+import parse from 'date-fns/parse';
 import mapValues from '../map-values';
 import mapPaths from '../map-paths';
 
@@ -7,26 +8,26 @@ export const defaultParams = {
   reporter: {},
 };
 
-export default (incident, wizard) => {
+const mapControlsToParams = (incident, wizard) => {
   let datetime;
-
   if (incident.datetime && incident.datetime.id === 'Nu') {
-    datetime = moment();
+    datetime = new Date();
   } else if (incident.incident_date) {
     const date =
       incident.incident_date && incident.incident_date === 'Vandaag'
-        ? moment().format('YYYY-MM-DD')
+        ? format(new Date(), 'yyyy-MM-dd')
         : incident.incident_date;
 
-    const time = `${incident.incident_time_hours}:${incident.incident_time_minutes}`;
-
-    datetime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
+    const datetimeString = `${date} ${String(incident.incident_time_hours).padStart(2, '0')}:${String(
+      incident.incident_time_minutes
+    ).padStart(2, '0')}`;
+    datetime = parse(datetimeString, 'yyyy-MM-dd HH:mm', new Date());
   }
 
   let params = defaultParams;
 
   if (datetime) {
-    params.incident_date_start = datetime.format();
+    params.incident_date_start = formatISO(datetime);
   }
 
   params = mapValues(params, incident, wizard);
@@ -34,3 +35,5 @@ export default (incident, wizard) => {
 
   return params;
 };
+
+export default mapControlsToParams;
