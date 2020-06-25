@@ -24,7 +24,7 @@ describe('components/Logo', () => {
   });
 
   it('should render correctly', () => {
-    const { container, getByTestId } = render(withAppContext(<Logo tall />));
+    const { container, getByTestId } = render(withAppContext(<Logo />));
 
     expect(container.querySelector(`a[href="${configuration.links.home}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
@@ -33,7 +33,7 @@ describe('components/Logo', () => {
   });
 
   it('should render the same when tall', () => {
-    const { container, getByTestId } = render(withAppContext(<Logo tall />));
+    const { container, getByTestId } = render(withAppContext(<Logo />));
 
     expect(container.querySelector(`a[href="${configuration.links.home}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
