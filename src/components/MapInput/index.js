@@ -159,7 +159,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
           topLeft={
             <StyledAutosuggest
               formatResponse={formatPDOKResponse}
-              municipality={configuration.map?.options?.municipality}
+              municipality={configuration.map?.municipality}
               onClear={() => dispatch(resetLocationAction())}
               onSelect={onSelect}
               placeholder="Zoek adres"

@@ -105,13 +105,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const { ...params } = filterParams;
 
   // fixed query period (24 hours)
-  params.created_after = useMemo(
-    () =>
-      moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DDTHH:mm:ss'),
-    []
-  );
+  params.created_after = useMemo(() => moment().subtract(1, 'days').format('YYYY-MM-DDTHH:mm:ss'), []);
   params.created_before = useMemo(() => moment().format('YYYY-MM-DDTHH:mm:ss'), []);
   // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
   params.page_size = 4000;
@@ -217,7 +211,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
             <Autosuggest
               fieldList={['centroide_ll']}
               formatResponse={formatPDOKResponse}
-              municipality={configuration.map?.options?.municipality}
+              municipality={configuration.map?.municipality}
               onSelect={onSelect}
               placeholder="Zoom naar adres"
             />
