@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, wait, act } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json';
@@ -25,7 +25,7 @@ const renderAndSearch = async (value = 'Dam', props = {}) => {
     fireEvent.change(input, { target: { value } });
   });
 
-  await wait(() => resolveAfterMs(INPUT_DELAY));
+  await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
   return result;
 };

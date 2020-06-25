@@ -58,8 +58,7 @@ PDOKAutoSuggest.propTypes = {
    * Value that determines to which municipality the search query should be
    * applied.
    *
-   * Can be a single name, like amsterdam, or an array of one or more names,
-   * which will be combined using a logical OR
+   * Can be a single name, like amsterdam, or an array of one or more names.
    */
   municipality: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   onSelect: PropTypes.func.isRequired,
