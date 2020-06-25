@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
-
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import parseISO from 'date-fns/parseISO';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import * as types from 'shared/types';
 
@@ -19,9 +19,8 @@ class List extends React.Component {
   getDaysOpen(incident) {
     const statusesWithoutDaysOpen = ['o', 'a', 's', 'reopen requested'];
     if (incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)) {
-      const start = moment(incident.created_at.split('T')[0]);
-      const duration = moment.duration(moment().diff(start));
-      return Math.trunc(duration.asDays());
+      const start = parseISO(incident.created_at);
+      return -differenceInCalendarDays(start, new Date());
     }
 
     return '-';

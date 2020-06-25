@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 import { patchIncident as patchIncidentAction } from 'models/incident/actions';

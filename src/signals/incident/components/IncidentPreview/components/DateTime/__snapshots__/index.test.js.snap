@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Preview component <DateTime /> should render earlier date correctly 1`] = `"Wednesday 21 February, Invalid date"`;
+exports[`Preview component <DateTime /> should render earlier date correctly 1`] = `"Woensdag 21 februari, 6:06"`;
 
 exports[`Preview component <DateTime /> should render earlier today correctly 1`] = `"Vandaag, 13:45"`;
 

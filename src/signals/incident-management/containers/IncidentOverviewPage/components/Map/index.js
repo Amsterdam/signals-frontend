@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
-import moment from 'moment';
+import format from 'date-fns/format';
+import subDays from 'date-fns/addDays';
 import L from 'leaflet';
 import { ViewerContainer, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
@@ -105,14 +106,9 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const { ...params } = filterParams;
 
   // fixed query period (24 hours)
-  params.created_after = useMemo(
-    () =>
-      moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DDTHH:mm:ss'),
-    []
-  );
-  params.created_before = useMemo(() => moment().format('YYYY-MM-DDTHH:mm:ss'), []);
+  params.created_after = useMemo(() => format(subDays(new Date(), -1), 'yyyy-MM-ddTHH:mm:ss'), []);
+  params.created_before = useMemo(() => format(new Date(), 'yyyy-MM-ddTHH:mm:ss'), []);
+
   // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
   params.page_size = 4000;
 
