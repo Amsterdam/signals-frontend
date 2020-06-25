@@ -258,10 +258,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(submitButton.textContent).toEqual(DEFAULT_SUBMIT_BUTTON_LABEL);
 
-    act(() => {
-      fireEvent.change(nameField, { target: { value: 'My filter' } });
-      fireEvent.blur(nameField);
-    });
+    act(() => { fireEvent.blur(nameField, { target: { value: 'My filter' } }); });
 
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL);
 
@@ -318,10 +315,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
 
-    act(() => {
-      fireEvent.change(noteField, { target: { value: 'test123' } });
-      fireEvent.blur(noteField);
-    });
+    act(() => { fireEvent.blur(noteField, { target: { value: 'test123' } }); });
 
     expect(container.querySelector('input[type="text"][name="note_keyword"]').value).toEqual('test123');
   });
@@ -439,21 +433,14 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
+      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 
       expect(handlers.onSubmit).toHaveBeenCalled();
       expect(handlers.onSaveFilter).not.toHaveBeenCalled(); // name field is empty
 
-      act(() => {
-        fireEvent.change(nameField, { target: { value: 'New name' } });
-        fireEvent.blur(nameField);
-      });
+      act(() => { fireEvent.blur(nameField, { target: { value: 'New name' } }); });
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
+      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 
       expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1);
     });
@@ -488,27 +475,17 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
-      act(() => {
-        fireEvent.change(nameField, { target: { value: ' ' } });
-        fireEvent.blur(nameField);
-      });
+      act(() => { fireEvent.blur(nameField,  { target: { value: ' ' } }); });
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
+      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 
       // trimmed field value is empty, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
       expect(window.alert).toHaveBeenCalled();
 
-      act(() => {
-        fireEvent.change(nameField, { target: { value: 'My changed filter' } });
-        fireEvent.blur(nameField);
-      });
+      act(() => { fireEvent.blur(nameField, { target: { value: 'My changed filter' } }); });
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
+      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 
       expect(handlers.onUpdateFilter).toHaveBeenCalled();
 
