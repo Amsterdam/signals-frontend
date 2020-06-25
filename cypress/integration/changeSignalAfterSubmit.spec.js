@@ -60,7 +60,7 @@ describe('Change signal after submit', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
@@ -279,7 +279,7 @@ describe('Change signal after submit', () => {
 
       // Check history
       cy.get(SIGNAL_DETAILS.historyAction)
-        .contains('Prioriteit update naar: Hoog')
+        .contains('Urgentie update naar: Hoog')
         .should('be.visible');
     });
 

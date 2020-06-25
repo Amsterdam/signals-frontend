@@ -233,7 +233,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   it('should render a map', async () => {
     const incidents = generateIncidents();
 
-    const { queryByTestId, getByTestId, findByTestId } = render(
+    const { queryByTestId, getByTestId, findByTestId, unmount } = render(
       withAppContext(
         <IncidentOverviewPageContainerComponent
           {...props}
@@ -270,6 +270,8 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument();
     expect(queryByTestId('24HourMap')).not.toBeInTheDocument();
+
+    unmount();
   });
 
   describe('filter modal', () => {

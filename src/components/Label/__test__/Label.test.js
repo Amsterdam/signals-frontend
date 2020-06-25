@@ -1,13 +1,11 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import 'jest-styled-components';
 
 import Label from '..';
 
 describe('signals/incident-management/components/Label', () => {
-  afterEach(cleanup);
-
   it('should render a label element', () => {
     const { container, getByLabelText } = render(
       withAppContext(

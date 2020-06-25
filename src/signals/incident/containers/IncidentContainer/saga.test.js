@@ -20,16 +20,20 @@ import mapControlsToParams from '../../services/map-controls-to-params';
 import * as constants from './constants';
 import watchIncidentContainerSaga, {
   getClassification,
+  getQuestionsSaga,
   createIncident,
   postIncident as postIncidentSaga,
   getPostData,
 } from './saga';
+import { resolveQuestions } from './services';
 import { createIncidentSuccess, createIncidentError } from './actions';
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
   ...jest.requireActual('shared/services/auth/auth'),
 }));
+
+jest.mock('shared/services/configuration/configuration');
 
 // POST incident API response
 const incident = JSON.stringify(incidentJSON);
@@ -49,6 +53,41 @@ const predictionResponse = {
     [`https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/${subcategory}`],
     [0.5757328735244648],
   ],
+};
+
+const resolvedPrediction = {
+  category,
+  subcategory,
+};
+
+const questionsUrl = `${configuration.QUESTIONS_ENDPOINT}?main_slug=${category}&sub_slug=${subcategory}`;
+
+const questionsResponse = [
+  {
+    key: 'key1',
+    meta: 'meta1',
+    options: 'options1',
+    field_type: 'field_type1',
+  },
+  {
+    key: 'key2',
+    meta: 'meta2',
+    options: 'options2',
+    field_type: 'field_type2',
+  },
+];
+
+const resolvedQuestions = {
+  key1: {
+    meta: 'meta1',
+    options: 'options1',
+    render: 'field_type1',
+  },
+  key2: {
+    meta: 'meta2',
+    options: 'options2',
+    render: 'field_type2',
+  },
 };
 
 const wizard = {
@@ -88,11 +127,16 @@ const categoryResponse = {
 };
 
 describe('IncidentContainer saga', () => {
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   it('should watchAppSaga', () => {
     testSaga(watchIncidentContainerSaga)
       .next()
       .all([
         takeLatest(constants.GET_CLASSIFICATION, getClassification),
+        takeLatest(constants.GET_QUESTIONS, getQuestionsSaga),
         takeLatest(constants.CREATE_INCIDENT, createIncident),
       ]);
   });
@@ -100,12 +144,24 @@ describe('IncidentContainer saga', () => {
   describe('getClassification', () => {
     const payload = 'Grof vuil op straat';
 
-    it('should dispatch success', () =>
+    it('should dispatch success without fetching questions', () =>
       expectSaga(getClassification, { payload })
         .provide([[matchers.call.fn(postCall), predictionResponse]])
         .call(resolveClassification, predictionResponse)
-        .put.like({ action: { type: constants.GET_CLASSIFICATION_SUCCESS } })
+        .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
+        .not.put.actionType(constants.GET_QUESTIONS)
         .run());
+
+    it('should fetch questions when flag enabled', () => {
+      configuration.fetchQuestionsFromBackend = true;
+
+      return expectSaga(getClassification, { payload })
+        .provide([[matchers.call.fn(postCall), predictionResponse]])
+        .call(resolveClassification, predictionResponse)
+        .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
+        .put.actionType(constants.GET_QUESTIONS)
+        .run();
+    });
 
     it('should dispatch error', () => {
       const errorResponse = { foo: 'bar' };
@@ -120,6 +176,28 @@ describe('IncidentContainer saga', () => {
         .put({ type: constants.GET_CLASSIFICATION_ERROR, payload: errorResponse })
         .run();
     });
+  });
+
+  describe('getQuestionsSaga', () => {
+    const payload = resolvedPrediction;
+
+    it('should dispatch success', () =>
+      expectSaga(getQuestionsSaga, { payload })
+        .provide([
+          [matchers.call.fn(request), { results: questionsResponse }],
+          [matchers.call.fn(resolveQuestions), resolvedQuestions],
+        ])
+        .call(request, questionsUrl)
+        .call(resolveQuestions, questionsResponse)
+        .put({ type: constants.GET_QUESTIONS_SUCCESS, payload: { questions: resolvedQuestions } })
+        .run());
+
+    it('should dispatch error', () =>
+      expectSaga(getQuestionsSaga, { payload })
+        .provide([[matchers.call.fn(request), throwError(new Error('whoops!!!1!'))]])
+        .call(request, questionsUrl)
+        .put.actionType(constants.GET_QUESTIONS_ERROR)
+        .run());
   });
 
   describe('postIncident', () => {

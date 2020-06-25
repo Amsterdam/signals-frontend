@@ -15,10 +15,11 @@ import configuration from 'shared/services/configuration/configuration';
 import loadModels from 'models';
 
 // Make sure these icons are picked up by webpack
-// eslint-disable-next-line import/no-unresolved,import/extensions
+/* eslint-disable import/no-unresolved,import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-// eslint-disable-next-line import/no-unresolved,import/extensions
 import '!file-loader?name=[name].[ext]!./images/icon_180x180.png';
+import '!file-loader?name=[name].[ext]!./images/icon_192x192.png';
+/* eslint-enable import/no-unresolved,import/extensions */
 
 // Import CSS and Global Styles
 import './global.scss';
@@ -58,6 +59,9 @@ if (urlBase && siteId) {
 }
 
 const render = () => {
+  // eslint-disable-next-line no-undef,no-console
+  console.log(`Signals: version: ${VERSION}, build: ${process.env.NODE_ENV}`);
+
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>

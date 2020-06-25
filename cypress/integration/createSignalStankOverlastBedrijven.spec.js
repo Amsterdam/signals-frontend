@@ -97,7 +97,7 @@ describe('Create signal stank overlast bedrijven and check signal details', () =
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));

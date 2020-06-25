@@ -1,12 +1,15 @@
 const path = require('path');
+const pkgDir = require('pkg-dir');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const template = require('./template');
+
+const __rootdir = pkgDir.sync();
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -82,24 +85,6 @@ module.exports = require('./webpack.base.babel')({
       inject: true,
     }),
 
-    new WebpackPwaManifest({
-      name: 'Signalen Informatievoorziening Amsterdam',
-      short_name: 'SIA',
-      background_color: '#ffffff',
-      theme_color: '#ec0000',
-      inject: true,
-      ios: true,
-      fingerprints: false,
-      display: 'fullscreen',
-      orientation: 'portrait',
-      icons: [
-        {
-          src: path.resolve('src/images/logo.png'),
-          sizes: [192],
-        },
-      ],
-    }),
-
     new CompressionPlugin({
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/,
@@ -136,6 +121,15 @@ module.exports = require('./webpack.base.babel')({
 
       // Removes warning for about `additional` section usage
       safeToUseOptionalCaches: true,
+    }),
+
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__rootdir, 'src', 'manifest.json'),
+          to: path.resolve(__rootdir, 'build', 'manifest.json'),
+        },
+      ],
     }),
   ],
 

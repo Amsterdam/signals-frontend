@@ -1,8 +1,4 @@
-const fs = require('fs');
-const path = require('path');
 require('@babel/register');
-
-const prettierOptions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8'));
 
 module.exports = {
   parser: 'babel-eslint',
@@ -11,7 +7,7 @@ module.exports = {
     'plugin:cypress/recommended',
     'prettier',
     'prettier/react',
-    'plugin:testing-library/react'
+    'plugin:testing-library/react',
   ],
   plugins: ['cypress', 'prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y', 'testing-library'],
   env: {

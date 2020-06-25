@@ -64,10 +64,19 @@ Cypress.Commands.add('defineMapRoutes', () => {
 });
 
 // Routes loading signal details
-Cypress.Commands.add('getSignalDetailsRoutes', () => {
+Cypress.Commands.add('getSignalDetailsRoutesById', () => {
   cy.route(`/signals/v1/private/signals/${Cypress.env('signalId')}`).as('getSignal');
   cy.route(`/signals/v1/private/signals/${Cypress.env('signalId')}/history`).as('getHistory');
   cy.route(`/signals/v1/private/signals/${Cypress.env('signalId')}/attachments`).as('getAttachments');
+  cy.route('/maps/topografie?bbox=*').as('getMap');
+  cy.route('/signals/v1/private/terms/categories/**').as('getTerms');
+});
+
+// Routes loading signal details
+Cypress.Commands.add('getSignalDetailsRoutes', () => {
+  cy.route('/signals/v1/private/signals/*').as('getSignal');
+  cy.route('/signals/v1/private/signals/*/history').as('getHistory');
+  cy.route('/signals/v1/private/signals/*/attachments').as('getAttachments');
   cy.route('/maps/topografie?bbox=*').as('getMap');
   cy.route('/signals/v1/private/terms/categories/**').as('getTerms');
 });
@@ -79,4 +88,16 @@ Cypress.Commands.add('waitForSignalDetailsRoutes', () => {
   cy.wait('@getAttachments');
   cy.wait('@getMap');
   cy.wait('@getTerms');
+});
+
+Cypress.Commands.add('postNoteRoutes', () => {
+  cy.route('PATCH', '/signals/v1/private/signals/*').as('patchNote');
+  cy.route('/signals/v1/private/signals/?page=*').as('getSignal');
+  cy.route('**/history').as('getHistory');
+});
+
+Cypress.Commands.add('waitForPostNoteRoutes', () => {
+  cy.wait('@patchNote');
+  cy.wait('@getSignal');
+  cy.wait('@getHistory');
 });
