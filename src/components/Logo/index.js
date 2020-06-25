@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import configuration from 'shared/services/configuration/configuration';
 
 const StyledLogo = styled.img`
-  width: ${props => props.tall === true ? configuration.logo.width : configuration.logo.smallWidth};
-  height: ${props => props.tall === true ? configuration.logo.height : configuration.logo.smallHeight};
+  width: ${({ tall }) => tall ? configuration.logo.width : configuration.logo.smallWidth};
+  height: ${({ tall }) => tall ? configuration.logo.height : configuration.logo.smallHeight};
   max-height: ${props => props.tall === true ? '56px' : '32px'};
 `;
 
