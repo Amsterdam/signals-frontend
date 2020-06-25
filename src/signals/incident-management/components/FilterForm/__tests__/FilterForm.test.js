@@ -490,6 +490,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       act(() => {
         fireEvent.change(nameField, { target: { value: ' ' } });
+        fireEvent.blur(nameField);
       });
 
       act(() => {
