@@ -20,6 +20,8 @@ const Toggle = styled.label`
   text-decoration: underline;
   font-size: 16px;
   line-height: 20px;
+  white-space: nowrap;
+  position:relative ;
 
   &:hover {
     color: rgb(236, 0, 0);
@@ -29,9 +31,11 @@ const Toggle = styled.label`
     background-color: rgb(254, 200, 19);
   }
 
-  & + input[type='checkbox'] {
+  & input[type='checkbox'] {
+    position: absolute;
+    left:0;
+    top:0;
     visibility: hidden;
-    margin-left: -99999em;
   }
 `;
 
@@ -267,6 +271,7 @@ const CheckboxList = ({
           <Wrapper disabled={defaultOption.disabled} key={optionId}>
             <StyledCheckbox
               checked={isChecked(groupId) || isChecked(uid)}
+              data-testid={`checkbox-${optionId}`}
               data-id={uid}
               disabled={defaultOption.disabled}
               id={optionId}

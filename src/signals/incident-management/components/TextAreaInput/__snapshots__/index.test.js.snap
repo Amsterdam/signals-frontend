@@ -18,23 +18,15 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
     <div
       className="text-area-input__control"
     >
-      <TextArea__StyledArea
+      <ForwardRef
         data-testid="name"
+        helpText="0/300 tekens"
         id="formname"
         name="name"
         placeholder="placeholder"
         rows={2}
         value=""
       />
-      <div
-        className="input-help"
-      >
-        <span
-          className="text-area-input__counter"
-        >
-          0/300 tekens
-        </span>
-      </div>
     </div>
   </div>
 </div>
@@ -58,23 +50,15 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
     <div
       className="text-area-input__control"
     >
-      <TextArea__StyledArea
+      <ForwardRef
         data-testid="name"
+        helpText="4/300 tekens"
         id="formname"
         name="name"
         placeholder="placeholder"
         rows={2}
         value=""
       />
-      <div
-        className="input-help"
-      >
-        <span
-          className="text-area-input__counter"
-        >
-          4/300 tekens
-        </span>
-      </div>
     </div>
   </div>
 </div>
@@ -98,8 +82,9 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
     <div
       className="text-area-input__control"
     >
-      <TextArea__StyledArea
+      <ForwardRef
         data-testid="name"
+        helpText={false}
         id="formname"
         name="name"
         placeholder="placeholder"

@@ -1,14 +1,11 @@
 import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
 
+import configuration from 'shared/services/configuration/configuration';
+
 const MAP_OPTIONS = {
-  center: [52.3731081, 4.8932945],
+  ...(configuration.map.options || {}),
   zoomControl: false,
-  zoom: 10,
   crs: getCrsRd(),
-  maxBounds: [
-    [52.25168, 4.64034],
-    [52.50536, 5.10737],
-  ],
   attributionControl: true,
 };
 

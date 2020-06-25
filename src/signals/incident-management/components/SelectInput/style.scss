@@ -1,11 +1,5 @@
 .select-input {
-  width: 100%;
-
   &__control {
     margin-bottom: 20px;
-
-    select[id][multiple] {
-      overflow-y: auto;
-    }
   }
 }

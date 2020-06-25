@@ -1,6 +1,103 @@
 {
-  "API_ROOT": "https://acc.api.data.amsterdam.nl/",
+  "head": {
+    "androidIcon": "/icon_192x192.png",
+    "backgroundColor": "#ffffff",
+    "favicon": "/favicon.png",
+    "iosIcon": "/icon_180x180.png",
+    "statusBarStyle": "default",
+    "themeColor": "#ec0000"
+  },
+  "logo": {
+    "url": null,
+    "width": 0,
+    "height": 0,
+    "smallWidth": 0,
+    "smallHeight": 0
+  },
+  "sentry": {
+    "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
+  },
+  "matomo": {
+    "urlBase": "https://analytics.data.amsterdam.nl/",
+    "siteId": 14
+  },
+  "language": {
+    "title": "Signalen Informatievoorziening Amsterdam",
+    "shortTitle": "SIA",
+    "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
+    "footer1": "Bel het Gemeentelijk informatienummer: 14 020",
+    "footer2": "op werkdagen van 08.00 tot 18.00 uur."
+  },
+  "links": {
+    "home": "https://www.amsterdam.nl",
+    "privacy": "https://www.amsterdam.nl/privacy/"
+  },
+  "theme": {},
+  "map": {
+    "tiles": {
+      "args": [
+        "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
+      ],
+      "options": {
+        "subdomains": [
+          "t1",
+          "t2",
+          "t3",
+          "t4"
+        ],
+        "tms": true,
+        "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam"
+      }
+    },
+    "options": {
+      "maxBounds": [
+        [
+          52.25168,
+          4.64034
+        ],
+        [
+          52.50536,
+          5.10737
+        ]
+      ],
+      "center": [
+        52.3731081,
+        4.8932945
+      ],
+      "zoom": 10,
+      "maxZoom": 14,
+      "minZoom": 8,
+      "gemeentenaam": "amsterdam"
+    }
+  },
+  "fetchQuestionsFromBackend": false,
+  "showVulaanControls": true,
+  "API_ROOT_MAPSERVER": "https://map.data.amsterdam.nl/",
+  "AUTH_ME_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/",
+  "CATEGORIES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/",
+  "CATEGORIES_PRIVATE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/",
+  "DEPARTMENTS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/",
+  "FEEDBACK_FORMS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/forms/",
+  "FEEDBACK_STANDARD_ANSWERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/",
+  "FILTERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters/",
+  "GEOGRAPHY_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/geography",
+  "IMAGE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/signal/image/",
+  "INCIDENTS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/",
+  "INCIDENT_PRIVATE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/",
+  "INCIDENT_PUBLIC_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/signals/",
+  "OIDC_AUTH_ENDPOINT": "https://acc.api.data.amsterdam.nl/oauth2/authorize",
+  "OIDC_CLIENT_ID": "sia",
+  "OIDC_RESPONSE_TYPE": "token",
+  "OIDC_SCOPE": "SIG/ALL",
+  "OVL_KLOKKEN_LAYER": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
+  "OVL_VERLICHTING_LAYER": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
+  "PERMISSIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/",
+  "PREDICTION_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/category/prediction",
+  "PRIORITY_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/auth/priority/",
+  "QUESTIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/questions/",
+  "ROLES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/",
   "ROOT": "http://localhost:3001/",
-  "AUTH_ROOT": "https://acc.api.data.amsterdam.nl/",
-  "API_ROOT_MLTOOL": "https://acc.api.data.amsterdam.nl/"
+  "SEARCH_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/search",
+  "TERMS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/",
+  "USERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/"
 }

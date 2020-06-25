@@ -1,97 +1,86 @@
 import React from 'react';
+import format from 'date-fns/format';
+import subDays from 'date-fns/subDays';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-
+import { nl } from 'date-fns/locale';
+import Select from 'components/SelectInput';
+import { capitalize } from 'shared/services/date-utils';
 import Header from '../Header';
 
 import './style.scss';
 
-const DateTimeInput = ({
-  touched, hasError, meta, parent, getError, validatorsOrOpts,
-}) => {
-  function formatDate(offset, type = 'value') {
-    const format = type === 'label' ? 'dddd D MMMM' : 'YYYY-MM-DD';
-    if (offset === 0) {
-      return 'Vandaag';
-    }
-    return moment().subtract(offset, 'days').format(format);
+const formatDate = (offset, type = 'value') => {
+  const dateFormat = type === 'label' ? 'EEEE d MMMM' : 'yyyy-MM-dd';
+  if (offset === 0) {
+    return 'Vandaag';
   }
 
-  return (
-    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-      {meta && meta.isVisible
-        ? (
-          <div className={`${meta.className || 'col-12'} mode_input datetime-input`}>
-            <div className="invoer antwoorden">
-              <Header
-                meta={meta}
-                options={validatorsOrOpts}
-                touched={touched}
-                hasError={hasError}
-                getError={getError}
-              >
-                <div className="datetime-input__earlier">
-                  <div className="datetime-input__label">
-                    <label htmlFor={`${meta.name}-select-day`}>Dag</label>
-                  </div>
-                  <div className="invoer datetime-input__earlier-date">
-                    <select
-                      id={`${meta.name}-select-day`}
-                      className="datetime-input__earlier-day"
-                      value={parent.value.incident_date}
-                      onChange={e => parent.meta.updateIncident({ incident_date: e.target.value })}
-                    >
-                      {[...Array(7).keys()].map(offset => (
-                        <option key={`select-day-option-${offset}`} value={formatDate(offset)}>{formatDate(offset, 'label')}</option>
-                      ))}
-                    </select>
-                  </div>
+  const date = subDays(new Date(), offset);
+  return capitalize(format(date, dateFormat, { locale: nl }));
+};
 
-                  <div className="datetime-input__label">
-                    <label htmlFor={`${meta.name}-select-time-hours`}>Tijd</label>
-                  </div>
-                  <div className="invoer datetime-input__earlier-time">
-                    <select
-                      value={parent.value.incident_time_hours}
-                      id={`${meta.name}-select-time-hours`}
-                      className="datetime-input__earlier-time-hours"
-                      onChange={e => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
-                    >
-                      {[...Array(24).keys()].map(hour => (
-                        <option
-                          key={`select-time-hours-option-${hour}`}
-                          value={hour}
-                        >
-                          {hour}
-                        </option>
-                      ))}
-                    </select>
-                    <span className="datetime-input__earlier-time-label">uur</span>
-                    <select
-                      id={`${meta.name}-select-time-minutes`}
-                      className="datetime-input__earlier-time-minutes"
-                      value={parent.value.incident_time_minutes}
-                      onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
-                    >
-                      {[...Array(12).keys()].map(minute => (
-                        <option
-                          key={`select-time-minutes-option-${minute * 5}`}
-                          value={minute * 5}
-                        >
-                          {minute * 5}
-                        </option>
-                      ))}
-                    </select>
-                    <span className="datetime-input__earlier-time-label">min</span>
-                  </div>
-                </div>
-              </Header>
-            </div>
+
+const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
+  if (!meta?.isVisible) return null;
+
+  const options = [...Array(7).keys()].map(offset => {
+    const name = formatDate(offset, 'label');
+    const value = formatDate(offset);
+    return ({
+      value,
+      key: name,
+      name,
+    });
+  });
+
+  return (
+    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+      <div className="datetime-input__earlier">
+        <div className="datetime-input__earlier-date">
+          <Select
+            name="day"
+            data-testid="selectDay"
+            label={<strong>Dag</strong>}
+            value={`${parent.value.incident_date}`}
+            onChange={e => parent.meta.updateIncident({ incident_date: e.target.value })}
+            options={options}
+          />
+        </div>
+
+        <div className="datetime-input__earlier-time">
+          <div>
+            <Select
+              name="hours"
+              data-testid="selectHours"
+              label={<strong>Tijd</strong>}
+              value={`${parent.value.incident_time_hours}`}
+              onChange={e => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
+              options={[...Array(24).keys()].map(value => ({ value, key: value, name: value }))}
+            />
           </div>
-        )
-        : ''}
-    </div>
+          <span className="datetime-input__earlier-time-label">uur</span>
+          <div>
+            <Select
+              name="minutes"
+              data-testid="selectMinutes"
+              value={`${parent.value.incident_time_minutes}`}
+              onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
+              options={[...Array(12).keys()].map(minute => ({
+                value: minute * 5,
+                name: minute * 5,
+                key: minute * 5,
+              }))}
+            />
+          </div>
+          <span className="datetime-input__earlier-time-label">min</span>
+        </div>
+      </div>
+    </Header>
   );
+};
+
+DateTimeInput.defaultProps = {
+  hasError: () => {},
 };
 
 DateTimeInput.propTypes = {

@@ -8,6 +8,8 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  RESET_EXTRA_STATE,
+  GET_QUESTIONS_SUCCESS,
 } from './constants';
 
 export const initialState = fromJS({
@@ -29,6 +31,7 @@ export const initialState = fromJS({
       id: 'normal',
       label: 'Normaal',
     },
+    questions: [],
     source: undefined,
     subcategory: '',
     type: {
@@ -39,12 +42,12 @@ export const initialState = fromJS({
   loadingClassification: false,
 });
 
-const getIncidentWithoutExtraProps = (incident, { category, subcategory }) => {
+const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) => {
   const prevCategory = incident.get('category');
   const prevSubcategory = incident.get('subcategory');
   const hasChanged = prevCategory !== category || prevSubcategory !== subcategory;
 
-  if (!hasChanged) return incident;
+  if (!hasChanged && category && subcategory) return incident;
 
   const seq = Seq(incident).filter((val, key) => !key.startsWith('extra'));
 
@@ -96,6 +99,12 @@ export default (state = initialState, action) => {
           .set('category', action.payload.category)
           .set('subcategory', action.payload.subcategory)
       );
+
+    case RESET_EXTRA_STATE:
+      return state.set('incident', getIncidentWithoutExtraProps(state.get('incident'), action.payload));
+
+    case GET_QUESTIONS_SUCCESS:
+      return state.set('incident', state.get('incident').set('questions', action.payload.questions));
 
     default:
       return state;

@@ -1,26 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Label from 'components/Label';
-import { themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { RadioGroup, Radio, Label as AscLabel, themeSpacing } from '@datapunt/asc-ui';
 
-import './style.scss';
+import InfoText from 'components/InfoText';
 
 const Wrapper = styled.div`
   width: 100%;
-  margin-bottom: ${themeSpacing(8)};
+  margin-bottom: ${themeSpacing(6)};
 `;
 
-const Info = styled.p`
-  color: ${themeColor('tint', 'level5')};
+const StyledLabel = styled(AscLabel)`
+  * {
+    font-weight: normal
+  }
 `;
-
-const ValueContainer = styled.div`
-  position: relative;
-  margin-bottom: ${themeSpacing(3)};
-  padding: 0 0 0 ${themeSpacing(9)};
-`;
-
 
 const RadioInput = ({ name, display, values }) => {
   const Render = ({ handler, value: current }) => {
@@ -35,27 +29,22 @@ const RadioInput = ({ name, display, values }) => {
     return (
       <Wrapper>
         <div className="mode_input text rij_verplicht">
-          {display && <Label htmlFor={`form${name}`}>{display}</Label>}
+          {display && <AscLabel htmlFor={`form${name}`} label={<strong>{display}</strong>} />}
 
-          <div className="invoer">
+          <RadioGroup name={name}>
             {values?.map(({ key, value }) => (
-              <ValueContainer key={`${name}-${key}`}>
-                <input
+              <StyledLabel key={key} label={value}>
+                <Radio
+                  checked={current === key}
                   id={`${name}-${key}`}
                   data-testid={`${name}-${key}`}
-                  className="kenmerkradio"
                   {...handler('radio', key)}
                 />
-                <label htmlFor={`${name}-${key}`}>{value}</label>
-              </ValueContainer>
+              </StyledLabel>
             ))}
+          </RadioGroup>
 
-            {info && (
-              <Info>
-                {label}: {info}
-              </Info>
-            )}
-          </div>
+          {info && <InfoText text={`${label}: ${info}`} />}
         </div>
       </Wrapper>
     );

@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import BboxGeojsonLayer from '@datapunt/leaflet-geojson-bbox-layer';
 import 'leaflet/dist/leaflet.css';
 import classNames from 'classnames';
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
-  font-family: "AvenirNextLTW01-Regular", arial, sans-serif;
+  font-family: "Avenir Next LT W01-Regular", arial, sans-serif;
 `;
 
 const MapSelect = ({
@@ -100,6 +100,7 @@ const MapSelect = ({
           pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
             L.marker(latlong, {
               icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
+              alt: feature.properties.objectnummer,
             }),
 
           /**

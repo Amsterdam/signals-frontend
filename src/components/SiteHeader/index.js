@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
-import { svg, Logout as LogoutIcon } from '@datapunt/asc-assets';
+import { Logout as LogoutIcon } from '@datapunt/asc-assets';
 
 import {
   Header as HeaderComponent,
@@ -15,13 +15,17 @@ import {
   MenuToggle,
   themeColor,
   themeSpacing,
+  breakpoint,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 import Notification from 'containers/Notification';
+import Logo from 'components/Logo';
+import configuration from 'shared/services/configuration/configuration';
+import AmsterdamLogo from 'components/AmsterdamLogo';
 
-export const breakpoint = 1170;
+export const menuBreakpoint = 1170;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -37,22 +41,17 @@ const StyledHeader = styled(HeaderComponent)`
         h1 {
           margin-left: ${themeSpacing(-5)};
         }
-        h1 a {
-          &,
-          span {
-            width: 153px;
+
+        @media screen and ${breakpoint('min-width', 'tabletS')} {
+          h1 a {
+            &,
+            span {
+              width: 153px;
+            }
           }
         }
-        h1 a span {
-          background-image: url(${svg.LogoShort}) !important;
-        }
       }
-
-      h1 a span {
-        background-image: url(${svg.LogoShort}) !important;
-      }
-    }
-  `}
+    `}
 
   nav {
     width: 100%;
@@ -66,6 +65,7 @@ const StyledMenuButton = styled(MenuButton)`
   background: transparent;
   font-size: 16px;
   font-family: inherit;
+  font-weight: 400;
   color: ${themeColor('tint', 'level6')};
 `;
 
@@ -83,7 +83,7 @@ const StyledMenuFlyout = styled(MenuFlyOut)`
 const SearchBarMenuItem = styled(MenuItem)`
   margin-right: 0;
   max-width: 365px;
-  @media screen and (min-width: ${breakpoint + 1}px) {
+  @media screen and (min-width: ${menuBreakpoint + 1}px) {
     margin-right: auto;
     flex-basis: 365px;
   }
@@ -100,83 +100,88 @@ const HeaderWrapper = styled.div`
     z-index: 2;
   }
 
-  ${({ tall }) => !tall && css`
-    #header {
-      left: 0;
-      right: 0;
-      position: fixed;
-    }
-  `}
-
-  ${({ isFrontOffice, tall }) => isFrontOffice && tall && css`
-    #header {
-      position: relative;
-
-      header {
-        height: 160px;
-        z-index: 0;
+  ${({ tall }) =>
+    !tall &&
+    css`
+      #header {
+        left: 0;
+        right: 0;
+        position: fixed;
       }
+    `}
 
-      @media screen and (max-width: 539px) {
+  ${({ isFrontOffice, tall }) =>
+    isFrontOffice &&
+    tall &&
+    css`
+      #header {
+        position: relative;
+
         header {
-          height: 50px;
+          height: 160px;
+          z-index: 0;
         }
 
-        nav {
-          display: none;
+        @media screen and (max-width: 539px) {
+          header {
+            height: 50px;
+          }
+
+          nav {
+            display: none;
+          }
         }
-      }
 
-      @media screen and (min-width: 540px) {
-        z-index: 0;
-        box-shadow: none;
-        &:after {
-          max-width: 1400px;
-          margin-left: auto;
-          margin-right: auto;
-          content: '';
-          display: block;
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 44px;
-          margin-top: ${themeSpacing(-11)};
-          background-color: ${themeColor('tint', 'level2')};
-          width: 100%;
+        @media screen and (min-width: 540px) {
+          z-index: 0;
+          box-shadow: none;
+          &:after {
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 44px;
+            margin-top: ${themeSpacing(-11)};
+            background-color: ${themeColor('tint', 'level2')};
+            width: 100%;
+          }
         }
-      }
 
-      nav,
-      ul {
-        margin: 0;
-      }
-
-      > header {
-        flex-wrap: wrap;
-      }
-
-      h1 {
-        padding: 15px 0;
-        @media screen and (max-width: 990px) {
+        nav,
+        ul {
           margin: 0;
         }
 
-        a {
-          height: 68px;
+        > header {
+          flex-wrap: wrap;
+        }
 
-          span {
-            background-repeat: no-repeat;
-            background-size: auto 100%;
+        h1 {
+          padding: 15px 0;
+          @media screen and (max-width: 990px) {
+            margin: 0;
           }
 
-          @media screen and (max-width: 539px) {
-            margin-top: -3px;
-            height: 29px;
+          a {
+            height: 68px;
+
+            span {
+              background-repeat: no-repeat;
+              background-size: auto 100%;
+            }
+
+            @media screen and (max-width: 539px) {
+              margin-top: -3px;
+              height: 29px;
+            }
           }
         }
       }
-    }
-  `}
+    `}
 `;
 
 const MenuItems = ({ onLogOut, showItems }) => {
@@ -211,8 +216,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
         </MenuItem>
       )}
 
-      {showItems.settings &&
-        (showItems.users || showItems.groups || showItems.departments) && (
+      {showItems.settings && (showItems.users || showItems.groups || showItems.departments) && (
         <StyledMenuFlyout label="Instellingen" forwardedAs="span">
           {showItems.users && (
             <StyledMenuButton forwardedAs={NavLink} to="/instellingen/gebruikers">
@@ -251,15 +255,8 @@ const MenuItems = ({ onLogOut, showItems }) => {
               Help
             </StyledMenuButton>
           </MenuItem>
-          <MenuItem
-            element="button"
-            data-testid="logout-button"
-            onClick={onLogOut}
-          >
-            <StyledMenuButton
-              iconSize={16}
-              iconLeft={<LogoutIcon focusable="false" />}
-            >
+          <MenuItem element="button" data-testid="logout-button" onClick={onLogOut}>
+            <StyledMenuButton iconSize={16} iconLeft={<LogoutIcon focusable="false" />}>
               Uitloggen
             </StyledMenuButton>
           </MenuItem>
@@ -273,11 +270,11 @@ export const SiteHeader = props => {
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
   const title = tall ? '' : 'SIA';
-  const homeLink = tall ? 'https://www.amsterdam.nl' : '/';
+  const homeLink = tall ? configuration.links.home : '/';
 
   const navigation = useMemo(
     () => (
-      <Media query={`(max-width: ${breakpoint}px)`}>
+      <Media query={`(max-width: ${menuBreakpoint}px)`}>
         {matches =>
           matches ? (
             <MenuToggle align="right">
@@ -309,6 +306,7 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
+          {...(configuration.logo?.url ? { logo: Logo } : { logo: AmsterdamLogo })}
         />
         {!tall && <Notification />}
       </HeaderWrapper>

@@ -1,20 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Row, Button, Column, themeColor } from '@datapunt/asc-ui';
+import styled, { css } from 'styled-components';
+import { Row, Column, themeColor } from '@datapunt/asc-ui';
+import Button from 'components/Button';
 
 export const FooterWrapper = styled.footer`
-  border-top: 2px solid #e6e6e6;
   background: ${themeColor('tint', 'level1')};
   height: 66px;
   padding: 10px 0;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  left: 0;
   max-width: 1400px;
-  left: 50%;
-  transform: translate(-50%);
+
+  ${({ inline }) =>
+    !inline &&
+    css`
+      border-top: 2px solid #e6e6e6;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      left: 50%;
+      transform: translate(-50%);
+    `}
 `;
 
 export const ButtonContainer = styled(Column)`
@@ -47,21 +52,19 @@ export const CancelButton = styled(StyledButton).attrs({
 const FormFooter = ({
   cancelBtnLabel,
   className,
+  inline,
   onCancel,
   onResetForm,
   onSubmitForm,
+  canSubmitForm,
   resetBtnLabel,
   submitBtnLabel,
 }) => (
-  <FooterWrapper className={className}>
-    <Row>
+  <FooterWrapper data-testid="formFooter" className={className} inline={inline}>
+    <Row hasMargin={!inline}>
       <ButtonContainer span={12}>
         {resetBtnLabel && (
-          <ResetButton
-            data-testid="resetBtn"
-            onClick={onResetForm}
-            type="reset"
-          >
+          <ResetButton data-testid="resetBtn" onClick={onResetForm} type="reset">
             {resetBtnLabel}
           </ResetButton>
         )}
@@ -70,6 +73,7 @@ const FormFooter = ({
           <SubmitButton
             data-testid="submitBtn"
             name="submit_button"
+            disabled={!canSubmitForm}
             onClick={onSubmitForm}
             type="submit"
           >
@@ -78,11 +82,7 @@ const FormFooter = ({
         )}
 
         {cancelBtnLabel && (
-          <CancelButton
-            data-testid="cancelBtn"
-            onClick={onCancel}
-            type="button"
-          >
+          <CancelButton data-testid="cancelBtn" onClick={onCancel} type="button">
             {cancelBtnLabel}
           </CancelButton>
         )}
@@ -94,9 +94,11 @@ const FormFooter = ({
 FormFooter.defaultProps = {
   cancelBtnLabel: '',
   className: '',
+  inline: false,
   onCancel: null,
   onResetForm: null,
   onSubmitForm: null,
+  canSubmitForm: true,
   resetBtnLabel: '',
   submitBtnLabel: '',
 };
@@ -104,9 +106,12 @@ FormFooter.defaultProps = {
 FormFooter.propTypes = {
   cancelBtnLabel: PropTypes.string,
   className: PropTypes.string,
+  /** When true, the component is positioned relative without borders or padding */
+  inline: PropTypes.bool,
   onCancel: PropTypes.func,
   onResetForm: PropTypes.func,
   onSubmitForm: PropTypes.func,
+  canSubmitForm: PropTypes.bool,
   resetBtnLabel: PropTypes.string,
   submitBtnLabel: PropTypes.string,
 };

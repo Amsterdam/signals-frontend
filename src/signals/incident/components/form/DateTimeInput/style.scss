@@ -1,18 +1,14 @@
 .datetime-input {
-  position: relative;
-  margin-top: -20px;
-
-  &__label {
-    margin: 8px 0 3px;
-  }
-
   &__earlier-date {
     width: 240px;
   }
 
   &__earlier-time {
-    &-hours,
-    &-minutes {
+    margin-top: 8px;
+    display: flex;
+    align-items: flex-end;
+
+    select {
       width: 80px !important;
     }
 

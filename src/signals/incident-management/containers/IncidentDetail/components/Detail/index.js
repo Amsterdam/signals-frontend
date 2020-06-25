@@ -5,7 +5,7 @@ import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
 import { incidentType, attachmentsType } from 'shared/types';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 
 import Location from './components/Location';
 import Attachments from './components/Attachments';
@@ -82,6 +82,9 @@ const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowA
 
         <dt data-testid="detail-phone-definition">Telefoon melder</dt>
         <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
+
+        <dt data-testid="detail-sharing-definition">Toestemming contactgegevens delen</dt>
+        <dd data-testid="detail-sharing-value">{incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}</dd>
       </DefinitionList>
     </Wrapper>
   );

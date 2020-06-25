@@ -1,52 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-import Label from 'components/Label';
+import SelectInputComponent from 'components/SelectInput';
 
-import './style.scss';
+const Wrapper = styled.div`
+  width: 100%;
+`;
 
-export const SelectInput = props => {
-  const {
-    name,
-    display,
-    values,
-    multiple,
-    useSlug,
-    emptyOptionText,
-    size,
-  } = props;
-  const options = values.map(({ key, value, slug }) => (
-    <option
-      key={useSlug ? slug : key}
-      title={key ? value : emptyOptionText || value}
-      value={useSlug ? slug : key}
-    >
-      {key ? value : emptyOptionText || value}
-    </option>
-  ));
-  const listSize = values.length > size ? size : values.length;
+export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
+  const options = values.map(({ key, value, slug, name: valueName }) => ({
+    key: useSlug ? slug : key,
+    name: valueName || emptyOptionText || value,
+    value: useSlug ? slug : key,
+  }));
 
   const render = ({ handler }) => (
-    <div className="select-input">
-      <div className="mode_input text rij_verplicht">
-        {display && (
-          <Label htmlFor={`form${name}`}>{display}</Label>
-        )}
-
-        <div className="select-input__control invoer">
-          <select
-            name={name}
-            data-testid={name}
-            id={`form${name}`}
-            {...handler()}
-            multiple={multiple}
-            size={multiple ? listSize : ''}
-          >
-            {options}
-          </select>
-        </div>
-      </div>
-    </div>
+    <Wrapper>
+      <SelectInputComponent
+        label={<strong>{display}</strong>}
+        name={name}
+        data-testid={name}
+        id={`form${name}`}
+        {...handler()}
+        options={options}
+      />
+    </Wrapper>
   );
 
   render.defaultProps = {

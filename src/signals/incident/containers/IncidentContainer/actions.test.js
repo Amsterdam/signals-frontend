@@ -9,6 +9,10 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  GET_QUESTIONS,
+  GET_QUESTIONS_SUCCESS,
+  GET_QUESTIONS_ERROR,
+  RESET_EXTRA_STATE,
 } from './constants';
 
 import {
@@ -20,6 +24,10 @@ import {
   getClassification,
   getClassificationSuccess,
   getClassificationError,
+  getQuestions,
+  getQuestionsSuccess,
+  getQuestionsError,
+  resetExtraState,
 } from './actions';
 
 describe('Incident container actions', () => {
@@ -64,5 +72,33 @@ describe('Incident container actions', () => {
 
   it('should dispatch classification error action', () => {
     testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR);
+  });
+
+  it('should dispatch get questions action', () => {
+    testActionCreator(getQuestions, GET_QUESTIONS, {
+      category: 'overig',
+      subcategory: 'overig',
+    });
+  });
+
+  it('should dispatch questions success action', () => {
+    const payload = {
+      key1: {
+        meta: 'meta1',
+        options: 'options1',
+        render: 'field_type1',
+      },
+    };
+    testActionCreator(getQuestionsSuccess, GET_QUESTIONS_SUCCESS, payload);
+  });
+
+  it('should dispatch questions error action', () => {
+    testActionCreator(getQuestionsError, GET_QUESTIONS_ERROR);
+  });
+
+  test('resetExtraState', () => {
+    expect(resetExtraState()).toEqual({
+      type: RESET_EXTRA_STATE,
+    });
   });
 });

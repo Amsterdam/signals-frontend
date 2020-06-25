@@ -7,24 +7,12 @@ import isEqual from 'lodash.isequal';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import {
-  incidentType,
-  dataListType,
-  defaultTextsType,
-  attachmentsType,
-  historyType,
-} from 'shared/types';
+import { incidentType, dataListType, defaultTextsType, attachmentsType, historyType } from 'shared/types';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
-import {
-  makeSelectLoading,
-  makeSelectError,
-} from 'containers/App/selectors';
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import {
   requestIncident,
-  patchIncident,
-  dismissSplitNotification,
   requestAttachments,
   requestDefaultTexts,
   dismissError,
@@ -44,7 +32,6 @@ import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
-import SplitNotificationBar from './components/SplitNotificationBar';
 import LocationPreview from './components/LocationPreview';
 
 const DetailContainer = styled(Column)`
@@ -83,8 +70,7 @@ export class IncidentDetail extends React.Component {
       const category = this.props.incidentModel.incident.category;
       if (
         !isEqual(
-          prevProps.incidentModel.incident &&
-            prevProps.incidentModel.incident.category,
+          prevProps.incidentModel.incident && prevProps.incidentModel.incident.category,
           this.props.incidentModel.incident.category
         )
       ) {
@@ -142,10 +128,7 @@ export class IncidentDetail extends React.Component {
       match: {
         params: { id },
       },
-      subCategories,
-      onPatchIncident,
       onDismissError,
-      onDismissSplitNotification,
     } = this.props;
     const { list } = this.props.historyModel;
     const {
@@ -158,25 +141,14 @@ export class IncidentDetail extends React.Component {
       loading,
       patching,
       priorityList,
-      split,
       stadsdeelList,
       statusList,
       typesList,
     } = this.props.incidentModel;
     const { previewState, attachmentHref } = this.state;
-
     return (
       <Fragment>
         <div className="incident-detail">
-          <Row>
-            <Column span={12}>
-              <SplitNotificationBar
-                data={split}
-                onDismissSplitNotification={onDismissSplitNotification}
-              />
-            </Column>
-          </Row>
-
           {loading && <LoadingIndicator />}
 
           {!loading && (
@@ -185,9 +157,9 @@ export class IncidentDetail extends React.Component {
                 <Row>
                   <Column span={12}>
                     <DetailHeader
-                      incident={incident}
-                      baseUrl="/manage"
-                      onPatchIncident={onPatchIncident}
+                      incidentId={incident.id}
+                      status={incident?.status?.state}
+                      links={incident?._links}
                     />
                   </Column>
                 </Row>
@@ -197,6 +169,7 @@ export class IncidentDetail extends React.Component {
                 <Row>
                   <DetailContainer span={12}>
                     <button
+                      aria-label="Sluiten"
                       className="incident-detail__preview-close incident-detail__button--close"
                       type="button"
                       onClick={this.onCloseAll}
@@ -211,19 +184,13 @@ export class IncidentDetail extends React.Component {
                     )}
 
                     {previewState === 'showLocation' && (
-                      <LocationPreview
-                        location={incident.location}
-                        onEditLocation={this.onEditLocation}
-                      />
+                      <LocationPreview location={incident.location} onEditLocation={this.onEditLocation} />
                     )}
 
                     {previewState === 'editLocation' && (
                       <LocationForm
-                        incident={incident}
-                        patching={patching}
-                        error={error}
-                        onPatchIncident={onPatchIncident}
-                        onDismissError={onDismissError}
+                        incidentId={incident.id}
+                        location={incident.location}
                         onClose={this.onCloseAll}
                       />
                     )}
@@ -237,7 +204,6 @@ export class IncidentDetail extends React.Component {
                         defaultTextsOptionList={defaultTextsOptionList}
                         statusList={statusList}
                         defaultTexts={defaultTexts}
-                        onPatchIncident={onPatchIncident}
                         onDismissError={onDismissError}
                         onClose={this.onCloseAll}
                       />
@@ -260,7 +226,7 @@ export class IncidentDetail extends React.Component {
                           onShowAttachment={this.onShowAttachment}
                         />
 
-                        <AddNote id={id} onPatchIncident={onPatchIncident} />
+                        <AddNote id={id} />
 
                         <ChildIncidents incident={incident} />
 
@@ -270,13 +236,11 @@ export class IncidentDetail extends React.Component {
                   </DetailContainer>
 
                   <DetailContainer span={4} push={1}>
-                    {incident && subCategories && (
+                    {incident && (
                       <MetaList
                         incident={incident}
                         priorityList={priorityList}
                         typesList={typesList}
-                        subcategories={subCategories}
-                        onPatchIncident={onPatchIncident}
                         onEditStatus={this.onEditStatus}
                       />
                     )}
@@ -321,7 +285,6 @@ IncidentDetail.propTypes = {
   historyModel: PropTypes.shape({
     list: historyType.isRequired,
   }).isRequired,
-  subCategories: dataListType,
 
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -330,11 +293,9 @@ IncidentDetail.propTypes = {
   }),
 
   onRequestIncident: PropTypes.func.isRequired,
-  onPatchIncident: PropTypes.func.isRequired,
   onRequestHistoryList: PropTypes.func.isRequired,
   onRequestAttachments: PropTypes.func.isRequired,
   onRequestDefaultTexts: PropTypes.func.isRequired,
-  onDismissSplitNotification: PropTypes.func.isRequired,
   onDismissError: PropTypes.func.isRequired,
 };
 
@@ -344,7 +305,6 @@ const mapStateToProps = () =>
     loading: makeSelectLoading(),
     error: makeSelectError(),
     incidentModel: makeSelectIncidentModel,
-    subCategories: makeSelectSubCategories,
     historyModel: makeSelectHistoryModel(),
   });
 
@@ -352,11 +312,9 @@ export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       onRequestIncident: requestIncident,
-      onPatchIncident: patchIncident,
       onRequestHistoryList: requestHistoryList,
       onRequestAttachments: requestAttachments,
       onRequestDefaultTexts: requestDefaultTexts,
-      onDismissSplitNotification: dismissSplitNotification,
       onDismissError: dismissError,
     },
     dispatch

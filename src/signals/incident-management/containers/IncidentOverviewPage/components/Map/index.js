@@ -1,8 +1,10 @@
 import React, { memo, useContext, useState, useCallback, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import isEqual from 'lodash.isequal';
-import moment from 'moment';
+import format from 'date-fns/format';
+import subDays from 'date-fns/addDays';
 import L from 'leaflet';
 import { ViewerContainer, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
@@ -69,12 +71,31 @@ const Autosuggest = styled(PDOKAutoSuggest)`
 const clusterLayerOptions = {
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
+  chunkedLoading: true,
+  iconCreateFunction: cluster => {
+    const childCount = cluster.getChildCount();
+    let c = ' marker-cluster-';
+
+    if (childCount < 10) {
+      c += 'small';
+    } else if (childCount < 100) {
+      c += 'medium';
+    } else {
+      c += 'large';
+    }
+
+    return new L.DivIcon({
+      html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
+      className: `marker-cluster ${c}`,
+      iconSize: new L.Point(40, 40),
+    });
+  },
 };
 
-const OverviewMap = ({ ...rest }) => {
+const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const { dispatch } = useContext(MapContext);
   const [initialMount, setInitialMount] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
+  const [showPanel, setShowPanel] = useState(showPanelOnInit);
   const [map, setMap] = useState();
   const { options } = useSelector(makeSelectActiveFilter);
   const filterParams = useSelector(makeSelectFilterParams);
@@ -85,14 +106,9 @@ const OverviewMap = ({ ...rest }) => {
   const { ...params } = filterParams;
 
   // fixed query period (24 hours)
-  params.created_after = useMemo(
-    () =>
-      moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DDTHH:mm:ss'),
-    []
-  );
-  params.created_before = useMemo(() => moment().format('YYYY-MM-DDTHH:mm:ss'), []);
+  params.created_after = useMemo(() => format(subDays(new Date(), -1), 'yyyy-MM-ddTHH:mm:ss'), []);
+  params.created_before = useMemo(() => format(new Date(), 'yyyy-MM-ddTHH:mm:ss'), []);
+
   // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
   params.page_size = 4000;
 
@@ -207,6 +223,14 @@ const OverviewMap = ({ ...rest }) => {
       </StyledMap>
     </Wrapper>
   );
+};
+
+OverviewMap.defaultProps = {
+  showPanelOnInit: false,
+};
+
+OverviewMap.propTypes = {
+  showPanelOnInit: PropTypes.bool,
 };
 
 export default memo(OverviewMap);

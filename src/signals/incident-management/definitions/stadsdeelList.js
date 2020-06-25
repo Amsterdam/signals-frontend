@@ -7,6 +7,8 @@ const stadsdeelList = [
   { key: 'T', value: 'Zuidoost' },
   { key: 'K', value: 'Zuid' },
   { key: 'F', value: 'Nieuw-West' },
+  { key: 'H', value: 'Het Amsterdamse Bos' },
+  { key: 'W', value: 'Weesp' },
   { key: 'null', value: 'Niet bepaald' },
 ];
 

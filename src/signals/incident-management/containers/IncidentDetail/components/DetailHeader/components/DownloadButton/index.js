@@ -32,14 +32,14 @@ const DownloadButton = ({ label, url, filename }) => {
     if (navigator.msSaveOrOpenBlob) {
       navigator.msSaveOrOpenBlob(data, filename);
     } else {
-      const href = URL.createObjectURL(data);
+      const href = global.URL.createObjectURL(data);
       const link = document.createElement('a');
       link.href = href;
       link.download = filename;
       document.body.appendChild(link);
       link.click();
 
-      window.URL.revokeObjectURL(href);
+      global.URL.revokeObjectURL(href);
       document.body.removeChild(link);
     }
   }, [data, filename]);

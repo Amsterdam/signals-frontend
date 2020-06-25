@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import BackLink from 'components/BackLink';
+import { useDispatch } from 'react-redux';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
+
+import BackLink from 'components/BackLink';
 import { PATCH_TYPE_THOR } from 'models/incident/constants';
 import Button from 'components/Button';
-
-import { incidentType } from 'shared/types';
+import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
+import { linksType } from 'shared/types';
+import { patchIncident as patchIncidentAction } from 'models/incident/actions';
 
 import DownloadButton from './components/DownloadButton';
 
@@ -60,6 +63,16 @@ const HeadingContainer = styled.div`
   }
 `;
 
+const StyledHeading = styled(Heading)`
+  font-size: 16px;
+  margin: 0;
+
+  & > *:not(:first-child)::before {
+    content: ' / ';
+    white-space: pre;
+  }
+`;
+
 const ButtonLink = styled(Button)`
   color: ${themeColor('tint', 'level7')};
   text-decoration: none;
@@ -70,14 +83,19 @@ const ButtonLink = styled(Button)`
   }
 `;
 
-const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
+const ParentLink = styled(Link)`
+  text-decoration: underline;
+  color: black;
+`;
+
+const DetailHeader = ({ status, incidentId, links }) => {
+  const dispatch = useDispatch();
   const location = useLocation();
-  const status = incident?.status?.state;
-  const canSplit = status === 'm' && !(incident && (incident._links['sia:children'] || incident._links['sia:parent']));
+  const canSplit = status === 'm' && !(links?.['sia:children'] || links?.['sia:parent']);
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === status);
-  const downloadLink = incident._links && incident._links['sia:pdf'] && incident._links['sia:pdf'].href;
+  const downloadLink = links?.['sia:pdf']?.href;
   const patch = {
-    id: incident.id,
+    id: incidentId,
     type: PATCH_TYPE_THOR,
     patch: {
       status: {
@@ -88,7 +106,12 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
     },
   };
 
-  const referrer = location.referrer || `${baseUrl}/incidents`;
+  const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : INCIDENTS_URL;
+  const parentId = links?.['sia:parent']?.href?.split('/').pop();
+
+  const patchIncident = useCallback(() => {
+    dispatch(patchIncidentAction(patch));
+  }, [dispatch, patch]);
 
   return (
     <Header className="detail-header">
@@ -97,9 +120,15 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
       </BackLinkContainer>
 
       <HeadingContainer>
-        <Heading styleAs="h4" data-testid="detail-header-title">
-          Melding {incident.id}
-        </Heading>
+        <StyledHeading data-testid="detail-header-title">
+          Melding&nbsp;
+          {parentId && (
+            <ParentLink data-testid="parentLink" to={`${INCIDENT_URL}/${parentId}`}>
+              {parentId}
+            </ParentLink>
+          )}
+          <span>{incidentId}</span>
+        </StyledHeading>
       </HeadingContainer>
 
       <ButtonContainer>
@@ -107,7 +136,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
           <ButtonLink
             variant="application"
             forwardedAs={Link}
-            to={`${baseUrl}/incident/${incident.id}/split`}
+            to={`${INCIDENT_URL}/${incidentId}/split`}
             data-testid="detail-header-button-split"
           >
             Splitsen
@@ -115,7 +144,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
         )}
 
         {canThor && (
-          <Button variant="application" onClick={() => onPatchIncident(patch)} data-testid="detail-header-button-thor">
+          <Button variant="application" onClick={patchIncident} data-testid="detail-header-button-thor">
             THOR
           </Button>
         )}
@@ -123,7 +152,7 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
         <DownloadButton
           label="PDF"
           url={downloadLink}
-          filename={`SIA melding ${incident.id}.pdf`}
+          filename={`SIA melding ${incidentId}.pdf`}
           data-testid="detail-header-button-download"
         />
       </ButtonContainer>
@@ -132,9 +161,9 @@ const DetailHeader = ({ incident, baseUrl, onPatchIncident }) => {
 };
 
 DetailHeader.propTypes = {
-  incident: incidentType.isRequired,
-  baseUrl: PropTypes.string.isRequired,
-  onPatchIncident: PropTypes.func.isRequired,
+  incidentId: PropTypes.number.isRequired,
+  links: linksType,
+  status: PropTypes.string.isRequired,
 };
 
 export default DetailHeader;

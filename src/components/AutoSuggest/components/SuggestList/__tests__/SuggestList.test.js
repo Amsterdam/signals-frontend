@@ -1,5 +1,5 @@
 import React from 'react';
-import { createEvent, render, fireEvent, cleanup, act } from '@testing-library/react';
+import { createEvent, render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import SuggestList from '..';
@@ -30,7 +30,7 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
   });
 
   it('should set focus to one of the list elements', () => {
-    const { container, rerender } = render(
+    const { container, rerender, unmount } = render(
       withAppContext(<SuggestList options={options} onSelectOption={onSelectOption} />)
     );
 
@@ -42,7 +42,7 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
     const secondItem = container.querySelector('li:nth-of-type(2)');
     expect(document.activeElement).toEqual(secondItem);
 
-    cleanup();
+    unmount();
 
     rerender(withAppContext(<SuggestList options={options} onSelectOption={onSelectOption} activeIndex={-1} />));
 

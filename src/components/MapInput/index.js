@@ -1,15 +1,21 @@
-import React, { useLayoutEffect, useContext, useState, useEffect, useCallback } from 'react';
+import React, { useLayoutEffect, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { Marker } from '@datapunt/react-maps';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import 'leaflet/dist/leaflet.css';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
+import configuration from 'shared/services/configuration/configuration';
 import MapContext from 'containers/MapContext/context';
-import { setLocationAction, setValuesAction, resetLocationAction } from 'containers/MapContext/actions';
+import {
+  setLocationAction,
+  setValuesAction,
+  resetLocationAction,
+  setLoadingAction,
+} from 'containers/MapContext/actions';
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
 
 import Map from '../Map';
@@ -54,14 +60,20 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
   const { location, addressText: addressValue } = state;
   const hasLocation = Boolean(location) && location?.lat !== 0 && location?.lng !== 0;
 
+  /**
+   * This reference ensures the map zooms to the marker location only when the marker location
+   * is provided from the parent and not on click action
+   */
+  const hasInitalViewRef = useRef(true);
+
   const clickFunc = useCallback(
     async event => {
-      map.flyTo(event.latlng);
-
+      hasInitalViewRef.current = false;
+      dispatch(setLoadingAction(true));
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
-      const stadsdeel = await getStadsdeel(event.latlng);
+      const stadsdeel = configuration?.map?.options?.stadsdeel || (await getStadsdeel(event.latlng));
 
       const onChangePayload = {
         geometrie: locationTofeature(event.latlng),
@@ -84,8 +96,9 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
       );
 
       onChange(onChangePayload);
+      dispatch(setLoadingAction(false));
     },
-    [dispatch, onChange, map]
+    [dispatch, onChange]
   );
 
   const onSelect = useCallback(
@@ -94,7 +107,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
         setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value })
       );
 
-      const stadsdeel = await getStadsdeel(option.data.location);
+      const stadsdeel = configuration?.map?.options?.stadsdeel || (await getStadsdeel(option.data.location));
 
       onChange({
         geometrie: locationTofeature(option.data.location),
@@ -125,7 +138,12 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
   useLayoutEffect(() => {
     if (!map || !marker || !hasLocation) return;
 
-    map.setView(location, 11);
+    if (hasInitalViewRef.current) {
+      const zoomLevel = map.getZoom();
+      map.setView(location, zoomLevel < 11 ? 11 : zoomLevel);
+      hasInitalViewRef.current = false;
+    }
+
     marker.setLatLng(location);
   }, [marker, location, hasLocation, map]);
 
@@ -141,7 +159,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
           topLeft={
             <StyledAutosuggest
               formatResponse={formatPDOKResponse}
-              gemeentenaam="amsterdam"
+              gemeentenaam={configuration.map.options.gemeentenaam}
               onClear={() => dispatch(resetLocationAction())}
               onSelect={onSelect}
               placeholder="Zoek adres"
@@ -188,7 +206,7 @@ MapInput.propTypes = {
     }),
     addressText: PropTypes.string,
     address: PropTypes.shape({
-      huisnummer: PropTypes.string,
+      huisnummer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       openbare_ruimte: PropTypes.string,
       postcode: PropTypes.string,
       woonplaats: PropTypes.string,

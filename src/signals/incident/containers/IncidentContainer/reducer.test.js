@@ -10,13 +10,13 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  GET_QUESTIONS_SUCCESS,
+  RESET_EXTRA_STATE,
 } from './constants';
 
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
   it('returns the initial state', () => {
-    expect(incidentContainerReducer(undefined, {})).toEqual(
-      fromJS(initialState)
-    );
+    expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
   });
 
   it('default wizard state should contain date, time, and priority', () => {
@@ -107,16 +107,14 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
     };
     it('sets incident and loading and id but keeps the handling_message', () => {
       expect(
-        incidentContainerReducer(initialState,
-          {
-            type: CREATE_INCIDENT_SUCCESS,
-            payload: {
-              id,
-              category,
-              handling_message,
-            },
-          }
-        ).toJS()
+        incidentContainerReducer(initialState, {
+          type: CREATE_INCIDENT_SUCCESS,
+          payload: {
+            id,
+            category,
+            handling_message,
+          },
+        }).toJS()
       ).toEqual({
         ...initialState.toJS(),
         loading: false,
@@ -156,7 +154,13 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   });
 
   describe('GET_CLASSIFICATION_SUCCESS', () => {
-    const intermediateState = initialState.set('incident', initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux'));
+    const intermediateState = initialState.set(
+      'incident',
+      initialState
+        .get('incident')
+        .set('extra_something', 'foo bar')
+        .set('extra_something_else', 'baz qux')
+    );
 
     it('sets category and subcategory', () => {
       expect(
@@ -265,6 +269,51 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         },
         loadingClassification: false,
       });
+    });
+  });
+
+  describe('GET_QUESTIONS_SUCCESS', () => {
+    it('sets questions', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {},
+          }),
+          {
+            type: GET_QUESTIONS_SUCCESS,
+            payload: {
+              questions: {
+                key1: {},
+              },
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          questions: {
+            key1: {},
+          },
+        },
+      });
+    });
+  });
+
+  describe('RESET_EXTRA_STATE', () => {
+    const intermediateState = initialState.set(
+      'incident',
+      initialState
+        .get('incident')
+        .set('extra_something', 'foo bar')
+        .set('extra_something_else', 'baz qux')
+    );
+
+    it('returns partially reset state', () => {
+      const newState = incidentContainerReducer(intermediateState, {
+        type: RESET_EXTRA_STATE,
+      });
+
+      expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
+      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
     });
   });
 });

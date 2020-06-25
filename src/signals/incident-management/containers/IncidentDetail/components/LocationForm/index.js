@@ -1,168 +1,73 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
-import isEqual from 'lodash.isequal';
+import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { useDispatch } from 'react-redux';
 
-import { incidentType, locationType } from 'shared/types';
+import { locationType } from 'shared/types';
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
+import MapContext from 'containers/MapContext';
+import { patchIncident } from 'models/incident/actions';
 
 import { mapLocation } from 'shared/services/map-location';
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import MapInput from '../../../../components/MapInput';
-import HiddenInput from '../../../../components/HiddenInput';
+import LocationInput from './components/LocationInput';
 
-import './style.scss';
+const LocationForm = ({ incidentId, location, onClose }) => {
+  const dispatch = useDispatch();
 
-class LocationForm extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+  const form = useMemo(
+    () =>
+      FormBuilder.group({
+        location,
+      }),
+    [location]
+  );
 
-    this.state = {
-      location: props.location,
-      newLocation: props.newLocation,
-    };
+  const onQueryResult = useCallback(
+    value => {
+      const newLocation = mapLocation(value);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onQueryResult = this.onQueryResult.bind(this);
-  }
+      form.controls.location.setValue(newLocation);
+    },
+    [form.controls.location]
+  );
 
-  static getDerivedStateFromProps(props, state) {
-    if (!isEqual(props.incident.location, state.location)) {
-      return {
-        location: props.incident.location,
-        newLocation: props.incident.location,
-      };
-    }
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
 
-    return null;
-  }
+      dispatch(
+        patchIncident({
+          id: incidentId,
+          type: PATCH_TYPE_LOCATION,
+          patch: { location: form.value.location },
+        })
+      );
 
-  componentDidMount() {
-    this.props.onDismissError();
-  }
+      onClose();
+    },
+    [dispatch, form.value, incidentId, onClose]
+  );
 
-  componentDidUpdate(prevProps) {
-    const prevPatchingLocation = prevProps.patching && prevProps.patching.location;
-    const patchingLocation = this.props.patching && this.props.patching.location;
-    if (prevPatchingLocation !== patchingLocation && patchingLocation === false) {
-      const hasError = (this.props.error && this.props.error.response && !this.props.error.response.ok) || false;
-      if (!hasError) {
-        this.props.onClose();
-      }
-    }
-    this.form.updateValueAndValidity();
-  }
-
-  onQueryResult(location) {
-    const newLocation = mapLocation(location);
-    this.setState({
-      newLocation,
-    });
-
-    this.form.controls.location.setValue(newLocation);
-    this.form.controls.coordinates.setValue(newLocation.geometrie.coordinates.join(','));
-  }
-
-  form = FormBuilder.group({
-    coordinates: ['', Validators.required],
-    location: this.props.incident.location,
-  });
-
-  handleSubmit = event => {
-    event.preventDefault();
-
-    this.props.onPatchIncident({
-      id: this.props.incident.id,
-      type: PATCH_TYPE_LOCATION,
-      patch: { location: { ...this.state.newLocation } },
-    });
-  };
-
-  render() {
-    const { patching, error, onClose } = this.props;
-    return (
-      <div className="location-form">
-        <FieldGroup
-          control={this.form}
-          render={() => (
-            <form onSubmit={this.handleSubmit}>
-              <div>
-                <FieldControlWrapper
-                  render={HiddenInput}
-                  name="coordinates"
-                  display="Coordinates"
-                  control={this.form.get('coordinates')}
-                />
-
-                <FieldControlWrapper
-                  render={MapInput}
-                  name="location"
-                  control={this.form.get('location')}
-                  onQueryResult={this.onQueryResult}
-                />
-
-                {error && (
-                  <div className="notification notification-red">
-                    {error && error.response && error.response.status === 403
-                      ? 'U bent niet geautoriseerd om dit te doen.'
-                      : 'De nieuwe locatie kon niet worden gewijzigd.'}
-                  </div>
-                )}
-
-                <button
-                  className="location-form__submit action primary"
-                  type="submit"
-                  data-testid="location-form-button-submit"
-                >
-                  <span className="value">Locatie opslaan</span>
-                  {patching.location && (
-                    <span className="working">
-                      <div className="progress-indicator progress-white"></div>
-                    </span>
-                  )}
-                </button>
-                <button
-                  className="location-form__cancel action secundary-grey"
-                  type="button"
-                  onClick={onClose}
-                  data-testid="location-form-button-cancel"
-                >
-                  Annuleren
-                </button>
-              </div>
-            </form>
-          )}
-        />
-      </div>
-    );
-  }
-}
-
-LocationForm.defaultProps = {
-  location: {},
-  newLocation: {},
+  return (
+    <FieldGroup
+      control={form}
+      render={() => (
+        <MapContext>
+          <LocationInput
+            locationControl={form.get('location')}
+            onClose={onClose}
+            onQueryResult={onQueryResult}
+            handleSubmit={handleSubmit}
+          />
+        </MapContext>
+      )}
+    />
+  );
 };
 
 LocationForm.propTypes = {
-  incident: incidentType.isRequired,
-  error: PropTypes.oneOfType([
-    PropTypes.shape({
-      response: {
-        status: PropTypes.number.isRequired,
-        ok: PropTypes.bool.isRequired,
-      },
-    }),
-    PropTypes.bool,
-  ]).isRequired,
-  patching: PropTypes.shape({
-    location: PropTypes.bool,
-  }).isRequired,
-  location: locationType,
-  newLocation: locationType,
-
-  onPatchIncident: PropTypes.func.isRequired,
-  onDismissError: PropTypes.func.isRequired,
+  incidentId: PropTypes.number.isRequired,
+  location: locationType.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

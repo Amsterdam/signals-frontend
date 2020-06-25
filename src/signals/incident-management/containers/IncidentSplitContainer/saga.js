@@ -5,7 +5,7 @@ import { push } from 'connected-react-router/immutable';
 import { authPatchCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { showGlobalNotification } from 'containers/App/actions';
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 import formatUpdateIncident from './services/formatUpdateIncident';
 import { SPLIT_INCIDENT } from './constants';
@@ -24,6 +24,13 @@ export function* splitIncident(action) {
     );
     yield put(splitIncidentSuccess({ id: payload.id, created }));
     yield put(push(`/manage/incident/${payload.id}`));
+    yield put(
+      showGlobalNotification({
+        title: 'De melding is succesvol gesplitst',
+        variant: VARIANT_SUCCESS,
+        type: TYPE_LOCAL,
+      })
+    );
   } catch (error) {
     yield put(splitIncidentError(error));
     yield put(push(`/manage/incident/${payload.id}`));

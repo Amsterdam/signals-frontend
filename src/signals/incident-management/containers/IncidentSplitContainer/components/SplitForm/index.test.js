@@ -1,14 +1,23 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  act,
-} from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import incident from 'utils/__tests__/fixtures/incident.json';
+import * as modelSelectors from 'models/categories/selectors';
+import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
+import { filterForSub } from 'models/categories/selectors';
 
 import SplitForm from './index';
+
+jest.mock('containers/App/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('containers/App/selectors'),
+}));
+
+const subCategories = categoriesFixture.results
+  .filter(filterForSub)
+  // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
+  .map(subCat => ({ ...subCat, key: subCat._links.self.href }));
 
 describe('<SplitForm />', () => {
   const mockCreate = {
@@ -32,32 +41,33 @@ describe('<SplitForm />', () => {
   let props;
 
   beforeEach(() => {
+    jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
+
     props = {
       incident,
       attachments: [],
-      subcategories: [{
-        key: 'poep',
-        value: 'Poep',
-        slug: 'poep',
-      }],
+      subcategories: [
+        {
+          key: 'poep',
+          value: 'Poep',
+          slug: 'poep',
+        },
+      ],
       onHandleCancel: jest.fn(),
       onHandleSubmit: jest.fn(),
     };
   });
 
   it('should render correctly', () => {
-    const { queryByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { queryByTestId, queryAllByText } = render(withAppContext(<SplitForm {...props} />));
 
+    expect(queryAllByText(incident.text)).toHaveLength(2);
     expect(queryByTestId('splitFormDisclaimer')).toBeInTheDocument();
     expect(queryByTestId('splitFormBottomDisclaimer')).toBeInTheDocument();
   });
 
   it('should toggle visiblity of part 3 on and off and on again', () => {
-    const { getByTestId, queryAllByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { getByTestId, queryAllByTestId } = render(withAppContext(<SplitForm {...props} />));
 
     act(() => {
       fireEvent.click(getByTestId('splitFormPartAdd'));
@@ -73,9 +83,7 @@ describe('<SplitForm />', () => {
   });
 
   it('should disable submit button when clicked', () => {
-    const { getByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
 
     const splitFormSubmit = getByTestId('splitFormSubmit');
 
@@ -89,9 +97,7 @@ describe('<SplitForm />', () => {
   });
 
   it('should handle submit with 2 items', () => {
-    const { getByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
 
     act(() => {
       fireEvent.click(getByTestId('splitFormSubmit'));
@@ -105,9 +111,7 @@ describe('<SplitForm />', () => {
   });
 
   it('should handle submit with 3 items', () => {
-    const { getByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
 
     act(() => {
       fireEvent.click(getByTestId('splitFormPartAdd'));
@@ -125,14 +129,23 @@ describe('<SplitForm />', () => {
   });
 
   it('should handle cancel', () => {
-    const { getByTestId } = render(
-      withAppContext(<SplitForm {...props} />)
-    );
+    const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
 
     act(() => {
       fireEvent.click(getByTestId('splitFormCancel'));
     });
 
     expect(props.onHandleCancel).toHaveBeenCalled();
+  });
+
+  it('should handle empty incidents', () => {
+    const { getByTestId, queryAllByText } = render(withAppContext(<SplitForm {...props} incident={null} />));
+    expect(queryAllByText(incident.text)).toHaveLength(0);
+
+    act(() => {
+      fireEvent.click(getByTestId('splitFormSubmit'));
+    });
+
+    expect(props.onHandleSubmit).not.toHaveBeenCalled();
   });
 });

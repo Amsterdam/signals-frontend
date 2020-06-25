@@ -10,36 +10,42 @@ import ChangeValue from './index';
 jest.mock('shared/services/list-helper/list-helper');
 
 
-const expectInitialState = async ({ getByTestId, queryByTestId, findByTestId }) => {
-  const editButton = await findByTestId('editButton');
-  const valuePath = getByTestId('valuePath');
+const expectInitialState = async ({ queryByTestId, findByTestId }) => {
+  const editButton = await findByTestId('editMockTypeButton');
 
-  expect(valuePath).toBeInTheDocument();
   expect(editButton).toBeInTheDocument();
   expect(queryByTestId('changeValueForm')).not.toBeInTheDocument();
 };
 
 const expectEditState = async ({ queryByTestId, findByTestId }) => {
-  const editButton = queryByTestId('editButton');
-  const valuePath = queryByTestId('valuePath');
+  const editButton = queryByTestId('editMockTypeButton');
 
   const changeValueForm = await findByTestId('changeValueForm');
 
-  expect(valuePath).not.toBeInTheDocument();
   expect(editButton).not.toBeInTheDocument();
   expect(changeValueForm).toBeInTheDocument();
 };
 
 describe('<ChangeValue />', () => {
-  let props;
+  let props = {
+    type: 'mockType',
+  };
+
+  // data-testid attributes are generated dynamically
+  const editTestId = `edit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
+  const submitTestId = `submit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
+  const cancelTestId = `cancel${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
 
   beforeEach(() => {
     props = {
-      incident: incidentJson,
+      incident: {
+        ...incidentJson,
+        someValue: 'c',
+      },
       list: [
-        { key: 'c', value: 'Cee' },
+        { key: 'c', value: 'Cee', description: 'Foo bar baz' },
         { key: 'b', value: 'Bee' },
-        { key: 'a', value: 'Aaaaaaaa' },
+        { key: 'a', value: 'Aaaaaaaa', description: 'Zork' },
       ],
       display: 'De letter',
       path: 'incident.mockPath',
@@ -63,7 +69,7 @@ describe('<ChangeValue />', () => {
     await expectInitialState(renderProps);
 
     act(() => {
-      fireEvent.click(renderProps.getByTestId('editButton'));
+      fireEvent.click(renderProps.getByTestId(editTestId));
     });
 
     await expectEditState(renderProps);
@@ -72,13 +78,13 @@ describe('<ChangeValue />', () => {
   it('should call onPatchIncident', async () => {
     const { getByTestId, findByTestId } = render(withAppContext(<ChangeValue {...props} />));
 
-    const editButton = getByTestId('editButton');
+    const editButton = getByTestId(editTestId);
 
     act(() => {
       fireEvent.click(editButton);
     });
 
-    const submitBtn = await findByTestId('submitButton');
+    const submitBtn = await findByTestId(submitTestId);
 
     expect(props.onPatchIncident).not.toHaveBeenCalled();
 
@@ -101,13 +107,13 @@ describe('<ChangeValue />', () => {
     await expectInitialState(renderProps);
 
     act(() => {
-      fireEvent.click(renderProps.getByTestId('editButton'));
+      fireEvent.click(renderProps.getByTestId(editTestId));
     });
 
     await expectEditState(renderProps);
 
     act(() => {
-      fireEvent.click(renderProps.getByTestId('cancelButton'));
+      fireEvent.click(renderProps.getByTestId(cancelTestId));
     });
 
     await expectInitialState(renderProps);
@@ -119,7 +125,7 @@ describe('<ChangeValue />', () => {
     await expectInitialState(renderProps);
 
     act(() => {
-      fireEvent.click(renderProps.getByTestId('editButton'));
+      fireEvent.click(renderProps.getByTestId(editTestId));
     });
 
     await expectEditState(renderProps);
@@ -137,7 +143,7 @@ describe('<ChangeValue />', () => {
     await expectInitialState(renderProps);
 
     act(() => {
-      fireEvent.click(renderProps.getByTestId('editButton'));
+      fireEvent.click(renderProps.getByTestId(editTestId));
     });
 
     await expectEditState(renderProps);
@@ -147,5 +153,36 @@ describe('<ChangeValue />', () => {
     });
 
     await expectInitialState(renderProps);
+  });
+
+  it('should render info text', async () => {
+    const renderProps = render(withAppContext(<ChangeValue {...props} infoKey="description" />));
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId(editTestId));
+    });
+
+    expect(renderProps.queryByTestId('infoText')).not.toBeInTheDocument();
+
+    renderProps.unmount();
+
+    renderProps.rerender(withAppContext(<ChangeValue {...props} infoKey="description" valuePath="someValue" />));
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId(editTestId));
+    });
+
+    expect(renderProps.queryByTestId('infoText')).toBeInTheDocument();
+    expect(renderProps.queryByTestId('infoText').textContent).toEqual('Foo bar baz');
+
+    act(() => {
+      fireEvent.change(document.querySelector('select'), { target: { value: 'a' } });
+    });
+
+    expect(renderProps.queryByTestId('infoText').textContent).toEqual('Zork');
   });
 });

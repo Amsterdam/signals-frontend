@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
+import styled from 'styled-components';
+import { themeSpacing } from '@datapunt/asc-ui';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import MapSelect from 'components/MapSelect';
+import MapSelectComponent from 'components/MapSelect';
 
 import Header from '../Header';
 import { getOVLIcon, LEGEND_ITEMS } from './iconMapping';
@@ -13,34 +14,26 @@ const filter_legend = (items, types) => items.filter(element => types.includes(e
 const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
 
 const getLatlng = meta => {
-  const coords = get(
-    meta,
-    'incidentContainer.incident.location.geometrie.coordinates',
-    DEFAULT_COORDS,
-  );
+  const coords = get(meta, 'incidentContainer.incident.location.geometrie.coordinates', DEFAULT_COORDS);
   return {
     latitude: coords[1],
     longitude: coords[0],
   };
 };
 
-const MapSelectFormComponent = ({
-  handler,
-  touched,
-  hasError,
-  meta,
-  parent,
-  getError,
-  validatorsOrOpts,
-}) => {
+const Selection = styled.span`
+  display: inline-block;
+  margin-top: ${themeSpacing(3)};
+`;
+
+const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const onSelectionChange = selection => {
     const value = Array.from(selection.set.values());
     parent.meta.updateIncident({ [meta.name]: value });
   };
 
   const latlng = getLatlng(parent.meta);
-  const apiRoot = CONFIGURATION.API_ROOT_MAPSERVER;
-  const url = apiRoot + meta.endpoint;
+  const url = meta.endpoint;
   const filtered_legend = filter_legend(LEGEND_ITEMS, meta.legend_items);
 
   // Get selection array from "handler".
@@ -48,40 +41,40 @@ const MapSelectFormComponent = ({
   // So make sure selection is array:
   const value = handler().value;
   const selection = Array.isArray(value) ? value : [];
+
   return (
-    <div className={`${meta && meta.isVisible ? 'row' : ''}`}>
-      {meta && meta.isVisible && (
-        <div className={`${meta.className || 'col-12'} mode_input`}>
-          <Header
-            meta={meta}
-            options={validatorsOrOpts}
-            touched={touched}
-            hasError={hasError}
-            getError={getError}
-          >
-            <div className="invoer">
-              {latlng && (
-                <MapSelect
-                  latlng={latlng}
-                  onSelectionChange={onSelectionChange}
-                  getIcon={getOVLIcon}
-                  legend={filtered_legend}
-                  geojsonUrl={url}
-                  iconField="type_name"
-                  idField="objectnummer"
-                  zoomMin={meta.zoomMin}
-                  value={selection}
-                />
-              )}
-            </div>
-          </Header>
-        </div>
-      )}
-    </div>
+    meta?.isVisible && (
+      <Header
+        // className value is referenced by form component
+        className="mapSelect"
+        meta={meta}
+        options={validatorsOrOpts}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      >
+        <MapSelectComponent
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          getIcon={getOVLIcon}
+          legend={filtered_legend}
+          geojsonUrl={url}
+          iconField="type_name"
+          idField="objectnummer"
+          zoomMin={meta.zoomMin}
+          value={selection}
+        />
+        {selection.length > 0 && <Selection>Het gaat om lamp of lantaarnpaal met nummer: {selection.join('; ')}</Selection>}
+      </Header>
+    )
   );
 };
 
-MapSelectFormComponent.propTypes = {
+MapSelect.defaultProps = {
+  hasError: () => {},
+};
+
+MapSelect.propTypes = {
   handler: PropTypes.func.isRequired,
   touched: PropTypes.bool,
   hasError: PropTypes.func,
@@ -98,4 +91,4 @@ MapSelectFormComponent.propTypes = {
   validatorsOrOpts: PropTypes.object,
 };
 
-export default MapSelectFormComponent;
+export default MapSelect;

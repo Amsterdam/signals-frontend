@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Column, Button, themeSpacing, Paragraph, themeColor } from '@datapunt/asc-ui';
+import { Column, themeSpacing, Paragraph, themeColor } from '@datapunt/asc-ui';
+import Button from 'components/Button';
 import Pagination from 'components/Pagination';
 
 export const StyledButton = styled(Button)`

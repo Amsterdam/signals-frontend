@@ -73,42 +73,38 @@ exports[`<IncidentNavigation /> rendering render correctly button with submittin
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        <div />
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly button with submitting state 2`] = `
-<div>
-  <div
-    className="incident-navigation"
+<div
+  className="incident-navigation"
+>
+  <span />
+  <NextButton
+    className=""
+    data-testid="nextButton"
+    onClick={[Function]}
   >
-    <span />
-    <button
-      className="incident-navigation__button incident-navigation__button--next  next-class"
-      onClick={[Function]}
-      type="submit"
+    <span
+      className="value"
     >
-      <span
-        className="value"
-      >
-        Volgende
-      </span>
-      <span
-        className="working"
-      >
-        <div
-          className="progress-indicator progress-white"
-        />
-      </span>
-    </button>
-  </div>
+      Volgende
+    </span>
+    <span
+      className="working"
+    >
+      <div
+        className="progress-indicator progress-white"
+      />
+    </span>
+  </NextButton>
 </div>
 `;
 
@@ -185,35 +181,31 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        <div />
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly first step with one button: next 2`] = `
-<div>
-  <div
-    className="incident-navigation"
+<div
+  className="incident-navigation"
+>
+  <span />
+  <NextButton
+    className=""
+    data-testid="nextButton"
+    onClick={[Function]}
   >
-    <span />
-    <button
-      className="incident-navigation__button incident-navigation__button--next  next-class"
-      onClick={[Function]}
-      type="submit"
+    <span
+      className="value"
     >
-      <span
-        className="value"
-      >
-        Volgende
-      </span>
-    </button>
-  </div>
+      Volgende
+    </span>
+  </NextButton>
 </div>
 `;
 
@@ -290,24 +282,20 @@ exports[`<IncidentNavigation /> rendering render correctly last step with no but
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        <div />
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly last step with no button 2`] = `
-<div>
-  <div
-    className="incident-navigation"
-  >
-    <span />
-  </div>
+<div
+  className="incident-navigation"
+>
+  <span />
 </div>
 `;
 
@@ -384,41 +372,37 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        <div />
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly last step with two buttons: previous and submit 2`] = `
-<div>
-  <div
-    className="incident-navigation"
+<div
+  className="incident-navigation"
+>
+  <PreviousButton
+    className="previous-class"
+    data-testid="previousButton"
+    onClick={[MockFunction]}
   >
-    <button
-      className="incident-navigation__button  previous-class"
-      onClick={[MockFunction]}
-      type="button"
+    Vorige
+  </PreviousButton>
+  <NextButton
+    className=""
+    data-testid="nextButton"
+    onClick={[Function]}
+  >
+    <span
+      className="value"
     >
-      Vorige
-    </button>
-    <button
-      className="incident-navigation__button incident-navigation__button--next  next-class send-button"
-      onClick={[Function]}
-      type="submit"
-    >
-      <span
-        className="value"
-      >
-        Volgende
-      </span>
-    </button>
-  </div>
+      Volgende
+    </span>
+  </NextButton>
 </div>
 `;
 
@@ -503,24 +487,20 @@ exports[`<IncidentNavigation /> rendering render correctly second step when subm
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        <div />
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with no buttons 2`] = `
-<div>
-  <div
-    className="incident-navigation"
-  >
-    <span />
-  </div>
+<div
+  className="incident-navigation"
+>
+  <span />
 </div>
 `;
 
@@ -597,40 +577,36 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
     valid={true}
     value={Object {}}
   >
-    <span>
-      <WithWizard
-        render={[Function]}
-      >
-        <div />
-      </WithWizard>
-    </span>
+    <WithWizard
+      render={[Function]}
+    >
+      0
+    </WithWizard>
   </IncidentNavigation>
 </Wizard>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly second step with two buttons: previous and next 2`] = `
-<div>
-  <div
-    className="incident-navigation"
+<div
+  className="incident-navigation"
+>
+  <PreviousButton
+    className="previous-class"
+    data-testid="previousButton"
+    onClick={[MockFunction]}
   >
-    <button
-      className="incident-navigation__button  previous-class"
-      onClick={[MockFunction]}
-      type="button"
+    Vorige
+  </PreviousButton>
+  <NextButton
+    className=""
+    data-testid="nextButton"
+    onClick={[Function]}
+  >
+    <span
+      className="value"
     >
-      Vorige
-    </button>
-    <button
-      className="incident-navigation__button incident-navigation__button--next  next-class"
-      onClick={[Function]}
-      type="submit"
-    >
-      <span
-        className="value"
-      >
-        Volgende
-      </span>
-    </button>
-  </div>
+      Volgende
+    </span>
+  </NextButton>
 </div>
 `;

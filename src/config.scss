@@ -1,5 +1,9 @@
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-breakpoints.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-colorpalette.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-extends.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-font.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-mixins.scss";
+@mixin avenirnextdemi {
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 400 !important;
+}
+
+@mixin avenirnext {
+  font-family: Avenir Next LT W01-Regular, verdana, sans-serif;
+  font-weight: 400 !important;
+}

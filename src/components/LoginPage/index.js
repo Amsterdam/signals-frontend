@@ -1,31 +1,46 @@
 import React from 'react';
-import { Row, Column } from '@datapunt/asc-ui';
+import styled from 'styled-components';
+import { Row, Column, Paragraph, themeColor, themeSpacing } from '@datapunt/asc-ui';
+
 import { login } from 'shared/services/auth/auth';
+
+import Button from 'components/Button';
+import ButtonBar from 'components/ButtonBar';
+
+const Notification = styled.div`
+  border-left: 3px solid ${themeColor('secondary')};
+  margin: ${themeSpacing(6)} 0;
+  padding-left: ${themeSpacing(5)};
+`;
 
 const LoginPage = () => (
   <Row data-testid="loginPage">
     <Column span={12}>
-      <div className="notification notification-red margin-top-bottom">
-        <p>Om deze pagina te zien dient u ingelogd te zijn.</p>
-        <button
-          className="action primary"
-          onClick={() => {
-            login('datapunt');
-          }}
-          type="button"
-        >
-          <span className="value">Inloggen</span>
-        </button>
-        <button
-          className="action primary"
-          onClick={() => {
-            login('grip');
-          }}
-          type="button"
-        >
-          <span className="value">Inloggen ADW</span>
-        </button>
-      </div>
+      <Notification>
+        <Paragraph>Om deze pagina te zien dient u ingelogd te zijn.</Paragraph>
+
+        <ButtonBar>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              login('datapunt');
+            }}
+            type="button"
+          >
+            <span className="value">Inloggen</span>
+          </Button>
+
+          <Button
+            variant="secondary"
+            onClick={() => {
+              login('grip');
+            }}
+            type="button"
+          >
+            <span className="value">Inloggen ADW</span>
+          </Button>
+        </ButtonBar>
+      </Notification>
     </Column>
   </Row>
 );

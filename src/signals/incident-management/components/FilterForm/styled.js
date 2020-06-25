@@ -18,6 +18,7 @@ export const Form = styled.form`
 
 export const ControlsWrapper = styled.div`
   break-inside: avoid;
+  margin-bottom: 50px;
 `;
 
 export const FilterGroup = styled.div`

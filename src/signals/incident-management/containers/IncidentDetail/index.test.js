@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import LoadingIndicator from 'shared/components/LoadingIndicator';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
-import incidentJSON from 'utils/__tests__/fixtures/incident.json';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import History from 'components/History';
 import { IncidentDetail } from '.';
@@ -15,7 +15,6 @@ import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
-import SplitNotificationBar from './components/SplitNotificationBar';
 import LocationPreview from './components/LocationPreview';
 import statusList, {
   changeStatusOptionList,
@@ -40,7 +39,7 @@ describe('<IncidentDetail />', () => {
       patching: {},
       defaultTexts: [],
       error: false,
-      incident: incidentJSON,
+      incident: incidentFixture,
 
       attachments: [
         {
@@ -132,7 +131,6 @@ describe('<IncidentDetail />', () => {
     it('should render default correctly', () => {
       expect(wrapper.find(LoadingIndicator)).toHaveLength(0);
 
-      expect(wrapper.find(SplitNotificationBar)).toHaveLength(1);
       expect(wrapper.find(DetailHeader)).toHaveLength(1);
       expect(wrapper.find(Detail)).toHaveLength(1);
       expect(wrapper.find(MetaList)).toHaveLength(1);
@@ -287,6 +285,7 @@ describe('<IncidentDetail />', () => {
         incidentModel: {
           ...props.incidentModel,
           incident: {
+            ...props.incidentModel.incident,
             category: { category_url: 'bar' },
           },
         },

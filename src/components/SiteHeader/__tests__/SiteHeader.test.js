@@ -1,25 +1,31 @@
 import React from 'react';
-import { render, fireEvent, cleanup, act } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
 import 'jest-styled-components';
 
 import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';
+import configuration from 'shared/services/configuration/configuration';
 
-import SiteHeader, { breakpoint } from '../index';
+import SiteHeader, { menuBreakpoint } from '../index';
 
 const mmm = MatchMediaMock.create();
 
 jest.mock('shared/services/auth/auth');
+jest.mock('shared/services/configuration/configuration');
 
 describe('components/SiteHeader', () => {
   beforeEach(() => {
-    mmm.setConfig({ type: 'screen', width: breakpoint + 1 });
+    mmm.setConfig({ type: 'screen', width: menuBreakpoint + 1 });
 
     // eslint-disable-next-line no-undef
     Object.defineProperty(window, 'matchMedia', {
       value: mmm,
     });
+  });
+
+  afterEach(() => {
+    configuration.__reset();
   });
 
   it('should render correctly when not authenticated', () => {
@@ -29,28 +35,19 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, rerender, queryByText } = render(
-      withAppContext(<SiteHeader />)
-    );
+    const { container, rerender, queryByText, unmount } = render(withAppContext(<SiteHeader />));
 
     // menu items
     expect(queryByText('Melden')).not.toBeInTheDocument();
     expect(queryByText('Help')).not.toBeInTheDocument();
 
     // inline menu should not be visible
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
-      0
-    );
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
 
-    cleanup();
+    unmount();
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
-
-    // eslint-disable-next-line no-undef
-    Object.defineProperty(window, 'matchMedia', {
-      value: mmm,
-    });
+    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
 
     act(() => {
       history.push('/manage');
@@ -70,23 +67,23 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, queryByText } = render(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
+    const { container, queryByText, unmount } = render(
+      withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />)
+    );
 
     // menu items
     expect(queryByText('Melden')).toBeInTheDocument();
     expect(queryByText('Help')).toBeInTheDocument();
 
     // inline menu should be visible, with a dropdown for instellingen
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(
-      1
-    );
+    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1);
 
     expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2');
 
-    cleanup();
+    unmount();
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: breakpoint - 1 });
+    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
 
     act(() => {
       history.push('/manage');
@@ -98,32 +95,44 @@ describe('components/SiteHeader', () => {
     expect(document.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(2);
   });
 
+  it('should render the Amsterdam logo by default', () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+    const { container, rerender, unmount } = render(
+      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
+    );
+
+    expect(container.querySelector('h1 img')).not.toBeInTheDocument();
+
+    configuration.logo.url = 'logoUrl';
+
+    unmount();
+
+    rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
+
+    expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
+  });
+
   it('should render the correct homeLink', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    const { container, rerender } = render(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
-      ),
+    const { container, rerender, unmount } = render(
+      withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
     );
 
     expect(container.querySelector('h1 a[href="https://www.amsterdam.nl"]')).toBeInTheDocument();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />,
-      ),
-    );
+    unmount();
+
+    rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
     expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/manage/incidents' }} />,
-      ),
-    );
+    unmount();
+
+    rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/manage/incidents' }} />));
 
     expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
   });
@@ -135,14 +144,14 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { queryByText } = render(withAppContext(<SiteHeader />));
+    const { queryByText, rerender, unmount } = render(withAppContext(<SiteHeader />));
 
     const title = 'SIA';
 
     // don't show title in front office when not authenticated
     expect(queryByText(title)).toBeNull();
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
@@ -150,12 +159,12 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    render(withAppContext(<SiteHeader />));
+    rerender(withAppContext(<SiteHeader />));
 
     // do show title in front office when authenticated
     expect(queryByText(title)).not.toBeNull();
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
@@ -163,16 +172,16 @@ describe('components/SiteHeader', () => {
       history.push('/manage');
     });
 
-    render(withAppContext(<SiteHeader />));
+    rerender(withAppContext(<SiteHeader />));
 
     // don't show title in back office when not authenticated
     expect(queryByText(title)).toBeNull();
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    render(withAppContext(<SiteHeader />));
+    rerender(withAppContext(<SiteHeader />));
 
     // do show title in back office when authenticated
     expect(queryByText(title)).not.toBeNull();
@@ -185,25 +194,19 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, rerender } = render(
-      withAppContext(<SiteHeader location={{ pathname: '/' }} />)
-    );
+    const { container, rerender, unmount } = render(withAppContext(<SiteHeader location={{ pathname: '/' }} />));
 
-    expect(
-      container.querySelector('.siteHeader').classList.contains('isTall')
-    ).toEqual(true);
+    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     rerender(withAppContext(<SiteHeader />));
 
-    expect(
-      container.querySelector('.siteHeader').classList.contains('isShort')
-    ).toEqual(true);
+    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
 
-    cleanup();
+    unmount();
 
     act(() => {
       history.push('/manage');
@@ -213,29 +216,20 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader />));
 
-    expect(
-      container.querySelector('.siteHeader').classList.contains('isTall')
-    ).toEqual(true);
+    expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     rerender(withAppContext(<SiteHeader />));
 
-    expect(
-      container.querySelector('.siteHeader').classList.contains('isShort')
-    ).toEqual(true);
+    expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
   });
 
   it('should show buttons based on permissions', () => {
     const { queryByText } = render(
-      withAppContext(
-        <SiteHeader
-          showItems={{ defaultTexts: true }}
-          location={{ pathname: '/incident/beschrijf' }}
-        />
-      )
+      withAppContext(<SiteHeader showItems={{ defaultTexts: true }} location={{ pathname: '/incident/beschrijf' }} />)
     );
 
     expect(queryByText('Standaard teksten')).not.toBeNull();
@@ -244,9 +238,7 @@ describe('components/SiteHeader', () => {
   it('should render correctly when logged in', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    const { container, queryByText } = render(
-      withAppContext(<SiteHeader location={{ pathname: '/' }} />)
-    );
+    const { container, queryByText } = render(withAppContext(<SiteHeader location={{ pathname: '/' }} />));
 
     // afhandelen menu item
     expect(queryByText('Afhandelen')).toBeInTheDocument();
@@ -267,9 +259,7 @@ describe('components/SiteHeader', () => {
 
     const onLogOut = jest.fn();
 
-    const { getByText } = render(
-      withAppContext(<SiteHeader onLogOut={onLogOut} />)
-    );
+    const { getByText } = render(withAppContext(<SiteHeader onLogOut={onLogOut} />));
 
     const logOutButton = getByText('Uitloggen');
 
@@ -288,11 +278,15 @@ describe('components/SiteHeader', () => {
   });
 
   it('should show items', () => {
-    const { rerender, queryByText } = render(withAppContext(<SiteHeader showItems={{ settings: false, users: true, groups: true }} />));
+    const { rerender, queryByText, unmount } = render(
+      withAppContext(<SiteHeader showItems={{ settings: false, users: true, groups: true }} />)
+    );
 
     expect(queryByText('Instellingen')).not.toBeInTheDocument();
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();
     expect(queryByText('Rollen')).not.toBeInTheDocument();
+
+    unmount();
 
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: false }} />));
 
@@ -300,17 +294,23 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();
     expect(queryByText('Rollen')).not.toBeInTheDocument();
 
+    unmount();
+
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: false }} />));
 
     expect(queryByText('Instellingen')).toBeInTheDocument();
     expect(queryByText('Gebruikers')).toBeInTheDocument();
     expect(queryByText('Rollen')).not.toBeInTheDocument();
 
+    unmount();
+
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: true }} />));
 
     expect(queryByText('Instellingen')).toBeInTheDocument();
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();
     expect(queryByText('Rollen')).toBeInTheDocument();
+
+    unmount();
 
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import MapStatic from '..';
@@ -82,7 +82,7 @@ describe('components/MapStatic', () => {
   });
 
   it('should request different formats', async () => {
-    const { findByTestId } = render(
+    const { findByTestId, unmount } = render(
       withAppContext(<MapStatic latitude={latitude} longitude={longitude} />)
     );
 
@@ -90,7 +90,7 @@ describe('components/MapStatic', () => {
 
     expect(fetch).toHaveBeenLastCalledWith(expect.stringContaining('format=jpeg'), expect.objectContaining({ responseType: 'blob' }));
 
-    cleanup();
+    unmount();
 
     render(
       withAppContext(<MapStatic latitude={latitude} longitude={longitude} format="gif" />)
@@ -119,7 +119,7 @@ describe('components/MapStatic', () => {
   it('should request specific map layers', async () => {
     const layers = 'basiskaart-light';
 
-    const { findByTestId } = render(
+    const { findByTestId, unmount } = render(
       withAppContext(<MapStatic latitude={latitude} longitude={longitude} />)
     );
 
@@ -127,7 +127,7 @@ describe('components/MapStatic', () => {
 
     expect(fetch).toHaveBeenLastCalledWith(expect.stringContaining('layers=basiskaart'), expect.objectContaining({ responseType: 'blob' }));
 
-    cleanup();
+    unmount();
 
     render(
       withAppContext(<MapStatic latitude={latitude} longitude={longitude} layers={layers} />)

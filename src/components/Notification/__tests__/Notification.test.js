@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import { history, withAppContext } from 'test/utils';
+import { ascDefaultTheme as theme } from '@datapunt/asc-ui';
 import 'jest-styled-components';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -14,12 +15,7 @@ import {
   VARIANT_DEFAULT,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants';
-import {
-  SITE_HEADER_HEIGHT_SHORT,
-  SITE_HEADER_HEIGHT_TALL,
-} from 'containers/SiteHeader/constants';
-
-import { BG_COLOR_ERROR, BG_COLOR_NOTICE, BG_COLOR_SUCCESS } from '../styled';
+import { SITE_HEADER_HEIGHT_SHORT, SITE_HEADER_HEIGHT_TALL } from 'containers/SiteHeader/constants';
 
 import Notification from '..';
 
@@ -43,9 +39,7 @@ describe('components/Notification', () => {
 
     const title = 'Here be dragons';
     const message = 'hic sunt dracones';
-    const { container, getByText } = render(
-      withAppContext(<Notification title={title} message={message} />)
-    );
+    const { container, getByText } = render(withAppContext(<Notification title={title} message={message} />));
 
     act(() => {
       jest.runAllTimers();
@@ -53,114 +47,70 @@ describe('components/Notification', () => {
 
     expect(getByText(title)).toBeInTheDocument();
     expect(getByText(message)).toBeInTheDocument();
-    expect(container.firstChild).toHaveStyleRule(
-      'top',
-      `${SITE_HEADER_HEIGHT_TALL}px`
-    );
+    expect(container.firstChild).toHaveStyleRule('top', `${SITE_HEADER_HEIGHT_TALL}px`);
     expect(container.firstChild).toHaveStyleRule('position', 'absolute');
-    expect(container.firstChild).toHaveStyleRule(
-      'transition-timing-function',
-      expect.stringContaining('ease-out')
-    );
+    expect(container.firstChild).toHaveStyleRule('transition-timing-function', expect.stringContaining('ease-out'));
   });
 
   it('renders correctly when logged in', () => {
     isAuthenticated.mockImplementation(() => true);
 
-    const { container } = render(
-      withAppContext(<Notification title="Foo bar" />)
-    );
+    const { container } = render(withAppContext(<Notification title="Foo bar" />));
 
     act(() => {
       jest.runAllTimers();
     });
 
-    expect(container.firstChild).toHaveStyleRule(
-      'top',
-      `${SITE_HEADER_HEIGHT_SHORT}px`
-    );
+    expect(container.firstChild).toHaveStyleRule('top', `${SITE_HEADER_HEIGHT_SHORT}px`);
     expect(container.firstChild).toHaveStyleRule('position', 'fixed');
   });
 
   it('renders its variants', () => {
-    const { container, rerender } = render(
-      withAppContext(<Notification title="Foo bar" />)
-    );
+    const { container, rerender } = render(withAppContext(<Notification title="Foo bar" />));
 
     act(() => {
       jest.runAllTimers();
     });
 
-    expect(container.firstChild).toHaveStyleRule(
-      'background-color',
-      BG_COLOR_NOTICE
-    );
+    expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.primary.main);
 
-    rerender(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_NOTICE} />)
-    );
+    rerender(withAppContext(<Notification title="Foo bar" variant={VARIANT_NOTICE} />));
 
     act(() => {
       jest.runAllTimers();
     });
 
-    expect(container.firstChild).toHaveStyleRule(
-      'background-color',
-      BG_COLOR_NOTICE
-    );
+    expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.primary.main);
 
-    rerender(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_DEFAULT} />)
-    );
+    rerender(withAppContext(<Notification title="Foo bar" variant={VARIANT_DEFAULT} />));
 
     act(() => {
       jest.runAllTimers();
     });
 
-    expect(container.firstChild).toHaveStyleRule(
-      'background-color',
-      BG_COLOR_NOTICE
-    );
+    expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.primary.main);
 
-    rerender(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_ERROR} />)
-    );
+    rerender(withAppContext(<Notification title="Foo bar" variant={VARIANT_ERROR} />));
 
     act(() => {
       jest.runAllTimers();
     });
 
-    expect(container.firstChild).toHaveStyleRule(
-      'background-color',
-      BG_COLOR_ERROR
-    );
+    expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.support.invalid);
 
-    rerender(
-      withAppContext(<Notification title="Foo bar" variant={VARIANT_SUCCESS} />)
-    );
+    rerender(withAppContext(<Notification title="Foo bar" variant={VARIANT_SUCCESS} />));
 
     act(() => {
       jest.runAllTimers();
     });
 
-    expect(container.firstChild).toHaveStyleRule(
-      'background-color',
-      BG_COLOR_SUCCESS
-    );
+    expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.support.valid);
   });
 
   it('uses timeouts to time navigation actions for VARIANT_NOTICE', () => {
     const onClose = jest.fn();
 
-    render(
-      withAppContext(
-        <Notification
-          title="Foo bar"
-          variant={VARIANT_NOTICE}
-          onClose={onClose}
-        />
-      )
-    );
+    render(withAppContext(<Notification title="Foo bar" variant={VARIANT_NOTICE} onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -181,15 +131,7 @@ describe('components/Notification', () => {
   it('uses timeouts to time navigation actions for VARIANT_SUCCESS', () => {
     const onClose = jest.fn();
 
-    render(
-      withAppContext(
-        <Notification
-          title="Foo bar"
-          variant={VARIANT_SUCCESS}
-          onClose={onClose}
-        />
-      )
-    );
+    render(withAppContext(<Notification title="Foo bar" variant={VARIANT_SUCCESS} onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -209,15 +151,7 @@ describe('components/Notification', () => {
   it('does not use timeouts to time navigation actions for VARIANT_ERROR', () => {
     const onClose = jest.fn();
 
-    render(
-      withAppContext(
-        <Notification
-          title="Foo bar"
-          variant={VARIANT_ERROR}
-          onClose={onClose}
-        />
-      )
-    );
+    render(withAppContext(<Notification title="Foo bar" variant={VARIANT_ERROR} onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -237,11 +171,7 @@ describe('components/Notification', () => {
   it('does not use timeouts to time navigation actions for TYPE_GLOBAL', () => {
     const onClose = jest.fn();
 
-    render(
-      withAppContext(
-        <Notification title="Foo bar" type={TYPE_GLOBAL} onClose={onClose} />
-      )
-    );
+    render(withAppContext(<Notification title="Foo bar" type={TYPE_GLOBAL} onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -261,9 +191,7 @@ describe('components/Notification', () => {
   it('hides the component after a specific amount of time and executes callback function', () => {
     const onClose = jest.fn();
 
-    const { container } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    );
+    const { container } = render(withAppContext(<Notification title="Foo bar" onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -287,9 +215,7 @@ describe('components/Notification', () => {
   it('clears timeouts on unmount', () => {
     const onClose = jest.fn();
 
-    const { unmount } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    );
+    const { unmount } = render(withAppContext(<Notification title="Foo bar" onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -309,9 +235,7 @@ describe('components/Notification', () => {
   it('clears the timer when the component receives a mouse enter event', () => {
     const onClose = jest.fn();
 
-    const { getByTestId } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    );
+    const { getByTestId } = render(withAppContext(<Notification title="Foo bar" onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -335,9 +259,7 @@ describe('components/Notification', () => {
   it('restarts the timer when the component receives a mouse out event', () => {
     const onClose = jest.fn();
 
-    const { getByTestId } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    );
+    const { getByTestId } = render(withAppContext(<Notification title="Foo bar" onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -373,9 +295,7 @@ describe('components/Notification', () => {
 
     const onClose = jest.fn();
 
-    const { container, getByTestId } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    );
+    const { container, getByTestId } = render(withAppContext(<Notification title="Foo bar" onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -399,9 +319,7 @@ describe('components/Notification', () => {
 
     const onClose = jest.fn();
 
-    const { container, getByTestId } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    );
+    const { container, getByTestId } = render(withAppContext(<Notification title="Foo bar" onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
@@ -421,11 +339,7 @@ describe('components/Notification', () => {
   });
 
   it('should NOT reset notification on history change when type equals TYPE_GLOBAL', () => {
-    render(
-      withAppContext(
-        <Notification onClose={() => {}} type={TYPE_GLOBAL} title="Foo bar" />
-      )
-    );
+    render(withAppContext(<Notification onClose={() => {}} type={TYPE_GLOBAL} title="Foo bar" />));
 
     const callsToHistoryListen = [...listenSpy.mock.calls];
 

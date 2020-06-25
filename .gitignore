@@ -4,8 +4,10 @@ build
 node_modules
 stats.json
 
+# Local development environment config
+environment.conf.development.json
+
 # Cruft
 .DS_Store
 npm-debug.log
 .idea
-.nvmrc

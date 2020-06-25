@@ -8,7 +8,7 @@
   }
 
   &__loading {
-    background-color: $ams-lichtgrijs;
+    background-color: #e8e8e8;
     display: block;
     width: calc(100% - 30px); // padding left and right of grid
     height: 100%;
@@ -18,26 +18,26 @@
 
   &.write {
     .object-marker:hover {
-      filter: drop-shadow(0 0 2px $ams-zwart);
+      filter: drop-shadow(0 0 2px #000000);
     }
   }
 
   .zoom-control, .legend-control, .loading-control, error-control {
-    border: 2px solid rgba($ams-zwart, .02);
+    border: 2px solid rgba(#000000, .02);
     background-clip: padding-box;
   }
 
   .zoom-control {
     background-color: #FEC813;
-    color: $ams-zwart;
+    color: #000000;
     font-size: 16px;
     line-height: 22px;
     padding: 13px;
   }
 
   .legend-control {
-    background-color: $ams-wit;
-    color: $ams-zwart;
+    background-color: #ffffff;
+    color: #000000;
     font-size: 16px;
     line-height: 16px;
     min-width: 240px;
@@ -45,7 +45,7 @@
 
   .legend-header {
     padding: 14px;
-    color: $ams-zwart;
+    color: #000000;
 
     background-color: #F5F5F5;;
 
@@ -56,15 +56,15 @@
     background-origin: content-box;
 
     &:hover, &:focus {
-      background-color: $ams-pinkish-grey;
-      color: $ams-zwart;
-      fill: $ams-zwart;
+      background-color: #cccccc;
+      color: #000000;
+      fill: #000000;
       outline: none;
     }
   }
 
   .legend-content {
-    background-color: $ams-wit;
+    background-color: #ffffff;
     padding: 5px 14px;
   }
 
@@ -94,7 +94,7 @@
 
 
   .loading-control {
-    background-color: $ams-wit;
+    background-color: #ffffff;
     font-size: 16px;
     line-height: 22px;
     padding: 13px 17px;
@@ -102,7 +102,7 @@
 
 
   .error-control {
-    background-color: $ams-wit;
+    background-color: #ffffff;
     font-size: 16px;
     line-height: 22px;
     padding: 13px 17px;

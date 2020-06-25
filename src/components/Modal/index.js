@@ -49,7 +49,6 @@ const HeaderRow = styled(Row)`
 
 const Header = styled.header`
   background: ${themeColor('bright', 'main')};
-  height: 50px;
   padding: 10px 0;
   border-bottom: 2px solid #e6e6e6;
 `;

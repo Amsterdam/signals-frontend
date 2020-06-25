@@ -1,3 +1,8 @@
+import { Validators } from 'react-reactive-form';
+import memoize from 'lodash/memoize';
+
+import configuration from 'shared/services/configuration/configuration';
+
 import afval from './wizard-step-2-vulaan/afval';
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
@@ -5,6 +10,34 @@ import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water';
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren';
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
+import wonen from './wizard-step-2-vulaan/wonen';
+
+import FormComponents from '../components/form';
+import IncidentNavigation from '../components/IncidentNavigation';
+
+const mapFieldNameToComponent = key => (key === 'IncidentNavigation' ? IncidentNavigation : FormComponents[key]);
+const mapValidatorToFn = key => Validators[key];
+const expandValidatorFn = ([key, ...args]) => mapValidatorToFn(key)(...args);
+const expandValidator = key => (Array.isArray(key) ? expandValidatorFn(key) : mapValidatorToFn(key));
+
+const expandQuestions = memoize(
+  questions => ({
+    controls: Object.keys(questions).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: {
+          ...questions[key],
+          options: {
+            validators: (questions[key].options?.validators || []).map(expandValidator),
+          },
+          render: mapFieldNameToComponent(questions[key].render),
+        },
+      }),
+      {}
+    ),
+  }),
+  (questions, category, subcategory) => `${category}${subcategory}`
+);
 
 export default {
   label: 'Dit hebben we nog van u nodig',
@@ -13,7 +46,14 @@ export default {
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
-  formFactory: ({ category }) => {
+  formFactory: ({ category, subcategory, questions }) => {
+    const noExtraProps = { controls: {} };
+    if (!configuration?.showVulaanControls) return noExtraProps;
+
+    if (configuration.fetchQuestionsFromBackend) {
+      return expandQuestions(questions || {}, category, subcategory);
+    }
+
     switch (category) {
       case 'afval':
         return afval;
@@ -36,8 +76,11 @@ export default {
       case 'wegen-verkeer-straatmeubilair':
         return wegenVerkeerStraatmeubilair;
 
+      case 'wonen':
+        return wonen;
+
       default:
-        return { controls: {} };
+        return noExtraProps;
     }
   },
 };

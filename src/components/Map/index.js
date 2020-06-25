@@ -5,6 +5,8 @@ import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import styled from 'styled-components';
 import { Map as MapComponent, TileLayer } from '@datapunt/react-maps';
 
+import configuration from 'shared/services/configuration/configuration';
+
 const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
 `;
@@ -17,12 +19,16 @@ const StyledMap = styled(MapComponent)`
   }
 `;
 
+const ZoomButtons = styled.div``;
+
 const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, events, setInstance }) => {
   const hasTouchCapabilities = 'ontouchstart' in window;
   const showZoom = hasZoomControls && !hasTouchCapabilities;
   const options = useMemo(
     () => ({
       ...mapOptions,
+      maxZoom: mapOptions.maxZoom || configuration.map.options.maxZoom,
+      minZoom: mapOptions.minZoom || configuration.map.options.minZoom,
       dragging: canBeDragged && !hasTouchCapabilities,
       tap: false,
       scrollWheelZoom: false,
@@ -32,18 +38,19 @@ const Map = ({ className, mapOptions, hasZoomControls, canBeDragged, children, e
 
   return (
     <StyledMap className={className} data-testid="map-base" options={options} events={events} setInstance={setInstance}>
-      {showZoom && <StyledViewerContainer bottomRight={<Zoom />} />}
+      {showZoom && (
+        <StyledViewerContainer
+          bottomRight={
+            <ZoomButtons data-testid="mapZoom">
+              <Zoom />
+            </ZoomButtons>
+          }
+        />
+      )}
 
       {children}
 
-      <TileLayer
-        args={['https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png']}
-        options={{
-          subdomains: ['t1', 't2', 't3', 't4'],
-          tms: true,
-          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-        }}
-      />
+      <TileLayer args={configuration.map.tiles.args} options={configuration.map.tiles.options} />
     </StyledMap>
   );
 };
@@ -71,6 +78,8 @@ Map.propTypes = {
    */
   mapOptions: PropTypes.shape({
     attributionControl: PropTypes.bool,
+    maxZoom: PropTypes.number,
+    minZoom: PropTypes.number,
   }).isRequired,
   /**
    * useState function that sets a reference to the map instance

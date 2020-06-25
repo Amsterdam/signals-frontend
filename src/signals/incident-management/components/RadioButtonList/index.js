@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import Label from 'components/Label';
+import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
 
 const FilterGroup = styled.div`
   position: relative;
 
   & + & {
     margin-top: 30px;
+  }
+`;
+
+const StyledLabel = styled(Label)`
+  * {
+    font-weight: normal
   }
 `;
 
@@ -24,49 +29,38 @@ const RadioButtonList = ({
   onChange,
   options,
   title,
-}) => (
-  <FilterGroup>
-    {title && (
-      <Label as="span" isGroupHeader={false}>
-        {title}
-      </Label>
-    )}
+}) => {
+  const radioOptions = [...options];
 
-    {hasEmptySelectionButton && emptySelectionLabel && (
-      <div className="antwoord">
-        <input
-          defaultChecked={defaultValue === ''}
-          disabled={disabled}
-          id={`empty_${groupName}`}
-          name={groupName}
-          onChange={() => {
-            onChange(groupName, { key: '' });
-          }}
-          type="radio"
-          value=""
-        />
-        <label htmlFor={`empty_${groupName}`}>{emptySelectionLabel}</label>
-      </div>
-    )}
+  if (hasEmptySelectionButton && emptySelectionLabel) {
+    radioOptions.unshift({ key: '', name: 'empty', value: emptySelectionLabel });
+  }
 
-    {options.map(option => (
-      <div className="antwoord" key={option.key}>
-        <input
-          defaultChecked={option.key === defaultValue}
-          disabled={disabled}
-          id={option.key}
-          name={groupName}
-          onChange={() => {
-            onChange(groupName, option);
-          }}
-          type="radio"
-          value={option.key}
-        />
-        <label htmlFor={option.key}>{option.value}</label>
-      </div>
-    ))}
-  </FilterGroup>
-);
+  return (
+    <FilterGroup>
+      {title && (
+        <Label as="span" isGroupHeader={false}>
+          {title}
+        </Label>
+      )}
+
+      <RadioGroup name={groupName} disabled={disabled}>
+        {radioOptions.map(option => (
+          <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
+            <Radio
+              checked={option.key === defaultValue}
+              id={option.key || option.name}
+              onChange={() => {
+                onChange(groupName, option);
+              }}
+              value={option.key}
+            />
+          </StyledLabel>
+        ))}
+      </RadioGroup>
+    </FilterGroup>
+  );
+};
 
 RadioButtonList.defaultProps = {
   emptySelectionLabel: 'Alles',

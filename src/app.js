@@ -11,26 +11,33 @@ import history from 'utils/history';
 import App from 'containers/App';
 import { authenticateUser } from 'containers/App/actions';
 import { authenticate } from 'shared/services/auth/auth';
+import configuration from 'shared/services/configuration/configuration';
 import loadModels from 'models';
 
-// eslint-disable-next-lin import/no-webpack-loader-syntax
+// Make sure these icons are picked up by webpack
+/* eslint-disable import/no-unresolved,import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
+import '!file-loader?name=[name].[ext]!./images/icon_180x180.png';
+import '!file-loader?name=[name].[ext]!./images/icon_192x192.png';
+/* eslint-enable import/no-unresolved,import/extensions */
 
 // Import CSS and Global Styles
-import 'amsterdam-stijl/dist/css/ams-stijl.css';
 import './global.scss';
 import './polyfills';
 
 import configureStore from './configureStore';
 
 const environment = process.env.NODE_ENV;
-const release = process.env.GIT_COMMIT;
 
-Sentry.init({
-  environment,
-  dsn: 'https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27',
-  release,
-});
+const dsn = configuration?.sentry?.dsn;
+const release = process.env.GIT_COMMIT;
+if (dsn) {
+  Sentry.init({
+    environment,
+    dsn,
+    release,
+  });
+}
 
 // Create redux store with history
 const initialState = Immutable.Map();
@@ -40,15 +47,21 @@ const MOUNT_NODE = document.getElementById('app');
 loadModels(store);
 
 // Setup Matomo
-const hostname = window && window.location && window.location.hostname;
-const MatomoInstance = new MatomoTracker({
-  urlBase: 'https://analytics.data.amsterdam.nl/',
-  siteId: hostname === 'meldingen.amsterdam.nl' ? 13 : 14,
-});
+const urlBase = configuration?.matomo?.urlBase;
+const siteId = configuration?.matomo?.siteId;
 
-MatomoInstance.trackPageView();
+if (urlBase && siteId) {
+  const MatomoInstance = new MatomoTracker({
+    urlBase,
+    siteId,
+  });
+  MatomoInstance.trackPageView();
+}
 
 const render = () => {
+  // eslint-disable-next-line no-undef,no-console
+  console.log(`Signals: version: ${VERSION}, build: ${process.env.NODE_ENV}`);
+
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>

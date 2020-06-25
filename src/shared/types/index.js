@@ -120,21 +120,24 @@ export const incidentType = PropTypes.shape({
       href: PropTypes.string.isRequired,
     }),
   }),
-  category: PropTypes.shape({
-    category_url: PropTypes.string.isRequired,
-    departments: PropTypes.string,
-    main: PropTypes.string,
-    main_slug: PropTypes.string,
-    sub: PropTypes.string,
-    sub_slug: PropTypes.string,
-    text: PropTypes.string,
-    created_at: dateType,
-    has_attachmens: PropTypes.bool,
-    id: PropTypes.number,
-    incident_date_end: dateType,
-    incident_date_start: dateType,
-    location: locationType,
-  }),
+  category: PropTypes.oneOfType([
+    PropTypes.shape({
+      category_url: PropTypes.string.isRequired,
+      departments: PropTypes.string,
+      main: PropTypes.string,
+      main_slug: PropTypes.string,
+      sub: PropTypes.string,
+      sub_slug: PropTypes.string,
+      text: PropTypes.string,
+      created_at: dateType,
+      has_attachmens: PropTypes.bool,
+      id: PropTypes.number,
+      incident_date_end: dateType,
+      incident_date_start: dateType,
+      location: locationType,
+    }),
+    PropTypes.string,
+  ]),
   notes: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,
@@ -268,10 +271,22 @@ export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
   codename: PropTypes.string.isRequired,
 }));
 
-const linksType = PropTypes.shape({
+export const linksType = PropTypes.shape({
   self: PropTypes.shape({
     href: PropTypes.string.isRequired,
   }).isRequired,
+  'sia-attachments': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-parent': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-pdf': PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  }),
+  'sia-children': PropTypes.arrayOf(PropTypes.shape({
+    href: PropTypes.string.isRequired,
+  })),
 }).isRequired;
 
 const userRolePermissionType = PropTypes.arrayOf(PropTypes.shape({
@@ -301,4 +316,3 @@ export const userType = PropTypes.shape({
     note: PropTypes.string,
   }),
 });
-

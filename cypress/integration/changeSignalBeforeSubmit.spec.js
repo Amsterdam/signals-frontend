@@ -1,81 +1,79 @@
 // <reference types="Cypress" />
-
 import * as createSignal from '../support/commandsCreateSignal';
 import { CREATE_SIGNAL, LANTAARNPAAL } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+
 describe('Change a signal before submit and check signal details', () => {
   describe('Change signal before submit', () => {
     before(() => {
-      cy.server();
-      cy.defineGeoSearchRoutes();
-      cy.getAddressRoute();
-
       cy.visitFetch('incident/beschrijf');
     });
 
-    it('Should search for an address', () => {
-      cy.checkHeaderText('Beschrijf uw melding'); 
-      createSignal.searchAddress('1071XX 1');
-      cy.wait('@getAddress');
-      createSignal.selectAddress('Museumstraat 1, 1071XX Amsterdam');
-      cy.wait('@geoSearchLocation');
-    });
-
-    it('Should enter a description', () => {
+    it('Should describe the signal', () => {
       cy.server();
+      cy.defineGeoSearchRoutes();
+      cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:lantaarnpaal.json').as('prediction');
 
-      createSignal.inputDescription('De lantaarnpaal voor mijn deur doet het niet en er ligt troep op de stoep');
-      cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click();
-      cy.clickButton('Volgende');
+      createSignal.checkDescriptionPage();
+      createSignal.setAddress('1071XX 1', 'Museumstraat 1, 1071XX Amsterdam');
+      createSignal.setDescription('De lantaarnpaal voor mijn deur doet het niet en er ligt troep op de stoep');
+      createSignal.setDateTime('Nu');
+
+      cy.contains('Volgende').click();
     });
 
     it('Should enter specific information', () => {
-      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).click();
-      cy.get(LANTAARNPAAL.radioButtonAantalLichtenpunten).click();
-      cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet').should('be.visible').click();
-      createSignal.selectLampOnCoordinate(434, 183);
-      cy.clickButton('Volgende');
+      cy.server();
+      cy.route('/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as(
+        'getOpenbareVerlichting'
+      );
+      createSignal.checkSpecificInformationPage();
+
+      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd)
+        .check()
+        .should('be.checked')
+        .and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk)
+        .check()
+        .should('be.checked');
+      cy.wait('@getOpenbareVerlichting');
+      cy.get(LANTAARNPAAL.checkBoxNietOpKaart)
+        .check()
+        .should('be.checked');
+      cy.contains('Wat is het nummer op de lamp of lantaarnpaal?').should('be.visible');
+      cy.contains('+ Voeg een extra nummer toe').click();
+      cy.get(LANTAARNPAAL.inputLampNummer1).type('11.11');
+      cy.get(LANTAARNPAAL.inputLampNummer2).type('100.199');
+      cy.contains('Volgende').click();
     });
 
-    it('Should enter a phonenumber', () => {
-      cy.url().should('include', '/incident/telefoon');
-      cy.checkHeaderText('Mogen we u bellen voor vragen?');
-      cy.get(CREATE_SIGNAL.inputPhoneNumber).type('06-12345678');
-      cy.clickButton('Volgende');
+    it('Should enter a phonenumber and email address', () => {
+      createSignal.setPhonenumber('06-12345678');
+      cy.contains('Volgende').click();
+      createSignal.setEmailAddress('siafakemail@fake.nl');
+      cy.contains('Volgende').click();
     });
 
-    it('Should enter an email address', () => {
-      cy.url().should('include', '/incident/email');
-      cy.checkHeaderText('Wilt u op de hoogte blijven?');
-      cy.get(CREATE_SIGNAL.inputEmail).type('siafakemail@fake.nl');
-      cy.clickButton('Volgende');
-    });
-
-    it('Should show an overview', () => {
-      cy.url().should('include', '/incident/samenvatting');
-      cy.checkHeaderText('Controleer uw gegevens');
-
-      // Check if map and markers are visible
-      cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-      cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
+    it('Should show a summary', () => {
+      createSignal.checkSummaryPage();
 
       // Check if address and description are visible
-      cy.contains('Museumstraat 1, 1071XX Amsterdam');
-      cy.contains('De lantaarnpaal voor mijn deur doet het niet en er ligt troep op de stoep');
+      cy.contains(Cypress.env('address')).should('be.visible');
+      cy.contains(Cypress.env('description')).should('be.visible');
 
       // Check if specific information is visible
-      cy.contains('Een aantal lichtpunten die bij elkaar staan/hangen').should('be.visible');
-      cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet').should('be.visible');
-      cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
-      cy.contains('155632.07').should('be.visible');
-    
+      cy.contains('Lamp of lantaarnpaal is beschadigd of niet compleet').should('be.visible');
+      cy.contains('Nee, niet gevaarlijk').should('be.visible');
+      cy.get(LANTAARNPAAL.mapSelectLamp).should('not.be.visible');
+      cy.contains('11.11; 100.199').should('be.visible');
+
       // Check if mail and phonenumber are visible
-      cy.contains('06-12345678').should('be.visible');
-      cy.contains('siafakemail@fake.nl').should('be.visible');
+      cy.contains(Cypress.env('phoneNumber')).should('be.visible');
+      cy.contains(Cypress.env('emailAddress')).should('be.visible');
 
       // Check if there is no uploaded picture, later there is
-      cy.contains('Foto').should('not.be.visible');
+      cy.get(CREATE_SIGNAL.imageFileUpload).should('not.be.visible');
     });
 
     it('Should change location, description, phonenumer and email address', () => {
@@ -86,148 +84,150 @@ describe('Change a signal before submit and check signal details', () => {
 
       // Go to first step of signal creation and change signal information
       cy.get(CREATE_SIGNAL.linkChangeSignalInfo).click();
-      cy.get(CREATE_SIGNAL.autoSuggest).find('input').clear().type('1071WX 5');
-      cy.wait('@getAddress');
-      createSignal.selectAddress('Ruysdaelstraat 5, 1071WX Amsterdam');
-      cy.wait('@geoSearchLocation');
-    
+      cy.get(CREATE_SIGNAL.autoSuggest)
+        .find('input')
+        .clear();
+      createSignal.setAddress('1071WX 5', 'Ruysdaelstraat 5, 1071WX Amsterdam');
+
       // Change descripton to change category
-      createSignal.inputDescription('Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?');
-      cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click();
-      cy.get(CREATE_SIGNAL.dropdownDag).select('Vandaag');
-      cy.get(CREATE_SIGNAL.dropdownUur).select('5');
-      cy.get(CREATE_SIGNAL.dropdownMinuten).select('45');
-    
-      // Upload a file (uses cypress-file-upload plugin)
-      const fileName = 'logo.png';
-      cy.get(CREATE_SIGNAL.buttonUploadFile).attachFile(fileName);
-      cy.clickButton('Volgende');
-    
+      createSignal.setDescription(
+        'Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?'
+      );
+      createSignal.setDateTime('Eerder');
+
+      createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
+
+      cy.contains('Volgende').click();
+
       // Change phonenumber
-      cy.url().should('include', '/incident/telefoon');
-      cy.get(CREATE_SIGNAL.inputPhoneNumber).clear().type('06-87654321');
+      createSignal.setPhonenumber('06-87654321');
       cy.contains('Volgende').click();
 
       // Change email address
-      cy.url().should('include', '/incident/email');
-      cy.get(CREATE_SIGNAL.inputEmail).clear().type('mailsiafake@fake.nl');
+      createSignal.setEmailAddress('mailsiafake@fake.nl');
       cy.contains('Volgende').click();
 
-      // Check overview
-      cy.url().should('include', '/incident/samenvatting');
-      cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-      cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-      cy.contains('Ruysdaelstraat 5, 1071WX Amsterdam');
-      cy.contains('Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?');
+      // Check summary
+      createSignal.checkSummaryPage();
+      cy.contains(Cypress.env('address')).should('be.visible');
+      cy.contains(Cypress.env('description')).should('be.visible');
       cy.contains('Vandaag, 5:45').should('be.visible');
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
-      cy.contains('06-87654321').should('be.visible');
-      cy.contains('mailsiafake@fake.nl').should('be.visible');
+      cy.contains(Cypress.env('phoneNumber')).should('be.visible');
+      cy.contains(Cypress.env('emailAddress')).should('be.visible');
+      // Specific information is not visible
+      cy.contains('Een aantal lichtpunten die bij elkaar staan/hangen').should('not.be.visible');
+      cy.contains('Lichtpunt is zichtbaar beschadigd en/of incompleet').should('not.be.visible');
+      cy.get(LANTAARNPAAL.mapSelectLamp).should('not.be.visible');
+      cy.contains('155632.07').should('not.be.visible');
     });
 
     it('Should edit phonenumber and email address', () => {
-    // Go to the phonenumber page and change phonenumber
+      // Go to the phonenumber page and change phonenumber
       cy.get(CREATE_SIGNAL.linkChangePhoneNumber).click();
-      cy.url().should('include', '/incident/telefoon');
-      cy.get(CREATE_SIGNAL.inputPhoneNumber).clear().type('06-11223344');
+      createSignal.setPhonenumber('06-11223344');
       cy.contains('Volgende').click();
 
       // Change email address
-      cy.url().should('include', '/incident/email');
-      cy.get(CREATE_SIGNAL.inputEmail).clear().type('fakesiamail@fake.nl');
-      cy.clickButton('Volgende');
-    
-      // Check overview
-      cy.url().should('include', '/incident/samenvatting');
-      cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-      cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
+      createSignal.setEmailAddress('fakesiamail@fake.nl');
+      cy.contains('Volgende').click();
+
+      // Check summary
+      createSignal.checkSummaryPage();
       cy.contains('Ruysdaelstraat 5, 1071WX Amsterdam');
-      cy.contains('Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?');
+      cy.contains(
+        'Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?'
+      );
       cy.contains('Vandaag, 5:45').should('be.visible');
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
-      cy.contains('06-11223344').should('be.visible');
-      cy.contains('fakesiamail@fake.nl').should('be.visible');
+      cy.contains(Cypress.env('phoneNumber')).should('be.visible');
+      cy.contains(Cypress.env('emailAddress')).should('be.visible');
     });
 
     it('Should edit email address', () => {
-    // Go to the email address page and change emailaddress
+      cy.server();
+      cy.postSignalRoutePublic();
+      // Go to the email address page and change emailaddress
       cy.get(CREATE_SIGNAL.linkChangeEmailAddress).click();
-      cy.url().should('include', '/incident/email');
-      cy.get(CREATE_SIGNAL.inputEmail).clear().type('fakemailsia@fake.nl');
-      cy.clickButton('Volgende');
+      createSignal.setEmailAddress('fakemailsia@fake.nl');
+      cy.contains('Volgende').click();
 
-      // Check overview
-      cy.url().should('include', '/incident/samenvatting');
-      cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-      cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-      cy.contains('Ruysdaelstraat 5, 1071WX Amsterdam');
-      cy.contains('Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?');
+      // Check summary
+      createSignal.checkSummaryPage();
+      cy.contains(Cypress.env('address')).should('be.visible');
+      cy.contains(Cypress.env('description')).should('be.visible');
       cy.contains('Vandaag, 5:45').should('be.visible');
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
-      cy.contains('06-11223344').should('be.visible');
-      cy.contains('fakemailsia@fake.nl').should('be.visible');
+      cy.contains(Cypress.env('phoneNumber')).should('be.visible');
+      cy.contains(Cypress.env('emailAddress')).should('be.visible');
+
+      cy.contains('Verstuur').click();
+      cy.wait('@postSignalPublic');
     });
 
     it('Should show the last screen', () => {
-      cy.server();
-      cy.postSignalRoutePublic();
-
-      cy.clickButton('Verstuur');
-      cy.wait('@postSignalPublic');
-      cy.url().should('include', '/incident/bedankt');
-      cy.checkHeaderText('Bedankt!');
-    
+      createSignal.checkThanksPage();
       // Capture signal id to check details later
-      cy.get('.bedankt').first().then($signalLabel => {
-      // Get the signal id
-        const signalNumber = $signalLabel.text().match(/\d+/)[0];
-        cy.log(signalNumber);
-        // Set the signal id in variable for later use
-        Cypress.env('signalId', signalNumber);
-      });
+      createSignal.getSignalId();
     });
   });
 
   describe('Check data created signal', () => {
     before(() => {
-      localStorage.setItem('accessToken', 'TEST123');
+      localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
-      cy.wait('@getFilters');
-      cy.wait('@getCategories');
-      cy.wait('@getSignals');
-      cy.wait('@getUserInfo');
+      cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
-  
+
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
-    
-      cy.contains('Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?');
-    
-      // Check if map and marker are visible
-      cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-      cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
+      cy.get('[href*="/manage/incident/"]')
+        .contains(Cypress.env('signalId'))
+        .click();
+      cy.waitForSignalDetailsRoutes();
 
+      createSignal.checkSignalDetailsPage();
+      cy.contains(Cypress.env('description')).should('be.visible');
       // Check signal data
-      cy.get(SIGNAL_DETAILS.stadsdeel).contains('Stadsdeel: ').and('contain', 'Zuid').should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet).contains('Ruysdaelstraat').and('contain', '5').should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity).contains('1071WX').and('contain', 'Amsterdam').should('be.visible');
-      cy.get(SIGNAL_DETAILS.email).contains('fakemailsia@fake.nl').should('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber).contains('06-11223344').should('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel)
+        .should('have.text', 'Stadsdeel: Zuid')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet)
+        .should('have.text', 'Ruysdaelstraat 5')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity)
+        .should('have.text', '1071WX Amsterdam')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.email)
+        .should('have.text', Cypress.env('emailAddress'))
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber)
+        .should('have.text', Cypress.env('phoneNumber'))
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails)
+        .should('have.text', 'Nee')
+        .and('be.visible');
 
-      // Check if status is 'gemeld' with red coloured text
-      cy.get(SIGNAL_DETAILS.status).contains('Gemeld').should('be.visible').and($labels => {
-        expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
-      });
-
-      cy.contains('Normaal').should('be.visible');
-      cy.contains('Veeg- / zwerfvuil').should('be.visible');
-      // TODO Urgency, should have a data-testid
-      cy.get(SIGNAL_DETAILS.mainCategory).contains('Schoon').should('be.visible');
-      cy.get(SIGNAL_DETAILS.department).contains('STW').should('be.visible');
-      cy.get(SIGNAL_DETAILS.source).contains('online').should('be.visible');
+      createSignal.checkCreationDate();
+      createSignal.checkRedTextStatus('Gemeld');
+      cy.get(SIGNAL_DETAILS.urgency)
+        .should('have.text', 'Normaal')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.type)
+        .should('have.text', 'Melding')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory)
+        .should('have.text', 'Veeg- / zwerfvuil (STW)')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory)
+        .should('have.text', 'Schoon')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.source)
+        .should('have.text', 'online')
+        .and('be.visible');
     });
   });
 });

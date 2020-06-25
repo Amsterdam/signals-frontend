@@ -3,7 +3,7 @@ import { Validators } from 'react-reactive-form';
 import { sourceList, priorityList, typesList } from 'signals/incident-management/definitions';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
-import checkVisibility from '../services/check-visibility';
+import checkVisibility from '../services/checkVisibility';
 import getStepControls from '../services/get-step-controls';
 
 const sourceValuesObj = sourceList.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), { '': 'Vul bron in' });
@@ -57,8 +57,8 @@ export default {
       description: {
         meta: {
           label: 'Waar gaat het om?',
+          subtitle: 'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
           path: 'text',
-          placeholder: 'Beschrijf uw melding',
           maxLength: 1000,
         },
         options: {
@@ -100,7 +100,7 @@ export default {
         options: {
           validators: [Validators.required],
         },
-        render: FormComponents.RadioInput,
+        render: FormComponents.RadioInputGroup,
       },
       incident_date: {
         meta: {
@@ -136,7 +136,7 @@ export default {
           validators: [Validators.required],
         },
         authenticated: true,
-        render: FormComponents.RadioInput,
+        render: FormComponents.RadioInputGroup,
       },
       type: {
         meta: {
@@ -146,7 +146,10 @@ export default {
           values: typesValuesList,
         },
         authenticated: true,
-        render: FormComponents.RadioInput,
+        render: FormComponents.RadioInputGroup,
+        options: {
+          validators: [Validators.required],
+        },
       },
       images_previews: {
         meta: {

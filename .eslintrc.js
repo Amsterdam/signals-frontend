@@ -1,9 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-
-const prettierOptions = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8')
-);
+require('@babel/register');
 
 module.exports = {
   parser: 'babel-eslint',
@@ -29,7 +24,7 @@ module.exports = {
   },
   rules: {
     camelcase: 0,
-    'arrow-parens': ['error', 'as-needed'],
+    'arrow-parens': ['error', 'as-needed', { requireForBlockBody: false }],
     'arrow-body-style': [2, 'as-needed'],
     'class-methods-use-this': 0,
     'comma-dangle': ['error', 'always-multiline'],
@@ -38,7 +33,7 @@ module.exports = {
     'import/no-dynamic-require': 0,
     'import/no-extraneous-dependencies': 0,
     'import/no-named-as-default': 0,
-    'import/no-unresolved': 2,
+    'import/no-unresolved': [2, { commonjs: true }],
     'import/no-webpack-loader-syntax': 0,
     'import/prefer-default-export': 0,
     indent: [
@@ -69,12 +64,13 @@ module.exports = {
     'no-confusing-arrow': 0,
     'no-console': 1,
     'no-restricted-syntax': 0,
-    'no-underscore-dangle': [0, {allow: ['_display', '_links']}],
+    'no-underscore-dangle': [0, { allow: ['_display', '_links'] }],
     'no-unused-vars': 2,
     'no-use-before-define': 0,
     'object-curly-spacing': [1, 'always'],
     'padded-blocks': ['error', 'never'],
     'prefer-template': 2,
+    'quote-props': [2, 'as-needed'],
     'react/destructuring-assignment': 0,
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
@@ -102,8 +98,9 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      webpack: {
-        config: './internals/webpack/webpack.prod.babel.js',
+      node: {
+        extensions: ['.js', '.jsx', '.react.js'],
+        moduleDirectory: ['node_modules', './src'],
       },
     },
   },
