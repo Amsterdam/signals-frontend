@@ -9,7 +9,7 @@
   },
   "engines": {
     "npm": ">=6",
-    "node": "11"
+    "node": "12"
   },
   "author": "Datapunt Amsterdam",
   "license": "MPL-2.0",
