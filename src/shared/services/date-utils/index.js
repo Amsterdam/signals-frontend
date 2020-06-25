@@ -11,4 +11,4 @@ export const dateToString = date => (
   date && format(date, 'dd-MM-yyyy', date)
 );
 
-export const capitalizeFirstLetter = value => value && (value[0].toUpperCase() + value.substring(1));
+export const capitalize = value => value && (value[0].toUpperCase() + value.substring(1));

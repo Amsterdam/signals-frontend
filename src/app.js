@@ -6,7 +6,6 @@ import * as Sentry from '@sentry/browser';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import Immutable from 'immutable';
 import history from 'utils/history';
-import { setDefaultLocale } from "react-datepicker";
 
 // Import root app
 import App from 'containers/App';
@@ -27,8 +26,6 @@ import './global.scss';
 import './polyfills';
 
 import configureStore from './configureStore';
-
-setDefaultLocale('nl');
 
 const environment = process.env.NODE_ENV;
 

@@ -4,7 +4,7 @@ import subDays from 'date-fns/subDays';
 import PropTypes from 'prop-types';
 import { nl } from 'date-fns/locale';
 import Select from 'components/SelectInput';
-import { capitalizeFirstLetter } from 'shared/services/date-utils';
+import { capitalize } from 'shared/services/date-utils';
 import Header from '../Header';
 
 import './style.scss';
@@ -16,7 +16,7 @@ const formatDate = (offset, type = 'value') => {
   }
 
   const date = subDays(new Date(), offset);
-  return capitalizeFirstLetter(format(date, dateFormat, { locale: nl }));
+  return capitalize(format(date, dateFormat, { locale: nl }));
 };
 
 

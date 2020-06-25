@@ -220,7 +220,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     await findByTestId('filterName');
 
     expect(nameField.value).toEqual('My filter');
-    expect(dateField.value).toEqual('1970-01-01');
+    expect(dateField.value).toEqual('01-01-1970');
     expect(addressField.value).not.toBeFalsy();
     expect(afvalToggle.checked).toEqual(true);
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBeGreaterThan(1);

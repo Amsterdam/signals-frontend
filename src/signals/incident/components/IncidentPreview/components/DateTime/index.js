@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
-import { capitalizeFirstLetter } from 'shared/services/date-utils';
+import { capitalize } from 'shared/services/date-utils';
 import parseISO from 'date-fns/parseISO';
 import { nl } from 'date-fns/locale';
 
@@ -17,7 +17,7 @@ const getValue = (value, incident) => {
     return `Vandaag, ${time}`;
   }
 
-  return `${capitalizeFirstLetter(format(parseISO(incident.incident_date), 'EEEE d MMMM', { locale: nl }))}, ${time}`;
+  return `${capitalize(format(parseISO(incident.incident_date), 'EEEE d MMMM', { locale: nl }))}, ${time}`;
 };
 
 const DateTime = ({ value, incident }) => getValue(value, incident);
