@@ -74,7 +74,6 @@
   "showVulaanControls": true,
   "API_ROOT_MAPSERVER": "https://map.data.amsterdam.nl/",
   "AUTH_ME_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/",
-  "AUTH_ROOT": "https://acc.api.data.amsterdam.nl/",
   "CATEGORIES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/",
   "CATEGORIES_PRIVATE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/",
   "DEPARTMENTS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/",
