@@ -1,9 +1,16 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
+import * as reactRedux from 'react-redux';
+
+import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 import { withMapContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
+import { patchIncident } from 'models/incident/actions';
 
 import LocationForm from './index';
+
+const dispatch = jest.fn();
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 
 describe('incident-management/containers/IncidentDetail/components/LocationForm', () => {
   it('should render a form', () => {
@@ -13,7 +20,6 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
           incidentId={incidentFixture.id}
           location={incidentFixture.location}
           onClose={() => {}}
-          onPatchIncident={() => {}}
         />
       )
     );
@@ -24,26 +30,30 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
 
   it('should call handlers', () => {
     const onClose = jest.fn();
-    const onPatchIncident = jest.fn();
     const { queryByTestId } = render(
       withMapContext(
         <LocationForm
           incidentId={incidentFixture.id}
           location={incidentFixture.location}
           onClose={onClose}
-          onPatchIncident={onPatchIncident}
         />
       )
     );
 
     expect(onClose).not.toHaveBeenCalled();
-    expect(onPatchIncident).not.toHaveBeenCalled();
+    expect(dispatch).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(queryByTestId('submitBtn'));
     });
 
-    expect(onPatchIncident).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalledWith(
+      patchIncident({
+        id: incidentFixture.id,
+        type: PATCH_TYPE_LOCATION,
+        patch: { location: incidentFixture.location },
+      })
+    );
     expect(onClose).toHaveBeenCalled();
   });
 });

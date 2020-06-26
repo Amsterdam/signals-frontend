@@ -81,7 +81,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     error,
     get: getIncident,
     data: incident,
-    patch: patchIncident,
   } = useFetch();
   const { get: getHistory, data: history } = useFetch();
   const { get: getAttachments, data: attachments } = useFetch();
@@ -192,15 +191,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     }
   }, []);
 
-  const onPatchIncident = useCallback(
-    ({ patch }) => {
-      const patchData = { id: incident.id, ...patch };
-
-      patchIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, patchData);
-    },
-    [id, incident, patchIncident]
-  );
-
   if (!incident) return null;
 
   return (
@@ -211,7 +201,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
             incidentId={incident.id}
             status={incident?.status?.state}
             links={incident?._links}
-            onPatchIncident={onPatchIncident}
           />
         </Column>
       </Row>
@@ -226,7 +215,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
             onShowAttachment={payload => dispatch({ type: 'showImage', payload })}
           />
 
-          <AddNote id={id} onPatchIncident={onPatchIncident} />
+          <AddNote id={id} />
 
           <ChildIncidents incident={incident} />
 
@@ -239,7 +228,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
         >
           <MetaList
             incident={incident}
-            onPatchIncident={onPatchIncident}
             onEditStatus={() => dispatch({ type: 'editStatus' })}
           />
         </DetailContainer>
@@ -252,7 +240,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
                 error={state.error}
                 incident={incident}
                 onClose={() => dispatch({ type: 'closeAll' })}
-                onPatchIncident={onPatchIncident}
               />
             )}
 
@@ -264,7 +251,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
               <LocationForm
                 incidentId={incident.id}
                 location={incident.location}
-                onPatchIncident={onPatchIncident}
                 onClose={() => dispatch({ type: 'closeAll' })}
               />
             )}

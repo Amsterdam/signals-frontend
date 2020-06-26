@@ -8,6 +8,7 @@ import {
   SET_GROUP_OPTIONS,
   SET_MAIN_CATEGORY,
   SET_NAME,
+  SET_NOTE_KEYWORD,
   SET_REFRESH,
   SET_SAVE_BUTTON_LABEL,
 } from './constants';
@@ -24,6 +25,7 @@ export const initialState = {
     category_slug: [],
     feedback: '',
     maincategory_slug: [],
+    note_keyword: '',
     priority: [],
     source: [],
     stadsdeel: [],
@@ -63,6 +65,15 @@ export default (state, action) => {
         options: {
           ...state.options,
           address_text: action.payload,
+        },
+      };
+
+    case SET_NOTE_KEYWORD:
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          note_keyword: action.payload,
         },
       };
 

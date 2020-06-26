@@ -26,20 +26,24 @@ describe('Create signal klok', () => {
     });
 
     it('Should enter specific information', () => {
+      const warning = 'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.';
       createSignal.checkSpecificInformationPage();
 
       cy.contains(Cypress.env('description')).should('be.visible');
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Is de situatie gevaarlijk?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
 
       // First question
       cy.contains('Is de situatie gevaarlijk?').should('be.visible');
       cy.get(KLOK.radioButtonGevaarlijkAanrijding)
         .check()
         .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.')
+      cy.contains(warning)
         .should('be.visible')
         .and($labels => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
@@ -47,19 +51,19 @@ describe('Create signal klok', () => {
       cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef)
         .check()
         .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.').should('be.visible');
+      cy.contains(warning).should('be.visible');
       cy.get(KLOK.radioButtonGevaarlijkDeurtje)
         .check()
         .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.').should('be.visible');
+      cy.contains(warning).should('be.visible');
       cy.get(KLOK.radioButtonGevaarlijkLosseKabels)
         .check()
         .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.').should('be.visible');
+      cy.contains(warning).should('be.visible');
       cy.get(KLOK.radioButtonGevaarlijkNietGevaarlijk)
         .check()
         .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.').should('not.be.visible');
+      cy.contains(warning).should('not.be.visible');
 
       // Second question
       cy.get(KLOK.radioButtonProbleemNietOpTijd)
@@ -129,7 +133,7 @@ describe('Create signal klok', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));

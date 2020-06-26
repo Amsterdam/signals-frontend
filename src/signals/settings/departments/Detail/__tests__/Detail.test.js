@@ -1,6 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { act, render, fireEvent, wait } from '@testing-library/react';
+import { act, render, fireEvent } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext } from 'test/utils';
@@ -10,7 +9,7 @@ import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import useFetch from 'hooks/useFetch';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import DepartmentDetail, { DepartmentDetailContainer } from '..';
+import { DepartmentDetailContainer } from '..';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -48,8 +47,6 @@ const useFetchResponse = {
   isSuccess: false,
 };
 
-useFetch.mockImplementation(() => useFetchResponse);
-
 const subCategories = Object.entries(categories).flatMap(
   ([, { sub }]) => sub
 );
@@ -58,26 +55,18 @@ const findByMain = parentKey =>
   subCategories.filter(category => category.parentKey === parentKey);
 
 describe('signals/settings/departments/Detail', () => {
+  beforeEach(() => {
+    useFetch.mockImplementation(() => useFetchResponse);
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should have props from structured selector', async () => {
-    const tree = mount(withAppContext(<DepartmentDetail />));
-
-    await wait();
-
-    const containerProps = tree.find(DepartmentDetailContainer).props();
-
-    expect(containerProps.categories).not.toBeUndefined();
-    expect(containerProps.findByMain).not.toBeUndefined();
-    expect(containerProps.subCategories).not.toBeUndefined();
-  });
-
   it('should render a backlink', async () => {
-    const { container } = render(withAppContext(<DepartmentDetailContainer />));
+    const { container, findByTestId } = render(withAppContext(<DepartmentDetailContainer />));
 
-    await wait();
+    await findByTestId('settingsPageHeader');
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(
       routes.departments
@@ -85,11 +74,11 @@ describe('signals/settings/departments/Detail', () => {
   });
 
   it('should render the correct title', async () => {
-    const { getByText, rerender } = render(
+    const { getByText, rerender, findByTestId, unmount } = render(
       withAppContext(<DepartmentDetailContainer />)
     );
 
-    await wait();
+    await findByTestId('settingsPageHeader');
 
     expect(getByText('Afdeling wijzigen')).toBeInTheDocument();
 
@@ -97,19 +86,21 @@ describe('signals/settings/departments/Detail', () => {
       departmentId: undefined,
     }));
 
+    unmount();
+
     rerender(withAppContext(<DepartmentDetailContainer />));
 
-    await wait();
+    await findByTestId('settingsPageHeader');
 
     expect(getByText('Afdeling toevoegen')).toBeInTheDocument();
   });
 
   it('should render a loading indicator', async () => {
-    const { queryByTestId, rerender } = render(
+    const { queryByTestId, rerender, findByTestId, unmount } = render(
       withAppContext(<DepartmentDetailContainer />)
     );
 
-    await wait();
+    await findByTestId('settingsPageHeader');
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
 
@@ -118,19 +109,21 @@ describe('signals/settings/departments/Detail', () => {
       isLoading: true,
     }));
 
+    unmount();
+
     rerender(withAppContext(<DepartmentDetailContainer />));
 
-    await wait();
+    await findByTestId('settingsPageHeader');
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
   });
 
   it('should render the department name', async () => {
-    const { queryByText, getByText, rerender } = render(
+    const { queryByText, getByText, rerender, findByTestId, unmount } = render(
       withAppContext(<DepartmentDetailContainer />)
     );
 
-    await wait();
+    await findByTestId('settingsPageHeader');
 
     expect(queryByText(departmentJson.name)).not.toBeInTheDocument();
 
@@ -139,19 +132,21 @@ describe('signals/settings/departments/Detail', () => {
       data: departmentJson,
     }));
 
+    unmount();
+
     rerender(withAppContext(<DepartmentDetailContainer />));
 
-    await wait();
+    await findByTestId('departmentDetail');
 
     expect(getByText(departmentJson.name)).toBeInTheDocument();
   });
 
   it('should render category lists', async () => {
-    const { queryByTestId, rerender } = render(
+    const { queryByTestId, rerender, findByTestId, unmount } = render(
       withAppContext(<DepartmentDetailContainer />)
     );
 
-    await wait();
+    await findByTestId('settingsPageHeader');
 
     expect(queryByTestId('categoryLists')).not.toBeInTheDocument();
 
@@ -160,11 +155,15 @@ describe('signals/settings/departments/Detail', () => {
       data: departmentJson,
     }));
 
+    unmount();
+
     rerender(withAppContext(<DepartmentDetailContainer />));
 
-    await wait();
+    await findByTestId('departmentDetail');
 
     expect(queryByTestId('categoryLists')).not.toBeInTheDocument();
+
+    unmount();
 
     rerender(
       withAppContext(
@@ -178,17 +177,17 @@ describe('signals/settings/departments/Detail', () => {
       )
     );
 
-    await wait();
+    const categoryLists = await findByTestId('categoryLists');
 
-    expect(queryByTestId('categoryLists')).toBeInTheDocument();
+    expect(categoryLists).toBeInTheDocument();
   });
 
   it('should fetch on mount', async () => {
     expect(get).not.toHaveBeenCalled();
 
-    render(withAppContext(<DepartmentDetailContainer />));
+    const { findByTestId } = render(withAppContext(<DepartmentDetailContainer />));
 
-    await wait();
+    await findByTestId('settingsPageHeader');
 
     expect(get).toHaveBeenCalledWith(
       `${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`
@@ -196,7 +195,12 @@ describe('signals/settings/departments/Detail', () => {
   });
 
   it('should patch on submit', async () => {
-    const { container } = render(
+    useFetch.mockImplementationOnce(() => ({
+      ...useFetchResponse,
+      data: departmentJson,
+    }));
+
+    const { container, findByTestId } = render(
       withAppContext(
         <DepartmentDetailContainer
           categories={categories}
@@ -206,12 +210,12 @@ describe('signals/settings/departments/Detail', () => {
       )
     );
 
-    await wait();
-
     expect(patch).not.toHaveBeenCalled();
 
+    await findByTestId('departmentDetail');
+
     act(() => {
-      fireEvent.click(container.querySelector('[type=submit]'));
+      fireEvent.click(container.querySelector('[type="submit"]'));
     });
 
     expect(patch).toHaveBeenCalled();

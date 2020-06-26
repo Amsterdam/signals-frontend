@@ -1,6 +1,9 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
+import * as reactRedux from 'react-redux';
 
+import { PATCH_TYPE_STATUS } from 'models/incident/constants';
+import { patchIncident } from 'models/incident/actions';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { changeStatusOptionList } from '../../../../definitions/statusList';
@@ -28,24 +31,18 @@ const defaultTexts = [
 ];
 
 const onClose = jest.fn();
-const onPatchIncident = jest.fn();
+const dispatch = jest.fn();
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   beforeEach(() => {
     onClose.mockReset();
-    onPatchIncident.mockReset();
+    dispatch.mockReset();
   });
 
   it('renders correctly', () => {
     const { container, getByTestId, getByText } = render(
-      withAppContext(
-        <StatusForm
-          incident={incidentFixture}
-          defaultTexts={defaultTexts}
-          onClose={onClose}
-          onPatchIncident={onPatchIncident}
-        />
-      )
+      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
     expect(container.querySelector('textarea')).toBeInTheDocument();
@@ -61,14 +58,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const stateWithTexts = defaultTexts[0].state;
 
     const { getByText, getByTestId, queryByTestId } = render(
-      withAppContext(
-        <StatusForm
-          incident={incidentFixture}
-          defaultTexts={defaultTexts}
-          onClose={onClose}
-          onPatchIncident={onPatchIncident}
-        />
-      )
+      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
     const radioButton = getByTestId(`status-${stateWithTexts}`);
@@ -88,14 +78,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('does not show default texts', () => {
     const { getByTestId, queryByTestId } = render(
-      withAppContext(
-        <StatusForm
-          incident={incidentFixture}
-          defaultTexts={defaultTexts}
-          onClose={onClose}
-          onPatchIncident={onPatchIncident}
-        />
-      )
+      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
     expect(queryByTestId('defaultTextsTitle')).not.toBeInTheDocument();
@@ -114,14 +97,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const stateWithTexts = defaultTexts[0].state;
 
     const { container, getByTestId, getAllByTestId } = render(
-      withAppContext(
-        <StatusForm
-          incident={incidentFixture}
-          defaultTexts={defaultTexts}
-          onClose={onClose}
-          onPatchIncident={onPatchIncident}
-        />
-      )
+      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
     const radioButton = getByTestId(`status-${stateWithTexts}`);
@@ -159,14 +135,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     global.alert = jest.fn();
 
     const { container, getByTestId } = render(
-      withAppContext(
-        <StatusForm
-          incident={incidentFixture}
-          defaultTexts={defaultTexts}
-          onClose={onClose}
-          onPatchIncident={onPatchIncident}
-        />
-      )
+      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
     act(() => {
@@ -192,26 +161,25 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('should handle submit', () => {
     const { getByTestId } = render(
-      withAppContext(
-        <StatusForm
-          incident={incidentFixture}
-          defaultTexts={defaultTexts}
-          onClose={onClose}
-          onPatchIncident={onPatchIncident}
-        />
-      )
+      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
     expect(onClose).not.toHaveBeenCalled();
-    expect(onPatchIncident).not.toHaveBeenCalled();
+    expect(dispatch).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
 
-    expect(onPatchIncident).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalledWith(
+      patchIncident({
+        id: incidentFixture.id,
+        type: PATCH_TYPE_STATUS,
+        patch: {
+          status: { state: incidentFixture.status.state, text: '' },
+        },
+      })
+    );
     expect(onClose).toHaveBeenCalled();
   });
-
-  it('', () => {});
 });

@@ -1,25 +1,29 @@
 import React from 'react';
 import { fireEvent, render, cleanup, act } from '@testing-library/react';
+import * as reactRedux from 'react-redux';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { store, withAppContext } from 'test/utils';
-import incidentJson from 'utils/__tests__/fixtures/incident.json';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
+import { patchIncident } from 'models/incident/actions';
 
 import MetaList, { getCategoryName }from './index';
 
-jest.mock('shared/services/string-parser/string-parser');
+jest.mock('shared/services/string-parser');
 
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
+
+const dispatch = jest.fn();
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 
 describe('<MetaList />', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      incident: incidentJson,
-      onPatchIncident: jest.fn(),
+      incident: incidentFixture,
       onEditStatus: jest.fn(),
       onShowAttachment: jest.fn(),
     };
@@ -44,14 +48,14 @@ describe('<MetaList />', () => {
       expect(queryByText('Normaal')).toBeInTheDocument();
 
       expect(queryByText('Subcategorie')).toBeInTheDocument();
-      const subcategory = categoriesPrivate.results.find(cat => cat.name === incidentJson.category.sub);
-      const categoryName = getCategoryName({ name: incidentJson.category.sub, departments: subcategory.departments });
+      const subcategory = categoriesPrivate.results.find(cat => cat.name === incidentFixture.category.sub);
+      const categoryName = getCategoryName({ name: incidentFixture.category.sub, departments: subcategory.departments });
       expect(queryByText(categoryName)).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
-      expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentJson.category.main);
+      expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 
       expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
-      expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentJson.source);
+      expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
     });
 
     it('should render correctly with high priority', () => {
@@ -81,13 +85,21 @@ describe('<MetaList />', () => {
 
       const submitButtons = getAllByTestId(submitTestId);
 
-      expect(props.onPatchIncident).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
 
       act(() => {
         fireEvent.click(submitButtons[0]);
       });
 
-      expect(props.onPatchIncident).toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith(patchIncident({
+        id: incidentFixture.id,
+        patch: {
+          priority: {
+            priority: 'high',
+          },
+        },
+        type: 'priority',
+      }));
     });
   });
 

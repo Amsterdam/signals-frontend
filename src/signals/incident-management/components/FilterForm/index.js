@@ -1,7 +1,6 @@
 import React, { Fragment, useLayoutEffect, useMemo, useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
-import moment from 'moment';
 import cloneDeep from 'lodash.clonedeep';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
@@ -14,6 +13,7 @@ import * as types from 'shared/types';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
+import { dateToISOString } from 'shared/services/date-utils';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
@@ -21,6 +21,7 @@ import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
 import CheckboxGroup from './components/CheckboxGroup';
 import RadioGroup from './components/RadioGroup';
+
 import {
   reset,
   setAddress,
@@ -30,8 +31,10 @@ import {
   setGroupOptions,
   setMainCategory,
   setName,
+  setNoteKeyword,
   setRefresh,
 } from './actions';
+
 import reducer, { init } from './reducer';
 
 /**
@@ -79,8 +82,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     state.options.maincategory_slug,
   ]);
 
-  const dateFrom = state.options.created_after && moment(state.options.created_after);
-  const dateBefore = state.options.created_before && moment(state.options.created_before);
+  const dateFrom = state.options.created_after && new Date(state.options.created_after);
+  const dateBefore = state.options.created_before && new Date(state.options.created_before);
 
   const onSubmitForm = useCallback(
     event => {
@@ -110,7 +113,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const onResetForm = useCallback(() => {
     dispatch(reset());
     onClearFilter();
-  }, [onClearFilter]);
+  }, [dispatch, onClearFilter]);
 
   // callback handler that is called whenever a checkbox is (un)checked in the list of
   // category checkbox groups
@@ -135,7 +138,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [categories, dispatch]
   );
 
-  const onNameChange = useCallback(
+  const onNameBlur = useCallback(
     event => {
       const { value } = event.target;
 
@@ -163,9 +166,16 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [dispatch]
   );
 
-  const onAddressChange = useCallback(
-    e => {
-      dispatch(setAddress(e.target.value));
+  const onAddressBlur = useCallback(
+    event => {
+      dispatch(setAddress(event.target.value));
+    },
+    [dispatch]
+  );
+
+  const onNotesBlur = useCallback(
+    event => {
+      dispatch(setNoteKeyword(event.target.value));
     },
     [dispatch]
   );
@@ -193,7 +203,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const onGroupToggle = useCallback(
     (groupName, isToggled) => {
       const options = isToggled ? dataLists[groupName] : [];
-
       dispatch(setGroupOptions({ [groupName]: options }));
     },
     [dispatch]
@@ -212,10 +221,10 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           <div className="invoer">
             <Input
               data-testid="filterName"
-              defaultValue={initialFormState.filter.name}
+              defaultValue={state.filter.name}
               id="filter_name"
               name="name"
-              onChange={onNameChange}
+              onBlur={onNameBlur}
               placeholder="Geef deze filterinstelling een naam om deze op te slaan"
               type="text"
             />
@@ -244,10 +253,26 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
         </Fieldset>
 
         <Fieldset>
+          <FilterGroup>
+            <Label htmlFor="filter_notes" isGroupHeader>
+              Zoek in notitie
+            </Label>
+            <Input
+              data-testid="filterNotes"
+              name="note_keyword"
+              id="filter_notes"
+              onBlur={onNotesBlur}
+              defaultValue={state.options.note_keyword}
+              type="text"
+            />
+          </FilterGroup>
+        </Fieldset>
+
+        <Fieldset>
           <legend>Filter parameters</legend>
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.status}
+            defaultValue={state.options.status}
             label="Status"
             name="status"
             onChange={onGroupChange}
@@ -256,7 +281,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.stadsdeel}
+            defaultValue={state.options.stadsdeel}
             label="Stadsdeel"
             name="stadsdeel"
             onChange={onGroupChange}
@@ -265,7 +290,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.priority}
+            defaultValue={state.options.priority}
             hasToggle={false}
             label="Urgentie"
             name="priority"
@@ -275,7 +300,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.type}
+            defaultValue={state.options.type}
             hasToggle={false}
             label="Type"
             name="type"
@@ -285,7 +310,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.contact_details}
+            defaultValue={state.options.contact_details}
             hasToggle={false}
             label="Contact"
             name="contact_details"
@@ -295,7 +320,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           <RadioGroup
-            defaultValue={initialFormState.options.feedback}
+            defaultValue={state.options.feedback}
             label="Feedback"
             name="feedback"
             onChange={onRadioChange}
@@ -311,7 +336,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               <CalendarInput
                 id="filter_created_after"
                 onSelect={dateValue => {
-                  updateFilterDate('created_after', dateValue && moment(dateValue).format('YYYY-MM-DD'));
+                  updateFilterDate('created_after', dateValue && dateToISOString(dateValue));
                 }}
                 selectedDate={dateFrom}
                 label="Vanaf"
@@ -321,7 +346,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               <CalendarInput
                 id="filter_created_before"
                 onSelect={dateValue => {
-                  updateFilterDate('created_before', dateValue && dateValue.format('YYYY-MM-DD'));
+                  updateFilterDate('created_before', dateValue && dateToISOString(dateValue));
                 }}
                 selectedDate={dateBefore}
                 label="Tot en met"
@@ -335,16 +360,17 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               Adres
             </Label>
             <Input
+              data-testid="filterAddress"
               name="address_text"
               id="filter_address"
-              onBlur={onAddressChange}
-              defaultValue={initialFormState.options.address_text}
+              onBlur={onAddressBlur}
+              defaultValue={state.options.address_text}
               type="text"
             />
           </FilterGroup>
 
           <CheckboxGroup
-            defaultValue={initialFormState.options.source}
+            defaultValue={state.options.source}
             label="Bron"
             name="source"
             onChange={onGroupChange}

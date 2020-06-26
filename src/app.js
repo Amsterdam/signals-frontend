@@ -14,8 +14,12 @@ import { authenticate } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 import loadModels from 'models';
 
-// eslint-disable-next-lin import/no-webpack-loader-syntax
+// Make sure these icons are picked up by webpack
+/* eslint-disable import/no-unresolved,import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
+import '!file-loader?name=[name].[ext]!./images/icon_180x180.png';
+import '!file-loader?name=[name].[ext]!./images/icon_192x192.png';
+/* eslint-enable import/no-unresolved,import/extensions */
 
 // Import CSS and Global Styles
 import './global.scss';
@@ -25,20 +29,15 @@ import configureStore from './configureStore';
 
 const environment = process.env.NODE_ENV;
 
-try {
-  const dsn = configuration?.sentry?.dsn;
-  const release = process.env.GIT_COMMIT;
-  if (dsn) {
-    Sentry.init({
-      environment,
-      dsn,
-      release,
-    });
-  }
-} catch (error) {
-  // noop
+const dsn = configuration?.sentry?.dsn;
+const release = process.env.GIT_COMMIT;
+if (dsn) {
+  Sentry.init({
+    environment,
+    dsn,
+    release,
+  });
 }
-
 
 // Create redux store with history
 const initialState = Immutable.Map();
@@ -48,22 +47,21 @@ const MOUNT_NODE = document.getElementById('app');
 loadModels(store);
 
 // Setup Matomo
-try {
-  const urlBase = configuration?.matomo?.urlBase;
-  const siteId = configuration?.matomo?.siteId;
+const urlBase = configuration?.matomo?.urlBase;
+const siteId = configuration?.matomo?.siteId;
 
-  if (urlBase && siteId) {
-    const MatomoInstance = new MatomoTracker({
-      urlBase,
-      siteId,
-    });
-    MatomoInstance.trackPageView();
-  }
-} catch (error) {
-  // noop
+if (urlBase && siteId) {
+  const MatomoInstance = new MatomoTracker({
+    urlBase,
+    siteId,
+  });
+  MatomoInstance.trackPageView();
 }
 
 const render = () => {
+  // eslint-disable-next-line no-undef,no-console
+  console.log(`Signals: version: ${VERSION}, build: ${process.env.NODE_ENV}`);
+
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>

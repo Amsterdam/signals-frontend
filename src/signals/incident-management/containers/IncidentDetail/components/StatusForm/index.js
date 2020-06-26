@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useState, useEffect, useMemo } from 'reac
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
+import { useDispatch } from 'react-redux';
 
 import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { incidentType, defaultTextsType } from 'shared/types';
@@ -10,6 +11,7 @@ import statusList, {
   defaultTextsOptionList,
   changeStatusOptionList,
 } from 'signals/incident-management/definitions/statusList';
+import { patchIncident } from 'models/incident/actions';
 
 import Button from 'components/Button';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
@@ -19,6 +21,7 @@ import DefaultTexts from './components/DefaultTexts';
 
 const Form = styled.form`
   position: relative;
+  width: 100%;
 `;
 
 const StyledColumn = styled(Column)`
@@ -50,9 +53,10 @@ const Notification = styled.div`
   line-height: 22px;
 `;
 
-const StatusForm = ({ defaultTexts, incident, onClose, onPatchIncident }) => {
+const StatusForm = ({ defaultTexts, incident, onClose }) => {
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
   const [warning, setWarning] = useState('');
+  const dispatch = useDispatch();
 
   const form = useMemo(
     () =>
@@ -90,18 +94,20 @@ const StatusForm = ({ defaultTexts, incident, onClose, onPatchIncident }) => {
           "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
         );
       } else {
-        onPatchIncident({
-          id: incident.id,
-          type: PATCH_TYPE_STATUS,
-          patch: {
-            status: { state: form.value.status, text: form.value.text },
-          },
-        });
+        dispatch(
+          patchIncident({
+            id: incident.id,
+            type: PATCH_TYPE_STATUS,
+            patch: {
+              status: { state: form.value.status, text: form.value.text },
+            },
+          })
+        );
 
         onClose();
       }
     },
-    [incident.id, onPatchIncident, form.value.status, form.value.text, onClose]
+    [incident.id, form.value.status, form.value.text, onClose, dispatch]
   );
 
   const handleUseDefaultText = useCallback(
@@ -179,7 +185,6 @@ StatusForm.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
   incident: incidentType.isRequired,
   onClose: PropTypes.func.isRequired,
-  onPatchIncident: PropTypes.func.isRequired,
 };
 
 export default StatusForm;

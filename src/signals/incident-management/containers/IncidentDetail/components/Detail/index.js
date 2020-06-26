@@ -5,7 +5,7 @@ import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
 import { incidentType, attachmentsType } from 'shared/types';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 
 import Location from './components/Location';
 import Attachments from './components/Attachments';

@@ -8,6 +8,7 @@ import MapDetail from '../MapDetail';
 
 const Wrapper = styled(Row)`
   padding-top: 20px;
+  position: relative;
 `;
 
 const StyledColumn = styled(Column)`
@@ -35,7 +36,7 @@ const LocationPreview = ({ location, onEditLocation }) => (
         Locatie wijzigen
       </EditButton>
 
-      <StyledMap value={location} icon={markerIcon} hasZoomControls zoom={11} />
+      <StyledMap value={location} icon={markerIcon} hasZoomControls zoom={14} />
     </StyledColumn>
   </Wrapper>
 );
