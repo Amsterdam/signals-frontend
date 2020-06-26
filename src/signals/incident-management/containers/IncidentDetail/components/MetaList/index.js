@@ -45,11 +45,6 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-export const getCategoryName = ({ name, departments }) => {
-  const departmensStringList = departments?.length > 0 ? ` (${departments.filter(({ is_responsible }) => is_responsible).map(({ code }) => code).join(', ')})` : '';
-  return `${name}${departmensStringList}`;
-};
-
 const MetaList = ({ incident, onEditStatus }) => {
   const dispatch = useDispatch();
   const [valueChanged, setValueChanged] = useState(false);
@@ -58,7 +53,7 @@ const MetaList = ({ incident, onEditStatus }) => {
     () =>
       subcategories?.map(category => ({
         ...category,
-        value: getCategoryName(category),
+        value: category.extendedName,
       })),
     // disabling linter; we want to allow possible null subcategories
     // eslint-disable-next-line react-hooks/exhaustive-deps
