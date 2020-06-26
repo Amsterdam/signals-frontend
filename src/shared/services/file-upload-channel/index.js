@@ -29,7 +29,7 @@ export default (endpoint, file, id) =>
     /* istanbul ignore next */
     xhr.onload = () => {
       // upload success
-      if (xhr.readyState === 4 && xhr.status === 202 && xhr.statusText === 'Accepted') {
+      if (xhr.readyState === 4 && xhr.status === 202) {
         emitter({ success: true });
         emitter(END);
       } else {
