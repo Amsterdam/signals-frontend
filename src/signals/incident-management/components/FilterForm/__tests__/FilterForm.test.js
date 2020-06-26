@@ -223,18 +223,18 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(dateField.value).toEqual('01-01-1970');
     expect(addressField.value).not.toBeFalsy();
     expect(afvalToggle.checked).toEqual(true);
+    expect(noteField.value).toEqual('test123');
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBeGreaterThan(1);
 
-    act(() => { fireEvent.click(container.querySelector('button[type="reset"]')); });
-
-    await findByTestId('filterName');
+    await act(async () => { fireEvent.click(container.querySelector('button[type="reset"]')); });
 
     expect(onClearFilter).toHaveBeenCalled();
 
-    expect(nameField.value).toEqual('');
-    // skipping testing dateField; handled by react-datepicker and not possible to verify until package has been updated
+    // skip testing dateField; handled by react-datepicker and not possible to verify until package has been updated
     // expect(dateField.value).toEqual('');
     expect(addressField.value).toEqual('');
+    expect(nameField.value).toEqual('');
+    expect(noteField.value).toEqual('');
     expect(afvalToggle.checked).toEqual(false);
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toEqual(0);
   });
@@ -258,15 +258,11 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(submitButton.textContent).toEqual(DEFAULT_SUBMIT_BUTTON_LABEL);
 
-    act(() => {
-      fireEvent.change(nameField, { target: { value: 'My filter' } });
-    });
+    act(() => { fireEvent.blur(nameField, { target: { value: 'My filter' } }); });
 
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL);
 
-    act(() => {
-      fireEvent.change(nameField, { target: { value: '' } });
-    });
+    act(() => { fireEvent.change(nameField, { target: { value: '' } }); });
 
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL);
   });
@@ -286,12 +282,9 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     const addressField = container.querySelector('input[type="text"][name="address_text"]');
 
-    act(() => {
-      fireEvent.change(addressField, {
-        target: { value: 'Weesperstraat 113/117' },
-      });
-      fireEvent.blur(addressField);
-    });
+    await act(async () => { fireEvent.change(addressField, { target: { value: 'Weesperstraat 113/117' } }); });
+
+    await act(async () => { fireEvent.blur(addressField); });
 
     await findByTestId('filterAddress');
 
@@ -322,10 +315,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
 
-    act(() => {
-      fireEvent.change(noteField, { target: { value: 'test123' } });
-      fireEvent.blur(noteField);
-    });
+    act(() => { fireEvent.blur(noteField, { target: { value: 'test123' } }); });
 
     expect(container.querySelector('input[type="text"][name="note_keyword"]').value).toEqual('test123');
   });
@@ -351,9 +341,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const sourceCheckboxes = container.querySelectorAll('input[type="checkbox"][name="source"]');
     const boxInList = sourceCheckboxes[1];
 
-    act(() => {
-      fireEvent.click(boxInList);
-    });
+    await act(async () => { fireEvent.click(boxInList); });
 
     await findByTestId('sourceCheckboxGroup');
 
@@ -399,9 +387,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(Array.from(checkboxes).every(element => !element.checked)).toEqual(true);
 
-    act(() => {
-      fireEvent.click(checkboxes[3]);
-    });
+    await act(async () => { fireEvent.click(checkboxes[3]); });
 
     await findByTestId('sourceCheckboxGroup');
 
@@ -447,20 +433,14 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
+      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 
       expect(handlers.onSubmit).toHaveBeenCalled();
       expect(handlers.onSaveFilter).not.toHaveBeenCalled(); // name field is empty
 
-      act(() => {
-        fireEvent.change(nameField, { target: { value: 'New name' } });
-      });
+      act(() => { fireEvent.blur(nameField, { target: { value: 'New name' } }); });
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
+      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 
       expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1);
     });
@@ -495,25 +475,17 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
-      act(() => {
-        fireEvent.change(nameField, { target: { value: ' ' } });
-      });
+      act(() => { fireEvent.blur(nameField,  { target: { value: ' ' } }); });
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
+      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 
       // trimmed field value is empty, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
       expect(window.alert).toHaveBeenCalled();
 
-      act(() => {
-        fireEvent.change(nameField, { target: { value: 'My changed filter' } });
-      });
+      act(() => { fireEvent.blur(nameField, { target: { value: 'My changed filter' } }); });
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
+      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 
       expect(handlers.onUpdateFilter).toHaveBeenCalled();
 
