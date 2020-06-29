@@ -1,23 +1,12 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-/**
- * Direct selector to the incidentSplitContainer state domain
- */
 const selectIncidentDomain = state => state.get('incidentModel') || initialState;
 
-/**
- * Other specific selectors
- */
+const makeSelectIncidentModel = createSelector(selectIncidentDomain, substate => substate.toJS());
 
-/**
- * Default selector used by IncidentSplitContainer
- */
-
-const makeSelectIncidentModel = createSelector(
-  selectIncidentDomain,
-  substate => substate.toJS(),
-);
+export const makeSelectPatching = createSelector(selectIncidentDomain, substate => substate.get('patching').toJS());
+export const makeSelectPatchLoading = createSelector(selectIncidentDomain, substate => substate.get('patchLoading'));
 
 export default makeSelectIncidentModel;
 export { selectIncidentDomain };

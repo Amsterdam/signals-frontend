@@ -1,4 +1,4 @@
-import React, { Fragment, useReducer, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
@@ -21,6 +21,7 @@ import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
 import LocationPreview from './components/LocationPreview';
 import CloseButton from './components/CloseButton';
+import IncidentDetailContext from './context';
 
 const StyledRow = styled(Row)`
   position: relative;
@@ -76,12 +77,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     error: undefined,
     attachments: undefined,
   });
-  const {
-    isSuccess: patchIncidentSuccess,
-    error,
-    get: getIncident,
-    data: incident,
-  } = useFetch();
+  const { error, get: getIncident, data: incident } = useFetch();
   const { get: getHistory, data: history } = useFetch();
   const { get: getAttachments, data: attachments } = useFetch();
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
@@ -161,23 +157,18 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
     // retrieve default texts only once per page load
     if (!state.defaultTexts) {
-      getDefaultTexts(`${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`);
+      getDefaultTexts(
+        `${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`
+      );
     }
 
     // retrieve attachments only once per page load
     if (!state.attachments) {
       getAttachments(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`);
     }
-
     // disabling linter; only need to update when the incident changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incident]);
-
-  useEffect(() => {
-    if (patchIncidentSuccess) {
-      dispatch({ type: 'closeAll' });
-    }
-  }, [patchIncidentSuccess]);
 
   const handleKeyUp = useCallback(event => {
     switch (event.key) {
@@ -194,30 +185,25 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   if (!incident) return null;
 
   return (
-    <Fragment>
+    <IncidentDetailContext.Provider value={{ incident }}>
       <Row data-testid="incidentDetail">
         <Column span={12}>
-          <DetailHeader
-            incidentId={incident.id}
-            status={incident?.status?.state}
-            links={incident?._links}
-          />
+          <DetailHeader />
         </Column>
       </Row>
 
       <StyledRow>
         <DetailContainer span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}>
           <Detail
-            incident={incident}
             attachments={state.attachments}
             onShowLocation={() => dispatch({ type: 'showLocation' })}
             onEditLocation={() => dispatch({ type: 'editLocation' })}
             onShowAttachment={payload => dispatch({ type: 'showImage', payload })}
           />
 
-          <AddNote id={id} />
+          <AddNote />
 
-          <ChildIncidents incident={incident} />
+          <ChildIncidents />
 
           {history && <History list={history} />}
         </DetailContainer>
@@ -226,10 +212,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
           span={{ small: 1, medium: 2, big: 3, large: 4, xLarge: 4 }}
           push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
         >
-          <MetaList
-            incident={incident}
-            onEditStatus={() => dispatch({ type: 'editStatus' })}
-          />
+          <MetaList onEditStatus={() => dispatch({ type: 'editStatus' })} />
         </DetailContainer>
 
         {state.preview && (
@@ -238,22 +221,15 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
               <StatusForm
                 defaultTexts={state.defaultTexts}
                 error={state.error}
-                incident={incident}
                 onClose={() => dispatch({ type: 'closeAll' })}
               />
             )}
 
             {state.preview === 'showLocation' && (
-              <LocationPreview location={incident.location} onEditLocation={() => dispatch({ type: 'editLocation' })} />
+              <LocationPreview onEditLocation={() => dispatch({ type: 'editLocation' })} />
             )}
 
-            {state.preview === 'editLocation' && (
-              <LocationForm
-                incidentId={incident.id}
-                location={incident.location}
-                onClose={() => dispatch({ type: 'closeAll' })}
-              />
-            )}
+            {state.preview === 'editLocation' && <LocationForm onClose={() => dispatch({ type: 'closeAll' })} />}
 
             {state.preview === 'showImage' && (
               <AttachmentViewer
@@ -267,7 +243,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
         {state.preview && <CloseButton aria-label="Sluiten" onClick={() => dispatch({ type: 'closeAll' })} />}
       </StyledRow>
-    </Fragment>
+    </IncidentDetailContext.Provider>
   );
 };
 

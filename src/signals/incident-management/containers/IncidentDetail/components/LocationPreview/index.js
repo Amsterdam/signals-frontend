@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button, themeSpacing, Row, Column } from '@datapunt/asc-ui';
-import { locationType } from 'shared/types';
+
 import { markerIcon } from 'shared/services/configuration/map-markers';
+
 import MapDetail from '../MapDetail';
+import IncidentDetailContext from '../../context';
 
 const Wrapper = styled(Row)`
   padding-top: 20px;
@@ -29,20 +31,22 @@ const StyledMap = styled(MapDetail)`
   height: 450px;
 `;
 
-const LocationPreview = ({ location, onEditLocation }) => (
-  <Wrapper>
-    <StyledColumn span={12}>
-      <EditButton variant="secondary" onClick={onEditLocation} data-testid="location-preview-button-edit">
-        Locatie wijzigen
-      </EditButton>
+const LocationPreview = ({ onEditLocation }) => {
+  const { incident: { location } } = useContext(IncidentDetailContext);
+  return (
+    <Wrapper>
+      <StyledColumn span={12}>
+        <EditButton variant="secondary" onClick={onEditLocation} data-testid="location-preview-button-edit">
+          Locatie wijzigen
+        </EditButton>
 
-      <StyledMap value={location} icon={markerIcon} hasZoomControls zoom={14} />
-    </StyledColumn>
-  </Wrapper>
-);
+        <StyledMap value={location} icon={markerIcon} hasZoomControls zoom={14} />
+      </StyledColumn>
+    </Wrapper>
+  );
+};
 
 LocationPreview.propTypes = {
-  location: locationType.isRequired,
   onEditLocation: PropTypes.func.isRequired,
 };
 

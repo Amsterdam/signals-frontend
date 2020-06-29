@@ -1,17 +1,17 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row, Column } from '@datapunt/asc-ui';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import { useDispatch } from 'react-redux';
 
-import { locationType } from 'shared/types';
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 import MapContext from 'containers/MapContext';
 import { patchIncident } from 'models/incident/actions';
 
 import { mapLocation } from 'shared/services/map-location';
 import LocationInput from './components/LocationInput';
+import IncidentDetailContext from '../../context';
 
 const StyledColumn = styled(Column)`
   display: block;
@@ -19,7 +19,10 @@ const StyledColumn = styled(Column)`
   position: relative;
 `;
 
-const LocationForm = ({ incidentId, location, onClose }) => {
+const LocationForm = ({ onClose }) => {
+  const {
+    incident: { id, location },
+  } = useContext(IncidentDetailContext);
   const dispatch = useDispatch();
 
   const form = useMemo(
@@ -45,7 +48,7 @@ const LocationForm = ({ incidentId, location, onClose }) => {
 
       dispatch(
         patchIncident({
-          id: incidentId,
+          id,
           type: PATCH_TYPE_LOCATION,
           patch: { location: form.value.location },
         })
@@ -53,7 +56,7 @@ const LocationForm = ({ incidentId, location, onClose }) => {
 
       onClose();
     },
-    [dispatch, form.value, incidentId, onClose]
+    [dispatch, form.value, id, onClose]
   );
 
   return (
@@ -78,8 +81,6 @@ const LocationForm = ({ incidentId, location, onClose }) => {
 };
 
 LocationForm.propTypes = {
-  incidentId: PropTypes.number.isRequired,
-  location: locationType.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

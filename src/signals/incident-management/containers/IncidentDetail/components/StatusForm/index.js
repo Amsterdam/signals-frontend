@@ -1,11 +1,11 @@
-import React, { Fragment, useCallback, useState, useEffect, useMemo } from 'react';
+import React, { Fragment, useCallback, useState, useEffect, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 
 import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
-import { incidentType, defaultTextsType } from 'shared/types';
+import { defaultTextsType } from 'shared/types';
 import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 import statusList, {
   defaultTextsOptionList,
@@ -18,6 +18,7 @@ import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
+import IncidentDetailContext from '../../context';
 
 const Form = styled.form`
   position: relative;
@@ -53,7 +54,8 @@ const Notification = styled.div`
   line-height: 22px;
 `;
 
-const StatusForm = ({ defaultTexts, incident, onClose }) => {
+const StatusForm = ({ defaultTexts, onClose }) => {
+  const { incident } = useContext(IncidentDetailContext);
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
   const [warning, setWarning] = useState('');
   const dispatch = useDispatch();
@@ -183,7 +185,6 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
 
 StatusForm.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
-  incident: incidentType.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

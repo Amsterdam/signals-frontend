@@ -26,6 +26,7 @@ import {
   PATCH_TYPE_PRIORITY,
   PATCH_TYPE_THOR,
   PATCH_TYPE_LOCATION,
+  PATCH_TYPE_TYPE,
 } from './constants';
 
 export const initialState = fromJS({
@@ -37,6 +38,7 @@ export const initialState = fromJS({
   statusList,
   loading: false,
   error: false,
+  patchLoading: false,
   attachments: [],
   patching: {
     [PATCH_TYPE_NOTES]: false,
@@ -45,6 +47,7 @@ export const initialState = fromJS({
     [PATCH_TYPE_PRIORITY]: false,
     [PATCH_TYPE_THOR]: false,
     [PATCH_TYPE_LOCATION]: false,
+    [PATCH_TYPE_TYPE]: false,
   },
   typesList,
 });
@@ -72,33 +75,24 @@ function incidentModelReducer(state = initialState, action) {
         .set(
           'patching',
           fromJS({
-            ...state.get('patching').toJS(),
+            ...initialState.get('patching').toJS(),
             [action.payload.type]: true,
           })
         )
+        .set('patchLoading', true)
         .set('error', false);
 
     case PATCH_INCIDENT_SUCCESS:
       return state
         .set('incident', fromJS(action.payload.incident))
-        .set(
-          'patching',
-          fromJS({
-            ...state.get('patching').toJS(),
-            [action.payload.type]: false,
-          })
-        )
+        .set('patching', initialState.get('patching'))
+        .set('patchLoading', false)
         .set('error', false);
 
     case PATCH_INCIDENT_ERROR:
       return state
-        .set(
-          'patching',
-          fromJS({
-            ...state.get('patching').toJS(),
-            [action.payload.type]: false,
-          })
-        )
+        .set('patching', initialState.get('patching'))
+        .set('patchLoading', false)
         .set('error', fromJS(action.payload.error));
 
     case DISMISS_ERROR:

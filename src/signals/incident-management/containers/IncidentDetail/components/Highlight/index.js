@@ -1,82 +1,82 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash.isequal';
+import styled, { css } from 'styled-components';
+import { themeColor } from '@datapunt/asc-ui';
 
-import './style.scss';
+export const HIGHLIGHT_TIMEOUT_INTERVAL = 1500;
 
-export const HIGHLIGHT_TIMEOUT_INTERVAL = 3000;
+const Wrapper = styled.div`
+  ${({ animate }) =>
+    animate &&
+    css`
+      position: relative;
 
-class Highlight extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -3px;
+        bottom: 0;
+        right: 0;
+        background-color: ${themeColor('support', 'focus')};
+        opacity: 0;
+        animation: highlight-fade-out ${HIGHLIGHT_TIMEOUT_INTERVAL}ms;
+        z-index: -1;
+      }
+    `}
 
-    this.state = {
-      subscribeTo: props.subscribeTo,
-      valueChanged: props.valueChanged,
-      show: props.show,
-    };
-
-    this.clearHighlight = this.clearHighlight.bind(this);
-    this.timer = null;
+  .children {
+    position: relative;
+    // z-index: 20;
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const valueChanged = !isEqual(props.subscribeTo, state.subscribeTo);
-    return {
-      subscribeTo: valueChanged ? props.subscribeTo : state.subscribeTo,
-      valueChanged,
-      show: valueChanged === true ? true : state.show,
-    };
-  }
-
-  componentDidUpdate() {
-    if (this.state.valueChanged) {
-      this.timer = global.window.setTimeout(() => {
-        this.clearHighlight();
-      }, HIGHLIGHT_TIMEOUT_INTERVAL);
+  @keyframes highlight-fade-out {
+    from {
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
     }
   }
+`;
 
-  componentWillUnmount() {
-    if (this.timer) {
-      global.window.clearTimeout(this.timer);
-    }
-  }
+const Highlight = ({ className, children, valueChanged }) => {
+  const [animate, setAnimate] = useState(false);
 
-  clearHighlight() {
-    this.setState({
-      valueChanged: false,
-      show: false,
-    });
-  }
+  useEffect(() => {
+    if (!valueChanged) return undefined;
 
-  render() {
-    const { show } = this.state;
-    return (
-      <div
-        className={`${this.props.className} highlight ${show ? 'highlight--active' : ''}`}
-        data-testid="highlight"
-      >
-        <div className="highlight__children">
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
-}
+    setAnimate(true);
+
+    const clear = () => {
+      setAnimate(false);
+      global.window.clearTimeout(animateTimeout);
+    };
+
+    const animateTimeout = global.window.setTimeout(clear, HIGHLIGHT_TIMEOUT_INTERVAL);
+
+    return () => clear;
+  }, [valueChanged]);
+
+  return (
+    <Wrapper className={className} animate={animate} data-testid="highlight">
+      {children}
+    </Wrapper>
+  );
+};
 
 Highlight.defaultProps = {
   className: '',
   valueChanged: false,
-  show: false,
 };
 
 Highlight.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  subscribeTo: PropTypes.any.isRequired,
   valueChanged: PropTypes.bool,
-  show: PropTypes.bool,
 };
 
 export default Highlight;

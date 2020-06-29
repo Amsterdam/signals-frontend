@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,13 +8,15 @@ import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 import { patchIncident as patchIncidentAction } from 'models/incident/actions';
+import { makeSelectPatching } from 'models/incident/selectors';
+import { PATCH_TYPE_STATUS, PATCH_TYPE_PRIORITY, PATCH_TYPE_SUBCATEGORY, PATCH_TYPE_TYPE } from 'models/incident/constants';
 
-import { incidentType } from 'shared/types';
 import RadioInput from 'signals/incident-management/components/RadioInput';
 
 import ChangeValue from './components/ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
+import IncidentDetailContext from '../../context';
 
 const List = styled.dl`
   dt {
@@ -50,9 +52,10 @@ export const getCategoryName = ({ name, departments }) => {
   return `${name}${departmensStringList}`;
 };
 
-const MetaList = ({ incident, onEditStatus }) => {
+const MetaList = ({ onEditStatus }) => {
+  const { incident } = useContext(IncidentDetailContext);
   const dispatch = useDispatch();
-  const [valueChanged, setValueChanged] = useState(false);
+  const patching = useSelector(makeSelectPatching);
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () =>
@@ -75,14 +78,8 @@ const MetaList = ({ incident, onEditStatus }) => {
     'closure requested',
   ].includes(incident.status.state);
 
-  useLayoutEffect(() => {
-    setValueChanged(false);
-  }, [incident.id]);
-
   const patchIncident = useCallback(
     patchedData => {
-      setValueChanged(true);
-
       dispatch(patchIncidentAction(patchedData));
     },
     [dispatch]
@@ -95,7 +92,7 @@ const MetaList = ({ incident, onEditStatus }) => {
         {string2date(incident.created_at)} {string2time(incident.created_at)}
       </dd>
 
-      <Highlight subscribeTo={incident.status.state} valueChanged={valueChanged}>
+      <Highlight valueChanged={patching[PATCH_TYPE_STATUS]}>
         <dt data-testid="meta-list-status-definition">
           <EditButton
             data-testid="editStatusButton"
@@ -113,7 +110,7 @@ const MetaList = ({ incident, onEditStatus }) => {
       </Highlight>
 
       {incident.priority && (
-        <Highlight subscribeTo={incident.priority.priority} valueChanged={valueChanged}>
+        <Highlight valueChanged={patching[PATCH_TYPE_PRIORITY]}>
           <ChangeValue
             display="Urgentie"
             valueClass={incident.priority.priority === 'high' ? 'alert' : ''}
@@ -128,7 +125,7 @@ const MetaList = ({ incident, onEditStatus }) => {
       )}
 
       {incident.type && (
-        <Highlight subscribeTo={incident.type.code} valueChanged={valueChanged}>
+        <Highlight valueChanged={patching[PATCH_TYPE_TYPE]}>
           <ChangeValue
             component={RadioInput}
             display="Type"
@@ -142,7 +139,7 @@ const MetaList = ({ incident, onEditStatus }) => {
       )}
 
       {subcategoryOptions && (
-        <Highlight subscribeTo={incident.category.sub_slug} valueChanged={valueChanged}>
+        <Highlight valueChanged={patching[PATCH_TYPE_SUBCATEGORY]}>
           <ChangeValue
             disabled={subcatHighlightDisabled}
             display="Subcategorie"
@@ -159,7 +156,7 @@ const MetaList = ({ incident, onEditStatus }) => {
         </Highlight>
       )}
 
-      <Highlight subscribeTo={incident.category.main_slug} valueChanged={valueChanged}>
+      <Highlight valueChanged={patching[PATCH_TYPE_SUBCATEGORY]}>
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
       </Highlight>
@@ -171,7 +168,6 @@ const MetaList = ({ incident, onEditStatus }) => {
 };
 
 MetaList.propTypes = {
-  incident: incidentType.isRequired,
   onEditStatus: PropTypes.func.isRequired,
 };
 

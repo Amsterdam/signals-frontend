@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 import { useDispatch } from 'react-redux';
@@ -9,6 +8,7 @@ import TextArea from 'components/TextArea';
 import Label from 'components/Label';
 import { PATCH_TYPE_NOTES } from 'models/incident/constants';
 import { patchIncident } from 'models/incident/actions';
+import IncidentDetailContext from '../../context';
 
 const NewNoteButton = styled(Button)`
   margin: ${themeSpacing(2, 2, 2, 0)};
@@ -18,7 +18,10 @@ const NoteButton = styled(Button)`
   margin: ${themeSpacing(8, 2, 4, 0)};
 `;
 
-const AddNote = ({ id }) => {
+const AddNote = () => {
+  const {
+    incident: { id },
+  } = useContext(IncidentDetailContext);
   const dispatch = useDispatch();
   const areaRef = useRef(null);
   const [showForm, setShowForm] = useState(false);
@@ -102,10 +105,6 @@ const AddNote = ({ id }) => {
       </form>
     </section>
   );
-};
-
-AddNote.propTypes = {
-  id: PropTypes.string.isRequired,
 };
 
 export default AddNote;

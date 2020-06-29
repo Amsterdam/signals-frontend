@@ -1,17 +1,19 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useMemo, useContext } from 'react';
 import styled from 'styled-components';
 import { themeSpacing, Heading } from '@datapunt/asc-ui';
 
-import { incidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
+import IncidentDetailContext from '../../context';
 
 const Title = styled(Heading)`
   font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ChildIncidents = ({ incident }) => {
+const ChildIncidents = () => {
+  const { incident } = useContext(IncidentDetailContext);
+
   const children = useMemo(
     () =>
       incident?._links?.['sia:children']?.map(({ href }) => {
@@ -42,10 +44,6 @@ const ChildIncidents = ({ incident }) => {
       <ChildIncidentsList incidents={children} />
     </Fragment>
   );
-};
-
-ChildIncidents.propTypes = {
-  incident: incidentType.isRequired,
 };
 
 export default ChildIncidents;

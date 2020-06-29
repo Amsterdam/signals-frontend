@@ -65,7 +65,7 @@ const Location = ({ location, onShowLocation, onEditLocation }) => {
           variant="application"
         />
 
-        <StyledHighLight subscribeTo={location}>
+        <StyledHighLight type="location" subscribeTo={location}>
           {latitude && longitude && (
             <MapTile role="button" onClick={onShowLocation} data-testid="location-button-show">
               <MapStatic boundsScaleFactor={0.25} height={80} markerSize={20} width={80} {...geometry} />
