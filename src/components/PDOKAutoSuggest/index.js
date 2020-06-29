@@ -23,7 +23,7 @@ export const formatResponseFunc = ({ response }) =>
  * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
  */
 const PDOKAutoSuggest = ({ className, fieldList, municipality, onSelect, formatResponse, value, ...rest }) => {
-  const municipalityArray = Array.isArray(municipality) ? municipality : municipality ? [municipality] : [];
+  const municipalityArray = Array.isArray(municipality) ? municipality : [municipality].filter(Boolean);
   const municipalityString = municipalityArray.map(item => `"${item}"`).join(' ');
   const fq = municipality ? [['fq', `${municipalityFilterName}:${municipalityString}`]] : [];
   const fl = [['fl', fieldList.concat(['id', 'weergavenaam']).join(',')]];
