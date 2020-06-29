@@ -61,7 +61,6 @@ exports[`Form component <MapInput /> rendering should render map field correctly
               "wrapLatLngBounds": [Function],
               "zoom": [Function],
             },
-            "municipality": "amsterdam",
             "maxBounds": Array [
               Array [
                 52.25168,
