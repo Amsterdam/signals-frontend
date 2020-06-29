@@ -306,7 +306,7 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
-          {...(configuration.logo?.url ? { logo: Logo } : { logo: AmsterdamLogo })}
+          logo={configuration.logo?.url ? Logo : AmsterdamLogo}
         />
         {!tall && <Notification />}
       </HeaderWrapper>

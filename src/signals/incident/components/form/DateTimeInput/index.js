@@ -79,6 +79,10 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
   );
 };
 
+DateTimeInput.defaultProps = {
+  hasError: () => {},
+};
+
 DateTimeInput.propTypes = {
   touched: PropTypes.bool,
   hasError: PropTypes.func,

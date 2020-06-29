@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { render, fireEvent, wait, act } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import { withAppContext, resolveAfterMs } from 'test/utils';
 
 import AutoSuggest, { INPUT_DELAY } from '..';
@@ -49,7 +49,7 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'A' } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(fetch).not.toHaveBeenCalled();
 
@@ -57,7 +57,7 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'Am' } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(fetch).not.toHaveBeenCalled();
 
@@ -67,7 +67,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(fetch).not.toHaveBeenCalled();
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(`${url}Ams`, expect.anything());
@@ -440,7 +440,7 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'Rembrandt' } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(onClear).not.toHaveBeenCalled();
 
@@ -448,7 +448,7 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: '' } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(onClear).toHaveBeenCalled();
   });

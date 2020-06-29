@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  waitForElement,
-  act,
-} from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext } from 'test/utils';
@@ -38,23 +33,17 @@ jest.mock('models/departments/selectors', () => ({
   ...jest.requireActual('models/departments/selectors'),
 }));
 
-jest
-  .spyOn(appSelectors, 'makeSelectUserCan')
-  .mockImplementation(() => () => {});
+jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => {});
 
 describe('signals/settings/departments/Overview', () => {
   beforeEach(() => {
     push.mockReset();
 
-    jest
-      .spyOn(modelSelectors, 'makeSelectDepartments')
-      .mockImplementation(() => ({ ...departments, loading: false }));
+    jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments, loading: false }));
   });
 
   it('should show a loading indicator while loading', () => {
-    jest
-      .spyOn(modelSelectors, 'makeSelectDepartments')
-      .mockImplementation(() => ({ ...departments, loading: true }));
+    jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments, loading: true }));
 
     const { queryByTestId } = render(withAppContext(<DepartmentOverview />));
 
@@ -68,9 +57,7 @@ describe('signals/settings/departments/Overview', () => {
   });
 
   it('should render a title', () => {
-    jest
-      .spyOn(modelSelectors, 'makeSelectDepartments')
-      .mockImplementation(() => ({ list: [], loading: true }));
+    jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => ({ list: [], loading: true }));
 
     const { getByText } = render(withAppContext(<DepartmentOverview />));
 
@@ -84,15 +71,11 @@ describe('signals/settings/departments/Overview', () => {
   });
 
   it('should render a list', () => {
-    const { container, rerender, unmount } = render(
-      withAppContext(<DepartmentOverview />)
-    );
+    const { container, rerender, unmount } = render(withAppContext(<DepartmentOverview />));
 
     expect(container.querySelector('table')).toBeInTheDocument();
 
-    jest
-      .spyOn(modelSelectors, 'makeSelectDepartments')
-      .mockImplementation(() => ({ list: [], loading: true }));
+    jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => ({ list: [], loading: true }));
 
     unmount();
 
@@ -102,17 +85,16 @@ describe('signals/settings/departments/Overview', () => {
   });
 
   it('should push on list item click', async () => {
-    jest
-      .spyOn(appSelectors, 'makeSelectUserCan')
-      .mockImplementation(() => () => true);
+    jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
 
     const { id } = departmentsJson.results[12];
     const { container } = render(withAppContext(<DepartmentOverview />));
 
-    const row = await waitForElement(
-      () => container.querySelector(`tr[data-item-id="${id}"]`),
-      { container }
-    );
+    let row;
+
+    await waitFor(() => {
+      row = container.querySelector(`tr[data-item-id="${id}"]`);
+    });
 
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = id;
@@ -146,16 +128,15 @@ describe('signals/settings/departments/Overview', () => {
   });
 
   it('should not push on list item click when permissions are insufficient', async () => {
-    jest
-      .spyOn(appSelectors, 'makeSelectUserCan')
-      .mockImplementation(() => () => false);
+    jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
     const { id } = departmentsJson.results[9];
     const { container } = render(withAppContext(<DepartmentOverview />));
 
-    const row = await waitForElement(
-      () => container.querySelector(`tr[data-item-id="${id}"]`),
-      { container }
-    );
+    let row;
+
+    await waitFor(() => {
+      row = container.querySelector(`tr[data-item-id="${id}"]`);
+    });
 
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = id;

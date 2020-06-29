@@ -24,7 +24,7 @@ const StyledHeading = styled(Heading)`
 `;
 
 const PageHeader = ({ BackLink, className, children, title }) => (
-  <StyledSection className={className} hasBackLink={Boolean(BackLink)}>
+  <StyledSection data-testid="settingsPageHeader" className={className} hasBackLink={Boolean(BackLink)}>
     <Row>
       <div>
         {BackLink}

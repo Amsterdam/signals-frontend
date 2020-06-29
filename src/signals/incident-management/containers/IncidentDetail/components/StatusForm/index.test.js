@@ -6,7 +6,7 @@ import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 import { patchIncident } from 'models/incident/actions';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { changeStatusOptionList } from '../../../../definitions/statusList';
+import statusList, { changeStatusOptionList } from '../../../../definitions/statusList';
 
 import StatusForm from '.';
 
@@ -52,6 +52,33 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     Object.values(changeStatusOptionList).forEach(({ value }) => {
       expect(getByText(value)).toBeInTheDocument();
     });
+  });
+
+  it('renders status when that status cannot be selected', () => {
+    const { queryByTestId, rerender, unmount } = render(
+      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
+    );
+
+    expect(queryByTestId('unselectableStatus')).not.toBeInTheDocument();
+
+    unmount();
+
+    const changeStatusKeys = changeStatusOptionList.map(({ key }) => key);
+    const unselectableStatus = statusList.find(({ key }) => !changeStatusKeys.includes(key));
+
+    const fixtureWithUnselectableStatus = {
+      ...incidentFixture,
+      status: {
+        state: unselectableStatus.key,
+      },
+    };
+
+    rerender(
+      withAppContext(<StatusForm incident={fixtureWithUnselectableStatus} defaultTexts={defaultTexts} onClose={onClose} />)
+    );
+
+    expect(queryByTestId('unselectableStatus')).toBeInTheDocument();
+    expect(queryByTestId('unselectableStatus')).toHaveTextContent(unselectableStatus.value);
   });
 
   it('shows default texts', () => {
