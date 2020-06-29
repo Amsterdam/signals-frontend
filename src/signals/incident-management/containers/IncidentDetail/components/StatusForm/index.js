@@ -14,13 +14,22 @@ import statusList, {
 import { patchIncident } from 'models/incident/actions';
 
 import Button from 'components/Button';
+import Label from 'components/Label';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
 
+const UnselectableStatus = styled.div`
+  margin: ${themeSpacing(5, 0)};
+`;
+
 const Form = styled.form`
   position: relative;
+  width: 100%;
+`;
+
+const Header = styled(Row)`
   width: 100%;
 `;
 
@@ -54,17 +63,18 @@ const Notification = styled.div`
 `;
 
 const StatusForm = ({ defaultTexts, incident, onClose }) => {
-  const currentStatus = statusList.find(({ key }) => key === incident.status.state);
+  const currentStatus = statusList.find(status => status.key === incident.status.state);
   const [warning, setWarning] = useState('');
   const dispatch = useDispatch();
+  const isUnselectableStatus = !changeStatusOptionList.find(status => status.key === incident.status.state);
 
   const form = useMemo(
     () =>
       FormBuilder.group({
-        status: [currentStatus.key, Validators.required],
+        status: [incident.status.state, Validators.required],
         text: [''],
       }),
-    [currentStatus.key]
+    [incident.status.state]
   );
 
   useEffect(() => {
@@ -121,17 +131,24 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
 
   return (
     <Fragment>
-      <Row>
+      <Header hasMargin={false}>
         <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
           <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
+
+          {isUnselectableStatus && (
+            <UnselectableStatus data-testid="unselectableStatus">
+              <Label as="span">Huidige status</Label>
+              <div>{currentStatus.value}</div>
+            </UnselectableStatus>
+          )}
         </StyledColumn>
-      </Row>
+      </Header>
 
       <FieldGroup
         control={form}
         render={({ invalid }) => (
           <Form onSubmit={handleSubmit}>
-            <Row>
+            <Row hasMargin={false}>
               <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
                 <FieldControlWrapper
                   control={form.get('status')}
@@ -151,7 +168,7 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
               </StyledColumn>
             </Row>
 
-            <Row>
+            <Row hasMargin={false}>
               <StyledColumn span={12}>
                 <FieldControlWrapper
                   control={form.get('text')}
