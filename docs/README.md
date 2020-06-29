@@ -7,4 +7,4 @@ See https://github.com/joelparkerhenderson/architecture_decision_record for refe
 
 ## Configuration
 
-The application is split into multiple parts where the functionality lives in this repository and the corresponding condiguration in another. Each configuration property is listed and described [here](./configuration/README.md).
+The application is split into multiple parts where the functionality lives in this repository and the corresponding configuration in another. Each configuration property is listed and described [here](./configuration/README.md).
