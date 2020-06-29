@@ -4,7 +4,7 @@ import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 
-import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, themeSpacing } from '@datapunt/asc-ui';
 import { incidentType, defaultTextsType } from 'shared/types';
 import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 import statusList, {
@@ -27,15 +27,38 @@ const UnselectableStatus = styled.div`
 const Form = styled.form`
   position: relative;
   width: 100%;
+  grid-template-areas:
+    'header'
+    'options'
+    'texts'
+    'form';
+  grid-column-gap: 20px;
+  display: grid;
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    grid-template-columns: 6fr 6fr;
+    grid-template-areas:
+      'header texts'
+      'options texts'
+      'form texts'
+      '. texts';
+  }
 `;
 
-const Header = styled(Row)`
-  width: 100%;
+const HeaderArea = styled.div`
+  grid-area: header;
 `;
 
-const StyledColumn = styled(Column)`
-  display: block;
-  background: white;
+const OptionsArea = styled.div`
+  grid-area: options;
+`;
+
+const TextsArea = styled.div`
+  grid-area: texts;
+`;
+
+const FormArea = styled.div`
+  grid-area: form;
 `;
 
 const StyledH4 = styled(Heading)`
@@ -131,66 +154,60 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
 
   return (
     <Fragment>
-      <Header hasMargin={false}>
-        <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
-          <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
-
-          {isUnselectableStatus && (
-            <UnselectableStatus data-testid="unselectableStatus">
-              <Label as="span">Huidige status</Label>
-              <div>{currentStatus.value}</div>
-            </UnselectableStatus>
-          )}
-        </StyledColumn>
-      </Header>
-
       <FieldGroup
         control={form}
         render={({ invalid }) => (
           <Form onSubmit={handleSubmit}>
-            <Row hasMargin={false}>
-              <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
-                <FieldControlWrapper
-                  control={form.get('status')}
-                  data-testid="statusFormStatusField"
-                  name="status"
-                  render={RadioInput}
-                  values={changeStatusOptionList}
-                />
-              </StyledColumn>
+            <HeaderArea>
+              <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-              <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
-                <DefaultTexts
-                  defaultTexts={defaultTexts}
-                  onHandleUseDefaultText={handleUseDefaultText}
-                  status={form.get('status').value}
-                />
-              </StyledColumn>
-            </Row>
+              {isUnselectableStatus && (
+                <UnselectableStatus data-testid="unselectableStatus">
+                  <Label as="span">Huidige status</Label>
+                  <div>{currentStatus.value}</div>
+                </UnselectableStatus>
+              )}
+            </HeaderArea>
 
-            <Row hasMargin={false}>
-              <StyledColumn span={12}>
-                <FieldControlWrapper
-                  control={form.get('text')}
-                  display="Toelichting"
-                  name="text"
-                  render={TextAreaInput}
-                  rows={10}
-                />
+            <OptionsArea>
+              <FieldControlWrapper
+                control={form.get('status')}
+                data-testid="statusFormStatusField"
+                name="status"
+                render={RadioInput}
+                values={changeStatusOptionList}
+              />
+            </OptionsArea>
 
-                <Notification warning data-testid="statusFormWarning">
-                  {warning}
-                </Notification>
+            <FormArea>
+              <FieldControlWrapper
+                control={form.get('text')}
+                display="Toelichting"
+                name="text"
+                render={TextAreaInput}
+                rows={10}
+              />
 
-                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
-                  Status opslaan
-                </StyledButton>
+              <Notification warning data-testid="statusFormWarning">
+                {warning}
+              </Notification>
 
-                <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
-                  Annuleren
-                </StyledButton>
-              </StyledColumn>
-            </Row>
+              <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
+                Status opslaan
+              </StyledButton>
+
+              <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
+                Annuleren
+              </StyledButton>
+            </FormArea>
+
+            <TextsArea>
+              <DefaultTexts
+                defaultTexts={defaultTexts}
+                onHandleUseDefaultText={handleUseDefaultText}
+                status={form.get('status').value}
+              />
+            </TextsArea>
           </Form>
         )}
       />
