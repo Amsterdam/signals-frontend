@@ -54,7 +54,9 @@ Do note that the application uses an external authentication service that does n
 
 ### HTTPS
 
-To run the application with the production code over HTTPS, run
+The application's production build uses a [serviceworker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) that is configured through the Webpack Offline plugin (see [webpack config](./internals/webpack/webpack.prod.babel.js)) and is installed in [app.js](./src/app.js).
+
+To run the application with the production code and have the serviceworker available, the site needs to be run over HTTPS. This can be accomplished by running
 
     HTTPS=true npm run start:prod
 
