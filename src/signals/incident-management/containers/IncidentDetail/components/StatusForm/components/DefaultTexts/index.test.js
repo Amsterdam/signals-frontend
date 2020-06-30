@@ -75,6 +75,18 @@ describe('<DefaultTexts />', () => {
       expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(0);
       expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0);
     });
+
+    it('should not render when list has no templates', () => {
+      props.hasDefaultTexts = true;
+      props.defaultTexts[0].templates = [];
+
+      const { queryAllByTestId } = render(
+        <DefaultTexts {...props} />
+      );
+
+      expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(0);
+      expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0);
+    });
   });
 
   describe('events', () => {

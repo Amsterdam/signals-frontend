@@ -20,7 +20,7 @@ import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
 
-const UnselectableStatus = styled.div`
+const CurrentStatus = styled.div`
   margin: ${themeSpacing(5, 0)};
 `;
 
@@ -38,7 +38,7 @@ const Form = styled.form`
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     grid-template-columns: 6fr 6fr;
     grid-template-areas:
-      'header texts'
+      'header header'
       'options texts'
       'form texts'
       '. texts';
@@ -89,7 +89,6 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
   const currentStatus = statusList.find(status => status.key === incident.status.state);
   const [warning, setWarning] = useState('');
   const dispatch = useDispatch();
-  const isUnselectableStatus = !changeStatusOptionList.find(status => status.key === incident.status.state);
 
   const form = useMemo(
     () =>
@@ -161,12 +160,10 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
             <HeaderArea>
               <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-              {isUnselectableStatus && (
-                <UnselectableStatus data-testid="unselectableStatus">
-                  <Label as="span">Huidige status</Label>
-                  <div>{currentStatus.value}</div>
-                </UnselectableStatus>
-              )}
+              <CurrentStatus data-testid="currentStatus">
+                <Label as="span">Huidige status</Label>
+                <div>{currentStatus.value}</div>
+              </CurrentStatus>
             </HeaderArea>
 
             <OptionsArea>
@@ -177,6 +174,10 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
                 render={RadioInput}
                 values={changeStatusOptionList}
               />
+
+              <Notification warning data-testid="statusFormWarning">
+                {warning}
+              </Notification>
             </OptionsArea>
 
             <FormArea>
@@ -187,10 +188,6 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
                 render={TextAreaInput}
                 rows={10}
               />
-
-              <Notification warning data-testid="statusFormWarning">
-                {warning}
-              </Notification>
 
               <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
                 Status opslaan
