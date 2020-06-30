@@ -6,7 +6,7 @@ import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 import { patchIncident } from 'models/incident/actions';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import statusList, { changeStatusOptionList } from '../../../../definitions/statusList';
+import { changeStatusOptionList } from '../../../../definitions/statusList';
 
 import StatusForm from '.';
 
@@ -41,7 +41,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('renders correctly', () => {
-    const { container, getByTestId, getByText } = render(
+    const { container, getByTestId, getByLabelText } = render(
       withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
@@ -50,35 +50,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(getByTestId('statusFormCancelButton')).toBeInTheDocument();
 
     Object.values(changeStatusOptionList).forEach(({ value }) => {
-      expect(getByText(value)).toBeInTheDocument();
+      expect(getByLabelText(value)).toBeInTheDocument();
     });
-  });
-
-  it('renders status when that status cannot be selected', () => {
-    const { queryByTestId, rerender, unmount } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
-
-    expect(queryByTestId('unselectableStatus')).not.toBeInTheDocument();
-
-    unmount();
-
-    const changeStatusKeys = changeStatusOptionList.map(({ key }) => key);
-    const unselectableStatus = statusList.find(({ key }) => !changeStatusKeys.includes(key));
-
-    const fixtureWithUnselectableStatus = {
-      ...incidentFixture,
-      status: {
-        state: unselectableStatus.key,
-      },
-    };
-
-    rerender(
-      withAppContext(<StatusForm incident={fixtureWithUnselectableStatus} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
-
-    expect(queryByTestId('unselectableStatus')).toBeInTheDocument();
-    expect(queryByTestId('unselectableStatus')).toHaveTextContent(unselectableStatus.value);
   });
 
   it('shows default texts', () => {
