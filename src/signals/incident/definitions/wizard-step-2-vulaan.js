@@ -15,6 +15,27 @@ import wonen from './wizard-step-2-vulaan/wonen';
 import FormComponents from '../components/form';
 import IncidentNavigation from '../components/IncidentNavigation';
 
+// ************************************************************************************
+// move this to a better place
+// ************************************************************************************
+
+import { questionsToJSON } from './question-dumper';
+
+const allQuestions = {
+  afval,
+  overlastBedrijvenEnHoreca,
+  overlastInDeOpenbareRuimte,
+  overlastOpHetWater,
+  overlastVanDieren,
+  overlastPersonenEnGroepen,
+  wegenVerkeerStraatmeubilair,
+  wonen,
+};
+
+console.log(JSON.stringify(questionsToJSON(allQuestions), null, 2));
+
+// ************************************************************************************
+
 const mapFieldNameToComponent = key => (key === 'IncidentNavigation' ? IncidentNavigation : FormComponents[key]);
 const mapValidatorToFn = key => Validators[key];
 const expandValidatorFn = ([key, ...args]) => mapValidatorToFn(key)(...args);
