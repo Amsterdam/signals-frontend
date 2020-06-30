@@ -3,11 +3,14 @@ export const MANAGE_SIGNALS = {
   buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
   buttonCloseMijnFilters: '[data-testid=closeBtn]',
   buttonFilteren: '[data-testid=filterModalBtn]',
+  clearSearchTerm: '[aria-label="Close"]',
   firstSignalStadsdeelName: ':nth-child(1) > :nth-child(4) > a',
   filterTagList: '[data-testid=filterTagListTag]',
   linkSignal: '[href*="/manage/incident/"]',
   paginationPages: '[data-testid="pagination"] > ul > li',
   refreshIcon: '[class*=PageHeader__RefreshIcon]',
+  searchBar: '[data-testid="searchBar"]',
+  searchResultsTag: '[class*=PageHeader__SubTitle]',
   stadsdeelFromSignal: 'tr td:nth-child(4)',
 };
 

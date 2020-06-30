@@ -3,6 +3,7 @@
 exports[`Form component <DateTimeInput /> rendering should render date time field correctly 1`] = `
 <Header
   className=""
+  hasError={[Function]}
   meta={
     Object {
       "isVisible": true,
@@ -33,33 +34,33 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
               "value": "Vandaag",
             },
             Object {
-              "key": "Monday 13 February",
-              "name": "Monday 13 February",
+              "key": "Maandag 13 februari",
+              "name": "Maandag 13 februari",
               "value": "2017-02-13",
             },
             Object {
-              "key": "Sunday 12 February",
-              "name": "Sunday 12 February",
+              "key": "Zondag 12 februari",
+              "name": "Zondag 12 februari",
               "value": "2017-02-12",
             },
             Object {
-              "key": "Saturday 11 February",
-              "name": "Saturday 11 February",
+              "key": "Zaterdag 11 februari",
+              "name": "Zaterdag 11 februari",
               "value": "2017-02-11",
             },
             Object {
-              "key": "Friday 10 February",
-              "name": "Friday 10 February",
+              "key": "Vrijdag 10 februari",
+              "name": "Vrijdag 10 februari",
               "value": "2017-02-10",
             },
             Object {
-              "key": "Thursday 9 February",
-              "name": "Thursday 9 February",
+              "key": "Donderdag 9 februari",
+              "name": "Donderdag 9 februari",
               "value": "2017-02-09",
             },
             Object {
-              "key": "Wednesday 8 February",
-              "name": "Wednesday 8 February",
+              "key": "Woensdag 8 februari",
+              "name": "Woensdag 8 februari",
               "value": "2017-02-08",
             },
           ]

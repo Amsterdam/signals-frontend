@@ -34,9 +34,17 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   const indexFile = path.join(__dirname, '..', '..', 'src', 'index.html');
   const templateString = fs.readFileSync(indexFile).toString();
 
+  const manifestFile = path.join(__dirname, '..', '..', 'src', 'manifest.json');
+  const manifestString = fs.readFileSync(manifestFile).toString();
+
   template.templateContent = Object.keys(placeholders).reduce(
     (acc, key) => acc.replace(key, placeholders[key]),
     templateString
+  );
+
+  template.manifestContent = Object.keys(placeholders).reduce(
+    (acc, key) => acc.replace(key, placeholders[key]),
+    manifestString
   );
 } else {
   template.template = 'src/index.html';

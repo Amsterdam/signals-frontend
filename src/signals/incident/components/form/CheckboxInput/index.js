@@ -63,6 +63,10 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
     </Header>
   );
 
+CheckboxInput.defaultProps = {
+  hasError: () => {},
+};
+
 CheckboxInput.propTypes = {
   handler: PropTypes.func,
   touched: PropTypes.bool,

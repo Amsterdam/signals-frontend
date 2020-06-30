@@ -2,16 +2,16 @@ import React from 'react';
 import { fireEvent, render, cleanup, act } from '@testing-library/react';
 import * as reactRedux from 'react-redux';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { store, withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { patchIncident } from 'models/incident/actions';
 
-import MetaList, { getCategoryName }from './index';
+import MetaList from './index';
 
-jest.mock('shared/services/string-parser/string-parser');
+jest.mock('shared/services/string-parser');
 
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
@@ -48,9 +48,6 @@ describe('<MetaList />', () => {
       expect(queryByText('Normaal')).toBeInTheDocument();
 
       expect(queryByText('Subcategorie')).toBeInTheDocument();
-      const subcategory = categoriesPrivate.results.find(cat => cat.name === incidentFixture.category.sub);
-      const categoryName = getCategoryName({ name: incidentFixture.category.sub, departments: subcategory.departments });
-      expect(queryByText(categoryName)).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
       expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 
@@ -100,20 +97,6 @@ describe('<MetaList />', () => {
         },
         type: 'priority',
       }));
-    });
-  });
-
-  describe('getCategoryName', () => {
-    it('should create the correct category name', () => {
-      const category = {
-        name: 'Foo',
-        departments:[
-          { code: 'Bar', is_responsible: true },
-          { code: 'Baz', is_responsible: false },
-        ],
-      };
-
-      expect(getCategoryName(category)).toEqual('Foo (Bar)');
     });
   });
 });

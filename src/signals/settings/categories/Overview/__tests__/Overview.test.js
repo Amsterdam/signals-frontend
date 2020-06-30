@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, waitForElement } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 
@@ -42,18 +42,12 @@ describe('signals/settings/categories/containers/Overview', () => {
 
   it('should render header', () => {
     const { getByText, rerender } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={null} userCan={() => {}} />
-      )
+      withAppContext(<CategoriesOverview subCategories={null} userCan={() => {}} />)
     );
 
     expect(getByText('Categorieën')).toBeInTheDocument();
 
-    rerender(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
-    );
+    rerender(withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />));
 
     expect(getByText(`Categorieën (${count})`)).toBeInTheDocument();
   });
@@ -64,47 +58,29 @@ describe('signals/settings/categories/containers/Overview', () => {
 
     // render the first page
     const { container, rerender } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
+      withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />)
     );
 
-    expect(
-      container.querySelector(`tr[data-item-id="${firstCategory.fk}"]`)
-    ).toBeInTheDocument();
-    expect(
-      container.querySelector(`tr[data-item-id="${lastCategory.fk}"]`)
-    ).toBeInTheDocument();
+    expect(container.querySelector(`tr[data-item-id="${firstCategory.fk}"]`)).toBeInTheDocument();
+    expect(container.querySelector(`tr[data-item-id="${lastCategory.fk}"]`)).toBeInTheDocument();
 
     // render the second page
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       pageNum: '2',
     }));
 
-    rerender(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
-    );
+    rerender(withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />));
 
     const secondPageFirstCategory = subCategories[constants.PAGE_SIZE + 1];
     const secondPageLastCategory = subCategories[constants.PAGE_SIZE * 2 - 1];
 
-    expect(
-      container.querySelector(
-        `tr[data-item-id="${secondPageFirstCategory.fk}"]`
-      )
-    ).toBeInTheDocument();
-    expect(
-      container.querySelector(`tr[data-item-id="${secondPageLastCategory.fk}"]`)
-    ).toBeInTheDocument();
+    expect(container.querySelector(`tr[data-item-id="${secondPageFirstCategory.fk}"]`)).toBeInTheDocument();
+    expect(container.querySelector(`tr[data-item-id="${secondPageLastCategory.fk}"]`)).toBeInTheDocument();
   });
 
   it('should only render specific data columns', () => {
     const { getByText } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
+      withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />)
     );
 
     expect(getByText('Categorie')).toBeInTheDocument();
@@ -114,20 +90,14 @@ describe('signals/settings/categories/containers/Overview', () => {
 
   it('should render pagination controls', () => {
     const { rerender, queryByTestId } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
+      withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />)
     );
 
     expect(queryByTestId('pagination')).toBeInTheDocument();
 
     constants.PAGE_SIZE = count + 1;
 
-    rerender(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
-    );
+    rerender(withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />));
 
     expect(queryByTestId('pagination')).not.toBeInTheDocument();
 
@@ -140,9 +110,7 @@ describe('signals/settings/categories/containers/Overview', () => {
     }));
 
     const { getByText } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
+      withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />)
     );
 
     const pageButton = getByText('2');
@@ -161,16 +129,15 @@ describe('signals/settings/categories/containers/Overview', () => {
 
   it('should push on list item with an itemId click', async () => {
     const { container } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => true} />
-      )
+      withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => true} />)
     );
     const itemId = 666;
 
-    const row = await waitForElement(
-      () => container.querySelector('tbody tr:nth-child(42)'),
-      { container }
-    );
+    let row;
+
+    await waitFor(() => {
+      row = container.querySelector('tbody tr:nth-child(42)');
+    });
 
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = itemId;
@@ -205,16 +172,15 @@ describe('signals/settings/categories/containers/Overview', () => {
 
   it('should not push on list item click when permissions are insufficient', async () => {
     const { container } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => false} />
-      )
+      withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => false} />)
     );
     const itemId = 666;
 
-    const row = await waitForElement(
-      () => container.querySelector('tbody tr:nth-child(42)'),
-      { container }
-    );
+    let row;
+
+    await waitFor(() => {
+      row = container.querySelector('tbody tr:nth-child(42)');
+    });
 
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = itemId;

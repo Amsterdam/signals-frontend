@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
@@ -27,6 +27,18 @@ const StyledH2 = styled(Heading)`
 
 const IncidentPart = ({ index, attachments, splitForm }) => {
   const subcategories = useSelector(makeSelectSubCategories);
+  const subcategoryOptions = useMemo(
+    () =>
+      subcategories?.map(category => ({
+        ...category,
+        value: category.extendedName,
+      })),
+    // disabling linter; we want to allow possible null subcategories
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [subcategories]
+  );
+
+  if (!subcategories) return null;
 
   return (
     <StyledWrapper>
@@ -42,7 +54,7 @@ const IncidentPart = ({ index, attachments, splitForm }) => {
             name={`part${index}.subcategory`}
             display="Subcategorie"
             control={splitForm.get(`part${index}.subcategory`)}
-            values={subcategories || []}
+            values={subcategoryOptions}
             sort
           />
 

@@ -1,7 +1,7 @@
 ################################
 # Base
 ################################
-FROM node:11.15 AS base
+FROM node:12.18-stretch AS base
 LABEL maintainer="datapunt@amsterdam.nl"
 
 WORKDIR /app
@@ -36,7 +36,7 @@ COPY src /app/src
 ################################
 # Build
 ################################
-FROM node:11.15 AS builder
+FROM node:12.18-stretch AS builder
 COPY --from=base /app /app
 WORKDIR /app
 
