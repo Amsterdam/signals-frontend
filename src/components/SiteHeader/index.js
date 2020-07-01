@@ -247,11 +247,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
       {showLogout && (
         <Fragment>
           <MenuItem>
-            <StyledMenuButton
-              forwardedAs="a"
-              href="https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365"
-              target="_blank"
-            >
+            <StyledMenuButton forwardedAs="a" href={configuration.links?.help} target="_blank">
               Help
             </StyledMenuButton>
           </MenuItem>
