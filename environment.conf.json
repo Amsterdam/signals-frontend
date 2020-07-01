@@ -32,6 +32,9 @@
     "incidentForm": {
       "step5": {
         "consent": "Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
+      },
+      "step7": {
+        "extraInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020."
       }
     }
   },

@@ -1,3 +1,5 @@
+import configuration from 'shared/services/configuration/configuration';
+
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 
@@ -13,10 +15,7 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Momenteel zijn er problemen met deze website en kan uw melding niet verwerkt worden.',
           type: 'bedankt',
-          value: [
-            'Probeert u het later nogmaals.',
-            'Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020.',
-          ],
+          value: ['Probeert u het later nogmaals.', configuration.language?.incidentForm?.step7?.extraInfo],
         },
         render: FormComponents.PlainText,
       },
