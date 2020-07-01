@@ -5,7 +5,7 @@ import L from 'leaflet';
 import { useMapInstance } from '@datapunt/react-maps';
 import configuration from 'shared/services/configuration/configuration';
 
-const circleMarkerOptions = {
+const locationDotOptions = {
   fillColor: '#009de6',
   fillOpacity: 1.0,
   interactive: false,
@@ -14,14 +14,16 @@ const circleMarkerOptions = {
   weight: 2,
   radius: 10,
 };
-const circleOptions = {
+
+const accuracyCircleOptions = {
   fillColor: '#009de6',
   fillOpacity: 0.2,
   interactive: false,
   stroke: false,
 };
-const locationDot = new L.CircleMarker(configuration.map.options.center, circleMarkerOptions);
-const accuracyCircle = new L.Circle(configuration.map.options.center, circleOptions);
+
+const locationDot = new L.CircleMarker(configuration.map.options.center, locationDotOptions);
+const accuracyCircle = new L.Circle(configuration.map.options.center, accuracyCircleOptions);
 
 const LocationMarker = ({ geolocation }) => {
   const mapInstance = useMapInstance();
