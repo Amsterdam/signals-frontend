@@ -269,7 +269,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
 export const SiteHeader = props => {
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
-  const title = tall ? '' : 'SIA';
+  const title = tall ? configuration.language.headerTitle : configuration.language.smallHeaderTitle;
   const homeLink = tall ? configuration.links.home : '/';
 
   const navigation = useMemo(

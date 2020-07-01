@@ -1,4 +1,4 @@
-## SIA
+## Signalen
 
 Before opening a pull request, please ensure:
 
