@@ -1,16 +1,22 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
+import { pointWithinBounds } from 'shared/services/map-location';
 import Button from 'components/Button';
 import Spinner from 'components/Spinner';
 
 import GPS from '../../shared/images/icon-gps.svg';
 
+const StyledButton = styled(Button)`
+  outline: 2px solid rgb(0, 0, 0, 0.1);
+`;
+
 const GPSIcon = styled(GPS)`
   display: inline-block;
 `;
 
-const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError }) => {
+const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError, onLocationOutOfBounds }) => {
   const [loading, setLoading] = useState(false);
   const [toggled, setToggled] = useState(false);
   const shouldWatch = typeof onLocationChange === 'function';
@@ -24,12 +30,26 @@ const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError }) => 
     event => {
       event.preventDefault();
 
+      if (toggled) {
+        successCallbackFunc({ toggled: false });
+        setToggled(false);
+        return;
+      }
+
       const onSuccess = ({ coords }) => {
         const { accuracy, latitude, longitude } = coords;
 
-        successCallbackFunc({ accuracy, latitude, longitude, toggled: !toggled });
+        if (pointWithinBounds([latitude, longitude])) {
+          successCallbackFunc({ accuracy, latitude, longitude, toggled: !toggled });
+          setToggled(!toggled);
+        } else {
+          if (typeof onLocationOutOfBounds === 'function') {
+            onLocationOutOfBounds();
+          }
 
-        setToggled(!toggled);
+          setToggled(false);
+        }
+
         setLoading(false);
       };
 
@@ -47,11 +67,11 @@ const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError }) => 
         global.navigator.geolocation.getCurrentPosition(onSuccess, onError);
       }
     },
-    [onLocationError, successCallbackFunc, shouldWatch, toggled]
+    [onLocationError, onLocationOutOfBounds, successCallbackFunc, shouldWatch, toggled]
   );
 
   return (
-    <Button
+    <StyledButton
       data-testid="gpsButton"
       icon={loading ? <Spinner /> : <GPSIcon fill={toggled ? '#009de6' : 'black'} />}
       iconSize={20}
@@ -65,6 +85,7 @@ const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError }) => 
 GPSButton.propTypes = {
   onLocationChange: PropTypes.func,
   onLocationError: PropTypes.func,
+  onLocationOutOfBounds: PropTypes.func,
   onLocationSuccess: PropTypes.func,
 };
 
