@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import React from 'react';
-import { render} from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
