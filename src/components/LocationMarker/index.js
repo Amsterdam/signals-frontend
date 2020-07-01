@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import L from 'leaflet';
+import Leaflet from 'leaflet';
 
 import { useMapInstance } from '@datapunt/react-maps';
 import configuration from 'shared/services/configuration/configuration';
@@ -22,8 +22,8 @@ const accuracyCircleOptions = {
   stroke: false,
 };
 
-const locationDot = new L.CircleMarker(configuration.map.options.center, locationDotOptions);
-const accuracyCircle = new L.Circle(configuration.map.options.center, accuracyCircleOptions);
+const locationDot = new Leaflet.CircleMarker(configuration.map.options.center, locationDotOptions);
+const accuracyCircle = new Leaflet.Circle(configuration.map.options.center, accuracyCircleOptions);
 
 const LocationMarker = ({ geolocation }) => {
   const mapInstance = useMapInstance();

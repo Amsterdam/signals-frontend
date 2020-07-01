@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import Leaflet from 'leaflet';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
@@ -10,14 +10,14 @@ import LocationMarker from '..';
 
 jest.mock('leaflet', () => jest.requireActual('leaflet'));
 
-L.Circle.prototype.addTo = jest.fn();
-L.Circle.prototype.setLatLng = jest.fn();
-L.Circle.prototype.setRadius = jest.fn();
-L.Circle.prototype.remove = jest.fn();
+Leaflet.Circle.prototype.addTo = jest.fn();
+Leaflet.Circle.prototype.setLatLng = jest.fn();
+Leaflet.Circle.prototype.setRadius = jest.fn();
+Leaflet.Circle.prototype.remove = jest.fn();
 
-L.CircleMarker.prototype.addTo = jest.fn();
-L.CircleMarker.prototype.setLatLng = jest.fn();
-L.CircleMarker.prototype.remove = jest.fn();
+Leaflet.CircleMarker.prototype.addTo = jest.fn();
+Leaflet.CircleMarker.prototype.setLatLng = jest.fn();
+Leaflet.CircleMarker.prototype.remove = jest.fn();
 
 describe('components/LocationMarker', () => {
   it('creates vector layers', () => {
@@ -30,12 +30,12 @@ describe('components/LocationMarker', () => {
       longitude,
     };
 
-    expect(L.Circle.prototype.addTo).not.toHaveBeenCalled();
-    expect(L.Circle.prototype.setLatLng).not.toHaveBeenCalled();
-    expect(L.Circle.prototype.setRadius).not.toHaveBeenCalled();
+    expect(Leaflet.Circle.prototype.addTo).not.toHaveBeenCalled();
+    expect(Leaflet.Circle.prototype.setLatLng).not.toHaveBeenCalled();
+    expect(Leaflet.Circle.prototype.setRadius).not.toHaveBeenCalled();
 
-    expect(L.CircleMarker.prototype.addTo).not.toHaveBeenCalled();
-    expect(L.CircleMarker.prototype.setLatLng).not.toHaveBeenCalled();
+    expect(Leaflet.CircleMarker.prototype.addTo).not.toHaveBeenCalled();
+    expect(Leaflet.CircleMarker.prototype.setLatLng).not.toHaveBeenCalled();
 
     const { unmount } = render(
       withAppContext(
@@ -45,19 +45,19 @@ describe('components/LocationMarker', () => {
       )
     );
 
-    expect(L.Circle.prototype.addTo).toHaveBeenCalled();
-    expect(L.Circle.prototype.setLatLng).toHaveBeenCalledWith([latitude, longitude]);
-    expect(L.Circle.prototype.setRadius).toHaveBeenCalledWith(accuracy);
+    expect(Leaflet.Circle.prototype.addTo).toHaveBeenCalled();
+    expect(Leaflet.Circle.prototype.setLatLng).toHaveBeenCalledWith([latitude, longitude]);
+    expect(Leaflet.Circle.prototype.setRadius).toHaveBeenCalledWith(accuracy);
 
-    expect(L.CircleMarker.prototype.addTo).toHaveBeenCalled();
-    expect(L.CircleMarker.prototype.setLatLng).toHaveBeenCalledWith([latitude, longitude]);
+    expect(Leaflet.CircleMarker.prototype.addTo).toHaveBeenCalled();
+    expect(Leaflet.CircleMarker.prototype.setLatLng).toHaveBeenCalledWith([latitude, longitude]);
 
-    expect(L.Circle.prototype.remove).not.toHaveBeenCalled();
-    expect(L.CircleMarker.prototype.remove).not.toHaveBeenCalled();
+    expect(Leaflet.Circle.prototype.remove).not.toHaveBeenCalled();
+    expect(Leaflet.CircleMarker.prototype.remove).not.toHaveBeenCalled();
 
     unmount();
 
-    expect(L.Circle.prototype.remove).toHaveBeenCalled();
-    expect(L.CircleMarker.prototype.remove).toHaveBeenCalled();
+    expect(Leaflet.Circle.prototype.remove).toHaveBeenCalled();
+    expect(Leaflet.CircleMarker.prototype.remove).toHaveBeenCalled();
   });
 });
