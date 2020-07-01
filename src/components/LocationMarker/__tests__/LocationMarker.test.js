@@ -13,10 +13,11 @@ jest.mock('leaflet', () => jest.requireActual('leaflet'));
 L.Circle.prototype.addTo = jest.fn();
 L.Circle.prototype.setLatLng = jest.fn();
 L.Circle.prototype.setRadius = jest.fn();
+L.Circle.prototype.remove = jest.fn();
 
 L.CircleMarker.prototype.addTo = jest.fn();
 L.CircleMarker.prototype.setLatLng = jest.fn();
-L.CircleMarker.prototype.setRadius = jest.fn();
+L.CircleMarker.prototype.remove = jest.fn();
 
 describe('components/LocationMarker', () => {
   it('creates vector layers', () => {
@@ -36,7 +37,7 @@ describe('components/LocationMarker', () => {
     expect(L.CircleMarker.prototype.addTo).not.toHaveBeenCalled();
     expect(L.CircleMarker.prototype.setLatLng).not.toHaveBeenCalled();
 
-    render(
+    const { unmount } = render(
       withAppContext(
         <Map mapOptions={MAP_OPTIONS}>
           <LocationMarker geolocation={geolocation} />
@@ -50,5 +51,13 @@ describe('components/LocationMarker', () => {
 
     expect(L.CircleMarker.prototype.addTo).toHaveBeenCalled();
     expect(L.CircleMarker.prototype.setLatLng).toHaveBeenCalledWith([latitude, longitude]);
+
+    expect(L.Circle.prototype.remove).not.toHaveBeenCalled();
+    expect(L.CircleMarker.prototype.remove).not.toHaveBeenCalled();
+
+    unmount();
+
+    expect(L.Circle.prototype.remove).toHaveBeenCalled();
+    expect(L.CircleMarker.prototype.remove).toHaveBeenCalled();
   });
 });
