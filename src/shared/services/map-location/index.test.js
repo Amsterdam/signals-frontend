@@ -8,6 +8,7 @@ import {
   formatMapLocation,
   serviceResultToAddress,
   formatPDOKResponse,
+  pointWithinBounds,
 } from './index';
 
 const testAddress = {
@@ -251,5 +252,29 @@ describe('formatPDOKResponse', () => {
         },
       },
     ]);
+  });
+});
+
+describe('pointWithinBounds', () => {
+  it('returns a boolean', () => {
+    const minLat = 2;
+    const maxLat = 7;
+
+    const minLng = 2;
+    const maxLng = 9;
+
+    const bounds = [[minLat, minLng], [maxLat, maxLng]];
+
+    const middle = [5, 6];
+    const outsideLeft = [1, 6];
+    const outsideRight = [5, 10];
+    const outsideTop = [5, 1];
+    const outsideBottom = [5, 10];
+
+    expect(pointWithinBounds(middle, bounds)).toEqual(true);
+    expect(pointWithinBounds(outsideLeft, bounds)).toEqual(false);
+    expect(pointWithinBounds(outsideRight, bounds)).toEqual(false);
+    expect(pointWithinBounds(outsideTop, bounds)).toEqual(false);
+    expect(pointWithinBounds(outsideBottom, bounds)).toEqual(false);
   });
 });

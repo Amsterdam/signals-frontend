@@ -52,7 +52,6 @@ describe('components/GPSButton', () => {
     });
 
     expect(onLocationSuccess).toHaveBeenLastCalledWith({
-      ...coords,
       toggled: false,
     });
   });
@@ -95,7 +94,6 @@ describe('components/GPSButton', () => {
     });
 
     expect(onLocationChange).toHaveBeenLastCalledWith({
-      ...coords,
       toggled: false,
     });
   });
@@ -133,6 +131,54 @@ describe('components/GPSButton', () => {
       code,
       message,
     });
+  });
+
+  it('should call onLocationOutOfBounds', () => {
+    const coords = {
+      accuracy: 1234,
+      latitude: 55,
+      longitude: 5,
+    };
+    const mockGeolocation = {
+      getCurrentPosition: jest.fn().mockImplementation(success =>
+        Promise.resolve(
+          success({
+            coords,
+          })
+        )
+      ),
+    };
+
+    global.navigator.geolocation = mockGeolocation;
+
+    const onLocationOutOfBounds = jest.fn();
+    const onLocationSuccess = jest.fn();
+
+    const { getByTestId, rerender, unmount } = render(
+      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} onLocationOutOfBounds={null} />)
+    );
+
+    expect(onLocationOutOfBounds).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(getByTestId('gpsButton'));
+    });
+
+    expect(onLocationOutOfBounds).not.toHaveBeenCalled();
+
+    unmount();
+
+    rerender(
+      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} onLocationOutOfBounds={onLocationOutOfBounds} />)
+    );
+
+    expect(onLocationOutOfBounds).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(getByTestId('gpsButton'));
+    });
+
+    expect(onLocationOutOfBounds).toHaveBeenCalled();
   });
 
   it('should throw an error', () => {

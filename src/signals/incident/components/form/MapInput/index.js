@@ -25,7 +25,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
     <Header className="mapInput" meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <div className="invoer">
         <MapContext>
-          <MapInputComponent onChange={onLocationChange} value={value} mapOptions={mapOptions} />
+          <MapInputComponent onChange={onLocationChange} value={value} mapOptions={mapOptions} hasGPSControl />
         </MapContext>
       </div>
     </Header>
