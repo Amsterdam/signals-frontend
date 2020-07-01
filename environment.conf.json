@@ -28,7 +28,12 @@
     "headerTitle": "",
     "smallHeaderTitle": "SIA",
     "footer1": "Bel het Gemeentelijk informatienummer: 14 020",
-    "footer2": "op werkdagen van 08.00 tot 18.00 uur."
+    "footer2": "op werkdagen van 08.00 tot 18.00 uur.",
+    "incidentForm": {
+      "step5": {
+        "consent": "Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
+      }
+    }
   },
   "links": {
     "home": "https://www.amsterdam.nl",
