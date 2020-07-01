@@ -92,7 +92,7 @@ Header.propTypes = {
     subtitle: PropTypes.string,
   }),
   options: PropTypes.shape({
-    validators: PropTypes.array(),
+    validators: PropTypes.arrayOf(PropTypes.any),
   }),
   touched: PropTypes.bool,
   hasError: PropTypes.func.isRequired,
