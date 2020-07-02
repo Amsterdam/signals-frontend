@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet from 'leaflet';
 
@@ -46,7 +46,7 @@ const LocationMarker = ({ geolocation }) => {
     };
   }, [mapInstance, latitude, longitude, accuracy]);
 
-  return null;
+  return <span data-testid="locationMarker" />;
 };
 
 LocationMarker.propTypes = {

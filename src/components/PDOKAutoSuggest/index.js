@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import AutoSuggest from 'components/AutoSuggest';
 import { pdokResponseFieldList } from 'shared/services/map-location';
 
+const municipalityFilterName = 'gemeentenaam';
 const serviceParams = [
   ['fq', 'bron:BAG'],
   ['fq', 'type:adres'],
@@ -11,29 +12,29 @@ const serviceParams = [
   ['fl', pdokResponseFieldList.join(',')],
   ['q', ''],
 ];
-const serviceURL = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
+const serviceUrl = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
 const numOptionsDeterminer = data => data?.response?.docs?.length || 0;
-export const formatResponseFunc = ({ response }) => response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }));
+export const formatResponseFunc = ({ response }) =>
+  response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }));
 
 /**
  * Geocoder component that specifically uses the PDOK location service to request information from
  *
  * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
  */
-const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatResponse, value, ...rest }) => {
-  const fq = gemeentenaam && [['fq', `gemeentenaam:${gemeentenaam}`]];
+const PDOKAutoSuggest = ({ className, fieldList, municipality, onSelect, formatResponse, value, ...rest }) => {
+  const municipalityArray = Array.isArray(municipality) ? municipality : [municipality].filter(Boolean);
+  const municipalityString = municipalityArray.map(item => `"${item}"`).join(' ');
+  const fq = municipality ? [['fq', `${municipalityFilterName}:${municipalityString}`]] : [];
   const fl = [['fl', fieldList.concat(['id', 'weergavenaam']).join(',')]];
-  const params = fq
-    .concat(fl)
-    .concat(serviceParams)
-    .filter(Boolean);
-  const queryParams = params.flatMap(([key, val]) => `${key}=${val}`).join('&');
-  const URL = `${serviceURL}`.concat(queryParams);
+  const params = [...fq, ...fl, ...serviceParams];
+  const queryParams = params.map(([key, val]) => `${key}=${val}`).join('&');
+  const url = `${serviceUrl}${queryParams}`;
 
   return (
     <AutoSuggest
       className={className}
-      url={URL}
+      url={url}
       numOptionsDeterminer={numOptionsDeterminer}
       formatResponse={formatResponse}
       onSelect={onSelect}
@@ -46,7 +47,6 @@ const PDOKAutoSuggest = ({ className, fieldList, gemeentenaam, onSelect, formatR
 PDOKAutoSuggest.defaultProps = {
   className: '',
   fieldList: [],
-  gemeentenaam: 'amsterdam',
   formatResponse: formatResponseFunc,
   value: '',
 };
@@ -55,10 +55,12 @@ PDOKAutoSuggest.propTypes = {
   className: PropTypes.string,
   fieldList: PropTypes.arrayOf(PropTypes.string),
   /**
-   * Value that determines to which municipality the search query should be applied
-   * Can be a single name, like amsterdam, or a combination, like (amsterdam OR weesp)
+   * Value that determines to which municipality the search query should be
+   * applied.
+   *
+   * Can be a single name, like amsterdam, or an array of one or more names.
    */
-  gemeentenaam: PropTypes.string,
+  municipality: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   onSelect: PropTypes.func.isRequired,
   formatResponse: PropTypes.func,
   value: PropTypes.string,

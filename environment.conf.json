@@ -45,6 +45,7 @@
   },
   "theme": {},
   "map": {
+    "municipality": "amsterdam",
     "tiles": {
       "args": [
         "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
@@ -77,8 +78,7 @@
       ],
       "zoom": 10,
       "maxZoom": 14,
-      "minZoom": 8,
-      "gemeentenaam": "amsterdam"
+      "minZoom": 8
     }
   },
   "fetchQuestionsFromBackend": false,
