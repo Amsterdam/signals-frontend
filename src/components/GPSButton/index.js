@@ -30,6 +30,8 @@ const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError, onLoc
     event => {
       event.preventDefault();
 
+      if (loading) return;
+
       if (toggled) {
         successCallbackFunc({ toggled: false });
         setToggled(false);
@@ -67,7 +69,7 @@ const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError, onLoc
         global.navigator.geolocation.getCurrentPosition(onSuccess, onError);
       }
     },
-    [onLocationError, onLocationOutOfBounds, successCallbackFunc, shouldWatch, toggled]
+    [onLocationError, onLocationOutOfBounds, successCallbackFunc, shouldWatch, toggled, loading]
   );
 
   return (
