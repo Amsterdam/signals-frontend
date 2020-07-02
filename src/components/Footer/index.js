@@ -1,17 +1,13 @@
-import React from 'react';
-import { Row, Column, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import React, { Fragment } from 'react';
+import { Row, Paragraph, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import configuration from 'shared/services/configuration/configuration';
 
 const Disclaimer = styled.div`
-  background-color: ${themeColor('tint', 'level5')};
-  padding-top: ${themeSpacing(7)};
-  padding-bottom: ${themeSpacing(7)};
-
-  * {
-    color: ${themeColor('bright', 'main')};
-  }
+  color: ${themeColor('bright', 'main')};
+  min-height: ${themeSpacing(25)};
+  height: 100%;
 `;
 
 const StyledLink = styled(Link)`
@@ -25,48 +21,73 @@ const StyledLink = styled(Link)`
 
 const Privacy = styled.div`
   background: ${themeColor('bright', 'main')};
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: ${themeSpacing(2)};
+  padding-bottom: ${themeSpacing(2)};
+  height: ${themeSpacing(11)};
 `;
 
 const StyledHeading = styled(Heading)`
   margin: 0 0 ${themeSpacing(3)} 0;
+  color: ${themeColor('bright', 'main')};
 `;
 
 const FooterWrapper = styled.div`
-  & {
-    display: flex;
-    flex-direction: column;
-    flex: 0 1 auto !important;
-    padding-bottom: 0 !important;
+  background-color: ${themeColor('tint', 'level5')};
+  width: 100%;
+  margin-top: 50px;
+  color: ${themeColor('bright', 'main')};
+
+  & > * {
+    padding-top: ${themeSpacing(7)};
+    padding-bottom: ${themeSpacing(7)};
+  }
+
+  a {
+    color: ${themeColor('bright', 'main')};
+  }
+`;
+
+const Container = styled(Row)`
+  width: 100%;
+  grid-template-columns: 6fr 6fr;
+  grid-column-gap: 20px;
+
+  & > p {
+    margin: 0;
+  }
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    display: grid;
   }
 `;
 
 const Footer = () => (
-  <FooterWrapper className="app-container no-print" data-testid="siteFooter">
-    <Disclaimer data-testid="disclaimer">
-      <Row>
-        <Column span={12}>
+  <Fragment>
+    <FooterWrapper className="no-print" data-testid="siteFooter">
+      <Container>
+        <Disclaimer data-testid="disclaimer">
           <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
-        </Column>
+          {configuration.language.footer1}{' '}
+          <a href={`tel:${configuration.language.phoneNumber}`}>{configuration.language.phoneNumber}</a>
+          <Paragraph>{configuration.language.footer2}</Paragraph>
+        </Disclaimer>
 
-        <Column span={12}>
-          {configuration.language.footer1} <br />
-          {configuration.language.footer2}
-        </Column>
-      </Row>
-    </Disclaimer>
+        <Paragraph
+          dangerouslySetInnerHTML={{
+            __html: configuration.language.avgDisclaimer.replace('##LINK##', configuration.links.privacy),
+          }}
+        />
+      </Container>
+    </FooterWrapper>
 
-    <Privacy>
-      <Row>
-        <Column span={12}>
-          <StyledLink href={configuration.links.privacy} variant="with-chevron">
-            Privacy
-          </StyledLink>
-        </Column>
-      </Row>
-    </Privacy>
-  </FooterWrapper>
+    <Container>
+      <Privacy>
+        <StyledLink href={configuration.links.privacy} variant="with-chevron">
+          Privacy
+        </StyledLink>
+      </Privacy>
+    </Container>
+  </Fragment>
 );
 
 export default Footer;

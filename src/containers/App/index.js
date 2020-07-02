@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
@@ -22,6 +23,12 @@ import useLocationReferrer from 'hooks/useLocationReferrer';
 
 import reducer from './reducer';
 import saga from './saga';
+
+const FooterContainer = styled.div.attrs({
+  className: 'app-container',
+})`
+  padding-bottom: 0 !important;
+`;
 
 export const AppContainer = ({ resetIncidentAction }) => {
   const history = useHistory();
@@ -65,7 +72,11 @@ export const AppContainer = ({ resetIncidentAction }) => {
           </Switch>
         </div>
 
-        {!isAuthenticated() && <Footer />}
+        {!isAuthenticated() && (
+          <FooterContainer>
+            <Footer />
+          </FooterContainer>
+        )}
       </Fragment>
     </ThemeProvider>
   );
