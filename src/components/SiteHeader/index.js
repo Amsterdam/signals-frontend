@@ -246,11 +246,13 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
       {showLogout && (
         <Fragment>
-          <MenuItem>
-            <StyledMenuButton forwardedAs="a" href={configuration.links?.help} target="_blank">
-              Help
-            </StyledMenuButton>
-          </MenuItem>
+          {configuration.links?.help && (
+            <MenuItem>
+              <StyledMenuButton forwardedAs="a" href={configuration.links?.help} target="_blank">
+                Help
+              </StyledMenuButton>
+            </MenuItem>
+          )}
           <MenuItem element="button" data-testid="logout-button" onClick={onLogOut}>
             <StyledMenuButton iconSize={16} iconLeft={<LogoutIcon focusable="false" />}>
               Uitloggen
