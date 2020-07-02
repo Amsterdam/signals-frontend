@@ -76,7 +76,7 @@ export default {
       sharing_allowed: {
         meta: {
           shortLabel: 'Toestemming contactgegevens delen',
-          value: configuration.language?.incidentForm?.step5?.consent,
+          value: configuration.language?.consentToContactSharing,
           path: 'reporter.sharing_allowed',
         },
         render: FormComponents.EmphasisCheckboxInput,

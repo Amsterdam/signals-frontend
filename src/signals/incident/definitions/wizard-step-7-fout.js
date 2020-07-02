@@ -15,7 +15,7 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Momenteel zijn er problemen met deze website en kan uw melding niet verwerkt worden.',
           type: 'bedankt',
-          value: ['Probeert u het later nogmaals.', configuration.language?.incidentForm?.step7?.extraInfo],
+          value: ['Probeert u het later nogmaals.', configuration.language?.urgentContactInfo],
         },
         render: FormComponents.PlainText,
       },

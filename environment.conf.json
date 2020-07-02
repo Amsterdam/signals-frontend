@@ -22,21 +22,15 @@
     "siteId": 14
   },
   "language": {
-    "title": "Signalen Informatievoorziening Amsterdam",
-    "shortTitle": "SIA",
-    "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
-    "headerTitle": "",
-    "smallHeaderTitle": "SIA",
+    "consentToContactSharing": "Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
     "footer1": "Bel het Gemeentelijk informatienummer: 14 020",
     "footer2": "op werkdagen van 08.00 tot 18.00 uur.",
-    "incidentForm": {
-      "step5": {
-        "consent": "Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen."
-      },
-      "step7": {
-        "extraInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020."
-      }
-    }
+    "headerTitle": "",
+    "shortTitle": "SIA",
+    "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
+    "smallHeaderTitle": "SIA",
+    "title": "Signalen Informatievoorziening Amsterdam",
+    "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020."
   },
   "links": {
     "help": "https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365",
