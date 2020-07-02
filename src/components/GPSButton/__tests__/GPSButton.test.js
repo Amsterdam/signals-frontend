@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { render, act, fireEvent, waitFor } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import GPSButton from '..';
@@ -12,6 +12,43 @@ describe('components/GPSButton', () => {
 
     expect(button.nodeName).toEqual('BUTTON');
     expect(container.querySelector('svg')).toBeInTheDocument();
+  });
+
+  it('should render spinner', async () => {
+    const coords = {
+      accuracy: 123,
+      latitude: 52,
+      longitude: 4,
+    };
+    const getCurrentPosition = jest
+      .fn()
+      .mockImplementation(success => new Promise(resolve => setTimeout(() => resolve(success({ coords }), 0))));
+
+    global.navigator.geolocation = { getCurrentPosition };
+
+    const onLocationSuccess = jest.fn();
+
+    const { getByTestId, queryByTestId } = render(
+      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} />)
+    );
+
+    expect(getCurrentPosition).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(getByTestId('gpsButton'));
+    });
+
+    expect(getByTestId('spinner')).toBeInTheDocument();
+
+    expect(getCurrentPosition).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      fireEvent.click(getByTestId('gpsButton'));
+    });
+
+    expect(getCurrentPosition).toHaveBeenCalledTimes(1);
+
+    await waitFor(() => expect(queryByTestId('spinner')).not.toBeInTheDocument(), { timeout: 0 });
   });
 
   it('should call onLocationSuccess', () => {
