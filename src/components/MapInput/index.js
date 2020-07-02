@@ -160,7 +160,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
           topLeft={
             <StyledAutosuggest
               formatResponse={formatPDOKResponse}
-              gemeentenaam={configuration.map.options.gemeentenaam}
+              municipality={configuration.map?.municipality}
               onClear={() => dispatch(resetLocationAction())}
               onSelect={onSelect}
               placeholder="Zoek adres"
