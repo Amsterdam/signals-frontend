@@ -85,9 +85,40 @@ See [the `Dockerfile` in the `signals-amsterdam` repository](https://github.com/
   Application title showing up in the title bar and search results.<br>
   Used in [`index.html`](../../src/index.html).
 
+- `headerTitle`
+  The title to show in the header of the application, next to the logo.
+
+- `smallHeaderTitle`
+  The title to show in the small version of the header.
+
+- `footer1`
+  Extra information to show in the footer of the application.
+  
+- `footer2`
+  Second line of information to show in the footer of the application.
+
+#### incidentForm
+
+##### step5
+
+- `consent`
+  The message to ask for consent to share contact information.
+  
+##### step7
+
+- `extraInfo`
+  Extra information to show in case of an error.
+
 ### links
 
-Values for anchor elements throught the application.
+- `help`
+  A website with help about the application, for employees of the municipality.
+
+- `home`
+  The home page of the website of the municipality.
+
+- `privacy`
+  The privacy statement of the municipality.
 
 ### theme
 
