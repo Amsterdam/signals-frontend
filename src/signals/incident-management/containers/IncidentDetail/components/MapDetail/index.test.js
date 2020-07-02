@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import MapDetail from './index';
@@ -21,7 +22,7 @@ describe('<MapDetail />', () => {
   });
 
   it('should render correctly', () => {
-    const { container, getByTestId } = render(<MapDetail {...props} />);
+    const { container, getByTestId } = render(withAppContext(<MapDetail {...props} />));
 
     // Map
     expect(getByTestId('map-base')).toBeInTheDocument();
@@ -32,7 +33,7 @@ describe('<MapDetail />', () => {
 
   it('should not render without value', () => {
     props.value = {};
-    const { container, queryByTestId } = render(<MapDetail {...props} />);
+    const { container, queryByTestId } = render(withAppContext(<MapDetail {...props} />));
 
     // Map
     expect(queryByTestId('map')).not.toBeInTheDocument();

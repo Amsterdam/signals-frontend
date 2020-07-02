@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
+import { withAppContext } from 'test/utils';
 import ZoomMessageControl from './control/ZoomMessageControl';
 import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
@@ -55,19 +56,23 @@ describe('<MapSelect />', () => {
   });
 
   it('should render correctly', async () => {
-    const { findByTestId } = render(
-      <MapSelect
-        latlng={latlng}
-        onSelectionChange={onSelectionChange}
-        getIcon={getIcon}
-        geojsonUrl={url}
-        iconField="type_name"
-        idField="objectnummer"
-      />
+    const { findByTestId, getByTestId } = render(
+      withAppContext(
+        <MapSelect
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          getIcon={getIcon}
+          geojsonUrl={url}
+          iconField="type_name"
+          idField="objectnummer"
+          hasGPSControl
+        />
+      )
     );
 
     await findByTestId('map-base');
 
+    expect(getByTestId('gpsButton')).toBeInTheDocument();
     expect(LegendControl).not.toHaveBeenCalled();
     expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
@@ -76,15 +81,17 @@ describe('<MapSelect />', () => {
 
   it('should render legend', async () => {
     const { findByTestId } = render(
-      <MapSelect
-        latlng={latlng}
-        onSelectionChange={onSelectionChange}
-        getIcon={getIcon}
-        geojsonUrl={url}
-        legend={legend}
-        iconField="type_name"
-        idField="objectnummer"
-      />
+      withAppContext(
+        <MapSelect
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          getIcon={getIcon}
+          geojsonUrl={url}
+          legend={legend}
+          iconField="type_name"
+          idField="objectnummer"
+        />
+      )
     );
 
     await findByTestId('map-base');
@@ -96,15 +103,17 @@ describe('<MapSelect />', () => {
     expect(fetch).not.toHaveBeenCalled();
 
     const { findByTestId } = render(
-      <MapSelect
-        latlng={latlng}
-        onSelectionChange={onSelectionChange}
-        getIcon={getIcon}
-        legend={legend}
-        geojsonUrl={url}
-        iconField="type_name"
-        idField="objectnummer"
-      />
+      withAppContext(
+        <MapSelect
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          getIcon={getIcon}
+          legend={legend}
+          geojsonUrl={url}
+          iconField="type_name"
+          idField="objectnummer"
+        />
+      )
     );
 
     await findByTestId('map-base');

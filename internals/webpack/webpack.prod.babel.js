@@ -101,6 +101,7 @@ module.exports = require('./webpack.base.babel')({
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
     new OfflinePlugin({
+      version: '$SIGNALS_SERVICE_WORKER_VERSION',
       ServiceWorker: {
         events: true,
       },
