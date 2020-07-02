@@ -24,7 +24,9 @@ const StyledMap = styled(MapComponent)`
   }
 `;
 
-const ButtonWrapper = styled.div``;
+const StyledGPSButton = styled(GPSButton)`
+  margin-bottom: 8px;
+`;
 
 const Map = ({
   canBeDragged,
@@ -85,9 +87,9 @@ const Map = ({
     >
       <StyledViewerContainer
         bottomRight={
-          <ButtonWrapper data-testid="mapZoom">
+          <div data-testid="mapZoom">
             {hasGPSControl && (
-              <GPSButton
+              <StyledGPSButton
                 onLocationSuccess={location => {
                   setGeolocation(location);
                 }}
@@ -113,7 +115,7 @@ const Map = ({
               />
             )}
             {showZoom && <Zoom />}
-          </ButtonWrapper>
+          </div>
         }
       />
 
