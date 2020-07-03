@@ -4,6 +4,7 @@ build
 built
 node_modules
 stats.json
+src/generated
 
 # Local development environment config
 environment.conf.development.json
