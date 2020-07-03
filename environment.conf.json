@@ -81,6 +81,7 @@
   "FEEDBACK_STANDARD_ANSWERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/",
   "FILTERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/filters/",
   "GEOGRAPHY_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/geography",
+  "GRAPHQL_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/graphql",
   "IMAGE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/signal/image/",
   "INCIDENTS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/",
   "INCIDENT_PRIVATE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/",
