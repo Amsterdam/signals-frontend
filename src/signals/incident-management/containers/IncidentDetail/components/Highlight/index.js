@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeColor } from '@datapunt/asc-ui';
+
+import IncidentDetailContext from '../../context';
 
 export const HIGHLIGHT_TIMEOUT_INTERVAL = 1500;
 
@@ -43,12 +45,21 @@ const Wrapper = styled.div`
   }
 `;
 
-const Highlight = ({ className, children, valueChanged }) => {
+const Highlight = ({ className, children, subscribeTo }) => {
+  const { incident } = useContext(IncidentDetailContext);
+  const [subscriptionValue, setSubscriptionValue] = useState(
+    subscribeTo.reduce((acc, val) => (acc && acc[val]) || null, incident)
+  );
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    if (!valueChanged) return undefined;
+    if (!subscribeTo || subscribeTo.length === 0) return undefined;
 
+    const value = subscribeTo.reduce((acc, val) => (acc && acc[val]) || null, incident);
+
+    if (value === subscriptionValue) return undefined;
+
+    setSubscriptionValue(value);
     setAnimate(true);
 
     const clear = () => {
@@ -59,7 +70,7 @@ const Highlight = ({ className, children, valueChanged }) => {
     const animateTimeout = global.window.setTimeout(clear, HIGHLIGHT_TIMEOUT_INTERVAL);
 
     return () => clear;
-  }, [valueChanged]);
+  }, [incident, subscribeTo, subscriptionValue]);
 
   return (
     <Wrapper className={className} animate={animate} data-testid="highlight">
@@ -70,13 +81,12 @@ const Highlight = ({ className, children, valueChanged }) => {
 
 Highlight.defaultProps = {
   className: '',
-  valueChanged: false,
 };
 
 Highlight.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  valueChanged: PropTypes.bool,
+  subscribeTo: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Highlight;

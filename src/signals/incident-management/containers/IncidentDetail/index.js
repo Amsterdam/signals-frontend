@@ -4,12 +4,14 @@ import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
+import isEqual from 'lodash.isequal';
 
 import configuration from 'shared/services/configuration/configuration';
 import History from 'components/History';
 import useFetch from 'hooks/useFetch';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { patchIncident as patchIncidentAction } from 'models/incident/actions';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -48,8 +50,14 @@ const reducer = (state, action) => {
     case 'attachments':
       return { ...state, attachments: action.payload };
 
+    case 'history':
+      return { ...state, history: action.payload };
+
     case 'defaultTexts':
       return { ...state, defaultTexts: action.payload };
+
+    case 'incident':
+      return { ...state, incident: { ...state.incident, ...action.payload } };
 
     default:
       return { ...state, preview: action.type, attachmentHref: '' };
@@ -72,10 +80,12 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   const storeDispatch = useDispatch();
   const { id } = useParams();
   const [state, dispatch] = useReducer(reducer, {
-    preview: previewState,
     attachmentHref,
-    error: undefined,
     attachments: undefined,
+    error: undefined,
+    history: undefined,
+    incident: undefined,
+    preview: previewState,
   });
   const { error, get: getIncident, data: incident } = useFetch();
   const { get: getHistory, data: history } = useFetch();
@@ -132,6 +142,10 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   }, [error, storeDispatch]);
 
   useEffect(() => {
+    dispatch({ type: 'history', payload: history });
+  }, [history]);
+
+  useEffect(() => {
     dispatch({ type: 'attachments', payload: attachments?.results });
   }, [attachments]);
 
@@ -151,6 +165,22 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   useEffect(() => {
     if (!incident) return;
 
+    dispatch({ type: 'incident', payload: incident });
+
+    retrieveUnderlyingData();
+    // disabling linter; only need to update when the incident changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [incident]);
+
+  useEffect(() => {
+    if (!state.incident) return;
+
+    if (!isEqual(incident, state.incident)) {
+      retrieveUnderlyingData();
+    }
+  }, [state.incident, incident, retrieveUnderlyingData]);
+
+  const retrieveUnderlyingData = useCallback(() => {
     const { main_slug, sub_slug } = incident.category;
 
     getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`);
@@ -166,9 +196,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     if (!state.attachments) {
       getAttachments(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`);
     }
-    // disabling linter; only need to update when the incident changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [incident]);
+  }, [getHistory, getAttachments, getDefaultTexts, state.attachments, state.defaultTexts, id, incident]);
 
   const handleKeyUp = useCallback(event => {
     switch (event.key) {
@@ -182,10 +210,18 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     }
   }, []);
 
-  if (!incident) return null;
+  const relayDispatch = useCallback(
+    action => {
+      dispatch({ type: 'incident', payload: action.patch });
+      storeDispatch(patchIncidentAction(action));
+    },
+    [storeDispatch]
+  );
+
+  if (!state.incident) return null;
 
   return (
-    <IncidentDetailContext.Provider value={{ incident }}>
+    <IncidentDetailContext.Provider value={{ incident: state.incident, dispatch: relayDispatch }}>
       <Row data-testid="incidentDetail">
         <Column span={12}>
           <DetailHeader />
@@ -205,7 +241,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
           <ChildIncidents />
 
-          {history && <History list={history} />}
+          {state.history && <History list={state.history} />}
         </DetailContainer>
 
         <DetailContainer

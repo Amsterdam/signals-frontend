@@ -1,15 +1,12 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
-import { patchIncident as patchIncidentAction } from 'models/incident/actions';
-import { makeSelectPatching } from 'models/incident/selectors';
-import { PATCH_TYPE_STATUS, PATCH_TYPE_PRIORITY, PATCH_TYPE_SUBCATEGORY, PATCH_TYPE_TYPE } from 'models/incident/constants';
 
 import RadioInput from 'signals/incident-management/components/RadioInput';
 
@@ -48,9 +45,7 @@ const EditButton = styled(Button)`
 `;
 
 const MetaList = ({ onEditStatus }) => {
-  const { incident } = useContext(IncidentDetailContext);
-  const dispatch = useDispatch();
-  const patching = useSelector(makeSelectPatching);
+  const { incident, dispatch } = useContext(IncidentDetailContext);
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () =>
@@ -75,7 +70,7 @@ const MetaList = ({ onEditStatus }) => {
 
   const patchIncident = useCallback(
     patchedData => {
-      dispatch(patchIncidentAction(patchedData));
+      dispatch(patchedData);
     },
     [dispatch]
   );
@@ -87,7 +82,7 @@ const MetaList = ({ onEditStatus }) => {
         {string2date(incident.created_at)} {string2time(incident.created_at)}
       </dd>
 
-      <Highlight valueChanged={patching[PATCH_TYPE_STATUS]}>
+      <Highlight subscribeTo={['status', 'state']}>
         <dt data-testid="meta-list-status-definition">
           <EditButton
             data-testid="editStatusButton"
@@ -105,7 +100,7 @@ const MetaList = ({ onEditStatus }) => {
       </Highlight>
 
       {incident.priority && (
-        <Highlight valueChanged={patching[PATCH_TYPE_PRIORITY]}>
+        <Highlight subscribeTo={['priority', 'priority']}>
           <ChangeValue
             display="Urgentie"
             valueClass={incident.priority.priority === 'high' ? 'alert' : ''}
@@ -120,7 +115,7 @@ const MetaList = ({ onEditStatus }) => {
       )}
 
       {incident.type && (
-        <Highlight valueChanged={patching[PATCH_TYPE_TYPE]}>
+        <Highlight subscribeTo={['type', 'code']}>
           <ChangeValue
             component={RadioInput}
             display="Type"
@@ -134,7 +129,7 @@ const MetaList = ({ onEditStatus }) => {
       )}
 
       {subcategoryOptions && (
-        <Highlight valueChanged={patching[PATCH_TYPE_SUBCATEGORY]}>
+        <Highlight subscribeTo={['category', 'sub_category']}>
           <ChangeValue
             disabled={subcatHighlightDisabled}
             display="Subcategorie"
@@ -151,7 +146,7 @@ const MetaList = ({ onEditStatus }) => {
         </Highlight>
       )}
 
-      <Highlight valueChanged={patching[PATCH_TYPE_SUBCATEGORY]}>
+      <Highlight subscribeTo={['category', 'main']}>
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
       </Highlight>

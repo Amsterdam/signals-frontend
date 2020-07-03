@@ -20,13 +20,6 @@ import {
   REQUEST_DEFAULT_TEXTS,
   REQUEST_DEFAULT_TEXTS_SUCCESS,
   REQUEST_DEFAULT_TEXTS_ERROR,
-  PATCH_TYPE_NOTES,
-  PATCH_TYPE_SUBCATEGORY,
-  PATCH_TYPE_STATUS,
-  PATCH_TYPE_PRIORITY,
-  PATCH_TYPE_THOR,
-  PATCH_TYPE_LOCATION,
-  PATCH_TYPE_TYPE,
 } from './constants';
 
 export const initialState = fromJS({
@@ -38,62 +31,29 @@ export const initialState = fromJS({
   statusList,
   loading: false,
   error: false,
-  patchLoading: false,
   attachments: [],
-  patching: {
-    [PATCH_TYPE_NOTES]: false,
-    [PATCH_TYPE_SUBCATEGORY]: false,
-    [PATCH_TYPE_STATUS]: false,
-    [PATCH_TYPE_PRIORITY]: false,
-    [PATCH_TYPE_THOR]: false,
-    [PATCH_TYPE_LOCATION]: false,
-    [PATCH_TYPE_TYPE]: false,
-  },
   typesList,
 });
 
 function incidentModelReducer(state = initialState, action) {
   switch (action.type) {
     case REQUEST_INCIDENT:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .set('id', action.payload)
-        .set('incident', null);
+      return state.set('loading', true).set('error', false).set('id', action.payload).set('incident', null);
 
     case REQUEST_INCIDENT_SUCCESS:
-      return state
-        .set('incident', fromJS(action.payload))
-        .set('error', false)
-        .set('loading', false);
+      return state.set('incident', fromJS(action.payload)).set('error', false).set('loading', false);
 
     case REQUEST_INCIDENT_ERROR:
       return state.set('error', fromJS(action.payload)).set('loading', false);
 
     case PATCH_INCIDENT:
-      return state
-        .set(
-          'patching',
-          fromJS({
-            ...initialState.get('patching').toJS(),
-            [action.payload.type]: true,
-          })
-        )
-        .set('patchLoading', true)
-        .set('error', false);
+      return state.set('error', false);
 
     case PATCH_INCIDENT_SUCCESS:
-      return state
-        .set('incident', fromJS(action.payload.incident))
-        .set('patching', initialState.get('patching'))
-        .set('patchLoading', false)
-        .set('error', false);
+      return state.set('incident', fromJS(action.payload.incident)).set('error', false);
 
     case PATCH_INCIDENT_ERROR:
-      return state
-        .set('patching', initialState.get('patching'))
-        .set('patchLoading', false)
-        .set('error', fromJS(action.payload.error));
+      return state.set('error', fromJS(action.payload.error));
 
     case DISMISS_ERROR:
       return state.set('error', false);

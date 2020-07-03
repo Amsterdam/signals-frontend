@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row, Column } from '@datapunt/asc-ui';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
-import { useDispatch } from 'react-redux';
 
 import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 import MapContext from 'containers/MapContext';
-import { patchIncident } from 'models/incident/actions';
 
 import { mapLocation } from 'shared/services/map-location';
 import LocationInput from './components/LocationInput';
@@ -22,8 +20,8 @@ const StyledColumn = styled(Column)`
 const LocationForm = ({ onClose }) => {
   const {
     incident: { id, location },
+    dispatch,
   } = useContext(IncidentDetailContext);
-  const dispatch = useDispatch();
 
   const form = useMemo(
     () =>
@@ -46,17 +44,15 @@ const LocationForm = ({ onClose }) => {
     event => {
       event.preventDefault();
 
-      dispatch(
-        patchIncident({
-          id,
-          type: PATCH_TYPE_LOCATION,
-          patch: { location: form.value.location },
-        })
-      );
+      dispatch({
+        id,
+        type: PATCH_TYPE_LOCATION,
+        patch: { location: { ...location, ...form.value.location } },
+      });
 
       onClose();
     },
-    [dispatch, form.value, id, onClose]
+    [dispatch, form.value, id, onClose, location]
   );
 
   return (
