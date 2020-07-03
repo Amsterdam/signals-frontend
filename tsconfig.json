@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./built",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "target": "ES2020",
+    "jsx": "react"
+  },
+  "include": [
+    "./src/generated/**/*"
+  ]
+}
