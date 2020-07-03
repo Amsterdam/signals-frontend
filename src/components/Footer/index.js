@@ -14,6 +14,7 @@ const Disclaimer = styled.div`
 const StyledLink = styled(Link)`
   font-size: 16px;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: normal;
 
   span {
     align-self: center;
