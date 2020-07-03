@@ -1,5 +1,18 @@
 require('@babel/register');
 
+const path = require('path');
+
+const { specifiedRules: graphqlRules } = require('graphql');
+
+const graphQlOptions = { schemaJsonFilepath: path.resolve(__dirname, './graphql.schema.json'), tagName: 'gql' };
+
+// Issue about ignored rules: https://github.com/apollographql/eslint-plugin-graphql/issues/19
+const graphQlIgnoredRules = ['NoUnusedFragmentsRule', 'KnownFragmentNamesRule', 'NoUnusedVariablesRule'];
+
+const graphQlValidators = graphqlRules
+  .map(rule => rule.name)
+  .filter(ruleName => !graphQlIgnoredRules.includes(ruleName));
+
 module.exports = {
   parser: 'babel-eslint',
   extends: ['airbnb', 'plugin:cypress/recommended', 'prettier', 'prettier/react'],
@@ -22,6 +35,18 @@ module.exports = {
     jsdom: true,
     L: true,
   },
+  overrides: [
+    {
+      files: ['src/graphql/**/*.js'],
+      plugins: ['graphql'],
+      rules: {
+        'graphql/named-operations': ['error', graphQlOptions],
+        'graphql/capitalized-type-name': ['error',  graphQlOptions],
+        'graphql/no-deprecated-fields': ['error',  graphQlOptions],
+        'graphql/template-strings': ['error', { ...graphQlOptions, validators: graphQlValidators }],
+      },
+    },
+  ],
   rules: {
     camelcase: 0,
     'arrow-parens': ['error', 'as-needed'],
@@ -36,13 +61,7 @@ module.exports = {
     'import/no-unresolved': [2, { commonjs: true }],
     'import/no-webpack-loader-syntax': 0,
     'import/prefer-default-export': 0,
-    indent: [
-      2,
-      2,
-      {
-        SwitchCase: 1,
-      },
-    ],
+    indent: [2, 2, { SwitchCase: 1 }],
     'jsx-a11y/aria-props': 2,
     'jsx-a11y/heading-has-content': 0,
     'jsx-a11y/label-has-associated-control': [
