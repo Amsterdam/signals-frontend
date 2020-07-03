@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+
+import { Provider as ReduxProvider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import * as Sentry from '@sentry/browser';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import Immutable from 'immutable';
 import history from 'utils/history';
+
+import { createClient as createUrqlClient, Provider as UrqlProvider } from 'urql';
 
 // Import root app
 import App from 'containers/App';
@@ -62,12 +65,16 @@ const render = () => {
   // eslint-disable-next-line no-undef,no-console
   console.log(`Signals: version: ${VERSION}, build: ${process.env.NODE_ENV}`);
 
+  const urqlClient = createUrqlClient({ url: configuration.GRAPHQL_ENDPOINT });
+
   ReactDOM.render(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>,
+    <ReduxProvider store={store}>
+      <UrqlProvider value={urqlClient}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </UrqlProvider>
+    </ReduxProvider>,
     MOUNT_NODE
   );
 };
