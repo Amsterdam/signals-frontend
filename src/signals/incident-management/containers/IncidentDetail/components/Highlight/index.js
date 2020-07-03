@@ -29,7 +29,6 @@ const Wrapper = styled.div`
 
   .children {
     position: relative;
-    // z-index: 20;
   }
 
   @keyframes highlight-fade-out {
