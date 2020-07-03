@@ -1,0 +1,31 @@
+schema: '${GRAPHQL_ENDPOINT}'
+documents: ./src/graphql/*.js
+overwrite: true
+generates:
+  ./graphql/schema.json:
+    plugins:
+      - introspection
+  ./graphql/fragment-types.json:
+    plugins:
+      - fragment-matcher
+  ./src/generated/types.d.ts:
+    hooks:
+      afterOneFileWrite:
+        - ./node_modules/.bin/eslint --fix --ext .ts --ext .tsx
+    plugins:
+      - typescript
+  ./src/generated/urql:
+    hooks:
+      afterOneFileWrite:
+        - ./node_modules/.bin/eslint --fix --ext .ts --ext .tsx
+    preset: near-operation-file
+    presetConfig:
+      extension: .urql.tsx
+      baseTypesPath: ../types.d
+      folder: ../generated
+    plugins:
+      - typescript-operations
+      - typescript-urql
+    config:
+      withHooks: true
+      withComponent: false
