@@ -16,7 +16,7 @@ const GPSIcon = styled(GPS)`
   display: inline-block;
 `;
 
-const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError, onLocationOutOfBounds }) => {
+const GPSButton = ({ className, onLocationChange, onLocationSuccess, onLocationError, onLocationOutOfBounds }) => {
   const [loading, setLoading] = useState(false);
   const [toggled, setToggled] = useState(false);
   const shouldWatch = typeof onLocationChange === 'function';
@@ -74,6 +74,7 @@ const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError, onLoc
 
   return (
     <StyledButton
+      className={className}
       data-testid="gpsButton"
       icon={loading ? <Spinner /> : <GPSIcon fill={toggled ? '#009de6' : 'black'} />}
       iconSize={20}
@@ -84,7 +85,12 @@ const GPSButton = ({ onLocationChange, onLocationSuccess, onLocationError, onLoc
   );
 };
 
+GPSButton.defaultProps = {
+  className: '',
+};
+
 GPSButton.propTypes = {
+  className: PropTypes.string,
   onLocationChange: PropTypes.func,
   onLocationError: PropTypes.func,
   onLocationOutOfBounds: PropTypes.func,
