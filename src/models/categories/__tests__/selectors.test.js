@@ -117,6 +117,19 @@ describe('models/categories/selectors', () => {
     expect(slugs).toEqual(keys);
   });
 
+  test('makeSelectSubCategories extendedName', () => {
+    const subCategories = makeSelectSubCategories.resultFunc(
+      makeSelectCategories.resultFunc(state)
+    );
+
+    const subCatWithResponsibleDepts = subCategories.find(({ departments }) => departments.filter(({ is_responsible }) => is_responsible).length > 0);
+    const deptCodes = subCatWithResponsibleDepts.departments.map(({ code }) => code);
+
+    deptCodes.forEach(code => {
+      expect(subCatWithResponsibleDepts.extendedName.indexOf(code) > 0);
+    });
+  });
+
   test('makeSelectAllSubCategories', () => {
     expect(makeSelectAllSubCategories.resultFunc()).toBeNull();
 

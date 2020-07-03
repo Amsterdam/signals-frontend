@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor } from '@datapunt/asc-ui';
+import configuration from 'shared/services/configuration/configuration';
 
 import useFetch from 'hooks/useFetch';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
@@ -82,7 +83,7 @@ const MapStatic = ({
   );
 
   useEffect(() => {
-    get('https://map.data.amsterdam.nl/maps/topografie', params, { responseType: 'blob' });
+    get(configuration.STATIC_MAP_SERVER_URL, params, { responseType: 'blob' });
     // only execute on mount; disabling linter
     // eslint-disable-next-line
   }, []);

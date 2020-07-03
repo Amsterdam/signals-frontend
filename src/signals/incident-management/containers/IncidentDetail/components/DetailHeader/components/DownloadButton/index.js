@@ -1,27 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
-import { Spinner } from '@datapunt/asc-assets';
 import Button  from 'components/Button';
+import Spinner  from 'components/Spinner';
 
 import useFetch from 'hooks/useFetch';
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const Spinning = styled(Spinner)`
-  & > * {
-    transform-origin: 50% 50%;
-    animation: ${rotate} 2s linear infinite;
-  }
-`;
 
 const DownloadButton = ({ label, url, filename }) => {
   const { get, isLoading, data } = useFetch();
@@ -51,7 +33,7 @@ const DownloadButton = ({ label, url, filename }) => {
   return (
     <Button
       disabled={isLoading}
-      iconRight={isLoading && <Spinning />}
+      iconRight={isLoading && <Spinner />}
       iconSize={20}
       variant="application"
       data-testid="download-button"

@@ -32,6 +32,7 @@ const StyledMap = styled(Map)`
 const MapSelect = ({
   geojsonUrl,
   getIcon,
+  hasGPSControl,
   iconField,
   idField,
   latlng,
@@ -219,6 +220,7 @@ const MapSelect = ({
       <StyledMap
         className={classNames('map-component', { write: onSelectionChange })}
         data-testid="mapSelect"
+        hasGPSControl={hasGPSControl}
         hasZoomControls
         mapOptions={mapOptions}
         setInstance={setMapInstance}
@@ -228,6 +230,7 @@ const MapSelect = ({
 };
 
 MapSelect.defaultProps = {
+  hasGPSControl: false,
   value: [],
   selectionOnly: false,
 };
@@ -240,6 +243,7 @@ MapSelect.propTypes = {
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func,
   getIcon: PropTypes.func.isRequired,
+  hasGPSControl: PropTypes.bool,
   legend: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,

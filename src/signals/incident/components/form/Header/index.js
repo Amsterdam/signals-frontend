@@ -91,7 +91,9 @@ Header.propTypes = {
     label: PropTypes.string,
     subtitle: PropTypes.string,
   }),
-  options: PropTypes.shape({}),
+  options: PropTypes.shape({
+    validators: PropTypes.arrayOf(PropTypes.any),
+  }),
   touched: PropTypes.bool,
   hasError: PropTypes.func.isRequired,
   getError: PropTypes.func,
