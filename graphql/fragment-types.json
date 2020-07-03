@@ -1,0 +1,24 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "INTERFACE",
+        "name": "Node",
+        "possibleTypes": [
+          {
+            "name": "DepartmentType"
+          },
+          {
+            "name": "CategoryType"
+          },
+          {
+            "name": "ServiceLevelObjectiveType"
+          },
+          {
+            "name": "StatusMessageTemplateType"
+          }
+        ]
+      }
+    ]
+  }
+}
