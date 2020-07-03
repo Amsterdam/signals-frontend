@@ -3,6 +3,7 @@ import { Row, Paragraph, Heading, Link, themeColor, themeSpacing } from '@datapu
 import styled from 'styled-components';
 
 import configuration from 'shared/services/configuration/configuration';
+import stringFormatter from 'shared/services/stringFormatter';
 
 const Disclaimer = styled.div`
   color: ${themeColor('bright', 'main')};
@@ -67,14 +68,23 @@ const Footer = () => (
       <Container>
         <Disclaimer data-testid="disclaimer">
           <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
-          {configuration.language.footer1}{' '}
-          <a href={`tel:${configuration.language.phoneNumber}`}>{configuration.language.phoneNumber}</a>
+          <span
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: stringFormatter(configuration.language.footer1, {
+                '##GENERAL_PHONE_NUMBER_FORMATTED##': configuration.language.phoneNumber.replace(' ', ''),
+                '##GENERAL_PHONE_NUMBER##': configuration.language.phoneNumber,
+              }),
+            }}
+          />
           <Paragraph>{configuration.language.footer2}</Paragraph>
         </Disclaimer>
 
         <Paragraph
           dangerouslySetInnerHTML={{
-            __html: configuration.language.avgDisclaimer.replace('##LINK##', configuration.links.privacy),
+            __html: stringFormatter(configuration.language.avgDisclaimer, {
+              '##AVG_DISCLAIMER_URL##': configuration.links.privacy,
+            }),
           }}
         />
       </Container>

@@ -1,3 +1,5 @@
+import configuration from 'shared/services/configuration/configuration';
+
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 
@@ -15,7 +17,7 @@ export default {
           type: 'bedankt',
           value: [
             'Probeert u het later nogmaals.',
-            'Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020.',
+            `Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met ${configuration.language.phoneNumber}.`,
           ],
         },
         render: FormComponents.PlainText,
