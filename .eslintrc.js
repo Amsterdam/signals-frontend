@@ -4,7 +4,7 @@ const path = require('path');
 
 const { specifiedRules: graphqlRules } = require('graphql');
 
-const graphQlOptions = { schemaJsonFilepath: path.resolve(__dirname, './graphql.schema.json'), tagName: 'gql' };
+const graphQlOptions = {schemaJsonFilepath: path.resolve(__dirname, './graphql/schema.json'), tagName: 'gql'};
 
 // Issue about ignored rules: https://github.com/apollographql/eslint-plugin-graphql/issues/19
 const graphQlIgnoredRules = ['NoUnusedFragmentsRule', 'KnownFragmentNamesRule', 'NoUnusedVariablesRule'];
