@@ -46,7 +46,7 @@ const LinkContainer = styled.div`
 
   ${({ absolutePosLink }) =>
     absolutePosLink &&
-    css`
+    `
       position: relative;
 
       a {
