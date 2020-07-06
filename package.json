@@ -49,10 +49,10 @@
   "pre-commit": "lint:staged",
   "dependencies": {
     "@datapunt/amsterdam-react-maps": "^0.1.2",
-    "@datapunt/asc-assets": "^0.20.0",
-    "@datapunt/asc-ui": "^0.20.0",
+    "@datapunt/asc-assets": "^0.21.1",
+    "@datapunt/asc-ui": "^0.21.1",
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
-    "@datapunt/matomo-tracker-js": "0.0.15",
+    "@datapunt/matomo-tracker-js": "^0.1.5",
     "@datapunt/react-maps": "0.8.0",
     "@sentry/browser": "^5.19.0",
     "classnames": "^2.2.6",

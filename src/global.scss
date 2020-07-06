@@ -184,10 +184,6 @@ fieldset {
   padding-top: 50px;
 }
 
-[aria-hidden="true"] {
-  display: none !important;
-}
-
 @media print {
   html, body {height: 100%;}
 
@@ -196,6 +192,7 @@ fieldset {
     margin-left: 1cm;
     margin-right: 1cm;
   }
+
 
   // Reset the flex model to allow printig on more than one page
   .row {
