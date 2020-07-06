@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Row, Column, themeColor } from '@datapunt/asc-ui';
 import Button from 'components/Button';
 
@@ -12,7 +12,7 @@ export const FooterWrapper = styled.footer`
 
   ${({ inline }) =>
     !inline &&
-    css`
+    `
       border-top: 2px solid #e6e6e6;
       position: fixed;
       bottom: 0;
