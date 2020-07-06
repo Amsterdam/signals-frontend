@@ -17,7 +17,7 @@ const locationDotOptions = {
 
 const accuracyCircleOptions = {
   fillColor: '#009de6',
-  fillOpacity: 0.2,
+  fillOpacity: 0.1,
   interactive: false,
   stroke: false,
 };
@@ -33,12 +33,12 @@ const LocationMarker = ({ geolocation }) => {
   useEffect(() => {
     if (!mapInstance) return undefined;
 
-    locationDot.addTo(mapInstance);
-    locationDot.setLatLng([latitude, longitude]);
-
     accuracyCircle.addTo(mapInstance);
     accuracyCircle.setLatLng([latitude, longitude]);
     accuracyCircle.setRadius(accuracy);
+
+    locationDot.addTo(mapInstance);
+    locationDot.setLatLng([latitude, longitude]);
 
     return () => {
       locationDot.remove();
