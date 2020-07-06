@@ -160,28 +160,6 @@ fieldset {
   display: flex;
   flex-direction: column;
   height: 100vh;
-
-  .content {
-    padding-bottom: 20px;
-    margin-top: 20px;
-  }
-
-  .app-container {
-    padding-bottom: 20px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    flex: 1 0 auto;
-    width: 100%;
-    z-index: 0;
-  }
-
-  #header, .app-container {
-    max-width: 1400px;
-  }
-}
-
-.siteHeader.isShort + .app-container {
-  padding-top: 50px;
 }
 
 [aria-hidden="true"] {

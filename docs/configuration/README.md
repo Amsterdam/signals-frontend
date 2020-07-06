@@ -85,6 +85,13 @@ See [the `Dockerfile` in the `signals-amsterdam` repository](https://github.com/
   Application title showing up in the title bar and search results.<br>
   Used in [`index.html`](../../src/index.html).
 
+- `phoneNumber`
+  General phone number
+
+- `avgDisclaimer`
+  Text that outlines the use of privacy related information<br>
+  Used in the [`Footer` component](../../src/components/Footer/index.js)
+
 ### links
 
 Values for anchor elements throught the application.
