@@ -34,6 +34,8 @@ const useDelayedDoubleClick = clickFunc => {
     [clickFunc]
   );
 
+  // linter complaining about the use of the debounce function
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const click = useCallback(debounce(debouncedClick, DOUBLE_CLICK_TIMEOUT), [debouncedClick]);
 
   return {

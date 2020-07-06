@@ -41,7 +41,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('renders correctly', () => {
-    const { container, getByTestId, getByText } = render(
+    const { container, getByTestId, getByLabelText } = render(
       withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
@@ -50,7 +50,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(getByTestId('statusFormCancelButton')).toBeInTheDocument();
 
     Object.values(changeStatusOptionList).forEach(({ value }) => {
-      expect(getByText(value)).toBeInTheDocument();
+      expect(getByLabelText(value)).toBeInTheDocument();
     });
   });
 

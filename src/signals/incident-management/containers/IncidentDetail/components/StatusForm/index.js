@@ -4,7 +4,7 @@ import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 
-import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, themeSpacing } from '@datapunt/asc-ui';
 import { incidentType, defaultTextsType } from 'shared/types';
 import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 import statusList, {
@@ -14,19 +14,51 @@ import statusList, {
 import { patchIncident } from 'models/incident/actions';
 
 import Button from 'components/Button';
+import Label from 'components/Label';
 import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
 
+const CurrentStatus = styled.div`
+  margin: ${themeSpacing(5, 0)};
+`;
+
 const Form = styled.form`
   position: relative;
   width: 100%;
+  grid-template-areas:
+    'header'
+    'options'
+    'texts'
+    'form';
+  grid-column-gap: 20px;
+  display: grid;
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    grid-template-columns: 6fr 6fr;
+    grid-template-areas:
+      'header header'
+      'options texts'
+      'form texts'
+      '. texts';
+  }
 `;
 
-const StyledColumn = styled(Column)`
-  display: block;
-  background: white;
+const HeaderArea = styled.div`
+  grid-area: header;
+`;
+
+const OptionsArea = styled.div`
+  grid-area: options;
+`;
+
+const TextsArea = styled.div`
+  grid-area: texts;
+`;
+
+const FormArea = styled.div`
+  grid-area: form;
 `;
 
 const StyledH4 = styled(Heading)`
@@ -54,17 +86,17 @@ const Notification = styled.div`
 `;
 
 const StatusForm = ({ defaultTexts, incident, onClose }) => {
-  const currentStatus = statusList.find(({ key }) => key === incident.status.state);
+  const currentStatus = statusList.find(status => status.key === incident.status.state);
   const [warning, setWarning] = useState('');
   const dispatch = useDispatch();
 
   const form = useMemo(
     () =>
       FormBuilder.group({
-        status: [currentStatus.key, Validators.required],
+        status: [incident.status.state, Validators.required],
         text: [''],
       }),
-    [currentStatus.key]
+    [incident.status.state]
   );
 
   useEffect(() => {
@@ -121,59 +153,58 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
 
   return (
     <Fragment>
-      <Row>
-        <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
-          <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
-        </StyledColumn>
-      </Row>
-
       <FieldGroup
         control={form}
         render={({ invalid }) => (
           <Form onSubmit={handleSubmit}>
-            <Row>
-              <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
-                <FieldControlWrapper
-                  control={form.get('status')}
-                  data-testid="statusFormStatusField"
-                  name="status"
-                  render={RadioInput}
-                  values={changeStatusOptionList}
-                />
-              </StyledColumn>
+            <HeaderArea>
+              <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-              <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
-                <DefaultTexts
-                  defaultTexts={defaultTexts}
-                  onHandleUseDefaultText={handleUseDefaultText}
-                  status={form.get('status').value}
-                />
-              </StyledColumn>
-            </Row>
+              <CurrentStatus data-testid="currentStatus">
+                <Label as="span">Huidige status</Label>
+                <div>{currentStatus.value}</div>
+              </CurrentStatus>
+            </HeaderArea>
 
-            <Row>
-              <StyledColumn span={12}>
-                <FieldControlWrapper
-                  control={form.get('text')}
-                  display="Toelichting"
-                  name="text"
-                  render={TextAreaInput}
-                  rows={10}
-                />
+            <OptionsArea>
+              <FieldControlWrapper
+                control={form.get('status')}
+                data-testid="statusFormStatusField"
+                name="status"
+                render={RadioInput}
+                values={changeStatusOptionList}
+              />
 
-                <Notification warning data-testid="statusFormWarning">
-                  {warning}
-                </Notification>
+              <Notification warning data-testid="statusFormWarning">
+                {warning}
+              </Notification>
+            </OptionsArea>
 
-                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
-                  Status opslaan
-                </StyledButton>
+            <FormArea>
+              <FieldControlWrapper
+                control={form.get('text')}
+                display="Toelichting"
+                name="text"
+                render={TextAreaInput}
+                rows={10}
+              />
 
-                <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
-                  Annuleren
-                </StyledButton>
-              </StyledColumn>
-            </Row>
+              <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
+                Status opslaan
+              </StyledButton>
+
+              <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
+                Annuleren
+              </StyledButton>
+            </FormArea>
+
+            <TextsArea>
+              <DefaultTexts
+                defaultTexts={defaultTexts}
+                onHandleUseDefaultText={handleUseDefaultText}
+                status={form.get('status').value}
+              />
+            </TextsArea>
           </Form>
         )}
       />

@@ -75,7 +75,7 @@ export const DepartmentDetailContainer = ({
 
       {!isLoading && data && (
         <Fragment>
-          <Row>
+          <Row data-testid="departmentDetail">
             <Column span={12}>
               <div>
                 <Heading forwardedAs="h2" styleAs="h4">
@@ -86,7 +86,7 @@ export const DepartmentDetailContainer = ({
             </Column>
           </Row>
 
-          {categories && data && (
+          {categories && (
             <DepartmentDetailContext.Provider value={{ categories, department: data, subCategories, findByMain }}>
               <CategoryLists
                 onCancel={confirmedCancel}

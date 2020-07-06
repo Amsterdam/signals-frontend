@@ -24,6 +24,8 @@ const ChildIncidents = ({ incident }) => {
           },
         };
       }),
+    // disabling linter; we want to allow possible null incident
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [incident]
   );
 

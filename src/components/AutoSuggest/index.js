@@ -169,6 +169,8 @@ const AutoSuggest = ({
     setShowList(false);
   }, []);
 
+  // linter complaining about the use of the debounce function
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const delayedCallback = useCallback(
     debounce(inputValue => serviceRequest(inputValue), INPUT_DELAY),
     [serviceRequest, url]

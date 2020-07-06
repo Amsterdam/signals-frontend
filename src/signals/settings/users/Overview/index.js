@@ -93,6 +93,8 @@ const UsersOverviewContainer = () => {
     [filters, setUsernameFilter]
   );
 
+  // linter complaining about the use of the debounce function
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnChangeFilter = useCallback(debounce(createOnChangeFilter('username'), 250), [createOnChangeFilter]);
 
   const selectUserActiveOnChange = useCallback(
@@ -151,7 +153,7 @@ const UsersOverviewContainer = () => {
         )}
       </PageHeader>
 
-      <Row>
+      <Row data-testid="usersOverview">
         {isLoading && <LoadingIndicator />}
 
         <Column span={12} wrap>

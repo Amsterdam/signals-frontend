@@ -43,9 +43,15 @@ describe('<DownloadButton />', () => {
       const { queryByTestId, findByTestId } = render(<DownloadButton {...props} />);
       const downloadButton = queryByTestId('download-button');
 
+      // suppress console error because of unimplemented navigation in JSDOM
+      // @see {@link https://github.com/jsdom/jsdom/issues/2112}
+      global.window.console.error = jest.fn();
+
       act(() => {
         fireEvent.click(downloadButton);
       });
+
+      global.window.console.error.mockRestore();
 
       expect(downloadButton.disabled).toEqual(true);
 

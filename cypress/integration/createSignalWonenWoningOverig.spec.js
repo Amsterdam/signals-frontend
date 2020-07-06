@@ -33,6 +33,8 @@ describe('Create signal wonen woning overig and check signal details', () => {
     });
 
     it('Should show specific questions illegal holiday rental', () => {
+      const warningPhone =
+        'In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.';
       createSignal.checkSpecificInformationPage();
 
       cy.contains(Cypress.env('description')).should('be.visible');
@@ -46,34 +48,28 @@ describe('Create signal wonen woning overig and check signal details', () => {
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenNee)
         .check()
         .should('be.checked');
-      cy.contains('In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.').should(
-        'not.be.visible'
-      );
+      cy.contains(warningPhone).should('not.be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenWeetIkNiet)
         .check()
         .should('be.checked');
-      cy.contains('In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.').should(
-        'not.be.visible'
-      );
+      cy.contains(warningPhone).should('not.be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenJa)
         .check()
         .should('be.checked');
-      cy.contains('In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.').should(
-        'be.visible'
-      );
+      cy.contains(warningPhone).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderTelefonisch)
         .check()
         .should('be.checked');
       cy.contains('Bel nu met 14 020').should('be.visible');
       cy.contains(
-        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, meteen langs.'
+        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, binnen 24 uur langs.'
       ).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderMeldformulier)
         .check()
         .should('be.checked');
       cy.contains('Bel nu met 14 020').should('not.be.visible');
       cy.contains(
-        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, meteen langs.'
+        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, binnen 24 uur langs.'
       ).should('not.be.visible');
       cy.contains(
         'Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met 14 020 en vraag naar team Vakantieverhuur.'
@@ -561,7 +557,7 @@ describe('Create signal wonen woning overig and check signal details', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));

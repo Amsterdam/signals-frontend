@@ -1,3 +1,0 @@
-# Maintainers
- - aditudorache
- - jasperswart

@@ -1,5 +1,12 @@
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
 import { SIGNAL_DETAILS } from './selectorsSignalDetails';
+import { MANAGE_SIGNALS } from './selectorsManageIncidents';
+
+export const addNote = noteText => {
+  cy.get(SIGNAL_DETAILS.buttonAddNote).click();
+  cy.get(SIGNAL_DETAILS.inputNoteText).type(noteText);
+  cy.get(SIGNAL_DETAILS.buttonSaveNote).click();
+};
 
 // General functions for creating a signal
 export const checkCreationDate = () => {
@@ -85,6 +92,18 @@ export const searchAddress = address => {
   cy.get('[data-testid=autoSuggest]').type(address, { delay: 60 });
 };
 
+export const searchAndCheck = (searchTerm, selector) => {
+  cy.getSignalDetailsRoutes();
+  cy.get(MANAGE_SIGNALS.searchBar).type(`${searchTerm}{enter}`);
+  cy.wait('@getSearchResults');
+  cy.get(MANAGE_SIGNALS.searchResultsTag).should('have.text', `Zoekresultaten voor "${searchTerm}"`).and('be.visible');
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(500);
+  cy.get('[href*="/manage/incident/"]').first().click();
+  cy.waitForSignalDetailsRoutes();
+  cy.get(selector).should('contain', `${searchTerm}`);
+};
+
 export const selectAddress = address => {
   cy.get('[data-testid=suggestList] > li ')
     .contains(new RegExp(`^${address}$`, 'g'))
@@ -138,6 +157,21 @@ export const setPhonenumber = phoneNumber => {
       .clear()
       .type(phoneNumber);
   }
+};
+
+export const uploadFile = (fileName, fileType = '', selector) => {
+  cy.get(selector).then(subject => {
+    cy.fixture(fileName, 'base64')
+      .then(Cypress.Blob.base64StringToBlob)
+      .then(blob => {
+        const el = subject[0];
+        const testFile = new File([blob], fileName, { type: fileType });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(testFile);
+        el.files = dataTransfer.files;
+      });
+  });
+  cy.get(CREATE_SIGNAL.buttonUploadFile).trigger('change', { force: true });
 };
 
 // Functions specific for Lantaarnpaal

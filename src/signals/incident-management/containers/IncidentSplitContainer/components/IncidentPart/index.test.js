@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { FormControl } from 'react-reactive-form';
 
 import { withAppContext } from 'test/utils';
 import incident from 'utils/__tests__/fixtures/incident.json';
 import * as modelSelectors from 'models/categories/selectors';
-import categories from 'utils/__tests__/fixtures/categories_private.json';
+import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
 import { filterForSub } from 'models/categories/selectors';
 
 import IncidentPart from './index';
@@ -15,7 +15,7 @@ jest.mock('containers/App/selectors', () => ({
   ...jest.requireActual('containers/App/selectors'),
 }));
 
-const subCategories = categories.results
+const subCategories = categoriesFixture.results
   .filter(filterForSub)
   // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
   .map(subCat => ({ ...subCat, key: subCat._links.self.href }));
@@ -57,13 +57,13 @@ describe('<IncidentPart />', () => {
     });
 
     it('should wait till all categories have been loaded', () => {
-      const { container, rerender } = render(withAppContext(<IncidentPart {...props} />));
+      const { container, rerender, unmount } = render(withAppContext(<IncidentPart {...props} />));
 
       expect(container.querySelector('select')).toBeInTheDocument();
 
-      jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => []);
+      jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => null);
 
-      cleanup();
+      unmount();
 
       rerender(withAppContext(<IncidentPart {...props} />));
 

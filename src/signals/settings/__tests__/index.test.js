@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, wait } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import * as auth from 'shared/services/auth/auth';
 import * as reactRouterDom from 'react-router-dom';
@@ -166,7 +166,7 @@ describe('signals/settings', () => {
     // load users overview page
     await act(async () => history.push(USERS_URL));
 
-    await wait(() =>
+    await waitFor(() =>
       expect(
         reactRouterDom.useLocation.mock.results.pop().value.pathname
       ).toEqual(USERS_URL)
@@ -175,7 +175,7 @@ describe('signals/settings', () => {
     // load roles overview page (should not be allowed)
     await act(async () => history.push(ROLES_URL));
 
-    await wait(() =>
+    await waitFor(() =>
       expect(
         reactRouterDom.useLocation.mock.results.pop().value.pathname
       ).not.toEqual(ROLES_URL)
@@ -199,7 +199,7 @@ describe('signals/settings', () => {
     // load roles overview page
     await act(async () => history.push(ROLES_URL));
 
-    await wait(() =>
+    await waitFor(() =>
       expect(
         reactRouterDom.useLocation.mock.results.pop().value.pathname
       ).toEqual(ROLES_URL)
@@ -208,7 +208,7 @@ describe('signals/settings', () => {
     // load users overview page (should not be allowed)
     await act(async () => history.push(USERS_URL));
 
-    await wait(() =>
+    await waitFor(() =>
       expect(
         reactRouterDom.useLocation.mock.results.pop().value.pathname
       ).not.toEqual(USERS_URL)
