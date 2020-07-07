@@ -17,6 +17,7 @@ import * as types from 'shared/types';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import MapContext from 'containers/MapContext';
 import dataLists from 'signals/incident-management/definitions';
+import useEventEmitter from 'hooks/useEventEmitter';
 
 import {
   makeSelectActiveFilter,
@@ -47,6 +48,7 @@ export const IncidentOverviewPageContainerComponent = ({
   page,
   pageChangedAction,
 }) => {
+  const { listenFor, unlisten } = useEventEmitter();
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
   const { count, loading, results } = incidents;
@@ -97,14 +99,14 @@ export const IncidentOverviewPageContainerComponent = ({
   );
 
   useEffect(() => {
-    document.addEventListener('keydown', escFunction);
-    document.addEventListener('openFilter', openFilterModal);
+    listenFor('keydown', escFunction);
+    listenFor('openFilter', openFilterModal);
 
     return () => {
-      document.removeEventListener('keydown', escFunction);
-      document.removeEventListener('openFilter', openFilterModal);
+      unlisten('keydown', escFunction);
+      unlisten('openFilter', openFilterModal);
     };
-  }, [escFunction, openFilterModal]);
+  }, [escFunction, openFilterModal, listenFor, unlisten]);
 
   const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [count]);
 
