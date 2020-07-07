@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { Row, Column } from '@datapunt/asc-ui';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
-import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 import MapContext from 'containers/MapContext';
 
 import { mapLocation } from 'shared/services/map-location';
 import LocationInput from './components/LocationInput';
 import IncidentDetailContext from '../../context';
+import { PATCH_TYPE_LOCATION } from '../../constants';
 
 const StyledColumn = styled(Column)`
   display: block;
@@ -19,7 +19,7 @@ const StyledColumn = styled(Column)`
 
 const LocationForm = ({ onClose }) => {
   const {
-    incident: { id, location },
+    incident: { location },
     dispatch,
   } = useContext(IncidentDetailContext);
 
@@ -45,14 +45,13 @@ const LocationForm = ({ onClose }) => {
       event.preventDefault();
 
       dispatch({
-        id,
         type: PATCH_TYPE_LOCATION,
         patch: { location: { ...location, ...form.value.location } },
       });
 
       onClose();
     },
-    [dispatch, form.value, id, onClose, location]
+    [dispatch, form.value, onClose, location]
   );
 
   return (

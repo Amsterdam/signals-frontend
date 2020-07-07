@@ -23,15 +23,16 @@ import {
 } from './constants';
 
 export const initialState = fromJS({
-  id: null,
-  stadsdeelList,
-  priorityList,
+  attachments: [],
   changeStatusOptionList,
   defaultTextsOptionList,
-  statusList,
-  loading: false,
   error: false,
-  attachments: [],
+  id: null,
+  loading: false,
+  patched: undefined, // which part has successfully been patched
+  priorityList,
+  stadsdeelList,
+  statusList,
   typesList,
 });
 
@@ -47,13 +48,17 @@ function incidentModelReducer(state = initialState, action) {
       return state.set('error', fromJS(action.payload)).set('loading', false);
 
     case PATCH_INCIDENT:
-      return state.set('error', false);
+      return state.set('error', false).set('loading', true).set('patched', action.payload.type);
 
     case PATCH_INCIDENT_SUCCESS:
-      return state.set('incident', fromJS(action.payload.incident)).set('error', false);
+      return state
+        .set('incident', fromJS(action.payload.incident))
+        .set('error', false)
+        .set('loading', false)
+        .set('patched', action.payload.type);
 
     case PATCH_INCIDENT_ERROR:
-      return state.set('error', fromJS(action.payload.error));
+      return state.set('error', fromJS(action.payload.error)).set('loading', false).set('patched', undefined);
 
     case DISMISS_ERROR:
       return state.set('error', false);

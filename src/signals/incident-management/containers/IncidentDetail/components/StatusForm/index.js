@@ -2,16 +2,13 @@ import React, { Fragment, useCallback, useState, useEffect, useMemo, useContext 
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
-import { useDispatch } from 'react-redux';
 
 import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { defaultTextsType } from 'shared/types';
-import { PATCH_TYPE_STATUS } from 'models/incident/constants';
 import statusList, {
   defaultTextsOptionList,
   changeStatusOptionList,
 } from 'signals/incident-management/definitions/statusList';
-import { patchIncident } from 'models/incident/actions';
 
 import Button from 'components/Button';
 import Label from 'components/Label';
@@ -20,6 +17,7 @@ import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
 import IncidentDetailContext from '../../context';
+import { PATCH_TYPE_STATUS } from '../../constants';
 
 const UnselectableStatus = styled.div`
   margin: ${themeSpacing(5, 0)};
@@ -64,23 +62,22 @@ const Notification = styled.div`
 `;
 
 const StatusForm = ({ defaultTexts, onClose }) => {
-  const { incident } = useContext(IncidentDetailContext);
+  const { incident, dispatch } = useContext(IncidentDetailContext);
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
   const [warning, setWarning] = useState('');
-  const dispatch = useDispatch();
   const isUnselectableStatus = !changeStatusOptionList.find(status => status.key === incident.status.state);
 
   const form = useMemo(
     () =>
       FormBuilder.group({
-        status: [incident.status.state, Validators.required],
+        state: [incident.status.state, Validators.required],
         text: [''],
       }),
     [incident.status.state]
   );
 
   useEffect(() => {
-    form.controls.status.valueChanges.subscribe(status => {
+    form.controls.state.valueChanges.subscribe(status => {
       const found = statusList.find(s => s.key === status);
 
       setWarning(found?.warning);
@@ -95,7 +92,7 @@ const StatusForm = ({ defaultTexts, onClose }) => {
 
       form.controls.text.updateValueAndValidity();
     });
-  }, [form.controls.status.valueChanges, form.controls.text]);
+  }, [form.controls.state.valueChanges, form.controls.text]);
 
   const handleSubmit = useCallback(
     event => {
@@ -106,20 +103,18 @@ const StatusForm = ({ defaultTexts, onClose }) => {
           "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
         );
       } else {
-        dispatch(
-          patchIncident({
-            id: incident.id,
-            type: PATCH_TYPE_STATUS,
-            patch: {
-              status: { state: form.value.status, text: form.value.text },
-            },
-          })
-        );
+        const newStatus = statusList.find(({ key }) => key === form.value.state);
+        dispatch({
+          type: PATCH_TYPE_STATUS,
+          patch: {
+            status: { state: form.value.state, state_display: newStatus.value },
+          },
+        });
 
         onClose();
       }
     },
-    [incident.id, form.value.status, form.value.text, onClose, dispatch]
+    [form.value, onClose, dispatch]
   );
 
   const handleUseDefaultText = useCallback(
@@ -153,7 +148,7 @@ const StatusForm = ({ defaultTexts, onClose }) => {
             <Row hasMargin={false}>
               <StyledColumn span={{ small: 2, medium: 2, big: 5, large: 6, xLarge: 6 }}>
                 <FieldControlWrapper
-                  control={form.get('status')}
+                  control={form.get('state')}
                   data-testid="statusFormStatusField"
                   name="status"
                   render={RadioInput}
@@ -165,7 +160,7 @@ const StatusForm = ({ defaultTexts, onClose }) => {
                 <DefaultTexts
                   defaultTexts={defaultTexts}
                   onHandleUseDefaultText={handleUseDefaultText}
-                  status={form.get('status').value}
+                  status={form.get('state').value}
                 />
               </StyledColumn>
             </Row>

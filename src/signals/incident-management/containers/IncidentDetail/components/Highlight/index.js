@@ -1,9 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeColor } from '@datapunt/asc-ui';
 
-import IncidentDetailContext from '../../context';
+import useEventEmitter from 'hooks/useEventEmitter';
 
 export const HIGHLIGHT_TIMEOUT_INTERVAL = 1500;
 
@@ -32,44 +32,45 @@ const Wrapper = styled.div`
   }
 
   @keyframes highlight-fade-out {
-    from {
-      opacity: 1;
-    }
+    0%,
     70% {
       opacity: 1;
     }
-    to {
+    100% {
       opacity: 0;
     }
   }
 `;
 
-const Highlight = ({ className, children, subscribeTo }) => {
-  const { incident } = useContext(IncidentDetailContext);
-  const [subscriptionValue, setSubscriptionValue] = useState(
-    subscribeTo.reduce((acc, val) => (acc && acc[val]) || null, incident)
-  );
+const Highlight = ({ className, children, type }) => {
+  const { listenFor, unlisten } = useEventEmitter();
   const [animate, setAnimate] = useState(false);
 
+  const animateHighlight = useCallback(
+    event => {
+      if (event.detail.type !== type) return undefined;
+
+      setAnimate(true);
+
+      const clear = () => {
+        setAnimate(false);
+        global.window.clearTimeout(animateTimeout);
+      };
+
+      const animateTimeout = global.window.setTimeout(clear, HIGHLIGHT_TIMEOUT_INTERVAL);
+
+      return clear;
+    },
+    [type]
+  );
+
   useEffect(() => {
-    if (!subscribeTo || subscribeTo.length === 0) return undefined;
+    listenFor('highlight', animateHighlight);
 
-    const value = subscribeTo.reduce((acc, val) => (acc && acc[val]) || null, incident);
-
-    if (value === subscriptionValue) return undefined;
-
-    setSubscriptionValue(value);
-    setAnimate(true);
-
-    const clear = () => {
-      setAnimate(false);
-      global.window.clearTimeout(animateTimeout);
+    return () => {
+      unlisten('highlight', animateHighlight);
     };
-
-    const animateTimeout = global.window.setTimeout(clear, HIGHLIGHT_TIMEOUT_INTERVAL);
-
-    return () => clear;
-  }, [incident, subscribeTo, subscriptionValue]);
+  }, [listenFor, animateHighlight, unlisten]);
 
   return (
     <Wrapper className={className} animate={animate} data-testid="highlight">
@@ -85,7 +86,7 @@ Highlight.defaultProps = {
 Highlight.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  subscribeTo: PropTypes.arrayOf(PropTypes.string).isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default Highlight;

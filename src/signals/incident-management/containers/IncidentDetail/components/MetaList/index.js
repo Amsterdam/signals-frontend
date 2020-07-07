@@ -82,7 +82,7 @@ const MetaList = ({ onEditStatus }) => {
         {string2date(incident.created_at)} {string2time(incident.created_at)}
       </dd>
 
-      <Highlight subscribeTo={['status', 'state']}>
+      <Highlight type="status">
         <dt data-testid="meta-list-status-definition">
           <EditButton
             data-testid="editStatusButton"
@@ -100,12 +100,11 @@ const MetaList = ({ onEditStatus }) => {
       </Highlight>
 
       {incident.priority && (
-        <Highlight subscribeTo={['priority', 'priority']}>
+        <Highlight type="priority">
           <ChangeValue
             display="Urgentie"
             valueClass={incident.priority.priority === 'high' ? 'alert' : ''}
             list={priorityList}
-            incident={incident}
             path="priority.priority"
             type="priority"
             onPatchIncident={patchIncident}
@@ -115,11 +114,10 @@ const MetaList = ({ onEditStatus }) => {
       )}
 
       {incident.type && (
-        <Highlight subscribeTo={['type', 'code']}>
+        <Highlight type="type">
           <ChangeValue
             component={RadioInput}
             display="Type"
-            incident={incident}
             list={typesList}
             onPatchIncident={patchIncident}
             path="type.code"
@@ -129,12 +127,11 @@ const MetaList = ({ onEditStatus }) => {
       )}
 
       {subcategoryOptions && (
-        <Highlight subscribeTo={['category', 'sub_category']}>
+        <Highlight type="subcategory">
           <ChangeValue
             disabled={subcatHighlightDisabled}
             display="Subcategorie"
             list={subcategoryOptions}
-            incident={incident}
             infoKey="description"
             onPatchIncident={patchIncident}
             patch={{ status: { state: 'm' } }}
@@ -146,7 +143,7 @@ const MetaList = ({ onEditStatus }) => {
         </Highlight>
       )}
 
-      <Highlight subscribeTo={['category', 'main']}>
+      <Highlight type="subcategory">
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
       </Highlight>

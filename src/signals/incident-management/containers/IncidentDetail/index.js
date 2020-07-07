@@ -4,14 +4,13 @@ import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import isEqual from 'lodash.isequal';
 
 import configuration from 'shared/services/configuration/configuration';
 import History from 'components/History';
 import useFetch from 'hooks/useFetch';
+import useEventEmitter from 'hooks/useEventEmitter';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
-import { patchIncident as patchIncidentAction } from 'models/incident/actions';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -59,6 +58,12 @@ const reducer = (state, action) => {
     case 'incident':
       return { ...state, incident: { ...state.incident, ...action.payload } };
 
+    case 'patchStart':
+      return { ...state, patching: action.payload };
+
+    case 'patchSuccess':
+      return { ...state, patching: undefined };
+
     default:
       return { ...state, preview: action.type, attachmentHref: '' };
   }
@@ -77,6 +82,7 @@ const Preview = styled.div`
 `;
 
 const IncidentDetail = ({ attachmentHref, previewState }) => {
+  const { emit, listenFor, unlisten } = useEventEmitter();
   const storeDispatch = useDispatch();
   const { id } = useParams();
   const [state, dispatch] = useReducer(reducer, {
@@ -86,21 +92,20 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     history: undefined,
     incident: undefined,
     preview: previewState,
+    patching: undefined,
   });
-  const { error, get: getIncident, data: incident } = useFetch();
+  const { error, get: getIncident, data: incident, isSuccess, patch } = useFetch();
   const { get: getHistory, data: history } = useFetch();
   const { get: getAttachments, data: attachments } = useFetch();
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
 
   useEffect(() => {
-    document.addEventListener('keyup', handleKeyUp);
+    listenFor('keyup', handleKeyUp);
 
     return () => {
-      document.removeEventListener('keyup', handleKeyUp);
+      unlisten('keyup', handleKeyUp);
     };
-    // Disabling linter; just needs to execute on mount
-    // eslint-disable-next-line
-  }, []);
+  }, [handleKeyUp, listenFor, unlisten]);
 
   useEffect(() => {
     dispatch({ type: 'error', payload: error });
@@ -163,22 +168,19 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   }, [id]);
 
   useEffect(() => {
+    if (!isSuccess || !state.patching) return;
+
+    emit('highlight', { type: state.patching });
+    dispatch({ type: 'patchSuccess', payload: state.patching });
+  }, [isSuccess, state.patching, emit]);
+
+  useEffect(() => {
     if (!incident) return;
 
     dispatch({ type: 'incident', payload: incident });
 
     retrieveUnderlyingData();
-    // disabling linter; only need to update when the incident changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [incident]);
-
-  useEffect(() => {
-    if (!state.incident) return;
-
-    if (!isEqual(incident, state.incident)) {
-      retrieveUnderlyingData();
-    }
-  }, [state.incident, incident, retrieveUnderlyingData]);
+  }, [incident, retrieveUnderlyingData]);
 
   const retrieveUnderlyingData = useCallback(() => {
     const { main_slug, sub_slug } = incident.category;
@@ -212,10 +214,10 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
   const relayDispatch = useCallback(
     action => {
-      dispatch({ type: 'incident', payload: action.patch });
-      storeDispatch(patchIncidentAction(action));
+      dispatch({ type: 'patchStart', payload: action.type });
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch);
     },
-    [storeDispatch]
+    [id, patch]
   );
 
   if (!state.incident) return null;
