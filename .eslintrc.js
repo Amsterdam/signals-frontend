@@ -1,6 +1,6 @@
 require('@babel/register');
 
-const schemaJson = require('./graphql/schema.json');
+const schemaJson = require('/home/jpoppe/ga/signals-frontend/graphql/schema.json');
 
 // Issue about ignored rules: https://github.com/apollographql/eslint-plugin-graphql/issues/19
 // const { specifiedRules: graphqlRules } = require('graphql');
@@ -40,7 +40,7 @@ module.exports = {
         'graphql/named-operations': ['error', { tagName: 'gql', schemaJson }],
         'graphql/capitalized-type-name': ['error', { tagName: 'gql', schemaJson }],
         'graphql/no-deprecated-fields': ['error', { tagName: 'gql', schemaJson }],
-        'graphql/required-fields': ['error', { tagName: 'gql', requiredFields: ['id'] }],
+        'graphql/required-fields': ['error', { tagName: 'gql', requiredFields: ['id'], schemaJson }],
         'graphql/template-strings': ['error', {
           tagName: 'gql',
           schemaJson,
