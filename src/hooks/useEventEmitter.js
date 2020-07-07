@@ -1,8 +1,10 @@
 import { useCallback } from 'react';
 
 const useEventEmitter = () => {
-  const emit = useCallback((name, payload = {}, target = global.document) => {
-    const event = new CustomEvent(name, { detail: payload });
+  const emit = useCallback((name, payload, target = global.document) => {
+    const args = [name, payload && { detail: payload }].filter(Boolean);
+    const event = new CustomEvent(...args);
+
     target.dispatchEvent(event);
   }, []);
 
