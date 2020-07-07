@@ -9,15 +9,15 @@ generates:
     plugins:
       - fragment-matcher
   ./src/generated/types.d.ts:
-    hooks:
-      afterOneFileWrite:
-        - ./node_modules/.bin/eslint --fix --ext .ts --ext .tsx
+    # hooks:
+    #   afterOneFileWrite:
+    #     - ./node_modules/.bin/eslint --fix --ext .ts --ext .tsx
     plugins:
       - typescript
   ./src/generated/urql:
-    hooks:
-      afterOneFileWrite:
-        - ./node_modules/.bin/eslint --fix --ext .ts --ext .tsx
+    # hooks:
+    #   afterOneFileWrite:
+    #     - ./node_modules/.bin/eslint --fix --ext .ts --ext .tsx
     preset: near-operation-file
     presetConfig:
       extension: .urql.tsx
