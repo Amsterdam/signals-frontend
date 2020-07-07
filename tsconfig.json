@@ -3,10 +3,10 @@
     "outDir": "./built",
     "moduleResolution": "node",
     "allowJs": true,
+    "checkJs": true,
     "target": "ES2020",
     "jsx": "react"
   },
-  "include": [
-    "./src/generated/**/*"
-  ]
+  "include": ["./src/generated/**/*"],
+  "exclude": ["node_modules"]
 }
