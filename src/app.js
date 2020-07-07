@@ -8,7 +8,17 @@ import MatomoTracker from '@datapunt/matomo-tracker-js';
 import Immutable from 'immutable';
 import history from 'utils/history';
 
-import { createClient as createUrqlClient, Provider as UrqlProvider } from 'urql';
+import {
+  createClient as createUrqlClient,
+  Provider as UrqlProvider,
+  dedupExchange,
+  fetchExchange,
+} from 'urql';
+
+import { cacheExchange } from '@urql/exchange-graphcache';
+// import { relayPagination } from '@urql/exchange-graphcache/extras';
+
+import { devtoolsExchange } from '@urql/devtools';
 
 // Import root app
 import App from 'containers/App';
@@ -16,6 +26,7 @@ import { authenticateUser } from 'containers/App/actions';
 import { authenticate } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 import loadModels from 'models';
+import graphQlSchema from '../graphql/schema.json';
 
 // Make sure these icons are picked up by webpack
 /* eslint-disable import/no-unresolved,import/extensions */
@@ -61,11 +72,27 @@ if (urlBase && siteId) {
   MatomoInstance.trackPageView();
 }
 
+// Setup urql exchanges
+const exchanges = [
+  dedupExchange,
+  cacheExchange({
+    schema: graphQlSchema,
+    // resolvers: {
+    //   Query: {
+    //     categories: relayPagination(),
+    //   },
+    // },
+  }),
+  fetchExchange,
+];
+
+if (process.env.NODE_ENV !== 'production') exchanges.unshift(devtoolsExchange);
+
 const render = () => {
   // eslint-disable-next-line no-undef,no-console
   console.log(`Signals: version: ${VERSION}, build: ${process.env.NODE_ENV}`);
 
-  const urqlClient = createUrqlClient({ url: configuration.GRAPHQL_ENDPOINT });
+  const urqlClient = createUrqlClient({ url: configuration.GRAPHQL_ENDPOINT, exchanges });
 
   ReactDOM.render(
     <ReduxProvider store={store}>
