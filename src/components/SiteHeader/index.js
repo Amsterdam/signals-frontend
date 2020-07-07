@@ -97,6 +97,7 @@ const HeaderWrapper = styled.div`
   position: relative;
 
   #header {
+    max-width: 1400px;
     z-index: 2;
   }
 

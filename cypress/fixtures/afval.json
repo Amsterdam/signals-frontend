@@ -1,14 +1,18 @@
 {
   "hoofdrubriek": [
     [
-      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+      "http://localhost:8000/signals/v1/public/terms/categories/afval"
     ],
-    [0.9232478661132222]
+    [
+      0.9232478661132222
+    ]
   ],
   "subrubriek": [
     [
-      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/veegzwerfvuil"
+      "http://localhost:8000/signals/v1/public/terms/categories/schoon/sub_categories/veegzwerfvuil"
     ],
-    [0.5784865802614135]
+    [
+      0.5784865802614135
+    ]
   ]
 }

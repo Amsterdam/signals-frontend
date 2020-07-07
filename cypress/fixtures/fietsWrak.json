@@ -1,14 +1,18 @@
 {
   "hoofdrubriek": [
     [
-      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+      "http://localhost:8000/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
     ],
-    [0.9989614811721494]
+    [
+      0.9989614811721494
+    ]
   ],
   "subrubriek": [
     [
-      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/fietswrak"
+      "http://localhost:8000/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/fietswrak"
     ],
-    [0.9137788358354648]
+    [
+      0.9137788358354648
+    ]
   ]
 }

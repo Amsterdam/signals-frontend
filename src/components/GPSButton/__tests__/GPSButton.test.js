@@ -14,7 +14,7 @@ describe('components/GPSButton', () => {
     expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it('should render spinner', async () => {
+  it('should render the spinner', async () => {
     const coords = {
       accuracy: 123,
       latitude: 52,
@@ -48,7 +48,7 @@ describe('components/GPSButton', () => {
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1);
 
-    await waitFor(() => expect(queryByTestId('spinner')).not.toBeInTheDocument(), { timeout: 0 });
+    await waitFor(() => expect(queryByTestId('spinner')).not.toBeInTheDocument(), { timeout: 10 });
   });
 
   it('should call onLocationSuccess', () => {

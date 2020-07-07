@@ -1,6 +1,12 @@
 {
   "location": {
-    "geometrie": {"type": "Point", "coordinates": [4.89089949, 52.37316397]},
+    "geometrie": {
+      "type": "Point",
+      "coordinates": [
+        4.89089949,
+        52.37316397
+      ]
+    },
     "address": {
       "openbare_ruimte": "Nieuwezijds Voorburgwal",
       "huisnummer": "147",
@@ -10,7 +16,7 @@
     "stadsdeel": "A"
   },
   "category": {
-    "sub_category": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte"
+    "sub_category": "http://localhost:8000/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte"
   },
   "reporter": {},
   "incident_date_start": "2020-04-16T14:06:31+02:00",

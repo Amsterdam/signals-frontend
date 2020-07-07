@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
@@ -19,13 +20,34 @@ import IncidentContainer from 'signals/incident/containers/IncidentContainer';
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
 import KtoContainer from 'signals/incident/containers/KtoContainer';
 import useLocationReferrer from 'hooks/useLocationReferrer';
+import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
 import reducer from './reducer';
 import saga from './saga';
 
+const FooterContainer = styled.div`
+  margin: 0 auto;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 1400px;
+`;
+
+const ContentContainer = styled.div`
+  background-color: #ffffff;
+  flex: 1 0 auto;
+  margin: 0 auto;
+  max-width: 1400px;
+  padding-bottom: 20px;
+  width: 100%;
+  z-index: 0;
+  padding-top: ${({ headerIsTall }) => !headerIsTall && 50}px;
+`;
+
 export const AppContainer = ({ resetIncidentAction }) => {
   const history = useHistory();
   const location = useLocationReferrer();
+  const isFrontOffice = useIsFrontOffice();
+  const headerIsTall = isFrontOffice && !isAuthenticated();
 
   authenticate();
 
@@ -52,7 +74,7 @@ export const AppContainer = ({ resetIncidentAction }) => {
       <Fragment>
         <SiteHeaderContainer />
 
-        <div className="app-container">
+        <ContentContainer headerIsTall={headerIsTall}>
           <Switch>
             <Redirect exact from="/" to="/incident/beschrijf" />
             <Redirect exact from="/login" to="/manage" />
@@ -63,9 +85,13 @@ export const AppContainer = ({ resetIncidentAction }) => {
             <Route path="/kto/:yesNo/:uuid" component={KtoContainer} />
             <Route component={NotFoundPage} />
           </Switch>
-        </div>
+        </ContentContainer>
 
-        {!isAuthenticated() && <Footer />}
+        {!isAuthenticated() && (
+          <FooterContainer>
+            <Footer />
+          </FooterContainer>
+        )}
       </Fragment>
     </ThemeProvider>
   );
