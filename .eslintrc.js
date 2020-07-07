@@ -1,17 +1,13 @@
 require('@babel/register');
 
-const path = require('path');
-
-const { specifiedRules: graphqlRules } = require('graphql');
-
-const graphQlOptions = {schemaJsonFilepath: path.resolve(__dirname, './graphql/schema.json'), tagName: 'gql'};
+const schemaJson = require('./graphql/schema.json');
 
 // Issue about ignored rules: https://github.com/apollographql/eslint-plugin-graphql/issues/19
-const graphQlIgnoredRules = ['NoUnusedFragmentsRule', 'KnownFragmentNamesRule', 'NoUnusedVariablesRule'];
-
-const graphQlValidators = graphqlRules
-  .map(rule => rule.name)
-  .filter(ruleName => !graphQlIgnoredRules.includes(ruleName));
+// const { specifiedRules: graphqlRules } = require('graphql');
+// const graphQlIgnoredRules = ['NoUnusedFragmentsRule', 'KnownFragmentNamesRule', 'NoUnusedVariablesRule'];
+// const graphQlValidators = graphqlRules
+//   .map(rule => rule.name)
+//   .filter(ruleName => !graphQlIgnoredRules.includes(ruleName));
 
 module.exports = {
   parser: 'babel-eslint',
@@ -35,21 +31,51 @@ module.exports = {
     jsdom: true,
     L: true,
   },
+
   overrides: [
     {
       files: ['src/graphql/**/*.js'],
       plugins: ['graphql'],
       rules: {
-        'graphql/named-operations': ['error', graphQlOptions],
-        'graphql/capitalized-type-name': ['error',  graphQlOptions],
-        'graphql/no-deprecated-fields': ['error',  graphQlOptions],
-        'graphql/template-strings': ['error', { ...graphQlOptions, validators: graphQlValidators }],
+        'graphql/named-operations': ['error', { tagName: 'gql', schemaJson }],
+        'graphql/capitalized-type-name': ['error', { tagName: 'gql', schemaJson }],
+        'graphql/no-deprecated-fields': ['error', { tagName: 'gql', schemaJson }],
+        'graphql/required-fields': ['error', { tagName: 'gql', requiredFields: ['id'] }],
+        'graphql/template-strings': ['error', {
+          tagName: 'gql',
+          schemaJson,
+          validators: [
+            'ExecutableDefinitionsRule',
+            'UniqueOperationNamesRule',
+            'LoneAnonymousOperationRule',
+            'SingleFieldSubscriptionsRule',
+            'KnownTypeNamesRule',
+            'FragmentsOnCompositeTypesRule',
+            'VariablesAreInputTypesRule',
+            'ScalarLeafsRule',
+            'FieldsOnCorrectTypeRule',
+            'UniqueFragmentNamesRule',
+            'PossibleFragmentSpreadsRule',
+            'NoFragmentCyclesRule',
+            'UniqueVariableNamesRule',
+            'NoUndefinedVariablesRule',
+            'KnownDirectivesRule',
+            'UniqueDirectivesPerLocationRule',
+            'KnownArgumentNamesRule',
+            'UniqueArgumentNamesRule',
+            'ValuesOfCorrectTypeRule',
+            'ProvidedRequiredArgumentsRule',
+            'VariablesInAllowedPositionRule',
+            'OverlappingFieldsCanBeMergedRule',
+            'UniqueInputFieldNamesRule',
+          ],
+        }],
       },
     },
   ],
   rules: {
     camelcase: 0,
-    'arrow-parens': ['error', 'as-needed'],
+    'arrow-parens': ['error', 'as-needed', { requireForBlockBody: false }],
     'arrow-body-style': [2, 'as-needed'],
     'class-methods-use-this': 0,
     'comma-dangle': ['error', 'always-multiline'],
@@ -61,7 +87,7 @@ module.exports = {
     'import/no-unresolved': [2, { commonjs: true }],
     'import/no-webpack-loader-syntax': 0,
     'import/prefer-default-export': 0,
-    indent: [2, 2, { SwitchCase: 1 }],
+    indent: [2, 2, { SwitchCase: 1 } ],
     'jsx-a11y/aria-props': 2,
     'jsx-a11y/heading-has-content': 0,
     'jsx-a11y/label-has-associated-control': [
