@@ -9,6 +9,8 @@ import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
+import GraphQlPoc from 'components/GraphQlPoc';
+
 import NotFoundPage from 'components/NotFoundPage';
 import Footer from 'components/Footer';
 import SiteHeaderContainer from 'containers/SiteHeader';
@@ -51,6 +53,8 @@ export const AppContainer = ({ resetIncidentAction }) => {
     <ThemeProvider>
       <Fragment>
         <SiteHeaderContainer />
+
+        <GraphQlPoc />
 
         <div className="app-container">
           <Switch>
