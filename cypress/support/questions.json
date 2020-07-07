@@ -1,0 +1,1169 @@
+{
+  "afval": {
+    "extra_afval": {
+      "label": "Heeft u een vermoeden waar het afval vandaan komt?",
+      "shortLabel": "Waar vandaan"
+    },
+    "extra_container_kind": {
+      "subtitle": "Bijvoorbeeld glas, papier, plastic of restafval",
+      "label": "Weet u om wat voor soort container (papier, plastic, glas, restafval) het gaat?",
+      "shortLabel": "Soort container"
+    },
+    "extra_container_number": {
+      "label": "Weet u het nummer van de container?",
+      "shortLabel": "Container nummer"
+    }
+  },
+  "overlastBedrijvenEnHoreca": {
+    "extra_bedrijven_horeca_wat": {
+      "label": "Uw melding gaat over:",
+      "shortLabel": "Soort bedrijf",
+      "values": {
+        "horecabedrijf": "Horecabedrijf, zoals een café, restaurant, snackbar of kantine",
+        "ander_soort_bedrijf": "Ander soort bedrijf, zoals een winkel, supermarkt of sportschool",
+        "evenement_festival_markt": "Evenement, zoals een festival, feest of markt",
+        "iets_anders": "Iets anders"
+      },
+      "answers": {
+        "horecabedrijf": "Horecabedrijf, zoals een café, restaurant, snackbar of kantine",
+        "ander_soort_bedrijf": "Ander soort bedrijf, zoals een winkel, supermarkt of sportschool",
+        "evenement_festival_markt": "Evenement, zoals een festival, feest of markt",
+        "iets_anders": "Iets anders"
+      }
+    },
+    "extra_bedrijven_horeca_naam": {
+      "label": "Wie of wat zorgt voor deze overlast, denkt u?",
+      "shortLabel": "Mogelijke veroorzaker"
+    },
+    "extra_bedrijven_horeca_adres": {
+      "label": "Op welk adres ervaart u de overlast?",
+      "shortLabel": "Adres overlast"
+    },
+    "extra_bedrijven_horeca_muziek_direct_naast": {
+      "label": "Woont u direct boven of direct naast het pand waar het geluid vandaan komt?",
+      "shortLabel": "Aanpandig",
+      "values": {
+        "naast": "Naast",
+        "boven": "Boven",
+        "onder": "Onder",
+        "nee": "Nee, ik woon er niet direct naast"
+      },
+      "answers": {
+        "naast": "Naast",
+        "boven": "Boven",
+        "onder": "Onder",
+        "nee": "Nee, ik woon er niet direct naast"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_ramen_dicht": {
+      "label": "Hebt u ook last van het geluid als uw ramen en deuren gesloten zijn?",
+      "shortLabel": "Overlast met ramen en deuren dicht",
+      "values": {
+        "ja": "Ja, ook last met ramen en deuren gesloten",
+        "nee": "Nee, geen last met ramen en deuren gesloten"
+      },
+      "answers": {
+        "ja": "Ja, ook last met ramen en deuren gesloten",
+        "nee": "Nee, geen last met ramen en deuren gesloten"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_ramen_dicht_onderneming": {
+      "label": "Staan de ramen of deuren open van de horeca onderneming?",
+      "shortLabel": "Ramen/deuren horeca open",
+      "values": {
+        "ja": "Ja, ramen of deuren staan open",
+        "nee": "Nee, ramen en deuren zijn gesloten"
+      },
+      "answers": {
+        "ja": "Ja, ramen of deuren staan open",
+        "nee": "Nee, ramen en deuren zijn gesloten"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang": {
+      "label": "Gaan de ramen of deuren kort of lang open?",
+      "shortLabel": "Ramen/deuren gaan",
+      "values": {
+        "kort": "Kort open",
+        "lang": "Lang open"
+      },
+      "answers": {
+        "kort": "Kort open",
+        "lang": "Lang open"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_evenement": {
+      "label": "Bent u geïnformeerd door de organisator van het evenement?",
+      "shortLabel": "Geïnformeerd door organisator",
+      "values": {
+        "ja": "Ja, ik ben geïnformeerd door de organisator",
+        "nee": "Nee, ik ben niet geïnformeerd door de organisator"
+      },
+      "answers": {
+        "ja": "Ja, ik ben geïnformeerd door de organisator",
+        "nee": "Nee, ik ben niet geïnformeerd door de organisator"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_evenement_einde": {
+      "label": "Weet u hoe laat het evenement eindigt?",
+      "shortLabel": "Evenement eindigt om"
+    },
+    "extra_bedrijven_horeca_installaties": {
+      "subtitle": "Bijvoorbeeld een afzuiger of airconditioning",
+      "label": "Van wat voor een soort installatie heeft u last?",
+      "shortLabel": "Soort installatie"
+    },
+    "extra_bedrijven_horeca_personen": {
+      "label": "Wat is de oorzaak van de overlast?",
+      "shortLabel": "Oorzaak overlast",
+      "values": {
+        "dronken_bezoekers": "Dronken bezoekers",
+        "schreeuwende_bezoekers": "Schreeuwende bezoekers",
+        "rokende_bezoekers": "Rokende bezoekers",
+        "teveel_fietsen": "(Teveel) fietsen",
+        "wildplassen": "Wildplassen",
+        "overgeven": "Overgeven"
+      },
+      "answers": {
+        "dronken_bezoekers": "Dronken bezoekers",
+        "schreeuwende_bezoekers": "Schreeuwende bezoekers",
+        "rokende_bezoekers": "Rokende bezoekers",
+        "teveel_fietsen": "(Teveel) fietsen",
+        "wildplassen": "Wildplassen",
+        "overgeven": "Overgeven"
+      }
+    },
+    "extra_bedrijven_horeca_terrassen": {
+      "label": "Wat is de oorzaak van de overlast?",
+      "shortLabel": "Oorzaak overlast",
+      "values": {
+        "uitgewaaierd_terras": "Uitgewaaierd terras (buiten de toegestane grens)",
+        "doorloop": "Het terras belemmert de doorloop",
+        "stoep_in_beslag": "Terras / terrasbezoekers nemen hele stoep in zodat u via de weg erlangs moet",
+        "bezoekers_op_straat": "Bezoekers staan op straat",
+        "bezoekers_op_terras": "Bezoekers op terras",
+        "opruimen_meubels": "Geluid van opruimen meubels"
+      },
+      "answers": {
+        "uitgewaaierd_terras": "Uitgewaaierd terras (buiten de toegestane grens)",
+        "doorloop": "Het terras belemmert de doorloop",
+        "stoep_in_beslag": "Terras / terrasbezoekers nemen hele stoep in zodat u via de weg erlangs moet",
+        "bezoekers_op_straat": "Bezoekers staan op straat",
+        "bezoekers_op_terras": "Bezoekers op terras",
+        "opruimen_meubels": "Geluid van opruimen meubels"
+      }
+    },
+    "extra_bedrijven_horeca_stank": {
+      "subtitle": "Beschrijf wat voor geur het is",
+      "label": "Welke geur ruikt u?",
+      "shortLabel": "Soort geur"
+    },
+    "extra_bedrijven_horeca_stank_oorzaak": {
+      "subtitle": "Bijvoorbeeld afvoerpijp of schoorsteen",
+      "label": "Wat is de vermoedelijke oorzaak van de geuroverlast?",
+      "shortLabel": "Vermoedelijke oorzaak"
+    },
+    "extra_bedrijven_horeca_stank_weer": {
+      "label": "Wat zijn de weersomstandigheden tijdens de overlast?",
+      "shortLabel": "Weersomstandigheden"
+    },
+    "extra_bedrijven_horeca_stank_ramen": {
+      "label": "Staan de ramen of deuren open van de vermoedelijke veroorzaker?",
+      "shortLabel": "Ramen/deuren open",
+      "values": {
+        "ja": "Ja, ramen of deuren staan open",
+        "nee": "Nee, ramen en deuren zijn gesloten"
+      },
+      "answers": {
+        "ja": "Ja, ramen of deuren staan open",
+        "nee": "Nee, ramen en deuren zijn gesloten"
+      }
+    },
+    "extra_bedrijven_horeca_vaker": {
+      "subtitle": "Is de overlast vaker aanwezig of is dit een eenmalige gebeurtenis",
+      "label": "Gebeurt het vaker?",
+      "shortLabel": "Vaker overlast",
+      "values": {
+        "ja": "Ja, het gebeurt vaker",
+        "nee": "Nee, dit is de eerste keer"
+      },
+      "answers": {
+        "ja": "Ja, het gebeurt vaker",
+        "nee": "Nee, dit is de eerste keer"
+      }
+    },
+    "extra_bedrijven_horeca_tijdstippen": {
+      "label": "Op welk(e) tijdstip(pen) ervaart u de overlast?",
+      "shortLabel": "Overlast momenten"
+    },
+    "extra_bedrijven_horeca_muziek_geluidmeting_muziek": {
+      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "label": "Mogen we contact met u opnemen over de melding?",
+      "shortLabel": "Toestemming contact opnemen",
+      "values": {
+        "ja": "Ja, u mag contact met mij opnemen",
+        "nee": "Nee, liever geen contact"
+      },
+      "answers": {
+        "ja": "Ja, u mag contact met mij opnemen",
+        "nee": "Nee, liever geen contact"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_geluidmeting_installaties": {
+      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "label": "Mogen we contact met u opnemen over de melding?",
+      "shortLabel": "Toestemming contact opnemen",
+      "values": {
+        "ja": "Ja, u mag contact met mij opnemen",
+        "nee": "Nee, liever geen contact"
+      },
+      "answers": {
+        "ja": "Ja, u mag contact met mij opnemen",
+        "nee": "Nee, liever geen contact"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_geluidmeting_overige": {
+      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "label": "Mogen we contact met u opnemen over de melding?",
+      "shortLabel": "Toestemming contact opnemen",
+      "values": {
+        "ja": "Ja, u mag contact met mij opnemen",
+        "nee": "Nee, liever geen contact"
+      },
+      "answers": {
+        "ja": "Ja, u mag contact met mij opnemen",
+        "nee": "Nee, liever geen contact"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_geluidmeting_caution": {
+      "value": "Let op! Vul uw telefoonnummer in op de volgende pagina"
+    },
+    "extra_bedrijven_horeca_muziek_geluidmeting_ja": {
+      "label": "Mogen we u nu bellen?",
+      "shortLabel": "Bel moment",
+      "values": {
+        "within_30_minutes": "Binnen 30 minuten",
+        "within_1_hour": "Binnen 1 uur",
+        "not_now": "Niet nu"
+      },
+      "answers": {
+        "within_30_minutes": "Binnen 30 minuten",
+        "within_1_hour": "Binnen 1 uur",
+        "not_now": "Niet nu"
+      }
+    },
+    "extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu": {
+      "label": "Wanneer mogen we u bellen?",
+      "shortLabel": "Ander bel moment"
+    },
+    "extra_bedrijven_horeca_muziek_geluidmeting_nee": {
+      "label": "Waarom heeft u liever geen contact?",
+      "shortLabel": "Liever geen contact"
+    },
+    "extra_bedrijven_horeca_caution": {
+      "answers": "Uw gegevens worden vertrouwelijk behandeld en worden niet aan de (horeca)ondernemer of organisator bekend gemaakt.Anonieme meldingen krijgen een lage prioriteit."
+    }
+  },
+  "overlastInDeOpenbareRuimte": {
+    "extra_auto_scooter_bromfietswrak": {
+      "subtitle": "Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?",
+      "shortLabel": "Extra informatie"
+    },
+    "extra_fietswrak": {
+      "subtitle": "Bijvoorbeeld: merk, kleur, roest, zonder wielen",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?",
+      "shortLabel": "Extra informatie"
+    },
+    "extra_parkeeroverlast": {
+      "subtitle": "Bijvoorbeeld: kenteken, merk en kleur",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over de kenmerken van de auto, bus of motor?",
+      "shortLabel": "Extra informatie"
+    }
+  },
+  "overlastOpHetWater": {
+    "extra_boten_snelheid_rondvaartboot": {
+      "label": "Gaat de melding over een rondvaartboot?",
+      "shortLabel": "Rondvaartboot",
+      "values": {
+        "ja": "Ja",
+        "nee": "Nee"
+      },
+      "answers": {
+        "ja": "Ja",
+        "nee": "Nee"
+      }
+    },
+    "extra_boten_snelheid_rederij": {
+      "subtitle": "Als u begint met typen verschijnt vanzelf een lijst met rederijen",
+      "label": "Wat is de naam van de rederij?",
+      "shortLabel": "Rederij",
+      "values": {
+        "onbekend": "Onbekend",
+        "admiraal_heijn": "Admiraal Heijn",
+        "amsterdam_boat_center": "Amsterdam Boat Center",
+        "amsterdam_boat_events": "Amsterdam Boat Events",
+        "amsterdam_canal_cruises": "Amsterdam Canal Cruises",
+        "amsterdamse_salonboot_rederij": "Amsterdamse Salonboot Rederij",
+        "amsterdamse_watertaxi_centrale": "Amsterdamse Watertaxi Centrale",
+        "arviro": "Arviro",
+        "atropa_belladonna": "Atropa Belladonna",
+        "avontuur_amsterdam": "Avontuur Amsterdam",
+        "blue_boat_company": "Blue Boat Company",
+        "bughouse_tours_amsterdam": "Bughouse Tours Amsterdam",
+        "canal_bus": "Canal Bus",
+        "canal_company": "Canal Company",
+        "canal_rondvaart": "Canal Rondvaart",
+        "classic_boat_dinners": "Classic Boat Dinners",
+        "classicship_service": "Classic Ship Service",
+        "edutech": "Edutech",
+        "hollandsche_vaartochten_mij": "Hollandsche Vaartochten Mij.",
+        "leemstar": "Leemstar",
+        "meijers_rondvaarten": "Meijers Rondvaarten",
+        "meinema_wd": "Meinema, W.D.",
+        "mokumBoot": "MokumBoot",
+        "nationale_vereniging_de_zonnebloem": "Nationale Vereniging de Zonnebloem",
+        "new_orange": "New Orange",
+        "paradis_private_boat_tours": "Paradis Private Boat Tours",
+        "rederij_aemstelland": "Rederij Aemstelland",
+        "rederij_amsterdam": "Rederij Amsterdam",
+        "rederij_belle": "Rederij Belle",
+        "rederij_cruise_with_us": "Rederij Cruise With Us",
+        "rederij_de_jordaan": "Rederij De Jordaan",
+        "rederij_de_nederlanden": "Rederij de Nederlanden",
+        "rederij_friendship": "Rederij Friendship",
+        "rederij_griffioen": "Rederij Griffioen",
+        "rederij_gypsy_ballad": "Rederij Gypsy Ballad",
+        "rederij_kooij": "Rederij Kooij",
+        "rederij_leemstar": "Rederij Leemstar",
+        "rederij_lieve": "Rederij Lieve",
+        "rederij_lovers": "Rederij Lovers",
+        "rederij_nassau": "Rederij Nassau",
+        "rederij_plas": "Rederij Plas",
+        "rederij_t_smidtje": "Rederij 't Smidtje",
+        "rederij_vlaun": "Rederij Vlaun",
+        "rederij_welvaren": "Rederij Welvaren",
+        "salonboot_adeline": "Salonboot Adeline",
+        "salonboot_belle_van_zuylen": "Salonboot Belle van Zuylen",
+        "salonboot_dame_van_amstel": "Salonboot Dame van Amstel",
+        "salonboot_hilda": "Salonboot Hilda",
+        "scheepsbouw_achterbos_theo_kok": "Scheepsbouw Achterbos Theo Kok",
+        "shoulders_sloepen": "Shoulders Sloepen",
+        "smidtje_beheer": "Smidtje Beheer",
+        "smidtje_exploitatie": "Smidtje Exploitatie",
+        "smidtje_holding": "Smidtje Holding",
+        "sop": "SOP",
+        "stichting_behoud_salonboot_avanti": "Stichting behoud Salonboot Avanti",
+        "stichting_cordaan_groep": "Stichting Cordaan Groep",
+        "stichting_de_kalefater": "Stichting De Kalefater",
+        "stichting_motorschip_jonckvrouw": "Stichting Motorschip Jonckvrouw",
+        "ver_Vrienden_van_de_boonapanich": "Ver. Vrienden van de Boonapanich",
+        "ver_van_vrienden_van_de_britannia": "Ver.van Vrienden van de Britannia",
+        "waterlelie_rondvaart": "Waterlelie Rondvaart",
+        "windkracht_18": "Windkracht 18",
+        "wolfsburght": "Wolfsburght",
+        "zonneboot_amsterdam": "Zonneboot Amsterdam"
+      },
+      "answers": {
+        "onbekend": "Onbekend",
+        "admiraal_heijn": "Admiraal Heijn",
+        "amsterdam_boat_center": "Amsterdam Boat Center",
+        "amsterdam_boat_events": "Amsterdam Boat Events",
+        "amsterdam_canal_cruises": "Amsterdam Canal Cruises",
+        "amsterdamse_salonboot_rederij": "Amsterdamse Salonboot Rederij",
+        "amsterdamse_watertaxi_centrale": "Amsterdamse Watertaxi Centrale",
+        "arviro": "Arviro",
+        "atropa_belladonna": "Atropa Belladonna",
+        "avontuur_amsterdam": "Avontuur Amsterdam",
+        "blue_boat_company": "Blue Boat Company",
+        "bughouse_tours_amsterdam": "Bughouse Tours Amsterdam",
+        "canal_bus": "Canal Bus",
+        "canal_company": "Canal Company",
+        "canal_rondvaart": "Canal Rondvaart",
+        "classic_boat_dinners": "Classic Boat Dinners",
+        "classicship_service": "Classic Ship Service",
+        "edutech": "Edutech",
+        "hollandsche_vaartochten_mij": "Hollandsche Vaartochten Mij.",
+        "leemstar": "Leemstar",
+        "meijers_rondvaarten": "Meijers Rondvaarten",
+        "meinema_wd": "Meinema, W.D.",
+        "mokumBoot": "MokumBoot",
+        "nationale_vereniging_de_zonnebloem": "Nationale Vereniging de Zonnebloem",
+        "new_orange": "New Orange",
+        "paradis_private_boat_tours": "Paradis Private Boat Tours",
+        "rederij_aemstelland": "Rederij Aemstelland",
+        "rederij_amsterdam": "Rederij Amsterdam",
+        "rederij_belle": "Rederij Belle",
+        "rederij_cruise_with_us": "Rederij Cruise With Us",
+        "rederij_de_jordaan": "Rederij De Jordaan",
+        "rederij_de_nederlanden": "Rederij de Nederlanden",
+        "rederij_friendship": "Rederij Friendship",
+        "rederij_griffioen": "Rederij Griffioen",
+        "rederij_gypsy_ballad": "Rederij Gypsy Ballad",
+        "rederij_kooij": "Rederij Kooij",
+        "rederij_leemstar": "Rederij Leemstar",
+        "rederij_lieve": "Rederij Lieve",
+        "rederij_lovers": "Rederij Lovers",
+        "rederij_nassau": "Rederij Nassau",
+        "rederij_plas": "Rederij Plas",
+        "rederij_t_smidtje": "Rederij 't Smidtje",
+        "rederij_vlaun": "Rederij Vlaun",
+        "rederij_welvaren": "Rederij Welvaren",
+        "salonboot_adeline": "Salonboot Adeline",
+        "salonboot_belle_van_zuylen": "Salonboot Belle van Zuylen",
+        "salonboot_dame_van_amstel": "Salonboot Dame van Amstel",
+        "salonboot_hilda": "Salonboot Hilda",
+        "scheepsbouw_achterbos_theo_kok": "Scheepsbouw Achterbos Theo Kok",
+        "shoulders_sloepen": "Shoulders Sloepen",
+        "smidtje_beheer": "Smidtje Beheer",
+        "smidtje_exploitatie": "Smidtje Exploitatie",
+        "smidtje_holding": "Smidtje Holding",
+        "sop": "SOP",
+        "stichting_behoud_salonboot_avanti": "Stichting behoud Salonboot Avanti",
+        "stichting_cordaan_groep": "Stichting Cordaan Groep",
+        "stichting_de_kalefater": "Stichting De Kalefater",
+        "stichting_motorschip_jonckvrouw": "Stichting Motorschip Jonckvrouw",
+        "ver_Vrienden_van_de_boonapanich": "Ver. Vrienden van de Boonapanich",
+        "ver_van_vrienden_van_de_britannia": "Ver.van Vrienden van de Britannia",
+        "waterlelie_rondvaart": "Waterlelie Rondvaart",
+        "windkracht_18": "Windkracht 18",
+        "wolfsburght": "Wolfsburght",
+        "zonneboot_amsterdam": "Zonneboot Amsterdam"
+      }
+    },
+    "extra_boten_snelheid_naamboot": {
+      "label": "Wat is de naam van de boot?",
+      "shortLabel": "Naam boot"
+    },
+    "extra_boten_snelheid_meer": {
+      "subtitle": "Bijvoorbeeld: de kleur(en) van de boot, het aantal passagiers, de vaarrichting, Y of Vignet nummer etc.",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?",
+      "shortLabel": "Extra informatie"
+    },
+    "extra_boten_geluid_meer": {
+      "subtitle": "Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie",
+      "shortLabel": "Extra informatie"
+    },
+    "extra_boten_gezonken_meer": {
+      "subtitle": "Bijvoorbeeld: \"er lekt olie\", \"gevaar voor andere boten\", etc.",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?",
+      "shortLabel": "Extra informatie"
+    }
+  },
+  "overlastVanDieren": {
+    "extra_dieren_text": {
+      "answers": [
+        "Let op: u kunt met dit formulier een melding doen van:",
+        "dierplagen (ratten, ganzen, duiven, meeuwen,wespen, etc)",
+        "dode dieren op straat, met uitzondering van dode huisdieren en dode vogels",
+        "Voor dode huisdieren en dode vogels op straat kunt u contact opnemen met ",
+        "Dierenambulance Amsterdam.",
+        "Voor alle andere gevallen: bezoek onze pagina: ",
+        "Melden van zieke, mishandelde en dode dieren, of overlast van dieren."
+      ]
+    }
+  },
+  "overlastPersonenEnGroepen": {
+    "extra_jongeren_text": {
+      "answers": "Weet u de naam van de jongere(n)? Gebruik dan het formulier Melding zorg en woonoverlast. Dan komt uw melding direct bij het juiste team terecht."
+    },
+    "extra_personen_overig": {
+      "label": "Om hoe veel personen gaat het (ongeveer)?",
+      "shortLabel": "Aantal personen",
+      "values": {
+        "1-3": "1 - 3",
+        "4-6": "4 - 6",
+        "7_of_meer": "7 of meer",
+        "onbekend": "Onbekend"
+      },
+      "answers": {
+        "1-3": "1 - 3",
+        "4-6": "4 - 6",
+        "7_of_meer": "7 of meer",
+        "onbekend": "Onbekend"
+      }
+    },
+    "extra_personen_overig_vaker": {
+      "label": "Gebeurt het vaker?",
+      "shortLabel": "Vaker",
+      "values": {
+        "nee": "Nee",
+        "ja": "Ja, het gebeurt vaker:"
+      },
+      "answers": {
+        "nee": "Nee",
+        "ja": "Ja, het gebeurt vaker:"
+      }
+    },
+    "extra_personen_overig_vaker_momenten": {
+      "label": "Geef aan op welke momenten het gebeurt",
+      "shortLabel": "Momenten"
+    }
+  },
+  "wegenVerkeerStraatmeubilair": {
+    "extra_brug": {
+      "label": "Hebt u een naam of nummer van de brug?",
+      "shortLabel": "Naam brug"
+    },
+    "extra_onderhoud_stoep_straat_en_fietspad": {
+      "subtitle": "Bijvoorbeeld: asfalt, klinkers of stoeptegels",
+      "label": "Hebt u verteld om wat voor soort wegdek het gaat?",
+      "shortLabel": "Soort wegdek"
+    },
+    "extra_wegen_gladheid": {
+      "answers": [
+        "Let op:",
+        "Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:",
+        "gvb.nl/klantenservice"
+      ]
+    },
+    "extra_straatverlichting_probleem": {
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
+      "values": {
+        "lamp_doet_het_niet": "Lamp doet het niet",
+        "lamp_brandt_overdag": "Lamp brandt overdag, al langer dan 2 dagen aaneengesloten",
+        "geeft_lichthinder": "Lamp geeft lichthinder (schijnt bijvoorbeeld in slaapkamer)",
+        "lamp_is_vervuild": "Lamp of lantaarnpaal is vies",
+        "lamp_is_zichtbaar_beschadigd": "Lamp of lantaarnpaal is beschadigd of niet compleet",
+        "overig": "Overig"
+      },
+      "answers": {
+        "lamp_doet_het_niet": "Lamp doet het niet",
+        "lamp_brandt_overdag": "Lamp brandt overdag, al langer dan 2 dagen aaneengesloten",
+        "geeft_lichthinder": "Lamp geeft lichthinder (schijnt bijvoorbeeld in slaapkamer)",
+        "lamp_is_vervuild": "Lamp of lantaarnpaal is vies",
+        "lamp_is_zichtbaar_beschadigd": "Lamp of lantaarnpaal is beschadigd of niet compleet",
+        "overig": "Overig"
+      }
+    },
+    "extra_straatverlichting": {
+      "label": "Is de situatie gevaarlijk?",
+      "shortLabel": "Is de situatie gevaarlijk?",
+      "values": {
+        "drie_of_meer_kapot": "Ja, 3 of meer lampen in de straat zijn kapot",
+        "is_gevolg_van_aanrijding": "Ja, het is een gevolg van een aanrijding",
+        "lamp_op_grond_of_scheef": "Ja, de lamp of lantaarnpaal ligt op de grond of staat gevaarlijk scheef",
+        "deurtje_weg_of_open": "Ja, er zit geen deurtje in de lantaarnpaal of het deurtje staat open",
+        "losse_kabels_zichtbaar_of_lamp_los": "Ja, er hangen losse stroomkabels of de lamp hangt los",
+        "niet_gevaarlijk": "Nee, niet gevaarlijk"
+      },
+      "answers": {
+        "drie_of_meer_kapot": "Ja, 3 of meer lampen in de straat zijn kapot",
+        "is_gevolg_van_aanrijding": "Ja, het is een gevolg van een aanrijding",
+        "lamp_op_grond_of_scheef": "Ja, de lamp of lantaarnpaal ligt op de grond of staat gevaarlijk scheef",
+        "deurtje_weg_of_open": "Ja, er zit geen deurtje in de lantaarnpaal of het deurtje staat open",
+        "losse_kabels_zichtbaar_of_lamp_los": "Ja, er hangen losse stroomkabels of de lamp hangt los",
+        "niet_gevaarlijk": "Nee, niet gevaarlijk"
+      }
+    },
+    "extra_straatverlichting_gevaar": {
+      "answers": "Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen."
+    },
+    "extra_straatverlichting_nummer": {
+      "subtitle": "U kunt meer dan een keuze maken",
+      "label": "Kies de lamp of lantaarnpaal waar het om gaat",
+      "shortLabel": "Lichtpunt(en) op kaart"
+    },
+    "extra_straatverlichting_niet_op_kaart": {
+      "shortLabel": "Staat niet op kaart",
+      "value": "De lamp of lantaarnpaal staat niet op de kaart"
+    },
+    "extra_straatverlichting_niet_op_kaart_nummer": {
+      "label": "Wat is het nummer op de lamp of lantaarnpaal?",
+      "shortLabel": "Lichtpunt(en) niet op kaart"
+    },
+    "extra_klok": {
+      "label": "Is de situatie gevaarlijk?",
+      "shortLabel": "Is de situatie gevaarlijk?",
+      "values": {
+        "is_gevolg_van_aanrijding": "Het is het gevolg van een aanrijding",
+        "klok_op_grond_of_scheef": "Klok ligt op de grond of staat gevaarlijk scheef",
+        "deurtje_weg_of_open": "Deurtje in de mast is niet aanwezig of staat open",
+        "losse_kabels_zichtbaar_of_lamp_los": "Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los",
+        "niet_gevaarlijk": "Niet gevaarlijk"
+      },
+      "answers": {
+        "is_gevolg_van_aanrijding": "Het is het gevolg van een aanrijding",
+        "klok_op_grond_of_scheef": "Klok ligt op de grond of staat gevaarlijk scheef",
+        "deurtje_weg_of_open": "Deurtje in de mast is niet aanwezig of staat open",
+        "losse_kabels_zichtbaar_of_lamp_los": "Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los",
+        "niet_gevaarlijk": "Niet gevaarlijk"
+      }
+    },
+    "extra_klok_gevaar": {
+      "answers": "Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen."
+    },
+    "extra_klok_probleem": {
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
+      "values": {
+        "klok_staat_niet_op_tijd_of_stil": "Klok staat niet op tijd of staat stil",
+        "klok_is_zichtbaar_beschadigd": "Klok is zichtbaar beschadigd",
+        "klok_is_vervuild": "Klok is vervuild of heeft aanslag",
+        "overig": "Overig"
+      },
+      "answers": {
+        "klok_staat_niet_op_tijd_of_stil": "Klok staat niet op tijd of staat stil",
+        "klok_is_zichtbaar_beschadigd": "Klok is zichtbaar beschadigd",
+        "klok_is_vervuild": "Klok is vervuild of heeft aanslag",
+        "overig": "Overig"
+      }
+    },
+    "extra_klok_nummer": {
+      "label": "Selecteer de klok waar het om gaat",
+      "shortLabel": "Klok(ken) op kaart"
+    },
+    "extra_klok_niet_op_kaart": {
+      "shortLabel": "Staat niet op kaart",
+      "value": "De klok staat niet op de kaart"
+    },
+    "extra_klok_niet_op_kaart_nummer": {
+      "label": "Weet u het nummer dat op de klok staat?",
+      "shortLabel": "Klok(ken) niet op kaart"
+    },
+    "extra_verkeerslicht": {
+      "label": "Is de situatie gevaarlijk?",
+      "shortLabel": "Is de situatie gevaarlijk?",
+      "values": {
+        "is_gevolg_van_aanrijding": "Het is het gevolg van een aanrijding",
+        "verkeerslicht_op_grond_of_scheef": "Verkeerslicht ligt op de grond of staat gevaarlijk scheef",
+        "deurtje_weg_of_open": "Deurtje in de mast is niet aanwezig of staat open",
+        "losse_kabels_zichtbaar_of_lamp_los": "Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los",
+        "niet_gevaarlijk": "Niet gevaarlijk"
+      },
+      "answers": {
+        "is_gevolg_van_aanrijding": "Het is het gevolg van een aanrijding",
+        "verkeerslicht_op_grond_of_scheef": "Verkeerslicht ligt op de grond of staat gevaarlijk scheef",
+        "deurtje_weg_of_open": "Deurtje in de mast is niet aanwezig of staat open",
+        "losse_kabels_zichtbaar_of_lamp_los": "Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los",
+        "niet_gevaarlijk": "Niet gevaarlijk"
+      }
+    },
+    "extra_verkeerslicht_gevaar": {
+      "answers": "Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen."
+    },
+    "extra_verkeerslicht_welk": {
+      "label": "Welk verkeerslicht werkt niet juist?",
+      "shortLabel": "Type verkeerslicht",
+      "values": {
+        "voetganger": "Voetganger",
+        "fiets": "Fiets",
+        "auto": "Auto",
+        "tram_bus": "Tram of bus"
+      },
+      "answers": {
+        "voetganger": "Voetganger",
+        "fiets": "Fiets",
+        "auto": "Auto",
+        "tram_bus": "Tram of bus"
+      }
+    },
+    "extra_verkeerslicht_probleem_voetganger": {
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
+      "values": {
+        "rood_werkt_niet": "Rood licht werkt niet",
+        "groen_werkt_niet": "Groen licht werkt niet",
+        "blindentikker_werkt_niet": "Blindentikker werkt niet",
+        "groen_duurt_te_lang": "Duurt (te) lang voordat het groen wordt",
+        "anders": "Anders"
+      },
+      "answers": {
+        "rood_werkt_niet": "Rood licht werkt niet",
+        "groen_werkt_niet": "Groen licht werkt niet",
+        "blindentikker_werkt_niet": "Blindentikker werkt niet",
+        "groen_duurt_te_lang": "Duurt (te) lang voordat het groen wordt",
+        "anders": "Anders"
+      }
+    },
+    "extra_verkeerslicht_probleem_fiets_auto": {
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
+      "values": {
+        "rood_werkt_niet": "Rood licht werkt niet",
+        "oranje_werkt_niet": "Oranje/geel licht werkt niet",
+        "groen_werkt_niet": "Groen licht werkt niet",
+        "groen_duurt_te_lang": "Duurt (te) lang voordat het groen wordt",
+        "anders": "Anders"
+      },
+      "answers": {
+        "rood_werkt_niet": "Rood licht werkt niet",
+        "oranje_werkt_niet": "Oranje/geel licht werkt niet",
+        "groen_werkt_niet": "Groen licht werkt niet",
+        "groen_duurt_te_lang": "Duurt (te) lang voordat het groen wordt",
+        "anders": "Anders"
+      }
+    },
+    "extra_verkeerslicht_probleem_bus_tram": {
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
+      "values": {
+        "rood_werkt_niet": "Rood licht werkt niet",
+        "oranje_werkt_niet": "Oranje/geel licht werkt niet",
+        "wit_werkt_niet": "Wit licht werkt niet",
+        "waarschuwingslicht_tram_werkt_niet": "Waarschuwingslicht tram werkt niet",
+        "anders": "Anders"
+      },
+      "answers": {
+        "rood_werkt_niet": "Rood licht werkt niet",
+        "oranje_werkt_niet": "Oranje/geel licht werkt niet",
+        "wit_werkt_niet": "Wit licht werkt niet",
+        "waarschuwingslicht_tram_werkt_niet": "Waarschuwingslicht tram werkt niet",
+        "anders": "Anders"
+      }
+    },
+    "extra_verkeerslicht_rijrichting": {
+      "subtitle": "Bijvoorbeeld: In de richting van Waterlooplein naar Mr. Visserplein",
+      "label": "Wat is de rijrichting?",
+      "shortLabel": "Rijrichting"
+    },
+    "extra_verkeerslicht_nummer": {
+      "subtitle": "Deze kunt u meestal vinden in witte tekst onder of boven de lampen",
+      "label": "Weet u het nummer van het verkeerslicht?",
+      "shortLabel": "Verkeerslicht nummer"
+    },
+    "extra_fietsrek_aanvragen": {
+      "label": "Wilt u misschien een nieuw fietsenrek of 'nietje' aanvragen?",
+      "shortLabel": "Fietsenrek aanvragen",
+      "values": {
+        "ja": "Ja, dat ik wil ik",
+        "nee": "Nee, ik wil direct verder gaan"
+      },
+      "answers": {
+        "ja": "Ja, dat ik wil ik",
+        "nee": "Nee, ik wil direct verder gaan"
+      }
+    },
+    "extra_fietsrek_text": {
+      "answers": [
+        "Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier: kijk op de pagina ",
+        "Hoe kan ik een fietsenrek aanvragen?",
+        "."
+      ]
+    },
+    "extra_fietsrek_aanvraag": {
+      "label": "Fietsenrek of 'nietje' aanvragen",
+      "shortLabel": "Aanvraag fietsenrek of 'nietje'"
+    }
+  },
+  "wonen": {
+    "wonen_overig": {
+      "label": "Uw melding gaat over:",
+      "values": {
+        "vakantieverhuur": "Illegale toeristische verhuur in een woning of woonboot",
+        "onderhuur": "Illegale onderhuur in een woning of woonboot",
+        "leegstand": "Een woning of woonboot die opvallend lang leeg staat",
+        "crimineleBewoning": "Criminele bewoning of activiteiten in een woning of woonboot",
+        "woningdelen": "Woningdelen (de woning wordt door verschillende mensen gedeeld)",
+        "woningkwaliteit": "Achterstallig onderhoud of een gebrek aan een woning wordt niet verholpen door de eigenaar/beheerder"
+      },
+      "answers": {
+        "vakantieverhuur": "Illegale toeristische verhuur in een woning of woonboot",
+        "onderhuur": "Illegale onderhuur in een woning of woonboot",
+        "leegstand": "Een woning of woonboot die opvallend lang leeg staat",
+        "crimineleBewoning": "Criminele bewoning of activiteiten in een woning of woonboot",
+        "woningdelen": "Woningdelen (de woning wordt door verschillende mensen gedeeld)",
+        "woningkwaliteit": "Achterstallig onderhoud of een gebrek aan een woning wordt niet verholpen door de eigenaar/beheerder"
+      }
+    },
+    "extra_wonen_woningdelen_vermoeden": {
+      "subtitle": "Vermoedens over bijvoorbeeld illegale activiteiten",
+      "label": "Weet u wat zich in deze woning afspeelt?",
+      "shortLabel": "Vermoeden"
+    },
+    "extra_wonen_woningdelen_eigenaar": {
+      "label": "Weet u wie de eigenaar is van de woning?",
+      "shortLabel": "Naam eigenaar"
+    },
+    "extra_wonen_woningdelen_adres_huurder": {
+      "subtitle": "De persoon die in de woning zou moeten wonen",
+      "label": "Weet u waar de officiële huurder woont?",
+      "shortLabel": "Adres huurder",
+      "values": {
+        "zelfde_adres": "Ja, op hetzelfde adres als de bewoners",
+        "ander_adres": "Ja, op een ander adres dZan de bewoners",
+        "weet_ik_niet": "Nee, weet ik niet"
+      },
+      "answers": {
+        "zelfde_adres": "Ja, op hetzelfde adres als de bewoners",
+        "ander_adres": "Ja, op een ander adres dan de bewoners",
+        "weet_ik_niet": "Nee, weet ik niet"
+      }
+    },
+    "extra_wonen_woningdelen_aantal_personen": {
+      "label": "Hoeveel personen wonen op dit adres?",
+      "shortLabel": "Aantal personen",
+      "values": {
+        "een_persoon": "1 persoon",
+        "twee_personen": "2 personen",
+        "drie_personen": "3 personen",
+        "vier_personen": "4 personen",
+        "vijf_of_meer_personen": "5 of meer personen",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "een_persoon": "1 persoon",
+        "twee_personen": "2 personen",
+        "drie_personen": "3 personen",
+        "vier_personen": "4 personen",
+        "vijf_of_meer_personen": "5 of meer personen",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_woningdelen_bewoners_familie": {
+      "label": "Zijn de bewoners familie van elkaar?",
+      "shortLabel": "Bewoners familie",
+      "values": {
+        "ja": "Ja, de bewoners zijn familie",
+        "nee": "Nee, de bewoners zijn geen familie",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "ja": "Ja, de bewoners zijn familie",
+        "nee": "Nee, de bewoners zijn geen familie",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_woningdelen_samenwonen": {
+      "label": "Zijn de personen tegelijk op het adres komen wonen?",
+      "shortLabel": "Samenwonen",
+      "values": {
+        "ja": "Ja, ze zijn tegelijk op het adres komen wonen",
+        "nee": "Nee, ze zijn op verschillende momenten op het adres komen wonen",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "ja": "Ja, ze zijn tegelijk op het adres komen wonen",
+        "nee": "Nee, ze zijn op verschillende momenten op het adres komen wonen",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_woningdelen_wisselende_bewoners": {
+      "label": "Komen er vaak andere bewoners op het adres wonen?",
+      "shortLabel": "Wisselende bewoners",
+      "values": {
+        "ja": "Ja, vaak andere bewoners op het adres",
+        "nee": "Nee, dezelfde bewoners",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "ja": "Ja, vaak andere bewoners op het adres",
+        "nee": "Nee, dezelfde bewoners",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_woningdelen_iemand_aanwezig": {
+      "label": "Op welke dag/tijd is er iemand op het adres?",
+      "shortLabel": "Iemand aanwezig"
+    },
+    "extra_wonen_onderhuur_aantal_personen": {
+      "label": "Hoeveel personen wonen op dit adres?",
+      "shortLabel": "Aantal personen",
+      "values": {
+        "een_persoon": "1 persoon",
+        "twee_personen": "2 personen",
+        "drie_personen": "3 personen",
+        "vier_personen": "4 personen",
+        "vijf_of_meer_personen": "5 of meer personen",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "een_persoon": "1 persoon",
+        "twee_personen": "2 personen",
+        "drie_personen": "3 personen",
+        "vier_personen": "4 personen",
+        "vijf_of_meer_personen": "5 of meer personen",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_onderhuur_bewoners_familie": {
+      "label": "Zijn de mensen die op dit adres wonen familie van elkaar?",
+      "shortLabel": "Bewoners familie",
+      "values": {
+        "ja": "Ja, ze zijn familie van elkaar",
+        "nee": "Nee, ze zijn geen familie van elkaar",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "ja": "Ja, ze zijn familie van elkaar",
+        "nee": "Nee, ze zijn geen familie van elkaar",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_onderhuur_naam_bewoners": {
+      "label": "Wat zijn de namen van de mensen die op dit adres wonen?",
+      "shortLabel": "Naam bewoners"
+    },
+    "extra_wonen_onderhuur_woon_periode": {
+      "label": "Hoe lang wonen deze mensen al op dit adres?",
+      "shortLabel": "Woon periode",
+      "values": {
+        "langer_dan_zes_maanden": "6 maanden of langer",
+        "korter_dan_zes_maanden": "Minder dan 6 maanden",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "langer_dan_zes_maanden": "6 maanden of langer",
+        "korter_dan_zes_maanden": "Minder dan 6 maanden",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_onderhuur_iemand_aanwezig": {
+      "label": "Op welke dag/tijd is er iemand op het adres?",
+      "shortLabel": "Iemand aanwezig"
+    },
+    "extra_wonen_onderhuur_naam_huurder": {
+      "subtitle": "De persoon die in de woning zou moeten wonen",
+      "label": "Weet u wie de officiële huurder is van de woning?",
+      "shortLabel": "Naam huurder"
+    },
+    "extra_wonen_onderhuur_huurder_woont": {
+      "label": "Weet u waar de officiële huurder woont?",
+      "shortLabel": "Huurder woont",
+      "values": {
+        "aangegeven_adres": "Ja, op het aangegeven adres",
+        "ander_adres": "Ja, op een ander adres",
+        "weet_ik_niet": "Nee, weet ik niet"
+      },
+      "answers": {
+        "aangegeven_adres": "Ja, op het aangegeven adres",
+        "ander_adres": "Ja, op een ander adres",
+        "weet_ik_niet": "Nee, weet ik niet"
+      }
+    },
+    "extra_wonen_onderhuur_adres_huurder": {
+      "label": "Wat is het adres waar de officiële huurder woont?",
+      "shortLabel": "Adres huurder"
+    },
+    "extra_wonen_leegstand_naam_eigenaar": {
+      "label": "Weet u wie de eigenaar is van de woning?",
+      "shortLabel": "Naam eigenaar"
+    },
+    "extra_wonen_leegstand_periode": {
+      "label": "Hoe lang staat de woning al leeg?",
+      "shortLabel": "Periode leegstand",
+      "values": {
+        "langer_dan_zes_maanden": "6 maanden of langer",
+        "korter_dan_zes_maanden": "minder dan 6 maanden",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "langer_dan_zes_maanden": "6 maanden of langer",
+        "korter_dan_zes_maanden": "minder dan 6 maanden",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_leegstand_woning_gebruik": {
+      "label": "Wordt de woning af en toe nog gebruikt?",
+      "shortLabel": "Woning gebruik",
+      "values": {
+        "ja": "Ja, soms is er iemand in de woning",
+        "nee": "Nee, er is nooit iemand in de woning",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "ja": "Ja, soms is er iemand in de woning",
+        "nee": "Nee, er is nooit iemand in de woning",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_leegstand_naam_persoon": {
+      "label": "Wat is de naam van de persoon die soms in de woning is?",
+      "shortLabel": "Naam persoon"
+    },
+    "extra_wonen_leegstand_activiteit_in_woning": {
+      "label": "Wat doet deze persoon in de woning?",
+      "shortLabel": "Activiteit in de woning"
+    },
+    "extra_wonen_leegstand_iemand_aanwezig": {
+      "label": "Op welke dag/tijd is deze persoon op het adres?",
+      "shortLabel": "Iemand aanwezig"
+    },
+    "extra_wonen_vakantieverhuur_toeristen_aanwezig": {
+      "label": "Zijn de toeristen nu aanwezig in de woning?",
+      "shortLabel": "Toeristen aanwezig",
+      "values": {
+        "ja": "Ja, er zijn nu toeristen aanwezig",
+        "nee": "Nee, er zijn nu geen toeristen aanwezig",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "ja": "Ja, er zijn nu toeristen aanwezig",
+        "nee": "Nee, er zijn nu geen toeristen aanwezig",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_vakantieverhuur_bellen_of_formulier": {
+      "label": "In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.",
+      "shortLabel": "Bellen of meldingsformulier",
+      "values": {
+        "bellen": "Ik neem telefonisch contact op",
+        "formulier": "Ik ga verder met dit meldformulier"
+      },
+      "answers": {
+        "bellen": "Ik neem telefonisch contact op",
+        "formulier": "Ik ga verder met dit meldformulier"
+      }
+    },
+    "extra_wonen_vakantieverhuur_bellen": {
+      "answers1": "Bel nu met 14 020",
+      "answers2": "Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, binnen 24 uur langs."
+    },
+    "extra_wonen_vakantieverhuur_aantal_mensen": {
+      "label": "Hoeveel toeristen zijn er meestal in de woning?",
+      "shortLabel": "Aantal personen",
+      "values": {
+        "vier_of_minder": "4 of minder personen",
+        "vijf_of_meer": "5 of meer personen"
+      },
+      "answers": {
+        "vier_of_minder": "4 of minder personen",
+        "vijf_of_meer": "5 of meer personen"
+      }
+    },
+    "extra_wonen_vakantieverhuur_hoe_vaak": {
+      "label": "Heeft u vaker toeristen in de woning gezien?",
+      "shortLabel": "Hoe vaak",
+      "values": {
+        "maandelijks": "Ongeveer één keer per maand",
+        "wekelijks": "Ongeveer één keer per week",
+        "dagelijks": "Bijna dagelijks",
+        "eerste_keer": "Nee, dit is de eerste keer"
+      },
+      "answers": {
+        "maandelijks": "Ongeveer één keer per maand",
+        "wekelijks": "Ongeveer één keer per week",
+        "dagelijks": "Bijna dagelijks",
+        "eerste_keer": "Nee, dit is de eerste keer"
+      }
+    },
+    "extra_wonen_vakantieverhuur_wanneer": {
+      "label": "Is dit meestal in het weekend of doordeweeks?",
+      "shortLabel": "Wanneer",
+      "values": {
+        "weekend": "Meestal in het weekend",
+        "doordeweeks": "Meestal doordeweeks",
+        "wisselend": "Wisselend"
+      },
+      "answers": {
+        "weekend": "Meestal in het weekend",
+        "doordeweeks": "Meestal doordeweeks",
+        "wisselend": "Wisselend"
+      }
+    },
+    "extra_wonen_vakantieverhuur_bewoning": {
+      "subtitle": "De persoon die langdurig de woning bewoont",
+      "label": "Weet u of er iemand op het adres woont?",
+      "shortLabel": "Bewoning",
+      "values": {
+        "ja": "Ja, er woont iemand op het adres",
+        "nee": "Nee, er woont niemand op het adres",
+        "weet_ik_niet": "Weet ik niet"
+      },
+      "answers": {
+        "ja": "Ja, er woont iemand op het adres",
+        "nee": "Nee, er woont niemand op het adres",
+        "weet_ik_niet": "Weet ik niet"
+      }
+    },
+    "extra_wonen_vakantieverhuur_naam_bewoner": {
+      "label": "Wat is de naam van de persoon die op het adres woont?",
+      "shortLabel": "Naam bewoner"
+    },
+    "extra_wonen_vakantieverhuur_online_aangeboden": {
+      "label": "Weet u of de woning op internet wordt aangeboden voor verhuur?",
+      "shortLabel": "Online aangeboden",
+      "values": {
+        "ja": "Ja, ik heb de woning op internet gezien",
+        "nee": "Nee, weet ik niet"
+      },
+      "answers": {
+        "ja": "Ja, ik heb de woning op internet gezien",
+        "nee": "Nee, weet ik niet"
+      }
+    },
+    "extra_wonen_vakantieverhuur_link_advertentie": {
+      "label": "Link naar de advertentie van de woning",
+      "shortLabel": "Link advertentie"
+    },
+    "extra_wonen_vakantieverhuur_footer": {
+      "answers": "Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met 14 020 en vraag naar team Vakantieverhuur."
+    },
+    "extra_wonen_woonkwaliteit_direct_gevaar": {
+      "subtitle": "Bijvoorbeeld: u ruikt een sterke gaslucht of er dreigt een schoorsteen of balkon in te storten",
+      "label": "Denkt u dat er direct gevaar is?",
+      "shortLabel": "Direct gevaar",
+      "values": {
+        "ja": "Ja, er is direct gevaar",
+        "nee": "Nee"
+      },
+      "answers": {
+        "ja": "Ja, er is direct gevaar",
+        "nee": "Nee"
+      }
+    },
+    "extra_wonen_woonkwaliteit_direct_gevaar_alert": {
+      "answers": "Bel 112 en vul dit formulier niet verder in"
+    },
+    "extra_wonen_woonkwaliteit_gemeld_bij_eigenaar": {
+      "label": "Hebt u de klacht al bij uw verhuurder, eigenaar of VvE gemeld?",
+      "shortLabel": "Gemeld bij eigenaar",
+      "values": {
+        "ja": "Ja",
+        "nee": "Nee"
+      },
+      "answers": {
+        "ja": "Ja",
+        "nee": "Nee"
+      }
+    },
+    "extra_wonen_woonkwaliteit_direct_gevaar_ja": {
+      "answers": "Meld uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in."
+    },
+    "extra_wonen_woonkwaliteit_bewoner": {
+      "label": "Bent u zelf bewoner van het adres?",
+      "shortLabel": "Bewoner",
+      "values": {
+        "ja": "Ja, ik woon op dit adres",
+        "nee": "Nee, ik woon niet op dit adres"
+      },
+      "answers": {
+        "ja": "Ja, ik woon op dit adres",
+        "nee": "Nee, ik woon niet op dit adres"
+      }
+    },
+    "extra_wonen_woonkwaliteit_namens_bewoner": {
+      "label": "Doet u de melding namens de bewoner van het adres?",
+      "shortLabel": "Namens bewoner",
+      "values": {
+        "ja": "Ja, ik doe de melding namens de bewoner",
+        "nee": "Nee"
+      },
+      "answers": {
+        "ja": "Ja, ik doe de melding namens de bewoner",
+        "nee": "Nee"
+      }
+    },
+    "extra_wonen_woonkwaliteit_toestemming_contact": {
+      "subtitle": "Om uw klacht goed te kunnen behandelen willen we vaak even komen kijken of met u overleggen",
+      "label": "Mogen we contact met u opnemen om een afspraak te maken?",
+      "shortLabel": "Toestemming contact opnemen",
+      "values": {
+        "ja": "Ja, u mag contact met mij opnemen",
+        "nee": "Nee, liever geen contact"
+      },
+      "answers": {
+        "ja": "Ja, u mag contact met mij opnemen",
+        "nee": "Nee, liever geen contact"
+      }
+    },
+    "extra_wonen_woonkwaliteit_toestemming_contact_ja": {
+      "answers": "Let op! Vul uw telefoonnummer in op de volgende pagina."
+    },
+    "extra_wonen_woonkwaliteit_geen_contact": {
+      "label": "Waarom heeft u liever geen contact?",
+      "shortLabel": "Liever geen contact"
+    }
+  }
+}
