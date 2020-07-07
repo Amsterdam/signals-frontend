@@ -7,10 +7,10 @@ import { useDispatch } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
 import History from 'components/History';
-import useFetch from 'hooks/useFetch';
-import useEventEmitter from 'hooks/useEventEmitter';
+import { useFetch, useEventEmitter } from 'hooks';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { patchIncidentSuccess } from 'models/incident/actions';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -216,8 +216,9 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     action => {
       dispatch({ type: 'patchStart', payload: action.type });
       patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch);
+      storeDispatch(patchIncidentSuccess());
     },
-    [id, patch]
+    [id, patch, storeDispatch]
   );
 
   if (!state.incident) return null;

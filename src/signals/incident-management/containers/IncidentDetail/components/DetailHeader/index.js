@@ -1,14 +1,12 @@
 import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
 
 import BackLink from 'components/BackLink';
 import { PATCH_TYPE_THOR } from 'models/incident/constants';
 import Button from 'components/Button';
 import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
-import { patchIncident as patchIncidentAction } from 'models/incident/actions';
 
 import DownloadButton from './components/DownloadButton';
 import IncidentDetailContext from '../../context';
@@ -88,8 +86,7 @@ const ParentLink = styled(Link)`
 `;
 
 const DetailHeader = () => {
-  const { incident } = useContext(IncidentDetailContext);
-  const dispatch = useDispatch();
+  const { incident, dispatch } = useContext(IncidentDetailContext);
   const location = useLocation();
   const canSplit =
     incident.status.state === 'm' && !(incident?._links?.['sia:children'] || incident?._links?.['sia:parent']);
@@ -111,7 +108,7 @@ const DetailHeader = () => {
   const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop();
 
   const patchIncident = useCallback(() => {
-    dispatch(patchIncidentAction(patch));
+    dispatch(patch);
   }, [dispatch, patch]);
 
   return (

@@ -4,26 +4,18 @@ import { takeLatest } from 'redux-saga/effects';
 import { throwError } from 'redux-saga-test-plan/providers';
 import * as Sentry from '@sentry/browser';
 
-import { authCall, authPatchCall, getErrorMessage } from 'shared/services/api/api';
+import { authCall, getErrorMessage } from 'shared/services/api/api';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import * as actions from 'containers/App/actions';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import {
   REQUEST_INCIDENT,
-  PATCH_INCIDENT,
   REQUEST_ATTACHMENTS,
   REQUEST_DEFAULT_TEXTS,
-  PATCH_TYPE_NOTES,
-  PATCH_TYPE_SUBCATEGORY,
-  PATCH_TYPE_STATUS,
-  PATCH_TYPE_PRIORITY,
-  PATCH_TYPE_THOR,
 } from './constants';
 import {
   requestIncidentSuccess,
   requestIncidentError,
-  patchIncidentSuccess,
-  patchIncidentError,
   requestAttachmentsSuccess,
   requestAttachmentsError,
   requestDefaultTextsSuccess,
@@ -31,12 +23,9 @@ import {
 } from './actions';
 import watchIncidentModelSaga, {
   fetchIncident,
-  patchIncident,
   requestAttachments,
   requestDefaultTexts,
-  errorMessageDictionary,
 } from './saga';
-import { requestHistoryList } from '../history/actions';
 
 describe('models/incident/saga', () => {
   it('should watch incidentModelSaga', () => {
@@ -44,7 +33,6 @@ describe('models/incident/saga', () => {
       .next()
       .all([
         takeLatest(REQUEST_INCIDENT, fetchIncident),
-        takeLatest(PATCH_INCIDENT, patchIncident),
         takeLatest(REQUEST_ATTACHMENTS, requestAttachments),
         takeLatest(REQUEST_DEFAULT_TEXTS, requestDefaultTexts),
       ])
@@ -93,92 +81,6 @@ describe('models/incident/saga', () => {
         }))
         .call([Sentry, 'captureException'], error)
         .silentRun();
-    });
-  });
-
-  describe('patchIncident', () => {
-    it('should call endpoint with filter data', () => {
-      const id = 123456;
-      const payload = {
-        id,
-        patch: {
-          id,
-        },
-      };
-      const action = {
-        payload,
-      };
-
-      return expectSaga(patchIncident, action)
-        .call(
-          authPatchCall,
-          `${CONFIGURATION.INCIDENTS_ENDPOINT}${id}`,
-          payload.patch
-        )
-        .silentRun();
-    });
-
-    it('should dispatch success', () => {
-      const type = PATCH_INCIDENT;
-      const id = 678543;
-      const payload = {
-        id,
-        patch: {
-          id,
-        },
-        type,
-      };
-      const action = {
-        type,
-        payload,
-      };
-      const incident = { id, name: 'incident' };
-
-      return expectSaga(patchIncident, action)
-        .provide([[matchers.call.fn(authPatchCall), incident]])
-        .put(patchIncidentSuccess({ type, incident }))
-        .put(requestHistoryList(id))
-        .silentRun();
-    });
-
-    it('should dispatch failed', () => {
-      const id = 678543;
-      const action = {
-        payload: {
-          patch: {
-            id,
-          },
-        },
-      };
-      const error = new Error('Whoops!!1!');
-      const detail = 'Some error message';
-      error.response = {
-        status: 400,
-        jsonBody: {
-          detail,
-        },
-      };
-
-      const patchTypes = [
-        PATCH_TYPE_NOTES,
-        PATCH_TYPE_SUBCATEGORY,
-        PATCH_TYPE_STATUS,
-        PATCH_TYPE_PRIORITY,
-        PATCH_TYPE_THOR,
-      ];
-
-      patchTypes.forEach(async type => {
-        await expectSaga(patchIncident, { ... action, payload: { ...action.payload, type } })
-          .provide([[matchers.call.fn(authPatchCall), throwError(error)]])
-          .put(patchIncidentError({ type, error }))
-          .put(actions.showGlobalNotification({
-            title: getErrorMessage(error),
-            message: errorMessageDictionary[type],
-            variant: VARIANT_ERROR,
-            type: TYPE_LOCAL,
-          }))
-          .silentRun();
-      });
     });
   });
 

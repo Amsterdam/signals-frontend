@@ -29,7 +29,6 @@ export const initialState = fromJS({
   error: false,
   id: null,
   loading: false,
-  patched: undefined, // which part has successfully been patched
   priorityList,
   stadsdeelList,
   statusList,
@@ -48,17 +47,13 @@ function incidentModelReducer(state = initialState, action) {
       return state.set('error', fromJS(action.payload)).set('loading', false);
 
     case PATCH_INCIDENT:
-      return state.set('error', false).set('loading', true).set('patched', action.payload.type);
+      return state.set('error', false).set('loading', true);
 
     case PATCH_INCIDENT_SUCCESS:
-      return state
-        .set('incident', fromJS(action.payload.incident))
-        .set('error', false)
-        .set('loading', false)
-        .set('patched', action.payload.type);
+      return state.set('error', false).set('loading', false);
 
     case PATCH_INCIDENT_ERROR:
-      return state.set('error', fromJS(action.payload.error)).set('loading', false).set('patched', undefined);
+      return state.set('error', fromJS(action.payload.error)).set('loading', false);
 
     case DISMISS_ERROR:
       return state.set('error', false);

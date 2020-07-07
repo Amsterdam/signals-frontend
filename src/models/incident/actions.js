@@ -34,10 +34,9 @@ export function patchIncident(patch) {
   };
 }
 
-export function patchIncidentSuccess(patching) {
+export function patchIncidentSuccess() {
   return {
     type: PATCH_INCIDENT_SUCCESS,
-    payload: patching,
   };
 }
 

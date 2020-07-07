@@ -4,13 +4,12 @@ import {
 import * as Sentry from '@sentry/browser';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { authCall, authPatchCall, getErrorMessage } from 'shared/services/api/api';
+import { authCall, getErrorMessage } from 'shared/services/api/api';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 import {
   REQUEST_INCIDENT,
-  PATCH_INCIDENT,
   REQUEST_ATTACHMENTS,
   REQUEST_DEFAULT_TEXTS,
   PATCH_TYPE_NOTES,
@@ -22,14 +21,11 @@ import {
 import {
   requestIncidentSuccess,
   requestIncidentError,
-  patchIncidentSuccess,
-  patchIncidentError,
   requestAttachmentsSuccess,
   requestAttachmentsError,
   requestDefaultTextsSuccess,
   requestDefaultTextsError,
 } from './actions';
-import { requestHistoryList } from '../history/actions';
 
 export function* fetchIncident(action) {
   try {
@@ -59,30 +55,6 @@ export const errorMessageDictionary = {
   [PATCH_TYPE_THOR]: 'Je hebt niet voldoende rechten om de melding extern door te zetten',
   default: 'Je hebt niet voldoende rechten om deze actie uit te voeren',
 };
-
-export function* patchIncident(action) {
-  const payload = action.payload;
-
-  try {
-    const incident = yield call(
-      authPatchCall,
-      `${CONFIGURATION.INCIDENTS_ENDPOINT}${payload.id}`,
-      payload.patch,
-    );
-
-    yield put(patchIncidentSuccess({ type: payload.type, incident }));
-    yield put(requestHistoryList(payload.id));
-  } catch (error) {
-    yield put(patchIncidentError({ type: payload.type, error }));
-
-    yield put(showGlobalNotification({
-      title: getErrorMessage(error),
-      message: errorMessageDictionary[action.payload.type] || errorMessageDictionary.default,
-      variant: VARIANT_ERROR,
-      type: TYPE_LOCAL,
-    }));
-  }
-}
 
 export function* requestAttachments(action) {
   try {
@@ -129,7 +101,6 @@ export function* requestDefaultTexts(action) {
 export default function* watchIncidentModelSaga() {
   yield all([
     takeLatest(REQUEST_INCIDENT, fetchIncident),
-    takeLatest(PATCH_INCIDENT, patchIncident),
     takeLatest(REQUEST_ATTACHMENTS, requestAttachments),
     takeLatest(REQUEST_DEFAULT_TEXTS, requestDefaultTexts),
   ]);

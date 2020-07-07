@@ -1,9 +1,9 @@
-import React, { Fragment, useCallback, useState, useEffect, useMemo, useContext } from 'react';
+import React, { useCallback, useState, useEffect, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
 
-import { Heading, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, themeSpacing, Row, Column } from '@datapunt/asc-ui';
 import { defaultTextsType } from 'shared/types';
 import statusList, {
   defaultTextsOptionList,
@@ -84,6 +84,17 @@ const Notification = styled.div`
   line-height: 22px;
 `;
 
+const Wrapper = styled(Row)`
+  padding-top: 20px;
+  position: relative;
+`;
+
+const StyledColumn = styled(Column)`
+  display: block;
+  background: white;
+  position: relative;
+`;
+
 const StatusForm = ({ defaultTexts, onClose }) => {
   const { incident, dispatch } = useContext(IncidentDetailContext);
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
@@ -95,7 +106,7 @@ const StatusForm = ({ defaultTexts, onClose }) => {
         state: [incident.status.state, Validators.required],
         text: [''],
       }),
-    [incident.status.state]
+    [incident.status]
   );
 
   useEffect(() => {
@@ -149,63 +160,65 @@ const StatusForm = ({ defaultTexts, onClose }) => {
   );
 
   return (
-    <Fragment>
-      <FieldGroup
-        control={form}
-        render={({ invalid }) => (
-          <Form onSubmit={handleSubmit}>
-            <HeaderArea>
-              <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
+    <Wrapper>
+      <StyledColumn span={12}>
+        <FieldGroup
+          control={form}
+          render={({ invalid }) => (
+            <Form onSubmit={handleSubmit}>
+              <HeaderArea>
+                <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-              <CurrentStatus data-testid="currentStatus">
-                <Label as="span">Huidige status</Label>
-                <div>{currentStatus.value}</div>
-              </CurrentStatus>
-            </HeaderArea>
+                <CurrentStatus data-testid="currentStatus">
+                  <Label as="span">Huidige status</Label>
+                  <div>{currentStatus.value}</div>
+                </CurrentStatus>
+              </HeaderArea>
 
-            <OptionsArea>
-              <FieldControlWrapper
-                control={form.get('status')}
-                data-testid="statusFormStatusField"
-                name="status"
-                render={RadioInput}
-                values={changeStatusOptionList}
-              />
+              <OptionsArea>
+                <FieldControlWrapper
+                  control={form.get('state')}
+                  data-testid="statusFormStatusField"
+                  name="status"
+                  render={RadioInput}
+                  values={changeStatusOptionList}
+                />
 
-              <Notification warning data-testid="statusFormWarning">
-                {warning}
-              </Notification>
-            </OptionsArea>
+                <Notification warning data-testid="statusFormWarning">
+                  {warning}
+                </Notification>
+              </OptionsArea>
 
-            <FormArea>
-              <FieldControlWrapper
-                control={form.get('text')}
-                display="Toelichting"
-                name="text"
-                render={TextAreaInput}
-                rows={10}
-              />
+              <FormArea>
+                <FieldControlWrapper
+                  control={form.get('text')}
+                  display="Toelichting"
+                  name="text"
+                  render={TextAreaInput}
+                  rows={10}
+                />
 
-              <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
-                Status opslaan
-              </StyledButton>
+                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
+                  Status opslaan
+                </StyledButton>
 
-              <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
-                Annuleren
-              </StyledButton>
-            </FormArea>
+                <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
+                  Annuleren
+                </StyledButton>
+              </FormArea>
 
-            <TextsArea>
-              <DefaultTexts
-                defaultTexts={defaultTexts}
-                onHandleUseDefaultText={handleUseDefaultText}
-                status={form.get('status').value}
-              />
-            </TextsArea>
-          </Form>
-        )}
-      />
-    </Fragment>
+              <TextsArea>
+                <DefaultTexts
+                  defaultTexts={defaultTexts}
+                  onHandleUseDefaultText={handleUseDefaultText}
+                  status={form.get('state').value}
+                />
+              </TextsArea>
+            </Form>
+          )}
+        />
+      </StyledColumn>
+    </Wrapper>
   );
 };
 
