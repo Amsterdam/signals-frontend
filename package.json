@@ -1,7 +1,7 @@
 {
-  "name": "signalen",
+  "name": "sia",
   "version": "1.16.0",
-  "description": "Signalen",
+  "description": "Signalen Informatievoorziening",
   "repository": {
     "type": "git",
     "url": "https://github.com/Amsterdam/signals-frontend.git"
