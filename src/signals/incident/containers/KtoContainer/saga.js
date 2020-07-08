@@ -27,7 +27,7 @@ export function* requestKtoAnswers(action) {
       }
     });
     yield put(requestKtoAnswersSuccess(answers));
-  } catch  {
+  } catch {
     yield put(requestKtoAnswersError());
   }
 }

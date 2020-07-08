@@ -475,7 +475,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
-      act(() => { fireEvent.blur(nameField,  { target: { value: ' ' } }); });
+      act(() => { fireEvent.blur(nameField, { target: { value: ' ' } }); });
 
       act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 

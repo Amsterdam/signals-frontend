@@ -33,7 +33,7 @@ export function* getClassification(action) {
     if (configuration.fetchQuestionsFromBackend) {
       yield put(getQuestions(classification));
     }
-  } catch  {
+  } catch {
     const classification = yield call(resolveClassification);
 
     yield put(getClassificationError(classification));
@@ -49,7 +49,7 @@ export function* getQuestionsSaga(action) {
     const questions = yield call(resolveQuestions, rawQuestions);
 
     yield put(getQuestionsSuccess({ questions }));
-  } catch  {
+  } catch {
     yield put(getQuestionsError());
   }
 }
@@ -77,7 +77,7 @@ export function* createIncident(action) {
     }
 
     yield put(createIncidentSuccess(incident));
-  } catch  {
+  } catch {
     yield put(createIncidentError());
     yield put(replace('/incident/fout'));
   }

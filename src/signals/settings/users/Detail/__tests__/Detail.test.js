@@ -185,7 +185,7 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should not patch user data on submit when form data has not been altered', () => {
-    useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: userJSON }));
+    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
     const { getByTestId } = render(withAppContext(<UserDetail />));
 
@@ -197,7 +197,7 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should patch user data on submit', () => {
-    useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: userJSON }));
+    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
     const { getByTestId } = render(withAppContext(<UserDetail />));
 
@@ -218,7 +218,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
   it('should NOT patch user data on submit when user does not have permissions', () => {
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
-    useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: userJSON }));
+    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
     const { getByTestId } = render(withAppContext(<UserDetail />));
 
@@ -239,7 +239,7 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should post user data on submit', () => {
-    useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: userJSON }));
+    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
@@ -350,7 +350,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
   it('should direct to the overview page when cancel button is clicked and form data is pristine', () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({}));
-    useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: userJSON }));
+    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
     global.window.confirm = jest.fn();
 
@@ -380,7 +380,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
   it('should direct to the overview page when cancel button is clicked and form data is NOT pristine', () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({}));
-    useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: userJSON }));
+    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
     global.window.confirm = jest.fn();
 
@@ -413,7 +413,7 @@ describe('signals/settings/users/containers/Detail', () => {
     const referrer = '/some-page-we-came-from';
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({ referrer }));
 
-    useFetch.mockImplementation(() => ({ ...useFetchResponse,  data: userJSON }));
+    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
     global.window.confirm = jest.fn();
 

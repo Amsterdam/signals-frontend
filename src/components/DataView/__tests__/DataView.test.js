@@ -460,7 +460,7 @@ describe('DataView with data', () => {
       )
     );
 
-    const columnOrder = ['non_existing_1', ...headers,  'non_existing_2'];
+    const columnOrder = ['non_existing_1', ...headers, 'non_existing_2'];
 
     rerender(dataViewWithProps({ data, columnOrder, invisibleColumns }));
 
