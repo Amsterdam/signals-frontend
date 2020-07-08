@@ -231,8 +231,7 @@ export function authenticate() {
 
   const accessToken = getAccessToken();
   if (accessToken) {
-    const credentials = { userName: getName(), userScopes: getScopes(), accessToken: getAccessToken() };
-    return credentials;
+    return { userName: getName(), userScopes: getScopes(), accessToken: getAccessToken() };
   }
 
   return null;

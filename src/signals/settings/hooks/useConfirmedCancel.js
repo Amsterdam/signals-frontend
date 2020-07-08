@@ -18,7 +18,7 @@ const useConfirmedCancel = redirectURL => {
    *
    * @param {Boolean} isPristine - Flag indicating if the form data has changed
    */
-  const redirect = isPristine => {
+  return isPristine => {
     if (
       isPristine ||
       (!isPristine &&
@@ -27,8 +27,6 @@ const useConfirmedCancel = redirectURL => {
       history.push(redirectURL);
     }
   };
-
-  return redirect;
 };
 
 export default useConfirmedCancel;
