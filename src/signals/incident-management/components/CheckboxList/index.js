@@ -231,7 +231,7 @@ const CheckboxList = ({
 
   return (
     <FilterGroup className={className} data-testid="checkboxList">
-      {title && title}
+      {title}
 
       {hasToggle && (
         <Toggle
