@@ -15,10 +15,7 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Momenteel zijn er problemen met deze website en kan uw melding niet verwerkt worden.',
           type: 'bedankt',
-          value: [
-            'Probeert u het later nogmaals.',
-            `Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met ${configuration.language.phoneNumber}.`,
-          ],
+          value: ['Probeert u het later nogmaals.', configuration.language?.urgentContactInfo],
         },
         render: FormComponents.PlainText,
       },
