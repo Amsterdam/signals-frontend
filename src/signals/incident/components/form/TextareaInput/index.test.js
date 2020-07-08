@@ -111,7 +111,7 @@ describe('Form component <TextareaInput />', () => {
       wrapper.setProps({
         meta: {
           ...metaFields,
-          autoRemove: /[iao]*/g,
+          autoRemove: /[aio]*/g,
           isVisible: true,
         },
       });

@@ -10,7 +10,7 @@ import './style.scss';
 
 import Header from '../Header';
 
-const allowedChars = /[0-9.,;]+/;
+const allowedChars = /[\d,.;]+/;
 
 const filterInvalidKeys = event => {
   if (!allowedChars.test(event.key)) {

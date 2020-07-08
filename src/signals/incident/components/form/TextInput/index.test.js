@@ -83,7 +83,7 @@ describe('Form component <TextInput />', () => {
         ...props,
         meta: {
           ...props.meta,
-          autoRemove: /[dbl]*/g,
+          autoRemove: /[bdl]*/g,
           isVisible: true,
         },
       };

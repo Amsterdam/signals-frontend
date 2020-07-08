@@ -121,7 +121,7 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
     event => {
       event.preventDefault();
 
-      if (/(?:{{|}})/gi.test(form.value.text)) {
+      if (/{{|}}/gi.test(form.value.text)) {
         global.alert(
           "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
         );
