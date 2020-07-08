@@ -19,7 +19,7 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
     (wizard && (
       <WithWizard
         render={({ next, previous, step }) => {
-          const currentStep = (step && step.id && step.id.split('/').pop()) || 0;
+          const currentStep = (step?.id?.split('/').pop()) || 0;
           const wizardStep = currentStep && wizard[currentStep];
 
           return (
