@@ -32,13 +32,15 @@ describe('Change signal after submit', () => {
 
     it('Should enter a phonenumber and email address', () => {
       cy.contains('Volgende').click();
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePublic();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check information provided by user
@@ -67,9 +69,7 @@ describe('Change signal after submit', () => {
     });
 
     it('Should show the signal details', () => {
-      cy.get(MANAGE_SIGNALS.linkSignal)
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
@@ -77,42 +77,20 @@ describe('Change signal after submit', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
 
       // Check signal data
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Nieuw-West')
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', "Plein '40-'45 11A")
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1063KR Amsterdam')
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', '')
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '')
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Nieuw-West').should('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', "Plein '40-'45 11A").should('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1063KR Amsterdam').should('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', '').should('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').should('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Graffiti / wildplak (STW)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Schoon')
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .should('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').should('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Graffiti / wildplak (STW)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Schoon').should('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').should('be.visible');
     });
   });
   describe('Change signal data', () => {
@@ -120,7 +98,7 @@ describe('Change signal after submit', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.getAddressRoute();
       cy.defineGeoSearchRoutes();
       cy.visitFetch('/manage/incidents/');
@@ -130,9 +108,7 @@ describe('Change signal after submit', () => {
 
     it('Should change location', () => {
       // Open Signal
-      cy.get(MANAGE_SIGNALS.linkSignal)
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
@@ -151,19 +127,16 @@ describe('Change signal after submit', () => {
       cy.wait('@getAddress');
       createSignal.selectAddress('Bethaniënstraat 12, 1012CA Amsterdam');
       cy.wait('@geoSearchLocation');
+      // Used a wait, because we have to wait until zoom to new adres is done.
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000);
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
 
       // Check location data
       cy.wait('@getSignals');
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Centrum')
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Bethaniënstraat 12')
-        .should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1012CA Amsterdam')
-        .should('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').should('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Bethaniënstraat 12').should('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012CA Amsterdam').should('be.visible');
 
       // Check history
       cy.get(SIGNAL_DETAILS.historyListItem)
@@ -176,9 +149,7 @@ describe('Change signal after submit', () => {
 
     it('Should change status', () => {
       // Open Signal
-      cy.get(MANAGE_SIGNALS.linkSignal)
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
@@ -188,9 +159,7 @@ describe('Change signal after submit', () => {
       // Check on status information
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
-      cy.get(CHANGE_STATUS.currentStatus)
-        .contains('Gemeld')
-        .should('be.visible');
+      cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
       cy.contains('Nieuwe status').should('be.visible');
 
       // Cancel edit status
@@ -240,9 +209,7 @@ describe('Change signal after submit', () => {
 
     it('Should change urgency', () => {
       // Open Signal
-      cy.get(MANAGE_SIGNALS.linkSignal)
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
@@ -258,9 +225,7 @@ describe('Change signal after submit', () => {
 
       // Cancel edit urgency
       cy.get(CHANGE_URGENCY.buttonCancel).click();
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
 
       // Edit signal urgency and submit
       cy.get(CHANGE_URGENCY.buttonEdit).click();
@@ -278,16 +243,12 @@ describe('Change signal after submit', () => {
         });
 
       // Check history
-      cy.get(SIGNAL_DETAILS.historyAction)
-        .contains('Urgentie update naar: Hoog')
-        .should('be.visible');
+      cy.get(SIGNAL_DETAILS.historyAction).contains('Urgentie update naar: Hoog').should('be.visible');
     });
 
     it('Should change type', () => {
       // Open Signal
-      cy.get(MANAGE_SIGNALS.linkSignal)
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
@@ -310,9 +271,7 @@ describe('Change signal after submit', () => {
 
       // Cancel edit type
       cy.get(CHANGE_TYPE.buttonCancel).click();
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
 
       // Edit signal type and submit
       cy.get(CHANGE_TYPE.buttonEdit).click();
@@ -321,21 +280,15 @@ describe('Change signal after submit', () => {
 
       // Check type change
       cy.wait('@getSignals');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Groot onderhoud')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Groot onderhoud').and('be.visible');
 
       // Check history
-      cy.get(SIGNAL_DETAILS.historyAction)
-        .contains('Type update naar: Groot onderhoud')
-        .should('be.visible');
+      cy.get(SIGNAL_DETAILS.historyAction).contains('Type update naar: Groot onderhoud').should('be.visible');
     });
 
     it('Should change category', () => {
       // Open Signal
-      cy.get(MANAGE_SIGNALS.linkSignal)
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
 
@@ -347,21 +300,15 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_CATEGORY.buttonCancel).click();
 
       // Edit signal category and submit
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Graffiti / wildplak (STW)')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Graffiti / wildplak (STW)').and('be.visible');
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(CHANGE_CATEGORY.inputCategory).select('Overig openbare ruimte (ASC)');
       cy.get(CHANGE_CATEGORY.buttonSubmit).click();
 
       // Check change in subcategory, maincategory and department
       cy.wait('@getSignals');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Overig openbare ruimte (ASC)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Overlast in de openbare ruimte')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Overig openbare ruimte (ASC)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast in de openbare ruimte').and('be.visible');
 
       // Check history
       cy.get(SIGNAL_DETAILS.historyAction)

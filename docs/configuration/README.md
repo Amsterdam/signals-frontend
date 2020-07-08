@@ -97,6 +97,13 @@ See [the `Dockerfile` in the `signals-amsterdam` repository](https://github.com/
 - `footer2`
   Second line of information to show in the footer of the application.
 
+- `phoneNumber`
+  General phone number
+
+- `avgDisclaimer`
+  Text that outlines the use of privacy related information<br>
+  Used in the [`Footer` component](../../src/components/Footer/index.js)
+
 #### incidentForm
 
 ##### step5

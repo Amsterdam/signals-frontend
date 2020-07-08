@@ -1,14 +1,18 @@
 {
   "hoofdrubriek": [
     [
-      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
+      "http://localhost:8000/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
     ],
-    [0.7415683754592887]
+    [
+      0.7415683754592887
+    ]
   ],
   "subrubriek": [
     [
-      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/stankoverlast"
+      "http://localhost:8000/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/stankoverlast"
     ],
-    [0.6354335539579931]
+    [
+      0.6354335539579931
+    ]
   ]
 }

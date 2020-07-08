@@ -22,10 +22,12 @@
     "siteId": 14
   },
   "language": {
+    "avgDisclaimer": "De gemeente Amsterdam verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='##AVG_DISCLAIMER_URL##'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
     "consentToContactSharing": "Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
-    "footer1": "Bel het Gemeentelijk informatienummer: 14 020",
+    "footer1": "Bel het Gemeentelijk informatienummer: <a href='tel:##GENERAL_PHONE_NUMBER_FORMATTED##'>##GENERAL_PHONE_NUMBER##</a>",
     "footer2": "op werkdagen van 08.00 tot 18.00 uur.",
     "headerTitle": "",
+    "phoneNumber": "14 020",
     "shortTitle": "SIA",
     "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
     "smallHeaderTitle": "SIA",
@@ -35,7 +37,7 @@
   "links": {
     "help": "https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365",
     "home": "https://www.amsterdam.nl",
-    "privacy": "https://www.amsterdam.nl/privacy/"
+    "privacy": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/"
   },
   "theme": {},
   "map": {

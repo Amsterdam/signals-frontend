@@ -11,6 +11,7 @@ import {
 } from 'signals/incident-management/actions';
 import { makeSelectAllFilters } from 'signals/incident-management/selectors';
 import * as types from 'shared/types';
+import useEventEmitter from 'hooks/useEventEmitter';
 
 import FilterItem from './components/FilterItem';
 
@@ -31,6 +32,8 @@ export const MyFiltersComponent = ({
   onRemoveFilter,
   onClose,
 }) => {
+  const { emit } = useEventEmitter();
+
   /**
    * Selecting apply filter should show the filtered incidents as well as set the filter values
    * for the filter form and should thus call both the onApplyFilter and onEditFilter actions
@@ -41,21 +44,9 @@ export const MyFiltersComponent = ({
 
   const handleEditFilter = useCallback(filter => {
     onEditFilter(filter);
-    // IE11 doesn't support dispatching an event without initialisation
-    // @see {@link https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events}
-    let event;
-    if (typeof Event === 'function') {
-      event = new Event('openFilter');
-    } else {
-      event = document.createEvent('Event');
-      const bubbles = false;
-      const cancelable = false;
-      event.initEvent('openFilter', bubbles, cancelable);
-    }
 
-    event.data = filter;
-    document.dispatchEvent(event);
-  }, [onEditFilter]);
+    emit('openFilter');
+  }, [onEditFilter, emit]);
 
   return (
     <div className="my-filters">

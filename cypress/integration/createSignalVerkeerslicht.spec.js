@@ -2,6 +2,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CREATE_SIGNAL, VERKEERSLICHT } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import questions from '../support/questions.json';
 
 describe('Create signal Verkeerslicht and check signal details', () => {
   describe('Create signal Verkeerslicht', () => {
@@ -38,27 +39,18 @@ describe('Create signal Verkeerslicht and check signal details', () => {
         .contains('Dit is een verplicht veld');
 
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
-      const messageCallDirectly = 'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.';
+      const messageCallDirectly = questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_gevaar.answers;
 
-      cy.get(VERKEERSLICHT.radioButtonAanrijding)
-        .check()
-        .should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht.label).should('be.visible');
+      cy.get(VERKEERSLICHT.radioButtonAanrijding).check().should('be.checked');
       cy.contains(messageCallDirectly);
-      cy.get(VERKEERSLICHT.radioButtonOpGrond)
-        .check()
-        .should('be.checked');
+      cy.get(VERKEERSLICHT.radioButtonOpGrond).check().should('be.checked');
       cy.contains(messageCallDirectly);
-      cy.get(VERKEERSLICHT.radioButtonDeur)
-        .check()
-        .should('be.checked');
+      cy.get(VERKEERSLICHT.radioButtonDeur).check().should('be.checked');
       cy.contains(messageCallDirectly);
-      cy.get(VERKEERSLICHT.radioButtonLosseKabels)
-        .check()
-        .should('be.checked');
+      cy.get(VERKEERSLICHT.radioButtonLosseKabels).check().should('be.checked');
       cy.contains(messageCallDirectly);
-      cy.get(VERKEERSLICHT.radioButtonNietGevaarlijk)
-        .check()
-        .should('be.checked');
+      cy.get(VERKEERSLICHT.radioButtonNietGevaarlijk).check().should('be.checked');
       cy.contains(messageCallDirectly).should('not.exist');
 
       // Click on next to invoke error message
@@ -69,9 +61,9 @@ describe('Create signal Verkeerslicht and check signal details', () => {
         .contains('Dit is een verplicht veld');
 
       // Check all options for voetganger
-      cy.get(VERKEERSLICHT.radioButtonTypeVoetganger)
-        .check()
-        .should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_welk.label).should('be.visible');
+      cy.get(VERKEERSLICHT.radioButtonTypeVoetganger).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_voetganger.label).should('be.visible');
       cy.get(VERKEERSLICHT.checkBoxVoetgangerRoodLicht)
         .parent()
         .parent()
@@ -104,9 +96,8 @@ describe('Create signal Verkeerslicht and check signal details', () => {
         .and('be.visible');
 
       // Check all options for Fiets
-      cy.get(VERKEERSLICHT.radioButtonTypeFiets)
-        .check()
-        .should('be.checked');
+      cy.get(VERKEERSLICHT.radioButtonTypeFiets).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_fiets_auto.label).should('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoRoodLicht)
         .parent()
         .parent()
@@ -139,9 +130,8 @@ describe('Create signal Verkeerslicht and check signal details', () => {
         .and('be.visible');
 
       // Check all options for Auto
-      cy.get(VERKEERSLICHT.radioButtonTypeAuto)
-        .check()
-        .should('be.checked');
+      cy.get(VERKEERSLICHT.radioButtonTypeAuto).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_fiets_auto.label).should('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoRoodLicht)
         .parent()
         .parent()
@@ -174,9 +164,8 @@ describe('Create signal Verkeerslicht and check signal details', () => {
         .and('be.visible');
 
       // Check all options for Tram of bus
-      cy.get(VERKEERSLICHT.radioButtonTypeTramBus)
-        .check()
-        .should('be.checked');
+      cy.get(VERKEERSLICHT.radioButtonTypeTramBus).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_bus_tram.label).should('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramRoodLicht)
         .parent()
         .parent()
@@ -209,35 +198,41 @@ describe('Create signal Verkeerslicht and check signal details', () => {
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramRoodLicht).check();
 
-      cy.get(VERKEERSLICHT.inputRijrichting)
-        .eq(0)
-        .type('Richting centrum');
-      cy.get(VERKEERSLICHT.inputNummerVerkeerslicht)
-        .eq(1)
-        .type('365');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_rijrichting.label).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_rijrichting.subtitle).should('be.visible');
+      cy.get(VERKEERSLICHT.inputRijrichting).eq(0).type('Richting centrum');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_nummer.label).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_nummer.subtitle).should('be.visible');
+      cy.get(VERKEERSLICHT.inputNummerVerkeerslicht).eq(1).type('365');
 
       cy.contains('Volgende').click();
     });
 
     it('Should enter a phonenumber and email address', () => {
       cy.contains('Volgende').click();
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePublic();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check information provided by user
       cy.contains(Cypress.env('address')).should('be.visible');
       cy.contains(Cypress.env('description')).should('be.visible');
       cy.contains('Vandaag, 5:45').should('be.visible');
-      cy.contains('Niet gevaarlijk').should('be.visible');
-      cy.contains('Tram of bus').should('be.visible');
-      cy.contains('Rood licht werkt niet').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht.shortLabel).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht.answers.niet_gevaarlijk).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_welk.shortLabel).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_welk.answers.tram_bus).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_bus_tram.answers.rood_werkt_niet).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_rijrichting.shortLabel).should('be.visible');
       cy.contains('Richting centrum').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_nummer.shortLabel).should('be.visible');
       cy.contains('365').should('be.visible');
 
       cy.contains('Verstuur').click();
@@ -262,50 +257,26 @@ describe('Create signal Verkeerslicht and check signal details', () => {
     });
 
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Centrum')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Weesperstraat 113')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1018VN Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Weesperstraat 113').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1018VN Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Verkeerslicht (VOR)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Wegen, verkeer, straatmeubilair')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Verkeerslicht (VOR)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Wegen, verkeer, straatmeubilair').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
   });
 });
