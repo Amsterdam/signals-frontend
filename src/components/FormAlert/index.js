@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeColor, Heading, ascDefaultTheme, themeSpacing } from '@datapunt/asc-ui';
+import styled, { css } from 'styled-components';
+import {
+  themeColor,
+  Heading,
+  ascDefaultTheme,
+  themeSpacing,
+} from '@datapunt/asc-ui';
 
 const Div = styled.div`
   background-color: ${themeColor('tint', 'level2')};
   border-left: ${themeSpacing(0.5)} solid;
   margin-bottom: ${themeSpacing(6)};
   padding: ${themeSpacing(4)};
-  border-color: ${({ isNotification }) => (isNotification ? themeColor('support', 'valid') : themeColor('secondary'))};
+  border-color: ${({ isNotification }) =>
+    isNotification ? themeColor('support', 'valid') : themeColor('secondary')};
 
   @media (min-width: ${ascDefaultTheme.layouts.small.max}px) {
     font-size: 18px;
@@ -21,11 +27,12 @@ const Title = styled(Heading).attrs({
   forwardedAs: 'h4',
 })`
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  color: ${({ isNotification }) => (isNotification ? themeColor('support', 'valid') : themeColor('secondary'))};
+  color: ${({ isNotification }) =>
+    isNotification ? themeColor('support', 'valid') : themeColor('secondary')};
 
   ${({ hasMessage }) =>
     !hasMessage &&
-    `
+    css`
       margin-bottom: 0;
     `}
 `;
