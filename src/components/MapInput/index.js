@@ -53,7 +53,7 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
   }
 `;
 
-const MapInput = ({ className, value, onChange, mapOptions, events }) => {
+const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, events }) => {
   const { state, dispatch } = useContext(MapContext);
   const [map, setMap] = useState();
   const [marker, setMarker] = useState();
@@ -73,7 +73,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
-      const stadsdeel = configuration?.map?.options?.stadsdeel || (await getStadsdeel(event.latlng));
+      const stadsdeel = configuration?.map?.options?.stadsdeel || await getStadsdeel(event.latlng);
 
       const onChangePayload = {
         geometrie: locationTofeature(event.latlng),
@@ -107,7 +107,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
         setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value })
       );
 
-      const stadsdeel = configuration?.map?.options?.stadsdeel || (await getStadsdeel(option.data.location));
+      const stadsdeel = configuration?.map?.options?.stadsdeel || await getStadsdeel(option.data.location);
 
       onChange({
         geometrie: locationTofeature(option.data.location),
@@ -151,6 +151,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
     <Wrapper data-testid="map-input" className={className}>
       <StyledMap
         events={{ click, dblclick: doubleClick, ...events }}
+        hasGPSControl={hasGPSControl}
         hasZoomControls
         mapOptions={mapOptions}
         setInstance={setMap}
@@ -159,7 +160,7 @@ const MapInput = ({ className, value, onChange, mapOptions, events }) => {
           topLeft={
             <StyledAutosuggest
               formatResponse={formatPDOKResponse}
-              gemeentenaam={configuration.map.options.gemeentenaam}
+              municipality={configuration.map?.municipality}
               onClear={() => dispatch(resetLocationAction())}
               onSelect={onSelect}
               placeholder="Zoek adres"
@@ -189,6 +190,7 @@ MapInput.propTypes = {
    * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
    */
   events: PropTypes.shape({}),
+  hasGPSControl: PropTypes.bool,
   /**
    * leaflet options
    * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}

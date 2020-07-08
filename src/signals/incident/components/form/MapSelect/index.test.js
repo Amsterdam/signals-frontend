@@ -45,6 +45,7 @@ describe('signals/incident/components/form/MapSelect', () => {
       );
 
       expect(queryByTestId('map-base')).toBeInTheDocument();
+      expect(queryByTestId('gpsButton')).toBeInTheDocument();
       expect(container.firstChild.classList.contains('mapSelect')).toBeTruthy();
 
       rerender(withAppContext(<MapSelect parent={parent} meta={{ ...meta, isVisible: false }} handler={handler} />));

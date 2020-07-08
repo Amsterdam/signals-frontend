@@ -13,7 +13,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
   const { lat, lng } = value?.location || {};
   const mapOptions = {
     ...MAP_OPTIONS,
-    center: (lat && lng) ? [lat, lng] : [...MAP_OPTIONS.center],
+    center: lat && lng ? [lat, lng] : [...MAP_OPTIONS.center],
   };
 
   // Can't use useCallback here, would break the rules of hooks
@@ -25,7 +25,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
     <Header className="mapInput" meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <div className="invoer">
         <MapContext>
-          <MapInputComponent onChange={onLocationChange} value={value} mapOptions={mapOptions} />
+          <MapInputComponent onChange={onLocationChange} value={value} mapOptions={mapOptions} hasGPSControl />
         </MapContext>
       </div>
     </Header>

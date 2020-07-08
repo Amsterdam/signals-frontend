@@ -1,3 +1,5 @@
+import configuration from 'shared/services/configuration/configuration';
+
 export const locationTofeature = location => ({
   type: 'Point',
   coordinates: [location.lng, location.lat],
@@ -127,3 +129,10 @@ export const formatPDOKResponse = ({ response }) =>
       },
     };
   });
+
+export const pointWithinBounds = (coordinates, bounds = configuration.map.options.maxBounds) => {
+  const latWithinBounds = coordinates[0] > bounds[0][0] && coordinates[0] < bounds[1][0];
+  const lngWithinBounds = coordinates[1] > bounds[0][1] && coordinates[1] < bounds[1][1];
+
+  return latWithinBounds && lngWithinBounds;
+};

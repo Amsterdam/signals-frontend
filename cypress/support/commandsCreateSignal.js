@@ -18,6 +18,7 @@ export const checkDescriptionPage = () => {
   cy.checkHeaderText('Beschrijf uw melding');
   cy.contains('Waar is het?').should('be.visible');
   cy.contains('Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart').should('be.visible');
+  cy.get(CREATE_SIGNAL.buttonGPS).should('be.visible');
   cy.contains('Waar gaat het om?').should('be.visible');
   cy.contains('Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd').should('be.visible');
   cy.contains('Geef het tijdstip aan').should('be.visible');
@@ -38,21 +39,11 @@ export const checkSignalDetailsPage = () => {
   cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
   cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-  cy.get(SIGNAL_DETAILS.labelEmail)
-    .should('have.text', 'E-mail melder')
-    .and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelLocatie)
-    .should('have.text', 'Locatie')
-    .and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelOverlast)
-    .should('have.text', 'Overlast')
-    .and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelTelefoon)
-    .should('have.text', 'Telefoon melder')
-    .and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelToestemming)
-    .should('have.text', 'Toestemming contactgegevens delen')
-    .and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelLocatie).should('have.text', 'Locatie').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelOverlast).should('have.text', 'Overlast').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelTelefoon).should('have.text', 'Telefoon melder').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelToestemming).should('have.text', 'Toestemming contactgegevens delen').and('be.visible');
 };
 
 export const checkSpecificInformationPage = () => {
@@ -131,10 +122,7 @@ export const setDateTime = dateTime => {
 
 export const setDescription = description => {
   Cypress.env('description', description);
-  cy.get('textarea')
-    .clear()
-    .invoke('val', description)
-    .trigger('input');
+  cy.get('textarea').clear().invoke('val', description).trigger('input');
 };
 
 export const setEmailAddress = emailAddress => {
@@ -142,9 +130,7 @@ export const setEmailAddress = emailAddress => {
   cy.url().should('include', '/incident/email');
   cy.checkHeaderText('Wilt u op de hoogte blijven?');
   if (emailAddress) {
-    cy.get(CREATE_SIGNAL.inputEmail)
-      .clear()
-      .type(emailAddress);
+    cy.get(CREATE_SIGNAL.inputEmail).clear().type(emailAddress);
   }
 };
 
@@ -153,9 +139,7 @@ export const setPhonenumber = phoneNumber => {
   cy.url().should('include', '/incident/telefoon');
   cy.checkHeaderText('Mogen we u bellen voor vragen?');
   if (phoneNumber) {
-    cy.get(CREATE_SIGNAL.inputPhoneNumber)
-      .clear()
-      .type(phoneNumber);
+    cy.get(CREATE_SIGNAL.inputPhoneNumber).clear().type(phoneNumber);
   }
 };
 
@@ -177,8 +161,5 @@ export const uploadFile = (fileName, fileType = '', selector) => {
 // Functions specific for Lantaarnpaal
 export const selectLampOnCoordinate = (coordinateA, coordinateB) => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.get('.leaflet-container')
-    .should('be.visible')
-    .wait(500)
-    .click(coordinateA, coordinateB);
+  cy.get('.leaflet-container').should('be.visible').wait(500).click(coordinateA, coordinateB);
 };

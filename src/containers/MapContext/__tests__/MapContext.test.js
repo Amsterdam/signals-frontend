@@ -34,7 +34,7 @@ describe('containers/MapContext/index', () => {
 
     rerender(
       <MapContext>
-        <TestComponent value={{ location:testLocation }} />
+        <TestComponent value={{ location: testLocation }} />
       </MapContext>
     );
 
