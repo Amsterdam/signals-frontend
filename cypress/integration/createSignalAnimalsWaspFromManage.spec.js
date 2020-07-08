@@ -57,8 +57,8 @@ describe('Create signal animals from incident management and chek signal details
       createSignal.checkSpecificInformationPage();
 
       cy.contains(Cypress.env('description')).should('be.visible');
-      cy.get(questions.overlastVanDieren.extra_dieren_text.answers).
-        each($element => {
+      cy.get(questions.overlastVanDieren.extra_dieren_text.answers)
+        .each($element => {
           cy.contains($element).should('be.visible');
         });
       cy.contains('Dierenambulance Amsterdam').should('have.attr', 'href').and('include', 'dierenambulance-amsterdam');

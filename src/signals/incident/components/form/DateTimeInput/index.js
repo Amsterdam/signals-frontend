@@ -26,11 +26,11 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
   const options = [...Array(7).keys()].map(offset => {
     const name = formatDate(offset, 'label');
     const value = formatDate(offset);
-    return ({
+    return {
       value,
       key: name,
       name,
-    });
+    };
   });
 
   return (

@@ -26,6 +26,6 @@ describe('signals/incident-management/components/CalendarInput/CustomInput', () 
     ));
 
     expect(document.querySelector(`input[name=${name}]`)).toBeInTheDocument();
-    expect(document.querySelector(`input[readonly]`)).toBeInTheDocument();
+    expect(document.querySelector('input[readonly]')).toBeInTheDocument();
   });
 });
