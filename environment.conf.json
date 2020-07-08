@@ -37,21 +37,6 @@
   "theme": {},
   "map": {
     "municipality": "amsterdam",
-    "tiles": {
-      "args": [
-        "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
-      ],
-      "options": {
-        "subdomains": [
-          "t1",
-          "t2",
-          "t3",
-          "t4"
-        ],
-        "tms": true,
-        "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam"
-      }
-    },
     "options": {
       "center": [
         52.3731081,
@@ -71,10 +56,25 @@
       "minZoom": 8,
       "zoom": 10
     },
-    "backOfficeOptions": {
+    "optionsBackOffice": {
       "maxZoom": 16,
       "minZoom": 7,
       "zoom": 7
+    },
+    "tiles": {
+      "args": [
+        "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
+      ],
+      "options": {
+        "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam",
+        "subdomains": [
+          "t1",
+          "t2",
+          "t3",
+          "t4"
+        ],
+        "tms": true
+      }
     }
   },
   "fetchQuestionsFromBackend": false,

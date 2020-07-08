@@ -201,7 +201,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
         hasZoomControls
         mapOptions={{
           ...MAP_OPTIONS,
-          ...(configuration.map.backOfficeOptions || {}),
+          ...(configuration.map.optionsBackOffice || {}),
         }}
         setInstance={setMap}
       >
