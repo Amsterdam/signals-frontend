@@ -5,7 +5,7 @@ export const StyledTable = styled.table`
  width: 100%;
 `;
 
-export const StyledTHead = styled.thead `
+export const StyledTHead = styled.thead`
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 `;

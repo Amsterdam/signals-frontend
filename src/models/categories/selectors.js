@@ -113,10 +113,10 @@ export const makeSelectSubCategories = createSelector(
         extendedName = `${subCategory.name} (${responsibleDeptCodes.join(', ')})`;
       }
 
-      return ({
+      return {
         ...subCategory,
         extendedName,
-      });
+      };
     });
   }
 );

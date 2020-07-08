@@ -7,7 +7,7 @@ import Header from '../Header';
 import './style.scss';
 
 function get(e, meta, parent) {
-  if(e.target.value) parent.meta.getClassification(e.target.value);
+  if (e.target.value) parent.meta.getClassification(e.target.value);
   parent.meta.updateIncident({ [meta.name]: e.target.value });
 }
 

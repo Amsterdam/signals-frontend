@@ -97,7 +97,7 @@ describe('signals/settings/users/containers/Detail', () => {
     post.mockReset();
   });
 
-  it ('should render a backlink', () => {
+  it('should render a backlink', () => {
     const referrer = '/some-page-we-came-from';
     let getByTestId;
     let rerender;
