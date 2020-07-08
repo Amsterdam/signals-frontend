@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Row, Paragraph, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Row, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import configuration from 'shared/services/configuration/configuration';
@@ -78,10 +78,12 @@ const Footer = () => (
               }),
             }}
           />
-          <Paragraph>{configuration.language.footer2}</Paragraph>
+          <br />
+          <span>{configuration.language.footer2}</span>
         </Disclaimer>
 
-        <Paragraph
+        <span
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: stringFormatter(configuration.language.avgDisclaimer, {
               '##AVG_DISCLAIMER_URL##': configuration.links.privacy,
