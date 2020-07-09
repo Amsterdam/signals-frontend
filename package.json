@@ -40,12 +40,16 @@
     "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage --verbose false",
     "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage --verbose false",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage --verbose false",
-    "test": "cross-env NODE_ENV=test jest --coverage"
+    "test": "cross-env NODE_ENV=test jest --coverage",
+    "validate-config": "node ./internals/scripts/validate-config.js"
   },
   "lint-staged": {
     "*.js": "eslint --ignore-pattern internals/scripts"
   },
-  "pre-commit": "lint:staged",
+  "pre-commit": [
+    "lint:staged",
+    "validate-config"
+  ],
   "dependencies": {
     "@datapunt/amsterdam-react-maps": "^0.1.2",
     "@datapunt/asc-assets": "^0.20.0",
@@ -111,6 +115,7 @@
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.10.1",
     "@babel/register": "^7.10.1",
+    "@exodus/schemasafe": "^1.0.0-beta.1",
     "@redux-saga/is": "^1.1.2",
     "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/react": "^10.4.3",
