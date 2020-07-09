@@ -148,7 +148,10 @@ export const incidentType = PropTypes.shape({
     priority: PropTypes.string,
   }),
   signal_id: PropTypes.string,
-  source: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  source: PropTypes.shape({
+    id: PropTypes.string,
+    label: PropTypes.string,
+  }),
   status: PropTypes.shape({
     state: PropTypes.string,
     state_display: PropTypes.string,
