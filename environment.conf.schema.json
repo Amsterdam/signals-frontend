@@ -215,16 +215,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "title": {
+                "avgDisclaimer": {
                     "type": "string"
                 },
-                "shortTitle": {
-                    "type": "string"
-                },
-                "siteTitle": {
-                    "type": "string"
-                },
-                "phoneNumber": {
+                "consentToContactSharing": {
                     "type": "string"
                 },
                 "footer1": {
@@ -233,18 +227,40 @@
                 "footer2": {
                     "type": "string"
                 },
-                "avgDisclaimer": {
+                "headerTitle": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "shortTitle": {
+                    "type": "string"
+                },
+                "siteTitle": {
+                    "type": "string"
+                },
+                "smallHeaderTitle": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "urgentContactInfo": {
                     "type": "string"
                 }
             },
             "required": [
                 "avgDisclaimer",
+                "consentToContactSharing",
                 "footer1",
                 "footer2",
+                "headerTitle",
                 "phoneNumber",
                 "shortTitle",
                 "siteTitle",
-                "title"
+                "smallHeaderTitle",
+                "title",
+                "urgentContactInfo"
             ],
             "title": "Language"
         },
@@ -252,6 +268,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+                "help": {
+                    "type": "string",
+                    "format": "uri"
+                },
                 "home": {
                     "type": "string",
                     "format": "uri"
@@ -262,6 +282,7 @@
                 }
             },
             "required": [
+                "help",
                 "home",
                 "privacy"
             ],
