@@ -60,6 +60,7 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 FROM nginx:stable-alpine
 
 RUN apk add --no-cache jq nodejs npm
+RUN npm install @exodus/schemasafe
 
 COPY --from=builder /app/build/. /usr/share/nginx/html/
 
@@ -71,8 +72,6 @@ RUN chmod +x /usr/local/bin/start.sh
 COPY environment.conf.json /environment.conf.json
 COPY environment.conf.schema.json /environment.conf.schema.json
 COPY internals/scripts/validate.js /validate.js
-COPY internals/scripts/validate.sh /validate.sh
-RUN chmod +x /validate.sh
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \

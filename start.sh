@@ -1,10 +1,8 @@
 #!/bin/sh
 
-/validate.sh
+set -e
 
-if [[ 0 -ne $? ]]; then
-  exit 1
-fi
+node /validate.js
 
 export SIGNALS_SERVICE_WORKER_VERSION=$(date +"%Y-%m-%d %T")
 
