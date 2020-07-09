@@ -53,7 +53,6 @@ export const RoleFormContainer = ({
       message = roleId ? 'Gegevens opgeslagen' : 'Rol toegevoegd';
     }
 
-
     onResetResponse();
 
     if (!message) return;
