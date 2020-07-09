@@ -144,9 +144,9 @@ const FileInput = ({
         <div className="file-input">
           {previews.length > 0 && previews.map(preview => (
             <div key={preview} className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}>
-              {preview.includes('loading')
-                ? <div className="progress-indicator progress-red"></div>
-                : (
+              {preview.includes('loading') ?
+                <div className="progress-indicator progress-red"></div> :
+                (
                   <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
                     <button aria-label="Verwijder deze foto" type="button" className="file-input__preview-button-delete" onClick={e => removeFile(e, preview, previews, handler().value)} />
                   </div>

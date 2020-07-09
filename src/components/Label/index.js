@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const LabelWrapper = styled.div`
-  ${({ isGroupHeader }) => !isGroupHeader
-    && css`
+  ${({ isGroupHeader }) => !isGroupHeader &&
+    css`
       display: inline-block;
     `}
 `;

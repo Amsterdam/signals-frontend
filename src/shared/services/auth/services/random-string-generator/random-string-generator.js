@@ -11,8 +11,8 @@
  */
 const stateTokenGenerator = () => {
   // Backwards compatible with msCrypto in IE11
-  const cryptoLib = window.crypto
-  || window.msCrypto; // eslint-disable-line no-undef
+  const cryptoLib = window.crypto ||
+  window.msCrypto; // eslint-disable-line no-undef
 
   if (!cryptoLib) {
     return '';

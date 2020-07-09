@@ -85,8 +85,7 @@ export const RoleFormContainer = ({
       <Row>
         <Column span={12}>
           {loading || loadingPermissions ?
-            <LoadingIndicator />
-            :
+            <LoadingIndicator /> :
             (
               <RoleForm
                 role={role}

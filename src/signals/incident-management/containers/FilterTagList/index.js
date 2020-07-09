@@ -124,9 +124,9 @@ export const FilterTagListComponent = props => {
   return mainCategories && subCategories ? (
     <FilterWrapper>
       {Object.entries(tagsList).map(([tagKey, tag]) =>
-        Array.isArray(tag)
-          ? renderGroup(tag, mainCategories, map[tagKey], tagKey)
-          : renderTag(tag, mainCategories, map[tagKey])
+        Array.isArray(tag) ?
+          renderGroup(tag, mainCategories, map[tagKey], tagKey) :
+          renderTag(tag, mainCategories, map[tagKey])
       )}
     </FilterWrapper>
   ) : null;

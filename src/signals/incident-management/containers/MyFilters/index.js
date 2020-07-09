@@ -60,8 +60,8 @@ export const MyFiltersComponent = ({
             onRemoveFilter={onRemoveFilter}
             onClose={onClose}
           />
-        ))
-        : (
+        )) :
+        (
           <div className="my-filters--empty">
             <p>U heeft geen eigen filter opgeslagen.</p>
             <p>
