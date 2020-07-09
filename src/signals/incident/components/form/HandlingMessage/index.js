@@ -5,7 +5,7 @@ import get from 'lodash.get';
 
 import './style.scss';
 
-function renderText(key, name, parent) {
+const renderText = (key, name, parent) => {
   const replacedValue = get(parent, `meta.incidentContainer.${key}`);
   if (replacedValue) {
     return replacedValue.split('\n\n').map((item, k) => (
@@ -15,7 +15,7 @@ function renderText(key, name, parent) {
     ));
   }
   return <div>We gaan zo snel mogelijk aan de slag.</div>;
-}
+};
 
 const HandlingMessage = ({ meta, parent }) =>
   meta?.isVisible && (

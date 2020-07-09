@@ -226,7 +226,7 @@ export function getAuthHeaders() {
 }
 
 
-export function authenticate() {
+export const authenticate = () => {
   initAuth();
 
   const accessToken = getAccessToken();
@@ -235,4 +235,4 @@ export function authenticate() {
   }
 
   return null;
-}
+};
