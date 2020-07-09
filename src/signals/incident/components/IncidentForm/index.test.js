@@ -73,7 +73,7 @@ describe('<IncidentForm />', () => {
                 <IncidentForm {...props} />
               </Step>
             </Steps>
-          </Wizard >
+          </Wizard>
         ),
       );
 
@@ -104,7 +104,7 @@ describe('<IncidentForm />', () => {
               <IncidentForm {...props} />
             </Step>
           </Steps>
-        </Wizard >
+        </Wizard>
       );
 
       formWrapper = wrapper.find(IncidentForm).dive();
