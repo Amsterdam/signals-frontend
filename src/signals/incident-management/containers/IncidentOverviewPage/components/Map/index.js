@@ -199,12 +199,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
       <StyledMap
         data-testid="overviewMap"
         hasZoomControls
-        mapOptions={{
-          ...MAP_OPTIONS,
-          maxZoom: 16,
-          minZoom: 7,
-          zoom: 7,
-        }}
+        mapOptions={{ ...MAP_OPTIONS, maxZoom: 16, minZoom: 7, zoom: 7 }}
         setInstance={setMap}
       >
         <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />
