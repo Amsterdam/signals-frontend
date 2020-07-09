@@ -79,6 +79,13 @@ module.exports = {
         'no-console': 'warn',
       },
     },
+    {
+      files: ['cypress/**/*'],
+      rules: {
+        'promise/always-return': 'off',
+        'promise/catch-or-return': 'off',
+      },
+    },
   ],
   rules: {
     // proposed rules
