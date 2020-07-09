@@ -104,25 +104,22 @@ exports[`Form component <FileInput /> rendering should render upload field with 
          
       </div>
     </div>
+    <FileInput__FileInputError
+      key="Dit bestand is te groot. De maximale bestandgrootte is 976,6 kB."
+    >
+      Dit bestand is te groot. De maximale bestandgrootte is 976,6 kB.
+    </FileInput__FileInputError>
+    <FileInput__FileInputError
+      key="Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg."
+    >
+      Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.
+    </FileInput__FileInputError>
+    <FileInput__FileInputError
+      key="U kunt maximaal 3 bestanden uploaden."
+    >
+      U kunt maximaal 3 bestanden uploaden.
+    </FileInput__FileInputError>
   </Header>
-  <div
-    className="file-input__error"
-    key="Dit bestand is te groot. De maximale bestandgrootte is 976,6 kB."
-  >
-    Dit bestand is te groot. De maximale bestandgrootte is 976,6 kB.
-  </div>
-  <div
-    className="file-input__error"
-    key="Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg."
-  >
-    Dit bestandstype wordt niet ondersteund. Toegestaan zijn: jpeg.
-  </div>
-  <div
-    className="file-input__error"
-    key="U kunt maximaal 3 bestanden uploaden."
-  >
-    U kunt maximaal 3 bestanden uploaden.
-  </div>
 </Fragment>
 `;
 
