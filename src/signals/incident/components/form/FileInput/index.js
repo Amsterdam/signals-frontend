@@ -123,7 +123,7 @@ const FileInput = ({
   const previews = (parent && parent.value && parent.value[`${meta && meta.name}_previews`]) || [];
   const errors = (parent && parent.value && parent.value[`${meta && meta.name}_errors`]) || null;
   const numberOfEmtpy = maxNumberOfFiles - previews.length - 1;
-  const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
+  const empty = numberOfEmtpy < 0 ? [] : [...Array(numberOfEmtpy).keys()];
 
   if (!meta?.isVisible) return null;
 

@@ -99,7 +99,7 @@ describe('<List />', () => {
 
       expect(numCells).toEqual(incidentList.length);
 
-      const elementsWithTextContent = Array.from(getAllByTestId('incidentDaysOpen')).filter(element => element.textContent !== '-');
+      const elementsWithTextContent = [...getAllByTestId('incidentDaysOpen')].filter(element => element.textContent !== '-');
 
       expect(elementsWithTextContent).toHaveLength(2);
     });

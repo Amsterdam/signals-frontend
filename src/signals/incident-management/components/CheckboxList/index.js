@@ -210,7 +210,7 @@ const CheckboxList = ({
         } else {
           const onChangeTimeout = global.setTimeout(() => {
             global.clearTimeout(onChangeTimeout);
-            onChange(groupValue || name, Array.from(modifiedState));
+            onChange(groupValue || name, [...modifiedState]);
           }, 0);
         }
 
