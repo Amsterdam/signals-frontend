@@ -60,7 +60,7 @@ if (urlBase && siteId) {
 
 const render = () => {
   // eslint-disable-next-line no-undef,no-console
-  if (GIT_BRANCH) console.log(`Signals: tag ${GIT_BRANCH}`);
+  if (prelease) console.log(`Signals: tag ${release}`);
 
   ReactDOM.render(
     <Provider store={store}>
