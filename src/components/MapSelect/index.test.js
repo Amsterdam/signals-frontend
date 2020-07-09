@@ -7,7 +7,7 @@ import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
 import ErrorControl from './control/ErrorControl';
 
-import MapSelect from './index';
+import MapSelect from '.';
 
 jest.mock('./control/ZoomMessageControl');
 jest.mock('./control/LegendControl');

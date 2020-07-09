@@ -5,7 +5,7 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import ChangeValue from './index';
+import ChangeValue from '.';
 
 jest.mock('shared/services/list-helper/list-helper');
 

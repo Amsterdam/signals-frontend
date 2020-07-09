@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import Detail from './index';
+import Detail from '.';
 
 describe('<Detail />', () => {
   const props = {

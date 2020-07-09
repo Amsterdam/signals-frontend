@@ -2,7 +2,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import HandlingMessage from './index';
+import HandlingMessage from '.';
 
 describe('Form component <HandlingMessage />', () => {
   const incidentContainer = {

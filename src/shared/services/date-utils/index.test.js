@@ -1,4 +1,4 @@
-import { dateToString, dateToISOString, capitalize } from './index';
+import { dateToString, dateToISOString, capitalize } from '.';
 
 describe('dateToISOString', () => {
   it('should convert the date object in the yyyy-MM-dd format', () => {

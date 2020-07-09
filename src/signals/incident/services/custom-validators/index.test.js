@@ -1,4 +1,4 @@
-import { validateFileType, validateMaxFilesize, validateMinFilesize, validatePhoneNumber } from './index';
+import { validateFileType, validateMaxFilesize, validateMinFilesize, validatePhoneNumber } from '.';
 
 describe('The costom validators service', () => {
   describe('should validate file type', () => {

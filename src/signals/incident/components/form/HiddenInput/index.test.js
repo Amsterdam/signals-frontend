@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import HiddenInput from './index';
+import HiddenInput from '.';
 
 describe('Form component <HiddenInput />', () => {
   it('renders a hidden input element', () => {

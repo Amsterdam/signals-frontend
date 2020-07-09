@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 
-import AttachmentViewer from './index';
+import AttachmentViewer from '.';
 
 describe('<AttachmentViewer />', () => {
   const props = {

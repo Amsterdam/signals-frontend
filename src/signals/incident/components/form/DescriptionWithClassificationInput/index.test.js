@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import TextArea from 'components/TextArea';
 
-import DescriptionWithClassificationInput from './index';
+import DescriptionWithClassificationInput from '.';
 
 describe('Form component <DescriptionWithClassificationInput />', () => {
   const metaFields = {

@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 
 import incidents from 'utils/__tests__/fixtures/incidents.json';
 
-import List from './index';
+import List from '.';
 
 describe('<List />', () => {
   let props;

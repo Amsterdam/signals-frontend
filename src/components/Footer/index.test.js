@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import configuration from 'shared/services/configuration/configuration';
 
-import Footer from './index';
+import Footer from '.';
 
 describe('<Footer />', () => {
   it('should render correctly', () => {

@@ -7,7 +7,7 @@ import incident from 'utils/__tests__/fixtures/incident.json';
 import * as modelSelectors from 'models/categories/selectors';
 import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
 
-import IncidentPart from './index';
+import IncidentPart from '.';
 
 jest.mock('containers/App/selectors', () => ({
   __esModule: true,

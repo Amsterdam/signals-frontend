@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import TextInput from './index';
+import TextInput from '.';
 
 describe('Form component <TextInput />', () => {
   const props = {

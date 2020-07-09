@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import TextArea from 'components/TextArea';
 
-import TextareaInput from './index';
+import TextareaInput from '.';
 
 describe('Form component <TextareaInput />', () => {
   const metaFields = {

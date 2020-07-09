@@ -8,7 +8,7 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import incident from 'utils/__tests__/fixtures/incident.json';
 
-import SplitDetail from './index';
+import SplitDetail from '.';
 
 jest.mock('shared/services/string-parser');
 jest.mock('shared/services/list-helper/list-helper');

@@ -1,4 +1,4 @@
-import mapCategories from './index';
+import mapCategories from '.';
 
 describe('The mapCategories service', () => {
   it('by default should return empty categories', () => {
