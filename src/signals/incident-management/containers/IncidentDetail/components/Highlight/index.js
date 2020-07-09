@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { themeColor } from '@datapunt/asc-ui';
 
 import useEventEmitter from 'hooks/useEventEmitter';
@@ -8,24 +8,22 @@ import useEventEmitter from 'hooks/useEventEmitter';
 export const HIGHLIGHT_TIMEOUT_INTERVAL = 1500;
 
 const Wrapper = styled.div`
-  ${({ animate }) =>
-    animate &&
-    css`
-      position: relative;
+  &.animate {
+    position: relative;
 
-      &::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: -3px;
-        bottom: 0;
-        right: 0;
-        background-color: ${themeColor('support', 'focus')};
-        opacity: 0;
-        animation: highlight-fade-out ${HIGHLIGHT_TIMEOUT_INTERVAL}ms;
-        z-index: -1;
-      }
-    `}
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: -3px;
+      bottom: 0;
+      right: 0;
+      background-color: ${themeColor('support', 'focus')};
+      opacity: 0;
+      animation: highlight-fade-out ${HIGHLIGHT_TIMEOUT_INTERVAL}ms;
+      z-index: -1;
+    }
+  }
 
   .children {
     position: relative;
@@ -53,7 +51,6 @@ const Highlight = ({ className, children, type }) => {
       setAnimate(true);
 
       const clear = () => {
-        setAnimate(false);
         global.window.clearTimeout(animateTimeout);
       };
 
@@ -73,7 +70,7 @@ const Highlight = ({ className, children, type }) => {
   }, [listenFor, animateHighlight, unlisten]);
 
   return (
-    <Wrapper className={className} animate={animate} data-testid="highlight">
+    <Wrapper className={`${className}${animate ? 'animate' : ''}`} data-testid="highlight">
       {children}
     </Wrapper>
   );

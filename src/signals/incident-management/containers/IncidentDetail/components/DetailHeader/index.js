@@ -93,7 +93,6 @@ const DetailHeader = () => {
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === incident.status.state);
   const downloadLink = incident?._links?.['sia:pdf']?.href;
   const patch = {
-    id: incident.id,
     type: PATCH_TYPE_THOR,
     patch: {
       status: {

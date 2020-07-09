@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import * as reactRedux from 'react-redux';
 
-import { PATCH_TYPE_STATUS } from 'models/incident/constants';
-import { patchIncident } from 'models/incident/actions';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { changeStatusOptionList } from '../../../../definitions/statusList';
 
+import { PATCH_TYPE_STATUS } from '../../constants';
+import IncidentDetailContext from '../../context';
 import StatusForm from '.';
 
 const defaultTexts = [
@@ -32,7 +31,13 @@ const defaultTexts = [
 
 const onClose = jest.fn();
 const dispatch = jest.fn();
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+
+const renderWithContext = () =>
+  withAppContext(
+    <IncidentDetailContext.Provider value={{ incident: incidentFixture, dispatch }}>
+      <StatusForm onClose={onClose} defaultTexts={defaultTexts} />
+    </IncidentDetailContext.Provider>
+  );
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   beforeEach(() => {
@@ -41,9 +46,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('renders correctly', () => {
-    const { container, getByTestId, getByLabelText } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { container, getByTestId, getByLabelText } = render(renderWithContext());
 
     expect(container.querySelector('textarea')).toBeInTheDocument();
     expect(getByTestId('statusFormSubmitButton')).toBeInTheDocument();
@@ -57,9 +60,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   it('shows default texts', () => {
     const stateWithTexts = defaultTexts[0].state;
 
-    const { getByText, getByTestId, queryByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { getByText, getByTestId, queryByTestId } = render(renderWithContext());
 
     const radioButton = getByTestId(`status-${stateWithTexts}`);
 
@@ -77,9 +78,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('does not show default texts', () => {
-    const { getByTestId, queryByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { getByTestId, queryByTestId } = render(renderWithContext());
 
     expect(queryByTestId('defaultTextsTitle')).not.toBeInTheDocument();
 
@@ -96,9 +95,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   it('applies default text selection', () => {
     const stateWithTexts = defaultTexts[0].state;
 
-    const { container, getByTestId, getAllByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { container, getByTestId, getAllByTestId } = render(renderWithContext());
 
     const radioButton = getByTestId(`status-${stateWithTexts}`);
 
@@ -134,9 +131,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   it('should alert on presence of specific characters', () => {
     global.alert = jest.fn();
 
-    const { container, getByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { container, getByTestId } = render(renderWithContext());
 
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
@@ -160,9 +155,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('should handle submit', () => {
-    const { getByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { getByTestId } = render(renderWithContext());
 
     expect(onClose).not.toHaveBeenCalled();
     expect(dispatch).not.toHaveBeenCalled();
@@ -171,15 +164,12 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
 
-    expect(dispatch).toHaveBeenCalledWith(
-      patchIncident({
-        id: incidentFixture.id,
-        type: PATCH_TYPE_STATUS,
-        patch: {
-          status: { state: incidentFixture.status.state, text: '' },
-        },
-      })
-    );
+    expect(dispatch).toHaveBeenCalledWith({
+      type: PATCH_TYPE_STATUS,
+      patch: {
+        status: { state: incidentFixture.status.state, state_display: incidentFixture.status.state_display },
+      },
+    });
     expect(onClose).toHaveBeenCalled();
   });
 });

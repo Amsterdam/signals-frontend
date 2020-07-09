@@ -1,13 +1,18 @@
 import React from 'react';
 // import { shallow } from 'enzyme';
-import { render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
+import * as reactRedux from 'react-redux';
+// import { renderHook } from '@testing-library/react-hooks';
 
 import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
 // import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import historyFixture from 'utils/__tests__/fixtures/history.json';
+import useEventEmitter from 'hooks/useEventEmitter';
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
 // import History from 'components/History';
 
@@ -25,9 +30,25 @@ import historyFixture from 'utils/__tests__/fixtures/history.json';
 // import typesList from '../../definitions/typesList';
 
 import IncidentDetail from '.';
-import blob from './static.jpg';
+// import blob from './static.jpg';
 
 // const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub);
+
+// prevent fetch requests that we don't need to verify
+jest.mock('components/MapStatic', () => () => <span data-testid="mapStatic" />);
+
+const dispatch = jest.fn();
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}));
+
+jest.mock('hooks/useEventEmitter');
+
+const emit = jest.fn();
+useEventEmitter.mockReturnValue({ listenFor: jest.fn(), unlisten: jest.fn(), emit });
 
 const statusMessageTemplates = [
   {
@@ -63,20 +84,24 @@ const attachments = {
   ],
 };
 
-jest.mock('react-router-dom', () => ({
-  __esModule: true,
-  ...jest.requireActual('react-router-dom'),
-}));
-
 const id = '999999';
 
 describe('signals/incident-management/containers/IncidentDetail', () => {
   beforeEach(() => {
     fetch.resetMocks();
+    dispatch.mockReset();
+    emit.mockReset();
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       id,
     }));
+
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
+      [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(attachments), { status: 200 }]
+    );
   });
 
   it('should retrieve incident data', async () => {
@@ -120,34 +145,54 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   });
 
   it('should retrieve default texts and attachments only once', async () => {
-    fetch.mockResponses(
-      [JSON.stringify(incidentFixture), { status: 200 }],
-      [new Blob([blob], { type: 'image/png' }), { status: 200 }], // fetch performed by MapStatic component in Location component
-      [JSON.stringify(historyFixture), { status: 200 }],
-      [JSON.stringify(statusMessageTemplates), { status: 200 }],
-      [JSON.stringify(attachments), { status: 200 }]
-    );
-
     const { findByTestId, rerender } = render(withAppContext(<IncidentDetail />));
 
     await findByTestId('incidentDetail');
 
-    expect(fetch).toHaveBeenCalledTimes(5);
+    expect(fetch).toHaveBeenCalledTimes(4);
 
-    rerender(withAppContext(<IncidentDetail />));
-
-    expect(fetch).toHaveBeenCalledTimes(5);
-  });
-
-  it('should render correctly', async () => {
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
-      [new Blob([blob], { type: 'image/png' }), { status: 200 }], // fetch performed by MapStatic component in Location component
       [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }]
     );
 
+    rerender(withAppContext(<IncidentDetail />));
+
+    await findByTestId('incidentDetail');
+
+    expect(fetch).toHaveBeenCalledTimes(4);
+  });
+
+  it('should retrieve data when id param changes', async () => {
+    const { findByTestId, rerender, unmount } = render(withAppContext(<IncidentDetail />));
+
+    await findByTestId('incidentDetail');
+
+    expect(fetch).toHaveBeenCalledTimes(4);
+
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
+      [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(attachments), { status: 200 }]
+    );
+
+    reactRouterDom.useParams.mockImplementation(() => ({
+      id: '6666',
+    }));
+
+    unmount();
+
+    rerender(withAppContext(<IncidentDetail />));
+
+    await findByTestId('incidentDetail');
+
+    expect(fetch).toHaveBeenCalledTimes(8);
+  });
+
+  it('should render correctly', async () => {
     const { queryByTestId, getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
 
     expect(queryByTestId('attachmentsDefinition')).not.toBeInTheDocument();
@@ -159,6 +204,181 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(getByTestId('attachmentsDefinition')).toBeInTheDocument();
     expect(getByTestId('history')).toBeInTheDocument();
     expect(getByTestId('mapStatic')).toBeInTheDocument();
+  });
+
+  it('should handle successful PATCH', async () => {
+    const { getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+
+    await findByTestId('incidentDetail');
+
+    act(() => {
+      fireEvent.click(getByTestId('addNoteNewNoteButton'));
+    });
+
+    act(() => {
+      fireEvent.change(getByTestId('addNoteText'), { target: { value: 'Foo bar baz' } });
+    });
+
+    expect(fetch).not.toHaveBeenLastCalledWith(expect.any(String), expect.objectContaining({ method: 'PATCH' }));
+
+    fetch.mockResponseOnce(JSON.stringify(incidentFixture));
+
+    expect(emit).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+    });
+
+    expect(fetch).toHaveBeenLastCalledWith(expect.any(String), expect.objectContaining({ method: 'PATCH' }));
+
+    await findByTestId('incidentDetail');
+
+    // and should emit highlight event
+    expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' });
+
+    // after successful patch should request history
+    expect(fetch).toHaveBeenLastCalledWith(
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`,
+      expect.objectContaining({ method: 'GET' })
+    );
+  });
+
+  describe('handling errors', () => {
+    let getByTestId;
+    let findByTestId;
+
+    beforeEach(async () => {
+      ({ getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />)));
+
+      await findByTestId('incidentDetail');
+
+      act(() => {
+        fireEvent.click(getByTestId('addNoteNewNoteButton'));
+      });
+
+      act(() => {
+        fireEvent.change(getByTestId('addNoteText'), { target: { value: 'Foo bar baz' } });
+      });
+    });
+
+    it('should handle generic', async () => {
+      fetch.mockRejectOnce(new Error('Could not store for some reason'));
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+      });
+
+      await findByTestId('incidentDetail');
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification(
+          expect.objectContaining({
+            type: TYPE_LOCAL,
+            variant: VARIANT_ERROR,
+          })
+        )
+      );
+    });
+
+    it('should handle 400', async () => {
+      const error = new Error('Could not store for some reason');
+      error.status = 400;
+      fetch.mockRejectOnce(error);
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+      });
+
+      await findByTestId('incidentDetail');
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification(
+          expect.objectContaining({
+            message: 'Deze wijziging is niet toegestaan in deze situatie.',
+          })
+        )
+      );
+    });
+
+    it('should handle 401', async () => {
+      const error = new Error('Could not store for some reason');
+      error.status = 401;
+      fetch.mockRejectOnce(error);
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+      });
+
+      await findByTestId('incidentDetail');
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification(
+          expect.objectContaining({
+            message: 'Voor deze bewerking is een geautoriseerde sessie noodzakelijk',
+          })
+        )
+      );
+    });
+
+    it('should handle 403', async () => {
+      const error = new Error('Could not store for some reason');
+      error.status = 403;
+      fetch.mockRejectOnce(error);
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+      });
+
+      await findByTestId('incidentDetail');
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification(
+          expect.objectContaining({
+            message: 'Je bent niet voldoende rechten om deze actie uit te voeren.',
+          })
+        )
+      );
+    });
+
+    it('should handle 500', async () => {
+      const error = new Error('Could not store for some reason');
+      error.status = 500;
+      fetch.mockRejectOnce(error);
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+      });
+
+      await findByTestId('incidentDetail');
+
+      expect(emit).not.toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification(
+          expect.objectContaining({
+            message: 'Een fout op de server heeft voorkomen dat deze actie uitgevoerd kon worden. Probeer het nogmaals.',
+          })
+        )
+      );
+    });
   });
 });
 

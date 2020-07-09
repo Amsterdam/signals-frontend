@@ -93,12 +93,12 @@ describe('<Location />', () => {
     it('clicking the edit button should trigger edit the location', async () => {
       const { queryByTestId, findByTestId } = render(withAppContext(<Location {...props} />));
 
-      await findByTestId('editButton');
+      await findByTestId('editLocationButton');
 
       expect(props.onEditLocation).not.toHaveBeenCalled();
 
       act(() => {
-        fireEvent.click(queryByTestId('editButton'));
+        fireEvent.click(queryByTestId('editLocationButton'));
       });
 
       expect(props.onEditLocation).toHaveBeenCalledTimes(1);

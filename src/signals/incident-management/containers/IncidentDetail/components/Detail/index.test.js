@@ -1,44 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
+import IncidentDetailContext from '../../context';
 import Detail from './index';
 
 describe('<Detail />', () => {
   const props = {
-    incident: {
-      text: 'het is een rotzooi weer',
-      reporter: {
-        email: 'steve@apple.com',
-        phone: '098754321',
-        sharing_allowed: true,
-      },
-      location: {
-        address: {
-          postcode: '',
-          huisletter: 'D',
-          huisnummer: 342,
-          woonplaats: 'Amsterdam',
-          openbare_ruimte: 'Marnixstraat',
-          huisnummer_toevoeging: '',
-        },
-      },
-      extra_properties: [
-        {
-          id: 'extra_bedrijven_horeca_wat',
-          label: 'Soort bedrijf',
-          answer: { id: 'evenement_festival_markt', label: 'Evenement, zoals een festival, feest of markt' },
-          category_url: '',
-        },
-        {
-          id: 'extra_bedrijven_horeca_naam',
-          label: 'Mogelijke veroorzaker',
-          answer: 'Muzikanten met hun trommels',
-          category_url: '',
-        },
-      ],
-      incident_date_start: '2020-02-06T08:50:15+01:00',
-    },
     attachments: [
       {
         _display: 'Attachment object (946)',
@@ -60,21 +29,29 @@ describe('<Detail />', () => {
     onShowAttachment: jest.fn(),
   };
 
-  it('should render correctly', () => {
-    const { queryByTestId, getByText } = render(withAppContext(<Detail {...props} />));
+  it('should render correctly', async () => {
+    const { getByTestId, getByText, findByTestId } = render(
+      withAppContext(
+        <IncidentDetailContext.Provider value={{ incident: incidentFixture }}>
+          <Detail {...props} />
+        </IncidentDetailContext.Provider>
+      )
+    );
 
-    expect(queryByTestId('detail-title')).toHaveTextContent(props.incident.text);
+    await findByTestId('detail-title');
 
-    expect(queryByTestId('detail-email-definition')).toHaveTextContent(/^E-mail melder$/);
-    expect(queryByTestId('detail-email-value')).toHaveTextContent(props.incident.reporter.email);
-    expect(queryByTestId('detail-phone-definition')).toHaveTextContent(/^Telefoon melder$/);
-    expect(queryByTestId('detail-phone-value')).toHaveTextContent(props.incident.reporter.phone);
-    expect(queryByTestId('detail-sharing-definition')).toHaveTextContent('Toestemming contactgegevens delen');
-    expect(queryByTestId('detail-sharing-value')).toHaveTextContent('Ja');
+    expect(getByTestId('detail-title')).toHaveTextContent(incidentFixture.text);
 
-    expect(getByText(props.incident.extra_properties[0].label)).toBeInTheDocument();
-    expect(getByText(props.incident.extra_properties[1].label)).toBeInTheDocument();
-    expect(queryByTestId('attachmentsDefinition')).toBeInTheDocument();
-    expect(queryByTestId('detail-location')).toBeInTheDocument();
+    expect(getByTestId('detail-email-definition')).toHaveTextContent(/^E-mail melder$/);
+    expect(getByTestId('detail-email-value')).toHaveTextContent(incidentFixture.reporter.email);
+    expect(getByTestId('detail-phone-definition')).toHaveTextContent(/^Telefoon melder$/);
+    expect(getByTestId('detail-phone-value')).toHaveTextContent(incidentFixture.reporter.phone);
+    expect(getByTestId('detail-sharing-definition')).toHaveTextContent('Toestemming contactgegevens delen');
+    expect(getByTestId('detail-sharing-value')).toHaveTextContent('Nee');
+
+    expect(getByText(incidentFixture.extra_properties[0].label)).toBeInTheDocument();
+    expect(getByText(incidentFixture.extra_properties[1].label)).toBeInTheDocument();
+    expect(getByTestId('attachmentsDefinition')).toBeInTheDocument();
+    expect(getByTestId('detail-location')).toBeInTheDocument();
   });
 });

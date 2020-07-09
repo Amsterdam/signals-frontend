@@ -1,24 +1,25 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import * as reactRedux from 'react-redux';
 
 import { withAppContext } from 'test/utils';
-import { patchIncident } from 'models/incident/actions';
-import { PATCH_TYPE_NOTES } from 'models/incident/constants';
 
+import { PATCH_TYPE_NOTES } from '../../constants';
+import IncidentDetailContext from '../../context';
 import AddNote from './index';
 
 const dispatch = jest.fn();
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+
+const renderWithContext = () =>
+  withAppContext(
+    <IncidentDetailContext.Provider value={{ dispatch }}>
+      <AddNote />
+    </IncidentDetailContext.Provider>
+  );
 
 describe('<AddNote />', () => {
-  const props = {
-    id: '42',
-  };
-
   describe('show value', () => {
     it('should show the form ', () => {
-      const { getByTestId, queryByTestId } = render(withAppContext(<AddNote {...props} />));
+      const { getByTestId, queryByTestId } = render(renderWithContext());
 
       expect(getByTestId('addNoteNewNoteButton')).toBeInTheDocument();
       expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
@@ -42,7 +43,7 @@ describe('<AddNote />', () => {
   });
 
   it('should call onPatchIncident', async () => {
-    const { getByTestId, findByTestId } = render(withAppContext(<AddNote {...props} />));
+    const { getByTestId, findByTestId } = render(renderWithContext());
 
     act(() => {
       fireEvent.click(getByTestId('addNoteNewNoteButton'));
@@ -62,19 +63,16 @@ describe('<AddNote />', () => {
       fireEvent.click(saveNoteButton);
     });
 
-    expect(dispatch).toHaveBeenCalledWith(
-      patchIncident({
-        id: props.id,
-        type: PATCH_TYPE_NOTES,
-        patch: {
-          notes: [{ text: value }],
-        },
-      })
-    );
+    expect(dispatch).toHaveBeenCalledWith({
+      type: PATCH_TYPE_NOTES,
+      patch: {
+        notes: [{ text: value }],
+      },
+    });
   });
 
   it('should clear the textarea', async () => {
-    const { getByTestId, findByTestId } = render(withAppContext(<AddNote {...props} />));
+    const { getByTestId, findByTestId } = render(renderWithContext());
     const value = 'Here be a note';
 
     act(() => {

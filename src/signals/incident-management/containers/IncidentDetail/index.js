@@ -10,7 +10,6 @@ import History from 'components/History';
 import { useFetch, useEventEmitter } from 'hooks';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
-import { patchIncidentSuccess } from 'models/incident/actions';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -147,14 +146,23 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   }, [error, storeDispatch]);
 
   useEffect(() => {
+    if (!history) return;
+
+    // console.log('history fetched');
     dispatch({ type: 'history', payload: history });
   }, [history]);
 
   useEffect(() => {
+    if (!attachments) return;
+
+    // console.log(attachments);
     dispatch({ type: 'attachments', payload: attachments?.results });
   }, [attachments]);
 
   useEffect(() => {
+    if (!defaultTexts) return;
+
+    // console.log('defaultTexts fetched');
     dispatch({ type: 'defaultTexts', payload: defaultTexts });
   }, [defaultTexts]);
 
@@ -216,9 +224,8 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     action => {
       dispatch({ type: 'patchStart', payload: action.type });
       patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch);
-      storeDispatch(patchIncidentSuccess());
     },
-    [id, patch, storeDispatch]
+    [id, patch]
   );
 
   if (!state.incident) return null;
