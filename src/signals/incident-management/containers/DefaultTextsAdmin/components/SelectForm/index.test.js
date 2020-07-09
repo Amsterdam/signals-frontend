@@ -30,14 +30,14 @@ describe('<SelectForm />', () => {
   });
 
   it('should render form correctly', () => {
-    const { queryByTestId, queryByText, queryAllByText, queryByDisplayValue } = render(
+    const { queryByTestId, queryByText, queryByDisplayValue } = render(
       withAppContext(<SelectForm {...props} />)
     );
 
     expect(queryByTestId('selectFormForm')).not.toBeNull();
 
     expect(queryByText('Subcategorie')).not.toBeNull();
-    expect(queryAllByText('Asbest / accu').length).toEqual(2);
+    expect(queryByText('Asbest / accu')).not.toBeNull();
 
     expect(queryByText('Status')).not.toBeNull();
     expect(queryByText('Afgehandeld')).not.toBeNull();
