@@ -20,7 +20,6 @@ Boolean IS_TAG = BRANCH ==~ /v(\d{1,3}\.){2}\d{1,3}/
 node('BS16 || BS17') {
     stage("Checkout") {
         def scmVars = checkout(scm)
-        env.GIT_COMMIT = scmVars.GIT_COMMIT
         env.COMPOSE_DOCKER_CLI_BUILD = 1
     }
 
@@ -36,7 +35,6 @@ node('BS16 || BS17') {
 
                     def buildParams = "--shm-size 1G " +
                         "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
-                        "--build-arg GIT_COMMIT=${env.GIT_COMMIT} "
 
                     buildParams += IS_TAG ? "--build-arg GIT_BRANCH=${BRANCH} " : ''
                     buildParams += '.'
