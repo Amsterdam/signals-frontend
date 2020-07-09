@@ -44,6 +44,7 @@ export const mapKeys = key => {
       return key;
   }
 };
+
 const renderItem = (display, key) => (
   <StyledTag
     colorType="tint"

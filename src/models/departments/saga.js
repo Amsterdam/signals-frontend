@@ -27,7 +27,9 @@ export function* fetchDepartments() {
 
     yield call([Sentry, 'captureException'], error);
   }
-};
+}
+
+;
 
 export default function* watchDepartmentsSaga() {
   yield takeLatest(FETCH_DEPARTMENTS, fetchDepartments);

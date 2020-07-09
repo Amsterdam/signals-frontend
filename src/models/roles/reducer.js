@@ -101,6 +101,7 @@ function rolesReducer(state = initialState, action) {
       if (index !== -1) {
         roles[index] = { ...action.payload };
       }
+
       return state
         .set('list', fromJS(roles))
         .set('patching', false)

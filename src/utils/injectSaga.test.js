@@ -104,6 +104,7 @@ describe('useInjectSaga hook', () => {
       });
       return null;
     };
+
     sagaInjectors.default.mockClear();
   });
 

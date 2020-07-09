@@ -9,6 +9,7 @@ export const validateFileType = (file, meta) => {
       };
     }
   }
+
   return null;
 };
 
@@ -20,6 +21,7 @@ export const validateMaxFilesize = (file, meta) => {
       };
     }
   }
+
   return null;
 };
 
@@ -31,6 +33,7 @@ export const validateMinFilesize = (file, meta) => {
       };
     }
   }
+
   return null;
 };
 
@@ -38,5 +41,6 @@ export const validatePhoneNumber = control => {
   if (!control || control.value === '' || control.value === undefined || RegExp('^[ ()0-9+-]*$').test(control.value)) {
     return null;
   }
+
   return { custom: 'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.' };
 };

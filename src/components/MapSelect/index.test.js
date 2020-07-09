@@ -45,6 +45,7 @@ describe('<MapSelect />', () => {
 
     return L.divIcon({ className: 'my-div-icon' });
   };
+
   const latlng = {
     latitude: 4,
     longitude: 52,

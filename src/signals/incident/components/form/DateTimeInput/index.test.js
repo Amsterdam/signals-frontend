@@ -18,6 +18,7 @@ describe('Form component <DateTimeInput />', () => {
         if (theArgs.length) {
           return new RealDate(...theArgs);
         }
+
         return new RealDate(isoDate);
       }
 

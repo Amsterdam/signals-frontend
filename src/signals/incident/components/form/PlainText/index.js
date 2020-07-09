@@ -12,6 +12,7 @@ function renderText(value, parent) {
   if (React.isValidElement(value)) {
     return value;
   }
+
   return mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
 }
 

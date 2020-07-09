@@ -41,6 +41,7 @@ export function* checkKto(action) {
     if (error && error.response && error.response.status === 404) {
       yield put(push('/niet-gevonden'));
     }
+
     const message =
       error &&
       error.response &&

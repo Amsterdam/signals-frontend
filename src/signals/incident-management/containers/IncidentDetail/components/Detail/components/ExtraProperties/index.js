@@ -9,10 +9,12 @@ const getValue = answer => {
   if (isArray(answer)) {
     return answer.map(item => (isObject(item) ? item.label : item)).join(', ');
   }
+
   if (isObject(answer)) {
     if (isBoolean(answer.value)) {
       return answer.value ? answer.label : 'Nee';
     }
+
     return answer.label;
   }
 

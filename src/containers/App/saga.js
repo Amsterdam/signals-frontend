@@ -101,10 +101,12 @@ export function* uploadFile(action) {
       );
       return;
     }
+
     if (success) {
       yield put(uploadSuccess(action.payload.file));
       return;
     }
+
     yield put(uploadProgress(progress));
   }
 }

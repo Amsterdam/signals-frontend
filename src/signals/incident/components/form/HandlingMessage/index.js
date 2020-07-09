@@ -14,6 +14,7 @@ const renderText = (key, name, parent) => {
       </div>
     ));
   }
+
   return <div>We gaan zo snel mogelijk aan de slag.</div>;
 };
 
