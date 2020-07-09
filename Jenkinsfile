@@ -34,7 +34,7 @@ node('BS16 || BS17') {
                     }
 
                     def buildParams = "--shm-size 1G " +
-                        "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                        "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} "
 
                     buildParams += IS_TAG ? "--build-arg GIT_BRANCH=${BRANCH} " : ''
                     buildParams += '.'
