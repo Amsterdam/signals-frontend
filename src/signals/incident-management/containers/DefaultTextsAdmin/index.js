@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -42,38 +42,36 @@ export const DefaultTextsAdminContainer = ({
     state,
   },
 }) => (
-  <Fragment>
-    <Row>
-      <Column span={12}>
-        <StyledH1>Beheer standaard teksten</StyledH1>
-      </Column>
+  <Row>
+    <Column span={12}>
+      <StyledH1>Beheer standaard teksten</StyledH1>
+    </Column>
 
-      {!subCategories && <LoadingIndicator />}
+    {!subCategories && <LoadingIndicator />}
 
-      <Column span={4}>
-        {subCategories && (
-          <SelectForm
-            subCategories={subCategories}
-            defaultTextsOptionList={defaultTextsOptionList}
-            onFetchDefaultTexts={onFetchDefaultTexts}
-          />
-        )}
-      </Column>
+    <Column span={4}>
+      {subCategories && (
+        <SelectForm
+          subCategories={subCategories}
+          defaultTextsOptionList={defaultTextsOptionList}
+          onFetchDefaultTexts={onFetchDefaultTexts}
+        />
+      )}
+    </Column>
 
-      <Column span={8}>
-        {subCategories && (
-          <DefaultTextsForm
-            defaultTexts={defaultTexts}
-            categoryUrl={categoryUrl}
-            subCategories={subCategories}
-            state={state}
-            onSubmitTexts={onSubmitTexts}
-            onOrderDefaultTexts={onOrderDefaultTexts}
-          />
-        )}
-      </Column>
-    </Row>
-  </Fragment>
+    <Column span={8}>
+      {subCategories && (
+        <DefaultTextsForm
+          defaultTexts={defaultTexts}
+          categoryUrl={categoryUrl}
+          subCategories={subCategories}
+          state={state}
+          onSubmitTexts={onSubmitTexts}
+          onOrderDefaultTexts={onOrderDefaultTexts}
+        />
+      )}
+    </Column>
+  </Row>
 );
 
 DefaultTextsAdminContainer.defaultProps = {
