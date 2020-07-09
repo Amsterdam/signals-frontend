@@ -29,7 +29,7 @@ export function* fetchDepartments() {
   }
 }
 
-;
+
 
 export default function* watchDepartmentsSaga() {
   yield takeLatest(FETCH_DEPARTMENTS, fetchDepartments);
