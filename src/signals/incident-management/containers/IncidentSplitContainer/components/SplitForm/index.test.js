@@ -5,7 +5,6 @@ import { withAppContext } from 'test/utils';
 import incident from 'utils/__tests__/fixtures/incident.json';
 import * as modelSelectors from 'models/categories/selectors';
 import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
-import { filterForSub } from 'models/categories/selectors';
 
 import SplitForm from './index';
 
@@ -15,7 +14,7 @@ jest.mock('containers/App/selectors', () => ({
 }));
 
 const subCategories = categoriesFixture.results
-  .filter(filterForSub)
+  .filter(modelSelectors.filterForSub)
   // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
   .map(subCat => ({ ...subCat, key: subCat._links.self.href }));
 
