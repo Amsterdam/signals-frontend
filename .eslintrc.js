@@ -16,27 +16,26 @@ module.exports = {
   extends: [
     'airbnb',
     'eslint:all',
-    'plugin:unicorn/recommended',
     'plugin:cypress/recommended',
+    'plugin:react/all',
     'plugin:sonarjs/recommended',
+    'plugin:testing-library/react',
+    'plugin:unicorn/recommended',
     'prettier',
     'prettier/react',
-    'plugin:react/all',
-    'plugin:testing-library/react',
   ],
 
   plugins: [
     'cypress',
+    'jsx-a11y',
     'prettier',
-    'redux-saga',
+    'promise',
     'react',
     'react-hooks',
-    'promise',
+    'redux-saga',
     'sonarjs',
-    'jsx-a11y',
-    'unicorn',
     'testing-library',
-    'react-hooks',
+    'unicorn',
   ],
 
   env: {
@@ -74,10 +73,15 @@ module.exports = {
         'max-len': 'off',
       },
     },
+    {
+      files: ['internals/**/*'],
+      rules: {
+        'no-console': 'warn',
+      },
+    },
   ],
   rules: {
     // proposed rules
-    'capitalized-comments': 'off',
     'new-cap': 'off',
     'func-names': 'off',
     'unicorn/prefer-set-has': 'off',
@@ -362,6 +366,7 @@ module.exports = {
     // disabled rules
     'brace-style': 'off',
     camelcase: 'off',
+    'capitalized-comments': 'off',
     'import/imports-first': 'off',
     'import/newline-after-import': 'off',
     'import/no-dynamic-require': 'off',
@@ -420,6 +425,7 @@ module.exports = {
     'unicorn/no-fn-reference-in-iterator': 'off',
     'unicorn/no-nested-ternary': 'off',
     'unicorn/no-null': 'off',
+    'unicorn/no-process-exit': 'off',
     'unicorn/no-reduce': 'off',
     'unicorn/no-useless-undefined': 'off',
     'unicorn/prefer-node-append': 'off',
