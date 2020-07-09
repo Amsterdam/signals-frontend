@@ -41,7 +41,7 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
   const params = useParams();
   const [page, setPage] = useState(1);
 
-  const pageNum = params.pageNum && parseInt(params.pageNum, 10);
+  const pageNum = params.pageNum && Number.parseInt(params.pageNum, 10);
   const count = subCategories && subCategories.length;
   const sliceStart = (pageNum - 1) * PAGE_SIZE;
   const pagedData = (subCategories || [])

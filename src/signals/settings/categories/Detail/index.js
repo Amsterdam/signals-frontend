@@ -98,8 +98,8 @@ const CategoryDetail = () => {
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data });
 
       const sla = {
-        n_days: parseInt(formData.n_days, 10),
-        use_calendar_days: Boolean(parseInt(formData.use_calendar_days, 10)),
+        n_days: Number.parseInt(formData.n_days, 10),
+        use_calendar_days: Boolean(Number.parseInt(formData.use_calendar_days, 10)),
       };
 
       delete formData.n_days;
