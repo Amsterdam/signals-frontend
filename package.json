@@ -23,7 +23,7 @@
     "clean": "shjs ./internals/scripts/clean.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "cy:open": "cypress open",
-    "lint:eslint": "BABEL_ENV=lint NODE_ENV=production eslint -c ./.eslintrc.cli.js --cache --ignore-path .gitignore --ignore-pattern internals/scripts",
+    "lint:eslint": "BABEL_ENV=lint NODE_ENV=production eslint -c ./.eslintrc.cli.js --ignore-path .gitignore --ignore-pattern internals/scripts",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "BABEL_ENV=lint lint-staged",
     "lint:fix": "npm run lint:js -- --fix",
