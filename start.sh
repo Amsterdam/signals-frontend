@@ -2,7 +2,7 @@
 
 set -e
 
-node /validate.js
+node /validate-config.js
 
 export SIGNALS_SERVICE_WORKER_VERSION=$(date +"%Y-%m-%d %T")
 
