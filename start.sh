@@ -1,5 +1,11 @@
 #!/bin/sh
 
+/validate.sh
+
+if [[ 0 -ne $? ]]; then
+  exit 1
+fi
+
 export SIGNALS_SERVICE_WORKER_VERSION=$(date +"%Y-%m-%d %T")
 
 export SIGNALS_CONFIG=$(cat /environment.conf.json | jq -c)
