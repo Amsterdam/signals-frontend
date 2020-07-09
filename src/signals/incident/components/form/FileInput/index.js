@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { themeColor } from '@datapunt/asc-ui';
 
 import Header from '../Header';
 import fileSize from '../../../services/file-size';
@@ -7,6 +9,12 @@ import fileSize from '../../../services/file-size';
 import './style.scss';
 
 export const ERROR_TIMEOUT_INTERVAL = 8000;
+
+const FileInputError = styled.div`
+    color: ${themeColor('secondary')};
+    margin: 16px 0 0;
+  }
+`;
 
 const FileInput = ({
   handler, touched, hasError, getError, parent, meta, validatorsOrOpts,
@@ -166,8 +174,8 @@ const FileInput = ({
 
           {empty.map(item => (<div key={item} className="file-input__empty">&nbsp;</div>))}
         </div>
+        {errors?.length > 0 && errors.map(error => <FileInputError key={error} >{error}</FileInputError>)}
       </Header>
-      {errors?.length > 0 && errors.map(error => <div key={error} className="file-input__error">{error}</div>)}
     </Fragment>
   );
 };
