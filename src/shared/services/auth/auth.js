@@ -225,7 +225,6 @@ export function getAuthHeaders() {
   return accessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {};
 }
 
-
 export const authenticate = () => {
   initAuth();
 

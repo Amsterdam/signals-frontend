@@ -6,7 +6,6 @@ import { withAppContext } from 'test/utils';
 import ktoContainerMock from 'utils/__tests__/fixtures/kto.json';
 import ktoMock from '../../../../definitions/kto';
 
-
 import KtoForm, { andersOptionText } from '.';
 
 // temporarily skipping tests for this component; picking up later

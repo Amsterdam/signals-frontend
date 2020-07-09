@@ -3,7 +3,6 @@ import { render, cleanup } from '@testing-library/react';
 
 import Highlight, { HIGHLIGHT_TIMEOUT_INTERVAL } from '.';
 
-
 describe('<Highlight />', () => {
   beforeEach(() => {
     jest.useFakeTimers();

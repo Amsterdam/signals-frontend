@@ -74,7 +74,6 @@ const CategoryDetail = () => {
   const userCanSubmitForm =
     (isExistingCategory && userCan('change_category')) || (!isExistingCategory && userCan('add_category'));
 
-
   useFetchResponseNotification({
     entityName,
     error,

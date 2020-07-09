@@ -5,7 +5,6 @@ import { withAppContext } from 'test/utils';
 import historyJSON from 'utils/__tests__/fixtures/history.json';
 import History from '.';
 
-
 describe('<History />', () => {
   let props;
 

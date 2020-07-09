@@ -33,7 +33,6 @@ import {
   resetResponse,
 } from './actions';
 
-
 describe('Incident roles model actions', () => {
   it('should be fetched', () => {
     const payload = { results: [{ id: 42 }] };

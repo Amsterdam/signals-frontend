@@ -55,7 +55,6 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
   const data = filterData(pagedData, colMap);
   const isLoading = !subCategories;
 
-
   // subscribe to param changes
   useEffect(() => {
     if (pageNum && pageNum !== page) {

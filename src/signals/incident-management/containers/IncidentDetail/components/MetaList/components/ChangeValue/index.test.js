@@ -9,7 +9,6 @@ import ChangeValue from '.';
 
 jest.mock('shared/services/list-helper/list-helper');
 
-
 const expectInitialState = async ({ queryByTestId, findByTestId }) => {
   const editButton = await findByTestId('editMockTypeButton');
 

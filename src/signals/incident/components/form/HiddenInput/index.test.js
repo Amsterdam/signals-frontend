@@ -12,7 +12,6 @@ describe('Form component <HiddenInput />', () => {
     expect(container.querySelector('input[type="hidden"]')).toBeInTheDocument();
   });
 
-
   it('renders nothing', () => {
     const { container, rerender } = render(withAppContext(<HiddenInput handler={() => ({ value: 'foo' })} />));
 

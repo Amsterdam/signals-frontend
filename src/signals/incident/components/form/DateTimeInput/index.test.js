@@ -47,7 +47,6 @@ describe('Form component <DateTimeInput />', () => {
     wrapper = shallow(<DateTimeInput parent={parent} />);
   });
 
-
   describe('rendering', () => {
     it('should render date time field correctly', () => {
       wrapper.setProps({

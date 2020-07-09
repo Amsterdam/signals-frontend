@@ -14,7 +14,6 @@ describe('dateToString', () => {
   });
 });
 
-
 describe('capitalize', () => {
   it('should capitalize the first letter of the string', () => {
     expect(capitalize('test')).toEqual('Test');
