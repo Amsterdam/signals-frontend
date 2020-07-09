@@ -13,7 +13,10 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
         }
     }
 }
+
 String BRANCH = "${env.BRANCH_NAME}"
+Boolean IS_TAG = BRANCH ==~ /v(\d{1,3}\.){2}\d{1,3}/
+
 node('BS16 || BS17') {
     stage("Checkout") {
         def scmVars = checkout(scm)
@@ -21,7 +24,7 @@ node('BS16 || BS17') {
         env.COMPOSE_DOCKER_CLI_BUILD = 1
     }
 
-    if (BRANCH == "develop" || BRANCH == "master") {
+    if (BRANCH == "develop" || IS_TAG) {
         stage("Build and push image") {
             tryStep "build", {
                 docker.withRegistry("${DOCKER_REGISTRY_HOST}",'docker_registry_auth') {
@@ -31,11 +34,14 @@ node('BS16 || BS17') {
                         cachedImage.pull()
                     }
 
-                    def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}",
-                    "--shm-size 1G " +
-                    "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
-                    "--build-arg GIT_COMMIT=${env.GIT_COMMIT} " +
-                    ".")
+                    def buildParams = "--shm-size 1G " +
+                        "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                        "--build-arg GIT_COMMIT=${env.GIT_COMMIT} "
+
+                    buildParams += IS_TAG ? "--build-arg GIT_BRANCH=${BRANCH} " : ''
+                    buildParams += '.'
+
+                    def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}", buildParams)
                     image.push()
                     image.push("latest")
                 }
@@ -57,7 +63,7 @@ node('BS16 || BS17') {
         }
     }
 
-    if (BRANCH == "master") {
+    if (IS_TAG) {
         stage("Deploy Amsterdam PROD") {
             tryStep "deployment", {
                 build job: '/SIA_Signalen_Amsterdam/signals-amsterdam/master'
