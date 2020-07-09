@@ -89,7 +89,7 @@ const FileInput = ({
       errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
     }
     if (meta.allowedFileTypes && !files.every(checkFileType)) {
-      errors.push(`Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes.map((type => type.replace(/.*\//, ''))).join(', ')}.`);
+      errors.push(`Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes.map(type => type.replace(/.*\//, '')).join(', ')}.`);
     }
     if (!files.every(checkNumberOfFiles)) {
       errors.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
@@ -122,7 +122,7 @@ const FileInput = ({
 
   const previews = (parent && parent.value && parent.value[`${meta && meta.name}_previews`]) || [];
   const errors = (parent && parent.value && parent.value[`${meta && meta.name}_errors`]) || null;
-  const numberOfEmtpy = (maxNumberOfFiles - previews.length - 1);
+  const numberOfEmtpy = maxNumberOfFiles - previews.length - 1;
   const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
 
   if (!meta?.isVisible) return null;

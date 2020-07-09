@@ -73,9 +73,24 @@ See [the `Dockerfile` in the `signals-amsterdam` repository](https://github.com/
 
 ### language
 
-- `title`
-  PWA title value. See [developer.apple.com](https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#:~:text=apple%2Dmobile%2Dweb%2Dapp%2Dstatus%2Dbar%2Dstyle,-Sets%20the%20style&text=If%20set%20to%20black%20%2C%20the,displayed%20below%20the%20status%20bar.) for reference.<br>
-  Used in [`index.html`](../../src/index.html).
+- `avgDisclaimer`
+  Text that outlines the use of privacy related information<br>
+  Used in the [`Footer` component](../../src/components/Footer/index.js)
+
+- `consentToContactSharing`
+  The message to ask for consent to share contact information.
+
+- `footer1`
+  Extra information to show in the footer of the application.
+
+- `footer2`
+  Second line of information to show in the footer of the application.
+
+- `headerTitle`
+  The title to show in the header of the application, next to the logo.
+
+- `phoneNumber`
+  General phone number
 
 - `shortTitle`
   PWA `short_name` property value. Should not exceed 12 characters. See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/short_name for reference<br>
@@ -85,9 +100,26 @@ See [the `Dockerfile` in the `signals-amsterdam` repository](https://github.com/
   Application title showing up in the title bar and search results.<br>
   Used in [`index.html`](../../src/index.html).
 
+- `smallHeaderTitle`
+  The title to show in the small version of the header.
+
+- `title`
+  PWA title value. See [developer.apple.com](https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#:~:text=apple%2Dmobile%2Dweb%2Dapp%2Dstatus%2Dbar%2Dstyle,-Sets%20the%20style&text=If%20set%20to%20black%20%2C%20the,displayed%20below%20the%20status%20bar.) for reference.<br>
+  Used in [`index.html`](../../src/index.html).
+
+- `urgentContactInfo`
+  Extra information to show in case of an error.
+
 ### links
 
-Values for anchor elements throught the application.
+- `help`
+  A website with help about the application, for employees of the municipality.
+
+- `home`
+  The home page of the website of the municipality.
+
+- `privacy`
+  The privacy statement of the municipality.
 
 ### theme
 

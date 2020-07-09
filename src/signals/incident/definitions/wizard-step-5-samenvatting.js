@@ -1,3 +1,5 @@
+import configuration from 'shared/services/configuration/configuration';
+
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components';
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen';
@@ -74,8 +76,7 @@ export default {
       sharing_allowed: {
         meta: {
           shortLabel: 'Toestemming contactgegevens delen',
-          value:
-            'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
+          value: configuration.language?.consentToContactSharing,
           path: 'reporter.sharing_allowed',
         },
         render: FormComponents.EmphasisCheckboxInput,

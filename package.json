@@ -2,7 +2,6 @@
   "name": "sia",
   "version": "1.20.0",
   "description": "Signalen Informatievoorziening Amsterdam based on react-boilerplate ",
-  "//": "This is a comment",
   "repository": {
     "type": "git",
     "url": "https://github.com/Amsterdam/signals-frontend.git"

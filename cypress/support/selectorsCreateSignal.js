@@ -1,5 +1,6 @@
 export const CREATE_SIGNAL = {
   autoSuggest: '[data-testid="autoSuggest"]',
+  buttonGPS: '[data-testid=gpsButton]',
   buttonUploadFile: '#formUpload',
   checkBoxSharingAllowed: '#sharing_allowed',
   dropdownDag: '[data-testid=day]',

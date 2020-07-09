@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 import L from 'leaflet';
 import SelectIcon from '!!file-loader!../../../shared/images/icon-select-marker.svg'; // `-marker` suffix ensures the svg is imported as url
-import IncidentIcon from "!!file-loader!../../../shared/images/icon-incident-marker.svg"; // `-marker` suffix ensures the svg is imported as url
+import IncidentIcon from '!!file-loader!../../../shared/images/icon-incident-marker.svg'; // `-marker` suffix ensures the svg is imported as url
 
 export const smallMarkerIcon = L.icon({
   iconUrl: SelectIcon,

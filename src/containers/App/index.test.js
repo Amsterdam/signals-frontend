@@ -85,7 +85,7 @@ describe('<App />', () => {
   });
 
   it('should render correctly', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => false);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
     const { getByTestId, queryByTestId, rerender, unmount } = render(
       withAppContext(<App />),
@@ -94,7 +94,7 @@ describe('<App />', () => {
     expect(getByTestId('siteFooter')).toBeInTheDocument();
     expect(getByTestId('siteHeader')).toBeInTheDocument();
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementationOnce(() => true);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
     unmount();
 

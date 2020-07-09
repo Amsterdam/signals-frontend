@@ -38,9 +38,9 @@ export const PageHeaderContainerComponent = ({
       <Fragment>
         <RefreshIcon /> {title}
       </Fragment>
-    ) : (
+    ) :
       title
-    );
+    ;
   }, [filter, incidentsCount]);
 
   const subTitle = useMemo(() => query && `Zoekresultaten voor "${query}"`, [

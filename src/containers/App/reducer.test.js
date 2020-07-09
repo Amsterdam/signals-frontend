@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 import userJson from 'utils/__tests__/fixtures/user.json';
-import { APPLY_FILTER } from "signals/incident-management/constants";
+import { APPLY_FILTER } from 'signals/incident-management/constants';
 import appReducer, { initialState } from './reducer';
 import {
   AUTHORIZE_USER,

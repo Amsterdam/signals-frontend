@@ -1,5 +1,5 @@
 const applicationConfig = {
-  ...(window.CONFIG || {}),
+  ...window.CONFIG || {},
 };
 
 const configProxy = new Proxy(applicationConfig, {

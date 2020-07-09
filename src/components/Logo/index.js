@@ -11,7 +11,7 @@ const StyledLogo = styled.img`
   max-height: ${({ tall }) => tall ? '56px' : '32px'};
 `;
 
-export const Logo = ({ tall, ... props }) => (
+export const Logo = ({ tall, ...props }) => (
   <a href={tall ? configuration.links.home : '/'}>
     <StyledLogo data-testid="logo" alt="Logo" tall={tall} src={configuration.logo.url} {...props} />
   </a>
