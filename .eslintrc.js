@@ -64,12 +64,12 @@ module.exports = {
         'max-nested-callbacks': 'off',
         'no-undef': 'off',
         'require-await': 'off',
-        'promise/catch-or-return': 'off', // shall we prefer await?
+        'promise/catch-or-return': 'off', // Shall we prefer await?
         'promise/always-return': 'off',
         'promise/no-callback-in-promise': 'off',
         'no-magic-numbers': 'off',
         'no-constructor-return': 'off',
-        'testing-library/prefer-find-by': 'off', // needs some manual work
+        'testing-library/prefer-find-by': 'off', // Needs some manual work
         'promise/avoid-new': 'off',
         'max-len': 'off',
       },
@@ -77,6 +77,9 @@ module.exports = {
   ],
   rules: {
     // proposed rules
+    'capitalized-comments': 'off',
+    'new-cap': 'off',
+    'func-names': 'off',
     'unicorn/prefer-set-has': 'off',
     'react/boolean-prop-naming': 'off',
     'require-atomic-updates': 'off',
@@ -86,12 +89,12 @@ module.exports = {
     'sonarjs/no-collapsible-if': 'off',
     'id-length': 'off',
     'unicorn/no-abusive-eslint-disable': 'off',
-    'unicorn/prefer-includes': 'off', // has autofix but breaks test
-    'unicorn/prefer-text-content': 'off', // has autofix but breaks snapshots test
+    'unicorn/prefer-includes': 'off', // Has autofix but breaks test
+    'unicorn/prefer-text-content': 'off', // Has autofix but breaks snapshots test
     'prefer-named-capture-group': 'off',
     'no-warning-comments': 'off',
     'unicorn/prefer-add-event-listener': 'off',
-    'no-magic-numbers': 'off', // except for tests
+    'no-magic-numbers': 'off', // Except for tests
     'init-declarations': 'off',
     'sonarjs/no-duplicate-string': 'off',
     'require-unicode-regexp': 'off',
@@ -106,9 +109,9 @@ module.exports = {
     'sonarjs/no-identical-functions': 'off',
     'no-promise-executor-return': 'off',
     'prefer-regex-literals': 'off',
-    'unicorn/no-zero-fractions': 'off', // auto-fix available
+    'unicorn/no-zero-fractions': 'off', // Auto-fix available
     'max-len': 'off', // 'max-len': ['warn', { code: 120, tabWidth: 2, ignoreUrls: true, comments: 140 }],
-    'react/jsx-filename-extension': 'off', // this will allow to fine tune tooling like a shared lint configuration
+    'react/jsx-filename-extension': 'off', // This will allow to fine tune tooling like a shared lint configuration
 
     // rules
     'accessor-pairs': 'error',
@@ -119,9 +122,8 @@ module.exports = {
     'arrow-spacing': 'error',
     'block-scoped-var': 'error',
     'block-spacing': 'error',
-    'brace-style': 'error',
-    'capitalized-comments': 'error',
     'comma-dangle': ['error', 'always-multiline'],
+    'comma-spacing': 'error',
     'comma-style': 'error',
     'computed-property-spacing': ['error', 'never'],
     'consistent-return': 'warn',
@@ -153,6 +155,7 @@ module.exports = {
     'jsx-a11y/no-distracting-elements': 'warn',
     'jsx-a11y/no-redundant-roles': 'warn',
     'jsx-a11y/scope': 'warn',
+    'jsx-quotes': 'error',
     'key-spacing': ['error', { beforeColon: false }],
     'keyword-spacing': ['error', { before: true, after: true }],
     'lines-between-class-members': 'error',
@@ -181,6 +184,7 @@ module.exports = {
     'no-empty-character-class': 'warn',
     'no-empty-pattern': 'error',
     'no-eq-null': 'error',
+    'no-extra-semi': 'error',
     'no-eval': 'error',
     'no-ex-assign': 'warn',
     'no-extend-native': 'error',
@@ -204,6 +208,7 @@ module.exports = {
     'no-mixed-requires': 'error',
     'no-multi-spaces': 'error',
     'no-multi-str': 'error',
+    'no-multiple-empty-lines': 'error',
     'no-native-reassign': 'error',
     'no-negated-in-lhs': 'warn',
     'no-nested-ternary': 'warn',
@@ -241,6 +246,7 @@ module.exports = {
     'no-unreachable': 'warn',
     'no-unused-expressions': 'error',
     'no-unused-labels': 'warn',
+    'no-unused-vars': 'error',
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
@@ -255,6 +261,7 @@ module.exports = {
     'object-shorthand': 'error',
     'one-var': ['error', 'never'],
     'operator-assignment': ['error', 'always'],
+    'padding-line-between-statements': 'warn',
     'prefer-arrow-callback': 'error',
     'prefer-const': 'error',
     'prefer-promise-reject-errors': 'error',
@@ -278,7 +285,9 @@ module.exports = {
     'react/prop-types': 'warn',
     'require-await': 'warn',
     'rest-spread-spacing': 'error',
+    'semi-style': 'error',
     'sort-vars': 'error',
+    'space-infix-ops': 'error',
     'space-before-blocks': 'error',
     'space-unary-ops': ['error', { words: true, nonwords: false }],
     'spaced-comment': ['error', 'always'],
@@ -314,14 +323,12 @@ module.exports = {
        * See https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
        */
       controlComponents: ['Input'],
-    },
-    ],
+    }],
     'jsx-a11y/mouse-events-have-key-events': 'error',
     'jsx-a11y/role-has-required-aria-props': 'error',
     'jsx-a11y/role-supports-aria-props': 'error',
     'linebreak-style': ['error', 'unix'],
     'no-console': 'warn',
-    'no-unused-vars': 'error',
     'object-curly-spacing': ['warn', 'always'],
     'padded-blocks': ['error', 'never'],
     'prefer-template': 'error',
@@ -353,13 +360,15 @@ module.exports = {
     semi: 'error',
 
     // disabled rules
+    'brace-style': 'off',
+    camelcase: 'off',
     'import/imports-first': 'off',
     'import/newline-after-import': 'off',
     'import/no-dynamic-require': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-as-default': 'off',
     'import/no-webpack-loader-syntax': 'off',
-    'import/prefer-default-export': 'off', // would be nice on react components?
+    'import/prefer-default-export': 'off', // Would be nice on react components?
     'jsx-a11y/label-has-for': 'off',
     'max-lines': 'off',
     'max-lines-per-function': 'off',
@@ -375,8 +384,9 @@ module.exports = {
     'no-ternary': 'off',
     'no-undefined': 'off',
     'no-underscore-dangle': ['off', { allow: ['_display', '_links'] }],
-    'no-use-before-define': 'off', // breaks on react hooks
+    'no-use-before-define': 'off', // Breaks on react hooks
     'prefer-destructuring': 'off',
+    'operator-linebreak': 'off',
     'promise/no-native': 'off',
     'react/destructuring-assignment': 'off',
     'react/forbid-prop-types': 'off',
@@ -403,7 +413,7 @@ module.exports = {
     'sonarjs/cognitive-complexity': 'off',
     'sort-imports': 'off',
     'sort-keys': 'off',
-    'unicorn/consistent-function-scoping': 'off', // breaks on react hooks
+    'unicorn/consistent-function-scoping': 'off', // Breaks on react hooks
     'unicorn/explicit-length-check': 'off',
     'unicorn/filename-case': 'off',
     'unicorn/new-for-builtins': 'off',
@@ -416,7 +426,6 @@ module.exports = {
     'unicorn/prefer-node-remove': 'off',
     'unicorn/prefer-query-selector': 'off',
     'unicorn/prefer-string-slice': 'off',
-    camelcase: 'off',
 
     // disabled rules - related code should be refactored to functional components
     'no-invalid-this': 'off',
