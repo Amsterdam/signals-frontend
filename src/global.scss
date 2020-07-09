@@ -184,6 +184,10 @@ fieldset {
   padding-top: 50px;
 }
 
+[aria-hidden="true"] {
+  display: none !important;
+}
+
 @media print {
   html, body {height: 100%;}
 
