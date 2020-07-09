@@ -5,7 +5,7 @@ import context from 'containers/MapContext/context';
 
 import geoSearchJSON from 'utils/__tests__/fixtures/geosearch.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
-import { withAppContext, resolveAfterMs , withMapContext } from 'test/utils';
+import { withAppContext, resolveAfterMs, withMapContext } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';

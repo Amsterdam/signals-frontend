@@ -103,10 +103,10 @@ export const FilterTagListComponent = props => {
 
     return [
       'Datum:',
-      tagsList.created_after && format(parseISO(tagsList.created_after),'dd-MM-yyyy'),
+      tagsList.created_after && format(parseISO(tagsList.created_after), 'dd-MM-yyyy'),
       't/m',
       (tagsList.created_before &&
-        format(parseISO(tagsList.created_before),'dd-MM-yyyy')) ||
+        format(parseISO(tagsList.created_before), 'dd-MM-yyyy')) ||
       'nu',
     ]
       .filter(Boolean)

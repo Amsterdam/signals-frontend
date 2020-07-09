@@ -79,7 +79,7 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
       priority: 'normal', // incident.priority.priority,
       type: 'SIG',
     }),
-  }),[]);
+  }), []);
 
   const handleSubmit = useCallback(() => {
     if (!incident) return;
