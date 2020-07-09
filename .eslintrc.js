@@ -201,7 +201,7 @@ module.exports = {
     'no-extend-native': 'error',
     'no-extra-bind': 'error',
     'no-extra-label': 'error',
-    'no-extra-parens': 'error',
+    // 'no-extra-parens': 'error',
     'no-fallthrough': 'warn',
     'no-floating-decimal': 'error',
     'no-func-assign': 'warn',
