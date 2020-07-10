@@ -3,6 +3,8 @@ import { fromJS } from 'immutable';
 import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 
 import {
+  GET_DISTRICTS_FAILED,
+  GET_DISTRICTS_SUCCESS,
   APPLY_FILTER,
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
@@ -29,6 +31,7 @@ export const initialState = fromJS({
     name: '',
     options: {},
   },
+  districts: [],
   editFilter: {
     // settings selected for editing
     name: '',
@@ -49,8 +52,17 @@ export default (state = initialState, action) => {
   let re;
 
   switch (action.type) {
+    case GET_DISTRICTS_SUCCESS:
+      return state.set('districts', fromJS(action.payload)).set('loading', false);
+
+    case GET_DISTRICTS_FAILED:
+      return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
+
     case GET_FILTERS_SUCCESS:
       return state.set('filters', fromJS(action.payload)).set('loading', false);
+
+    case GET_FILTERS_FAILED:
+      return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
 
     case REMOVE_FILTER_SUCCESS:
       re = new RegExp(`/${action.payload}`, 'g');
@@ -73,10 +85,7 @@ export default (state = initialState, action) => {
     case GET_FILTERS_FAILED:
     case SAVE_FILTER_FAILED:
     case UPDATE_FILTER_FAILED:
-      return state
-        .set('loading', false)
-        .set('error', true)
-        .set('errorMessage', action.payload);
+      return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
 
     case SAVE_FILTER_SUCCESS:
     case UPDATE_FILTER_SUCCESS:
@@ -100,15 +109,10 @@ export default (state = initialState, action) => {
       return state.set('page', action.payload);
 
     case ORDERING_CHANGED:
-      return state
-        .set('page', initialState.get('page'))
-        .set('ordering', action.payload);
+      return state.set('page', initialState.get('page')).set('ordering', action.payload);
 
     case REQUEST_INCIDENTS:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .set('errorMessage', undefined);
+      return state.set('loading', true).set('error', false).set('errorMessage', undefined);
 
     case SEARCH_INCIDENTS_SUCCESS:
     case REQUEST_INCIDENTS_SUCCESS:
@@ -120,10 +124,7 @@ export default (state = initialState, action) => {
 
     case SEARCH_INCIDENTS_ERROR:
     case REQUEST_INCIDENTS_ERROR:
-      return state
-        .set('error', true)
-        .set('errorMessage', action.payload)
-        .set('loading', false);
+      return state.set('error', true).set('errorMessage', action.payload).set('loading', false);
 
     case SET_SEARCH_QUERY:
       return state

@@ -15,7 +15,7 @@ import { makeSelectSearchQuery } from 'containers/App/selectors';
 import LoginPage from 'components/LoginPage';
 
 import IncidentOverviewPage from './containers/IncidentOverviewPage';
-import { getFilters, searchIncidents, requestIncidents } from './actions';
+import { getDistricts, getFilters, searchIncidents, requestIncidents } from './actions';
 import IncidentDetail from './containers/IncidentDetail';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
 import IncidentSplitContainer from './containers/IncidentSplitContainer';
@@ -26,6 +26,7 @@ import routes from './routes';
 
 export const IncidentManagementModuleComponent = ({
   fetchCategoriesAction,
+  getDistrictsAction,
   getFiltersAction,
   requestIncidentsAction,
   searchIncidentsAction,
@@ -44,6 +45,7 @@ export const IncidentManagementModuleComponent = ({
       requestIncidentsAction();
     }
 
+    getDistrictsAction();
     getFiltersAction();
     fetchCategoriesAction();
     // disabling linter; no deps needed, only execute on mount
@@ -67,6 +69,7 @@ export const IncidentManagementModuleComponent = ({
 
 IncidentManagementModuleComponent.propTypes = {
   fetchCategoriesAction: PropTypes.func.isRequired,
+  getDistrictsAction: PropTypes.func.isRequired,
   getFiltersAction: PropTypes.func.isRequired,
   requestIncidentsAction: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
@@ -81,6 +84,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       fetchCategoriesAction: fetchCategories,
+      getDistrictsAction: getDistricts,
       getFiltersAction: getFilters,
       requestIncidentsAction: requestIncidents,
       searchIncidentsAction: searchIncidents,
@@ -92,8 +96,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentManagement', reducer });
 const withSaga = injectSaga({ key: 'incidentManagement', saga });
 
-export default compose(
-  withConnect,
-  withReducer,
-  withSaga
-)(IncidentManagementModuleComponent);
+export default compose(withConnect, withReducer, withSaga)(IncidentManagementModuleComponent);
