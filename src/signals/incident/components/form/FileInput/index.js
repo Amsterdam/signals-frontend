@@ -1,14 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor, themeSpacing } from '@datapunt/asc-ui';
 
-import Header from '../Header';
 import fileSize from '../../../services/file-size';
 
 import './style.scss';
-
-export const ERROR_TIMEOUT_INTERVAL = 8000;
 
 const FileInputError = styled.div`
     color: ${themeColor('secondary')};
@@ -16,19 +13,20 @@ const FileInputError = styled.div`
   }
 `;
 
-const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
-  let timeoutInstance = null;
+const FileInput = ({ handler, parent, meta }) => {
+  const [errors, setErrors] = useState();
   const maxNumberOfFiles = (meta && meta.maxNumberOfFiles) || 3;
-  const handleChange = e => {
+
+  const handleChange = useCallback(event => {
     /* istanbul ignore next */
-    if (e.target.files && e.target.files.length) {
+    if (event.target.files && event.target.files.length) {
       const minFileSizeFilter = meta.minFileSize ? checkMinFileSize : () => true;
       const maxFileSizeFilter = meta.maxFileSize ? checkMaxFileSize : () => true;
       const allowedFileTypesFilter = meta.allowedFileTypes ? checkFileType : () => true;
       const maxNumberOfFilesFilter = checkNumberOfFiles;
       const existingFiles = handler().value || [];
       const existingPreviews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
-      const batchFiles = [...e.target.files];
+      const batchFiles = [...event.target.files];
 
       existingFiles.map(file => ({ ...file, existing: true }));
       const files = [...existingFiles, ...batchFiles]
@@ -41,28 +39,18 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
         ...existingPreviews,
         ...batchFiles.map(() => `loading-${Math.trunc(Math.random() * 100000)}`),
       ].slice(0, files.length);
-      const errors = getErrorMessages([...existingFiles, ...batchFiles]);
+
+      setErrors(getErrorMessages([...existingFiles, ...batchFiles]));
       parent.meta.updateIncident({
         [meta.name]: files,
         [`${meta.name}_previews`]: previews,
-        [`${meta.name}_errors`]: errors,
       });
-
-      if (errors.length) {
-        if (timeoutInstance) {
-          global.window.clearTimeout(timeoutInstance);
-        }
-        timeoutInstance = global.window.setTimeout(() => {
-          parent.meta.updateIncident({
-            [`${meta.name}_errors`]: null,
-          });
-        }, ERROR_TIMEOUT_INTERVAL);
-      }
 
       files.forEach((file, uploadBatchIndex) => {
         if (files[uploadBatchIndex].existing) {
           return;
         }
+
         const reader = new window.FileReader();
         reader.addEventListener('load', () => {
           previews[uploadBatchIndex] = window.URL.createObjectURL(files[uploadBatchIndex]);
@@ -77,7 +65,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
         reader.readAsText(file);
       });
     }
-  };
+  }, []);
 
   const checkMinFileSize = file => file.size >= meta.minFileSize;
 
@@ -88,26 +76,29 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
   const checkNumberOfFiles = (file, index) => index < maxNumberOfFiles;
 
   const getErrorMessages = files => {
-    const errors = [];
+    const errorMessages = [];
 
     if (meta.minFileSize && !files.every(checkMinFileSize)) {
-      errors.push(`Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`);
+      errorMessages.push(`Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`);
     }
+
     if (meta.maxFileSize && !files.every(checkMaxFileSize)) {
-      errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
+      errorMessages.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
     }
+
     if (meta.allowedFileTypes && !files.every(checkFileType)) {
-      errors.push(
+      errorMessages.push(
         `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes
           .map(type => type.replace(/.*\//, ''))
           .join(', ')}.`
       );
     }
+
     if (!files.every(checkNumberOfFiles)) {
-      errors.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
+      errorMessages.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
     }
 
-    return errors;
+    return errorMessages;
   };
 
   const removeFile = (e, preview, previews, files) => {
@@ -124,7 +115,6 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
       parent.meta.updateIncident({
         [meta.name]: files,
         [`${meta.name}_previews`]: previews,
-        [`${meta.name}_errors`]: null,
       });
     }
 
@@ -133,66 +123,65 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
   };
 
   const previews = (parent && parent.value && parent.value[`${meta && meta.name}_previews`]) || [];
-  const errors = (parent && parent.value && parent.value[`${meta && meta.name}_errors`]) || null;
   const numberOfEmtpy = maxNumberOfFiles - previews.length - 1;
-  const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
+  const empty = numberOfEmtpy < 0 ? [] : [...Array(numberOfEmtpy).keys()];
 
   if (!meta?.isVisible) return null;
 
   return (
     <Fragment>
-      <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-        <div className="file-input">
-          {previews.length > 0 &&
-            previews.map(preview => (
-              <div
-                key={preview}
-                className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}
-              >
-                {preview.includes('loading') ? (
-                  <div className="progress-indicator progress-red"></div>
-                ) : (
-                  <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
-                    <button
-                      aria-label="Verwijder deze foto"
-                      type="button"
-                      className="file-input__preview-button-delete"
-                      onClick={e => removeFile(e, preview, previews, handler().value)}
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-
-          {previews.length < maxNumberOfFiles && (
-            <div className="file-input__button">
-              <label htmlFor="formUpload" className="file-input__button-label">
-                <div className="file-input__button-label-icon" />
-              </label>
-              <input type="file" id="formUpload" accept={meta.allowedFileTypes} onChange={handleChange} multiple />
-            </div>
-          )}
-
-          {empty.map(item => (
-            <div key={item} className="file-input__empty">
-              &nbsp;
+      <div className="file-input">
+        {previews.length > 0 &&
+          previews.map(preview => (
+            <div
+              key={preview}
+              className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}
+            >
+              {preview.includes('loading') ? (
+                <div className="progress-indicator progress-red"></div>
+              ) : (
+                <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
+                  <button
+                    aria-label="Verwijder deze foto"
+                    type="button"
+                    className="file-input__preview-button-delete"
+                    onClick={e => removeFile(e, preview, previews, handler().value)}
+                  />
+                </div>
+              )}
             </div>
           ))}
-        </div>
-        {errors?.length > 0 && errors.map(error => <FileInputError key={error}>{error}</FileInputError>)}
-      </Header>
+
+        {previews.length < maxNumberOfFiles && (
+          <div className="file-input__button">
+            <label htmlFor="formUpload" className="file-input__button-label">
+              <div className="file-input__button-label-icon" />
+            </label>
+            <input type="file" id="formUpload" accept={meta.allowedFileTypes} onChange={handleChange} multiple />
+          </div>
+        )}
+
+        {empty.map(item => (
+          <div key={item} className="file-input__empty">
+            &nbsp;
+          </div>
+        ))}
+      </div>
+
+      {errors?.length > 0 &&
+        errors.map(error => (
+          <FileInputError key={error}>
+            {error}
+          </FileInputError>
+        ))}
     </Fragment>
   );
 };
 
 FileInput.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
-  hasError: PropTypes.func,
   meta: PropTypes.object,
   parent: PropTypes.object,
-  getError: PropTypes.func.isRequired,
-  validatorsOrOpts: PropTypes.object,
 };
 
 export default FileInput;
