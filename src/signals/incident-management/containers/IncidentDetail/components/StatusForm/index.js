@@ -19,6 +19,12 @@ import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
+import CheckboxInput from './components/CheckboxInput';
+
+const MELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet automatisch.';
+const DEELMELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet.';
+const MELDING_CHECKBOX_DESCRIPTION =
+  'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting';
 
 const CurrentStatus = styled.div`
   margin: ${themeSpacing(5, 0)};
@@ -89,12 +95,14 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
   const currentStatus = statusList.find(status => status.key === incident.status.state);
   const [warning, setWarning] = useState('');
   const dispatch = useDispatch();
+  const isDeelmelding = !!incident?._links?.['sia:parent'];
 
   const form = useMemo(
     () =>
       FormBuilder.group({
         status: [incident.status.state, Validators.required],
         text: [''],
+        send_email: [false],
       }),
     [incident.status.state]
   );
@@ -115,7 +123,7 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
 
       form.controls.text.updateValueAndValidity();
     });
-  }, [form.controls.status.valueChanges, form.controls.text]);
+  }, [form.controls.status.valueChanges, form.controls.text, form.controls.send_email.valueChanges]);
 
   const handleSubmit = useCallback(
     event => {
@@ -131,7 +139,7 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
             id: incident.id,
             type: PATCH_TYPE_STATUS,
             patch: {
-              status: { state: form.value.status, text: form.value.text },
+              status: { state: form.value.status, text: form.value.text, send_email: form.value.send_email },
             },
           })
         );
@@ -139,7 +147,7 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
         onClose();
       }
     },
-    [incident.id, form.value.status, form.value.text, onClose, dispatch]
+    [incident.id, form.value.status, form.value.text, form.value.send_email, onClose, dispatch]
   );
 
   const handleUseDefaultText = useCallback(
@@ -187,6 +195,20 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
               render={TextAreaInput}
               rows={10}
             />
+
+            <Notification warning data-testid="statusFormToelichting">
+              {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
+            </Notification>
+
+            {!isDeelmelding && (
+              <FieldControlWrapper
+                control={form.get('send_email')}
+                data-testid="statusFormSendEmailField"
+                name="send_email"
+                label={MELDING_CHECKBOX_DESCRIPTION}
+                render={CheckboxInput}
+              />
+            )}
 
             <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
               Status opslaan
