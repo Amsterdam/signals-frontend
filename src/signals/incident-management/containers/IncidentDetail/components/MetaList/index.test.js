@@ -15,10 +15,11 @@ jest.mock('shared/services/string-parser');
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
 const update = jest.fn();
+const edit = jest.fn();
 
 const renderWithContext = (props, incident = incidentFixture) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident, update }}>
+    <IncidentDetailContext.Provider value={{ incident, update, edit }}>
       <MetaList {...props} />
     </IncidentDetailContext.Provider>
   );
@@ -28,6 +29,7 @@ describe('<MetaList />', () => {
 
   beforeEach(() => {
     update.mockReset();
+    edit.mockReset();
     string2date.mockImplementation(() => '21-07-1970');
     string2time.mockImplementation(() => '11:56');
   });
