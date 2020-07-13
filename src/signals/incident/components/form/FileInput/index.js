@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeColor } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import Header from '../Header';
 import fileSize from '../../../services/file-size';
@@ -12,13 +12,11 @@ export const ERROR_TIMEOUT_INTERVAL = 8000;
 
 const FileInputError = styled.div`
     color: ${themeColor('secondary')};
-    margin: 16px 0 0;
+    margin: ${themeSpacing(4, 0, 0)};
   }
 `;
 
-const FileInput = ({
-  handler, touched, hasError, getError, parent, meta, validatorsOrOpts,
-}) => {
+const FileInput = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
   let timeoutInstance = null;
   const maxNumberOfFiles = (meta && meta.maxNumberOfFiles) || 3;
   const handleChange = e => {
@@ -39,8 +37,10 @@ const FileInput = ({
         .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter);
 
-      const previews = [...existingPreviews, ...batchFiles.map(() => `loading-${Math.trunc(Math.random() * 100000)}`)]
-        .slice(0, files.length);
+      const previews = [
+        ...existingPreviews,
+        ...batchFiles.map(() => `loading-${Math.trunc(Math.random() * 100000)}`),
+      ].slice(0, files.length);
       const errors = getErrorMessages([...existingFiles, ...batchFiles]);
       parent.meta.updateIncident({
         [meta.name]: files,
@@ -97,7 +97,11 @@ const FileInput = ({
       errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
     }
     if (meta.allowedFileTypes && !files.every(checkFileType)) {
-      errors.push(`Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes.map(type => type.replace(/.*\//, '')).join(', ')}.`);
+      errors.push(
+        `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes
+          .map(type => type.replace(/.*\//, ''))
+          .join(', ')}.`
+      );
     }
     if (!files.every(checkNumberOfFiles)) {
       errors.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
@@ -137,44 +141,45 @@ const FileInput = ({
 
   return (
     <Fragment>
-      <Header
-        meta={meta}
-        options={validatorsOrOpts}
-        touched={touched}
-        hasError={hasError}
-        getError={getError}
-      >
+      <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
         <div className="file-input">
-          {previews.length > 0 && previews.map(preview => (
-            <div key={preview} className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}>
-              {preview.includes('loading')
-                ? <div className="progress-indicator progress-red"></div>
-                : (
+          {previews.length > 0 &&
+            previews.map(preview => (
+              <div
+                key={preview}
+                className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}
+              >
+                {preview.includes('loading') ? (
+                  <div className="progress-indicator progress-red"></div>
+                ) : (
                   <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
-                    <button aria-label="Verwijder deze foto" type="button" className="file-input__preview-button-delete" onClick={e => removeFile(e, preview, previews, handler().value)} />
+                    <button
+                      aria-label="Verwijder deze foto"
+                      type="button"
+                      className="file-input__preview-button-delete"
+                      onClick={e => removeFile(e, preview, previews, handler().value)}
+                    />
                   </div>
                 )}
-            </div>
-          ))}
+              </div>
+            ))}
 
           {previews.length < maxNumberOfFiles && (
             <div className="file-input__button">
               <label htmlFor="formUpload" className="file-input__button-label">
                 <div className="file-input__button-label-icon" />
               </label>
-              <input
-                type="file"
-                id="formUpload"
-                accept={meta.allowedFileTypes}
-                onChange={handleChange}
-                multiple
-              />
+              <input type="file" id="formUpload" accept={meta.allowedFileTypes} onChange={handleChange} multiple />
             </div>
           )}
 
-          {empty.map(item => (<div key={item} className="file-input__empty">&nbsp;</div>))}
+          {empty.map(item => (
+            <div key={item} className="file-input__empty">
+              &nbsp;
+            </div>
+          ))}
         </div>
-        {errors?.length > 0 && errors.map(error => <FileInputError key={error} >{error}</FileInputError>)}
+        {errors?.length > 0 && errors.map(error => <FileInputError key={error}>{error}</FileInputError>)}
       </Header>
     </Fragment>
   );
