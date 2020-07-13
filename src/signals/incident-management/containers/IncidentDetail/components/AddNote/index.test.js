@@ -6,7 +6,7 @@ import { withAppContext } from 'test/utils';
 import { patchIncident } from 'models/incident/actions';
 import { PATCH_TYPE_NOTES } from 'models/incident/constants';
 
-import AddNote from './index';
+import AddNote from '.';
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);

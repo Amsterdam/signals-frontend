@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import  Button  from '..';
+import Button from '..';
 
 describe('src/components/Button', () => {
   it('should render correctly', () => {

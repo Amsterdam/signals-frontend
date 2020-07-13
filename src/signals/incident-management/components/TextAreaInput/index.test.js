@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import TextAreaInput from './index';
+import TextAreaInput from '.';
 
 describe('<TextAreaInput />', () => {
   let wrapper;

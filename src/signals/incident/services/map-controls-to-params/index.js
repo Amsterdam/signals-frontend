@@ -14,9 +14,9 @@ const mapControlsToParams = (incident, wizard) => {
     datetime = new Date();
   } else if (incident.incident_date) {
     const date =
-      incident.incident_date && incident.incident_date === 'Vandaag'
-        ? format(new Date(), 'yyyy-MM-dd')
-        : incident.incident_date;
+      incident.incident_date && incident.incident_date === 'Vandaag' ?
+        format(new Date(), 'yyyy-MM-dd') :
+        incident.incident_date;
 
     const datetimeString = `${date} ${String(incident.incident_time_hours).padStart(2, '0')}:${String(
       incident.incident_time_minutes

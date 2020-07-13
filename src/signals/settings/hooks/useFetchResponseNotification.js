@@ -58,9 +58,9 @@ const useFetchResponseNotification = ({
 
     if (isSuccess) {
       const entityLabel = entityName || 'Gegevens';
-      message = isExisting
-        ? `${entityLabel} bijgewerkt`
-        : `${entityLabel} toegevoegd`;
+      message = isExisting ?
+        `${entityLabel} bijgewerkt` :
+        `${entityLabel} toegevoegd`;
     }
 
     showNotification(variant, message);

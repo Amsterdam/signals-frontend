@@ -145,6 +145,7 @@ export const setPhonenumber = phoneNumber => {
 
 export const uploadFile = (fileName, fileType = '', selector) => {
   cy.get(selector).then(subject => {
+    // eslint-disable-next-line promise/no-nesting
     cy.fixture(fileName, 'base64')
       .then(Cypress.Blob.base64StringToBlob)
       .then(blob => {

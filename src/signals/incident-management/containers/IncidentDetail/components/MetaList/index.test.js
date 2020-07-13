@@ -9,7 +9,7 @@ import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { patchIncident } from 'models/incident/actions';
 
-import MetaList from './index';
+import MetaList from '.';
 
 jest.mock('shared/services/string-parser');
 

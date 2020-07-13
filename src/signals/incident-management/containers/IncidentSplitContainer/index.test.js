@@ -7,7 +7,7 @@ import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { requestIncidentSuccess } from 'models/incident/actions';
 
-import { IncidentSplitContainer } from './index';
+import { IncidentSplitContainer } from '.';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,

@@ -19,9 +19,9 @@ const formatValues = props => {
     return props.values;
   }
 
-  return props.sort
-    ? sortBy(props.values, item => item.value || item.name)
-    : props.values;
+  return props.sort ?
+    sortBy(props.values, item => item.value || item.name) :
+    props.values;
 };
 
 class FieldControlWrapper extends React.Component {

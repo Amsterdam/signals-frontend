@@ -50,7 +50,7 @@ export const setMainCategory = payload => ({
   payload,
 });
 
-export const setName= payload => ({
+export const setName = payload => ({
   type: SET_NAME,
   payload,
 });

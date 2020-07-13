@@ -52,12 +52,6 @@ export default (state = initialState, action) => {
     case GET_FILTERS_SUCCESS:
       return state.set('filters', fromJS(action.payload)).set('loading', false);
 
-    case GET_FILTERS_FAILED:
-      return state
-        .set('loading', false)
-        .set('error', true)
-        .set('errorMessage', action.payload);
-
     case REMOVE_FILTER_SUCCESS:
       re = new RegExp(`/${action.payload}`, 'g');
       newFilters = state
@@ -76,6 +70,7 @@ export default (state = initialState, action) => {
     case EDIT_FILTER:
       return state.set('editFilter', fromJS(action.payload));
 
+    case GET_FILTERS_FAILED:
     case SAVE_FILTER_FAILED:
     case UPDATE_FILTER_FAILED:
       return state

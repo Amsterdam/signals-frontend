@@ -70,9 +70,9 @@ describe('request', () => {
 
     it('should catch errors', done => {
       request('/thisdoesntexist')
-        .catch(err => {
-          expect(err.response.status).toBe(404);
-          expect(err.response.statusText).toBe('Not Found');
+        .catch(error => {
+          expect(error.response.status).toBe(404);
+          expect(error.response.statusText).toBe('Not Found');
           done();
         });
     });
@@ -98,9 +98,9 @@ describe('request', () => {
           expect(json.message).toBe('too late');
           done();
         })
-        .catch(err => {
-          expect(err.response.status).toBe(412);
-          expect(err.response.statusText).toBe('Precondition Failed');
+        .catch(error => {
+          expect(error.response.status).toBe(412);
+          expect(error.response.statusText).toBe('Precondition Failed');
           done();
         });
     });

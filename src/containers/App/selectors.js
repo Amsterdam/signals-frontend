@@ -21,7 +21,7 @@ const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
       permissionMap.set(perm.id, perm);
     });
 
-  return Array.from(permissionMap.values());
+  return [...permissionMap.values()];
 });
 
 /**

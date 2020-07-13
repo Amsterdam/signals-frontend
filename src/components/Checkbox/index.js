@@ -16,7 +16,7 @@ const StyledBox = styled(AscCheckbox)`
 
 const Checkbox = ({ className, ...props }) => (
   <Wrapper className={className}>
-    <StyledBox {...props } />
+    <StyledBox {...props} />
   </Wrapper>
 );
 

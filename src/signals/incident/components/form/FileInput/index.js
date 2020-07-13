@@ -44,6 +44,7 @@ const FileInput = ({
         if (timeoutInstance) {
           global.window.clearTimeout(timeoutInstance);
         }
+
         timeoutInstance = global.window.setTimeout(() => {
           parent.meta.updateIncident({
             [`${meta.name}_errors`]: null,
@@ -55,6 +56,7 @@ const FileInput = ({
         if (files[uploadBatchIndex].existing) {
           return;
         }
+
         const reader = new window.FileReader();
         reader.addEventListener('load', () => {
           previews[uploadBatchIndex] = window.URL.createObjectURL(files[uploadBatchIndex]);
@@ -85,12 +87,15 @@ const FileInput = ({
     if (meta.minFileSize && !files.every(checkMinFileSize)) {
       errors.push(`Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`);
     }
+
     if (meta.maxFileSize && !files.every(checkMaxFileSize)) {
       errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
     }
+
     if (meta.allowedFileTypes && !files.every(checkFileType)) {
       errors.push(`Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes.map(type => type.replace(/.*\//, '')).join(', ')}.`);
     }
+
     if (!files.every(checkNumberOfFiles)) {
       errors.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
     }
@@ -123,7 +128,7 @@ const FileInput = ({
   const previews = (parent && parent.value && parent.value[`${meta && meta.name}_previews`]) || [];
   const errors = (parent && parent.value && parent.value[`${meta && meta.name}_errors`]) || null;
   const numberOfEmtpy = maxNumberOfFiles - previews.length - 1;
-  const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
+  const empty = numberOfEmtpy < 0 ? [] : [...Array(numberOfEmtpy).keys()];
 
   if (!meta?.isVisible) return null;
 
@@ -139,9 +144,9 @@ const FileInput = ({
         <div className="file-input">
           {previews.length > 0 && previews.map(preview => (
             <div key={preview} className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}>
-              {preview.includes('loading')
-                ? <div className="progress-indicator progress-red"></div>
-                : (
+              {preview.includes('loading') ?
+                <div className="progress-indicator progress-red"></div> :
+                (
                   <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
                     <button aria-label="Verwijder deze foto" type="button" className="file-input__preview-button-delete" onClick={e => removeFile(e, preview, previews, handler().value)} />
                   </div>

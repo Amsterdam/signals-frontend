@@ -2,7 +2,7 @@ import { store } from 'test/utils';
 import loadIncidentModel from './incident';
 import loadHistoryModel from './history';
 
-import loadModels from './index';
+import loadModels from '.';
 
 jest.mock('./incident');
 jest.mock('./history');

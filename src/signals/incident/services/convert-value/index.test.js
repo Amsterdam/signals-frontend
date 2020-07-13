@@ -1,4 +1,4 @@
-import convertValue from './index';
+import convertValue from '.';
 
 describe('The convert value service', () => {
   it('should return undefined by default', () => {

@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
@@ -121,7 +121,7 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
     event => {
       event.preventDefault();
 
-      if (/(?:{{|}})/gi.test(form.value.text)) {
+      if (/{{|}}/gi.test(form.value.text)) {
         global.alert(
           "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
         );
@@ -152,63 +152,61 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
   );
 
   return (
-    <Fragment>
-      <FieldGroup
-        control={form}
-        render={({ invalid }) => (
-          <Form onSubmit={handleSubmit}>
-            <HeaderArea>
-              <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
+    <FieldGroup
+      control={form}
+      render={({ invalid }) => (
+        <Form onSubmit={handleSubmit}>
+          <HeaderArea>
+            <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-              <CurrentStatus data-testid="currentStatus">
-                <Label as="span">Huidige status</Label>
-                <div>{currentStatus.value}</div>
-              </CurrentStatus>
-            </HeaderArea>
+            <CurrentStatus data-testid="currentStatus">
+              <Label as="span">Huidige status</Label>
+              <div>{currentStatus.value}</div>
+            </CurrentStatus>
+          </HeaderArea>
 
-            <OptionsArea>
-              <FieldControlWrapper
-                control={form.get('status')}
-                data-testid="statusFormStatusField"
-                name="status"
-                render={RadioInput}
-                values={changeStatusOptionList}
-              />
+          <OptionsArea>
+            <FieldControlWrapper
+              control={form.get('status')}
+              data-testid="statusFormStatusField"
+              name="status"
+              render={RadioInput}
+              values={changeStatusOptionList}
+            />
 
-              <Notification warning data-testid="statusFormWarning">
-                {warning}
-              </Notification>
-            </OptionsArea>
+            <Notification warning data-testid="statusFormWarning">
+              {warning}
+            </Notification>
+          </OptionsArea>
 
-            <FormArea>
-              <FieldControlWrapper
-                control={form.get('text')}
-                display="Toelichting"
-                name="text"
-                render={TextAreaInput}
-                rows={10}
-              />
+          <FormArea>
+            <FieldControlWrapper
+              control={form.get('text')}
+              display="Toelichting"
+              name="text"
+              render={TextAreaInput}
+              rows={10}
+            />
 
-              <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
-                Status opslaan
-              </StyledButton>
+            <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
+              Status opslaan
+            </StyledButton>
 
-              <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
-                Annuleren
-              </StyledButton>
-            </FormArea>
+            <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
+              Annuleren
+            </StyledButton>
+          </FormArea>
 
-            <TextsArea>
-              <DefaultTexts
-                defaultTexts={defaultTexts}
-                onHandleUseDefaultText={handleUseDefaultText}
-                status={form.get('status').value}
-              />
-            </TextsArea>
-          </Form>
-        )}
-      />
-    </Fragment>
+          <TextsArea>
+            <DefaultTexts
+              defaultTexts={defaultTexts}
+              onHandleUseDefaultText={handleUseDefaultText}
+              status={form.get('status').value}
+            />
+          </TextsArea>
+        </Form>
+      )}
+    />
   );
 };
 

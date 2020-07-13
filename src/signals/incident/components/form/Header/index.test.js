@@ -4,7 +4,7 @@ import { Validators } from 'react-reactive-form';
 
 import { withAppContext } from 'test/utils';
 
-import Header from './index';
+import Header from '.';
 
 describe('signals/incident/components/form/Header', () => {
   it('should render label', () => {

@@ -23,13 +23,6 @@ describe('maxSelection', () => {
     expect(selection.set).toEqual(new Set([42, 9]));
   });
 
-  it('should add elements once', () => {
-    selection.add(42);
-    selection.add(42);
-
-    expect(selection.set).toEqual(new Set([42]));
-  });
-
   it('should add no more than max', () => {
     selection.add(1);
     selection.add(2);

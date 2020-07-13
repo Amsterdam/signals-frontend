@@ -108,9 +108,9 @@ export default (state, action) => {
     case SET_SAVE_BUTTON_LABEL:
       return {
         ...state,
-        submitBtnLabel: action.payload
-          ? SAVE_SUBMIT_BUTTON_LABEL
-          : DEFAULT_SUBMIT_BUTTON_LABEL,
+        submitBtnLabel: action.payload ?
+          SAVE_SUBMIT_BUTTON_LABEL :
+          DEFAULT_SUBMIT_BUTTON_LABEL,
       };
 
     case SET_MAIN_CATEGORY:

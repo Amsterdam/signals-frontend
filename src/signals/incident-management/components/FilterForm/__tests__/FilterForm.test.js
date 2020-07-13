@@ -385,13 +385,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     const mainCategorySlug = 'afval';
     const checkboxes = container.querySelectorAll(`input[name="${mainCategorySlug}_category_slug"]`);
 
-    expect(Array.from(checkboxes).every(element => !element.checked)).toEqual(true);
+    expect([...checkboxes].every(element => !element.checked)).toEqual(true);
 
     await act(async () => { fireEvent.click(checkboxes[3]); });
 
     await findByTestId('sourceCheckboxGroup');
 
-    expect(Array.from(checkboxes).every(element => !element.checked)).toEqual(false);
+    expect([...checkboxes].every(element => !element.checked)).toEqual(false);
     expect(checkboxes[3].checked).toEqual(true);
   });
 
@@ -475,7 +475,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
-      act(() => { fireEvent.blur(nameField,  { target: { value: ' ' } }); });
+      act(() => { fireEvent.blur(nameField, { target: { value: ' ' } }); });
 
       act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
 

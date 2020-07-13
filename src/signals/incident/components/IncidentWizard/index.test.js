@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 
-import IncidentWizard from './index';
+import IncidentWizard from '.';
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,

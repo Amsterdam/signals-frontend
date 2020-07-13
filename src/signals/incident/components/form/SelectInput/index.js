@@ -21,9 +21,9 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
           })
         }
         options={
-          meta.values && isObject(meta.values)
-            ? Object.entries(meta.values).map(([id, label]) => ({ key: id, name: label, value: id }))
-            : []
+          meta.values && isObject(meta.values) ?
+            Object.entries(meta.values).map(([id, label]) => ({ key: id, name: label, value: id })) :
+            []
         }
       />
     </Header>

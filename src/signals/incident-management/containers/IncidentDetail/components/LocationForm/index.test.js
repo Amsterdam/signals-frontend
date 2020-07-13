@@ -7,7 +7,7 @@ import { withMapContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { patchIncident } from 'models/incident/actions';
 
-import LocationForm from './index';
+import LocationForm from '.';
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);

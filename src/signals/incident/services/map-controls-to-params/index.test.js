@@ -1,7 +1,7 @@
 import mapValues from '../map-values';
 import mapPaths from '../map-paths';
 
-import mapControlsToParams, { defaultParams } from './index';
+import mapControlsToParams, { defaultParams } from '.';
 
 jest.mock('../map-values');
 jest.mock('../map-paths');
