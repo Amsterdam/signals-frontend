@@ -41,11 +41,11 @@ const props = {
   type: 'mockType',
 };
 
-const dispatch = jest.fn();
+const update = jest.fn();
 
 const renderWithContext = (componentProps = props) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident: { ...incidentFixture, someValue: 'c' }, dispatch }}>
+    <IncidentDetailContext.Provider value={{ incident: { ...incidentFixture, someValue: 'c' }, update }}>
       <ChangeValue {...componentProps} />
     </IncidentDetailContext.Provider>
   );
@@ -57,7 +57,7 @@ describe('<ChangeValue />', () => {
   const cancelTestId = `cancel${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
 
   beforeEach(() => {
-    dispatch.mockReset();
+    update.mockReset();
     getListValueByKey.mockImplementation(() => 'mock waarde');
   });
 
@@ -77,7 +77,7 @@ describe('<ChangeValue />', () => {
     await expectEditState(renderProps);
   });
 
-  it('should call dispatch', async () => {
+  it('should call update', async () => {
     const { getByTestId, findByTestId } = render(renderWithContext());
 
     const editButton = getByTestId(editTestId);
@@ -88,13 +88,13 @@ describe('<ChangeValue />', () => {
 
     const submitBtn = await findByTestId(submitTestId);
 
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(submitBtn);
     });
 
-    expect(dispatch).toHaveBeenCalledWith({
+    expect(update).toHaveBeenCalledWith({
       type: props.type,
       patch: {
         incident: expect.any(Object),

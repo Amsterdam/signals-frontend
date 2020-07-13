@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect, useMemo, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
 
@@ -95,8 +94,8 @@ const StyledColumn = styled(Column)`
   position: relative;
 `;
 
-const StatusForm = ({ defaultTexts, onClose }) => {
-  const { incident, dispatch } = useContext(IncidentDetailContext);
+const StatusForm = ({ defaultTexts }) => {
+  const { incident, update, close } = useContext(IncidentDetailContext);
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
   const [warning, setWarning] = useState('');
 
@@ -137,17 +136,17 @@ const StatusForm = ({ defaultTexts, onClose }) => {
         );
       } else {
         const newStatus = statusList.find(({ key }) => key === form.value.state);
-        dispatch({
+        update({
           type: PATCH_TYPE_STATUS,
           patch: {
             status: { state: form.value.state, state_display: newStatus.value },
           },
         });
 
-        onClose();
+        close();
       }
     },
-    [form.value, onClose, dispatch]
+    [form.value, close, update]
   );
 
   const handleUseDefaultText = useCallback(
@@ -165,7 +164,7 @@ const StatusForm = ({ defaultTexts, onClose }) => {
         <FieldGroup
           control={form}
           render={({ invalid }) => (
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} data-testid="statusForm">
               <HeaderArea>
                 <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
@@ -202,7 +201,7 @@ const StatusForm = ({ defaultTexts, onClose }) => {
                   Status opslaan
                 </StyledButton>
 
-                <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={onClose}>
+                <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={close}>
                   Annuleren
                 </StyledButton>
               </FormArea>
@@ -224,7 +223,6 @@ const StatusForm = ({ defaultTexts, onClose }) => {
 
 StatusForm.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default StatusForm;

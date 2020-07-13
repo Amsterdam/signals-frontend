@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { themeSpacing } from '@datapunt/asc-ui';
 import { Close as CloseIcon } from '@datapunt/asc-assets';
 import styled from 'styled-components';
 
 import Button from 'components/Button';
+import IncidentDetailContext from '../../context';
 
 const StyledButton = styled(Button)`
   position: absolute;
@@ -30,17 +31,20 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const CloseButton = ({ className, onClick }) => (
-  <StyledButton
-    className={className}
-    data-testid="closeButton"
-    icon={<CloseIcon />}
-    iconSize={16}
-    onClick={onClick}
-    size={32}
-    variant="application"
-  />
-);
+const CloseButton = ({ className }) => {
+  const { close } = useContext(IncidentDetailContext);
+  return (
+    <StyledButton
+      className={className}
+      data-testid="closeButton"
+      icon={<CloseIcon />}
+      iconSize={16}
+      onClick={close}
+      size={32}
+      variant="application"
+    />
+  );
+};
 
 CloseButton.defaultProps = {
   className: '',
@@ -48,7 +52,6 @@ CloseButton.defaultProps = {
 
 CloseButton.propTypes = {
   className: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default CloseButton;

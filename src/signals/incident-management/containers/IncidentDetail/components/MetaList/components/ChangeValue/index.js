@@ -45,7 +45,7 @@ const ChangeValue = ({
   valueClass,
   valuePath,
 }) => {
-  const { incident, dispatch } = useContext(IncidentDetailContext);
+  const { incident, update } = useContext(IncidentDetailContext);
   const [showForm, setShowForm] = useState(false);
   const [info, setInfo] = useState('');
 
@@ -65,7 +65,7 @@ const ChangeValue = ({
 
       set(payload, path, form.value.input);
 
-      dispatch({
+      update({
         type,
         patch: { ...payload },
       });
@@ -73,7 +73,7 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [patch, path, type, dispatch, form]
+    [patch, path, type, update, form]
   );
 
   const handleCancel = useCallback(() => {

@@ -9,12 +9,12 @@ import LocationPreview from '.';
 
 jest.mock('../MapDetail', () => () => <div data-testid="location-preview-map" />);
 
-const onEditLocation = jest.fn();
+const edit = jest.fn();
 
 const renderWithContext = (incident = incidentFixture) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident }}>
-      <LocationPreview onEditLocation={onEditLocation} />
+    <IncidentDetailContext.Provider value={{ incident, edit }}>
+      <LocationPreview />
     </IncidentDetailContext.Provider>
   );
 
@@ -32,13 +32,13 @@ describe('signals/incident-management/containers/IncidentDetail/components/Locat
     it('clicking the edit button should trigger edit the location', () => {
       const { queryByTestId } = render(renderWithContext());
 
-      expect(onEditLocation).not.toHaveBeenCalled();
+      expect(edit).not.toHaveBeenCalled();
 
       act(() => {
         fireEvent.click(queryByTestId('location-preview-button-edit'));
       });
 
-      expect(onEditLocation).toHaveBeenCalled();
+      expect(edit).toHaveBeenCalled();
     });
   });
 });

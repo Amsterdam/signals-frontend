@@ -4,25 +4,38 @@ import 'jest-styled-components';
 
 import { withAppContext } from 'test/utils';
 
+import IncidentDetailContext from '../../../context';
 import CloseButton from '..';
 
+const close = jest.fn();
+
+const renderWithContext = () =>
+  withAppContext(
+    <IncidentDetailContext.Provider value={{ close }}>
+      <CloseButton />
+    </IncidentDetailContext.Provider>
+  );
+
 describe('incident-management/containers/IncidentDetail/components/CloseButton', () => {
+  beforeEach(() => {
+    close.mockReset();
+  });
+
   it('is positioned absolute', () => {
-    const { container } = render(withAppContext(<CloseButton onClick={() => {}} />));
+    const { container } = render(renderWithContext());
 
     expect(container.firstChild).toHaveStyleRule('position', 'absolute');
   });
 
   it('should execute callback', () => {
-    const onClick = jest.fn();
-    const { container } = render(withAppContext(<CloseButton onClick={onClick} />));
+    const { container } = render(renderWithContext());
 
-    expect(onClick).not.toHaveBeenCalled();
+    expect(close).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(container.firstChild);
     });
 
-    expect(onClick).toHaveBeenCalled();
+    expect(close).toHaveBeenCalled();
   });
 });

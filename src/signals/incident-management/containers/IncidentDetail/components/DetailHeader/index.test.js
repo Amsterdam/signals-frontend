@@ -20,18 +20,18 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-const dispatch = jest.fn();
+const update = jest.fn();
 
 const renderWithContext = (incident = incidentFixture) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident, dispatch }}>
+    <IncidentDetailContext.Provider value={{ incident, update }}>
       <DetailHeader />
     </IncidentDetailContext.Provider>
   );
 
 describe('signals/incident-management/containers/IncidentDetail/components/DetailHeader', () => {
   beforeEach(() => {
-    dispatch.mockReset();
+    update.mockReset();
   });
 
   it('should render parent link', () => {
@@ -114,13 +114,13 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
   it('test clicking the thor button', () => {
     const { queryByTestId } = render(renderWithContext());
 
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(queryByTestId('detail-header-button-thor'));
     });
 
-    expect(dispatch).toHaveBeenCalledWith({
+    expect(update).toHaveBeenCalledWith({
       type: PATCH_TYPE_THOR,
       patch: {
         status: {

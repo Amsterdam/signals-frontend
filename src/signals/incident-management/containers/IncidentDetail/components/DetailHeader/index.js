@@ -86,7 +86,7 @@ const ParentLink = styled(Link)`
 `;
 
 const DetailHeader = () => {
-  const { incident, dispatch } = useContext(IncidentDetailContext);
+  const { incident, update } = useContext(IncidentDetailContext);
   const location = useLocation();
   const canSplit =
     incident.status.state === 'm' && !(incident?._links?.['sia:children'] || incident?._links?.['sia:parent']);
@@ -107,8 +107,8 @@ const DetailHeader = () => {
   const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop();
 
   const patchIncident = useCallback(() => {
-    dispatch(patch);
-  }, [dispatch, patch]);
+    update(patch);
+  }, [update, patch]);
 
   return (
     <Header className="detail-header">

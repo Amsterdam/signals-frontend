@@ -17,7 +17,7 @@ const NoteButton = styled(Button)`
 `;
 
 const AddNote = () => {
-  const { dispatch } = useContext(IncidentDetailContext);
+  const { update } = useContext(IncidentDetailContext);
   const areaRef = useRef(null);
   const [showForm, setShowForm] = useState(false);
   const [note, setNote] = useState('');
@@ -30,7 +30,7 @@ const AddNote = () => {
 
       const notes = [{ text: note }];
 
-      dispatch({
+      update({
         type: PATCH_TYPE_NOTES,
         patch: { notes },
       });
@@ -38,7 +38,7 @@ const AddNote = () => {
       setNote('');
       setShowForm(false);
     },
-    [dispatch, note]
+    [update, note]
   );
 
   const onChange = useCallback(

@@ -1,5 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
@@ -44,8 +43,8 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-const MetaList = ({ onEditStatus }) => {
-  const { incident, dispatch } = useContext(IncidentDetailContext);
+const MetaList = () => {
+  const { incident, update, edit } = useContext(IncidentDetailContext);
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () =>
@@ -68,13 +67,6 @@ const MetaList = ({ onEditStatus }) => {
     'closure requested',
   ].includes(incident.status.state);
 
-  const patchIncident = useCallback(
-    patchedData => {
-      dispatch(patchedData);
-    },
-    [dispatch]
-  );
-
   return (
     <List>
       <dt data-testid="meta-list-date-definition">Gemeld op</dt>
@@ -90,7 +82,7 @@ const MetaList = ({ onEditStatus }) => {
             iconSize={18}
             variant="application"
             type="button"
-            onClick={onEditStatus}
+            onClick={() => edit('status')}
           />
           Status
         </dt>
@@ -107,7 +99,7 @@ const MetaList = ({ onEditStatus }) => {
             list={priorityList}
             path="priority.priority"
             type="priority"
-            onPatchIncident={patchIncident}
+            onPatchIncident={update}
             component={RadioInput}
           />
         </Highlight>
@@ -119,7 +111,7 @@ const MetaList = ({ onEditStatus }) => {
             component={RadioInput}
             display="Type"
             list={typesList}
-            onPatchIncident={patchIncident}
+            onPatchIncident={update}
             path="type.code"
             type="type"
           />
@@ -133,7 +125,7 @@ const MetaList = ({ onEditStatus }) => {
             display="Subcategorie"
             list={subcategoryOptions}
             infoKey="description"
-            onPatchIncident={patchIncident}
+            onPatchIncident={update}
             patch={{ status: { state: 'm' } }}
             path="category.sub_category"
             sort
@@ -152,10 +144,6 @@ const MetaList = ({ onEditStatus }) => {
       <dd data-testid="meta-list-source-value">{incident.source}</dd>
     </List>
   );
-};
-
-MetaList.propTypes = {
-  onEditStatus: PropTypes.func.isRequired,
 };
 
 export default MetaList;

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button, themeSpacing, Row, Column } from '@datapunt/asc-ui';
 
@@ -31,12 +30,12 @@ const StyledMap = styled(MapDetail)`
   height: 450px;
 `;
 
-const LocationPreview = ({ onEditLocation }) => {
-  const { incident: { location } } = useContext(IncidentDetailContext);
+const LocationPreview = () => {
+  const { incident: { location }, edit } = useContext(IncidentDetailContext);
   return (
     <Wrapper>
       <StyledColumn span={12}>
-        <EditButton variant="secondary" onClick={onEditLocation} data-testid="location-preview-button-edit">
+        <EditButton variant="secondary" onClick={() => edit('location')} data-testid="location-preview-button-edit">
           Locatie wijzigen
         </EditButton>
 
@@ -44,10 +43,6 @@ const LocationPreview = ({ onEditLocation }) => {
       </StyledColumn>
     </Wrapper>
   );
-};
-
-LocationPreview.propTypes = {
-  onEditLocation: PropTypes.func.isRequired,
 };
 
 export default LocationPreview;

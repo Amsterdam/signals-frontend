@@ -24,9 +24,6 @@ describe('<Detail />', () => {
         created_at: '2020-03-31T12:10:18.583548+02:00',
       },
     ],
-    onShowLocation: jest.fn(),
-    onEditLocation: jest.fn(),
-    onShowAttachment: jest.fn(),
   };
 
   it('should render correctly', async () => {

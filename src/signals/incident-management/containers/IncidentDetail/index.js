@@ -37,10 +37,7 @@ const DetailContainer = styled(Column)`
 const reducer = (state, action) => {
   switch (action.type) {
     case 'closeAll':
-      return { ...state, preview: '', error: undefined, attachmentHref: '' };
-
-    case 'showImage':
-      return { ...state, preview: 'showImage', attachmentHref: action.payload };
+      return { ...state, preview: undefined, edit: undefined, error: undefined, attachmentHref: '' };
 
     case 'error':
       return { ...state, error: action.payload };
@@ -63,8 +60,14 @@ const reducer = (state, action) => {
     case 'patchSuccess':
       return { ...state, patching: undefined };
 
+    case 'preview':
+      return { ...state, edit: undefined, ...action.payload };
+
+    case 'edit':
+      return { ...state, preview: undefined, ...action.payload };
+
     default:
-      return { ...state, preview: action.type, attachmentHref: '' };
+      return state;
   }
 };
 
@@ -99,10 +102,10 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
 
   useEffect(() => {
-    listenFor('keyup', handleKeyUp);
+    document.addEventListener('keyup', handleKeyUp);
 
     return () => {
-      unlisten('keyup', handleKeyUp);
+      document.removeEventListener('keyup', handleKeyUp);
     };
   }, [handleKeyUp, listenFor, unlisten]);
 
@@ -212,15 +215,15 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     switch (event.key) {
       case 'Esc':
       case 'Escape':
-        dispatch({ type: 'closeAll' });
+        closeDispatch();
         break;
 
       default:
         break;
     }
-  }, []);
+  }, [closeDispatch]);
 
-  const relayDispatch = useCallback(
+  const updateDispatch = useCallback(
     action => {
       dispatch({ type: 'patchStart', payload: action.type });
       patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch);
@@ -228,10 +231,30 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     [id, patch]
   );
 
+  const previewDispatch = useCallback((section, payload) => {
+    dispatch({ type: 'preview', payload: { preview: section, ...payload } });
+  }, []);
+
+  const editDispatch = useCallback((section, payload) => {
+    dispatch({ type: 'edit', payload: { edit: section, ...payload } });
+  }, []);
+
+  const closeDispatch = useCallback(() => {
+    dispatch({ type: 'closeAll' });
+  }, []);
+
   if (!state.incident) return null;
 
   return (
-    <IncidentDetailContext.Provider value={{ incident: state.incident, dispatch: relayDispatch }}>
+    <IncidentDetailContext.Provider
+      value={{
+        incident: state.incident,
+        update: updateDispatch,
+        preview: previewDispatch,
+        edit: editDispatch,
+        close: closeDispatch,
+      }}
+    >
       <Row data-testid="incidentDetail">
         <Column span={12}>
           <DetailHeader />
@@ -240,12 +263,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
       <StyledRow>
         <DetailContainer span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}>
-          <Detail
-            attachments={state.attachments}
-            onShowLocation={() => dispatch({ type: 'showLocation' })}
-            onEditLocation={() => dispatch({ type: 'editLocation' })}
-            onShowAttachment={payload => dispatch({ type: 'showImage', payload })}
-          />
+          <Detail attachments={state.attachments} />
 
           <AddNote />
 
@@ -258,31 +276,19 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
           span={{ small: 1, medium: 2, big: 3, large: 4, xLarge: 4 }}
           push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
         >
-          <MetaList onEditStatus={() => dispatch({ type: 'editStatus' })} />
+          <MetaList />
         </DetailContainer>
 
-        {state.preview && (
+        {(state.preview || state.edit) && (
           <Preview>
-            {state.preview === 'editStatus' && (
-              <StatusForm
-                defaultTexts={state.defaultTexts}
-                error={state.error}
-                onClose={() => dispatch({ type: 'closeAll' })}
-              />
-            )}
+            {state.edit === 'status' && <StatusForm defaultTexts={state.defaultTexts} error={state.error} />}
 
-            {state.preview === 'showLocation' && (
-              <LocationPreview onEditLocation={() => dispatch({ type: 'editLocation' })} />
-            )}
+            {state.preview === 'location' && <LocationPreview />}
 
-            {state.preview === 'editLocation' && <LocationForm onClose={() => dispatch({ type: 'closeAll' })} />}
+            {state.edit === 'location' && <LocationForm />}
 
-            {state.preview === 'showImage' && (
-              <AttachmentViewer
-                attachments={state.attachments}
-                href={state.attachmentHref}
-                onShowAttachment={payload => dispatch({ type: 'showImage', payload })}
-              />
+            {state.preview === 'attachment' && (
+              <AttachmentViewer attachments={state.attachments} href={state.attachmentHref} />
             )}
           </Preview>
         )}

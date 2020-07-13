@@ -1,5 +1,4 @@
 import React, { useMemo, useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
@@ -55,14 +54,14 @@ const DefinitionList = styled.dl`
   }
 `;
 
-const Detail = ({ attachments, onShowLocation, onEditLocation, onShowAttachment }) => {
+const Detail = ({ attachments }) => {
   const { incident } = useContext(IncidentDetailContext);
   const memoIncident = useMemo(() => incident, [incident]);
   const memoAttachments = useMemo(() => attachments, [attachments]);
   const location = useMemo(() => incident.location, [incident.location]);
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="incidentDetailDetail">
       <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
         {incident.text}
       </Title>
@@ -73,9 +72,9 @@ const Detail = ({ attachments, onShowLocation, onEditLocation, onShowAttachment 
           {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
         </dd>
 
-        <Location location={location} onShowLocation={onShowLocation} onEditLocation={onEditLocation} />
+        <Location location={location} />
 
-        {memoAttachments && <Attachments attachments={memoAttachments} onShowAttachment={onShowAttachment} />}
+        {memoAttachments && <Attachments attachments={memoAttachments} />}
 
         {memoIncident.extra_properties && <ExtraProperties items={memoIncident.extra_properties} />}
 
@@ -94,10 +93,6 @@ const Detail = ({ attachments, onShowLocation, onEditLocation, onShowAttachment 
 
 Detail.propTypes = {
   attachments: attachmentsType,
-
-  onShowAttachment: PropTypes.func.isRequired,
-  onShowLocation: PropTypes.func.isRequired,
-  onEditLocation: PropTypes.func.isRequired,
 };
 
 export default Detail;

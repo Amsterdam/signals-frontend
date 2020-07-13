@@ -14,11 +14,11 @@ jest.mock('shared/services/string-parser');
 
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
-const dispatch = jest.fn();
+const update = jest.fn();
 
 const renderWithContext = (props, incident = incidentFixture) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident, dispatch }}>
+    <IncidentDetailContext.Provider value={{ incident, update }}>
       <MetaList {...props} />
     </IncidentDetailContext.Provider>
   );
@@ -27,11 +27,7 @@ describe('<MetaList />', () => {
   let props;
 
   beforeEach(() => {
-    props = {
-      onEditStatus: jest.fn(),
-      onShowAttachment: jest.fn(),
-    };
-
+    update.mockReset();
     string2date.mockImplementation(() => '21-07-1970');
     string2time.mockImplementation(() => '11:56');
   });
@@ -73,8 +69,10 @@ describe('<MetaList />', () => {
       expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
     });
 
-    it('should call dispatch', async () => {
-      const { getAllByTestId } = render(renderWithContext(props, { ...incidentFixture, priority: { ...incidentFixture.priority, priority: 'high' } }));
+    it('should call update', async () => {
+      const { getAllByTestId } = render(
+        renderWithContext(props, { ...incidentFixture, priority: { ...incidentFixture.priority, priority: 'high' } })
+      );
 
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:
       const editTestId = 'editPriorityButton';
@@ -87,13 +85,13 @@ describe('<MetaList />', () => {
 
       const submitButtons = getAllByTestId(submitTestId);
 
-      expect(dispatch).not.toHaveBeenCalled();
+      expect(update).not.toHaveBeenCalled();
 
       act(() => {
         fireEvent.click(submitButtons[0]);
       });
 
-      expect(dispatch).toHaveBeenCalledWith({
+      expect(update).toHaveBeenCalledWith({
         patch: {
           priority: {
             priority: 'high',

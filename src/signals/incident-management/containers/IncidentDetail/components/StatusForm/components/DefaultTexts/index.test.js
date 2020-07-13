@@ -50,14 +50,13 @@ describe('<DefaultTexts />', () => {
     });
 
     it('should not render when wrong status is used', () => {
-      props.hasDefaultTexts = false;
-      props.defaultTexts = [{
+      const defaultTexts = [{
         title: 'Not visible',
         text: 'bla!',
       }];
 
       const { queryAllByTestId } = render(
-        <DefaultTexts {...props} />
+        <DefaultTexts {...props} defaultTexts={defaultTexts} />
       );
 
       expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(0);
@@ -65,23 +64,22 @@ describe('<DefaultTexts />', () => {
     });
 
     it('should not render when list is empty', () => {
-      props.hasDefaultTexts = true;
-      props.defaultTexts = [];
+      const defaultTexts = [];
 
       const { queryAllByTestId } = render(
-        <DefaultTexts {...props} />
+        <DefaultTexts {...props} defaultTexts={defaultTexts} />
       );
 
       expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(0);
       expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0);
     });
 
-    it('should not render when list has no templates', () => {
-      props.hasDefaultTexts = true;
-      props.defaultTexts[0].templates = [];
+    it.only('should not render when list has no templates', () => {
+      const defaultTexts = [ ...props.defaultTexts ];
+      defaultTexts[0].templates = defaultTexts[0].templates.map(({ text }) => ({ text }));
 
       const { queryAllByTestId } = render(
-        <DefaultTexts {...props} />
+        <DefaultTexts {...props} defaultTexts={defaultTexts} />
       );
 
       expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(0);

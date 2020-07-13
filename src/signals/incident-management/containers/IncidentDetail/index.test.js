@@ -206,6 +206,46 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(getByTestId('mapStatic')).toBeInTheDocument();
   });
 
+  it('should handle keyup', async () => {
+    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+
+    const locationButtonShow = await findByTestId('location-button-show');
+
+    act(() => {
+      fireEvent.click(locationButtonShow);
+    });
+
+    const locationPreviewButtonEdit = await findByTestId('location-preview-button-edit');
+
+    act(() => {
+      fireEvent.click(locationPreviewButtonEdit);
+    });
+
+    await findByTestId('incidentDetail');
+
+    act(() => {
+      fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 });
+    });
+
+    await findByTestId('incidentDetail');
+
+    expect(queryByTestId('location-preview-button-edit')).not.toBeInTheDocument();
+  });
+
+  it('renders status form', async () => {
+    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+
+    const editStatusButton = await findByTestId('editStatusButton');
+
+    expect(queryByTestId('statusForm')).not.toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(editStatusButton);
+    });
+
+    expect(queryByTestId('statusForm')).toBeInTheDocument();
+  });
+
   it('should handle successful PATCH', async () => {
     const { getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
 

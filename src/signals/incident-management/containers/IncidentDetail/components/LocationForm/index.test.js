@@ -8,43 +8,44 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import IncidentDetailContext from '../../context';
 import LocationForm from './index';
 
-const dispatch = jest.fn();
+const update = jest.fn();
+const close = jest.fn();
 
-const renderWithContext = (props = {}, incident = incidentFixture) =>
+const renderWithContext = () =>
   withMapContext(
-    <IncidentDetailContext.Provider value={{ incident, dispatch }}>
-      <LocationForm {...props} />
+    <IncidentDetailContext.Provider value={{ incident: incidentFixture, update, close }}>
+      <LocationForm />
     </IncidentDetailContext.Provider>
   );
 
 describe('incident-management/containers/IncidentDetail/components/LocationForm', () => {
+  beforeEach(() => {
+    update.mockReset();
+    close.mockReset();
+  });
+
   it('should render a form', () => {
-    const { getByTestId } = render(
-      renderWithContext({ onClose: () => {} })
-    );
+    const { getByTestId } = render(renderWithContext());
 
     expect(getByTestId('locationForm')).toBeInTheDocument();
     expect(getByTestId('map-base')).toBeInTheDocument();
   });
 
   it('should call handlers', () => {
-    const onClose = jest.fn();
-    const { queryByTestId } = render(
-      renderWithContext({ onClose })
-    );
+    const { queryByTestId } = render(renderWithContext());
 
-    expect(onClose).not.toHaveBeenCalled();
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(close).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(queryByTestId('submitBtn'));
     });
 
-    expect(dispatch).toHaveBeenCalledWith({
+    expect(update).toHaveBeenCalledWith({
       type: PATCH_TYPE_LOCATION,
       patch: { location: incidentFixture.location },
     });
 
-    expect(onClose).toHaveBeenCalled();
+    expect(close).toHaveBeenCalled();
   });
 });

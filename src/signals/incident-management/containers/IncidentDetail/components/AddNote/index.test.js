@@ -7,42 +7,44 @@ import { PATCH_TYPE_NOTES } from '../../constants';
 import IncidentDetailContext from '../../context';
 import AddNote from './index';
 
-const dispatch = jest.fn();
+const update = jest.fn();
 
 const renderWithContext = () =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ dispatch }}>
+    <IncidentDetailContext.Provider value={{ update }}>
       <AddNote />
     </IncidentDetailContext.Provider>
   );
 
 describe('<AddNote />', () => {
-  describe('show value', () => {
-    it('should show the form ', () => {
-      const { getByTestId, queryByTestId } = render(renderWithContext());
-
-      expect(getByTestId('addNoteNewNoteButton')).toBeInTheDocument();
-      expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
-
-      act(() => {
-        fireEvent.click(getByTestId('addNoteNewNoteButton'));
-      });
-
-      expect(getByTestId('addNoteSaveNoteButton')).toBeInTheDocument();
-      expect(queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument();
-      expect(getByTestId('addNoteCancelNoteButton')).toBeInTheDocument();
-
-      act(() => {
-        fireEvent.click(getByTestId('addNoteCancelNoteButton'));
-      });
-
-      expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
-      expect(queryByTestId('addNoteCancelNoteButton')).not.toBeInTheDocument();
-      expect(queryByTestId('addNoteNewNoteButton')).toBeInTheDocument();
-    });
+  beforeEach(() => {
+    update.mockReset();
   });
 
-  it('should call onPatchIncident', async () => {
+  it('should show the form ', () => {
+    const { getByTestId, queryByTestId } = render(renderWithContext());
+
+    expect(getByTestId('addNoteNewNoteButton')).toBeInTheDocument();
+    expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(getByTestId('addNoteNewNoteButton'));
+    });
+
+    expect(getByTestId('addNoteSaveNoteButton')).toBeInTheDocument();
+    expect(queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument();
+    expect(getByTestId('addNoteCancelNoteButton')).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(getByTestId('addNoteCancelNoteButton'));
+    });
+
+    expect(queryByTestId('addNoteSaveNoteButton')).not.toBeInTheDocument();
+    expect(queryByTestId('addNoteCancelNoteButton')).not.toBeInTheDocument();
+    expect(queryByTestId('addNoteNewNoteButton')).toBeInTheDocument();
+  });
+
+  it('should call update', async () => {
     const { getByTestId, findByTestId } = render(renderWithContext());
 
     act(() => {
@@ -57,18 +59,41 @@ describe('<AddNote />', () => {
       fireEvent.change(addNoteTextArea, { target: { value } });
     });
 
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(saveNoteButton);
     });
 
-    expect(dispatch).toHaveBeenCalledWith({
+    expect(update).toHaveBeenCalledWith({
       type: PATCH_TYPE_NOTES,
       patch: {
         notes: [{ text: value }],
       },
     });
+  });
+
+  it('should not call update when note field is empty', async () => {
+    const { getByTestId, findByTestId } = render(renderWithContext());
+
+    act(() => {
+      fireEvent.click(getByTestId('addNoteNewNoteButton'));
+    });
+
+    const addNoteTextArea = await findByTestId('addNoteText');
+    const saveNoteButton = getByTestId('addNoteSaveNoteButton');
+
+    act(() => {
+      fireEvent.change(addNoteTextArea, { target: { value: '  ' } });
+    });
+
+    expect(update).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(saveNoteButton);
+    });
+
+    expect(update).not.toHaveBeenCalled();
   });
 
   it('should clear the textarea', async () => {

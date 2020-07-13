@@ -29,20 +29,20 @@ const defaultTexts = [
   },
 ];
 
-const onClose = jest.fn();
-const dispatch = jest.fn();
+const close = jest.fn();
+const update = jest.fn();
 
 const renderWithContext = () =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident: incidentFixture, dispatch }}>
-      <StatusForm onClose={onClose} defaultTexts={defaultTexts} />
+    <IncidentDetailContext.Provider value={{ incident: incidentFixture, update, close }}>
+      <StatusForm defaultTexts={defaultTexts} />
     </IncidentDetailContext.Provider>
   );
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   beforeEach(() => {
-    onClose.mockReset();
-    dispatch.mockReset();
+    close.mockReset();
+    update.mockReset();
   });
 
   it('renders correctly', () => {
@@ -157,19 +157,19 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   it('should handle submit', () => {
     const { getByTestId } = render(renderWithContext());
 
-    expect(onClose).not.toHaveBeenCalled();
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(close).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
 
-    expect(dispatch).toHaveBeenCalledWith({
+    expect(update).toHaveBeenCalledWith({
       type: PATCH_TYPE_STATUS,
       patch: {
         status: { state: incidentFixture.status.state, state_display: incidentFixture.status.state_display },
       },
     });
-    expect(onClose).toHaveBeenCalled();
+    expect(close).toHaveBeenCalled();
   });
 });

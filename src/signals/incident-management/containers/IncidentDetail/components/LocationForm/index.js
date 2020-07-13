@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row, Column } from '@datapunt/asc-ui';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
@@ -17,10 +16,11 @@ const StyledColumn = styled(Column)`
   position: relative;
 `;
 
-const LocationForm = ({ onClose }) => {
+const LocationForm = () => {
   const {
     incident: { location },
-    dispatch,
+    update,
+    close,
   } = useContext(IncidentDetailContext);
 
   const form = useMemo(
@@ -44,14 +44,14 @@ const LocationForm = ({ onClose }) => {
     event => {
       event.preventDefault();
 
-      dispatch({
+      update({
         type: PATCH_TYPE_LOCATION,
         patch: { location: { ...location, ...form.value.location } },
       });
 
-      onClose();
+      close();
     },
-    [dispatch, form.value, onClose, location]
+    [update, form.value, close, location]
   );
 
   return (
@@ -62,8 +62,9 @@ const LocationForm = ({ onClose }) => {
           render={() => (
             <MapContext>
               <LocationInput
+                data-testid="locationForm"
                 locationControl={form.get('location')}
-                onClose={onClose}
+                onClose={close}
                 onQueryResult={onQueryResult}
                 handleSubmit={handleSubmit}
               />
@@ -73,10 +74,6 @@ const LocationForm = ({ onClose }) => {
       </StyledColumn>
     </Row>
   );
-};
-
-LocationForm.propTypes = {
-  onClose: PropTypes.func.isRequired,
 };
 
 export default LocationForm;
