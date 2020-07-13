@@ -1,5 +1,9 @@
 #!/bin/sh
 
+set -e
+
+node /internals/scripts/validate-config.js
+
 export SIGNALS_SERVICE_WORKER_VERSION=$(date +"%Y-%m-%d %T")
 
 export SIGNALS_CONFIG=$(cat /environment.conf.json | jq -c)
