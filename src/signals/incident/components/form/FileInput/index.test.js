@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import FileInput, { ERROR_TIMEOUT_INTERVAL } from './index';
+import FileInput, { ERROR_TIMEOUT_INTERVAL } from '.';
 
 describe('Form component <FileInput />', () => {
   const metaFields = {

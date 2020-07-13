@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
-import SiteHeader, { SiteHeaderContainer } from '../index';
+import SiteHeader, { SiteHeaderContainer } from '..';
 
 describe('containers/SiteHeader', () => {
   it('should have props from action creator', () => {

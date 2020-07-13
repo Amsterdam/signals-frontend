@@ -2,7 +2,7 @@ import React from 'react';
 import { render, act } from '@testing-library/react';
 import { withAppContext, history } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
-import App, { AppContainer } from './index';
+import App, { AppContainer } from '.';
 
 jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
 jest.mock('shared/services/auth/auth', () => ({

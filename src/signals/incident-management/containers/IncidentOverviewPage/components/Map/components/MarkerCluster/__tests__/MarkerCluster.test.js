@@ -9,7 +9,7 @@ const options = {
   ...MAP_OPTIONS,
   maxZoom: 18,
 };
-const withMapContainer = Component => (<Map data-testid='map-test' options={options}>{Component}</Map>);
+const withMapContainer = Component => (<Map data-testid="map-test" options={options}>{Component}</Map>);
 
 describe('signals/incident-management/containes/IncidentOverviewPage/components/MarkerCluster', () => {
   it('should render the cluster layer in the map', () => {

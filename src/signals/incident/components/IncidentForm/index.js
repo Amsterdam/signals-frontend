@@ -124,6 +124,7 @@ class IncidentForm extends React.Component {
           control.disable();
         }
       }
+
       if (!isEqual(incident[key], control.value)) {
         control.setValue(incident[key]);
       }
@@ -160,6 +161,7 @@ class IncidentForm extends React.Component {
           return;
         }
       }
+
       if (this.form.valid) {
         this.setIncident(formAction);
         next();

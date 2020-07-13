@@ -17,7 +17,7 @@ const HelpText = styled.div`
   margin-top: ${themeSpacing(2)};
 `;
 
-const TextArea =  forwardRef(({ helpText, ...props }, ref) => (
+const TextArea = forwardRef(({ helpText, ...props }, ref) => (
   <Fragment>
     <StyledArea {...props} ref={ref} />
     {helpText && <HelpText>{helpText}</HelpText>}

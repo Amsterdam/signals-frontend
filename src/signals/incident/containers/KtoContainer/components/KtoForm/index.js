@@ -54,6 +54,7 @@ class KtoForm extends React.Component { // eslint-disable-line react/prefer-stat
       } else {
         control.disable();
       }
+
       if (!isEqual(incident[key], control.value)) {
         control.setValue(incident[key]);
       }

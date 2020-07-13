@@ -100,5 +100,4 @@ export const userObjects = (users = usersJSON) =>
  */
 export const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
 
-
 export const withMapContext = Component => withAppContext(<MapContext>{Component}</MapContext>);

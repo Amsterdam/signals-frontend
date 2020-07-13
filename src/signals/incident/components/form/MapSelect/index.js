@@ -28,7 +28,7 @@ const Selection = styled.span`
 
 const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   const onSelectionChange = selection => {
-    const value = Array.from(selection.set.values());
+    const value = [...selection.set.values()];
     parent.meta.updateIncident({ [meta.name]: value });
   };
 

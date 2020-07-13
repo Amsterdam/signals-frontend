@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Anchor from './index';
+import Anchor from '.';
 
 describe('Definition component <Anchor />', () => {
   let wrapper;

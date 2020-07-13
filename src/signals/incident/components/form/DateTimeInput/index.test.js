@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import DateTimeInput from './index';
+import DateTimeInput from '.';
 
 describe('Form component <DateTimeInput />', () => {
   const metaFields = {
@@ -18,6 +18,7 @@ describe('Form component <DateTimeInput />', () => {
         if (theArgs.length) {
           return new RealDate(...theArgs);
         }
+
         return new RealDate(isoDate);
       }
 
@@ -46,7 +47,6 @@ describe('Form component <DateTimeInput />', () => {
 
     wrapper = shallow(<DateTimeInput parent={parent} />);
   });
-
 
   describe('rendering', () => {
     it('should render date time field correctly', () => {

@@ -8,7 +8,7 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import incident from 'utils/__tests__/fixtures/incident.json';
 
-import SplitDetail from './index';
+import SplitDetail from '.';
 
 jest.mock('shared/services/string-parser');
 jest.mock('shared/services/list-helper/list-helper');
@@ -45,7 +45,6 @@ describe('<SplitDetail />', () => {
 
       expect(queryByTestId('splitDetailTitleTimeOverlast')).toHaveTextContent(/^Tijd overlast$/);
       expect(queryByTestId('splitDetailValueTimeOverlast')).toHaveTextContent(/^11:56$/);
-
 
       expect(queryByTestId('splitDetailTitleStadsdeel')).toHaveTextContent(/^Stadsdeel$/);
       expect(queryByTestId('splitDetailValueStadsdeel')).toHaveTextContent(/^Centrum$/);

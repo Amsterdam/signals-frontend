@@ -9,7 +9,6 @@ const selectIncidentSplitContainerDomain = state => state.get('incidentSplitCont
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by IncidentSplitContainer
  */

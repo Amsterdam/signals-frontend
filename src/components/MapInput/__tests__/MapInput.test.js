@@ -5,7 +5,7 @@ import context from 'containers/MapContext/context';
 
 import geoSearchJSON from 'utils/__tests__/fixtures/geosearch.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
-import { withAppContext, resolveAfterMs , withMapContext } from 'test/utils';
+import { withAppContext, resolveAfterMs, withMapContext } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
@@ -14,7 +14,6 @@ import configuration from 'shared/services/configuration/configuration';
 
 import { findFeatureByType } from '../services/reverseGeocoderService';
 import MapInput from '..';
-
 
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
@@ -309,7 +308,6 @@ describe('components/MapInput', () => {
     expect(mapMoveSpy).toHaveBeenCalledTimes(1);
   });
 
-
   it('should handle onSelect', async () => {
     const onChange = jest.fn();
     const { getByTestId, findByTestId } = render(
@@ -378,7 +376,6 @@ describe('components/MapInput', () => {
   it('should handle onSelect with stadsdeel from configuration', async () => {
     const stadsdeel = '@foo@';
     configuration.map.options.stadsdeel = stadsdeel;
-
 
     const onChange = jest.fn();
     const { getByTestId, findByTestId } = render(

@@ -1,4 +1,4 @@
-import { dateToString, dateToISOString, capitalize } from './index';
+import { dateToString, dateToISOString, capitalize } from '.';
 
 describe('dateToISOString', () => {
   it('should convert the date object in the yyyy-MM-dd format', () => {
@@ -13,7 +13,6 @@ describe('dateToString', () => {
     expect(dateToString(date)).toEqual('16-02-2011');
   });
 });
-
 
 describe('capitalize', () => {
   it('should capitalize the first letter of the string', () => {

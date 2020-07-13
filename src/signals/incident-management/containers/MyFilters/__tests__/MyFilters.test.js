@@ -106,9 +106,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
 
     const firstFilter = getByText(filter1.name).closest('.filter-item');
     const secondFilter = getByText(filter2.name).closest('.filter-item');
-    const myFilterChildNodes = Array.from(
-      document.querySelector('.my-filters').childNodes,
-    );
+    const myFilterChildNodes = [...document.querySelector('.my-filters').childNodes];
 
     const firstIndex = myFilterChildNodes.indexOf(firstFilter);
     const secondIndex = myFilterChildNodes.indexOf(secondFilter);

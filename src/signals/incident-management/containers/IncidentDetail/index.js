@@ -147,110 +147,108 @@ export class IncidentDetail extends React.Component {
     } = this.props.incidentModel;
     const { previewState, attachmentHref } = this.state;
     return (
-      <Fragment>
-        <div className="incident-detail">
-          {loading && <LoadingIndicator />}
+      <div className="incident-detail">
+        {loading && <LoadingIndicator />}
 
-          {!loading && (
-            <Fragment>
-              {incident && (
-                <Row>
-                  <Column span={12}>
-                    <DetailHeader
+        {!loading && (
+          <Fragment>
+            {incident && (
+              <Row>
+                <Column span={12}>
+                  <DetailHeader
+                    incidentId={incident.id}
+                    status={incident?.status?.state}
+                    links={incident?._links}
+                  />
+                </Column>
+              </Row>
+            )}
+
+            {previewState && (
+              <Row>
+                <DetailContainer span={12}>
+                  <button
+                    aria-label="Sluiten"
+                    className="incident-detail__preview-close incident-detail__button--close"
+                    type="button"
+                    onClick={this.onCloseAll}
+                  />
+
+                  {previewState === 'showImage' && (
+                    <AttachmentViewer
+                      attachments={attachments}
+                      href={attachmentHref}
+                      onShowAttachment={this.onShowAttachment}
+                    />
+                  )}
+
+                  {previewState === 'showLocation' && (
+                    <LocationPreview location={incident.location} onEditLocation={this.onEditLocation} />
+                  )}
+
+                  {previewState === 'editLocation' && (
+                    <LocationForm
                       incidentId={incident.id}
-                      status={incident?.status?.state}
-                      links={incident?._links}
+                      location={incident.location}
+                      onClose={this.onCloseAll}
                     />
-                  </Column>
-                </Row>
-              )}
+                  )}
 
-              {previewState && (
-                <Row>
-                  <DetailContainer span={12}>
-                    <button
-                      aria-label="Sluiten"
-                      className="incident-detail__preview-close incident-detail__button--close"
-                      type="button"
-                      onClick={this.onCloseAll}
+                  {previewState === 'editStatus' && (
+                    <StatusForm
+                      incident={incident}
+                      patching={patching}
+                      error={error}
+                      changeStatusOptionList={changeStatusOptionList}
+                      defaultTextsOptionList={defaultTextsOptionList}
+                      statusList={statusList}
+                      defaultTexts={defaultTexts}
+                      onDismissError={onDismissError}
+                      onClose={this.onCloseAll}
                     />
+                  )}
+                </DetailContainer>
+              </Row>
+            )}
 
-                    {previewState === 'showImage' && (
-                      <AttachmentViewer
+            {!previewState && (
+              <Row>
+                <DetailContainer span={7}>
+                  {incident && (
+                    <Fragment>
+                      <Detail
+                        incident={incident}
                         attachments={attachments}
-                        href={attachmentHref}
+                        stadsdeelList={stadsdeelList}
+                        onShowLocation={this.onShowLocation}
+                        onEditLocation={this.onEditLocation}
                         onShowAttachment={this.onShowAttachment}
                       />
-                    )}
 
-                    {previewState === 'showLocation' && (
-                      <LocationPreview location={incident.location} onEditLocation={this.onEditLocation} />
-                    )}
+                      <AddNote id={id} />
 
-                    {previewState === 'editLocation' && (
-                      <LocationForm
-                        incidentId={incident.id}
-                        location={incident.location}
-                        onClose={this.onCloseAll}
-                      />
-                    )}
+                      <ChildIncidents incident={incident} />
 
-                    {previewState === 'editStatus' && (
-                      <StatusForm
-                        incident={incident}
-                        patching={patching}
-                        error={error}
-                        changeStatusOptionList={changeStatusOptionList}
-                        defaultTextsOptionList={defaultTextsOptionList}
-                        statusList={statusList}
-                        defaultTexts={defaultTexts}
-                        onDismissError={onDismissError}
-                        onClose={this.onCloseAll}
-                      />
-                    )}
-                  </DetailContainer>
-                </Row>
-              )}
+                      <History list={list} />
+                    </Fragment>
+                  )}
+                </DetailContainer>
 
-              {!previewState && (
-                <Row>
-                  <DetailContainer span={7}>
-                    {incident && (
-                      <Fragment>
-                        <Detail
-                          incident={incident}
-                          attachments={attachments}
-                          stadsdeelList={stadsdeelList}
-                          onShowLocation={this.onShowLocation}
-                          onEditLocation={this.onEditLocation}
-                          onShowAttachment={this.onShowAttachment}
-                        />
-
-                        <AddNote id={id} />
-
-                        <ChildIncidents incident={incident} />
-
-                        <History list={list} />
-                      </Fragment>
-                    )}
-                  </DetailContainer>
-
-                  <DetailContainer span={4} push={1}>
-                    {incident && (
-                      <MetaList
-                        incident={incident}
-                        priorityList={priorityList}
-                        typesList={typesList}
-                        onEditStatus={this.onEditStatus}
-                      />
-                    )}
-                  </DetailContainer>
-                </Row>
-              )}
-            </Fragment>
-          )}
-        </div>
-      </Fragment>
+                <DetailContainer span={4} push={1}>
+                  {incident && (
+                    <MetaList
+                      incident={incident}
+                      priorityList={priorityList}
+                      typesList={typesList}
+                      onEditStatus={this.onEditStatus}
+                    />
+                  )}
+                </DetailContainer>
+              </Row>
+            )}
+          </Fragment>
+        )}
+      </div>
     );
   }
 }

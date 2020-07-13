@@ -4,7 +4,7 @@ import { render, fireEvent, act } from '@testing-library/react';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { withAppContext } from 'test/utils';
 
-import Location from './index';
+import Location from '.';
 
 jest.mock('shared/services/list-helper/list-helper');
 

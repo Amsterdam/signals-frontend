@@ -6,7 +6,9 @@ function decodeToken(token) {
         .replace('-', '+')
         .replace('_', '/'))
     );
-  } catch (e) {
+  // disabled eslint rule because fix breaks test
+  // eslint-disable-next-line unicorn/prefer-optional-catch-binding, no-unused-vars
+  } catch (error) {
     return {};
   }
 }

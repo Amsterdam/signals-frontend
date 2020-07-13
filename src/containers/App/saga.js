@@ -88,8 +88,7 @@ export function* uploadFileWrapper(action) {
 
 export function* uploadFile(action) {
   const channel = yield call(fileUploadChannel, CONFIGURATION.IMAGE_ENDPOINT, action.payload.file, action.payload.id);
-  const forever = true;
-  while (forever) {
+  while (true) {
     const { progress = 0, error, success } = yield take(channel);
     if (error) {
       yield put(uploadFailure());
@@ -102,10 +101,12 @@ export function* uploadFile(action) {
       );
       return;
     }
+
     if (success) {
       yield put(uploadSuccess(action.payload.file));
       return;
     }
+
     yield put(uploadProgress(progress));
   }
 }

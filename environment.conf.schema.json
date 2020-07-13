@@ -1,0 +1,486 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Test",
+    "definitions": {
+        "Test": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "head": {
+                    "$ref": "#/definitions/Head"
+                },
+                "logo": {
+                    "$ref": "#/definitions/Logo"
+                },
+                "sentry": {
+                    "$ref": "#/definitions/Sentry"
+                },
+                "matomo": {
+                    "$ref": "#/definitions/Matomo"
+                },
+                "language": {
+                    "$ref": "#/definitions/Language"
+                },
+                "links": {
+                    "$ref": "#/definitions/Links"
+                },
+                "theme": {
+                    "$ref": "#/definitions/Theme"
+                },
+                "map": {
+                    "$ref": "#/definitions/Map"
+                },
+                "fetchQuestionsFromBackend": {
+                    "type": "boolean"
+                },
+                "showVulaanControls": {
+                    "type": "boolean"
+                },
+                "STATIC_MAP_SERVER_URL": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "AUTH_ME_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "CATEGORIES_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "CATEGORIES_PRIVATE_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "DEPARTMENTS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "FEEDBACK_FORMS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "FEEDBACK_STANDARD_ANSWERS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "FILTERS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "GEOGRAPHY_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "IMAGE_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "INCIDENTS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "INCIDENT_PRIVATE_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "INCIDENT_PUBLIC_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "OIDC_AUTH_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "OIDC_CLIENT_ID": {
+                    "type": "string"
+                },
+                "OIDC_RESPONSE_TYPE": {
+                    "type": "string"
+                },
+                "OIDC_SCOPE": {
+                    "type": "string"
+                },
+                "OVL_KLOKKEN_LAYER": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "OVL_VERLICHTING_LAYER": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "PERMISSIONS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "PREDICTION_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "QUESTIONS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "ROLES_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "SEARCH_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "TERMS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "USERS_ENDPOINT": {
+                    "type": "string",
+                    "format": "uri"
+                }
+            },
+            "required": [
+                "AUTH_ME_ENDPOINT",
+                "CATEGORIES_ENDPOINT",
+                "CATEGORIES_PRIVATE_ENDPOINT",
+                "DEPARTMENTS_ENDPOINT",
+                "FEEDBACK_FORMS_ENDPOINT",
+                "FEEDBACK_STANDARD_ANSWERS_ENDPOINT",
+                "FILTERS_ENDPOINT",
+                "GEOGRAPHY_ENDPOINT",
+                "IMAGE_ENDPOINT",
+                "INCIDENTS_ENDPOINT",
+                "INCIDENT_PRIVATE_ENDPOINT",
+                "INCIDENT_PUBLIC_ENDPOINT",
+                "OIDC_AUTH_ENDPOINT",
+                "OIDC_CLIENT_ID",
+                "OIDC_RESPONSE_TYPE",
+                "OIDC_SCOPE",
+                "OVL_KLOKKEN_LAYER",
+                "OVL_VERLICHTING_LAYER",
+                "PERMISSIONS_ENDPOINT",
+                "PREDICTION_ENDPOINT",
+                "QUESTIONS_ENDPOINT",
+                "ROLES_ENDPOINT",
+                "SEARCH_ENDPOINT",
+                "STATIC_MAP_SERVER_URL",
+                "TERMS_ENDPOINT",
+                "USERS_ENDPOINT",
+                "fetchQuestionsFromBackend",
+                "head",
+                "language",
+                "links",
+                "logo",
+                "map",
+                "matomo",
+                "sentry",
+                "showVulaanControls",
+                "theme"
+            ],
+            "title": "Test"
+        },
+        "Head": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "androidIcon": {
+                    "type": "string"
+                },
+                "backgroundColor": {
+                    "type": "string"
+                },
+                "favicon": {
+                    "type": "string"
+                },
+                "iosIcon": {
+                    "type": "string"
+                },
+                "statusBarStyle": {
+                    "type": "string"
+                },
+                "themeColor": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "androidIcon",
+                "backgroundColor",
+                "favicon",
+                "iosIcon",
+                "statusBarStyle",
+                "themeColor"
+            ],
+            "title": "Head"
+        },
+        "Language": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "avgDisclaimer": {
+                    "type": "string"
+                },
+                "consentToContactSharing": {
+                    "type": "string"
+                },
+                "footer1": {
+                    "type": "string"
+                },
+                "footer2": {
+                    "type": "string"
+                },
+                "headerTitle": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "shortTitle": {
+                    "type": "string"
+                },
+                "siteTitle": {
+                    "type": "string"
+                },
+                "smallHeaderTitle": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "urgentContactInfo": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "avgDisclaimer",
+                "consentToContactSharing",
+                "footer1",
+                "footer2",
+                "headerTitle",
+                "phoneNumber",
+                "shortTitle",
+                "siteTitle",
+                "smallHeaderTitle",
+                "title",
+                "urgentContactInfo"
+            ],
+            "title": "Language"
+        },
+        "Links": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "help": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "home": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "privacy": {
+                    "type": "string",
+                    "format": "uri"
+                }
+            },
+            "required": [
+                "help",
+                "home",
+                "privacy"
+            ],
+            "title": "Links"
+        },
+        "Logo": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "url": {
+                    "type": "null"
+                },
+                "width": {
+                    "type": "integer"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "smallWidth": {
+                    "type": "integer"
+                },
+                "smallHeight": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "height",
+                "smallHeight",
+                "smallWidth",
+                "url",
+                "width"
+            ],
+            "title": "Logo"
+        },
+        "Map": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "municipality": {
+                    "type": "string"
+                },
+                "options": {
+                    "$ref": "#/definitions/MapOptions"
+                },
+                "optionsBackOffice": {
+                    "$ref": "#/definitions/OptionsBackOffice"
+                },
+                "tiles": {
+                    "$ref": "#/definitions/Tiles"
+                }
+            },
+            "required": [
+                "municipality",
+                "options",
+                "optionsBackOffice",
+                "tiles"
+            ],
+            "title": "Map"
+        },
+        "MapOptions": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "center": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "maxBounds": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "maxZoom": {
+                    "type": "integer"
+                },
+                "minZoom": {
+                    "type": "integer"
+                },
+                "zoom": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "center",
+                "maxBounds",
+                "maxZoom",
+                "minZoom",
+                "zoom"
+            ],
+            "title": "MapOptions"
+        },
+        "OptionsBackOffice": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "maxZoom": {
+                    "type": "integer"
+                },
+                "minZoom": {
+                    "type": "integer"
+                },
+                "zoom": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "maxZoom",
+                "minZoom",
+                "zoom"
+            ],
+            "title": "OptionsBackOffice"
+        },
+        "Tiles": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "args": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "options": {
+                    "$ref": "#/definitions/TilesOptions"
+                }
+            },
+            "required": [
+                "args",
+                "options"
+            ],
+            "title": "Tiles"
+        },
+        "TilesOptions": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "attribution": {
+                    "type": "string"
+                },
+                "subdomains": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tms": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "attribution",
+                "subdomains",
+                "tms"
+            ],
+            "title": "TilesOptions"
+        },
+        "Matomo": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "urlBase": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "siteId": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "siteId",
+                "urlBase"
+            ],
+            "title": "Matomo"
+        },
+        "Sentry": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "dsn": {
+                    "type": "string",
+                    "format": "uri"
+                }
+            },
+            "required": [
+                "dsn"
+            ],
+            "title": "Sentry"
+        },
+        "Theme": {
+            "type": "object",
+            "additionalProperties": false,
+            "title": "Theme"
+        }
+    }
+}

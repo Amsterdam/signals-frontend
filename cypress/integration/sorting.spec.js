@@ -58,7 +58,6 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.firstSignalDatumTijd).should('contain', todaysDate);
   });
 
-
   it('Should sort on column Stadsdeel', () => {
     cy.route('**/signals/v1/private/signals/?page=1&ordering=stadsdeel,-created_at&page_size=50').as('getSortedASC');
     cy.route('**/signals/v1/private/signals/?page=1&ordering=-stadsdeel,-created_at&page_size=50').as('getSortedDESC');

@@ -9,7 +9,6 @@ import {
   requestHistoryList, requestHistoryListSuccess, requestHistoryListError,
 } from './actions';
 
-
 describe('Incident note container actions', () => {
   it('should be created', () => {
     const payload = { prop: {} };

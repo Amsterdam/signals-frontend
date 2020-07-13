@@ -78,8 +78,8 @@ describe('Create signal wonen woning overig and check signal details', () => {
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerDoordeweeks).check().should('be.checked');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWisselend).check().should('be.checked');
 
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bewoning.label).should('be.visible');;
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bewoning.subtitle).should('be.visible');;
+      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bewoning.label).should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bewoning.subtitle).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningWeetIkNiet).check().should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('not.be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningNee).check().should('be.checked');

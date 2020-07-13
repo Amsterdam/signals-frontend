@@ -48,7 +48,7 @@ module.exports = {
       }
     }
 
-    const actions = [{
+    return [{
       type: 'add',
       path: '../../src/components/{{properCase name}}/index.js',
       templateFile: componentTemplate,
@@ -59,7 +59,5 @@ module.exports = {
       templateFile: './component/test.js.hbs',
       abortOnFail: true,
     }];
-
-    return actions;
   },
 };

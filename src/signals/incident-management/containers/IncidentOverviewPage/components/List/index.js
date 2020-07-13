@@ -32,6 +32,7 @@ class List extends React.Component {
     if (currentSort && currentSort.indexOf(sortName) > -1) {
       className = currentSort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
     }
+
     return className;
   }
 
@@ -72,7 +73,7 @@ class List extends React.Component {
             </tbody>
           </table>
         </div>
-      </div >
+      </div>
     );
   }
 }

@@ -30,9 +30,7 @@ const reverseGeocoderService = async location => {
   };
   const url = formatRequest(serviceURL, wgs84point);
   const result = await fetch(url).then(res => res.json());
-  const formattedResponse = formatPDOKResponse(result)[0];
-
-  return formattedResponse;
+  return formatPDOKResponse(result)[0];
 };
 
 export default reverseGeocoderService;

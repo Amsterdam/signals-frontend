@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ChevronLeft } from '@datapunt/asc-assets';
 
-import Button  from 'components/Button';
+import Button from 'components/Button';
 
 const StyledButton = styled(Button)`
   height: 44px;

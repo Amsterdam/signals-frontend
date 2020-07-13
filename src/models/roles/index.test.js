@@ -4,7 +4,7 @@ import injectSagaModel from 'utils/injectSagaModel';
 import reducer from './reducer';
 import saga from './saga';
 
-import loadModel from './index';
+import loadModel from '.';
 
 jest.mock('utils/injectReducerModel');
 jest.mock('utils/injectSagaModel');

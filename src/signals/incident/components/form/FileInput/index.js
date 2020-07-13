@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeColor, themeSpacing } from '@datapunt/asc-ui';
@@ -52,6 +52,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
         if (timeoutInstance) {
           global.window.clearTimeout(timeoutInstance);
         }
+
         timeoutInstance = global.window.setTimeout(() => {
           parent.meta.updateIncident({
             [`${meta.name}_errors`]: null,
@@ -63,6 +64,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
         if (files[uploadBatchIndex].existing) {
           return;
         }
+
         const reader = new window.FileReader();
         reader.addEventListener('load', () => {
           previews[uploadBatchIndex] = window.URL.createObjectURL(files[uploadBatchIndex]);
@@ -93,9 +95,11 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
     if (meta.minFileSize && !files.every(checkMinFileSize)) {
       errors.push(`Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`);
     }
+
     if (meta.maxFileSize && !files.every(checkMaxFileSize)) {
       errors.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
     }
+
     if (meta.allowedFileTypes && !files.every(checkFileType)) {
       errors.push(
         `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes
@@ -103,6 +107,7 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
           .join(', ')}.`
       );
     }
+
     if (!files.every(checkNumberOfFiles)) {
       errors.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
     }
@@ -135,15 +140,14 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
   const previews = (parent && parent.value && parent.value[`${meta && meta.name}_previews`]) || [];
   const errors = (parent && parent.value && parent.value[`${meta && meta.name}_errors`]) || null;
   const numberOfEmtpy = maxNumberOfFiles - previews.length - 1;
-  const empty = numberOfEmtpy < 0 ? [] : Array.from(Array(numberOfEmtpy).keys());
+  const empty = numberOfEmtpy < 0 ? [] : [...Array(numberOfEmtpy).keys()];
 
   if (!meta?.isVisible) return null;
 
   return (
-    <Fragment>
-      <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-        <div className="file-input">
-          {previews.length > 0 &&
+    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+      <div className="file-input">
+        {previews.length > 0 &&
             previews.map(preview => (
               <div
                 key={preview}
@@ -164,24 +168,23 @@ const FileInput = ({ handler, touched, hasError, getError, parent, meta, validat
               </div>
             ))}
 
-          {previews.length < maxNumberOfFiles && (
-            <div className="file-input__button">
-              <label htmlFor="formUpload" className="file-input__button-label">
-                <div className="file-input__button-label-icon" />
-              </label>
-              <input type="file" id="formUpload" accept={meta.allowedFileTypes} onChange={handleChange} multiple />
-            </div>
-          )}
+        {previews.length < maxNumberOfFiles && (
+          <div className="file-input__button">
+            <label htmlFor="formUpload" className="file-input__button-label">
+              <div className="file-input__button-label-icon" />
+            </label>
+            <input type="file" id="formUpload" accept={meta.allowedFileTypes} onChange={handleChange} multiple />
+          </div>
+        )}
 
-          {empty.map(item => (
-            <div key={item} className="file-input__empty">
+        {empty.map(item => (
+          <div key={item} className="file-input__empty">
               &nbsp;
-            </div>
-          ))}
-        </div>
-        {errors?.length > 0 && errors.map(error => <FileInputError key={error}>{error}</FileInputError>)}
-      </Header>
-    </Fragment>
+          </div>
+        ))}
+      </div>
+      {errors?.length > 0 && errors.map(error => <FileInputError key={error}>{error}</FileInputError>)}
+    </Header>
   );
 };
 

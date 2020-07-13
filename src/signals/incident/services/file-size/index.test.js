@@ -1,4 +1,4 @@
-import fileSize from './index';
+import fileSize from '.';
 
 describe('The file size service', () => {
   it('should format values with 1 decimal by default', () => {

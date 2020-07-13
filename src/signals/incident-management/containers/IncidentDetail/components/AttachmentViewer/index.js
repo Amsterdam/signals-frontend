@@ -59,12 +59,14 @@ const AttachmentViewer = ({ href, attachments }) => {
           if (previous) {
             setCurrentHref(previous);
           }
+
           break;
 
         case 'ArrowRight':
           if (next) {
             setCurrentHref(next);
           }
+
           break;
 
         default:
