@@ -24,7 +24,7 @@ describe('incidentModel actions', () => {
     testActionCreator(requestIncidentError, REQUEST_INCIDENT_ERROR, payload);
 
     testActionCreator(patchIncident, PATCH_INCIDENT, payload);
-    testActionCreator(patchIncidentSuccess, PATCH_INCIDENT_SUCCESS, payload);
+    testActionCreator(patchIncidentSuccess, PATCH_INCIDENT_SUCCESS);
     testActionCreator(patchIncidentError, PATCH_INCIDENT_ERROR, payload);
 
     testActionCreator(dismissError, DISMISS_ERROR);
