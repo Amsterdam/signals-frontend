@@ -13,7 +13,14 @@ import { FILTER_PAGE_SIZE } from './constants';
 const selectIncidentManagementDomain = state => (state && state.get('incidentManagement')) || fromJS(initialState);
 
 export const makeSelectDistricts = createSelector([selectIncidentManagementDomain], stateMap =>
-  stateMap.get('districts').toJS()
+  stateMap
+    .get('districts')
+    .push({ code: 'null', name: 'Niet bepaald' })
+    .toJS()
+    .map(district => ({
+      key: district.code,
+      value: district.name,
+    }))
 );
 
 export const makeSelectAllFilters = createSelector(

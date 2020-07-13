@@ -40,7 +40,7 @@ import reducer, { init } from './reducer';
 /**
  * Component that renders the incident filter form
  */
-const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
+const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
   const categories = useSelector(makeSelectStructuredCategories);
 
   const [state, dispatch] = useReducer(reducer, filter, init);
@@ -287,7 +287,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="stadsdeel"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
-            options={dataLists.stadsdeel}
+            options={districts}
           />
 
           <CheckboxGroup
@@ -420,6 +420,7 @@ FilterForm.defaultProps = {
 };
 
 FilterForm.propTypes = {
+  districts: types.dataListType,
   filter: types.filterType,
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
