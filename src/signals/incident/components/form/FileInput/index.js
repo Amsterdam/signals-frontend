@@ -7,9 +7,39 @@ import fileSize from '../../../services/file-size';
 
 import './style.scss';
 
+const BOX_SIZE = '102px';
+
+const FileInputStyle = styled.div`
+  display: flex;
+  height: ${BOX_SIZE};
+`;
+
+const FileInputPreviewBox = styled.div`
+  width: ${BOX_SIZE};
+  margin-right: ${themeSpacing(3)};
+`;
+
+const FileInputEmptyBox = styled.div`
+  width: ${BOX_SIZE};
+  border: 1px dashed ${themeColor('tint', 'level4')};
+  margin-right: ${themeSpacing(3)};
+`;
+
 const FileInputError = styled.div`
     color: ${themeColor('secondary')};
     margin: ${themeSpacing(4, 0, 0)};
+  }
+`;
+
+const FileInputUploadButton = styled.div`
+  width: ${BOX_SIZE};
+  border: 1px dashed ${themeColor('tint', 'level4')};
+  margin-right: ${themeSpacing(3)};
+
+  input[type='file'] {
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
 `;
 
@@ -39,7 +69,6 @@ const FileInput = ({ handler, parent, meta }) => {
         ...existingPreviews,
         ...batchFiles.map(() => `loading-${Math.trunc(Math.random() * 100000)}`),
       ].slice(0, files.length);
-
       setErrors(getErrorMessages([...existingFiles, ...batchFiles]));
       parent.meta.updateIncident({
         [meta.name]: files,
@@ -126,16 +155,15 @@ const FileInput = ({ handler, parent, meta }) => {
   const numberOfEmtpy = maxNumberOfFiles - previews.length - 1;
   const empty = numberOfEmtpy < 0 ? [] : [...Array(numberOfEmtpy).keys()];
 
-  if (!meta?.isVisible) return null;
-
   return (
     <Fragment>
-      <div className="file-input">
+      <FileInputStyle className="file-input" data-testid="fileInput">
         {previews.length > 0 &&
           previews.map(preview => (
-            <div
+            <FileInputPreviewBox
               key={preview}
               className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}
+              data-testid="fileInputPreviewBox"
             >
               {preview.includes('loading') ? (
                 <div className="progress-indicator progress-red"></div>
@@ -146,31 +174,37 @@ const FileInput = ({ handler, parent, meta }) => {
                     type="button"
                     className="file-input__preview-button-delete"
                     onClick={e => removeFile(e, preview, previews, handler().value)}
+                    data-testid="deleteFotoButton"
                   />
                 </div>
               )}
-            </div>
+            </FileInputPreviewBox>
           ))}
 
         {previews.length < maxNumberOfFiles && (
-          <div className="file-input__button">
+          <FileInputUploadButton className="file-input__button" data-testid="fileInputUploadButton">
             <label htmlFor="formUpload" className="file-input__button-label">
               <div className="file-input__button-label-icon" />
             </label>
-            <input type="file" id="formUpload" accept={meta.allowedFileTypes} onChange={handleChange} multiple />
-          </div>
+            <input
+              type="file"
+              id="formUpload"
+              data-testid="fileInputUpload"
+              accept={meta.allowedFileTypes}
+              onChange={handleChange}
+              multiple
+            />
+          </FileInputUploadButton>
         )}
 
         {empty.map(item => (
-          <div key={item} className="file-input__empty">
-            &nbsp;
-          </div>
+          <FileInputEmptyBox key={item} data-testid="fileInputEmptyBox" />
         ))}
-      </div>
+      </FileInputStyle>
 
       {errors?.length > 0 &&
         errors.map(error => (
-          <FileInputError key={error}>
+          <FileInputError key={error} data-testid="fileInputError">
             {error}
           </FileInputError>
         ))}
