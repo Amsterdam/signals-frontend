@@ -13,27 +13,28 @@ const xmark = require('./helpers/xmark');
 
 process.chdir(path.join(__dirname, '../generators'));
 
-const prettyStringify = (data) => JSON.stringify(data, null, 2);
+const prettyStringify = data => JSON.stringify(data, null, 2);
 
-const checkForErrors = (result) => {
+const checkForErrors = result => {
   if (Array.isArray(result.failures) && result.failures.length > 0) {
     throw result.failures;
   }
 };
 
-const reportErrorsFor = (title) => (err) => {
+const reportErrorsFor = title => err => {
   // TODO Replace with our own helpers/log that is guaranteed to be blocking?
+  // eslint-disable-next-line no-console
   xmark(() => console.error(chalk.red(` ERROR generating '${title}': `), prettyStringify(err)));
   process.exit(1);
 };
 
 // Generated tests are designed to fail, which would in turn fail CI builds
-const removeTestsDirFrom = (relativePath) => () => rimraf.sync(path.join(__dirname, '/../../src/', relativePath, '/tests'));
+const removeTestsDirFrom = relativePath => () => rimraf.sync(path.join(__dirname, '/../../src/', relativePath, '/tests'));
 
 const plop = nodePlop('./index');
 
 const componentGen = plop.getGenerator('component');
-componentGen.runActions({ name: 'RbGeneratedComponentEsclass', type: 'React.Component', wantLoadable: true, })
+componentGen.runActions({ name: 'RbGeneratedComponentEsclass', type: 'React.Component', wantLoadable: true })
   .then(checkForErrors)
   .then(removeTestsDirFrom('components/RbGeneratedComponentEsclass'))
   .catch(reportErrorsFor('component/React.Component'));

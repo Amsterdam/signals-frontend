@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { Wizard, WithWizard } from 'react-albus';
 import * as auth from 'shared/services/auth/auth';
 
-import IncidentNavigation from './index';
+import IncidentNavigation from '.';
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,

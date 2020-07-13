@@ -221,7 +221,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     const firstButton = getByTestId('pagination').querySelector(
       'button:first-of-type'
     );
-    const pagenum = parseInt(firstButton.dataset.pagenum, 10);
+    const pagenum = Number.parseInt(firstButton.dataset.pagenum, 10);
 
     act(() => {
       fireEvent.click(firstButton);

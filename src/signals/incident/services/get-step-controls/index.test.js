@@ -1,4 +1,4 @@
-import getStepControls from './index';
+import getStepControls from '.';
 
 describe('The get step controls service', () => {
   const controls = {

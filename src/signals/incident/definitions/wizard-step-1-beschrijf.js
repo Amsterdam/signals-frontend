@@ -18,11 +18,13 @@ export default {
         if (control.meta && !control.meta.ignoreVisibility) {
           return checkVisibility(control, incident);
         }
+
         return false;
       })
     ) {
       return 'incident/telefoon';
     }
+
     return false;
   },
   nextButtonLabel: 'Volgende',

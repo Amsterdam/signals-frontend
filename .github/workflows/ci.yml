@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        job: [lint, test, build]
+        job: [lint, test, validate-config, build]
 
     steps:
       - uses: actions/checkout@v2

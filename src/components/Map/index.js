@@ -127,6 +127,7 @@ const Map = ({
     </StyledMap>
   );
 };
+
 Map.defaultProps = {
   canBeDragged: true,
   className: '',

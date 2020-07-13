@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import CopyFileInput from './index';
+import CopyFileInput from '.';
 
 describe('<CopyFileInput />', () => {
   let wrapper;

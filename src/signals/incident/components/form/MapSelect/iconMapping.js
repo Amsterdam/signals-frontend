@@ -59,6 +59,7 @@ export const getOVLIcon = (typeName, isSelected) => {
   if (isSelected) {
     return iconSet.selected;
   }
+
   return iconSet.default;
 };
 

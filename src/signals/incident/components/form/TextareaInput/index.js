@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import TextArea from 'components/TextArea';
 
@@ -7,18 +7,15 @@ import Header from '../Header';
 const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getError, validatorsOrOpts }) =>
   meta?.isVisible && (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-      <Fragment>
-        <TextArea
-          placeholder={meta.placeholder}
-          {...handler()}
-          onBlur={e =>
-            parent.meta.updateIncident({
-              [meta.name]: meta.autoRemove ? e.target.value.replace(meta.autoRemove, '') : e.target.value,
-            })
-          }
-          helpText={meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
-        />
-      </Fragment>
+      <TextArea
+        placeholder={meta.placeholder}
+        {...handler()}
+        onBlur={event =>
+          parent.meta.updateIncident({
+            [meta.name]: meta.autoRemove ? event.target.value.replace(meta.autoRemove, '') : event.target.value,
+          })}
+        helpText={meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
+      />
     </Header>
   );
 

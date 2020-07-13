@@ -9,7 +9,7 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { patchIncident } from 'models/incident/actions';
 import { PATCH_TYPE_THOR } from 'models/incident/constants';
 
-import DetailHeader from './index';
+import DetailHeader from '.';
 
 jest.mock('./components/DownloadButton', () => () => <div data-testid="detail-header-button-download" />);
 

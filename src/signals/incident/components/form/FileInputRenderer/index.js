@@ -10,7 +10,7 @@ const FileInputRenderer = ({ handler, touched, hasError, getError, parent, meta,
 
   return (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-      <FileInput handler={handler} parent={parent} meta={meta}/>
+      <FileInput handler={handler} parent={parent} meta={meta} />
     </Header>
   );
 };

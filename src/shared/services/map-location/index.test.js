@@ -9,7 +9,7 @@ import {
   serviceResultToAddress,
   formatPDOKResponse,
   pointWithinBounds,
-} from './index';
+} from '.';
 
 const testAddress = {
   openbare_ruimte: 'Keizersgracht',

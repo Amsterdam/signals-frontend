@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import RadioInput from './index';
+import RadioInput from '.';
 
 describe('Form component <RadioInput />', () => {
   const metaFields = {

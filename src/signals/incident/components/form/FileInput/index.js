@@ -26,9 +26,8 @@ const FileInputEmptyBox = styled.div`
 `;
 
 const FileInputError = styled.div`
-    color: ${themeColor('secondary')};
-    margin: ${themeSpacing(4, 0, 0)};
-  }
+  color: ${themeColor('secondary')};
+  margin: ${themeSpacing(4, 0, 0)};
 `;
 
 const FileInputUploadButton = styled.div`

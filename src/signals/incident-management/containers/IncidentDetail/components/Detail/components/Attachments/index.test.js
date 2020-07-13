@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
-import Attachments from './index';
+import Attachments from '.';
 
 describe('<Attachments />', () => {
   let props;

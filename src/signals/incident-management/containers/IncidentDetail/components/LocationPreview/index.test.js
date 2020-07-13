@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import LocationPreview from './index';
+import LocationPreview from '.';
 
 jest.mock('../MapDetail', () => () => <div data-testid="location-preview-map" />);
 

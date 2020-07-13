@@ -3,7 +3,7 @@ import Image from './Image';
 import Map from './Map';
 import MapSelectPreview from './MapSelect';
 
-import components from './index';
+import components from '.';
 import ListObjectValue from './ListObjectValue';
 
 describe('Preview components', () => {

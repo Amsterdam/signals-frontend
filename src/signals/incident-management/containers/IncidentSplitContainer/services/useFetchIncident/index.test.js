@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import * as reactRedux from 'react-redux';
 import { showGlobalNotification } from 'containers/App/actions';
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants';
-import useFetchIncident from './index';
+import useFetchIncident from '.';
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);

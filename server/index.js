@@ -46,9 +46,9 @@ app.get('*.js', (req, res, next) => {
 });
 
 // Start your app.
-server.listen(port, host, async err => {
-  if (err) {
-    return logger.error(err.message);
+server.listen(port, host, error => {
+  if (error) {
+    return logger.error(error.message);
   }
 
   const scheme = SSL ? 'https' : 'http';

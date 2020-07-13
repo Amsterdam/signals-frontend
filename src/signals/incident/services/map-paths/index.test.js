@@ -1,4 +1,4 @@
-import mapPaths from './index';
+import mapPaths from '.';
 
 import getStepControls from '../get-step-controls';
 import convertValue from '../convert-value';

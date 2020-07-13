@@ -2,7 +2,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Concat from './index';
+import Concat from '.';
 
 describe('Definition component <Concat />', () => {
   const MockListComponent = ({ items }) => (

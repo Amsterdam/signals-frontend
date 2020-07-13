@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import DateTime from './index';
+import DateTime from '.';
 
 describe('Preview component <DateTime />', () => {
   let wrapper;

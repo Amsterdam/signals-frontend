@@ -19,7 +19,6 @@ const formatDate = (offset, type = 'value') => {
   return capitalize(format(date, dateFormat, { locale: nl }));
 };
 
-
 const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   if (!meta?.isVisible) return null;
 

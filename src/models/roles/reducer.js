@@ -83,7 +83,6 @@ function rolesReducer(state = initialState, action) {
         .set('responseSuccess', true)
         .set('responseError', false);
 
-
     case SAVE_ROLE_ERROR:
       return state
         .set('saving', false)
@@ -102,6 +101,7 @@ function rolesReducer(state = initialState, action) {
       if (index !== -1) {
         roles[index] = { ...action.payload };
       }
+
       return state
         .set('list', fromJS(roles))
         .set('patching', false)
