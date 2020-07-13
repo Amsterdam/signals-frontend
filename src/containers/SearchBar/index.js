@@ -12,7 +12,6 @@ import {
 import { makeSelectSearchQuery } from 'containers/App/selectors';
 import styled from 'styled-components';
 
-
 const StyledSearchBar = styled(SearchBar)`
   ${styles.TextFieldStyle} > input {
     padding: 10px; /* needed to style the textboxes as according to the design system */

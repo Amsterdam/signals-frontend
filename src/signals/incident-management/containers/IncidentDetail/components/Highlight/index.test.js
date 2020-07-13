@@ -5,7 +5,7 @@ import 'jest-styled-components';
 
 import useEventEmitter from 'hooks/useEventEmitter';
 
-import Highlight, { HIGHLIGHT_TIMEOUT_INTERVAL } from './index';
+import Highlight, { HIGHLIGHT_TIMEOUT_INTERVAL } from '.';
 
 describe('signals/incident-management/containers/IncidentDetail/components/HighLight', () => {
   beforeAll(() => {

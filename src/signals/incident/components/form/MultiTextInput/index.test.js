@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Button from 'components/Button';
 
-import MultiTextInput, { StyledInput } from './index';
+import MultiTextInput, { StyledInput } from '.';
 
 describe('Form component <MultiTextInput />', () => {
   const metaFields = {

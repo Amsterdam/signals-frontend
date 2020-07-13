@@ -7,7 +7,7 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import IncidentDetailContext from '../../../../context';
 
-import ChangeValue from './index';
+import ChangeValue from '.';
 
 jest.mock('shared/services/list-helper/list-helper');
 

@@ -1,5 +1,5 @@
 
-# SIA - Signalen Informatievoorziening Amsterdam
+# Signalen
 
 This project is based on the react boilerplate that was adapted for the needs of the municipality of Amsterdam.
 See https://github.com/Amsterdam/react-boilerplate.git for more information on the react boilerplate

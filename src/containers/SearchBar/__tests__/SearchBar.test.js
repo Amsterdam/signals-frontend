@@ -77,7 +77,6 @@ describe('containers/SearchBar', () => {
       expect(resetSearchQueryAction).toHaveBeenCalledWith();
     });
 
-
     it('should reset query on clear', () => {
       const query = 'Foo baz barrr';
 

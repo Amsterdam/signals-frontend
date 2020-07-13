@@ -1,4 +1,4 @@
-import mapDynamicFields from './index';
+import mapDynamicFields from '.';
 
 describe('The map dynamic fields service', () => {
   it('should do nothing by default', () => {

@@ -19,7 +19,7 @@ export default {
           path: 'reporter.phone',
           placeholder: 'Telefoonnummer',
           type: 'tel',
-          autoRemove: /[^ ()\d+-]/g,
+          autoRemove: /[^\d ()+-]/g,
           autoFocus: true,
         },
         render: FormComponents.TextInput,

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Button  from 'components/Button';
+import Button from 'components/Button';
 
 const StyledButton = styled(Button)`
   margin-right: 15px !important;

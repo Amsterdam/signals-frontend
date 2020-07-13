@@ -8,6 +8,7 @@ const getValue = (value, incident) => {
   if (value && value.id === 'Nu') {
     return 'Nu';
   }
+
   if (!incident) {
     return '';
   }

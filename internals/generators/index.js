@@ -6,9 +6,9 @@
 
 const fs = require('fs');
 const path = require('path');
-const dpComponentGenerator = require('./ams-component/index.js');
-const dpContainerGenerator = require('./ams-container/index.js');
-const dpModelGenerator = require('./ams-model/index.js');
+const dpComponentGenerator = require('./ams-component');
+const dpContainerGenerator = require('./ams-container');
+const dpModelGenerator = require('./ams-model');
 
 module.exports = plop => {
   plop.setGenerator('ams-component', dpComponentGenerator);
@@ -18,17 +18,17 @@ module.exports = plop => {
     try {
       fs.accessSync(path.join(__dirname, `../../src/containers/${comp}`), fs.F_OK);
       return `containers/${comp}`;
-    } catch (e) {
+    } catch {
       return `components/${comp}`;
     }
   });
   plop.addHelper('curly', (object, open) => (open ? '{' : '}'));
   plop.addHelper('hyphenCase', text => text
-    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/[^\dA-Za-z]+/g, '-')
     .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
     .replace(/([a-z])([A-Z])/g, '$1-$2')
-    .replace(/([0-9])([^0-9])/g, '$1-$2')
-    .replace(/([^0-9])([0-9])/g, '$1-$2')
+    .replace(/(\d)(\D)/g, '$1-$2')
+    .replace(/(\D)(\d)/g, '$1-$2')
     .replace(/-+/g, '-')
     .toLowerCase());
 };

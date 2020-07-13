@@ -90,15 +90,15 @@ const Location = ({ location }) => {
               )}
 
               <div data-testid="location-value-address-street">
-                {location.address.openbare_ruimte && location.address.openbare_ruimte}{' '}
-                {location.address.huisnummer && location.address.huisnummer}
-                {location.address.huisletter && location.address.huisletter}
+                {location.address.openbare_ruimte}{' '}
+                {location.address.huisnummer}
+                {location.address.huisletter}
                 {location.address.huisnummer_toevoeging ? `-${location.address.huisnummer_toevoeging}` : ''}
               </div>
 
               <div data-testid="location-value-address-city">
-                {location.address.postcode && location.address.postcode}{' '}
-                {location.address.woonplaats && location.address.woonplaats}
+                {location.address.postcode}{' '}
+                {location.address.woonplaats}
               </div>
             </div>
           ) : (

@@ -6,7 +6,7 @@ import configuration from 'shared/services/configuration/configuration';
 
 import 'jest-styled-components';
 
-import Logo from '../index';
+import Logo from '..';
 
 jest.mock('shared/services/configuration/configuration');
 
@@ -35,7 +35,7 @@ describe('components/Logo', () => {
   it('should render differently when not tall', () => {
     const { container, getByTestId } = render(withAppContext(<Logo tall={false} />));
 
-    expect(container.querySelector(`a[href="/"]`)).toBeInTheDocument();
+    expect(container.querySelector('a[href="/"]')).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
     expect(getByTestId('logo')).toHaveStyleRule('height', configuration.logo.smallHeight.toString());
     expect(getByTestId('logo')).toHaveStyleRule('width', configuration.logo.smallWidth.toString());

@@ -45,7 +45,6 @@ describe('<KtoContainer />', () => {
     expect(typeof containerProps.requestKtoAnswersAction).toEqual('function');
   });
 
-
   describe('rendering', () => {
     const containerProps = {
       ktoContainer: {

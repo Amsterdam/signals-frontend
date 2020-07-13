@@ -127,7 +127,7 @@ describe('<IncidentPreview />', () => {
 
     container.querySelectorAll('header').forEach(element => {
       expect(element).toHaveStyleRule('grid-template-columns', '4fr 6fr 2fr', {
-        media: `(min-width:1024px)`,
+        media: '(min-width:1024px)',
       });
     });
   });

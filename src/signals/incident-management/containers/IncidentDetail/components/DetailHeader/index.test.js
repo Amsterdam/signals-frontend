@@ -8,7 +8,7 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { PATCH_TYPE_THOR } from '../../constants';
 
 import IncidentDetailContext from '../../context';
-import DetailHeader from './index';
+import DetailHeader from '.';
 
 jest.mock('./components/DownloadButton', () => props => <div data-testid="detail-header-button-download" {...props} />);
 

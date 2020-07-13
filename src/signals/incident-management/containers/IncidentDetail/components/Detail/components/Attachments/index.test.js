@@ -4,7 +4,7 @@ import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import IncidentDetailContext from '../../../../context';
-import Attachments from './index';
+import Attachments from '.';
 
 const attachmentProps = {
   attachments: [

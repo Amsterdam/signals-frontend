@@ -49,7 +49,7 @@ export const MyFiltersComponent = ({
 
   return (
     <div className="my-filters">
-      {filters && filters.length ? (
+      {filters && filters.length ?
         sortFilters(filters).map(filter => (
           <FilterItem
             key={filter.id}
@@ -59,16 +59,16 @@ export const MyFiltersComponent = ({
             onRemoveFilter={onRemoveFilter}
             onClose={onClose}
           />
-        ))
-      ) : (
-        <div className="my-filters--empty">
-          <p>U heeft geen eigen filter opgeslagen.</p>
-          <p>
-            Ga naar &lsquo;Filteren&rsquo; en voer een naam in om een
-            filterinstelling op te slaan.
-          </p>
-        </div>
-      )}
+        )) :
+        (
+          <div className="my-filters--empty">
+            <p>U heeft geen eigen filter opgeslagen.</p>
+            <p>
+              Ga naar &lsquo;Filteren&rsquo; en voer een naam in om een
+              filterinstelling op te slaan.
+            </p>
+          </div>
+        )}
     </div>
   );
 };

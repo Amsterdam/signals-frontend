@@ -1,4 +1,4 @@
-import formatUpdateIncident from './index';
+import formatUpdateIncident from '.';
 
 describe('formatUpdateIncident service', () => {
   it('should return empty object by default', () => {

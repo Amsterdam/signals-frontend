@@ -15,11 +15,11 @@ const dateTypeFactory = isRequired =>
       `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
 
     if (date === undefined) {
-      return isRequired
-        ? new Error(
+      return isRequired ?
+        new Error(
           `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``
-        )
-        : null;
+        ) :
+        null;
     }
 
     if (!isDate(date)) {

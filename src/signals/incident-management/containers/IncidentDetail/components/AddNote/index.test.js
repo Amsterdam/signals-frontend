@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 
 import { PATCH_TYPE_NOTES } from '../../constants';
 import IncidentDetailContext from '../../context';
-import AddNote from './index';
+import AddNote from '.';
 
 const update = jest.fn();
 

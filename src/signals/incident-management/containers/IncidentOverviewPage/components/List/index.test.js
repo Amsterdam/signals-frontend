@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 
 import incidents from 'utils/__tests__/fixtures/incidents.json';
 
-import List from './index';
+import List from '.';
 
 describe('<List />', () => {
   let props;
@@ -99,7 +99,7 @@ describe('<List />', () => {
 
       expect(numCells).toEqual(incidentList.length);
 
-      const elementsWithTextContent = Array.from(getAllByTestId('incidentDaysOpen')).filter(element => element.textContent !== '-');
+      const elementsWithTextContent = [...getAllByTestId('incidentDaysOpen')].filter(element => element.textContent !== '-');
 
       expect(elementsWithTextContent).toHaveLength(2);
     });

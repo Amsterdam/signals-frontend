@@ -6,7 +6,7 @@ import { StyledTable } from './styled';
 import DataViewHeader from './components/DataViewHeader';
 import DataViewBody from './components/DataViewBody';
 
-const DataView  = ({
+const DataView = ({
   className,
   headers,
   filters,

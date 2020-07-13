@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import priorityList from 'signals/incident-management/definitions/priorityList';
 
-import RadioInput from './index';
+import RadioInput from '.';
 
 describe('<RadioInput />', () => {
   const handler = () => ({ type: 'radio' });

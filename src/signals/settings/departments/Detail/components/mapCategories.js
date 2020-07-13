@@ -34,7 +34,7 @@ export const incoming = (departmentCategories, subCategories) =>
 
     const can_view = {
       [main_slug]: [
-        ...(acc.can_view[main_slug] || []),
+        ...acc.can_view[main_slug] || [],
         departmentCategory.can_view && {
           ...matchingCategory,
           disabled: canViewDisabled,
@@ -44,7 +44,7 @@ export const incoming = (departmentCategories, subCategories) =>
 
     const is_responsible = {
       [main_slug]: [
-        ...(acc.is_responsible[main_slug] || []),
+        ...acc.is_responsible[main_slug] || [],
         departmentCategory.is_responsible && matchingCategory,
       ].filter(Boolean),
     };

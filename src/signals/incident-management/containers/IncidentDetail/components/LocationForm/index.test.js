@@ -6,7 +6,7 @@ import { withMapContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import IncidentDetailContext from '../../context';
-import LocationForm from './index';
+import LocationForm from '.';
 
 const update = jest.fn();
 const close = jest.fn();

@@ -3,6 +3,7 @@ coverage
 build
 node_modules
 stats.json
+.eslintcache
 
 # Local development environment config
 environment.conf.development.json

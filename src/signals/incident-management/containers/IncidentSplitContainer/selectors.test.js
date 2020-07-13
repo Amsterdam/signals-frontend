@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 import makeSelectIncidentSplitContainer from './selectors';
 
-
 describe('makeSelectIncidentDetail', () => {
   const selector = makeSelectIncidentSplitContainer();
   it('should select the incidentSplitContainer', () => {

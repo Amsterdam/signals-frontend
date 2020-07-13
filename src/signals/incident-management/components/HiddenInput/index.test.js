@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import HiddenInput from './index';
+import HiddenInput from '.';
 
 describe('<HiddenInput />', () => {
   let wrapper;

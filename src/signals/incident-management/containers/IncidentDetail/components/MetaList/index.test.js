@@ -8,7 +8,7 @@ import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 
 import IncidentDetailContext from '../../context';
-import MetaList from './index';
+import MetaList from '.';
 
 jest.mock('shared/services/string-parser');
 
@@ -67,6 +67,18 @@ describe('<MetaList />', () => {
 
       expect(queryByText('Hoog')).toBeInTheDocument();
       expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
+    });
+
+    it('should call edit', () => {
+      const { queryByTestId } = render(renderWithContext(props));
+
+      expect(edit).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(queryByTestId('editStatusButton'));
+      });
+
+      expect(edit).toHaveBeenCalled();
     });
 
     it('should call update', async () => {

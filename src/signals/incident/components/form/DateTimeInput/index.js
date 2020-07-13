@@ -19,18 +19,17 @@ const formatDate = (offset, type = 'value') => {
   return capitalize(format(date, dateFormat, { locale: nl }));
 };
 
-
 const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   if (!meta?.isVisible) return null;
 
   const options = [...Array(7).keys()].map(offset => {
     const name = formatDate(offset, 'label');
     const value = formatDate(offset);
-    return ({
+    return {
       value,
       key: name,
       name,
-    });
+    };
   });
 
   return (

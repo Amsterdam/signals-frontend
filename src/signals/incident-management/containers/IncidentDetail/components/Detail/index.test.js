@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import IncidentDetailContext from '../../context';
-import Detail from './index';
+import Detail from '.';
 
 describe('<Detail />', () => {
   const props = {

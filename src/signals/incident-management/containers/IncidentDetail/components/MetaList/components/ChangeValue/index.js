@@ -143,28 +143,26 @@ const ChangeValue = ({
       control={form}
       render={() => (
         <form onSubmit={handleSubmit} onChange={handleChange} data-testid="changeValueForm">
-          <Fragment>
-            <FieldControlWrapper
-              control={form.get('input')}
-              disabled={disabled}
-              name="input"
-              render={component}
-              sort={sort}
-              values={list}
-            />
+          <FieldControlWrapper
+            control={form.get('input')}
+            disabled={disabled}
+            name="input"
+            render={component}
+            sort={sort}
+            values={list}
+          />
 
-            {info && <InfoText text={info} />}
+          {info && <InfoText text={info} />}
 
-            <ButtonBar>
-              <SaveButton data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="secondary" type="submit">
-                Opslaan
-              </SaveButton>
+          <ButtonBar>
+            <SaveButton data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="secondary" type="submit">
+              Opslaan
+            </SaveButton>
 
-              <Button data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="tertiary" type="button" onClick={handleCancel}>
-                Annuleren
-              </Button>
-            </ButtonBar>
-          </Fragment>
+            <Button data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="tertiary" type="button" onClick={handleCancel}>
+              Annuleren
+            </Button>
+          </ButtonBar>
         </form>
       )}
     />

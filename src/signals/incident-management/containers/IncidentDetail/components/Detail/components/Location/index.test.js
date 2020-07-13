@@ -6,7 +6,7 @@ import { withAppContext } from 'test/utils';
 
 import IncidentDetailContext from '../../../../context';
 
-import Location from './index';
+import Location from '.';
 
 jest.mock('shared/services/list-helper/list-helper');
 

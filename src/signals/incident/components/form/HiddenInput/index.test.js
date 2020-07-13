@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import HiddenInput from './index';
+import HiddenInput from '.';
 
 describe('Form component <HiddenInput />', () => {
   it('renders a hidden input element', () => {
@@ -11,7 +11,6 @@ describe('Form component <HiddenInput />', () => {
 
     expect(container.querySelector('input[type="hidden"]')).toBeInTheDocument();
   });
-
 
   it('renders nothing', () => {
     const { container, rerender } = render(withAppContext(<HiddenInput handler={() => ({ value: 'foo' })} />));

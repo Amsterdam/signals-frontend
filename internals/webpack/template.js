@@ -13,7 +13,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   try {
     // eslint-disable-next-line
     devConfig = require(devConfigFile);
-  } catch (e) {
+  } catch {
     // eslint-disable-next-line
     console.log(`You can use \`${devConfigFile}\` for configuration overwrites in your development environment.\n`);
   }

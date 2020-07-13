@@ -83,10 +83,9 @@ describe('Filtering', () => {
         cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e2 => {
           expect($e2).to.have.text('Westpoort');
         });
-      } else
-        cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e3 => {
-          expect($e3).to.have.text('Westpoort');
-        });
+      } else {
+        cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e3 => { expect($e3).to.have.text('Westpoort'); });
+      }
     });
 
     cy.get(MANAGE_SIGNALS.buttonMijnFilters)

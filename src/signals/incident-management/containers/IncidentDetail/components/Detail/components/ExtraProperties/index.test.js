@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
-import ExtraProperties from './index';
+import ExtraProperties from '.';
 
 describe('<ExtraProperties />', () => {
   const props = {

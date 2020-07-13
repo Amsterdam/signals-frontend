@@ -4,10 +4,10 @@
  * @param {Any} value
  * @returns {Boolean}
  */
-export const isArray = value => !!value
-  && value.constructor
-  && value.constructor.name === 'Array'
-  && typeof value[Symbol.iterator] === 'function';
+export const isArray = value => !!value &&
+  value.constructor &&
+  value.constructor.name === 'Array' &&
+  typeof value[Symbol.iterator] === 'function';
 
 /**
  * Date detector

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
-import DefaultTexts from './index';
+import DefaultTexts from '.';
 
 describe('<DefaultTexts />', () => {
   let props;
@@ -74,8 +74,8 @@ describe('<DefaultTexts />', () => {
       expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0);
     });
 
-    it.only('should not render when list has no templates', () => {
-      const defaultTexts = [ ...props.defaultTexts ];
+    it('should not render when list has no templates', () => {
+      const defaultTexts = [...props.defaultTexts];
       defaultTexts[0].templates = defaultTexts[0].templates.map(({ text }) => ({ text }));
 
       const { queryAllByTestId } = render(

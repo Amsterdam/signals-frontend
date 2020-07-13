@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 import makeSelectHistoryModel from './selectors';
 
-
 describe('makeSelectHistoryModel', () => {
   const selector = makeSelectHistoryModel();
   it('should select the history', () => {

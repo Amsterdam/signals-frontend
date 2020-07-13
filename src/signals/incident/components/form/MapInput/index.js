@@ -13,7 +13,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
   const { lat, lng } = value?.location || {};
   const mapOptions = {
     ...MAP_OPTIONS,
-    center: (lat && lng) ? [lat, lng] : [...MAP_OPTIONS.center],
+    center: lat && lng ? [lat, lng] : [...MAP_OPTIONS.center],
   };
 
   // Can't use useCallback here, would break the rules of hooks

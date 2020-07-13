@@ -1,4 +1,4 @@
-import formatConditionalForm from './index';
+import formatConditionalForm from '.';
 import checkVisibility from '../checkVisibility';
 
 jest.mock('../checkVisibility');
