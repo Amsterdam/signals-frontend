@@ -18,7 +18,7 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
     .push({ code: 'null', name: 'Niet bepaald' })
     .toJS()
     .map(district => ({
-      key: district.code,
+      key: district.type ? `${district.type.code}:${district.code}` : district.code,
       value: district.name,
     }))
 );
@@ -74,8 +74,8 @@ export const makeSelectActiveFilter = createSelector(
 );
 
 export const makeSelectEditFilter = createSelector(
-  [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories],
-  (stateMap, maincategory_slug, category_slug) => {
+  [selectIncidentManagementDomain, makeSelectDistricts, makeSelectMainCategories, makeSelectSubCategories],
+  (stateMap, stadsdeel, maincategory_slug, category_slug) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
@@ -87,6 +87,7 @@ export const makeSelectEditFilter = createSelector(
       {
         maincategory_slug,
         category_slug,
+        stadsdeel,
       },
       (category, value) => {
         if (category.key || category.slug) return undefined;
