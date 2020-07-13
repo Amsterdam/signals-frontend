@@ -30,7 +30,7 @@ import configureStore from './configureStore';
 const environment = process.env.NODE_ENV;
 
 const dsn = configuration?.sentry?.dsn;
-const release = process.env.GIT_COMMIT;
+const release = process.env.GIT_BRANCH;
 if (dsn) {
   Sentry.init({
     environment,
@@ -60,7 +60,7 @@ if (urlBase && siteId) {
 
 const render = () => {
   // eslint-disable-next-line no-undef,no-console
-  console.log(`Signals: version: ${VERSION}, build: ${process.env.NODE_ENV}`);
+  if (prelease) console.log(`Signals: tag ${release}`);
 
   ReactDOM.render(
     <Provider store={store}>

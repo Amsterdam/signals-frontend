@@ -42,8 +42,8 @@ WORKDIR /app
 
 COPY assets /app/assets
 
-ARG GIT_COMMIT
-ENV GIT_COMMIT ${GIT_COMMIT}
+ARG GIT_BRANCH
+ENV GIT_BRANCH ${GIT_BRANCH}
 
 ENV NODE_ENV=production
 RUN echo "run build"
