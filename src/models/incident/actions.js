@@ -1,6 +1,5 @@
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
-  PATCH_INCIDENT, PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR,
   REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR,
@@ -23,26 +22,6 @@ export function requestIncidentSuccess(incident) {
 export function requestIncidentError(error) {
   return {
     type: REQUEST_INCIDENT_ERROR,
-    payload: error,
-  };
-}
-
-export function patchIncident(patch) {
-  return {
-    type: PATCH_INCIDENT,
-    payload: patch,
-  };
-}
-
-export function patchIncidentSuccess() {
-  return {
-    type: PATCH_INCIDENT_SUCCESS,
-  };
-}
-
-export function patchIncidentError(error) {
-  return {
-    type: PATCH_INCIDENT_ERROR,
     payload: error,
   };
 }

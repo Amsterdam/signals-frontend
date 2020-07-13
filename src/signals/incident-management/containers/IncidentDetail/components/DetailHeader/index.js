@@ -4,11 +4,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
 
 import BackLink from 'components/BackLink';
-import { PATCH_TYPE_THOR } from 'models/incident/constants';
 import Button from 'components/Button';
 import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
 
 import DownloadButton from './components/DownloadButton';
+import { PATCH_TYPE_THOR } from '../../constants';
 import IncidentDetailContext from '../../context';
 
 const Header = styled.header`

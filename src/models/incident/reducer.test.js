@@ -1,7 +1,6 @@
 import incidentModelReducer, { initialState } from './reducer';
 import {
   REQUEST_INCIDENT, REQUEST_INCIDENT_SUCCESS, REQUEST_INCIDENT_ERROR,
-  PATCH_INCIDENT_SUCCESS, PATCH_INCIDENT_ERROR,
   REQUEST_ATTACHMENTS, REQUEST_ATTACHMENTS_SUCCESS, REQUEST_ATTACHMENTS_ERROR, DISMISS_ERROR,
   REQUEST_DEFAULT_TEXTS, REQUEST_DEFAULT_TEXTS_SUCCESS, REQUEST_DEFAULT_TEXTS_ERROR,
 }
@@ -52,30 +51,6 @@ describe('models/incident/reducer', () => {
     ).toEqual({
       ...initialState.toJS(),
       error: true,
-    });
-  });
-
-  it('should handle the PATCH_INCIDENT_SUCCESS', () => {
-    expect(
-      incidentModelReducer(undefined, {
-        type: PATCH_INCIDENT_SUCCESS,
-      }).toJS()
-    ).toEqual(initialState.toJS());
-  });
-
-  it('should handle the PATCH_INCIDENT_ERROR', () => {
-    const payload = {
-      error: { response: {} },
-      type: 'location',
-    };
-    expect(
-      incidentModelReducer(undefined, {
-        type: PATCH_INCIDENT_ERROR,
-        payload,
-      }).toJS()
-    ).toEqual({
-      ...initialState.toJS(),
-      error: payload.error,
     });
   });
 

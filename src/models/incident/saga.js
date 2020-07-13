@@ -12,11 +12,6 @@ import {
   REQUEST_INCIDENT,
   REQUEST_ATTACHMENTS,
   REQUEST_DEFAULT_TEXTS,
-  PATCH_TYPE_NOTES,
-  PATCH_TYPE_SUBCATEGORY,
-  PATCH_TYPE_STATUS,
-  PATCH_TYPE_PRIORITY,
-  PATCH_TYPE_THOR,
 } from './constants';
 import {
   requestIncidentSuccess,
@@ -46,15 +41,6 @@ export function* fetchIncident(action) {
     yield call([Sentry, 'captureException'], error);
   }
 }
-
-export const errorMessageDictionary = {
-  [PATCH_TYPE_NOTES]: 'Je hebt niet voldoende rechten om notities toe te voegen',
-  [PATCH_TYPE_SUBCATEGORY]: 'Je hebt niet voldoende rechten om de subcategorie te wijzigen',
-  [PATCH_TYPE_STATUS]: 'Je hebt niet voldoende rechten om de status te wijzigen',
-  [PATCH_TYPE_PRIORITY]: 'Je hebt niet voldoende rechten om de urgentie te wijzigen',
-  [PATCH_TYPE_THOR]: 'Je hebt niet voldoende rechten om de melding extern door te zetten',
-  default: 'Je hebt niet voldoende rechten om deze actie uit te voeren',
-};
 
 export function* requestAttachments(action) {
   try {

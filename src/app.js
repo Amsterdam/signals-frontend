@@ -60,7 +60,7 @@ if (urlBase && siteId) {
 
 const render = () => {
   // eslint-disable-next-line no-undef,no-console
-  if (prelease) console.log(`Signals: tag ${release}`);
+  if (release) console.log(`Signals: tag ${release}`);
 
   ReactDOM.render(
     <Provider store={store}>

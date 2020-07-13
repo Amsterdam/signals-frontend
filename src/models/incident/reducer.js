@@ -10,9 +10,6 @@ import {
   REQUEST_INCIDENT,
   REQUEST_INCIDENT_SUCCESS,
   REQUEST_INCIDENT_ERROR,
-  PATCH_INCIDENT,
-  PATCH_INCIDENT_SUCCESS,
-  PATCH_INCIDENT_ERROR,
   DISMISS_ERROR,
   REQUEST_ATTACHMENTS,
   REQUEST_ATTACHMENTS_SUCCESS,
@@ -45,15 +42,6 @@ function incidentModelReducer(state = initialState, action) {
 
     case REQUEST_INCIDENT_ERROR:
       return state.set('error', fromJS(action.payload)).set('loading', false);
-
-    case PATCH_INCIDENT:
-      return state.set('error', false).set('loading', true);
-
-    case PATCH_INCIDENT_SUCCESS:
-      return state.set('error', false).set('loading', false);
-
-    case PATCH_INCIDENT_ERROR:
-      return state.set('error', fromJS(action.payload.error)).set('loading', false);
 
     case DISMISS_ERROR:
       return state.set('error', false);

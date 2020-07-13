@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
 
-import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 import { withMapContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
+import { PATCH_TYPE_LOCATION } from '../../constants';
 import IncidentDetailContext from '../../context';
 import LocationForm from '.';
 
