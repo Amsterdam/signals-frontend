@@ -106,7 +106,7 @@ describe('Change signal after submit', () => {
       cy.log(Cypress.env('signalId'));
     });
 
-    it('Should change location', () => {
+    it('Should change location using pencil button', () => {
       // Open Signal
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
@@ -132,6 +132,9 @@ describe('Change signal after submit', () => {
       cy.wait(1000);
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
 
+      // Check if background colour of changed element is flashing orange
+      createSignal.checkFlashingOrange();
+
       // Check location data
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').should('be.visible');
@@ -146,7 +149,40 @@ describe('Change signal after submit', () => {
         .and('contain', 'Amsterdam')
         .and('be.visible');
     });
+    it('Should change location by clicking on picture', () => {
+      // Open Signal
+      cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
+      cy.waitForSignalDetailsRoutes();
+      cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
+      cy.get(SIGNAL_DETAILS.imageLocation).click();
+      cy.get(CHANGE_LOCATION.buttonLocationDetailEdit).click();
+      cy.get(OVERVIEW_MAP.overViewMap).should('be.visible');
+      cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Noordhollandschkanaaldijk 114', { delay: 60 });
+      cy.wait('@getAddress');
+      createSignal.selectAddress('Noordhollandschkanaaldijk 114, 1034NW Amsterdam');
+      cy.wait('@geoSearchLocation');
+      // Used a wait, because we have to wait until zoom to new adres is done.
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000);
+      cy.get(CHANGE_LOCATION.buttonSubmit).click();
 
+      // Check if background colour of changed element is flashing orange
+      createSignal.checkFlashingOrange();
+
+      // Check location data
+      cy.wait('@getSignals');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Noord').should('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Noordhollandschkanaaldijk 114').should('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1034NW Amsterdam').should('be.visible');
+
+      // Check history
+      cy.get(SIGNAL_DETAILS.historyListItem)
+        .first()
+        .should('contain', 'Stadsdeel: Noord')
+        .and('contain', 'Noordhollandschkanaaldijk 114')
+        .and('contain', 'Amsterdam')
+        .and('be.visible');
+    });
     it('Should change status', () => {
       // Open Signal
       cy.get(MANAGE_SIGNALS.linkSignal).contains(Cypress.env('signalId')).click();
@@ -160,7 +196,6 @@ describe('Change signal after submit', () => {
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
       cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
-      cy.contains('Nieuwe status').should('be.visible');
 
       // Cancel edit status
       cy.get(CHANGE_STATUS.buttonCancel).click();
@@ -178,17 +213,20 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.buttonEdit).click();
 
       // Check all checkboxes and submit change
-      cy.get(CHANGE_STATUS.radioButtonGemeld).click();
-      cy.get(CHANGE_STATUS.radioButtonInAfwachting).click();
-      cy.get(CHANGE_STATUS.radioButtonIngepland).click();
-      cy.get(CHANGE_STATUS.radioButtonExtern).click();
-      cy.get(CHANGE_STATUS.radioButtonAfgehandeld).click();
-      cy.get(CHANGE_STATUS.radioButtonHeropend).click();
-      cy.get(CHANGE_STATUS.radioButtonGeannuleerd).click();
+      cy.get(CHANGE_STATUS.radioButtonGemeld).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonInAfwachting).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonIngepland).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonExtern).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonAfgehandeld).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonHeropend).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonGeannuleerd).click().should('be.checked');
 
-      cy.get(CHANGE_STATUS.radioButtonInBehandeling).click();
+      cy.get(CHANGE_STATUS.radioButtonInBehandeling).click().should('be.checked');
       cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben uw zinloze melding toch maar in behandeling genomen');
       cy.get(CHANGE_STATUS.buttonSubmit).click();
+
+      // Check if background colour of changed element is flashing orange
+      createSignal.checkFlashingOrange();
 
       // Check if status is 'In behandeling' with red coloured text
       cy.wait('@getSignals');
@@ -233,6 +271,9 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_URGENCY.radioButtonHoog).click();
       cy.get(CHANGE_URGENCY.buttonSubmit).click();
 
+      // Check if background colour of changed element is flashing orange
+      createSignal.checkFlashingOrange();
+
       // Check urgency change
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.urgency)
@@ -258,13 +299,13 @@ describe('Change signal after submit', () => {
       // Check on type information
       cy.get(CHANGE_TYPE.radioButtonMelding).should('be.checked');
       cy.contains('Melding: Een verzoek tot herstel of handhaving om de normale situatie te herstellen');
-      cy.get(CHANGE_TYPE.radioButtonAanvraag).click();
+      cy.get(CHANGE_TYPE.radioButtonAanvraag).click().should('be.checked');
       cy.contains('Aanvraag: Een verzoek om iets structureels te veranderen');
-      cy.get(CHANGE_TYPE.radioButtonVraag).click();
+      cy.get(CHANGE_TYPE.radioButtonVraag).click().should('be.checked');
       cy.contains('Vraag: Een verzoek om informatie');
-      cy.get(CHANGE_TYPE.radioButtonKlacht).click();
+      cy.get(CHANGE_TYPE.radioButtonKlacht).click().should('be.checked');
       cy.contains('Klacht: Een uiting van ongenoegen over het handelen van de gemeente Amsterdam.');
-      cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click();
+      cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click().should('be.checked');
       cy.contains(
         'Groot onderhoud: Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.'
       );
@@ -277,6 +318,9 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_TYPE.buttonEdit).click();
       cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click();
       cy.get(CHANGE_TYPE.buttonSubmit).click();
+
+      // Check if background colour of changed element is flashing orange
+      createSignal.checkFlashingOrange();
 
       // Check type change
       cy.wait('@getSignals');
@@ -304,6 +348,9 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(CHANGE_CATEGORY.inputCategory).select('Overig openbare ruimte (ASC)');
       cy.get(CHANGE_CATEGORY.buttonSubmit).click();
+
+      // Check if background colour of changed element is flashing orange
+      createSignal.checkFlashingOrange();
 
       // Check change in subcategory, maincategory and department
       cy.wait('@getSignals');

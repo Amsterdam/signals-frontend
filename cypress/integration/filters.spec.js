@@ -1,6 +1,7 @@
 // <reference types="Cypress" />
 
 import * as overviewMap from '../support/commandsRequests';
+import * as filtering from '../support/commandsFiltering';
 import { MANAGE_SIGNALS, FILTER, FILTER_ALL_ITEMS, MY_FILTERS } from '../support/selectorsManageIncidents';
 
 describe('Filtering', () => {
@@ -61,8 +62,7 @@ describe('Filtering', () => {
     // Check Filter data
     cy.get('h1').should('contain', 'Status Gemeld Westpoort (');
     cy.get(MANAGE_SIGNALS.refreshIcon).should('be.visible');
-    cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Westpoort');
-    cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Gemeld');
+    cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Westpoort').and('contain', 'Gemeld').and('be.visible');
 
     // Wait is needed to wait for filter to be applied. cy.wait('@getFilters') is not enough.
     // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -117,7 +117,7 @@ describe('Filtering', () => {
       .and('contain', 'Ga naar ‘Filteren’ en voer een naam in om een filterinstelling op te slaan.');
   });
 
-  it('Should create a new filter, select all filters and reset to default values', () => {
+  it('Should create a new filter and reset to default values', () => {
     cy.get(MANAGE_SIGNALS.buttonFilteren)
       .should('be.visible')
       .click();
@@ -126,33 +126,11 @@ describe('Filtering', () => {
       .should('be.visible')
       .check();
 
-    // Check all checkboxes
-    cy.get(FILTER_ALL_ITEMS.selectAllStatus).click();
-    cy.get(FILTER_ALL_ITEMS.selectAllStadsdelen).click();
-    cy.get(FILTER_ALL_ITEMS.selectAllSource).click();
-    cy.get(FILTER_ALL_ITEMS.selectAllGarbage).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllCivilConstructs).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllSubversion).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllPublicParksWater).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllOther).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllDisturbanceCompanies).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllDisturbancePublicSpace).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllDisturbanceWater).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllDisturbanceAnimals).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllDisturbancePersonsGroups).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllClean).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllRoadsTraffic).click({ force: true });
-    cy.get(FILTER_ALL_ITEMS.selectAllLiving).click({ force: true });
-
     // Reset create filter
     cy.get(FILTER.buttonNieuwFilter)
       .should('be.visible')
       .click();
 
-    // Check some elements are unchecked or empty
-    cy.get(FILTER.checkboxGemeld).should('not.be.checked');
-
-    cy.get('[name=afval_category_slug]').should('not.be.checked');
     cy.get(FILTER.checkboxRefresh).should('not.be.checked');
     cy.get(FILTER.inputFilterName).should('be.empty');
 
@@ -160,5 +138,56 @@ describe('Filtering', () => {
     cy.get(FILTER.buttonCancel)
       .should('be.visible')
       .click();
+  });
+  it('Should check and uncheck all checkboxes', () => {
+    cy.get(MANAGE_SIGNALS.buttonFilteren)
+      .should('be.visible')
+      .click();
+    cy.get('[type="checkbox"]').each($el => {
+      cy.wrap($el).check({ force: true }).should('be.checked');
+    });
+    cy.get(FILTER.buttonNieuwFilter)
+      .should('be.visible')
+      .click();
+    cy.get('[type="checkbox"]').each($el => {
+      cy.wrap($el).should('not.be.checked');
+    });
+  });
+  it('Should filter on address and date without saving the filter', () => {
+    cy.route('/signals/v1/private/signals/?address_text=**').as('getAddressFilter');
+    const todaysDate = Cypress.moment().format('DD-MM-YYYY');
+    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+    cy.get(FILTER.inputFilterAddres).type('Ruigoord 36');
+    cy.get(FILTER.inputFilterDayFrom).type(todaysDate);
+    cy.get(FILTER.inputFilterDayBefore).type(todaysDate);
+    cy.get(FILTER.buttonSubmitFilter)
+      .should('be.visible')
+      .click();
+    cy.wait('@getAddressFilter');
+    cy.get('tbody > tr:first-child :nth-child(3)').should('contain', todaysDate);
+    cy.get('tbody > tr:last-child :nth-child(3)').should('contain', todaysDate);
+    cy.get(MANAGE_SIGNALS.filterTagList)
+      .should('contain', 'Ruigoord 36')
+      .and('contain', `Datum: ${todaysDate} t/m ${todaysDate}`)
+      .and('be.visible');
+  });
+  it('Should check checkboxes per category', () => {
+    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllStatus, 'status');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllStadsdelen, 'stadsdeel');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllSource, 'source');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllGarbage, 'afval');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllCivilConstructs, 'civiele-constructies');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllSubversion, 'ondermijning');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllPublicParksWater, 'openbaar-groen-en-water');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllOther, 'overig');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceCompanies, 'overlast-bedrijven-en-horeca');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbancePublicSpace, 'overlast-in-de-openbare-ruimte');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceWater, 'overlast-op-het-water');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceAnimals, 'overlast-van-dieren');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbancePersonsGroups, 'overlast-van-en-door-personen-of-groepen');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllClean, 'schoon');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllRoadsTraffic, 'wegen-verkeer-straatmeubilair');
+    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllLiving, 'wonen');
   });
 });
