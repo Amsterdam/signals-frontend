@@ -293,19 +293,19 @@
             "additionalProperties": false,
             "properties": {
                 "url": {
-                    "type": "null"
+                    "type": ["string", "null"]
                 },
                 "width": {
-                    "type": "integer"
+                    "type": ["string", "integer"]
                 },
                 "height": {
-                    "type": "integer"
+                    "type": ["string", "integer"]
                 },
                 "smallWidth": {
-                    "type": "integer"
+                    "type": ["string", "integer"]
                 },
                 "smallHeight": {
-                    "type": "integer"
+                    "type": ["string", "integer"]
                 }
             },
             "required": [
@@ -369,6 +369,9 @@
                 },
                 "zoom": {
                     "type": "integer"
+                },
+                "stadsdeel": {
+                    "type": "string"
                 }
             },
             "required": [
