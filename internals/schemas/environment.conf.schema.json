@@ -201,6 +201,7 @@
         "STATIC_MAP_SERVER_URL",
         "TERMS_ENDPOINT",
         "USERS_ENDPOINT",
+        "areaTypeCodeForDistrict",
         "fetchQuestionsFromBackend",
         "head",
         "language",
@@ -210,7 +211,8 @@
         "matomo",
         "sentry",
         "showVulaanControls",
-        "theme"
+        "theme",
+        "useAreasInsteadOfStadsdeel"
       ],
       "title": "Test"
     },
@@ -259,6 +261,10 @@
           "description": "The message to ask for consent to share contact information",
           "type": "string"
         },
+        "district": {
+          "description": "The label for the district (stadsdeel/wijk)",
+          "type": "string"
+        },
         "footer1": {
           "description": "Extra information to show in the footer of the application",
           "type": "string"
@@ -299,6 +305,7 @@
       "required": [
         "avgDisclaimer",
         "consentToContactSharing",
+        "district",
         "footer1",
         "footer2",
         "headerTitle",

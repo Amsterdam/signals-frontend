@@ -48,8 +48,8 @@ export const makeSelectAllFilters = createSelector(
 );
 
 export const makeSelectActiveFilter = createSelector(
-  [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories],
-  (stateMap, maincategory_slug, category_slug) => {
+  [selectIncidentManagementDomain, makeSelectDistricts, makeSelectMainCategories, makeSelectSubCategories],
+  (stateMap, area, maincategory_slug, category_slug) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
@@ -69,13 +69,14 @@ export const makeSelectActiveFilter = createSelector(
     return parseInputFormData(filter, {
       maincategory_slug,
       category_slug,
+      area,
     });
   }
 );
 
 export const makeSelectEditFilter = createSelector(
   [selectIncidentManagementDomain, makeSelectDistricts, makeSelectMainCategories, makeSelectSubCategories],
-  (stateMap, stadsdeel, maincategory_slug, category_slug) => {
+  (stateMap, area, maincategory_slug, category_slug) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
@@ -87,7 +88,7 @@ export const makeSelectEditFilter = createSelector(
       {
         maincategory_slug,
         category_slug,
-        stadsdeel,
+        area,
       },
       (category, value) => {
         if (category.key || category.slug) return undefined;

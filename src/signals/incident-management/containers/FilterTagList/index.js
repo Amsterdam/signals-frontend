@@ -6,11 +6,9 @@ import { Tag } from '@datapunt/asc-ui';
 import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 
-import {
-  makeSelectMainCategories,
-  makeSelectSubCategories,
-} from 'models/categories/selectors';
+import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
+import { makeSelectDistricts } from 'signals/incident-management/selectors';
 import * as types from 'shared/types';
 
 const FilterWrapper = styled.div`
@@ -46,12 +44,7 @@ export const mapKeys = key => {
 };
 
 const renderItem = (display, key) => (
-  <StyledTag
-    colorType="tint"
-    colorSubtype="level3"
-    key={key}
-    data-testid="filterTagListTag"
-  >
+  <StyledTag colorType="tint" colorSubtype="level3" key={key} data-testid="filterTagListTag">
     {display}
   </StyledTag>
 );
@@ -84,14 +77,11 @@ const renderTag = (key, mainCategories, list) => {
 };
 
 export const FilterTagListComponent = props => {
-  const {
-    tags,
-    mainCategories,
-    subCategories,
-  } = props;
+  const { tags, districts, mainCategories, subCategories } = props;
 
   const map = {
     ...dataLists,
+    area: districts,
     maincategory_slug: mainCategories,
     category_slug: subCategories,
   };
@@ -106,9 +96,7 @@ export const FilterTagListComponent = props => {
       'Datum:',
       tagsList.created_after && format(parseISO(tagsList.created_after), 'dd-MM-yyyy'),
       't/m',
-      (tagsList.created_before &&
-        format(parseISO(tagsList.created_before), 'dd-MM-yyyy')) ||
-      'nu',
+      (tagsList.created_before && format(parseISO(tagsList.created_before), 'dd-MM-yyyy')) || 'nu',
     ]
       .filter(Boolean)
       .join(' ');
@@ -124,9 +112,9 @@ export const FilterTagListComponent = props => {
   return mainCategories && subCategories ? (
     <FilterWrapper>
       {Object.entries(tagsList).map(([tagKey, tag]) =>
-        Array.isArray(tag) ?
-          renderGroup(tag, mainCategories, map[tagKey], tagKey) :
-          renderTag(tag, mainCategories, map[tagKey])
+        Array.isArray(tag)
+          ? renderGroup(tag, mainCategories, map[tagKey], tagKey)
+          : renderTag(tag, mainCategories, map[tagKey])
       )}
     </FilterWrapper>
   ) : null;
@@ -134,6 +122,7 @@ export const FilterTagListComponent = props => {
 
 FilterTagListComponent.propTypes = {
   tags: types.filterType,
+  districts: types.dataListType,
   mainCategories: types.dataListType,
   subCategories: types.dataListType,
 };
@@ -143,6 +132,7 @@ FilterTagListComponent.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  districts: makeSelectDistricts,
   mainCategories: makeSelectMainCategories,
   subCategories: makeSelectSubCategories,
 });

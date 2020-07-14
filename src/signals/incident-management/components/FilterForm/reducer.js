@@ -28,6 +28,7 @@ export const initialState = {
     note_keyword: '',
     priority: [],
     source: [],
+    area: [],
     stadsdeel: [],
     status: [],
   },
@@ -108,9 +109,7 @@ export default (state, action) => {
     case SET_SAVE_BUTTON_LABEL:
       return {
         ...state,
-        submitBtnLabel: action.payload ?
-          SAVE_SUBMIT_BUTTON_LABEL :
-          DEFAULT_SUBMIT_BUTTON_LABEL,
+        submitBtnLabel: action.payload ? SAVE_SUBMIT_BUTTON_LABEL : DEFAULT_SUBMIT_BUTTON_LABEL,
       };
 
     case SET_MAIN_CATEGORY:
@@ -119,10 +118,7 @@ export default (state, action) => {
         options: {
           ...state.options,
           category_slug: state.options.category_slug.filter(
-            ({ _links }) =>
-              _links['sia:parent'].public.endsWith(
-                action.payload.category.slug
-              ) === false
+            ({ _links }) => _links['sia:parent'].public.endsWith(action.payload.category.slug) === false
           ),
           maincategory_slug: state.options.maincategory_slug
             .filter(({ slug }) => slug !== action.payload.category.slug)
@@ -137,16 +133,11 @@ export default (state, action) => {
         options: {
           ...state.options,
           category_slug: state.options.category_slug
-            .filter(
-              ({ _links }) =>
-                _links['sia:parent'].public.endsWith(action.payload.slug) ===
-                false
-            )
+            .filter(({ _links }) => _links['sia:parent'].public.endsWith(action.payload.slug) === false)
             .concat(action.payload.subCategories)
             .filter(Boolean),
           maincategory_slug: state.options.maincategory_slug.filter(
-            ({ _links }) =>
-              _links.self.public.endsWith(action.payload.slug) === false
+            ({ _links }) => _links.self.public.endsWith(action.payload.slug) === false
           ),
         },
       };

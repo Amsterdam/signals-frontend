@@ -128,7 +128,7 @@ export function* refreshIncidents(timeout = refreshRequestDelay) {
 export function* fetchDistricts() {
   try {
     const result = yield call(authCall, CONFIGURATION.AREAS_ENDPOINT, {
-      type_code: 'stadsdeel',
+      type_code: CONFIGURATION.areaTypeCodeForDistrict,
     });
 
     yield put(getDistrictsSuccess(result.results));

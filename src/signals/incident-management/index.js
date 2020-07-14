@@ -5,6 +5,7 @@ import { compose, bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
+import configuration from 'shared/services/configuration/configuration';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -45,7 +46,9 @@ export const IncidentManagementModuleComponent = ({
       requestIncidentsAction();
     }
 
-    getDistrictsAction();
+    if (configuration.useAreasInsteadOfStadsdeel) {
+      getDistrictsAction();
+    }
     getFiltersAction();
     fetchCategoriesAction();
     // disabling linter; no deps needed, only execute on mount

@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
 import { Label as AscLabel } from '@datapunt/asc-ui';
 
+import configuration from 'shared/services/configuration/configuration';
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
@@ -281,14 +282,25 @@ const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, 
             options={dataLists.status}
           />
 
-          <CheckboxGroup
-            defaultValue={state.options.stadsdeel}
-            label="Stadsdeel"
-            name="stadsdeel"
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            options={districts}
-          />
+          {configuration.useAreasInsteadOfStadsdeel ? (
+            <CheckboxGroup
+              defaultValue={state.options.area}
+              label={configuration.language.district}
+              name="area"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={districts}
+            />
+          ) : (
+            <CheckboxGroup
+              defaultValue={state.options.stadsdeel}
+              label="Stadsdeel"
+              name="stadsdeel"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={dataLists.stadsdeel}
+            />
+          )}
 
           <CheckboxGroup
             defaultValue={state.options.priority}
