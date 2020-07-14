@@ -38,6 +38,14 @@
           "description": "When false, will not show extra questions after the first page of questions in the incident submission form",
           "type": "boolean"
         },
+        "useAreasInsteadOfStadsdeel": {
+          "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the legacy hardcoded stadsdelen",
+          "type": "boolean"
+        },
+        "areaTypeCodeForDistrict": {
+          "description": "The area_type_code that is being used as districts, fetched from the areas endpoint",
+          "type": "string"
+        },
         "STATIC_MAP_SERVER_URL": {
           "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
           "type": "string",
