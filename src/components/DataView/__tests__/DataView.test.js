@@ -66,7 +66,7 @@ describe('DataView with and without headers, filter and/or data', () => {
 
     expect(dataView.childNodes).toHaveLength(2);
 
-    const order = Array.from(dataView.childNodes).reduce((acc, curr) => [
+    const order = [...dataView.childNodes].reduce((acc, curr) => [
       ...acc,
       curr.dataset.testid,
     ], []);
@@ -79,7 +79,7 @@ describe('DataView with and without headers, filter and/or data', () => {
 
     const dataViewHeader = getByTestId('dataViewHeader');
 
-    const order = Array.from(dataViewHeader.childNodes).reduce((acc, curr) => [
+    const order = [...dataViewHeader.childNodes].reduce((acc, curr) => [
       ...acc,
       curr.dataset.testid,
     ], []);
@@ -389,7 +389,7 @@ describe('DataView with data', () => {
         });
     const { queryAllByTestId, rerender } = render(dataViewWithProps({ data }));
 
-    const allDataRows = Array.from(queryAllByTestId('dataViewBodyRow'));
+    const allDataRows = [...queryAllByTestId('dataViewBodyRow')];
 
     expect(allDataRows).toHaveLength(data.length);
     allDataRows.forEach(
@@ -439,7 +439,7 @@ describe('DataView with data', () => {
     const invisibleColumns = headers.slice(0, 2);
     const { queryAllByTestId, rerender } = render(dataViewWithProps({ data }));
 
-    const allDataRows = Array.from(queryAllByTestId('dataViewBodyRow'));
+    const allDataRows = [...queryAllByTestId('dataViewBodyRow')];
 
     expect(allDataRows).toHaveLength(data.length);
     allDataRows.forEach(
@@ -460,7 +460,7 @@ describe('DataView with data', () => {
       )
     );
 
-    const columnOrder = ['non_existing_1', ...headers,  'non_existing_2'];
+    const columnOrder = ['non_existing_1', ...headers, 'non_existing_2'];
 
     rerender(dataViewWithProps({ data, columnOrder, invisibleColumns }));
 

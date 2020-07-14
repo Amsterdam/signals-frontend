@@ -19,7 +19,7 @@ export const StyledTR = styled.tr`
   }
 `;
 
-export const StyledTH =  styled.th`
+export const StyledTH = styled.th`
   border-top: none;
   border-bottom: none;
   padding: ${themeSpacing(3)} ${themeSpacing(2)};

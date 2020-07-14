@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { withMapContext, withAppContext } from 'test/utils';
 import context from 'containers/MapContext/context';
 
-import LocationInput from './index';
+import LocationInput from '.';
 
 const form = FormBuilder.group({
   location: {},

@@ -9,7 +9,6 @@ const selectKtoContainerDomain = state => state.get('ktoContainer');
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by KtoContainer
  */

@@ -1,6 +1,6 @@
 import * as auth from 'shared/services/auth/auth';
 
-import checkVisibility from './index';
+import checkVisibility from '.';
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,

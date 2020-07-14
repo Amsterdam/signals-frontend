@@ -66,7 +66,7 @@ const UsersOverviewContainer = () => {
    *
    * @returns {number|undefined}
    */
-  const pageNumFromQueryString = pageNum && parseInt(pageNum, 10);
+  const pageNumFromQueryString = pageNum && Number.parseInt(pageNum, 10);
 
   // subscribe to param changes
   useEffect(() => {

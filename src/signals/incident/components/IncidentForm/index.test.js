@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 import { Wizard, Step, Steps } from 'react-albus';
 import formatConditionalForm from '../../services/format-conditional-form';
 
-import IncidentForm, { Form } from './index';
+import IncidentForm, { Form } from '.';
 
 import phoneForm from '../../definitions/wizard-step-3-telefoon';
 
@@ -73,7 +73,7 @@ describe('<IncidentForm />', () => {
                 <IncidentForm {...props} />
               </Step>
             </Steps>
-          </Wizard >
+          </Wizard>
         ),
       );
 
@@ -104,7 +104,7 @@ describe('<IncidentForm />', () => {
               <IncidentForm {...props} />
             </Step>
           </Steps>
-        </Wizard >
+        </Wizard>
       );
 
       formWrapper = wrapper.find(IncidentForm).dive();

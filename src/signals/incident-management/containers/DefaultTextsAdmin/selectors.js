@@ -9,7 +9,6 @@ const selectDefaultTextsAdminDomain = state => state.get('defaultTextsAdmin');
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by DefaultTextsAdmin
  */

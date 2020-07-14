@@ -19,7 +19,7 @@ export default {
           path: 'reporter.email',
           placeholder: 'E-mailadres',
           type: 'email',
-          autoRemove: /[^a-zA-Z0-9@.!#$%&'*+\-/=?^_`{|}~;]/g,
+          autoRemove: /[^\w!#$%&'*+./;=?@^`{|}~-]/g,
           autoFocus: true,
         },
         render: FormComponents.TextInput,

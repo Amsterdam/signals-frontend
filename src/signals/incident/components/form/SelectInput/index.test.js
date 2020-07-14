@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import Select from 'components/SelectInput';
-import SelectInput from './index';
+import SelectInput from '.';
 
 describe('Form component <SelectInput />', () => {
   const metaFields = {

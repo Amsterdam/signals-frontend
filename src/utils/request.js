@@ -11,6 +11,7 @@ function parseJSON(response) {
   if (response.status === 204 || response.status === 205) {
     return null;
   }
+
   return response.json();
 }
 

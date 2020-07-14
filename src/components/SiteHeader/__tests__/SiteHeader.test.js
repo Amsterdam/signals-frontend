@@ -7,7 +7,7 @@ import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';
 import configuration from 'shared/services/configuration/configuration';
 
-import SiteHeader, { menuBreakpoint } from '../index';
+import SiteHeader, { menuBreakpoint } from '..';
 
 const mmm = MatchMediaMock.create();
 

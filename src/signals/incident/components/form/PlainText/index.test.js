@@ -2,7 +2,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import PlainText from './index';
+import PlainText from '.';
 import mapDynamicFields from '../../../services/map-dynamic-fields';
 
 jest.mock('../../../services/map-dynamic-fields');

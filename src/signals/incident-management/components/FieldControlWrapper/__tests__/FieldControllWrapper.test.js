@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
 
 import { FormControl } from 'react-reactive-form';
-import FieldControlWrapper from '../index';
+import FieldControlWrapper from '..';
 import TextInput from '../../TextInput';
 import HiddenInput from '../../HiddenInput';
 

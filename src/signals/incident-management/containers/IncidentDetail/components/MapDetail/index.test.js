@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import MapDetail from './index';
+import MapDetail from '.';
 
 describe('<MapDetail />', () => {
   const props = {

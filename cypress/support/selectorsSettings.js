@@ -16,4 +16,3 @@ export const USERS = {
   inputNotitie: '#note',
   userRow: '[data-testid="dataViewBodyRow"]',
 };
-

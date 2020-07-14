@@ -1,4 +1,4 @@
-import { validateFileType, validateMaxFilesize, validateMinFilesize, validatePhoneNumber } from './index';
+import { validateFileType, validateMaxFilesize, validateMinFilesize, validatePhoneNumber } from '.';
 
 describe('The costom validators service', () => {
   describe('should validate file type', () => {
@@ -30,8 +30,8 @@ describe('The costom validators service', () => {
 
   describe('should validate file size', () => {
     const meta = {
-      minFileSize: 30 * 2**10,
-      maxFileSize: 8 * 2**20,
+      minFileSize: 30 * 2 ** 10,
+      maxFileSize: 8 * 2 ** 20,
     };
 
     it('not exceed max file size', () => {

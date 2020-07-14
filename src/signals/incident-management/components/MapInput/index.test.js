@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { withMapContext } from 'test/utils';
-import MapInput from './index';
+import MapInput from '.';
 
 describe('<MapInput />', () => {
   let props;

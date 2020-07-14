@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Button  from 'components/Button';
-import Spinner  from 'components/Spinner';
+import Button from 'components/Button';
+import Spinner from 'components/Spinner';
 
 import useFetch from 'hooks/useFetch';
 
