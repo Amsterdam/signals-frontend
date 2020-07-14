@@ -75,7 +75,7 @@ const Location = ({ location }) => {
               onClick={() => {
                 preview('location');
               }}
-              data-testid="location-button-show"
+              data-testid="previewLocationButton"
             >
               <MapStatic boundsScaleFactor={0.25} height={80} markerSize={20} width={80} {...geometry} />
             </MapTile>

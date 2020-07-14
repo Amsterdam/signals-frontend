@@ -188,7 +188,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   it('should handle Escape key', async () => {
     const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
 
-    const locationButtonShow = await findByTestId('location-button-show');
+    const locationButtonShow = await findByTestId('previewLocationButton');
 
     act(() => {
       fireEvent.click(locationButtonShow);
@@ -208,13 +208,13 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await findByTestId('incidentDetail');
 
-    expect(queryByTestId('location-button-show')).toBeInTheDocument();
+    expect(queryByTestId('previewLocationButton')).toBeInTheDocument();
   });
 
   it('should handle Esc key', async () => {
     const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
 
-    const locationButtonShow = await findByTestId('location-button-show');
+    const locationButtonShow = await findByTestId('previewLocationButton');
 
     act(() => {
       fireEvent.click(locationButtonShow);
@@ -234,13 +234,13 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await findByTestId('incidentDetail');
 
-    expect(queryByTestId('location-button-show')).toBeInTheDocument();
+    expect(queryByTestId('previewLocationButton')).toBeInTheDocument();
   });
 
   it('should not respond to other key presses', async () => {
     const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
 
-    const locationButtonShow = await findByTestId('location-button-show');
+    const locationButtonShow = await findByTestId('previewLocationButton');
 
     act(() => {
       fireEvent.click(locationButtonShow);
@@ -260,7 +260,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await findByTestId('incidentDetail');
 
-    expect(queryByTestId('location-button-show')).toBeInTheDocument();
+    expect(queryByTestId('previewLocationButton')).toBeInTheDocument();
   });
 
   it('renders status form', async () => {

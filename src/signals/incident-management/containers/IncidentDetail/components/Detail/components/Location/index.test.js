@@ -61,7 +61,7 @@ describe('<Location />', () => {
       expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^Stadsdeel: Centrum$/);
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
-      expect(getByTestId('location-button-show')).toBeInTheDocument();
+      expect(getByTestId('previewLocationButton')).toBeInTheDocument();
     });
 
     it('should render correctly without huisnummer_toevoeging', async () => {
@@ -105,12 +105,12 @@ describe('<Location />', () => {
     it('clicking the map should trigger showing the location', async () => {
       const { queryByTestId, findByTestId } = render(renderWithContext());
 
-      await findByTestId('location-button-show');
+      await findByTestId('previewLocationButton');
 
       expect(preview).not.toHaveBeenCalledTimes(1);
 
       act(() => {
-        fireEvent.click(queryByTestId('location-button-show'));
+        fireEvent.click(queryByTestId('previewLocationButton'));
       });
 
       await findByTestId('detail-location');
