@@ -33,7 +33,7 @@ export const checkDescriptionPage = () => {
 };
 
 export const checkFlashingYellow = () => {
-  cy.get('[data-testid="highlight"]')
+  cy.get('.highlight--active')
     .then($selectors => {
       const win = $selectors[0].ownerDocument.defaultView;
       const after = win.getComputedStyle($selectors[0], 'after');
