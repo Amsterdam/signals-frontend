@@ -121,7 +121,9 @@ ChildIncidents.propTypes = {
       href: PropTypes.string,
       status: PropTypes.string,
       values: PropTypes.shape({
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+        status: PropTypes.string.isRequired,
+        category: PropTypes.string.isRequired,
       }),
     })
   ),

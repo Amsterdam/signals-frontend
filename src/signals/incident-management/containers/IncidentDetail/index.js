@@ -1,5 +1,4 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
@@ -23,6 +22,7 @@ import Detail from './components/Detail';
 import LocationPreview from './components/LocationPreview';
 import CloseButton from './components/CloseButton';
 import IncidentDetailContext from './context';
+import reducer, { initialState } from './reducer';
 
 const StyledRow = styled(Row)`
   position: relative;
@@ -34,44 +34,6 @@ const DetailContainer = styled(Column)`
   z-index: 1;
   justify-content: flex-start;
 `;
-
-const reducer = (state, action) => {
-  // disabling linter; default case does not apply, because all actions are known
-  // eslint-disable-next-line default-case
-  switch (action.type) {
-    case 'closeAll':
-      return { ...state, preview: undefined, edit: undefined, error: undefined, attachmentHref: '' };
-
-    case 'error':
-      return { ...state, error: action.payload };
-
-    case 'attachments':
-      return { ...state, attachments: action.payload };
-
-    case 'history':
-      return { ...state, history: action.payload };
-
-    case 'defaultTexts':
-      return { ...state, defaultTexts: action.payload };
-
-    case 'incident':
-      return { ...state, incident: { ...state.incident, ...action.payload } };
-
-    case 'patchStart':
-      return { ...state, patching: action.payload };
-
-    case 'patchSuccess':
-      return { ...state, patching: undefined };
-
-    case 'preview':
-      return { ...state, edit: undefined, ...action.payload };
-
-    case 'edit':
-      return { ...state, preview: undefined, ...action.payload };
-  }
-
-  return state;
-};
 
 const Preview = styled.div`
   background: white;
@@ -85,23 +47,16 @@ const Preview = styled.div`
   z-index: 1;
 `;
 
-const IncidentDetail = ({ attachmentHref, previewState }) => {
+const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter();
   const storeDispatch = useDispatch();
   const { id } = useParams();
-  const [state, dispatch] = useReducer(reducer, {
-    attachmentHref,
-    attachments: undefined,
-    error: undefined,
-    history: undefined,
-    incident: undefined,
-    preview: previewState,
-    patching: undefined,
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
   const { error, get: getIncident, data: incident, isSuccess, patch } = useFetch();
   const { get: getHistory, data: history } = useFetch();
   const { get: getAttachments, data: attachments } = useFetch();
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
+  const { get: getChildren, data: children } = useFetch();
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -148,8 +103,15 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   }, [defaultTexts]);
 
   useEffect(() => {
+    if (!children) return;
+
+    dispatch({ type: 'children', payload: children });
+  }, [children]);
+
+  useEffect(() => {
     if (!id) return;
 
+    dispatch({ type: 'reset' });
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
 
     // disabling linter; only need to update when the id changes
@@ -187,7 +149,24 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     if (!state.attachments) {
       getAttachments(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`);
     }
-  }, [getHistory, getAttachments, getDefaultTexts, state.attachments, state.defaultTexts, id, incident]);
+
+    // retrieve children only once per page load and only when an incident has children
+    const hasChildren = incident?._links['sia:children']?.length > 0;
+
+    if (!state.children && hasChildren) {
+      getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children`);
+    }
+  }, [
+    getAttachments,
+    getChildren,
+    getDefaultTexts,
+    getHistory,
+    id,
+    incident,
+    state.attachments,
+    state.children,
+    state.defaultTexts,
+  ]);
 
   const handleKeyUp = useCallback(
     event => {
@@ -248,7 +227,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
           <AddNote />
 
-          <ChildIncidents />
+          {state.children && <ChildIncidents incidents={state.children.results} />}
 
           {state.history && <History list={state.history} />}
         </DetailContainer>
@@ -278,16 +257,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
       </StyledRow>
     </IncidentDetailContext.Provider>
   );
-};
-
-IncidentDetail.defaultProps = {
-  previewState: '',
-  attachmentHref: '',
-};
-
-IncidentDetail.propTypes = {
-  previewState: PropTypes.string,
-  attachmentHref: PropTypes.string,
 };
 
 export default IncidentDetail;
