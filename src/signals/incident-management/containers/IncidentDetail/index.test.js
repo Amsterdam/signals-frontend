@@ -65,6 +65,9 @@ const attachments = {
 
 const id = '999999';
 
+// This test suite relies on internals of components that are rendered by the IncidentDetail container component
+// to be able to ensure that closing of preview and edit views work.
+
 describe('signals/incident-management/containers/IncidentDetail', () => {
   beforeEach(() => {
     fetch.resetMocks();
@@ -392,30 +395,6 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       );
     });
 
-    it('should handle 400', async () => {
-      const error = new Error('Could not store for some reason');
-      error.status = 400;
-      fetch.mockRejectOnce(error);
-
-      expect(emit).not.toHaveBeenCalled();
-      expect(dispatch).not.toHaveBeenCalled();
-
-      act(() => {
-        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
-      });
-
-      await findByTestId('incidentDetail');
-
-      expect(emit).not.toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledWith(
-        showGlobalNotification(
-          expect.objectContaining({
-            message: 'Deze wijziging is niet toegestaan in deze situatie.',
-          })
-        )
-      );
-    });
-
     it('should handle 401', async () => {
       const error = new Error('Could not store for some reason');
       error.status = 401;
@@ -434,7 +413,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).toHaveBeenCalledWith(
         showGlobalNotification(
           expect.objectContaining({
-            message: 'Voor deze bewerking is een geautoriseerde sessie noodzakelijk',
+            title: 'Geen bevoegdheid',
           })
         )
       );
@@ -458,31 +437,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).toHaveBeenCalledWith(
         showGlobalNotification(
           expect.objectContaining({
-            message: 'Je bent niet voldoende rechten om deze actie uit te voeren.',
-          })
-        )
-      );
-    });
-
-    it('should handle 500', async () => {
-      const error = new Error('Could not store for some reason');
-      error.status = 500;
-      fetch.mockRejectOnce(error);
-
-      expect(emit).not.toHaveBeenCalled();
-      expect(dispatch).not.toHaveBeenCalled();
-
-      act(() => {
-        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
-      });
-
-      await findByTestId('incidentDetail');
-
-      expect(emit).not.toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledWith(
-        showGlobalNotification(
-          expect.objectContaining({
-            message: 'Een fout op de server heeft voorkomen dat deze actie uitgevoerd kon worden. Probeer het nogmaals.',
+            title: 'Geen bevoegdheid',
           })
         )
       );

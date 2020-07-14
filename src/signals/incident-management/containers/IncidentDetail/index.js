@@ -10,6 +10,7 @@ import History from 'components/History';
 import { useFetch, useEventEmitter } from 'hooks';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { getErrorMessage } from 'shared/services/api/api';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -112,29 +113,8 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     dispatch({ type: 'error', payload: error });
 
     if (error) {
-      let title = 'Bewerking niet mogelijk';
-      let message;
-
-      switch (error.status) {
-        case 500:
-          message = 'Een fout op de server heeft voorkomen dat deze actie uitgevoerd kon worden. Probeer het nogmaals.';
-          break;
-
-        case 401:
-          title = 'Geen bevoegdheid';
-          message = 'Voor deze bewerking is een geautoriseerde sessie noodzakelijk';
-          break;
-
-        case 403:
-          title = 'Geen bevoegdheid';
-          message = 'Je bent niet voldoende rechten om deze actie uit te voeren.';
-          break;
-
-        case 400:
-        default:
-          message = 'Deze wijziging is niet toegestaan in deze situatie.';
-          break;
-      }
+      const title = error.status === 401 || error.status === 403 ? 'Geen bevoegdheid' : 'Bewerking niet mogelijk';
+      const message = getErrorMessage(error, 'Deze wijziging is niet toegestaan in deze situatie.');
 
       storeDispatch(
         showGlobalNotification({
@@ -150,21 +130,18 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   useEffect(() => {
     if (!history) return;
 
-    // console.log('history fetched');
     dispatch({ type: 'history', payload: history });
   }, [history]);
 
   useEffect(() => {
     if (!attachments) return;
 
-    // console.log(attachments);
     dispatch({ type: 'attachments', payload: attachments?.results });
   }, [attachments]);
 
   useEffect(() => {
     if (!defaultTexts) return;
 
-    // console.log('defaultTexts fetched');
     dispatch({ type: 'defaultTexts', payload: defaultTexts });
   }, [defaultTexts]);
 
@@ -210,17 +187,20 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     }
   }, [getHistory, getAttachments, getDefaultTexts, state.attachments, state.defaultTexts, id, incident]);
 
-  const handleKeyUp = useCallback(event => {
-    switch (event.key) {
-      case 'Esc':
-      case 'Escape':
-        closeDispatch();
-        break;
+  const handleKeyUp = useCallback(
+    event => {
+      switch (event.key) {
+        case 'Esc':
+        case 'Escape':
+          closeDispatch();
+          break;
 
-      default:
-        break;
-    }
-  }, [closeDispatch]);
+        default:
+          break;
+      }
+    },
+    [closeDispatch]
+  );
 
   const updateDispatch = useCallback(
     action => {
