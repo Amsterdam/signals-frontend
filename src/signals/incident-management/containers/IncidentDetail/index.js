@@ -69,6 +69,8 @@ const reducer = (state, action) => {
     case 'edit':
       return { ...state, preview: undefined, ...action.payload };
   }
+
+  return state;
 };
 
 const Preview = styled.div`
