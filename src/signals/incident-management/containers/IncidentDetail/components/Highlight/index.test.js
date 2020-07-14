@@ -58,6 +58,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/HighL
       </Highlight>
     );
 
+    // testing against class name, instead of ::after pseudo element; jest styled components cannot target pseudo elements
     expect(document.querySelector('.animate')).not.toBeInTheDocument();
 
     act(() => {
