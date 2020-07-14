@@ -1,45 +1,78 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
+import 'jest-styled-components';
+
+import useEventEmitter from 'hooks/useEventEmitter';
 
 import Highlight, { HIGHLIGHT_TIMEOUT_INTERVAL } from '.';
 
-describe('<Highlight />', () => {
-  beforeEach(() => {
+describe('signals/incident-management/containers/IncidentDetail/components/HighLight', () => {
+  beforeAll(() => {
     jest.useFakeTimers();
-  });
-
-  afterEach(() => {
-    jest.runAllTimers();
-    cleanup();
   });
 
   describe('rendering', () => {
     it('should render all children that are passed in', () => {
-      const string = 'foo';
       const { queryAllByTestId } = render(
-        <Highlight subscribeTo={string}><div data-testid="highlight-child">some text</div></Highlight>
+        <Highlight type="foo">
+          <div data-testid="highlight-child">some text</div>
+        </Highlight>
       );
 
       expect(queryAllByTestId('highlight-child')).toHaveLength(1);
     });
   });
 
-  describe('events', () => {
-    it(`should highlight the container when the value has changed and de-highlight after ${HIGHLIGHT_TIMEOUT_INTERVAL} msecs`, () => {
-      const { queryByTestId, rerender } = render(
-        <Highlight subscribeTo="foo"><div>some text</div></Highlight>
-      );
-      expect(queryByTestId('highlight')).not.toHaveClass('highlight--active');
+  it('should not animate when types do not match', () => {
+    jest.spyOn(global.window, 'setTimeout');
+    const { result } = renderHook(() => useEventEmitter());
+    render(
+      <Highlight type="qux">
+        <div>some text</div>
+      </Highlight>
+    );
 
-      rerender(
-        <Highlight subscribeTo="changed"><div>some text</div></Highlight>
-      );
+    expect(global.window.setTimeout).not.toHaveBeenCalledWith(expect.any(Function), HIGHLIGHT_TIMEOUT_INTERVAL);
 
-      jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL - 1);
-      expect(queryByTestId('highlight')).toHaveClass('highlight--active');
-
-      jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL);
-      expect(queryByTestId('highlight')).not.toHaveClass('highlight--active');
+    act(() => {
+      result.current.emit('highlight', { type: 'zork' });
     });
+
+    expect(global.window.setTimeout).not.toHaveBeenCalledWith(expect.any(Function), HIGHLIGHT_TIMEOUT_INTERVAL);
+
+    act(() => {
+      result.current.emit('highlight', { type: 'qux' });
+    });
+
+    expect(global.window.setTimeout).toHaveBeenCalledWith(expect.any(Function), HIGHLIGHT_TIMEOUT_INTERVAL);
+
+    global.window.setTimeout.mockRestore();
+  });
+
+  it('should animate', () => {
+    const { result } = renderHook(() => useEventEmitter());
+    const { unmount } = render(
+      <Highlight type="bar">
+        <div>some text</div>
+      </Highlight>
+    );
+
+    // testing against class name, instead of ::after pseudo element; jest styled components cannot target pseudo elements
+    expect(document.querySelector('.animate')).not.toBeInTheDocument();
+
+    act(() => {
+      result.current.emit('highlight', { type: 'bar' });
+    });
+
+    expect(document.querySelector('.animate')).toBeInTheDocument();
+
+    act(() => {
+      jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL);
+    });
+
+    expect(document.querySelector('.animate')).toBeInTheDocument();
+
+    unmount();
   });
 });

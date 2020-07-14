@@ -7,7 +7,6 @@ import { push } from 'connected-react-router/immutable';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import incidentsJSON from 'utils/__tests__/fixtures/incidents.json';
 import { authCall, authDeleteCall, authPatchCall, authPostCall } from 'shared/services/api/api';
-import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
 import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 import watchIncidentManagementSaga, {
@@ -38,6 +37,7 @@ import {
   REQUEST_INCIDENTS,
   PAGE_CHANGED,
   ORDERING_CHANGED,
+  PATCH_INCIDENT_SUCCESS,
 } from '../constants';
 import {
   filterSaveFailed,

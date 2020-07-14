@@ -2,10 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import { store, withAppContext } from 'test/utils';
-import incidentJson from 'utils/__tests__/fixtures/incident.json';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
-import { requestIncidentSuccess } from 'models/incident/actions';
 
 import { IncidentSplitContainer } from '.';
 
@@ -14,7 +13,6 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }));
 
-store.dispatch(requestIncidentSuccess(incidentJson));
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
 jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -28,14 +26,35 @@ jest.mock('../../components/FieldControlWrapper', () => ({
   default: () => (<span />),
 }));
 
+const attachments = {
+  _links: {
+    self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/999999/attachments' },
+    next: { href: null },
+    previous: { href: null },
+  },
+  count: 1,
+  results: [
+    {
+      _display: 'Attachment object (980)',
+      _links: { self: { href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/999999/attachments' } },
+      location: 'https://ae70d54aca324d0480ca01934240c78f.jpg',
+      is_image: true,
+      created_at: '2020-06-10T11:51:24.281272+02:00',
+    },
+  ],
+};
+
 describe('<IncidentSplitContainer />', () => {
   it('should render correctly', async () => {
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }],
+      [JSON.stringify(attachments), { status: 200 }]
+    );
+
     const props = {
       onSplitIncident: jest.fn(),
       onGoBack: jest.fn(),
     };
-
-    fetch.mockResponseOnce(JSON.stringify(incidentJson));
 
     const { queryByTestId, queryAllByTestId, findByTestId } = render(
       withAppContext(<IncidentSplitContainer {...props} />)

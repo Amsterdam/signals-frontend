@@ -1,20 +1,18 @@
-import React, { useLayoutEffect, useCallback, useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
-import { patchIncident as patchIncidentAction } from 'models/incident/actions';
 
-import { incidentType } from 'shared/types';
 import RadioInput from 'signals/incident-management/components/RadioInput';
 
 import ChangeValue from './components/ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
+import IncidentDetailContext from '../../context';
 
 const List = styled.dl`
   dt {
@@ -45,9 +43,8 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-const MetaList = ({ incident, onEditStatus }) => {
-  const dispatch = useDispatch();
-  const [valueChanged, setValueChanged] = useState(false);
+const MetaList = () => {
+  const { incident, update, edit } = useContext(IncidentDetailContext);
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () =>
@@ -70,19 +67,6 @@ const MetaList = ({ incident, onEditStatus }) => {
     'closure requested',
   ].includes(incident.status.state);
 
-  useLayoutEffect(() => {
-    setValueChanged(false);
-  }, [incident.id]);
-
-  const patchIncident = useCallback(
-    patchedData => {
-      setValueChanged(true);
-
-      dispatch(patchIncidentAction(patchedData));
-    },
-    [dispatch]
-  );
-
   return (
     <List>
       <dt data-testid="meta-list-date-definition">Gemeld op</dt>
@@ -90,7 +74,7 @@ const MetaList = ({ incident, onEditStatus }) => {
         {string2date(incident.created_at)} {string2time(incident.created_at)}
       </dd>
 
-      <Highlight subscribeTo={incident.status.state} valueChanged={valueChanged}>
+      <Highlight type="status">
         <dt data-testid="meta-list-status-definition">
           <EditButton
             data-testid="editStatusButton"
@@ -98,7 +82,7 @@ const MetaList = ({ incident, onEditStatus }) => {
             iconSize={18}
             variant="application"
             type="button"
-            onClick={onEditStatus}
+            onClick={() => edit('status')}
           />
           Status
         </dt>
@@ -108,28 +92,26 @@ const MetaList = ({ incident, onEditStatus }) => {
       </Highlight>
 
       {incident.priority && (
-        <Highlight subscribeTo={incident.priority.priority} valueChanged={valueChanged}>
+        <Highlight type="priority">
           <ChangeValue
             display="Urgentie"
             valueClass={incident.priority.priority === 'high' ? 'alert' : ''}
             list={priorityList}
-            incident={incident}
             path="priority.priority"
             type="priority"
-            onPatchIncident={patchIncident}
+            onPatchIncident={update}
             component={RadioInput}
           />
         </Highlight>
       )}
 
       {incident.type && (
-        <Highlight subscribeTo={incident.type.code} valueChanged={valueChanged}>
+        <Highlight type="type">
           <ChangeValue
             component={RadioInput}
             display="Type"
-            incident={incident}
             list={typesList}
-            onPatchIncident={patchIncident}
+            onPatchIncident={update}
             path="type.code"
             type="type"
           />
@@ -137,14 +119,13 @@ const MetaList = ({ incident, onEditStatus }) => {
       )}
 
       {subcategoryOptions && (
-        <Highlight subscribeTo={incident.category.sub_slug} valueChanged={valueChanged}>
+        <Highlight type="subcategory">
           <ChangeValue
             disabled={subcatHighlightDisabled}
             display="Subcategorie"
             list={subcategoryOptions}
-            incident={incident}
             infoKey="description"
-            onPatchIncident={patchIncident}
+            onPatchIncident={update}
             patch={{ status: { state: 'm' } }}
             path="category.sub_category"
             sort
@@ -154,7 +135,7 @@ const MetaList = ({ incident, onEditStatus }) => {
         </Highlight>
       )}
 
-      <Highlight subscribeTo={incident.category.main_slug} valueChanged={valueChanged}>
+      <Highlight type="subcategory">
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
       </Highlight>
@@ -163,11 +144,6 @@ const MetaList = ({ incident, onEditStatus }) => {
       <dd data-testid="meta-list-source-value">{incident.source}</dd>
     </List>
   );
-};
-
-MetaList.propTypes = {
-  incident: incidentType.isRequired,
-  onEditStatus: PropTypes.func.isRequired,
 };
 
 export default MetaList;

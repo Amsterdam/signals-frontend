@@ -160,7 +160,6 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   useEffect(() => {
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
     setInitialMount(true);
-
     // eslint-disable-next-line
   }, []);
 

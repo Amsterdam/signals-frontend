@@ -1,18 +1,15 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
 
 import BackLink from 'components/BackLink';
-import { PATCH_TYPE_THOR } from 'models/incident/constants';
 import Button from 'components/Button';
 import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
-import { linksType } from 'shared/types';
-import { patchIncident as patchIncidentAction } from 'models/incident/actions';
 
 import DownloadButton from './components/DownloadButton';
+import { PATCH_TYPE_THOR } from '../../constants';
+import IncidentDetailContext from '../../context';
 
 const Header = styled.header`
   display: grid;
@@ -88,14 +85,14 @@ const ParentLink = styled(Link)`
   color: black;
 `;
 
-const DetailHeader = ({ status, incidentId, links }) => {
-  const dispatch = useDispatch();
+const DetailHeader = () => {
+  const { incident, update } = useContext(IncidentDetailContext);
   const location = useLocation();
-  const canSplit = status === 'm' && !(links?.['sia:children'] || links?.['sia:parent']);
-  const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === status);
-  const downloadLink = links?.['sia:pdf']?.href;
+  const canSplit =
+    incident.status.state === 'm' && !(incident?._links?.['sia:children'] || incident?._links?.['sia:parent']);
+  const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === incident.status.state);
+  const downloadLink = incident?._links?.['sia:pdf']?.href;
   const patch = {
-    id: incidentId,
     type: PATCH_TYPE_THOR,
     patch: {
       status: {
@@ -107,11 +104,11 @@ const DetailHeader = ({ status, incidentId, links }) => {
   };
 
   const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : INCIDENTS_URL;
-  const parentId = links?.['sia:parent']?.href?.split('/').pop();
+  const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop();
 
   const patchIncident = useCallback(() => {
-    dispatch(patchIncidentAction(patch));
-  }, [dispatch, patch]);
+    update(patch);
+  }, [update, patch]);
 
   return (
     <Header className="detail-header">
@@ -127,7 +124,7 @@ const DetailHeader = ({ status, incidentId, links }) => {
               {parentId}
             </ParentLink>
           )}
-          <span>{incidentId}</span>
+          <span>{incident.id}</span>
         </StyledHeading>
       </HeadingContainer>
 
@@ -136,7 +133,7 @@ const DetailHeader = ({ status, incidentId, links }) => {
           <ButtonLink
             variant="application"
             forwardedAs={Link}
-            to={`${INCIDENT_URL}/${incidentId}/split`}
+            to={`${INCIDENT_URL}/${incident.id}/split`}
             data-testid="detail-header-button-split"
           >
             Splitsen
@@ -152,18 +149,12 @@ const DetailHeader = ({ status, incidentId, links }) => {
         <DownloadButton
           label="PDF"
           url={downloadLink}
-          filename={`SIA melding ${incidentId}.pdf`}
+          filename={`SIA melding ${incident.id}.pdf`}
           data-testid="detail-header-button-download"
         />
       </ButtonContainer>
     </Header>
   );
-};
-
-DetailHeader.propTypes = {
-  incidentId: PropTypes.number.isRequired,
-  links: linksType,
-  status: PropTypes.string.isRequired,
 };
 
 export default DetailHeader;

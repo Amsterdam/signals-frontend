@@ -22,6 +22,7 @@ export function* splitIncident(action) {
         call(authPatchCall, `${CONFIGURATION.INCIDENTS_ENDPOINT}${child.id}`, formatUpdateIncident(payload.update[key]))
       )
     );
+
     yield put(splitIncidentSuccess({ id: payload.id, created }));
     yield put(push(`/manage/incident/${payload.id}`));
     yield put(
