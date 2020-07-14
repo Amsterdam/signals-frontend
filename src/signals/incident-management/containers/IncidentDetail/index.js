@@ -35,6 +35,8 @@ const DetailContainer = styled(Column)`
 `;
 
 const reducer = (state, action) => {
+  // disabling linter; default case does not apply, because all actions are known
+  // eslint-disable-next-line default-case
   switch (action.type) {
     case 'closeAll':
       return { ...state, preview: undefined, edit: undefined, error: undefined, attachmentHref: '' };
@@ -65,9 +67,6 @@ const reducer = (state, action) => {
 
     case 'edit':
       return { ...state, preview: undefined, ...action.payload };
-
-    default:
-      return state;
   }
 };
 
@@ -293,7 +292,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
           </Preview>
         )}
 
-        {state.preview && <CloseButton aria-label="Sluiten" onClick={() => dispatch({ type: 'closeAll' })} />}
+        {state.preview && <CloseButton aria-label="Sluiten" onClick={closeDispatch} />}
       </StyledRow>
     </IncidentDetailContext.Provider>
   );
