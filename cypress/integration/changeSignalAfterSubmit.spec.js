@@ -133,7 +133,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
 
       // Check if background colour of changed element is flashing orange
-      createSignal.checkFlashingOrange();
+      createSignal.checkFlashingYellow();
 
       // Check location data
       cy.wait('@getSignals');
@@ -167,7 +167,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
 
       // Check if background colour of changed element is flashing orange
-      createSignal.checkFlashingOrange();
+      createSignal.checkFlashingYellow();
 
       // Check location data
       cy.wait('@getSignals');
@@ -226,7 +226,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.buttonSubmit).click();
 
       // Check if background colour of changed element is flashing orange
-      createSignal.checkFlashingOrange();
+      createSignal.checkFlashingYellow();
 
       // Check if status is 'In behandeling' with red coloured text
       cy.wait('@getSignals');
@@ -272,7 +272,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_URGENCY.buttonSubmit).click();
 
       // Check if background colour of changed element is flashing orange
-      createSignal.checkFlashingOrange();
+      createSignal.checkFlashingYellow();
 
       // Check urgency change
       cy.wait('@getSignals');
@@ -320,7 +320,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_TYPE.buttonSubmit).click();
 
       // Check if background colour of changed element is flashing orange
-      createSignal.checkFlashingOrange();
+      createSignal.checkFlashingYellow();
 
       // Check type change
       cy.wait('@getSignals');
@@ -350,7 +350,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_CATEGORY.buttonSubmit).click();
 
       // Check if background colour of changed element is flashing orange
-      createSignal.checkFlashingOrange();
+      createSignal.checkFlashingYellow();
 
       // Check change in subcategory, maincategory and department
       cy.wait('@getSignals');

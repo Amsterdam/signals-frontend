@@ -32,11 +32,11 @@ export const checkDescriptionPage = () => {
   });
 };
 
-export const checkFlashingOrange = () => {
-  cy.get('.highlight--active')
-    .then($els => {
-      const win = $els[0].ownerDocument.defaultView;
-      const after = win.getComputedStyle($els[0], 'after');
+export const checkFlashingYellow = () => {
+  cy.get('[data-testid="highlight"]')
+    .then($selectors => {
+      const win = $selectors[0].ownerDocument.defaultView;
+      const after = win.getComputedStyle($selectors[0], 'after');
       const contentValue = after.getPropertyValue('background-color');
       expect(contentValue).to.eq('rgb(254, 200, 19)');
     });
