@@ -176,7 +176,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         id: incidentFixture.id,
         type: PATCH_TYPE_STATUS,
         patch: {
-          status: { state: incidentFixture.status.state, text: '' },
+          status: { state: incidentFixture.status.state, text: '', send_email: false },
         },
       })
     );
