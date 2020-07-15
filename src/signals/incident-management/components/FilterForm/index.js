@@ -282,7 +282,7 @@ const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, 
             options={dataLists.status}
           />
 
-          {configuration.useAreasInsteadOfStadsdeel ? (
+          {configuration.useAreasInsteadOfStadsdeel && (
             <CheckboxGroup
               defaultValue={state.options.area}
               label={configuration.language.district}
@@ -291,7 +291,8 @@ const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, 
               onToggle={onGroupToggle}
               options={districts}
             />
-          ) : (
+          )}
+          {!configuration.useAreasInsteadOfStadsdeel && (
             <CheckboxGroup
               defaultValue={state.options.stadsdeel}
               label="Stadsdeel"

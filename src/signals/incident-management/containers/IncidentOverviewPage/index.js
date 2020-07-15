@@ -18,30 +18,27 @@ import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import MapContext from 'containers/MapContext';
 import dataLists from 'signals/incident-management/definitions';
 import useEventEmitter from 'hooks/useEventEmitter';
-
 import {
+  makeSelectDistricts,
   makeSelectActiveFilter,
   makeSelectIncidents,
   makeSelectOrdering,
   makeSelectPage,
 } from 'signals/incident-management/selectors';
+
 import { MAP_URL } from '../../routes';
 
 import ListComponent from './components/List';
 import OverviewMap from './components/Map';
 import SubNav from './components/SubNav';
 import FilterTagList from '../FilterTagList';
-import {
-  MapWrapper,
-  NoResults,
-  StyledButton,
-  StyledPagination,
-} from './styled';
+import { MapWrapper, NoResults, StyledButton, StyledPagination } from './styled';
 
 let lastActiveElement = null;
 
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
+  districts,
   incidents,
   ordering,
   orderingChangedAction,
@@ -164,6 +161,7 @@ export const IncidentOverviewPageContainerComponent = ({
                 onChangeOrdering={orderingChangedAction}
                 sort={ordering}
                 incidentsCount={count}
+                districts={districts}
                 {...dataLists}
               />
             )}
@@ -198,6 +196,7 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
+  districts: PropTypes.array.isRequired,
   incidents: PropTypes.shape({
     count: PropTypes.number,
     loading: PropTypes.bool,
@@ -211,6 +210,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   activeFilter: makeSelectActiveFilter,
+  districts: makeSelectDistricts,
   incidents: makeSelectIncidents,
   ordering: makeSelectOrdering,
   page: makeSelectPage,
