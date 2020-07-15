@@ -11,6 +11,7 @@ import historyFixture from 'utils/__tests__/fixtures/history.json';
 import useEventEmitter from 'hooks/useEventEmitter';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
 import IncidentDetail from '..';
 
@@ -360,6 +361,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     fetch.mockResponseOnce(JSON.stringify(incidentFixture));
 
     expect(emit).not.toHaveBeenCalled();
+    expect(dispatch).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(getByTestId('addNoteSaveNoteButton'));
@@ -371,9 +373,17 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     // and should emit highlight event
     expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' });
+    expect(dispatch).toHaveBeenCalledWith(patchIncidentSuccess());
+
+    expect(fetch).toHaveBeenNthCalledWith(
+      6,
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
 
     // after successful patch should request history
-    expect(fetch).toHaveBeenLastCalledWith(
+    expect(fetch).toHaveBeenNthCalledWith(
+      7,
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`,
       expect.objectContaining({ method: 'GET' })
     );
@@ -395,6 +405,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       act(() => {
         fireEvent.change(getByTestId('addNoteText'), { target: { value: 'Foo bar baz' } });
       });
+
+      await findByTestId('incidentDetail');
     });
 
     it('should handle generic', async () => {
