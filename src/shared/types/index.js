@@ -156,6 +156,26 @@ export const incidentType = PropTypes.shape({
   updated_at: dateType,
 });
 
+export const childIncidentType = PropTypes.exact({
+  _links: PropTypes.exact({
+    self: PropTypes.shape({
+      href: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  category: PropTypes.exact({
+    departments: PropTypes.string.isRequired,
+    main: PropTypes.string.isRequired,
+    main_slug: PropTypes.string.isRequired,
+    sub: PropTypes.string.isRequired,
+    sub_slug: PropTypes.string.isRequired,
+  }).isRequired,
+  id: PropTypes.number.isRequired,
+  status: PropTypes.exact({
+    state: PropTypes.string.isRequired,
+    state_display: PropTypes.string.isRequired,
+  }),
+});
+
 export const attachmentsType = PropTypes.arrayOf(
   PropTypes.shape({
     _display: PropTypes.string,

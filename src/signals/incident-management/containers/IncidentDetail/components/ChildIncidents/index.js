@@ -1,34 +1,29 @@
-import React, { Fragment, useMemo, useContext } from 'react';
+import React, { Fragment, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing, Heading } from '@datapunt/asc-ui';
 
+import { childIncidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
-import IncidentDetailContext from '../../context';
 
 const Title = styled(Heading)`
   font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ChildIncidents = () => {
-  const { incident } = useContext(IncidentDetailContext);
-
+const ChildIncidents = ({ incidents }) => {
   const children = useMemo(
     () =>
-      incident?._links?.['sia:children']?.map(({ href }) => {
-        const id = href.substring(href.lastIndexOf('/') + 1, href.length);
-
-        return {
-          href: `${INCIDENT_URL}/${id}`,
-          values: {
-            id,
-          },
-        };
-      }),
-    // disabling linter; we want to allow possible null incident
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [incident]
+      Object.values(incidents).map(({ status, category, id }) => ({
+        href: `${INCIDENT_URL}/${id}`,
+        values: {
+          id,
+          status: status.state_display,
+          category: `${category.sub} (${category.departments})`,
+        },
+      })),
+    [incidents]
   );
 
   if (!children?.length) {
@@ -44,6 +39,10 @@ const ChildIncidents = () => {
       <ChildIncidentsList incidents={children} />
     </Fragment>
   );
+};
+
+ChildIncidents.propTypes = {
+  incidents: PropTypes.arrayOf(childIncidentType).isRequired,
 };
 
 export default ChildIncidents;

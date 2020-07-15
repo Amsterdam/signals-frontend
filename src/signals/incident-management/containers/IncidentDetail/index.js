@@ -1,5 +1,4 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
@@ -24,6 +23,21 @@ import Detail from './components/Detail';
 import LocationPreview from './components/LocationPreview';
 import CloseButton from './components/CloseButton';
 import IncidentDetailContext from './context';
+import reducer, { initialState } from './reducer';
+import {
+  CLOSE_ALL,
+  EDIT,
+  PATCH_START,
+  PATCH_SUCCESS,
+  PREVIEW,
+  RESET,
+  SET_ATTACHMENTS,
+  SET_CHILDREN,
+  SET_DEFAULT_TEXTS,
+  SET_ERROR,
+  SET_HISTORY,
+  SET_INCIDENT,
+} from './constants';
 
 const StyledRow = styled(Row)`
   position: relative;
@@ -35,44 +49,6 @@ const DetailContainer = styled(Column)`
   z-index: 1;
   justify-content: flex-start;
 `;
-
-const reducer = (state, action) => {
-  // disabling linter; default case does not apply, because all actions are known
-  // eslint-disable-next-line default-case
-  switch (action.type) {
-    case 'closeAll':
-      return { ...state, preview: undefined, edit: undefined, error: undefined, attachmentHref: '' };
-
-    case 'error':
-      return { ...state, error: action.payload };
-
-    case 'attachments':
-      return { ...state, attachments: action.payload };
-
-    case 'history':
-      return { ...state, history: action.payload };
-
-    case 'defaultTexts':
-      return { ...state, defaultTexts: action.payload };
-
-    case 'incident':
-      return { ...state, incident: { ...state.incident, ...action.payload } };
-
-    case 'patchStart':
-      return { ...state, patching: action.payload };
-
-    case 'patchSuccess':
-      return { ...state, patching: undefined };
-
-    case 'preview':
-      return { ...state, edit: undefined, ...action.payload };
-
-    case 'edit':
-      return { ...state, preview: undefined, ...action.payload };
-  }
-
-  return state;
-};
 
 const Preview = styled.div`
   background: white;
@@ -86,23 +62,16 @@ const Preview = styled.div`
   z-index: 1;
 `;
 
-const IncidentDetail = ({ attachmentHref, previewState }) => {
+const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter();
   const storeDispatch = useDispatch();
   const { id } = useParams();
-  const [state, dispatch] = useReducer(reducer, {
-    attachmentHref,
-    attachments: undefined,
-    error: undefined,
-    history: undefined,
-    incident: undefined,
-    preview: previewState,
-    patching: undefined,
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
   const { error, get: getIncident, data: incident, isSuccess, patch } = useFetch();
   const { get: getHistory, data: history } = useFetch();
   const { get: getAttachments, data: attachments } = useFetch();
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
+  const { get: getChildren, data: children } = useFetch();
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -113,7 +82,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   }, [handleKeyUp, listenFor, unlisten]);
 
   useEffect(() => {
-    dispatch({ type: 'error', payload: error });
+    dispatch({ type: SET_ERROR, payload: error });
 
     if (error) {
       const title = error.status === 401 || error.status === 403 ? 'Geen bevoegdheid' : 'Bewerking niet mogelijk';
@@ -133,24 +102,31 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
   useEffect(() => {
     if (!history) return;
 
-    dispatch({ type: 'history', payload: history });
+    dispatch({ type: SET_HISTORY, payload: history });
   }, [history]);
 
   useEffect(() => {
     if (!attachments) return;
 
-    dispatch({ type: 'attachments', payload: attachments?.results });
+    dispatch({ type: SET_ATTACHMENTS, payload: attachments?.results });
   }, [attachments]);
 
   useEffect(() => {
     if (!defaultTexts) return;
 
-    dispatch({ type: 'defaultTexts', payload: defaultTexts });
+    dispatch({ type: SET_DEFAULT_TEXTS, payload: defaultTexts });
   }, [defaultTexts]);
+
+  useEffect(() => {
+    if (!children) return;
+
+    dispatch({ type: SET_CHILDREN, payload: children });
+  }, [children]);
 
   useEffect(() => {
     if (!id) return;
 
+    dispatch({ type: RESET });
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
 
     // disabling linter; only need to update when the id changes
@@ -161,14 +137,14 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     if (!isSuccess || !state.patching) return;
 
     emit('highlight', { type: state.patching });
-    dispatch({ type: 'patchSuccess', payload: state.patching });
+    dispatch({ type: PATCH_SUCCESS, payload: state.patching });
     storeDispatch(patchIncidentSuccess());
   }, [isSuccess, state.patching, emit, storeDispatch]);
 
   useEffect(() => {
     if (!incident) return;
 
-    dispatch({ type: 'incident', payload: incident });
+    dispatch({ type: SET_INCIDENT, payload: incident });
 
     retrieveUnderlyingData();
   }, [incident, retrieveUnderlyingData]);
@@ -189,7 +165,24 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
     if (!state.attachments) {
       getAttachments(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`);
     }
-  }, [getHistory, getAttachments, getDefaultTexts, state.attachments, state.defaultTexts, id, incident]);
+
+    // retrieve children only once per page load and only when an incident has children
+    const hasChildren = incident?._links['sia:children']?.length > 0;
+
+    if (!state.children && hasChildren) {
+      getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
+    }
+  }, [
+    getAttachments,
+    getChildren,
+    getDefaultTexts,
+    getHistory,
+    id,
+    incident,
+    state.attachments,
+    state.children,
+    state.defaultTexts,
+  ]);
 
   const handleKeyUp = useCallback(
     event => {
@@ -208,22 +201,22 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
   const updateDispatch = useCallback(
     action => {
-      dispatch({ type: 'patchStart', payload: action.type });
+      dispatch({ type: PATCH_START, payload: action.type });
       patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch);
     },
     [id, patch]
   );
 
   const previewDispatch = useCallback((section, payload) => {
-    dispatch({ type: 'preview', payload: { preview: section, ...payload } });
+    dispatch({ type: PREVIEW, payload: { preview: section, ...payload } });
   }, []);
 
   const editDispatch = useCallback((section, payload) => {
-    dispatch({ type: 'edit', payload: { edit: section, ...payload } });
+    dispatch({ type: EDIT, payload: { edit: section, ...payload } });
   }, []);
 
   const closeDispatch = useCallback(() => {
-    dispatch({ type: 'closeAll' });
+    dispatch({ type: CLOSE_ALL });
   }, []);
 
   if (!state.incident) return null;
@@ -250,7 +243,7 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
           <AddNote />
 
-          <ChildIncidents />
+          {state.children && <ChildIncidents incidents={state.children.results} />}
 
           {state.history && <History list={state.history} />}
         </DetailContainer>
@@ -280,16 +273,6 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
       </StyledRow>
     </IncidentDetailContext.Provider>
   );
-};
-
-IncidentDetail.defaultProps = {
-  previewState: '',
-  attachmentHref: '',
-};
-
-IncidentDetail.propTypes = {
-  previewState: PropTypes.string,
-  attachmentHref: PropTypes.string,
 };
 
 export default IncidentDetail;
