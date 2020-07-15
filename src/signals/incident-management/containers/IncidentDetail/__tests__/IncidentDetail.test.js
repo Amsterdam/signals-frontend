@@ -6,12 +6,13 @@ import * as reactRedux from 'react-redux';
 import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
+import childIncidentFixture from 'utils/__tests__/fixtures/childIncidents.json';
 import historyFixture from 'utils/__tests__/fixtures/history.json';
 import useEventEmitter from 'hooks/useEventEmitter';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
-import IncidentDetail from '.';
+import IncidentDetail from '..';
 
 // prevent fetch requests that we don't need to verify
 jest.mock('components/MapStatic', () => () => <span data-testid="mapStatic" />);
@@ -82,13 +83,12 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       [JSON.stringify(incidentFixture), { status: 200 }],
       [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
-      [JSON.stringify(attachments), { status: 200 }]
+      [JSON.stringify(attachments), { status: 200 }],
+      [JSON.stringify(childIncidentFixture), { status: 200 }]
     );
   });
 
   it('should retrieve incident data', async () => {
-    fetch.mockResponseOnce(JSON.stringify(incidentFixture));
-
     const { findByTestId } = render(withAppContext(<IncidentDetail />));
 
     expect(fetch).toHaveBeenCalledWith(
@@ -116,6 +116,11 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`,
       expect.objectContaining({ method: 'GET' })
     );
+
+    expect(fetch).toHaveBeenCalledWith(
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`,
+      expect.objectContaining({ method: 'GET' })
+    );
   });
 
   it('should not retrieve data', () => {
@@ -131,20 +136,37 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await findByTestId('incidentDetail');
 
-    expect(fetch).toHaveBeenCalledTimes(4);
-
-    fetch.mockResponses(
-      [JSON.stringify(incidentFixture), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
-      [JSON.stringify(statusMessageTemplates), { status: 200 }],
-      [JSON.stringify(attachments), { status: 200 }]
-    );
+    expect(fetch).toHaveBeenCalledTimes(5);
 
     rerender(withAppContext(<IncidentDetail />));
 
     await findByTestId('incidentDetail');
 
+    expect(fetch).toHaveBeenCalledTimes(5);
+  });
+
+  it('should not get child incidents', async () => {
+    fetch.resetMocks();
+
+    const incidentWithoutChildren = {
+      ...incidentFixture,
+      _links: { ...incidentFixture._links, 'sia:children': undefined },
+    };
+
+    fetch.mockResponses(
+      [JSON.stringify(incidentWithoutChildren), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
+      [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(attachments), { status: 200 }]
+    );
+
+    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+
+    await findByTestId('incidentDetail');
+
     expect(fetch).toHaveBeenCalledTimes(4);
+
+    expect(queryByTestId('childIncidents')).not.toBeInTheDocument();
   });
 
   it('should retrieve data when id param changes', async () => {
@@ -152,13 +174,14 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await findByTestId('incidentDetail');
 
-    expect(fetch).toHaveBeenCalledTimes(4);
+    expect(fetch).toHaveBeenCalledTimes(5);
 
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
       [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
-      [JSON.stringify(attachments), { status: 200 }]
+      [JSON.stringify(attachments), { status: 200 }],
+      [JSON.stringify(childIncidentFixture), { status: 200 }]
     );
 
     reactRouterDom.useParams.mockImplementation(() => ({
@@ -171,7 +194,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await findByTestId('incidentDetail');
 
-    expect(fetch).toHaveBeenCalledTimes(8);
+    expect(fetch).toHaveBeenCalledTimes(10);
   });
 
   it('should render correctly', async () => {
@@ -180,12 +203,14 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(queryByTestId('attachmentsDefinition')).not.toBeInTheDocument();
     expect(queryByTestId('history')).not.toBeInTheDocument();
     expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
+    expect(queryByTestId('childIncidents')).not.toBeInTheDocument();
 
     await findByTestId('incidentDetail');
 
     expect(getByTestId('attachmentsDefinition')).toBeInTheDocument();
     expect(getByTestId('history')).toBeInTheDocument();
     expect(getByTestId('mapStatic')).toBeInTheDocument();
+    expect(getByTestId('childIncidents')).toBeInTheDocument();
   });
 
   it('should handle Escape key', async () => {
