@@ -405,6 +405,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       act(() => {
         fireEvent.change(getByTestId('addNoteText'), { target: { value: 'Foo bar baz' } });
       });
+
+      await findByTestId('incidentDetail');
     });
 
     it('should handle generic', async () => {
