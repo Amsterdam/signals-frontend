@@ -2,8 +2,9 @@ import React, { Fragment, useMemo, useContext } from 'react';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
+import configuration from 'shared/services/configuration/configuration';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-import { locationType } from 'shared/types';
+import { dataListType, locationType } from 'shared/types';
 import { stadsdeelList } from 'signals/incident-management/definitions';
 import MapStatic from 'components/MapStatic';
 
@@ -40,7 +41,7 @@ const StyledHighLight = styled(HighLight)`
   }
 `;
 
-const Location = ({ location }) => {
+const Location = ({ districts, location }) => {
   const { preview, edit } = useContext(IncidentDetailContext);
   const latitude = location?.geometrie?.coordinates[1];
   const longitude = location?.geometrie?.coordinates[0];
@@ -83,22 +84,25 @@ const Location = ({ location }) => {
 
           {location.address_text ? (
             <div>
-              {location.stadsdeel && (
+              {configuration.useAreasInsteadOfStadsdeel && location.area_code && (
+                <div data-testid="location-value-address-stadsdeel">
+                  {configuration.language.district}: {getListValueByKey(districts, location.area_code)}
+                </div>
+              )}
+              {!configuration.useAreasInsteadOfStadsdeel && location.stadsdeel && (
                 <div data-testid="location-value-address-stadsdeel">
                   Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
                 </div>
               )}
 
               <div data-testid="location-value-address-street">
-                {location.address.openbare_ruimte}{' '}
-                {location.address.huisnummer}
+                {location.address.openbare_ruimte} {location.address.huisnummer}
                 {location.address.huisletter}
                 {location.address.huisnummer_toevoeging ? `-${location.address.huisnummer_toevoeging}` : ''}
               </div>
 
               <div data-testid="location-value-address-city">
-                {location.address.postcode}{' '}
-                {location.address.woonplaats}
+                {location.address.postcode} {location.address.woonplaats}
               </div>
             </div>
           ) : (
@@ -113,6 +117,7 @@ const Location = ({ location }) => {
 };
 
 Location.propTypes = {
+  districts: dataListType,
   location: locationType.isRequired,
 };
 

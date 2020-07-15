@@ -2,7 +2,8 @@ import React, { useReducer, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { compose } from 'redux';
 
 import configuration from 'shared/services/configuration/configuration';
 import History from 'components/History';
@@ -11,6 +12,9 @@ import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
+import { makeSelectDistricts } from 'signals/incident-management/selectors';
+
+import './style.scss';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -62,7 +66,7 @@ const Preview = styled.div`
   z-index: 1;
 `;
 
-const IncidentDetail = () => {
+const IncidentDetail = ({ districts }) => {
   const { emit, listenFor, unlisten } = useEventEmitter();
   const storeDispatch = useDispatch();
   const { id } = useParams();
@@ -239,7 +243,7 @@ const IncidentDetail = () => {
 
       <StyledRow>
         <DetailContainer span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}>
-          <Detail attachments={state.attachments} />
+          <Detail attachments={state.attachments} districts={districts} />
 
           <AddNote />
 
@@ -268,11 +272,22 @@ const IncidentDetail = () => {
             )}
           </Preview>
         )}
-
         {state.preview && <CloseButton aria-label="Sluiten" onClick={closeDispatch} />}
       </StyledRow>
     </IncidentDetailContext.Provider>
   );
 };
 
-export default IncidentDetail;
+IncidentDetail.propTypes = {
+  districts: dataListType,
+};
+
+/* istanbul ignore next */
+const mapStateToProps = () =>
+  createStructuredSelector({
+    districts: makeSelectDistricts,
+  });
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(withConnect)(IncidentDetail);

@@ -196,7 +196,7 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
-  districts: PropTypes.array.isRequired,
+  districts: types.dataListType,
   incidents: PropTypes.shape({
     count: PropTypes.number,
     loading: PropTypes.bool,

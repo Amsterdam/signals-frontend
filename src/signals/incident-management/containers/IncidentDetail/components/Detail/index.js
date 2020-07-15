@@ -2,8 +2,7 @@ import React, { useMemo, useContext } from 'react';
 import styled from 'styled-components';
 import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
-import { attachmentsType } from 'shared/types';
-
+import { attachmentsType, dataListType } from 'shared/types';
 import { string2date, string2time } from 'shared/services/string-parser';
 
 import Location from './components/Location';
@@ -54,7 +53,7 @@ const DefinitionList = styled.dl`
   }
 `;
 
-const Detail = ({ attachments }) => {
+const Detail = ({ attachments, districts }) => {
   const { incident } = useContext(IncidentDetailContext);
   const memoIncident = useMemo(() => incident, [incident]);
   const memoAttachments = useMemo(() => attachments, [attachments]);
@@ -72,7 +71,7 @@ const Detail = ({ attachments }) => {
           {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
         </dd>
 
-        <Location location={location} />
+        <Location districts={districts} location={location} />
 
         {memoAttachments && <Attachments attachments={memoAttachments} />}
 
@@ -92,6 +91,7 @@ const Detail = ({ attachments }) => {
 };
 
 Detail.propTypes = {
+  districts: dataListType,
   attachments: attachmentsType,
 };
 
