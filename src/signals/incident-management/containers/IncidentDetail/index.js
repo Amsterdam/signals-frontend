@@ -23,6 +23,20 @@ import LocationPreview from './components/LocationPreview';
 import CloseButton from './components/CloseButton';
 import IncidentDetailContext from './context';
 import reducer, { initialState } from './reducer';
+import {
+  CLOSE_ALL,
+  EDIT,
+  PATCH_START,
+  PATCH_SUCCESS,
+  PREVIEW,
+  RESET,
+  SET_ATTACHMENTS,
+  SET_CHILDREN,
+  SET_DEFAULT_TEXTS,
+  SET_ERROR,
+  SET_HISTORY,
+  SET_INCIDENT,
+} from './constants';
 
 const StyledRow = styled(Row)`
   position: relative;
@@ -67,7 +81,7 @@ const IncidentDetail = () => {
   }, [handleKeyUp, listenFor, unlisten]);
 
   useEffect(() => {
-    dispatch({ type: 'error', payload: error });
+    dispatch({ type: SET_ERROR, payload: error });
 
     if (error) {
       const title = error.status === 401 || error.status === 403 ? 'Geen bevoegdheid' : 'Bewerking niet mogelijk';
@@ -87,31 +101,31 @@ const IncidentDetail = () => {
   useEffect(() => {
     if (!history) return;
 
-    dispatch({ type: 'history', payload: history });
+    dispatch({ type: SET_HISTORY, payload: history });
   }, [history]);
 
   useEffect(() => {
     if (!attachments) return;
 
-    dispatch({ type: 'attachments', payload: attachments?.results });
+    dispatch({ type: SET_ATTACHMENTS, payload: attachments?.results });
   }, [attachments]);
 
   useEffect(() => {
     if (!defaultTexts) return;
 
-    dispatch({ type: 'defaultTexts', payload: defaultTexts });
+    dispatch({ type: SET_DEFAULT_TEXTS, payload: defaultTexts });
   }, [defaultTexts]);
 
   useEffect(() => {
     if (!children) return;
 
-    dispatch({ type: 'children', payload: children });
+    dispatch({ type: SET_CHILDREN, payload: children });
   }, [children]);
 
   useEffect(() => {
     if (!id) return;
 
-    dispatch({ type: 'reset' });
+    dispatch({ type: RESET });
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
 
     // disabling linter; only need to update when the id changes
@@ -122,13 +136,13 @@ const IncidentDetail = () => {
     if (!isSuccess || !state.patching) return;
 
     emit('highlight', { type: state.patching });
-    dispatch({ type: 'patchSuccess', payload: state.patching });
+    dispatch({ type: PATCH_SUCCESS, payload: state.patching });
   }, [isSuccess, state.patching, emit]);
 
   useEffect(() => {
     if (!incident) return;
 
-    dispatch({ type: 'incident', payload: incident });
+    dispatch({ type: SET_INCIDENT, payload: incident });
 
     retrieveUnderlyingData();
   }, [incident, retrieveUnderlyingData]);
@@ -185,22 +199,22 @@ const IncidentDetail = () => {
 
   const updateDispatch = useCallback(
     action => {
-      dispatch({ type: 'patchStart', payload: action.type });
+      dispatch({ type: PATCH_START, payload: action.type });
       patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch);
     },
     [id, patch]
   );
 
   const previewDispatch = useCallback((section, payload) => {
-    dispatch({ type: 'preview', payload: { preview: section, ...payload } });
+    dispatch({ type: PREVIEW, payload: { preview: section, ...payload } });
   }, []);
 
   const editDispatch = useCallback((section, payload) => {
-    dispatch({ type: 'edit', payload: { edit: section, ...payload } });
+    dispatch({ type: EDIT, payload: { edit: section, ...payload } });
   }, []);
 
   const closeDispatch = useCallback(() => {
-    dispatch({ type: 'closeAll' });
+    dispatch({ type: CLOSE_ALL });
   }, []);
 
   if (!state.incident) return null;
