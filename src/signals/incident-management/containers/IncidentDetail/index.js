@@ -4,7 +4,9 @@ import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import { connect, useDispatch } from 'react-redux';
 import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
+import { dataListType } from 'shared/types';
 import configuration from 'shared/services/configuration/configuration';
 import History from 'components/History';
 import { useFetch, useEventEmitter } from 'hooks';
@@ -13,8 +15,6 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
 import { makeSelectDistricts } from 'signals/incident-management/selectors';
-
-import './style.scss';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';

@@ -5,6 +5,7 @@ import { markerIcon } from 'shared/services/configuration/map-markers';
 import { Marker } from '@datapunt/react-maps';
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import configuration from 'shared/services/configuration/configuration';
 import { locationType } from 'shared/types';
 import './style.scss';
 
@@ -14,6 +15,7 @@ const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
   const lng = location && location[0];
   const options = {
     ...MAP_OPTIONS,
+    ...(configuration.map.optionsBackOffice || {}),
     zoom,
     attributionControl: false,
     center: [lat, lng],

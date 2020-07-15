@@ -52,7 +52,12 @@
           "format": "uri"
         },
         "AUTH_ME_ENDPOINT": {
-          "description": "URl for the authorization endpoint; retrieves user profile data\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_user_auth_me for reference",
+          "description": "URL for the authorization endpoint; retrieves user profile data\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_user_auth_me for reference",
+          "type": "string",
+          "format": "uri"
+        },
+        "AREAS_ENDPOINT": {
+          "description": "URL for the areas endpoint; retrieves geographical areas\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_areas_geography_ for reference",
           "type": "string",
           "format": "uri"
         },
@@ -175,6 +180,7 @@
         }
       },
       "required": [
+        "AREAS_ENDPOINT",
         "AUTH_ME_ENDPOINT",
         "CATEGORIES_ENDPOINT",
         "CATEGORIES_PRIVATE_ENDPOINT",
