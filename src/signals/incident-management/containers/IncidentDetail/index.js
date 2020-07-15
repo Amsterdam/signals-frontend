@@ -168,7 +168,7 @@ const IncidentDetail = () => {
     const hasChildren = incident?._links['sia:children']?.length > 0;
 
     if (!state.children && hasChildren) {
-      getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children`);
+      getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
     }
   }, [
     getAttachments,

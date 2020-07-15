@@ -118,7 +118,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     );
 
     expect(fetch).toHaveBeenCalledWith(
-      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children`,
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`,
       expect.objectContaining({ method: 'GET' })
     );
   });
