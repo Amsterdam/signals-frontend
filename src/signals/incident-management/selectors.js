@@ -2,6 +2,7 @@ import { fromJS } from 'immutable';
 
 import { parseInputFormData } from 'signals/shared/filter/parse';
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
+import configuration from 'shared/services/configuration/configuration';
 
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
@@ -18,7 +19,7 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
     .push({ code: 'null', name: 'Niet bepaald' })
     .toJS()
     .map(district => ({
-      key: district.type ? `${district.type.code}:${district.code}` : district.code,
+      key: district.code,
       value: district.name,
     }))
 );
@@ -99,28 +100,30 @@ export const makeSelectEditFilter = createSelector(
   }
 );
 
+const filterParamsMap = {
+  area: 'area_code',
+  areaType: 'area_type',
+};
+const mapFilterParam = param => (filterParamsMap[param] ? filterParamsMap[param] : param);
+
 export const makeSelectFilterParams = createSelector(selectIncidentManagementDomain, incidentManagementState => {
-  const incidentManagement = incidentManagementState.toJS();
-  const filter = incidentManagement.activeFilter;
-  const { options } = filter;
-  const { page } = incidentManagement;
-  let { ordering } = incidentManagement;
-
-  if (ordering === 'days_open') {
-    ordering = '-created_at';
-  }
-
-  if (ordering === '-days_open') {
-    ordering = 'created_at';
-  }
-
+  const { activeFilter: filter, ordering, page } = incidentManagementState.toJS();
+  const orderingWithDaysOpen = ordering === 'days_open' ? '-created_at' : ordering;
+  const finalOrdering = orderingWithDaysOpen === '-days_open' ? 'created_at' : orderingWithDaysOpen;
   const pagingOptions = {
     page,
-    ordering,
+    finalOrdering,
     page_size: FILTER_PAGE_SIZE,
   };
+  const options = filter.options.area
+    ? { ...filter.options, areaType: configuration.areaTypeCodeForDistrict }
+    : filter.options;
+  const optionParams = Object.keys(options).reduce((acc, key) => ({ ...acc, [mapFilterParam(key)]: options[key] }), {});
 
-  return { ...options, ...pagingOptions };
+  return {
+    ...optionParams,
+    ...pagingOptions,
+  };
 });
 
 export const makeSelectPage = createSelector(selectIncidentManagementDomain, state => {
