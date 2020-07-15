@@ -32,20 +32,26 @@ export const initialState = fromJS({
     options: {},
   },
   districts: [],
+  districtsLoading: false,
   editFilter: {
     // settings selected for editing
     name: '',
     options: {},
   },
   filters: [],
+  filtersLoading: false,
   incidents: {
     count: undefined,
     results: [],
   },
+  incidentsLoading: false,
   loading: false,
   ordering: '-created_at',
   page: 1,
 });
+
+const updateLoading = state =>
+  state.set('loading', state.get('districtsLoading') || state.get('filtersLoading') || state.get('incidentsLoading'));
 
 export default (state = initialState, action) => {
   let newFilters;
@@ -53,13 +59,13 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case GET_DISTRICTS_SUCCESS:
-      return state.set('districts', fromJS(action.payload)).set('loading', false);
+      return updateLoading(state.set('districts', fromJS(action.payload)).set('districtsLoading', false));
 
     case GET_DISTRICTS_FAILED:
-      return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
+      return updateLoading(state.set('districtsLoading', false).set('error', true).set('errorMessage', action.payload));
 
     case GET_FILTERS_SUCCESS:
-      return state.set('filters', fromJS(action.payload)).set('loading', false);
+      return updateLoading(state.set('filters', fromJS(action.payload)).set('filtersLoading', false));
 
     case GET_FILTERS_FAILED:
       return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
@@ -85,22 +91,26 @@ export default (state = initialState, action) => {
     case GET_FILTERS_FAILED:
     case SAVE_FILTER_FAILED:
     case UPDATE_FILTER_FAILED:
-      return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
+      return updateLoading(state.set('filtersLoading', false).set('error', true).set('errorMessage', action.payload));
 
     case SAVE_FILTER_SUCCESS:
     case UPDATE_FILTER_SUCCESS:
-      return state
-        .set('activeFilter', fromJS(action.payload))
-        .set('error', false)
-        .set('errorMessage', undefined)
-        .set('loading', false);
+      return updateLoading(
+        state
+          .set('activeFilter', fromJS(action.payload))
+          .set('error', false)
+          .set('errorMessage', undefined)
+          .set('filtersLoading', false)
+      );
 
     case CLEAR_EDIT_FILTER:
-      return state
-        .set('editFilter', initialState.get('editFilter'))
-        .set('error', false)
-        .set('errorMessage', undefined)
-        .set('loading', false);
+      return updateLoading(
+        state
+          .set('editFilter', initialState.get('editFilter'))
+          .set('error', false)
+          .set('errorMessage', undefined)
+          .set('filtersLoading', false)
+      );
 
     case FILTER_EDIT_CANCELED:
       return state.set('editFilter', state.get('activeFilter'));
@@ -112,33 +122,39 @@ export default (state = initialState, action) => {
       return state.set('page', initialState.get('page')).set('ordering', action.payload);
 
     case REQUEST_INCIDENTS:
-      return state.set('loading', true).set('error', false).set('errorMessage', undefined);
+      return updateLoading(state.set('incidentsLoading', true).set('error', false).set('errorMessage', undefined));
 
     case SEARCH_INCIDENTS_SUCCESS:
     case REQUEST_INCIDENTS_SUCCESS:
-      return state
-        .set('incidents', fromJS(action.payload))
-        .set('loading', false)
-        .set('error', false)
-        .set('errorMessage', undefined);
+      return updateLoading(
+        state
+          .set('incidents', fromJS(action.payload))
+          .set('incidentsLoading', false)
+          .set('error', false)
+          .set('errorMessage', undefined)
+      );
 
     case SEARCH_INCIDENTS_ERROR:
     case REQUEST_INCIDENTS_ERROR:
-      return state.set('error', true).set('errorMessage', action.payload).set('loading', false);
+      return updateLoading(state.set('error', true).set('errorMessage', action.payload).set('incidentsLoading', false));
 
     case SET_SEARCH_QUERY:
-      return state
-        .set('activeFilter', initialState.get('activeFilter'))
-        .set('editFilter', initialState.get('editFilter'))
-        .set('ordering', initialState.get('ordering'))
-        .set('loading', true)
-        .set('page', initialState.get('page'));
+      return updateLoading(
+        state
+          .set('activeFilter', initialState.get('activeFilter'))
+          .set('editFilter', initialState.get('editFilter'))
+          .set('ordering', initialState.get('ordering'))
+          .set('incidentsLoading', true)
+          .set('page', initialState.get('page'))
+      );
 
     case RESET_SEARCH_QUERY:
-      return state
-        .set('loading', true)
-        .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'));
+      return updateLoading(
+        state
+          .set('incidentsLoading', true)
+          .set('ordering', initialState.get('ordering'))
+          .set('page', initialState.get('page'))
+      );
 
     default:
       return state;
