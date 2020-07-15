@@ -11,6 +11,7 @@ import { useFetch, useEventEmitter } from 'hooks';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
+import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -161,7 +162,8 @@ const IncidentDetail = ({ attachmentHref, previewState }) => {
 
     emit('highlight', { type: state.patching });
     dispatch({ type: 'patchSuccess', payload: state.patching });
-  }, [isSuccess, state.patching, emit]);
+    storeDispatch(patchIncidentSuccess());
+  }, [isSuccess, state.patching, emit, storeDispatch]);
 
   useEffect(() => {
     if (!incident) return;

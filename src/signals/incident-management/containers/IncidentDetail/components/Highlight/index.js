@@ -70,7 +70,7 @@ const Highlight = ({ className, children, type }) => {
   }, [listenFor, animateHighlight, unlisten]);
 
   return (
-    <Wrapper className={`${className}${animate ? 'animate' : ''}`} data-testid="highlight">
+    <Wrapper className={`${className}${animate ? ' animate' : ''}`} data-testid="highlight">
       {children}
     </Wrapper>
   );
