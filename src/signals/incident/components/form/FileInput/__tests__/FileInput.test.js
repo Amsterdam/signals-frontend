@@ -173,7 +173,6 @@ describe('Form component <FileInput />', () => {
       });
 
       it('uploads already uploaded file and triggers multiple errors', async () => {
-        jest.useFakeTimers();
         handler.mockImplementation(() => ({ value: [file2, file3, file4] }));
         const { queryByTestId, findByTestId } = render(
           withAppContext(
@@ -205,8 +204,6 @@ describe('Form component <FileInput />', () => {
           'input-field-name_previews': expect.any(Array),
           'input-field-name': [file4, file1],
         });
-
-        jest.runAllTimers();
       });
 
       it('uploads a file with no extra validations', async () => {

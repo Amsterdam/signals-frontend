@@ -18,13 +18,11 @@ export default {
         if (control.meta && !control.meta.ignoreVisibility) {
           return checkVisibility(control, incident);
         }
-
         return false;
       })
     ) {
       return 'incident/telefoon';
     }
-
     return false;
   },
   nextButtonLabel: 'Volgende',
@@ -32,23 +30,6 @@ export default {
   postponeSubmitWhenLoading: 'incidentContainer.loadingClassification',
   form: {
     controls: {
-      images_previews: {
-        meta: {
-          label: 'images_previews',
-        },
-        render: FormComponents.HiddenInput,
-      },
-      images: {
-        meta: {
-          label: "Foto's toevoegen",
-          subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
-          minFileSize: 30 * 2 ** 10, // 30 KiB.
-          maxFileSize: 8 * 2 ** 20, // 8 MiB.
-          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
-          maxNumberOfFiles: 3,
-        },
-        render: FormComponents.FileInputRenderer,
-      },
       source: {
         meta: {
           className: 'col-sm-12 col-md-6',
@@ -169,6 +150,23 @@ export default {
         options: {
           validators: [Validators.required],
         },
+      },
+      images_previews: {
+        meta: {
+          label: 'images_previews',
+        },
+        render: FormComponents.HiddenInput,
+      },
+      images: {
+        meta: {
+          label: "Foto's toevoegen",
+          subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
+          minFileSize: 30 * 2 ** 10, // 30 KiB.
+          maxFileSize: 8 * 2 ** 20, // 8 MiB.
+          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
+          maxNumberOfFiles: 3,
+        },
+        render: FormComponents.FileInputRenderer,
       },
       $field_0: {
         isStatic: false,
