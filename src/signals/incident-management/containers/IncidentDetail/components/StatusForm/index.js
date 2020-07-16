@@ -21,9 +21,9 @@ import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
 import CheckboxInput from './components/CheckboxInput';
 
-const MELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet automatisch.';
-const DEELMELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet.';
-const MELDING_CHECKBOX_DESCRIPTION =
+export const MELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet automatisch.';
+export const DEELMELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet.';
+export const MELDING_CHECKBOX_DESCRIPTION =
   'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting';
 
 const CurrentStatus = styled.div`

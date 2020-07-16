@@ -8,7 +8,7 @@ import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { changeStatusOptionList } from '../../../../definitions/statusList';
 
-import StatusForm from '.';
+import StatusForm, { MELDING_EXPLANATION, DEELMELDING_EXPLANATION } from '.';
 
 const defaultTexts = [
   {
@@ -41,7 +41,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('renders correctly', () => {
-    const { container, getByTestId, getByLabelText } = render(
+    const { container, getByTestId, getByLabelText, getByText } = render(
       withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
     );
 
@@ -52,6 +52,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     Object.values(changeStatusOptionList).forEach(({ value }) => {
       expect(getByLabelText(value)).toBeInTheDocument();
     });
+
+    expect(getByTestId('statusFormSendEmailField')).toBeInTheDocument();
+    expect(getByText(MELDING_EXPLANATION)).toBeInTheDocument();
   });
 
   it('shows default texts', () => {
@@ -181,5 +184,25 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       })
     );
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it("doesn't show the send checkbox for a deelmelding", () => {
+    const deelmelding = {
+      ...incidentFixture,
+      _links: {
+        ...incidentFixture._links,
+        'sia:parent': {
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
+          public: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
+        },
+      },
+    };
+
+    const { queryByTestId, getByText } = render(
+      withAppContext(<StatusForm incident={deelmelding} defaultTexts={defaultTexts} onClose={onClose} />)
+    );
+
+    expect(queryByTestId('statusFormSendEmailField')).not.toBeInTheDocument();
+    expect(getByText(DEELMELDING_EXPLANATION)).toBeInTheDocument();
   });
 });

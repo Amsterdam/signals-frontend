@@ -13,9 +13,9 @@ const CheckboxStyle = styled.div`
   }
 `;
 
-const CheckboxInput = ({ name, label }) => ({ handler }) => (
+const CheckboxInput = ({ name, label, ...rest }) => ({ handler }) => (
   <CheckboxStyle>
-    <Checkbox id={name} name={name} checked={handler().value} onChange={handler().onChange} />
+    <Checkbox id={name} name={name} checked={handler().value} onChange={handler().onChange} {...rest} />
     <Label htmlFor={name} label={label} />
   </CheckboxStyle>
 );
