@@ -245,16 +245,17 @@ describe('Form component <FileInput />', () => {
       });
 
       it('it removes 1 file when remove button was clicked', async () => {
-        parent.value = {
-          'input-field-name_previews': ['blob:http://host/1', 'blob:http://host/2'],
-        };
-
         handler.mockImplementation(() => ({ value: [file1, file2] }));
 
         const { queryAllByTestId, findByTestId } = render(
           withAppContext(
             <FileInput
-              parent={parent}
+              parent={{
+                ...parent,
+                value: {
+                  'input-field-name_previews': ['blob:http://host/1', 'blob:http://host/2'],
+                },
+              }}
               handler={handler}
               meta={{
                 ...metaFields,

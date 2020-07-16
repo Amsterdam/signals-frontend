@@ -45,10 +45,47 @@ const FileInputUploadButton = styled.div`
 const FileInput = ({ handler, parent, meta }) => {
   const [errors, setErrors] = useState();
   const maxNumberOfFiles = (meta && meta.maxNumberOfFiles) || 3;
+  const checkMinFileSize = useCallback(file => file.size >= meta.minFileSize, [meta]);
 
-  const handleChange = useCallback(event => {
-    /* istanbul ignore next */
-    if (event.target.files && event.target.files.length) {
+  const checkMaxFileSize = useCallback(file => file.size < meta.maxFileSize, [meta]);
+
+  const checkFileType = useCallback(file => meta.allowedFileTypes.includes(file.type), [meta]);
+
+  const checkNumberOfFiles = useCallback((file, index) => index < maxNumberOfFiles, [maxNumberOfFiles]);
+
+  const getErrorMessages = useCallback(
+    files => {
+      const errorMessages = [];
+
+      if (meta.minFileSize && !files.every(checkMinFileSize)) {
+        errorMessages.push(`Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`);
+      }
+
+      if (meta.maxFileSize && !files.every(checkMaxFileSize)) {
+        errorMessages.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
+      }
+
+      if (meta.allowedFileTypes && !files.every(checkFileType)) {
+        errorMessages.push(
+          `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes
+            .map(type => type.replace(/.*\//, ''))
+            .join(', ')}.`
+        );
+      }
+
+      if (!files.every(checkNumberOfFiles)) {
+        errorMessages.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
+      }
+
+      return errorMessages;
+    },
+    [checkMinFileSize, checkMaxFileSize, checkFileType, checkNumberOfFiles, meta]
+  );
+
+  const handleChange = useCallback(
+    event => {
+      if (!event?.target?.files?.length) return;
+
       const minFileSizeFilter = meta.minFileSize ? checkMinFileSize : () => true;
       const maxFileSizeFilter = meta.maxFileSize ? checkMaxFileSize : () => true;
       const allowedFileTypesFilter = meta.allowedFileTypes ? checkFileType : () => true;
@@ -92,42 +129,9 @@ const FileInput = ({ handler, parent, meta }) => {
 
         reader.readAsText(file);
       });
-    }
-  }, []);
-
-  const checkMinFileSize = file => file.size >= meta.minFileSize;
-
-  const checkMaxFileSize = file => file.size < meta.maxFileSize;
-
-  const checkFileType = file => meta.allowedFileTypes.includes(file.type);
-
-  const checkNumberOfFiles = (file, index) => index < maxNumberOfFiles;
-
-  const getErrorMessages = files => {
-    const errorMessages = [];
-
-    if (meta.minFileSize && !files.every(checkMinFileSize)) {
-      errorMessages.push(`Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`);
-    }
-
-    if (meta.maxFileSize && !files.every(checkMaxFileSize)) {
-      errorMessages.push(`Dit bestand is te groot. De maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`);
-    }
-
-    if (meta.allowedFileTypes && !files.every(checkFileType)) {
-      errorMessages.push(
-        `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes
-          .map(type => type.replace(/.*\//, ''))
-          .join(', ')}.`
-      );
-    }
-
-    if (!files.every(checkNumberOfFiles)) {
-      errorMessages.push(`U kunt maximaal ${maxNumberOfFiles} bestanden uploaden.`);
-    }
-
-    return errorMessages;
-  };
+    },
+    [checkMinFileSize, checkMaxFileSize, checkFileType, checkNumberOfFiles, getErrorMessages, handler, meta, parent]
+  );
 
   const removeFile = (e, preview, previews, files) => {
     e.preventDefault();
