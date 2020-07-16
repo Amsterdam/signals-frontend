@@ -1,46 +1,18 @@
 import React, { Fragment, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeColor, themeSpacing } from '@datapunt/asc-ui';
-
+import { TrashBin, Enlarge } from '@datapunt/asc-assets';
 import fileSize from '../../../services/file-size';
-
-import './style.scss';
-
-const BOX_SIZE = '102px';
-
-const FileInputStyle = styled.div`
-  display: flex;
-  height: ${BOX_SIZE};
-`;
-
-const FileInputPreviewBox = styled.div`
-  width: ${BOX_SIZE};
-  margin-right: ${themeSpacing(3)};
-`;
-
-const FileInputEmptyBox = styled.div`
-  width: ${BOX_SIZE};
-  border: 1px dashed ${themeColor('tint', 'level4')};
-  margin-right: ${themeSpacing(3)};
-`;
-
-const FileInputError = styled.div`
-  color: ${themeColor('secondary')};
-  margin: ${themeSpacing(4, 0, 0)};
-`;
-
-const FileInputUploadButton = styled.div`
-  width: ${BOX_SIZE};
-  border: 1px dashed ${themeColor('tint', 'level4')};
-  margin-right: ${themeSpacing(3)};
-
-  input[type='file'] {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-`;
+import FileInputStyle, {
+  FileInputPreviewBox,
+  FileInputEmptyBox,
+  FileInputUploadButton,
+  FileInputError,
+  DeleteButton,
+  AddButton,
+  AddIcon,
+  FilePreview,
+  FileLoading,
+} from './styles';
 
 const FileInput = ({ handler, parent, meta }) => {
   const [errors, setErrors] = useState();
@@ -79,7 +51,7 @@ const FileInput = ({ handler, parent, meta }) => {
 
       return errorMessages;
     },
-    [checkMinFileSize, checkMaxFileSize, checkFileType, checkNumberOfFiles, meta]
+    [meta, checkMinFileSize, checkMaxFileSize, checkFileType, checkNumberOfFiles, maxNumberOfFiles]
   );
 
   const handleChange = useCallback(
@@ -163,31 +135,33 @@ const FileInput = ({ handler, parent, meta }) => {
       <FileInputStyle className="file-input" data-testid="fileInput">
         {previews.length > 0 &&
           previews.map(preview => (
-            <FileInputPreviewBox
-              key={preview}
-              className={`file-input__preview ${preview.includes('loading') ? 'file-input__preview--loading' : ''}`}
-              data-testid="fileInputPreviewBox"
-            >
+            <FileInputPreviewBox key={preview} data-testid="fileInputPreviewBox">
               {preview.includes('loading') ? (
-                <div className="progress-indicator progress-red"></div>
+                <FileLoading>Laden...</FileLoading>
               ) : (
-                <div style={{ backgroundImage: `URL(${preview})` }} className="file-input__preview-image">
-                  <button
+                <FilePreview preview={preview}>
+                  <DeleteButton
+                    size={40}
+                    variant="blank"
+                    iconSize={22}
+                    icon={<TrashBin />}
                     aria-label="Verwijder deze foto"
-                    type="button"
-                    className="file-input__preview-button-delete"
                     onClick={e => removeFile(e, preview, previews, handler().value)}
                     data-testid="deleteFotoButton"
                   />
-                </div>
+                </FilePreview>
               )}
             </FileInputPreviewBox>
           ))}
 
         {previews.length < maxNumberOfFiles && (
-          <FileInputUploadButton className="file-input__button" data-testid="fileInputUploadButton">
-            <label htmlFor="formUpload" className="file-input__button-label">
-              <div className="file-input__button-label-icon" />
+          <FileInputUploadButton data-testid="fileInputUploadButton">
+            <label htmlFor="formUpload">
+              <AddButton aria-label="Toevoegen foto">
+                <AddIcon size={22}>
+                  <Enlarge />
+                </AddIcon>
+              </AddButton>
             </label>
             <input
               type="file"
