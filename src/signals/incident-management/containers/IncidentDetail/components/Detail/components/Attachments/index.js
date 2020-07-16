@@ -1,13 +1,9 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useContext } from 'react';
 import styled from 'styled-components';
-import {
-  Button,
-  themeColor,
-  themeSpacing,
-} from '@datapunt/asc-ui';
+import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { attachmentsType } from 'shared/types';
+import IncidentDetailContext from '../../../../context';
 
 const StyledDefinition = styled.dt`
   font-weight: normal;
@@ -32,29 +28,33 @@ const StyledButton = styled(Button)`
   background-image: url(${({ url }) => url});
 `;
 
-const Attachments = ({ attachments, onShowAttachment }) =>
-  attachments?.length > 0 && (
-    <Fragment>
-      <StyledDefinition data-testid="attachmentsDefinition">Foto</StyledDefinition>
-      <StyledValue>
-        {attachments.map(attachment => (
-          <StyledButton
-            data-testid="attachmentsValueButton"
-            key={attachment.location}
-            onClick={() => onShowAttachment(attachment.location)}
-            size={80}
-            url={attachment.location}
-            variant="blank"
-            type="image"
-          />
-        ))}
-      </StyledValue>
-    </Fragment>
+const Attachments = ({ attachments }) => {
+  const { preview } = useContext(IncidentDetailContext);
+
+  return (
+    attachments?.length > 0 && (
+      <Fragment>
+        <StyledDefinition data-testid="attachmentsDefinition">Foto</StyledDefinition>
+        <StyledValue>
+          {attachments.map(attachment => (
+            <StyledButton
+              data-testid="attachmentsValueButton"
+              key={attachment.location}
+              onClick={() => preview('attachment', { attachmentHref: attachment.location })}
+              size={80}
+              url={attachment.location}
+              variant="blank"
+              type="image"
+            />
+          ))}
+        </StyledValue>
+      </Fragment>
+    )
   );
+};
 
 Attachments.propTypes = {
   attachments: attachmentsType.isRequired,
-  onShowAttachment: PropTypes.func.isRequired,
 };
 
 export default Attachments;

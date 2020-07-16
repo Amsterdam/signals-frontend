@@ -1,3 +1,4 @@
+import environmentConfig from '../../environment.conf.json';
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
 import { SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS } from './selectorsManageIncidents';
@@ -24,6 +25,28 @@ export const checkDescriptionPage = () => {
   cy.contains('Geef het tijdstip aan').should('be.visible');
   cy.contains("Foto's toevoegen").should('be.visible');
   cy.contains('Voeg een foto toe om de situatie te verduidelijken').should('be.visible');
+  cy.get('body').then($body => {
+    if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
+      checkHeaderFooter();
+    }
+  });
+};
+
+export const checkFlashingYellow = () => {
+  cy.get('.highlight--active')
+    .then($selectors => {
+      const win = $selectors[0].ownerDocument.defaultView;
+      const after = win.getComputedStyle($selectors[0], 'after');
+      const contentValue = after.getPropertyValue('background-color');
+      expect(contentValue).to.eq('rgb(254, 200, 19)');
+    });
+};
+
+export const checkHeaderFooter = () => {
+  cy.get(CREATE_SIGNAL.logoAmsterdam).should('have.attr', 'href', `${environmentConfig.links.home}`).and('be.visible');
+  cy.get(`${CREATE_SIGNAL.disclaimer} h2`).should('have.text', 'Lukt het niet om een melding te doen?');
+  cy.contains(environmentConfig.language.footer2);
+  cy.get(CREATE_SIGNAL.footerPrivacyLink).should('have.attr', 'href', `${environmentConfig.links.privacy}`).and('be.visible');
 };
 
 export const checkRedTextStatus = status => {
@@ -50,6 +73,11 @@ export const checkSpecificInformationPage = () => {
   cy.url().should('include', '/incident/vulaan');
   cy.checkHeaderText('Dit hebben we nog van u nodig');
   cy.contains('Dit hebt u net ingevuld:').should('be.visible');
+  cy.get('body').then($body => {
+    if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
+      checkHeaderFooter();
+    }
+  });
 };
 
 export const checkSummaryPage = () => {
@@ -60,11 +88,21 @@ export const checkSummaryPage = () => {
   cy.contains(
     'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.'
   ).should('be.visible');
+  cy.get('body').then($body => {
+    if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
+      checkHeaderFooter();
+    }
+  });
 };
 
 export const checkThanksPage = () => {
   cy.url().should('include', '/incident/bedankt');
   cy.checkHeaderText('Bedankt!');
+  cy.get('body').then($body => {
+    if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
+      checkHeaderFooter();
+    }
+  });
 };
 
 export const getSignalId = () => {

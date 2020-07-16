@@ -28,6 +28,9 @@ export const FILTER = {
   buttonCancel: '[data-testid=cancelBtn]',
   checkboxRefresh: '#filter_refresh',
   checkboxGemeld: '#status_m',
+  inputFilterAddres: '[data-testid="filterAddress"]',
+  inputFilterDayBefore: '#filter_created_before',
+  inputFilterDayFrom: '#filter_created_after',
   inputFilterName: '#filter_name',
   inputSearchInNote: '#filter_notes',
 };

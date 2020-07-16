@@ -1,5 +1,5 @@
 const { validator } = require('@exodus/schemasafe');
-const schema = require('../../environment.conf.schema.json');
+const schema = require('../schemas/environment.conf.schema.json');
 const config = require('../../environment.conf.json');
 
 const validate = validator(schema, { includeErrors: true });

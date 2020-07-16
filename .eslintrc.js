@@ -16,7 +16,6 @@ module.exports = {
   extends: [
     'airbnb',
     'eslint:all',
-    'plugin:cypress/recommended',
     'plugin:react/all',
     'plugin:sonarjs/recommended',
     'plugin:testing-library/react',
@@ -26,7 +25,6 @@ module.exports = {
   ],
 
   plugins: [
-    'cypress',
     'jsx-a11y',
     'prettier',
     'promise',
@@ -37,10 +35,8 @@ module.exports = {
     'testing-library',
     'unicorn',
   ],
-
   env: {
     browser: true,
-    'cypress/globals': true,
     es6: true,
     jest: true,
     node: true,
@@ -80,7 +76,10 @@ module.exports = {
       },
     },
     {
+      env: { 'cypress/globals': true },
       files: ['cypress/**/*'],
+      extends: ['plugin:cypress/recommended'],
+      plugins: ['cypress'],
       rules: {
         'promise/always-return': 'off',
         'promise/catch-or-return': 'off',
@@ -120,6 +119,7 @@ module.exports = {
     'sonarjs/no-identical-functions': 'off',
     'no-promise-executor-return': 'off',
     'prefer-regex-literals': 'off',
+    'import/no-webpack-loader-syntax': 'off',
     'unicorn/no-zero-fractions': 'off', // Auto-fix available
     'max-len': 'off', // 'max-len': ['warn', { code: 120, tabWidth: 2, ignoreUrls: true, comments: 140 }],
     'react/jsx-filename-extension': 'off', // This will allow to fine tune tooling like a shared lint configuration
@@ -201,7 +201,7 @@ module.exports = {
     'no-extend-native': 'error',
     'no-extra-bind': 'error',
     'no-extra-label': 'error',
-    // 'no-extra-parens': 'error',
+    'no-extra-parens': 'error',
     'no-fallthrough': 'warn',
     'no-floating-decimal': 'error',
     'no-func-assign': 'warn',
@@ -212,10 +212,7 @@ module.exports = {
     'no-labels': 'error',
     'no-lone-blocks': 'error',
     'no-loop-func': 'warn',
-    'no-mixed-operators': ['warn', {
-      groups: [['&', '|', '^', '~', '<<', '>>', '>>>'], ['==', '!=', '===', '!==', '>', '>=', '<', '<='], ['&&', '||'], ['in', 'instanceof']],
-      allowSamePrecedence: false,
-    }],
+    'no-mixed-operators': 'warn',
     'no-mixed-requires': 'error',
     'no-multi-spaces': 'error',
     'no-multi-str': 'error',
@@ -323,7 +320,6 @@ module.exports = {
     radix: 'error',
     strict: ['warn', 'never'],
     yoda: ['error', 'never'],
-
     'import/no-unresolved': ['error', { commonjs: true }],
     indent: ['warn', 2, { SwitchCase: 1, MemberExpression: 1 }],
     'jsx-a11y/aria-props': 'error',
@@ -379,7 +375,6 @@ module.exports = {
     'import/no-dynamic-require': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-as-default': 'off',
-    'import/no-webpack-loader-syntax': 'off',
     'import/prefer-default-export': 'off', // Would be nice on react components?
     'jsx-a11y/label-has-for': 'off',
     'max-lines': 'off',

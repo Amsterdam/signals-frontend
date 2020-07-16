@@ -5,25 +5,18 @@ import 'jest-styled-components';
 import { withAppContext } from 'test/utils';
 
 import { INCIDENT_URL } from 'signals/incident-management/routes';
-import { statusList } from 'signals/incident-management/definitions';
-import categories from 'utils/__tests__/fixtures/categories.json';
-import departments from 'utils/__tests__/fixtures/departments.json';
-import incident from 'utils/__tests__/fixtures/incident.json';
+import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json';
 
 import ChildIncidents, { STATUS_RESPONSE_REQUIRED, STATUS_NONE } from '..';
-
-const randomElement = array => array[Math.floor(Math.random() * array.length)];
 
 const getChildren = (opts = {}) => {
   const options = { ...{ numValues: 4, withHref: true, withStatus: true }, ...opts };
 
-  return incident._links['sia:children'].map(({ href }) => {
-    const id = href.substring(href.lastIndexOf('/') + 1, href.length);
+  return childIncidentsFixture.results.map(({ status, category, id }) => {
     const values = {
       id,
-      status: options.numValues > 1 && randomElement(statusList).value,
-      categorie: options.numValues > 2 && randomElement(categories.sub).value,
-      afdeling: options.numValues > 3 && randomElement(departments.results).code,
+      status: status.state_display,
+      category: `${category.sub} (${category.departments})`,
     };
 
     return {
@@ -75,10 +68,4 @@ describe('components/ChildIncidents', () => {
       });
     });
   });
-
-  it('should wrap contents', () => {});
-
-  it('should set the flex basis for all but the first and last element', () => {});
-
-  it('should set the max width for the fourth element', () => {});
 });
