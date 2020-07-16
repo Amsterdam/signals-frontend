@@ -21,8 +21,8 @@ const CheckboxInput = ({ name, label, ...rest }) => ({ handler }) => (
 );
 
 CheckboxInput.propTypes = {
-  name: PropTypes.string,
-  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default CheckboxInput;

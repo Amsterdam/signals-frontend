@@ -123,7 +123,7 @@ const StatusForm = ({ defaultTexts, incident, onClose }) => {
 
       form.controls.text.updateValueAndValidity();
     });
-  }, [form.controls.status.valueChanges, form.controls.text, form.controls.send_email.valueChanges]);
+  }, [form.controls.status.valueChanges, form.controls.text]);
 
   const handleSubmit = useCallback(
     event => {
