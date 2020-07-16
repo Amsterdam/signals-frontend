@@ -1,14 +1,12 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
-import { useDispatch } from 'react-redux';
 
 import Button from 'components/Button';
 import TextArea from 'components/TextArea';
 import Label from 'components/Label';
-import { PATCH_TYPE_NOTES } from 'models/incident/constants';
-import { patchIncident } from 'models/incident/actions';
+import IncidentDetailContext from '../../context';
+import { PATCH_TYPE_NOTES } from '../../constants';
 
 const NewNoteButton = styled(Button)`
   margin: ${themeSpacing(2, 2, 2, 0)};
@@ -18,8 +16,8 @@ const NoteButton = styled(Button)`
   margin: ${themeSpacing(8, 2, 4, 0)};
 `;
 
-const AddNote = ({ id }) => {
-  const dispatch = useDispatch();
+const AddNote = () => {
+  const { update } = useContext(IncidentDetailContext);
   const areaRef = useRef(null);
   const [showForm, setShowForm] = useState(false);
   const [note, setNote] = useState('');
@@ -32,18 +30,15 @@ const AddNote = ({ id }) => {
 
       const notes = [{ text: note }];
 
-      dispatch(
-        patchIncident({
-          id,
-          type: PATCH_TYPE_NOTES,
-          patch: { notes },
-        })
-      );
+      update({
+        type: PATCH_TYPE_NOTES,
+        patch: { notes },
+      });
 
       setNote('');
       setShowForm(false);
     },
-    [id, dispatch, note]
+    [update, note]
   );
 
   const onChange = useCallback(
@@ -102,10 +97,6 @@ const AddNote = ({ id }) => {
       </form>
     </section>
   );
-};
-
-AddNote.propTypes = {
-  id: PropTypes.string.isRequired,
 };
 
 export default AddNote;

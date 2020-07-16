@@ -1,59 +1,51 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
-import * as reactRedux from 'react-redux';
 
-import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 import { withMapContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { patchIncident } from 'models/incident/actions';
 
+import { PATCH_TYPE_LOCATION } from '../../constants';
+import IncidentDetailContext from '../../context';
 import LocationForm from '.';
 
-const dispatch = jest.fn();
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+const update = jest.fn();
+const close = jest.fn();
+
+const renderWithContext = () =>
+  withMapContext(
+    <IncidentDetailContext.Provider value={{ incident: incidentFixture, update, close }}>
+      <LocationForm />
+    </IncidentDetailContext.Provider>
+  );
 
 describe('incident-management/containers/IncidentDetail/components/LocationForm', () => {
+  beforeEach(() => {
+    update.mockReset();
+    close.mockReset();
+  });
+
   it('should render a form', () => {
-    const { getByTestId } = render(
-      withMapContext(
-        <LocationForm
-          incidentId={incidentFixture.id}
-          location={incidentFixture.location}
-          onClose={() => {}}
-        />
-      )
-    );
+    const { getByTestId } = render(renderWithContext());
 
     expect(getByTestId('locationForm')).toBeInTheDocument();
     expect(getByTestId('map-base')).toBeInTheDocument();
   });
 
   it('should call handlers', () => {
-    const onClose = jest.fn();
-    const { queryByTestId } = render(
-      withMapContext(
-        <LocationForm
-          incidentId={incidentFixture.id}
-          location={incidentFixture.location}
-          onClose={onClose}
-        />
-      )
-    );
+    const { queryByTestId } = render(renderWithContext());
 
-    expect(onClose).not.toHaveBeenCalled();
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(close).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(queryByTestId('submitBtn'));
     });
 
-    expect(dispatch).toHaveBeenCalledWith(
-      patchIncident({
-        id: incidentFixture.id,
-        type: PATCH_TYPE_LOCATION,
-        patch: { location: incidentFixture.location },
-      })
-    );
-    expect(onClose).toHaveBeenCalled();
+    expect(update).toHaveBeenCalledWith({
+      type: PATCH_TYPE_LOCATION,
+      patch: { location: incidentFixture.location },
+    });
+
+    expect(close).toHaveBeenCalled();
   });
 });

@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button, themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@datapunt/asc-ui';
+
+import Button from 'components/Button';
 
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
 
@@ -12,10 +14,10 @@ const StyledButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-const EditButton = ({ className, disabled, onClick }) => (
+const EditButton = ({ className, disabled, onClick, ...rest }) => (
   <StyledButton
     className={className}
-    data-testid="editButton"
+    data-testid={rest['data-testid'] || 'editButton'}
     disabled={disabled}
     icon={<IconEdit />}
     iconSize={18}

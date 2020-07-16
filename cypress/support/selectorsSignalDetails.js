@@ -9,6 +9,7 @@ export const CHANGE_CATEGORY = {
 export const CHANGE_LOCATION = {
   buttonCancel: '[data-testid=cancelBtn]',
   buttonEdit: '[class*=Location__Description] > [data-testid=editButton]',
+  buttonLocationDetailEdit: '[data-testid=location-preview-button-edit]',
   buttonSubmit: '[data-testid=submitBtn]',
 };
 
@@ -17,7 +18,7 @@ export const CHANGE_STATUS = {
   buttonClose: '[class*="incident-detail__preview-close"]',
   buttonEdit: '[data-testid=editStatusButton]',
   buttonSubmit: '[data-testid=statusFormSubmitButton]',
-  currentStatus: '#currentStatus',
+  currentStatus: '[data-testid="currentStatus"]',
   inputToelichting: '[data-testid=text]',
   radioButtonGemeld: '[data-testid=status-m]',
   radioButtonInAfwachting: '[data-testid=status-i]',
@@ -64,6 +65,7 @@ export const SIGNAL_DETAILS = {
   email: '[data-testid="detail-email-value"]',
   historyAction: '[class*="History__Action"]',
   historyListItem: '[data-testid="history-list-item-description"]',
+  imageLocation: '[data-testid=mapStaticImage]',
   infoText: '[data-testid=infoText]',
   inputNoteText: '[data-testid=addNoteText]',
   labelEmail: '[data-testid=detail-email-definition]',

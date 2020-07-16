@@ -1,0 +1,73 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5296/children/"
+    },
+    "next": {
+      "href": null
+    },
+    "previous": {
+      "href": null
+    }
+  },
+  "count": 3,
+  "results": [
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5371"
+        }
+      },
+      "id": 5371,
+      "status": {
+        "state": "m",
+        "state_display": "Gemeld"
+      },
+      "category": {
+        "sub": "Veeg- / zwerfvuil",
+        "sub_slug": "veegzwerfvuil",
+        "departments": "STW",
+        "main": "Schoon",
+        "main_slug": "schoon"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5372"
+        }
+      },
+      "id": 5372,
+      "status": {
+        "state": "m",
+        "state_display": "Gemeld"
+      },
+      "category": {
+        "sub": "Kades",
+        "sub_slug": "kades",
+        "departments": "STW",
+        "main": "Civiele Constructies",
+        "main_slug": "civiele-constructies"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5373"
+        }
+      },
+      "id": 5373,
+      "status": {
+        "state": "m",
+        "state_display": "Gemeld"
+      },
+      "category": {
+        "sub": "Asbest / accu",
+        "sub_slug": "asbest-accu",
+        "departments": "ASC, FB, THO",
+        "main": "Afval",
+        "main_slug": "afval"
+      }
+    }
+  ]
+}

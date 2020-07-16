@@ -179,6 +179,8 @@ describe('api service', () => {
       expect(getErrorMessage({ status: 'foo bar' })).toEqual(
         errorMessageDictionary.default
       );
+      expect(getErrorMessage({ status: 'foo bar' }, 'Zork')).toEqual('Zork');
+      expect(getErrorMessage({ status: 'foo bar' }, 'Zork')).toEqual('Zork');
     });
 
     it('returns a specific error message', () => {

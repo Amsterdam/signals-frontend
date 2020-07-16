@@ -42,8 +42,8 @@ WORKDIR /app
 
 COPY assets /app/assets
 
-ARG GIT_COMMIT
-ENV GIT_COMMIT ${GIT_COMMIT}
+ARG GIT_BRANCH
+ENV GIT_BRANCH ${GIT_BRANCH}
 
 ENV NODE_ENV=production
 RUN echo "run build"
@@ -70,7 +70,7 @@ COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 COPY environment.conf.json /environment.conf.json
-COPY environment.conf.schema.json /environment.conf.schema.json
+COPY internals/schemas/environment.conf.schema.json /internals/schemas/environment.conf.schema.json
 COPY internals/scripts/validate-config.js /internals/scripts/validate-config.js
 
 # forward request and error logs to docker log collector

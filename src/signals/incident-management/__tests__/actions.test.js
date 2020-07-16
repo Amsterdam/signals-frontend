@@ -219,4 +219,11 @@ describe('signals/incident-management/actions', () => {
       error,
     );
   });
+
+  it('should dispatch patchIncidentSuccess action', () => {
+    testActionCreator(
+      actions.patchIncidentSuccess,
+      constants.PATCH_INCIDENT_SUCCESS,
+    );
+  });
 });
