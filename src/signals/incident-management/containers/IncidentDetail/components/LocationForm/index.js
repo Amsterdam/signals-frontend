@@ -1,18 +1,27 @@
-import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useMemo, useContext } from 'react';
+import styled from 'styled-components';
+import { Row, Column } from '@datapunt/asc-ui';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
-import { useDispatch } from 'react-redux';
 
-import { locationType } from 'shared/types';
-import { PATCH_TYPE_LOCATION } from 'models/incident/constants';
 import MapContext from 'containers/MapContext';
-import { patchIncident } from 'models/incident/actions';
 
 import { mapLocation } from 'shared/services/map-location';
 import LocationInput from './components/LocationInput';
+import IncidentDetailContext from '../../context';
+import { PATCH_TYPE_LOCATION } from '../../constants';
 
-const LocationForm = ({ incidentId, location, onClose }) => {
-  const dispatch = useDispatch();
+const StyledColumn = styled(Column)`
+  display: block;
+  background: white;
+  position: relative;
+`;
+
+const LocationForm = () => {
+  const {
+    incident: { location },
+    update,
+    close,
+  } = useContext(IncidentDetailContext);
 
   const form = useMemo(
     () =>
@@ -35,40 +44,36 @@ const LocationForm = ({ incidentId, location, onClose }) => {
     event => {
       event.preventDefault();
 
-      dispatch(
-        patchIncident({
-          id: incidentId,
-          type: PATCH_TYPE_LOCATION,
-          patch: { location: form.value.location },
-        })
-      );
+      update({
+        type: PATCH_TYPE_LOCATION,
+        patch: { location: { ...location, ...form.value.location } },
+      });
 
-      onClose();
+      close();
     },
-    [dispatch, form.value, incidentId, onClose]
+    [update, form.value, close, location]
   );
 
   return (
-    <FieldGroup
-      control={form}
-      render={() => (
-        <MapContext>
-          <LocationInput
-            locationControl={form.get('location')}
-            onClose={onClose}
-            onQueryResult={onQueryResult}
-            handleSubmit={handleSubmit}
-          />
-        </MapContext>
-      )}
-    />
+    <Row>
+      <StyledColumn span={12}>
+        <FieldGroup
+          control={form}
+          render={() => (
+            <MapContext>
+              <LocationInput
+                data-testid="locationForm"
+                locationControl={form.get('location')}
+                onClose={close}
+                onQueryResult={onQueryResult}
+                handleSubmit={handleSubmit}
+              />
+            </MapContext>
+          )}
+        />
+      </StyledColumn>
+    </Row>
   );
-};
-
-LocationForm.propTypes = {
-  incidentId: PropTypes.number.isRequired,
-  location: locationType.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default LocationForm;

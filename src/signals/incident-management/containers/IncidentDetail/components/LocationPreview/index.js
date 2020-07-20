@@ -1,43 +1,48 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { locationType } from 'shared/types';
-import { markerIcon } from 'shared/services/configuration/map-markers';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import Button from 'components/Button';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { Button, themeSpacing, Row, Column } from '@datapunt/asc-ui';
+
+import { markerIcon } from 'shared/services/configuration/map-markers';
+
 import MapDetail from '../MapDetail';
+import IncidentDetailContext from '../../context';
+
+const Wrapper = styled(Row)`
+  padding-top: 20px;
+  position: relative;
+`;
+
+const StyledColumn = styled(Column)`
+  display: block;
+  background: white;
+  position: relative;
+`;
+
+const EditButton = styled(Button)`
+  position: absolute;
+  top: ${themeSpacing(3)};
+  left: ${themeSpacing(3)};
+  z-index: 401;
+`;
 
 const StyledMap = styled(MapDetail)`
   width: 100%;
   height: 450px;
 `;
 
-const Wrapper = styled.div`
-  position: relative;
-`;
+const LocationPreview = () => {
+  const { incident: { location }, edit } = useContext(IncidentDetailContext);
+  return (
+    <Wrapper>
+      <StyledColumn span={12}>
+        <EditButton variant="secondary" onClick={() => edit('location')} data-testid="location-preview-button-edit">
+          Locatie wijzigen
+        </EditButton>
 
-const StyledButton = styled(Button)`
-  position: absolute;
-  margin: 0;
-  top: ${themeSpacing(3)};
-  left: ${themeSpacing(3)};
-  z-index: 500;
-`;
-
-const LocationPreview = ({ location, onEditLocation }) => (
-  <Wrapper>
-    <StyledButton type="button" variant="secondary" onClick={onEditLocation} data-testid="location-preview-button-edit">
-      Locatie wijzigen
-    </StyledButton>
-
-    <StyledMap value={location} zoom={14} icon={markerIcon} hasZoomControls />
-  </Wrapper>
-);
-
-LocationPreview.propTypes = {
-  location: locationType.isRequired,
-  onEditLocation: PropTypes.func.isRequired,
+        <StyledMap value={location} icon={markerIcon} hasZoomControls zoom={14} />
+      </StyledColumn>
+    </Wrapper>
+  );
 };
 
 export default LocationPreview;

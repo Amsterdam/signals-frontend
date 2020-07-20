@@ -20,7 +20,6 @@ import {
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { PATCH_INCIDENT_SUCCESS } from 'models/incident/constants';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
 import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 
@@ -55,6 +54,7 @@ import {
   SAVE_FILTER,
   SEARCH_INCIDENTS,
   UPDATE_FILTER,
+  PATCH_INCIDENT_SUCCESS,
 } from './constants';
 
 import { SPLIT_INCIDENT_SUCCESS } from './containers/IncidentSplitContainer/constants';

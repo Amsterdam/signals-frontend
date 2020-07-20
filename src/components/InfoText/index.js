@@ -9,7 +9,7 @@ const Info = styled(Paragraph)`
   font-size: 16px;
 `;
 
-const InfoText = ({ text }) => (<Info data-testid="infoText">{text}</Info>);
+const InfoText = ({ text }) => <Info data-testid="infoText">{text}</Info>;
 
 InfoText.propTypes = {
   text: PropTypes.string.isRequired,

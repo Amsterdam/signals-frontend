@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo, useContext } from 'react';
 import styled from 'styled-components';
 import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
-import { incidentType, attachmentsType } from 'shared/types';
+import { attachmentsType } from 'shared/types';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 
 import Location from './components/Location';
 import Attachments from './components/Attachments';
 import ExtraProperties from './components/ExtraProperties';
+import IncidentDetailContext from '../../context';
 
 const Wrapper = styled.article`
   position: relative;
@@ -54,13 +54,14 @@ const DefinitionList = styled.dl`
   }
 `;
 
-const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowAttachment }) => {
+const Detail = ({ attachments }) => {
+  const { incident } = useContext(IncidentDetailContext);
   const memoIncident = useMemo(() => incident, [incident]);
   const memoAttachments = useMemo(() => attachments, [attachments]);
   const location = useMemo(() => incident.location, [incident.location]);
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="incidentDetailDetail">
       <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
         {incident.text}
       </Title>
@@ -71,9 +72,9 @@ const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowA
           {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
         </dd>
 
-        <Location location={location} onShowLocation={onShowLocation} onEditLocation={onEditLocation} />
+        <Location location={location} />
 
-        {memoAttachments && <Attachments attachments={memoAttachments} onShowAttachment={onShowAttachment} />}
+        {memoAttachments && <Attachments attachments={memoAttachments} />}
 
         {memoIncident.extra_properties && <ExtraProperties items={memoIncident.extra_properties} />}
 
@@ -91,12 +92,7 @@ const Detail = ({ incident, attachments, onShowLocation, onEditLocation, onShowA
 };
 
 Detail.propTypes = {
-  incident: incidentType.isRequired,
   attachments: attachmentsType,
-
-  onShowAttachment: PropTypes.func.isRequired,
-  onShowLocation: PropTypes.func.isRequired,
-  onEditLocation: PropTypes.func.isRequired,
 };
 
 export default Detail;

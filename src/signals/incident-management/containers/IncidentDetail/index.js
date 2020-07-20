@@ -1,28 +1,16 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { bindActionCreators } from 'redux';
-import isEqual from 'lodash.isequal';
+import React, { useReducer, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 
-import { incidentType, dataListType, defaultTextsType, attachmentsType, historyType } from 'shared/types';
-
-import LoadingIndicator from 'shared/components/LoadingIndicator';
-import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
-import {
-  requestIncident,
-  requestAttachments,
-  requestDefaultTexts,
-  dismissError,
-} from 'models/incident/actions';
-import { requestHistoryList } from 'models/history/actions';
-import makeSelectIncidentModel from 'models/incident/selectors';
-import makeSelectHistoryModel from 'models/history/selectors';
+import configuration from 'shared/services/configuration/configuration';
 import History from 'components/History';
-
-import './style.scss';
+import { useFetch, useEventEmitter } from 'hooks';
+import { showGlobalNotification } from 'containers/App/actions';
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import { getErrorMessage } from 'shared/services/api/api';
+import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -33,289 +21,258 @@ import AttachmentViewer from './components/AttachmentViewer';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
 import LocationPreview from './components/LocationPreview';
+import CloseButton from './components/CloseButton';
+import IncidentDetailContext from './context';
+import reducer, { initialState } from './reducer';
+import {
+  CLOSE_ALL,
+  EDIT,
+  PATCH_START,
+  PATCH_SUCCESS,
+  PREVIEW,
+  RESET,
+  SET_ATTACHMENTS,
+  SET_CHILDREN,
+  SET_DEFAULT_TEXTS,
+  SET_ERROR,
+  SET_HISTORY,
+  SET_INCIDENT,
+} from './constants';
+
+const StyledRow = styled(Row)`
+  position: relative;
+`;
 
 const DetailContainer = styled(Column)`
   flex-direction: column;
   position: relative;
+  z-index: 1;
+  justify-content: flex-start;
 `;
 
-export class IncidentDetail extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+const Preview = styled.div`
+  background: white;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+`;
 
-    this.state = {
-      previewState: props.previewState, // showLocation, editLocation, editStatus, showImage
-      attachmentHref: props.attachmentHref,
+const IncidentDetail = () => {
+  const { emit, listenFor, unlisten } = useEventEmitter();
+  const storeDispatch = useDispatch();
+  const { id } = useParams();
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { error, get: getIncident, data: incident, isSuccess, patch } = useFetch();
+  const { get: getHistory, data: history } = useFetch();
+  const { get: getAttachments, data: attachments } = useFetch();
+  const { get: getDefaultTexts, data: defaultTexts } = useFetch();
+  const { get: getChildren, data: children } = useFetch();
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.removeEventListener('keyup', handleKeyUp);
     };
+  }, [handleKeyUp, listenFor, unlisten]);
 
-    this.onShowLocation = this.onShowLocation.bind(this);
-    this.onEditLocation = this.onEditLocation.bind(this);
-    this.onEditStatus = this.onEditStatus.bind(this);
-    this.onShowAttachment = this.onShowAttachment.bind(this);
-    this.onCloseAll = this.onCloseAll.bind(this);
-  }
+  useEffect(() => {
+    dispatch({ type: SET_ERROR, payload: error });
 
-  componentDidMount() {
-    this.fetchAll();
-  }
+    if (error) {
+      const title = error.status === 401 || error.status === 403 ? 'Geen bevoegdheid' : 'Bewerking niet mogelijk';
+      const message = getErrorMessage(error, 'Deze wijziging is niet toegestaan in deze situatie.');
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.match.params.id !== this.props.match.params.id) {
-      this.fetchAll();
+      storeDispatch(
+        showGlobalNotification({
+          title,
+          message,
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      );
+    }
+  }, [error, storeDispatch]);
+
+  useEffect(() => {
+    if (!history) return;
+
+    dispatch({ type: SET_HISTORY, payload: history });
+  }, [history]);
+
+  useEffect(() => {
+    if (!attachments) return;
+
+    dispatch({ type: SET_ATTACHMENTS, payload: attachments?.results });
+  }, [attachments]);
+
+  useEffect(() => {
+    if (!defaultTexts) return;
+
+    dispatch({ type: SET_DEFAULT_TEXTS, payload: defaultTexts });
+  }, [defaultTexts]);
+
+  useEffect(() => {
+    if (!children) return;
+
+    dispatch({ type: SET_CHILDREN, payload: children });
+  }, [children]);
+
+  useEffect(() => {
+    if (!id) return;
+
+    dispatch({ type: RESET });
+    getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
+
+    // disabling linter; only need to update when the id changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  useEffect(() => {
+    if (!isSuccess || !state.patching) return;
+
+    emit('highlight', { type: state.patching });
+    dispatch({ type: PATCH_SUCCESS, payload: state.patching });
+    storeDispatch(patchIncidentSuccess());
+  }, [isSuccess, state.patching, emit, storeDispatch]);
+
+  useEffect(() => {
+    if (!incident) return;
+
+    dispatch({ type: SET_INCIDENT, payload: incident });
+
+    retrieveUnderlyingData();
+  }, [incident, retrieveUnderlyingData]);
+
+  const retrieveUnderlyingData = useCallback(() => {
+    const { main_slug, sub_slug } = incident.category;
+
+    getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`);
+
+    // retrieve default texts only once per page load
+    if (!state.defaultTexts) {
+      getDefaultTexts(
+        `${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`
+      );
     }
 
-    /* istanbul ignore else */
-    if (this.props.incidentModel.incident) {
-      const category = this.props.incidentModel.incident.category;
-      if (
-        !isEqual(
-          prevProps.incidentModel.incident && prevProps.incidentModel.incident.category,
-          this.props.incidentModel.incident.category
-        )
-      ) {
-        this.props.onRequestDefaultTexts({
-          main_slug: category.main_slug,
-          sub_slug: category.sub_slug,
-        });
+    // retrieve attachments only once per page load
+    if (!state.attachments) {
+      getAttachments(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`);
+    }
+
+    // retrieve children only once per page load and only when an incident has children
+    const hasChildren = incident?._links['sia:children']?.length > 0;
+
+    if (!state.children && hasChildren) {
+      getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
+    }
+  }, [
+    getAttachments,
+    getChildren,
+    getDefaultTexts,
+    getHistory,
+    id,
+    incident,
+    state.attachments,
+    state.children,
+    state.defaultTexts,
+  ]);
+
+  const handleKeyUp = useCallback(
+    event => {
+      switch (event.key) {
+        case 'Esc':
+        case 'Escape':
+          closeDispatch();
+          break;
+
+        default:
+          break;
       }
-    }
-  }
-
-  onShowLocation() {
-    this.setState({
-      previewState: 'showLocation',
-      attachmentHref: '',
-    });
-  }
-
-  onEditLocation() {
-    this.setState({
-      previewState: 'editLocation',
-      attachmentHref: '',
-    });
-  }
-
-  onEditStatus() {
-    this.setState({
-      previewState: 'editStatus',
-      attachmentHref: '',
-    });
-  }
-
-  onShowAttachment(attachmentHref) {
-    this.setState({
-      previewState: 'showImage',
-      attachmentHref,
-    });
-  }
-
-  onCloseAll() {
-    this.setState({
-      previewState: '',
-      attachmentHref: '',
-    });
-  }
-
-  fetchAll() {
-    this.props.onRequestIncident(this.props.match.params.id);
-    this.props.onRequestHistoryList(this.props.match.params.id);
-    this.props.onRequestAttachments(this.props.match.params.id);
-  }
-
-  render() {
-    const {
-      match: {
-        params: { id },
-      },
-      onDismissError,
-    } = this.props;
-    const { list } = this.props.historyModel;
-    const {
-      attachments,
-      changeStatusOptionList,
-      defaultTexts,
-      defaultTextsOptionList,
-      error,
-      incident,
-      loading,
-      patching,
-      priorityList,
-      stadsdeelList,
-      statusList,
-      typesList,
-    } = this.props.incidentModel;
-    const { previewState, attachmentHref } = this.state;
-    return (
-      <div className="incident-detail">
-        {loading && <LoadingIndicator />}
-
-        {!loading && (
-          <Fragment>
-            {incident && (
-              <Row>
-                <Column span={12}>
-                  <DetailHeader
-                    incidentId={incident.id}
-                    status={incident?.status?.state}
-                    links={incident?._links}
-                  />
-                </Column>
-              </Row>
-            )}
-
-            {previewState && (
-              <Row>
-                <DetailContainer span={12}>
-                  <button
-                    aria-label="Sluiten"
-                    className="incident-detail__preview-close incident-detail__button--close"
-                    type="button"
-                    onClick={this.onCloseAll}
-                  />
-
-                  {previewState === 'showImage' && (
-                    <AttachmentViewer
-                      attachments={attachments}
-                      href={attachmentHref}
-                      onShowAttachment={this.onShowAttachment}
-                    />
-                  )}
-
-                  {previewState === 'showLocation' && (
-                    <LocationPreview location={incident.location} onEditLocation={this.onEditLocation} />
-                  )}
-
-                  {previewState === 'editLocation' && (
-                    <LocationForm
-                      incidentId={incident.id}
-                      location={incident.location}
-                      onClose={this.onCloseAll}
-                    />
-                  )}
-
-                  {previewState === 'editStatus' && (
-                    <StatusForm
-                      incident={incident}
-                      patching={patching}
-                      error={error}
-                      changeStatusOptionList={changeStatusOptionList}
-                      defaultTextsOptionList={defaultTextsOptionList}
-                      statusList={statusList}
-                      defaultTexts={defaultTexts}
-                      onDismissError={onDismissError}
-                      onClose={this.onCloseAll}
-                    />
-                  )}
-                </DetailContainer>
-              </Row>
-            )}
-
-            {!previewState && (
-              <Row>
-                <DetailContainer span={7}>
-                  {incident && (
-                    <Fragment>
-                      <Detail
-                        incident={incident}
-                        attachments={attachments}
-                        stadsdeelList={stadsdeelList}
-                        onShowLocation={this.onShowLocation}
-                        onEditLocation={this.onEditLocation}
-                        onShowAttachment={this.onShowAttachment}
-                      />
-
-                      <AddNote id={id} />
-
-                      <ChildIncidents incident={incident} />
-
-                      <History list={list} />
-                    </Fragment>
-                  )}
-                </DetailContainer>
-
-                <DetailContainer span={4} push={1}>
-                  {incident && (
-                    <MetaList
-                      incident={incident}
-                      priorityList={priorityList}
-                      typesList={typesList}
-                      onEditStatus={this.onEditStatus}
-                    />
-                  )}
-                </DetailContainer>
-              </Row>
-            )}
-          </Fragment>
-        )}
-      </div>
-    );
-  }
-}
-
-IncidentDetail.defaultProps = {
-  previewState: '',
-  attachmentHref: '',
-};
-
-IncidentDetail.propTypes = {
-  previewState: PropTypes.string,
-  attachmentHref: PropTypes.string,
-
-  incidentModel: PropTypes.shape({
-    incident: incidentType,
-    attachments: attachmentsType,
-    loading: PropTypes.bool.isRequired,
-    patching: PropTypes.shape({
-      location: PropTypes.bool,
-      status: PropTypes.bool,
-    }).isRequired,
-    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-    split: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-    stadsdeelList: dataListType,
-    priorityList: dataListType,
-    typesList: dataListType,
-    changeStatusOptionList: dataListType,
-    defaultTextsOptionList: dataListType,
-    statusList: dataListType,
-    defaultTexts: defaultTextsType,
-  }).isRequired,
-  historyModel: PropTypes.shape({
-    list: historyType.isRequired,
-  }).isRequired,
-
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }),
-  }),
-
-  onRequestIncident: PropTypes.func.isRequired,
-  onRequestHistoryList: PropTypes.func.isRequired,
-  onRequestAttachments: PropTypes.func.isRequired,
-  onRequestDefaultTexts: PropTypes.func.isRequired,
-  onDismissError: PropTypes.func.isRequired,
-};
-
-/* istanbul ignore next */
-const mapStateToProps = () =>
-  createStructuredSelector({
-    loading: makeSelectLoading(),
-    error: makeSelectError(),
-    incidentModel: makeSelectIncidentModel,
-    historyModel: makeSelectHistoryModel(),
-  });
-
-export const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      onRequestIncident: requestIncident,
-      onRequestHistoryList: requestHistoryList,
-      onRequestAttachments: requestAttachments,
-      onRequestDefaultTexts: requestDefaultTexts,
-      onDismissError: dismissError,
     },
-    dispatch
+    [closeDispatch]
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncidentDetail);
+  const updateDispatch = useCallback(
+    action => {
+      dispatch({ type: PATCH_START, payload: action.type });
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch);
+    },
+    [id, patch]
+  );
+
+  const previewDispatch = useCallback((section, payload) => {
+    dispatch({ type: PREVIEW, payload: { preview: section, ...payload } });
+  }, []);
+
+  const editDispatch = useCallback((section, payload) => {
+    dispatch({ type: EDIT, payload: { edit: section, ...payload } });
+  }, []);
+
+  const closeDispatch = useCallback(() => {
+    dispatch({ type: CLOSE_ALL });
+  }, []);
+
+  if (!state.incident) return null;
+
+  return (
+    <IncidentDetailContext.Provider
+      value={{
+        incident: state.incident,
+        update: updateDispatch,
+        preview: previewDispatch,
+        edit: editDispatch,
+        close: closeDispatch,
+      }}
+    >
+      <Row data-testid="incidentDetail">
+        <Column span={12}>
+          <DetailHeader />
+        </Column>
+      </Row>
+
+      <StyledRow>
+        <DetailContainer span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}>
+          <Detail attachments={state.attachments} />
+
+          <AddNote />
+
+          {state.children && <ChildIncidents incidents={state.children.results} />}
+
+          {state.history && <History list={state.history} />}
+        </DetailContainer>
+
+        <DetailContainer
+          span={{ small: 1, medium: 2, big: 3, large: 4, xLarge: 4 }}
+          push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
+        >
+          <MetaList />
+        </DetailContainer>
+
+        {(state.preview || state.edit) && (
+          <Preview>
+            {state.edit === 'status' && <StatusForm defaultTexts={state.defaultTexts} error={state.error} />}
+
+            {state.preview === 'location' && <LocationPreview />}
+
+            {state.edit === 'location' && <LocationForm />}
+
+            {state.preview === 'attachment' && (
+              <AttachmentViewer attachments={state.attachments} href={state.attachmentHref} />
+            )}
+          </Preview>
+        )}
+
+        {state.preview && <CloseButton aria-label="Sluiten" onClick={closeDispatch} />}
+      </StyledRow>
+    </IncidentDetailContext.Provider>
+  );
+};
+
+export default IncidentDetail;
