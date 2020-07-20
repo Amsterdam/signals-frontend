@@ -91,6 +91,7 @@ describe('Form component <FileInput />', () => {
         name: 'already uploaded.gif',
         size: 34567,
         type: 'image/gif',
+        existing: true,
       };
       const file3 = {
         name: 'way too large file.jpeg',
@@ -141,6 +142,33 @@ describe('Form component <FileInput />', () => {
         jest.resetAllMocks();
       });
 
+      it('should do nothing when no files are provided', async () => {
+        handler.mockImplementation(() => ({ value: [] }));
+        const { findByTestId } = render(
+          withAppContext(
+            <FileInput
+              parent={parent}
+              handler={handler}
+              meta={{
+                ...metaFields,
+                maxNumberOfFiles: 3,
+              }}
+            />
+          )
+        );
+
+        const fileInputElement = await findByTestId('fileInputUpload');
+        expect(FileReader).not.toHaveBeenCalled();
+        act(() => {
+          fireEvent.change(fileInputElement, { target: { files: [] } });
+        });
+
+        await findByTestId('fileInputUpload');
+
+        expect(FileReader).not.toHaveBeenCalled();
+        expect(parent.meta.updateIncident).not.toHaveBeenCalled();
+      });
+
       it('uploads a file and updates incident when file changes', async () => {
         handler.mockImplementation(() => ({ value: [] }));
         const { queryByTestId, findByTestId } = render(
@@ -151,8 +179,6 @@ describe('Form component <FileInput />', () => {
               meta={{
                 ...metaFields,
                 maxNumberOfFiles: 3,
-                maxFileSize,
-                allowedFileTypes: ['image/jpeg'],
               }}
             />
           )

@@ -66,7 +66,6 @@ const FileInput = ({ handler, parent, meta }) => {
       const existingPreviews = (parent && parent.value && parent.value[`${meta.name}_previews`]) || [];
       const batchFiles = [...event.target.files];
 
-      existingFiles.map(file => ({ ...file, existing: true }));
       const files = [...existingFiles, ...batchFiles]
         .filter(minFileSizeFilter)
         .filter(maxFileSizeFilter)
@@ -84,10 +83,6 @@ const FileInput = ({ handler, parent, meta }) => {
       });
 
       files.forEach((file, uploadBatchIndex) => {
-        if (files[uploadBatchIndex].existing) {
-          return;
-        }
-
         const reader = new window.FileReader();
         reader.addEventListener('load', () => {
           previews[uploadBatchIndex] = window.URL.createObjectURL(files[uploadBatchIndex]);
