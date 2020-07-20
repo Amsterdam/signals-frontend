@@ -103,8 +103,7 @@ describe('The auth service', () => {
   describe('init funtion', () => {
     describe('receiving response errors from the auth service', () => {
       it('throws an error', () => {
-        const queryString =
-          '?error=invalid_request&error_description=invalid%20request';
+        const queryString = '?error=invalid_request&error_description=invalid%20request';
 
         global.location.search = queryString;
         queryObject = {
@@ -140,9 +139,7 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).toThrow();
-        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
-          'stateToken'
-        );
+        expect(global.localStorage.removeItem).toHaveBeenCalledWith('stateToken');
       });
 
       it('does not handle any errors without an error in the query string', () => {
@@ -151,9 +148,7 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).not.toThrow();
-        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
-          'stateToken'
-        );
+        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith('stateToken');
       });
 
       it('does not handle any errors without a query string', () => {
@@ -162,16 +157,13 @@ describe('The auth service', () => {
         expect(() => {
           initAuth();
         }).not.toThrow();
-        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
-          'stateToken'
-        );
+        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith('stateToken');
       });
     });
 
     describe('receiving a successful callback from the auth service', () => {
       it('throws an error when the state token received does not match the one saved', () => {
-        const queryString =
-          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=invalid-state-token';
+        const queryString = '?access_token=123AccessToken&token_type=token&expires_in=36000&state=invalid-state-token';
         global.location.hash = `#${queryString}`;
         queryObject = {
           access_token: '123AccessToken',
@@ -183,9 +175,7 @@ describe('The auth service', () => {
 
         expect(() => {
           initAuth();
-        }).toThrow(
-          'Authenticator encountered an invalid state token (invalid-state-token)'
-        );
+        }).toThrow('Authenticator encountered an invalid state token (invalid-state-token)');
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
       });
 
@@ -194,8 +184,7 @@ describe('The auth service', () => {
           nonce: 'invalid-random-nonce',
         }));
 
-        const queryString =
-          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=state-token';
+        const queryString = '?access_token=123AccessToken&token_type=token&expires_in=36000&state=state-token';
         global.location.hash = `#${queryString}`;
         queryObject = {
           access_token: '123AccessToken',
@@ -209,15 +198,12 @@ describe('The auth service', () => {
 
         expect(() => {
           initAuth();
-        }).toThrow(
-          'Authenticator encountered an invalid nonce (invalid-random-nonce)'
-        );
+        }).toThrow('Authenticator encountered an invalid nonce (invalid-random-nonce)');
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
       });
 
       it('Updates local storage', () => {
-        const queryString =
-          '?access_token=123AccessToken&token_type=token&expires_in=36000&state=random-string';
+        const queryString = '?access_token=123AccessToken&token_type=token&expires_in=36000&state=random-string';
         global.location.hash = queryString;
         queryObject = {
           access_token: '123AccessToken',
@@ -228,13 +214,8 @@ describe('The auth service', () => {
         savedStateToken = 'random-string';
 
         initAuth();
-        expect(global.localStorage.setItem).toHaveBeenCalledWith(
-          'accessToken',
-          '123AccessToken'
-        );
-        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
-          'stateToken'
-        );
+        expect(global.localStorage.setItem).toHaveBeenCalledWith('accessToken', '123AccessToken');
+        expect(global.localStorage.removeItem).toHaveBeenCalledWith('stateToken');
       });
 
       it('Works when receiving unexpected parameters', () => {
@@ -251,15 +232,11 @@ describe('The auth service', () => {
         savedStateToken = 'random-string';
 
         initAuth();
-        expect(global.localStorage.setItem).toHaveBeenCalledWith(
-          'accessToken',
-          '123AccessToken'
-        );
+        expect(global.localStorage.setItem).toHaveBeenCalledWith('accessToken', '123AccessToken');
       });
 
       it('Does not work when a parameter is missing', () => {
-        const queryString =
-          '?access_token=123AccessToken&token_type=token&state=random-string';
+        const queryString = '?access_token=123AccessToken&token_type=token&state=random-string';
         global.location.hash = queryString;
         queryObject = {
           access_token: '123AccessToken',
@@ -269,18 +246,24 @@ describe('The auth service', () => {
         savedStateToken = 'random-string';
 
         initAuth();
-        expect(global.localStorage.setItem).not.toHaveBeenCalledWith(
-          'accessToken',
-          '123AccessToken'
-        );
-        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
-          'stateToken'
-        );
+        expect(global.localStorage.setItem).not.toHaveBeenCalledWith('accessToken', '123AccessToken');
+        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith('stateToken');
       });
     });
   });
 
   describe('Login process', () => {
+    it('throws an error when there is no storage support', () => {
+      const storage = global.Storage;
+      global.Storage = undefined;
+
+      expect(() => {
+        login();
+      }).toThrow('Storage not available; cannot proceed with logging in');
+
+      global.Storage = storage;
+    });
+
     it('throws an error when the crypto library is not supported by the browser', () => {
       randomString = '';
       expect(() => {
@@ -294,17 +277,9 @@ describe('The auth service', () => {
 
       login();
 
-      expect(global.localStorage.removeItem).toHaveBeenCalledWith(
-        'accessToken'
-      );
-      expect(global.localStorage.setItem).toHaveBeenCalledWith(
-        'stateToken',
-        randomString
-      );
-      expect(global.localStorage.setItem).toHaveBeenCalledWith(
-        'nonce',
-        randomString
-      );
+      expect(global.localStorage.removeItem).toHaveBeenCalledWith('accessToken');
+      expect(global.localStorage.setItem).toHaveBeenCalledWith('stateToken', randomString);
+      expect(global.localStorage.setItem).toHaveBeenCalledWith('nonce', randomString);
     });
 
     it('Redirects to the auth service', () => {
@@ -317,13 +292,13 @@ describe('The auth service', () => {
 
       expect(window.location.assign).toHaveBeenCalledWith(
         'https://example.com/oauth2/authorize' +
-        '?client_id=test' +
-        '&response_type=token' +
-        '&scope=SIG%2FALL' +
-        '&state=random-string' +
-        '&nonce=random-string' +
-        '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
-        '&idp_id=datapunt'
+          '?client_id=test' +
+          '&response_type=token' +
+          '&scope=SIG%2FALL' +
+          '&state=random-string' +
+          '&nonce=random-string' +
+          '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
+          '&idp_id=datapunt'
       );
 
       CONFIGURATION.OIDC_AUTH_ENDPOINT = originalEndpoint;
@@ -334,9 +309,7 @@ describe('The auth service', () => {
   describe('Logout process', () => {
     it('Removes the access token from local storage', () => {
       logout();
-      expect(global.localStorage.removeItem).toHaveBeenCalledWith(
-        'accessToken'
-      );
+      expect(global.localStorage.removeItem).toHaveBeenCalledWith('accessToken');
     });
   });
 
