@@ -7,7 +7,7 @@ import { changeStatusOptionList } from '../../../../definitions/statusList';
 
 import { PATCH_TYPE_STATUS } from '../../constants';
 import IncidentDetailContext from '../../context';
-import StatusForm from '.';
+import StatusForm, { MELDING_EXPLANATION, DEELMELDING_EXPLANATION } from '.';
 
 const defaultTexts = [
   {
@@ -32,9 +32,9 @@ const defaultTexts = [
 const close = jest.fn();
 const update = jest.fn();
 
-const renderWithContext = () =>
+const renderWithContext = (incident = incidentFixture) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident: incidentFixture, update, close }}>
+    <IncidentDetailContext.Provider value={{ incident, update, close }}>
       <StatusForm defaultTexts={defaultTexts} />
     </IncidentDetailContext.Provider>
   );
@@ -46,7 +46,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('renders correctly', () => {
-    const { container, getByTestId, getByLabelText } = render(renderWithContext());
+    const { container, getByTestId, getByLabelText, getByText } = render(renderWithContext());
 
     expect(container.querySelector('textarea')).toBeInTheDocument();
     expect(getByTestId('statusFormSubmitButton')).toBeInTheDocument();
@@ -55,6 +55,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     Object.values(changeStatusOptionList).forEach(({ value }) => {
       expect(getByLabelText(value)).toBeInTheDocument();
     });
+
+    expect(getByTestId('statusFormSendEmailField')).toBeInTheDocument();
+    expect(getByText(MELDING_EXPLANATION)).toBeInTheDocument();
   });
 
   it('shows default texts', () => {
@@ -167,9 +170,31 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(update).toHaveBeenCalledWith({
       type: PATCH_TYPE_STATUS,
       patch: {
-        status: { state: incidentFixture.status.state, state_display: incidentFixture.status.state_display },
+        status: {
+          state: incidentFixture.status.state,
+          text: '',
+          send_email: false,
+        },
       },
     });
     expect(close).toHaveBeenCalled();
+  });
+
+  it("doesn't show the send checkbox for a deelmelding", () => {
+    const deelmelding = {
+      ...incidentFixture,
+      _links: {
+        ...incidentFixture._links,
+        'sia:parent': {
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
+          public: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
+        },
+      },
+    };
+
+    const { queryByTestId, getByText } = render(renderWithContext(deelmelding));
+
+    expect(queryByTestId('statusFormSendEmailField')).not.toBeInTheDocument();
+    expect(getByText(DEELMELDING_EXPLANATION)).toBeInTheDocument();
   });
 });

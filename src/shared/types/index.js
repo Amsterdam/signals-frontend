@@ -155,6 +155,7 @@ export const incidentType = PropTypes.shape({
   status: PropTypes.shape({
     state: PropTypes.string,
     state_display: PropTypes.string,
+    send_email: PropTypes.bool,
   }),
   updated_at: dateType,
 });
