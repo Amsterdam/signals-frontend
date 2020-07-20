@@ -146,7 +146,7 @@ const StatusForm = ({ defaultTexts }) => {
         update({
           type: PATCH_TYPE_STATUS,
           patch: {
-            status: { state: form.value.status, text: form.value.text, send_email: form.value.send_email },
+            status: { state: form.value.state, text: form.value.text, send_email: form.value.send_email },
           },
         });
 

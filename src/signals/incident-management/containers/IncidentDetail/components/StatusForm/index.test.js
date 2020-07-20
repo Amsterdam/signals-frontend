@@ -172,7 +172,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       patch: {
         status: {
           state: incidentFixture.status.state,
-          state_display: incidentFixture.status.state_display,
+          text: '',
           send_email: false,
         },
       },
