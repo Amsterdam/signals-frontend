@@ -15,8 +15,14 @@ import FieldControlWrapper from '../../../../components/FieldControlWrapper';
 import RadioInput from '../../../../components/RadioInput';
 import TextAreaInput from '../../../../components/TextAreaInput';
 import DefaultTexts from './components/DefaultTexts';
+import CheckboxInput from './components/CheckboxInput';
 import IncidentDetailContext from '../../context';
 import { PATCH_TYPE_STATUS } from '../../constants';
+
+export const MELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet automatisch.';
+export const DEELMELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet.';
+export const MELDING_CHECKBOX_DESCRIPTION =
+  'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting';
 
 const CurrentStatus = styled.div`
   margin: ${themeSpacing(5, 0)};
@@ -98,12 +104,14 @@ const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
   const [warning, setWarning] = useState('');
+  const isDeelmelding = !!incident?._links?.['sia:parent'];
 
   const form = useMemo(
     () =>
       FormBuilder.group({
         state: [incident.status.state, Validators.required],
         text: [''],
+        send_email: [false],
       }),
     [incident.status]
   );
@@ -135,11 +143,10 @@ const StatusForm = ({ defaultTexts }) => {
           "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
         );
       } else {
-        const newStatus = statusList.find(({ key }) => key === form.value.state);
         update({
           type: PATCH_TYPE_STATUS,
           patch: {
-            status: { state: form.value.state, state_display: newStatus.value },
+            status: { state: form.value.state, text: form.value.text, send_email: form.value.send_email },
           },
         });
 
@@ -196,6 +203,19 @@ const StatusForm = ({ defaultTexts }) => {
                   render={TextAreaInput}
                   rows={10}
                 />
+                <Notification warning data-testid="statusFormToelichting">
+                  {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
+                </Notification>
+
+                {!isDeelmelding && (
+                  <FieldControlWrapper
+                    control={form.get('send_email')}
+                    data-testid="statusFormSendEmailField"
+                    name="send_email"
+                    label={MELDING_CHECKBOX_DESCRIPTION}
+                    render={CheckboxInput}
+                  />
+                )}
 
                 <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
                   Status opslaan
