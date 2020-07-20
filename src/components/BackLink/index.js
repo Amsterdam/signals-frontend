@@ -7,7 +7,6 @@ import {
   Icon,
   Typography,
   themeColor,
-  themeSpacing,
 } from '@datapunt/asc-ui';
 import { ChevronLeft } from '@datapunt/asc-assets';
 
@@ -19,10 +18,6 @@ const LinkLabel = styled(Typography).attrs({
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
 `;
 
-const Chevron = styled(ChevronLeft)`
-  display: inline-block;
-`;
-
 const StyledLink = styled(AscLink)`
   &:hover {
     * {
@@ -30,7 +25,7 @@ const StyledLink = styled(AscLink)`
     }
 
     path {
-      fill: ${themeColor('secondary')} !important;
+      fill: ${themeColor('secondary')};
     }
 
     text-decoration: none;
@@ -38,11 +33,8 @@ const StyledLink = styled(AscLink)`
 `;
 
 const StyledIcon = styled(Icon)`
-  margin: 0 ${themeSpacing(2)} 0 0 !important;
-  display: inline-block;
-
   svg > path {
-    fill: ${themeColor('primary')} !important;
+    fill: ${themeColor('primary')};
   }
 `;
 
@@ -53,7 +45,7 @@ const StyledIcon = styled(Icon)`
 const BackLink = ({ className, children, to }) => (
   <StyledLink className={className} forwardedAs={Link} to={to} data-testid="backlink">
     <StyledIcon size={12}>
-      <Chevron />
+      <ChevronLeft />
     </StyledIcon>
     <LinkLabel>{children}</LinkLabel>
   </StyledLink>

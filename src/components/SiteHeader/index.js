@@ -16,6 +16,7 @@ import {
   themeColor,
   themeSpacing,
   breakpoint,
+  styles,
 } from '@datapunt/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -25,7 +26,7 @@ import Logo from 'components/Logo';
 import configuration from 'shared/services/configuration/configuration';
 import AmsterdamLogo from 'components/AmsterdamLogo';
 
-export const menuBreakpoint = 1170;
+export const menuBreakpoint = 1200;
 
 const StyledHeader = styled(HeaderComponent)`
   a:link {
@@ -91,6 +92,16 @@ const SearchBarMenuItem = styled(MenuItem)`
 
 const StyledSearchBar = styled(SearchBar)`
   margin-top: 5px;
+
+  & ${styles.TextFieldStyle} > ${styles.InputStyle} {
+    height: ${themeSpacing(10)};
+  }
+
+  /* This selector should be styles.Button1Style but this is not exported from the library*/
+  & > button {
+    height: ${themeSpacing(10)} !important;
+    width: ${themeSpacing(10)} !important;
+  }
 `;
 
 const HeaderWrapper = styled.div`

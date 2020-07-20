@@ -162,10 +162,6 @@ fieldset {
   height: 100vh;
 }
 
-[aria-hidden="true"] {
-  display: none !important;
-}
-
 @media print {
   html, body {height: 100%;}
 

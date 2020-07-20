@@ -24,7 +24,6 @@ const StyledInput = styled.input`
   font-family: inherit;
   font-size: 16px;
   line-height: 22px;
-  padding: 8px; /* needed to style the textboxes as according to the design system */
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};

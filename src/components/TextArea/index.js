@@ -8,6 +8,7 @@ const { InputStyle } = styles;
 const StyledArea = styled.textarea`
   ${InputStyle.componentStyle.rules}
   font-family: inherit;
+  height: inherit;
   vertical-align: top; /* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
   min-height: 95px;
 `;
