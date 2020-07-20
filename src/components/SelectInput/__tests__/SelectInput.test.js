@@ -35,7 +35,12 @@ describe('<SelectInput />', () => {
     const onChangeMock = jest.fn();
     const { container } = render(<SelectInput {...props} onChange={onChangeMock} />);
 
-    fireEvent.change(container.querySelector('select'), { target: { value: 'active' } });
+    expect(onChangeMock).toHaveBeenCalledTimes(1);
+    onChangeMock.mockReset();
+
+    const select = container.querySelector('select');
+    select.value = 'active';
+    fireEvent.change(select);
     expect(onChangeMock).toHaveBeenCalledTimes(1);
   });
 });
