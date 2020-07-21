@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
 import isObject from 'lodash.isobject';
-import isArray from 'lodash.isarray';
 import isBoolean from 'lodash.isboolean';
 
 import { extraPropertiesType } from 'shared/types';
 
 const getValue = answer => {
-  if (isArray(answer)) {
+  if (Array.isArray(answer)) {
     return answer.map(item => (isObject(item) ? item.label : item)).join(', ');
   }
 
