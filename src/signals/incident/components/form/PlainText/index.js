@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import isArray from 'lodash.isarray';
 import isString from 'lodash.isstring';
 import get from 'lodash.get';
 
@@ -27,7 +26,7 @@ const PlainText = ({ meta, parent }) =>
       {meta.value && isString(meta.value) && renderText(meta.value, parent)}
 
       {meta.value &&
-        isArray(meta.value) &&
+        Array.isArray(meta.value) &&
         meta.value.map((paragraph, key) => (
           <div key={`${meta.name}-${key + 1}`} className={`plain-text__box-p plain-text__box-p-${key + 1}`}>
             {renderText(paragraph, parent)}

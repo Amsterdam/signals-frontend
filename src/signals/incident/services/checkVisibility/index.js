@@ -1,13 +1,12 @@
 import isEqual from 'lodash.isequal';
 import isObject from 'lodash.isobject';
-import isArray from 'lodash.isarray';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
 const isValueEqual = (objToCompareTo, value, key, verificationFunc) =>
-  (!isArray(value) && isEqual(value, objToCompareTo[key])) ||
-  (isArray(value) && verificationFunc.call(value, val => isValueEqual(objToCompareTo, val, key, verificationFunc))) ||
-  (isArray(objToCompareTo[key]) && objToCompareTo[key].includes(value)) ||
-  (isArray(objToCompareTo[key]) && verificationFunc.call(objToCompareTo[key], item => item.id === value)) ||
+  (!Array.isArray(value) && isEqual(value, objToCompareTo[key])) ||
+  (Array.isArray(value) && verificationFunc.call(value, val => isValueEqual(objToCompareTo, val, key, verificationFunc))) ||
+  (Array.isArray(objToCompareTo[key]) && objToCompareTo[key].includes(value)) ||
+  (Array.isArray(objToCompareTo[key]) && verificationFunc.call(objToCompareTo[key], item => item.id === value)) ||
   (isObject(objToCompareTo[key]) && objToCompareTo[key].value && isEqual(value, objToCompareTo[key].value)) ||
   (isObject(objToCompareTo[key]) && objToCompareTo[key].id && isEqual(value, objToCompareTo[key].id));
 
