@@ -83,6 +83,9 @@ sizes.forEach(size => {
         .first()
         .should('contain', 'Notitie toegevoegd')
         .and('be.visible');
+      // Added a wait because sometimes the test is failing, wait for route is not enough.
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
         .should('contain', note2)

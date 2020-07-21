@@ -131,7 +131,6 @@ describe('Change signal after submit', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
-
       // Check if background colour of changed element is flashing orange
       createSignal.checkFlashingYellow();
 
@@ -204,13 +203,6 @@ describe('Change signal after submit', () => {
       // Edit signal status
       cy.get(CHANGE_STATUS.buttonEdit).click();
       cy.contains('Status wijzigen').should('be.visible');
-
-      // Close edit status with X
-      cy.get(CHANGE_STATUS.buttonClose).click();
-      cy.contains(Cypress.env('description')).should('be.visible');
-
-      // Edit signal status
-      cy.get(CHANGE_STATUS.buttonEdit).click();
 
       // Check all checkboxes and submit change
       cy.get(CHANGE_STATUS.radioButtonGemeld).click().should('be.checked');

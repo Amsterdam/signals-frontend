@@ -1,8 +1,9 @@
 // <reference types="Cypress" />
 
-import * as overviewMap from '../support/commandsRequests';
+import * as requests from '../support/commandsRequests';
 import * as filtering from '../support/commandsFiltering';
 import { MANAGE_SIGNALS, FILTER, FILTER_ALL_ITEMS, MY_FILTERS } from '../support/selectorsManageIncidents';
+import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 
 describe('Filtering', () => {
   beforeEach(() => {
@@ -22,7 +23,23 @@ describe('Filtering', () => {
   });
 
   it('Should setup the testdata', () => {
-    overviewMap.createSignalFilters();
+    requests.createSignalFilters();
+
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/afval/sub_categories/overig-afval`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/civiele-constructies/sub_categories/afwatering-brug`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/ondermijning/sub_categories/vermoeden`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/eikenprocessierups`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/overig/sub_categories/overige-dienstverlening`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/markten`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/olie-op-het-water`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-door-afsteken-vuurwerk`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/schoon/sub_categories/uitwerpselen`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/parkeerautomaten`);
+    requests.createPublicSignalForFilters(`${Cypress.env('backendUrl')}/signals/v1/public/terms/categories/wonen/sub_categories/vakantieverhuur`);
+
+    requests.createPrivateSignalForFilters();
   });
 
   it('Should have no filters', () => {
@@ -38,12 +55,12 @@ describe('Filtering', () => {
   });
 
   it('Should create a filter and filter results', () => {
-    // Open page to create filter
+    cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
+    cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
     cy.get(MANAGE_SIGNALS.buttonFilteren)
       .should('be.visible')
       .click();
 
-    // Input filter data
     cy.get(FILTER.inputFilterName).type('Status Gemeld Westpoort');
     cy.get(FILTER.checkboxRefresh)
       .should('be.visible')
@@ -51,56 +68,37 @@ describe('Filtering', () => {
     cy.get(FILTER.checkboxGemeld).check();
     cy.get('#stadsdeel_B').check();
 
-    // Save and apply filter
     cy.get(FILTER.buttonSubmitFilter)
       .should('be.visible')
       .click();
     cy.wait('@postFilter');
     cy.wait('@getFilteredSignals');
     cy.wait('@getFilters');
-
-    // Check Filter data
     cy.get('h1').should('contain', 'Status Gemeld Westpoort (');
     cy.get(MANAGE_SIGNALS.refreshIcon).should('be.visible');
     cy.get(MANAGE_SIGNALS.filterTagList).should('contain', 'Westpoort').and('contain', 'Gemeld').and('be.visible');
 
-    // Wait is needed to wait for filter to be applied. cy.wait('@getFilters') is not enough.
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(1000);
-    cy.get('body').then(body => {
-      if (body.find('[data-testid="pagination"]').length > 0) {
-        // Check if signals on first page have correct stadsdeel
-        cy.get(MANAGE_SIGNALS.paginationPages)
-          .first()
-          .click();
-        cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e1 => {
-          expect($e1).to.have.text('Westpoort');
-        });
-        // Check if signals on last page have correct stadsdeel
-        cy.get(MANAGE_SIGNALS.paginationPages)
-          .last()
-          .click();
-        cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e2 => {
-          expect($e2).to.have.text('Westpoort');
-        });
-      } else {
-        cy.get(MANAGE_SIGNALS.stadsdeelFromSignal).each($e3 => { expect($e3).to.have.text('Westpoort'); });
-      }
-    });
+    cy.get('th').contains('Id').click();
+    cy.wait('@getSortedASC');
+    cy.get('th.sort.sort-up').should('have.text', 'Id').and('be.visible');
+    cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('have.text', 'Westpoort');
+
+    cy.get('th').contains('Id').click();
+    cy.wait('@getSortedDESC');
+    cy.get('th.sort.sort-down').should('have.text', 'Id').and('be.visible');
+    cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('have.text', 'Westpoort');
 
     cy.get(MANAGE_SIGNALS.buttonMijnFilters)
       .should('be.visible')
       .click();
     cy.get('h4').should('contain', 'Status Gemeld Westpoort');
 
-    // Check on 2 filter attributes
     cy.get(MANAGE_SIGNALS.filterTagList)
       .should('contain', 'Gemeld')
       .and('contain', 'Westpoort');
   });
 
   it('Should delete all filters', () => {
-    // Open private filters
     cy.get(MANAGE_SIGNALS.buttonMijnFilters)
       .should('be.visible')
       .click();
@@ -134,12 +132,11 @@ describe('Filtering', () => {
     cy.get(FILTER.checkboxRefresh).should('not.be.checked');
     cy.get(FILTER.inputFilterName).should('be.empty');
 
-    // Click cancel
     cy.get(FILTER.buttonCancel)
       .should('be.visible')
       .click();
   });
-  it('Should check and uncheck all checkboxes', () => {
+  it.skip('Should check and uncheck all checkboxes', () => {
     cy.get(MANAGE_SIGNALS.buttonFilteren)
       .should('be.visible')
       .click();
@@ -189,5 +186,121 @@ describe('Filtering', () => {
     filtering.filterCategory(FILTER_ALL_ITEMS.selectAllClean, 'schoon');
     filtering.filterCategory(FILTER_ALL_ITEMS.selectAllRoadsTraffic, 'wegen-verkeer-straatmeubilair');
     filtering.filterCategory(FILTER_ALL_ITEMS.selectAllLiving, 'wonen');
+  });
+
+  it('Should filter on Afval', () => {
+    filtering.filterOnCategorySlug('overig-afval', 'Overig afval');
+  });
+  it('Should filter on Civiele constructies', () => {
+    filtering.filterOnCategorySlug('afwatering-brug', 'Afwatering brug');
+  });
+  it('Should filter on Ondermijning', () => {
+    filtering.filterOnCategorySlug('vermoeden', 'Vermoeden');
+  });
+  it('Should filter on Openbaar groen en water', () => {
+    filtering.filterOnCategorySlug('eikenprocessierups', 'Eikenprocessierups');
+  });
+  it('Should filter on Overig', () => {
+    filtering.filterOnCategorySlug('overige-dienstverlening', 'Overige dienstverlening');
+  });
+  it('Should filter on Overlast bedrijven en horeca', () => {
+    filtering.filterOnCategorySlug('overlast-terrassen', 'Overlast terrassen');
+  });
+  it('Should filter on Overlast in de openbare ruimte', () => {
+    filtering.filterOnCategorySlug('markten', 'Markten');
+  });
+  it('Should filter on Overlast op het water', () => {
+    filtering.filterOnCategorySlug('olie-op-het-water', 'Olie op het water');
+  });
+  it('Should filter on Overlast van dieren', () => {
+    filtering.filterOnCategorySlug('ganzen', 'Ganzen');
+  });
+  it('Should filter on Overlast van en door personen of groepen', () => {
+    filtering.filterOnCategorySlug('overlast-door-afsteken-vuurwerk', 'Overlast door afsteken vuurwerk');
+  });
+  it('Should filter on Schoon', () => {
+    filtering.filterOnCategorySlug('uitwerpselen', 'Uitwerpselen');
+  });
+  it('Should filter on Wegen verkeer straatmeubilair', () => {
+    filtering.filterOnCategorySlug('parkeerautomaten', 'Parkeerautomaten');
+  });
+  it('Should filter on Wonen', () => {
+    filtering.filterOnCategorySlug('vakantieverhuur', 'Vakantieverhuur');
+  });
+  it('Should filter on uregentie hoog', () => {
+    cy.route('**?priority=high&page=1&ordering=-created_at&page_size=50').as('getUrgencyHigh');
+    cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
+    cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+
+    cy.get(FILTER.checkboxUrgentieHoog).check();
+
+    cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
+    cy.wait('@getUrgencyHigh');
+
+    cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoog').and('be.visible');
+    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
+
+    cy.get('th').contains('Id').click();
+    cy.wait('@getSortedASC');
+    cy.get('th.sort.sort-up').should('have.text', 'Id').and('be.visible');
+    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
+
+    cy.get('th').contains('Id').click();
+    cy.wait('@getSortedDESC');
+    cy.get('th.sort.sort-down').should('have.text', 'Id').and('be.visible');
+    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
+  });
+  it('Should filter on type klacht', () => {
+    cy.getSignalDetailsRoutes();
+    cy.route('**?type=COM&page=1&ordering=-created_at&page_size=50').as('getTypeKlacht');
+    cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
+    cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+
+    cy.get(FILTER.checkboxTypeKlacht).check();
+
+    cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
+    cy.wait('@getTypeKlacht');
+    cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Klacht').and('be.visible');
+
+    cy.get(MANAGE_SIGNALS.firstSignalId).click();
+    cy.waitForSignalDetailsRoutes();
+    cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht');
+    cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
+
+    cy.get('th').contains('Id').click();
+    cy.wait('@getSortedASC');
+    cy.get(MANAGE_SIGNALS.firstSignalId).click();
+    cy.waitForSignalDetailsRoutes();
+    cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht');
+    cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
+  });
+  it('Should filter on Bron Interswtich', () => {
+    cy.getSignalDetailsRoutes();
+    cy.route('**?source=Telefoon – Interswitch&page=1&ordering=-created_at&page_size=50').as('getBronInterswitch');
+    cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
+    cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+
+    cy.get(FILTER.checkboxBronInterswitch).check();
+
+    cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
+    cy.wait('@getBronInterswitch');
+    cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Telefoon – Interswitch').and('be.visible');
+
+    cy.get('th').contains('Id').click();
+    cy.wait('@getSortedASC');
+    cy.get(MANAGE_SIGNALS.firstSignalId).click();
+    cy.waitForSignalDetailsRoutes();
+    cy.get(SIGNAL_DETAILS.source).should('have.text', 'Telefoon – Interswitch');
+    cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
+
+    cy.get('th').contains('Id').click();
+    cy.wait('@getSortedDESC');
+    cy.get(MANAGE_SIGNALS.firstSignalId).click();
+    cy.waitForSignalDetailsRoutes();
+    cy.get(SIGNAL_DETAILS.source).should('have.text', 'Telefoon – Interswitch');
+    cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
   });
 });
