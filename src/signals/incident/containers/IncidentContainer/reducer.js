@@ -22,7 +22,6 @@ export const initialState = fromJS({
     description: '',
     email: '',
     handling_message: '',
-    images_errors: [],
     images_previews: [],
     images: [],
     location: undefined,

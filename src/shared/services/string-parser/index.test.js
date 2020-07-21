@@ -2,7 +2,7 @@ import { string2date, string2time } from '.';
 
 describe('The string parser service', () => {
   it('should return the correct date value', () => {
-    expect(string2time(null)).toEqual('');
+    expect(string2date(null)).toEqual('');
     expect(string2date('1970-07-21T11:55:00')).toEqual('21-07-1970');
   });
 

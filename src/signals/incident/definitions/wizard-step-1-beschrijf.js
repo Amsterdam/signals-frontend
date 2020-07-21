@@ -18,13 +18,11 @@ export default {
         if (control.meta && !control.meta.ignoreVisibility) {
           return checkVisibility(control, incident);
         }
-
         return false;
       })
     ) {
       return 'incident/telefoon';
     }
-
     return false;
   },
   nextButtonLabel: 'Volgende',
@@ -159,12 +157,6 @@ export default {
         },
         render: FormComponents.HiddenInput,
       },
-      images_errors: {
-        meta: {
-          label: 'images_errors',
-        },
-        render: FormComponents.HiddenInput,
-      },
       images: {
         meta: {
           label: "Foto's toevoegen",
@@ -174,7 +166,7 @@ export default {
           allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
           maxNumberOfFiles: 3,
         },
-        render: FormComponents.FileInput,
+        render: FormComponents.FileInputRenderer,
       },
       $field_0: {
         isStatic: false,
