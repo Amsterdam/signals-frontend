@@ -125,7 +125,6 @@ const SplitForm = ({ incident, attachments, onHandleCancel, onHandleSubmit }) =>
       });
     });
   }, [incident, form]);
-
   return (
     <div>
       <StyledDisclaimer data-testid="splitFormDisclaimer">

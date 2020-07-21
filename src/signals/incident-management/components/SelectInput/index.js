@@ -8,25 +8,29 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
-  const options = values.map(({ key, value, slug }) => ({
-    key: useSlug ? slug : key,
-    name: key ? value : emptyOptionText || value,
-    value: useSlug ? slug : key,
-  }));
+export const SelectInput = ({ name, display, values, useSlug, emptyOptionText = '' }) => {
+  const options =
+    values.map(({ key, value, slug }) => ({
+      key: useSlug ? slug : key,
+      name: key ? value : emptyOptionText || value,
+      value: useSlug ? slug : key,
+    }));
 
-  const render = ({ handler }) => (
-    <Wrapper>
-      <SelectInputComponent
-        label={<strong>{display}</strong>}
-        name={name}
-        data-testid={name}
-        id={`form${name}`}
-        {...handler()}
-        options={options}
-      />
-    </Wrapper>
-  );
+  const render = ({ handler, ...rest }) => {
+    console.log('SelectInput render', handler(), rest);
+    return (
+      <Wrapper>
+        <SelectInputComponent
+          label={<strong>{display}</strong>}
+          name={name}
+          data-testid={name}
+          id={`form${name}`}
+          {...handler()}
+          options={options}
+        />
+      </Wrapper>
+    );
+  };
 
   render.defaultProps = {
     touched: false,

@@ -95,7 +95,7 @@ describe('<SplitForm />', () => {
     expect(splitFormSubmit.disabled).toEqual(true);
   });
 
-  it('should handle submit with 2 items', () => {
+  it.only('should handle submit with 2 items', () => {
     const { getByTestId } = render(withAppContext(<SplitForm {...props} />));
 
     act(() => {
