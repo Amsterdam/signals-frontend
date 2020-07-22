@@ -1,5 +1,5 @@
 import React from 'react';
-
+import i18next from 'i18next';
 import { Validators } from 'react-reactive-form';
 
 import configuration from 'shared/services/configuration/configuration';
@@ -125,7 +125,7 @@ export const controls = {
         ],
       },
       type: 'alert',
-      value: [`Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`],
+      value: [`Bel direct ${i18next.t('phoneNumber')}. U hoeft dit formulier niet meer verder in te vullen.`],
     },
     render: FormComponents.PlainText,
   },
@@ -236,7 +236,7 @@ export const controls = {
         ],
       },
       type: 'alert',
-      value: [`Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`],
+      value: [`Bel direct ${i18next.t('phoneNumber')}. U hoeft dit formulier niet meer verder in te vullen.`],
     },
     render: FormComponents.PlainText,
   },
@@ -369,7 +369,7 @@ export const controls = {
         ],
       },
       type: 'alert',
-      value: [`Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`],
+      value: [`Bel direct ${i18next.t('phoneNumber')}. U hoeft dit formulier niet meer verder in te vullen.`],
     },
     render: FormComponents.PlainText,
   },

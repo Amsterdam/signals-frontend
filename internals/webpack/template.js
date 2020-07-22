@@ -4,9 +4,11 @@ const merge = require('lodash.merge');
 
 const template = {};
 
+/* eslint-disable global-require */
+
 if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line
   const config = require('../../environment.conf.json');
+  const translations = require('../../translations.json');
 
   const devConfigFile = `../../environment.conf.${process.env.NODE_ENV}.json`;
   let devConfig = {};
@@ -25,11 +27,12 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
     $SIGNALS_CONFIG: JSON.stringify(combinedConfig),
     $SIGNALS_FAVICON: combinedConfig.head.favicon,
     $SIGNALS_IOS_ICON: combinedConfig.head.iosIcon,
-    $SIGNALS_PWA_SHORT_TITLE: combinedConfig.language.shortTitle,
-    $SIGNALS_PWA_TITLE: combinedConfig.language.title,
-    $SIGNALS_SITE_TITLE: combinedConfig.language.siteTitle,
+    $SIGNALS_PWA_SHORT_TITLE: translations.nl.translation.shortTitle,
+    $SIGNALS_PWA_TITLE: translations.nl.translation.title,
+    $SIGNALS_SITE_TITLE: translations.nl.translation.siteTitle,
     $SIGNALS_STATUS_BAR_STYLE: combinedConfig.head.statusBarStyle,
     $SIGNALS_THEME_COLOR: combinedConfig.head.themeColor,
+    $SIGNALS_TRANSLATIONS: JSON.stringify(translations),
   };
   const indexFile = path.join(__dirname, '..', '..', 'src', 'index.html');
   const templateString = fs.readFileSync(indexFile).toString();

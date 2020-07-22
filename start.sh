@@ -2,11 +2,12 @@
 
 set -e
 
-node /internals/scripts/validate-config.js
+node /internals/scripts/validate-schemas.js
 
 export SIGNALS_SERVICE_WORKER_VERSION=$(date +"%Y-%m-%d %T")
 
 export SIGNALS_CONFIG=$(cat /environment.conf.json | jq -c)
+export SIGNALS_TRANSLATIONS=$(cat /translations.json | jq -c)
 
 export SIGNALS_ANDROID_ICON=$(cat /environment.conf.json | jq -r '.head.androidIcon')
 export SIGNALS_BACKGROUND_COLOR=$(cat /environment.conf.json | jq -r '.head.backgroundColor')

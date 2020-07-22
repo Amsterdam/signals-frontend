@@ -18,9 +18,6 @@
         "matomo": {
           "$ref": "#/definitions/Matomo"
         },
-        "language": {
-          "$ref": "#/definitions/Language"
-        },
         "links": {
           "$ref": "#/definitions/Links"
         },
@@ -195,7 +192,6 @@
         "USERS_ENDPOINT",
         "fetchQuestionsFromBackend",
         "head",
-        "language",
         "links",
         "logo",
         "map",
@@ -238,70 +234,6 @@
       },
       "required": ["androidIcon", "backgroundColor", "favicon", "iosIcon", "statusBarStyle", "themeColor"],
       "title": "Head"
-    },
-    "Language": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "avgDisclaimer": {
-          "description": "Text that outlines the use of privacy related information",
-          "type": "string"
-        },
-        "consentToContactSharing": {
-          "description": "The message to ask for consent to share contact information",
-          "type": "string"
-        },
-        "footer1": {
-          "description": "Extra information to show in the footer of the application",
-          "type": "string"
-        },
-        "footer2": {
-          "description": "Second line of information to show in the footer of the application",
-          "type": "string"
-        },
-        "headerTitle": {
-          "description": "The title to show in the header of the application, next to the logo",
-          "type": "string"
-        },
-        "phoneNumber": {
-          "description": "General phone number",
-          "type": "string"
-        },
-        "shortTitle": {
-          "description": "PWA `short_name` property value. Should not exceed 12 characters. See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/short_name for reference",
-          "type": "string"
-        },
-        "siteTitle": {
-          "description": "Application title showing up in the title bar and search results",
-          "type": "string"
-        },
-        "smallHeaderTitle": {
-          "description": "The title to show in the small version of the header",
-          "type": "string"
-        },
-        "title": {
-          "description": "PWA title value. See https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#:~:text=apple%2Dmobile%2Dweb%2Dapp%2Dstatus%2Dbar%2Dstyle,-Sets%20the%20style&text=If%20set%20to%20black%20%2C%20the,displayed%20below%20the%20status%20bar for reference",
-          "type": "string"
-        },
-        "urgentContactInfo": {
-          "description": "Extra information to show in case of an error",
-          "type": "string"
-        }
-      },
-      "required": [
-        "avgDisclaimer",
-        "consentToContactSharing",
-        "footer1",
-        "footer2",
-        "headerTitle",
-        "phoneNumber",
-        "shortTitle",
-        "siteTitle",
-        "smallHeaderTitle",
-        "title",
-        "urgentContactInfo"
-      ],
-      "title": "Language"
     },
     "Links": {
       "description": "Various Links",

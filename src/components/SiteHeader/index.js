@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
+import { useTranslation } from 'react-i18next';
 
 import { Logout as LogoutIcon } from '@datapunt/asc-assets';
 
@@ -266,9 +267,10 @@ const MenuItems = ({ onLogOut, showItems }) => {
 };
 
 export const SiteHeader = props => {
+  const { t } = useTranslation();
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
-  const title = tall ? configuration.language.headerTitle : configuration.language.smallHeaderTitle;
+  const title = tall ? t('headerTitle') : t('smallHeaderTitle');
   const homeLink = tall ? configuration.links.home : '/';
 
   const navigation = useMemo(

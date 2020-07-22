@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { Row, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
+import Trans from 'components/Trans';
+import { useTranslation } from 'react-i18next';
 
 import configuration from 'shared/services/configuration/configuration';
-import stringFormatter from 'shared/services/stringFormatter';
 
 const Disclaimer = styled.div`
   color: ${themeColor('bright', 'main')};
@@ -63,44 +64,33 @@ const Container = styled(Row)`
   }
 `;
 
-const Footer = () => (
-  <Fragment>
-    <FooterWrapper className="no-print" data-testid="siteFooter">
+const Footer = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Fragment>
+      <FooterWrapper className="no-print" data-testid="siteFooter">
+        <Container>
+          <Disclaimer data-testid="disclaimer">
+            <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
+            <Trans i18nKey="footer1" />
+            <br />
+            <span>{t('footer2')}</span>
+          </Disclaimer>
+
+          <Trans i18nKey="avgDisclaimer" />
+        </Container>
+      </FooterWrapper>
+
       <Container>
-        <Disclaimer data-testid="disclaimer">
-          <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
-          <span
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: stringFormatter(configuration.language.footer1, {
-                '##GENERAL_PHONE_NUMBER_FORMATTED##': configuration.language.phoneNumber.replace(' ', ''),
-                '##GENERAL_PHONE_NUMBER##': configuration.language.phoneNumber,
-              }),
-            }}
-          />
-          <br />
-          <span>{configuration.language.footer2}</span>
-        </Disclaimer>
-
-        <span
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: stringFormatter(configuration.language.avgDisclaimer, {
-              '##AVG_DISCLAIMER_URL##': configuration.links.privacy,
-            }),
-          }}
-        />
+        <Privacy>
+          <StyledLink href={configuration.links.privacy} variant="with-chevron">
+            Privacy
+          </StyledLink>
+        </Privacy>
       </Container>
-    </FooterWrapper>
-
-    <Container>
-      <Privacy>
-        <StyledLink href={configuration.links.privacy} variant="with-chevron">
-          Privacy
-        </StyledLink>
-      </Privacy>
-    </Container>
-  </Fragment>
-);
+    </Fragment>
+  );
+};
 
 export default Footer;

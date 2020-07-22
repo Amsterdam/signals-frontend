@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "nl": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "translation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "avgDisclaimerUrl": {
+              "type": "string",
+              "format": "uri"
+            },
+            "avgDisclaimer": {
+              "type": "string"
+            },
+            "consentToContactSharing": {
+              "type": "string"
+            },
+            "footer1": {
+              "type": "string"
+            },
+            "footer2": {
+              "type": "string"
+            },
+            "headerTitle": {
+              "type": "string"
+            },
+            "phoneNumber": {
+              "type": "string"
+            },
+            "shortTitle": {
+              "type": "string"
+            },
+            "siteTitle": {
+              "type": "string"
+            },
+            "smallHeaderTitle": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "urgentContactInfo": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "avgDisclaimerUrl",
+            "avgDisclaimer",
+            "consentToContactSharing",
+            "footer1",
+            "footer2",
+            "headerTitle",
+            "phoneNumber",
+            "shortTitle",
+            "siteTitle",
+            "smallHeaderTitle",
+            "title",
+            "urgentContactInfo"
+          ]
+        }
+      }
+    }
+  }
+}

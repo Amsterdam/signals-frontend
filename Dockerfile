@@ -70,8 +70,10 @@ COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 COPY environment.conf.json /environment.conf.json
+COPY translations.json /translations.json
 COPY internals/schemas/environment.conf.schema.json /internals/schemas/environment.conf.schema.json
-COPY internals/scripts/validate-config.js /internals/scripts/validate-config.js
+COPY internals/schemas/translations.schema.json /internals/schemas/translations.schema.json
+COPY internals/scripts/validate-schemas.js /internals/scripts/validate-schemas.js
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \

@@ -1,4 +1,4 @@
-import configuration from 'shared/services/configuration/configuration';
+import i18next from 'i18next';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components';
@@ -76,7 +76,7 @@ export default {
       sharing_allowed: {
         meta: {
           shortLabel: 'Toestemming contactgegevens delen',
-          value: configuration.language?.consentToContactSharing,
+          value: i18next.t('consentToContactSharing'),
           path: 'reporter.sharing_allowed',
         },
         render: FormComponents.EmphasisCheckboxInput,

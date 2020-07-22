@@ -1,4 +1,4 @@
-import configuration from 'shared/services/configuration/configuration';
+import i18next from 'i18next';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
@@ -15,7 +15,7 @@ export default {
           className: 'col-sm-12 col-md-6',
           label: 'Momenteel zijn er problemen met deze website en kan uw melding niet verwerkt worden.',
           type: 'bedankt',
-          value: ['Probeert u het later nogmaals.', configuration.language?.urgentContactInfo],
+          value: ['Probeert u het later nogmaals.', i18next.t('urgentContactInfo')],
         },
         render: FormComponents.PlainText,
       },

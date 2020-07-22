@@ -40,14 +40,14 @@
     "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage --verbose false",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage --verbose false",
     "test": "cross-env NODE_ENV=test jest --coverage",
-    "validate-config": "node ./internals/scripts/validate-config.js"
+    "validate-schemas": "node ./internals/scripts/validate-schemas.js"
   },
   "lint-staged": {
     "*.js": "eslint --ignore-pattern internals/scripts"
   },
   "pre-commit": [
     "lint:staged",
-    "validate-config"
+    "validate-schemas"
   ],
   "dependencies": {
     "@datapunt/amsterdam-react-maps": "^0.1.2",
@@ -63,6 +63,7 @@
     "eslint-plugin-testing-library": "^3.3.1",
     "history": "^4.10.1",
     "hoist-non-react-statics": "^3.3.2",
+    "i18next": "^19.6.2",
     "immutable": "^4.0.0-rc.12",
     "invariant": "^2.2.4",
     "leaflet": "^1.6.0",
@@ -86,6 +87,7 @@
     "react-albus": "^2.0.0",
     "react-datepicker": "^3.0.0",
     "react-dom": "^16.13.1",
+    "react-i18next": "^11.7.0",
     "react-media": "^1.10.0",
     "react-reactive-form": "1.0.27",
     "react-redux": "^7.2.0",

@@ -6,6 +6,8 @@ import * as Sentry from '@sentry/browser';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import Immutable from 'immutable';
 import history from 'utils/history';
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 
 // Import root app
 import App from 'containers/App';
@@ -81,6 +83,15 @@ if (module.hot) {
     render();
   });
 }
+
+i18n.use(initReactI18next).init({
+  debug: process.env.NODE_ENV === 'development',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
+  lng: 'nl',
+  resources: window.TRANSLATIONS,
+});
 
 render();
 
