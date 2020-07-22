@@ -33,13 +33,18 @@ export const checkDescriptionPage = () => {
 };
 
 export const checkFlashingYellow = () => {
-  cy.get('.highlight--active')
-    .then($selectors => {
-      const win = $selectors[0].ownerDocument.defaultView;
-      const after = win.getComputedStyle($selectors[0], 'after');
-      const contentValue = after.getPropertyValue('background-color');
-      expect(contentValue).to.eq('rgb(254, 200, 19)');
-    });
+  if (Cypress.browser.name === 'firefox') {
+    cy.log('No check on flashing yellow in Firefox');
+  }
+  else {
+    cy.get('.animate')
+      .then($selectors => {
+        const win = $selectors[0].ownerDocument.defaultView;
+        const after = win.getComputedStyle($selectors[0], 'after');
+        const contentValue = after.getPropertyValue('background-color');
+        expect(contentValue).to.eq('rgb(254, 200, 19)');
+      });
+  }
 };
 
 export const checkHeaderFooter = () => {
