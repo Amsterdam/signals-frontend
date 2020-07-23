@@ -50,3 +50,4 @@ Considering the above, [react-i18next](https://www.npmjs.com/package/react-i18ne
 - Splitting up the current configuration into environment configuration properties and language properties
 - Exposing the translations to the global scope like is done for the configuration props
 - Schema validation on translation JSON
+- Dynamically loading locale modules based on the language in the configuration (this might be a challenging one)
