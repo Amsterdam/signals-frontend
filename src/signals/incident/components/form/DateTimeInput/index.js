@@ -2,15 +2,12 @@ import React from 'react';
 import format from 'date-fns/format';
 import subDays from 'date-fns/subDays';
 import PropTypes from 'prop-types';
+import { nl } from 'date-fns/locale';
 import Select from 'components/SelectInput';
 import { capitalize } from 'shared/services/date-utils';
-import configuration from 'shared/services/configuration/configuration';
 import Header from '../Header';
 
 import './style.scss';
-
-const { lang } = configuration;
-const locale = require(`date-fns/locale/${lang}`);
 
 const formatDate = (offset, type = 'value') => {
   const dateFormat = type === 'label' ? 'EEEE d MMMM' : 'yyyy-MM-dd';
@@ -19,9 +16,9 @@ const formatDate = (offset, type = 'value') => {
   }
 
   const date = subDays(new Date(), offset);
-  return capitalize(format(date, dateFormat, { locale }));
+  return capitalize(format(date, dateFormat, { locale: nl }));
 };
-
+//
 const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   if (!meta?.isVisible) return null;
 
