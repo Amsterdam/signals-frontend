@@ -1,5 +1,3 @@
-export const DEFAULT_LOCALE = 'nl';
-
 export const PAGE_SIZE = 50;
 export const AUTHENTICATE_USER = 'sia/App/AUTHENTICATE_USER';
 export const AUTHORIZE_USER = 'sia/App/AUTHORIZE_USER';

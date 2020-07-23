@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
-import { capitalize } from 'shared/services/date-utils';
 import parseISO from 'date-fns/parseISO';
-import { nl } from 'date-fns/locale';
+
+import configuration from 'shared/services/configuration/configuration';
+import { capitalize } from 'shared/services/date-utils';
+
+const { lang } = configuration;
+const locale = require(`date-fns/locale/${lang}`);
 
 const getValue = (value, incident) => {
   if (value && value.id === 'Nu') {
@@ -18,7 +22,7 @@ const getValue = (value, incident) => {
     return `Vandaag, ${time}`;
   }
 
-  return `${capitalize(format(parseISO(incident.incident_date), 'EEEE d MMMM', { locale: nl }))}, ${time}`;
+  return `${capitalize(format(parseISO(incident.incident_date), 'EEEE d MMMM', { locale }))}, ${time}`;
 };
 
 const DateTime = ({ value, incident }) => getValue(value, incident);

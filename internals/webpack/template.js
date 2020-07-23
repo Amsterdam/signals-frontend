@@ -27,6 +27,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
     $SIGNALS_CONFIG: JSON.stringify(combinedConfig),
     $SIGNALS_FAVICON: combinedConfig.head.favicon,
     $SIGNALS_IOS_ICON: combinedConfig.head.iosIcon,
+    $SIGNALS_LANG: combinedConfig.lang,
     $SIGNALS_PWA_SHORT_TITLE: translations.nl.translation.shortTitle,
     $SIGNALS_PWA_TITLE: translations.nl.translation.title,
     $SIGNALS_SITE_TITLE: translations.nl.translation.siteTitle,

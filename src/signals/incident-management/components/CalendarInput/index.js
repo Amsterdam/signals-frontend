@@ -1,10 +1,16 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker, { registerLocale } from 'react-datepicker';
+
 import { dateToString } from 'shared/services/date-utils';
-import nl from 'date-fns/locale/nl';
+import configuration from 'shared/services/configuration/configuration';
+
 import CustomInput from './CustomInput';
-registerLocale('nl', nl);
+
+const { lang } = configuration;
+const locale = require(`date-fns/locale/${lang}`);
+
+registerLocale(lang, locale);
 
 const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => (
   <Fragment>
@@ -13,7 +19,7 @@ const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => (
       customInput={<CustomInput label={label} id={id} />}
       dateFormat="dd-MM-yyyy"
       id={id}
-      locale="nl"
+      locale={lang}
       onChange={onSelect}
       selected={selectedDate}
     />
