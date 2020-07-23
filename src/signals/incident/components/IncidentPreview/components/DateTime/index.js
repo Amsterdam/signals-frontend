@@ -3,7 +3,7 @@ import format from 'date-fns/format';
 import { capitalize } from 'shared/services/date-utils';
 import parseISO from 'date-fns/parseISO';
 import { nl } from 'date-fns/locale';
-//
+
 const getValue = (value, incident) => {
   if (value && value.id === 'Nu') {
     return 'Nu';

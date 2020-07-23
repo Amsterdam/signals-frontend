@@ -18,7 +18,7 @@ const formatDate = (offset, type = 'value') => {
   const date = subDays(new Date(), offset);
   return capitalize(format(date, dateFormat, { locale: nl }));
 };
-//
+
 const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
   if (!meta?.isVisible) return null;
 

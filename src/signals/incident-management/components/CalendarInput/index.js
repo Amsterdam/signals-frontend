@@ -5,7 +5,7 @@ import { dateToString } from 'shared/services/date-utils';
 import nl from 'date-fns/locale/nl';
 import CustomInput from './CustomInput';
 registerLocale('nl', nl);
-//
+
 const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => (
   <Fragment>
     <DatePicker
