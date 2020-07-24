@@ -55,6 +55,9 @@ describe('<MetaList />', () => {
 
       expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
       expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
+
+      expect(queryByTestId('meta-list-department-definition')).toHaveTextContent(/^Verantwoordelijke afdeling$/);
+      expect(queryByTestId('meta-list-department-value')).toHaveTextContent(incidentFixture.category.departments);
     });
 
     it('should render correctly with high priority', () => {

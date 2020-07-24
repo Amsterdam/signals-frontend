@@ -142,6 +142,9 @@ const MetaList = () => {
 
       <dt data-testid="meta-list-source-definition">Bron</dt>
       <dd data-testid="meta-list-source-value">{incident.source}</dd>
+
+      {incident.category.departments ? <dt data-testid="meta-list-department-definition">Verantwoordelijke afdeling</dt> : null}
+      {incident.category.departments ? <dd data-testid="meta-list-department-value">{incident.category.departments}</dd> : null}
     </List>
   );
 };
