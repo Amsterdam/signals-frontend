@@ -198,12 +198,12 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(getByText(DEELMELDING_EXPLANATION)).toBeInTheDocument();
   });
 
-  it('hides the  send checkbox when the excludes state is selected', async () => {
+  it('hides the  send checkbox when the excludes state is selected', () => {
     const { queryByTestId } = render(renderWithContext());
 
     const defaultRadioButton = queryByTestId('status-m');
 
-    await EMAIL_CHECKBOX_EXCLUDED_STATES.forEach(state => {
+    EMAIL_CHECKBOX_EXCLUDED_STATES.forEach(state => {
       act(() => {
         fireEvent.click(defaultRadioButton);
       });
