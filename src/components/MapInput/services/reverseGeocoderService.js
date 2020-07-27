@@ -10,14 +10,6 @@ export const findFeatureByType = (features, type) => {
   return feature?.properties;
 };
 
-export const getStadsdeel = async ({ lat, lng }) => {
-  const bagSserviceURL = `https://api.data.amsterdam.nl/geosearch/bag/?lat=${lat}&lon=${lng}&radius=50`;
-  const res = await fetch(bagSserviceURL).then(result => result.json());
-  const stadsdeel = findFeatureByType(res.features, 'gebieden/stadsdeel');
-
-  return stadsdeel !== undefined ? stadsdeel.code : null;
-};
-
 export const formatRequest = (baseUrl, wgs84point, distance = 50) => {
   const xyRD = wgs84ToRd(wgs84point);
   return `${baseUrl}&X=${xyRD.x}&Y=${xyRD.y}&distance=${distance}`;

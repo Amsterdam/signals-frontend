@@ -1,7 +1,6 @@
 import reverseGeocoderService, {
   findFeatureByType,
   formatRequest,
-  getStadsdeel,
   serviceURL,
 } from '../services/reverseGeocoderService';
 
@@ -55,42 +54,6 @@ describe('findFeatureByType', () => {
 
   it('should return a feature', () => {
     expect(findFeatureByType(bagResponse.features, 'gebieden/buurt')).toEqual(bagResponse.features[1].properties);
-  });
-});
-
-describe('getStadsdeel', () => {
-  it('should return null', async () => {
-    const noResultResponse = {
-      features: [
-        {
-          properties: {
-            code: '61b',
-            display: 'Vogelbuurt Zuid',
-            distance: 109.145476159977,
-            id: '03630000000644',
-            type: 'gebieden/buurt',
-            uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
-            vollcode: 'N61b',
-          },
-        },
-      ],
-    };
-
-    fetch.mockResponse(JSON.stringify(noResultResponse));
-
-    const location = { lat: 52.37377195, lng: 4.87745608 };
-    const stadsdeel = await getStadsdeel(location);
-
-    expect(stadsdeel).toBeNull();
-  });
-
-  it('should return code', async () => {
-    fetch.mockResponse(JSON.stringify(bagResponse));
-
-    const location = { lat: 52.37377195, lng: 4.87745608 };
-    const stadsdeel = await getStadsdeel(location);
-
-    expect(stadsdeel).toEqual(bagResponse.features[0].properties.code);
   });
 });
 
