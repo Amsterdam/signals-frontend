@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useMemo, useContext } from 're
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
 
-import { Heading, themeSpacing, Row, Column } from '@datapunt/asc-ui';
+import { Heading, themeSpacing, Row, Column, themeColor } from '@datapunt/asc-ui';
 import { defaultTextsType } from 'shared/types';
 import statusList, {
   defaultTextsOptionList,
@@ -22,7 +22,7 @@ import { PATCH_TYPE_STATUS } from '../../constants';
 export const MELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet automatisch.';
 export const DEELMELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet.';
 export const MELDING_CHECKBOX_DESCRIPTION =
-  'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting';
+  'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.';
 
 const CurrentStatus = styled.div`
   margin: ${themeSpacing(5, 0)};
@@ -36,7 +36,7 @@ const Form = styled.form`
     'options'
     'texts'
     'form';
-  grid-column-gap: 20px;
+  grid-column-gap: ${themeSpacing(5)};
   display: grid;
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
@@ -81,8 +81,8 @@ const Notification = styled.div`
     css`
       border-left: 3px solid;
       display: block;
-      margin: 30px 0;
-      padding-left: 20px;
+      margin: ${themeSpacing(8, 0)};
+      padding-left: ${themeSpacing(5)};
       border-color: #ec0000;
     `}
 
@@ -90,14 +90,16 @@ const Notification = styled.div`
 `;
 
 const Wrapper = styled(Row)`
-  padding-top: 20px;
+  background-color: ${themeColor('tint', 'level1')};
+  padding-top: ${themeSpacing(5)};
   position: relative;
 `;
 
 const StyledColumn = styled(Column)`
   display: block;
-  background: white;
+  background-color: ${themeColor('tint', 'level1')};
   position: relative;
+  margin-bottom: ${themeSpacing(3)};
 `;
 
 // Don't show the send email checkbox for statuses ingepland, hreopend, afgehandeld and geannuleerd
@@ -210,22 +212,23 @@ const StatusForm = ({ defaultTexts }) => {
                   rows={10}
                 />
 
-                {showSendMail && (<React.Fragment>
-                  <Notification warning data-testid="statusFormToelichting">
-                    {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
-                  </Notification>
+                {showSendMail && (
+                  <React.Fragment>
+                    <Notification warning data-testid="statusFormToelichting">
+                      {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
+                    </Notification>
 
-                  {!isDeelmelding && (
-                    <FieldControlWrapper
-                      control={form.get('send_email')}
-                      data-testid="statusFormSendEmailField"
-                      name="send_email"
-                      label={MELDING_CHECKBOX_DESCRIPTION}
-                      render={CheckboxInput}
-                    />
-                  )}</React.Fragment>
-                )
-                }
+                    {!isDeelmelding && (
+                      <FieldControlWrapper
+                        control={form.get('send_email')}
+                        data-testid="statusFormSendEmailField"
+                        name="send_email"
+                        label={MELDING_CHECKBOX_DESCRIPTION}
+                        render={CheckboxInput}
+                      />
+                    )}
+                  </React.Fragment>
+                )}
 
                 <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
                   Status opslaan
