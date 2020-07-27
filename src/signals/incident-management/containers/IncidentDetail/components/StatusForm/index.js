@@ -100,10 +100,15 @@ const StyledColumn = styled(Column)`
   position: relative;
 `;
 
+// Don't show the send email checkbox for statuses ingepland, hreopend, afgehandeld and geannuleerd
+export const EMAIL_CHECKBOX_EXCLUDED_STATES = ['ingepland', 'reopened', 'o', 'a'];
+const canSendMail = status => !EMAIL_CHECKBOX_EXCLUDED_STATES.includes(status);
+
 const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
   const [warning, setWarning] = useState('');
+  const [showSendMail, setShowSendMail] = useState(canSendMail(currentStatus?.key));
   const isDeelmelding = !!incident?._links?.['sia:parent'];
 
   const form = useMemo(
@@ -120,6 +125,7 @@ const StatusForm = ({ defaultTexts }) => {
     form.controls.state.valueChanges.subscribe(status => {
       const found = statusList.find(s => s.key === status);
 
+      setShowSendMail(canSendMail(found?.key));
       setWarning(found?.warning);
 
       const hasDefaultTexts = Boolean(defaultTextsOptionList.find(s => s.key === status));
@@ -203,19 +209,23 @@ const StatusForm = ({ defaultTexts }) => {
                   render={TextAreaInput}
                   rows={10}
                 />
-                <Notification warning data-testid="statusFormToelichting">
-                  {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
-                </Notification>
 
-                {!isDeelmelding && (
-                  <FieldControlWrapper
-                    control={form.get('send_email')}
-                    data-testid="statusFormSendEmailField"
-                    name="send_email"
-                    label={MELDING_CHECKBOX_DESCRIPTION}
-                    render={CheckboxInput}
-                  />
-                )}
+                {showSendMail && (<React.Fragment>
+                  <Notification warning data-testid="statusFormToelichting">
+                    {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
+                  </Notification>
+
+                  {!isDeelmelding && (
+                    <FieldControlWrapper
+                      control={form.get('send_email')}
+                      data-testid="statusFormSendEmailField"
+                      name="send_email"
+                      label={MELDING_CHECKBOX_DESCRIPTION}
+                      render={CheckboxInput}
+                    />
+                  )}</React.Fragment>
+                )
+                }
 
                 <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
                   Status opslaan
