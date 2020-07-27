@@ -95,11 +95,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
         setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value })
       );
 
-      onChange({
-        geometrie: locationTofeature(option.data.location),
-        address: option.data.address,
-        stadsdeel: configuration.map?.municipality,
-      });
+      onChange({ geometrie: locationTofeature(option.data.location), address: option.data.address });
 
       map.flyTo(option.data.location);
     },

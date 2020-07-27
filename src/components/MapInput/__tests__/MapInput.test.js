@@ -51,32 +51,6 @@ const geocoderResponse = {
   },
 };
 
-const bagResponse = {
-  features: [
-    {
-      properties: {
-        code: 'N',
-        display: 'Noord',
-        distance: 4467.47982312323,
-        id: '03630000000019',
-        type: 'gebieden/stadsdeel',
-        uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
-      },
-    },
-    {
-      properties: {
-        code: '61b',
-        display: 'Vogelbuurt Zuid',
-        distance: 109.145476159977,
-        id: '03630000000644',
-        type: 'gebieden/buurt',
-        uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
-        vollcode: 'N61b',
-      },
-    },
-  ],
-};
-
 describe('components/MapInput', () => {
   afterEach(() => {
     fetch.resetMocks();
@@ -179,8 +153,7 @@ describe('components/MapInput', () => {
     };
     fetch
       .mockResponseOnce(JSON.stringify(noneFoundResponse))
-      .mockResponseOnce(JSON.stringify(geocoderResponse))
-      .mockResponseOnce(JSON.stringify(bagResponse));
+      .mockResponseOnce(JSON.stringify(geocoderResponse));
 
     const { getByTestId, findByTestId } = render(
       withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
