@@ -1,14 +1,15 @@
 import React from 'react';
 import { fireEvent, render, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import incidentJson from 'utils/__tests__/fixtures/incident.json';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import ChangeValue from './index';
+import IncidentDetailContext from '../../../../context';
+
+import ChangeValue from '.';
 
 jest.mock('shared/services/list-helper/list-helper');
-
 
 const expectInitialState = async ({ queryByTestId, findByTestId }) => {
   const editButton = await findByTestId('editMockTypeButton');
@@ -26,36 +27,37 @@ const expectEditState = async ({ queryByTestId, findByTestId }) => {
   expect(changeValueForm).toBeInTheDocument();
 };
 
-describe('<ChangeValue />', () => {
-  let props = {
-    type: 'mockType',
-  };
+const props = {
+  list: [
+    { key: 'c', value: 'Cee', description: 'Foo bar baz' },
+    { key: 'b', value: 'Bee' },
+    { key: 'a', value: 'Aaaaaaaa', description: 'Zork' },
+  ],
+  display: 'De letter',
+  path: 'incident.mockPath',
+  patch: {},
+  disabled: false,
+  sort: false,
+  type: 'mockType',
+};
 
+const update = jest.fn();
+
+const renderWithContext = (componentProps = props) =>
+  withAppContext(
+    <IncidentDetailContext.Provider value={{ incident: { ...incidentFixture, someValue: 'c' }, update }}>
+      <ChangeValue {...componentProps} />
+    </IncidentDetailContext.Provider>
+  );
+
+describe('<ChangeValue />', () => {
   // data-testid attributes are generated dynamically
   const editTestId = `edit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
   const submitTestId = `submit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
   const cancelTestId = `cancel${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
 
   beforeEach(() => {
-    props = {
-      incident: {
-        ...incidentJson,
-        someValue: 'c',
-      },
-      list: [
-        { key: 'c', value: 'Cee', description: 'Foo bar baz' },
-        { key: 'b', value: 'Bee' },
-        { key: 'a', value: 'Aaaaaaaa', description: 'Zork' },
-      ],
-      display: 'De letter',
-      path: 'incident.mockPath',
-      patch: {},
-      disabled: false,
-      sort: false,
-      type: 'mockType',
-      onPatchIncident: jest.fn(),
-    };
-
+    update.mockReset();
     getListValueByKey.mockImplementation(() => 'mock waarde');
   });
 
@@ -64,7 +66,7 @@ describe('<ChangeValue />', () => {
   });
 
   it('should render correctly', async () => {
-    const renderProps = render(withAppContext(<ChangeValue {...props} />));
+    const renderProps = render(renderWithContext());
 
     await expectInitialState(renderProps);
 
@@ -75,8 +77,8 @@ describe('<ChangeValue />', () => {
     await expectEditState(renderProps);
   });
 
-  it('should call onPatchIncident', async () => {
-    const { getByTestId, findByTestId } = render(withAppContext(<ChangeValue {...props} />));
+  it('should call update', async () => {
+    const { getByTestId, findByTestId } = render(renderWithContext());
 
     const editButton = getByTestId(editTestId);
 
@@ -86,14 +88,13 @@ describe('<ChangeValue />', () => {
 
     const submitBtn = await findByTestId(submitTestId);
 
-    expect(props.onPatchIncident).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(submitBtn);
     });
 
-    expect(props.onPatchIncident).toHaveBeenCalledWith({
-      id: incidentJson.id,
+    expect(update).toHaveBeenCalledWith({
       type: props.type,
       patch: {
         incident: expect.any(Object),
@@ -102,7 +103,7 @@ describe('<ChangeValue />', () => {
   });
 
   it('should hide form on cancel', async () => {
-    const renderProps = render(withAppContext(<ChangeValue {...props} />));
+    const renderProps = render(renderWithContext());
 
     await expectInitialState(renderProps);
 
@@ -120,7 +121,7 @@ describe('<ChangeValue />', () => {
   });
 
   it('should hide form on ESC', async () => {
-    const renderProps = render(withAppContext(<ChangeValue {...props} />));
+    const renderProps = render(renderWithContext());
 
     await expectInitialState(renderProps);
 
@@ -156,7 +157,7 @@ describe('<ChangeValue />', () => {
   });
 
   it('should render info text', async () => {
-    const renderProps = render(withAppContext(<ChangeValue {...props} infoKey="description" />));
+    const renderProps = render(renderWithContext({ ...props, infoKey: 'description' }));
 
     await expectInitialState(renderProps);
 
@@ -168,7 +169,7 @@ describe('<ChangeValue />', () => {
 
     renderProps.unmount();
 
-    renderProps.rerender(withAppContext(<ChangeValue {...props} infoKey="description" valuePath="someValue" />));
+    renderProps.rerender(renderWithContext({ ...props, infoKey: 'description', valuePath: 'someValue' }));
 
     await expectInitialState(renderProps);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Image from './index';
+import Image from '.';
 
 describe('Preview component <Image />', () => {
   let wrapper;

@@ -2,7 +2,7 @@ import CheckboxInput from './CheckboxInput';
 import EmphasisCheckboxInput from './EmphasisCheckboxInput';
 import DescriptionWithClassificationInput from './DescriptionWithClassificationInput';
 import DateTimeInput from './DateTimeInput';
-import FileInput from './FileInput';
+import FileInputRenderer from './FileInputRenderer';
 import HandlingMessage from './HandlingMessage';
 import HiddenInput from './HiddenInput';
 import MultiTextInput from './MultiTextInput';
@@ -19,7 +19,7 @@ export default {
   CheckboxInput,
   DateTimeInput,
   DescriptionWithClassificationInput,
-  FileInput,
+  FileInputRenderer,
   HandlingMessage,
   HiddenInput,
   MapInput,

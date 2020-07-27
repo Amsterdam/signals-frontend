@@ -12,11 +12,12 @@ export const featureTolocation = ({ coordinates }) => ({
 
 export const wktPointToLocation = wktPoint => {
   if (!wktPoint.includes('POINT')) {
-    throw TypeError('Provided WKT geometry is not a point.');
+    throw new TypeError('Provided WKT geometry is not a point.');
   }
+
   const coordinate = wktPoint.split('(')[1].split(')')[0];
-  const lat = parseFloat(coordinate.split(' ')[1]);
-  const lng = parseFloat(coordinate.split(' ')[0]);
+  const lat = Number.parseFloat(coordinate.split(' ')[1]);
+  const lng = Number.parseFloat(coordinate.split(' ')[0]);
 
   return {
     lat,
@@ -45,6 +46,7 @@ export const mapLocation = loc => {
   if (loc.address) {
     value.address = loc.address;
   }
+
   return value;
 };
 

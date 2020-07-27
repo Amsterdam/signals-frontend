@@ -68,11 +68,11 @@ export const Title = styled(Heading).attrs({
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   font-weight: normal;
   margin: ${({ hasMargin }) =>
-    hasMargin
-      ? css`
+    hasMargin ?
+      css`
           ${themeSpacing(2)} 0 0
-        `
-      : 0};
+        ` :
+      0};
 
   & + & {
     margin-top: ${themeSpacing(2)};
@@ -87,11 +87,11 @@ export const Message = styled(Paragraph)`
 
 export const CloseButton = styled(Button)`
   ${({ alignTop }) =>
-    alignTop
-      ? css`
+    alignTop ?
+      css`
           margin-top: ${themeSpacing(2)};
-        `
-      : css`
+        ` :
+      css`
           align-self: center;
         `}
 

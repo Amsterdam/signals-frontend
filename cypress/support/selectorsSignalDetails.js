@@ -8,16 +8,16 @@ export const CHANGE_CATEGORY = {
 
 export const CHANGE_LOCATION = {
   buttonCancel: '[data-testid=cancelBtn]',
-  buttonEdit: '[class*=Location__Description] > [data-testid=editButton]',
+  buttonEdit: '[data-testid="editLocationButton"]',
+  buttonLocationDetailEdit: '[data-testid=location-preview-button-edit]',
   buttonSubmit: '[data-testid=submitBtn]',
 };
 
 export const CHANGE_STATUS = {
   buttonCancel: '[data-testid=statusFormCancelButton]',
-  buttonClose: '[class*="incident-detail__preview-close"]',
   buttonEdit: '[data-testid=editStatusButton]',
   buttonSubmit: '[data-testid=statusFormSubmitButton]',
-  currentStatus: '#currentStatus',
+  currentStatus: '[data-testid="currentStatus"]',
   inputToelichting: '[data-testid=text]',
   radioButtonGemeld: '[data-testid=status-m]',
   radioButtonInAfwachting: '[data-testid=status-i]',
@@ -55,7 +55,7 @@ export const SIGNAL_DETAILS = {
   buttonAddNote: '[data-testid=addNoteNewNoteButton]',
   buttonCancel: '[data-testid=cancelButton]',
   buttonCancelNote: '[data-testid=addNoteCancelNoteButton]',
-  buttonCloseImageViewer: '.incident-detail__preview-close',
+  buttonCloseImageViewer: '[data-testid=closeButton]',
   buttonEdit: '[data-testid="editButton"]',
   buttonSaveNote: '[data-testid=addNoteSaveNoteButton]',
   buttonSubmit: '[data-testid=submitButton]',
@@ -64,6 +64,7 @@ export const SIGNAL_DETAILS = {
   email: '[data-testid="detail-email-value"]',
   historyAction: '[class*="History__Action"]',
   historyListItem: '[data-testid="history-list-item-description"]',
+  imageLocation: '[data-testid=mapStaticImage]',
   infoText: '[data-testid=infoText]',
   inputNoteText: '[data-testid=addNoteText]',
   labelEmail: '[data-testid=detail-email-definition]',
@@ -71,6 +72,7 @@ export const SIGNAL_DETAILS = {
   labelOverlast: '[class*=Detail__DefinitionList] > :nth-child(1)',
   labelTelefoon: '[data-testid=detail-phone-definition]',
   labelToestemming: '[data-testid=detail-sharing-definition]',
+  linkTerugNaarOverzicht: '[data-testid=backlink]',
   mainCategory: '[data-testid="meta-list-main-category-value"]',
   phoneNumber: '[data-testid="detail-phone-value"]',
   photo: '[data-testid="attachmentsValueButton"]',

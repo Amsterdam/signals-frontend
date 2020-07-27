@@ -1,4 +1,4 @@
-import fileUploadChannel from './index';
+import fileUploadChannel from '.';
 
 describe('The file upload channel service', () => {
   let addEventListener;

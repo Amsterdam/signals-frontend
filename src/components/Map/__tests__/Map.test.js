@@ -111,7 +111,6 @@ describe('components/Map', () => {
     );
   });
 
-
   it('should show a notification whenever the location is out of bounds', () => {
     const coords = {
       accuracy: 50,

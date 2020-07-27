@@ -15,7 +15,6 @@ const DataViewHeaderRow = ({ nodes, testId, spacer }) => (
   </StyledTR>
 );
 
-
 DataViewHeaderRow.defaultProps = {
   testId: 'dataViewHeaderRow',
   spacer: 0,

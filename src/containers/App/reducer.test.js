@@ -230,7 +230,6 @@ describe('containers/App/reducer', () => {
       type: RESET_SEARCH_QUERY,
     };
 
-
     const otherState = initialState.set('searchQuery', 'search-term');
     expect(otherState.get('searchQuery')).toBe('search-term');
 
@@ -247,7 +246,6 @@ describe('containers/App/reducer', () => {
     const applyFilter = {
       type: APPLY_FILTER,
     };
-
 
     const otherState = initialState.set('searchQuery', 'search-term');
     expect(otherState.get('searchQuery')).toBe('search-term');

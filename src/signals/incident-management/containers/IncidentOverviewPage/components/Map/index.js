@@ -160,7 +160,6 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   useEffect(() => {
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
     setInitialMount(true);
-
     // eslint-disable-next-line
   }, []);
 
@@ -201,9 +200,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
         hasZoomControls
         mapOptions={{
           ...MAP_OPTIONS,
-          maxZoom: 16,
-          minZoom: 7,
-          zoom: 7,
+          ...configuration.map.optionsBackOffice || {},
         }}
         setInstance={setMap}
       >

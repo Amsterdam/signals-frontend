@@ -36,7 +36,7 @@ const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
 
   const templates = allText.templates.filter(({ title, text }) => title && text);
 
-  if (!templates) return null;
+  if (!templates.length) return null;
 
   return (
     <Fragment>

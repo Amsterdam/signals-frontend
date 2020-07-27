@@ -102,6 +102,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           global.window.alert('Filter naam mag niet leeg zijn');
           return;
         }
+
         onUpdateFilter(formData);
       }
 

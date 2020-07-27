@@ -33,7 +33,6 @@ export const MyFiltersComponent = ({
   onClose,
 }) => {
   const { emit } = useEventEmitter();
-
   /**
    * Selecting apply filter should show the filtered incidents as well as set the filter values
    * for the filter form and should thus call both the onApplyFilter and onEditFilter actions
@@ -60,8 +59,8 @@ export const MyFiltersComponent = ({
             onRemoveFilter={onRemoveFilter}
             onClose={onClose}
           />
-        ))
-        : (
+        )) :
+        (
           <div className="my-filters--empty">
             <p>U heeft geen eigen filter opgeslagen.</p>
             <p>

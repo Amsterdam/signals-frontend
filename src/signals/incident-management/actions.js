@@ -25,6 +25,7 @@ import {
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
   UPDATE_FILTER,
+  PATCH_INCIDENT_SUCCESS,
 } from './constants';
 
 export const getFiltersSuccess = payload => ({
@@ -148,4 +149,8 @@ export const searchIncidentsSuccess = payload => ({
 export const searchIncidentsError = payload => ({
   type: SEARCH_INCIDENTS_ERROR,
   payload,
+});
+
+export const patchIncidentSuccess = () => ({
+  type: PATCH_INCIDENT_SUCCESS,
 });

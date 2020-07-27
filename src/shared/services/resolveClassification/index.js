@@ -2,7 +2,7 @@ export const MINIMUM_CERTAINTY = 0.41;
 export const DEFAULT_CLASSIFICATION = 'overig';
 
 // main and subcategory slug matcher regex
-export const reCategory = /terms\/categories\/([^/]+)(?:\/?(?:[^/]+)\/([^/]+))?$/;
+export const reCategory = /terms\/categories\/([^/]+)(?:\/?[^/]+\/([^/]+))?$/;
 
 /**
  * Resolve classification

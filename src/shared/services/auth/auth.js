@@ -3,19 +3,21 @@ import randomStringGenerator from './services/random-string-generator/random-str
 import accessTokenParser from './services/access-token-parser/access-token-parser';
 import CONFIGURATION from '../configuration/configuration';
 
+const storage = global.localStorage ? global.localStorage : global.sessionStorage;
+
 // A map of the error keys, that the OAuth2 authorization service can return, to a full description
 const ERROR_MESSAGES = {
-  invalid_request: 'The request is missing a required parameter, includes an invalid parameter value, '
-    + 'includes a parameter more than once, or is otherwise malformed.',
+  invalid_request: 'The request is missing a required parameter, includes an invalid parameter value, ' +
+    'includes a parameter more than once, or is otherwise malformed.',
   unauthorized_client: 'The client is not authorized to request an access token using this method.',
   access_denied: 'The resource owner or authorization server denied the request.',
-  unsupported_response_type: 'The authorization server does not support obtaining an access token using '
-    + 'this method.',
+  unsupported_response_type: 'The authorization server does not support obtaining an access token using ' +
+    'this method.',
   invalid_scope: 'The requested scope is invalid, unknown, or malformed.',
-  server_error: 'The authorization server encountered an unexpected condition that prevented it from '
-    + 'fulfilling the request.',
-  temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a '
-    + 'temporary overloading or maintenance of the server.',
+  server_error: 'The authorization server encountered an unexpected condition that prevented it from ' +
+    'fulfilling the request.',
+  temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a ' +
+    'temporary overloading or maintenance of the server.',
 };
 
 // The parameters the OAuth2 authorization service will return on success
@@ -50,14 +52,14 @@ let tokenData = {};
  * service.
  */
 function handleError(code, description) {
-  localStorage.removeItem(STATE_TOKEN_KEY);
+  storage.removeItem(STATE_TOKEN_KEY);
 
   // Remove parameters from the URL, as set by the error callback from the
   // OAuth2 authorization service, to clean up the URL.
   global.location.assign(`${global.location.protocol}//${global.location.host}${global.location.pathname}`);
 
-  throw new Error('Authorization service responded with error '
-    + `${code} [${description}] (${ERROR_MESSAGES[code]})`);
+  throw new Error('Authorization service responded with error ' +
+    `${code} [${description}] (${ERROR_MESSAGES[code]})`);
 }
 
 /**
@@ -88,7 +90,7 @@ function handleCallback() {
 
   // The state param must be exactly the same as the state token we
   // have saved in local storage (to prevent CSRF)
-  const localStateToken = localStorage.getItem(STATE_TOKEN_KEY);
+  const localStateToken = storage.getItem(STATE_TOKEN_KEY);
   if (decodeURIComponent(params.state) !== localStateToken) {
     throw new Error(`Authenticator encountered an invalid state token (${params.state})`);
   }
@@ -96,15 +98,15 @@ function handleCallback() {
   const accessToken = params.access_token;
 
   tokenData = accessTokenParser(accessToken);
-  const localNonce = localStorage.getItem(NONCE_KEY);
+  const localNonce = storage.getItem(NONCE_KEY);
   if (tokenData.nonce && tokenData.nonce !== localNonce) {
     throw new Error(`Authenticator encountered an invalid nonce (${tokenData.nonce})`);
   }
 
-  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+  storage.setItem(ACCESS_TOKEN_KEY, accessToken);
 
-  localStorage.removeItem(STATE_TOKEN_KEY);
-  localStorage.removeItem(NONCE_KEY);
+  storage.removeItem(STATE_TOKEN_KEY);
+  storage.removeItem(NONCE_KEY);
 
   // Clean up URL; remove query and hash
   // https://stackoverflow.com/questions/4508574/remove-hash-from-url
@@ -117,11 +119,11 @@ function handleCallback() {
  * @returns {string} The access token.
  */
 export function getAccessToken() {
-  return localStorage.getItem(ACCESS_TOKEN_KEY);
+  return storage.getItem(ACCESS_TOKEN_KEY);
 }
 
 export function getOauthDomain() {
-  return localStorage.getItem(OAUTH_DOMAIN_KEY);
+  return storage.getItem(OAUTH_DOMAIN_KEY);
 }
 
 /**
@@ -138,24 +140,24 @@ function restoreAccessToken() {
  * Redirects to the OAuth2 authorization service.
  */
 export function login(domain) {
+  if (typeof global.Storage === 'undefined') {
+    throw new TypeError('Storage not available; cannot proceed with logging in');
+  }
+
   // Get the URI the OAuth2 authorization service needs to use as callback
   // const callback = encodeURIComponent(`${location.protocol}//${location.host}${location.pathname}`);
   // Get a random string to prevent CSRF
   const stateToken = randomStringGenerator();
-  if (!stateToken) {
-    throw new Error('crypto library is not available on the current browser');
-  }
-
   const nonce = randomStringGenerator();
-  if (!nonce) {
+  if (!stateToken || !nonce) {
     throw new Error('crypto library is not available on the current browser');
   }
 
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  storage.removeItem(ACCESS_TOKEN_KEY);
 
-  localStorage.setItem(STATE_TOKEN_KEY, stateToken);
-  localStorage.setItem(NONCE_KEY, nonce);
-  localStorage.setItem(OAUTH_DOMAIN_KEY, domain);
+  storage.setItem(STATE_TOKEN_KEY, stateToken);
+  storage.setItem(NONCE_KEY, nonce);
+  storage.setItem(OAUTH_DOMAIN_KEY, domain);
 
   const encodedClientId = encodeURIComponent(CONFIGURATION.OIDC_CLIENT_ID);
   const encodedResponseType = encodeURIComponent(CONFIGURATION.OIDC_RESPONSE_TYPE);
@@ -178,8 +180,8 @@ export function login(domain) {
 }
 
 export function logout() {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
-  localStorage.removeItem(OAUTH_DOMAIN_KEY);
+  storage.removeItem(ACCESS_TOKEN_KEY);
+  storage.removeItem(OAUTH_DOMAIN_KEY);
 }
 
 /**
@@ -222,18 +224,17 @@ export function getName() {
  */
 export function getAuthHeaders() {
   const accessToken = getAccessToken();
-  return accessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {};
+  return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
 }
 
-
-export function authenticate() {
+export const authenticate = () => {
   initAuth();
 
   const accessToken = getAccessToken();
+
   if (accessToken) {
-    const credentials = { userName: getName(), userScopes: getScopes(), accessToken: getAccessToken() };
-    return credentials;
+    return { userName: getName(), userScopes: getScopes(), accessToken };
   }
 
   return null;
-}
+};

@@ -1,14 +1,13 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import * as reactRedux from 'react-redux';
 
-import { PATCH_TYPE_STATUS } from 'models/incident/constants';
-import { patchIncident } from 'models/incident/actions';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { changeStatusOptionList } from '../../../../definitions/statusList';
 
-import StatusForm from '.';
+import { PATCH_TYPE_STATUS } from '../../constants';
+import IncidentDetailContext from '../../context';
+import StatusForm, { MELDING_EXPLANATION, DEELMELDING_EXPLANATION } from '.';
 
 const defaultTexts = [
   {
@@ -30,20 +29,24 @@ const defaultTexts = [
   },
 ];
 
-const onClose = jest.fn();
-const dispatch = jest.fn();
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+const close = jest.fn();
+const update = jest.fn();
+
+const renderWithContext = (incident = incidentFixture) =>
+  withAppContext(
+    <IncidentDetailContext.Provider value={{ incident, update, close }}>
+      <StatusForm defaultTexts={defaultTexts} />
+    </IncidentDetailContext.Provider>
+  );
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   beforeEach(() => {
-    onClose.mockReset();
-    dispatch.mockReset();
+    close.mockReset();
+    update.mockReset();
   });
 
   it('renders correctly', () => {
-    const { container, getByTestId, getByLabelText } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { container, getByTestId, getByLabelText, getByText } = render(renderWithContext());
 
     expect(container.querySelector('textarea')).toBeInTheDocument();
     expect(getByTestId('statusFormSubmitButton')).toBeInTheDocument();
@@ -52,14 +55,15 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     Object.values(changeStatusOptionList).forEach(({ value }) => {
       expect(getByLabelText(value)).toBeInTheDocument();
     });
+
+    expect(getByTestId('statusFormSendEmailField')).toBeInTheDocument();
+    expect(getByText(MELDING_EXPLANATION)).toBeInTheDocument();
   });
 
   it('shows default texts', () => {
     const stateWithTexts = defaultTexts[0].state;
 
-    const { getByText, getByTestId, queryByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { getByText, getByTestId, queryByTestId } = render(renderWithContext());
 
     const radioButton = getByTestId(`status-${stateWithTexts}`);
 
@@ -77,9 +81,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('does not show default texts', () => {
-    const { getByTestId, queryByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { getByTestId, queryByTestId } = render(renderWithContext());
 
     expect(queryByTestId('defaultTextsTitle')).not.toBeInTheDocument();
 
@@ -96,9 +98,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   it('applies default text selection', () => {
     const stateWithTexts = defaultTexts[0].state;
 
-    const { container, getByTestId, getAllByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { container, getByTestId, getAllByTestId } = render(renderWithContext());
 
     const radioButton = getByTestId(`status-${stateWithTexts}`);
 
@@ -134,9 +134,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   it('should alert on presence of specific characters', () => {
     global.alert = jest.fn();
 
-    const { container, getByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { container, getByTestId } = render(renderWithContext());
 
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
@@ -160,26 +158,43 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it('should handle submit', () => {
-    const { getByTestId } = render(
-      withAppContext(<StatusForm incident={incidentFixture} defaultTexts={defaultTexts} onClose={onClose} />)
-    );
+    const { getByTestId } = render(renderWithContext());
 
-    expect(onClose).not.toHaveBeenCalled();
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(close).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
 
-    expect(dispatch).toHaveBeenCalledWith(
-      patchIncident({
-        id: incidentFixture.id,
-        type: PATCH_TYPE_STATUS,
-        patch: {
-          status: { state: incidentFixture.status.state, text: '' },
+    expect(update).toHaveBeenCalledWith({
+      type: PATCH_TYPE_STATUS,
+      patch: {
+        status: {
+          state: incidentFixture.status.state,
+          text: '',
+          send_email: false,
         },
-      })
-    );
-    expect(onClose).toHaveBeenCalled();
+      },
+    });
+    expect(close).toHaveBeenCalled();
+  });
+
+  it("doesn't show the send checkbox for a deelmelding", () => {
+    const deelmelding = {
+      ...incidentFixture,
+      _links: {
+        ...incidentFixture._links,
+        'sia:parent': {
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
+          public: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
+        },
+      },
+    };
+
+    const { queryByTestId, getByText } = render(renderWithContext(deelmelding));
+
+    expect(queryByTestId('statusFormSendEmailField')).not.toBeInTheDocument();
+    expect(getByText(DEELMELDING_EXPLANATION)).toBeInTheDocument();
   });
 });

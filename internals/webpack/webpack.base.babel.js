@@ -7,7 +7,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 const __rootdir = pkgDir.sync();
-const version = require(path.resolve(__rootdir, 'package.json')).version;
 
 const esModules = [
   path.resolve(__rootdir, 'node_modules/@datapunt/asc-assets'),
@@ -123,7 +122,7 @@ module.exports = options => ({
     // drop any unreachable code.
     new webpack.EnvironmentPlugin({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      GIT_COMMIT: JSON.stringify(process.env.GIT_COMMIT) || 'dummy',
+      GIT_BRANCH: JSON.stringify(process.env.GIT_BRANCH) || 'dummy',
     }),
 
     new MiniCssExtractPlugin({
@@ -137,9 +136,6 @@ module.exports = options => ({
     new CopyPlugin({ patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }] }),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
-    new webpack.DefinePlugin({
-      VERSION: JSON.stringify(version),
-    }),
   ]
     .concat(options.plugins)
     .filter(Boolean),

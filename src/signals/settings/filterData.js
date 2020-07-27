@@ -15,9 +15,9 @@ const filterData = (data, colMap) => {
       .filter(key => allowedKeys.includes(key))
       .reduce((rawObj, key) => {
         const obj = { ...rawObj };
-        let value = Array.isArray(item[key])
-          ? item[key].join(', ')
-          : item[key];
+        let value = Array.isArray(item[key]) ?
+          item[key].join(', ') :
+          item[key];
 
         if (typeof value === 'boolean') {
           value = value ? 'Actief' : 'Niet actief';

@@ -15,11 +15,11 @@ const dateTypeFactory = isRequired =>
       `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
 
     if (date === undefined) {
-      return isRequired
-        ? new Error(
+      return isRequired ?
+        new Error(
           `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``
-        )
-        : null;
+        ) :
+        null;
     }
 
     if (!isDate(date)) {
@@ -152,8 +152,29 @@ export const incidentType = PropTypes.shape({
   status: PropTypes.shape({
     state: PropTypes.string,
     state_display: PropTypes.string,
+    send_email: PropTypes.bool,
   }),
   updated_at: dateType,
+});
+
+export const childIncidentType = PropTypes.exact({
+  _links: PropTypes.exact({
+    self: PropTypes.shape({
+      href: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  category: PropTypes.exact({
+    departments: PropTypes.string.isRequired,
+    main: PropTypes.string.isRequired,
+    main_slug: PropTypes.string.isRequired,
+    sub: PropTypes.string.isRequired,
+    sub_slug: PropTypes.string.isRequired,
+  }).isRequired,
+  id: PropTypes.number.isRequired,
+  status: PropTypes.exact({
+    state: PropTypes.string.isRequired,
+    state_display: PropTypes.string.isRequired,
+  }),
 });
 
 export const attachmentsType = PropTypes.arrayOf(

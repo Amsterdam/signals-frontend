@@ -1,4 +1,4 @@
-import onNext from './index';
+import onNext from '.';
 // import wizardDefinition from './mock';
 
 describe('The wizard on next service', () => {

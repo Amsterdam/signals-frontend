@@ -2,7 +2,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Ul from './index';
+import Ul from '.';
 
 describe('Definition component <Ul />', () => {
   const MockListComponent = ({ items }) => (

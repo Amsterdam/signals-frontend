@@ -50,10 +50,9 @@ export default (state, action) => {
         },
         can_view: {
           ...state.can_view,
-          [action.payload.slug]: !action.payload.subCategories.length
-            ? // return an empty list when the whole group has been toggled off
-            []
-            : (state.can_view[action.payload.slug] || [])
+          [action.payload.slug]: !action.payload.subCategories.length ? // return an empty list when the whole group has been toggled off
+            [] :
+            (state.can_view[action.payload.slug] || [])
               // take all can_view categories from the state that are not
               // present in the payload
               .filter(

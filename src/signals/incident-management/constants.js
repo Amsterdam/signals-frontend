@@ -35,3 +35,5 @@ export const UPDATE_FILTER_SUCCESS = 'sia/incidentManagement/UPDATE_FILTER_SUCCE
 export const SEARCH_INCIDENTS = 'sia/incidentManagement/SEARCH_INCIDENTS';
 export const SEARCH_INCIDENTS_SUCCESS = 'sia/incidentManagement/SEARCH_INCIDENTS_SUCCESS';
 export const SEARCH_INCIDENTS_ERROR = 'sia/incidentManagement/SEARCH_INCIDENTS_ERROR';
+
+export const PATCH_INCIDENT_SUCCESS = 'sia/incidentManagement/PATCH_INCIDENT_SUCCESS';

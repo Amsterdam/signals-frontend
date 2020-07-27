@@ -17,7 +17,7 @@ fetchMock.enableMocks();
 Enzyme.configure({ adapter: new Adapter() });
 
 // Custom JSDOM
-const { window } = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`, { pretendToBeVisual: true, resources: 'usable' });
+const { window } = new JSDOM('<!DOCTYPE html><p>Hello world</p>', { pretendToBeVisual: true, resources: 'usable' });
 global.window = window;
 global.document = window.document;
 
