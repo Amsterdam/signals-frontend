@@ -1,35 +1,4 @@
-import reverseGeocoderService, {
-  findFeatureByType,
-  formatRequest,
-  serviceURL,
-} from '../services/reverseGeocoderService';
-
-const bagResponse = {
-  features: [
-    {
-      properties: {
-        code: 'N',
-        display: 'Noord',
-        distance: 4467.47982312323,
-        id: '03630000000019',
-        type: 'gebieden/stadsdeel',
-        uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
-      },
-    },
-    {
-      properties: {
-        code: '61b',
-        display: 'Vogelbuurt Zuid',
-        distance: 109.145476159977,
-        id: '03630000000644',
-        type: 'gebieden/buurt',
-        uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
-        vollcode: 'N61b',
-      },
-    },
-  ],
-  type: 'FeatureCollection',
-};
+import reverseGeocoderService, { formatRequest, serviceURL } from '../services/reverseGeocoderService';
 
 describe('formatRequest', () => {
   const testLocation = {
@@ -44,16 +13,6 @@ describe('formatRequest', () => {
 
   it('should format correct with distance', () => {
     expect(formatRequest('https://base-url', testLocation, 20)).toEqual(`${result}20`);
-  });
-});
-
-describe('findFeatureByType', () => {
-  it('should return undefined', () => {
-    expect(findFeatureByType(bagResponse.features, 'notInTheList')).toBeUndefined();
-  });
-
-  it('should return a feature', () => {
-    expect(findFeatureByType(bagResponse.features, 'gebieden/buurt')).toEqual(bagResponse.features[1].properties);
   });
 });
 
