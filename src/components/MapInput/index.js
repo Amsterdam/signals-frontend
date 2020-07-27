@@ -20,7 +20,7 @@ import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
 
 import Map from '../Map';
 import PDOKAutoSuggest from '../PDOKAutoSuggest';
-import reverseGeocoderService, { getStadsdeel } from './services/reverseGeocoderService';
+import reverseGeocoderService from './services/reverseGeocoderService';
 
 const Wrapper = styled.div`
   position: relative;
@@ -73,13 +73,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
       dispatch(setLocationAction(event.latlng));
 
       const response = await reverseGeocoderService(event.latlng);
-      const stadsdeel = configuration?.map?.options?.stadsdeel || await getStadsdeel(event.latlng);
-
-      const onChangePayload = {
-        geometrie: locationTofeature(event.latlng),
-        stadsdeel,
-      };
-
+      const onChangePayload = { geometrie: locationTofeature(event.latlng) };
       const addressText = response?.value || '';
       const address = response?.data?.address || '';
 
@@ -87,13 +81,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
         onChangePayload.address = response.data.address;
       }
 
-      dispatch(
-        setValuesAction({
-          addressText,
-          address,
-          stadsdeel,
-        })
-      );
+      dispatch(setValuesAction({ addressText, address }));
 
       onChange(onChangePayload);
       dispatch(setLoadingAction(false));
@@ -102,17 +90,15 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
   );
 
   const onSelect = useCallback(
-    async option => {
+    option => {
       dispatch(
         setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value })
       );
 
-      const stadsdeel = configuration?.map?.options?.stadsdeel || await getStadsdeel(option.data.location);
-
       onChange({
         geometrie: locationTofeature(option.data.location),
         address: option.data.address,
-        stadsdeel,
+        stadsdeel: configuration.map?.municipality,
       });
 
       map.flyTo(option.data.location);
