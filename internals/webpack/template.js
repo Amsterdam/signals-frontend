@@ -20,9 +20,9 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
     console.log(`You can use \`${devConfigFile}\` for configuration overwrites in your development environment.\n`);
   }
 
+  const combinedConfig = merge({}, config, devConfig);
   const { lang } = combinedConfig;
 
-  const combinedConfig = merge({}, config, devConfig);
   const placeholders = {
     $SIGNALS_ANDROID_ICON: combinedConfig.head.androidIcon,
     $SIGNALS_BACKGROUND_COLOR: combinedConfig.head.backgroundColor,
@@ -30,11 +30,11 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
     $SIGNALS_FAVICON: combinedConfig.head.favicon,
     $SIGNALS_IOS_ICON: combinedConfig.head.iosIcon,
     $SIGNALS_LANG: lang,
-    $SIGNALS_PWA_SHORT_TITLE: translations[lang].translation.shortTitle,
-    $SIGNALS_PWA_TITLE: translations[lang].translation.title,
+    $SIGNALS_MANIFEST_SHORT_NAME: translations[lang].translation.manifestShortName,
+    $SIGNALS_MANIFEST_NAME: translations[lang].translation.manifestName,
     $SIGNALS_SITE_TITLE: translations[lang].translation.siteTitle,
     $SIGNALS_STATUS_BAR_STYLE: combinedConfig.head.statusBarStyle,
-    $SIGNALS_THEME_COLOR: combinedConfig.head.themeColor,
+    $SIGNALS_MANIFEST_THEME_COLOR: combinedConfig.head.manifestThemeColor,
     $SIGNALS_TRANSLATIONS: JSON.stringify(translations),
   };
   const indexFile = path.join(__dirname, '..', '..', 'src', 'index.html');

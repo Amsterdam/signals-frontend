@@ -5,7 +5,7 @@
     "favicon": "/favicon.png",
     "iosIcon": "/icon_180x180.png",
     "statusBarStyle": "default",
-    "themeColor": "#ec0000"
+    "manifestThemeColor": "#ec0000"
   },
   "lang": "nl",
   "logo": {

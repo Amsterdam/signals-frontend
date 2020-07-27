@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Row, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 import Trans from 'components/Trans';
-import { useTranslation } from 'react-i18next';
 
 import configuration from 'shared/services/configuration/configuration';
 
@@ -64,33 +63,27 @@ const Container = styled(Row)`
   }
 `;
 
-const Footer = () => {
-  const { t } = useTranslation();
-
-  return (
-    <Fragment>
-      <FooterWrapper className="no-print" data-testid="siteFooter">
-        <Container>
-          <Disclaimer data-testid="disclaimer">
-            <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
-            <Trans i18nKey="footer1" />
-            <br />
-            <span>{t('footer2')}</span>
-          </Disclaimer>
-
-          <Trans i18nKey="avgDisclaimer" />
-        </Container>
-      </FooterWrapper>
-
+const Footer = () => (
+  <Fragment>
+    <FooterWrapper className="no-print" data-testid="siteFooter">
       <Container>
-        <Privacy>
-          <StyledLink href={configuration.links.privacy} variant="with-chevron">
-            Privacy
-          </StyledLink>
-        </Privacy>
+        <Disclaimer data-testid="disclaimer">
+          <StyledHeading forwardedAs="h2">Lukt het niet om een melding te doen?</StyledHeading>
+          <Trans i18nKey="callMunicipalInfoNumber" />
+        </Disclaimer>
+
+        <Trans i18nKey="avgDisclaimer" />
       </Container>
-    </Fragment>
-  );
-};
+    </FooterWrapper>
+
+    <Container>
+      <Privacy>
+        <StyledLink href={configuration.links.privacy} variant="with-chevron">
+          Privacy
+        </StyledLink>
+      </Privacy>
+    </Container>
+  </Fragment>
+);
 
 export default Footer;

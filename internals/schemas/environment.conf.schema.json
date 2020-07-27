@@ -232,12 +232,12 @@
           "type": "string",
           "description": "Contains value that sets the style of the status bar for the web application. See https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#:~:text=apple%2Dmobile%2Dweb%2Dapp%2Dstatus%2Dbar%2Dstyle,-Sets%20the%20style&text=If%20set%20to%20black%20%2C%20the,displayed%20below%20the%20status%20bar for reference"
         },
-        "themeColor": {
+        "manifestThemeColor": {
           "type": "string",
           "description": "Value that sets the color of the tool bar, and may be reflected in the app's preview in task switchers"
         }
       },
-      "required": ["androidIcon", "backgroundColor", "favicon", "iosIcon", "statusBarStyle", "themeColor"],
+      "required": ["androidIcon", "backgroundColor", "favicon", "iosIcon", "statusBarStyle", "manifestThemeColor"],
       "title": "Head"
     },
     "Links": {

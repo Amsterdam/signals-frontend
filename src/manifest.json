@@ -13,9 +13,9 @@
       "type": "image/png"
     }
   ],
-  "name": "$SIGNALS_PWA_TITLE",
+  "name": "$SIGNALS_MANIFEST_NAME",
   "orientation": "portrait",
-  "short_name": "$SIGNALS_PWA_SHORT_TITLE",
+  "short_name": "$SIGNALS_MANIFEST_SHORT_NAME",
   "start_url": "/",
-  "theme_color": "$SIGNALS_THEME_COLOR"
+  "theme_color": "$SIGNALS_MANIFEST_THEME_COLOR"
 }
