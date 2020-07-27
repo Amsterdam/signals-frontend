@@ -101,7 +101,8 @@ const StyledColumn = styled(Column)`
 `;
 
 // Don't show the send email checkbox for statuses ingepland, hreopend, afgehandeld and geannuleerd
-const canSendMail = status => !['ingepland', 'reopened', 'o', 'a'].includes(status);
+export const EMAIL_CHECKBOX_EXCLUDED_STATES = ['ingepland', 'reopened', 'o', 'a'];
+const canSendMail = status => !EMAIL_CHECKBOX_EXCLUDED_STATES.includes(status);
 
 const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);

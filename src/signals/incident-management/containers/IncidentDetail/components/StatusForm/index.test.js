@@ -7,7 +7,7 @@ import { changeStatusOptionList } from '../../../../definitions/statusList';
 
 import { PATCH_TYPE_STATUS } from '../../constants';
 import IncidentDetailContext from '../../context';
-import StatusForm, { MELDING_EXPLANATION, DEELMELDING_EXPLANATION } from '.';
+import StatusForm, { MELDING_EXPLANATION, DEELMELDING_EXPLANATION, EMAIL_CHECKBOX_EXCLUDED_STATES } from '.';
 
 const defaultTexts = [
   {
@@ -196,5 +196,27 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(queryByTestId('statusFormSendEmailField')).not.toBeInTheDocument();
     expect(getByText(DEELMELDING_EXPLANATION)).toBeInTheDocument();
+  });
+
+  it('hides the  send checkbox when the excludes state is selected', async () => {
+    const { queryByTestId } = render(renderWithContext());
+
+    const defaultRadioButton = queryByTestId('status-m');
+
+    await EMAIL_CHECKBOX_EXCLUDED_STATES.forEach(state => {
+      act(() => {
+        fireEvent.click(defaultRadioButton);
+      });
+
+      expect(queryByTestId('statusFormSendEmailField')).toBeInTheDocument();
+
+      const radioButton = queryByTestId(`status-${state}`);
+
+      act(() => {
+        fireEvent.click(radioButton);
+      });
+
+      expect(queryByTestId('statusFormSendEmailField')).not.toBeInTheDocument();
+    });
   });
 });
