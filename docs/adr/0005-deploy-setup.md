@@ -31,19 +31,27 @@ Where the separation of concerns at first seemed to be a good idea, it turns out
 
 All domain specific repositories will be combined into [a single repository](https://github.com/Amsterdam/signalen). This repository will contain a separate 'package' (or whatever you want to call it) that contains domain specific configuration.
 
-The `signals-frontend` repository will remain the base repository and will have tagged releases, as is currently the case. The `Dockerfile`, `Jenkinsfile` and `docker-compose.yml` will be moved to [Amsterdam/signalen](https://github.com/Amsterdam/signalen). That also goes for the `start.sh` script that applies the right configuration to the corresponding Docker container at run-time and for Amsterdam tailored e2e tests.
+The [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository will remain the base repository and will have tagged releases, as is currently the case. The `Dockerfile`, `Jenkinsfile` and `docker-compose.yml` will be moved to [Amsterdam/signalen](https://github.com/Amsterdam/signalen). That also goes for the `start.sh` script that applies the right configuration to the corresponding Docker container at run-time and for Amsterdam tailored e2e tests.
 
-Each separate package will still have their own `Dockerfile`.
+Each separate package will still have their own `Dockerfile`. The [Amsterdam/signalen](https://github.com/Amsterdam/signalen) repository's `master` branch will be tagged, not individual 'packages'.
+
+### Development
+
+The [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository will keep its actions that run `lint`, `test` and `build` commands for every pull request.
+
+An action that verifies the validity of the JSON schemas in [Amsterdam/signalen](https://github.com/Amsterdam/signalen) should be added to make sure that pull requests cannot be merged when the schema validation fails.
+
+Schema validation at Docker runtime should be taken out.
 
 ### Deployment
 
-A single `Jenkinsfile` in [Amsterdam/signalen](https://github.com/Amsterdam/signalen) will tie `signals-frontend` and the separate packages together. This will prevent having race conditions.
+A single `Jenkinsfile` in the [Amsterdam/signalen](https://github.com/Amsterdam/signalen) repository will tie the [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository and the separate 'packages' together. This will prevent having race conditions.
 
-A merge into the `develop` branch of the `signals-frontend` repository will trigger a build in the [Amsterdam/signalen](https://github.com/Amsterdam/signalen). That also goes for a merge into the `develop` branch of `Amsterdam/signalen`. A merge into the `master` branch of any of the repositories will __NOT__ trigger a build.
+A merge into the `develop` branch of the [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository will trigger a build in the `Amsterdam/signalen` Jenkins job. That also goes for a merge into the `develop` branch of the [Amsterdam/signalen](https://github.com/Amsterdam/signalen) repository. A merge into the `master` branch of any of the repositories will __NOT__ trigger a build.
 
-A job will be canceled whenever schema validation fails. As early as possible.
+The `Amsterdam/signalen` Jenkins job will be a parameterized job where both an [Amsterdam/signalen](https://github.com/Amsterdam/signalen) tag and [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) tag can be set for deployment. By default the latest tags should be set. Selecting tags instead of deploying from the `master` branch will allow for rollbacks, whenever necessary.
 
-The `Amsterdam/signalen` Jenkins job will be a parameterized job where both an [Amsterdam/signalen](https://github.com/Amsterdam/signalen) tag and [signals-frontend](https://github.com/Amsterdam/signals-frontend) tag can be set for deployment. By default the latest tags should be set. Selecting tags instead of deploying from the `master` branch will allow for rollbacks, whenever necessary.
+Each 'package' can be deployed independently from the other 'packages' and all packages can be deployed all at once.
 
 ## Consequences
 
