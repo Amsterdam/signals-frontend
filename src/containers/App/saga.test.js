@@ -9,7 +9,7 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 import { authCall } from 'shared/services/api/api';
 import { login, logout } from 'shared/services/auth/auth';
 import fileUploadChannel from 'shared/services/file-upload-channel';
-import stateTokenGenerator from 'shared/services/auth/services/state-token-generator/state-token-generator';
+import randomStringGenerator from 'shared/services/auth/services/random-string-generator/random-string-generator';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 import userJson from 'utils/__tests__/fixtures/user.json';
 
@@ -39,21 +39,31 @@ import {
 } from './actions';
 
 jest.mock(
-  'shared/services/auth/services/state-token-generator/state-token-generator'
+  'shared/services/auth/services/random-string-generator/random-string-generator'
 );
 jest.mock('shared/services/api/api');
 jest.mock('shared/services/map-categories');
 jest.mock('shared/services/file-upload-channel');
 
+Object.defineProperties(global, {
+  location: {
+    writable: true,
+    value: {
+      ...global.location,
+      reload: jest.fn(),
+    },
+  },
+});
+
 describe('containers/App/saga', () => {
-  let origSessionStorage;
+  let origLocalStorage;
 
   beforeEach(() => {
-    stateTokenGenerator.mockImplementation(
+    randomStringGenerator.mockImplementation(
       () => 'n8vd9fv528934n797cv342bj3h56'
     );
     global.window.open = jest.fn();
-    origSessionStorage = global.localStorage;
+    origLocalStorage = global.localStorage;
     global.localStorage = {
       getItem: key => {
         switch (key) {
@@ -71,7 +81,7 @@ describe('containers/App/saga', () => {
   });
 
   afterEach(() => {
-    global.localStorage = origSessionStorage;
+    global.localStorage = origLocalStorage;
     jest.resetAllMocks();
   });
 
@@ -103,7 +113,7 @@ describe('containers/App/saga', () => {
     });
 
     it('should dispatch error', () => {
-      stateTokenGenerator.mockImplementationOnce(() => undefined);
+      randomStringGenerator.mockImplementationOnce(() => undefined);
 
       const action = { payload };
 

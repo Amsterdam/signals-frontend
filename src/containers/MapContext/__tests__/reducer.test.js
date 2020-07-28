@@ -1,5 +1,5 @@
 import reducer, { initialState } from '../reducer';
-import { SET_LOCATION, SET_ADDRESS, SET_VALUES, SET_LOADING } from '../constants';
+import { SET_LOCATION, SET_ADDRESS, SET_VALUES, SET_LOADING, RESET_LOCATION } from '../constants';
 
 describe('containers/MapContext/reducer', () => {
   const testLocation = {
@@ -62,6 +62,16 @@ describe('containers/MapContext/reducer', () => {
     expect(reducer(initialState, action)).toEqual({
       ...initialState,
       loading: true,
+    });
+  });
+
+  it('should handle reset location', () => {
+    const action = {
+      type: RESET_LOCATION,
+    };
+
+    expect(reducer({ ...initialState, location: {} }, action)).toEqual({
+      ...initialState,
     });
   });
 });

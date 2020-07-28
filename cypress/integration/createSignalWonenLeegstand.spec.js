@@ -2,6 +2,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CREATE_SIGNAL, WONEN_LEEGSTAND } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import questions from '../support/questions.json';
 
 describe('Create signal wonen leegstand and check signal details', () => {
   describe('Create signal wonen leegstand', () => {
@@ -16,7 +17,7 @@ describe('Create signal wonen leegstand and check signal details', () => {
       cy.route('POST', '**/signals/category/prediction', 'fixture:wonenLeegstand.json').as('prediction');
 
       createSignal.checkDescriptionPage();
-      createSignal.setAddress('1101DS 600', 'Arena boulevard 600, 1101DS Amsterdam');
+      createSignal.setAddress('1101DS 600', 'Johan Cruijff Boulevard 600, 1101DS Amsterdam');
       createSignal.setDescription(
         'Woning heeft leeg gestaan. Soms is iemand in de avond aanwezig. Het is verschrikkelijk.'
       );
@@ -32,17 +33,17 @@ describe('Create signal wonen leegstand and check signal details', () => {
 
       // Check if fields are mandatory
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList)
+      cy.get(CREATE_SIGNAL.errorItem)
         .should('contain', 'Dit is een verplicht veld')
         .and('have.length', 3);
 
       // Input specific information
-      cy.contains('Weet u wie de eigenaar is van de woning?').should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.inputEigenaar)
         .eq(0)
         .type('A. Hitchcock');
 
-      cy.contains('Hoe lang staat de woning al leeg?').should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_periode.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.radioButtonLeegZesMaandenOfLanger)
         .check()
         .should('be.checked');
@@ -53,24 +54,24 @@ describe('Create signal wonen leegstand and check signal details', () => {
         .check()
         .should('be.checked');
 
-      cy.contains('Wordt de woning af en toe nog gebruikt?').should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktWeetIkNiet)
         .check()
         .should('be.checked');
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktNee)
         .check()
         .should('be.checked');
-      cy.contains('Wat is de naam van de persoon die soms in de woning is?').should('not.be.visible');
-      cy.contains('Wat doet deze persoon in de woning?').should('not.be.visible');
-      cy.contains('Op welke dag/tijd is deze persoon op het adres?').should('not.be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('not.be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('not.be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.label).should('not.be.visible');
 
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktJa)
         .check()
         .should('be.checked');
 
-      cy.contains('Wat is de naam van de persoon die soms in de woning is?').should('be.visible');
-      cy.contains('Wat doet deze persoon in de woning?').should('be.visible');
-      cy.contains('Op welke dag/tijd is deze persoon op het adres?').should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.label).should('be.visible');
 
       // Check if inputfields are optional
       cy.contains('Volgende').click();
@@ -93,13 +94,15 @@ describe('Create signal wonen leegstand and check signal details', () => {
 
     it('Should enter a phonenumber and email address', () => {
       cy.contains('Volgende').click();
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePublic();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check information provided by user
@@ -107,17 +110,17 @@ describe('Create signal wonen leegstand and check signal details', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
 
       cy.contains('Aanvullende informatie').should('be.visible');
-      cy.contains('Naam eigenaar').should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.shortLabel).should('be.visible');
       cy.contains('A. Hitchcock').should('be.visible');
-      cy.contains('Periode leegstand').should('be.visible');
-      cy.contains('Weet ik niet').should('be.visible');
-      cy.contains('Woning gebruik').should('be.visible');
-      cy.contains('Ja, soms is er iemand in de woning').should('be.visible');
-      cy.contains('Naam persoon').should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_periode.shortLabel).should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_periode.answers.weet_ik_niet).should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.shortLabel).should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.answers.ja).should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.shortLabel).should('be.visible');
       cy.contains('J. Aniston').should('be.visible');
-      cy.contains('Activiteit in de woning').should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.shortLabel).should('be.visible');
       cy.contains('Deze persoon zit de hele dag te acteren').should('be.visible');
-      cy.contains('Iemand aanwezig').should('be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.shortLabel).should('be.visible');
       cy.contains('Vooral in de avond').should('be.visible');
 
       cy.contains('Verstuur').click();
@@ -135,7 +138,7 @@ describe('Create signal wonen leegstand and check signal details', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
@@ -154,7 +157,7 @@ describe('Create signal wonen leegstand and check signal details', () => {
         .should('have.text', 'Stadsdeel: Zuidoost')
         .and('be.visible');
       cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Arena boulevard 600')
+        .should('have.text', 'Johan Cruijff Boulevard 600')
         .and('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity)
         .should('have.text', '1101DS Amsterdam')

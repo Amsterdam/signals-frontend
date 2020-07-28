@@ -2,6 +2,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CREATE_SIGNAL, LANTAARNPAAL } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import questions from '../support/questions.json';
 
 describe('Change a signal before submit and check signal details', () => {
   describe('Change signal before submit', () => {
@@ -30,18 +31,11 @@ describe('Change a signal before submit and check signal details', () => {
       );
       createSignal.checkSpecificInformationPage();
 
-      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd)
-        .check()
-        .should('be.checked')
-        .and('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk)
-        .check()
-        .should('be.checked');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check().should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check().should('be.checked');
       cy.wait('@getOpenbareVerlichting');
-      cy.get(LANTAARNPAAL.checkBoxNietOpKaart)
-        .check()
-        .should('be.checked');
-      cy.contains('Wat is het nummer op de lamp of lantaarnpaal?').should('be.visible');
+      cy.get(LANTAARNPAAL.checkBoxNietOpKaart).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_niet_op_kaart_nummer.label).should('be.visible');
       cy.contains('+ Voeg een extra nummer toe').click();
       cy.get(LANTAARNPAAL.inputLampNummer1).type('11.11');
       cy.get(LANTAARNPAAL.inputLampNummer2).type('100.199');
@@ -52,10 +46,14 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.setPhonenumber('06-12345678');
       cy.contains('Volgende').click();
       createSignal.setEmailAddress('siafakemail@fake.nl');
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
+      cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
+
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check if address and description are visible
@@ -63,8 +61,8 @@ describe('Change a signal before submit and check signal details', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
 
       // Check if specific information is visible
-      cy.contains('Lamp of lantaarnpaal is beschadigd of niet compleet').should('be.visible');
-      cy.contains('Nee, niet gevaarlijk').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.answers.lamp_is_zichtbaar_beschadigd).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.answers.niet_gevaarlijk).should('be.visible');
       cy.get(LANTAARNPAAL.mapSelectLamp).should('not.be.visible');
       cy.contains('11.11; 100.199').should('be.visible');
 
@@ -78,15 +76,14 @@ describe('Change a signal before submit and check signal details', () => {
 
     it('Should change location, description, phonenumer and email address', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.getAddressRoute();
       cy.defineGeoSearchRoutes();
       cy.route('POST', '**/signals/category/prediction', 'fixture:afval.json').as('prediction');
 
       // Go to first step of signal creation and change signal information
       cy.get(CREATE_SIGNAL.linkChangeSignalInfo).click();
-      cy.get(CREATE_SIGNAL.autoSuggest)
-        .find('input')
-        .clear();
+      cy.get(CREATE_SIGNAL.autoSuggest).find('input').clear();
       createSignal.setAddress('1071WX 5', 'Ruysdaelstraat 5, 1071WX Amsterdam');
 
       // Change descripton to change category
@@ -95,9 +92,8 @@ describe('Change a signal before submit and check signal details', () => {
       );
       createSignal.setDateTime('Eerder');
 
-      // Upload a file (uses cypress-file-upload plugin)
-      const fileName = 'logo.png';
-      cy.get(CREATE_SIGNAL.buttonUploadFile).attachFile(fileName);
+      createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
+
       cy.contains('Volgende').click();
 
       // Change phonenumber
@@ -109,6 +105,7 @@ describe('Change a signal before submit and check signal details', () => {
       cy.contains('Volgende').click();
 
       // Check summary
+      cy.wait('@map');
       createSignal.checkSummaryPage();
       cy.contains(Cypress.env('address')).should('be.visible');
       cy.contains(Cypress.env('description')).should('be.visible');
@@ -178,57 +175,33 @@ describe('Change a signal before submit and check signal details', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
 
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
       // Check signal data
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Zuid')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Ruysdaelstraat 5')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1071WX Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', Cypress.env('emailAddress'))
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', Cypress.env('phoneNumber'))
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Zuid').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Ruysdaelstraat 5').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1071WX Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', Cypress.env('emailAddress')).and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', Cypress.env('phoneNumber')).and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Veeg- / zwerfvuil (STW)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Schoon')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Veeg- / zwerfvuil (STW)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Schoon').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
   });
 });

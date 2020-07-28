@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup, act } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
 import 'jest-styled-components';
 
@@ -7,7 +7,7 @@ import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';
 import configuration from 'shared/services/configuration/configuration';
 
-import SiteHeader, { menuBreakpoint } from '../index';
+import SiteHeader, { menuBreakpoint } from '..';
 
 const mmm = MatchMediaMock.create();
 
@@ -35,7 +35,7 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, rerender, queryByText } = render(withAppContext(<SiteHeader />));
+    const { container, rerender, queryByText, unmount } = render(withAppContext(<SiteHeader />));
 
     // menu items
     expect(queryByText('Melden')).not.toBeInTheDocument();
@@ -44,7 +44,7 @@ describe('components/SiteHeader', () => {
     // inline menu should not be visible
     expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(0);
 
-    cleanup();
+    unmount();
 
     // narrow window toggle
     mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
@@ -67,7 +67,7 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, queryByText } = render(
+    const { container, queryByText, unmount } = render(
       withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />)
     );
 
@@ -80,7 +80,7 @@ describe('components/SiteHeader', () => {
 
     expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2');
 
-    cleanup();
+    unmount();
 
     // narrow window toggle
     mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 });
@@ -98,13 +98,15 @@ describe('components/SiteHeader', () => {
   it('should render the Amsterdam logo by default', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    const { container, rerender } = render(
+    const { container, rerender, unmount } = render(
       withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
     );
 
     expect(container.querySelector('h1 img')).not.toBeInTheDocument();
 
     configuration.logo.url = 'logoUrl';
+
+    unmount();
 
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
@@ -114,7 +116,7 @@ describe('components/SiteHeader', () => {
   it('should render the correct homeLink', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    const { container, rerender } = render(
+    const { container, rerender, unmount } = render(
       withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
     );
 
@@ -122,9 +124,13 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
+    unmount();
+
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
     expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
+
+    unmount();
 
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/manage/incidents' }} />));
 
@@ -138,14 +144,14 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { queryByText } = render(withAppContext(<SiteHeader />));
+    const { queryByText, rerender, unmount } = render(withAppContext(<SiteHeader />));
 
     const title = 'SIA';
 
     // don't show title in front office when not authenticated
     expect(queryByText(title)).toBeNull();
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
@@ -153,12 +159,12 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    render(withAppContext(<SiteHeader />));
+    rerender(withAppContext(<SiteHeader />));
 
     // do show title in front office when authenticated
     expect(queryByText(title)).not.toBeNull();
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
@@ -166,16 +172,16 @@ describe('components/SiteHeader', () => {
       history.push('/manage');
     });
 
-    render(withAppContext(<SiteHeader />));
+    rerender(withAppContext(<SiteHeader />));
 
     // don't show title in back office when not authenticated
     expect(queryByText(title)).toBeNull();
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    render(withAppContext(<SiteHeader />));
+    rerender(withAppContext(<SiteHeader />));
 
     // do show title in back office when authenticated
     expect(queryByText(title)).not.toBeNull();
@@ -188,11 +194,11 @@ describe('components/SiteHeader', () => {
       history.push('/');
     });
 
-    const { container, rerender } = render(withAppContext(<SiteHeader location={{ pathname: '/' }} />));
+    const { container, rerender, unmount } = render(withAppContext(<SiteHeader location={{ pathname: '/' }} />));
 
     expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
@@ -200,7 +206,7 @@ describe('components/SiteHeader', () => {
 
     expect(container.querySelector('.siteHeader').classList.contains('isShort')).toEqual(true);
 
-    cleanup();
+    unmount();
 
     act(() => {
       history.push('/manage');
@@ -212,7 +218,7 @@ describe('components/SiteHeader', () => {
 
     expect(container.querySelector('.siteHeader').classList.contains('isTall')).toEqual(true);
 
-    cleanup();
+    unmount();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
@@ -272,7 +278,7 @@ describe('components/SiteHeader', () => {
   });
 
   it('should show items', () => {
-    const { rerender, queryByText } = render(
+    const { rerender, queryByText, unmount } = render(
       withAppContext(<SiteHeader showItems={{ settings: false, users: true, groups: true }} />)
     );
 
@@ -280,11 +286,15 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();
     expect(queryByText('Rollen')).not.toBeInTheDocument();
 
+    unmount();
+
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: false }} />));
 
     expect(queryByText('Instellingen')).not.toBeInTheDocument();
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();
     expect(queryByText('Rollen')).not.toBeInTheDocument();
+
+    unmount();
 
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: false }} />));
 
@@ -292,11 +302,15 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Gebruikers')).toBeInTheDocument();
     expect(queryByText('Rollen')).not.toBeInTheDocument();
 
+    unmount();
+
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: true }} />));
 
     expect(queryByText('Instellingen')).toBeInTheDocument();
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();
     expect(queryByText('Rollen')).toBeInTheDocument();
+
+    unmount();
 
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true }} />));
 

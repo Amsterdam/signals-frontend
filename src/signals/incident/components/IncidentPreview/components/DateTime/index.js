@@ -1,20 +1,24 @@
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import format from 'date-fns/format';
+import { capitalize } from 'shared/services/date-utils';
+import parseISO from 'date-fns/parseISO';
+import { nl } from 'date-fns/locale';
 
 const getValue = (value, incident) => {
   if (value && value.id === 'Nu') {
     return 'Nu';
   }
+
   if (!incident) {
     return '';
   }
 
-  const time = moment(`${incident.incident_time_hours}:${incident.incident_time_minutes}`, 'H:m').format('H:mm');
+  const time = `${incident.incident_time_hours}:${String(incident.incident_time_minutes).padStart(2, '0')}`;
   if (incident.incident_date === 'Vandaag') {
     return `Vandaag, ${time}`;
   }
 
-  return `${moment(incident.incident_date).format('dddd D MMMM')}, ${time}`;
+  return `${capitalize(format(parseISO(incident.incident_date), 'EEEE d MMMM', { locale: nl }))}, ${time}`;
 };
 
 const DateTime = ({ value, incident }) => getValue(value, incident);

@@ -1,6 +1,7 @@
 // <reference types="Cypress" />
 import * as createSignal from '../support/commandsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import questions from '../support/questions.json';
 
 describe('Create signal parkeeroverlast and check signal details', () => {
   describe('Create signal parkeeroverlast', () => {
@@ -29,10 +30,8 @@ describe('Create signal parkeeroverlast and check signal details', () => {
 
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.contains(
-        'Zijn er nog meer dingen die u ons kunt vertellen over de kenmerken van de auto, bus of motor?'
-      ).should('be.visible');
-      cy.contains('Bijvoorbeeld: kenteken, merk en kleur').should('be.visible');
+      cy.contains(questions.overlastInDeOpenbareRuimte.extra_parkeeroverlast.label).should('be.visible');
+      cy.contains(questions.overlastInDeOpenbareRuimte.extra_parkeeroverlast.subtitle).should('be.visible');
 
       // Check if inputfield is optional
       cy.contains('Volgende').click();
@@ -50,13 +49,15 @@ describe('Create signal parkeeroverlast and check signal details', () => {
       createSignal.setPhonenumber('0611');
       cy.contains('Volgende').click();
       createSignal.setEmailAddress('siafakemail@fake.nl');
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePublic();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check information provided by user
@@ -64,6 +65,7 @@ describe('Create signal parkeeroverlast and check signal details', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
       cy.contains(Cypress.env('phoneNumber')).should('be.visible');
       cy.contains(Cypress.env('emailAddress')).should('be.visible');
+      cy.contains(questions.overlastInDeOpenbareRuimte.extra_parkeeroverlast.shortLabel).should('be.visible');
       cy.contains('Het gaat om een Bugatti La Voiture Noire met kenteken LL-44-ST').should('be.visible');
 
       cy.contains('Verstuur').click();
@@ -81,57 +83,33 @@ describe('Create signal parkeeroverlast and check signal details', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
 
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Oost')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Anfieldroad 35')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1098VZ Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', Cypress.env('emailAddress'))
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', Cypress.env('phoneNumber'))
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Oost').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Anfieldroad 35').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1098VZ Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', Cypress.env('emailAddress')).and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', Cypress.env('phoneNumber')).and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Parkeeroverlast (ASC, THO)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Overlast in de openbare ruimte')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Parkeeroverlast (ASC, THO)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast in de openbare ruimte').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
   });
 });

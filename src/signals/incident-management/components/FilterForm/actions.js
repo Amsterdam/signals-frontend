@@ -7,6 +7,7 @@ import {
   SET_GROUP_OPTIONS,
   SET_MAIN_CATEGORY,
   SET_NAME,
+  SET_NOTE_KEYWORD,
   SET_REFRESH,
 } from './constants';
 
@@ -16,6 +17,11 @@ export const reset = () => ({
 
 export const setAddress = payload => ({
   type: SET_ADDRESS,
+  payload,
+});
+
+export const setNoteKeyword = payload => ({
+  type: SET_NOTE_KEYWORD,
   payload,
 });
 
@@ -44,7 +50,7 @@ export const setMainCategory = payload => ({
   payload,
 });
 
-export const setName= payload => ({
+export const setName = payload => ({
   type: SET_NAME,
   payload,
 });

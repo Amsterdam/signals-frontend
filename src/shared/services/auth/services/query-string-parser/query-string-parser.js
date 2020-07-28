@@ -10,20 +10,20 @@
  * @returns {Object.<string, string>} A key-value map representation of
  * the query string, or null if `queryString` is falsy.
  */
-export default function (queryString) {
-  return queryString
-    ? queryString
-      .substring(1)
-      .split('&')
-      .reduce((params, query) => {
-        const keyValue = query.split('=');
-        const key = keyValue[0];
-        keyValue.shift();
-        const value = keyValue.join('=');
-        return {
-          ...params,
-          [decodeURIComponent(key)]: decodeURIComponent(value),
-        };
-      }, {})
-    : null;
-}
+const queryStringParser = queryString => queryString ?
+  queryString
+    .substring(1)
+    .split('&')
+    .reduce((params, query) => {
+      const keyValue = query.split('=');
+      const key = keyValue[0];
+      keyValue.shift();
+      const value = keyValue.join('=');
+      return {
+        ...params,
+        [decodeURIComponent(key)]: decodeURIComponent(value),
+      };
+    }, {}) :
+  null;
+
+export default queryStringParser;

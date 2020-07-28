@@ -8,7 +8,6 @@ import { defaultTextsType } from 'shared/types';
 const StyledH4 = styled(Heading)`
   font-weight: normal;
   margin-bottom: ${themeSpacing(2)};
-  margin-top: ${themeSpacing(5)};
 `;
 
 const StyledDefaultText = styled.div`
@@ -33,7 +32,11 @@ const StyledLink = styled(Link)`
 const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
   const allText = defaultTexts?.length > 0 && defaultTexts.find(text => text.state === status);
 
-  if (!allText) return null;
+  if (!allText?.templates?.length > 0) return null;
+
+  const templates = allText.templates.filter(({ title, text }) => title && text);
+
+  if (!templates.length) return null;
 
   return (
     <Fragment>
@@ -41,22 +44,20 @@ const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
         Standaard teksten
       </StyledH4>
 
-      {allText.templates
-        .filter(({ title, text }) => title && text)
-        .map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <StyledDefaultText key={`${index}${status}${JSON.stringify(item)}`}>
-            <StyledTitle data-testid="defaultTextsItemTitle">{item.title}</StyledTitle>
-            <div data-testid="defaultTextsItemText">{item.text}</div>
-            <StyledLink
-              data-testid="defaultTextsItemButton"
-              variant="inline"
-              onClick={e => onHandleUseDefaultText(e, item.text)}
-            >
-              Gebruik deze tekst
-            </StyledLink>
-          </StyledDefaultText>
-        ))}
+      {allText.templates.map((item, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <StyledDefaultText key={`${index}${status}${JSON.stringify(item)}`}>
+          <StyledTitle data-testid="defaultTextsItemTitle">{item.title}</StyledTitle>
+          <div data-testid="defaultTextsItemText">{item.text}</div>
+          <StyledLink
+            data-testid="defaultTextsItemButton"
+            variant="inline"
+            onClick={e => onHandleUseDefaultText(e, item.text)}
+          >
+            Gebruik deze tekst
+          </StyledLink>
+        </StyledDefaultText>
+      ))}
     </Fragment>
   );
 };

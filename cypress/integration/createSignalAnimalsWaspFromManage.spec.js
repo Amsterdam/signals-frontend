@@ -1,6 +1,7 @@
 // <reference types="Cypress" />
 import * as createSignal from '../support/commandsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import questions from '../support/questions.json';
 
 describe('Create signal animals from incident management and chek signal details', () => {
   describe('Create signal animals', () => {
@@ -39,23 +40,15 @@ describe('Create signal animals from incident management and chek signal details
 
       // Check Urgency
       cy.contains('Wat is de urgentie?').should('be.visible');
-      cy.contains('Hoog')
-        .should('be.visible')
-        .click();
+      cy.contains('Hoog').should('be.visible').click();
       cy.contains('Hoog: melding met spoed oppakken').should('be.visible');
-      cy.contains('Laag')
-        .should('be.visible')
-        .click();
+      cy.contains('Laag').should('be.visible').click();
       cy.contains('Laag: interne melding zonder servicebelofte').should('be.visible');
-      cy.contains('Normaal')
-        .should('be.visible')
-        .click();
+      cy.contains('Normaal').should('be.visible').click();
 
       // Check Type
       cy.contains('Type').should('be.visible');
-      cy.contains('Klacht')
-        .should('be.visible')
-        .click();
+      cy.contains('Klacht').should('be.visible').click();
 
       cy.contains('Volgende').click();
     });
@@ -64,27 +57,27 @@ describe('Create signal animals from incident management and chek signal details
       createSignal.checkSpecificInformationPage();
 
       cy.contains(Cypress.env('description')).should('be.visible');
-
-      cy.contains('Let op: u kunt met dit formulier een melding doen van:');
-      cy.contains('Dierenambulance Amsterdam')
-        .should('have.attr', 'href')
-        .and('include', 'dierenambulance-amsterdam');
-      cy.contains('overlast van dieren')
-        .should('have.attr', 'href')
-        .and('include', 'veelgevraagd');
+      cy.get(questions.overlastVanDieren.extra_dieren_text.answers)
+        .each($element => {
+          cy.contains($element).should('be.visible');
+        });
+      cy.contains('Dierenambulance Amsterdam').should('have.attr', 'href').and('include', 'dierenambulance-amsterdam');
+      cy.contains('overlast van dieren').should('have.attr', 'href').and('include', 'veelgevraagd');
 
       cy.contains('Volgende').click();
     });
 
     it('Should enter a phonenumber and email address', () => {
       cy.contains('Volgende').click();
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePrivate();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check information provided by user
@@ -105,57 +98,33 @@ describe('Create signal animals from incident management and chek signal details
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
 
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Centrum')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Oudekerksplein 23')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1012GX Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Oudekerksplein 23').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012GX Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Klacht')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Wespen (GGD)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Overlast van dieren')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'Telefoon – Stadsdeel')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Wespen (GGD)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast van dieren').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'Telefoon – Stadsdeel').and('be.visible');
     });
   });
 });

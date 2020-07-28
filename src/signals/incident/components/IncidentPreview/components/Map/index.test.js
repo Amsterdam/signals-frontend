@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import MapPreview from './index';
+import MapPreview from '.';
 
 describe('signals/incident/components/IncidentPreview/components/Map', () => {
   const geometrie = {

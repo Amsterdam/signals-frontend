@@ -111,9 +111,9 @@ const PaginationItem = ({
 
           {pageNum === PREVIOUS && label}
         </Fragment>
-      ) : (
+      ) :
         label
-      )}
+      }
     </StyledItem>
   );
 };

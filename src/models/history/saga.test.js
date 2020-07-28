@@ -11,9 +11,9 @@ import watchHistorySaga, { fetchHistoryList } from './saga';
 jest.mock('shared/services/api/api');
 jest.mock('./selectors', () => {
   function mockedMakeSelectFilterParams() { }
-  return ({
+  return {
     makeSelectFilterParams: () => mockedMakeSelectFilterParams,
-  });
+  };
 });
 jest.mock('@sentry/browser');
 jest.mock('containers/App/actions', () => ({

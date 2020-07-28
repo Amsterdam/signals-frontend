@@ -18,6 +18,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
   >
     <Memo(MapContext)>
       <MapInput
+        hasGPSControl={true}
         mapOptions={
           Object {
             "attributionControl": true,
@@ -61,7 +62,6 @@ exports[`Form component <MapInput /> rendering should render map field correctly
               "wrapLatLngBounds": [Function],
               "zoom": [Function],
             },
-            "gemeentenaam": "amsterdam",
             "maxBounds": Array [
               Array [
                 52.25168,

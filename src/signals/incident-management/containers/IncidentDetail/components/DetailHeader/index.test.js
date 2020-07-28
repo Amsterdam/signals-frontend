@@ -1,17 +1,16 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import * as reactRedux from 'react-redux';
 import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext } from 'test/utils';
 import { MAP_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { patchIncident } from 'models/incident/actions';
-import { PATCH_TYPE_THOR } from 'models/incident/constants';
+import { PATCH_TYPE_THOR } from '../../constants';
 
-import DetailHeader from './index';
+import IncidentDetailContext from '../../context';
+import DetailHeader from '.';
 
-jest.mock('./components/DownloadButton', () => () => <div data-testid="detail-header-button-download" />);
+jest.mock('./components/DownloadButton', () => props => <div data-testid="detail-header-button-download" {...props} />);
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -21,29 +20,30 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-const dispatch = jest.fn();
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+const update = jest.fn();
 
-describe('<DetailHeader />', () => {
-  let props;
+const renderWithContext = (incident = incidentFixture) =>
+  withAppContext(
+    <IncidentDetailContext.Provider value={{ incident, update }}>
+      <DetailHeader />
+    </IncidentDetailContext.Provider>
+  );
 
+describe('signals/incident-management/containers/IncidentDetail/components/DetailHeader', () => {
   beforeEach(() => {
-    props = {
-      status: 'm',
-      incidentId: 1234,
-      links: incidentFixture._links,
-    };
+    update.mockReset();
   });
 
   it('should render parent link', () => {
-    const { queryByTestId, rerender } = render(withAppContext(<DetailHeader {...props} />));
+    const { queryByTestId, rerender } = render(renderWithContext());
 
     expect(queryByTestId('parentLink')).not.toBeInTheDocument();
 
     rerender(
-      withAppContext(
-        <DetailHeader {...props} links={{ ...props.links, 'sia:parent': { href: '//href-to-parent/5678' } }} />
-      )
+      renderWithContext({
+        ...incidentFixture,
+        _links: { ...incidentFixture._links, 'sia:parent': { href: '//href-to-parent/5678' } },
+      })
     );
 
     expect(queryByTestId('parentLink')).toBeInTheDocument();
@@ -51,53 +51,76 @@ describe('<DetailHeader />', () => {
   });
 
   it('should render all buttons when state is gemeld and no parent or children are present', () => {
-    const { queryByTestId, queryAllByTestId } = render(withAppContext(<DetailHeader {...props} />));
+    const { queryByTestId, queryAllByTestId, unmount } = render(renderWithContext());
 
     expect(queryByTestId('backlink')).toHaveTextContent(/^Terug naar overzicht$/);
-    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Melding ${props.incidentId}`);
+    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Melding ${incidentFixture.id}`);
     expect(queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
     expect(queryAllByTestId('detail-header-button-download')).toHaveLength(1);
+
+    unmount();
   });
 
   it('should render no split button when children are present', () => {
-    const { queryByTestId, rerender } = render(withAppContext(<DetailHeader {...props} />));
+    const { queryByTestId, rerender, unmount } = render(renderWithContext());
 
     expect(queryByTestId('detail-header-button-split')).not.toBeInTheDocument();
 
-    rerender(withAppContext(<DetailHeader {...props} links={{ self: { href: 'self' } }} />));
+    unmount();
+
+    rerender(
+      renderWithContext({
+        ...incidentFixture,
+        _links: { ...incidentFixture._links, 'sia:parent': undefined, 'sia:children': undefined },
+      })
+    );
 
     expect(queryByTestId('detail-header-button-split')).toBeInTheDocument();
   });
 
   it('should render no split button when parent is present', () => {
-    const { queryByTestId } = render(withAppContext(<DetailHeader {...props} />));
+    const { queryByTestId } = render(
+      renderWithContext({
+        ...incidentFixture,
+        _links: { ...incidentFixture._links, 'sia:parent': { href: '//href-to-parent/5678' } },
+      })
+    );
 
     expect(queryByTestId('detail-header-button-split')).toBeNull();
   });
 
   it('should render no split button when state is not m', () => {
-    const { queryByTestId } = render(withAppContext(<DetailHeader {...props} status="o" />));
+    const { queryByTestId } = render(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 'o' },
+      })
+    );
 
     expect(queryByTestId('detail-header-button-split')).toBeNull();
   });
 
   it('should render no thor button when state is not m, i, b, h, send failed or reopened', () => {
-    const { queryByTestId } = render(withAppContext(<DetailHeader {...props} status="o" />));
+    const { queryByTestId } = render(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 'o' },
+      })
+    );
 
     expect(queryByTestId('detail-header-button-thor')).toBeNull();
   });
 
   it('test clicking the thor button', () => {
-    const { queryByTestId } = render(withAppContext(<DetailHeader {...props} />));
+    const { queryByTestId } = render(renderWithContext());
 
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(queryByTestId('detail-header-button-thor'));
     });
 
-    expect(dispatch).toHaveBeenCalledWith(patchIncident({
-      id: props.incidentId,
+    expect(update).toHaveBeenCalledWith({
       type: PATCH_TYPE_THOR,
       patch: {
         status: {
@@ -106,11 +129,11 @@ describe('<DetailHeader />', () => {
           target_api: 'sigmax',
         },
       },
-    }));
+    });
   });
 
   it('should render a link with the correct referrer', () => {
-    const { getByTestId, rerender } = render(withAppContext(<DetailHeader {...props} />));
+    const { getByTestId, rerender } = render(renderWithContext());
 
     expect(getByTestId('backlink').href).toEqual(expect.stringContaining(INCIDENTS_URL));
 
@@ -119,7 +142,7 @@ describe('<DetailHeader />', () => {
       referrer,
     }));
 
-    rerender(withAppContext(<DetailHeader {...props} />));
+    rerender(renderWithContext());
 
     expect(getByTestId('backlink').href).toEqual(expect.stringContaining(INCIDENTS_URL));
 
@@ -127,7 +150,7 @@ describe('<DetailHeader />', () => {
       referrer: MAP_URL,
     }));
 
-    rerender(withAppContext(<DetailHeader {...props} />));
+    rerender(renderWithContext());
 
     expect(getByTestId('backlink').href).toEqual(expect.stringContaining(MAP_URL));
   });

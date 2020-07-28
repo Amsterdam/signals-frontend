@@ -72,7 +72,6 @@ export const uploadFailure = () => ({
   type: UPLOAD_FAILURE,
 });
 
-
 export const setSearchQuery = payload => ({
   type: SET_SEARCH_QUERY,
   payload,

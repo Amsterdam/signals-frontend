@@ -1,12 +1,15 @@
 const path = require('path');
+const pkgDir = require('pkg-dir');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const template = require('./template');
+
+const __rootdir = pkgDir.sync();
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -52,9 +55,9 @@ module.exports = require('./webpack.base.babel')({
       minSize: 0,
       cacheGroups: {
         vendor: {
-          test: /[\\/]node_modules[\\/](?!@datapunt[\\/]asc-ui)(?!leaflet)(?!react-reactive-form)/,
+          test: /[/\\]node_modules[/\\](?!@datapunt[/\\]asc-ui)(?!leaflet)(?!react-reactive-form)(?!date-fns)/,
           name(module) {
-            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+            const packageName = module.context.match(/[/\\]node_modules[/\\](.*?)([/\\]|$)/)[1];
             return `npm.${packageName.replace('@', '')}`;
           },
           reuseExistingChunk: true,
@@ -82,24 +85,6 @@ module.exports = require('./webpack.base.babel')({
       inject: true,
     }),
 
-    new WebpackPwaManifest({
-      name: 'Signalen Informatievoorziening Amsterdam',
-      short_name: 'SIA',
-      background_color: '#ffffff',
-      theme_color: '#ec0000',
-      inject: true,
-      ios: true,
-      fingerprints: false,
-      display: 'fullscreen',
-      orientation: 'portrait',
-      icons: [
-        {
-          src: path.resolve('src/images/logo.png'),
-          sizes: [192],
-        },
-      ],
-    }),
-
     new CompressionPlugin({
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/,
@@ -116,8 +101,8 @@ module.exports = require('./webpack.base.babel')({
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
     new OfflinePlugin({
+      version: '$SIGNALS_SERVICE_WORKER_VERSION',
       ServiceWorker: {
-        navigateFallbackBlacklist: [/^\/assets/],
         events: true,
       },
       relativePaths: false,
@@ -137,6 +122,15 @@ module.exports = require('./webpack.base.babel')({
 
       // Removes warning for about `additional` section usage
       safeToUseOptionalCaches: true,
+    }),
+
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__rootdir, 'src', 'manifest.json'),
+          to: path.resolve(__rootdir, 'build', 'manifest.json'),
+        },
+      ],
     }),
   ],
 

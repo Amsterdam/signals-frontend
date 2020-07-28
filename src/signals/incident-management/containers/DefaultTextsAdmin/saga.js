@@ -22,7 +22,7 @@ export function* fetchDefaultTexts(action) {
       `${CONFIGURATION.TERMS_ENDPOINT}${payload.main_slug}/sub_categories/${payload.sub_slug}/status-message-templates`
     );
     const found = result.find(item => item.state === payload.state);
-    yield put(fetchDefaultTextsSuccess((found?.templates) || []));
+    yield put(fetchDefaultTextsSuccess(found?.templates || []));
   } catch (error) {
     yield put(fetchDefaultTextsError(error));
 
@@ -51,7 +51,7 @@ export function* storeDefaultTexts(action) {
 
     const found = result.find(item => item?.state === payload.post.state);
 
-    yield put(storeDefaultTextsSuccess((found?.templates) || []));
+    yield put(storeDefaultTextsSuccess(found?.templates || []));
 
     const numStoredTemplates = found?.templates?.length || 0;
 

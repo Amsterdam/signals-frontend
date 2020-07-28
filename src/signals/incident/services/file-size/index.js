@@ -4,5 +4,6 @@ export default function fileSize(size, decimals = 1, delimiter = ',') {
     const newSize = `${(size / (1024 ** i)).toFixed(decimals) * 1}`;
     return `${newSize.replace('.', delimiter)} ${['B', 'kB', 'MB', 'GB', 'TB'][i]}`;
   }
+
   return size;
 }

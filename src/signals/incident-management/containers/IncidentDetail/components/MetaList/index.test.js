@@ -1,33 +1,35 @@
 import React from 'react';
 import { fireEvent, render, cleanup, act } from '@testing-library/react';
-import * as reactRedux from 'react-redux';
 
-import { string2date, string2time } from 'shared/services/string-parser/string-parser';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { store, withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
-import { patchIncident } from 'models/incident/actions';
 
-import MetaList, { getCategoryName }from './index';
+import IncidentDetailContext from '../../context';
+import MetaList from '.';
 
-jest.mock('shared/services/string-parser/string-parser');
+jest.mock('shared/services/string-parser');
 
 store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
-const dispatch = jest.fn();
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+const update = jest.fn();
+const edit = jest.fn();
+
+const renderWithContext = (props, incident = incidentFixture) =>
+  withAppContext(
+    <IncidentDetailContext.Provider value={{ incident, update, edit }}>
+      <MetaList {...props} />
+    </IncidentDetailContext.Provider>
+  );
 
 describe('<MetaList />', () => {
   let props;
 
   beforeEach(() => {
-    props = {
-      incident: incidentFixture,
-      onEditStatus: jest.fn(),
-      onShowAttachment: jest.fn(),
-    };
-
+    update.mockReset();
+    edit.mockReset();
     string2date.mockImplementation(() => '21-07-1970');
     string2time.mockImplementation(() => '11:56');
   });
@@ -36,7 +38,7 @@ describe('<MetaList />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const { queryByTestId, queryByText } = render(withAppContext(<MetaList {...props} />));
+      const { queryByTestId, queryByText } = render(renderWithContext(props));
 
       expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
@@ -48,9 +50,6 @@ describe('<MetaList />', () => {
       expect(queryByText('Normaal')).toBeInTheDocument();
 
       expect(queryByText('Subcategorie')).toBeInTheDocument();
-      const subcategory = categoriesPrivate.results.find(cat => cat.name === incidentFixture.category.sub);
-      const categoryName = getCategoryName({ name: incidentFixture.category.sub, departments: subcategory.departments });
-      expect(queryByText(categoryName)).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
       expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 
@@ -59,20 +58,35 @@ describe('<MetaList />', () => {
     });
 
     it('should render correctly with high priority', () => {
-      const { queryByText, container, rerender } = render(withAppContext(<MetaList {...props} />));
+      const { queryByText, container, rerender } = render(renderWithContext(props));
 
       expect(queryByText('Hoog')).not.toBeInTheDocument();
       expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(1);
 
-      props.incident.priority.priority = 'high';
-      rerender(withAppContext(<MetaList {...props} />));
+      rerender(
+        renderWithContext(props, { ...incidentFixture, priority: { ...incidentFixture.priority, priority: 'high' } })
+      );
 
       expect(queryByText('Hoog')).toBeInTheDocument();
       expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
     });
 
-    it('should call onPatchIncident', async () => {
-      const { getAllByTestId } = render(withAppContext(<MetaList {...props} />));
+    it('should call edit', () => {
+      const { queryByTestId } = render(renderWithContext(props));
+
+      expect(edit).not.toHaveBeenCalled();
+
+      act(() => {
+        fireEvent.click(queryByTestId('editStatusButton'));
+      });
+
+      expect(edit).toHaveBeenCalled();
+    });
+
+    it('should call update', async () => {
+      const { getAllByTestId } = render(
+        renderWithContext(props, { ...incidentFixture, priority: { ...incidentFixture.priority, priority: 'high' } })
+      );
 
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:
       const editTestId = 'editPriorityButton';
@@ -85,35 +99,20 @@ describe('<MetaList />', () => {
 
       const submitButtons = getAllByTestId(submitTestId);
 
-      expect(dispatch).not.toHaveBeenCalled();
+      expect(update).not.toHaveBeenCalled();
 
       act(() => {
         fireEvent.click(submitButtons[0]);
       });
 
-      expect(dispatch).toHaveBeenCalledWith(patchIncident({
-        id: incidentFixture.id,
+      expect(update).toHaveBeenCalledWith({
         patch: {
           priority: {
             priority: 'high',
           },
         },
         type: 'priority',
-      }));
-    });
-  });
-
-  describe('getCategoryName', () => {
-    it('should create the correct category name', () => {
-      const category = {
-        name: 'Foo',
-        departments:[
-          { code: 'Bar', is_responsible: true },
-          { code: 'Baz', is_responsible: false },
-        ],
-      };
-
-      expect(getCategoryName(category)).toEqual('Foo (Bar)');
+      });
     });
   });
 });

@@ -3,6 +3,7 @@ coverage
 build
 node_modules
 stats.json
+.eslintcache
 
 # Local development environment config
 environment.conf.development.json
@@ -11,4 +12,3 @@ environment.conf.development.json
 .DS_Store
 npm-debug.log
 .idea
-.nvmrc

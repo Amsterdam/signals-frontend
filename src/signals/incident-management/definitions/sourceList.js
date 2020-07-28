@@ -14,6 +14,7 @@ const sourceList = [
   { key: 'E-mail – Stadsdeel', value: 'E-mail – Stadsdeel' },
   { key: 'Webcare – CCA', value: 'Webcare – CCA' },
   { key: 'Eigen organisatie', value: 'Eigen organisatie' },
+  { key: 'Fixi Weesp', value: 'Fixi Weesp' },
   {
     key: 'Meldkamer burger/ondernemer',
     value: 'Meldkamer burger/ondernemer',

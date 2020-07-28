@@ -1,5 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useMemo, useContext } from 'react';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
@@ -11,6 +10,7 @@ import MapStatic from 'components/MapStatic';
 import HighLight from '../../../Highlight';
 import EditButton from '../../../EditButton';
 import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
+import IncidentDetailContext from '../../../../context';
 
 const MapTile = styled.div`
   float: left;
@@ -40,7 +40,8 @@ const StyledHighLight = styled(HighLight)`
   }
 `;
 
-const Location = ({ location, onShowLocation, onEditLocation }) => {
+const Location = ({ location }) => {
+  const { preview, edit } = useContext(IncidentDetailContext);
   const latitude = location?.geometrie?.coordinates[1];
   const longitude = location?.geometrie?.coordinates[0];
 
@@ -60,14 +61,22 @@ const Location = ({ location, onShowLocation, onEditLocation }) => {
           data-testid="editLocationButton"
           icon={<IconEdit />}
           iconSize={18}
-          onClick={onEditLocation}
+          onClick={() => {
+            edit('location');
+          }}
           type="button"
           variant="application"
         />
 
-        <StyledHighLight subscribeTo={location}>
+        <StyledHighLight type="location">
           {latitude && longitude && (
-            <MapTile role="button" onClick={onShowLocation} data-testid="location-button-show">
+            <MapTile
+              role="button"
+              onClick={() => {
+                preview('location');
+              }}
+              data-testid="previewLocationButton"
+            >
               <MapStatic boundsScaleFactor={0.25} height={80} markerSize={20} width={80} {...geometry} />
             </MapTile>
           )}
@@ -81,15 +90,15 @@ const Location = ({ location, onShowLocation, onEditLocation }) => {
               )}
 
               <div data-testid="location-value-address-street">
-                {location.address.openbare_ruimte && location.address.openbare_ruimte}{' '}
-                {location.address.huisnummer && location.address.huisnummer}
-                {location.address.huisletter && location.address.huisletter}
+                {location.address.openbare_ruimte}{' '}
+                {location.address.huisnummer}
+                {location.address.huisletter}
                 {location.address.huisnummer_toevoeging ? `-${location.address.huisnummer_toevoeging}` : ''}
               </div>
 
               <div data-testid="location-value-address-city">
-                {location.address.postcode && location.address.postcode}{' '}
-                {location.address.woonplaats && location.address.woonplaats}
+                {location.address.postcode}{' '}
+                {location.address.woonplaats}
               </div>
             </div>
           ) : (
@@ -105,8 +114,6 @@ const Location = ({ location, onShowLocation, onEditLocation }) => {
 
 Location.propTypes = {
   location: locationType.isRequired,
-  onShowLocation: PropTypes.func.isRequired,
-  onEditLocation: PropTypes.func.isRequired,
 };
 
 export default Location;

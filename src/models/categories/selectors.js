@@ -103,7 +103,21 @@ export const makeSelectSubCategories = createSelector(
       return null;
     }
 
-    return getHasParent(state).toJS();
+    const subCategories = getHasParent(state).toJS();
+
+    return subCategories.map(subCategory => {
+      const responsibleDeptCodes = subCategory.departments.filter(({ is_responsible }) => is_responsible).map(({ code }) => code);
+      let extendedName = subCategory.name;
+
+      if (responsibleDeptCodes.length > 0) {
+        extendedName = `${subCategory.name} (${responsibleDeptCodes.join(', ')})`;
+      }
+
+      return {
+        ...subCategory,
+        extendedName,
+      };
+    });
   }
 );
 

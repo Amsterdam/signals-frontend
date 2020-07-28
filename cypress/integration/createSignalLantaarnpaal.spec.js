@@ -2,6 +2,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CREATE_SIGNAL, LANTAARNPAAL } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import questions from '../support/questions.json';
 
 describe('Create signal lantaarnpaal and check signal details', () => {
   describe('Create signal lantaarnpaal', () => {
@@ -20,10 +21,7 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       createSignal.setDescription('De lantaarnpaal voor mijn deur is kapot');
       createSignal.setDateTime('Eerder');
 
-      // Upload a file (uses cypress-file-upload plugin)
-      const fileName = 'logo.png';
-      cy.get(CREATE_SIGNAL.buttonUploadFile).attachFile(fileName);
-
+      createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
       cy.contains('Volgende').click();
     });
 
@@ -38,79 +36,51 @@ describe('Create signal lantaarnpaal and check signal details', () => {
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Wat is het probleem?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
 
-      cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet)
-        .check()
-        .should('be.checked')
-        .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag)
-        .check()
-        .should('be.checked')
-        .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder)
-        .check()
-        .should('be.checked')
-        .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemVies)
-        .check()
-        .should('be.checked')
-        .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('not.be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd)
-        .check()
-        .should('be.checked')
-        .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemOverig)
-        .check()
-        .should('be.checked')
-        .and('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.label).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet).check().should('be.checked').and('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag).check().should('be.checked').and('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder).check().should('be.checked').and('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemVies).check().should('be.checked').and('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check().should('be.checked').and('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemOverig).check().should('be.checked').and('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
       cy.wait('@getOpenbareVerlichting');
 
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
-      const messageCallDirectly = 'Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.';
-
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijk3OfMeerKapot)
-        .check()
-        .should('be.checked');
-      cy.contains(messageCallDirectly).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijkAanrijding)
-        .check()
-        .should('be.checked');
-      cy.contains(messageCallDirectly).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijkOpGrond)
-        .check()
-        .should('be.checked');
-      cy.contains(messageCallDirectly).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijkDeur)
-        .check()
-        .should('be.checked');
-      cy.contains(messageCallDirectly).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijkLosseKabels)
-        .check()
-        .should('be.checked');
-      cy.contains(messageCallDirectly).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk)
-        .check()
-        .should('be.checked');
-      cy.contains(messageCallDirectly).should('not.be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijk3OfMeerKapot).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkAanrijding).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkOpGrond).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkDeur).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkLosseKabels).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('not.be.visible');
     });
 
     it('Should select a light on map', () => {
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.label).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.subtitle).should('be.visible');
       // Click on lamp based on coordinate
       createSignal.selectLampOnCoordinate(414, 135);
       cy.contains('Het gaat om lamp of lantaarnpaal met nummer: 034575').should('be.visible');
 
       // Check options in legend
       cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
-      cy.get(LANTAARNPAAL.legendHeader)
-        .should('have.text', 'Legenda')
-        .and('be.visible');
+      cy.get(LANTAARNPAAL.legendHeader).should('have.text', 'Legenda').and('be.visible');
       cy.get(LANTAARNPAAL.legendContentText).should('be.visible');
       cy.contains('Lantaarnpaal').should('be.visible');
       cy.contains('Grachtmast').should('be.visible');
@@ -124,13 +94,15 @@ describe('Create signal lantaarnpaal and check signal details', () => {
 
     it('Should enter a phonenumber and email address', () => {
       cy.contains('Volgende').click();
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePublic();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check on information provided by user
@@ -138,11 +110,11 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
       cy.contains('Vandaag, 5:45').should('be.visible');
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
-      cy.contains('Probleem').should('be.visible');
-      cy.contains('Overig').should('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
-      cy.contains('Nee, niet gevaarlijk').should('be.visible');
-      cy.contains('Lichtpunt(en) op kaart').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.shortLabel).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.answers.overig).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.shortLabel).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.answers.niet_gevaarlijk).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.shortLabel).should('be.visible');
       cy.contains('034575').should('be.visible');
       cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
       cy.get(LANTAARNPAAL.markerOnMap).should('be.visible');
@@ -162,64 +134,38 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
 
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Zuid')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Prinses Irenestraat 59')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1077WV Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Zuid').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Prinses Irenestraat 59').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1077WV Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       // Open and close uploaded picture
-      cy.get(SIGNAL_DETAILS.photo)
-        .should('be.visible')
-        .click();
+      cy.get(SIGNAL_DETAILS.photo).should('be.visible').click();
       cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
       cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Straatverlichting (VOR)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Wegen, verkeer, straatmeubilair')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Straatverlichting (VOR)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Wegen, verkeer, straatmeubilair').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
   });
 });

@@ -8,6 +8,7 @@ import {
   SET_GROUP_OPTIONS,
   SET_MAIN_CATEGORY,
   SET_NAME,
+  SET_NOTE_KEYWORD,
   SET_REFRESH,
   SET_SAVE_BUTTON_LABEL,
 } from './constants';
@@ -24,6 +25,7 @@ export const initialState = {
     category_slug: [],
     feedback: '',
     maincategory_slug: [],
+    note_keyword: '',
     priority: [],
     source: [],
     stadsdeel: [],
@@ -66,6 +68,15 @@ export default (state, action) => {
         },
       };
 
+    case SET_NOTE_KEYWORD:
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          note_keyword: action.payload,
+        },
+      };
+
     case SET_NAME:
       return {
         ...state,
@@ -97,9 +108,9 @@ export default (state, action) => {
     case SET_SAVE_BUTTON_LABEL:
       return {
         ...state,
-        submitBtnLabel: action.payload
-          ? SAVE_SUBMIT_BUTTON_LABEL
-          : DEFAULT_SUBMIT_BUTTON_LABEL,
+        submitBtnLabel: action.payload ?
+          SAVE_SUBMIT_BUTTON_LABEL :
+          DEFAULT_SUBMIT_BUTTON_LABEL,
       };
 
     case SET_MAIN_CATEGORY:

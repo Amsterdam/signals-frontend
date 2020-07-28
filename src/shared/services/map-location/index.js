@@ -1,3 +1,5 @@
+import configuration from 'shared/services/configuration/configuration';
+
 export const locationTofeature = location => ({
   type: 'Point',
   coordinates: [location.lng, location.lat],
@@ -10,11 +12,12 @@ export const featureTolocation = ({ coordinates }) => ({
 
 export const wktPointToLocation = wktPoint => {
   if (!wktPoint.includes('POINT')) {
-    throw TypeError('Provided WKT geometry is not a point.');
+    throw new TypeError('Provided WKT geometry is not a point.');
   }
+
   const coordinate = wktPoint.split('(')[1].split(')')[0];
-  const lat = parseFloat(coordinate.split(' ')[1]);
-  const lng = parseFloat(coordinate.split(' ')[0]);
+  const lat = Number.parseFloat(coordinate.split(' ')[1]);
+  const lng = Number.parseFloat(coordinate.split(' ')[0]);
 
   return {
     lat,
@@ -43,6 +46,7 @@ export const mapLocation = loc => {
   if (loc.address) {
     value.address = loc.address;
   }
+
   return value;
 };
 
@@ -127,3 +131,10 @@ export const formatPDOKResponse = ({ response }) =>
       },
     };
   });
+
+export const pointWithinBounds = (coordinates, bounds = configuration.map.options.maxBounds) => {
+  const latWithinBounds = coordinates[0] > bounds[0][0] && coordinates[0] < bounds[1][0];
+  const lngWithinBounds = coordinates[1] > bounds[0][1] && coordinates[1] < bounds[1][1];
+
+  return latWithinBounds && lngWithinBounds;
+};

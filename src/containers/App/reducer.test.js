@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 
 import userJson from 'utils/__tests__/fixtures/user.json';
+import { APPLY_FILTER } from 'signals/incident-management/constants';
 import appReducer, { initialState } from './reducer';
 import {
   AUTHORIZE_USER,
@@ -229,7 +230,6 @@ describe('containers/App/reducer', () => {
       type: RESET_SEARCH_QUERY,
     };
 
-
     const otherState = initialState.set('searchQuery', 'search-term');
     expect(otherState.get('searchQuery')).toBe('search-term');
 
@@ -238,6 +238,23 @@ describe('containers/App/reducer', () => {
         .set('searchQuery', initialState.get('searchQuery'));
 
     expect(appReducer(otherState, resetSearchQuery)).toEqual(
+      applied(initialState)
+    );
+  });
+
+  it('should handle APPLY_FILTER', () => {
+    const applyFilter = {
+      type: APPLY_FILTER,
+    };
+
+    const otherState = initialState.set('searchQuery', 'search-term');
+    expect(otherState.get('searchQuery')).toBe('search-term');
+
+    const applied = state =>
+      state
+        .set('searchQuery', initialState.get('searchQuery'));
+
+    expect(appReducer(otherState, applyFilter)).toEqual(
       applied(initialState)
     );
   });

@@ -29,12 +29,8 @@ describe('Change category', () => {
       cy.wait('@getCategories');
 
       // Change category
-      cy.get(CATEGORIES.inputDescription)
-        .clear()
-        .type('Dit is het verhaal van de brug die moest afwateren');
-      cy.get(CATEGORIES.inputDays)
-        .clear()
-        .type('4');
+      cy.get(CATEGORIES.inputDescription).clear().type('Dit is het verhaal van de brug die moest afwateren');
+      cy.get(CATEGORIES.inputDays).clear().type('4');
       cy.get(CATEGORIES.dropdownTypeOfDays).select('Dagen');
       cy.get(CATEGORIES.inputMessage)
         .clear()
@@ -92,13 +88,15 @@ describe('Change category', () => {
 
     it('Should enter a phonenumber and email address', () => {
       cy.contains('Volgende').click();
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePrivate();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       cy.contains(Cypress.env('description')).should('be.visible');
@@ -117,21 +115,16 @@ describe('Change category', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
 
       // Open incident details
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       // Edit signal category
-      cy.get('dt')
-        .contains('Subcategorie')
-        .find(CHANGE_CATEGORY.buttonEdit)
-        .click();
+      cy.get('dt').contains('Subcategorie').find(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(SIGNAL_DETAILS.infoText).should('contain', 'Dit is het verhaal van de brug die moest afwateren');
     });
   });
@@ -161,9 +154,7 @@ describe('Change category', () => {
       cy.wait('@getCategories');
 
       // Change category
-      cy.get(CATEGORIES.inputDays)
-        .clear()
-        .type('5');
+      cy.get(CATEGORIES.inputDays).clear().type('5');
       cy.get(CATEGORIES.dropdownTypeOfDays).select('Werkdagen');
       cy.get(CATEGORIES.inputMessage)
         .clear()

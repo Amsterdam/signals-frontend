@@ -1,8 +1,9 @@
 import React, { Fragment, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing, Heading } from '@datapunt/asc-ui';
 
-import { incidentType } from 'shared/types';
+import { childIncidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
@@ -11,20 +12,18 @@ const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ChildIncidents = ({ incident }) => {
+const ChildIncidents = ({ incidents }) => {
   const children = useMemo(
     () =>
-      incident?._links?.['sia:children']?.map(({ href }) => {
-        const id = href.substring(href.lastIndexOf('/') + 1, href.length);
-
-        return {
-          href: `${INCIDENT_URL}/${id}`,
-          values: {
-            id,
-          },
-        };
-      }),
-    [incident]
+      Object.values(incidents).map(({ status, category, id }) => ({
+        href: `${INCIDENT_URL}/${id}`,
+        values: {
+          id,
+          status: status.state_display,
+          category: `${category.sub} (${category.departments})`,
+        },
+      })),
+    [incidents]
   );
 
   if (!children?.length) {
@@ -43,7 +42,7 @@ const ChildIncidents = ({ incident }) => {
 };
 
 ChildIncidents.propTypes = {
-  incident: incidentType.isRequired,
+  incidents: PropTypes.arrayOf(childIncidentType).isRequired,
 };
 
 export default ChildIncidents;

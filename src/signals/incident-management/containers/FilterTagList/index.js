@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import { Tag } from '@datapunt/asc-ui';
-import moment from 'moment';
+import parseISO from 'date-fns/parseISO';
+import format from 'date-fns/format';
 
 import {
   makeSelectMainCategories,
@@ -43,6 +44,7 @@ export const mapKeys = key => {
       return key;
   }
 };
+
 const renderItem = (display, key) => (
   <StyledTag
     colorType="tint"
@@ -102,10 +104,10 @@ export const FilterTagListComponent = props => {
 
     return [
       'Datum:',
-      tagsList.created_after && moment(tagsList.created_after).format('DD-MM-YYYY'),
+      tagsList.created_after && format(parseISO(tagsList.created_after), 'dd-MM-yyyy'),
       't/m',
       (tagsList.created_before &&
-        moment(tagsList.created_before).format('DD-MM-YYYY')) ||
+        format(parseISO(tagsList.created_before), 'dd-MM-yyyy')) ||
       'nu',
     ]
       .filter(Boolean)
@@ -122,9 +124,9 @@ export const FilterTagListComponent = props => {
   return mainCategories && subCategories ? (
     <FilterWrapper>
       {Object.entries(tagsList).map(([tagKey, tag]) =>
-        Array.isArray(tag)
-          ? renderGroup(tag, mainCategories, map[tagKey], tagKey)
-          : renderTag(tag, mainCategories, map[tagKey])
+        Array.isArray(tag) ?
+          renderGroup(tag, mainCategories, map[tagKey], tagKey) :
+          renderTag(tag, mainCategories, map[tagKey])
       )}
     </FilterWrapper>
   ) : null;

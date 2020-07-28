@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import DateTimeInput from './index';
+import DateTimeInput from '.';
 
 describe('Form component <DateTimeInput />', () => {
   const metaFields = {
@@ -10,9 +10,30 @@ describe('Form component <DateTimeInput />', () => {
   let wrapper;
   let parent;
 
+  const RealDate = Date;
+
+  const mockDate = isoDate => {
+    global.Date = class extends RealDate {
+      constructor(...theArgs) {
+        if (theArgs.length) {
+          return new RealDate(...theArgs);
+        }
+
+        return new RealDate(isoDate);
+      }
+
+      static now() {
+        return new RealDate(isoDate).getTime();
+      }
+    };
+  };
+
+  afterEach(() => {
+    global.Date = RealDate;
+  });
+
   beforeEach(() => {
-    // 14.02.2017
-    Date.now = jest.fn(() => 1487076708000);
+    mockDate('2017-02-14');
 
     parent = {
       meta: {
@@ -60,9 +81,7 @@ describe('Form component <DateTimeInput />', () => {
         },
       });
 
-      wrapper
-        .find('[data-testid="selectDay"]')
-        .simulate('change', { target: { value: '2018-07-21' } });
+      wrapper.find('[data-testid="selectDay"]').simulate('change', { target: { value: '2018-07-21' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         incident_date: '2018-07-21',
@@ -77,9 +96,7 @@ describe('Form component <DateTimeInput />', () => {
         },
       });
 
-      wrapper
-        .find('[data-testid="selectHours"]')
-        .simulate('change', { target: { value: '13' } });
+      wrapper.find('[data-testid="selectHours"]').simulate('change', { target: { value: '13' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         incident_time_hours: '13',
@@ -94,9 +111,7 @@ describe('Form component <DateTimeInput />', () => {
         },
       });
 
-      wrapper
-        .find('[data-testid="selectMinutes"]')
-        .simulate('change', { target: { value: '42' } });
+      wrapper.find('[data-testid="selectMinutes"]').simulate('change', { target: { value: '42' } });
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         incident_time_minutes: '42',

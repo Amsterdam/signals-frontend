@@ -1,12 +1,10 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import Modal from '..';
 
 describe('components/Modal', () => {
-  afterEach(cleanup);
-
   it('should not render', () => {
     const { container } = render(
       withAppContext(<Modal isOpen={false} title="Modal" />),

@@ -4,12 +4,12 @@ import { getAccessToken } from 'shared/services/auth/auth';
 
 export const generateParams = data => Object.entries(data)
   .filter(pair => pair[1])
-  .map(pair => Array.isArray(pair[1]) === true
-    ? pair[1]
+  .map(pair => Array.isArray(pair[1]) === true ?
+    pair[1]
       .filter(val => val)
       .map(val => `${pair[0]}=${val}`)
-      .join('&')
-    : pair.map(encodeURIComponent).join('='),)
+      .join('&') :
+    pair.map(encodeURIComponent).join('='),)
   .join('&');
 
 export function* authCall(url, params, authorizationToken) {
@@ -82,9 +82,9 @@ export function* postCall(url, params) {
 
 export const errorMessageDictionary = {
   default: 'De opgevraagde gegevens konden niet gevonden worden',
-  400: 'De server kan de gegevens niet verwerken',
-  401: 'Je hebt niet voldoende rechten om deze actie uit te voeren',
-  403: 'Het is niet toegestaan om gegevens te bekijken of te wijzigen',
+  400: 'Deze wijziging is niet toegestaan in deze situatie.',
+  401: 'Om de opgevraagde gegevens te bekijken is een geautoriseerde sessie noodzakelijk',
+  403: 'Je bent niet voldoende rechten om deze actie uit te voeren.',
   408: 'Het verzoek kan niet verwerkt worden door een timeout op de server',
   413: 'De grootte van de payload overschrijdt de toegestane limiet',
   418: 'The server refuses to brew coffee because it is a teapot',
@@ -99,12 +99,12 @@ export const errorMessageDictionary = {
  * @param {Error} error
  * @returns {String}
  */
-export const getErrorMessage = error => {
-  const status = (error.response && error.response.status) || error.status;
+export const getErrorMessage = (error, defaultErrorMessage) => {
+  const status = error?.response?.status || error.status;
 
   if (!status) {
-    return errorMessageDictionary.default;
+    return defaultErrorMessage || errorMessageDictionary.default;
   }
 
-  return errorMessageDictionary[status] || errorMessageDictionary.default;
+  return errorMessageDictionary[status] || defaultErrorMessage || errorMessageDictionary.default;
 };

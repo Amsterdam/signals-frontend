@@ -80,6 +80,7 @@ class IncidentForm extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (!this.form) return;
     this.setValues(this.props.incidentContainer.incident);
     this.form.meta.incident = this.props.incidentContainer.incident;
     this.form.meta.submitting = this.state.submitting;
@@ -91,6 +92,15 @@ class IncidentForm extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      loading: false,
+      submitting: false,
+      formAction: '',
+      next: null,
+    });
+  }
+
   setForm(form) {
     this.form = form;
     this.form.meta = {
@@ -100,13 +110,6 @@ class IncidentForm extends React.Component {
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
     };
-
-    this.setState({
-      loading: false,
-      submitting: false,
-      formAction: '',
-      next: null,
-    });
 
     this.setValues(this.props.incidentContainer.incident);
   }
@@ -121,6 +124,7 @@ class IncidentForm extends React.Component {
           control.disable();
         }
       }
+
       if (!isEqual(incident[key], control.value)) {
         control.setValue(incident[key]);
       }
@@ -157,6 +161,7 @@ class IncidentForm extends React.Component {
           return;
         }
       }
+
       if (this.form.valid) {
         this.setIncident(formAction);
         next();

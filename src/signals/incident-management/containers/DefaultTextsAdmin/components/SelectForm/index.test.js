@@ -5,7 +5,7 @@ import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 
-import SelectForm from './index';
+import SelectForm from '.';
 
 import { defaultTextsOptionList } from '../../../../definitions/statusList';
 

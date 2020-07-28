@@ -9,8 +9,10 @@ import {
   SET_GROUP_OPTIONS,
   SET_MAIN_CATEGORY,
   SET_NAME,
+  SET_NOTE_KEYWORD,
   SET_REFRESH,
 } from '../constants';
+
 import {
   reset,
   setAddress,
@@ -20,6 +22,7 @@ import {
   setGroupOptions,
   setMainCategory,
   setName,
+  setNoteKeyword,
   setRefresh,
 } from '../actions';
 
@@ -40,6 +43,16 @@ describe('signals/incident-management/components/FilterForm/actions', () => {
     };
 
     expect(setAddress(address)).toEqual(expectedAction);
+  });
+
+  it('should create an action to set the note keyword', () => {
+    const noteKeyword = 'test123';
+    const expectedAction = {
+      type: SET_NOTE_KEYWORD,
+      payload: noteKeyword,
+    };
+
+    expect(setNoteKeyword(noteKeyword)).toEqual(expectedAction);
   });
 
   it('should create an action to set the save button label', () => {

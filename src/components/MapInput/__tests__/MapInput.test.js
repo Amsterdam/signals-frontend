@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, fireEvent, act, wait } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 
 import context from 'containers/MapContext/context';
 
 import geoSearchJSON from 'utils/__tests__/fixtures/geosearch.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
-import { withAppContext, resolveAfterMs , withMapContext } from 'test/utils';
+import { withAppContext, resolveAfterMs, withMapContext } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
@@ -14,7 +14,6 @@ import configuration from 'shared/services/configuration/configuration';
 
 import { findFeatureByType } from '../services/reverseGeocoderService';
 import MapInput from '..';
-
 
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
@@ -156,7 +155,7 @@ describe('components/MapInput', () => {
     expect(onChange).not.toHaveBeenCalled();
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
 
-    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
 
     expect(setLocationSpy).toHaveBeenCalledTimes(1);
     expect(setLocationSpy).toHaveBeenCalledWith({
@@ -208,7 +207,7 @@ describe('components/MapInput', () => {
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
     expect(onChange).not.toHaveBeenCalled();
 
-    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenLastCalledWith({
@@ -243,7 +242,7 @@ describe('components/MapInput', () => {
       fireEvent.click(map, { clientX: 100, clientY: 100 });
     });
 
-    await wait(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenLastCalledWith(
@@ -308,7 +307,6 @@ describe('components/MapInput', () => {
     expect(container.querySelector(`.${markerIcon.options.className}`)).toBeInTheDocument();
     expect(mapMoveSpy).toHaveBeenCalledTimes(1);
   });
-
 
   it('should handle onSelect', async () => {
     const onChange = jest.fn();
@@ -378,7 +376,6 @@ describe('components/MapInput', () => {
   it('should handle onSelect with stadsdeel from configuration', async () => {
     const stadsdeel = '@foo@';
     configuration.map.options.stadsdeel = stadsdeel;
-
 
     const onChange = jest.fn();
     const { getByTestId, findByTestId } = render(
@@ -456,7 +453,7 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value: addressText } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(resetLocationSpy).not.toHaveBeenCalled();
 
@@ -464,7 +461,7 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value: '' } });
     });
 
-    await wait(() => resolveAfterMs(INPUT_DELAY));
+    await waitFor(() => resolveAfterMs(INPUT_DELAY));
 
     expect(resetLocationSpy).toHaveBeenCalledWith();
   });

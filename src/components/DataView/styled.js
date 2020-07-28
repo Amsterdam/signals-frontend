@@ -5,7 +5,7 @@ export const StyledTable = styled.table`
  width: 100%;
 `;
 
-export const StyledTHead = styled.thead `
+export const StyledTHead = styled.thead`
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 `;
@@ -19,7 +19,7 @@ export const StyledTR = styled.tr`
   }
 `;
 
-export const StyledTH =  styled.th`
+export const StyledTH = styled.th`
   border-top: none;
   border-bottom: none;
   padding: ${themeSpacing(3)} ${themeSpacing(2)};

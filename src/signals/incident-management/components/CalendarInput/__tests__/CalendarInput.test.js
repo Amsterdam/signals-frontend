@@ -1,6 +1,5 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import moment from 'moment';
 
 import { withAppContext } from 'test/utils';
 
@@ -39,7 +38,7 @@ describe('signals/incident-management/components/CalendarInput', () => {
       document.querySelector('input[type=hidden]')
     ).not.toBeInTheDocument();
 
-    const selectedDate = moment();
+    const selectedDate = new Date();
 
     rerender(
       withAppContext(
@@ -67,7 +66,7 @@ describe('signals/incident-management/components/CalendarInput', () => {
     fireEvent.change(inputElement, { target: { value: '18-12-2018' } });
 
     expect(onSelect).toHaveBeenCalledWith(
-      expect.any(moment),
+      expect.any(Date),
       expect.any(Object)
     );
   });

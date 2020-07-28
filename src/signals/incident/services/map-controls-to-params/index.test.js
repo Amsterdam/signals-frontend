@@ -1,11 +1,8 @@
-import moment from 'moment';
-
 import mapValues from '../map-values';
 import mapPaths from '../map-paths';
 
-import mapControlsToParams, { defaultParams } from './index';
+import mapControlsToParams, { defaultParams } from '.';
 
-jest.mock('moment');
 jest.mock('../map-values');
 jest.mock('../map-paths');
 
@@ -20,9 +17,9 @@ describe('The map controls to params service', () => {
   });
 
   it('should map date: Nu', () => {
-    moment.mockImplementation(() => ({
-      format: () => '2018-07-21T12:34:00+02:00',
-    }));
+    const isodate = '2018-07-21T12:34:00+02:00';
+    const dateMock = new Date(isodate);
+    const spy = jest.spyOn(global, 'Date').mockImplementation(() => dateMock);
 
     expect(
       mapControlsToParams(
@@ -38,14 +35,17 @@ describe('The map controls to params service', () => {
       )
     ).toEqual({
       ...defaultParams,
-      incident_date_start: '2018-07-21T12:34:00+02:00',
+      incident_date_start: isodate,
     });
+
+    spy.mockRestore();
   });
 
   it('should map date: Vandaag', () => {
-    moment.mockImplementation(() => ({
-      format: () => '2018-07-21T10:21:00+02:00',
-    }));
+    const isodate = '2018-07-21T10:21:00+02:00';
+    const dateMock = new Date(isodate);
+    const spy = jest.spyOn(global, 'Date').mockImplementation(() => dateMock);
+    global.Date.now = jest.fn(() => new Date(isodate).getTime());
 
     expect(
       mapControlsToParams(
@@ -58,14 +58,17 @@ describe('The map controls to params service', () => {
       )
     ).toEqual({
       ...defaultParams,
-      incident_date_start: '2018-07-21T10:21:00+02:00',
+      incident_date_start: isodate,
     });
+    spy.mockRestore();
   });
 
   it('should map date: fixed date', () => {
-    moment.mockImplementation(() => ({
-      format: () => '2018-07-02T09:05:00+02:00',
-    }));
+    const isodate = '2018-07-02T09:05:00+02:00';
+    const testDate = '2018-04-02T09:05:00+02:00';
+    const dateMock = new Date(isodate);
+    const spy = jest.spyOn(global, 'Date').mockImplementation(() => dateMock);
+    global.Date.now = jest.fn(() => new Date(isodate).getTime());
 
     expect(
       mapControlsToParams(
@@ -78,8 +81,9 @@ describe('The map controls to params service', () => {
       )
     ).toEqual({
       ...defaultParams,
-      incident_date_start: '2018-07-02T09:05:00+02:00',
+      incident_date_start: testDate,
     });
+    spy.mockRestore();
   });
 
   it('should expect to receive values from paths and values services', () => {

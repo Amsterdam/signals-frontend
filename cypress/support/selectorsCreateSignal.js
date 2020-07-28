@@ -1,15 +1,20 @@
 export const CREATE_SIGNAL = {
   autoSuggest: '[data-testid="autoSuggest"]',
+  buttonGPS: '[data-testid=gpsButton]',
   buttonUploadFile: '#formUpload',
   checkBoxSharingAllowed: '#sharing_allowed',
+  disclaimer: '[data-testid=disclaimer]',
   dropdownDag: '[data-testid=day]',
   dropdownUur: '[data-testid=hours]',
   dropdownMinuten: '[data-testid=minutes]',
-  errorList: '.header__errors',
+  errorItem: '[class*=Header__ErrorItem]',
+  footerPrivacyLink: '[class*=Footer__StyledLink]',
   imageAddressMarker: 'div[class="leaflet-pane leaflet-marker-pane"]',
   inputPhoneNumber: '[type=tel]',
   inputEmail: '[type=email]',
   imageFileUpload: '[class*=Image__ImageContainer]',
+  labelQuestion: '[class*=Header__Label]',
+  logoAmsterdam: '[class*=AmsterdamLogo__AmsterdamLogoStyle]',
   linkChangeEmailAddress: '[class*=IncidentPreview__LinkContainer] > [href="/incident/email"]',
   linkChangePhoneNumber: '[class*=IncidentPreview__LinkContainer] > [href="/incident/telefoon"]',
   linkChangeSignalInfo: '[class*=IncidentPreview__LinkContainer] > [href="/incident/beschrijf"]',
@@ -37,6 +42,7 @@ export const BEDRIJVEN_HORECA = {
 export const BOTEN = {
   inputNaamBoot: '[class*=Input__StyledInput]',
   inputNogMeer: '[class*=TextArea__StyledArea]',
+  radioButtonRondvaartbootNee: '#extra_boten_snelheid_rondvaartboot-nee1',
   radioButtonRondvaartbootJa: '#extra_boten_snelheid_rondvaartboot-ja1',
 };
 

@@ -1,5 +1,7 @@
 import clonedeep from 'lodash.clonedeep';
-import moment from 'moment';
+import isValid from 'date-fns/isValid';
+import parse from 'date-fns/parse';
+import format from 'date-fns/format';
 
 import dataLists from 'signals/incident-management/definitions';
 
@@ -43,17 +45,17 @@ export const parseOutputFormData = options =>
         break;
 
       case 'created_after':
-        if (moment(options.created_after, 'YYYY-MM-DD').toISOString() !== null) {
-          entryValue = moment(options.created_after).format('YYYY-MM-DDT00:00:00');
+        if (isValid(parse(options.created_after, 'yyyy-MM-dd', new Date()))) {
+          entryValue = `${format(parse(options.created_after, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')}T00:00:00`;
         }
+
         break;
 
       case 'created_before':
-        if (moment(options.created_before, 'YYYY-MM-DD').toISOString() !== null) {
-          entryValue = moment(options.created_before)
-            .set({ hours: 23, minutes: 59, seconds: 59 })
-            .format('YYYY-MM-DDTHH:mm:ss');
+        if (isValid(parse(options.created_before, 'yyyy-MM-dd', new Date()))) {
+          entryValue = `${format(parse(options.created_before, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')}T23:59:59`;
         }
+
         break;
 
       default:

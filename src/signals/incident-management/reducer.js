@@ -27,14 +27,12 @@ export const initialState = fromJS({
   activeFilter: {
     // filter settings for the list of incidents
     name: '',
-    options: {
-    },
+    options: {},
   },
   editFilter: {
     // settings selected for editing
     name: '',
-    options: {
-    },
+    options: {},
   },
   filters: [],
   incidents: {
@@ -44,7 +42,6 @@ export const initialState = fromJS({
   loading: false,
   ordering: '-created_at',
   page: 1,
-  searchQuery: '',
 });
 
 export default (state = initialState, action) => {
@@ -54,12 +51,6 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case GET_FILTERS_SUCCESS:
       return state.set('filters', fromJS(action.payload)).set('loading', false);
-
-    case GET_FILTERS_FAILED:
-      return state
-        .set('loading', false)
-        .set('error', true)
-        .set('errorMessage', action.payload);
 
     case REMOVE_FILTER_SUCCESS:
       re = new RegExp(`/${action.payload}`, 'g');
@@ -74,12 +65,12 @@ export default (state = initialState, action) => {
         .set('activeFilter', fromJS(action.payload))
         .set('editFilter', fromJS(action.payload))
         .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'))
-        .set('searchQuery', initialState.get('searchQuery'));
+        .set('page', initialState.get('page'));
 
     case EDIT_FILTER:
       return state.set('editFilter', fromJS(action.payload));
 
+    case GET_FILTERS_FAILED:
     case SAVE_FILTER_FAILED:
     case UPDATE_FILTER_FAILED:
       return state
@@ -93,8 +84,7 @@ export default (state = initialState, action) => {
         .set('activeFilter', fromJS(action.payload))
         .set('error', false)
         .set('errorMessage', undefined)
-        .set('loading', false)
-        .set('searchQuery', initialState.get('searchQuery'));
+        .set('loading', false);
 
     case CLEAR_EDIT_FILTER:
       return state

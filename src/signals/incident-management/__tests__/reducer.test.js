@@ -152,7 +152,6 @@ describe('signals/incident-management/reducer', () => {
       state
         .set('ordering', initialState.get('ordering'))
         .set('page', initialState.get('page'))
-        .set('searchQuery', initialState.get('searchQuery'))
         .set('activeFilter', fromJS(appliedFilter))
         .set('editFilter', fromJS(appliedFilter));
 
@@ -209,8 +208,7 @@ describe('signals/incident-management/reducer', () => {
         .set('loading', false)
         .set('error', false)
         .set('errorMessage', undefined)
-        .set('activeFilter', fromJS(activeFilter))
-        .set('searchQuery', initialState.get('searchQuery'));
+        .set('activeFilter', fromJS(activeFilter));
 
     expect(reducer(initialState, filterSaveSuccess)).toEqual(
       applied(initialState)
@@ -231,8 +229,7 @@ describe('signals/incident-management/reducer', () => {
         .set('loading', false)
         .set('error', false)
         .set('errorMessage', undefined)
-        .set('activeFilter', fromJS(filterUpdatedSuccess.payload))
-        .set('searchQuery', initialState.get('searchQuery'));
+        .set('activeFilter', fromJS(filterUpdatedSuccess.payload));
 
     expect(reducer(initialState, filterUpdatedSuccess)).toEqual(
       applied(initialState)

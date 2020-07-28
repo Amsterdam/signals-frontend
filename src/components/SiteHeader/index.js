@@ -97,6 +97,7 @@ const HeaderWrapper = styled.div`
   position: relative;
 
   #header {
+    max-width: 1400px;
     z-index: 2;
   }
 
@@ -246,15 +247,13 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
       {showLogout && (
         <Fragment>
-          <MenuItem>
-            <StyledMenuButton
-              forwardedAs="a"
-              href="https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365"
-              target="_blank"
-            >
-              Help
-            </StyledMenuButton>
-          </MenuItem>
+          {configuration.links?.help && (
+            <MenuItem>
+              <StyledMenuButton forwardedAs="a" href={configuration.links?.help} target="_blank">
+                Help
+              </StyledMenuButton>
+            </MenuItem>
+          )}
           <MenuItem element="button" data-testid="logout-button" onClick={onLogOut}>
             <StyledMenuButton iconSize={16} iconLeft={<LogoutIcon focusable="false" />}>
               Uitloggen
@@ -269,7 +268,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
 export const SiteHeader = props => {
   const isFrontOffice = useIsFrontOffice();
   const tall = isFrontOffice && !isAuthenticated();
-  const title = tall ? '' : 'SIA';
+  const title = tall ? configuration.language.headerTitle : configuration.language.smallHeaderTitle;
   const homeLink = tall ? configuration.links.home : '/';
 
   const navigation = useMemo(
@@ -306,7 +305,7 @@ export const SiteHeader = props => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
-          {...(configuration.logo?.url ? { logo: Logo } : { logo: AmsterdamLogo })}
+          logo={configuration.logo?.url ? Logo : AmsterdamLogo}
         />
         {!tall && <Notification />}
       </HeaderWrapper>

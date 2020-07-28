@@ -1,93 +1,130 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { Validators } from 'react-reactive-form';
 
-import Header from './index';
+import { withAppContext } from 'test/utils';
 
-describe('Form component <Header />', () => {
-  let wrapper;
-  let meta;
-  let options;
-  let touched;
-  let getError;
-  let hasError;
+import Header from '.';
 
-  beforeEach(() => {
-    meta = {
-      label: 'naam',
+describe('signals/incident/components/form/Header', () => {
+  it('should render label', () => {
+    const label = 'Foo barrrr';
+    const { getByText } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} />));
+
+    expect(getByText(label)).toBeInTheDocument();
+  });
+
+  it('should render optional indicator', () => {
+    const label = 'Zork';
+    const options = {
+      validators: [Validators.required],
     };
-    options = {};
-    touched = false;
-    getError = jest.fn();
-    hasError = jest.fn();
+    const { rerender, queryByText } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{}} />));
 
-    wrapper = shallow(
-      <Header
-        meta={meta}
-        options={options}
-        touched={touched}
-        hasError={hasError}
-        getError={getError}
-      />
+    expect(queryByText('(optioneel)')).toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: undefined }} />));
+
+    expect(queryByText('(optioneel)')).toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: [] }} />));
+
+    expect(queryByText('(optioneel)')).toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={() => {}} options={{}} />));
+
+    expect(queryByText('(optioneel)')).not.toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={options} />));
+
+    expect(queryByText('(optioneel)')).not.toBeInTheDocument();
+  });
+
+  it('should render subtitle', () => {
+    const subtitle = 'Bar bazzz';
+    const { getByText } = render(withAppContext(<Header hasError={() => {}} meta={{ subtitle }} />));
+
+    expect(getByText(subtitle)).toBeInTheDocument();
+  });
+
+  it('should render children', () => {
+    const { container } = render(
+      withAppContext(
+        <Header hasError={() => {}}>
+          <span className="child" />
+        </Header>
+      )
     );
+
+    expect(container.querySelector('.child')).toBeInTheDocument();
   });
 
-  it('should render correctly', () => {
-    expect(wrapper).toMatchSnapshot();
+  it('should render required error', () => {
+    const hasError = prop => prop === 'required';
+    const error = 'Dit is een verplicht veld';
+
+    const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} touched />));
+
+    expect(queryByText(error)).not.toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={hasError} touched />));
+
+    expect(queryByText(error)).toBeInTheDocument();
   });
 
-  it('should render when label is not available', () => {
-    wrapper.setProps({
-      meta: {
-        label: null,
-      },
-    });
+  it('should render email error', () => {
+    const hasError = prop => prop === 'email';
+    const error = 'Het moet een geldig e-mailadres zijn';
 
-    expect(wrapper).toMatchSnapshot();
+    const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} touched />));
+
+    expect(queryByText(error)).not.toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={hasError} touched />));
+
+    expect(queryByText(error)).toBeInTheDocument();
   });
 
-  describe('error messages', () => {
-    it('should render no error when element is only touched', () => {
-      wrapper.setProps({ touched: true });
+  it('should render maxLength error', () => {
+    const requiredLength = 300;
+    const hasError = prop => prop === 'maxLength';
+    const getError = () => ({ requiredLength });
+    const error = `U kunt maximaal ${requiredLength} tekens invoeren.`;
 
-      expect(wrapper).toMatchSnapshot();
-    });
+    const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
 
-    it('should render required error', () => {
-      hasError.mockImplementation(type => type === 'required');
-      wrapper.setProps({ touched: true });
+    expect(queryByText(error)).not.toBeInTheDocument();
 
-      expect(wrapper).toMatchSnapshot();
-    });
+    rerender(withAppContext(<Header hasError={hasError} getError={getError} touched />));
 
-    it('should render email error', () => {
-      hasError.mockImplementation(type => type === 'email');
-      wrapper.setProps({ touched: true });
+    expect(queryByText(error)).toBeInTheDocument();
+  });
 
-      expect(wrapper).toMatchSnapshot();
-    });
+  it('should render custom error', () => {
+    const error = 'Hic sunt dracones';
+    const hasError = prop => prop === 'custom';
+    const getError = () => error;
 
-    it('should render maxLength error', () => {
-      hasError.mockImplementation(type => type === 'maxLength');
-      getError.mockImplementation(() => ({
-        requiredLength: 666,
-      }));
-      wrapper.setProps({ touched: true });
+    const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
 
-      expect(wrapper).toMatchSnapshot();
-    });
+    expect(queryByText(error)).not.toBeInTheDocument();
 
-    it('should render custom error', () => {
-      hasError.mockImplementation(type => type === 'custom');
-      getError.mockImplementation(() => 'custom error message');
-      wrapper.setProps({ touched: true });
+    rerender(withAppContext(<Header hasError={hasError} getError={getError} touched />));
 
-      expect(wrapper).toMatchSnapshot();
-    });
+    expect(queryByText(error)).toBeInTheDocument();
+  });
 
-    it('should render optional field message', () => {
-      wrapper.setProps({ options: { validators: [] } });
+  it('should not render error when not touched', () => {
+    const hasError = prop => prop === 'required';
+    const touched = false;
+    const error = 'Dit is een verplicht veld';
 
-      expect(wrapper).toMatchSnapshot();
-    });
+    const { queryByText, rerender } = render(withAppContext(<Header hasError={hasError} touched={touched} />));
+
+    expect(queryByText(error)).not.toBeInTheDocument();
+
+    rerender(withAppContext(<Header hasError={hasError} touched />));
+
+    expect(queryByText(error)).toBeInTheDocument();
   });
 });

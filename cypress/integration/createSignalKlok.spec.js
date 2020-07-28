@@ -2,6 +2,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CREATE_SIGNAL, KLOK } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import questions from '../support/questions.json';
 
 describe('Create signal klok', () => {
   describe('Create signal klok on the map', () => {
@@ -26,94 +27,77 @@ describe('Create signal klok', () => {
     });
 
     it('Should enter specific information', () => {
+      const warning = questions.wegenVerkeerStraatmeubilair.extra_klok_gevaar.answers;
       createSignal.checkSpecificInformationPage();
 
       cy.contains(Cypress.env('description')).should('be.visible');
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorList).should('contain', 'Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Is de situatie gevaarlijk?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
 
       // First question
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkAanrijding)
-        .check()
-        .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.')
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.label).should('be.visible');
+      cy.get(KLOK.radioButtonGevaarlijkAanrijding).check().should('be.checked');
+      cy.contains(warning)
         .should('be.visible')
         .and($labels => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
         });
-      cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef)
-        .check()
-        .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.').should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkDeurtje)
-        .check()
-        .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.').should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkLosseKabels)
-        .check()
-        .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.').should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkNietGevaarlijk)
-        .check()
-        .should('be.checked');
-      cy.contains('Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen.').should('not.be.visible');
+      cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef).check().should('be.checked');
+      cy.contains(warning).should('be.visible');
+      cy.get(KLOK.radioButtonGevaarlijkDeurtje).check().should('be.checked');
+      cy.contains(warning).should('be.visible');
+      cy.get(KLOK.radioButtonGevaarlijkLosseKabels).check().should('be.checked');
+      cy.contains(warning).should('be.visible');
+      cy.get(KLOK.radioButtonGevaarlijkNietGevaarlijk).check().should('be.checked');
+      cy.contains(warning).should('not.be.visible');
 
       // Second question
-      cy.get(KLOK.radioButtonProbleemNietOpTijd)
-        .check()
-        .should('be.checked');
-      cy.get(KLOK.radioButtonProbleemBeschadigd)
-        .check()
-        .should('be.checked');
-      cy.get(KLOK.radioButtonProbleemVervuild)
-        .check()
-        .should('be.checked');
-      cy.get(KLOK.radioButtonProbleemOverig)
-        .check()
-        .should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_probleem.label).should('be.visible');
+      cy.get(KLOK.radioButtonProbleemNietOpTijd).check().should('be.checked');
+      cy.get(KLOK.radioButtonProbleemBeschadigd).check().should('be.checked');
+      cy.get(KLOK.radioButtonProbleemVervuild).check().should('be.checked');
+      cy.get(KLOK.radioButtonProbleemOverig).check().should('be.checked');
 
       // Third question
-      cy.contains('Selecteer de klok waar het om gaat').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_nummer.label).should('be.visible');
       // Click on klok based on coordinate
       cy.get(KLOK.iconKlok).click();
 
       // Check options in legend
       cy.get(KLOK.mapSelectKlok).should('be.visible');
-      cy.get(KLOK.legendHeader)
-        .should('have.text', 'Legenda')
-        .and('be.visible');
-      cy.get(KLOK.legendContentText)
-        .should('have.text', 'Klok')
-        .and('be.visible');
+      cy.get(KLOK.legendHeader).should('have.text', 'Legenda').and('be.visible');
+      cy.get(KLOK.legendContentText).should('have.text', 'Klok').and('be.visible');
 
       cy.contains('Volgende').click();
     });
 
     it('Should enter a phonenumber and email address', () => {
       cy.contains('Volgende').click();
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePublic();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check information provided by user
       cy.contains(Cypress.env('address')).should('be.visible');
       cy.contains(Cypress.env('description')).should('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
-      cy.contains('Niet gevaarlijk').should('be.visible');
-      cy.contains('Klok(ken) op kaart').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.shortLabel).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.answers.niet_gevaarlijk).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_nummer.shortLabel).should('be.visible');
       cy.contains('140425').should('be.visible');
 
-      cy.get(CREATE_SIGNAL.checkBoxSharingAllowed)
-        .click()
-        .should('be.checked');
+      cy.get(CREATE_SIGNAL.checkBoxSharingAllowed).click().should('be.checked');
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
     });
@@ -129,57 +113,33 @@ describe('Create signal klok', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
 
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: West')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Polonceau-kade 1')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1014DA Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Ja')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: West').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Polonceau-kade 1').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1014DA Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Ja').and('be.visible');
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Klok (VOR)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Wegen, verkeer, straatmeubilair')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Klok (VOR)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Wegen, verkeer, straatmeubilair').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
   });
   describe('Create signal klok not on the map', () => {
@@ -207,24 +167,20 @@ describe('Create signal klok', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
 
       // First question
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef)
-        .check()
-        .should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.label).should('be.visible');
+      cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef).check().should('be.checked');
 
       // Second question
-      cy.get(KLOK.radioButtonProbleemBeschadigd)
-        .check()
-        .should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_probleem.label).should('be.visible');
+      cy.get(KLOK.radioButtonProbleemBeschadigd).check().should('be.checked');
 
       // Third question
-      cy.contains('Selecteer de klok waar het om gaat').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_nummer.label).should('be.visible');
       cy.get(KLOK.mapSelectKlok).should('be.visible');
-      cy.contains('Weet u het nummer dat op de klok staat?').should('not.be.visible');
-      cy.get(KLOK.checkBoxNietOpKaart)
-        .check()
-        .should('be.checked');
-      cy.contains('Weet u het nummer dat op de klok staat?').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_niet_op_kaart.value).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_niet_op_kaart_nummer.label).should('not.be.visible');
+      cy.get(KLOK.checkBoxNietOpKaart).check().should('be.checked');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_niet_op_kaart_nummer.label).should('be.visible');
       cy.contains('+ Voeg een extra nummer toe').click();
       cy.get(KLOK.inputKlokNummer1).type('666');
       cy.get(KLOK.inputKlokNummer2).type('999');
@@ -246,10 +202,10 @@ describe('Create signal klok', () => {
       // Check information provided by user
       cy.contains(Cypress.env('address')).should('be.visible');
       cy.contains(Cypress.env('description')).should('be.visible');
-      cy.contains('Is de situatie gevaarlijk?').should('be.visible');
-      cy.contains('Klok ligt op de grond of staat gevaarlijk scheef').should('be.visible');
-      cy.contains('Klok is zichtbaar beschadigd').should('be.visible');
-      cy.contains('Klok(ken) niet op kaart').should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.label).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.answers.klok_op_grond_of_scheef).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_probleem.answers.klok_is_zichtbaar_beschadigd).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_niet_op_kaart_nummer.shortLabel).should('be.visible');
       cy.contains('666; 999').should('be.visible');
 
       cy.contains('Verstuur').click();
@@ -267,57 +223,33 @@ describe('Create signal klok', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
 
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Zuid')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Olympisch Stadion 2')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1076DE Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Zuid').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Olympisch Stadion 2').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1076DE Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Klok (VOR)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Wegen, verkeer, straatmeubilair')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Klok (VOR)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Wegen, verkeer, straatmeubilair').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
   });
 });

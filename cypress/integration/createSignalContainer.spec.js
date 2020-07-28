@@ -2,6 +2,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CONTAINERS } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import questions from '../support/questions.json';
 
 describe('Create signal container and check signal details', () => {
   describe('Create signal cointainer', () => {
@@ -29,31 +30,33 @@ describe('Create signal container and check signal details', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
 
       // Select container soort and number
-      cy.get(CONTAINERS.inputContainerSoort)
-        .eq(0)
-        .type('Een restafval container');
-      cy.get(CONTAINERS.inputContainerNummer)
-        .eq(1)
-        .type('Nummertje 666');
+      cy.contains(questions.afval.extra_container_kind.label).should('be.visible');
+      cy.get(CONTAINERS.inputContainerSoort).eq(0).type('Een restafval container');
+      cy.contains(questions.afval.extra_container_number.label).should('be.visible');
+      cy.get(CONTAINERS.inputContainerNummer).eq(1).type('Nummertje 666');
 
       cy.contains('Volgende').click();
     });
 
     it('Should enter a phonenumber and email address', () => {
       cy.contains('Volgende').click();
-      cy.contains('Volgende').click();
     });
 
     it('Should show a summary', () => {
       cy.server();
+      cy.route('/maps/topografie?bbox=**').as('map');
       cy.postSignalRoutePublic();
 
+      cy.contains('Volgende').click();
+      cy.wait('@map');
       createSignal.checkSummaryPage();
 
       // Check information provided by user
       cy.contains(Cypress.env('address')).should('be.visible');
       cy.contains(Cypress.env('description')).should('be.visible');
+      cy.contains(questions.afval.extra_container_kind.shortLabel);
       cy.contains('Een restafval container').should('be.visible');
+      cy.contains(questions.afval.extra_container_number.shortLabel);
       cy.contains('Nummertje 666').should('be.visible');
 
       cy.contains('Verstuur').click();
@@ -71,57 +74,33 @@ describe('Create signal container and check signal details', () => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutes();
+      cy.getSignalDetailsRoutesById();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
     });
 
     it('Should show the signal details', () => {
-      cy.get('[href*="/manage/incident/"]')
-        .contains(Cypress.env('signalId'))
-        .click();
+      cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
       cy.waitForSignalDetailsRoutes();
 
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Centrum')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Stationsplein 15')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1012AB Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Stationsplein 15').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012AB Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Container is kapot (AEG)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Afval')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Container is kapot (AEG)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Afval').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
   });
 });

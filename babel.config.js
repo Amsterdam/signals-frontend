@@ -9,7 +9,6 @@ module.exports = api => {
           useBuiltIns: 'usage',
           targets: {
             esmodules: true,
-            browsers: ['last 2 versions', '> 3% in NL'],
             chrome: 42,
             firefox: 68,
           },

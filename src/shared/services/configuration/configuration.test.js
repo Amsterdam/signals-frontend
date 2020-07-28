@@ -27,10 +27,9 @@ describe('shared/services/configuration/configuration', () => {
     }).toThrow();
   });
 
-  it('should throw an error for missing props', () => {
-    expect(() => {
-      // eslint-disable-next-line
-      const { missing } = configuration;
-    }).toThrow();
+  it('should return undefined for missing props', () => {
+    const { missing } = configuration;
+
+    expect(missing).toBeUndefined();
   });
 });

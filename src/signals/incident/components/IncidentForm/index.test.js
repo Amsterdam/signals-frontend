@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 import { Wizard, Step, Steps } from 'react-albus';
 import formatConditionalForm from '../../services/format-conditional-form';
 
-import IncidentForm, { Form } from './index';
+import IncidentForm, { Form } from '.';
 
 import phoneForm from '../../definitions/wizard-step-3-telefoon';
 
@@ -65,7 +65,7 @@ describe('<IncidentForm />', () => {
 
   describe('rendering', () => {
     it('expect to render correctly', () => {
-      const { container, queryByText, queryAllByText } = render(
+      const { container, queryByText } = render(
         withAppContext(
           <Wizard>
             <Steps>
@@ -73,7 +73,7 @@ describe('<IncidentForm />', () => {
                 <IncidentForm {...props} />
               </Step>
             </Steps>
-          </Wizard >
+          </Wizard>
         ),
       );
 
@@ -83,7 +83,6 @@ describe('<IncidentForm />', () => {
       expect(queryByText(mockForm.controls.privacy_text.meta.label)).not.toBeInTheDocument();
 
       expect(container.querySelectorAll('input').length).toEqual(1);
-      expect(queryAllByText('(optioneel)').length).toEqual(1);
 
       expect(queryByText(phoneForm.nextButtonLabel)).toBeInTheDocument();
       expect(queryByText(phoneForm.previousButtonLabel)).toBeInTheDocument();
@@ -105,7 +104,7 @@ describe('<IncidentForm />', () => {
               <IncidentForm {...props} />
             </Step>
           </Steps>
-        </Wizard >
+        </Wizard>
       );
 
       formWrapper = wrapper.find(IncidentForm).dive();

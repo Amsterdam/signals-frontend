@@ -2,7 +2,7 @@ import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import CheckboxInput from './index';
+import CheckboxInput from '.';
 
 describe('Form component <CheckboxInput />', () => {
   describe('rendering', () => {

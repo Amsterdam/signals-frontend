@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
@@ -78,42 +78,40 @@ const SelectForm = ({
   }, [subCategories]);
 
   return (
-    <Fragment>
-      <FieldGroup
-        control={form}
-        render={() => (
-          <form data-testid="selectFormForm" className="select-form__form">
-            <FieldControlWrapper
-              render={SelectInput}
-              display="Subcategorie"
-              name="category_url"
-              values={subCategories}
-              control={form.get('category_url')}
-              emptyOptionText="Kies"
-              sort
-            />
-            <FieldControlWrapper
-              display="Status"
-              render={RadioInput}
-              name="state"
-              values={defaultTextsOptionList}
-              control={form.get('state')}
-            />
+    <FieldGroup
+      control={form}
+      render={() => (
+        <form data-testid="selectFormForm" className="select-form__form">
+          <FieldControlWrapper
+            render={SelectInput}
+            display="Subcategorie"
+            name="category_url"
+            values={subCategories}
+            control={form.get('category_url')}
+            emptyOptionText="Kies"
+            sort
+          />
+          <FieldControlWrapper
+            display="Status"
+            render={RadioInput}
+            name="state"
+            values={defaultTextsOptionList}
+            control={form.get('state')}
+          />
 
-            <FieldControlWrapper
-              render={HiddenInput}
-              name="sub_slug"
-              control={form.get('sub_slug')}
-            />
-            <FieldControlWrapper
-              render={HiddenInput}
-              name="main_slug"
-              control={form.get('main_slug')}
-            />
-          </form>
-        )}
-      />
-    </Fragment>
+          <FieldControlWrapper
+            render={HiddenInput}
+            name="sub_slug"
+            control={form.get('sub_slug')}
+          />
+          <FieldControlWrapper
+            render={HiddenInput}
+            name="main_slug"
+            control={form.get('main_slug')}
+          />
+        </form>
+      )}
+    />
   );
 };
 

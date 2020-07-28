@@ -1,5 +1,6 @@
 import { Validators } from 'react-reactive-form';
 
+import configuration from 'shared/services/configuration/configuration';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
@@ -633,8 +634,8 @@ const vakantieverhuur = {
       },
       type: 'caution',
       value: [
-        'Bel nu met 14 020',
-        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, meteen langs.',
+        `Bel nu met ${configuration.language.phoneNumber}`,
+        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, binnen 24 uur langs.',
       ],
     },
     render: FormComponents.PlainText,
@@ -789,7 +790,7 @@ const vakantieverhuur = {
       },
       type: 'caution',
       value: [
-        'Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met 14 020 en vraag naar team Vakantieverhuur.',
+        `Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met ${configuration.language.phoneNumber} en vraag naar team Vakantieverhuur.`,
       ],
     },
     render: FormComponents.PlainText,

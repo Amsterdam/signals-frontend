@@ -11,7 +11,7 @@ const DataViewHeader = ({ numberOfColumns, headers, filters }) => {
     [numberOfColumns, headers.length]
   );
   const filtersMissing = useMemo(
-    () =>  numberOfColumns - filters.length,
+    () => numberOfColumns - filters.length,
     [numberOfColumns, filters.length]
   );
 

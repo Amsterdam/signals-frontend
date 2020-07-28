@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import DateTime from './index';
+import DateTime from '.';
 
 describe('Preview component <DateTime />', () => {
   let wrapper;
@@ -49,7 +49,7 @@ describe('Preview component <DateTime />', () => {
       incident: {
         incident_date: '2018-02-21',
         incident_time_hours: 6,
-        incident_time_minutes: 66,
+        incident_time_minutes: 6,
       },
     });
 
