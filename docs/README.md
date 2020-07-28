@@ -34,4 +34,4 @@ To run the application with the proxied serviceworker:
 HTTPS=true PROXY=true npm start
 ```
 
-After each change of the [an object of response configurations](../src/sw-proxy-responses.js), the serviceworker doens't automatically pick up the changes. A hard refresh or clearing the application's data in the browser will fix that.
+After each change of the [object of response configurations](../src/sw-proxy-responses.js), the serviceworker doens't automatically pick up the changes. A hard refresh or clearing the application's data in the browser will fix that.
