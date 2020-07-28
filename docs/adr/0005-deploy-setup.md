@@ -53,6 +53,8 @@ The `Amsterdam/signalen` Jenkins job will be a parameterized job where both an [
 
 Each 'package' can be deployed independently from the other 'packages' and all packages can be deployed all at once.
 
+The [Amsterdam/signalen](https://github.com/Amsterdam/signalen) repository tagged releases will follow the release numbering of the [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository; tagged release `v1.20.0` in the [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository will have a corresponding tagged releases `v1.20.0-0`, `v1.20.0-1`, `v1.20.0-2` and so on in the [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository.
+
 ## Consequences
 
 The proposed transformation will make it easier to create another application in the future, if necessary. It will also reduce complexity and margin for error compared to the current setup.
