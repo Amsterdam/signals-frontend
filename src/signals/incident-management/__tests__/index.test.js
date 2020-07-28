@@ -4,10 +4,9 @@ import { createMemoryHistory } from 'history';
 import { withAppContext } from 'test/utils';
 import { render } from '@testing-library/react';
 import { isAuthenticated } from 'shared/services/auth/auth';
+import configuration from 'shared/services/configuration/configuration';
 
-import IncidentManagementModule, {
-  IncidentManagementModuleComponent,
-} from '..';
+import IncidentManagementModule, { IncidentManagementModuleComponent } from '..';
 
 const history = createMemoryHistory();
 
@@ -23,6 +22,7 @@ describe('signals/incident-management', () => {
   beforeEach(() => {
     props = {
       fetchCategoriesAction: jest.fn(),
+      getDistrictsAction: jest.fn(),
       getFiltersAction: jest.fn(),
       requestIncidentsAction: jest.fn(),
       searchIncidentsAction: jest.fn(),
@@ -42,6 +42,9 @@ describe('signals/incident-management', () => {
 
     const containerProps = tree.find(IncidentManagementModuleComponent).props();
 
+    expect(containerProps.getDistrictsAction).toBeDefined();
+    expect(typeof containerProps.getDistrictsAction).toEqual('function');
+
     expect(containerProps.getFiltersAction).toBeDefined();
     expect(typeof containerProps.getFiltersAction).toEqual('function');
 
@@ -58,21 +61,47 @@ describe('signals/incident-management', () => {
   it('should render correctly', () => {
     localStorage.getItem.mockImplementationOnce(() => 'token');
 
-    const { rerender, asFragment } = render(
-      withAppContext(<IncidentManagementModuleComponent {...props} />)
-    );
+    const { rerender, asFragment } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
     const firstRender = asFragment();
 
     localStorage.getItem.mockImplementationOnce(() => undefined);
 
     rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
-    expect(
-      firstRender.firstElementChild === asFragment().firstElementChild
-    ).toEqual(false);
+    expect(firstRender.firstElementChild === asFragment().firstElementChild).toEqual(false);
   });
 
   describe('fetching', () => {
+    it('should not request districts on mount by default', () => {
+      isAuthenticated.mockImplementation(() => false);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.getDistrictsAction).not.toHaveBeenCalled();
+
+      isAuthenticated.mockImplementation(() => true);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.getDistrictsAction).not.toHaveBeenCalled();
+    });
+
+    it('should request districts on mount with feature flag enabled', () => {
+      configuration.useAreasInsteadOfStadsdeel = true;
+
+      isAuthenticated.mockImplementation(() => false);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.getDistrictsAction).not.toHaveBeenCalled();
+
+      isAuthenticated.mockImplementation(() => true);
+
+      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+
+      expect(props.getDistrictsAction).toHaveBeenCalledTimes(1);
+    });
+
     it('should request filters on mount', () => {
       isAuthenticated.mockImplementation(() => false);
 
@@ -128,14 +157,7 @@ describe('signals/incident-management', () => {
 
       expect(props.searchIncidentsAction).not.toHaveBeenCalled();
 
-      render(
-        withAppContext(
-          <IncidentManagementModuleComponent
-            {...props}
-            searchQuery="stoeptegels"
-          />
-        )
-      );
+      render(withAppContext(<IncidentManagementModuleComponent {...props} searchQuery="stoeptegels" />));
 
       expect(props.searchIncidentsAction).toHaveBeenCalledWith('stoeptegels');
     });
@@ -149,17 +171,13 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => false);
 
-      const { rerender, queryByText } = render(
-        withAppContext(<IncidentManagementModuleComponent {...props} />)
-      );
+      const { rerender, queryByText } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(queryByText(loginText)).not.toBeNull();
 
       isAuthenticated.mockImplementation(() => true);
 
-      rerender(
-        withAppContext(<IncidentManagementModuleComponent {...props} />)
-      );
+      rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(queryByText(loginText)).toBeNull();
     });
@@ -169,17 +187,13 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => false);
 
-      const { rerender, queryByText } = render(
-        withAppContext(<IncidentManagementModuleComponent {...props} />)
-      );
+      const { rerender, queryByText } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(queryByText(loginText)).not.toBeNull();
 
       isAuthenticated.mockImplementation(() => true);
 
-      rerender(
-        withAppContext(<IncidentManagementModuleComponent {...props} />)
-      );
+      rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(queryByText(loginText)).toBeNull();
     });
@@ -189,17 +203,13 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => false);
 
-      const { rerender, queryByText } = render(
-        withAppContext(<IncidentManagementModuleComponent {...props} />)
-      );
+      const { rerender, queryByText } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(queryByText(loginText)).not.toBeNull();
 
       isAuthenticated.mockImplementation(() => true);
 
-      rerender(
-        withAppContext(<IncidentManagementModuleComponent {...props} />)
-      );
+      rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(queryByText(loginText)).toBeNull();
     });
@@ -209,9 +219,7 @@ describe('signals/incident-management', () => {
 
       history.push('/manage/this-url-definitely-does-not-exist');
 
-      const { getByTestId } = render(
-        withAppContext(<IncidentManagementModuleComponent {...props} />)
-      );
+      const { getByTestId } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(getByTestId('incidentManagementOverviewPage')).toBeInTheDocument();
     });

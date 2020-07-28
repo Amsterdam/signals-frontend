@@ -68,7 +68,7 @@ export default (state = initialState, action) => {
       return updateLoading(state.set('filters', fromJS(action.payload)).set('filtersLoading', false));
 
     case GET_FILTERS_FAILED:
-      return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
+      return updateLoading(state.set('filtersLoading', false).set('error', true).set('errorMessage', action.payload));
 
     case REMOVE_FILTER_SUCCESS:
       re = new RegExp(`/${action.payload}`, 'g');

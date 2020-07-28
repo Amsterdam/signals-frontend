@@ -112,7 +112,7 @@ export const makeSelectFilterParams = createSelector(selectIncidentManagementDom
   const finalOrdering = orderingWithDaysOpen === '-days_open' ? 'created_at' : orderingWithDaysOpen;
   const pagingOptions = {
     page,
-    finalOrdering,
+    ordering: finalOrdering,
     page_size: FILTER_PAGE_SIZE,
   };
   const options = filter.options.area
