@@ -180,9 +180,7 @@ const responses = [
     headers: {
       'Content-Type': 'application/json',
     },
-    body: {
-      message: me,
-    },
+    body: me,
   },
   {
     reqUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4642',
@@ -232,5 +230,11 @@ const responses = [
       'Content-Type': 'application/json',
     },
     body: {},
+  },
+  {
+    reqUrl: 'https://localhost/*',
+    reqMethod: 'GET',
+    status: 302,
+    redirectUrl: 'http://localhost:8080/$1',
   },
 ];
