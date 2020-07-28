@@ -1,36 +1,4 @@
-import reverseGeocoderService, {
-  findFeatureByType,
-  formatRequest,
-  getStadsdeel,
-  serviceURL,
-} from '../services/reverseGeocoderService';
-
-const bagResponse = {
-  features: [
-    {
-      properties: {
-        code: 'N',
-        display: 'Noord',
-        distance: 4467.47982312323,
-        id: '03630000000019',
-        type: 'gebieden/stadsdeel',
-        uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
-      },
-    },
-    {
-      properties: {
-        code: '61b',
-        display: 'Vogelbuurt Zuid',
-        distance: 109.145476159977,
-        id: '03630000000644',
-        type: 'gebieden/buurt',
-        uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
-        vollcode: 'N61b',
-      },
-    },
-  ],
-  type: 'FeatureCollection',
-};
+import reverseGeocoderService, { formatRequest, serviceURL } from '../services/reverseGeocoderService';
 
 describe('formatRequest', () => {
   const testLocation = {
@@ -45,52 +13,6 @@ describe('formatRequest', () => {
 
   it('should format correct with distance', () => {
     expect(formatRequest('https://base-url', testLocation, 20)).toEqual(`${result}20`);
-  });
-});
-
-describe('findFeatureByType', () => {
-  it('should return undefined', () => {
-    expect(findFeatureByType(bagResponse.features, 'notInTheList')).toBeUndefined();
-  });
-
-  it('should return a feature', () => {
-    expect(findFeatureByType(bagResponse.features, 'gebieden/buurt')).toEqual(bagResponse.features[1].properties);
-  });
-});
-
-describe('getStadsdeel', () => {
-  it('should return null', async () => {
-    const noResultResponse = {
-      features: [
-        {
-          properties: {
-            code: '61b',
-            display: 'Vogelbuurt Zuid',
-            distance: 109.145476159977,
-            id: '03630000000644',
-            type: 'gebieden/buurt',
-            uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
-            vollcode: 'N61b',
-          },
-        },
-      ],
-    };
-
-    fetch.mockResponse(JSON.stringify(noResultResponse));
-
-    const location = { lat: 52.37377195, lng: 4.87745608 };
-    const stadsdeel = await getStadsdeel(location);
-
-    expect(stadsdeel).toBeNull();
-  });
-
-  it('should return code', async () => {
-    fetch.mockResponse(JSON.stringify(bagResponse));
-
-    const location = { lat: 52.37377195, lng: 4.87745608 };
-    const stadsdeel = await getStadsdeel(location);
-
-    expect(stadsdeel).toEqual(bagResponse.features[0].properties.code);
   });
 });
 
