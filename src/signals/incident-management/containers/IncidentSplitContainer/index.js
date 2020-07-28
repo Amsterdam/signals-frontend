@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
 import { goBack } from 'connected-react-router/immutable';
 import styled from 'styled-components';
@@ -10,6 +11,8 @@ import styled from 'styled-components';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import LoadingIndicator from 'shared/components/LoadingIndicator';
+import * as types from 'shared/types';
+import { makeSelectDistricts } from 'signals/incident-management/selectors';
 
 import { splitIncident } from './actions';
 
@@ -30,7 +33,7 @@ const StyledWrapper = styled.div`
   min-height: 800px;
 `;
 
-export const IncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
+export const IncidentSplitContainer = ({ districts, onSplitIncident, onGoBack }) => {
   const { id } = useParams();
   const { isLoading, incident, attachments } = useFetchIncident(id);
 
@@ -54,7 +57,7 @@ export const IncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
               />
             </Column>
             <Column span={4} push={1}>
-              <SplitDetail incident={incident} />
+              <SplitDetail districts={districts} incident={incident} />
             </Column>
           </Fragment>
         )}
@@ -64,9 +67,14 @@ export const IncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
 };
 
 IncidentSplitContainer.propTypes = {
+  districts: types.dataListType,
   onSplitIncident: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = createStructuredSelector({
+  districts: makeSelectDistricts,
+});
 
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
@@ -77,7 +85,7 @@ export const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const withConnect = connect(null, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'incidentSplitContainer', reducer });
 const withSaga = injectSaga({ key: 'incidentSplitContainer', saga });
