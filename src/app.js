@@ -88,6 +88,18 @@ i18n.use(initReactI18next).init({
   debug: process.env.NODE_ENV === 'development',
   interpolation: {
     escapeValue: false, // not needed for react as it escapes by default
+    format: (value, format) => {
+      if (!value) return '';
+
+      switch (format) {
+        case 'uppercase':
+          return value.toUpperCase();
+        case 'capitalize':
+          return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
+        default:
+          return value;
+      }
+    },
   },
   lng: window.CONFIG.lang,
   resources: window.TRANSLATIONS,

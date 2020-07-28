@@ -39,6 +39,10 @@
               "description": "PWA `short_name` property value. Should not exceed 12 characters. See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/short_name for reference",
               "type": "string"
             },
+            "organisationName": {
+              "description": "Name of the organisation managing the incidents application instance",
+              "type": "string"
+            },
             "siteTitle": {
               "description": "Application title showing up in the title bar and search results",
               "type": "string"
@@ -63,6 +67,7 @@
             "headerTitle",
             "manifestName",
             "manifestShortName",
+            "organisationName",
             "phoneNumber",
             "siteTitle",
             "smallHeaderTitle",

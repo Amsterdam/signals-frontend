@@ -1,13 +1,14 @@
 {
   "nl": {
     "translation": {
-      "avgDisclaimer": "De gemeente Amsterdam verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='$t(avgDisclaimerUrl)'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
+      "avgDisclaimer": "{{organisationName, capitalize}} verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='$t(avgDisclaimerUrl)'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
       "avgDisclaimerUrl": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/",
       "callMunicipalInfoNumber": "Bel het Gemeentelijk informatienummer: <a href='tel:$t(phoneNumber)'>$t(phoneNumber)</a><br />op werkdagen van 08.00 tot 18.00 uur.",
-      "consentToContactSharing": "Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
+      "consentToContactSharing": "Ja, ik geef ${organisationName} toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
       "headerTitle": "",
       "manifestName": "Signalen Informatievoorziening Amsterdam",
       "manifestShortName": "SIA",
+      "organisationName": "de gemeente Amsterdam",
       "phoneNumber": "14 020",
       "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
       "smallHeaderTitle": "SIA",
