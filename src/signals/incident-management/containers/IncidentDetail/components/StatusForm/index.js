@@ -36,7 +36,7 @@ const Form = styled.form`
     'options'
     'texts'
     'form';
-  grid-column-gap: ${themeSpacing(5)};
+  grid-column-gap: 20px;
   display: grid;
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
