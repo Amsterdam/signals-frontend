@@ -48,6 +48,14 @@ const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, 
 
   const isNewFilter = !filter.name;
 
+  const dataListValues = useMemo(
+    () => ({
+      ...dataLists,
+      area: districts,
+    }),
+    [districts]
+  );
+
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
 
   const currentState = useMemo(
@@ -204,7 +212,7 @@ const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, 
   // group that is not one of the category checkbox groups
   const onGroupToggle = useCallback(
     (groupName, isToggled) => {
-      const options = isToggled ? dataLists[groupName] : [];
+      const options = isToggled ? dataListValues[groupName] : [];
       dispatch(setGroupOptions({ [groupName]: options }));
     },
     [dispatch]
