@@ -7,26 +7,22 @@ const storage = global.localStorage ? global.localStorage : global.sessionStorag
 
 // A map of the error keys, that the OAuth2 authorization service can return, to a full description
 const ERROR_MESSAGES = {
-  invalid_request: 'The request is missing a required parameter, includes an invalid parameter value, ' +
-    'includes a parameter more than once, or is otherwise malformed.',
+  invalid_request:
+    'The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.',
   unauthorized_client: 'The client is not authorized to request an access token using this method.',
   access_denied: 'The resource owner or authorization server denied the request.',
-  unsupported_response_type: 'The authorization server does not support obtaining an access token using ' +
-    'this method.',
+  unsupported_response_type: 'The authorization server does not support obtaining an access token using this method.',
   invalid_scope: 'The requested scope is invalid, unknown, or malformed.',
-  server_error: 'The authorization server encountered an unexpected condition that prevented it from ' +
-    'fulfilling the request.',
-  temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a ' +
-    'temporary overloading or maintenance of the server.',
+  server_error:
+    'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
+  temporarily_unavailable:
+    'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
 };
 
 // The parameters the OAuth2 authorization service will return on success
 const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 
-const domainList = [
-  'datapunt',
-  'grip',
-];
+const domainList = ['datapunt', 'grip'];
 
 function getDomain(domain) {
   // TODO
@@ -58,8 +54,7 @@ function handleError(code, description) {
   // OAuth2 authorization service, to clean up the URL.
   global.location.assign(`${global.location.protocol}//${global.location.host}${global.location.pathname}`);
 
-  throw new Error('Authorization service responded with error ' +
-    `${code} [${description}] (${ERROR_MESSAGES[code]})`);
+  throw new Error(`Authorization service responded with error ${code} [${description}] (${ERROR_MESSAGES[code]})`);
 }
 
 /**
@@ -91,8 +86,11 @@ function handleCallback() {
   // The state param must be exactly the same as the state token we
   // have saved in local storage (to prevent CSRF)
   const localStateToken = storage.getItem(STATE_TOKEN_KEY);
-  if (decodeURIComponent(params.state) !== localStateToken) {
-    throw new Error(`Authenticator encountered an invalid state token (${params.state})`);
+  const paramStateToken = decodeURIComponent(params.state);
+  if (paramStateToken !== localStateToken) {
+    throw new Error(
+      `Authenticator encountered an invalid state token (${params.state}). Local state token: ${localStateToken}.`
+    );
   }
 
   const accessToken = params.access_token;
@@ -100,7 +98,9 @@ function handleCallback() {
   tokenData = accessTokenParser(accessToken);
   const localNonce = storage.getItem(NONCE_KEY);
   if (tokenData.nonce && tokenData.nonce !== localNonce) {
-    throw new Error(`Authenticator encountered an invalid nonce (${tokenData.nonce})`);
+    throw new Error(
+      `Authenticator encountered an invalid nonce (${tokenData.nonce}). Local nonce token: ${localNonce}.`
+    );
   }
 
   storage.setItem(ACCESS_TOKEN_KEY, accessToken);
@@ -164,18 +164,20 @@ export function login(domain) {
   const encodedScope = encodeURIComponent(CONFIGURATION.OIDC_SCOPE);
   const encodedStateToken = encodeURIComponent(stateToken);
   const encodedNonce = encodeURIComponent(nonce);
-  const encodedRedirectUri = encodeURIComponent(`${global.location.protocol}//${global.location.host}/manage/incidents`);
+  const encodedRedirectUri = encodeURIComponent(
+    `${global.location.protocol}//${global.location.host}/manage/incidents`
+  );
   const encodedDomain = encodeURIComponent(getDomain(domain));
 
   global.location.assign(
     `${CONFIGURATION.OIDC_AUTH_ENDPOINT}` +
-    `?client_id=${encodedClientId}` +
-    `&response_type=${encodedResponseType}` +
-    `&scope=${encodedScope}` +
-    `&state=${encodedStateToken}` +
-    `&nonce=${encodedNonce}` +
-    `&redirect_uri=${encodedRedirectUri}` +
-    `&idp_id=${encodedDomain}`
+      `?client_id=${encodedClientId}` +
+      `&response_type=${encodedResponseType}` +
+      `&scope=${encodedScope}` +
+      `&state=${encodedStateToken}` +
+      `&nonce=${encodedNonce}` +
+      `&redirect_uri=${encodedRedirectUri}` +
+      `&idp_id=${encodedDomain}`
   );
 }
 
