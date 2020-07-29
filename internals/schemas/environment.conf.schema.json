@@ -168,6 +168,11 @@
           "type": "string",
           "format": "uri"
         },
+        "SOURCES_ENDPOINT": {
+          "description": "URL for the private sources endpoint. Used by the incident management module to retrieve possible sources from which an incident originated\n\nNo Swagger documentation available",
+          "type": "string",
+          "format": "uri"
+        },
         "TERMS_ENDPOINT": {
           "description": "URL for the private terms endpoint. Used by the incident management module to `GET` and `POST` default response texts for incident handling\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_public_terms_categories for reference",
           "type": "string",
@@ -204,6 +209,7 @@
         "QUESTIONS_ENDPOINT",
         "ROLES_ENDPOINT",
         "SEARCH_ENDPOINT",
+        "SOURCES_ENDPOINT",
         "STATIC_MAP_SERVER_URL",
         "TERMS_ENDPOINT",
         "USERS_ENDPOINT",

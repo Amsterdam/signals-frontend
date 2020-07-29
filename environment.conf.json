@@ -112,6 +112,7 @@
   "QUESTIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/questions/",
   "ROLES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/",
   "SEARCH_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/search",
+  "SOURCES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/sources",
   "TERMS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/",
   "USERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/"
 }
