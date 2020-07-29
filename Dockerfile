@@ -59,7 +59,7 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 ################################
 FROM nginx:stable-alpine
 
-RUN echo "https://dl-4.alpinelinux.org/alpine/latest-stable/main" > /etc/apk/repositories && apk update
+RUN echo -e "https://dl-4.alpinelinux.org/alpine/latest-stable/main\nhttps://dl-4.alpinelinux.org/alpine/latest-stable/community" > /etc/apk/repositories && apk upgrade
 RUN apk add --no-cache jq nodejs npm
 RUN npm install @exodus/schemasafe
 
