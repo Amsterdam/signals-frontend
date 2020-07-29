@@ -31,7 +31,7 @@ Where the separation of concerns at first seemed to be a good idea, it turns out
 
 All domain specific repositories will be combined into [a single repository](https://github.com/Amsterdam/signalen). This repository will contain a separate 'package' (or whatever you want to call it) that contains domain specific configuration.
 
-The [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository will remain the base repository and will have tagged releases, as is currently the case. The `Dockerfile`, `Jenkinsfile` and `docker-compose.yml` will be moved to [Amsterdam/signalen](https://github.com/Amsterdam/signalen). That also goes for the `start.sh` script that applies the right configuration to the corresponding Docker container at run-time and for Amsterdam tailored e2e tests.
+The [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository will remain the base repository and will have tagged releases, as is currently the case. The `Jenkinsfile` will be moved to [Amsterdam/signalen](https://github.com/Amsterdam/signalen).
 
 Each separate package will still have their own `Dockerfile`. The [Amsterdam/signalen](https://github.com/Amsterdam/signalen) repository's `master` branch will be tagged, not individual 'packages'.
 
