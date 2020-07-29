@@ -1,8 +1,10 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import configuration from 'shared/services/configuration/configuration';
 import { priorityList, statusList, stadsdeelList } from 'signals/incident-management/definitions';
 import { withAppContext } from 'test/utils';
 
+import districts from 'utils/__tests__/fixtures/districts.json';
 import incidents from 'utils/__tests__/fixtures/incidents.json';
 
 import List from '.';
@@ -12,6 +14,7 @@ describe('<List />', () => {
 
   beforeEach(() => {
     props = {
+      districts,
       incidents,
       priority: priorityList,
       status: statusList,
@@ -37,9 +40,24 @@ describe('<List />', () => {
     expect(container.querySelector('tr:nth-child(1) td:nth-child(3)')).toHaveTextContent(/^03-12-2018 10:41$/);
     expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^Centrum$/);
     expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).toHaveTextContent(incidents[0].category.sub);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(6)')).toHaveTextContent(incidents[0].status.state_display);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(6)')).toHaveTextContent(
+      incidents[0].status.state_display
+    );
     expect(container.querySelector('tr:nth-child(1) td:nth-child(7)')).toHaveTextContent(/^Normaal$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(8)')).toHaveTextContent(incidents[0].location.address_text);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(8)')).toHaveTextContent(
+      incidents[0].location.address_text
+    );
+  });
+
+  it('should render correctly with useAreasInsteadOfStadsdeel', () => {
+    configuration.useAreasInsteadOfStadsdeel = true;
+    configuration.language.district = 'District';
+
+    const { container } = render(withAppContext(<List {...props} />));
+
+    expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^District/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^North/);
+    expect(container.querySelector('tr:nth-child(2) td:nth-child(4)')).toHaveTextContent(/^South/);
   });
 
   describe('events', () => {
@@ -77,7 +95,6 @@ describe('<List />', () => {
       incidentList.push(incidentWithStatusS);
 
       const incidentWithStatusReopenRequested = {
-
         ...incidentList[0],
         status: { state: 'reopen requested' },
       };
@@ -99,7 +116,9 @@ describe('<List />', () => {
 
       expect(numCells).toEqual(incidentList.length);
 
-      const elementsWithTextContent = [...getAllByTestId('incidentDaysOpen')].filter(element => element.textContent !== '-');
+      const elementsWithTextContent = [...getAllByTestId('incidentDaysOpen')].filter(
+        element => element.textContent !== '-'
+      );
 
       expect(elementsWithTextContent).toHaveLength(2);
     });

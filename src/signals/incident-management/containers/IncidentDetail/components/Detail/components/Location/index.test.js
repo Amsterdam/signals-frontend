@@ -1,14 +1,13 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 
-import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
+import districts from 'utils/__tests__/fixtures/districts.json';
 
 import IncidentDetailContext from '../../../../context';
 
 import Location from '.';
-
-jest.mock('shared/services/list-helper/list-helper');
 
 const props = {
   location: {
@@ -27,11 +26,13 @@ const props = {
       openbare_ruimte: 'Rokin',
       huisnummer_toevoeging: 'H',
     },
+    area_code: 'north',
     stadsdeel: 'A',
     bag_validated: false,
     address_text: 'Rokin 123-H 1012KP Amsterdam',
     id: 3372,
   },
+  districts,
 };
 
 const preview = jest.fn();
@@ -46,8 +47,6 @@ const renderWithContext = (locationProps = props) =>
 
 describe('<Location />', () => {
   beforeEach(() => {
-    getListValueByKey.mockImplementation(() => 'Centrum');
-
     preview.mockReset();
     edit.mockReset();
   });
@@ -62,6 +61,17 @@ describe('<Location />', () => {
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
       expect(getByTestId('previewLocationButton')).toBeInTheDocument();
+    });
+
+    it('should render correctly with useAreasInsteadOfStadsdeel', async () => {
+      configuration.useAreasInsteadOfStadsdeel = true;
+      configuration.language.district = 'District';
+
+      const { findByText, queryByTestId } = render(renderWithContext());
+
+      await findByText('Locatie');
+
+      expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^District: North/);
     });
 
     it('should render correctly without huisnummer_toevoeging', async () => {
