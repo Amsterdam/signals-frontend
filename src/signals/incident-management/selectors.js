@@ -26,6 +26,17 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
     : null
 );
 
+export const makeSelectSources = createSelector([selectIncidentManagementDomain], stateMap =>
+  stateMap
+    .get('sources')
+    .push({ code: 'null', name: 'Niet bepaald' })
+    .toJS()
+    .map(source => ({
+      key: source.code,
+      value: source.name,
+    }))
+);
+
 export const makeSelectAllFilters = createSelector(
   [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories],
   (stateMap, maincategory_slug, category_slug) => {

@@ -2,6 +2,9 @@ import {
   GET_DISTRICTS,
   GET_DISTRICTS_FAILED,
   GET_DISTRICTS_SUCCESS,
+  GET_SOURCES,
+  GET_SOURCES_FAILED,
+  GET_SOURCES_SUCCESS,
   SEARCH_INCIDENTS,
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
@@ -42,6 +45,20 @@ export const getDistrictsFailed = payload => ({
 
 export const getDistrictsSuccess = payload => ({
   type: GET_DISTRICTS_SUCCESS,
+  payload,
+});
+
+export const getSources = () => ({
+  type: GET_SOURCES,
+});
+
+export const getSourcesFailed = payload => ({
+  type: GET_SOURCES_FAILED,
+  payload,
+});
+
+export const getSourcesSuccess = payload => ({
+  type: GET_SOURCES_SUCCESS,
   payload,
 });
 

@@ -16,7 +16,7 @@ import { makeSelectSearchQuery } from 'containers/App/selectors';
 import LoginPage from 'components/LoginPage';
 
 import IncidentOverviewPage from './containers/IncidentOverviewPage';
-import { getDistricts, getFilters, searchIncidents, requestIncidents } from './actions';
+import { getDistricts, getSources, getFilters, searchIncidents, requestIncidents } from './actions';
 import IncidentDetail from './containers/IncidentDetail';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
 import IncidentSplitContainer from './containers/IncidentSplitContainer';
@@ -30,6 +30,7 @@ import { makeSelectDistricts } from './selectors';
 export const IncidentManagementModuleComponent = ({
   fetchCategoriesAction,
   getDistrictsAction,
+  getSourcesAction,
   getFiltersAction,
   requestIncidentsAction,
   searchIncidentsAction,
@@ -51,6 +52,9 @@ export const IncidentManagementModuleComponent = ({
 
     if (configuration.useAreasInsteadOfStadsdeel) {
       getDistrictsAction();
+    }
+    if (configuration.fetchSourcesFromBackend) {
+      getSourcesAction();
     }
     getFiltersAction();
     fetchCategoriesAction();
@@ -78,6 +82,7 @@ export const IncidentManagementModuleComponent = ({
 IncidentManagementModuleComponent.propTypes = {
   fetchCategoriesAction: PropTypes.func.isRequired,
   getDistrictsAction: PropTypes.func.isRequired,
+  getSourcesAction: PropTypes.func.isRequired,
   getFiltersAction: PropTypes.func.isRequired,
   requestIncidentsAction: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
@@ -93,6 +98,7 @@ const mapDispatchToProps = dispatch =>
     {
       fetchCategoriesAction: fetchCategories,
       getDistrictsAction: getDistricts,
+      getSourcesAction: getSources,
       getFiltersAction: getFilters,
       requestIncidentsAction: requestIncidents,
       searchIncidentsAction: searchIncidents,
