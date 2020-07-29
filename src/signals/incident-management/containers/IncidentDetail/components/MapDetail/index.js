@@ -15,7 +15,7 @@ const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
   const lng = location && location[0];
   const options = {
     ...MAP_OPTIONS,
-    ...(configuration.map.optionsBackOffice || {}),
+    ...configuration.map.optionsBackOffice || {},
     zoom,
     attributionControl: false,
     center: [lat, lng],

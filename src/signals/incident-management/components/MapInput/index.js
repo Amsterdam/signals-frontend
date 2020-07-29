@@ -18,7 +18,7 @@ export const MapInput = props => {
     const defaultCenter = configuration.map.optionsBackOffice?.center || MAP_OPTIONS.center;
     const mapOptions = {
       ...MAP_OPTIONS,
-      ...(configuration.map.optionsBackOffice || {}),
+      ...configuration.map.optionsBackOffice || {},
       center: lat && lng ? [lat, lng] : [...defaultCenter],
     };
 
