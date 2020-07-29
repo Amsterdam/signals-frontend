@@ -9,6 +9,7 @@ import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 import ThemeProvider from 'components/ThemeProvider';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import useMatomo from 'hooks/useMatomo';
 
 import NotFoundPage from 'components/NotFoundPage';
 import Footer from 'components/Footer';
@@ -48,8 +49,16 @@ export const AppContainer = ({ resetIncidentAction }) => {
   const location = useLocationReferrer();
   const isFrontOffice = useIsFrontOffice();
   const headerIsTall = isFrontOffice && !isAuthenticated();
+  const matomoInstance = useMatomo();
 
   authenticate();
+  matomoInstance.track({
+    data: [],
+    documentTitle: window.document.title,
+    href: window.location,
+    customDimensions: [{ id: isAuthenticated() ? 1 : 2 }],
+  });
+  matomoInstance.trackPageView();
 
   useEffect(() => {
     const { referrer } = location;

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import * as Sentry from '@sentry/browser';
-import MatomoTracker from '@datapunt/matomo-tracker-js';
 import Immutable from 'immutable';
 import history from 'utils/history';
 
@@ -45,18 +44,6 @@ const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
 loadModels(store);
-
-// Setup Matomo
-const urlBase = configuration?.matomo?.urlBase;
-const siteId = configuration?.matomo?.siteId;
-
-if (urlBase && siteId) {
-  const MatomoInstance = new MatomoTracker({
-    urlBase,
-    siteId,
-  });
-  MatomoInstance.trackPageView();
-}
 
 const render = () => {
   // eslint-disable-next-line no-undef,no-console
