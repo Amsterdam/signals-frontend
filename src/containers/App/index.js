@@ -56,7 +56,7 @@ export const AppContainer = ({ resetIncidentAction }) => {
     data: [],
     documentTitle: window.document.title,
     href: window.location,
-    customDimensions: [{ id: isAuthenticated() ? 1 : 2 }],
+    customDimensions: [{ id: 1, value: `${!isAuthenticated() ? 'not ' : ''}authenticated` }],
   });
   matomoInstance.trackPageView();
 
