@@ -83,6 +83,7 @@
       }
     }
   },
+  "fetchSourcesFromBackend": false,
   "fetchQuestionsFromBackend": false,
   "showVulaanControls": true,
   "useAreasInsteadOfStadsdeel": false,
