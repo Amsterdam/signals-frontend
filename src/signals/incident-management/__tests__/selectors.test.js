@@ -4,6 +4,7 @@ import { mainCategories as maincategory_slug, subCategories as category_slug } f
 import {
   makeSelectDistricts,
   makeSelectFilterParams,
+  makeSelectSources,
   makeSelectAllFilters,
   makeSelectActiveFilter,
   makeSelectEditFilter,
@@ -92,6 +93,27 @@ const selectedDistricts = [
   },
 ];
 
+const sources = [
+  {
+    id: 1,
+    name: 'Source1',
+  },
+  {
+    id: 2,
+    name: 'Source2',
+  },
+];
+const selectedSources = [
+  {
+    key: 1,
+    value: 'Source1',
+  },
+  {
+    key: 2,
+    value: 'Source2',
+  },
+];
+
 describe('signals/incident-management/selectors', () => {
   it('should select districts', () => {
     const state = fromJS({ ...initialState.toJS(), districts });
@@ -109,6 +131,15 @@ describe('signals/incident-management/selectors', () => {
     expect(result).toBeNull();
   });
 
+  it('should select sources', () => {
+    const state = fromJS({ ...initialState.toJS(), sources });
+    const result = makeSelectSources.resultFunc(state);
+
+    expect(result.length).toEqual(sources.length);
+    expect(result[0]).toMatchObject(selectedSources[0]);
+    expect(result[1]).toMatchObject(selectedSources[1]);
+  });
+
   it('should select all filters', () => {
     const state = fromJS({ ...initialState.toJS(), filters });
     const allFilters = makeSelectAllFilters.resultFunc(state, maincategory_slug, category_slug);
@@ -122,26 +153,38 @@ describe('signals/incident-management/selectors', () => {
     activeFilter.options.priority = [];
 
     expect(
-      makeSelectActiveFilter.resultFunc(initialState, selectedDistricts, maincategory_slug, category_slug)
+      makeSelectActiveFilter.resultFunc(
+        initialState,
+        selectedDistricts,
+        selectedSources,
+        maincategory_slug,
+        category_slug
+      )
     ).toEqual(activeFilter);
 
     const state = fromJS({ ...initialState.toJS(), activeFilter: filters[0] });
 
-    expect(makeSelectActiveFilter.resultFunc(state, selectedDistricts, maincategory_slug, category_slug).id).toEqual(
-      filters[0].id
-    );
+    expect(
+      makeSelectActiveFilter.resultFunc(state, selectedDistricts, selectedSources, maincategory_slug, category_slug).id
+    ).toEqual(filters[0].id);
   });
 
   it('should select edit filter', () => {
-    expect(makeSelectEditFilter.resultFunc(initialState, selectedDistricts, maincategory_slug, category_slug)).toEqual(
-      initialState.toJS().editFilter
-    );
+    expect(
+      makeSelectEditFilter.resultFunc(
+        initialState,
+        selectedDistricts,
+        selectedSources,
+        maincategory_slug,
+        category_slug
+      )
+    ).toEqual(initialState.toJS().editFilter);
 
     const state = fromJS({ ...initialState.toJS(), editFilter: filters[2] });
 
-    expect(makeSelectEditFilter.resultFunc(state, selectedDistricts, maincategory_slug, category_slug).id).toEqual(
-      filters[2].id
-    );
+    expect(
+      makeSelectEditFilter.resultFunc(state, selectedDistricts, selectedSources, maincategory_slug, category_slug).id
+    ).toEqual(filters[2].id);
   });
 
   it('should select page', () => {

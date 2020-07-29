@@ -15,6 +15,7 @@ import watchIncidentManagementSaga, {
   doUpdateFilter,
   fetchDistricts,
   fetchFilters,
+  fetchSources,
   refreshIncidents,
   removeFilter,
   saveFilter,
@@ -29,6 +30,7 @@ import {
   APPLY_FILTER,
   GET_DISTRICTS,
   GET_FILTERS,
+  GET_SOURCES,
   REMOVE_FILTER,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
@@ -48,6 +50,8 @@ import {
   filterUpdatedSuccess,
   getDistrictsFailed,
   getDistrictsSuccess,
+  getSourcesFailed,
+  getSourcesSuccess,
   getFilters,
   getFiltersFailed,
   getFiltersSuccess,
@@ -69,6 +73,7 @@ describe('signals/incident-management/saga', () => {
       .next()
       .all([
         takeLatest(GET_DISTRICTS, fetchDistricts),
+        takeLatest(GET_SOURCES, fetchSources),
         takeLatest(GET_FILTERS, fetchFilters),
         takeLatest(REMOVE_FILTER, removeFilter),
         takeLatest(SAVE_FILTER, saveFilter),
@@ -300,6 +305,33 @@ describe('signals/incident-management/saga', () => {
         })
         .throw(error)
         .put(getDistrictsFailed(message))
+        .next()
+        .isDone();
+    });
+  });
+
+  describe('fetch sources', () => {
+    it('should dispatch getSourcesSuccess', () => {
+      const sources = { results: [{ a: 1 }] };
+
+      testSaga(fetchSources)
+        .next()
+        .call(authCall, CONFIGURATION.SOURCES_ENDPOINT)
+        .next(sources)
+        .put(getSourcesSuccess(sources.results))
+        .next()
+        .isDone();
+    });
+
+    it('should dispatch getSourcesFailed', () => {
+      const message = '404 not found';
+      const error = new Error(message);
+
+      testSaga(fetchSources)
+        .next()
+        .call(authCall, CONFIGURATION.SOURCES_ENDPOINT)
+        .throw(error)
+        .put(getSourcesFailed(message))
         .next()
         .isDone();
     });
