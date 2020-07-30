@@ -125,6 +125,9 @@ const StatusForm = ({ defaultTexts }) => {
 
   useEffect(() => {
     form.controls.state.valueChanges.subscribe(status => {
+      // reset the send_email field to make sure that a previously set value isn't accidentally sent to the API
+      form.controls.send_email.value = false;
+
       const found = statusList.find(s => s.key === status);
 
       setShowSendMail(canSendMail(found?.key));
@@ -140,7 +143,7 @@ const StatusForm = ({ defaultTexts }) => {
 
       form.controls.text.updateValueAndValidity();
     });
-  }, [form.controls.state.valueChanges, form.controls.text]);
+  }, [form.controls.state.valueChanges, form.controls.text, form.controls.send_email]);
 
   const handleSubmit = useCallback(
     event => {
