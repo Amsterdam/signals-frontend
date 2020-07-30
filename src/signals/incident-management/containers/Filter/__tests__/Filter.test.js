@@ -14,9 +14,9 @@ jest.mock('models/categories/selectors', () => ({
 
 describe('signals/incident-management/containers/Filter', () => {
   const handlers = {
-    onSubmit: () => { },
-    onCancel: () => { },
-    onFilterEditCancel: () => { },
+    onSubmit: () => {},
+    onCancel: () => {},
+    onFilterEditCancel: () => {},
   };
 
   it('should have props from structured selector', () => {
@@ -68,16 +68,17 @@ describe('signals/incident-management/containers/Filter', () => {
       const tree = mount(
         withAppContext(
           <FilterContainerComponent
+            districts={[]}
             onApplyFilter={onApplyFilter}
-            onClearFilter={() => { }}
-            onSaveFilter={() => { }}
-            onUpdateFilter={() => { }}
+            onClearFilter={() => {}}
+            onSaveFilter={() => {}}
+            onUpdateFilter={() => {}}
             filter={filter}
             categories={categories}
             {...handlers}
             onSubmit={onSubmit}
-          />,
-        ),
+          />
+        )
       );
 
       tree.find('button[type="submit"]').simulate('click');
@@ -93,17 +94,18 @@ describe('signals/incident-management/containers/Filter', () => {
       const tree = mount(
         withAppContext(
           <FilterContainerComponent
+            districts={[]}
             onApplyFilter={onApplyFilter}
-            onClearFilter={() => { }}
-            onSaveFilter={() => { }}
-            onUpdateFilter={() => { }}
+            onClearFilter={() => {}}
+            onSaveFilter={() => {}}
+            onUpdateFilter={() => {}}
             filter={filter}
             categories={categories}
             onSubmit={onSubmit}
             onCancel={onCancel}
             onFilterEditCancel={onFilterEditCancel}
-          />,
-        ),
+          />
+        )
       );
 
       tree.find('button[type="button"]').simulate('click');
