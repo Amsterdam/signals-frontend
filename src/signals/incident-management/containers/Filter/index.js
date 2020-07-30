@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
-import { makeSelectEditFilter } from 'signals/incident-management/selectors';
+import { makeSelectEditFilter, makeSelectSources } from 'signals/incident-management/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import * as types from 'shared/types';
 
@@ -51,11 +51,13 @@ FilterContainerComponent.propTypes = {
   onSaveFilter: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onUpdateFilter: PropTypes.func.isRequired,
+  sources: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = () =>
   createStructuredSelector({
     filter: makeSelectEditFilter,
+    sources: makeSelectSources,
   });
 
 const mapDispatchToProps = dispatch =>

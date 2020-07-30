@@ -7,10 +7,13 @@ import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
 import configuration from 'shared/services/configuration/configuration';
 
 import districts from 'utils/__tests__/fixtures/districts.json';
+import sources from 'utils/__tests__/fixtures/sources.json';
 
 import IncidentManagementContext from '../../../context';
 
 import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '..';
+
+jest.mock('shared/services/configuration/configuration');
 
 const withContext = Component =>
   withAppContext(
@@ -34,6 +37,10 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       },
     ],
   };
+
+  afterEach(() => {
+    configuration.__reset();
+  });
 
   it('should have props from structured selector', () => {
     const tree = mount(withContext(<FilterTagList />));
@@ -146,6 +153,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText('North')).not.toBeInTheDocument();
       expect(queryByText('Telefoon – Adoptant')).toBeInTheDocument();
       expect(queryByText('Telefoon – ASC')).toBeInTheDocument();
+      expect(queryByText('Phone')).not.toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
     });
@@ -175,6 +183,35 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText('North')).toBeInTheDocument();
       expect(queryByText('Telefoon – Adoptant')).toBeInTheDocument();
       expect(queryByText('Telefoon – ASC')).toBeInTheDocument();
+
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
+    });
+
+    it('works with feature flag fetchSourcesFromBackend enabled', () => {
+      configuration.fetchSourcesFromBackend = true;
+
+      const { queryAllByTestId, queryByText } = render(
+        withAppContext(
+          <FilterTagListComponent
+            tags={{
+              ...tags,
+              source: [sources[0]],
+            }}
+            sources={sources}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
+          />
+        )
+      );
+
+      expect(queryByText('Normaal')).toBeInTheDocument();
+      expect(queryByText('Tevreden')).toBeInTheDocument();
+      expect(queryByText('februariplein 1')).toBeInTheDocument();
+      expect(queryByText('Centrum')).toBeInTheDocument();
+      expect(queryByText('Westpoort')).toBeInTheDocument();
+      expect(queryByText('Telefoon – Adoptant')).not.toBeInTheDocument();
+      expect(queryByText('Telefoon – ASC')).not.toBeInTheDocument();
+      expect(queryByText('Phone')).toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
     });

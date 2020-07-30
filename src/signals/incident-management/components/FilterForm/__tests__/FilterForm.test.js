@@ -11,6 +11,7 @@ import configuration from 'shared/services/configuration/configuration';
 
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
+import sources from 'utils/__tests__/fixtures/sources.json';
 import FilterForm from '..';
 import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
 
@@ -21,6 +22,7 @@ const formProps = {
   onSaveFilter: () => {},
   categories,
   onSubmit: () => {},
+  sources,
 };
 
 jest.mock('models/categories/selectors', () => ({
@@ -177,6 +179,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(dataLists.source.length);
+  });
+
+  it('should render a list of source options with feature flag enabled', () => {
+    configuration.fetchSourcesFromBackend = true;
+    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+
+    expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(sources.length);
   });
 
   it('should render datepickers', () => {

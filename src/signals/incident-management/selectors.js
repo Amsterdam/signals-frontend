@@ -29,10 +29,9 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
 export const makeSelectSources = createSelector([selectIncidentManagementDomain], stateMap =>
   stateMap
     .get('sources')
-    .push({ code: 'null', name: 'Niet bepaald' })
     .toJS()
     .map(source => ({
-      key: source.code,
+      key: String(source.id),
       value: source.name,
     }))
 );
@@ -62,8 +61,14 @@ export const makeSelectAllFilters = createSelector(
 );
 
 export const makeSelectActiveFilter = createSelector(
-  [selectIncidentManagementDomain, makeSelectDistricts, makeSelectMainCategories, makeSelectSubCategories],
-  (stateMap, area, maincategory_slug, category_slug) => {
+  [
+    selectIncidentManagementDomain,
+    makeSelectDistricts,
+    makeSelectSources,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+  ],
+  (stateMap, area, source, maincategory_slug, category_slug) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
@@ -79,43 +84,59 @@ export const makeSelectActiveFilter = createSelector(
         priority: converted,
       },
     };
-
-    return parseInputFormData(filter, {
+    const fixtures = {
       maincategory_slug,
       category_slug,
       area,
-    });
+    };
+    const allFixtures = configuration.fetchSourcesFromBackend
+      ? {
+        ...fixtures,
+        source,
+      }
+      : fixtures;
+
+    return parseInputFormData(filter, allFixtures);
   }
 );
 
 export const makeSelectEditFilter = createSelector(
-  [selectIncidentManagementDomain, makeSelectDistricts, makeSelectMainCategories, makeSelectSubCategories],
-  (stateMap, area, maincategory_slug, category_slug) => {
+  [
+    selectIncidentManagementDomain,
+    makeSelectDistricts,
+    makeSelectSources,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+  ],
+  (stateMap, area, source, maincategory_slug, category_slug) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
 
     const state = stateMap.toJS();
-
-    return parseInputFormData(
-      state.editFilter,
-      {
-        maincategory_slug,
-        category_slug,
-        area,
-      },
-      (category, value) => {
-        if (category.key || category.slug) return undefined;
-
-        return category._links.self.public.endsWith(`/${value}`);
+    const fixtures = {
+      maincategory_slug,
+      category_slug,
+      area,
+    };
+    const allFixtures = configuration.fetchSourcesFromBackend
+      ? {
+        ...fixtures,
+        source,
       }
-    );
+      : fixtures;
+
+    return parseInputFormData(state.editFilter, allFixtures, (category, value) => {
+      if (category.key || category.slug) return undefined;
+
+      return category._links.self.public.endsWith(`/${value}`);
+    });
   }
 );
 
 const filterParamsMap = {
   area: 'area_code',
-  areaType: 'area_type',
+  areaType: 'area_type_code',
 };
 const mapFilterParam = param => (filterParamsMap[param] ? filterParamsMap[param] : param);
 const orderingMap = {

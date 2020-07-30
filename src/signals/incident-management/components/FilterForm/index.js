@@ -42,7 +42,7 @@ import reducer, { init } from './reducer';
 /**
  * Component that renders the incident filter form
  */
-const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
+const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter, sources }) => {
   const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
 
@@ -54,8 +54,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     () => ({
       ...dataLists,
       area: districts,
+      source: sources,
     }),
-    [districts]
+    [districts, sources]
   );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
@@ -392,14 +393,26 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </FilterGroup>
 
-          <CheckboxGroup
-            defaultValue={state.options.source}
-            label="Bron"
-            name="source"
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            options={dataLists.source}
-          />
+          {configuration.fetchSourcesFromBackend && (
+            <CheckboxGroup
+              defaultValue={state.options.source}
+              label="Bron"
+              name="source"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={sources}
+            />
+          )}
+          {!configuration.fetchSourcesFromBackend && (
+            <CheckboxGroup
+              defaultValue={state.options.source}
+              label="Bron"
+              name="source"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={dataLists.source}
+            />
+          )}
         </Fieldset>
       </ControlsWrapper>
 
@@ -457,6 +470,7 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
+  sources: types.dataListType,
 };
 
 export default FilterForm;

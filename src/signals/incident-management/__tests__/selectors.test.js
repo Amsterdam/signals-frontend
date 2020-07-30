@@ -105,11 +105,11 @@ const sources = [
 ];
 const selectedSources = [
   {
-    key: 1,
+    key: '1',
     value: 'Source1',
   },
   {
-    key: 2,
+    key: '2',
     value: 'Source2',
   },
 ];
