@@ -68,6 +68,7 @@ const intermediateState = fromJS({
   error: false,
   ordering: 'stadsdeel,-created_at',
   loading: false,
+  loadingIncidents: false,
   incidents: {
     count: incidentsJson.length,
     results: incidentsJson,
@@ -343,7 +344,7 @@ describe('signals/incident-management/reducer', () => {
 
     const applied = state =>
       state
-        .set('loading', true)
+        .set('loadingIncidents', true)
         .set('error', false)
         .set('errorMessage', undefined);
 
@@ -364,7 +365,7 @@ describe('signals/incident-management/reducer', () => {
     const applied = state =>
       state
         .set('incidents', fromJS(requestIncidentsSuccess.payload))
-        .set('loading', false)
+        .set('loadingIncidents', false)
         .set('error', false)
         .set('errorMessage', undefined);
 
@@ -387,7 +388,7 @@ describe('signals/incident-management/reducer', () => {
       state
         .set('error', true)
         .set('errorMessage', error.message)
-        .set('loading', false);
+        .set('loadingIncidents', false);
 
     expect(reducer(initialState, requestIncidentsError)).toEqual(
       applied(initialState)
