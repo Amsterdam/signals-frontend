@@ -102,9 +102,8 @@ const StyledColumn = styled(Column)`
   margin-bottom: ${themeSpacing(3)};
 `;
 
-// Don't show the send email checkbox for statuses ingepland, hreopend, afgehandeld and geannuleerd
-export const EMAIL_CHECKBOX_EXCLUDED_STATES = ['ingepland', 'reopened', 'o', 'a'];
-const canSendMail = status => !EMAIL_CHECKBOX_EXCLUDED_STATES.includes(status);
+const canSendMail = status =>
+  Boolean(changeStatusOptionList.find(({ can_send_email, key }) => can_send_email && status === key));
 
 const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
@@ -112,7 +111,6 @@ const StatusForm = ({ defaultTexts }) => {
   const [warning, setWarning] = useState('');
   const [showSendMail, setShowSendMail] = useState(canSendMail(currentStatus?.key));
   const isDeelmelding = !!incident?._links?.['sia:parent'];
-
   const form = useMemo(
     () =>
       FormBuilder.group({

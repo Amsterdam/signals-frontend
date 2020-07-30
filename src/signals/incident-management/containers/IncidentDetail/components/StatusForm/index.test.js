@@ -7,7 +7,11 @@ import { changeStatusOptionList } from '../../../../definitions/statusList';
 
 import { PATCH_TYPE_STATUS } from '../../constants';
 import IncidentDetailContext from '../../context';
-import StatusForm, { MELDING_EXPLANATION, DEELMELDING_EXPLANATION, EMAIL_CHECKBOX_EXCLUDED_STATES } from '.';
+import StatusForm, { MELDING_EXPLANATION, DEELMELDING_EXPLANATION } from '.';
+
+const EMAIL_CHECKBOX_EXCLUDED_STATES = changeStatusOptionList
+  .filter(({ can_send_email }) => !can_send_email)
+  .map(({ key }) => key);
 
 const defaultTexts = [
   {
@@ -257,8 +261,13 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   });
 
   it("doesn't show the send checkbox for a deelmelding", () => {
+    const statusThatShowsCheckbox = changeStatusOptionList.find(({ can_send_email }) => can_send_email);
+
     const deelmelding = {
       ...incidentFixture,
+      status: {
+        state: statusThatShowsCheckbox.key,
+      },
       _links: {
         ...incidentFixture._links,
         'sia:parent': {
