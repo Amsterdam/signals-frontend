@@ -1,8 +1,8 @@
 {
   "baseUrl": "http://localhost:3001",
   "defaultCommandTimeOut": 5000,
-  "projectId": "b6phb4",
+  "projectId": "xdzm5k",
   "requestTimeout": 15000,
   "responseTimeout": 15000,
-  "video": false 
+  "video": false
 }

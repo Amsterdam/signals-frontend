@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+    environment:
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./environment.conf.e2e.json:/environment.conf.json
+    ports:
+      - "3001:80"
+
+  backend:
+    image: signalen/backend:latest
+    environment:
+      - ALLOWED_HOSTS=localhost
+      - SECRET_KEY=insecure
+      - DB_NAME=signals
+      - DB_PASSWORD=insecure
+      - DJANGO_SETTINGS_MODULE=signals.settings.development
+      - ALWAYS_OK=True
+    command:
+      - /e2e-backend.sh
+    volumes:
+      - ./e2e-backend.sh:/e2e-backend.sh
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+
+  database:
+    image: amsterdam/postgres11
+    environment:
+      POSTGRES_DB: signals
+      POSTGRES_USER: signals
+      POSTGRES_PASSWORD: insecure
+    ports:
+      - "5409:5432"
+
+  rabbit:
+    image: rabbitmq:3
+    environment:
+     - RABBITMQ_DEFAULT_USER=signals
+     - RABBITMQ_DEFAULT_PASS=insecure
+     - RABBITMQ_DEFAULT_VHOST=vhost
