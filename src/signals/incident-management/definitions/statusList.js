@@ -3,6 +3,7 @@ const GEMELD = {
   value: 'Gemeld',
   color: 'red',
   can_send_email: true,
+  shows_remaining_sla_days: true,
 };
 
 const AFWACHTING = {
@@ -10,6 +11,7 @@ const AFWACHTING = {
   value: 'In afwachting van behandeling',
   color: 'purple',
   can_send_email: true,
+  shows_remaining_sla_days: true,
 };
 
 const BEHANDELING = {
@@ -17,6 +19,7 @@ const BEHANDELING = {
   value: 'In behandeling',
   color: 'blue',
   can_send_email: true,
+  shows_remaining_sla_days: true,
 };
 
 const AFGEHANDELD = {
@@ -26,6 +29,7 @@ const AFGEHANDELD = {
     'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding. Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland. Let op: als de huidige status “Verzoek tot heropenen” is, dan wordt er geen e-mail naar de melder gestuurd.',
   color: 'lightgreen',
   can_send_email: false,
+  shows_remaining_sla_days: false,
 };
 
 const GESPLITST = {
@@ -33,6 +37,7 @@ const GESPLITST = {
   value: 'Gesplitst',
   color: 'lightgreen',
   can_send_email: false,
+  shows_remaining_sla_days: false,
 };
 
 const INGEPLAND = {
@@ -42,6 +47,7 @@ const INGEPLAND = {
     'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
   color: 'grey',
   can_send_email: false,
+  shows_remaining_sla_days: true,
 };
 
 const GEANNULEERD = {
@@ -51,6 +57,7 @@ const GEANNULEERD = {
     'Bij deze status wordt de melding afgesloten. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.',
   color: 'darkgrey',
   can_send_email: true,
+  shows_remaining_sla_days: false,
 };
 
 const VERZOEK_TOT_HEROPENEN = {
@@ -58,6 +65,7 @@ const VERZOEK_TOT_HEROPENEN = {
   value: 'Verzoek tot heropenen',
   color: 'orange',
   can_send_email: false,
+  shows_remaining_sla_days: false,
 };
 
 const HEROPEND = {
@@ -67,36 +75,42 @@ const HEROPEND = {
     'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.',
   color: 'orange',
   can_send_email: false,
+  shows_remaining_sla_days: true,
 };
 
 const TE_VERZENDEN = {
   key: 'ready to send',
   value: 'Extern: te verzenden',
   can_send_email: false,
+  shows_remaining_sla_days: true,
 };
 
 const VERZONDEN = {
   key: 'sent',
   value: 'Extern: verzonden',
   can_send_email: false,
+  shows_remaining_sla_days: true,
 };
 
 const VERZENDEN_MISLUKT = {
   key: 'send failed',
   value: 'Extern: mislukt',
   can_send_email: false,
+  shows_remaining_sla_days: true,
 };
 
 const VERZOEK_TOT_AFHANDELING = {
   key: 'closure requested',
   value: 'Extern: verzoek tot afhandeling',
   can_send_email: false,
+  shows_remaining_sla_days: true,
 };
 
 const AFGEHANDELD_EXTERN = {
   key: 'done external',
   value: 'Extern: afgehandeld',
   can_send_email: false,
+  shows_remaining_sla_days: true,
 };
 
 const statusList = [
