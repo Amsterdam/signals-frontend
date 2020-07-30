@@ -40,6 +40,7 @@ export const initialState = fromJS({
     results: [],
   },
   loading: false,
+  loadingIncidents: false,
   ordering: '-created_at',
   page: 1,
 });
@@ -106,7 +107,7 @@ export default (state = initialState, action) => {
 
     case REQUEST_INCIDENTS:
       return state
-        .set('loading', true)
+        .set('loadingIncidents', true)
         .set('error', false)
         .set('errorMessage', undefined);
 
@@ -114,7 +115,7 @@ export default (state = initialState, action) => {
     case REQUEST_INCIDENTS_SUCCESS:
       return state
         .set('incidents', fromJS(action.payload))
-        .set('loading', false)
+        .set('loadingIncidents', false)
         .set('error', false)
         .set('errorMessage', undefined);
 
@@ -123,7 +124,7 @@ export default (state = initialState, action) => {
       return state
         .set('error', true)
         .set('errorMessage', action.payload)
-        .set('loading', false);
+        .set('loadingIncidents', false);
 
     case SET_SEARCH_QUERY:
       return state
