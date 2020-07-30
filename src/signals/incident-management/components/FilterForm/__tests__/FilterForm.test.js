@@ -7,12 +7,15 @@ import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import typesList from 'signals/incident-management/definitions/typesList';
 import dataLists from 'signals/incident-management/definitions';
+import configuration from 'shared/services/configuration/configuration';
 
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
+import districts from 'utils/__tests__/fixtures/districts.json';
 import FilterForm from '..';
 import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
 
 const formProps = {
+  districts,
   onClearFilter: () => {},
   onSaveFilter: () => {},
   categories,
@@ -44,7 +47,9 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a refresh checkbox', async () => {
-    const { findByTestId, unmount, rerender } = render(withAppContext(<FilterForm {...formProps} filter={{ options: {} }} />));
+    const { findByTestId, unmount, rerender } = render(
+      withAppContext(<FilterForm {...formProps} filter={{ options: {} }} />)
+    );
 
     const refreshCheckbox = await findByTestId('filterRefresh');
 
@@ -134,7 +139,16 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should render a list of stadsdeel options', () => {
     const { container } = render(withAppContext(<FilterForm {...formProps} />));
 
+    expect(container.querySelectorAll('input[type="checkbox"][name="district"]')).toHaveLength(0);
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(stadsdeelList.length);
+  });
+
+  it('should render a list of district options with feature flag enabled', () => {
+    configuration.useAreasInsteadOfStadsdeel = true;
+    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+
+    expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(0);
+    expect(container.querySelectorAll('input[type="checkbox"][name="area"]')).toHaveLength(districts.length);
   });
 
   it('should render a list of contact options', () => {
@@ -203,7 +217,9 @@ describe('signals/incident-management/components/FilterForm', () => {
   // corresponding buttons are clicked.
   it('should handle reset', async () => {
     const onClearFilter = jest.fn();
-    const { container, findByTestId } = render(withAppContext(<FilterForm {...formProps} onClearFilter={onClearFilter} />));
+    const { container, findByTestId } = render(
+      withAppContext(<FilterForm {...formProps} onClearFilter={onClearFilter} />)
+    );
 
     const nameField = container.querySelector('input[type="text"][name="name"]');
     const dateField = container.querySelector('input[id="filter_created_before"]');
@@ -211,11 +227,21 @@ describe('signals/incident-management/components/FilterForm', () => {
     const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
     const afvalToggle = container.querySelector('input[type="checkbox"][value="afval"]');
 
-    act(() => { fireEvent.change(nameField, { target: { value: 'My filter' } }); });
-    act(() => { fireEvent.change(dateField, { target: { value: '1970-01-01' } }); });
-    act(() => { fireEvent.change(addressField, { target: { value: 'Weesperstraat 113' } }); });
-    act(() => { fireEvent.change(noteField, { target: { value: 'test123' } }); });
-    act(() => { fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true })); });
+    act(() => {
+      fireEvent.change(nameField, { target: { value: 'My filter' } });
+    });
+    act(() => {
+      fireEvent.change(dateField, { target: { value: '1970-01-01' } });
+    });
+    act(() => {
+      fireEvent.change(addressField, { target: { value: 'Weesperstraat 113' } });
+    });
+    act(() => {
+      fireEvent.change(noteField, { target: { value: 'test123' } });
+    });
+    act(() => {
+      fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true }));
+    });
 
     await findByTestId('filterName');
 
@@ -226,7 +252,9 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(noteField.value).toEqual('test123');
     expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBeGreaterThan(1);
 
-    await act(async () => { fireEvent.click(container.querySelector('button[type="reset"]')); });
+    await act(async () => {
+      fireEvent.click(container.querySelector('button[type="reset"]'));
+    });
 
     expect(onClearFilter).toHaveBeenCalled();
 
@@ -258,11 +286,15 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(submitButton.textContent).toEqual(DEFAULT_SUBMIT_BUTTON_LABEL);
 
-    act(() => { fireEvent.blur(nameField, { target: { value: 'My filter' } }); });
+    act(() => {
+      fireEvent.blur(nameField, { target: { value: 'My filter' } });
+    });
 
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL);
 
-    act(() => { fireEvent.change(nameField, { target: { value: '' } }); });
+    act(() => {
+      fireEvent.change(nameField, { target: { value: '' } });
+    });
 
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL);
   });
@@ -282,9 +314,13 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     const addressField = container.querySelector('input[type="text"][name="address_text"]');
 
-    await act(async () => { fireEvent.change(addressField, { target: { value: 'Weesperstraat 113/117' } }); });
+    await act(async () => {
+      fireEvent.change(addressField, { target: { value: 'Weesperstraat 113/117' } });
+    });
 
-    await act(async () => { fireEvent.blur(addressField); });
+    await act(async () => {
+      fireEvent.blur(addressField);
+    });
 
     await findByTestId('filterAddress');
 
@@ -315,7 +351,9 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
 
-    act(() => { fireEvent.blur(noteField, { target: { value: 'test123' } }); });
+    act(() => {
+      fireEvent.blur(noteField, { target: { value: 'test123' } });
+    });
 
     expect(container.querySelector('input[type="text"][name="note_keyword"]').value).toEqual('test123');
   });
@@ -341,7 +379,9 @@ describe('signals/incident-management/components/FilterForm', () => {
     const sourceCheckboxes = container.querySelectorAll('input[type="checkbox"][name="source"]');
     const boxInList = sourceCheckboxes[1];
 
-    await act(async () => { fireEvent.click(boxInList); });
+    await act(async () => {
+      fireEvent.click(boxInList);
+    });
 
     await findByTestId('sourceCheckboxGroup');
 
@@ -387,7 +427,9 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect([...checkboxes].every(element => !element.checked)).toEqual(true);
 
-    await act(async () => { fireEvent.click(checkboxes[3]); });
+    await act(async () => {
+      fireEvent.click(checkboxes[3]);
+    });
 
     await findByTestId('sourceCheckboxGroup');
 
@@ -433,14 +475,20 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
-      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
+      act(() => {
+        fireEvent.click(container.querySelector('button[type="submit"]'));
+      });
 
       expect(handlers.onSubmit).toHaveBeenCalled();
       expect(handlers.onSaveFilter).not.toHaveBeenCalled(); // name field is empty
 
-      act(() => { fireEvent.blur(nameField, { target: { value: 'New name' } }); });
+      act(() => {
+        fireEvent.blur(nameField, { target: { value: 'New name' } });
+      });
 
-      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
+      act(() => {
+        fireEvent.click(container.querySelector('button[type="submit"]'));
+      });
 
       expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1);
     });
@@ -475,17 +523,25 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
-      act(() => { fireEvent.blur(nameField, { target: { value: ' ' } }); });
+      act(() => {
+        fireEvent.blur(nameField, { target: { value: ' ' } });
+      });
 
-      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
+      act(() => {
+        fireEvent.click(container.querySelector('button[type="submit"]'));
+      });
 
       // trimmed field value is empty, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
       expect(window.alert).toHaveBeenCalled();
 
-      act(() => { fireEvent.blur(nameField, { target: { value: 'My changed filter' } }); });
+      act(() => {
+        fireEvent.blur(nameField, { target: { value: 'My changed filter' } });
+      });
 
-      act(() => { fireEvent.click(container.querySelector('button[type="submit"]')); });
+      act(() => {
+        fireEvent.click(container.querySelector('button[type="submit"]'));
+      });
 
       expect(handlers.onUpdateFilter).toHaveBeenCalled();
 
