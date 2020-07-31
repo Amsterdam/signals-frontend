@@ -12,7 +12,7 @@ import {
   makeSelectSubCategories,
 } from 'models/categories/selectors';
 import PageHeader from 'signals/settings/components/PageHeader';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import Spinner from 'components/Spinner';
 import BackLink from 'components/BackLink';
 import routes from 'signals/settings/routes';
 import useFetch from 'hooks/useFetch';
@@ -71,7 +71,7 @@ export const DepartmentDetailContainer = ({
         }
       />
 
-      {isLoading && <LoadingIndicator />}
+      {isLoading && <Spinner />}
 
       {!isLoading && data && (
         <Fragment>

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import configuration from 'shared/services/configuration/configuration';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import PageHeader from 'signals/settings/components/PageHeader';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import Spinner from 'components/Spinner';
 
 import { fetchCategories } from 'models/categories/actions';
 import BackLink from 'components/BackLink';
@@ -155,7 +155,7 @@ const CategoryDetail = () => {
     <Fragment>
       <PageHeader title={title} BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>} />
 
-      {isLoading && <LoadingIndicator />}
+      {isLoading && <Spinner />}
 
       <FormContainer>
         {shouldRenderForm && (

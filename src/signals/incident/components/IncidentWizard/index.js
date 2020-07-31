@@ -5,7 +5,7 @@ import { Wizard, Steps, Step } from 'react-albus';
 import { Heading, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import Spinner from 'components/Spinner';
 
 import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
@@ -24,7 +24,7 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
       <Route
         render={({ history }) => (
           <Wizard history={history} onNext={wiz => onNext(wizardDefinition, wiz, incident)}>
-            {incidentContainer.loading && <LoadingIndicator />}
+            {incidentContainer.loading && <Spinner />}
 
             {!incidentContainer.loading && (
               <Steps>

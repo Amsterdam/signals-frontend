@@ -5,7 +5,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 import { useHistory } from 'react-router-dom';
 
 import PageHeader from 'signals/settings/components/PageHeader';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import Spinner from 'components/Spinner';
 import ListComponent from 'components/List';
 import { makeSelectDepartments } from 'models/departments/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
@@ -59,7 +59,7 @@ const DepartmentOverview = () => {
       />
 
       <Row>
-        {departments.loading && <LoadingIndicator />}
+        {departments.loading && <Spinner />}
 
         <Column span={12}>
           {!departments.loading && data && (

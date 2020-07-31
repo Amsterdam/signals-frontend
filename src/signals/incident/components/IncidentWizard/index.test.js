@@ -44,7 +44,7 @@ describe('<IncidentWizard />', () => {
 
     expect(queryByTestId('incidentForm')).toBeInTheDocument();
     expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+    expect(queryByTestId('spinner')).not.toBeInTheDocument();
   });
 
   it('expect to render form factory correctly', () => {
@@ -67,7 +67,7 @@ describe('<IncidentWizard />', () => {
 
     expect(queryByTestId('incidentForm')).toBeInTheDocument();
     expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+    expect(queryByTestId('spinner')).not.toBeInTheDocument();
   });
 
   it('expect to render preview correctly', () => {
@@ -88,7 +88,7 @@ describe('<IncidentWizard />', () => {
 
     expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
     expect(queryByTestId('incidentPreview')).toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+    expect(queryByTestId('spinner')).not.toBeInTheDocument();
   });
 
   it('expect to render loading correctly', () => {
@@ -107,6 +107,6 @@ describe('<IncidentWizard />', () => {
 
     expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
     expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+    expect(queryByTestId('spinner')).toBeInTheDocument();
   });
 });

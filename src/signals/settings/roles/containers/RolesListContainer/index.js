@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { Row, Column, Button } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import Spinner from 'components/Spinner';
 import PageHeader from 'signals/settings/components/PageHeader';
 
 import { makeSelectUserCan } from 'containers/App/selectors';
@@ -36,7 +36,7 @@ export const RolesListContainer = ({
     <Row>
       <Column span={12}>
         {loading || loadingPermissions ? (
-          <LoadingIndicator />
+          <Spinner />
         ) : (
           <RolesList
             list={list}

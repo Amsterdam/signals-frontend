@@ -102,7 +102,7 @@ describe('signals/settings/departments/Detail', () => {
 
     await findByTestId('settingsPageHeader');
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+    expect(queryByTestId('spinner')).not.toBeInTheDocument();
 
     useFetch.mockImplementationOnce(() => ({
       ...useFetchResponse,
@@ -115,7 +115,7 @@ describe('signals/settings/departments/Detail', () => {
 
     await findByTestId('settingsPageHeader');
 
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+    expect(queryByTestId('spinner')).toBeInTheDocument();
   });
 
   it('should render the department name', async () => {

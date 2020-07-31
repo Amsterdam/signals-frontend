@@ -18,7 +18,7 @@
     "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
   },
   "matomo": {
-    "urlBase": "https://analytics.data.amsterdam.nl",
+    "urlBase": "https://analytics.data.amsterdam.nl/",
     "siteId": 14
   },
   "language": {

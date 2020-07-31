@@ -47,13 +47,13 @@ describe('signals/settings/departments/Overview', () => {
 
     const { queryByTestId } = render(withAppContext(<DepartmentOverview />));
 
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+    expect(queryByTestId('spinner')).toBeInTheDocument();
   });
 
   it('should not show a loading indicator when data has loaded', () => {
     const { queryByTestId } = render(withAppContext(<DepartmentOverview />));
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+    expect(queryByTestId('spinner')).not.toBeInTheDocument();
   });
 
   it('should render a title', () => {
