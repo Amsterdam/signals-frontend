@@ -12,7 +12,7 @@ import PageHeader from 'containers/PageHeader';
 import { orderingChanged, pageChanged } from 'signals/incident-management/actions';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
-import Spinner from 'components/Spinner';
+import LoadingIndicator from 'components/LoadingIndicator';
 import * as types from 'shared/types';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import MapContext from 'containers/MapContext';
@@ -151,7 +151,7 @@ export const IncidentOverviewPageContainerComponent = ({
       {!showsMap && (
         <Row>
           <Column span={12}>
-            {loadingIncidents && <Spinner size={100} />}
+            {loadingIncidents && <LoadingIndicator size={100} />}
 
             {canRenderList && (
               <ListComponent

@@ -59,7 +59,7 @@ describe('<DefaultTextsAdmin />', () => {
         withAppContext(<DefaultTextsAdminContainer {...props} />)
       );
 
-      expect(queryByTestId('spinner')).toBeInTheDocument();
+      expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
       expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument();
       expect(queryByTestId('selectFormForm')).not.toBeInTheDocument();
 
@@ -72,7 +72,7 @@ describe('<DefaultTextsAdmin />', () => {
         )
       );
 
-      expect(queryByTestId('spinner')).not.toBeInTheDocument();
+      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
       expect(queryByTestId('defaultTextFormForm')).toBeInTheDocument();
       expect(queryByTestId('selectFormForm')).toBeInTheDocument();
     });

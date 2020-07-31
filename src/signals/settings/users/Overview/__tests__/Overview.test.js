@@ -129,11 +129,11 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const { getByText, findByTestId, queryByTestId } = render(usersOverviewWithAppContext());
 
-    await findByTestId('spinner');
+    await findByTestId('loadingIndicator');
 
     expect(getByText('Gebruikers')).toBeInTheDocument();
     expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryByTestId('spinner')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
 
     jest.advanceTimersByTime(25);
 
@@ -141,7 +141,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(getByText('Gebruikers')).toBeInTheDocument();
     expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryByTestId('spinner')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
 
     jest.advanceTimersByTime(25);
 
@@ -149,7 +149,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
     expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryByTestId('spinner')).toBeNull();
+    expect(queryByTestId('loadingIndicator')).toBeNull();
 
     jest.runAllTimers();
   });
@@ -183,7 +183,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const { queryByTestId, findByTestId, queryAllByTestId, findAllByTestId } = render(usersOverviewWithAppContext());
 
-    await findByTestId('spinner');
+    await findByTestId('loadingIndicator');
 
     expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
 
@@ -197,7 +197,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await findAllByTestId('dataViewBodyRow');
 
-    expect(queryByTestId('spinner')).toBeNull();
+    expect(queryByTestId('loadingIndicator')).toBeNull();
     expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(usersJSON.count);
 
     jest.runAllTimers();

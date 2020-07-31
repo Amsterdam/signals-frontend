@@ -29,7 +29,7 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
       withAppContext(<RolesListContainer {...loadingProps} />)
     );
 
-    expect(queryByTestId('spinner')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesList')).not.toBeInTheDocument();
 
     const notLoadingProps = {
@@ -42,7 +42,7 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
     };
     rerender(withAppContext(<RolesListContainer {...notLoadingProps} />));
 
-    expect(queryByTestId('spinner')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('rolesList')).toBeInTheDocument();
 
     expect(container.querySelector('h1')).toHaveTextContent(/^Rollen$/);

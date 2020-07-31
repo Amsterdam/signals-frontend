@@ -69,7 +69,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       withAppContext(<RoleFormContainer {...loadingProps} />)
     );
 
-    expect(queryByTestId('spinner')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
 
     const notLoadingProps = {
@@ -82,7 +82,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     };
     rerender(withAppContext(<RoleFormContainer {...notLoadingProps} />));
 
-    expect(queryByTestId('spinner')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('rolesForm')).toBeInTheDocument();
     expect(container.querySelector('h1')).toHaveTextContent(
       /^Rol toevoegen$/

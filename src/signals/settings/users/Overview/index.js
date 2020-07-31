@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 
 import { PAGE_SIZE } from 'containers/App/constants';
-import Spinner from 'components/Spinner';
+import LoadingIndicator from 'components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
 import DataView from 'components/DataView';
@@ -154,7 +154,7 @@ const UsersOverviewContainer = () => {
       </PageHeader>
 
       <Row data-testid="usersOverview">
-        {isLoading && <Spinner />}
+        {isLoading && <LoadingIndicator />}
 
         <Column span={12} wrap>
           <Column span={12}>

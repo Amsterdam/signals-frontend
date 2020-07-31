@@ -143,7 +143,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { getByTestId } = render(withAppContext(<UserDetail />));
 
-    expect(getByTestId('spinner')).toBeInTheDocument();
+    expect(getByTestId('loadingIndicator')).toBeInTheDocument();
   });
 
   it('should not render a form when the data from the API is not yet available', () => {

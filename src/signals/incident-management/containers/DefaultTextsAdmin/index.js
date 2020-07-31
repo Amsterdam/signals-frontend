@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import { dataListType, defaultTextsType } from 'shared/types';
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import Spinner from 'components/Spinner';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -47,7 +47,7 @@ export const DefaultTextsAdminContainer = ({
       <StyledH1>Beheer standaard teksten</StyledH1>
     </Column>
 
-    {!subCategories && <Spinner />}
+    {!subCategories && <LoadingIndicator />}
 
     <Column span={4}>
       {subCategories && (

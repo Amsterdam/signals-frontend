@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import Spinner from 'components/Spinner';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import { splitIncident } from './actions';
 
@@ -38,7 +38,7 @@ export const IncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
     <StyledWrapper data-testid="incidentSplit">
       <Row>
         {isLoading ? (
-          <Spinner />
+          <LoadingIndicator />
         ) : (
           <Fragment>
             <Column span={12}>

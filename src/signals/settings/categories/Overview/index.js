@@ -7,7 +7,7 @@ import { Row, Column, themeSpacing } from '@datapunt/asc-ui';
 import { useParams, useHistory } from 'react-router-dom';
 
 import PageHeader from 'signals/settings/components/PageHeader';
-import Spinner from 'components/Spinner';
+import LoadingIndicator from 'components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import { makeSelectAllSubCategories } from 'models/categories/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
@@ -97,7 +97,7 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
       <PageHeader title={`Categorieën ${count ? `(${count})` : ''}`} />
 
       <Row>
-        {isLoading && <Spinner />}
+        {isLoading && <LoadingIndicator />}
 
         <Column span={12} wrap>
           <Column span={12}>

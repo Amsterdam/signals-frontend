@@ -86,7 +86,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
     );
 
-    expect(queryByTestId('spinner')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(
       queryByTestId('incidentOverviewListComponent')
     ).not.toBeInTheDocument();
@@ -106,7 +106,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     );
 
-    expect(queryByTestId('spinner')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('incidentOverviewListComponent')).toBeInTheDocument();
   });
 

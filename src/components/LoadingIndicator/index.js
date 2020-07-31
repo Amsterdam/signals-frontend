@@ -28,6 +28,6 @@ const Spinning = styled(AscSpinner)`
   }
 `;
 
-const Spinner = props => <Spinning data-testid="spinner" {...props} />;
+const LoadingIndicator = props => <Spinning data-testid="loadingIndicator" {...props} />;
 
-export default Spinner;
+export default LoadingIndicator;

@@ -8,7 +8,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 
 import routes from 'signals/settings/routes';
 import PageHeader from 'signals/settings/components/PageHeader';
-import Spinner from 'components/Spinner';
+import LoadingIndicator from 'components/LoadingIndicator';
 import BackLink from 'components/BackLink';
 import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions';
 import {
@@ -85,7 +85,7 @@ export const RoleFormContainer = ({
       <Row>
         <Column span={12}>
           {loading || loadingPermissions ?
-            <Spinner /> :
+            <LoadingIndicator /> :
             (
               <RoleForm
                 role={role}

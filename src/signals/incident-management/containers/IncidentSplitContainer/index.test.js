@@ -60,11 +60,11 @@ describe('<IncidentSplitContainer />', () => {
       withAppContext(<IncidentSplitContainer {...props} />)
     );
 
-    expect(queryByTestId('spinner')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
 
     await findByTestId('incidentSplit');
 
-    expect(queryByTestId('spinner')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
 
     expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(
       /^Deelmelding 1$/
