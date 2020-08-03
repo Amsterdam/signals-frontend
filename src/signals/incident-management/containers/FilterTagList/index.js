@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
@@ -8,8 +8,9 @@ import format from 'date-fns/format';
 
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
-import { makeSelectDistricts } from 'signals/incident-management/selectors';
 import * as types from 'shared/types';
+
+import IncidentManagementContext from '../../context';
 
 const FilterWrapper = styled.div`
   margin-top: 10px;
@@ -77,7 +78,8 @@ const renderTag = (key, mainCategories, list) => {
 };
 
 export const FilterTagListComponent = props => {
-  const { tags, districts, mainCategories, subCategories } = props;
+  const { tags, mainCategories, subCategories } = props;
+  const { districts } = useContext(IncidentManagementContext);
 
   const map = {
     ...dataLists,
@@ -122,7 +124,6 @@ export const FilterTagListComponent = props => {
 
 FilterTagListComponent.propTypes = {
   tags: types.filterType,
-  districts: types.dataListType,
   mainCategories: types.dataListType,
   subCategories: types.dataListType,
 };
@@ -132,7 +133,6 @@ FilterTagListComponent.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  districts: makeSelectDistricts,
   mainCategories: makeSelectMainCategories,
   subCategories: makeSelectSubCategories,
 });

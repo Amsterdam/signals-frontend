@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
-import { makeSelectDistricts, makeSelectEditFilter } from 'signals/incident-management/selectors';
+import { makeSelectEditFilter } from 'signals/incident-management/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
 import * as types from 'shared/types';
 
@@ -43,7 +43,6 @@ export const FilterContainerComponent = ({
 };
 
 FilterContainerComponent.propTypes = {
-  districts: PropTypes.array.isRequired,
   filter: types.filterType.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -56,7 +55,6 @@ FilterContainerComponent.propTypes = {
 
 const mapStateToProps = () =>
   createStructuredSelector({
-    districts: makeSelectDistricts,
     filter: makeSelectEditFilter,
   });
 

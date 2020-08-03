@@ -1,4 +1,4 @@
-import React, { Fragment, useLayoutEffect, useMemo, useCallback, useReducer } from 'react';
+import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
@@ -15,13 +15,14 @@ import Label from 'components/Label';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
 import { dateToISOString } from 'shared/services/date-utils';
-import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
 import CheckboxGroup from './components/CheckboxGroup';
 import RadioGroup from './components/RadioGroup';
+import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
+import IncidentManagementContext from '../../context';
 
 import {
   reset,
@@ -41,7 +42,8 @@ import reducer, { init } from './reducer';
 /**
  * Component that renders the incident filter form
  */
-const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
+const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
+  const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
 
   const [state, dispatch] = useReducer(reducer, filter, init);
@@ -290,7 +292,7 @@ const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, 
             options={dataLists.status}
           />
 
-          {configuration.useAreasInsteadOfStadsdeel && (
+          {configuration.useAreasInsteadOfStadsdeel ? (
             <CheckboxGroup
               defaultValue={state.options.area}
               label={configuration.language.district}
@@ -299,8 +301,7 @@ const FilterForm = ({ districts, filter, onCancel, onClearFilter, onSaveFilter, 
               onToggle={onGroupToggle}
               options={districts}
             />
-          )}
-          {!configuration.useAreasInsteadOfStadsdeel && (
+          ) : (
             <CheckboxGroup
               defaultValue={state.options.stadsdeel}
               label="Stadsdeel"
@@ -441,7 +442,6 @@ FilterForm.defaultProps = {
 };
 
 FilterForm.propTypes = {
-  districts: types.dataListType,
   filter: types.filterType,
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
