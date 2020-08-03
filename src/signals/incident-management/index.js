@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
@@ -21,9 +21,11 @@ import IncidentDetail from './containers/IncidentDetail';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
 import IncidentSplitContainer from './containers/IncidentSplitContainer';
 
+import IncidentManagementContext from './context';
 import reducer from './reducer';
 import saga from './saga';
 import routes from './routes';
+import { makeSelectDistricts } from './selectors';
 
 export const IncidentManagementModuleComponent = ({
   fetchCategoriesAction,
@@ -34,6 +36,7 @@ export const IncidentManagementModuleComponent = ({
   searchQuery,
 }) => {
   const location = useLocationReferrer();
+  const districts = useSelector(makeSelectDistricts);
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -60,13 +63,15 @@ export const IncidentManagementModuleComponent = ({
   }
 
   return (
-    <Switch location={location}>
-      <Route exact path={routes.incidents} component={IncidentOverviewPage} />
-      <Route exact path={routes.incident} component={IncidentDetail} />
-      <Route exact path={routes.split} component={IncidentSplitContainer} />
-      <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
-      <Route component={IncidentOverviewPage} />
-    </Switch>
+    <IncidentManagementContext.Provider value={{ districts }}>
+      <Switch location={location}>
+        <Route exact path={routes.incidents} component={IncidentOverviewPage} />
+        <Route exact path={routes.incident} component={IncidentDetail} />
+        <Route exact path={routes.split} component={IncidentSplitContainer} />
+        <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
+        <Route component={IncidentOverviewPage} />
+      </Switch>
+    </IncidentManagementContext.Provider>
   );
 };
 

@@ -2,11 +2,8 @@ import React, { useReducer, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import { connect, useDispatch } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import { useDispatch } from 'react-redux';
 
-import { dataListType } from 'shared/types';
 import configuration from 'shared/services/configuration/configuration';
 import History from 'components/History';
 import { useFetch, useEventEmitter } from 'hooks';
@@ -14,7 +11,6 @@ import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
-import { makeSelectDistricts } from 'signals/incident-management/selectors';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -66,7 +62,7 @@ const Preview = styled.div`
   z-index: 1;
 `;
 
-const IncidentDetail = ({ districts }) => {
+const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter();
   const storeDispatch = useDispatch();
   const { id } = useParams();
@@ -243,7 +239,7 @@ const IncidentDetail = ({ districts }) => {
 
       <StyledRow>
         <DetailContainer span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}>
-          <Detail attachments={state.attachments} districts={districts} />
+          <Detail attachments={state.attachments} />
 
           <AddNote />
 
@@ -278,16 +274,4 @@ const IncidentDetail = ({ districts }) => {
   );
 };
 
-IncidentDetail.propTypes = {
-  districts: dataListType,
-};
-
-/* istanbul ignore next */
-const mapStateToProps = () =>
-  createStructuredSelector({
-    districts: makeSelectDistricts,
-  });
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(IncidentDetail);
+export default IncidentDetail;

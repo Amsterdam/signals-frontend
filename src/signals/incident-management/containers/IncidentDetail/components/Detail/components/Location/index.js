@@ -4,7 +4,7 @@ import { themeSpacing } from '@datapunt/asc-ui';
 
 import configuration from 'shared/services/configuration/configuration';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-import { dataListType, locationType } from 'shared/types';
+import { locationType } from 'shared/types';
 import { stadsdeelList } from 'signals/incident-management/definitions';
 import MapStatic from 'components/MapStatic';
 
@@ -12,6 +12,7 @@ import HighLight from '../../../Highlight';
 import EditButton from '../../../EditButton';
 import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../../../context';
+import IncidentManagementContext from '../../../../../../context';
 
 const MapTile = styled.div`
   float: left;
@@ -41,7 +42,8 @@ const StyledHighLight = styled(HighLight)`
   }
 `;
 
-const Location = ({ districts, location }) => {
+const Location = ({ location }) => {
+  const { districts } = useContext(IncidentManagementContext);
   const { preview, edit } = useContext(IncidentDetailContext);
   const latitude = location?.geometrie?.coordinates[1];
   const longitude = location?.geometrie?.coordinates[0];
@@ -84,7 +86,7 @@ const Location = ({ districts, location }) => {
 
           {location.address_text ? (
             <div>
-              {configuration.useAreasInsteadOfStadsdeel && location.area_code && (
+              {configuration.useAreasInsteadOfStadsdeel && location.area_code && districts && (
                 <div data-testid="location-value-address-stadsdeel">
                   {configuration.language.district}: {getListValueByKey(districts, location.area_code)}
                 </div>
@@ -117,7 +119,6 @@ const Location = ({ districts, location }) => {
 };
 
 Location.propTypes = {
-  districts: dataListType,
   location: locationType.isRequired,
 };
 
