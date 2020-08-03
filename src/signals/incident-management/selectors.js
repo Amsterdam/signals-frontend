@@ -107,14 +107,16 @@ const filterParamsMap = {
   areaType: 'area_type',
 };
 const mapFilterParam = param => (filterParamsMap[param] ? filterParamsMap[param] : param);
+const orderingMap = {
+  days_open: '-created_at',
+  '-days_open': 'created_at',
+};
 
 export const makeSelectFilterParams = createSelector(selectIncidentManagementDomain, incidentManagementState => {
   const { activeFilter: filter, ordering, page } = incidentManagementState.toJS();
-  const orderingWithDaysOpen = ordering === 'days_open' ? '-created_at' : ordering;
-  const finalOrdering = orderingWithDaysOpen === '-days_open' ? 'created_at' : orderingWithDaysOpen;
   const pagingOptions = {
     page,
-    ordering: finalOrdering,
+    ordering: orderingMap[ordering] || ordering,
     page_size: FILTER_PAGE_SIZE,
   };
   const options = filter.options.area
