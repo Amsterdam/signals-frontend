@@ -8,7 +8,14 @@ import configuration from 'shared/services/configuration/configuration';
 
 import districts from 'utils/__tests__/fixtures/districts.json';
 
+import IncidentManagementContext from '../../../context';
+
 import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '..';
+
+const withContext = Component =>
+  withAppContext(
+    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+  );
 
 describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
@@ -29,7 +36,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   };
 
   it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<FilterTagList />));
+    const tree = mount(withContext(<FilterTagList />));
 
     const props = tree.find(FilterTagListComponent).props();
 
@@ -40,7 +47,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   describe('date formatting', () => {
     it('renders created before', () => {
       const { queryByText } = render(
-        withAppContext(
+        withContext(
           <FilterTagListComponent
             tags={{ ...tags, created_before: '2019-09-23' }}
             subCategories={subCategories}
@@ -56,7 +63,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('renders date after', () => {
       const { queryByText } = render(
-        withAppContext(
+        withContext(
           <FilterTagListComponent
             tags={{ ...tags, created_after: '2019-09-17' }}
             subCategories={subCategories}
@@ -72,7 +79,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('renders both date after and date before', () => {
       const { queryByText } = render(
-        withAppContext(
+        withContext(
           <FilterTagListComponent
             tags={{
               ...tags,
@@ -102,7 +109,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('shows an extra label when a tag is a main category', () => {
       const { rerender, queryByText } = render(
-        withAppContext(
+        withContext(
           <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={mainCategories} />
         )
       );
@@ -112,7 +119,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const tagsWithMainCat = { ...tags, maincategory_slug };
 
       rerender(
-        withAppContext(
+        withContext(
           <FilterTagListComponent
             tags={tagsWithMainCat}
             subCategories={subCategories}
@@ -126,7 +133,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('renders a list of tags', () => {
       const { queryAllByTestId, queryByText } = render(
-        withAppContext(
+        withContext(
           <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={mainCategories} />
         )
       );
@@ -148,13 +155,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
       const { stadsdeel, ...otherTags } = tags;
       const { queryAllByTestId, queryByText } = render(
-        withAppContext(
+        withContext(
           <FilterTagListComponent
             tags={{
               ...otherTags,
               area: [districts[0]],
             }}
-            districts={districts}
             subCategories={subCategories}
             mainCategories={mainCategories}
           />
@@ -182,7 +188,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       };
 
       const { queryByText } = render(
-        withAppContext(
+        withContext(
           <FilterTagListComponent tags={groupedTags} subCategories={subCategories} mainCategories={mainCategories} />
         )
       );
@@ -195,7 +201,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('renders no list when tags are undefined', () => {
       const { queryAllByTestId } = render(
-        withAppContext(<FilterTagListComponent subCategories={subCategories} mainCategories={mainCategories} />)
+        withContext(<FilterTagListComponent subCategories={subCategories} mainCategories={mainCategories} />)
       );
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(0);

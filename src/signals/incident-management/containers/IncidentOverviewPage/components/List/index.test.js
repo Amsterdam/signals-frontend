@@ -8,13 +8,18 @@ import districts from 'utils/__tests__/fixtures/districts.json';
 import incidents from 'utils/__tests__/fixtures/incidents.json';
 
 import List from '.';
+import IncidentManagementContext from '../../../../context';
+
+const withContext = Component =>
+  withAppContext(
+    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+  );
 
 describe('<List />', () => {
   let props;
 
   beforeEach(() => {
     props = {
-      districts,
       incidents,
       priority: priorityList,
       status: statusList,
@@ -24,7 +29,7 @@ describe('<List />', () => {
   });
 
   it('should render correctly', () => {
-    const { container } = render(withAppContext(<List {...props} />));
+    const { container } = render(withContext(<List {...props} />));
 
     expect(container.querySelector('tr th:nth-child(1)')).toHaveTextContent(/^Id$/);
     expect(container.querySelector('tr th:nth-child(2)')).toHaveTextContent(/^Dag$/);
@@ -53,7 +58,7 @@ describe('<List />', () => {
     configuration.useAreasInsteadOfStadsdeel = true;
     configuration.language.district = 'District';
 
-    const { container } = render(withAppContext(<List {...props} />));
+    const { container } = render(withContext(<List {...props} />));
 
     expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^District/);
     expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^North/);
@@ -62,7 +67,7 @@ describe('<List />', () => {
 
   describe('events', () => {
     it('should sort asc the incidents when the header is clicked', () => {
-      const { container } = render(withAppContext(<List {...props} sort="-created_at" />));
+      const { container } = render(withContext(<List {...props} sort="-created_at" />));
 
       expect(props.onChangeOrdering).not.toHaveBeenCalled();
 
@@ -72,7 +77,7 @@ describe('<List />', () => {
     });
 
     it('should sort desc the incidents when the header is clicked', () => {
-      const { container } = render(withAppContext(<List {...props} sort="created_at" />));
+      const { container } = render(withContext(<List {...props} sort="created_at" />));
 
       expect(props.onChangeOrdering).not.toHaveBeenCalled();
 
@@ -110,7 +115,7 @@ describe('<List />', () => {
       const listProps = { ...props };
       listProps.incidents = incidentList;
 
-      const { getAllByTestId } = render(withAppContext(<List {...listProps} />));
+      const { getAllByTestId } = render(withContext(<List {...listProps} />));
 
       const numCells = getAllByTestId('incidentDaysOpen').length;
 

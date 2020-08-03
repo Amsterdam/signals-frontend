@@ -58,7 +58,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     constants.FILTER_PAGE_SIZE = 50;
 
     props = {
-      districts: [],
       incidents: {
         count: 0,
         results: [],

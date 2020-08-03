@@ -14,8 +14,9 @@ import districts from 'utils/__tests__/fixtures/districts.json';
 import FilterForm from '..';
 import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
 
+import IncidentManagementContext from '../../../context';
+
 const formProps = {
-  districts,
   onClearFilter: () => {},
   onSaveFilter: () => {},
   categories,
@@ -29,10 +30,15 @@ jest.mock('models/categories/selectors', () => ({
   makeSelectStructuredCategories: () => require('utils/__tests__/fixtures/categories_structured.json'),
 }));
 
+const withContext = Component =>
+  withAppContext(
+    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+  );
+
 describe('signals/incident-management/components/FilterForm', () => {
   it('should render a name field', () => {
     const { getByTestId } = render(
-      withAppContext(<FilterForm {...formProps} filter={{ id: 1234, name: 'FooBar', options: {} }} />)
+      withContext(<FilterForm {...formProps} filter={{ id: 1234, name: 'FooBar', options: {} }} />)
     );
 
     expect(getByTestId('filterName')).toBeInTheDocument();
@@ -40,7 +46,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render filter fields', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="text"][name="name"]')).toHaveLength(1);
     expect(container.querySelectorAll('input[type="text"][name="address_text"]')).toHaveLength(1);
@@ -48,7 +54,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a refresh checkbox', async () => {
     const { findByTestId, unmount, rerender } = render(
-      withAppContext(<FilterForm {...formProps} filter={{ options: {} }} />)
+      withContext(<FilterForm {...formProps} filter={{ options: {} }} />)
     );
 
     const refreshCheckbox = await findByTestId('filterRefresh');
@@ -58,7 +64,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     unmount();
 
-    rerender(withAppContext(<FilterForm {...formProps} filter={{ options: {}, refresh: true }} />));
+    rerender(withContext(<FilterForm {...formProps} filter={{ options: {}, refresh: true }} />));
 
     const refreshCb = await findByTestId('filterRefresh');
 
@@ -67,7 +73,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should handle checking the refresh box', () => {
     const { container } = render(
-      withAppContext(<FilterForm {...formProps} filter={{ id: 1234, name: 'FooBar', options: {} }} />)
+      withContext(<FilterForm {...formProps} filter={{ id: 1234, name: 'FooBar', options: {} }} />)
     );
 
     act(() => {
@@ -85,7 +91,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a hidden id field', () => {
     const { container } = render(
-      withAppContext(<FilterForm {...formProps} filter={{ id: 1234, name: 'FooBar', options: {} }} />)
+      withContext(<FilterForm {...formProps} filter={{ id: 1234, name: 'FooBar', options: {} }} />)
     );
 
     expect(container.querySelectorAll('input[type="hidden"][name="id"]')).toHaveLength(1);
@@ -94,7 +100,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render groups of category checkboxes', () => {
-    const { getAllByTestId } = render(withAppContext(<FilterForm {...formProps} />));
+    const { getAllByTestId } = render(withContext(<FilterForm {...formProps} />));
 
     getAllByTestId('checkboxList').forEach(element => {
       expect(element).toBeInTheDocument();
@@ -102,15 +108,15 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should not rerender checkbox list group when state changes', () => {
-    const { rerender, queryByTestId } = render(withAppContext(<FilterForm {...formProps} />));
+    const { rerender, queryByTestId } = render(withContext(<FilterForm {...formProps} />));
 
     const firstRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
 
-    rerender(withAppContext(<FilterForm {...formProps} />));
+    rerender(withContext(<FilterForm {...formProps} />));
 
     const secondRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
 
-    rerender(withAppContext(<FilterForm {...formProps} />));
+    rerender(withContext(<FilterForm {...formProps} />));
 
     const thirdRenderId = queryByTestId('priorityCheckboxGroup').dataset.renderId;
 
@@ -119,25 +125,25 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of priority options', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="priority"]')).toHaveLength(priorityList.length);
   });
 
   it('should render a list of type options', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="type"]')).toHaveLength(typesList.length);
   });
 
   it('should render a list of status options', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="status"]')).toHaveLength(statusList.length);
   });
 
   it('should render a list of stadsdeel options', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="district"]')).toHaveLength(0);
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(stadsdeelList.length);
@@ -145,14 +151,14 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a list of district options with feature flag enabled', () => {
     configuration.useAreasInsteadOfStadsdeel = true;
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(0);
     expect(container.querySelectorAll('input[type="checkbox"][name="area"]')).toHaveLength(districts.length);
   });
 
   it('should render a list of contact options', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="contact_details"]')).toHaveLength(
       dataLists.contact_details.length
@@ -160,7 +166,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of feedback options', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="radio"][name="feedback"]')).toHaveLength(
       dataLists.feedback.length + 1
@@ -168,20 +174,20 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of source options', () => {
-    const { container } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(dataLists.source.length);
   });
 
   it('should render datepickers', () => {
-    render(withAppContext(<FilterForm {...formProps} />));
+    render(withContext(<FilterForm {...formProps} />));
 
     expect(document.getElementById('filter_created_before')).toBeInTheDocument();
     expect(document.getElementById('filter_created_after')).toBeInTheDocument();
   });
 
   it('should update the state on created before date select', () => {
-    render(withAppContext(<FilterForm {...formProps} />));
+    render(withContext(<FilterForm {...formProps} />));
 
     const value = '18-12-2018';
     const inputElement = document.getElementById('filter_created_before');
@@ -197,7 +203,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should update the state on created after date select', () => {
-    render(withAppContext(<FilterForm {...formProps} />));
+    render(withContext(<FilterForm {...formProps} />));
 
     const value = '23-12-2018';
     const inputElement = document.getElementById('filter_created_after');
@@ -218,7 +224,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should handle reset', async () => {
     const onClearFilter = jest.fn();
     const { container, findByTestId } = render(
-      withAppContext(<FilterForm {...formProps} onClearFilter={onClearFilter} />)
+      withContext(<FilterForm {...formProps} onClearFilter={onClearFilter} />)
     );
 
     const nameField = container.querySelector('input[type="text"][name="name"]');
@@ -269,7 +275,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should handle cancel', () => {
     const onCancel = jest.fn();
-    const { getByTestId } = render(withAppContext(<FilterForm {...formProps} onCancel={onCancel} />));
+    const { getByTestId } = render(withContext(<FilterForm {...formProps} onCancel={onCancel} />));
 
     fireEvent.click(getByTestId('cancelBtn'), new MouseEvent({ bubbles: true }));
 
@@ -278,7 +284,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should watch for changes in name field value', () => {
     const { container } = render(
-      withAppContext(<FilterForm {...formProps} filter={{ name: 'My saved filter', options: {} }} />)
+      withContext(<FilterForm {...formProps} filter={{ name: 'My saved filter', options: {} }} />)
     );
 
     const submitButton = container.querySelector('button[type="submit"]');
@@ -301,7 +307,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should watch for changes in address_text field value', async () => {
     const { container, findByTestId } = render(
-      withAppContext(
+      withContext(
         <FilterForm
           {...formProps}
           filter={{
@@ -328,7 +334,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should watch for changes in radio button lists', async () => {
-    const { container, findByTestId } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
 
     const priorityRadioButtons = container.querySelectorAll('input[type="radio"][name="feedback"]');
     const buttonInList = priorityRadioButtons[1];
@@ -344,7 +350,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should watch for changes in note_keyword field value', () => {
     const { container } = render(
-      withAppContext(
+      withContext(
         <FilterForm {...formProps} filter={{ name: 'My saved filter', options: { note_keyword: 'test123' } }} />
       )
     );
@@ -359,7 +365,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should watch for changes in radio button lists', async () => {
-    const { container, findByTestId } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
 
     const priorityRadioButtons = container.querySelectorAll('input[type="radio"][name="feedback"]');
     const buttonInList = priorityRadioButtons[1];
@@ -374,7 +380,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should watch for changes in checkbox lists', async () => {
-    const { container, findByTestId } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
 
     const sourceCheckboxes = container.querySelectorAll('input[type="checkbox"][name="source"]');
     const boxInList = sourceCheckboxes[1];
@@ -389,7 +395,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should watch for changes on checkbox list toggle', async () => {
-    const { container, findByTestId } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
 
     const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup');
     const toggle = sourceCheckboxGroup.querySelector('label').firstChild;
@@ -420,7 +426,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should watch for changes in category checkbox lists', async () => {
-    const { container, findByTestId } = render(withAppContext(<FilterForm {...formProps} />));
+    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
 
     const mainCategorySlug = 'afval';
     const checkboxes = container.querySelectorAll(`input[name="${mainCategorySlug}_category_slug"]`);
@@ -459,7 +465,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       };
 
       const { container } = render(
-        withAppContext(
+        withContext(
           <FilterForm
             {...{ ...formProps, ...handlers }}
             filter={{
@@ -501,7 +507,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       };
 
       const { container } = render(
-        withAppContext(
+        withContext(
           <FilterForm
             {...{ ...formProps, ...handlers }}
             filter={{

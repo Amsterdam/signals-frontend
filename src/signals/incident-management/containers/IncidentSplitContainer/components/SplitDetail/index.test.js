@@ -3,17 +3,23 @@ import { render } from '@testing-library/react';
 
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
+import { withAppContext } from 'test/utils';
 
 import districts from 'utils/__tests__/fixtures/districts.json';
 import incident from 'utils/__tests__/fixtures/incident.json';
 
 import SplitDetail from '.';
+import IncidentManagementContext from '../../../../context';
 
 jest.mock('shared/services/string-parser');
 
+const withContext = Component =>
+  withAppContext(
+    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+  );
+
 describe('<SplitDetail />', () => {
   const props = {
-    districts,
     incident,
     onPatchIncident: jest.fn(),
     onEditStatus: jest.fn(),
@@ -28,7 +34,7 @@ describe('<SplitDetail />', () => {
   describe('rendering', () => {
     it('should render correctly', () => {
       props.incident.category.departments = '';
-      const { queryByTestId, rerender } = render(<SplitDetail {...props} />);
+      const { queryByTestId, rerender } = render(withContext(<SplitDetail {...props} />));
 
       expect(queryByTestId('splitDetailTitleDate')).toHaveTextContent(/^Datum$/);
       expect(queryByTestId('splitDetailValueDate')).toHaveTextContent(/^14-01-1969$/);
@@ -80,7 +86,7 @@ describe('<SplitDetail />', () => {
       configuration.language.district = 'District';
       props.incident.category.departments = '';
 
-      const { queryByTestId } = render(<SplitDetail {...props} />);
+      const { queryByTestId } = render(withContext(<SplitDetail {...props} />));
 
       expect(queryByTestId('splitDetailTitleStadsdeel')).toHaveTextContent(/^District/);
       expect(queryByTestId('splitDetailValueStadsdeel')).toHaveTextContent(/^North/);

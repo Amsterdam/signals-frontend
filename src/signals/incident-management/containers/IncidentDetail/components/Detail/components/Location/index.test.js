@@ -6,6 +6,7 @@ import { withAppContext } from 'test/utils';
 import districts from 'utils/__tests__/fixtures/districts.json';
 
 import IncidentDetailContext from '../../../../context';
+import IncidentManagementContext from '../../../../../../context';
 
 import Location from '.';
 
@@ -40,9 +41,11 @@ const edit = jest.fn();
 
 const renderWithContext = (locationProps = props) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ preview, edit }}>
-      <Location {...locationProps} />
-    </IncidentDetailContext.Provider>
+    <IncidentManagementContext.Provider value={{ districts }}>
+      <IncidentDetailContext.Provider value={{ preview, edit }}>
+        <Location {...locationProps} />
+      </IncidentDetailContext.Provider>
+    </IncidentManagementContext.Provider>
   );
 
 describe('<Location />', () => {

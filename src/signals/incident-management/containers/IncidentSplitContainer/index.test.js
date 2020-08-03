@@ -52,7 +52,6 @@ describe('<IncidentSplitContainer />', () => {
     );
 
     const props = {
-      districts: [],
       onSplitIncident: jest.fn(),
       onGoBack: jest.fn(),
     };
