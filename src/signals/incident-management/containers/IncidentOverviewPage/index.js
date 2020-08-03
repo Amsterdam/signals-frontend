@@ -19,7 +19,6 @@ import MapContext from 'containers/MapContext';
 import dataLists from 'signals/incident-management/definitions';
 import useEventEmitter from 'hooks/useEventEmitter';
 import {
-  makeSelectDistricts,
   makeSelectActiveFilter,
   makeSelectIncidents,
   makeSelectOrdering,
@@ -38,7 +37,6 @@ let lastActiveElement = null;
 
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
-  districts,
   incidents,
   ordering,
   orderingChangedAction,
@@ -161,7 +159,6 @@ export const IncidentOverviewPageContainerComponent = ({
                 onChangeOrdering={orderingChangedAction}
                 sort={ordering}
                 incidentsCount={count}
-                districts={districts}
                 {...dataLists}
               />
             )}
@@ -196,7 +193,6 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
-  districts: types.dataListType,
   incidents: PropTypes.shape({
     count: PropTypes.number,
     loading: PropTypes.bool,
@@ -210,7 +206,6 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   activeFilter: makeSelectActiveFilter,
-  districts: makeSelectDistricts,
   incidents: makeSelectIncidents,
   ordering: makeSelectOrdering,
   page: makeSelectPage,
