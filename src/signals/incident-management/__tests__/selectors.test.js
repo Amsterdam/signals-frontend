@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable';
+import configuration from 'shared/services/configuration/configuration';
 import { mainCategories as maincategory_slug, subCategories as category_slug } from 'utils/__tests__/fixtures';
 import {
   makeSelectDistricts,
@@ -52,6 +53,18 @@ const filters = [
     },
     name: 'Foo Bar',
   },
+  {
+    _links: {
+      self: {
+        href: 'https://signals/v1/private/me/filters/222',
+      },
+    },
+    id: 222,
+    options: {
+      area: ['north'],
+    },
+    name: 'Foo Bar',
+  },
 ];
 
 const districts = [
@@ -88,6 +101,12 @@ describe('signals/incident-management/selectors', () => {
     expect(result[0]).toMatchObject(selectedDistricts[0]);
     expect(result[1]).toMatchObject(selectedDistricts[1]);
     expect(result[2]).toMatchObject(selectedDistricts[2]);
+  });
+
+  it('should return null without districts', () => {
+    const result = makeSelectDistricts.resultFunc(initialState);
+
+    expect(result).toBeNull();
   });
 
   it('should select all filters', () => {
@@ -206,6 +225,21 @@ describe('signals/incident-management/selectors', () => {
         ordering: '-created_at',
         page: 1,
         stadsdeel: ['B', 'E'],
+        page_size: FILTER_PAGE_SIZE,
+      });
+    });
+
+    it('should select filter params for area', () => {
+      configuration.areaTypeCodeForDistrict = 'district';
+      const state = fromJS({
+        incidentManagement: { ...initialState.toJS(), activeFilter: filters[3] },
+      });
+
+      expect(makeSelectFilterParams(state)).toEqual({
+        ordering: '-created_at',
+        page: 1,
+        area_code: ['north'],
+        area_type: 'district',
         page_size: FILTER_PAGE_SIZE,
       });
     });
