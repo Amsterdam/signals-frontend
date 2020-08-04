@@ -20,14 +20,9 @@ import watchAppSaga, {
   uploadFileWrapper,
   uploadFile,
   callSearchIncidents,
+  fetchSources,
 } from './saga';
-import {
-  LOGIN,
-  LOGOUT,
-  AUTHENTICATE_USER,
-  UPLOAD_REQUEST,
-  SET_SEARCH_QUERY,
-} from './constants';
+import { LOGIN, LOGOUT, AUTHENTICATE_USER, UPLOAD_REQUEST, SET_SEARCH_QUERY, GET_SOURCES } from './constants';
 import {
   loginFailed,
   logoutFailed,
@@ -36,11 +31,11 @@ import {
   uploadProgress,
   uploadSuccess,
   uploadFailure,
+  getSourcesFailed,
+  getSourcesSuccess,
 } from './actions';
 
-jest.mock(
-  'shared/services/auth/services/random-string-generator/random-string-generator'
-);
+jest.mock('shared/services/auth/services/random-string-generator/random-string-generator');
 jest.mock('shared/services/api/api');
 jest.mock('shared/services/map-categories');
 jest.mock('shared/services/file-upload-channel');
@@ -59,9 +54,7 @@ describe('containers/App/saga', () => {
   let origLocalStorage;
 
   beforeEach(() => {
-    randomStringGenerator.mockImplementation(
-      () => 'n8vd9fv528934n797cv342bj3h56'
-    );
+    randomStringGenerator.mockImplementation(() => 'n8vd9fv528934n797cv342bj3h56');
     global.window.open = jest.fn();
     origLocalStorage = global.localStorage;
     global.localStorage = {
@@ -94,6 +87,7 @@ describe('containers/App/saga', () => {
         takeLatest(AUTHENTICATE_USER, callAuthorize),
         takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
         takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
+        takeLatest(GET_SOURCES, fetchSources),
       ])
       .next()
       .isDone();
@@ -105,11 +99,7 @@ describe('containers/App/saga', () => {
     it('should dispatch success', () => {
       const action = { payload };
 
-      testSaga(callLogin, action)
-        .next()
-        .call(login, payload)
-        .next()
-        .isDone();
+      testSaga(callLogin, action).next().call(login, payload).next().isDone();
     });
 
     it('should dispatch error', () => {
@@ -119,9 +109,7 @@ describe('containers/App/saga', () => {
 
       return expectSaga(callLogin, action)
         .call(login, payload)
-        .put(
-          loginFailed('crypto library is not available on the current browser')
-        )
+        .put(loginFailed('crypto library is not available on the current browser'))
         .put(
           showGlobalNotification({
             variant: VARIANT_ERROR,
@@ -135,13 +123,7 @@ describe('containers/App/saga', () => {
 
   describe('logout', () => {
     it('should dispatch success', () => {
-      testSaga(callLogout)
-        .next()
-        .call(logout)
-        .next()
-        .put(push('/login'))
-        .next()
-        .isDone();
+      testSaga(callLogout).next().call(logout).next().put(push('/login')).next().isDone();
     });
 
     it('should grip success', () => {
@@ -155,19 +137,14 @@ describe('containers/App/saga', () => {
       });
 
       testSaga(callLogout).next();
-      expect(window.open).toHaveBeenCalledWith(
-        'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t',
-        '_blank'
-      );
+      expect(window.open).toHaveBeenCalledWith('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank');
     });
 
     it('should dispatch error', () => {
       const message = 'no remove';
-      jest
-        .spyOn(global.localStorage, 'removeItem')
-        .mockImplementationOnce(() => {
-          throw new Error(message);
-        });
+      jest.spyOn(global.localStorage, 'removeItem').mockImplementationOnce(() => {
+        throw new Error(message);
+      });
 
       return expectSaga(callLogout)
         .call(logout)
@@ -202,12 +179,7 @@ describe('containers/App/saga', () => {
 
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), userJson]])
-        .call(
-          authCall,
-          CONFIGURATION.AUTH_ME_ENDPOINT,
-          null,
-          payload.accessToken
-        )
+        .call(authCall, CONFIGURATION.AUTH_ME_ENDPOINT, null, payload.accessToken)
         .put(authorizeUser(userJson))
         .run();
     });
@@ -215,9 +187,7 @@ describe('containers/App/saga', () => {
     it('should fail without message when accessToken is not available', () => {
       const action = { payload: {} };
 
-      return expectSaga(callAuthorize, action)
-        .not.call(authCall)
-        .run();
+      return expectSaga(callAuthorize, action).not.call(authCall).run();
     });
 
     it('should dispatch error when authorization has failed', async () => {
@@ -280,12 +250,7 @@ describe('containers/App/saga', () => {
 
     it('should success', () => {
       expect(gen.next().value).toEqual(
-        call(
-          fileUploadChannel,
-          CONFIGURATION.IMAGE_ENDPOINT,
-          { name: 'image.jpg' },
-          666
-        )
+        call(fileUploadChannel, CONFIGURATION.IMAGE_ENDPOINT, { name: 'image.jpg' }, 666)
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
 
@@ -311,12 +276,7 @@ describe('containers/App/saga', () => {
 
     it('should fail', () => {
       expect(gen.next().value).toEqual(
-        call(
-          fileUploadChannel,
-          CONFIGURATION.IMAGE_ENDPOINT,
-          { name: 'image.jpg' },
-          666
-        )
+        call(fileUploadChannel, CONFIGURATION.IMAGE_ENDPOINT, { name: 'image.jpg' }, 666)
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
 
@@ -353,6 +313,33 @@ describe('containers/App/saga', () => {
     it('should navigate to the manage/incidents', () => {
       const gen = callSearchIncidents();
       expect(gen.next().value).toEqual(put(push('/manage/incidents'))); // eslint-disable-line redux-saga/yield-effects
+    });
+  });
+
+  describe('fetch sources', () => {
+    it('should dispatch getSourcesSuccess', () => {
+      const sources = { results: [{ a: 1 }] };
+
+      testSaga(fetchSources)
+        .next()
+        .call(authCall, CONFIGURATION.SOURCES_ENDPOINT)
+        .next(sources)
+        .put(getSourcesSuccess(sources.results))
+        .next()
+        .isDone();
+    });
+
+    it('should dispatch getSourcesFailed', () => {
+      const message = '404 not found';
+      const error = new Error(message);
+
+      testSaga(fetchSources)
+        .next()
+        .call(authCall, CONFIGURATION.SOURCES_ENDPOINT)
+        .throw(error)
+        .put(getSourcesFailed(message))
+        .next()
+        .isDone();
     });
   });
 });

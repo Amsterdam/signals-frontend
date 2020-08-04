@@ -24,7 +24,6 @@ describe('signals/incident-management', () => {
       fetchCategoriesAction: jest.fn(),
       getDistrictsAction: jest.fn(),
       getFiltersAction: jest.fn(),
-      getSourcesAction: jest.fn(),
       requestIncidentsAction: jest.fn(),
       searchIncidentsAction: jest.fn(),
     };
@@ -48,9 +47,6 @@ describe('signals/incident-management', () => {
 
     expect(containerProps.getFiltersAction).toBeDefined();
     expect(typeof containerProps.getFiltersAction).toEqual('function');
-
-    expect(containerProps.getSourcesAction).toBeDefined();
-    expect(typeof containerProps.getSourcesAction).toEqual('function');
 
     expect(containerProps.requestIncidentsAction).toBeDefined();
     expect(typeof containerProps.requestIncidentsAction).toEqual('function');
@@ -118,36 +114,6 @@ describe('signals/incident-management', () => {
       render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(props.getFiltersAction).toHaveBeenCalledTimes(1);
-    });
-
-    it('should not request sources on mount by default', () => {
-      isAuthenticated.mockImplementation(() => false);
-
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
-
-      expect(props.getSourcesAction).not.toHaveBeenCalled();
-
-      isAuthenticated.mockImplementation(() => true);
-
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
-
-      expect(props.getSourcesAction).not.toHaveBeenCalled();
-    });
-
-    it('should request sources on mount with feature flag enabled', () => {
-      configuration.fetchSourcesFromBackend = true;
-
-      isAuthenticated.mockImplementation(() => false);
-
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
-
-      expect(props.getSourcesAction).not.toHaveBeenCalled();
-
-      isAuthenticated.mockImplementation(() => true);
-
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
-
-      expect(props.getSourcesAction).toHaveBeenCalledTimes(1);
     });
 
     it('should request categories on mount', () => {

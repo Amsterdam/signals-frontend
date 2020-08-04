@@ -22,6 +22,7 @@ import CategoryGroups from './components/CategoryGroups';
 import CheckboxGroup from './components/CheckboxGroup';
 import RadioGroup from './components/RadioGroup';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
+import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
 
 import {
@@ -43,7 +44,8 @@ import reducer, { init } from './reducer';
  * Component that renders the incident filter form
  */
 const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
-  const { districts, sources } = useContext(IncidentManagementContext);
+  const { sources } = useContext(AppContext);
+  const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
 
   const [state, dispatch] = useReducer(reducer, filter, init);

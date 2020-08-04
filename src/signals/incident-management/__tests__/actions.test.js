@@ -22,24 +22,6 @@ describe('signals/incident-management/actions', () => {
     testActionCreator(actions.getDistricts, constants.GET_DISTRICTS);
   });
 
-  it('should dispatch getSourcesSuccess action', () => {
-    const foo = 'bar';
-    const payload = { foo };
-
-    testActionCreator(actions.getSourcesSuccess, constants.GET_SOURCES_SUCCESS, payload);
-  });
-
-  it('should dispatch getSourcesFailed action', () => {
-    const foo = 'bar';
-    const payload = { foo };
-
-    testActionCreator(actions.getSourcesFailed, constants.GET_SOURCES_FAILED, payload);
-  });
-
-  it('should dispatch getSources action', () => {
-    testActionCreator(actions.getSources, constants.GET_SOURCES);
-  });
-
   it('should dispatch getFiltersSuccess action', () => {
     const foo = 'bar';
     const payload = { foo };

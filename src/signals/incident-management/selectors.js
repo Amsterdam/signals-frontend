@@ -5,6 +5,7 @@ import { makeSelectMainCategories, makeSelectSubCategories } from 'models/catego
 import configuration from 'shared/services/configuration/configuration';
 
 import { createSelector } from 'reselect';
+import { makeSelectSources } from '../../containers/App/selectors';
 import { initialState } from './reducer';
 import { FILTER_PAGE_SIZE } from './constants';
 
@@ -24,16 +25,6 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
         value: district.name,
       }))
     : null
-);
-
-export const makeSelectSources = createSelector([selectIncidentManagementDomain], stateMap =>
-  stateMap
-    .get('sources')
-    .toJS()
-    .map(source => ({
-      key: String(source.id),
-      value: source.name,
-    }))
 );
 
 export const makeSelectAllFilters = createSelector(

@@ -4,7 +4,6 @@ import { mainCategories as maincategory_slug, subCategories as category_slug } f
 import {
   makeSelectDistricts,
   makeSelectFilterParams,
-  makeSelectSources,
   makeSelectAllFilters,
   makeSelectActiveFilter,
   makeSelectEditFilter,
@@ -93,16 +92,6 @@ const selectedDistricts = [
   },
 ];
 
-const sources = [
-  {
-    id: 1,
-    name: 'Source1',
-  },
-  {
-    id: 2,
-    name: 'Source2',
-  },
-];
 const selectedSources = [
   {
     key: '1',
@@ -129,15 +118,6 @@ describe('signals/incident-management/selectors', () => {
     const result = makeSelectDistricts.resultFunc(initialState);
 
     expect(result).toBeNull();
-  });
-
-  it('should select sources', () => {
-    const state = fromJS({ ...initialState.toJS(), sources });
-    const result = makeSelectSources.resultFunc(state);
-
-    expect(result.length).toEqual(sources.length);
-    expect(result[0]).toMatchObject(selectedSources[0]);
-    expect(result[1]).toMatchObject(selectedSources[1]);
   });
 
   it('should select all filters', () => {
@@ -282,7 +262,7 @@ describe('signals/incident-management/selectors', () => {
         ordering: '-created_at',
         page: 1,
         area_code: ['north'],
-        area_type: 'district',
+        area_type_code: 'district',
         page_size: FILTER_PAGE_SIZE,
       });
     });

@@ -5,8 +5,6 @@ import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 import {
   GET_DISTRICTS_FAILED,
   GET_DISTRICTS_SUCCESS,
-  GET_SOURCES_FAILED,
-  GET_SOURCES_SUCCESS,
   APPLY_FILTER,
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
@@ -34,7 +32,6 @@ export const initialState = fromJS({
     options: {},
   },
   districts: [],
-  sources: [],
   editFilter: {
     // settings selected for editing
     name: '',
@@ -49,7 +46,6 @@ export const initialState = fromJS({
   loadingDistricts: false,
   loadingFilters: false,
   loadingIncidents: false,
-  loadingSources: false,
   ordering: '-created_at',
   page: 1,
 });
@@ -59,8 +55,7 @@ const updateLoading = state =>
     'loading',
     state.get('loadingDistricts') ||
       state.get('loadingFilters') ||
-      state.get('loadingIncidents') ||
-      state.get('loadingSources')
+      state.get('loadingIncidents')
   );
 
 export default (state = initialState, action) => {
@@ -73,12 +68,6 @@ export default (state = initialState, action) => {
 
     case GET_DISTRICTS_FAILED:
       return updateLoading(state.set('loadingDistricts', false).set('error', true).set('errorMessage', action.payload));
-
-    case GET_SOURCES_SUCCESS:
-      return updateLoading(state.set('sources', fromJS(action.payload)).set('loadingSources', false));
-
-    case GET_SOURCES_FAILED:
-      return updateLoading(state.set('loadingSources', false).set('error', true).set('errorMessage', action.payload));
 
     case GET_FILTERS_SUCCESS:
       return updateLoading(state.set('filters', fromJS(action.payload)).set('loadingFilters', false));

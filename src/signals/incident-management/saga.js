@@ -20,8 +20,6 @@ import {
   getFilters,
   getFiltersFailed,
   getFiltersSuccess,
-  getSourcesFailed,
-  getSourcesSuccess,
   removeFilterFailed,
   removeFilterSuccess,
   requestIncidents,
@@ -37,7 +35,6 @@ import {
   APPLY_FILTER,
   GET_DISTRICTS,
   GET_FILTERS,
-  GET_SOURCES,
   ORDERING_CHANGED,
   PAGE_CHANGED,
   REMOVE_FILTER,
@@ -140,16 +137,6 @@ export function* fetchDistricts() {
   }
 }
 
-export function* fetchSources() {
-  try {
-    const result = yield call(authCall, CONFIGURATION.SOURCES_ENDPOINT);
-
-    yield put(getSourcesSuccess(result.results));
-  } catch (error) {
-    yield put(getSourcesFailed(error.message));
-  }
-}
-
 export function* fetchFilters() {
   try {
     const result = yield call(authCall, CONFIGURATION.FILTERS_ENDPOINT);
@@ -228,7 +215,6 @@ export function* updateFilter(action) {
 export default function* watchIncidentManagementSaga() {
   yield all([
     takeLatest(GET_DISTRICTS, fetchDistricts),
-    takeLatest(GET_SOURCES, fetchSources),
     takeLatest(GET_FILTERS, fetchFilters),
     takeLatest(REMOVE_FILTER, removeFilter),
     takeLatest(SAVE_FILTER, saveFilter),

@@ -16,6 +16,8 @@ import {
   UPLOAD_FAILURE,
   SET_SEARCH_QUERY,
   RESET_SEARCH_QUERY,
+  GET_SOURCES_FAILED,
+  GET_SOURCES_SUCCESS,
 } from './constants';
 
 // The initial state of the App
@@ -35,6 +37,8 @@ export const initialState = fromJS({
     type: TYPE_DEFAULT,
   },
   searchQuery: '',
+  sources: [],
+  loadingSources: false,
 });
 
 function appReducer(state = initialState, action) {
@@ -83,6 +87,12 @@ function appReducer(state = initialState, action) {
     case RESET_SEARCH_QUERY:
     case APPLY_FILTER:
       return state.set('searchQuery', initialState.get('searchQuery'));
+
+    case GET_SOURCES_SUCCESS:
+      return state.set('sources', fromJS(action.payload)).set('loadingSources', false);
+
+    case GET_SOURCES_FAILED:
+      return state.set('loadingSources', false).set('error', true).set('errorMessage', action.payload);
 
     default:
       return state;

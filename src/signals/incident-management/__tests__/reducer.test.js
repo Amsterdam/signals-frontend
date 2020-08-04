@@ -10,8 +10,6 @@ import {
   GET_DISTRICTS_SUCCESS,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
-  GET_SOURCES_FAILED,
-  GET_SOURCES_SUCCESS,
   ORDERING_CHANGED,
   PAGE_CHANGED,
   REMOVE_FILTER_SUCCESS,
@@ -72,17 +70,6 @@ const districts = [
   },
   {
     code: 'B',
-  },
-];
-
-const sources = [
-  {
-    id: 1,
-    name: 'Source1',
-  },
-  {
-    id: 2,
-    name: 'Source2',
   },
 ];
 
@@ -161,31 +148,6 @@ describe('signals/incident-management/reducer', () => {
 
     expect(reducer(initialState, getDistrictsFailed)).toEqual(applied(initialState));
     expect(reducer(intermediateState, getDistrictsFailed)).toEqual(applied(intermediateState));
-  });
-
-  it('should handle GET_SOURCES_SUCCESS', () => {
-    const getSourcesSuccess = {
-      type: GET_SOURCES_SUCCESS,
-      payload: sources,
-    };
-
-    const applied = state => state.set('loading', false).set('sources', fromJS(sources));
-
-    expect(reducer(initialState, getSourcesSuccess)).toEqual(applied(initialState));
-    expect(reducer(intermediateState, getSourcesSuccess)).toEqual(applied(intermediateState));
-  });
-
-  it('should handle GET_SOURCES_FAILED', () => {
-    const message = 'Could not retrieve!';
-    const getSourcesFailed = {
-      type: GET_SOURCES_FAILED,
-      payload: message,
-    };
-
-    const applied = state => state.set('loading', false).set('error', true).set('errorMessage', message);
-
-    expect(reducer(initialState, getSourcesFailed)).toEqual(applied(initialState));
-    expect(reducer(intermediateState, getSourcesFailed)).toEqual(applied(intermediateState));
   });
 
   it('should handle GET_FILTERS_SUCCESS', () => {

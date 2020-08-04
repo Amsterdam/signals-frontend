@@ -11,6 +11,7 @@ import dataLists from 'signals/incident-management/definitions';
 import configuration from 'shared/services/configuration/configuration';
 import { dataListType, filterType } from 'shared/types';
 
+import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
 
 const FilterWrapper = styled.div`
@@ -80,7 +81,8 @@ const renderTag = (key, mainCategories, list) => {
 
 export const FilterTagListComponent = props => {
   const { tags, mainCategories, subCategories } = props;
-  const { districts, sources } = useContext(IncidentManagementContext);
+  const { sources } = useContext(AppContext);
+  const { districts } = useContext(IncidentManagementContext);
 
   const map = {
     ...dataLists,
