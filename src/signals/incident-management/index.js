@@ -25,7 +25,7 @@ import IncidentManagementContext from './context';
 import reducer from './reducer';
 import saga from './saga';
 import routes from './routes';
-import { makeSelectDistricts } from './selectors';
+import { makeSelectDistricts, makeSelectSources } from './selectors';
 
 export const IncidentManagementModuleComponent = ({
   fetchCategoriesAction,
@@ -38,6 +38,7 @@ export const IncidentManagementModuleComponent = ({
 }) => {
   const location = useLocationReferrer();
   const districts = useSelector(makeSelectDistricts);
+  const sources = useSelector(makeSelectSources);
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -67,7 +68,7 @@ export const IncidentManagementModuleComponent = ({
   }
 
   return (
-    <IncidentManagementContext.Provider value={{ districts }}>
+    <IncidentManagementContext.Provider value={{ districts, sources }}>
       <Switch location={location}>
         <Route exact path={routes.incidents} component={IncidentOverviewPage} />
         <Route exact path={routes.incident} component={IncidentDetail} />

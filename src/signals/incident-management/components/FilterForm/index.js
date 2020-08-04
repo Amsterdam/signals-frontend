@@ -10,7 +10,7 @@ import configuration from 'shared/services/configuration/configuration';
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
-import * as types from 'shared/types';
+import { filterType } from 'shared/types';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
@@ -42,8 +42,8 @@ import reducer, { init } from './reducer';
 /**
  * Component that renders the incident filter form
  */
-const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter, sources }) => {
-  const { districts } = useContext(IncidentManagementContext);
+const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
+  const { districts, sources } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
 
   const [state, dispatch] = useReducer(reducer, filter, init);
@@ -455,7 +455,7 @@ FilterForm.defaultProps = {
 };
 
 FilterForm.propTypes = {
-  filter: types.filterType,
+  filter: filterType,
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */
@@ -470,7 +470,6 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
-  sources: types.dataListType,
 };
 
 export default FilterForm;

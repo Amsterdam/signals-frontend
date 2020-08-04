@@ -8,9 +8,8 @@ import format from 'date-fns/format';
 
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
-import { makeSelectSources } from 'signals/incident-management/selectors';
 import configuration from 'shared/services/configuration/configuration';
-import * as types from 'shared/types';
+import { dataListType, filterType } from 'shared/types';
 
 import IncidentManagementContext from '../../context';
 
@@ -80,8 +79,8 @@ const renderTag = (key, mainCategories, list) => {
 };
 
 export const FilterTagListComponent = props => {
-  const { sources, tags, mainCategories, subCategories } = props;
-  const { districts } = useContext(IncidentManagementContext);
+  const { tags, mainCategories, subCategories } = props;
+  const { districts, sources } = useContext(IncidentManagementContext);
 
   const map = {
     ...dataLists,
@@ -126,10 +125,9 @@ export const FilterTagListComponent = props => {
 };
 
 FilterTagListComponent.propTypes = {
-  tags: types.filterType,
-  sources: types.dataListType,
-  mainCategories: types.dataListType,
-  subCategories: types.dataListType,
+  tags: filterType,
+  mainCategories: dataListType,
+  subCategories: dataListType,
 };
 
 FilterTagListComponent.defaultProps = {
@@ -137,7 +135,6 @@ FilterTagListComponent.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  sources: makeSelectSources,
   mainCategories: makeSelectMainCategories,
   subCategories: makeSelectSubCategories,
 });

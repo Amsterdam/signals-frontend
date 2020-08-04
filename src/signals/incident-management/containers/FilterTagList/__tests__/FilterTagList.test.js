@@ -17,7 +17,7 @@ jest.mock('shared/services/configuration/configuration');
 
 const withContext = Component =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+    <IncidentManagementContext.Provider value={{ districts, sources }}>{Component}</IncidentManagementContext.Provider>
   );
 
 describe('signals/incident-management/containers/FilterTagList', () => {
@@ -197,7 +197,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
               ...tags,
               source: [sources[0]],
             }}
-            sources={sources}
             subCategories={subCategories}
             mainCategories={mainCategories}
           />

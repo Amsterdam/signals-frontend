@@ -22,7 +22,6 @@ const formProps = {
   onSaveFilter: () => {},
   categories,
   onSubmit: () => {},
-  sources,
 };
 
 jest.mock('models/categories/selectors', () => ({
@@ -34,7 +33,7 @@ jest.mock('models/categories/selectors', () => ({
 
 const withContext = Component =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+    <IncidentManagementContext.Provider value={{ districts, sources }}>{Component}</IncidentManagementContext.Provider>
   );
 
 describe('signals/incident-management/components/FilterForm', () => {
