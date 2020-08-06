@@ -1,41 +1,26 @@
 import some from 'lodash.some';
+import memoize from 'lodash/memoize';
 import { Validators } from 'react-reactive-form';
-import { sourceList, priorityList, typesList } from 'signals/incident-management/definitions';
+import { priorityList, typesList } from 'signals/incident-management/definitions';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/checkVisibility';
 import getStepControls from '../services/get-step-controls';
 
-const sourceValuesObj = sourceList.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), { '': 'Vul bron in' });
 const priorityValuesList = priorityList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
 const typesValuesList = typesList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
+const reduceSources = sources =>
+  sources.reduce((acc, { value }) => ({ ...acc, [value]: value }), { '': 'Vul bron in' });
 
-export default {
-  label: 'Beschrijf uw melding',
-  getNextStep: (wizard, incident) => {
-    if (
-      !some(getStepControls(wizard.vulaan, incident), control => {
-        if (control.meta && !control.meta.ignoreVisibility) {
-          return checkVisibility(control, incident);
-        }
-        return false;
-      })
-    ) {
-      return 'incident/telefoon';
-    }
-    return false;
-  },
-  nextButtonLabel: 'Volgende',
-  nextButtonClass: 'action primary arrow-right',
-  postponeSubmitWhenLoading: 'incidentContainer.loadingClassification',
-  form: {
+const getControls = memoize(
+  sources => ({
     controls: {
       source: {
         meta: {
           className: 'col-sm-12 col-md-6',
           label: 'Hoe komt de melding binnen?',
           path: 'source',
-          values: sourceValuesObj,
+          values: reduceSources(sources),
         },
         options: {
           validators: [Validators.required],
@@ -173,5 +158,27 @@ export default {
         render: IncidentNavigation,
       },
     },
+  }),
+  () => ''
+);
+
+export default {
+  label: 'Beschrijf uw melding',
+  getNextStep: (wizard, incident) => {
+    if (
+      !some(getStepControls(wizard.vulaan, incident), control => {
+        if (control.meta && !control.meta.ignoreVisibility) {
+          return checkVisibility(control, incident);
+        }
+        return false;
+      })
+    ) {
+      return 'incident/telefoon';
+    }
+    return false;
   },
+  nextButtonLabel: 'Volgende',
+  nextButtonClass: 'action primary arrow-right',
+  postponeSubmitWhenLoading: 'incidentContainer.loadingClassification',
+  formFactory: (incident, sources) => getControls(sources),
 };
