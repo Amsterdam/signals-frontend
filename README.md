@@ -54,7 +54,9 @@ HTTPS=true npm run start:prod
 
 ## Deployment
 
-Pre-build images of the Signalen frontend are available on [DockerHub](https://hub.docker.com/r/signalen/frontend). To build a Docker image locally use:
+We provide [Helm charts](https://github.com/signalen/helm-charts) for production deployments of the Signalen stack on Kubernetes.
+
+Pre-build images of the Signalen frontend are available on [DockerHub](https://hub.docker.com/r/signalen/frontend). To build the frontend Docker image locally use:
 
 ```bash
 docker build -t signalen/frontend .
