@@ -124,6 +124,16 @@ export function* callSearchIncidents() {
   yield put(push('/manage/incidents'));
 }
 
+export function* fetchSources() {
+  try {
+    const result = yield call(authCall, CONFIGURATION.SOURCES_ENDPOINT);
+
+    yield put(getSourcesSuccess(result.results));
+  } catch (error) {
+    yield put(getSourcesFailed(error.message));
+  }
+}
+
 export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGIN, callLogin),
@@ -133,14 +143,4 @@ export default function* watchAppSaga() {
     takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
     takeLatest(GET_SOURCES, fetchSources),
   ]);
-}
-
-export function* fetchSources() {
-  try {
-    const result = yield call(authCall, CONFIGURATION.SOURCES_ENDPOINT);
-
-    yield put(getSourcesSuccess(result.results));
-  } catch (error) {
-    yield put(getSourcesFailed(error.message));
-  }
 }

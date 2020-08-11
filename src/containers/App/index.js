@@ -27,7 +27,7 @@ import { getSources } from './actions';
 import AppContext from './context';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectSources } from './selectors';
+import { makeSelectLoading, makeSelectSources } from './selectors';
 
 const FooterContainer = styled.div`
   margin: 0 auto;
@@ -48,6 +48,7 @@ const ContentContainer = styled.div`
 `;
 
 export const AppContainer = ({ resetIncidentAction, getSourcesAction }) => {
+  const loading = useSelector(makeSelectLoading());
   const sources = useSelector(makeSelectSources);
   const history = useHistory();
   const location = useLocationReferrer();
@@ -88,7 +89,7 @@ export const AppContainer = ({ resetIncidentAction, getSourcesAction }) => {
 
   return (
     <ThemeProvider>
-      <AppContext.Provider value={{ sources }}>
+      <AppContext.Provider value={{ loading, sources }}>
         <Fragment>
           <SiteHeaderContainer />
 

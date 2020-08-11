@@ -25,8 +25,8 @@ const sources = [
     value: 'Source 2',
   },
 ];
-const withContext = (Component, actualSources = null) =>
-  withAppContext(<AppContext.Provider value={{ sources: actualSources }}>{Component}</AppContext.Provider>);
+const withContext = (Component, actualSources = null, loading = false) =>
+  withAppContext(<AppContext.Provider value={{ sources: actualSources, loading }}>{Component}</AppContext.Provider>);
 
 describe('<IncidentWizard />', () => {
   const props = {
@@ -120,12 +120,30 @@ describe('<IncidentWizard />', () => {
       configuration.fetchSourcesFromBackend = true;
     });
 
-    it('should render loading without sources', () => {
-      const { queryByTestId } = render(withContext(<IncidentWizard {...props} />));
+    it('should render loading when App loading', () => {
+      const { queryByTestId } = render(withContext(<IncidentWizard {...props} />, null, true));
 
       expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
       expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
       expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+    });
+
+    it('should work without sources (not authorized)', () => {
+      const propsWithForm = {
+        ...props,
+        wizardDefinition: {
+          beschrijf: {
+            form: {
+              controls: {},
+            },
+          },
+        },
+      };
+      const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithForm} />));
+
+      expect(queryByTestId('incidentForm')).toBeInTheDocument();
+      expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
+      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     });
 
     it('should pass the sources to the formFactory', () => {

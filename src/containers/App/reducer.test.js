@@ -16,6 +16,7 @@ import {
   UPLOAD_SUCCESS,
   SET_SEARCH_QUERY,
   RESET_SEARCH_QUERY,
+  GET_SOURCES,
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
 } from './constants';
@@ -258,13 +259,23 @@ describe('containers/App/reducer', () => {
     expect(appReducer(otherState, applyFilter)).toEqual(applied(initialState));
   });
 
+  it('should handle GET_SOURCES', () => {
+    const getSources = {
+      type: GET_SOURCES,
+    };
+
+    const applied = state => state.set('loading', true);
+
+    expect(appReducer(initialState, getSources)).toEqual(applied(initialState));
+  });
+
   it('should handle GET_SOURCES_SUCCESS', () => {
     const getSourcesSuccess = {
       type: GET_SOURCES_SUCCESS,
       payload: sources,
     };
 
-    const applied = state => state.set('loadingSources', false).set('sources', fromJS(sources));
+    const applied = state => state.set('loading', false).set('sources', fromJS(sources));
 
     expect(appReducer(initialState, getSourcesSuccess)).toEqual(applied(initialState));
   });
@@ -276,7 +287,7 @@ describe('containers/App/reducer', () => {
       payload: message,
     };
 
-    const applied = state => state.set('loadingSources', false).set('error', true).set('errorMessage', message);
+    const applied = state => state.set('loading', false).set('error', true).set('errorMessage', message);
 
     expect(appReducer(initialState, getSourcesFailed)).toEqual(applied(initialState));
   });

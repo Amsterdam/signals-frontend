@@ -16,6 +16,7 @@ import {
   UPLOAD_FAILURE,
   SET_SEARCH_QUERY,
   RESET_SEARCH_QUERY,
+  GET_SOURCES,
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
 } from './constants';
@@ -38,7 +39,6 @@ export const initialState = fromJS({
   },
   searchQuery: '',
   sources: [],
-  loadingSources: false,
 });
 
 function appReducer(state = initialState, action) {
@@ -88,11 +88,14 @@ function appReducer(state = initialState, action) {
     case APPLY_FILTER:
       return state.set('searchQuery', initialState.get('searchQuery'));
 
+    case GET_SOURCES:
+      return state.set('loading', true);
+
     case GET_SOURCES_SUCCESS:
-      return state.set('sources', fromJS(action.payload)).set('loadingSources', false);
+      return state.set('sources', fromJS(action.payload)).set('loading', false);
 
     case GET_SOURCES_FAILED:
-      return state.set('loadingSources', false).set('error', true).set('errorMessage', action.payload);
+      return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
 
     default:
       return state;

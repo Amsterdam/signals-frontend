@@ -29,7 +29,7 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
       <Route
         render={({ history }) => (
           <Wizard history={history} onNext={wiz => onNext(wizardDefinition, wiz, incident)}>
-            {incidentContainer.loading || !sources ? (
+            {incidentContainer.loading || appContext.loading ? (
               <LoadingIndicator />
             ) : (
               <Steps>

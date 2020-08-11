@@ -20,7 +20,7 @@ const getControls = memoize(
           className: 'col-sm-12 col-md-6',
           label: 'Hoe komt de melding binnen?',
           path: 'source',
-          values: reduceSources(sources),
+          values: sources ? reduceSources(sources) : [],
         },
         options: {
           validators: [Validators.required],
