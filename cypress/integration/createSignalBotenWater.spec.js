@@ -12,7 +12,6 @@ describe('Create signal boten and check signal details', () => {
 
     it('Should search for an address', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:water.json').as('prediction');
 

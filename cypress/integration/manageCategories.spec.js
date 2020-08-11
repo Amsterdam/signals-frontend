@@ -69,7 +69,6 @@ describe('Change category', () => {
 
     it('Should describe the signal', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:afwateringBrug.json').as('prediction');
 
