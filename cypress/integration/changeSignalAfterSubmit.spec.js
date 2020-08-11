@@ -18,7 +18,6 @@ describe('Change signal after submit', () => {
 
     it('Should describe the signal', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:graffiti.json').as('prediction');
 
@@ -100,7 +99,6 @@ describe('Change signal after submit', () => {
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.getAddressRoute();
-      cy.defineGeoSearchRoutes();
       cy.visitFetch('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.log(Cypress.env('signalId'));
@@ -126,7 +124,6 @@ describe('Change signal after submit', () => {
       cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Bethaniënstraat 12', { delay: 60 });
       cy.wait('@getAddress');
       createSignal.selectAddress('Bethaniënstraat 12, 1012CA Amsterdam');
-      cy.wait('@geoSearchLocation');
       // Used a wait, because we have to wait until zoom to new adres is done.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);
@@ -159,7 +156,6 @@ describe('Change signal after submit', () => {
       cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Noordhollandschkanaaldijk 114', { delay: 60 });
       cy.wait('@getAddress');
       createSignal.selectAddress('Noordhollandschkanaaldijk 114, 1034NW Amsterdam');
-      cy.wait('@geoSearchLocation');
       // Used a wait, because we have to wait until zoom to new adres is done.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);

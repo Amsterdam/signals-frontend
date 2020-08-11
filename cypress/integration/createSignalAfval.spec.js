@@ -11,7 +11,6 @@ describe('Create signal afval and check signal details', () => {
 
     it('Should describe the signal', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:afval.json').as('prediction');
 

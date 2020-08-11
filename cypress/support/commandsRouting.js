@@ -1,8 +1,3 @@
-// Select an address from autosuggest
-Cypress.Commands.add('defineGeoSearchRoutes', () => {
-  cy.route('/geosearch/bag/?lat=*').as('geoSearchLocation');
-});
-
 // Search for an address
 Cypress.Commands.add('getAddressRoute', () => {
   cy.route('/locatieserver/v3/suggest?fq=*').as('getAddress');
