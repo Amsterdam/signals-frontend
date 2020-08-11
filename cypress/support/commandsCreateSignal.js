@@ -149,7 +149,6 @@ export const setAddress = (searchAdress, selectAdress) => {
   searchAddress(searchAdress);
   cy.wait('@getAddress');
   selectAddress(selectAdress);
-  cy.wait('@geoSearchLocation');
 };
 
 export const setDateTime = dateTime => {

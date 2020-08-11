@@ -25,6 +25,8 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
     $SIGNALS_CONFIG: JSON.stringify(combinedConfig),
     $SIGNALS_FAVICON: combinedConfig.head.favicon,
     $SIGNALS_IOS_ICON: combinedConfig.head.iosIcon,
+    $SIGNALS_MATOMO_SITE_ID: combinedConfig.matomo.siteId,
+    $SIGNALS_MATOMO_URL_BASE: combinedConfig.matomo.urlBase,
     $SIGNALS_PWA_SHORT_TITLE: combinedConfig.language.shortTitle,
     $SIGNALS_PWA_TITLE: combinedConfig.language.title,
     $SIGNALS_SITE_TITLE: combinedConfig.language.siteTitle,
@@ -37,13 +39,13 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   const manifestFile = path.join(__dirname, '..', '..', 'src', 'manifest.json');
   const manifestString = fs.readFileSync(manifestFile).toString();
 
-  template.templateContent = Object.keys(placeholders).reduce(
-    (acc, key) => acc.replace(key, placeholders[key]),
+  template.templateContent = Object.entries(placeholders).reduce(
+    (acc, [key, value]) => acc.replace(new RegExp(`\\${key}`, 'gm'), value),
     templateString
   );
 
-  template.manifestContent = Object.keys(placeholders).reduce(
-    (acc, key) => acc.replace(key, placeholders[key]),
+  template.manifestContent = Object.entries(placeholders).reduce(
+    (acc, [key, value]) => acc.replace(key, value),
     manifestString
   );
 } else {

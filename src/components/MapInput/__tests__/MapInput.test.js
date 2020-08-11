@@ -3,16 +3,13 @@ import { render, fireEvent, act, waitFor } from '@testing-library/react';
 
 import context from 'containers/MapContext/context';
 
-import geoSearchJSON from 'utils/__tests__/fixtures/geosearch.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
 import { withAppContext, resolveAfterMs, withMapContext } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
 import { DOUBLE_CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
-import configuration from 'shared/services/configuration/configuration';
 
-import { findFeatureByType } from '../services/reverseGeocoderService';
 import MapInput from '..';
 
 jest.mock('containers/MapContext/actions', () => ({
@@ -31,11 +28,10 @@ jest.mock('containers/MapContext/actions', () => ({
   })),
 }));
 
-jest.mock('shared/services/configuration/configuration');
-
 const setValuesSpy = jest.spyOn(actions, 'setValuesAction');
 const setLocationSpy = jest.spyOn(actions, 'setLocationAction');
 const resetLocationSpy = jest.spyOn(actions, 'resetLocationAction');
+
 const geocoderResponse = {
   response: {
     numFound: 1,
@@ -55,41 +51,12 @@ const geocoderResponse = {
   },
 };
 
-const bagResponse = {
-  features: [
-    {
-      properties: {
-        code: 'N',
-        display: 'Noord',
-        distance: 4467.47982312323,
-        id: '03630000000019',
-        type: 'gebieden/stadsdeel',
-        uri: 'https://api.data.amsterdam.nl/gebieden/stadsdeel/03630000000019/',
-      },
-    },
-    {
-      properties: {
-        code: '61b',
-        display: 'Vogelbuurt Zuid',
-        distance: 109.145476159977,
-        id: '03630000000644',
-        type: 'gebieden/buurt',
-        uri: 'https://api.data.amsterdam.nl/gebieden/buurt/03630000000644/',
-        vollcode: 'N61b',
-      },
-    },
-  ],
-  type: 'FeatureCollection',
-};
-
 describe('components/MapInput', () => {
-  beforeEach(() => {
-    fetch.mockResponse(JSON.stringify(geocoderResponse));
-  });
-
   afterEach(() => {
+    fetch.resetMocks();
     setValuesSpy.mockClear();
     setLocationSpy.mockClear();
+    resetLocationSpy.mockClear();
   });
 
   const testLocation = {
@@ -132,7 +99,7 @@ describe('components/MapInput', () => {
   });
 
   it('should handle click', async () => {
-    fetch.mockResponseOnce(JSON.stringify(geocoderResponse)).mockResponseOnce(JSON.stringify(bagResponse));
+    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
 
     const onChange = jest.fn();
     const { findByTestId } = render(
@@ -145,9 +112,7 @@ describe('components/MapInput', () => {
     expect(onChange).not.toHaveBeenCalled();
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
 
-    act(() => {
-      fireEvent.click(map, { clientX: 100, clientY: 100 });
-    });
+    act(() => { fireEvent.click(map, { clientX: 100, clientY: 100 }); });
 
     await findByTestId('map-base');
 
@@ -167,14 +132,12 @@ describe('components/MapInput', () => {
     expect(setValuesSpy).toHaveBeenLastCalledWith({
       addressText: expect.stringMatching(/.+/),
       address: expect.any(Object),
-      stadsdeel: bagResponse.features[0].properties.code,
     });
 
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith({
       geometrie: expect.any(Object),
       address: expect.any(Object),
-      stadsdeel: bagResponse.features[0].properties.code,
     });
   });
 
@@ -188,7 +151,9 @@ describe('components/MapInput', () => {
         docs: [],
       },
     };
-    fetch.mockResponseOnce(JSON.stringify(noneFoundResponse)).mockResponseOnce(JSON.stringify(bagResponse));
+    fetch
+      .mockResponseOnce(JSON.stringify(noneFoundResponse))
+      .mockResponseOnce(JSON.stringify(geocoderResponse));
 
     const { getByTestId, findByTestId } = render(
       withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
@@ -210,55 +175,10 @@ describe('components/MapInput', () => {
     await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
-    expect(setValuesSpy).toHaveBeenLastCalledWith({
-      addressText: '',
-      address: '',
-      stadsdeel: bagResponse.features[0].properties.code,
-    });
+    expect(setValuesSpy).toHaveBeenLastCalledWith({ addressText: '', address: '' });
 
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith({
-      geometrie: expect.any(Object),
-      stadsdeel: bagResponse.features[0].properties.code,
-    });
-  });
-
-  it('should take stadsdeel value from configuration with click on map', async () => {
-    const stadsdeel = 'W';
-    configuration.map.options.stadsdeel = stadsdeel;
-
-    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
-
-    const onChange = jest.fn();
-    const { findByTestId } = render(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
-    );
-
-    const map = await findByTestId('map-base');
-
-    expect(onChange).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.click(map, { clientX: 100, clientY: 100 });
-    });
-
-    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
-
-    expect(setValuesSpy).toHaveBeenCalledTimes(2);
-    expect(setValuesSpy).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        stadsdeel,
-      })
-    );
-
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        stadsdeel,
-      })
-    );
-
-    delete configuration.map.options.stadsdeel;
+    expect(onChange).toHaveBeenCalledWith({ geometrie: expect.any(Object) });
   });
 
   it('should render marker and center the map', async () => {
@@ -312,15 +232,7 @@ describe('components/MapInput', () => {
     const onChange = jest.fn();
     const { getByTestId, findByTestId } = render(
       withAppContext(
-        <context.Provider
-          value={{
-            state: {
-              lat: 51,
-              lng: 4,
-            },
-            dispatch: () => {},
-          }}
-        >
+        <context.Provider value={{ state: { lat: 51, lng: 4 }, dispatch: () => {} }}>
           <MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />
         </context.Provider>
       )
@@ -330,22 +242,21 @@ describe('components/MapInput', () => {
     const input = getByTestId('autoSuggest').querySelector('input');
     const value = 'Midden';
 
-    act(() => {
-      input.focus();
-    });
+    act(() => { input.focus(); });
 
-    act(() => {
-      fireEvent.change(input, { target: { value } });
-    });
+    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
+
+    act(() => { fireEvent.change(input, { target: { value } }); });
 
     const suggestList = await findByTestId('suggestList');
+
     const firstElement = suggestList.querySelector('li:nth-of-type(1)');
 
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
     expect(onChange).not.toHaveBeenCalled();
 
     // mock the geosearch response
-    fetch.mockResponse(JSON.stringify(geoSearchJSON));
+    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
 
     // click option in list
     act(() => {
@@ -356,78 +267,13 @@ describe('components/MapInput', () => {
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        location: expect.any(Object),
-        address: expect.any(Object),
-        addressText: input.value,
-      })
+      expect.objectContaining({ location: expect.any(Object), address: expect.any(Object), addressText: input.value })
     );
 
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        geometrie: expect.any(Object),
-        address: expect.any(Object),
-        stadsdeel: findFeatureByType(geoSearchJSON.features, 'gebieden/stadsdeel').code,
-      })
+      expect.objectContaining({ geometrie: expect.any(Object), address: expect.any(Object) })
     );
-  });
-
-  it('should handle onSelect with stadsdeel from configuration', async () => {
-    const stadsdeel = '@foo@';
-    configuration.map.options.stadsdeel = stadsdeel;
-
-    const onChange = jest.fn();
-    const { getByTestId, findByTestId } = render(
-      withAppContext(
-        <context.Provider
-          value={{
-            state: {
-              lat: 51,
-              lng: 4,
-            },
-            dispatch: () => {},
-          }}
-        >
-          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />
-        </context.Provider>
-      )
-    );
-
-    // provide input with value
-    const input = getByTestId('autoSuggest').querySelector('input');
-    const value = 'Midden';
-
-    act(() => {
-      input.focus();
-    });
-
-    act(() => {
-      fireEvent.change(input, { target: { value } });
-    });
-
-    const suggestList = await findByTestId('suggestList');
-    const firstElement = suggestList.querySelector('li:nth-of-type(1)');
-
-    expect(onChange).not.toHaveBeenCalled();
-
-    // mock the geosearch response
-    fetch.mockResponse(JSON.stringify(geoSearchJSON));
-
-    // click option in list
-    act(() => {
-      fireEvent.click(firstElement);
-    });
-
-    await findByTestId('map-base');
-
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        stadsdeel,
-      })
-    );
-
-    delete configuration.map.options.stadsdeel;
   });
 
   it('should clear location and not render marker', async () => {

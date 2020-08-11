@@ -1,12 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+
 import { string2date, string2time } from 'shared/services/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import * as types from 'shared/types';
 import configuration from 'shared/services/configuration/configuration';
+import { statusList } from 'signals/incident-management/definitions';
 
 import './style.scss';
 import IncidentManagementContext from '../../../../context';
@@ -18,7 +20,9 @@ const sortColumn = (currentSort, onChangeOrdering) => newSort => () => {
 };
 
 const getDaysOpen = incident => {
-  const statusesWithoutDaysOpen = ['o', 'a', 's', 'reopen requested'];
+  const statusesWithoutDaysOpen = statusList
+    .filter(({ shows_remaining_sla_days }) => shows_remaining_sla_days === false)
+    .map(({ key }) => key);
   const hasDaysOpen = incident.status && !statusesWithoutDaysOpen.includes(incident.status.state);
   const start = hasDaysOpen && parseISO(incident.created_at);
   return hasDaysOpen ? -differenceInCalendarDays(start, new Date()) : '-';
@@ -32,8 +36,8 @@ const sortClassName = sort => sortName => {
 
 const List = ({ incidents, onChangeOrdering, priority, sort, status, stadsdeel }) => {
   const { districts } = useContext(IncidentManagementContext);
-  const onSort = sortColumn(sort, onChangeOrdering);
-  const getSortClassName = sortClassName(sort);
+  const onSort = useCallback(sortColumn(sort, onChangeOrdering), [onChangeOrdering, sort]);
+  const getSortClassName = useCallback(sortClassName(sort), [sort]);
 
   return (
     <div className="list-component" data-testid="incidentOverviewListComponent">
@@ -128,12 +132,11 @@ const List = ({ incidents, onChangeOrdering, priority, sort, status, stadsdeel }
 
 List.propTypes = {
   incidents: PropTypes.arrayOf(types.incidentType).isRequired,
-  priority: types.dataListType.isRequired,
-  status: types.dataListType.isRequired,
-  stadsdeel: types.dataListType.isRequired,
-
   onChangeOrdering: PropTypes.func.isRequired,
+  priority: types.dataListType.isRequired,
   sort: PropTypes.string,
+  stadsdeel: types.dataListType.isRequired,
+  status: types.dataListType.isRequired,
 };
 
 export default List;

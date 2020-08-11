@@ -414,7 +414,7 @@
       "additionalProperties": false,
       "properties": {
         "municipality": {
-          "type": "string"
+          "type": ["string", "array"]
         },
         "options": {
           "$ref": "#/definitions/MapOptions"

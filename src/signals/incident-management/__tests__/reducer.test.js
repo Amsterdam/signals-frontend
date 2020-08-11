@@ -80,6 +80,7 @@ const intermediateState = fromJS({
   error: false,
   ordering: 'stadsdeel,-created_at',
   loading: false,
+  loadingIncidents: false,
   incidents: {
     count: incidentsJson.length,
     results: incidentsJson,
@@ -104,23 +105,23 @@ describe('signals/incident-management/reducer', () => {
     };
 
     const applied = state =>
-      state.set('loading', true).set('districtsLoading', false).set('districts', fromJS(districts));
-    const initialStateWithFiltersLoading = fromJS({
+      state.set('loading', true).set('loadingDistricts', false).set('districts', fromJS(districts));
+    const initialStateWithloadingFilters = fromJS({
       ...initialState.toJS(),
-      districtsLoading: true,
-      filtersLoading: true,
+      loadingDistricts: true,
+      loadingFilters: true,
     });
-    const intermediateStateWithFiltersLoading = fromJS({
+    const intermediateStateWithloadingFilters = fromJS({
       ...intermediateState.toJS(),
-      districtsLoading: true,
-      filtersLoading: true,
+      loadingDistricts: true,
+      loadingFilters: true,
     });
 
-    expect(reducer(initialStateWithFiltersLoading, getDistrictsSuccess)).toEqual(
-      applied(initialStateWithFiltersLoading)
+    expect(reducer(initialStateWithloadingFilters, getDistrictsSuccess)).toEqual(
+      applied(initialStateWithloadingFilters)
     );
-    expect(reducer(intermediateStateWithFiltersLoading, getDistrictsSuccess)).toEqual(
-      applied(intermediateStateWithFiltersLoading)
+    expect(reducer(intermediateStateWithloadingFilters, getDistrictsSuccess)).toEqual(
+      applied(intermediateStateWithloadingFilters)
     );
   });
 
@@ -349,8 +350,7 @@ describe('signals/incident-management/reducer', () => {
       type: REQUEST_INCIDENTS,
     };
 
-    const applied = state =>
-      state.set('loading', true).set('incidentsLoading', true).set('error', false).set('errorMessage', undefined);
+    const applied = state => state.set('loadingIncidents', true).set('error', false).set('errorMessage', undefined);
 
     expect(reducer(initialState, requestIncidents)).toEqual(applied(initialState));
     expect(reducer(intermediateState, requestIncidents)).toEqual(applied(intermediateState));
@@ -365,7 +365,7 @@ describe('signals/incident-management/reducer', () => {
     const applied = state =>
       state
         .set('incidents', fromJS(requestIncidentsSuccess.payload))
-        .set('loading', false)
+        .set('loadingIncidents', false)
         .set('error', false)
         .set('errorMessage', undefined);
 
@@ -425,7 +425,7 @@ describe('signals/incident-management/reducer', () => {
     const applied = state =>
       state
         .set('loading', true)
-        .set('incidentsLoading', true)
+        .set('loadingIncidents', true)
         .set('activeFilter', initialState.get('activeFilter'))
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
@@ -443,7 +443,7 @@ describe('signals/incident-management/reducer', () => {
     const applied = state =>
       state
         .set('loading', true)
-        .set('incidentsLoading', true)
+        .set('loadingIncidents', true)
         .set('ordering', initialState.get('ordering'))
         .set('page', initialState.get('page'));
 
