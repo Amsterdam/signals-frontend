@@ -217,7 +217,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       const options = isToggled ? dataListValues[groupName] : [];
       dispatch(setGroupOptions({ [groupName]: options }));
     },
-    [dispatch]
+    [dispatch, dataListValues]
   );
 
   return (

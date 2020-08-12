@@ -13,12 +13,6 @@ import { statusList } from 'signals/incident-management/definitions';
 import './style.scss';
 import IncidentManagementContext from '../../../../context';
 
-const sortColumn = (currentSort, onChangeOrdering) => newSort => () => {
-  const sortIsAsc = currentSort && currentSort.indexOf(newSort) === 0;
-
-  onChangeOrdering(sortIsAsc ? `-${newSort}` : newSort);
-};
-
 const getDaysOpen = incident => {
   const statusesWithoutDaysOpen = statusList
     .filter(({ shows_remaining_sla_days }) => shows_remaining_sla_days === false)
@@ -28,16 +22,23 @@ const getDaysOpen = incident => {
   return hasDaysOpen ? -differenceInCalendarDays(start, new Date()) : '-';
 };
 
-const sortClassName = sort => sortName => {
-  const sortString = sort && sort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
-  const currentSort = sort && sort.split(',')[0];
-  return currentSort && currentSort.indexOf(sortName) > -1 ? sortString : '';
-};
-
 const List = ({ incidents, onChangeOrdering, priority, sort, status, stadsdeel }) => {
   const { districts } = useContext(IncidentManagementContext);
-  const onSort = useCallback(sortColumn(sort, onChangeOrdering), [onChangeOrdering, sort]);
-  const getSortClassName = useCallback(sortClassName(sort), [sort]);
+  const onSort = useCallback(
+    newSort => () => {
+      const sortIsAsc = sort && sort.indexOf(newSort) === 0;
+      onChangeOrdering(sortIsAsc ? `-${newSort}` : newSort);
+    },
+    [onChangeOrdering, sort]
+  );
+  const getSortClassName = useCallback(
+    sortName => {
+      const sortString = sort && sort.charAt(0) === '-' ? 'sort sort-down' : 'sort sort-up';
+      const currentSort = sort && sort.split(',')[0];
+      return currentSort && currentSort.indexOf(sortName) > -1 ? sortString : '';
+    },
+    [sort]
+  );
 
   return (
     <div className="list-component" data-testid="incidentOverviewListComponent">
