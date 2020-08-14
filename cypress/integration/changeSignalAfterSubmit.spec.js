@@ -132,12 +132,16 @@ describe('Change signal after submit', () => {
       createSignal.checkFlashingYellow();
 
       // Check location data
+      cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Bethaniënstraat 12').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012CA Amsterdam').should('be.visible');
 
       // Check history
+      // Used a wait because it takes time to show history on the screen, 'cy.wait('@getHistory');' is not enough
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(700);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
         .should('contain', 'Stadsdeel: Centrum')
@@ -165,12 +169,16 @@ describe('Change signal after submit', () => {
       createSignal.checkFlashingYellow();
 
       // Check location data
+      cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Noord').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Noordhollandschkanaaldijk 114').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1034NW Amsterdam').should('be.visible');
 
       // Check history
+      // Used a wait because it takes time to show history on the screen, 'cy.wait('@getHistory');' is not enough
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(700);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
         .should('contain', 'Stadsdeel: Noord')
@@ -217,6 +225,7 @@ describe('Change signal after submit', () => {
       createSignal.checkFlashingYellow();
 
       // Check if status is 'In behandeling' with red coloured text
+      cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.status)
         .should('have.text', 'In behandeling')
@@ -226,6 +235,9 @@ describe('Change signal after submit', () => {
         });
 
       // Check history
+      // Used a wait because it takes time to show history on the screen, 'cy.wait('@getHistory');' is not enough
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(700);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Update status naar: In behandeling')
@@ -263,6 +275,7 @@ describe('Change signal after submit', () => {
       createSignal.checkFlashingYellow();
 
       // Check urgency change
+      cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.urgency)
         .should('have.text', 'Hoog')
@@ -272,6 +285,9 @@ describe('Change signal after submit', () => {
         });
 
       // Check history
+      // Used a wait because it takes time to show history on the screen, 'cy.wait('@getHistory');' is not enough
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(700);
       cy.get(SIGNAL_DETAILS.historyAction).contains('Urgentie update naar: Hoog').should('be.visible');
     });
 
@@ -311,10 +327,14 @@ describe('Change signal after submit', () => {
       createSignal.checkFlashingYellow();
 
       // Check type change
+      cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Groot onderhoud').and('be.visible');
 
       // Check history
+      // Used a wait because it takes time to show history on the screen, 'cy.wait('@getHistory');' is not enough
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(700);
       cy.get(SIGNAL_DETAILS.historyAction).contains('Type update naar: Groot onderhoud').should('be.visible');
     });
 
@@ -341,11 +361,15 @@ describe('Change signal after submit', () => {
       createSignal.checkFlashingYellow();
 
       // Check change in subcategory, maincategory and department
+      cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Overig openbare ruimte (ASC)').and('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast in de openbare ruimte').and('be.visible');
 
       // Check history
+      // Used a wait because it takes time to show history on the screen, 'cy.wait('@getHistory');' is not enough
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(700);
       cy.get(SIGNAL_DETAILS.historyAction)
         .contains('Categorie gewijzigd naar: Overig openbare ruimte')
         .should('be.visible');
