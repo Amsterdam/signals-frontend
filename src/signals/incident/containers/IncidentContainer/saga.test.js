@@ -1,5 +1,5 @@
 import { takeLatest } from 'redux-saga/effects';
-import { replace } from 'connected-react-router/immutable';
+import { push } from 'connected-react-router/immutable';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
@@ -389,6 +389,7 @@ describe('IncidentContainer saga', () => {
         .call(getPostData, action)
         .call(postIncidentSaga, postData)
         .put(createIncidentSuccess({ handling_message, ...incident }))
+        .put(push('/incident/bedankt'))
         .run());
 
     it('should dispatch error', () =>
@@ -399,7 +400,7 @@ describe('IncidentContainer saga', () => {
         ])
         .call(getPostData, action)
         .put(createIncidentError())
-        .put(replace('/incident/fout'))
+        .put(push('/incident/fout'))
         .run());
 
     it('should run blocking file upload calls', () => {
