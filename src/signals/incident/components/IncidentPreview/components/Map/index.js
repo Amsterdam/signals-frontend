@@ -2,13 +2,32 @@ import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
+import { Marker } from '@datapunt/react-maps';
 
+import { markerIcon } from 'shared/services/configuration/map-markers';
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import configuration from 'shared/services/configuration/configuration';
 import { formatAddress } from 'shared/services/map-location';
 import MapStatic from 'components/MapStatic';
+
+import Map from 'components/Map';
+
+const mapWidth = 640;
+const mapHeight = 300;
+const mapZoom = 12;
 
 const Address = styled.address`
   margin-bottom: ${themeSpacing(4)};
   font-style: normal;
+`;
+
+const StyledMap = styled(Map)`
+  width: ${mapWidth}px;
+  height: ${mapHeight}px;
+`;
+
+const StyledMarker = styled(Marker)`
+  cursor: none;
 `;
 
 /**
@@ -17,6 +36,12 @@ const Address = styled.address`
 const MapPreview = ({ value }) => {
   const longitude = value?.geometrie?.coordinates[0];
   const latitude = value?.geometrie?.coordinates[1];
+  const options = {
+    ...MAP_OPTIONS,
+    zoom: mapZoom,
+    attributionControl: false,
+    center: [latitude, longitude],
+  };
 
   const geometry = useMemo(
     () => ({
@@ -30,7 +55,15 @@ const MapPreview = ({ value }) => {
     value && (
       <Fragment>
         <Address>{value?.address ? formatAddress(value.address) : 'Geen adres gevonden'}</Address>
-        {latitude && longitude && <MapStatic width={640} {...geometry} />}
+        {latitude &&
+          longitude &&
+          (configuration.useStaticMapServer ? (
+            <MapStatic height={mapHeight} width={mapWidth} {...geometry} />
+          ) : (
+            <StyledMap mapOptions={options} canBeDragged={false}>
+              <StyledMarker args={[{ lat: latitude, lng: longitude }]} options={{ icon: markerIcon }} />
+            </StyledMap>
+          ))}
       </Fragment>
     )
   );
