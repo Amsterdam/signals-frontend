@@ -42,7 +42,7 @@ const Form = styled.form`
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     grid-template-columns: 6fr 6fr;
     grid-template-areas:
-      'header header'
+      'header texts'
       'options texts'
       'form texts'
       '. texts';
@@ -59,6 +59,7 @@ const OptionsArea = styled.div`
 
 const TextsArea = styled.div`
   grid-area: texts;
+  margin-top: ${themeSpacing(5)};
 `;
 
 const FormArea = styled.div`
@@ -91,7 +92,6 @@ const Notification = styled.div`
 
 const Wrapper = styled(Row)`
   background-color: ${themeColor('tint', 'level1')};
-  padding-top: ${themeSpacing(5)};
   position: relative;
 `;
 
