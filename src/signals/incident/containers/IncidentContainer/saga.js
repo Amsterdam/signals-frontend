@@ -1,5 +1,5 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { replace } from 'connected-react-router/immutable';
+import { push } from 'connected-react-router/immutable';
 
 import request from 'utils/request';
 import { postCall, authPostCall } from 'shared/services/api/api';
@@ -74,10 +74,10 @@ export function* createIncident(action) {
       ]);
     }
     yield put(createIncidentSuccess(incident));
-    yield put(replace('/incident/bedankt'));
+    yield put(push('/incident/bedankt'));
   } catch {
     yield put(createIncidentError());
-    yield put(replace('/incident/fout'));
+    yield put(push('/incident/fout'));
   }
 }
 
