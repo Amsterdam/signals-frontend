@@ -84,6 +84,7 @@
   },
   "fetchQuestionsFromBackend": false,
   "showVulaanControls": true,
+  "useStaticMapServer": true,
   "STATIC_MAP_SERVER_URL": "https://map.data.amsterdam.nl/maps/topografie",
   "AUTH_ME_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/",
   "CATEGORIES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/",

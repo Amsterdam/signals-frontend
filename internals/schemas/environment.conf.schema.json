@@ -35,7 +35,11 @@
           "type": "boolean"
         },
         "showVulaanControls": {
-          "description": "When false, will not show extra questions after the first page of questions in the incident submission form",
+          "description": "When true, will show extra questions after the first page of questions in the incident submission form",
+          "type": "boolean"
+        },
+        "useStaticMapServer": {
+          "description": "When true, will use the static map server difined by [STATIC_MAP_SERVER_URL](#STATIC_MAP_SERVER_URL) to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
         },
         "STATIC_MAP_SERVER_URL": {
@@ -236,7 +240,14 @@
           "description": "Value that sets the color of the tool bar, and may be reflected in the app's preview in task switchers"
         }
       },
-      "required": ["androidIcon", "backgroundColor", "favicon", "iosIcon", "statusBarStyle", "themeColor"],
+      "required": [
+        "androidIcon",
+        "backgroundColor",
+        "favicon",
+        "iosIcon",
+        "statusBarStyle",
+        "themeColor"
+      ],
       "title": "Head"
     },
     "Language": {
@@ -324,7 +335,11 @@
           "format": "uri"
         }
       },
-      "required": ["help", "home", "privacy"],
+      "required": [
+        "help",
+        "home",
+        "privacy"
+      ],
       "title": "Links"
     },
     "Logo": {
@@ -334,26 +349,47 @@
       "properties": {
         "url": {
           "description": "Any URL that will hold the image for the application's logo. Can be a URI or an absolute URL that points to the webroot",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "width": {
           "description": "Length value that sets the logo image's width. See https://developer.mozilla.org/en-US/docs/Web/CSS/width for reference",
-          "type": ["string", "integer"]
+          "type": [
+            "string",
+            "integer"
+          ]
         },
         "height": {
           "description": "Length value that sets the logo image's height",
-          "type": ["string", "integer"]
+          "type": [
+            "string",
+            "integer"
+          ]
         },
         "smallWidth": {
           "description": "Length value that sets the logo image's width in case the logo is rendered in a site header with limited height",
-          "type": ["string", "integer"]
+          "type": [
+            "string",
+            "integer"
+          ]
         },
         "smallHeight": {
           "description": "Length value that sets the logo image's height in case the logo is rendered in a site header with limited height",
-          "type": ["string", "integer"]
+          "type": [
+            "string",
+            "integer"
+          ]
         }
       },
-      "required": ["height", "smallHeight", "smallWidth", "url", "width"],
+      "required": [
+        "height",
+        "smallHeight",
+        "smallWidth",
+        "url",
+        "width"
+      ],
       "title": "Logo"
     },
     "Map": {
@@ -361,7 +397,10 @@
       "additionalProperties": false,
       "properties": {
         "municipality": {
-          "type": ["string", "array"]
+          "type": [
+            "string",
+            "array"
+          ]
         },
         "options": {
           "$ref": "#/definitions/MapOptions"
@@ -373,7 +412,12 @@
           "$ref": "#/definitions/Tiles"
         }
       },
-      "required": ["municipality", "options", "optionsBackOffice", "tiles"],
+      "required": [
+        "municipality",
+        "options",
+        "optionsBackOffice",
+        "tiles"
+      ],
       "title": "Map"
     },
     "MapOptions": {
@@ -405,7 +449,13 @@
           "type": "integer"
         }
       },
-      "required": ["center", "maxBounds", "maxZoom", "minZoom", "zoom"],
+      "required": [
+        "center",
+        "maxBounds",
+        "maxZoom",
+        "minZoom",
+        "zoom"
+      ],
       "title": "MapOptions"
     },
     "OptionsBackOffice": {
@@ -422,7 +472,11 @@
           "type": "integer"
         }
       },
-      "required": ["maxZoom", "minZoom", "zoom"],
+      "required": [
+        "maxZoom",
+        "minZoom",
+        "zoom"
+      ],
       "title": "OptionsBackOffice"
     },
     "Tiles": {
@@ -441,7 +495,10 @@
           "$ref": "#/definitions/TilesOptions"
         }
       },
-      "required": ["args", "options"],
+      "required": [
+        "args",
+        "options"
+      ],
       "title": "Tiles"
     },
     "TilesOptions": {
@@ -461,7 +518,11 @@
           "type": "boolean"
         }
       },
-      "required": ["attribution", "subdomains", "tms"],
+      "required": [
+        "attribution",
+        "subdomains",
+        "tms"
+      ],
       "title": "TilesOptions"
     },
     "Matomo": {
@@ -478,7 +539,10 @@
           "type": "integer"
         }
       },
-      "required": ["siteId", "urlBase"],
+      "required": [
+        "siteId",
+        "urlBase"
+      ],
       "title": "Matomo"
     },
     "Sentry": {
@@ -491,7 +555,9 @@
           "description": "Sentry data source name value. When omitted, Sentry will not be initialised in the application"
         }
       },
-      "required": ["dsn"],
+      "required": [
+        "dsn"
+      ],
       "title": "Sentry"
     },
     "Theme": {
