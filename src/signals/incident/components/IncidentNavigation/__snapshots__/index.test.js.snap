@@ -97,13 +97,9 @@ exports[`<IncidentNavigation /> rendering render correctly button with submittin
     >
       Volgende
     </span>
-    <span
-      className="working"
-    >
-      <div
-        className="progress-indicator progress-white"
-      />
-    </span>
+    <IncidentNavigation__Spinner
+      size="25"
+    />
   </NextButton>
 </div>
 `;

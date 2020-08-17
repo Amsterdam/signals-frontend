@@ -90,10 +90,10 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         }).toJS()
       ).toEqual({
         error: false,
-        loading: true,
         incident: {
           id: null,
         },
+        createdIncident: null,
       });
     });
   });
@@ -117,8 +117,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         }).toJS()
       ).toEqual({
         ...initialState.toJS(),
-        loading: false,
-        incident: {
+        createdIncident: {
           id,
           category,
           handling_message,

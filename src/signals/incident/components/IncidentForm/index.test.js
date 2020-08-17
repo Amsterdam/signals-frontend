@@ -171,7 +171,7 @@ describe('<IncidentForm />', () => {
         expect(next).toHaveBeenCalled();
       });
 
-      it('submit should trigger next when form is valid and CREATE_INCIDENT defined', () => {
+      it('submit should not trigger next when form is valid and CREATE_INCIDENT defined', () => {
         const next = jest.fn();
         instance.form.valid = true;
 
@@ -181,7 +181,7 @@ describe('<IncidentForm />', () => {
         instance.handleSubmit(event, next, 'CREATE_INCIDENT');
 
         expect(props.createIncident).toHaveBeenCalledWith(expect.objectContaining({ incident: {} }));
-        expect(next).toHaveBeenCalled();
+        expect(next).not.toHaveBeenCalled();
       });
 
       it('submit should not be triggered next when form is not valid', () => {
