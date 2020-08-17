@@ -57,7 +57,6 @@ export function* getQuestionsSaga(action) {
 export function* createIncident(action) {
   try {
     const { handling_message, ...postData } = yield call(getPostData, action);
-
     const postResult = yield call(postIncident, postData);
 
     const incident = { ...postResult, handling_message };
@@ -65,18 +64,17 @@ export function* createIncident(action) {
     if (action.payload.incident.images) {
       // perform blocking requests for image uploads
       yield all([
-        ...action.payload.incident.images.map(image =>
-          call(uploadFile, {
-            payload: {
-              file: image,
-              id: incident.signal_id,
-            },
-          })
+        ...action.payload.incident.images.map(image => call(uploadFile, {
+          payload: {
+            file: image,
+            id: incident.signal_id,
+          },
+        })
         ),
       ]);
     }
-
     yield put(createIncidentSuccess(incident));
+    yield put(replace('/incident/bedankt'));
   } catch {
     yield put(createIncidentError());
     yield put(replace('/incident/fout'));
@@ -107,7 +105,6 @@ export function* postIncident(postData) {
  */
 export function* getPostData(action) {
   const { category, subcategory } = action.payload.incident;
-
   const {
     handling_message,
     _links: {

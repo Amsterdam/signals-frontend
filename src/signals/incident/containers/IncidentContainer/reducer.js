@@ -39,6 +39,7 @@ export const initialState = fromJS({
     },
   },
   loadingClassification: false,
+  createdIncident: null,
 });
 
 const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) => {
@@ -69,12 +70,12 @@ export default (state = initialState, action) => {
 
     case CREATE_INCIDENT:
       return state
-        .set('loading', true)
+        .set('createdIncident', null)
         .set('error', false)
         .set('incident', state.get('incident').set('id', null));
 
     case CREATE_INCIDENT_SUCCESS:
-      return state.set('loading', false).set('incident', fromJS(action.payload));
+      return state.set('createdIncident', fromJS(action.payload));
 
     case CREATE_INCIDENT_ERROR:
       return state.set('error', true).set('loading', false);

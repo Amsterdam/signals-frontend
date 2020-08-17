@@ -7,12 +7,12 @@ import get from 'lodash.get';
 import mapDynamicFields from '../../../services/map-dynamic-fields';
 import './style.scss';
 
-function renderText(value, parent) {
+function renderText(key = 'incident', value, parent) {
   if (React.isValidElement(value)) {
     return value;
   }
 
-  return mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
+  return mapDynamicFields(value, { incident: get(parent, `meta.incidentContainer.${key}`) });
 }
 
 const Label = styled.div`
@@ -23,13 +23,13 @@ const PlainText = ({ meta, parent }) =>
   meta?.isVisible && (
     <div className={`${meta.type || ''} plain-text__box`}>
       <Label>{meta.label}</Label>
-      {meta.value && isString(meta.value) && renderText(meta.value, parent)}
+      {meta.value && isString(meta.value) && renderText(meta.key, meta.value, parent)}
 
       {meta.value &&
         Array.isArray(meta.value) &&
         meta.value.map((paragraph, key) => (
           <div key={`${meta.name}-${key + 1}`} className={`plain-text__box-p plain-text__box-p-${key + 1}`}>
-            {renderText(paragraph, parent)}
+            {renderText(meta.key, paragraph, parent)}
           </div>
         ))}
     </div>

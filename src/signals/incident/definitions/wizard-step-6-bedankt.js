@@ -10,6 +10,7 @@ export default {
           className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.',
+          key: 'createdIncident',
         },
         render: FormComponents.PlainText,
       },
@@ -25,7 +26,7 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           type: 'bedankt',
-          key: 'incident.handling_message',
+          key: 'createdIncident.handling_message',
         },
         render: FormComponents.HandlingMessage,
       },

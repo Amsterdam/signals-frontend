@@ -7,10 +7,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { WithWizard } from 'react-albus';
+import styled from 'styled-components';
 
 import PreviousButton from 'components/PreviousButton';
 import NextButton from 'components/NextButton';
+import { Spinner as AscSpinner, themeSpacing, themeColor } from '@datapunt/asc-ui';
 import './style.scss';
+
+const Spinner = styled(AscSpinner)`
+  margin-left: ${themeSpacing(2)};
+  & svg {
+    path {
+      fill: ${themeColor('tint', 'level1')};
+    }
+  }
+`;
 
 const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit } }) => {
   const hideSubmit = controls?.hide_navigation_buttons?.meta ? controls.hide_navigation_buttons.meta.isVisible : false;
@@ -39,11 +50,7 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
               {!hideSubmit && wizardStep.nextButtonLabel && (
                 <NextButton onClick={e => handleSubmit(e, next, wizardStep.formAction)} data-testid="nextButton">
                   <span className="value">{wizardStep.nextButtonLabel}</span>
-                  {submitting && (
-                    <span className="working">
-                      <div className="progress-indicator progress-white"></div>
-                    </span>
-                  )}
+                  {submitting && <Spinner size="25" />}
                 </NextButton>
               )}
             </div>

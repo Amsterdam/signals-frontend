@@ -5,7 +5,7 @@ import get from 'lodash.get';
 
 import './style.scss';
 
-const renderText = (key, name, parent) => {
+const renderText = (key = 'incident', name, parent) => {
   const replacedValue = get(parent, `meta.incidentContainer.${key}`);
   if (replacedValue) {
     return replacedValue.split('\n\n').map((item, k) => (

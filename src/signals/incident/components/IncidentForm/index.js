@@ -139,10 +139,15 @@ class IncidentForm extends React.Component {
         break;
 
       case 'CREATE_INCIDENT':
+        this.setState({
+          submitting: true,
+          loading: false,
+        });
         this.props.createIncident({
           incident: this.props.incidentContainer.incident,
           wizard: this.props.wizard,
         });
+        break;
     }
   }
 
@@ -164,7 +169,7 @@ class IncidentForm extends React.Component {
 
       if (this.form.valid) {
         this.setIncident(formAction);
-        next();
+        if (formAction !== 'CREATE_INCIDENT') next();
       }
     }
 
