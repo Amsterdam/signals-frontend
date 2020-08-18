@@ -56,7 +56,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     () => ({
       ...dataLists,
       area: districts,
-      source: sources,
+      source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
     }),
     [districts, sources]
   );
