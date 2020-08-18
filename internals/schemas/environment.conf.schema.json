@@ -206,7 +206,8 @@
         "matomo",
         "sentry",
         "showVulaanControls",
-        "theme"
+        "theme",
+        "useStaticMapServer"
       ],
       "title": "Test"
     },
