@@ -10,14 +10,17 @@ import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 
 import IncidentManagementContext from '../../../context';
+import AppContext from '../../../../../containers/App/context';
 
 import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '..';
 
 jest.mock('shared/services/configuration/configuration');
 
-const withContext = Component =>
+const withContext = (Component, actualSources = null) =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts, sources }}>{Component}</IncidentManagementContext.Provider>
+    <AppContext.Provider value={{ sources: actualSources }}>
+      <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+    </AppContext.Provider>
   );
 
 describe('signals/incident-management/containers/FilterTagList', () => {
@@ -191,7 +194,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       configuration.fetchSourcesFromBackend = true;
 
       const { queryAllByTestId, queryByText } = render(
-        withAppContext(
+        withContext(
           <FilterTagListComponent
             tags={{
               ...tags,
@@ -199,7 +202,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             }}
             subCategories={subCategories}
             mainCategories={mainCategories}
-          />
+          />,
+          sources
         )
       );
 
