@@ -5,8 +5,8 @@ import styled, { css } from 'styled-components';
 import { Heading, themeSpacing, Row, Column, themeColor } from '@datapunt/asc-ui';
 import { defaultTextsType } from 'shared/types';
 import statusList, {
-  defaultTextsOptionList,
   changeStatusOptionList,
+  defaultTextsOptionList,
 } from 'signals/incident-management/definitions/statusList';
 
 import Button from 'components/Button';
@@ -108,6 +108,10 @@ const canSendMail = status =>
 const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
+  // disable submit button when the current status is a status that cannot be set manually (or, in other words, is not in the list of changeStatusOptionList)
+  const [submitIsDisabled, setSubmitIsDisabled] = useState(
+    changeStatusOptionList.find(({ key }) => key === currentStatus.key) === undefined
+  );
   const [warning, setWarning] = useState('');
   const [showSendMail, setShowSendMail] = useState(canSendMail(currentStatus?.key));
   const isDeelmelding = !!incident?._links?.['sia:parent'];
@@ -128,6 +132,7 @@ const StatusForm = ({ defaultTexts }) => {
 
       const found = statusList.find(s => s.key === status);
 
+      setSubmitIsDisabled(false);
       setShowSendMail(canSendMail(found?.key));
       setWarning(found?.warning);
 
@@ -231,7 +236,12 @@ const StatusForm = ({ defaultTexts }) => {
                   </React.Fragment>
                 )}
 
-                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
+                <StyledButton
+                  data-testid="statusFormSubmitButton"
+                  type="submit"
+                  variant="secondary"
+                  disabled={invalid || submitIsDisabled}
+                >
                   Status opslaan
                 </StyledButton>
 
