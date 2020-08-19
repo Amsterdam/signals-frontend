@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { pointWithinBounds } from 'shared/services/map-location';
 import Button from 'components/Button';
-import Spinner from 'components/Spinner';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import GPS from '../../shared/images/icon-gps.svg';
 
@@ -76,7 +76,7 @@ const GPSButton = ({ className, onLocationChange, onLocationSuccess, onLocationE
     <StyledButton
       className={className}
       data-testid="gpsButton"
-      icon={loading ? <Spinner /> : <GPSIcon fill={toggled ? '#009de6' : 'black'} />}
+      icon={loading ? <LoadingIndicator color="black" /> : <GPSIcon fill={toggled ? '#009de6' : 'black'} />}
       iconSize={20}
       onClick={onClick}
       size={44}

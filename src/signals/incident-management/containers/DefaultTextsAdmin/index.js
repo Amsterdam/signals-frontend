@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import { dataListType, defaultTextsType } from 'shared/types';
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';

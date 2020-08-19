@@ -17,11 +17,13 @@ export SIGNALS_IOS_ICON=$(cat /environment.conf.json | jq -r '.head.iosIcon')
 export SIGNALS_MANIFEST_SHORT_NAME=$(cat /translations.json | jq -r :"${SIGNALS_LANG}.translation.manifestShortName")
 export SIGNALS_MANIFEST_NAME=$(cat /environment.conf.json | jq -r "${SIGNALS_LANG}.translation.manifestName")
 export SIGNALS_SITE_TITLE=$(cat /environment.conf.json | jq -r "${SIGNALS_LANG}.translation.siteTitle")
+export SIGNALS_MATOMO_SITE_ID=$(cat /environment.conf.json | jq -r '.matomo.siteId')
+export SIGNALS_MATOMO_URL_BASE=$(cat /environment.conf.json | jq -r '.matomo.urlBase')
 export SIGNALS_STATUS_BAR_STYLE=$(cat /environment.conf.json | jq -r '.head.statusBarStyle')
 export SIGNALS_MANIFEST_THEME_COLOR=$(cat /environment.conf.json | jq -r '.head.manifestThemeColor')
 
 envsubst < /usr/share/nginx/html/sw.js > /tmp/sw.js
-envsubst < /usr/share/nginx/html/index.html > /tmp/index.html
+envsubst "`printf '${%s} ' $(sh -c "env|cut -d'=' -f1")`" < /usr/share/nginx/html/index.html > /tmp/index.html
 envsubst < /usr/share/nginx/html/manifest.json > /tmp/manifest.json
 
 mv /tmp/sw.js /usr/share/nginx/html/sw.js

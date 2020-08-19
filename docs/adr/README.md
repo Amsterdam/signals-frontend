@@ -5,4 +5,5 @@
 2. [Using local state in setttings module](./0002-using-local-state-in-settings-module.md)
 3. [Application configuration setup](./0003-application-configuration-setup.md)
 4. [Multi-tenant architecture](./0004-multi-tenant-architecture.md)
-5. [Handling string translations](./0005-handling-string-translations.md)
+5. [Deploy setup](./0005-deploy-setup.md)
+6. [Handling string translations](./0006-handling-string-translations.md)

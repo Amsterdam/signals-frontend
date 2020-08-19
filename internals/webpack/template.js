@@ -33,6 +33,8 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
     $SIGNALS_MANIFEST_SHORT_NAME: translations[lang].translation.manifestShortName,
     $SIGNALS_MANIFEST_NAME: translations[lang].translation.manifestName,
     $SIGNALS_SITE_TITLE: translations[lang].translation.siteTitle,
+    $SIGNALS_MATOMO_SITE_ID: combinedConfig.matomo.siteId,
+    $SIGNALS_MATOMO_URL_BASE: combinedConfig.matomo.urlBase,
     $SIGNALS_STATUS_BAR_STYLE: combinedConfig.head.statusBarStyle,
     $SIGNALS_MANIFEST_THEME_COLOR: combinedConfig.head.manifestThemeColor,
     $SIGNALS_TRANSLATIONS: JSON.stringify(translations),
@@ -43,13 +45,13 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   const manifestFile = path.join(__dirname, '..', '..', 'src', 'manifest.json');
   const manifestString = fs.readFileSync(manifestFile).toString();
 
-  template.templateContent = Object.keys(placeholders).reduce(
-    (acc, key) => acc.replace(key, placeholders[key]),
+  template.templateContent = Object.entries(placeholders).reduce(
+    (acc, [key, value]) => acc.replace(new RegExp(`\\${key}`, 'gm'), value),
     templateString
   );
 
-  template.manifestContent = Object.keys(placeholders).reduce(
-    (acc, key) => acc.replace(key, placeholders[key]),
+  template.manifestContent = Object.entries(placeholders).reduce(
+    (acc, [key, value]) => acc.replace(key, value),
     manifestString
   );
 } else {

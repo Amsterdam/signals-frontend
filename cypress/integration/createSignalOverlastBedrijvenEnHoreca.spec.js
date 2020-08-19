@@ -12,7 +12,6 @@ describe('Create signal bedrijven en horeca and check signal details', () => {
 
     it('Should search for an address', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:bedrijvenHoreca.json').as('prediction');
 
