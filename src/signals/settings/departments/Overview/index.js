@@ -5,7 +5,7 @@ import { Row, Column } from '@datapunt/asc-ui';
 import { useHistory } from 'react-router-dom';
 
 import PageHeader from 'signals/settings/components/PageHeader';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator';
 import ListComponent from 'components/List';
 import { makeSelectDepartments } from 'models/departments/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';

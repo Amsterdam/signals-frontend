@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 
 import { PAGE_SIZE } from 'containers/App/constants';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator';
 import Pagination from 'components/Pagination';
 import PageHeader from 'signals/settings/components/PageHeader';
 import DataView from 'components/DataView';

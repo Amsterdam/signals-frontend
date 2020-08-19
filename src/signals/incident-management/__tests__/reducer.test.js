@@ -203,7 +203,8 @@ describe('signals/incident-management/reducer', () => {
         .set('ordering', initialState.get('ordering'))
         .set('page', initialState.get('page'))
         .set('activeFilter', fromJS(appliedFilter))
-        .set('editFilter', fromJS(appliedFilter));
+        .set('editFilter', fromJS(appliedFilter))
+        .set('loadingIncidents', true);
 
     expect(reducer(initialState, applyFilter)).toEqual(applied(initialState));
     expect(reducer(intermediateState, applyFilter)).toEqual(applied(intermediateState));
@@ -326,7 +327,7 @@ describe('signals/incident-management/reducer', () => {
       payload: page,
     };
 
-    const applied = state => state.set('page', page);
+    const applied = state => state.set('page', page).set('loadingIncidents', true);
 
     expect(reducer(initialState, pageChanged)).toEqual(applied(initialState));
     expect(reducer(intermediateState, pageChanged)).toEqual(applied(intermediateState));
@@ -339,7 +340,7 @@ describe('signals/incident-management/reducer', () => {
       payload: ordering,
     };
 
-    const applied = state => state.set('page', 1).set('ordering', ordering);
+    const applied = state => state.set('page', 1).set('ordering', ordering).set('loadingIncidents', true);
 
     expect(reducer(initialState, orderingChanged)).toEqual(applied(initialState));
     expect(reducer(intermediateState, orderingChanged)).toEqual(applied(intermediateState));
@@ -429,7 +430,8 @@ describe('signals/incident-management/reducer', () => {
         .set('activeFilter', initialState.get('activeFilter'))
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'));
+        .set('page', initialState.get('page'))
+        .set('loadingIncidents', true);
 
     expect(reducer(initialState, setSearchQuery)).toEqual(applied(initialState));
     expect(reducer(intermediateState, setSearchQuery)).toEqual(applied(intermediateState));
@@ -445,7 +447,8 @@ describe('signals/incident-management/reducer', () => {
         .set('loading', true)
         .set('loadingIncidents', true)
         .set('ordering', initialState.get('ordering'))
-        .set('page', initialState.get('page'));
+        .set('page', initialState.get('page'))
+        .set('loadingIncidents', true);
 
     expect(reducer(initialState, resetSearchQuery)).toEqual(applied(initialState));
     expect(reducer(intermediateState, resetSearchQuery)).toEqual(applied(intermediateState));

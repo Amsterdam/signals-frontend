@@ -10,9 +10,12 @@ describe('Sorting', () => {
     cy.visitFetch('/manage/incidents/');
     cy.waitForManageSignalsRoutes();
   });
-
-  it('Should sort on column Id', () => {
+  it('Should set-up testdata', () => {
     requests.createSignalOverviewMap();
+    requests.createSignalSorting01();
+    requests.createSignalSorting02();
+  });
+  it('Should sort on column Id', () => {
     cy.route('/signals/v1/private/signals/?page=1&ordering=id&page_size=50').as('getSortedASC');
     cy.route('/signals/v1/private/signals/?page=1&ordering=-id&page_size=50').as('getSortedDESC');
 
@@ -125,11 +128,11 @@ describe('Sorting', () => {
     cy.get('th').contains('Adres').click();
     cy.wait('@getSortedASC');
     cy.get('th.sort.sort-up').should('have.text', 'Adres').and('be.visible');
-    cy.get(MANAGE_SIGNALS.firstSignalAdres).should('contain', 'Afroditekade');
+    cy.get(MANAGE_SIGNALS.firstSignalAdres).should('contain', 'Aaf Bouberstraat');
 
     cy.get('th').contains('Adres').click();
     cy.wait('@getSortedDESC');
     cy.get('th.sort.sort-down').should('have.text', 'Adres').and('be.visible');
-    cy.get(MANAGE_SIGNALS.firstSignalAdres).should('contain', 'Zeedijk');
+    cy.get(MANAGE_SIGNALS.firstSignalAdres).should('contain', 'Zwenkgrasstraat');
   });
 });
