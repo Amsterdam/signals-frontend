@@ -9,7 +9,7 @@ export default {
         meta: {
           className: 'col-sm-12 col-md-6',
           type: 'bedankt',
-          value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.',
+          value: 'Uw melding is bij ons bekend onder nummer: <a href="/manage/incident/{incident.id}">{incident.id}<a>.',
         },
         render: FormComponents.PlainText,
       },

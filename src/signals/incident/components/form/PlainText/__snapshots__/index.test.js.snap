@@ -9,19 +9,40 @@ exports[`Form component <PlainText /> rendering should render multiple parargrap
     className="plain-text__box-p plain-text__box-p-1"
     key="undefined-1"
   >
-    Lorem Ipsum
+    <PlainText__Span
+      authenticated={false}
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Lorem Ipsum",
+        }
+      }
+    />
   </div>
   <div
     className="plain-text__box-p plain-text__box-p-2"
     key="undefined-2"
   >
-    Lorem Ipsum
+    <PlainText__Span
+      authenticated={false}
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Lorem Ipsum",
+        }
+      }
+    />
   </div>
   <div
     className="plain-text__box-p plain-text__box-p-3"
     key="undefined-3"
   >
-    Lorem Ipsum
+    <PlainText__Span
+      authenticated={false}
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Lorem Ipsum",
+        }
+      }
+    />
   </div>
   <div
     className="plain-text__box-p plain-text__box-p-4"
@@ -47,7 +68,14 @@ exports[`Form component <PlainText /> rendering should render plain text alert c
   className="alert plain-text__box"
 >
   <PlainText__Label />
-  Lorem Ipsum
+  <PlainText__Span
+    authenticated={false}
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Lorem Ipsum",
+      }
+    }
+  />
 </div>
 `;
 
@@ -56,7 +84,14 @@ exports[`Form component <PlainText /> rendering should render plain text caution
   className="caution plain-text__box"
 >
   <PlainText__Label />
-  Lorem Ipsum
+  <PlainText__Span
+    authenticated={false}
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Lorem Ipsum",
+      }
+    }
+  />
 </div>
 `;
 
@@ -65,7 +100,14 @@ exports[`Form component <PlainText /> rendering should render plain text citatio
   className="citation plain-text__box"
 >
   <PlainText__Label />
-  Lorem Ipsum
+  <PlainText__Span
+    authenticated={false}
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Lorem Ipsum",
+      }
+    }
+  />
 </div>
 `;
 
@@ -74,6 +116,13 @@ exports[`Form component <PlainText /> rendering should render plain text correct
   className=" plain-text__box"
 >
   <PlainText__Label />
-  Lorem Ipsum
+  <PlainText__Span
+    authenticated={false}
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Lorem Ipsum",
+      }
+    }
+  />
 </div>
 `;
