@@ -1,0 +1,54 @@
+name: End-to-end
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+
+env:
+  TZ: "Europe/Amsterdam"
+  CI: "true"
+
+jobs:
+  end-to-end:
+    name: End-to-end
+    runs-on: ubuntu-latest
+    strategy:
+      # when one test fails, DO NOT cancel the other
+      # containers, because this will kill Cypress processes
+      # leaving the Dashboard hanging ...
+      # https://github.com/cypress-io/github-action/issues/48
+      fail-fast: false
+      matrix:
+        # run 3 copies of the current job in parallel
+        containers: [1, 2, 3]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build frontend
+        run: docker-compose build
+
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        id: cypress
+        continue-on-error: true
+        with:
+          start: docker-compose up
+          wait-on: 'http://localhost:8000/signals/'
+          wait-on-timeout: 180
+          working-directory: e2e-tests
+          record: true
+          parallel: true
+          group: 'Signalen'
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print Dashboard URL
+        run: |
+          echo Cypress finished with: ${{ steps.cypress.outcome }}
+          echo See results at ${{ steps.cypress.outputs.dashboardUrl }}

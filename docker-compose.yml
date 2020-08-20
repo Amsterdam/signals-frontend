@@ -1,34 +1,41 @@
-version: '3.5'
+version: '3.8'
+
 services:
-  web-container: # NGINX
+  frontend:
     build:
-      args:
-        - BUILD_ENV=acc
       context: .
-    environment:
-      - TZ=Europe/Amsterdam
-    ipc: host
+      args:
+        - ENABLE_SERVICEWORKER=0
+    volumes:
+      - ./e2e-tests/app.json:/app.json
     ports:
       - "3001:80"
 
-  lint-container:
-    build:
-      cache_from:
-        - docker-registry.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
-      context: .
-      target: base
+  backend:
+    image: signalen/backend:latest
     environment:
-      - CI=true
-      - TZ=Europe/Amsterdam
-    command: npm run lint
+      - DJANGO_SETTINGS_MODULE=signals.settings.testing
+      - ALLOWED_HOSTS=localhost
+      - SECRET_KEY=insecure
+      - DATABASE_HOST_OVERRIDE=database
+      - DATABASE_PORT_OVERRIDE=5432
+      - DB_NAME=signals
+      - DB_PASSWORD=insecure
+      - ALWAYS_OK=True
+      - ELASTICSEARCH_HOST=localhost:8000
+      - ELASTICSEARCH_INDEX=unknown
+    command:
+      - /initialize-backend.sh
+    volumes:
+      - ./scripts/initialize-backend.sh:/initialize-backend.sh
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
 
-  unittest-container:
-    build:
-      cache_from:
-        - docker-registry.data.amsterdam.nl/ois/signalsfrontend-base:acceptance
-      context: .
-      target: base
+  database:
+    image: amsterdam/postgres11:latest
     environment:
-      - CI=true
-      - TZ=Europe/Amsterdam
-    command: npm run test
+      POSTGRES_DB: signals
+      POSTGRES_USER: signals
+      POSTGRES_PASSWORD: insecure

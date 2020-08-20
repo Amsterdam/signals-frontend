@@ -39,7 +39,9 @@ npm test
 Run the end-to-end tests with:
 
 ```bash
-npm run cy:open
+cd e2e-tests/
+npm install
+npm run open
 ```
 
 ## Service Worker
