@@ -13,6 +13,8 @@ const CheckboxStyle = styled.div`
   }
 `;
 
+// disabling linter for the sake of not having to create a complicated structure to accomodate the shit that is react-reactive-form
+// eslint-disable-next-line react/prop-types
 const CheckboxInput = ({ name, label, ...rest }) => ({ handler }) => (
   <CheckboxStyle>
     <Checkbox id={name} name={name} checked={handler().value} onChange={handler().onChange} {...rest} />

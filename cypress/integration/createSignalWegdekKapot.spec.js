@@ -12,7 +12,6 @@ describe('Create signal wegdek kapot and check signal details', () => {
 
     it('Should search for an address', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:wegdek.json').as('prediction');
 

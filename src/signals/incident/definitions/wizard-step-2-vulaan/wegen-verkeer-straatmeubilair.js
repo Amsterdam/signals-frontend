@@ -519,6 +519,9 @@ export const controls = {
         nee: 'Nee, ik wil direct verder gaan',
       },
     },
+    options: {
+      validators: [Validators.required],
+    },
     render: FormComponents.RadioInputGroup,
   },
   extra_fietsrek_text: {
