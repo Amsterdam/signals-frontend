@@ -100,7 +100,7 @@ module.exports = require('./webpack.base.babel')({
 
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-    new OfflinePlugin({
+    process.env.ENABLE_SERVICEWORKER === '1' ? new OfflinePlugin({
       version: '$SIGNALS_SERVICE_WORKER_VERSION',
       ServiceWorker: {
         events: true,
@@ -122,7 +122,7 @@ module.exports = require('./webpack.base.babel')({
 
       // Removes warning for about `additional` section usage
       safeToUseOptionalCaches: true,
-    }),
+    }) : null,
 
     new CopyPlugin({
       patterns: [
@@ -132,7 +132,7 @@ module.exports = require('./webpack.base.babel')({
         },
       ],
     }),
-  ],
+  ].filter(Boolean),
 
   performance: {
     assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),

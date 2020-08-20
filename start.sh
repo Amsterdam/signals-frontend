@@ -20,12 +20,15 @@ export SIGNALS_SITE_TITLE=$(cat /environment.conf.json | jq -r '.language.siteTi
 export SIGNALS_STATUS_BAR_STYLE=$(cat /environment.conf.json | jq -r '.head.statusBarStyle')
 export SIGNALS_THEME_COLOR=$(cat /environment.conf.json | jq -r '.head.themeColor')
 
-envsubst < /usr/share/nginx/html/sw.js > /tmp/sw.js
 envsubst "`printf '${%s} ' $(sh -c "env|cut -d'=' -f1")`" < /usr/share/nginx/html/index.html > /tmp/index.html
-envsubst < /usr/share/nginx/html/manifest.json > /tmp/manifest.json
-
-mv /tmp/sw.js /usr/share/nginx/html/sw.js
 mv /tmp/index.html /usr/share/nginx/html/index.html
+
+envsubst < /usr/share/nginx/html/manifest.json > /tmp/manifest.json
 mv /tmp/manifest.json /usr/share/nginx/html/manifest.json
+
+if [ -f /usr/share/nginx/html/sw.js ]; then
+    envsubst < /usr/share/nginx/html/sw.js > /tmp/sw.js
+    mv /tmp/sw.js /usr/share/nginx/html/sw.js
+fi
 
 nginx -g "daemon off;"

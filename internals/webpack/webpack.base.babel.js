@@ -124,6 +124,7 @@ module.exports = options => ({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       GIT_BRANCH: JSON.stringify(process.env.GIT_BRANCH) || 'dummy',
       BUILD_ENV: JSON.stringify(process.env.BUILD_ENV) || 'development',
+      ENABLE_SERVICEWORKER: JSON.stringify(process.env.ENABLE_SERVICEWORKER) || '1',
     }),
 
     new MiniCssExtractPlugin({

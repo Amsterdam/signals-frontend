@@ -1,0 +1,12 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "defaultCommandTimeOut": 5000,
+  "projectId": "xdzm5k",
+  "requestTimeout": 15000,
+  "responseTimeout": 15000,
+  "retries": {
+    "runMode": 1,
+    "openMode": 1
+  },
+  "video": false
+}
