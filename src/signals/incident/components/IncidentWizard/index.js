@@ -6,8 +6,8 @@ import { Heading, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
 import { sourceList } from 'signals/incident-management/definitions';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
 import configuration from 'shared/services/configuration/configuration';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import AppContext from '../../../../containers/App/context';
 import IncidentForm from '../IncidentForm';

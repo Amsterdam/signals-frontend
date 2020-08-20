@@ -10,9 +10,9 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 import MyFilters from 'signals/incident-management/containers/MyFilters';
 import PageHeader from 'containers/PageHeader';
 import { orderingChanged, pageChanged } from 'signals/incident-management/actions';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
+import LoadingIndicator from 'components/LoadingIndicator';
 import * as types from 'shared/types';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import MapContext from 'containers/MapContext';
@@ -46,7 +46,7 @@ export const IncidentOverviewPageContainerComponent = ({
   const { listenFor, unlisten } = useEventEmitter();
   const [modalFilterIsOpen, toggleFilterModal] = useState(false);
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false);
-  const { count, loading, results } = incidents;
+  const { count, loadingIncidents, results } = incidents;
   const location = useLocation();
   const showsMap = location.pathname === MAP_URL;
 
@@ -151,7 +151,7 @@ export const IncidentOverviewPageContainerComponent = ({
       {!showsMap && (
         <Row>
           <Column span={12}>
-            {loading && <LoadingIndicator />}
+            {loadingIncidents && <LoadingIndicator size={100} />}
 
             {canRenderList && (
               <ListComponent
@@ -159,6 +159,7 @@ export const IncidentOverviewPageContainerComponent = ({
                 onChangeOrdering={orderingChangedAction}
                 sort={ordering}
                 incidentsCount={count}
+                loading={loadingIncidents}
                 {...dataLists}
               />
             )}
@@ -195,7 +196,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
   incidents: PropTypes.shape({
     count: PropTypes.number,
-    loading: PropTypes.bool,
+    loadingIncidents: PropTypes.bool,
     results: PropTypes.arrayOf(PropTypes.shape({})),
   }),
   orderingChangedAction: PropTypes.func.isRequired,

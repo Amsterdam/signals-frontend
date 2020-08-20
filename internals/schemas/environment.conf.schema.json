@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "$ref": "#/definitions/Test",
+  "$ref": "#/definitions/Config",
   "definitions": {
-    "Test": {
+    "Config": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -47,7 +47,7 @@
           "type": "boolean"
         },
         "areaTypeCodeForDistrict": {
-          "description": "The area_type_code that is being used as districts, fetched from the areas endpoint",
+          "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [useAreasInsteadOfStadsdeel](#useAreasInsteadOfStadsdeel) is set to true).",
           "type": "string"
         },
         "STATIC_MAP_SERVER_URL": {
@@ -217,7 +217,6 @@
         "STATIC_MAP_SERVER_URL",
         "TERMS_ENDPOINT",
         "USERS_ENDPOINT",
-        "areaTypeCodeForDistrict",
         "fetchSourcesFromBackend",
         "fetchQuestionsFromBackend",
         "head",
@@ -231,7 +230,23 @@
         "theme",
         "useAreasInsteadOfStadsdeel"
       ],
-      "title": "Test"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "useAreasInsteadOfStadsdeel": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "areaTypeCodeForDistrict"
+            ]
+          }
+        }
+      ],
+      "title": "Config"
     },
     "Head": {
       "type": "object",
@@ -425,7 +440,10 @@
       "additionalProperties": false,
       "properties": {
         "municipality": {
-          "type": ["string", "array"]
+          "type": [
+            "string",
+            "array"
+          ]
         },
         "options": {
           "$ref": "#/definitions/MapOptions"

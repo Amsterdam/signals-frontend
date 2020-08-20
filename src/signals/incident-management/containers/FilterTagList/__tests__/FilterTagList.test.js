@@ -148,15 +148,15 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         )
       );
 
-      expect(queryByText('Normaal')).toBeInTheDocument();
-      expect(queryByText('Tevreden')).toBeInTheDocument();
-      expect(queryByText('februariplein 1')).toBeInTheDocument();
-      expect(queryByText('Centrum')).toBeInTheDocument();
-      expect(queryByText('Westpoort')).toBeInTheDocument();
-      expect(queryByText('North')).not.toBeInTheDocument();
-      expect(queryByText('Telefoon – Adoptant')).toBeInTheDocument();
-      expect(queryByText('Telefoon – ASC')).toBeInTheDocument();
-      expect(queryByText('Phone')).not.toBeInTheDocument();
+      expect(queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
+      expect(queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+      expect(queryByText(tags.address_text)).toBeInTheDocument();
+      expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+      expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+      expect(queryByText(districts[0].value)).not.toBeInTheDocument();
+      expect(queryByText(definitions.sourceList[0].value)).toBeInTheDocument();
+      expect(queryByText(definitions.sourceList[1].value)).toBeInTheDocument();
+      expect(queryByText(sources[0].value)).not.toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
     });
@@ -178,14 +178,15 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         )
       );
 
-      expect(queryByText('Normaal')).toBeInTheDocument();
-      expect(queryByText('Tevreden')).toBeInTheDocument();
-      expect(queryByText('februariplein 1')).toBeInTheDocument();
-      expect(queryByText('Centrum')).not.toBeInTheDocument();
-      expect(queryByText('Westpoort')).not.toBeInTheDocument();
-      expect(queryByText('North')).toBeInTheDocument();
-      expect(queryByText('Telefoon – Adoptant')).toBeInTheDocument();
-      expect(queryByText('Telefoon – ASC')).toBeInTheDocument();
+      expect(queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
+      expect(queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+      expect(queryByText(tags.address_text)).toBeInTheDocument();
+      expect(queryByText(definitions.stadsdeelList[0].value)).not.toBeInTheDocument();
+      expect(queryByText(definitions.stadsdeelList[1].value)).not.toBeInTheDocument();
+      expect(queryByText(districts[0].value)).toBeInTheDocument();
+      expect(queryByText(definitions.sourceList[0].value)).toBeInTheDocument();
+      expect(queryByText(definitions.sourceList[1].value)).toBeInTheDocument();
+      expect(queryByText(sources[0].value)).not.toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
     });
@@ -207,14 +208,15 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         )
       );
 
-      expect(queryByText('Normaal')).toBeInTheDocument();
-      expect(queryByText('Tevreden')).toBeInTheDocument();
-      expect(queryByText('februariplein 1')).toBeInTheDocument();
-      expect(queryByText('Centrum')).toBeInTheDocument();
-      expect(queryByText('Westpoort')).toBeInTheDocument();
-      expect(queryByText('Telefoon – Adoptant')).not.toBeInTheDocument();
-      expect(queryByText('Telefoon – ASC')).not.toBeInTheDocument();
-      expect(queryByText('Phone')).toBeInTheDocument();
+      expect(queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
+      expect(queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+      expect(queryByText(tags.address_text)).toBeInTheDocument();
+      expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+      expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+      expect(queryByText(districts[0].value)).not.toBeInTheDocument();
+      expect(queryByText(definitions.sourceList[0].value)).not.toBeInTheDocument();
+      expect(queryByText(definitions.sourceList[1].value)).not.toBeInTheDocument();
+      expect(queryByText(sources[0].value)).toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
     });

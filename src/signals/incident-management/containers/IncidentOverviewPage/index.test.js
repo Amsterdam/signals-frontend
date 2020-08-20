@@ -61,7 +61,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       incidents: {
         count: 0,
         results: [],
-        loading: true,
+        loadingIncidents: true,
       },
       page: 3,
       categories: {},
@@ -92,7 +92,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
           incidents={{
             count: incidents.length,
             results: incidents,
-            loading: false,
+            loadingIncidents: false,
           }}
         />
       )
@@ -113,7 +113,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
           incidents={{
             count: incidents.length,
             results: incidents,
-            loading: false,
+            loadingIncidents: false,
           }}
         />
       )
@@ -130,7 +130,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
           incidents={{
             count: incidents.length,
             results: incidents,
-            loading: false,
+            loadingIncidents: false,
           }}
         />
       )
@@ -147,7 +147,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
           incidents={{
             count: incidents.length,
             results: incidents,
-            loading: false,
+            loadingIncidents: false,
           }}
         />
       )
@@ -196,7 +196,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
           incidents={{
             count: incidents.length,
             results: incidents,
-            loading: false,
+            loadingIncidents: false,
           }}
         />
       )
@@ -224,7 +224,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
           incidents={{
             count: incidents.length,
             results: incidents,
-            loading: false,
+            loadingIncidents: false,
           }}
         />
       )
