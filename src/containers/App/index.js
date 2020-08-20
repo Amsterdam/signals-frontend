@@ -52,9 +52,10 @@ export const AppContainer = ({ resetIncidentAction }) => {
   authenticate();
 
   useEffect(() => {
-    const { referrer } = location;
+    const { pathname, referrer } = location;
 
-    if (referrer === '/incident/bedankt') {
+    // The incident will be reset if we navigate from `/incident/bedankt` but NOT when an error occurs
+    if (referrer === '/incident/bedankt' && pathname !== '/incident/fout') {
       resetIncidentAction();
     }
   }, [location, resetIncidentAction]);

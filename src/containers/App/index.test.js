@@ -84,6 +84,40 @@ describe('<App />', () => {
     expect(resetIncidentAction).toHaveBeenCalled();
   });
 
+  it('should not reset incident on fault', () => {
+    act(() => {
+      history.push('/');
+    });
+
+    const resetIncidentAction = jest.fn();
+
+    const { rerender, unmount } = render(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
+
+    expect(resetIncidentAction).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/incident/bedankt');
+    });
+
+    unmount();
+
+    resetIncidentAction.mockReset();
+    rerender(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
+
+    expect(resetIncidentAction).not.toHaveBeenCalled();
+
+    act(() => {
+      history.push('/incident/fault');
+    });
+
+    unmount();
+
+    resetIncidentAction.mockReset();
+    rerender(withAppContext(<AppContainer resetIncidentAction={resetIncidentAction} />));
+
+    expect(resetIncidentAction).not.toHaveBeenCalled();
+  });
+
   it('should render correctly', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
