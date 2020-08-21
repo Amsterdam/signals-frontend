@@ -93,7 +93,7 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     form.profile.departments = state.departments.map(({ value }) => value);
 
     form.roles = state.roles.map(({ name: stateRoleName }) =>
-      roles.filter(({ name: dataRoleName }) => dataRoleName === stateRoleName)[0]
+      roles.find(({ name: dataRoleName }) => dataRoleName === stateRoleName)
     );
 
     const postPatch = { ...form, profile: { ...form.profile } };

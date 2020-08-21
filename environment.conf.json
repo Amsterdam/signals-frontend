@@ -87,6 +87,7 @@
   "fetchDistrictsFromBackend": false,
   "fetchQuestionsFromBackend": false,
   "showVulaanControls": true,
+  "useStaticMapServer": true,
   "AREAS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/areas/",
   "AUTH_ME_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/",
   "CATEGORIES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/",

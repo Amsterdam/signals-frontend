@@ -45,6 +45,9 @@ COPY assets /app/assets
 ARG GIT_BRANCH
 ENV GIT_BRANCH ${GIT_BRANCH}
 
+ARG BUILD_ENV
+ENV BUILD_ENV ${BUILD_ENV}
+
 ENV NODE_ENV=production
 RUN echo "run build"
 RUN npm run build

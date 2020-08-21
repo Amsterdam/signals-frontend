@@ -43,16 +43,20 @@
           "type": "boolean"
         },
         "showVulaanControls": {
-          "description": "When false, will not show extra questions after the first page of questions in the incident submission form",
+          "description": "When true, will show extra questions after the first page of questions in the incident submission form",
           "type": "boolean"
         },
-        "AUTH_ME_ENDPOINT": {
-          "description": "URL for the authorization endpoint; retrieves user profile data\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_user_auth_me for reference",
-          "type": "string",
-          "format": "uri"
+        "useStaticMapServer": {
+          "description": "When true, will use the static map server difined by [STATIC_MAP_SERVER_URL](#STATIC_MAP_SERVER_URL) to get a png image for a small map preview, otherwise leaflet without controls will be used.",
+          "type": "boolean"
         },
         "AREAS_ENDPOINT": {
           "description": "URL for the areas endpoint; retrieves geographical areas\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_areas_geography_ for reference",
+          "type": "string",
+          "format": "uri"
+        },
+        "AUTH_ME_ENDPOINT": {
+          "description": "URL for the authorization endpoint; retrieves user profile data\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_user_auth_me for reference",
           "type": "string",
           "format": "uri"
         },
@@ -217,7 +221,8 @@
         "matomo",
         "sentry",
         "showVulaanControls",
-        "theme"
+        "theme",
+        "useStaticMapServer"
       ],
       "allOf": [
         {

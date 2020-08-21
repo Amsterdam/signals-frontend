@@ -92,23 +92,24 @@ const DetailHeader = () => {
     incident.status.state === 'm' && !(incident?._links?.['sia:children'] || incident?._links?.['sia:parent']);
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === incident.status.state);
   const downloadLink = incident?._links?.['sia:pdf']?.href;
-  const patch = {
-    type: PATCH_TYPE_THOR,
-    patch: {
-      status: {
-        state: 'ready to send',
-        text: 'Te verzenden naar THOR',
-        target_api: 'sigmax',
-      },
-    },
-  };
 
   const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : INCIDENTS_URL;
   const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop();
 
   const patchIncident = useCallback(() => {
+    const patch = {
+      type: PATCH_TYPE_THOR,
+      patch: {
+        status: {
+          state: 'ready to send',
+          text: 'Te verzenden naar THOR',
+          target_api: 'sigmax',
+        },
+      },
+    };
+
     update(patch);
-  }, [update, patch]);
+  }, [update]);
 
   return (
     <Header className="detail-header">
