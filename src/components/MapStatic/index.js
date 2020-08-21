@@ -6,6 +6,7 @@ import configuration from 'shared/services/configuration/configuration';
 
 import useFetch from 'hooks/useFetch';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
+import selectIconSrc from '!!file-loader!../../shared/images/icon-select-marker.svg';
 
 const ImgWrapper = styled.div`
   position: relative;
@@ -116,7 +117,7 @@ const MapStatic = ({
           {showMarker && (
             <img
               data-testid="mapStaticMarker"
-              src="https://map.data.amsterdam.nl/dist/images/svg/marker.svg"
+              src={selectIconSrc}
               alt="Gepinde locatie"
               width={markerSize}
               height={markerSize}

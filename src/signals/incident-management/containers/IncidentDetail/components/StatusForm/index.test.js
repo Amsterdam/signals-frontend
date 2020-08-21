@@ -3,7 +3,7 @@ import { render, fireEvent, act } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { changeStatusOptionList } from '../../../../definitions/statusList';
+import statusList, { changeStatusOptionList } from '../../../../definitions/statusList';
 
 import { PATCH_TYPE_STATUS } from '../../constants';
 import IncidentDetailContext from '../../context';
@@ -303,5 +303,21 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
       expect(queryByTestId('statusFormSendEmailField')).not.toBeInTheDocument();
     });
+  });
+
+  it('should disable the submit button when the incident status cannot be set manually', () => {
+    const changeStatusOptionListKeys = changeStatusOptionList.map(({ key }) => key);
+    const statusThatIsNotSelectable = statusList.find(({ key }) => changeStatusOptionListKeys.includes(key) === false);
+
+    const incident = {
+      ...incidentFixture,
+      status: {
+        state: statusThatIsNotSelectable.key,
+      },
+    };
+
+    const { getByTestId } = render(renderWithContext(incident));
+
+    expect(getByTestId('statusFormSubmitButton').disabled).toEqual(true);
   });
 });
