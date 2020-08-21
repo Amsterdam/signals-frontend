@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 
+import configuration from 'shared/services/configuration/configuration';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { withAppContext } from 'test/utils';
 
@@ -8,6 +9,7 @@ import IncidentDetailContext from '../../../../context';
 
 import Location from '.';
 
+jest.mock('shared/services/configuration/configuration');
 jest.mock('shared/services/list-helper/list-helper');
 
 const props = {
@@ -52,6 +54,10 @@ describe('<Location />', () => {
     edit.mockReset();
   });
 
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   describe('rendering', () => {
     it('should render correctly', async () => {
       const { findByText, queryByTestId, getByTestId } = render(renderWithContext());
@@ -62,6 +68,28 @@ describe('<Location />', () => {
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
       expect(getByTestId('previewLocationButton')).toBeInTheDocument();
+    });
+
+    describe('location preview', () => {
+      it('should render static map image with useStaticMapServer enabled', async () => {
+        const { findByText, queryByTestId } = render(renderWithContext());
+
+        await findByText('Locatie');
+
+        expect(queryByTestId('mapStaticImage')).toBeInTheDocument();
+        expect(queryByTestId('map-base')).not.toBeInTheDocument();
+      });
+
+      it('should render normal map with useStaticMapServer disabled', async () => {
+        configuration.useStaticMapServer = false;
+
+        const { findByText, queryByTestId } = render(renderWithContext());
+
+        await findByText('Locatie');
+
+        expect(queryByTestId('mapStaticImage')).not.toBeInTheDocument();
+        expect(queryByTestId('map-base')).toBeInTheDocument();
+      });
     });
 
     it('should render correctly without huisnummer_toevoeging', async () => {
