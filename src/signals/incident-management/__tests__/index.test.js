@@ -87,7 +87,7 @@ describe('signals/incident-management', () => {
     });
 
     it('should request districts on mount with feature flag enabled', () => {
-      configuration.useAreasInsteadOfStadsdeel = true;
+      configuration.fetchDistrictsFromBackend = true;
 
       isAuthenticated.mockImplementation(() => false);
 

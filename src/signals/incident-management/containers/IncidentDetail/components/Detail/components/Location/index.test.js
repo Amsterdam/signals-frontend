@@ -66,8 +66,8 @@ describe('<Location />', () => {
       expect(getByTestId('previewLocationButton')).toBeInTheDocument();
     });
 
-    it('should render correctly with useAreasInsteadOfStadsdeel', async () => {
-      configuration.useAreasInsteadOfStadsdeel = true;
+    it('should render correctly with fetchDistrictsFromBackend', async () => {
+      configuration.fetchDistrictsFromBackend = true;
       configuration.language.district = 'District';
 
       const { findByText, queryByTestId } = render(renderWithContext());

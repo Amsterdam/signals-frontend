@@ -44,7 +44,7 @@ const SplitDetail = ({ incident }) => {
             <dd data-testid="splitDetailValueDateOverlast">{string2date(incident.incident_date_start)}</dd>
             <dt data-testid="splitDetailTitleTimeOverlast">Tijd overlast</dt>
             <dd data-testid="splitDetailValueTimeOverlast">{string2time(incident.incident_date_start)}</dd>
-            {configuration.useAreasInsteadOfStadsdeel ? (
+            {configuration.fetchDistrictsFromBackend ? (
               <Fragment>
                 <dt data-testid="splitDetailTitleStadsdeel">{configuration.language.district}</dt>
                 <dd data-testid="splitDetailValueStadsdeel">

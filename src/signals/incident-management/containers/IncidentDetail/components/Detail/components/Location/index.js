@@ -86,12 +86,12 @@ const Location = ({ location }) => {
 
           {location.address_text ? (
             <div>
-              {configuration.useAreasInsteadOfStadsdeel && location.area_code && districts && (
+              {configuration.fetchDistrictsFromBackend && location.area_code && districts && (
                 <div data-testid="location-value-address-stadsdeel">
                   {configuration.language.district}: {getListValueByKey(districts, location.area_code)}
                 </div>
               )}
-              {!configuration.useAreasInsteadOfStadsdeel && location.stadsdeel && (
+              {!configuration.fetchDistrictsFromBackend && location.stadsdeel && (
                 <div data-testid="location-value-address-stadsdeel">
                   Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
                 </div>

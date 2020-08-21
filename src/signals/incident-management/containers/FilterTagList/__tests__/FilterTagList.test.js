@@ -150,8 +150,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
     });
 
-    it('works with feature flag useAreasInsteadOfStadsdeel enabled', () => {
-      configuration.useAreasInsteadOfStadsdeel = true;
+    it('works with feature flag fetchDistrictsFromBackend enabled', () => {
+      configuration.fetchDistrictsFromBackend = true;
 
       const { stadsdeel, ...otherTags } = tags;
       const { queryAllByTestId, queryByText } = render(

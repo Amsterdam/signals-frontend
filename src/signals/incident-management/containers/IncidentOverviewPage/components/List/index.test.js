@@ -54,8 +54,8 @@ describe('<List />', () => {
     );
   });
 
-  it('should render correctly with useAreasInsteadOfStadsdeel', () => {
-    configuration.useAreasInsteadOfStadsdeel = true;
+  it('should render correctly with fetchDistrictsFromBackend', () => {
+    configuration.fetchDistrictsFromBackend = true;
     configuration.language.district = 'District';
 
     const { container } = render(withContext(<List {...props} />));

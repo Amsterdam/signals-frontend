@@ -81,9 +81,9 @@ describe('<SplitDetail />', () => {
       expect(queryByTestId('splitDetailValueDepartment')).toHaveTextContent(/^STW, THO$/);
     });
 
-    it('should render correctly with useAreasInsteadOfStadsdeel', () => {
+    it('should render correctly with fetchDistrictsFromBackend', () => {
       const district = 'District';
-      configuration.useAreasInsteadOfStadsdeel = true;
+      configuration.fetchDistrictsFromBackend = true;
       configuration.language.district = district;
       props.incident.category.departments = '';
 

@@ -152,7 +152,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of district options with feature flag enabled', () => {
-    configuration.useAreasInsteadOfStadsdeel = true;
+    configuration.fetchDistrictsFromBackend = true;
     const { container } = render(withContext(<FilterForm {...formProps} />, districts));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(0);
@@ -160,7 +160,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should not render districts without districts available', () => {
-    configuration.useAreasInsteadOfStadsdeel = true;
+    configuration.fetchDistrictsFromBackend = true;
     const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(0);

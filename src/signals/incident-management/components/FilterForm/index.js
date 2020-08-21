@@ -292,7 +292,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             options={dataLists.status}
           />
 
-          {configuration.useAreasInsteadOfStadsdeel ? (
+          {configuration.fetchDistrictsFromBackend ? (
             <CheckboxGroup
               defaultValue={state.options.area}
               label={configuration.language.district}
