@@ -30,9 +30,11 @@ jest.mock('models/categories/selectors', () => ({
   makeSelectStructuredCategories: () => require('utils/__tests__/fixtures/categories_structured.json'),
 }));
 
-const withContext = Component =>
+const withContext = (Component, actualDistricts = null) =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+    <IncidentManagementContext.Provider value={{ districts: actualDistricts }}>
+      {Component}
+    </IncidentManagementContext.Provider>
   );
 
 describe('signals/incident-management/components/FilterForm', () => {
@@ -151,10 +153,18 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a list of district options with feature flag enabled', () => {
     configuration.useAreasInsteadOfStadsdeel = true;
-    const { container } = render(withContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />, districts));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(0);
     expect(container.querySelectorAll('input[type="checkbox"][name="area"]')).toHaveLength(districts.length);
+  });
+
+  it('should not render districts without districts available', () => {
+    configuration.useAreasInsteadOfStadsdeel = true;
+    const { container } = render(withContext(<FilterForm {...formProps} />));
+
+    expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(0);
+    expect(container.querySelectorAll('input[type="checkbox"][name="area"]')).toHaveLength(0);
   });
 
   it('should render a list of contact options', () => {
