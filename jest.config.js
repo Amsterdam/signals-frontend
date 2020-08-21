@@ -10,13 +10,14 @@ module.exports = {
     '!src/polyfills.js',
     '!src/global-styles.js',
     '!src/**/definitions/*',
+    '!src/**/.*',
   ],
   coverageThreshold: {
     global: {
-      statements: 98.5,
-      branches: 96.42,
-      functions: 98.11,
-      lines: 98.56,
+      statements: 98.67,
+      branches: 97.02,
+      functions: 98.36,
+      lines: 98.7,
     },
   },
   moduleDirectories: ['node_modules', 'src'],
