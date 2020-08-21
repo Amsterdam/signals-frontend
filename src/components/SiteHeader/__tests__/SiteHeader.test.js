@@ -232,7 +232,18 @@ describe('components/SiteHeader', () => {
       withAppContext(<SiteHeader showItems={{ defaultTexts: true }} location={{ pathname: '/incident/beschrijf' }} />)
     );
 
-    expect(queryByText('Standaard teksten')).not.toBeNull();
+    expect(queryByText('Standaard teksten')).toBeInTheDocument();
+  });
+
+  it('should show settings buttons', () => {
+    const { queryByText } = render(
+      withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true, departments: true, categories: true }} location={{ pathname: '/incident/beschrijf' }} />)
+    );
+
+    expect(queryByText('Gebruikers')).toBeInTheDocument();
+    expect(queryByText('Rollen')).toBeInTheDocument();
+    expect(queryByText('Afdelingen')).toBeInTheDocument();
+    expect(queryByText('Categorieën')).toBeInTheDocument();
   });
 
   it('should render correctly when logged in', () => {
