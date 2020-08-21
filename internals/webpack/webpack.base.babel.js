@@ -123,6 +123,7 @@ module.exports = options => ({
     new webpack.EnvironmentPlugin({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       GIT_BRANCH: JSON.stringify(process.env.GIT_BRANCH) || 'dummy',
+      BUILD_ENV: JSON.stringify(process.env.BUILD_ENV) || 'development',
     }),
 
     new MiniCssExtractPlugin({
