@@ -217,7 +217,6 @@
         "QUESTIONS_ENDPOINT",
         "ROLES_ENDPOINT",
         "SEARCH_ENDPOINT",
-        "SOURCES_ENDPOINT",
         "STATIC_MAP_SERVER_URL",
         "TERMS_ENDPOINT",
         "USERS_ENDPOINT",
@@ -247,6 +246,20 @@
           "then": {
             "required": [
               "areaTypeCodeForDistrict"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "fetchSourcesFromBackend": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "SOURCES_ENDPOINT"
             ]
           }
         }
