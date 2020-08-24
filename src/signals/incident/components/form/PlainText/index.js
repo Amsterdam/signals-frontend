@@ -11,19 +11,22 @@ import './style.scss';
 
 // This control will disable all the links when the user is not authenticated.
 const Span = styled.span`
-  & a {
-    ${({ authenticated }) => authenticated
-    ? css`
+  ${({ authenticated }) =>
+    authenticated
+      ? css`
+          a {
             color: ${themeColor('primary')};
             font-weight: bold;
-          `
-    : css`
+          }
+        `
+      : css`
+          a {
             pointer-events: none;
             cursor: default;
             text-decoration: none;
             color: inherit;
-          `
-}}
+          }
+        `}
 `;
 
 const renderText = (value, parent) => {
@@ -34,6 +37,7 @@ const renderText = (value, parent) => {
   const text = mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
   return (
     <Span
+      data-testid="plainText"
       authenticated={isAuthenticated()}
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
