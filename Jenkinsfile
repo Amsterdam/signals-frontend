@@ -34,10 +34,11 @@ node('BS16 || BS17') {
                     }
 
                     def buildParams = "--shm-size 1G " +
-                        "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} "
+                        "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                        "--build-arg GIT_BRANCH=${BRANCH} " +
+                        '--build-arg BUILD_ENV=' + (IS_SEMVER_TAG ? 'production' : 'acceptance')
 
-                    buildParams += IS_SEMVER_TAG ? "--build-arg GIT_BRANCH=${BRANCH} " : ''
-                    buildParams += '.'
+                    buildParams += ' .'
 
                     def image = docker.build("ois/signalsfrontend:${env.BUILD_NUMBER}", buildParams)
                     image.push()
