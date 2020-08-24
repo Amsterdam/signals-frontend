@@ -63,7 +63,7 @@ export const AppContainer = () => {
     if (referrer === '/incident/bedankt') {
       dispatch(resetIncident());
     }
-  }, [location]);
+  }, [dispatch, location]);
 
   useEffect(() => {
     const unlisten = history.listen(() => {
