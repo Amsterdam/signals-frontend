@@ -1,9 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import { compose, bindActionCreators } from 'redux';
-import { connect, useSelector } from 'react-redux';
+import { compose } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
@@ -47,7 +46,8 @@ const ContentContainer = styled.div`
   padding-top: ${({ headerIsTall }) => !headerIsTall && 50}px;
 `;
 
-export const AppContainer = ({ resetIncidentAction, getSourcesAction }) => {
+export const AppContainer = () => {
+  const dispatch = useDispatch();
   const loading = useSelector(makeSelectLoading());
   const sources = useSelector(makeSelectSources);
   const history = useHistory();
@@ -61,9 +61,9 @@ export const AppContainer = ({ resetIncidentAction, getSourcesAction }) => {
     const { referrer } = location;
 
     if (referrer === '/incident/bedankt') {
-      resetIncidentAction();
+      dispatch(resetIncident());
     }
-  }, [location, resetIncidentAction]);
+  }, [location]);
 
   useEffect(() => {
     const unlisten = history.listen(() => {
@@ -81,7 +81,7 @@ export const AppContainer = ({ resetIncidentAction, getSourcesAction }) => {
     if (!isAuthenticated()) return;
 
     if (configuration.fetchSourcesFromBackend) {
-      getSourcesAction();
+      dispatch(getSources());
     }
     // disabling linter; no deps needed, only execute on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,22 +117,7 @@ export const AppContainer = ({ resetIncidentAction, getSourcesAction }) => {
   );
 };
 
-AppContainer.propTypes = {
-  getSourcesAction: PropTypes.func.isRequired,
-  resetIncidentAction: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      resetIncidentAction: resetIncident,
-      getSourcesAction: getSources,
-    },
-    dispatch
-  );
-
-const withConnect = connect(null, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
-export default compose(withReducer, withSaga, withConnect)(AppContainer);
+export default compose(withReducer, withSaga)(AppContainer);

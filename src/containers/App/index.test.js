@@ -1,11 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import { render, act } from '@testing-library/react';
+import * as reactRedux from 'react-redux';
 import { withAppContext, history } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
+import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
 import App, { AppContainer } from '.';
+import { getSources } from './actions';
 
+const dispatch = jest.fn();
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
@@ -19,6 +23,10 @@ describe('<App />', () => {
   let spyScrollTo;
   let props;
 
+  beforeEach(() => {
+    dispatch.mockReset();
+  });
+
   afterAll(() => {
     jest.restoreAllMocks();
   });
@@ -29,21 +37,11 @@ describe('<App />', () => {
     listenSpy = jest.spyOn(history, 'listen');
     props = {
       resetIncidentAction: jest.fn(),
-      getSourcesAction: jest.fn(),
     };
   });
 
   afterEach(() => {
     listenSpy.mockRestore();
-  });
-
-  it('should have props from action creator', () => {
-    const tree = mount(withAppContext(<App />));
-
-    const containerProps = tree.find(AppContainer).props();
-
-    expect(containerProps.getSourcesAction).toBeDefined();
-    expect(typeof containerProps.getSourcesAction).toEqual('function');
   });
 
   it('should call authenticate', () => {
@@ -75,7 +73,7 @@ describe('<App />', () => {
 
     const { rerender, unmount } = render(withAppContext(<AppContainer {...props} />));
 
-    expect(props.resetIncidentAction).not.toHaveBeenCalled();
+    expect(dispatch).not.toHaveBeenCalled();
 
     act(() => {
       history.push('/incident/bedankt');
@@ -85,7 +83,7 @@ describe('<App />', () => {
 
     rerender(withAppContext(<AppContainer {...props} />));
 
-    expect(props.resetIncidentAction).not.toHaveBeenCalled();
+    expect(dispatch).not.toHaveBeenCalled();
 
     act(() => {
       history.push('/');
@@ -95,7 +93,7 @@ describe('<App />', () => {
 
     rerender(withAppContext(<AppContainer {...props} />));
 
-    expect(props.resetIncidentAction).toHaveBeenCalled();
+    expect(dispatch).toHaveBeenCalledWith(resetIncident());
   });
 
   it('should render correctly', () => {
@@ -181,13 +179,13 @@ describe('<App />', () => {
 
       render(withAppContext(<AppContainer {...props} />));
 
-      expect(props.getSourcesAction).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
       render(withAppContext(<AppContainer {...props} />));
 
-      expect(props.getSourcesAction).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
     });
 
     it('should request sources on mount with feature flag enabled', () => {
@@ -197,13 +195,14 @@ describe('<App />', () => {
 
       render(withAppContext(<AppContainer {...props} />));
 
-      expect(props.getSourcesAction).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalled();
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
       render(withAppContext(<AppContainer {...props} />));
 
-      expect(props.getSourcesAction).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith(getSources());
     });
   });
 });
