@@ -4,6 +4,7 @@ import LegendControl from './LegendControl';
 describe('Leaflet legend control', () => {
   let mapDiv;
 
+  // eslint-disable-next-line unicorn/no-object-as-default-parameter
   const createControl = (options = {}, mockSize = { x: 640, y: 480 }) => {
     mapDiv = document.createElement('div');
     const map = L.map(mapDiv);
