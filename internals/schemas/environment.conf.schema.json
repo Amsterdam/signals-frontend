@@ -30,38 +30,37 @@
         "map": {
           "$ref": "#/definitions/Map"
         },
-        "fetchSourcesFromBackend": {
-          "description": " When true, the possible sources an incident can originate from will be fetched from the backend. See [SOURCES_ENDPOINT](#SOURCES_ENDPOINT)",
+        "areaTypeCodeForDistrict": {
+          "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
+          "type": "string"
+        },
+        "fetchDistrictsFromBackend": {
+          "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
         },
         "fetchQuestionsFromBackend": {
           "description": " When true, will bypass getting the configuration for the incident submission form questions from local modules. Instead, a request to an API endpoint is made to retrieve the configuration. See [QUESTIONS_ENDPOINT](#QUESTIONS_ENDPOINT)",
           "type": "boolean"
         },
+        "fetchSourcesFromBackend": {
+          "description": " When true, the possible sources an incident can originate from will be fetched from the backend. See [SOURCES_ENDPOINT](#SOURCES_ENDPOINT)",
+          "type": "boolean"
+        },
         "showVulaanControls": {
-          "description": "When false, will not show extra questions after the first page of questions in the incident submission form",
+          "description": "When true, will show extra questions after the first page of questions in the incident submission form",
           "type": "boolean"
         },
-        "useAreasInsteadOfStadsdeel": {
-          "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the legacy hardcoded stadsdelen",
+        "useStaticMapServer": {
+          "description": "When true, will use the static map server difined by [STATIC_MAP_SERVER_URL](#STATIC_MAP_SERVER_URL) to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
         },
-        "areaTypeCodeForDistrict": {
-          "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [useAreasInsteadOfStadsdeel](#useAreasInsteadOfStadsdeel) is set to true).",
-          "type": "string"
-        },
-        "STATIC_MAP_SERVER_URL": {
-          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
+        "AREAS_ENDPOINT": {
+          "description": "URL for the areas endpoint; retrieves geographical areas\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_areas_geography_ for reference",
           "type": "string",
           "format": "uri"
         },
         "AUTH_ME_ENDPOINT": {
           "description": "URL for the authorization endpoint; retrieves user profile data\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_user_auth_me for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "AREAS_ENDPOINT": {
-          "description": "URL for the areas endpoint; retrieves geographical areas\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_areas_geography_ for reference",
           "type": "string",
           "format": "uri"
         },
@@ -177,6 +176,11 @@
           "type": "string",
           "format": "uri"
         },
+        "STATIC_MAP_SERVER_URL": {
+          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
+          "type": "string",
+          "format": "uri"
+        },
         "TERMS_ENDPOINT": {
           "description": "URL for the private terms endpoint. Used by the incident management module to `GET` and `POST` default response texts for incident handling\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_public_terms_categories for reference",
           "type": "string",
@@ -217,8 +221,9 @@
         "STATIC_MAP_SERVER_URL",
         "TERMS_ENDPOINT",
         "USERS_ENDPOINT",
-        "fetchSourcesFromBackend",
+        "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
+        "fetchSourcesFromBackend",
         "head",
         "language",
         "links",
@@ -228,13 +233,13 @@
         "sentry",
         "showVulaanControls",
         "theme",
-        "useAreasInsteadOfStadsdeel"
+        "useStaticMapServer"
       ],
       "allOf": [
         {
           "if": {
             "properties": {
-              "useAreasInsteadOfStadsdeel": {
+              "fetchDistrictsFromBackend": {
                 "const": true
               }
             }

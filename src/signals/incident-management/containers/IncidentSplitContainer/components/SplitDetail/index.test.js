@@ -81,15 +81,16 @@ describe('<SplitDetail />', () => {
       expect(queryByTestId('splitDetailValueDepartment')).toHaveTextContent(/^STW, THO$/);
     });
 
-    it('should render correctly with useAreasInsteadOfStadsdeel', () => {
-      configuration.useAreasInsteadOfStadsdeel = true;
-      configuration.language.district = 'District';
+    it('should render correctly with fetchDistrictsFromBackend', () => {
+      const district = 'District';
+      configuration.fetchDistrictsFromBackend = true;
+      configuration.language.district = district;
       props.incident.category.departments = '';
 
       const { queryByTestId } = render(withContext(<SplitDetail {...props} />));
 
-      expect(queryByTestId('splitDetailTitleStadsdeel')).toHaveTextContent(/^District/);
-      expect(queryByTestId('splitDetailValueStadsdeel')).toHaveTextContent(/^North/);
+      expect(queryByTestId('splitDetailTitleStadsdeel')).toHaveTextContent(new RegExp(`^${district}`));
+      expect(queryByTestId('splitDetailValueStadsdeel')).toHaveTextContent(new RegExp(`^${districts[0].value}`));
     });
   });
 });

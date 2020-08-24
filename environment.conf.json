@@ -83,12 +83,12 @@
       }
     }
   },
-  "fetchSourcesFromBackend": false,
-  "fetchQuestionsFromBackend": false,
-  "showVulaanControls": true,
-  "useAreasInsteadOfStadsdeel": false,
   "areaTypeCodeForDistrict": "stadsdeel",
-  "STATIC_MAP_SERVER_URL": "https://map.data.amsterdam.nl/maps/topografie",
+  "fetchDistrictsFromBackend": false,
+  "fetchQuestionsFromBackend": false,
+  "fetchSourcesFromBackend": false,
+  "showVulaanControls": true,
+  "useStaticMapServer": true,
   "AREAS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/areas/",
   "AUTH_ME_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/",
   "CATEGORIES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/",
@@ -114,6 +114,7 @@
   "ROLES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/",
   "SEARCH_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/search",
   "SOURCES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/sources/",
+  "STATIC_MAP_SERVER_URL": "https://map.data.amsterdam.nl/maps/topografie",
   "TERMS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/",
   "USERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/"
 }

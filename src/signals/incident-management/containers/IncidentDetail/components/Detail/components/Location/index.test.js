@@ -10,6 +10,8 @@ import IncidentManagementContext from '../../../../../../context';
 
 import Location from '.';
 
+jest.mock('shared/services/configuration/configuration');
+
 const props = {
   location: {
     extra_properties: null,
@@ -54,6 +56,10 @@ describe('<Location />', () => {
     edit.mockReset();
   });
 
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   describe('rendering', () => {
     it('should render correctly', async () => {
       const { findByText, queryByTestId, getByTestId } = render(renderWithContext());
@@ -66,8 +72,8 @@ describe('<Location />', () => {
       expect(getByTestId('previewLocationButton')).toBeInTheDocument();
     });
 
-    it('should render correctly with useAreasInsteadOfStadsdeel', async () => {
-      configuration.useAreasInsteadOfStadsdeel = true;
+    it('should render correctly with fetchDistrictsFromBackend', async () => {
+      configuration.fetchDistrictsFromBackend = true;
       configuration.language.district = 'District';
 
       const { findByText, queryByTestId } = render(renderWithContext());
@@ -75,6 +81,28 @@ describe('<Location />', () => {
       await findByText('Locatie');
 
       expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^District: North/);
+    });
+
+    describe('location preview', () => {
+      it('should render static map image with useStaticMapServer enabled', async () => {
+        const { findByText, queryByTestId } = render(renderWithContext());
+
+        await findByText('Locatie');
+
+        expect(queryByTestId('mapStaticImage')).toBeInTheDocument();
+        expect(queryByTestId('map-base')).not.toBeInTheDocument();
+      });
+
+      it('should render normal map with useStaticMapServer disabled', async () => {
+        configuration.useStaticMapServer = false;
+
+        const { findByText, queryByTestId } = render(renderWithContext());
+
+        await findByText('Locatie');
+
+        expect(queryByTestId('mapStaticImage')).not.toBeInTheDocument();
+        expect(queryByTestId('map-base')).toBeInTheDocument();
+      });
     });
 
     it('should render correctly without huisnummer_toevoeging', async () => {

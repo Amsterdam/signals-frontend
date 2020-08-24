@@ -12,6 +12,7 @@ export default {
   telefoon,
   email,
   samenvatting,
+  opslaan: {},
   bedankt,
   fout,
 };

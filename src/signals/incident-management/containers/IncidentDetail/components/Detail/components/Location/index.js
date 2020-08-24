@@ -2,17 +2,23 @@ import React, { Fragment, useMemo, useContext } from 'react';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
-import configuration from 'shared/services/configuration/configuration';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { locationType } from 'shared/types';
 import { stadsdeelList } from 'signals/incident-management/definitions';
 import MapStatic from 'components/MapStatic';
+import { smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import configuration from 'shared/services/configuration/configuration';
 
+import MapDetail from '../../../MapDetail';
 import HighLight from '../../../Highlight';
 import EditButton from '../../../EditButton';
 import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../../../context';
 import IncidentManagementContext from '../../../../../../context';
+
+const mapWidth = 80;
+const mapHeight = 80;
+const mapZoom = 9;
 
 const MapTile = styled.div`
   float: left;
@@ -40,6 +46,12 @@ const StyledHighLight = styled(HighLight)`
   .highlight__children {
     display: flex;
   }
+`;
+
+const StyledMap = styled(MapDetail)`
+  width: ${mapWidth}px;
+  height: ${mapHeight}px;
+  cursor: pointer;
 `;
 
 const Location = ({ location }) => {
@@ -80,18 +92,22 @@ const Location = ({ location }) => {
               }}
               data-testid="previewLocationButton"
             >
-              <MapStatic boundsScaleFactor={0.25} height={80} markerSize={20} width={80} {...geometry} />
+              {configuration.useStaticMapServer ? (
+                <MapStatic boundsScaleFactor={0.25} height={mapHeight} markerSize={20} width={mapWidth} {...geometry} />
+              ) : (
+                <StyledMap value={location} icon={smallMarkerIcon} zoom={mapZoom} />
+              )}
             </MapTile>
           )}
 
           {location.address_text ? (
             <div>
-              {configuration.useAreasInsteadOfStadsdeel && location.area_code && districts && (
+              {configuration.fetchDistrictsFromBackend && location.area_code && districts && (
                 <div data-testid="location-value-address-stadsdeel">
                   {configuration.language.district}: {getListValueByKey(districts, location.area_code)}
                 </div>
               )}
-              {!configuration.useAreasInsteadOfStadsdeel && location.stadsdeel && (
+              {!configuration.fetchDistrictsFromBackend && location.stadsdeel && (
                 <div data-testid="location-value-address-stadsdeel">
                   Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
                 </div>

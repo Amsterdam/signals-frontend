@@ -49,7 +49,7 @@ export const IncidentManagementModuleComponent = ({
       requestIncidentsAction();
     }
 
-    if (configuration.useAreasInsteadOfStadsdeel) {
+    if (configuration.fetchDistrictsFromBackend) {
       getDistrictsAction();
     }
     getFiltersAction();

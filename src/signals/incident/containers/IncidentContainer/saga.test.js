@@ -389,6 +389,7 @@ describe('IncidentContainer saga', () => {
         .call(getPostData, action)
         .call(postIncidentSaga, postData)
         .put(createIncidentSuccess({ handling_message, ...incident }))
+        .put(replace('/incident/bedankt'))
         .run());
 
     it('should dispatch error', () =>

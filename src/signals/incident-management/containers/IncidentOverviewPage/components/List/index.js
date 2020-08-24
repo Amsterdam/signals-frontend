@@ -134,7 +134,7 @@ const List = ({ className, incidents, loading, onChangeOrdering, priority, sort,
             <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
               Datum en tijd {renderChevron('created_at')}
             </Th>
-            {configuration.useAreasInsteadOfStadsdeel ? (
+            {configuration.fetchDistrictsFromBackend ? (
               <Th data-testid="sortDistrict" onClick={onSort('district,-created_at')}>
                 {configuration.language.district} {renderChevron('district')}
               </Th>
@@ -175,7 +175,7 @@ const List = ({ className, incidents, loading, onChangeOrdering, priority, sort,
                 </td>
                 <td>
                   <Link to={detailLink}>
-                    {configuration.useAreasInsteadOfStadsdeel
+                    {configuration.fetchDistrictsFromBackend
                       ? getListValueByKey(districts, incident.location && incident.location.area_code)
                       : getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
                   </Link>
