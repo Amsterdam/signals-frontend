@@ -36,12 +36,6 @@ const StyledLink = styled(Link)`
 const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
   const allText = defaultTexts?.length > 0 && defaultTexts.find(text => text.state === status);
 
-  // if (!allText?.templates?.length > 0) return null;
-
-  // const templates = allText.templates.filter(({ title, text }) => title && text);
-
-  // if (!templates.length) return null;
-
   return (
     <Fragment>
       <StyledH4 forwardedAs="h4" data-testid="defaultTextsTitle">
