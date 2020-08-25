@@ -4,10 +4,7 @@ import styled, { css } from 'styled-components';
 
 import { Heading, themeSpacing, Row, Column, themeColor } from '@datapunt/asc-ui';
 import { defaultTextsType } from 'shared/types';
-import statusList, {
-  changeStatusOptionList,
-  defaultTextsOptionList,
-} from 'signals/incident-management/definitions/statusList';
+import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
 
 import Button from 'components/Button';
 import Label from 'components/Label';
@@ -102,8 +99,10 @@ const StyledColumn = styled(Column)`
   margin-bottom: ${themeSpacing(3)};
 `;
 
-const canSendMail = status =>
-  Boolean(changeStatusOptionList.find(({ can_send_email, key }) => can_send_email && status === key));
+export const emailSentWhenStatusChangedTo = status =>
+  Boolean(
+    changeStatusOptionList.find(({ email_sent_when_selected, key }) => email_sent_when_selected && status === key)
+  );
 
 const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
@@ -113,14 +112,14 @@ const StatusForm = ({ defaultTexts }) => {
     changeStatusOptionList.find(({ key }) => key === currentStatus.key) === undefined
   );
   const [warning, setWarning] = useState('');
-  const [showSendMail, setShowSendMail] = useState(canSendMail(currentStatus?.key));
-  const isDeelmelding = !!incident?._links?.['sia:parent'];
+  const [checkboxIsDisabled, setCheckboxIsDisabled] = useState(emailSentWhenStatusChangedTo(currentStatus?.key));
+  const isDeelmelding = incident?._links?.['sia:parent'] !== undefined;
   const form = useMemo(
     () =>
       FormBuilder.group({
         state: [incident.status.state, Validators.required],
-        text: [''],
-        send_email: [false],
+        text: ['', Validators.required],
+        email_sent_when_selected: [false],
       }),
     [incident.status]
   );
@@ -128,25 +127,23 @@ const StatusForm = ({ defaultTexts }) => {
   useEffect(() => {
     form.controls.state.valueChanges.subscribe(status => {
       // reset the send_email field to make sure that a previously set value isn't accidentally sent to the API
-      form.controls.send_email.value = false;
+      form.controls.email_sent_when_selected.value = false;
 
       const found = statusList.find(s => s.key === status);
+      const disableCheckbox = emailSentWhenStatusChangedTo(found?.key);
 
       setSubmitIsDisabled(false);
-      setShowSendMail(canSendMail(found?.key));
+      setCheckboxIsDisabled(disableCheckbox);
       setWarning(found?.warning);
 
-      const hasDefaultTexts = Boolean(defaultTextsOptionList.find(s => s.key === status));
-
-      if (hasDefaultTexts) {
-        form.controls.text.setValidators([Validators.required]);
-      } else {
-        form.controls.text.clearValidators();
+      if (disableCheckbox) {
+        form.controls.email_sent_when_selected.value = true;
       }
 
       form.controls.text.updateValueAndValidity();
+      form.controls.email_sent_when_selected.updateValueAndValidity();
     });
-  }, [form.controls.state.valueChanges, form.controls.text, form.controls.send_email]);
+  }, [form.controls.state.valueChanges, form.controls.text, form.controls.email_sent_when_selected]);
 
   const handleSubmit = useCallback(
     event => {
@@ -160,7 +157,7 @@ const StatusForm = ({ defaultTexts }) => {
         update({
           type: PATCH_TYPE_STATUS,
           patch: {
-            status: { state: form.value.state, text: form.value.text, send_email: form.value.send_email },
+            status: { state: form.value.state, text: form.value.text, send_email: form.value.email_sent_when_selected },
           },
         });
 
@@ -218,22 +215,19 @@ const StatusForm = ({ defaultTexts }) => {
                   rows={10}
                 />
 
-                {showSendMail && (
-                  <React.Fragment>
-                    <Notification warning data-testid="statusFormToelichting">
-                      {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
-                    </Notification>
+                <Notification warning data-testid="statusFormToelichting">
+                  {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
+                </Notification>
 
-                    {!isDeelmelding && (
-                      <FieldControlWrapper
-                        control={form.get('send_email')}
-                        data-testid="statusFormSendEmailField"
-                        name="send_email"
-                        label={MELDING_CHECKBOX_DESCRIPTION}
-                        render={CheckboxInput}
-                      />
-                    )}
-                  </React.Fragment>
+                {!isDeelmelding && (
+                  <FieldControlWrapper
+                    control={form.get('email_sent_when_selected')}
+                    data-testid="statusFormSendEmailField"
+                    name="send_email"
+                    label={MELDING_CHECKBOX_DESCRIPTION}
+                    render={CheckboxInput}
+                    disabled={checkboxIsDisabled}
+                  />
                 )}
 
                 <StyledButton

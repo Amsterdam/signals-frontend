@@ -7,11 +7,7 @@ import statusList, { changeStatusOptionList } from '../../../../definitions/stat
 
 import { PATCH_TYPE_STATUS } from '../../constants';
 import IncidentDetailContext from '../../context';
-import StatusForm, { MELDING_EXPLANATION, DEELMELDING_EXPLANATION } from '.';
-
-const EMAIL_CHECKBOX_EXCLUDED_STATES = changeStatusOptionList
-  .filter(({ can_send_email }) => !can_send_email)
-  .map(({ key }) => key);
+import StatusForm, { emailSentWhenStatusChangedTo, MELDING_EXPLANATION, DEELMELDING_EXPLANATION } from '.';
 
 const defaultTexts = [
   {
@@ -168,6 +164,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(update).not.toHaveBeenCalled();
 
     act(() => {
+      fireEvent.change(getByTestId('text'), { target: { value: 'Some text' } });
+    });
+
+    act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
 
@@ -176,7 +176,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       patch: {
         status: {
           state: incidentFixture.status.state,
-          text: '',
+          text: 'Some text',
           send_email: false,
         },
       },
@@ -184,84 +184,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(close).toHaveBeenCalled();
   });
 
-  it('should reset the send_email field', () => {
-    const { container, getByTestId, queryByTestId } = render(renderWithContext());
-
-    // click a status that shows the checkbox
-    // check the box
-    // send the form, ensure that send_email field value equals true
-    // click a status that doesn't show a checkbox
-    // send the form, ensure that the send_email field value equals false
-
-    const textarea = container.querySelector('textarea');
-
-    const statusThatShowsCheckbox = changeStatusOptionList.find(
-      ({ key }) => !EMAIL_CHECKBOX_EXCLUDED_STATES.includes(key)
-    );
-    const statusRadioThatShowsCheckbox = getByTestId(`status-${statusThatShowsCheckbox.key}`);
-
-    act(() => {
-      fireEvent.click(statusRadioThatShowsCheckbox);
-    });
-
-    const checkbox = getByTestId('statusFormSendEmailField');
-
-    act(() => {
-      fireEvent.click(checkbox);
-    });
-
-    act(() => {
-      fireEvent.change(textarea, { target: { value: 'Here be text' } });
-    });
-
-    act(() => {
-      fireEvent.click(getByTestId('statusFormSubmitButton'));
-    });
-
-    expect(update).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        patch: {
-          status: expect.objectContaining({
-            state: statusThatShowsCheckbox.key,
-            send_email: true,
-          }),
-        },
-      })
-    );
-
-    const statusThatDoesNotShowCheckbox = changeStatusOptionList.find(({ key }) =>
-      EMAIL_CHECKBOX_EXCLUDED_STATES.includes(key)
-    );
-    const statusRadioThatDoesNotShowCheckbox = getByTestId(`status-${statusThatDoesNotShowCheckbox.key}`);
-
-    act(() => {
-      fireEvent.click(statusRadioThatDoesNotShowCheckbox);
-    });
-
-    expect(queryByTestId('statusFormSendEmailField')).not.toBeInTheDocument();
-
-    act(() => {
-      fireEvent.change(textarea, { target: { value: 'Here be some other text' } });
-    });
-
-    act(() => {
-      fireEvent.click(getByTestId('statusFormSubmitButton'));
-    });
-
-    expect(update).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        patch: {
-          status: expect.objectContaining({
-            state: statusThatDoesNotShowCheckbox.key,
-            send_email: false,
-          }),
-        },
-      })
-    );
-  });
-
   it("doesn't show the send checkbox for a deelmelding", () => {
-    const statusThatShowsCheckbox = changeStatusOptionList.find(({ can_send_email }) => can_send_email);
+    const statusThatShowsCheckbox = changeStatusOptionList.find(
+      ({ email_sent_when_selected }) => email_sent_when_selected
+    );
 
     const deelmelding = {
       ...incidentFixture,
@@ -283,25 +209,20 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(getByText(DEELMELDING_EXPLANATION)).toBeInTheDocument();
   });
 
-  it('hides the send checkbox when the excludes state is selected', () => {
-    const { queryByTestId } = render(renderWithContext());
+  it('disables the send checkbox when an excluded state is selected', () => {
+    const { getByTestId } = render(renderWithContext());
 
-    const defaultRadioButton = queryByTestId('status-m');
+    expect(getByTestId('statusFormSendEmailField')).toBeInTheDocument();
 
-    EMAIL_CHECKBOX_EXCLUDED_STATES.forEach(state => {
-      act(() => {
-        fireEvent.click(defaultRadioButton);
-      });
-
-      expect(queryByTestId('statusFormSendEmailField')).toBeInTheDocument();
-
-      const radioButton = queryByTestId(`status-${state}`);
+    changeStatusOptionList.forEach(({ key: state }) => {
+      const checkboxIsDisabled = emailSentWhenStatusChangedTo(state);
+      const radioButton = getByTestId(`status-${state}`);
 
       act(() => {
         fireEvent.click(radioButton);
       });
 
-      expect(queryByTestId('statusFormSendEmailField')).not.toBeInTheDocument();
+      expect(getByTestId('statusFormSendEmailField').disabled).toEqual(checkboxIsDisabled);
     });
   });
 

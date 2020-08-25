@@ -15,12 +15,24 @@ const CheckboxStyle = styled.div`
 
 // disabling linter for the sake of not having to create a complicated structure to accomodate the shit that is react-reactive-form
 // eslint-disable-next-line react/prop-types
-const CheckboxInput = ({ name, label, ...rest }) => ({ handler }) => (
-  <CheckboxStyle>
-    <Checkbox id={name} name={name} checked={handler().value} onChange={handler().onChange} {...rest} />
-    <Label htmlFor={name} label={label} />
-  </CheckboxStyle>
-);
+const CheckboxInput = ({ name, label, disabled, ...rest }) => ({ handler }) => {
+  const { value, onBlur, onChange } = handler();
+
+  return (
+    <CheckboxStyle>
+      <Label htmlFor={name} label={label} disabled={disabled}>
+        <Checkbox
+          checked={value}
+          data-testid={rest['data-testid']}
+          id={name}
+          name={name}
+          onBlur={onBlur}
+          onChange={onChange}
+        />
+      </Label>
+    </CheckboxStyle>
+  );
+};
 
 CheckboxInput.propTypes = {
   name: PropTypes.string.isRequired,
