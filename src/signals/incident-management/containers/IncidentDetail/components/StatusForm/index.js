@@ -103,7 +103,6 @@ const StyledColumn = styled(Column)`
 `;
 
 const StyledLabel = styled(Label)`
-  margin-top: ${themeSpacing(5)};
   align-items: baseline;
 `;
 
