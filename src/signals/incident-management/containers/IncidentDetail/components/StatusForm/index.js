@@ -1,21 +1,24 @@
-import React, { useCallback, useState, useEffect, useMemo, useContext } from 'react';
-import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
+import React, { Fragment, useCallback, useState, useEffect, useRef, useContext } from 'react';
 import styled, { css } from 'styled-components';
+import { Heading, themeSpacing, Row, Column, themeColor, Label, ErrorMessage } from '@datapunt/asc-ui';
 
-import { Heading, themeSpacing, Row, Column, themeColor } from '@datapunt/asc-ui';
 import { defaultTextsType } from 'shared/types';
 import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
+import useFormValidation from 'hooks/useFormValidation';
 
-import Button from 'components/Button';
-import Label from 'components/Label';
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import RadioInput from '../../../../components/RadioInput';
-import TextAreaInput from '../../../../components/TextAreaInput';
+import TextArea from 'components/TextArea';
+import Checkbox from 'components/Checkbox';
+import FormFooter from 'components/FormFooter';
+
+import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 import DefaultTexts from './components/DefaultTexts';
-import CheckboxInput from './components/CheckboxInput';
 import IncidentDetailContext from '../../context';
 import { PATCH_TYPE_STATUS } from '../../constants';
 
+const HEROPENED_EXPLANATION = 'Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.';
+const AFGEHANDELD_EXPLANATION = `${HEROPENED_EXPLANATION} Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland. Let op: als de huidige status “Verzoek tot heropenen” is, dan wordt er geen e-mail naar de melder gestuurd.`;
+const GEANNULEERD_EXPLANATION =
+  'Bij deze status wordt de melding afgesloten. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.';
 export const MELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet automatisch.';
 export const DEELMELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet.';
 export const MELDING_CHECKBOX_DESCRIPTION =
@@ -35,6 +38,7 @@ const Form = styled.form`
     'form';
   grid-column-gap: 20px;
   display: grid;
+  margin-bottom: 5em;
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     grid-template-columns: 6fr 6fr;
@@ -63,16 +67,6 @@ const FormArea = styled.div`
   grid-area: form;
 `;
 
-const StyledH4 = styled(Heading)`
-  font-weight: normal;
-  margin-bottom: ${themeSpacing(2)};
-  margin-top: ${themeSpacing(5)};
-`;
-
-const StyledButton = styled(Button)`
-  margin-right: ${themeSpacing(2)};
-`;
-
 const Notification = styled.div`
   ${({ warning }) =>
     warning &&
@@ -87,6 +81,17 @@ const Notification = styled.div`
   line-height: 22px;
 `;
 
+const StyledH4 = styled(Heading)`
+  font-weight: normal;
+  margin-bottom: ${themeSpacing(2)};
+  margin-top: ${themeSpacing(5)};
+`;
+
+const StyledErrorMessage = styled(ErrorMessage)`
+  font-family: Avenir Next LT W01 Demi;
+  font-weight: normal;
+`;
+
 const Wrapper = styled(Row)`
   background-color: ${themeColor('tint', 'level1')};
   position: relative;
@@ -99,161 +104,165 @@ const StyledColumn = styled(Column)`
   margin-bottom: ${themeSpacing(3)};
 `;
 
+const StyledLabel = styled(Label)`
+  margin-top: ${themeSpacing(5)};
+  align-items: baseline;
+`;
+
 export const emailSentWhenStatusChangedTo = status =>
-  Boolean(
-    changeStatusOptionList.find(({ email_sent_when_selected, key }) => email_sent_when_selected && status === key)
-  );
+  Boolean(changeStatusOptionList.find(({ email_sent_when_set, key }) => email_sent_when_set && status === key));
+
+const determineWarning = selectedStatusKey => {
+  if (selectedStatusKey === 'reopened') {
+    return HEROPENED_EXPLANATION;
+  }
+
+  if (selectedStatusKey === 'o') {
+    // afgehandeld
+    return AFGEHANDELD_EXPLANATION;
+  }
+
+  if (selectedStatusKey === 'a') {
+    return GEANNULEERD_EXPLANATION;
+  }
+
+  return '';
+};
 
 const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
+
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
-  // disable submit button when the current status is a status that cannot be set manually (or, in other words, is not in the list of changeStatusOptionList)
-  const [submitIsDisabled, setSubmitIsDisabled] = useState(
-    changeStatusOptionList.find(({ key }) => key === currentStatus.key) === undefined
-  );
-  const [warning, setWarning] = useState('');
+
+  const formRef = useRef(null);
+
+  const { isValid, validate, errors, event: submitEvent } = useFormValidation(formRef);
+
+  const [status, setStatus] = useState(statusList.find(({ key }) => key === incident.status.state));
+  const [checked, setChecked] = useState(emailSentWhenStatusChangedTo(status?.key));
+  const [defaultText, setDefaultText] = useState('');
+  const [warning, setWarning] = useState(determineWarning(status?.key));
+  const [textRequired, setTextRequired] = useState(checked);
   const [checkboxIsDisabled, setCheckboxIsDisabled] = useState(emailSentWhenStatusChangedTo(currentStatus?.key));
   const isDeelmelding = incident?._links?.['sia:parent'] !== undefined;
-  const form = useMemo(
-    () =>
-      FormBuilder.group({
-        state: [incident.status.state, Validators.required],
-        text: ['', Validators.required],
-        email_sent_when_selected: [false],
-      }),
-    [incident.status]
-  );
+
+  const onRadioChange = useCallback((name, selectedStatus) => {
+    const found = statusList.find(s => s.key === selectedStatus.key);
+    const disableCheckbox = emailSentWhenStatusChangedTo(found?.key);
+
+    setStatus(selectedStatus);
+    setCheckboxIsDisabled(disableCheckbox);
+    setChecked(disableCheckbox);
+    setWarning(determineWarning(selectedStatus.key));
+    setTextRequired(disableCheckbox);
+  }, []);
 
   useEffect(() => {
-    form.controls.state.valueChanges.subscribe(status => {
-      // reset the send_email field to make sure that a previously set value isn't accidentally sent to the API
-      form.controls.email_sent_when_selected.value = false;
-
-      const found = statusList.find(s => s.key === status);
-      const disableCheckbox = emailSentWhenStatusChangedTo(found?.key);
-
-      setSubmitIsDisabled(false);
-      setCheckboxIsDisabled(disableCheckbox);
-      setWarning(found?.warning);
-
-      if (disableCheckbox) {
-        form.controls.email_sent_when_selected.value = true;
-      }
-
-      form.controls.text.updateValueAndValidity();
-      form.controls.email_sent_when_selected.updateValueAndValidity();
-    });
-  }, [form.controls.state.valueChanges, form.controls.text, form.controls.email_sent_when_selected]);
+    if (isValid) {
+      handleSubmit(submitEvent);
+    }
+  }, [submitEvent, isValid, handleSubmit, errors]);
 
   const handleSubmit = useCallback(
     event => {
       event.preventDefault();
 
-      if (/{{|}}/gi.test(form.value.text)) {
+      const textElement = event.target.elements.text;
+      const { value } = textElement;
+
+      if (/{{|}}/gi.test(value)) {
         global.alert(
           "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
         );
+
+        textElement.focus();
+        textElement.setSelectionRange(value.indexOf('{{'), value.indexOf('}}') + 2);
       } else {
+        const statusElement = event.target.elements.status;
+        const sendEmailElement = event.target.elements.send_email;
         update({
           type: PATCH_TYPE_STATUS,
           patch: {
-            status: { state: form.value.state, text: form.value.text, send_email: form.value.email_sent_when_selected },
+            status: { state: statusElement.value, text: value, send_email: sendEmailElement.checked },
           },
         });
 
         close();
       }
     },
-    [form.value, close, update]
+    [close, update]
   );
 
-  const handleUseDefaultText = useCallback(
-    (event, text) => {
-      event.preventDefault();
-
-      form.get('text').patchValue(text);
-    },
-    [form]
-  );
+  const handleUseDefaultText = useCallback((event, text) => {
+    event.preventDefault();
+    setDefaultText(text);
+  }, []);
 
   return (
     <Wrapper>
       <StyledColumn span={12}>
-        <FieldGroup
-          control={form}
-          render={({ invalid }) => (
-            <Form onSubmit={handleSubmit} data-testid="statusForm">
-              <HeaderArea>
-                <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
+        <Form onSubmit={validate} data-testid="statusForm" noValidate ref={formRef}>
+          <HeaderArea>
+            <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-                <CurrentStatus data-testid="currentStatus">
-                  <Label as="span">Huidige status</Label>
-                  <div>{currentStatus.value}</div>
-                </CurrentStatus>
-              </HeaderArea>
+            <CurrentStatus data-testid="currentStatus">
+              <Label as="strong" label="Huidige status" />
+              <div>{currentStatus.value}</div>
+            </CurrentStatus>
+          </HeaderArea>
 
-              <OptionsArea>
-                <FieldControlWrapper
-                  control={form.get('state')}
-                  data-testid="statusFormStatusField"
-                  name="status"
-                  render={RadioInput}
-                  values={changeStatusOptionList}
+          <OptionsArea>
+            <Label as="strong" htmlFor="status" label="Nieuwe status" />
+            <RadioButtonList
+              defaultValue={status.key}
+              groupName="status"
+              hasEmptySelectionButton={false}
+              name="status"
+              onChange={onRadioChange}
+              options={changeStatusOptionList}
+            />
+          </OptionsArea>
+
+          <FormArea>
+            <Label
+              as="span"
+              htmlFor="status"
+              label={
+                <Fragment>
+                  <strong>Toelichting</strong>
+                  {!textRequired && <span>&nbsp;(optioneel)</span>}
+                </Fragment>
+              }
+            />
+            <TextArea name="text" rows="4" required={textRequired} defaultValue={defaultText} error={errors.text} />
+
+            {errors?.text && <StyledErrorMessage message={errors.text} />}
+
+            {warning && <Notification warning>{warning}</Notification>}
+
+            {!isDeelmelding && (
+              <StyledLabel htmlFor="send_email" label={MELDING_CHECKBOX_DESCRIPTION} disabled={checkboxIsDisabled}>
+                <Checkbox
+                  checked={checked}
+                  disabled={checkboxIsDisabled}
+                  id="send_email"
+                  name="send_email"
+                  onClick={() => setChecked(!checked)}
                 />
+              </StyledLabel>
+            )}
 
-                <Notification warning data-testid="statusFormWarning">
-                  {warning}
-                </Notification>
-              </OptionsArea>
+            <FormFooter cancelBtnLabel="Annuleren" onCancel={close} submitBtnLabel="Status opslaan" />
+          </FormArea>
 
-              <FormArea>
-                <FieldControlWrapper
-                  control={form.get('text')}
-                  display="Toelichting"
-                  name="text"
-                  render={TextAreaInput}
-                  rows={10}
-                />
-
-                <Notification warning data-testid="statusFormToelichting">
-                  {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
-                </Notification>
-
-                {!isDeelmelding && (
-                  <FieldControlWrapper
-                    control={form.get('email_sent_when_selected')}
-                    data-testid="statusFormSendEmailField"
-                    name="send_email"
-                    label={MELDING_CHECKBOX_DESCRIPTION}
-                    render={CheckboxInput}
-                    disabled={checkboxIsDisabled}
-                  />
-                )}
-
-                <StyledButton
-                  data-testid="statusFormSubmitButton"
-                  type="submit"
-                  variant="secondary"
-                  disabled={invalid || submitIsDisabled}
-                >
-                  Status opslaan
-                </StyledButton>
-
-                <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={close}>
-                  Annuleren
-                </StyledButton>
-              </FormArea>
-
-              <TextsArea>
-                <DefaultTexts
-                  defaultTexts={defaultTexts}
-                  onHandleUseDefaultText={handleUseDefaultText}
-                  status={form.get('state').value}
-                />
-              </TextsArea>
-            </Form>
-          )}
-        />
+          <TextsArea>
+            <DefaultTexts
+              defaultTexts={defaultTexts}
+              onHandleUseDefaultText={handleUseDefaultText}
+              status={status.key}
+            />
+          </TextsArea>
+        </Form>
       </StyledColumn>
     </Wrapper>
   );

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link, Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
@@ -14,6 +14,10 @@ const StyledDefaultText = styled.div`
   background-color: ${themeColor('tint', 'level3')};
   padding: ${themeSpacing(3)};
   margin-bottom: ${themeSpacing(1)};
+
+  ${({ empty }) => empty && css`
+    color: ${themeColor('tint', 'level5')};
+  `}
 `;
 
 const StyledTitle = styled.div`
@@ -32,11 +36,11 @@ const StyledLink = styled(Link)`
 const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
   const allText = defaultTexts?.length > 0 && defaultTexts.find(text => text.state === status);
 
-  if (!allText?.templates?.length > 0) return null;
+  // if (!allText?.templates?.length > 0) return null;
 
-  const templates = allText.templates.filter(({ title, text }) => title && text);
+  // const templates = allText.templates.filter(({ title, text }) => title && text);
 
-  if (!templates.length) return null;
+  // if (!templates.length) return null;
 
   return (
     <Fragment>
@@ -44,7 +48,13 @@ const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
         Standaard teksten
       </StyledH4>
 
-      {allText.templates.map((item, index) => (
+      {!allText?.templates?.length && (
+        <StyledDefaultText key={`empty_${status}`} empty>
+          Er is geen standaardtekst voor deze subcategorie en status combinatie.
+        </StyledDefaultText>
+      )}
+
+      {allText?.templates?.map((item, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <StyledDefaultText key={`${index}${status}${JSON.stringify(item)}`}>
           <StyledTitle data-testid="defaultTextsItemTitle">{item.title}</StyledTitle>
