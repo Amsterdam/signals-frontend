@@ -6,11 +6,18 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { locationType } from 'shared/types';
 import { stadsdeelList } from 'signals/incident-management/definitions';
 import MapStatic from 'components/MapStatic';
+import { smallMarkerIcon } from 'shared/services/configuration/map-markers';
+import configuration from 'shared/services/configuration/configuration';
 
+import MapDetail from '../../../MapDetail';
 import HighLight from '../../../Highlight';
 import EditButton from '../../../EditButton';
 import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../../../context';
+
+const mapWidth = 80;
+const mapHeight = 80;
+const mapZoom = 9;
 
 const MapTile = styled.div`
   float: left;
@@ -38,6 +45,12 @@ const StyledHighLight = styled(HighLight)`
   .highlight__children {
     display: flex;
   }
+`;
+
+const StyledMap = styled(MapDetail)`
+  width: ${mapWidth}px;
+  height: ${mapHeight}px;
+  cursor: pointer;
 `;
 
 const Location = ({ location }) => {
@@ -77,7 +90,11 @@ const Location = ({ location }) => {
               }}
               data-testid="previewLocationButton"
             >
-              <MapStatic boundsScaleFactor={0.25} height={80} markerSize={20} width={80} {...geometry} />
+              {configuration.useStaticMapServer ? (
+                <MapStatic boundsScaleFactor={0.25} height={mapHeight} markerSize={20} width={mapWidth} {...geometry} />
+              ) : (
+                <StyledMap value={location} icon={smallMarkerIcon} zoom={mapZoom} />
+              )}
             </MapTile>
           )}
 
@@ -90,15 +107,13 @@ const Location = ({ location }) => {
               )}
 
               <div data-testid="location-value-address-street">
-                {location.address.openbare_ruimte}{' '}
-                {location.address.huisnummer}
+                {location.address.openbare_ruimte} {location.address.huisnummer}
                 {location.address.huisletter}
                 {location.address.huisnummer_toevoeging ? `-${location.address.huisnummer_toevoeging}` : ''}
               </div>
 
               <div data-testid="location-value-address-city">
-                {location.address.postcode}{' '}
-                {location.address.woonplaats}
+                {location.address.postcode} {location.address.woonplaats}
               </div>
             </div>
           ) : (

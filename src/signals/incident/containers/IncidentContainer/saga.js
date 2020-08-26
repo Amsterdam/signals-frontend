@@ -77,6 +77,7 @@ export function* createIncident(action) {
     }
 
     yield put(createIncidentSuccess(incident));
+    yield put(replace('/incident/bedankt'));
   } catch {
     yield put(createIncidentError());
     yield put(replace('/incident/fout'));
