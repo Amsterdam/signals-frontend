@@ -80,12 +80,10 @@ describe('Filtering', () => {
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedASC');
-    cy.get('th.sort.sort-up').should('have.text', 'Id').and('be.visible');
     cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('have.text', 'Westpoort');
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedDESC');
-    cy.get('th.sort.sort-down').should('have.text', 'Id').and('be.visible');
     cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('have.text', 'Westpoort');
 
     cy.get(MANAGE_SIGNALS.buttonMijnFilters)
@@ -243,12 +241,10 @@ describe('Filtering', () => {
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedASC');
-    cy.get('th.sort.sort-up').should('have.text', 'Id').and('be.visible');
     cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedDESC');
-    cy.get('th.sort.sort-down').should('have.text', 'Id').and('be.visible');
     cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
   });
   it('Should filter on type klacht', () => {
