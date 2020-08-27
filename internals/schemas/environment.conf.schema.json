@@ -42,87 +42,16 @@
           "description": "When true, will use the static map server difined by [STATIC_MAP_SERVER_URL](#STATIC_MAP_SERVER_URL) to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
         },
+        "apiBaseUrl": {
+          "description": "The base URL of the signals API"
+        },
+        "oidc": {
+          "$ref": "#/definitions/Oidc"
+        },
         "STATIC_MAP_SERVER_URL": {
           "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
           "type": "string",
           "format": "uri"
-        },
-        "AUTH_ME_ENDPOINT": {
-          "description": "URl for the authorization endpoint; retrieves user profile data\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_user_auth_me for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "CATEGORIES_ENDPOINT": {
-          "description": "URL for the public categories endpoint. Used for retrieving subcategory and category data when posting to the [INCIDENT_PUBLIC_ENDPOINT](#INCIDENT_PUBLIC_ENDPOINT) and [INCIDENT_PRIVATE_ENDPOINT](#INCIDENT_PRIVATE_ENDPOINT)\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_public_terms_categories for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "CATEGORIES_PRIVATE_ENDPOINT": {
-          "description": "URL for the private categories endpoint. Used by the settings module to `GET` and `PATCH` categories \n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_categories_ for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "DEPARTMENTS_ENDPOINT": {
-          "description": "URL for the private departments endpoint. Used by the settings module to `GET` and `PATCH` departments\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_departments_ for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "FEEDBACK_FORMS_ENDPOINT": {
-          "description": "URL for the public feedback endpoint. Used by the KTO (klanttevredenheidsonderzoek) module to verify the validity of a request\n\nNo Swagger documentation available.",
-          "type": "string",
-          "format": "uri"
-        },
-        "FEEDBACK_STANDARD_ANSWERS_ENDPOINT": {
-          "description": "URL for the public feedback answers endpoint. Used by the KTO (klanttevredenheidsonderzoek) module to retrieve questions regarding a person's incident handling satisfaction\n\nNo Swagger documentation available.",
-          "type": "string",
-          "format": "uri"
-        },
-        "FILTERS_ENDPOINT": {
-          "description": "URL for the private filters endpoint. Used to `GET`, `POST` and `PATCH` filters for a specific user\n\nNo Swagger documentation available.",
-          "type": "string",
-          "format": "uri"
-        },
-        "GEOGRAPHY_ENDPOINT": {
-          "description": "URL for the private incident geolocation endpoint. Used by the incident overview map\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_signals_geography for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "IMAGE_ENDPOINT": {
-          "description": "URL for the public image endpoint. Used by the incident form to upload images for a specific incident\n\nNo Swagger documentation available",
-          "type": "string",
-          "format": "uri"
-        },
-        "INCIDENTS_ENDPOINT": {
-          "description": "URL for the private incidents endpoint. Used to GET sets of incidents\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_signals_ for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "INCIDENT_PRIVATE_ENDPOINT": {
-          "description": "URL for the private incident endpoint. Used to `POST` incident data for authorized users\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/post_signals_v1_private_signals_ for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "INCIDENT_PUBLIC_ENDPOINT": {
-          "description": "URL for the public incident endpoint. Used to `POST` incident data for unauthorized users\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/post_signals_v1_public_signals for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "OIDC_AUTH_ENDPOINT": {
-          "description": "URL for the oAuth2 service",
-          "type": "string",
-          "format": "uri"
-        },
-        "OIDC_CLIENT_ID": {
-          "description": "oAuth2 `client_id` service parameter value",
-          "type": "string"
-        },
-        "OIDC_RESPONSE_TYPE": {
-          "description": "oAuth2 `response_type` service parameter value",
-          "type": "string"
-        },
-        "OIDC_SCOPE": {
-          "description": "oAuth2 `scope` service parameter value (specific to `signals-amsterdam` and `signals-weesp` implementations)",
-          "type": "string"
         },
         "OVL_KLOKKEN_LAYER": {
           "description": "GeoJSON URL for the retrieval of public clock location data. Used by the incident form for showing clock locations on a map\n\nNo Swagger documentation available",
@@ -133,81 +62,25 @@
           "description": "GeoJSON URL for the retrieval of street light data. Used by the incident form for showing street light locations on a map\n\nNo Swagger documentation available",
           "type": "string",
           "format": "uri"
-        },
-        "PERMISSIONS_ENDPOINT": {
-          "description": "URL for the private permissions endpoint. Used by the settings module to `GET` the full set of permissions\n\nNo Swagger documentation available",
-          "type": "string",
-          "format": "uri"
-        },
-        "PREDICTION_ENDPOINT": {
-          "description": "URL for the public machine learning prediction endpoint. Used by the incident form to get an indication of (sub)category based on user input\n\nNo Swagger documentation available",
-          "type": "string",
-          "format": "uri"
-        },
-        "QUESTIONS_ENDPOINT": {
-          "description": "URL for the public question endpoint. Used to `GET` question configuration based on the value of the [fetchQuestionsFromBackend](#fetchQuestionsFromBackend) settings prop",
-          "type": "string",
-          "format": "uri"
-        },
-        "ROLES_ENDPOINT": {
-          "description": "URL for the private roles endpoint. Used by the settings module to `GET`, `PATCH` and `POST` roles\n\nNo Swagger documentation available",
-          "type": "string",
-          "format": "uri"
-        },
-        "SEARCH_ENDPOINT": {
-          "description": "URL for the private search endpoint. Used by the incident management module to retrieve incident by search query\n\nNo Swagger documentation available",
-          "type": "string",
-          "format": "uri"
-        },
-        "TERMS_ENDPOINT": {
-          "description": "URL for the private terms endpoint. Used by the incident management module to `GET` and `POST` default response texts for incident handling\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_public_terms_categories for reference",
-          "type": "string",
-          "format": "uri"
-        },
-        "USERS_ENDPOINT": {
-          "description": "URL for the private users endpoint. Used by the settings module to `GET`, `PATCH` and `POST` users\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_users_ for reference",
-          "type": "string",
-          "format": "uri"
         }
       },
       "required": [
-        "AUTH_ME_ENDPOINT",
-        "CATEGORIES_ENDPOINT",
-        "CATEGORIES_PRIVATE_ENDPOINT",
-        "DEPARTMENTS_ENDPOINT",
-        "FEEDBACK_FORMS_ENDPOINT",
-        "FEEDBACK_STANDARD_ANSWERS_ENDPOINT",
-        "FILTERS_ENDPOINT",
-        "GEOGRAPHY_ENDPOINT",
-        "IMAGE_ENDPOINT",
-        "INCIDENTS_ENDPOINT",
-        "INCIDENT_PRIVATE_ENDPOINT",
-        "INCIDENT_PUBLIC_ENDPOINT",
-        "OIDC_AUTH_ENDPOINT",
-        "OIDC_CLIENT_ID",
-        "OIDC_RESPONSE_TYPE",
-        "OIDC_SCOPE",
-        "OVL_KLOKKEN_LAYER",
-        "OVL_VERLICHTING_LAYER",
-        "PERMISSIONS_ENDPOINT",
-        "PREDICTION_ENDPOINT",
-        "QUESTIONS_ENDPOINT",
-        "ROLES_ENDPOINT",
-        "SEARCH_ENDPOINT",
-        "STATIC_MAP_SERVER_URL",
-        "TERMS_ENDPOINT",
-        "USERS_ENDPOINT",
-        "fetchQuestionsFromBackend",
         "head",
+        "logo",
+        "sentry",
+        "matomo",
         "language",
         "links",
-        "logo",
-        "map",
-        "matomo",
-        "sentry",
-        "showVulaanControls",
         "theme",
-        "useStaticMapServer"
+        "map",
+        "fetchQuestionsFromBackend",
+        "showVulaanControls",
+        "useStaticMapServer",
+        "apiBaseUrl",
+        "oidc",
+        "STATIC_MAP_SERVER_URL",
+        "OVL_KLOKKEN_LAYER",
+        "OVL_VERLICHTING_LAYER"
       ],
       "title": "Test"
     },
@@ -458,6 +331,24 @@
         "zoom"
       ],
       "title": "MapOptions"
+    },
+    "Oidc": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authEndpoint": {
+          "type": "string"
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "responseType": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      }
     },
     "OptionsBackOffice": {
       "type": "object",

@@ -12,7 +12,7 @@ import {
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import randomStringGenerator from './services/random-string-generator/random-string-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
-import CONFIGURATION from '../configuration/configuration';
+import configuration from '../configuration/configuration';
 
 jest.mock('./services/query-string-parser/query-string-parser');
 jest.mock('./services/random-string-generator/random-string-generator');
@@ -283,10 +283,10 @@ describe('The auth service', () => {
     });
 
     it('Redirects to the auth service', () => {
-      const originalEndpoint = CONFIGURATION.OIDC_AUTH_ENDPOINT;
-      const originalClientId = CONFIGURATION.OIDC_CLIENT_ID;
-      CONFIGURATION.OIDC_AUTH_ENDPOINT = 'https://example.com/oauth2/authorize';
-      CONFIGURATION.OIDC_CLIENT_ID = 'test';
+      const originalEndpoint = configuration.oidc.authEndpoint;
+      const originalClientId = configuration.oidc.clientId;
+      configuration.oidc.authEndpoint = 'https://example.com/oauth2/authorize';
+      configuration.oidc.clientId = 'test';
 
       login();
 
@@ -301,8 +301,8 @@ describe('The auth service', () => {
           '&idp_id=datapunt'
       );
 
-      CONFIGURATION.OIDC_AUTH_ENDPOINT = originalEndpoint;
-      CONFIGURATION.OIDC_CLIENT_ID = originalClientId;
+      configuration.oidc.authEndpoint = originalEndpoint;
+      configuration.oidc.authEndpoint = originalClientId;
     });
   });
 
