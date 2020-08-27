@@ -3,18 +3,18 @@ import { render, fireEvent, act } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { changeStatusOptionList } from '../../../../definitions/statusList';
+import { changeStatusOptionList } from '../../../../../definitions/statusList';
 
-import { PATCH_TYPE_STATUS } from '../../constants';
-import IncidentDetailContext from '../../context';
-import StatusForm from '.';
+import { PATCH_TYPE_STATUS } from '../../../constants';
+import IncidentDetailContext from '../../../context';
+import StatusForm from '..';
 import {
   MELDING_CHECKBOX_DESCRIPTION,
   HEROPENED_EXPLANATION,
   AFGEHANDELD_EXPLANATION,
   GEANNULEERD_EXPLANATION,
   DEELMELDING_EXPLANATION,
-} from './constants';
+} from '../constants';
 
 const defaultTexts = [
   {

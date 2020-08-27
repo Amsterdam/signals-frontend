@@ -25,8 +25,6 @@ const BEHANDELING = {
 const AFGEHANDELD = {
   key: 'o',
   value: 'Afgehandeld',
-  warning:
-    'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding. Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland. Let op: als de huidige status “Verzoek tot heropenen” is, dan wordt er geen e-mail naar de melder gestuurd.',
   color: 'lightgreen',
   email_sent_when_set: true,
   shows_remaining_sla_days: false,
@@ -43,8 +41,6 @@ const GESPLITST = {
 const INGEPLAND = {
   key: 'ingepland',
   value: 'Ingepland',
-  warning:
-    'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
   color: 'grey',
   email_sent_when_set: true,
   shows_remaining_sla_days: true,
@@ -53,8 +49,6 @@ const INGEPLAND = {
 const GEANNULEERD = {
   key: 'a',
   value: 'Geannuleerd',
-  warning:
-    'Bij deze status wordt de melding afgesloten. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.',
   color: 'darkgrey',
   email_sent_when_set: false,
   shows_remaining_sla_days: false,
@@ -71,8 +65,6 @@ const VERZOEK_TOT_HEROPENEN = {
 const HEROPEND = {
   key: 'reopened',
   value: 'Heropend',
-  warning:
-    'De melder ontvangt deze toelichting per e-mail, let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.',
   color: 'orange',
   email_sent_when_set: true,
   shows_remaining_sla_days: true,

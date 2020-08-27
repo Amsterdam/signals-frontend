@@ -60,7 +60,7 @@ const reducer = (state, action) => {
     case 'TOGGLE_CHECK':
       return {
         ...state,
-        check: { checked: !state.check.checked, disabled: false },
+        check: { ...state.check, checked: !state.check.checked },
         text: { ...state.text, required: !state.check.checked },
       };
 
