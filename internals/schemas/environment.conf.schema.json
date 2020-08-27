@@ -13,10 +13,16 @@
           "$ref": "#/definitions/Logo"
         },
         "sentry": {
-          "$ref": "#/definitions/Sentry"
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/Sentry" }
+          ]
         },
         "matomo": {
-          "$ref": "#/definitions/Matomo"
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/Matomo" }
+          ]
         },
         "language": {
           "$ref": "#/definitions/Language"
