@@ -44,7 +44,7 @@ const DefaultTexts = ({ defaultTexts, status, onHandleUseDefaultText }) => {
 
       {!allText?.templates?.length && (
         <StyledDefaultText key={`empty_${status}`} empty>
-          Er is geen standaardtekst voor deze subcategorie en status combinatie.
+          Er is geen standaard tekst voor deze subcategorie en status combinatie.
         </StyledDefaultText>
       )}
 

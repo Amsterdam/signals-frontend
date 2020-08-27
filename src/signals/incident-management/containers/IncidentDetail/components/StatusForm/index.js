@@ -3,7 +3,6 @@ import { Label } from '@datapunt/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
-// import useFormValidation from 'hooks/useFormValidation';
 
 import TextArea from 'components/TextArea';
 import Checkbox from 'components/Checkbox';
@@ -132,12 +131,12 @@ const StatusForm = ({ defaultTexts }) => {
                 value={state.text.value || state.text.defaultValue}
               />
 
-              {state.errors?.text && <StyledErrorMessage message={state.errors.text} />}
+              {state.errors?.text && <StyledErrorMessage data-testid="error" message={state.errors.text} />}
             </div>
 
-            {state.warning && <Notification warning>{state.warning}</Notification>}
+            {state.warning && <Notification warning data-testid="warning">{state.warning}</Notification>}
 
-            {isDeelmelding && <Notification warning>{constants.DEELMELDING_EXPLANATION}</Notification>}
+            {isDeelmelding && <Notification warning data-testid="explanation">{constants.DEELMELDING_EXPLANATION}</Notification>}
 
             {!isDeelmelding && (
               <StyledLabel
@@ -147,6 +146,7 @@ const StatusForm = ({ defaultTexts }) => {
               >
                 <Checkbox
                   checked={state.check.checked}
+                  data-testid="sendEmailCheckbox"
                   disabled={state.check.disabled}
                   id="send_email"
                   name="send_email"
