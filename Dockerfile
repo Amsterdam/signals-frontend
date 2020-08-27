@@ -64,7 +64,7 @@ FROM nginx:stable-alpine
 
 RUN echo -e "https://dl-4.alpinelinux.org/alpine/latest-stable/main\nhttps://dl-4.alpinelinux.org/alpine/latest-stable/community" > /etc/apk/repositories && apk upgrade
 RUN apk add --no-cache jq nodejs npm
-RUN npm install @exodus/schemasafe
+RUN npm install @exodus/schemasafe lodash.merge
 
 COPY --from=builder /app/build/. /usr/share/nginx/html/
 
@@ -73,9 +73,11 @@ COPY default.conf /etc/nginx/conf.d/
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
+COPY environment.base.conf.json /environment.base.conf.json
 COPY environment.conf.json /environment.conf.json
 COPY internals/schemas/environment.conf.schema.json /internals/schemas/environment.conf.schema.json
 COPY internals/scripts/validate-config.js /internals/scripts/validate-config.js
+COPY internals/scripts/inject-config.js /internals/scripts/inject-config.js
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \

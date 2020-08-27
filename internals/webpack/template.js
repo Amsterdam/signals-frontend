@@ -5,20 +5,12 @@ const merge = require('lodash.merge');
 const template = {};
 
 if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line
-  const config = require('../../environment.conf.json');
+  /* eslint-disable global-require */
+  const baseConfig = require('../../environment.base.conf.json');
+  const extendedConfig = require('../../environment.conf.json');
 
-  const devConfigFile = `../../environment.conf.${process.env.NODE_ENV}.json`;
-  let devConfig = {};
-  try {
-    // eslint-disable-next-line
-    devConfig = require(devConfigFile);
-  } catch {
-    // eslint-disable-next-line
-    console.log(`You can use \`${devConfigFile}\` for configuration overwrites in your development environment.\n`);
-  }
+  const combinedConfig = merge({}, baseConfig, extendedConfig);
 
-  const combinedConfig = merge({}, config, devConfig);
   const placeholders = {
     $SIGNALS_ANDROID_ICON: combinedConfig.head.androidIcon,
     $SIGNALS_BACKGROUND_COLOR: combinedConfig.head.backgroundColor,

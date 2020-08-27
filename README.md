@@ -17,13 +17,11 @@ This project relies on the[ `leaflet-headless`](https://www.npmjs.com/package/le
 
 ## Configuration
 
-Configuration for theming, map and API endpoint URLs is defined in
-`environment.conf.json`.
+Configuration for theming, map and API endpoint URLs is defined in `environment.base.conf.json` and extended in `environment.conf.json`.
 
 ## Development
 
-To overwrite some configuration for development purposes you can define them in
-`environment.conf.development.json`. This file is ignored by git.
+To overwrite some configuration you can define them in `environment.conf.json`. This file is ignored by git.
 
 The SPA will run over HTTP on `localhost` at port `3001`. The port can be configured by setting the environment variable `PORT`.
 
@@ -54,14 +52,14 @@ Running all tests and generate the coverage report:
 When deploying the docker container, there are some files you can overwrite for
 branding purposes.
 
-- `environment.conf.json` with configuration for theming and endpoint URLs.
-- The logo, as defined by `logo.url` in `environment.conf.json`.
+- `environment.conf.json` with specific configuration for theming and endpoint URLs.
+- The logo, as defined by `logo.url` in `environment.base.conf.json`.
 - `favicon.png` the favicon, needs to be a PNG.
 - `manifest.json` with configuration for the PWA.
 - `icon_...x....png` the icons for the PWA in various sizes, need to be PNGs.
 
 The logo displayed on the website is defined by the `logo.url` parameter in
-`environment.conf.json`. This can be a remote URL or a local file path. Define
+`environment.base.conf.json`. This can be a remote URL or a local file path. Define
 for instance `/logo.svg` and you can inject your own `logo.svg` when starting
 the docker container.
 
