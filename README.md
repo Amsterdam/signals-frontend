@@ -10,8 +10,6 @@ Make sure you installed the following versions on your machine:
 -  npm >= 6.11
 -  node 12.18
 
-For testing this project relies on the[ `leaflet-headless`](https://www.npmjs.com/package/leaflet-headless) package. On OSX, you'll need to have [`cairo`](https://formulae.brew.sh/formula/cairo), [`pango`](https://formulae.brew.sh/formula/pango) and [`cmake`](https://formulae.brew.sh/formula/cmake) installed.
-
 Install the dependencies:
 
 ```bash
@@ -28,7 +26,7 @@ The server listens runs on port 3001 by default. You can change the by setting t
 
 ## Configuration
 
-Configuration for theming, map and API endpoint URLs is defined in `environment.conf.json`. Override the default configuration by creating the file `environment.conf.development.json`. This file is ignored by Git.
+Configuration for theming, map and API endpoint URLs is defined in `environment.conf.json`. Override the default configuration by creating the file `environment.conf.development.json`. This file is ignored by Git. Changes to the configuration file will only be picked up when the development server is restarted.
 
 ## Testing
 
