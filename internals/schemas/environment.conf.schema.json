@@ -39,29 +39,16 @@
           "type": "boolean"
         },
         "useStaticMapServer": {
-          "description": "When true, will use the static map server difined by [STATIC_MAP_SERVER_URL](#STATIC_MAP_SERVER_URL) to get a png image for a small map preview, otherwise leaflet without controls will be used.",
+          "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
         },
         "apiBaseUrl": {
-          "description": "The base URL of the signals API"
+          "description": "The base URL of the signals API",
+          "type": "string",
+          "format": "uri"
         },
         "oidc": {
           "$ref": "#/definitions/Oidc"
-        },
-        "STATIC_MAP_SERVER_URL": {
-          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
-          "type": "string",
-          "format": "uri"
-        },
-        "OVL_KLOKKEN_LAYER": {
-          "description": "GeoJSON URL for the retrieval of public clock location data. Used by the incident form for showing clock locations on a map\n\nNo Swagger documentation available",
-          "type": "string",
-          "format": "uri"
-        },
-        "OVL_VERLICHTING_LAYER": {
-          "description": "GeoJSON URL for the retrieval of street light data. Used by the incident form for showing street light locations on a map\n\nNo Swagger documentation available",
-          "type": "string",
-          "format": "uri"
         }
       },
       "required": [
@@ -77,10 +64,7 @@
         "showVulaanControls",
         "useStaticMapServer",
         "apiBaseUrl",
-        "oidc",
-        "STATIC_MAP_SERVER_URL",
-        "OVL_KLOKKEN_LAYER",
-        "OVL_VERLICHTING_LAYER"
+        "oidc"
       ],
       "title": "Test"
     },
@@ -284,13 +268,36 @@
         },
         "tiles": {
           "$ref": "#/definitions/Tiles"
+        },
+        "staticUrl": {
+          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
+          "type": "string",
+          "format": "uri"
+        },
+        "layers": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "klokken": {
+              "description": "GeoJSON URL for the retrieval of public clock location data. Used by the incident form for showing clock locations on a map\n\nNo Swagger documentation available",
+              "type": "string",
+              "format": "uri"
+            },
+            "verlichting": {
+              "description": "GeoJSON URL for the retrieval of street light data. Used by the incident form for showing street light locations on a map\n\nNo Swagger documentation available",
+              "type": "string",
+              "format": "uri"
+            }
+          }
         }
       },
       "required": [
         "municipality",
         "options",
         "optionsBackOffice",
-        "tiles"
+        "tiles",
+        "staticUrl",
+        "layers"
       ],
       "title": "Map"
     },

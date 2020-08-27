@@ -80,6 +80,11 @@
         ],
         "tms": true
       }
+    },
+    "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
+    "layers": {
+      "klokken": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
+      "verlichting": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326"
     }
   },
   "fetchQuestionsFromBackend": false,
@@ -91,8 +96,5 @@
     "clientId": "sia",
     "responseType": "token",
     "scope": "SIG/ALL"
-  },
-  "STATIC_MAP_SERVER_URL": "https://map.data.amsterdam.nl/maps/topografie",
-  "OVL_KLOKKEN_LAYER": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
-  "OVL_VERLICHTING_LAYER": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326"
+  }
 }
