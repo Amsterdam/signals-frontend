@@ -1,19 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import isString from 'lodash.isstring';
 import get from 'lodash.get';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
+import { themeColor } from '@datapunt/asc-ui';
 import mapDynamicFields from '../../../services/map-dynamic-fields';
 import './style.scss';
 
-function renderText(value, parent) {
+// This control will disable all the links when the user is not authenticated.
+const Span = styled.span`
+  ${({ authenticated }) =>
+    authenticated
+      ? css`
+          a {
+            color: ${themeColor('primary')};
+            font-weight: bold;
+          }
+        `
+      : css`
+          a {
+            pointer-events: none;
+            cursor: default;
+            text-decoration: none;
+            color: inherit;
+          }
+        `}
+`;
+
+const renderText = (value, parent) => {
   if (React.isValidElement(value)) {
     return value;
   }
 
-  return mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
-}
+  const text = mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
+  return (
+    <Span
+      data-testid="plainText"
+      authenticated={isAuthenticated()}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{
+        __html: text,
+      }}
+    />
+  );
+};
 
 const Label = styled.div`
   font-family: Avenir Next LT W01 Demi;
@@ -23,6 +55,7 @@ const PlainText = ({ meta, parent }) =>
   meta?.isVisible && (
     <div className={`${meta.type || ''} plain-text__box`}>
       <Label>{meta.label}</Label>
+
       {meta.value && isString(meta.value) && renderText(meta.value, parent)}
 
       {meta.value &&
