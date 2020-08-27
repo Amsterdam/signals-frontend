@@ -1,217 +1,108 @@
-import React, { Fragment, useCallback, useState, useEffect, useRef, useContext } from 'react';
-import styled, { css } from 'styled-components';
-import { Heading, themeSpacing, Row, Column, themeColor, Label, ErrorMessage } from '@datapunt/asc-ui';
+import React, { Fragment, useCallback, useReducer, useContext } from 'react';
+import { Label } from '@datapunt/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
-import useFormValidation from 'hooks/useFormValidation';
+// import useFormValidation from 'hooks/useFormValidation';
 
 import TextArea from 'components/TextArea';
 import Checkbox from 'components/Checkbox';
-import FormFooter from 'components/FormFooter';
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 import DefaultTexts from './components/DefaultTexts';
 import IncidentDetailContext from '../../context';
 import { PATCH_TYPE_STATUS } from '../../constants';
-
-const HEROPENED_EXPLANATION = 'Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.';
-const AFGEHANDELD_EXPLANATION = `${HEROPENED_EXPLANATION} Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland. Let op: als de huidige status “Verzoek tot heropenen” is, dan wordt er geen e-mail naar de melder gestuurd.`;
-const GEANNULEERD_EXPLANATION =
-  'Bij deze status wordt de melding afgesloten. Gebruik deze status alleen voor test- en nepmeldingen of meldingen van veelmelders.';
-export const MELDING_CHECKBOX_DESCRIPTION =
-  'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.';
-
-const CurrentStatus = styled.div`
-  margin: ${themeSpacing(5, 0)};
-`;
-
-const Form = styled.form`
-  position: relative;
-  width: 100%;
-  grid-template-areas:
-    'header'
-    'options'
-    'texts'
-    'form';
-  grid-column-gap: 20px;
-  display: grid;
-  margin-bottom: 5em;
-
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    grid-template-columns: 6fr 6fr;
-    grid-template-areas:
-      'header texts'
-      'options texts'
-      'form texts'
-      '. texts';
-  }
-`;
-
-const HeaderArea = styled.div`
-  grid-area: header;
-`;
-
-const OptionsArea = styled.div`
-  grid-area: options;
-`;
-
-const TextsArea = styled.div`
-  grid-area: texts;
-  margin-top: ${themeSpacing(5)};
-`;
-
-const FormArea = styled.div`
-  grid-area: form;
-`;
-
-const Notification = styled.div`
-  ${({ warning }) =>
-    warning &&
-    css`
-      border-left: 3px solid;
-      display: block;
-      margin: ${themeSpacing(8, 0)};
-      padding-left: ${themeSpacing(5)};
-      border-color: #ec0000;
-    `}
-
-  line-height: 22px;
-`;
-
-const StyledH4 = styled(Heading)`
-  font-weight: normal;
-  margin-bottom: ${themeSpacing(2)};
-  margin-top: ${themeSpacing(5)};
-`;
-
-const StyledErrorMessage = styled(ErrorMessage)`
-  font-family: Avenir Next LT W01 Demi;
-  font-weight: normal;
-`;
-
-const Wrapper = styled(Row)`
-  background-color: ${themeColor('tint', 'level1')};
-  position: relative;
-`;
-
-const StyledColumn = styled(Column)`
-  display: block;
-  background-color: ${themeColor('tint', 'level1')};
-  position: relative;
-  margin-bottom: ${themeSpacing(3)};
-`;
-
-const StyledLabel = styled(Label)`
-  align-items: baseline;
-`;
-
-export const emailSentWhenStatusChangedTo = status =>
-  Boolean(changeStatusOptionList.find(({ email_sent_when_set, key }) => email_sent_when_set && status === key));
-
-const determineWarning = selectedStatusKey => {
-  if (selectedStatusKey === 'reopened') {
-    return HEROPENED_EXPLANATION;
-  }
-
-  if (selectedStatusKey === 'o') {
-    // afgehandeld
-    return AFGEHANDELD_EXPLANATION;
-  }
-
-  if (selectedStatusKey === 'a') {
-    return GEANNULEERD_EXPLANATION;
-  }
-
-  return '';
-};
+import {
+  Form,
+  FormArea,
+  HeaderArea,
+  Notification,
+  OptionsArea,
+  StyledButton,
+  StyledColumn,
+  StyledErrorMessage,
+  StyledH4,
+  StyledLabel,
+  TextsArea,
+  Wrapper,
+} from './styled';
+import * as constants from './constants';
+import reducer, { init } from './reducer';
 
 const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
-
+  const [state, dispatch] = useReducer(reducer, incident, init);
+  const isDeelmelding = incident?._links?.['sia:parent'] !== undefined;
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
 
-  const formRef = useRef(null);
-
-  const { isValid, validate, errors, event: submitEvent } = useFormValidation(formRef);
-
-  const [status, setStatus] = useState(statusList.find(({ key }) => key === incident.status.state));
-  const [checked, setChecked] = useState(emailSentWhenStatusChangedTo(status?.key));
-  const [defaultText, setDefaultText] = useState('');
-  const [warning, setWarning] = useState(determineWarning(status?.key));
-  const [textRequired, setTextRequired] = useState(checked);
-  const [checkboxIsDisabled, setCheckboxIsDisabled] = useState(emailSentWhenStatusChangedTo(currentStatus?.key));
-  const isDeelmelding = incident?._links?.['sia:parent'] !== undefined;
-
   const onRadioChange = useCallback((name, selectedStatus) => {
-    const found = statusList.find(s => s.key === selectedStatus.key);
-    const disableCheckbox = emailSentWhenStatusChangedTo(found?.key);
-
-    setStatus(selectedStatus);
-    setCheckboxIsDisabled(disableCheckbox);
-    setChecked(disableCheckbox);
-    setWarning(determineWarning(selectedStatus.key));
-    setTextRequired(disableCheckbox);
+    dispatch({ type: 'SET_STATUS', payload: selectedStatus });
   }, []);
-
-  useEffect(() => {
-    if (isValid) {
-      handleSubmit(submitEvent);
-    }
-  }, [submitEvent, isValid, handleSubmit, errors]);
 
   const handleSubmit = useCallback(
     event => {
       event.preventDefault();
 
-      const textElement = event.target.elements.text;
-      const { value } = textElement;
+      const textValue = state.text.value || state.text.defaultValue;
 
-      if (/{{|}}/gi.test(value)) {
-        global.alert(
-          "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
-        );
+      if (state.text.required && !textValue) {
+        dispatch({ type: 'SET_ERRORS', payload: { text: 'Dit veld is verplicht' } });
+        return;
+      }
 
-        textElement.focus();
-        textElement.setSelectionRange(value.indexOf('{{'), value.indexOf('}}') + 2);
-      } else {
-        const statusElement = event.target.elements.status;
-        const sendEmailElement = event.target.elements.send_email;
-        update({
-          type: PATCH_TYPE_STATUS,
-          patch: {
-            status: { state: statusElement.value, text: value, send_email: sendEmailElement.checked },
+      if (/{{|}}/gi.test(textValue)) {
+        dispatch({
+          type: 'SET_ERRORS',
+          payload: {
+            text:
+              "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan.",
           },
         });
-
-        close();
+        return;
       }
+
+      update({
+        type: PATCH_TYPE_STATUS,
+        patch: {
+          status: { state: state.status.key, text: textValue, send_email: state.check.checked },
+        },
+      });
+
+      close();
     },
-    [close, update]
+    [close, update, state.text, state.check.checked, state.status.key]
   );
 
-  const handleUseDefaultText = useCallback((event, text) => {
-    event.preventDefault();
-    setDefaultText(text);
+  const setDefaultText = useCallback((event, text) => {
+    dispatch({ type: 'SET_DEFAULT_TEXT', payload: text });
+  }, []);
+
+  const onCheck = useCallback(() => {
+    dispatch({ type: 'TOGGLE_CHECK' });
+  }, []);
+
+  const onTextChange = useCallback(event => {
+    dispatch({ type: 'SET_TEXT', payload: event.target.value });
   }, []);
 
   return (
     <Wrapper>
       <StyledColumn span={12}>
-        <Form onSubmit={validate} data-testid="statusForm" noValidate ref={formRef}>
+        <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
           <HeaderArea>
             <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-            <CurrentStatus data-testid="currentStatus">
+            <div data-testid="currentStatus">
               <Label as="strong" label="Huidige status" />
               <div>{currentStatus.value}</div>
-            </CurrentStatus>
+            </div>
           </HeaderArea>
 
           <OptionsArea>
             <Label as="strong" htmlFor="status" label="Nieuwe status" />
+            <input type="hidden" name="status" value={currentStatus.key} />
             <RadioButtonList
-              defaultValue={status.key}
+              defaultValue={state.status.key}
               groupName="status"
               hasEmptySelectionButton={false}
               name="status"
@@ -221,42 +112,65 @@ const StatusForm = ({ defaultTexts }) => {
           </OptionsArea>
 
           <FormArea>
-            <Label
-              as="span"
-              htmlFor="status"
-              label={
-                <Fragment>
-                  <strong>Toelichting</strong>
-                  {!textRequired && <span>&nbsp;(optioneel)</span>}
-                </Fragment>
-              }
-            />
-            <TextArea name="text" rows="4" required={textRequired} defaultValue={defaultText} error={errors.text} />
+            <div>
+              <Label
+                as="span"
+                htmlFor="status"
+                label={
+                  <Fragment>
+                    <strong>Toelichting</strong>
+                    {!state.text.required && <span>&nbsp;(optioneel)</span>}
+                  </Fragment>
+                }
+              />
+              <TextArea
+                error={state.errors?.text}
+                name="text"
+                onChange={onTextChange}
+                required={state.text.required}
+                rows="4"
+                value={state.text.value || state.text.defaultValue}
+              />
 
-            {errors?.text && <StyledErrorMessage message={errors.text} />}
+              {state.errors?.text && <StyledErrorMessage message={state.errors.text} />}
+            </div>
 
-            {warning && <Notification warning>{warning}</Notification>}
+            {state.warning && <Notification warning>{state.warning}</Notification>}
+
+            {isDeelmelding && <Notification warning>{constants.DEELMELDING_EXPLANATION}</Notification>}
 
             {!isDeelmelding && (
-              <StyledLabel htmlFor="send_email" label={MELDING_CHECKBOX_DESCRIPTION} disabled={checkboxIsDisabled}>
+              <StyledLabel
+                disabled={state.check.disabled}
+                htmlFor="send_email"
+                label={constants.MELDING_CHECKBOX_DESCRIPTION}
+              >
                 <Checkbox
-                  checked={checked}
-                  disabled={checkboxIsDisabled}
+                  checked={state.check.checked}
+                  disabled={state.check.disabled}
                   id="send_email"
                   name="send_email"
-                  onClick={() => setChecked(!checked)}
+                  onClick={onCheck}
                 />
               </StyledLabel>
             )}
 
-            <FormFooter cancelBtnLabel="Annuleren" onCancel={close} submitBtnLabel="Status opslaan" />
+            <div>
+              <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary">
+                Status opslaan
+              </StyledButton>
+
+              <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={close}>
+                Annuleren
+              </StyledButton>
+            </div>
           </FormArea>
 
           <TextsArea>
             <DefaultTexts
               defaultTexts={defaultTexts}
-              onHandleUseDefaultText={handleUseDefaultText}
-              status={status.key}
+              onHandleUseDefaultText={setDefaultText}
+              status={state.status.key}
             />
           </TextsArea>
         </Form>
