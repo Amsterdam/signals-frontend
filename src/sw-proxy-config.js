@@ -161,80 +161,123 @@ const me = {
   },
 };
 
-const responses = [
+/**
+ * Proxy configuration
+ *
+ * Each entry must have `request` and `response` properties.
+ *
+ * The following properties are allowed in the `request` property:
+ * - `headers`: Object (optional), key/value pairs of HTTP headers
+ * - `method`: String (required), HTTP method (GET, POST, PUT or DELETE)
+ * - `url`: String (required), fully qualified URL of the request to be proxied. Can be a regexp.
+ *
+ * The following properties are allowed in the `response` property:
+ * - `body`: Object/String (optional): response body
+ * - `file`: String (optional), path to file to be served, relative to root folder of the application. Must be accessible to the web server and will be ignored if `body` is present
+ * - `headers`: Object (optional), key/value pairs of HTTP headers
+ * - `status`: Number (optional), HTTP status code
+ * - `statusText`: String (optional), HTTP status text
+ */
+const proxyConfig = [
   {
-    reqUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/1234',
-    reqMethod: 'PATCH',
-    status: 401,
-    statusText: 'Unauthorized',
-    headers: {
-      'Content-Type': 'application/json',
+    request: {
+      url: 'https://geodata.nationaalgeoregister.nl/locatieserver/revgeo',
+      method: 'GET',
     },
-    body: {
-      message: 'Not allowed',
+    response: {
+      status: 500,
+      statusText: 'Internal server error',
+      headers: {
+        'Content-Type': 'text/html',
+      },
+      body: '<html><h1>Internal PDOK server error</h1></html>',
     },
   },
   {
-    reqUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/private/me/',
-    reqMethod: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
+    request: {
+      url: 'https://api.data.amsterdam.nl/geosearch/bag',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-    body: me,
-  },
-  {
-    reqUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4642',
-    reqMethod: 'PATCH',
-    status: 401,
-    statusText: 'Unauthorized',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  },
-  {
-    reqUrl: 'https://api.example.com/pdf',
-    reqMethod: 'GET',
-    headers: {
-      'Content-Type': 'application/pdf',
-    },
-    file: 'demo/example.pdf',
-  },
-  {
-    reqUrl: 'https://api.example.com/post',
-    reqMethod: 'POST',
-    status: 201,
-    statusText: 'Created',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: {
-      message: 'created',
+    response: {
+      status: 500,
+      statusText: 'Internal server error',
+      headers: {
+        'Content-Type': 'text/html',
+      },
+      delay: 1000,
+      body: '<html><h1>Internal BAG server error</h1></html>',
     },
   },
   {
-    reqUrl: 'https://api.example.com/notfound',
-    reqMethod: 'GET',
-    status: 404,
-    statusText: 'Not found',
-    headers: {
-      'Content-Type': 'application/json',
+    request: {
+      url: 'https://acc.api.data.amsterdam.nl/signals/v1/private/me/',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-    body: {
-      message: 'Not found',
+    response: {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: me,
     },
   },
-  {
-    reqUrl: 'https://geodata.nationaalgeoregister.nl/locatieserver/revgeo',
-    reqMethod: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: {},
-  },
-  {
-    reqUrl: 'https://localhost/*',
-    reqMethod: 'GET',
-    status: 302,
-    redirectUrl: 'http://localhost:8080/$1',
-  },
+  // {
+  //   reqUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4642',
+  //   reqMethod: 'PATCH',
+  //   status: 401,
+  //   statusText: 'Unauthorized',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // },
+  // {
+  //   reqUrl: 'https://api.example.com/pdf',
+  //   reqMethod: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/pdf',
+  //   },
+  //   file: 'demo/example.pdf',
+  // },
+  // {
+  //   reqUrl: 'https://api.example.com/post',
+  //   reqMethod: 'POST',
+  //   status: 201,
+  //   statusText: 'Created',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: {
+  //     message: 'created',
+  //   },
+  // },
+  // {
+  //   reqUrl: 'https://api.example.com/notfound',
+  //   reqMethod: 'GET',
+  //   status: 404,
+  //   statusText: 'Not found',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: {
+  //     message: 'Not found',
+  //   },
+  // },
+  // {
+  //   reqUrl: 'https://geodata.nationaalgeoregister.nl/locatieserver/revgeo',
+  //   reqMethod: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: {},
+  // },
+  // {
+  //   reqUrl: 'https://localhost/*',
+  //   reqMethod: 'GET',
+  //   status: 302,
+  // },
 ];

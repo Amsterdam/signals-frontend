@@ -46,7 +46,7 @@ module.exports = webpackBase({
     new CopyPlugin({
       patterns: [
         { from: path.join(process.cwd(), 'src/sw-proxy.js') },
-        { from: path.join(process.cwd(), 'src/sw-proxy-responses.js'), force: true },
+        { from: path.join(process.cwd(), 'src/sw-proxy-config.js'), force: true },
       ],
     }),
   ],
