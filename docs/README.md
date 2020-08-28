@@ -17,16 +17,19 @@ It can sometimes be useful to mock requests in the browser in order to test diff
 
 This behaviour can be accomplished by invoking a serviceworker that acts as a proxy that can return specific content for certain requests.
 
-The [serviceworker](../src/sw-proxy.js) takes [an object of response configurations](../src/sw-proxy-responses.js). A response object can have the following properties:
+The [serviceworker](../src/sw-proxy.js) takes [an array of request/response configurations](../src/sw-proxy-config.js). A config object can have the following properties:
 
-- `body`: Object/String (optional): response body
-- `file`: String (optional), path to file to be served, relative to root folder of the application. Must be accessible to the web server and will be ignored if `body` is present
-- `headers`: Object (optional), key/value pairs of HTTP headers
-- `redirectUrl`: String (optional), URL with optional replacement patterns (`$1`, `$2`, ...)
-- `reqMethod`: String (required), HTTP method (GET, POST, PUT or DELETE)
-- `reqUrl`: String (required), fully qualified URL of the request to be proxied. Can be a regexp.
-- `status`: Number (optional), HTTP status code
-- `statusText`: String (optional), HTTP status text
+- `request`: Object (required)
+- `request.headers`: Object (optional), key/value pairs of HTTP headers
+- `request.method`: String (required), HTTP method (GET, POST, PUT or DELETE)
+- `request.url`: String (required), fully qualified URL of the request to be proxied. Can be a regexp.
+
+- `response`: Object (required)
+- `response.body`: Object/String (optional): response body
+- `response.file`: String (optional), path to file to be served, relative to root folder of the application. Must be accessible to the web server and will be ignored if `body` is present
+- `response.headers`: Object (optional), key/value pairs of HTTP headers
+- `response.status`: Number (optional), HTTP status code
+- `response.statusText`: String (optional), HTTP status text
 
 To run the application with the proxied serviceworker:
 
@@ -34,4 +37,4 @@ To run the application with the proxied serviceworker:
 HTTPS=true PROXY=true npm start
 ```
 
-After each change of the [object of response configurations](../src/sw-proxy-responses.js), the serviceworker doens't automatically pick up the changes. A hard refresh or clearing the application's data in the browser will fix that.
+After each change of the [array of request/response configurations](../src/sw-proxy-config.js), the serviceworker doens't automatically pick up the changes. A hard refresh or clearing the application's data in the browser will fix that.
