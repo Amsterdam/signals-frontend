@@ -253,6 +253,12 @@ describe('formatPDOKResponse', () => {
       },
     ]);
   });
+
+  it('return an empty array', () => {
+    expect(formatPDOKResponse({})).toEqual([]);
+    expect(formatPDOKResponse(undefined)).toEqual([]);
+    expect(formatPDOKResponse(null)).toEqual([]);
+  });
 });
 
 describe('pointWithinBounds', () => {

@@ -98,14 +98,14 @@ const Location = ({ location }) => {
             </MapTile>
           )}
 
+          {location.stadsdeel && (
+            <div data-testid="location-value-address-stadsdeel">
+              Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
+            </div>
+          )}
+
           {location.address_text ? (
             <div>
-              {location.stadsdeel && (
-                <div data-testid="location-value-address-stadsdeel">
-                  Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
-                </div>
-              )}
-
               <div data-testid="location-value-address-street">
                 {location.address.openbare_ruimte} {location.address.huisnummer}
                 {location.address.huisletter}

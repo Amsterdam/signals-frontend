@@ -119,8 +119,8 @@ export const pdokResponseFieldList = [
   'centroide_ll',
 ];
 
-export const formatPDOKResponse = ({ response }) =>
-  response.docs?.map(result => {
+export const formatPDOKResponse = request =>
+  request?.response?.docs?.map(result => {
     const { id, weergavenaam, centroide_ll } = result;
     return {
       id,
@@ -130,7 +130,7 @@ export const formatPDOKResponse = ({ response }) =>
         address: serviceResultToAddress(result),
       },
     };
-  });
+  }) || [];
 
 export const pointWithinBounds = (coordinates, bounds = configuration.map.options.maxBounds) => {
   const latWithinBounds = coordinates[0] > bounds[0][0] && coordinates[0] < bounds[1][0];
