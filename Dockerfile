@@ -45,6 +45,9 @@ COPY assets /app/assets
 ARG GIT_BRANCH
 ENV GIT_BRANCH ${GIT_BRANCH}
 
+ARG BUILD_ENV
+ENV BUILD_ENV ${BUILD_ENV}
+
 ENV NODE_ENV=production
 RUN echo "run build"
 RUN npm run build
@@ -59,6 +62,7 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 ################################
 FROM nginx:stable-alpine
 
+RUN echo -e "https://dl-4.alpinelinux.org/alpine/latest-stable/main\nhttps://dl-4.alpinelinux.org/alpine/latest-stable/community" > /etc/apk/repositories && apk upgrade
 RUN apk add --no-cache jq nodejs npm
 RUN npm install @exodus/schemasafe
 

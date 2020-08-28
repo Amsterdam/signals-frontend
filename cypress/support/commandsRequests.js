@@ -112,3 +112,85 @@ export const createPrivateSignalForFilters = () => {
     },
   });
 };
+
+export const createSignalSorting01 = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.81989868, 52.35713446] },
+        address: {
+          openbare_ruimte: 'Aaf Bouberstraat',
+          huisnummer: '1',
+          postcode: '1065LP',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'F',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-gezonken-boot',
+      },
+      reporter: {},
+      incident_date_start: '2020-04-16T14:06:31+02:00',
+      text: 'We gaan sorteren',
+    },
+  });
+};
+
+export const createSignalSorting02 = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [5.0001479, 52.34677023] },
+        address: {
+          openbare_ruimte: 'Zwenkgrasstraat',
+          huisnummer: '2',
+          postcode: '1087SG',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'M',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/wonen/sub_categories/woningkwaliteit',
+      },
+      reporter: {},
+      incident_date_start: '2020-04-16T14:06:31+02:00',
+      text: 'We gaan veel sorteren',
+    },
+  });
+};
+
+export const createSignalDeelmelding = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.9140405, 52.34718533] },
+        address: {
+          openbare_ruimte: 'Weesperzijde',
+          huisnummer: '159-1',
+          postcode: '1097DS',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-snel-varen',
+      },
+      reporter: {},
+      incident_date_start: '2020-07-16T14:06:31+02:00',
+      text: 'Wow, er vaart iemand te hard onder de Berlagebrug door, die BTW stuk is en er ligt ook nog eens een grote plas olie op het waterrr.',
+    },
+  }).its('body').then(body => {
+    const id = body.id;
+    Cypress.env('signalId', id);
+    cy.log(id);
+  });
+};

@@ -148,16 +148,16 @@ describe('signals/incident-management/selectors', () => {
     const incidents = { count: 100, results };
 
     const stateLoading = fromJS({
-      incidentManagement: { ...initialState.toJS(), loading: true, incidents },
+      incidentManagement: { ...initialState.toJS(), loadingIncidents: true, incidents },
     });
 
-    expect(makeSelectIncidents(stateLoading)).toEqual({ ...incidents, loading: true });
+    expect(makeSelectIncidents(stateLoading)).toEqual({ ...incidents, loadingIncidents: true });
 
     const state = fromJS({
       incidentManagement: { ...initialState.toJS(), incidents },
     });
 
-    expect(makeSelectIncidents(state)).toEqual({ ...incidents, loading: false });
+    expect(makeSelectIncidents(state)).toEqual({ ...incidents, loadingIncidents: false });
   });
 
   it('should select incidents count', () => {

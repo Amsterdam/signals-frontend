@@ -129,9 +129,9 @@ export const makeSelectSearchQuery = createSelector(selectIncidentManagementDoma
 });
 
 export const makeSelectIncidents = createSelector(selectIncidentManagementDomain, state => {
-  const { incidents, loading } = state.toJS();
+  const { incidents, loadingIncidents } = state.toJS();
 
-  return { ...incidents, loading };
+  return { ...incidents, loadingIncidents };
 });
 
 export const makeSelectIncidentsCount = createSelector(selectIncidentManagementDomain, state => {

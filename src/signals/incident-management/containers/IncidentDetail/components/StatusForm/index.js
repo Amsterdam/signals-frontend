@@ -2,11 +2,11 @@ import React, { useCallback, useState, useEffect, useMemo, useContext } from 're
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import styled, { css } from 'styled-components';
 
-import { Heading, themeSpacing, Row, Column } from '@datapunt/asc-ui';
+import { Heading, themeSpacing, Row, Column, themeColor } from '@datapunt/asc-ui';
 import { defaultTextsType } from 'shared/types';
 import statusList, {
-  defaultTextsOptionList,
   changeStatusOptionList,
+  defaultTextsOptionList,
 } from 'signals/incident-management/definitions/statusList';
 
 import Button from 'components/Button';
@@ -22,7 +22,7 @@ import { PATCH_TYPE_STATUS } from '../../constants';
 export const MELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet automatisch.';
 export const DEELMELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet.';
 export const MELDING_CHECKBOX_DESCRIPTION =
-  'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting';
+  'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.';
 
 const CurrentStatus = styled.div`
   margin: ${themeSpacing(5, 0)};
@@ -42,7 +42,7 @@ const Form = styled.form`
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     grid-template-columns: 6fr 6fr;
     grid-template-areas:
-      'header header'
+      'header texts'
       'options texts'
       'form texts'
       '. texts';
@@ -59,6 +59,7 @@ const OptionsArea = styled.div`
 
 const TextsArea = styled.div`
   grid-area: texts;
+  margin-top: ${themeSpacing(5)};
 `;
 
 const FormArea = styled.div`
@@ -81,8 +82,8 @@ const Notification = styled.div`
     css`
       border-left: 3px solid;
       display: block;
-      margin: 30px 0;
-      padding-left: 20px;
+      margin: ${themeSpacing(8, 0)};
+      padding-left: ${themeSpacing(5)};
       border-color: #ec0000;
     `}
 
@@ -90,27 +91,30 @@ const Notification = styled.div`
 `;
 
 const Wrapper = styled(Row)`
-  padding-top: 20px;
+  background-color: ${themeColor('tint', 'level1')};
   position: relative;
 `;
 
 const StyledColumn = styled(Column)`
   display: block;
-  background: white;
+  background-color: ${themeColor('tint', 'level1')};
   position: relative;
+  margin-bottom: ${themeSpacing(3)};
 `;
 
-// Don't show the send email checkbox for statuses ingepland, hreopend, afgehandeld and geannuleerd
-export const EMAIL_CHECKBOX_EXCLUDED_STATES = ['ingepland', 'reopened', 'o', 'a'];
-const canSendMail = status => !EMAIL_CHECKBOX_EXCLUDED_STATES.includes(status);
+const canSendMail = status =>
+  Boolean(changeStatusOptionList.find(({ can_send_email, key }) => can_send_email && status === key));
 
 const StatusForm = ({ defaultTexts }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
   const currentStatus = statusList.find(({ key }) => key === incident.status.state);
+  // disable submit button when the current status is a status that cannot be set manually (or, in other words, is not in the list of changeStatusOptionList)
+  const [submitIsDisabled, setSubmitIsDisabled] = useState(
+    changeStatusOptionList.find(({ key }) => key === currentStatus.key) === undefined
+  );
   const [warning, setWarning] = useState('');
   const [showSendMail, setShowSendMail] = useState(canSendMail(currentStatus?.key));
   const isDeelmelding = !!incident?._links?.['sia:parent'];
-
   const form = useMemo(
     () =>
       FormBuilder.group({
@@ -123,8 +127,12 @@ const StatusForm = ({ defaultTexts }) => {
 
   useEffect(() => {
     form.controls.state.valueChanges.subscribe(status => {
+      // reset the send_email field to make sure that a previously set value isn't accidentally sent to the API
+      form.controls.send_email.value = false;
+
       const found = statusList.find(s => s.key === status);
 
+      setSubmitIsDisabled(false);
       setShowSendMail(canSendMail(found?.key));
       setWarning(found?.warning);
 
@@ -138,7 +146,7 @@ const StatusForm = ({ defaultTexts }) => {
 
       form.controls.text.updateValueAndValidity();
     });
-  }, [form.controls.state.valueChanges, form.controls.text]);
+  }, [form.controls.state.valueChanges, form.controls.text, form.controls.send_email]);
 
   const handleSubmit = useCallback(
     event => {
@@ -210,24 +218,30 @@ const StatusForm = ({ defaultTexts }) => {
                   rows={10}
                 />
 
-                {showSendMail && (<React.Fragment>
-                  <Notification warning data-testid="statusFormToelichting">
-                    {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
-                  </Notification>
+                {showSendMail && (
+                  <React.Fragment>
+                    <Notification warning data-testid="statusFormToelichting">
+                      {isDeelmelding ? DEELMELDING_EXPLANATION : MELDING_EXPLANATION}
+                    </Notification>
 
-                  {!isDeelmelding && (
-                    <FieldControlWrapper
-                      control={form.get('send_email')}
-                      data-testid="statusFormSendEmailField"
-                      name="send_email"
-                      label={MELDING_CHECKBOX_DESCRIPTION}
-                      render={CheckboxInput}
-                    />
-                  )}</React.Fragment>
-                )
-                }
+                    {!isDeelmelding && (
+                      <FieldControlWrapper
+                        control={form.get('send_email')}
+                        data-testid="statusFormSendEmailField"
+                        name="send_email"
+                        label={MELDING_CHECKBOX_DESCRIPTION}
+                        render={CheckboxInput}
+                      />
+                    )}
+                  </React.Fragment>
+                )}
 
-                <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary" disabled={invalid}>
+                <StyledButton
+                  data-testid="statusFormSubmitButton"
+                  type="submit"
+                  variant="secondary"
+                  disabled={invalid || submitIsDisabled}
+                >
                   Status opslaan
                 </StyledButton>
 

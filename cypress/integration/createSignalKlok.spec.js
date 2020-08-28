@@ -12,7 +12,6 @@ describe('Create signal klok', () => {
 
     it('Should describe the signal', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:klok.json').as('prediction');
 
@@ -149,7 +148,6 @@ describe('Create signal klok', () => {
 
     it('Should describe the signal', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:klok.json').as('prediction');
 

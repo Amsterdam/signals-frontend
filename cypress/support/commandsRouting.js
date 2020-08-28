@@ -1,8 +1,3 @@
-// Select an address from autosuggest
-Cypress.Commands.add('defineGeoSearchRoutes', () => {
-  cy.route('/geosearch/bag/?lat=*').as('geoSearchLocation');
-});
-
 // Search for an address
 Cypress.Commands.add('getAddressRoute', () => {
   cy.route('/locatieserver/v3/suggest?fq=*').as('getAddress');
@@ -100,4 +95,21 @@ Cypress.Commands.add('waitForPostNoteRoutes', () => {
   cy.wait('@patchNote');
   cy.wait('@getSignal');
   cy.wait('@getHistory');
+});
+
+Cypress.Commands.add('postDeelmeldingen', () => {
+  const deelMeldingId01 = Cypress.env('signalId') + 1;
+  const deelMeldingId02 = Cypress.env('signalId') + 2;
+  const deelMeldingId03 = Cypress.env('signalId') + 3;
+  cy.route('POST', '/signals/v1/private/signals/*/split').as('postDeelmelding');
+  cy.route('PATCH', `/signals/v1/private/signals/${deelMeldingId01}`).as('patchDeelmelding01');
+  cy.route('PATCH', `/signals/v1/private/signals/${deelMeldingId02}`).as('patchDeelmelding02');
+  cy.route('PATCH', `/signals/v1/private/signals/${deelMeldingId03}`).as('patchDeelmelding03');
+});
+
+Cypress.Commands.add('waitForPostDeelmeldingen', () => {
+  cy.wait('@postDeelmelding');
+  cy.wait('@patchDeelmelding01');
+  cy.wait('@patchDeelmelding02');
+  cy.wait('@patchDeelmelding03');
 });

@@ -12,7 +12,6 @@ describe('Change a signal before submit and check signal details', () => {
 
     it('Should describe the signal', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:lantaarnpaal.json').as('prediction');
 
@@ -78,7 +77,6 @@ describe('Change a signal before submit and check signal details', () => {
       cy.server();
       cy.route('/maps/topografie?bbox=**').as('map');
       cy.getAddressRoute();
-      cy.defineGeoSearchRoutes();
       cy.route('POST', '**/signals/category/prediction', 'fixture:afval.json').as('prediction');
 
       // Go to first step of signal creation and change signal information

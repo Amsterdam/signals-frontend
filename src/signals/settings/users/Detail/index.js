@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import configuration from 'shared/services/configuration/configuration';
 import { makeSelectUserCan } from 'containers/App/selectors';
 import PageHeader from 'signals/settings/components/PageHeader';
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import BackLink from 'components/BackLink';
 import routes from 'signals/settings/routes';

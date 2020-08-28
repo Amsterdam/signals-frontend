@@ -12,7 +12,6 @@ describe('Create signal wonen vakantie verhuur and check signal details', () => 
 
     it('Should describe the signal', () => {
       cy.server();
-      cy.defineGeoSearchRoutes();
       cy.getAddressRoute();
       cy.route('POST', '**/signals/category/prediction', 'fixture:wonenVakantieVerhuur.json').as('prediction');
 

@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { Row, Column, Button } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator';
 import PageHeader from 'signals/settings/components/PageHeader';
 
 import { makeSelectUserCan } from 'containers/App/selectors';

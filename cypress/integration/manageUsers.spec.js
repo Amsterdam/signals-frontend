@@ -39,7 +39,7 @@ describe('Manage users', () => {
     cy.route('/signals/v1/private/users/*').as('getUser');
     cy.route('PATCH', '/signals/v1/private/users/*').as('patchUser');
     cy.get(USERS.userRow)
-      .eq(1)
+      .eq(0)
       .click();
     cy.wait('@getUser');
     cy.url().should('match', /\/instellingen\/gebruiker\/\d+/);
@@ -50,7 +50,7 @@ describe('Manage users', () => {
     cy.get(USERS.buttonOpslaan).click();
     cy.wait('@patchUser');
     cy.get(USERS.userRow)
-      .eq(1)
+      .eq(0)
       .click();
     cy.contains('div', 'GGD')
       .find('input')
@@ -80,7 +80,7 @@ describe('Manage users', () => {
     cy.url().should('include', '/instellingen/gebruikers/page/1');
 
     cy.get(USERS.userRow)
-      .eq(1)
+      .eq(0)
       .click();
     cy.url().should('include', '/instellingen/gebruiker/');
     cy.contains('div', 'Omgevingsdienst')
@@ -92,7 +92,7 @@ describe('Manage users', () => {
     cy.get(USERS.buttonOpslaan).click();
     cy.wait('@patchUser');
     cy.get(USERS.userRow)
-      .eq(1)
+      .eq(0)
       .click();
     cy.contains('div', 'Omgevingsdienst')
       .find('input')

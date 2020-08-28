@@ -5,7 +5,7 @@ import { Wizard, Steps, Step } from 'react-albus';
 import { Heading, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import LoadingIndicator from 'shared/components/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
