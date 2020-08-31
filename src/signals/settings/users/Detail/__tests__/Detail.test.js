@@ -8,24 +8,22 @@ import configuration from 'shared/services/configuration/configuration';
 
 import routes from 'signals/settings/routes';
 
-import userJSON from 'utils/__tests__/fixtures/user.json';
-import rolesJson from 'utils/__tests__/fixtures/roles.json';
-import departmentsJson from 'utils/__tests__/fixtures/departments.json';
-import inputCheckboxRolesSelectorJson from
-  'utils/__tests__/fixtures/inputCheckboxRolesSelector.json';
+import userFixture from 'utils/__tests__/fixtures/user.json';
+import historyFixture from 'utils/__tests__/fixtures/history.json';
+import rolesFixture from 'utils/__tests__/fixtures/roles.json';
+import departmentsFixture from 'utils/__tests__/fixtures/departments.json';
+import inputCheckboxRolesSelectorJson from 'utils/__tests__/fixtures/inputCheckboxRolesSelector.json';
 
 import * as rolesSelectors from 'models/roles/selectors';
 import * as modelSelectors from 'models/departments/selectors';
 import * as appSelectors from 'containers/App/selectors';
 
-import useFetch from 'hooks/useFetch';
-
 import UserDetail from '..';
 
 const departments = {
-  ...departmentsJson,
-  count: departmentsJson.count,
-  list: departmentsJson.results,
+  ...departmentsFixture,
+  count: departmentsFixture.count,
+  list: departmentsFixture.results,
   results: undefined,
 };
 
@@ -34,36 +32,12 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }));
 
-jest.mock('hooks/useFetch');
-
-jest.mock('containers/App/actions', () => ({
-  __esModule: true,
-  ...jest.requireActual('containers/App/actions'),
-}));
-
 jest.mock('containers/App/selectors', () => ({
   __esModule: true,
   ...jest.requireActual('containers/App/selectors'),
 }));
 
 const push = jest.fn();
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
-
-jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: userJSON.id }));
-
-const get = jest.fn();
-const patch = jest.fn();
-const post = jest.fn();
-
-const useFetchResponse = {
-  get,
-  patch,
-  post,
-  data: undefined,
-  isLoading: false,
-  error: false,
-  isSuccess: false,
-};
 
 jest.mock('models/departments/selectors', () => ({
   __esModule: true,
@@ -77,188 +51,232 @@ jest.mock('models/roles/selectors', () => ({
 
 jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
 
-jest.spyOn(rolesSelectors, 'inputCheckboxRolesSelector').mockImplementation(() =>
-  inputCheckboxRolesSelectorJson
-);
+jest.spyOn(rolesSelectors, 'inputCheckboxRolesSelector').mockImplementation(() => inputCheckboxRolesSelectorJson);
 
-jest.spyOn(rolesSelectors, 'rolesModelSelector').mockImplementation(() => ({ list: rolesJson }));
+jest.spyOn(rolesSelectors, 'rolesModelSelector').mockImplementation(() => ({ list: rolesFixture }));
+
+const userId = userFixture.id;
 
 describe('signals/settings/users/containers/Detail', () => {
   beforeEach(() => {
+    jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: userJSON.id }));
-    useFetch.mockImplementation(() => useFetchResponse);
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: userFixture.id }));
   });
 
   afterEach(() => {
+    fetch.resetMocks();
     push.mockReset();
-    get.mockReset();
-    patch.mockReset();
-    post.mockReset();
   });
 
-  it('should render a backlink', () => {
+  it('should render a backlink', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
+
     const referrer = '/some-page-we-came-from';
-    let getByTestId;
-    let rerender;
-    let unmount;
+    const { findByTestId, getByTestId, rerender, unmount } = render(withAppContext(<UserDetail />));
 
-    act(() => { ({ getByTestId, rerender, unmount } = render(withAppContext(<UserDetail />))); });
+    const backlink = await findByTestId('backlink');
 
-    expect(getByTestId('backlink').getAttribute('href')).toEqual(routes.users);
+    expect(backlink.getAttribute('href')).toEqual(routes.users);
 
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({ referrer }));
 
     unmount();
 
-    act(() => { rerender(withAppContext(<UserDetail />)); });
+    rerender(withAppContext(<UserDetail />));
+
+    await findByTestId('backlink');
 
     expect(getByTestId('backlink').closest('a').getAttribute('href')).toEqual(referrer);
   });
 
-  it('should render the correct title', () => {
-    const userId = userJSON.id;
+  it('should render the correct title', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
-    const { getByText, rerender } = render(withAppContext(<UserDetail />));
+    const { findByText, rerender, unmount } = render(withAppContext(<UserDetail />));
 
-    expect(getByText('Gebruiker toevoegen')).toBeInTheDocument();
+    const addTitle = await findByText('Gebruiker toevoegen');
 
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId }));
-
-    rerender(withAppContext(<UserDetail />));
-
-    expect(getByText('Gebruiker wijzigen')).toBeInTheDocument();
-  });
-
-  it('should get', () => {
-    render(withAppContext(<UserDetail />));
-
-    expect(get).toHaveBeenCalledTimes(1);
-  });
-
-  it('should render a loading indicator', () => {
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, isLoading: true }));
-
-    const { getByTestId } = render(withAppContext(<UserDetail />));
-
-    expect(getByTestId('loadingIndicator')).toBeInTheDocument();
-  });
-
-  it('should not render a form when the data from the API is not yet available', () => {
-    const userId = userJSON.id;
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId }));
-
-    const { queryByTestId } = render(withAppContext(<UserDetail />));
-
-    expect(queryByTestId('detailUserForm')).toBeNull();
-  });
-
-  it('should render a form when the URL contains a user ID AND the data has been retrieved from the API', () => {
-    const userId = userJSON.id;
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId }));
-
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, isLoading: true }));
-
-    const { queryByTestId, getByTestId, rerender, unmount } = render(withAppContext(<UserDetail />));
-
-    expect(queryByTestId('detailUserForm')).toBeNull();
+    expect(addTitle).toBeInTheDocument();
 
     unmount();
 
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId }));
 
     rerender(withAppContext(<UserDetail />));
 
-    expect(getByTestId('detailUserForm')).toBeInTheDocument();
+    const editTitle = await findByText('Gebruiker wijzigen');
+
+    expect(editTitle).toBeInTheDocument();
   });
 
-  it('should render a form when the URL does not contain a user ID', () => {
+  it('should get user and history data', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
+
+    const { findByTestId } = render(withAppContext(<UserDetail />));
+
+    await findByTestId('userDetailFormContainer');
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+
+    const [url, params] = fetch.mock.calls[0];
+    expect(url).toEqual(`${configuration.USERS_ENDPOINT}${userId}`);
+    expect(params).toEqual(expect.objectContaining({ method: 'GET' }));
+
+    const [historyUrl, historyParams] = fetch.mock.calls[1];
+    expect(historyUrl).toEqual(`${configuration.USERS_ENDPOINT}${userId}/history`);
+    expect(historyParams).toEqual(expect.objectContaining({ method: 'GET' }));
+  });
+
+  it('should render a loading indicator', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
+
+    const { findByTestId, getByTestId, queryByTestId } = render(withAppContext(<UserDetail />));
+
+    expect(getByTestId('loadingIndicator')).toBeInTheDocument();
+
+    await findByTestId('userDetailFormContainer');
+
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+  });
+
+  it('should not render a form when the data from the API is not yet available', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId }));
+
+    const { findByTestId, queryByTestId } = render(withAppContext(<UserDetail />));
+
+    expect(queryByTestId('detailUserForm')).not.toBeInTheDocument();
+
+    await findByTestId('userDetailFormContainer');
+
+    expect(queryByTestId('detailUserForm')).toBeInTheDocument();
+  });
+
+  it('should render a form when the URL does not contain a user ID', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
+
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
+    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    await findByTestId('userDetailFormContainer');
 
     expect(getByTestId('detailUserForm')).toBeInTheDocument();
   });
 
-  it('should not patch user data on submit when form data has not been altered', () => {
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
+  it('should not patch user data on submit when form data has not been altered', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
 
-    expect(patch).not.toHaveBeenCalled();
+    await findByTestId('userDetailFormContainer');
 
-    act(() => { fireEvent.click(getByTestId('detailUserForm').querySelector('[type="submit"]')); });
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
 
-    expect(patch).not.toHaveBeenCalled();
+    act(() => {
+      fireEvent.click(getByTestId('detailUserForm').querySelector('[type="submit"]'));
+    });
+
+    await findByTestId('userDetailFormContainer');
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
   });
 
-  it('should patch user data on submit', () => {
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
+  it('should patch user data on submit', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
 
-    expect(patch).not.toHaveBeenCalled();
+    await findByTestId('userDetailFormContainer');
+
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
 
     act(() => {
       const lastNameInput = getByTestId('detailUserForm').querySelector('#last_name');
       fireEvent.change(lastNameInput, { target: { value: 'Foo Bar Baz' } });
     });
 
+    await findByTestId('userDetailFormContainer');
+
     act(() => {
       fireEvent.click(getByTestId('detailUserForm').querySelector('[type="submit"]'));
     });
 
-    expect(patch).toHaveBeenCalledTimes(1);
-    expect(patch).toHaveBeenCalled();
+    await findByTestId('userDetailFormContainer');
+
+    expect(fetch).toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
   });
 
-  it('should NOT patch user data on submit when user does not have permissions', () => {
+  it('should NOT patch user data on submit when user does not have permissions', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
+
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
 
-    expect(patch).not.toHaveBeenCalled();
+    await findByTestId('userDetailFormContainer');
+
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
 
     act(() => {
-      fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#last_name'),
-        { target: { value: 'Foo Bar Baz' } }
-      );
+      fireEvent.change(getByTestId('detailUserForm').querySelector('#last_name'), { target: { value: 'Foo Bar Baz' } });
     });
 
-    expect(patch).not.toHaveBeenCalled();
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
 
-    act(() => { fireEvent.submit(document.forms[0]); });
+    act(() => {
+      fireEvent.submit(document.forms[0]);
+    });
 
-    expect(patch).not.toHaveBeenCalled();
+    await findByTestId('userDetailFormContainer');
+
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
   });
 
-  it('should post user data on submit', () => {
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
+  it('should post user data on submit', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
+
+    await findByTestId('userDetailFormContainer');
 
     const lastName = 'Foo Bar Baz';
     act(() => {
-      fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#last_name'),
-        { target: { value: lastName } }
-      );
+      fireEvent.change(getByTestId('detailUserForm').querySelector('#last_name'), { target: { value: lastName } });
     });
 
     const firstName = 'Zork';
     act(() => {
-      fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#first_name'),
-        { target: { value: firstName } }
-      );
+      fireEvent.change(getByTestId('detailUserForm').querySelector('#first_name'), { target: { value: firstName } });
     });
 
     const username = 'zork@foobarbaz.com';
@@ -268,97 +286,110 @@ describe('signals/settings/users/containers/Detail', () => {
       });
     });
 
-    expect(post).not.toHaveBeenCalled();
+    expect(fetch).not.toHaveBeenCalledWith(configuration.USERS_ENDPOINT, expect.objectContaining({ method: 'POST' }));
 
     act(() => {
       fireEvent.click(getByTestId('detailUserForm').querySelector('[type="submit"]'));
     });
 
-    expect(post).toHaveBeenCalledWith(
-      configuration.USERS_ENDPOINT,
+    await findByTestId('userDetailFormContainer');
+
+    const [url, params] = fetch.mock.calls[0];
+    const body = JSON.parse(params.body);
+    expect(url).toEqual(configuration.USERS_ENDPOINT);
+    expect(body).toEqual(
       expect.objectContaining({
         last_name: lastName,
         first_name: firstName,
-        // username is not in the payload, because its value is readOnly
+        username,
       })
     );
   });
 
-  it('should NOT post user data on submit when user does not have permissions', () => {
+  it('should NOT post user data on submit when user does not have permissions', async () => {
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
+
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
-    useFetch.mockImplementation(() => ({
-      ...useFetchResponse,
-      data: { first_name: '', last_name: '' },
-    }));
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
+
+    await findByTestId('userDetailFormContainer');
 
     const lastName = 'Foo Bar Baz';
-    fireEvent.change(
-      getByTestId('detailUserForm').querySelector('#last_name'),
-      { target: { value: lastName } }
-    );
+    fireEvent.change(getByTestId('detailUserForm').querySelector('#last_name'), { target: { value: lastName } });
 
     const firstName = 'Zork';
-    fireEvent.change(
-      getByTestId('detailUserForm').querySelector('#first_name'),
-      { target: { value: firstName } }
-    );
+    fireEvent.change(getByTestId('detailUserForm').querySelector('#first_name'), { target: { value: firstName } });
 
-    expect(post).not.toHaveBeenCalled();
+    expect(fetch).not.toHaveBeenCalledWith(configuration.USERS_ENDPOINT, expect.objectContaining({ method: 'POST' }));
 
     fireEvent.submit(document.forms[0]);
 
-    expect(post).not.toHaveBeenCalled();
+    expect(fetch).not.toHaveBeenCalledWith(configuration.USERS_ENDPOINT, expect.objectContaining({ method: 'POST' }));
   });
 
-  it('should convert stringified booleans to boolean values', () => {
-    useFetch.mockImplementation(() => ({
-      ...useFetchResponse,
-      data: { ...userJSON, is_active: false },
-    }));
+  it('should convert stringified booleans to boolean values', async () => {
+    fetch
+      .mockResponseOnce(JSON.stringify({ ...userFixture, is_active: false }))
+      .mockResponseOnce(JSON.stringify(historyFixture));
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
+
+    await findByTestId('userDetailFormContainer');
 
     // ensure that a boolean value is a string value
-    expect(
-      getByTestId('detailUserForm').querySelector('[name="is_active"][value="false"]').checked
-    ).toBe(true);
+    expect(getByTestId('detailUserForm').querySelector('[name="is_active"][value="false"]').checked).toBe(true);
 
-    expect(patch).not.toHaveBeenCalled();
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
+    );
 
     act(() => {
       // change a field's value so that the form will be submitted
-      fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#last_name'),
-        { target: { value: 'Foo Bar Baz' } }
-      );
+      fireEvent.change(getByTestId('detailUserForm').querySelector('#last_name'), { target: { value: 'Foo Bar Baz' } });
     });
 
     act(() => {
       fireEvent.click(getByTestId('detailUserForm').querySelector('[type="submit"]'));
     });
 
-    expect(patch).toHaveBeenCalledTimes(1);
-    expect(patch).toHaveBeenCalledWith(
-      `${configuration.USERS_ENDPOINT}${userJSON.id}`,
-      expect.objectContaining({ is_active: false })
+    await findByTestId('userDetailFormContainer');
+
+    const [url, params] = fetch.mock.calls[2];
+    const body = JSON.parse(params.body);
+
+    expect(url).toEqual(`${configuration.USERS_ENDPOINT}${userId}`);
+    expect(body).toEqual(
+      expect.objectContaining({
+        is_active: false,
+      })
+    );
+
+    expect(fetch).toHaveBeenCalledWith(
+      `${configuration.USERS_ENDPOINT}${userId}`,
+      expect.objectContaining({ method: 'PATCH' })
     );
   });
 
-  it('should direct to the overview page when cancel button is clicked and form data is pristine', () => {
+  it('should direct to the overview page when cancel button is clicked and form data is pristine', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({}));
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
+
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
 
     global.window.confirm = jest.fn();
 
-    const { rerender, getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, rerender, getByTestId } = render(withAppContext(<UserDetail />));
+
+    await findByTestId('userDetailFormContainer');
 
     expect(push).toHaveBeenCalledTimes(0);
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    act(() => {
+      fireEvent.click(getByTestId('cancelBtn'));
+    });
 
     expect(global.window.confirm).not.toHaveBeenCalled();
 
@@ -369,55 +400,61 @@ describe('signals/settings/users/containers/Detail', () => {
 
     expect(push).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    act(() => {
+      fireEvent.click(getByTestId('cancelBtn'));
+    });
 
     expect(global.window.confirm).not.toHaveBeenCalled();
     expect(push).toHaveBeenCalledTimes(2);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(routes.users),
-    );
+    expect(push).toHaveBeenCalledWith(expect.stringContaining(routes.users));
   });
 
-  it('should direct to the overview page when cancel button is clicked and form data is NOT pristine', () => {
+  it('should direct to the overview page when cancel button is clicked and form data is NOT pristine', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({}));
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
+
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
 
     global.window.confirm = jest.fn();
 
-    const { getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
+
+    await findByTestId('userDetailFormContainer');
 
     expect(push).not.toHaveBeenCalled();
 
-    fireEvent.change(
-      getByTestId('detailUserForm').querySelector('#last_name'),
-      { target: { value: 'Foo Bar Baz' } }
-    );
+    act(() => {
+      fireEvent.change(getByTestId('detailUserForm').querySelector('#last_name'), { target: { value: 'Foo Bar Baz' } });
+    });
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    act(() => {
+      fireEvent.click(getByTestId('cancelBtn'));
+    });
 
     expect(global.window.confirm).toHaveBeenCalledTimes(1);
     expect(push).toHaveBeenCalledTimes(0);
 
     global.window.confirm.mockReturnValue(true);
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    act(() => {
+      fireEvent.click(getByTestId('cancelBtn'));
+    });
 
     expect(global.window.confirm).toHaveBeenCalledTimes(2);
     expect(push).toHaveBeenCalledTimes(1);
-    expect(push).toHaveBeenCalledWith(
-      expect.stringContaining(routes.users),
-    );
+    expect(push).toHaveBeenCalledWith(expect.stringContaining(routes.users));
   });
 
-  it('should push to correct URL when cancel button is clicked and form data is pristine', () => {
+  it('should push to correct URL when cancel button is clicked and form data is pristine', async () => {
     const referrer = '/some-page-we-came-from';
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({ referrer }));
 
-    useFetch.mockImplementation(() => ({ ...useFetchResponse, data: userJSON }));
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
 
     global.window.confirm = jest.fn();
 
-    const { rerender, getByTestId } = render(withAppContext(<UserDetail />));
+    const { findByTestId, rerender, getByTestId } = render(withAppContext(<UserDetail />));
+
+    await findByTestId('userDetailFormContainer');
 
     expect(push).not.toHaveBeenCalled();
 
@@ -433,7 +470,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     rerender(withAppContext(<UserDetail />));
 
-    fireEvent.click(getByTestId('cancelBtn'));
+    await findByTestId('userDetailFormContainer');
+
+    act(() => {
+      fireEvent.click(getByTestId('cancelBtn'));
+    });
 
     // user is only asked for confirmation when form data isn't pristine
     expect(global.window.confirm).not.toHaveBeenCalled();

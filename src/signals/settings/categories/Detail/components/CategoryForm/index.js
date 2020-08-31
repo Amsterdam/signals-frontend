@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { themeSpacing, Row, Column, Select } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
+import { historyType } from 'shared/types';
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 
 import History from 'components/History';
@@ -183,15 +184,7 @@ CategoryForm.propTypes = {
       use_calendar_days: PropTypes.bool,
     }),
   }),
-  history: PropTypes.arrayOf(
-    PropTypes.shape({
-      identifier: PropTypes.string.isRequired,
-      when: PropTypes.string.isRequired,
-      what: PropTypes.string.isRequired,
-      action: PropTypes.string.isRequired,
-      who: PropTypes.string.isRequired,
-    })
-  ),
+  history: historyType,
   onCancel: PropTypes.func,
   onSubmitForm: PropTypes.func,
   /** When true, none of the fields in the form can be edited */
