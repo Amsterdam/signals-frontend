@@ -11,17 +11,14 @@ import configuration from 'shared/services/configuration/configuration';
 
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
+import sources from 'utils/__tests__/fixtures/sources.json';
 import FilterForm from '..';
 import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
 
 import IncidentManagementContext from '../../../context';
+import AppContext from '../../../../../containers/App/context';
 
-const formProps = {
-  onClearFilter: () => {},
-  onSaveFilter: () => {},
-  categories,
-  onSubmit: () => {},
-};
+jest.mock('shared/services/configuration/configuration');
 
 jest.mock('models/categories/selectors', () => ({
   __esModule: true,
@@ -30,14 +27,27 @@ jest.mock('models/categories/selectors', () => ({
   makeSelectStructuredCategories: () => require('utils/__tests__/fixtures/categories_structured.json'),
 }));
 
-const withContext = (Component, actualDistricts = null) =>
+const formProps = {
+  onClearFilter: () => {},
+  onSaveFilter: () => {},
+  categories,
+  onSubmit: () => {},
+};
+
+const withContext = (Component, actualDistricts = null, actualSources = null) =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts: actualDistricts }}>
-      {Component}
-    </IncidentManagementContext.Provider>
+    <AppContext.Provider value={{ sources: actualSources }}>
+      <IncidentManagementContext.Provider value={{ districts: actualDistricts }}>
+        {Component}
+      </IncidentManagementContext.Provider>
+    </AppContext.Provider>
   );
 
 describe('signals/incident-management/components/FilterForm', () => {
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   it('should render a name field', () => {
     const { getByTestId } = render(
       withContext(<FilterForm {...formProps} filter={{ id: 1234, name: 'FooBar', options: {} }} />)
@@ -187,6 +197,14 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(dataLists.source.length);
+  });
+
+  it('should render a list of source options with feature flag enabled', async () => {
+    configuration.fetchSourcesFromBackend = true;
+    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null, sources));
+    await findByTestId('sourceCheckboxGroup');
+
+    expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(sources.length);
   });
 
   it('should render datepickers', () => {
@@ -404,34 +422,68 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(boxInList.checked).toEqual(true);
   });
 
-  it('should watch for changes on checkbox list toggle', async () => {
-    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
+  describe('checkbox list toggle', () => {
+    it('should watch for changes', async () => {
+      const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
 
-    const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup');
-    const toggle = sourceCheckboxGroup.querySelector('label').firstChild;
+      const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup');
+      const toggle = sourceCheckboxGroup.querySelector('label').firstChild;
 
-    container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
-      expect(element.checked).toEqual(false);
+      container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
+        expect(element.checked).toEqual(false);
+      });
+
+      act(() => {
+        fireEvent.click(toggle);
+      });
+
+      await findByTestId('sourceCheckboxGroup');
+
+      container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
+        expect(element.checked).toEqual(true);
+      });
+
+      act(() => {
+        fireEvent.click(toggle);
+      });
+
+      await findByTestId('sourceCheckboxGroup');
+
+      container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
+        expect(element.checked).toEqual(false);
+      });
     });
 
-    act(() => {
-      fireEvent.click(toggle);
-    });
+    it('should watch for changes with fetchSourcesFromBackend enabled', async () => {
+      configuration.fetchSourcesFromBackend = true;
 
-    await findByTestId('sourceCheckboxGroup');
+      const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null, sources));
+      const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup');
+      const toggle = sourceCheckboxGroup.querySelector('label').firstChild;
 
-    container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
-      expect(element.checked).toEqual(true);
-    });
+      container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
+        expect(element.checked).toEqual(false);
+      });
 
-    act(() => {
-      fireEvent.click(toggle);
-    });
+      act(() => {
+        fireEvent.click(toggle);
+      });
 
-    await findByTestId('sourceCheckboxGroup');
+      await findByTestId('sourceCheckboxGroup');
 
-    container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
-      expect(element.checked).toEqual(false);
+      container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
+        expect(element.checked).toEqual(true);
+      });
+
+      act(() => {
+        fireEvent.click(toggle);
+      });
+
+      await findByTestId('sourceCheckboxGroup');
+
+      container.querySelectorAll('input[type="checkbox"][name="source"]').forEach(element => {
+        expect(element.checked).toEqual(false);
+      });
     });
   });
 

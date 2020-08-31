@@ -10,7 +10,7 @@ import configuration from 'shared/services/configuration/configuration';
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
-import * as types from 'shared/types';
+import { filterType } from 'shared/types';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
@@ -22,6 +22,7 @@ import CategoryGroups from './components/CategoryGroups';
 import CheckboxGroup from './components/CheckboxGroup';
 import RadioGroup from './components/RadioGroup';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
+import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
 
 import {
@@ -43,6 +44,7 @@ import reducer, { init } from './reducer';
  * Component that renders the incident filter form
  */
 const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
+  const { sources } = useContext(AppContext);
   const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
 
@@ -54,8 +56,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     () => ({
       ...dataLists,
       area: districts,
+      source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
     }),
-    [districts]
+    [districts, sources]
   );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
@@ -392,14 +395,26 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </FilterGroup>
 
-          <CheckboxGroup
-            defaultValue={state.options.source}
-            label="Bron"
-            name="source"
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            options={dataLists.source}
-          />
+          {configuration.fetchSourcesFromBackend && (
+            <CheckboxGroup
+              defaultValue={state.options.source}
+              label="Bron"
+              name="source"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={sources}
+            />
+          )}
+          {!configuration.fetchSourcesFromBackend && (
+            <CheckboxGroup
+              defaultValue={state.options.source}
+              label="Bron"
+              name="source"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={dataLists.source}
+            />
+          )}
         </Fieldset>
       </ControlsWrapper>
 
@@ -442,7 +457,7 @@ FilterForm.defaultProps = {
 };
 
 FilterForm.propTypes = {
-  filter: types.filterType,
+  filter: filterType,
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */

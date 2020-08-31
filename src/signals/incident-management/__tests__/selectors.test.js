@@ -1,6 +1,9 @@
 import { fromJS } from 'immutable';
 import configuration from 'shared/services/configuration/configuration';
+import dataLists from 'signals/incident-management/definitions';
 import { mainCategories as maincategory_slug, subCategories as category_slug } from 'utils/__tests__/fixtures';
+import districts from 'utils/__tests__/fixtures/districts.json';
+import sources from 'utils/__tests__/fixtures/sources.json';
 import {
   makeSelectDistricts,
   makeSelectFilterParams,
@@ -16,6 +19,8 @@ import { FILTER_PAGE_SIZE } from '../constants';
 
 import { initialState } from '../reducer';
 
+jest.mock('shared/services/configuration/configuration');
+
 const filters = [
   {
     _links: {
@@ -25,7 +30,7 @@ const filters = [
     },
     id: 219,
     options: {
-      maincategory_slug: ['afval'],
+      maincategory_slug: [maincategory_slug[0].slug],
     },
     name: 'Foo Bar',
   },
@@ -37,7 +42,7 @@ const filters = [
     },
     id: 220,
     options: {
-      stadsdeel: ['B', 'E'],
+      category_slug: [category_slug[0].slug],
     },
     name: 'Foo Bar',
   },
@@ -49,7 +54,7 @@ const filters = [
     },
     id: 221,
     options: {
-      status: ['m'],
+      stadsdeel: [dataLists.stadsdeel[1].key, dataLists.stadsdeel[2].key],
     },
     name: 'Foo Bar',
   },
@@ -61,46 +66,67 @@ const filters = [
     },
     id: 222,
     options: {
-      area: ['north'],
+      status: [dataLists.status[0].key],
+    },
+    name: 'Foo Bar',
+  },
+  {
+    _links: {
+      self: {
+        href: 'https://signals/v1/private/me/filters/223',
+      },
+    },
+    id: 223,
+    options: {
+      area: [districts[0].key],
+    },
+    name: 'Foo Bar',
+  },
+  {
+    _links: {
+      self: {
+        href: 'https://signals/v1/private/me/filters/224',
+      },
+    },
+    id: 224,
+    options: {
+      source: [sources[0].key],
     },
     name: 'Foo Bar',
   },
 ];
 
-const districts = [
+const mainCategoryFilter = filters[0];
+const subCategoryFilter = filters[1];
+const stadsdeelFilter = filters[2];
+const statusFilter = filters[3];
+const areaFilter = filters[4];
+const sourceFilter = filters[5];
+
+const rawDistricts = [
   {
-    code: 'A',
-    name: 'Alfa',
+    code: districts[0].key,
+    name: districts[0].value,
   },
   {
-    code: 'B',
-    name: 'Bravo',
-  },
-];
-const selectedDistricts = [
-  {
-    key: 'A',
-    value: 'Alfa',
-  },
-  {
-    key: 'B',
-    value: 'Bravo',
-  },
-  {
-    key: 'null',
-    value: 'Niet bepaald',
+    code: districts[1].key,
+    name: districts[1].value,
   },
 ];
 
 describe('signals/incident-management/selectors', () => {
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   it('should select districts', () => {
-    const state = fromJS({ ...initialState.toJS(), districts });
+    const state = fromJS({ ...initialState.toJS(), districts: rawDistricts });
     const result = makeSelectDistricts.resultFunc(state);
 
-    expect(result.length).toEqual(districts.length + 1);
-    expect(result[0]).toMatchObject(selectedDistricts[0]);
-    expect(result[1]).toMatchObject(selectedDistricts[1]);
-    expect(result[2]).toMatchObject(selectedDistricts[2]);
+    expect(result.length).toEqual(rawDistricts.length + 1);
+    expect(result[0]).toMatchObject(districts[0]);
+    expect(result[1]).toMatchObject(districts[1]);
+    expect(result[2]).toMatchObject(districts[2]);
   });
 
   it('should return null without districts', () => {
@@ -117,31 +143,218 @@ describe('signals/incident-management/selectors', () => {
     expect(allFilters[0].options.maincategory_slug).not.toEqual(filters[0].options.maincategory_slug);
   });
 
-  it('should select active filter', () => {
-    const activeFilter = initialState.toJS().activeFilter;
-    activeFilter.options.priority = [];
+  describe('active filter', () => {
+    it('should select initial active filter', () => {
+      const activeFilter = initialState.toJS().activeFilter;
+      activeFilter.options.priority = [];
 
-    expect(
-      makeSelectActiveFilter.resultFunc(initialState, selectedDistricts, maincategory_slug, category_slug)
-    ).toEqual(activeFilter);
+      expect(
+        makeSelectActiveFilter.resultFunc(initialState, districts, sources, maincategory_slug, category_slug)
+      ).toEqual(activeFilter);
+    });
 
-    const state = fromJS({ ...initialState.toJS(), activeFilter: filters[0] });
+    it('should select active category filter', () => {
+      const state = fromJS({ ...initialState.toJS(), activeFilter: mainCategoryFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
 
-    expect(makeSelectActiveFilter.resultFunc(state, selectedDistricts, maincategory_slug, category_slug).id).toEqual(
-      filters[0].id
-    );
+      expect(actual.id).toEqual(mainCategoryFilter.id);
+      expect(actual.options).toEqual({
+        maincategory_slug: [maincategory_slug[0]],
+        priority: [],
+      });
+    });
+
+    it('should select active sub category filter', () => {
+      const state = fromJS({ ...initialState.toJS(), activeFilter: subCategoryFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(subCategoryFilter.id);
+      expect(actual.options).toEqual({
+        category_slug: [category_slug[0]],
+        priority: [],
+      });
+    });
+
+    it('should select active stadsdeel filter', () => {
+      const state = fromJS({ ...initialState.toJS(), activeFilter: stadsdeelFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(stadsdeelFilter.id);
+      expect(actual.options).toEqual({
+        stadsdeel: [dataLists.stadsdeel[1], dataLists.stadsdeel[2]],
+        priority: [],
+      });
+    });
+
+    it('should select active status filter', () => {
+      const state = fromJS({ ...initialState.toJS(), activeFilter: statusFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(statusFilter.id);
+      expect(actual.options).toEqual({
+        status: [dataLists.status[0]],
+        priority: [],
+      });
+    });
+
+    it('should select active area filter', () => {
+      const state = fromJS({ ...initialState.toJS(), activeFilter: areaFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(areaFilter.id);
+      expect(actual.options).toEqual({
+        area: [districts[0]],
+        priority: [],
+      });
+    });
+
+    it('should not select active source filter with fetchSourcesFromBackend disabled', () => {
+      const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [],
+        priority: [],
+      });
+    });
+
+    it('should work without sources with fetchSourcesFromBackend disabled', () => {
+      const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [],
+        priority: [],
+      });
+    });
+
+    it('should select active source filter with fetchSourcesFromBackend enabled', () => {
+      configuration.fetchSourcesFromBackend = true;
+      const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [sources[0]],
+        priority: [],
+      });
+    });
+
+    it('should work without sources with fetchSourcesFromBackend enabled', () => {
+      configuration.fetchSourcesFromBackend = true;
+      const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
+      const actual = makeSelectActiveFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [],
+        priority: [],
+      });
+    });
   });
 
-  it('should select edit filter', () => {
-    expect(makeSelectEditFilter.resultFunc(initialState, selectedDistricts, maincategory_slug, category_slug)).toEqual(
-      initialState.toJS().editFilter
-    );
+  describe('edit filter', () => {
+    it('should select initial edit filter', () => {
+      const editFilter = initialState.toJS().editFilter;
 
-    const state = fromJS({ ...initialState.toJS(), editFilter: filters[2] });
+      expect(
+        makeSelectEditFilter.resultFunc(initialState, districts, sources, maincategory_slug, category_slug)
+      ).toEqual(editFilter);
+    });
 
-    expect(makeSelectEditFilter.resultFunc(state, selectedDistricts, maincategory_slug, category_slug).id).toEqual(
-      filters[2].id
-    );
+    it('should select edit category filter', () => {
+      const state = fromJS({ ...initialState.toJS(), editFilter: mainCategoryFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(mainCategoryFilter.id);
+      expect(actual.options).toEqual({
+        maincategory_slug: [maincategory_slug[0]],
+      });
+    });
+
+    it('should select edit sub category filter', () => {
+      const state = fromJS({ ...initialState.toJS(), editFilter: subCategoryFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(subCategoryFilter.id);
+      expect(actual.options).toEqual({
+        category_slug: [category_slug[0]],
+      });
+    });
+
+    it('should select edit stadsdeel filter', () => {
+      const state = fromJS({ ...initialState.toJS(), editFilter: stadsdeelFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(stadsdeelFilter.id);
+      expect(actual.options).toEqual({
+        stadsdeel: [dataLists.stadsdeel[1], dataLists.stadsdeel[2]],
+      });
+    });
+
+    it('should select edit status filter', () => {
+      const state = fromJS({ ...initialState.toJS(), editFilter: statusFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(statusFilter.id);
+      expect(actual.options).toEqual({
+        status: [dataLists.status[0]],
+      });
+    });
+
+    it('should select edit area filter', () => {
+      const state = fromJS({ ...initialState.toJS(), editFilter: areaFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(areaFilter.id);
+      expect(actual.options).toEqual({
+        area: [districts[0]],
+      });
+    });
+
+    it('should not select edit source filter with fetchSourcesFromBackend disabled', () => {
+      const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [],
+      });
+    });
+
+    it('should work without sources with fetchSourcesFromBackend disabled', () => {
+      const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [],
+      });
+    });
+
+    it('should select edit source filter with fetchSourcesFromBackend enabled', () => {
+      configuration.fetchSourcesFromBackend = true;
+      const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [sources[0]],
+      });
+    });
+
+    it('should work without sources with fetchSourcesFromBackend enabled', () => {
+      configuration.fetchSourcesFromBackend = true;
+      const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [],
+      });
+    });
   });
 
   it('should select page', () => {
@@ -208,7 +421,7 @@ describe('signals/incident-management/selectors', () => {
   describe('makeSelectFilterParams', () => {
     it('should select filter params', () => {
       const emptyState = fromJS({
-        incidentManagement: { ...initialState.toJS(), editFilter: filters[1], searchQuery: '' },
+        incidentManagement: { ...initialState.toJS(), editFilter: stadsdeelFilter, searchQuery: '' },
       });
 
       expect(makeSelectFilterParams(emptyState)).toEqual({
@@ -218,13 +431,13 @@ describe('signals/incident-management/selectors', () => {
       });
 
       const state = fromJS({
-        incidentManagement: { ...initialState.toJS(), activeFilter: filters[1] },
+        incidentManagement: { ...initialState.toJS(), activeFilter: stadsdeelFilter },
       });
 
       expect(makeSelectFilterParams(state)).toEqual({
         ordering: '-created_at',
         page: 1,
-        stadsdeel: ['B', 'E'],
+        stadsdeel: stadsdeelFilter.options.stadsdeel,
         page_size: FILTER_PAGE_SIZE,
       });
     });
@@ -232,14 +445,14 @@ describe('signals/incident-management/selectors', () => {
     it('should select filter params for area', () => {
       configuration.areaTypeCodeForDistrict = 'district';
       const state = fromJS({
-        incidentManagement: { ...initialState.toJS(), activeFilter: filters[3] },
+        incidentManagement: { ...initialState.toJS(), activeFilter: areaFilter },
       });
 
       expect(makeSelectFilterParams(state)).toEqual({
         ordering: '-created_at',
         page: 1,
         area_code: ['north'],
-        area_type: 'district',
+        area_type_code: 'district',
         page_size: FILTER_PAGE_SIZE,
       });
     });

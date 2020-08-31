@@ -51,7 +51,12 @@ export const initialState = fromJS({
 });
 
 const updateLoading = state =>
-  state.set('loading', state.get('loadingDistricts') || state.get('loadingFilters') || state.get('loadingIncidents'));
+  state.set(
+    'loading',
+    state.get('loadingDistricts') ||
+      state.get('loadingFilters') ||
+      state.get('loadingIncidents')
+  );
 
 export default (state = initialState, action) => {
   let newFilters;

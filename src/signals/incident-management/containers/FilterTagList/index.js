@@ -8,8 +8,10 @@ import format from 'date-fns/format';
 
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
-import * as types from 'shared/types';
+import configuration from 'shared/services/configuration/configuration';
+import { dataListType, filterType } from 'shared/types';
 
+import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
 
 const FilterWrapper = styled.div`
@@ -79,6 +81,7 @@ const renderTag = (key, mainCategories, list) => {
 
 export const FilterTagListComponent = props => {
   const { tags, mainCategories, subCategories } = props;
+  const { sources } = useContext(AppContext);
   const { districts } = useContext(IncidentManagementContext);
 
   const map = {
@@ -86,6 +89,7 @@ export const FilterTagListComponent = props => {
     area: districts,
     maincategory_slug: mainCategories,
     category_slug: subCategories,
+    source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
   };
 
   const tagsList = { ...tags };
@@ -123,9 +127,9 @@ export const FilterTagListComponent = props => {
 };
 
 FilterTagListComponent.propTypes = {
-  tags: types.filterType,
-  mainCategories: types.dataListType,
-  subCategories: types.dataListType,
+  tags: filterType,
+  mainCategories: dataListType,
+  subCategories: dataListType,
 };
 
 FilterTagListComponent.defaultProps = {

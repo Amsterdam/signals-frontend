@@ -68,6 +68,7 @@ describe('signals/incident-management/containers/Filter', () => {
       const tree = mount(
         withAppContext(
           <FilterContainerComponent
+            sources={[]}
             onApplyFilter={onApplyFilter}
             onClearFilter={() => {}}
             onSaveFilter={() => {}}
@@ -93,6 +94,7 @@ describe('signals/incident-management/containers/Filter', () => {
       const tree = mount(
         withAppContext(
           <FilterContainerComponent
+            sources={[]}
             onApplyFilter={onApplyFilter}
             onClearFilter={() => {}}
             onSaveFilter={() => {}}

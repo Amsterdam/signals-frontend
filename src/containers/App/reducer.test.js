@@ -16,7 +16,21 @@ import {
   UPLOAD_SUCCESS,
   SET_SEARCH_QUERY,
   RESET_SEARCH_QUERY,
+  GET_SOURCES,
+  GET_SOURCES_FAILED,
+  GET_SOURCES_SUCCESS,
 } from './constants';
+
+const sources = [
+  {
+    id: 1,
+    name: 'Source1',
+  },
+  {
+    id: 2,
+    name: 'Source2',
+  },
+];
 
 describe('containers/App/reducer', () => {
   it('should return the initial state', () => {
@@ -202,9 +216,7 @@ describe('containers/App/reducer', () => {
       };
 
       expect(appReducer(state, action)).toEqual(
-        state
-          .set('user', initialState.get('user'))
-          .set('upload', initialState.get('upload'))
+        state.set('user', initialState.get('user')).set('upload', initialState.get('upload'))
       );
     });
   });
@@ -216,13 +228,9 @@ describe('containers/App/reducer', () => {
     };
 
     expect(initialState.get('searchQuery')).toBe('');
-    const applied = state =>
-      state
-        .set('searchQuery', setSearchQuery.payload);
+    const applied = state => state.set('searchQuery', setSearchQuery.payload);
 
-    expect(appReducer(initialState, setSearchQuery)).toEqual(
-      applied(initialState)
-    );
+    expect(appReducer(initialState, setSearchQuery)).toEqual(applied(initialState));
   });
 
   it('should handle RESET_SEARCH_QUERY', () => {
@@ -233,13 +241,9 @@ describe('containers/App/reducer', () => {
     const otherState = initialState.set('searchQuery', 'search-term');
     expect(otherState.get('searchQuery')).toBe('search-term');
 
-    const applied = state =>
-      state
-        .set('searchQuery', initialState.get('searchQuery'));
+    const applied = state => state.set('searchQuery', initialState.get('searchQuery'));
 
-    expect(appReducer(otherState, resetSearchQuery)).toEqual(
-      applied(initialState)
-    );
+    expect(appReducer(otherState, resetSearchQuery)).toEqual(applied(initialState));
   });
 
   it('should handle APPLY_FILTER', () => {
@@ -250,12 +254,41 @@ describe('containers/App/reducer', () => {
     const otherState = initialState.set('searchQuery', 'search-term');
     expect(otherState.get('searchQuery')).toBe('search-term');
 
-    const applied = state =>
-      state
-        .set('searchQuery', initialState.get('searchQuery'));
+    const applied = state => state.set('searchQuery', initialState.get('searchQuery'));
 
-    expect(appReducer(otherState, applyFilter)).toEqual(
-      applied(initialState)
-    );
+    expect(appReducer(otherState, applyFilter)).toEqual(applied(initialState));
+  });
+
+  it('should handle GET_SOURCES', () => {
+    const getSources = {
+      type: GET_SOURCES,
+    };
+
+    const applied = state => state.set('loading', true);
+
+    expect(appReducer(initialState, getSources)).toEqual(applied(initialState));
+  });
+
+  it('should handle GET_SOURCES_SUCCESS', () => {
+    const getSourcesSuccess = {
+      type: GET_SOURCES_SUCCESS,
+      payload: sources,
+    };
+
+    const applied = state => state.set('loading', false).set('sources', fromJS(sources));
+
+    expect(appReducer(initialState, getSourcesSuccess)).toEqual(applied(initialState));
+  });
+
+  it('should handle GET_SOURCES_FAILED', () => {
+    const message = 'Could not retrieve!';
+    const getSourcesFailed = {
+      type: GET_SOURCES_FAILED,
+      payload: message,
+    };
+
+    const applied = state => state.set('loading', false).set('error', true).set('errorMessage', message);
+
+    expect(appReducer(initialState, getSourcesFailed)).toEqual(applied(initialState));
   });
 });

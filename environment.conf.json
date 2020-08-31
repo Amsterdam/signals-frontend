@@ -103,6 +103,7 @@
   "areaTypeCodeForDistrict": "stadsdeel",
   "fetchDistrictsFromBackend": false,
   "fetchQuestionsFromBackend": false,
+  "fetchSourcesFromBackend": false,
   "showVulaanControls": true,
   "useStaticMapServer": true,
   "AREAS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/areas/",
@@ -129,6 +130,7 @@
   "QUESTIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/questions/",
   "ROLES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/",
   "SEARCH_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/search",
+  "SOURCES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/sources/",
   "STATIC_MAP_SERVER_URL": "https://map.data.amsterdam.nl/maps/topografie",
   "TERMS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/",
   "USERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/"

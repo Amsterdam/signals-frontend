@@ -48,6 +48,10 @@
           "description": " When true, will bypass getting the configuration for the incident submission form questions from local modules. Instead, a request to an API endpoint is made to retrieve the configuration. See [QUESTIONS_ENDPOINT](#QUESTIONS_ENDPOINT)",
           "type": "boolean"
         },
+        "fetchSourcesFromBackend": {
+          "description": " When true, the possible sources an incident can originate from will be fetched from the backend. See [SOURCES_ENDPOINT](#SOURCES_ENDPOINT)",
+          "type": "boolean"
+        },
         "showVulaanControls": {
           "description": "When true, will show extra questions after the first page of questions in the incident submission form",
           "type": "boolean"
@@ -173,6 +177,11 @@
           "type": "string",
           "format": "uri"
         },
+        "SOURCES_ENDPOINT": {
+          "description": "URL for the private sources endpoint. Used by the incident management module to retrieve possible sources from which an incident originated\n\nNo Swagger documentation available",
+          "type": "string",
+          "format": "uri"
+        },
         "STATIC_MAP_SERVER_URL": {
           "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
           "type": "string",
@@ -219,6 +228,7 @@
         "USERS_ENDPOINT",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
+        "fetchSourcesFromBackend",
         "head",
         "language",
         "links",
@@ -242,6 +252,20 @@
           "then": {
             "required": [
               "areaTypeCodeForDistrict"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "fetchSourcesFromBackend": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "SOURCES_ENDPOINT"
             ]
           }
         }

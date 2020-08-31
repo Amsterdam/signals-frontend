@@ -7,14 +7,20 @@ import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
 import configuration from 'shared/services/configuration/configuration';
 
 import districts from 'utils/__tests__/fixtures/districts.json';
+import sources from 'utils/__tests__/fixtures/sources.json';
 
 import IncidentManagementContext from '../../../context';
+import AppContext from '../../../../../containers/App/context';
 
 import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '..';
 
-const withContext = Component =>
+jest.mock('shared/services/configuration/configuration');
+
+const withContext = (Component, actualSources = null) =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+    <AppContext.Provider value={{ sources: actualSources }}>
+      <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+    </AppContext.Provider>
   );
 
 describe('signals/incident-management/containers/FilterTagList', () => {
@@ -34,6 +40,10 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       },
     ],
   };
+
+  afterEach(() => {
+    configuration.__reset();
+  });
 
   it('should have props from structured selector', () => {
     const tree = mount(withContext(<FilterTagList />));
@@ -146,6 +156,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText(districts[0].value)).not.toBeInTheDocument();
       expect(queryByText(definitions.sourceList[0].value)).toBeInTheDocument();
       expect(queryByText(definitions.sourceList[1].value)).toBeInTheDocument();
+      expect(queryByText(sources[0].value)).not.toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
     });
@@ -175,6 +186,37 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText(districts[0].value)).toBeInTheDocument();
       expect(queryByText(definitions.sourceList[0].value)).toBeInTheDocument();
       expect(queryByText(definitions.sourceList[1].value)).toBeInTheDocument();
+      expect(queryByText(sources[0].value)).not.toBeInTheDocument();
+
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
+    });
+
+    it('works with feature flag fetchSourcesFromBackend enabled', () => {
+      configuration.fetchSourcesFromBackend = true;
+
+      const { queryAllByTestId, queryByText } = render(
+        withContext(
+          <FilterTagListComponent
+            tags={{
+              ...tags,
+              source: [sources[0]],
+            }}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
+          />,
+          sources
+        )
+      );
+
+      expect(queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
+      expect(queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+      expect(queryByText(tags.address_text)).toBeInTheDocument();
+      expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+      expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+      expect(queryByText(districts[0].value)).not.toBeInTheDocument();
+      expect(queryByText(definitions.sourceList[0].value)).not.toBeInTheDocument();
+      expect(queryByText(definitions.sourceList[1].value)).not.toBeInTheDocument();
+      expect(queryByText(sources[0].value)).toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
     });
