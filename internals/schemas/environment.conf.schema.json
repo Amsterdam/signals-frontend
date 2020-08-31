@@ -13,10 +13,16 @@
           "$ref": "#/definitions/Logo"
         },
         "sentry": {
-          "$ref": "#/definitions/Sentry"
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/Sentry" }
+          ]
         },
         "matomo": {
-          "$ref": "#/definitions/Matomo"
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/Matomo" }
+          ]
         },
         "language": {
           "$ref": "#/definitions/Language"
@@ -562,9 +568,9 @@
       "title": "Sentry"
     },
     "Theme": {
-      "description": "Configuration object that is merged with the application's theme provider configuration and will override any existing theme configuration. See the `amsterdam styled components theme configuration (https://github.com/Amsterdam/amsterdam-styled-components/blob/master/packages/asc-ui/src/theme/default/index.ts) for the structure of the object.\n\nUsed in the `ThemeProvider` component (src/components/ThemeProvider/index.js)",
+      "description": "Configuration object that is merged with the application's theme provider configuration and will override any existing theme configuration. See the `amsterdam styled components theme configuration (https://github.com/Amsterdam/amsterdam-styled-components/blob/master/packages/asc-ui/src/theme/default/index.ts) for the structure of the object.\n\nUsed in the `ThemeProvider` component (src/components/ThemeProvider/index.js). For more information on the options see: https://github.com/Amsterdam/amsterdam-styled-components/tree/master/packages/asc-ui/src/theme",
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "title": "Theme"
     }
   }

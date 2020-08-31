@@ -32,11 +32,9 @@ export const filterOnCategorySlug = (category_slug, category) => {
 
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedASC');
-  cy.get('th.sort.sort-up').should('have.text', 'Id').and('be.visible');
   cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);
 
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedDESC');
-  cy.get('th.sort.sort-down').should('have.text', 'Id').and('be.visible');
   cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);
 };

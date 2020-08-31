@@ -123,9 +123,9 @@ describe('<Location />', () => {
       const pinned = await findByTestId('location-value-pinned');
 
       expect(pinned).toHaveTextContent(/^Locatie is gepind op de kaart$/);
-      expect(queryByTestId('location-value-address-stadsdeel')).toBeNull();
-      expect(queryByTestId('location-value-address-street')).toBeNull();
-      expect(queryByTestId('location-value-address-city')).toBeNull();
+      expect(queryByTestId('location-value-address-stadsdeel')).toBeInTheDocument();
+      expect(queryByTestId('location-value-address-street')).not.toBeInTheDocument();
+      expect(queryByTestId('location-value-address-city')).not.toBeInTheDocument();
     });
   });
 
