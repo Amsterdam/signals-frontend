@@ -4,14 +4,17 @@ import styled from 'styled-components';
 import { styles, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 const { InputStyle } = styles;
+const lineHeight = 22;
 
 const StyledArea = styled.textarea`
   ${InputStyle.componentStyle.rules}
   font-family: inherit;
   vertical-align: top; /* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
-  min-height: 5em;
+  min-height: ${5 * lineHeight}px;
   resize: vertical;
-  max-height: 20em;
+  max-height: ${15 * lineHeight}px;
+  line-height: ${lineHeight}px;
+  box-sizing: content-box;
 `;
 
 const HelpText = styled.div`
