@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
 import { attachmentsType } from 'shared/types';
-
 import { string2date, string2time } from 'shared/services/string-parser';
 
 import Location from './components/Location';

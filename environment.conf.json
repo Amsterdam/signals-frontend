@@ -23,6 +23,7 @@
   },
   "language": {
     "avgDisclaimer": "De gemeente Amsterdam verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='##AVG_DISCLAIMER_URL##'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
+    "district": "Stadsdeel",
     "consentToContactSharing": "Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
     "footer1": "Bel het Gemeentelijk informatienummer: <a href='tel:##GENERAL_PHONE_NUMBER_FORMATTED##'>##GENERAL_PHONE_NUMBER##</a>",
     "footer2": "op werkdagen van 08.00 tot 18.00 uur.",
@@ -99,10 +100,12 @@
       }
     }
   },
+  "areaTypeCodeForDistrict": "stadsdeel",
+  "fetchDistrictsFromBackend": false,
   "fetchQuestionsFromBackend": false,
   "showVulaanControls": true,
   "useStaticMapServer": true,
-  "STATIC_MAP_SERVER_URL": "https://map.data.amsterdam.nl/maps/topografie",
+  "AREAS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/areas/",
   "AUTH_ME_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/me/",
   "CATEGORIES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/",
   "CATEGORIES_PRIVATE_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/",
@@ -126,6 +129,7 @@
   "QUESTIONS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/public/questions/",
   "ROLES_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/roles/",
   "SEARCH_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/search",
+  "STATIC_MAP_SERVER_URL": "https://map.data.amsterdam.nl/maps/topografie",
   "TERMS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/",
   "USERS_ENDPOINT": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/"
 }

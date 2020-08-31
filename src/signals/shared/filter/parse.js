@@ -6,6 +6,7 @@ import format from 'date-fns/format';
 import dataLists from 'signals/incident-management/definitions';
 
 const arrayFields = [
+  'area',
   'stadsdeel',
   'maincategory_slug',
   'status',
@@ -38,6 +39,7 @@ export const parseOutputFormData = options =>
       case 'contact_details':
       case 'priority':
       case 'source':
+      case 'area':
       case 'stadsdeel':
       case 'status':
       case 'type':

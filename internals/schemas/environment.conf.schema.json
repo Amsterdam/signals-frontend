@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "$ref": "#/definitions/Test",
+  "$ref": "#/definitions/Config",
   "definitions": {
-    "Test": {
+    "Config": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -36,6 +36,14 @@
         "map": {
           "$ref": "#/definitions/Map"
         },
+        "areaTypeCodeForDistrict": {
+          "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
+          "type": "string"
+        },
+        "fetchDistrictsFromBackend": {
+          "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
+          "type": "boolean"
+        },
         "fetchQuestionsFromBackend": {
           "description": " When true, will bypass getting the configuration for the incident submission form questions from local modules. Instead, a request to an API endpoint is made to retrieve the configuration. See [QUESTIONS_ENDPOINT](#QUESTIONS_ENDPOINT)",
           "type": "boolean"
@@ -48,13 +56,13 @@
           "description": "When true, will use the static map server difined by [STATIC_MAP_SERVER_URL](#STATIC_MAP_SERVER_URL) to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
         },
-        "STATIC_MAP_SERVER_URL": {
-          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
+        "AREAS_ENDPOINT": {
+          "description": "URL for the areas endpoint; retrieves geographical areas\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_areas_geography_ for reference",
           "type": "string",
           "format": "uri"
         },
         "AUTH_ME_ENDPOINT": {
-          "description": "URl for the authorization endpoint; retrieves user profile data\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_user_auth_me for reference",
+          "description": "URL for the authorization endpoint; retrieves user profile data\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_user_auth_me for reference",
           "type": "string",
           "format": "uri"
         },
@@ -165,6 +173,11 @@
           "type": "string",
           "format": "uri"
         },
+        "STATIC_MAP_SERVER_URL": {
+          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
+          "type": "string",
+          "format": "uri"
+        },
         "TERMS_ENDPOINT": {
           "description": "URL for the private terms endpoint. Used by the incident management module to `GET` and `POST` default response texts for incident handling\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_public_terms_categories for reference",
           "type": "string",
@@ -177,6 +190,7 @@
         }
       },
       "required": [
+        "AREAS_ENDPOINT",
         "AUTH_ME_ENDPOINT",
         "CATEGORIES_ENDPOINT",
         "CATEGORIES_PRIVATE_ENDPOINT",
@@ -203,6 +217,7 @@
         "STATIC_MAP_SERVER_URL",
         "TERMS_ENDPOINT",
         "USERS_ENDPOINT",
+        "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "head",
         "language",
@@ -215,7 +230,23 @@
         "theme",
         "useStaticMapServer"
       ],
-      "title": "Test"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "fetchDistrictsFromBackend": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "areaTypeCodeForDistrict"
+            ]
+          }
+        }
+      ],
+      "title": "Config"
     },
     "Head": {
       "type": "object",
@@ -269,6 +300,10 @@
           "description": "The message to ask for consent to share contact information",
           "type": "string"
         },
+        "district": {
+          "description": "The label for the district (stadsdeel/wijk)",
+          "type": "string"
+        },
         "footer1": {
           "description": "Extra information to show in the footer of the application",
           "type": "string"
@@ -309,6 +344,7 @@
       "required": [
         "avgDisclaimer",
         "consentToContactSharing",
+        "district",
         "footer1",
         "footer2",
         "headerTitle",
@@ -422,7 +458,6 @@
       "required": [
         "municipality",
         "options",
-        "optionsBackOffice",
         "tiles"
       ],
       "title": "Map"
@@ -469,6 +504,12 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "center": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
         "maxZoom": {
           "type": "integer"
         },
@@ -479,11 +520,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "maxZoom",
-        "minZoom",
-        "zoom"
-      ],
+      "required": [],
       "title": "OptionsBackOffice"
     },
     "Tiles": {

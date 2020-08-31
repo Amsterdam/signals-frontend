@@ -18,13 +18,13 @@ import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import MapContext from 'containers/MapContext';
 import dataLists from 'signals/incident-management/definitions';
 import useEventEmitter from 'hooks/useEventEmitter';
-
 import {
   makeSelectActiveFilter,
   makeSelectIncidents,
   makeSelectOrdering,
   makeSelectPage,
 } from 'signals/incident-management/selectors';
+
 import { MAP_URL } from '../../routes';
 
 import ListComponent from './components/List';

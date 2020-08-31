@@ -2,15 +2,15 @@ import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 
 import configuration from 'shared/services/configuration/configuration';
-import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { withAppContext } from 'test/utils';
+import districts from 'utils/__tests__/fixtures/districts.json';
 
 import IncidentDetailContext from '../../../../context';
+import IncidentManagementContext from '../../../../../../context';
 
 import Location from '.';
 
 jest.mock('shared/services/configuration/configuration');
-jest.mock('shared/services/list-helper/list-helper');
 
 const props = {
   location: {
@@ -29,11 +29,13 @@ const props = {
       openbare_ruimte: 'Rokin',
       huisnummer_toevoeging: 'H',
     },
+    area_code: 'north',
     stadsdeel: 'A',
     bag_validated: false,
     address_text: 'Rokin 123-H 1012KP Amsterdam',
     id: 3372,
   },
+  districts,
 };
 
 const preview = jest.fn();
@@ -41,15 +43,15 @@ const edit = jest.fn();
 
 const renderWithContext = (locationProps = props) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ preview, edit }}>
-      <Location {...locationProps} />
-    </IncidentDetailContext.Provider>
+    <IncidentManagementContext.Provider value={{ districts }}>
+      <IncidentDetailContext.Provider value={{ preview, edit }}>
+        <Location {...locationProps} />
+      </IncidentDetailContext.Provider>
+    </IncidentManagementContext.Provider>
   );
 
 describe('<Location />', () => {
   beforeEach(() => {
-    getListValueByKey.mockImplementation(() => 'Centrum');
-
     preview.mockReset();
     edit.mockReset();
   });
@@ -68,6 +70,17 @@ describe('<Location />', () => {
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
       expect(getByTestId('previewLocationButton')).toBeInTheDocument();
+    });
+
+    it('should render correctly with fetchDistrictsFromBackend', async () => {
+      configuration.fetchDistrictsFromBackend = true;
+      configuration.language.district = 'District';
+
+      const { findByText, queryByTestId } = render(renderWithContext());
+
+      await findByText('Locatie');
+
+      expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^District: North/);
     });
 
     describe('location preview', () => {

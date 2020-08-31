@@ -3,6 +3,8 @@ import { fromJS } from 'immutable';
 import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
 
 import {
+  GET_DISTRICTS_FAILED,
+  GET_DISTRICTS_SUCCESS,
   APPLY_FILTER,
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
@@ -29,6 +31,7 @@ export const initialState = fromJS({
     name: '',
     options: {},
   },
+  districts: [],
   editFilter: {
     // settings selected for editing
     name: '',
@@ -40,18 +43,29 @@ export const initialState = fromJS({
     results: [],
   },
   loading: false,
+  loadingDistricts: false,
+  loadingFilters: false,
   loadingIncidents: false,
   ordering: '-created_at',
   page: 1,
 });
+
+const updateLoading = state =>
+  state.set('loading', state.get('loadingDistricts') || state.get('loadingFilters') || state.get('loadingIncidents'));
 
 export default (state = initialState, action) => {
   let newFilters;
   let re;
 
   switch (action.type) {
+    case GET_DISTRICTS_SUCCESS:
+      return updateLoading(state.set('districts', fromJS(action.payload)).set('loadingDistricts', false));
+
+    case GET_DISTRICTS_FAILED:
+      return updateLoading(state.set('loadingDistricts', false).set('error', true).set('errorMessage', action.payload));
+
     case GET_FILTERS_SUCCESS:
-      return state.set('filters', fromJS(action.payload)).set('loading', false);
+      return updateLoading(state.set('filters', fromJS(action.payload)).set('loadingFilters', false));
 
     case REMOVE_FILTER_SUCCESS:
       re = new RegExp(`/${action.payload}`, 'g');
@@ -75,22 +89,26 @@ export default (state = initialState, action) => {
     case GET_FILTERS_FAILED:
     case SAVE_FILTER_FAILED:
     case UPDATE_FILTER_FAILED:
-      return state.set('loading', false).set('error', true).set('errorMessage', action.payload);
+      return updateLoading(state.set('loadingFilters', false).set('error', true).set('errorMessage', action.payload));
 
     case SAVE_FILTER_SUCCESS:
     case UPDATE_FILTER_SUCCESS:
-      return state
-        .set('activeFilter', fromJS(action.payload))
-        .set('error', false)
-        .set('errorMessage', undefined)
-        .set('loading', false);
+      return updateLoading(
+        state
+          .set('activeFilter', fromJS(action.payload))
+          .set('error', false)
+          .set('errorMessage', undefined)
+          .set('loadingFilters', false)
+      );
 
     case CLEAR_EDIT_FILTER:
-      return state
-        .set('editFilter', initialState.get('editFilter'))
-        .set('error', false)
-        .set('errorMessage', undefined)
-        .set('loading', false);
+      return updateLoading(
+        state
+          .set('editFilter', initialState.get('editFilter'))
+          .set('error', false)
+          .set('errorMessage', undefined)
+          .set('loadingFilters', false)
+      );
 
     case FILTER_EDIT_CANCELED:
       return state.set('editFilter', state.get('activeFilter'));
