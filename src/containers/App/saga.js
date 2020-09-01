@@ -96,9 +96,17 @@ export function* uploadFileWrapper(action) {
 }
 
 export function* uploadFile(action) {
-  const channel = yield call(fileUploadChannel, CONFIGURATION.IMAGE_ENDPOINT, action.payload.file, action.payload.id);
+  const { id } = action.payload;
+  const channel = yield call(
+    fileUploadChannel,
+    `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${id}/attachments/`,
+    action.payload.file,
+    id
+  );
+
   while (true) {
     const { progress = 0, error, success } = yield take(channel);
+
     if (error) {
       yield put(uploadFailure());
       yield put(
