@@ -2,11 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import {
-  TYPE_LOCAL,
-  VARIANT_ERROR,
-  VARIANT_SUCCESS,
-} from 'containers/Notification/constants';
+import { TYPE_LOCAL, VARIANT_ERROR, VARIANT_SUCCESS } from 'containers/Notification/constants';
 import { showGlobalNotification } from 'containers/App/actions';
 
 /**
@@ -23,14 +19,7 @@ import { showGlobalNotification } from 'containers/App/actions';
  * @param {String} options.redirectURL - URL to which the push should be directed when isSuccess is truthy
  * @returns {void}
  */
-const useFetchResponseNotification = ({
-  entityName,
-  error,
-  isExisting,
-  isLoading,
-  isSuccess,
-  redirectURL,
-}) => {
+const useFetchResponseNotification = ({ entityName, error, isExisting, isLoading, isSuccess, redirectURL }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const showNotification = useCallback(
@@ -58,26 +47,19 @@ const useFetchResponseNotification = ({
 
     if (isSuccess) {
       const entityLabel = entityName || 'Gegevens';
-      message = isExisting ?
-        `${entityLabel} bijgewerkt` :
-        `${entityLabel} toegevoegd`;
+      message = isExisting ? `${entityLabel} bijgewerkt` : `${entityLabel} toegevoegd`;
     }
 
     showNotification(variant, message);
+  }, [entityName, error, isExisting, isLoading, isSuccess, showNotification]);
+
+  useEffect(() => {
+    if (isLoading) return;
 
     if (isSuccess && redirectURL) {
       history.push(redirectURL);
     }
-  }, [
-    entityName,
-    error,
-    history,
-    isExisting,
-    isLoading,
-    isSuccess,
-    redirectURL,
-    showNotification,
-  ]);
+  }, [history, isSuccess, redirectURL, isLoading]);
 };
 
 export default useFetchResponseNotification;
