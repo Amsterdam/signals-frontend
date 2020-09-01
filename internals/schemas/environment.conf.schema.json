@@ -105,11 +105,6 @@
           "type": "string",
           "format": "uri"
         },
-        "IMAGE_ENDPOINT": {
-          "description": "URL for the public image endpoint. Used by the incident form to upload images for a specific incident\n\nNo Swagger documentation available",
-          "type": "string",
-          "format": "uri"
-        },
         "INCIDENTS_ENDPOINT": {
           "description": "URL for the private incidents endpoint. Used to GET sets of incidents\n\nSee https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_signals_ for reference",
           "type": "string",
@@ -208,7 +203,6 @@
         "FEEDBACK_STANDARD_ANSWERS_ENDPOINT",
         "FILTERS_ENDPOINT",
         "GEOGRAPHY_ENDPOINT",
-        "IMAGE_ENDPOINT",
         "INCIDENTS_ENDPOINT",
         "INCIDENT_PRIVATE_ENDPOINT",
         "INCIDENT_PUBLIC_ENDPOINT",
