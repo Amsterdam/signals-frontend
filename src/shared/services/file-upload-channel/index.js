@@ -1,4 +1,4 @@
-import { eventChannel, END } from 'redux-saga';
+import { buffers, eventChannel, END } from 'redux-saga';
 
 export default (endpoint, file, id) =>
   eventChannel(emitter => {
@@ -47,4 +47,4 @@ export default (endpoint, file, id) =>
       xhr.onload = null;
       xhr.abort();
     };
-  });
+  }, buffers.sliding(2));
