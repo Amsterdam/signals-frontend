@@ -15,7 +15,7 @@ export default [
     value: 'Vraag',
     info: 'Een verzoek om informatie (van wie is die camera, waarom zijn de paaltjes weggehaald, etc).',
   },
-  { key: 'COM', value: 'Klacht', info: 'Een uiting van ongenoegen over het handelen van de gemeente Amsterdam.' },
+  { key: 'COM', value: 'Klacht', info: 'Een uiting van ongenoegen over het handelen van de gemeente.' },
   {
     key: 'MAI',
     value: 'Groot onderhoud',
