@@ -420,7 +420,7 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledWith(expect.stringContaining(routes.users));
   });
 
-  it.only('should push to correct URL when cancel button is clicked and form data is pristine', async () => {
+  it('should push to correct URL when cancel button is clicked and form data is pristine', async () => {
     const referrer = '/some-page-we-came-from';
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({ referrer }));
 
