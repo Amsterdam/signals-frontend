@@ -1,10 +1,10 @@
-import { buffers, eventChannel, END } from 'redux-saga';
+import { eventChannel, END } from 'redux-saga';
 
 export default (endpoint, file, id) =>
   eventChannel(emitter => {
     const formData = new window.FormData();
     formData.append('signal_id', id);
-    formData.append('image', file);
+    formData.append('file', file);
 
     const xhr = new window.XMLHttpRequest();
 
@@ -18,7 +18,7 @@ export default (endpoint, file, id) =>
 
     /* istanbul ignore next */
     const onFailure = () => {
-      emitter({ error: new Error('Upload failed') });
+      emitter({ error: new Error('Upload failed'), progress: 1 });
       emitter(END);
     };
 
@@ -29,8 +29,8 @@ export default (endpoint, file, id) =>
     /* istanbul ignore next */
     xhr.onload = () => {
       // upload success
-      if (xhr.readyState === 4 && xhr.status === 202) {
-        emitter({ success: true });
+      if (xhr.readyState === 4 && xhr.status > 200 && xhr.status < 400) {
+        emitter({ success: true, progress: 1 });
         emitter(END);
       } else {
         onFailure();
@@ -47,4 +47,4 @@ export default (endpoint, file, id) =>
       xhr.onload = null;
       xhr.abort();
     };
-  }, buffers.sliding(2));
+  });
