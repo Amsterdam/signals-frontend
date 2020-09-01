@@ -44,7 +44,6 @@ const CombinedFields = styled.div`
 
 const StyledSelect = styled(Select)`
   height: 44px;
-  // width: 150px;
 `;
 
 const StyledHistory = styled(History)`
