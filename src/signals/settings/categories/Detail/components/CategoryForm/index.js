@@ -35,17 +35,16 @@ const CombinedFields = styled.div`
   input {
     flex: 1 0 auto;
     max-width: 75px;
-    margin-right: ${themeSpacing(3)};
   }
 
   select {
     flex: 2 1 auto;
-    max-width: 150px;
   }
 `;
 
 const StyledSelect = styled(Select)`
   height: 44px;
+  // width: 150px;
 `;
 
 const StyledHistory = styled(History)`
@@ -65,87 +64,89 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => (
   <Form action="" data-testid="detailCategoryForm">
     <Row>
       <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}>
-        <FieldGroup>
-          <Input
-            as="input"
-            defaultValue={data.name}
-            disabled={readOnly}
-            hint="Het wijzigen van de naam heeft geen invloed op het type melding"
-            id="name"
-            label="Naam"
-            name="name"
-            readOnly={readOnly}
-            type="text"
-          />
-        </FieldGroup>
-
-        <FieldGroup>
-          <Input
-            as="textarea"
-            defaultValue={data.description}
-            disabled={readOnly}
-            hint="Ter verduidelijking van de inhoud van de categorie"
-            id="description"
-            label="Beschrijving"
-            name="description"
-            readOnly={readOnly}
-            rows="8"
-          />
-        </FieldGroup>
-
-        <FieldGroup>
-          <Label as="span">Service belofte</Label>
-
-          <CombinedFields>
+        <div>
+          <FieldGroup>
             <Input
               as="input"
-              defaultValue={data.sla.n_days}
+              defaultValue={data.name}
               disabled={readOnly}
-              id="n_days"
-              name="n_days"
+              hint="Het wijzigen van de naam heeft geen invloed op het type melding"
+              id="name"
+              label="Naam"
+              name="name"
               readOnly={readOnly}
-              type="number"
-              size="50"
+              type="text"
             />
+          </FieldGroup>
 
-            <StyledSelect
-              defaultValue={data.sla.use_calendar_days ? 1 : 0}
+          <FieldGroup>
+            <Input
+              as="textarea"
+              defaultValue={data.description}
               disabled={readOnly}
-              id="use_calendar_days"
-              name="use_calendar_days"
+              hint="Ter verduidelijking van de inhoud van de categorie"
+              id="description"
+              label="Beschrijving"
+              name="description"
               readOnly={readOnly}
-              type="number"
-            >
-              <option value="1">Dagen</option>
-              <option value="0">Werkdagen</option>
-            </StyledSelect>
-          </CombinedFields>
-        </FieldGroup>
+              rows="8"
+            />
+          </FieldGroup>
 
-        <FieldGroup>
-          <Input
-            as="textarea"
-            defaultValue={data.handling_message}
-            disabled={readOnly}
-            hint="Deze tekst krijgt de burger via e-mail bij het aanmaken van een melding"
-            id="handling_message"
-            label="Wat doen we met uw melding?"
-            name="handling_message"
-            readOnly={readOnly}
-            rows="8"
-          />
-        </FieldGroup>
+          <FieldGroup>
+            <Label as="span">Service belofte</Label>
 
-        <FieldGroup>
-          <Label as="span">Status</Label>
-          <RadioButtonList
-            defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
-            groupName="is_active"
-            hasEmptySelectionButton={false}
-            options={statusOptions}
-            disabled={readOnly}
-          />
-        </FieldGroup>
+            <CombinedFields>
+              <Input
+                as="input"
+                defaultValue={data.sla.n_days}
+                disabled={readOnly}
+                id="n_days"
+                name="n_days"
+                readOnly={readOnly}
+                type="number"
+                size="50"
+              />
+
+              <StyledSelect
+                defaultValue={data.sla.use_calendar_days ? 1 : 0}
+                disabled={readOnly}
+                id="use_calendar_days"
+                name="use_calendar_days"
+                readOnly={readOnly}
+                type="number"
+              >
+                <option value="1">Dagen</option>
+                <option value="0">Werkdagen</option>
+              </StyledSelect>
+            </CombinedFields>
+          </FieldGroup>
+
+          <FieldGroup>
+            <Input
+              as="textarea"
+              defaultValue={data.handling_message}
+              disabled={readOnly}
+              hint="Deze tekst krijgt de burger via e-mail bij het aanmaken van een melding"
+              id="handling_message"
+              label="Wat doen we met uw melding?"
+              name="handling_message"
+              readOnly={readOnly}
+              rows="8"
+            />
+          </FieldGroup>
+
+          <FieldGroup>
+            <Label as="span">Status</Label>
+            <RadioButtonList
+              defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
+              groupName="is_active"
+              hasEmptySelectionButton={false}
+              options={statusOptions}
+              disabled={readOnly}
+            />
+          </FieldGroup>
+        </div>
       </StyledColumn>
 
       <StyledColumn span={{ small: 1, medium: 2, big: 6, large: 7, xLarge: 6 }}>
