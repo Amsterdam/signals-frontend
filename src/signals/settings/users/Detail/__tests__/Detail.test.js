@@ -62,6 +62,8 @@ describe('signals/settings/users/containers/Detail', () => {
     jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({ push }));
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: userFixture.id }));
+
+    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
   });
 
   afterEach(() => {
@@ -70,8 +72,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should render a backlink', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     const referrer = '/some-page-we-came-from';
     const { findByTestId, getByTestId, rerender, unmount } = render(withAppContext(<UserDetail />));
 
@@ -91,8 +91,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should render the correct title', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
     const { findByText, rerender, unmount } = render(withAppContext(<UserDetail />));
@@ -113,8 +111,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should get user and history data', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     const { findByTestId } = render(withAppContext(<UserDetail />));
 
     await findByTestId('userDetailFormContainer');
@@ -131,8 +127,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should render a loading indicator', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     const { findByTestId, getByTestId, queryByTestId } = render(withAppContext(<UserDetail />));
 
     expect(getByTestId('loadingIndicator')).toBeInTheDocument();
@@ -143,8 +137,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should not render a form when the data from the API is not yet available', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId }));
 
     const { findByTestId, queryByTestId } = render(withAppContext(<UserDetail />));
@@ -157,8 +149,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should render a form when the URL does not contain a user ID', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
@@ -169,8 +159,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should not patch user data on submit when form data has not been altered', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
 
     await findByTestId('userDetailFormContainer');
@@ -195,8 +183,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should patch user data on submit', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
 
     await findByTestId('userDetailFormContainer');
@@ -226,8 +212,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should NOT patch user data on submit when user does not have permissions', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
@@ -261,8 +245,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should post user data on submit', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
@@ -307,8 +289,6 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should NOT post user data on submit when user does not have permissions', async () => {
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ userId: undefined }));
@@ -331,9 +311,9 @@ describe('signals/settings/users/containers/Detail', () => {
   });
 
   it('should convert stringified booleans to boolean values', async () => {
-    fetch
-      .mockResponseOnce(JSON.stringify({ ...userFixture, is_active: false }))
-      .mockResponseOnce(JSON.stringify(historyFixture));
+    fetch.resetMocks();
+
+    fetch.once(JSON.stringify({ ...userFixture, is_active: false })).once(JSON.stringify(historyFixture));
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
 
@@ -377,8 +357,6 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should direct to the overview page when cancel button is clicked and form data is pristine', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({}));
 
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     global.window.confirm = jest.fn();
 
     const { findByTestId, rerender, getByTestId } = render(withAppContext(<UserDetail />));
@@ -412,8 +390,6 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should direct to the overview page when cancel button is clicked and form data is NOT pristine', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({}));
 
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
-
     global.window.confirm = jest.fn();
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />));
@@ -444,11 +420,9 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledWith(expect.stringContaining(routes.users));
   });
 
-  it('should push to correct URL when cancel button is clicked and form data is pristine', async () => {
+  it.only('should push to correct URL when cancel button is clicked and form data is pristine', async () => {
     const referrer = '/some-page-we-came-from';
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({ referrer }));
-
-    fetch.mockResponseOnce(JSON.stringify(userFixture)).mockResponseOnce(JSON.stringify(historyFixture));
 
     global.window.confirm = jest.fn();
 

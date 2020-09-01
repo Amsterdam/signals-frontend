@@ -54,10 +54,12 @@ const useFetchResponseNotification = ({ entityName, error, isExisting, isLoading
   }, [entityName, error, isExisting, isLoading, isSuccess, showNotification]);
 
   useEffect(() => {
+    if (isLoading) return;
+
     if (isSuccess && redirectURL) {
       history.push(redirectURL);
     }
-  }, [history, isSuccess, redirectURL]);
+  }, [history, isSuccess, redirectURL, isLoading]);
 };
 
 export default useFetchResponseNotification;
