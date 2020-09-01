@@ -9,32 +9,26 @@
         "head": {
           "$ref": "#/definitions/Head"
         },
-        "logo": {
-          "$ref": "#/definitions/Logo"
-        },
-        "sentry": {
-          "oneOf": [
-            { "type": "null" },
-            { "$ref": "#/definitions/Sentry" }
-          ]
-        },
-        "matomo": {
-          "oneOf": [
-            { "type": "null" },
-            { "$ref": "#/definitions/Matomo" }
-          ]
-        },
         "language": {
           "$ref": "#/definitions/Language"
         },
         "links": {
           "$ref": "#/definitions/Links"
         },
-        "theme": {
-          "$ref": "#/definitions/Theme"
+        "logo": {
+          "$ref": "#/definitions/Logo"
         },
         "map": {
           "$ref": "#/definitions/Map"
+        },
+        "matomo": {
+          "$ref": "#/definitions/Matomo"
+        },
+        "sentry": {
+          "$ref": "#/definitions/Sentry"
+        },
+        "theme": {
+          "$ref": "#/definitions/Theme"
         },
         "areaTypeCodeForDistrict": {
           "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
@@ -234,8 +228,6 @@
         "links",
         "logo",
         "map",
-        "matomo",
-        "sentry",
         "showVulaanControls",
         "theme",
         "useStaticMapServer"
