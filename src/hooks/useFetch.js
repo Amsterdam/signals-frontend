@@ -1,6 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import { getErrorMessage } from 'shared/services/api/api';
+
+const initialState = {
+  data: undefined,
+  error: false,
+  isLoading: false,
+  isSuccess: undefined,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_LOADING':
+      return { ...state, isLoading: action.payload, error: false };
+
+    case 'SET_GET_DATA':
+      return { ...state, data: action.payload, isLoading: false, error: false };
+
+    case 'SET_MODIFY_DATA':
+      return { ...state, data: action.payload, isLoading: false, error: false, isSuccess: true };
+
+    case 'SET_ERROR':
+      return { ...state, isLoading: false, isSuccess: false, error: action.payload };
+
+    /* istanbul ignore next */
+    default:
+      return state;
+  }
+};
 
 /**
  * Custom hook useFetch
@@ -12,10 +39,7 @@ import { getErrorMessage } from 'shared/services/api/api';
  * @returns {FetchResponse}
  */
 export default () => {
-  const [isLoading, setLoading] = useState(false);
-  const [data, setData] = useState();
-  const [error, setError] = useState(false);
-  const [isSuccess, setSuccess] = useState();
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const controller = new AbortController();
   const { signal } = controller;
@@ -34,7 +58,7 @@ export default () => {
   );
 
   const get = async (url, params, requestOptions = {}) => {
-    setLoading(true);
+    dispatch({ type: 'SET_LOADING', payload: true });
 
     const arrayParams = Object.entries(params || {})
       .filter(([key]) => Array.isArray(params[key]))
@@ -68,21 +92,19 @@ export default () => {
         responseData = await fetchResponse.json();
       }
 
-      setData(responseData);
+      dispatch({ type: 'SET_GET_DATA', payload: responseData });
     } catch (exception) {
       Object.defineProperty(exception, 'message', {
         value: getErrorMessage(exception),
         writable: false,
       });
 
-      setError(exception);
-    } finally {
-      setLoading(false);
+      dispatch({ type: 'SET_ERROR', payload: exception });
     }
   };
 
   const modify = method => async (url, modifiedData, requestOptions = {}) => {
-    setLoading(true);
+    dispatch({ type: 'SET_LOADING', payload: true });
 
     try {
       const modifyResponse = await fetch(url, {
@@ -106,18 +128,14 @@ export default () => {
         responseData = await modifyResponse.json();
       }
 
-      setData(responseData);
-      setSuccess(true);
+      dispatch({ type: 'SET_MODIFY_DATA', payload: responseData });
     } catch (exception) {
       Object.defineProperty(exception, 'message', {
         value: getErrorMessage(exception),
         writable: false,
       });
 
-      setError(exception);
-      setSuccess(false);
-    } finally {
-      setLoading(false);
+      dispatch({ type: 'SET_ERROR', payload: exception });
     }
   };
 
@@ -135,12 +153,9 @@ export default () => {
    * @property {Function} post - Function that expects a URL and a data object as parameters
    */
   return {
-    data,
-    error,
     get,
-    isLoading,
-    isSuccess,
     patch,
     post,
+    ...state,
   };
 };
