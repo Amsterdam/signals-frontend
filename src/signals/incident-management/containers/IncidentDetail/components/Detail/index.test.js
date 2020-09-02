@@ -69,7 +69,7 @@ describe('<Detail />', () => {
 
     await findByTestId('detail-title');
 
-    expect(queryByTestId('detail-phone-definition')).not.toBeInTheDocument();
+    expect(queryByTestId('detail-phone-definition')).toBeInTheDocument();
     expect(queryByTestId('detail-email-definition')).toBeInTheDocument();
 
     unmount();
@@ -91,6 +91,6 @@ describe('<Detail />', () => {
     await findByTestId('detail-title');
 
     expect(queryByTestId('detail-phone-definition')).toBeInTheDocument();
-    expect(queryByTestId('detail-email-definition')).not.toBeInTheDocument();
+    expect(queryByTestId('detail-email-definition')).toBeInTheDocument();
   });
 });
