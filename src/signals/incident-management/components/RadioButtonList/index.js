@@ -12,6 +12,8 @@ const FilterGroup = styled.div`
 `;
 
 const StyledLabel = styled(Label)`
+  align-self: baseline;
+
   * {
     font-weight: normal
   }
