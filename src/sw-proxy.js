@@ -56,7 +56,7 @@ const handleFetch = event => {
 
     if (response.body) {
       const body =
-        response.headers['Content-Type'] === 'application/json' ? JSON.stringify(response.body) : response.body;
+        responseConfig.headers['Content-Type'] === 'application/json' ? JSON.stringify(response.body) : response.body;
 
       proxyResponse = Promise.resolve(new Response(body, responseConfig));
     } else if (response.file) {

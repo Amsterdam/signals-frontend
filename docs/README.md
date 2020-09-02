@@ -26,6 +26,7 @@ The [serviceworker](../src/sw-proxy.js) takes [an array of request/response conf
 
 - `response`: Object (required)
 - `response.body`: Object/String (optional): response body
+- `response.delay`: Number (optional): delay in milliseconds for the response to return
 - `response.file`: String (optional), path to file to be served, relative to root folder of the application. Must be accessible to the web server and will be ignored if `body` is present
 - `response.headers`: Object (optional), key/value pairs of HTTP headers
 - `response.status`: Number (optional), HTTP status code

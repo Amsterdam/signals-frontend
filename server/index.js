@@ -13,8 +13,8 @@ const SSL = process.env.HTTPS;
 let options = {};
 
 if (SSL) {
-  const key = fs.readFileSync(`${__dirname}/cert/server.key`);
-  const cert = fs.readFileSync(`${__dirname}/cert/server.crt`);
+  const key = fs.readFileSync(`${__dirname}/proxy_cert/proxy.key`);
+  const cert = fs.readFileSync(`${__dirname}/proxy_cert/proxy.crt`);
   options = {
     key,
     cert,

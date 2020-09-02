@@ -173,6 +173,7 @@ const me = {
  *
  * The following properties are allowed in the `response` property:
  * - `body`: Object/String (optional): response body
+ * - `delay`: Number (optional): delay in milliseconds for the response to return
  * - `file`: String (optional), path to file to be served, relative to root folder of the application. Must be accessible to the web server and will be ignored if `body` is present
  * - `headers`: Object (optional), key/value pairs of HTTP headers
  * - `status`: Number (optional), HTTP status code
@@ -226,58 +227,4 @@ const proxyConfig = [
       body: me,
     },
   },
-  // {
-  //   reqUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4642',
-  //   reqMethod: 'PATCH',
-  //   status: 401,
-  //   statusText: 'Unauthorized',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // },
-  // {
-  //   reqUrl: 'https://api.example.com/pdf',
-  //   reqMethod: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/pdf',
-  //   },
-  //   file: 'demo/example.pdf',
-  // },
-  // {
-  //   reqUrl: 'https://api.example.com/post',
-  //   reqMethod: 'POST',
-  //   status: 201,
-  //   statusText: 'Created',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: {
-  //     message: 'created',
-  //   },
-  // },
-  // {
-  //   reqUrl: 'https://api.example.com/notfound',
-  //   reqMethod: 'GET',
-  //   status: 404,
-  //   statusText: 'Not found',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: {
-  //     message: 'Not found',
-  //   },
-  // },
-  // {
-  //   reqUrl: 'https://geodata.nationaalgeoregister.nl/locatieserver/revgeo',
-  //   reqMethod: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: {},
-  // },
-  // {
-  //   reqUrl: 'https://localhost/*',
-  //   reqMethod: 'GET',
-  //   status: 302,
-  // },
 ];
