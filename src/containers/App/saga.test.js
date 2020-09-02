@@ -250,7 +250,7 @@ describe('containers/App/saga', () => {
 
     it('should success', () => {
       expect(gen.next().value).toEqual(
-        call(fileUploadChannel, CONFIGURATION.IMAGE_ENDPOINT, { name: 'image.jpg' }, 666)
+        call(fileUploadChannel, `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${payload.id}/attachments/`, { name: 'image.jpg' }, payload.id)
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
 
@@ -276,7 +276,7 @@ describe('containers/App/saga', () => {
 
     it('should fail', () => {
       expect(gen.next().value).toEqual(
-        call(fileUploadChannel, CONFIGURATION.IMAGE_ENDPOINT, { name: 'image.jpg' }, 666)
+        call(fileUploadChannel, `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${payload.id}/attachments/`, { name: 'image.jpg' }, payload.id)
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
 
