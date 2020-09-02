@@ -54,6 +54,7 @@ const RadioButtonList = ({
         {radioOptions.map(option => (
           <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
             <Radio
+              data-testid={`${groupName}-${option.key || option.name}`}
               checked={option.key === defaultValue}
               id={option.key || option.name}
               onChange={() => {
