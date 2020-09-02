@@ -1,118 +1,188 @@
-/* istanbul ignore file */
-
-import React from 'react';
+import React, { useCallback, useReducer } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { themeColor } from '@datapunt/asc-ui';
 
-import { FormGenerator } from 'react-reactive-form';
-import isEqual from 'lodash.isequal';
-
-import ktoDefinition from 'signals/incident/definitions/kto';
-import formatConditionalForm from '../../../../services/format-conditional-form';
-
-import './style.scss';
+import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
+import TextArea from 'components/TextArea';
+import Label from 'components/Label';
+import Button from 'components/Button';
+import Checkbox from 'components/Checkbox';
+import ErrorMessage from 'components/ErrorMessage';
 
 export const andersOptionText = 'Anders, namelijk...';
-const andersOption = { anders: andersOptionText };
 
-class KtoForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+const Form = styled.form`
+  display: grid;
+  grid-row-gap: 32px;
+  margin-top: 32px;
+`;
 
-    this.setForm = this.setForm.bind(this);
-    this.setValues = this.setValues.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.updateKto = this.updateKto.bind(this);
+const GridArea = styled.div``;
 
-    this.ktoForm = ktoDefinition;
-  }
+const HelpText = styled.div`
+  color: ${themeColor('tint', 'level5')};
+  margin-bottom: 8px;
+`;
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.ktoContainer.answers, this.props.ktoContainer.answers) && this.ktoForm && this.ktoForm.controls) {
-      if (this.props.ktoContainer.form.is_satisfied && this.ktoForm.controls.tevreden && this.ktoForm.controls.tevreden.meta) {
-        this.ktoForm.controls.tevreden.meta.values = {
-          ...this.props.ktoContainer.answers,
-          ...andersOption,
-        };
-      }
+const initialState = {
+  areaVisibility: false,
+  errors: {},
+  formData: {
+    allows_contact: false,
+    is_satisfied: undefined,
+    text_extra: '',
+    text: '',
+  },
+  formOptions: undefined,
+  numChars: 0,
+  renderSection: undefined,
+  shouldRender: false,
+};
 
-      if (!this.props.ktoContainer.form.is_satisfied && this.ktoForm.controls.niet_tevreden && this.ktoForm.controls.niet_tevreden.meta) {
-        this.ktoForm.controls.niet_tevreden.meta.values = {
-          ...this.props.ktoContainer.answers,
-          ...andersOption,
-        };
-      }
+const init = formData => ({
+  ...initialState,
+  formData: {
+    ...initialState.formData,
+    ...formData,
+  },
+});
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_AREA_VISIBILITY': {
+      const text = action.payload.key !== 'anders' ? action.payload.value : '';
+
+      return {
+        ...state,
+        areaVisibility: action.payload.key === 'anders',
+        formData: { ...state.formData, text },
+      };
     }
 
-    this.setValues(this.props.ktoContainer.form);
-  }
+    case 'SET_FORM_DATA':
+      return { ...state, formData: { ...state.formData, ...action.payload } };
 
-  setValues(incident) {
-    Object.keys(this.form.controls).forEach(key => {
-      const control = this.form.controls[key];
-      if (control.meta.isVisible) {
-        control.enable();
-      } else {
-        control.disable();
+    case 'SET_TEXT_EXTRA':
+      return { ...state, numChars: action.payload.length, formData: { ...state.formData, text_extra: action.payload } };
+
+    case 'SET_TEXT': {
+      const errorText = action.payload === '' ? state.errors.text : undefined;
+
+      return {
+        ...state,
+        formData: { ...state.formData, text: action.payload },
+        errors: { ...state.errors, text: errorText },
+      };
+    }
+
+    case 'SET_ERRORS':
+      return { ...state, errors: action.payload };
+
+    default:
+      return initialState;
+  }
+};
+
+const KtoForm = ({ options, isSatisfied, onSubmit }) => {
+  const [state, dispatch] = useReducer(reducer, { is_satisfied: isSatisfied }, init);
+  const extraTextMaxLength = 1000;
+
+  const onChangeOption = useCallback((groupName, option) => {
+    dispatch({ type: 'SET_AREA_VISIBILITY', payload: option });
+  }, []);
+
+  const onChangeText = useCallback(
+    type => event => {
+      const { value } = event.target;
+
+      dispatch({ type, payload: value });
+    },
+    []
+  );
+
+  const onChangeAllowsContact = useCallback(event => {
+    const { checked } = event.target;
+
+    dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } });
+  }, []);
+
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
+
+      const { formData } = state;
+      const errors = {};
+
+      if (!formData.text) {
+        errors.text = 'Dit veld is verplicht';
       }
 
-      if (!isEqual(incident[key], control.value)) {
-        control.setValue(incident[key]);
-      }
-    });
+      dispatch({ type: 'SET_ERRORS', payload: errors });
 
-    this.form.updateValueAndValidity();
-  }
+      if (Object.keys(errors).length) return;
 
-  setForm = form => {
-    this.form = form;
-    this.form.meta = {
-      updateIncident: this.updateKto,
-    };
-  }
+      onSubmit(formData);
+    },
+    [onSubmit, state]
+  );
 
-  updateKto(value) {
-    this.props.onUpdateKto(value);
-  }
+  return (
+    <Form onSubmit={handleSubmit}>
+      <GridArea>
+        <header>
+          <strong>Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?</strong>
+          <HelpText>Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
+        </header>
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const values = this.form.value;
-    const text = values[`${values.is_satisfied ? '' : 'niet_'}tevreden`].label || '';
-    const textAnders = values[`${values.is_satisfied ? '' : 'niet_'}tevreden_anders`] || '';
+        <RadioButtonList
+          groupName="tevreden"
+          hasEmptySelectionButton={false}
+          onChange={onChangeOption}
+          options={options}
+        />
+        {state.areaVisibility && <TextArea maxRows={5} name="text" onChange={onChangeText('SET_TEXT')} rows="2" />}
+        {state.errors.text && <ErrorMessage message={state.errors.text} />}
+      </GridArea>
 
-    this.props.onStoreKto({
-      uuid: this.props.ktoContainer.uuid,
-      form: {
-        is_satisfied: values.is_satisfied,
-        text: text === andersOptionText ? textAnders : text,
-        text_extra: values.text_extra || '',
-        allows_contact: Boolean(values.allows_contact && values.allows_contact.value),
-      },
-    });
+      <GridArea>
+        <Label htmlFor="text_extra">Wilt u verder nog iets vermelden of toelichten? (optioneel)</Label>
+        <TextArea
+          helpText={`${extraTextMaxLength - state.numChars}/${extraTextMaxLength} tekens`}
+          id="text_extra"
+          maxLength={extraTextMaxLength}
+          name="text_extra"
+          onChange={onChangeText('SET_TEXT_EXTRA')}
+        />
+      </GridArea>
 
-    Object.values(this.form.controls).map(control => control.onBlur());
-  }
+      <GridArea>
+        <Label as="span">Mogen wij contact met u opnemen naar aanleiding van uw feedback? (optioneel)</Label>
+        <div />
+        <Checkbox id="allows_contact" name="allows_contact" onChange={onChangeAllowsContact} />
+        <Label inline forwardAs="span" htmlFor="allows_contact">
+          Ja
+        </Label>
+      </GridArea>
 
-  render() {
-    const { ktoContainer } = this.props;
-    return (
-      <div className="kto-form">
-        <form onSubmit={this.handleSubmit}>
-          <FormGenerator
-            onMount={this.setForm}
-            fieldConfig={formatConditionalForm(this.ktoForm, ktoContainer.form)}
-          />
-        </form>
-      </div>
-    );
-  }
-}
+      <GridArea>
+        <Button type="submit" variant="secondary">
+          Verstuur
+        </Button>
+      </GridArea>
+    </Form>
+  );
+};
 
 KtoForm.propTypes = {
-  ktoContainer: PropTypes.object.isRequired,
-
-  onUpdateKto: PropTypes.func.isRequired,
-  onStoreKto: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  isSatisfied: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default KtoForm;
