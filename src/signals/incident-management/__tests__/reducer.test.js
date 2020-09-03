@@ -6,6 +6,8 @@ import {
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
+  GET_DISTRICTS_FAILED,
+  GET_DISTRICTS_SUCCESS,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   ORDERING_CHANGED,
@@ -62,7 +64,17 @@ const filters = [
   },
 ];
 
+const districts = [
+  {
+    code: 'A',
+  },
+  {
+    code: 'B',
+  },
+];
+
 const intermediateState = fromJS({
+  ...initialState.toJS(),
   activeFilter,
   page: 100,
   error: false,
@@ -84,6 +96,58 @@ describe('signals/incident-management/reducer', () => {
     expect(reducer(initialState, defaultAction)).toEqual(initialState);
     expect(reducer(undefined, defaultAction)).toEqual(initialState);
     expect(reducer(intermediateState, defaultAction)).toEqual(intermediateState);
+  });
+
+  it('should not change loading flag when something is still loading', () => {
+    const getDistrictsSuccess = {
+      type: GET_DISTRICTS_SUCCESS,
+      payload: districts,
+    };
+
+    const applied = state =>
+      state.set('loading', true).set('loadingDistricts', false).set('districts', fromJS(districts));
+    const initialStateWithloadingFilters = fromJS({
+      ...initialState.toJS(),
+      loadingDistricts: true,
+      loadingFilters: true,
+    });
+    const intermediateStateWithloadingFilters = fromJS({
+      ...intermediateState.toJS(),
+      loadingDistricts: true,
+      loadingFilters: true,
+    });
+
+    expect(reducer(initialStateWithloadingFilters, getDistrictsSuccess)).toEqual(
+      applied(initialStateWithloadingFilters)
+    );
+    expect(reducer(intermediateStateWithloadingFilters, getDistrictsSuccess)).toEqual(
+      applied(intermediateStateWithloadingFilters)
+    );
+  });
+
+  it('should handle GET_DISTRICTS_SUCCESS', () => {
+    const getDistrictsSuccess = {
+      type: GET_DISTRICTS_SUCCESS,
+      payload: districts,
+    };
+
+    const applied = state => state.set('loading', false).set('districts', fromJS(districts));
+
+    expect(reducer(initialState, getDistrictsSuccess)).toEqual(applied(initialState));
+    expect(reducer(intermediateState, getDistrictsSuccess)).toEqual(applied(intermediateState));
+  });
+
+  it('should handle GET_DISTRICTS_FAILED', () => {
+    const message = 'Could not retrieve!';
+    const getDistrictsFailed = {
+      type: GET_DISTRICTS_FAILED,
+      payload: message,
+    };
+
+    const applied = state => state.set('loading', false).set('error', true).set('errorMessage', message);
+
+    expect(reducer(initialState, getDistrictsFailed)).toEqual(applied(initialState));
+    expect(reducer(intermediateState, getDistrictsFailed)).toEqual(applied(intermediateState));
   });
 
   it('should handle GET_FILTERS_SUCCESS', () => {
@@ -317,7 +381,7 @@ describe('signals/incident-management/reducer', () => {
       payload: error.message,
     };
 
-    const applied = state => state.set('error', true).set('errorMessage', error.message).set('loadingIncidents', false);
+    const applied = state => state.set('error', true).set('errorMessage', error.message).set('loading', false);
 
     expect(reducer(initialState, requestIncidentsError)).toEqual(applied(initialState));
     expect(reducer(intermediateState, requestIncidentsError)).toEqual(applied(intermediateState));
@@ -362,6 +426,7 @@ describe('signals/incident-management/reducer', () => {
     const applied = state =>
       state
         .set('loading', true)
+        .set('loadingIncidents', true)
         .set('activeFilter', initialState.get('activeFilter'))
         .set('editFilter', initialState.get('editFilter'))
         .set('ordering', initialState.get('ordering'))
@@ -380,6 +445,7 @@ describe('signals/incident-management/reducer', () => {
     const applied = state =>
       state
         .set('loading', true)
+        .set('loadingIncidents', true)
         .set('ordering', initialState.get('ordering'))
         .set('page', initialState.get('page'))
         .set('loadingIncidents', true);

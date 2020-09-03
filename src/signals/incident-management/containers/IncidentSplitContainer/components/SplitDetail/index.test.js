@@ -1,17 +1,22 @@
 import React from 'react';
-import {
-  render,
-} from '@testing-library/react';
+import { render } from '@testing-library/react';
 
+import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
-import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+import { withAppContext } from 'test/utils';
 
+import districts from 'utils/__tests__/fixtures/districts.json';
 import incident from 'utils/__tests__/fixtures/incident.json';
 
 import SplitDetail from '.';
+import IncidentManagementContext from '../../../../context';
 
 jest.mock('shared/services/string-parser');
-jest.mock('shared/services/list-helper/list-helper');
+
+const withContext = Component =>
+  withAppContext(
+    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+  );
 
 describe('<SplitDetail />', () => {
   const props = {
@@ -24,15 +29,12 @@ describe('<SplitDetail />', () => {
   beforeEach(() => {
     string2date.mockImplementation(() => '14-01-1969');
     string2time.mockImplementation(() => '11:56');
-    getListValueByKey.mockImplementation(() => 'Centrum');
   });
 
   describe('rendering', () => {
     it('should render correctly', () => {
       props.incident.category.departments = '';
-      const { queryByTestId, rerender } = render(
-        <SplitDetail {...props} />
-      );
+      const { queryByTestId, rerender } = render(withContext(<SplitDetail {...props} />));
 
       expect(queryByTestId('splitDetailTitleDate')).toHaveTextContent(/^Datum$/);
       expect(queryByTestId('splitDetailValueDate')).toHaveTextContent(/^14-01-1969$/);
@@ -50,7 +52,9 @@ describe('<SplitDetail />', () => {
       expect(queryByTestId('splitDetailValueStadsdeel')).toHaveTextContent(/^Centrum$/);
 
       expect(queryByTestId('splitDetailTitleAddress')).toHaveTextContent(/^Adres$/);
-      expect(queryByTestId('splitDetailValueAddress')).toHaveTextContent(new RegExp(`^${incident.location.address_text}$`));
+      expect(queryByTestId('splitDetailValueAddress')).toHaveTextContent(
+        new RegExp(`^${incident.location.address_text}$`)
+      );
 
       expect(queryByTestId('splitDetailValueEmail')).toHaveTextContent(incident.reporter.email);
 
@@ -65,9 +69,7 @@ describe('<SplitDetail />', () => {
       props.incident.reporter.email = 'steve@apple.com';
       props.incident.reporter.phone = '1234567890';
       props.incident.category.departments = 'STW, THO';
-      rerender(
-        <SplitDetail {...props} />
-      );
+      rerender(<SplitDetail {...props} />);
 
       expect(queryByTestId('splitDetailTitleEmail')).toHaveTextContent(/^E-mailadres$/);
       expect(queryByTestId('splitDetailValueEmail')).toHaveTextContent(/^steve@apple.com$/);
@@ -77,6 +79,18 @@ describe('<SplitDetail />', () => {
 
       expect(queryByTestId('splitDetailTitleDepartment')).toHaveTextContent(/^Verantwoordelijke afdeling$/);
       expect(queryByTestId('splitDetailValueDepartment')).toHaveTextContent(/^STW, THO$/);
+    });
+
+    it('should render correctly with fetchDistrictsFromBackend', () => {
+      const district = 'District';
+      configuration.fetchDistrictsFromBackend = true;
+      configuration.language.district = district;
+      props.incident.category.departments = '';
+
+      const { queryByTestId } = render(withContext(<SplitDetail {...props} />));
+
+      expect(queryByTestId('splitDetailTitleStadsdeel')).toHaveTextContent(new RegExp(`^${district}`));
+      expect(queryByTestId('splitDetailValueStadsdeel')).toHaveTextContent(new RegExp(`^${districts[0].value}`));
     });
   });
 });

@@ -23,7 +23,7 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
 // multiple data providers and child components
 jest.mock('../../components/FieldControlWrapper', () => ({
   __esModule: true,
-  default: () => (<span />),
+  default: () => <span />,
 }));
 
 const attachments = {
@@ -66,11 +66,8 @@ describe('<IncidentSplitContainer />', () => {
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
 
-    expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(
-      /^Deelmelding 1$/
-    );
-    expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(
-      /^Deelmelding 2$/
-    );
+    expect(queryAllByTestId('splitDetailTitle')[0]).toBeInTheDocument();
+    expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
+    expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(/^Deelmelding 2$/);
   });
 });

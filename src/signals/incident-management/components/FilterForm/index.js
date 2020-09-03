@@ -1,4 +1,4 @@
-import React, { Fragment, useLayoutEffect, useMemo, useCallback, useReducer } from 'react';
+import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
@@ -6,21 +6,24 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
 import { Label as AscLabel } from '@datapunt/asc-ui';
 
+import configuration from 'shared/services/configuration/configuration';
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
-import * as types from 'shared/types';
+import { filterType } from 'shared/types';
 import Label from 'components/Label';
 import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
 import { dateToISOString } from 'shared/services/date-utils';
-import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
 import CheckboxGroup from './components/CheckboxGroup';
 import RadioGroup from './components/RadioGroup';
+import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
+import AppContext from '../../../../containers/App/context';
+import IncidentManagementContext from '../../context';
 
 import {
   reset,
@@ -41,11 +44,22 @@ import reducer, { init } from './reducer';
  * Component that renders the incident filter form
  */
 const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
+  const { sources } = useContext(AppContext);
+  const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
 
   const [state, dispatch] = useReducer(reducer, filter, init);
 
   const isNewFilter = !filter.name;
+
+  const dataListValues = useMemo(
+    () => ({
+      ...dataLists,
+      area: districts,
+      source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+    }),
+    [districts, sources]
+  );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
 
@@ -203,10 +217,10 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   // group that is not one of the category checkbox groups
   const onGroupToggle = useCallback(
     (groupName, isToggled) => {
-      const options = isToggled ? dataLists[groupName] : [];
+      const options = isToggled ? dataListValues[groupName] : [];
       dispatch(setGroupOptions({ [groupName]: options }));
     },
-    [dispatch]
+    [dispatch, dataListValues]
   );
 
   return (
@@ -281,14 +295,25 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             options={dataLists.status}
           />
 
-          <CheckboxGroup
-            defaultValue={state.options.stadsdeel}
-            label="Stadsdeel"
-            name="stadsdeel"
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            options={dataLists.stadsdeel}
-          />
+          {configuration.fetchDistrictsFromBackend ? (
+            <CheckboxGroup
+              defaultValue={state.options.area}
+              label={configuration.language.district}
+              name="area"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={districts}
+            />
+          ) : (
+            <CheckboxGroup
+              defaultValue={state.options.stadsdeel}
+              label="Stadsdeel"
+              name="stadsdeel"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={dataLists.stadsdeel}
+            />
+          )}
 
           <CheckboxGroup
             defaultValue={state.options.priority}
@@ -370,14 +395,26 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </FilterGroup>
 
-          <CheckboxGroup
-            defaultValue={state.options.source}
-            label="Bron"
-            name="source"
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            options={dataLists.source}
-          />
+          {configuration.fetchSourcesFromBackend && (
+            <CheckboxGroup
+              defaultValue={state.options.source}
+              label="Bron"
+              name="source"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={sources}
+            />
+          )}
+          {!configuration.fetchSourcesFromBackend && (
+            <CheckboxGroup
+              defaultValue={state.options.source}
+              label="Bron"
+              name="source"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={dataLists.source}
+            />
+          )}
         </Fieldset>
       </ControlsWrapper>
 
@@ -420,7 +457,7 @@ FilterForm.defaultProps = {
 };
 
 FilterForm.propTypes = {
-  filter: types.filterType,
+  filter: filterType,
   /** Callback handler for when filter settings should not be applied */
   onCancel: PropTypes.func,
   /** Callback handler to reset filter */

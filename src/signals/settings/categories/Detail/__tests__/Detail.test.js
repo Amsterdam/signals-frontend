@@ -262,7 +262,7 @@ describe('signals/settings/categories/Detail', () => {
     );
 
     // on patch success, re-request all categories
-    await waitFor(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
 
     expect(dispatch).toHaveBeenCalledWith(fetchCategories());
   });
@@ -278,9 +278,9 @@ describe('signals/settings/categories/Detail', () => {
       categoryId,
     }));
 
-    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId, getByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await waitFor(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
     expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
 
     const submitBtn = getByTestId('submitBtn');
@@ -292,7 +292,7 @@ describe('signals/settings/categories/Detail', () => {
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    await waitFor(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
 
     expect(dispatch).toHaveBeenCalledWith(showGlobalNotification(expect.any(Object)));
 
@@ -304,9 +304,9 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: undefined,
     }));
 
-    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await waitFor(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
 
     expect(fetch).not.toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
 
@@ -320,7 +320,7 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />));
 
-    await waitFor(() => getByTestId('detailCategoryForm'));
+    await findByTestId('detailCategoryForm');
 
     expect(fetch).toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
   });

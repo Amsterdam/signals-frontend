@@ -7,9 +7,7 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import { withAppContext } from 'test/utils';
 import * as constants from 'signals/incident-management/constants';
 
-import IncidentOverviewPage, {
-  IncidentOverviewPageContainerComponent,
-} from '.';
+import IncidentOverviewPage, { IncidentOverviewPageContainerComponent } from '.';
 
 jest.mock('scroll-lock');
 jest.mock('signals/incident-management/constants');
@@ -73,23 +71,17 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   });
 
   it('should render modal buttons', () => {
-    const { getByText } = render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
-    );
+    const { getByText } = render(withAppContext(<IncidentOverviewPageContainerComponent {...props} />));
 
     expect(getByText('Filteren').tagName).toEqual('BUTTON');
     expect(getByText('Mijn filters').tagName).toEqual('BUTTON');
   });
 
   it('should render a list of incidents', () => {
-    const { queryByTestId, rerender } = render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
-    );
+    const { queryByTestId, rerender } = render(withAppContext(<IncidentOverviewPageContainerComponent {...props} />));
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
-    expect(
-      queryByTestId('incidentOverviewListComponent')
-    ).not.toBeInTheDocument();
+    expect(queryByTestId('incidentOverviewListComponent')).not.toBeInTheDocument();
 
     const incidents = generateIncidents();
 
@@ -165,9 +157,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   });
 
   it('should show notification when no results can be rendered', () => {
-    const { getByText } = render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
-    );
+    const { getByText } = render(withAppContext(<IncidentOverviewPageContainerComponent {...props} />));
 
     expect(getByText('Geen meldingen')).toBeInTheDocument();
   });
@@ -175,9 +165,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   it('should have props from structured selector', () => {
     const tree = mount(withAppContext(<IncidentOverviewPage />));
 
-    const containerProps = tree
-      .find(IncidentOverviewPageContainerComponent)
-      .props();
+    const containerProps = tree.find(IncidentOverviewPageContainerComponent).props();
 
     expect(containerProps.activeFilter).not.toBeUndefined();
     expect(containerProps.ordering).not.toBeUndefined();
@@ -187,9 +175,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   it('should have props from action creator', () => {
     const tree = mount(withAppContext(<IncidentOverviewPage />));
 
-    const containerProps = tree
-      .find(IncidentOverviewPageContainerComponent)
-      .props();
+    const containerProps = tree.find(IncidentOverviewPageContainerComponent).props();
 
     expect(containerProps.pageChangedAction).not.toBeUndefined();
     expect(typeof containerProps.pageChangedAction).toEqual('function');
@@ -218,9 +204,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(props.pageChangedAction).not.toHaveBeenCalled();
 
-    const firstButton = getByTestId('pagination').querySelector(
-      'button:first-of-type'
-    );
+    const firstButton = getByTestId('pagination').querySelector('button:first-of-type');
     const pagenum = Number.parseInt(firstButton.dataset.pagenum, 10);
 
     act(() => {
@@ -276,39 +260,27 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
   describe('filter modal', () => {
     it('opens filter modal', () => {
-      const { queryByTestId, getByTestId } = render(
-        withAppContext(<IncidentOverviewPage />)
-      );
+      const { queryByTestId, getByTestId } = render(withAppContext(<IncidentOverviewPage />));
 
       expect(queryByTestId('filterModal')).toBeNull();
 
-      fireEvent(
-        getByTestId('filterModalBtn'),
-        new MouseEvent('click', { bubbles: true })
-      );
+      fireEvent(getByTestId('filterModalBtn'), new MouseEvent('click', { bubbles: true }));
 
       expect(queryByTestId('filterModal')).not.toBeNull();
     });
 
     it('opens my filters modal', () => {
-      const { queryByTestId, getByTestId } = render(
-        withAppContext(<IncidentOverviewPage />)
-      );
+      const { queryByTestId, getByTestId } = render(withAppContext(<IncidentOverviewPage />));
 
       expect(queryByTestId('myFiltersModal')).toBeNull();
 
-      fireEvent(
-        getByTestId('myFiltersModalBtn'),
-        new MouseEvent('click', { bubbles: true })
-      );
+      fireEvent(getByTestId('myFiltersModalBtn'), new MouseEvent('click', { bubbles: true }));
 
       expect(queryByTestId('myFiltersModal')).not.toBeNull();
     });
 
     it('closes modal on ESC', () => {
-      const { queryByTestId, getByTestId } = render(
-        withAppContext(<IncidentOverviewPage />)
-      );
+      const { queryByTestId, getByTestId } = render(withAppContext(<IncidentOverviewPage />));
 
       fireEvent(
         getByTestId('filterModalBtn'),
@@ -325,9 +297,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     });
 
     it('closes modal by means of close button', () => {
-      const { queryByTestId, getByTestId } = render(
-        withAppContext(<IncidentOverviewPage />)
-      );
+      const { queryByTestId, getByTestId } = render(withAppContext(<IncidentOverviewPage />));
 
       fireEvent(
         getByTestId('filterModalBtn'),

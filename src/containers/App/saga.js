@@ -4,7 +4,14 @@ import { push } from 'connected-react-router/immutable';
 import { authCall } from 'shared/services/api/api';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
-import { SET_SEARCH_QUERY, LOGOUT, LOGIN, AUTHENTICATE_USER, UPLOAD_REQUEST } from 'containers/App/constants';
+import {
+  SET_SEARCH_QUERY,
+  LOGOUT,
+  LOGIN,
+  AUTHENTICATE_USER,
+  UPLOAD_REQUEST,
+  GET_SOURCES,
+} from 'containers/App/constants';
 
 import {
   loginFailed,
@@ -14,6 +21,8 @@ import {
   uploadProgress,
   uploadSuccess,
   uploadFailure,
+  getSourcesFailed,
+  getSourcesSuccess,
 } from './actions';
 import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
@@ -87,9 +96,17 @@ export function* uploadFileWrapper(action) {
 }
 
 export function* uploadFile(action) {
-  const channel = yield call(fileUploadChannel, CONFIGURATION.IMAGE_ENDPOINT, action.payload.file, action.payload.id);
+  const { id } = action.payload;
+  const channel = yield call(
+    fileUploadChannel,
+    `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${id}/attachments/`,
+    action.payload.file,
+    id
+  );
+
   while (true) {
     const { progress = 0, error, success } = yield take(channel);
+
     if (error) {
       yield put(uploadFailure());
       yield put(
@@ -115,6 +132,16 @@ export function* callSearchIncidents() {
   yield put(push('/manage/incidents'));
 }
 
+export function* fetchSources() {
+  try {
+    const result = yield call(authCall, CONFIGURATION.SOURCES_ENDPOINT);
+
+    yield put(getSourcesSuccess(result.results));
+  } catch (error) {
+    yield put(getSourcesFailed(error.message));
+  }
+}
+
 export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGIN, callLogin),
@@ -122,5 +149,6 @@ export default function* watchAppSaga() {
     takeLatest(AUTHENTICATE_USER, callAuthorize),
     takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
     takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
+    takeLatest(GET_SOURCES, fetchSources),
   ]);
 }

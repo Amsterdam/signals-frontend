@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { rolesModelSelector } from './selectors';
+import { inputCheckboxRolesSelector, rolesModelSelector } from './selectors';
 import { initialState } from './reducer';
 
 describe('rolesModelSelector', () => {
@@ -17,5 +17,21 @@ describe('rolesModelSelector', () => {
       roles,
     });
     expect(rolesModelSelector(mockedState)).toEqual(roles);
+  });
+
+  it('should select roles for checkboxes', () => {
+    const roles = {
+      list: [{ id: 42, name: 'role' }],
+    };
+    const expected = [
+      {
+        key: '42',
+        name: 'role',
+        value: 'role',
+      },
+    ];
+    const mockedState = fromJS({ roles });
+
+    expect(inputCheckboxRolesSelector(mockedState)).toEqual(expected);
   });
 });

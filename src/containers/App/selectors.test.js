@@ -14,7 +14,29 @@ import {
   makeSelectUserPermissionCodeNames,
   selectGlobal,
   makeSelectSearchQuery,
+  makeSelectSources,
 } from './selectors';
+
+const sources = [
+  {
+    id: 1,
+    name: 'Source1',
+  },
+  {
+    id: 2,
+    name: 'Source2',
+  },
+];
+const selectedSources = [
+  {
+    key: '1',
+    value: 'Source1',
+  },
+  {
+    key: '2',
+    value: 'Source2',
+  },
+];
 
 describe('containers/App/selectors', () => {
   describe('selectGlobal', () => {
@@ -144,11 +166,7 @@ describe('containers/App/selectors', () => {
       const users = 'users';
       const someOtherSection = 'some_other_section';
       const userSectionPermissions = ['view_user', 'add_user', 'change_user'];
-      const groupSectionPermissions = [
-        'view_group',
-        'change_group',
-        'add_group',
-      ];
+      const groupSectionPermissions = ['view_group', 'change_group', 'add_group'];
 
       const superUserCanAccess = makeSelectUserCanAccess(state);
       const regularUserCanAccess = makeSelectUserCanAccess(regularUserState);
@@ -181,9 +199,7 @@ describe('containers/App/selectors', () => {
 
         // remove one of the requires permissions to have access to the user section
         userWithLimitedPermissions.permissions.splice(
-          userWithLimitedPermissions.permissions.findIndex(
-            ({ codename }) => codename === userSectionPermissions[0]
-          ),
+          userWithLimitedPermissions.permissions.findIndex(({ codename }) => codename === userSectionPermissions[0]),
           1
         );
 
@@ -201,9 +217,7 @@ describe('containers/App/selectors', () => {
 
         // remove another one
         userWithLimitedPermissions.permissions.splice(
-          userWithLimitedPermissions.permissions.findIndex(
-            ({ codename }) => codename === userSectionPermissions[1]
-          ),
+          userWithLimitedPermissions.permissions.findIndex(({ codename }) => codename === userSectionPermissions[1]),
           1
         );
 
@@ -221,9 +235,7 @@ describe('containers/App/selectors', () => {
 
         // remove the last one
         userWithLimitedPermissions.permissions.splice(
-          userWithLimitedPermissions.permissions.findIndex(
-            ({ codename }) => codename === userSectionPermissions[1]
-          ),
+          userWithLimitedPermissions.permissions.findIndex(({ codename }) => codename === userSectionPermissions[1]),
           1
         );
 
@@ -237,9 +249,7 @@ describe('containers/App/selectors', () => {
           },
         });
 
-        expect(makeSelectUserCanAccess(limitedUserState4)(users)).toEqual(
-          false
-        );
+        expect(makeSelectUserCanAccess(limitedUserState4)(users)).toEqual(false);
       });
 
       it('should require at least one permission per section category', () => {
@@ -264,9 +274,7 @@ describe('containers/App/selectors', () => {
           },
         });
 
-        expect(makeSelectUserCanAccess(limitedUserState)(settings)).toEqual(
-          true
-        );
+        expect(makeSelectUserCanAccess(limitedUserState)(settings)).toEqual(true);
 
         // remove last required permission
         userWithLimitedPermissions.permissions = userWithLimitedPermissions.permissions.filter(
@@ -283,9 +291,7 @@ describe('containers/App/selectors', () => {
           },
         });
 
-        expect(makeSelectUserCanAccess(limitedUserState2)(settings)).toEqual(
-          false
-        );
+        expect(makeSelectUserCanAccess(limitedUserState2)(settings)).toEqual(false);
       });
     });
   });
@@ -301,5 +307,14 @@ describe('containers/App/selectors', () => {
       });
       expect(selectSearchSelector(mockedState)).toEqual(searchQuery);
     });
+  });
+
+  it('should select sources', () => {
+    const state = fromJS({ ...initialState.toJS(), sources });
+    const result = makeSelectSources.resultFunc(state);
+
+    expect(result.length).toEqual(sources.length);
+    expect(result[0]).toMatchObject(selectedSources[0]);
+    expect(result[1]).toMatchObject(selectedSources[1]);
   });
 });

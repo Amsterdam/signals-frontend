@@ -1,0 +1,14 @@
+[
+  {
+    "key": "north",
+    "value": "North"
+  },
+  {
+    "key": "south",
+    "value": "South"
+  },
+  {
+    "key": "null",
+    "value": "Niet bepaald"
+  }
+]

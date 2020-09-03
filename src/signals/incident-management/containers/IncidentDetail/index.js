@@ -268,7 +268,6 @@ const IncidentDetail = () => {
             )}
           </Preview>
         )}
-
         {state.preview && <CloseButton aria-label="Sluiten" onClick={closeDispatch} />}
       </StyledRow>
     </IncidentDetailContext.Provider>
