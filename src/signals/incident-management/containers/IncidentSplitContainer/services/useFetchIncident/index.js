@@ -26,11 +26,10 @@ const useFetchIncident = id => {
 
   useEffect(() => {
     if (!id) return;
+
     getIncident(`${CONFIGURATION.INCIDENTS_ENDPOINT}${id}`);
     getIncidentAttachments(`${CONFIGURATION.INCIDENTS_ENDPOINT}${id}/attachments`);
-    // Disable linter to prevent infinite loop; only need to execute on `id` change;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, getIncident, getIncidentAttachments]);
 
   return { isLoading, incident, attachments: attachments?.results?.slice(0, 3) };
 };

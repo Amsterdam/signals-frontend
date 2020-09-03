@@ -85,9 +85,7 @@ const MapStatic = ({
 
   useEffect(() => {
     get(configuration.STATIC_MAP_SERVER_URL, params, { responseType: 'blob' });
-    // only execute on mount; disabling linter
-    // eslint-disable-next-line
-  }, []);
+  }, [get, params]);
 
   useEffect(() => {
     if (!data) return;
