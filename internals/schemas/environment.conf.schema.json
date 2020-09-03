@@ -580,7 +580,6 @@
       },
       "required": [
         "attribution",
-        "subdomains",
         "tms"
       ],
       "title": "TilesOptions"
