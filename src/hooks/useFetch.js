@@ -1,10 +1,10 @@
-import { useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useMemo } from 'react';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import { getErrorMessage } from 'shared/services/api/api';
 
 const initialState = {
   data: undefined,
-  error: false,
+  error: undefined,
   isLoading: false,
   isSuccess: undefined,
 };
@@ -41,106 +41,115 @@ const reducer = (state, action) => {
 export default () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const controller = new AbortController();
+  const controller = useMemo(() => new AbortController(), []);
   const { signal } = controller;
-  const requestHeaders = {
-    ...getAuthHeaders(),
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-  };
+  const requestHeaders = useMemo(
+    () => ({
+      ...getAuthHeaders(),
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }),
+    []
+  );
 
   useEffect(
     () => () => {
       controller.abort();
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [controller]
   );
 
-  const get = async (url, params, requestOptions = {}) => {
-    dispatch({ type: 'SET_LOADING', payload: true });
+  const get = useCallback(
+    async (url, params, requestOptions = {}) => {
+      dispatch({ type: 'SET_LOADING', payload: true });
 
-    const arrayParams = Object.entries(params || {})
-      .filter(([key]) => Array.isArray(params[key]))
-      .flatMap(([key, value]) => value.flatMap(val => `${key}=${val}`));
+      const arrayParams = Object.entries(params || {})
+        .filter(([key]) => Array.isArray(params[key]))
+        .flatMap(([key, value]) => value.flatMap(val => `${key}=${val}`));
 
-    const scalarParams = Object.entries(params || {})
-      .filter(([, value]) => Boolean(value))
-      .filter(([key]) => !Array.isArray(params[key]))
-      .reduce((acc, [key, value]) => [...acc, `${key}=${value}`], []);
+      const scalarParams = Object.entries(params || {})
+        .filter(([, value]) => Boolean(value))
+        .filter(([key]) => !Array.isArray(params[key]))
+        .reduce((acc, [key, value]) => [...acc, `${key}=${value}`], []);
 
-    const queryParams = arrayParams.concat(scalarParams).join('&');
-    const requestURL = [url, queryParams].filter(Boolean).join('?');
+      const queryParams = arrayParams.concat(scalarParams).join('&');
+      const requestURL = [url, queryParams].filter(Boolean).join('?');
 
-    try {
-      const fetchResponse = await fetch(requestURL, {
-        headers: requestHeaders,
-        method: 'GET',
-        signal,
-        ...requestOptions,
-      });
-      /* istanbul ignore else */
-      if (fetchResponse.ok === false) {
-        throw fetchResponse;
+      try {
+        const fetchResponse = await fetch(requestURL, {
+          headers: requestHeaders,
+          method: 'GET',
+          signal,
+          ...requestOptions,
+        });
+        /* istanbul ignore else */
+        if (fetchResponse.ok === false) {
+          throw fetchResponse;
+        }
+
+        let responseData;
+
+        if (requestOptions.responseType === 'blob') {
+          responseData = await fetchResponse.blob();
+        } else {
+          responseData = await fetchResponse.json();
+        }
+
+        dispatch({ type: 'SET_GET_DATA', payload: responseData });
+      } catch (exception) {
+        Object.defineProperty(exception, 'message', {
+          value: getErrorMessage(exception),
+          writable: false,
+        });
+
+        dispatch({ type: 'SET_ERROR', payload: exception });
       }
+    },
+    [requestHeaders, signal]
+  );
 
-      let responseData;
+  const modify = useCallback(
+    method => async (url, modifiedData, requestOptions = {}) => {
+      dispatch({ type: 'SET_LOADING', payload: true });
 
-      if (requestOptions.responseType === 'blob') {
-        responseData = await fetchResponse.blob();
-      } else {
-        responseData = await fetchResponse.json();
+      try {
+        const modifyResponse = await fetch(url, {
+          headers: requestHeaders,
+          method,
+          signal,
+          body: JSON.stringify(modifiedData),
+          ...requestOptions,
+        });
+
+        /* istanbul ignore else */
+        if (modifyResponse.ok === false) {
+          throw modifyResponse;
+        }
+
+        let responseData;
+
+        if (requestOptions.responseType === 'blob') {
+          responseData = await modifyResponse.blob();
+        } else {
+          responseData = await modifyResponse.json();
+        }
+
+        dispatch({ type: 'SET_MODIFY_DATA', payload: responseData });
+      } catch (exception) {
+        Object.defineProperty(exception, 'message', {
+          value: getErrorMessage(exception),
+          writable: false,
+        });
+
+        dispatch({ type: 'SET_ERROR', payload: exception });
       }
-
-      dispatch({ type: 'SET_GET_DATA', payload: responseData });
-    } catch (exception) {
-      Object.defineProperty(exception, 'message', {
-        value: getErrorMessage(exception),
-        writable: false,
-      });
-
-      dispatch({ type: 'SET_ERROR', payload: exception });
-    }
-  };
-
-  const modify = method => async (url, modifiedData, requestOptions = {}) => {
-    dispatch({ type: 'SET_LOADING', payload: true });
-
-    try {
-      const modifyResponse = await fetch(url, {
-        headers: requestHeaders,
-        method,
-        signal,
-        body: JSON.stringify(modifiedData),
-        ...requestOptions,
-      });
-
-      /* istanbul ignore else */
-      if (modifyResponse.ok === false) {
-        throw modifyResponse;
-      }
-
-      let responseData;
-
-      if (requestOptions.responseType === 'blob') {
-        responseData = await modifyResponse.blob();
-      } else {
-        responseData = await modifyResponse.json();
-      }
-
-      dispatch({ type: 'SET_MODIFY_DATA', payload: responseData });
-    } catch (exception) {
-      Object.defineProperty(exception, 'message', {
-        value: getErrorMessage(exception),
-        writable: false,
-      });
-
-      dispatch({ type: 'SET_ERROR', payload: exception });
-    }
-  };
+    },
+    [requestHeaders, signal]
+  );
 
   const post = modify('POST');
   const patch = modify('PATCH');
+  const put = modify('PUT');
 
   /**
    * @typedef {Object} FetchResponse
@@ -156,6 +165,7 @@ export default () => {
     get,
     patch,
     post,
+    put,
     ...state,
   };
 };

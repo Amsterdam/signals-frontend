@@ -103,14 +103,14 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const [layerInstance, setLayerInstance] = useState();
   const [incidentId, setIncidentId] = useState(0);
 
-  const { ...params } = filterParams;
-
-  // fixed query period (24 hours)
-  params.created_after = useMemo(() => format(subDays(new Date(), -1), "yyyy-MM-dd'T'HH:mm:ss"), []);
-  params.created_before = useMemo(() => format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"), []);
-
-  // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
-  params.page_size = 4000;
+  const params = useMemo(() => ({
+    ...filterParams,
+    // fixed query period (24 hours)
+    created_after: format(subDays(new Date(), -1), "yyyy-MM-dd'T'HH:mm:ss"),
+    created_before: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
+    // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
+    page_size: 4000,
+  }), [filterParams]);
 
   /**
    * AutoSuggest callback handler
@@ -161,7 +161,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
     setInitialMount(true);
     // eslint-disable-next-line
-  }, []);
+  }, [get]);
 
   useEffect(() => {
     if (!data || !layerInstance) return () => {};
