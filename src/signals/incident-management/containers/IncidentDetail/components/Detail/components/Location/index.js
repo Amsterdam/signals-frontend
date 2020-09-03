@@ -100,6 +100,12 @@ const Location = ({ location }) => {
             </MapTile>
           )}
 
+          {location.stadsdeel && (
+            <div data-testid="location-value-address-stadsdeel">
+              Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
+            </div>
+          )}
+
           {location.address_text ? (
             <div>
               {configuration.fetchDistrictsFromBackend && location.area_code && districts && (
