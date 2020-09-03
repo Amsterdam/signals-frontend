@@ -36,7 +36,7 @@ const Time = styled.div`
 
 const Action = styled.div`
   color: ${themeColor('tint', 'level7')};
-  white-space: pre-wrap;
+  white-space: pre-line;
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     grid-column-start: 3;

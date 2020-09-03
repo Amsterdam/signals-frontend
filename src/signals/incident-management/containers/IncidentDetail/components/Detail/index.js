@@ -77,19 +77,15 @@ const Detail = ({ attachments }) => {
 
         {memoIncident.extra_properties && <ExtraProperties items={memoIncident.extra_properties} />}
 
-        {incident.reporter.phone && (
-          <Fragment>
-            <dt data-testid="detail-phone-definition">Telefoon melder</dt>
-            <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
-          </Fragment>
-        )}
+        <Fragment>
+          <dt data-testid="detail-phone-definition">Telefoon melder</dt>
+          <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
+        </Fragment>
 
-        {incident.reporter.email && (
-          <Fragment>
-            <dt data-testid="detail-email-definition">E-mail melder</dt>
-            <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
-          </Fragment>
-        )}
+        <Fragment>
+          <dt data-testid="detail-email-definition">E-mail melder</dt>
+          <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
+        </Fragment>
 
         <dt data-testid="detail-sharing-definition">Toestemming contactgegevens delen</dt>
         <dd data-testid="detail-sharing-value">{incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}</dd>

@@ -123,6 +123,7 @@ const StatusForm = ({ defaultTexts }) => {
                 }
               />
               <TextArea
+                data-testid="text"
                 error={state.errors?.text}
                 name="text"
                 onChange={onTextChange}
