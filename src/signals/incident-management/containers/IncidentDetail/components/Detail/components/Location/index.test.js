@@ -80,7 +80,7 @@ describe('<Location />', () => {
 
       await findByText('Locatie');
 
-      expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^District: North/);
+      expect(queryByTestId('location-value-address-district')).toHaveTextContent(/^District: North/);
     });
 
     describe('location preview', () => {
