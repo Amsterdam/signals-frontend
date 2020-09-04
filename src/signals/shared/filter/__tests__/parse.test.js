@@ -4,12 +4,37 @@ import categories from 'utils/__tests__/fixtures/categories_private.json';
 import { filterForSub, filterForMain } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
 
-import { parseOutputFormData, parseInputFormData, parseToAPIData } from '../parse';
+import { parseDate, parseOutputFormData, parseInputFormData, parseToAPIData } from '../parse';
 
 const filteredSubCategories = categories.results.filter(filterForSub);
 const filteredMainCategories = categories.results.filter(filterForMain);
 
 describe('signals/shared/filter/parse', () => {
+  describe('parseDate', () => {
+    const dateString = '2019-12-10';
+    const timeString = '00:00:00';
+    const dateWithTimeString = `${dateString}T${timeString}`;
+
+    const emptyValues = ['', null, false, undefined];
+    const invalidDateStrings = [...emptyValues, '2019-12-100', 'invalid date', '1923'];
+
+    it('should parse date without time string', () => {
+      expect(parseDate(dateString, timeString)).toEqual(dateWithTimeString);
+    });
+
+    it('should parse date with time string', () => {
+      expect(parseDate(dateWithTimeString, timeString)).toEqual(dateWithTimeString);
+    });
+
+    it('should return `null` on an invalid date or empty time string', () => {
+      invalidDateStrings.forEach(invalidDate => expect(parseDate(invalidDate, timeString)).toEqual(null));
+    });
+
+    it('should return `null` on an empty time string', () => {
+      emptyValues.forEach(emptyTimeString => expect(parseDate(dateString, emptyTimeString)).toEqual(null));
+    });
+  });
+
   describe('parseOutputFormData', () => {
     it('should parse output FormData', () => {
       const mainCategories = filteredMainCategories.filter(
