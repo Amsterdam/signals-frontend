@@ -24,7 +24,7 @@ const initialState = {
   shouldRender: false,
 };
 
-const renderSections = {
+export const renderSections = {
   TOO_LATE: {
     title: 'Helaas, de mogelijkheid om feedback te geven is verlopen',
     body: 'Na het afhandelen van uw melding heeft u 2 weken de gelegenheid om feedback te geven.',
@@ -38,16 +38,15 @@ const renderSections = {
   },
 };
 
+// eslint-disable-next-line consistent-return
 const reducer = (state, action) => {
+  // eslint-disable-next-line default-case
   switch (action.type) {
     case 'SET_FORM_OPTIONS':
       return { ...state, formOptions: action.payload, shouldRender: true };
 
     case 'SET_RENDER_SECTION':
       return { ...state, renderSection: action.payload, shouldRender: true };
-
-    default:
-      return state;
   }
 };
 
@@ -65,7 +64,7 @@ export const KtoContainer = () => {
 
   // if the status retrieval is done, parse the response and retrieve the form options
   useEffect(() => {
-    if (isLoadingCheck || errorCheck === undefined) return;
+    if (isLoadingCheck || isSuccess || errorCheck === undefined) return;
 
     if (errorCheck === false) {
       getOptions(configuration.FEEDBACK_STANDARD_ANSWERS_ENDPOINT);
@@ -73,7 +72,7 @@ export const KtoContainer = () => {
     }
 
     parseResponse();
-  }, [errorCheck, isLoadingCheck, getOptions, parseResponse]);
+  }, [errorCheck, isLoadingCheck, isSuccess, getOptions, parseResponse]);
 
   // on succesful retrieval of the form options, map the results and store them in the component's state
   useEffect(() => {
@@ -123,7 +122,7 @@ export const KtoContainer = () => {
 
   return (
     <Fragment>
-      <Row>
+      <Row data-testid="ktoFormContainer">
         <Column span={12}>
           {isSuccess && (
             <header>
@@ -140,9 +139,7 @@ export const KtoContainer = () => {
               </header>
             ) : (
               <StyledHeading>
-                {isSatisfied
-                  ? 'Ja, ik ben tevreden met de behandeling van mijn melding'
-                  : 'Nee, ik ben niet tevreden met de behandeling van mijn melding'}
+                {isSatisfied ? 'Ja, ik ben' : 'Nee, ik ben niet'} tevreden met de behandeling van mijn melding
               </StyledHeading>
             ))}
         </Column>
