@@ -6,6 +6,7 @@ import priorityList from 'signals/incident-management/definitions/priorityList';
 import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import typesList from 'signals/incident-management/definitions/typesList';
+import kindList from 'signals/incident-management/definitions/kindList';
 import dataLists from 'signals/incident-management/definitions';
 import configuration from 'shared/services/configuration/configuration';
 
@@ -159,6 +160,12 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(container.querySelectorAll('input[type="checkbox"][name="district"]')).toHaveLength(0);
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(stadsdeelList.length);
+  });
+
+  it('should render a list of kind options', () => {
+    const { container } = render(withContext(<FilterForm {...formProps} />));
+
+    expect(container.querySelectorAll('input[type="checkbox"][name="kind"]')).toHaveLength(kindList.length);
   });
 
   it('should render a list of district options with feature flag enabled', () => {

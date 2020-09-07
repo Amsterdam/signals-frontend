@@ -7,13 +7,14 @@ import dataLists from 'signals/incident-management/definitions';
 
 const arrayFields = [
   'area',
-  'stadsdeel',
-  'maincategory_slug',
-  'status',
   'category_slug',
-  'source',
-  'priority',
   'contact_details',
+  'kind',
+  'maincategory_slug',
+  'priority',
+  'source',
+  'stadsdeel',
+  'status',
   'type',
 ];
 
@@ -52,6 +53,7 @@ export const parseOutputFormData = options =>
       case 'stadsdeel':
       case 'status':
       case 'type':
+      case 'kind':
         entryValue = value.map(({ key: itemKey }) => itemKey);
         break;
       case 'created_after':
