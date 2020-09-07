@@ -1,6 +1,6 @@
 const { validator } = require('@exodus/schemasafe');
 
-const config = require('./helpers/get-config');
+const { config } = require('./helpers/config');
 const schema = require('../schemas/environment.conf.schema.json');
 
 const validate = validator(schema, { includeErrors: true });

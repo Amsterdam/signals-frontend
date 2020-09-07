@@ -10,7 +10,7 @@ import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import fetchMock from 'jest-fetch-mock';
 
-import config from '../scripts/helpers/get-config';
+import { config } from '../scripts/helpers/config';
 
 fetchMock.enableMocks();
 

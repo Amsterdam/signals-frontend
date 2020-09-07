@@ -1,6 +1,9 @@
 const fs = require('fs');
+const merge = require('lodash.merge');
 
-const config = require('./get-config');
+const baseConfig = require('../../../environment.base.conf.json');
+const extendedConfig = require('../../../environment.conf.json');
+const config = merge({}, baseConfig, extendedConfig);
 
 const placeholders = {
   $SIGNALS_ANDROID_ICON: config.head.androidIcon,
@@ -17,10 +20,15 @@ const placeholders = {
   $SIGNALS_THEME_COLOR: config.head.themeColor,
 };
 
-module.exports = files =>
+const inject = files =>
   files.map(file =>
     Object.entries(placeholders).reduce(
       (acc, [key, value]) => acc.replace(new RegExp(`\\${key}`, 'gm'), value),
       fs.readFileSync(file).toString()
     )
   );
+
+module.exports = {
+  config,
+  inject,
+};
