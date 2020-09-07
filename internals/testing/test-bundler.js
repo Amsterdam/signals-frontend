@@ -9,12 +9,8 @@ import { JSDOM } from 'jsdom';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import fetchMock from 'jest-fetch-mock';
-import merge from 'lodash.merge';
 
-import baseConfig from '../../environment.base.conf.json';
-import extendedConfig from '../../environment.conf.json';
-
-const combinedConfig = merge({}, baseConfig, extendedConfig);
+import config from '../scripts/helpers/get-config';
 
 fetchMock.enableMocks();
 
@@ -41,7 +37,7 @@ L.Map.prototype.initialize = function initialize(id, options) {
 global.window.L = L;
 
 global.window.alert = msg => msg;
-global.window.CONFIG = combinedConfig;
+global.window.CONFIG = config;
 
 if (process.env.CI) {
   // prevent pollution of the build log when running tests in CI

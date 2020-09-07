@@ -1,24 +1,20 @@
 const fs = require('fs');
-const merge = require('lodash.merge');
 
-const baseConfig = require('../../environment.base.conf.json');
-const extendedConfig = require('../../environment.conf.json');
-
-const combinedConfig = merge({}, baseConfig, extendedConfig);
+const config = require('./helpers/get-config');
 
 const placeholders = {
-  $SIGNALS_ANDROID_ICON: combinedConfig.head.androidIcon,
-  $SIGNALS_BACKGROUND_COLOR: combinedConfig.head.backgroundColor,
-  $SIGNALS_CONFIG: JSON.stringify(combinedConfig),
-  $SIGNALS_FAVICON: combinedConfig.head.favicon,
-  $SIGNALS_IOS_ICON: combinedConfig.head.iosIcon,
-  $SIGNALS_MATOMO_SITE_ID: combinedConfig.matomo.siteId,
-  $SIGNALS_MATOMO_URL_BASE: combinedConfig.matomo.urlBase,
-  $SIGNALS_PWA_SHORT_TITLE: combinedConfig.language.shortTitle,
-  $SIGNALS_PWA_TITLE: combinedConfig.language.title,
-  $SIGNALS_SITE_TITLE: combinedConfig.language.siteTitle,
-  $SIGNALS_STATUS_BAR_STYLE: combinedConfig.head.statusBarStyle,
-  $SIGNALS_THEME_COLOR: combinedConfig.head.themeColor,
+  $SIGNALS_ANDROID_ICON: config.head.androidIcon,
+  $SIGNALS_BACKGROUND_COLOR: config.head.backgroundColor,
+  $SIGNALS_CONFIG: JSON.stringify(config),
+  $SIGNALS_FAVICON: config.head.favicon,
+  $SIGNALS_IOS_ICON: config.head.iosIcon,
+  $SIGNALS_MATOMO_SITE_ID: config.matomo.siteId,
+  $SIGNALS_MATOMO_URL_BASE: config.matomo.urlBase,
+  $SIGNALS_PWA_SHORT_TITLE: config.language.shortTitle,
+  $SIGNALS_PWA_TITLE: config.language.title,
+  $SIGNALS_SITE_TITLE: config.language.siteTitle,
+  $SIGNALS_STATUS_BAR_STYLE: config.head.statusBarStyle,
+  $SIGNALS_THEME_COLOR: config.head.themeColor,
 };
 
 const indexFile = '/usr/share/nginx/html/index.html';
