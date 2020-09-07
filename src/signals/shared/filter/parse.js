@@ -17,6 +17,16 @@ const arrayFields = [
   'type',
 ];
 
+export const parseDate = (dateString, timeString) => {
+  if (!dateString || !timeString) return null;
+
+  const strippedDateString = dateString.replace(new RegExp(`T${timeString}$`), '');
+  const parsedDate = parse(strippedDateString, 'yyyy-MM-dd', new Date());
+  if (isValid(parsedDate)) return `${format(parsedDate, 'yyyy-MM-dd')}T${timeString}`;
+
+  return null;
+};
+
 /**
  * Parse form data for consumption by global store actions
  *
@@ -35,7 +45,6 @@ export const parseOutputFormData = options =>
       case 'maincategory_slug':
         entryValue = value.map(({ slug }) => slug);
         break;
-
       case 'contact_details':
       case 'priority':
       case 'source':
@@ -45,21 +54,12 @@ export const parseOutputFormData = options =>
       case 'type':
         entryValue = value.map(({ key: itemKey }) => itemKey);
         break;
-
       case 'created_after':
-        if (isValid(parse(options.created_after, 'yyyy-MM-dd', new Date()))) {
-          entryValue = `${format(parse(options.created_after, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')}T00:00:00`;
-        }
-
+        entryValue = parseDate(options.created_after, '00:00:00');
         break;
-
       case 'created_before':
-        if (isValid(parse(options.created_before, 'yyyy-MM-dd', new Date()))) {
-          entryValue = `${format(parse(options.created_before, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')}T23:59:59`;
-        }
-
+        entryValue = parseDate(options.created_before, '23:59:59');
         break;
-
       default:
         entryValue = value;
     }
