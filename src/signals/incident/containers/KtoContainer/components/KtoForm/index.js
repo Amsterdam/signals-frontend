@@ -77,6 +77,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         formData: { ...state.formData, text: action.payload },
+        errors: { ...state.errors, text: undefined },
       };
     }
 
