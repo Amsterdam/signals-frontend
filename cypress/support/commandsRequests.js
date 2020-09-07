@@ -130,7 +130,7 @@ export const createSignalSorting01 = () => {
         stadsdeel: 'F',
       },
       category: {
-        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-gezonken-boot',
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/civiele-constructies/sub_categories/afwatering-brug',
       },
       reporter: {},
       incident_date_start: '2020-04-16T14:06:31+02:00',

@@ -33,7 +33,28 @@ describe('Manage users', () => {
     cy.get(USERS.inputNotitie).type('Dit is de belangrijkste gebruiker van SIA, let op!');
     cy.get(USERS.buttonOpslaan).click();
   });
-
+  it('Should change a user and show history', () => {
+    const randomNumber = Math.random();
+    cy.server();
+    cy.route('/signals/v1/private/users/*').as('getUser');
+    cy.route('PATCH', '/signals/v1/private/users/*').as('patchUser');
+    cy.get(USERS.userRow)
+      .eq(0)
+      .click();
+    cy.wait('@getUser');
+    cy.get(USERS.inputVoornaam).clear().type('Test');
+    cy.get(USERS.inputAchternaam).clear().type('Cees');
+    // Type a random number, because when you run this test multiple times, noting changes. If nothing changes you can't save.
+    cy.get(USERS.inputNotitie).clear().type(randomNumber);
+    cy.get(USERS.buttonOpslaan).click();
+    cy.wait('@patchUser');
+    cy.get(USERS.userRow)
+      .eq(0)
+      .click();
+    cy.wait('@getUser');
+    cy.get(USERS.historyAction).first().should('have.text', 'Voornaam gewijzigd:\n Test\nAchternaam gewijzigd:\n Cees');
+    cy.get(USERS.buttonAnnuleren).click();
+  });
   it('Should add a department to a user', () => {
     cy.server();
     cy.route('/signals/v1/private/users/*').as('getUser');
