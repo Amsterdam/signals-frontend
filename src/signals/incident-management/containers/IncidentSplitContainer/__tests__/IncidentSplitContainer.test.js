@@ -28,20 +28,20 @@ jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
 const formSubmissionValues = [
   {
     text: 'Foo bar',
-    category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+    sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
     priority: 'high',
     type: 'SIG',
   },
   {
     text: 'Bar baz',
-    category:
+    sub_category:
       'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/japanse-duizendknoop',
     priority: 'normal',
     type: 'REQ',
   },
   {
     text: 'Zork!!!1!',
-    category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+    sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
     priority: 'low',
     type: 'COM',
   },
@@ -138,18 +138,30 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     const lastCall = fetch.mock.calls.pop();
     const lastCallBody = JSON.parse(lastCall.pop().body);
 
+    const { stadsdeel, buurt_code, address, geometrie } = incidentFixture.location;
+
     const parentData = {
       extra_properties: incidentFixture.extra_properties,
       incident_date_end: incidentFixture.incident_date_end,
       incident_date_start: incidentFixture.incident_date_start,
-      location: incidentFixture.location,
+      location: { stadsdeel, buurt_code, address, geometrie },
       reporter: incidentFixture.reporter,
       source: incidentFixture.source,
       text_extra: incidentFixture.text_extra,
+      parent: incidentFixture.id,
     };
 
+    const expectedTransformedBecauseOfReasonsUnknownToManValues = formSubmissionValues.map(
+      ({ sub_category, text, type, priority }) => ({
+        category: { sub_category },
+        priority: { priority },
+        text,
+        type: { code: type },
+      })
+    );
+
     lastCallBody.forEach((partialIncidentData, index) => {
-      expect(partialIncidentData).toEqual(expect.objectContaining(formSubmissionValues[index]));
+      expect(partialIncidentData).toEqual(expect.objectContaining(expectedTransformedBecauseOfReasonsUnknownToManValues[index]));
       expect(partialIncidentData).toEqual(expect.objectContaining(parentData));
     });
   });
@@ -179,7 +191,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
   });
 
-  it('should display a global notification on POST fail', async() => {
+  it('should display a global notification on POST fail', async () => {
     fetch.resetMocks();
     fetch.once(JSON.stringify(incidentFixture)).mockReject(new Error('Whoops!!1!'));
 

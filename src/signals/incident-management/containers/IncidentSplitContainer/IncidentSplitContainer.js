@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,6 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import Form from './Form';
 
 const IncidentSplitContainer = ({ FormComponent }) => {
-  const [incidentData, setIncidentData] = useState();
   const { data, error, get, isLoading, isSuccess, post } = useFetch();
   const { id } = useParams();
   const history = useHistory();
@@ -22,12 +21,6 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   useEffect(() => {
     get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
   }, [get, id]);
-
-  useEffect(() => {
-    if (!data) return;
-
-    setIncidentData(data);
-  }, [data]);
 
   useEffect(() => {
     if (isSuccess === undefined || error === undefined) return;
@@ -50,7 +43,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     );
 
     history.push(`${INCIDENT_URL}/${id}`);
-  }, [error, isSuccess, storeDispatch, history, id]);
+  }, [error, history, id, isSuccess, storeDispatch]);
 
   const onSubmit = useCallback(
     /**
@@ -58,44 +51,47 @@ const IncidentSplitContainer = ({ FormComponent }) => {
      *
      * @param {Object[]} formData
      * @param {string} formData[].text
-     * @param {string} formData[].category
+     * @param {string} formData[].sub_category
      * @param {string} formData[].priority
      * @param {string} formData[].type
      */
     formData => {
-      const {
-        extra_properties,
-        incident_date_end,
-        incident_date_start,
-        location,
-        reporter,
-        source,
-        text_extra,
-      } = incidentData;
+      const { extra_properties, incident_date_end, incident_date_start, location, reporter, source, text_extra } = data;
+      const { stadsdeel, buurt_code, address, geometrie } = location;
 
       const parentData = {
         extra_properties,
         incident_date_end,
         incident_date_start,
-        location,
+        location: { stadsdeel, buurt_code, address, geometrie },
         reporter,
         source,
         text_extra,
       };
 
-      const mergedData = formData.reduce(
-        (acc, partialIncidentData) => [...acc, { ...parentData, ...partialIncidentData, parent: incidentData.id }],
-        []
-      );
+      const mergedData = formData.reduce((acc, { sub_category, text, type, priority }) => {
+        const partialData = {
+          category: { sub_category },
+          priority: { priority },
+          text,
+          type: { code: type },
+        };
+
+        return [...acc, { ...parentData, ...partialData, parent: data.id }];
+      }, []);
 
       post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
-    [post, incidentData]
+    [data, post]
   );
 
   return (
     <div data-testid="incidentSplitContainer">
-      {isLoading ? <LoadingIndicator /> : <FormComponent data-testid="incidentSplitForm" onSubmit={onSubmit} />}
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <FormComponent data-testid="incidentSplitForm" onSubmit={onSubmit} incident={data} />
+      )}
     </div>
   );
 };
