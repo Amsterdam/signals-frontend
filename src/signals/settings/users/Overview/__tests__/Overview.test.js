@@ -59,8 +59,6 @@ const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}, state
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
-    dispatch.mockReset();
-
     jest.spyOn(reactRouter, 'useParams').mockImplementation(() => ({ pageNum: 1 }));
 
     const push = jest.fn();
@@ -71,7 +69,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
     jest.useRealTimers();
     fetch.resetMocks();
-    dispatch.mockReset();
 
     fetch.mockResponse(JSON.stringify(usersJSON));
     global.window.scrollTo = scrollTo;
@@ -82,6 +79,10 @@ describe('signals/settings/users/containers/Overview', () => {
       push,
       scrollTo,
     };
+  });
+
+  afterEach(() => {
+    dispatch.mockReset();
   });
 
   it('should render "add user" button', async () => {
@@ -478,8 +479,7 @@ describe('signals/settings/users/containers/Overview', () => {
       fireEvent.change(filterByUserActiveSelect, { target: { value: filterValue } });
     });
 
-    expect(dispatch).toHaveBeenCalledTimes(1);
-    expect(dispatch).toHaveBeenCalledWith(setUserFilters({ is_active: filterValue }));
+    expect(dispatch).toHaveBeenLastCalledWith(setUserFilters({ is_active: filterValue }));
 
     expect(filterByUserActiveSelect.value).toBe(filterValue);
   });
@@ -499,10 +499,11 @@ describe('signals/settings/users/containers/Overview', () => {
 
     act(() => {
       fireEvent.change(filterByUserActiveSelect, { target: { value: userActiveFilterValue } });
-      fireEvent.change(filterByRoleSelect, { target: { value: roleFilterValue } });
     });
 
-    expect(dispatch).toHaveBeenCalledTimes(2);
+    act(() => {
+      fireEvent.change(filterByRoleSelect, { target: { value: roleFilterValue } });
+    });
 
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ is_active: userActiveFilterValue }));
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ role: roleFilterValue }));
