@@ -85,17 +85,17 @@ const UsersOverviewContainer = () => {
   );
 
   const createOnChangeFilter = useCallback(
-    filter => event => {
+    event => {
       const { value } = event.target;
-      if (filters[filter] === value) return;
+
       setUsernameFilter(value);
     },
-    [filters, setUsernameFilter]
+    [setUsernameFilter]
   );
 
   // linter complaining about the use of the debounce function
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnChangeFilter = useCallback(debounce(createOnChangeFilter('username'), 250), [createOnChangeFilter]);
+  const debouncedOnChangeFilter = useCallback(debounce(createOnChangeFilter, 250), [createOnChangeFilter]);
 
   const selectUserActiveOnChange = useCallback(
     event => {

@@ -70,7 +70,6 @@ RadioButtonList.defaultProps = {
   defaultValue: '',
   disabled: false,
   hasEmptySelectionButton: true,
-  onChange: () => {},
 };
 
 RadioButtonList.propTypes = {
@@ -87,7 +86,7 @@ RadioButtonList.propTypes = {
   groupName: PropTypes.string.isRequired,
   /** When false, will only render the passed in options instead of having an extra radio button with an empty value */
   hasEmptySelectionButton: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   /** Values to be rendered as checkbox elements */
   options: PropTypes.arrayOf(
     PropTypes.shape({
