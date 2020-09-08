@@ -30,6 +30,7 @@ const UserDetail = () => {
 
   const isExistingUser = userId !== undefined;
   const { isLoading, isSuccess, error, data, get, patch, post } = useFetch();
+  const history = useFetch();
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
   const redirectURL = location.referrer || routes.users;
   const userCanSubmitForm = (isExistingUser && userCan('change_user')) || (!isExistingUser && userCan('add_user'));
@@ -47,21 +48,23 @@ const UserDetail = () => {
   useEffect(() => {
     if (userId) {
       get(`${configuration.USERS_ENDPOINT}${userId}`);
+      history.get(`${configuration.USERS_ENDPOINT}${userId}/history`);
     }
     // disabling linter; only need to execute on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = useCallback(formData => {
-    if (isEqual(data, formData.form)) return;
+  const onSubmit = useCallback(
+    formData => {
+      if (isEqual(data, formData.form)) return;
 
-    if (isExistingUser) {
-      patch(`${configuration.USERS_ENDPOINT}${userId}`, formData.postPatch);
-    } else {
-      post(configuration.USERS_ENDPOINT, formData.postPatch);
-    }
-  },
-  [data, isExistingUser, patch, post, userId]
+      if (isExistingUser) {
+        patch(`${configuration.USERS_ENDPOINT}${userId}`, formData.postPatch);
+      } else {
+        post(configuration.USERS_ENDPOINT, formData.postPatch);
+      }
+    },
+    [data, isExistingUser, patch, post, userId]
   );
 
   const onCancel = useCallback(
@@ -80,10 +83,11 @@ const UserDetail = () => {
 
       {isLoading && <LoadingIndicator />}
 
-      <FormContainer>
+      <FormContainer data-testid="userDetailFormContainer">
         {shouldRenderForm && (
           <UserForm
             data={data}
+            history={history.data}
             onCancel={onCancel}
             onSubmit={onSubmit}
             readOnly={!userCanSubmitForm}

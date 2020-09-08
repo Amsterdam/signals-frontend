@@ -30,7 +30,7 @@ const StyledWrapper = styled.div`
   min-height: 800px;
 `;
 
-export const IncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
+export const LegacyIncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
   const { id } = useParams();
   const { isLoading, incident, attachments } = useFetchIncident(id);
 
@@ -63,7 +63,7 @@ export const IncidentSplitContainer = ({ onSplitIncident, onGoBack }) => {
   );
 };
 
-IncidentSplitContainer.propTypes = {
+LegacyIncidentSplitContainer.propTypes = {
   onSplitIncident: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired,
 };
@@ -82,4 +82,4 @@ const withConnect = connect(null, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentSplitContainer', reducer });
 const withSaga = injectSaga({ key: 'incidentSplitContainer', saga });
 
-export default compose(withReducer, withSaga, withConnect)(IncidentSplitContainer);
+export default compose(withReducer, withSaga, withConnect)(LegacyIncidentSplitContainer);

@@ -43,11 +43,9 @@ describe('Change category', () => {
 
       // Check if Categorieën page opens again
       cy.url().should('include', '/instellingen/categorieen/page/1');
+      // Load page again, because page refresh is very slow and test fails
+      cy.visit('/instellingen/categorieen/page/1');
       cy.checkHeaderText('Categorieën');
-
-      // Check day change, used a wait because it takes some time load change in workdays. There is no other solution.
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(1000);
       cy.get('[data-testid=dataViewBody] > [data-testid=dataViewBodyRow]', { timeout: 10000 })
         .first()
         .contains('4 dagen');
@@ -168,11 +166,9 @@ describe('Change category', () => {
 
       // Check if Categorieën page opens again
       cy.url().should('include', '/instellingen/categorieen/page/1');
+      // Load page again, because page refresh is very slow and test fails
+      cy.visit('/instellingen/categorieen/page/1');
       cy.checkHeaderText('Categorieën');
-
-      // Check day change, used a wait because it takes some time load change in workdays. There is no other solution.
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(1000);
       cy.get('[data-testid=dataViewBody] > [data-testid=dataViewBodyRow]', { timeout: 10000 })
         .first()
         .contains('5 werkdagen');

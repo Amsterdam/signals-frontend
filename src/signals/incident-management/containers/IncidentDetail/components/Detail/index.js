@@ -1,9 +1,8 @@
-import React, { useMemo, useContext } from 'react';
+import React, { Fragment, useMemo, useContext } from 'react';
 import styled from 'styled-components';
 import { themeColor, themeSpacing, Heading } from '@datapunt/asc-ui';
 
 import { attachmentsType } from 'shared/types';
-
 import { string2date, string2time } from 'shared/services/string-parser';
 
 import Location from './components/Location';
@@ -78,11 +77,15 @@ const Detail = ({ attachments }) => {
 
         {memoIncident.extra_properties && <ExtraProperties items={memoIncident.extra_properties} />}
 
-        <dt data-testid="detail-email-definition">E-mail melder</dt>
-        <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
+        <Fragment>
+          <dt data-testid="detail-phone-definition">Telefoon melder</dt>
+          <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
+        </Fragment>
 
-        <dt data-testid="detail-phone-definition">Telefoon melder</dt>
-        <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
+        <Fragment>
+          <dt data-testid="detail-email-definition">E-mail melder</dt>
+          <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
+        </Fragment>
 
         <dt data-testid="detail-sharing-definition">Toestemming contactgegevens delen</dt>
         <dd data-testid="detail-sharing-value">{incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}</dd>

@@ -1,3 +1,7 @@
+export const GET_DISTRICTS = 'sia/incidentManagement/GET_DISTRICTS';
+export const GET_DISTRICTS_FAILED = 'sia/incidentManagement/GET_DISTRICTS_FAILED';
+export const GET_DISTRICTS_SUCCESS = 'sia/incidentManagement/GET_DISTRICTS_SUCCESS';
+
 export const APPLY_FILTER = 'sia/incidentManagement/APPLY_FILTER';
 export const APPLY_FILTER_REFRESH = 'sia/incidentManagement/APPLY_FILTER_REFRESH';
 export const APPLY_FILTER_REFRESH_STOP = 'sia/incidentManagement/APPLY_FILTER_REFRESH_STOP';

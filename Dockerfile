@@ -29,7 +29,7 @@ COPY .gitignore \
       /app/
 
 # Install NPM dependencies, cleaning cache afterwards:
-RUN npm --production=false --unsafe-perm --no-progress ci && npm cache clean --force
+RUN CYPRESS_INSTALL_BINARY=0 npm --production=false --unsafe-perm --no-progress ci && npm cache clean --force
 
 COPY src /app/src
 
@@ -44,6 +44,9 @@ COPY assets /app/assets
 
 ARG GIT_BRANCH
 ENV GIT_BRANCH ${GIT_BRANCH}
+
+ARG BUILD_ENV
+ENV BUILD_ENV ${BUILD_ENV}
 
 ENV NODE_ENV=production
 RUN echo "run build"

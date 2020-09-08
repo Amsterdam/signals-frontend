@@ -1,22 +1,7 @@
-import {
-  all,
-  call,
-  delay,
-  put,
-  race,
-  select,
-  spawn,
-  take,
-  takeLatest,
-} from 'redux-saga/effects';
+import { all, call, delay, put, race, select, spawn, take, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router/immutable';
 
-import {
-  authCall,
-  authDeleteCall,
-  authPatchCall,
-  authPostCall,
-} from 'shared/services/api/api';
+import { authCall, authDeleteCall, authPatchCall, authPostCall } from 'shared/services/api/api';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
@@ -30,6 +15,8 @@ import {
   filterSaveSuccess,
   filterUpdatedFailed,
   filterUpdatedSuccess,
+  getDistrictsFailed,
+  getDistrictsSuccess,
   getFilters,
   getFiltersFailed,
   getFiltersSuccess,
@@ -46,6 +33,7 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   APPLY_FILTER,
+  GET_DISTRICTS,
   GET_FILTERS,
   ORDERING_CHANGED,
   PAGE_CHANGED,
@@ -57,12 +45,9 @@ import {
   PATCH_INCIDENT_SUCCESS,
 } from './constants';
 
-import { SPLIT_INCIDENT_SUCCESS } from './containers/IncidentSplitContainer/constants';
+import { SPLIT_INCIDENT_SUCCESS } from './containers/LegacyIncidentSplitContainer/constants';
 
-import {
-  makeSelectActiveFilter,
-  makeSelectFilterParams,
-} from './selectors';
+import { makeSelectActiveFilter, makeSelectFilterParams } from './selectors';
 
 export function* fetchProxy(action) {
   const searchQuery = yield select(makeSelectSearchQuery);
@@ -84,11 +69,7 @@ export function* fetchIncidents() {
 
     const params = yield select(makeSelectFilterParams);
 
-    const incidents = yield call(
-      authCall,
-      CONFIGURATION.INCIDENTS_ENDPOINT,
-      params
-    );
+    const incidents = yield call(authCall, CONFIGURATION.INCIDENTS_ENDPOINT, params);
 
     yield put(requestIncidentsSuccess(incidents));
 
@@ -144,6 +125,18 @@ export function* refreshIncidents(timeout = refreshRequestDelay) {
   }
 }
 
+export function* fetchDistricts() {
+  try {
+    const result = yield call(authCall, CONFIGURATION.AREAS_ENDPOINT, {
+      type_code: CONFIGURATION.areaTypeCodeForDistrict,
+    });
+
+    yield put(getDistrictsSuccess(result.results));
+  } catch (error) {
+    yield put(getDistrictsFailed(error.message));
+  }
+}
+
 export function* fetchFilters() {
   try {
     const result = yield call(authCall, CONFIGURATION.FILTERS_ENDPOINT);
@@ -170,11 +163,7 @@ export function* doSaveFilter(action) {
 
   try {
     if (filterData.name) {
-      const result = yield call(
-        authPostCall,
-        CONFIGURATION.FILTERS_ENDPOINT,
-        filterData
-      );
+      const result = yield call(authPostCall, CONFIGURATION.FILTERS_ENDPOINT, filterData);
 
       yield put(filterSaveSuccess(result));
       yield put(getFilters());
@@ -182,11 +171,7 @@ export function* doSaveFilter(action) {
       yield put(filterSaveFailed('No name supplied'));
     }
   } catch (error) {
-    if (
-      error.response &&
-      error.response.status >= 400 &&
-      error.response.status < 500
-    ) {
+    if (error.response && error.response.status >= 400 && error.response.status < 500) {
       yield put(filterSaveFailed('Invalid data supplied'));
     } else if (error.response && error.response.status >= 500) {
       yield put(filterSaveFailed('Internal server error'));
@@ -200,24 +185,16 @@ export function* doUpdateFilter(action) {
   const { name, refresh, id, options } = action.payload;
 
   try {
-    const result = yield call(
-      authPatchCall,
-      `${CONFIGURATION.FILTERS_ENDPOINT}${id}`,
-      {
-        name,
-        refresh,
-        options,
-      }
-    );
+    const result = yield call(authPatchCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`, {
+      name,
+      refresh,
+      options,
+    });
 
     yield put(filterUpdatedSuccess(result));
     yield put(getFilters());
   } catch (error) {
-    if (
-      error.response &&
-      error.response.status >= 400 &&
-      error.response.status < 500
-    ) {
+    if (error.response && error.response.status >= 400 && error.response.status < 500) {
       yield put(filterUpdatedFailed('Invalid data supplied'));
     } else if (error.response && error.response.status >= 500) {
       yield put(filterUpdatedFailed('Internal server error'));
@@ -237,6 +214,7 @@ export function* updateFilter(action) {
 
 export default function* watchIncidentManagementSaga() {
   yield all([
+    takeLatest(GET_DISTRICTS, fetchDistricts),
     takeLatest(GET_FILTERS, fetchFilters),
     takeLatest(REMOVE_FILTER, removeFilter),
     takeLatest(SAVE_FILTER, saveFilter),

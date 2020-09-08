@@ -24,6 +24,7 @@
     },
     "location": {
       "id": 1638,
+      "area_code": "north",
       "stadsdeel": "A",
       "buurt_code": "A04h",
       "address": {
@@ -91,6 +92,7 @@
     },
     "location": {
       "id": 1637,
+      "area_code": "south",
       "stadsdeel": "K",
       "buurt_code": "A04h",
       "address": {

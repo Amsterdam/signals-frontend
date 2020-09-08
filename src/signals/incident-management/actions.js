@@ -1,4 +1,7 @@
 import {
+  GET_DISTRICTS,
+  GET_DISTRICTS_FAILED,
+  GET_DISTRICTS_SUCCESS,
   SEARCH_INCIDENTS,
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
@@ -27,6 +30,20 @@ import {
   UPDATE_FILTER,
   PATCH_INCIDENT_SUCCESS,
 } from './constants';
+
+export const getDistricts = () => ({
+  type: GET_DISTRICTS,
+});
+
+export const getDistrictsFailed = payload => ({
+  type: GET_DISTRICTS_FAILED,
+  payload,
+});
+
+export const getDistrictsSuccess = payload => ({
+  type: GET_DISTRICTS_SUCCESS,
+  payload,
+});
 
 export const getFiltersSuccess = payload => ({
   type: GET_FILTERS_SUCCESS,

@@ -27,10 +27,10 @@ import './polyfills';
 
 import configureStore from './configureStore';
 
-const environment = process.env.NODE_ENV;
-
+const environment = process.env.BUILD_ENV;
 const dsn = configuration?.sentry?.dsn;
 const release = process.env.GIT_BRANCH;
+
 if (dsn) {
   Sentry.init({
     environment,
@@ -59,7 +59,7 @@ if (urlBase && siteId) {
 }
 
 const render = () => {
-  // eslint-disable-next-line no-undef,no-console
+  // eslint-disable-next-line no-console
   if (release) console.log(`Signals: tag ${release}`);
 
   ReactDOM.render(
