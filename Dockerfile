@@ -73,9 +73,8 @@ COPY default.conf /etc/nginx/conf.d/
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-COPY environment.base.conf.json /environment.base.conf.json
-COPY environment.conf.json /environment.conf.json
-COPY internals/schemas/environment.conf.schema.json /internals/schemas/environment.conf.schema.json
+COPY app.base.json /app.base.json
+COPY internals/schemas/app.schema.json /internals/schemas/app.schema.json
 COPY internals/scripts/validate-config.js /internals/scripts/validate-config.js
 COPY internals/scripts/inject-config.js /internals/scripts/inject-config.js
 COPY internals/scripts/helpers/config.js /internals/scripts/helpers/config.js

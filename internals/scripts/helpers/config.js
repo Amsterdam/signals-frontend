@@ -1,8 +1,10 @@
 const fs = require('fs');
 const merge = require('lodash.merge');
+const path = require('path');
 
-const baseConfig = require('../../../environment.base.conf.json');
-const extendedConfig = require('../../../environment.conf.json');
+const baseConfig = require('../../../app.base.json');
+const extendedConfigFile = path.join(__dirname, '..', '..', '..', 'app.json');
+const extendedConfig = fs.existsSync(extendedConfigFile) ? require(extendedConfigFile) : {};
 const config = merge({}, baseConfig, extendedConfig);
 
 const placeholders = {
