@@ -25,7 +25,7 @@ jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
   push,
 }));
 
-const formReturnValues = [
+const formSubmissionValues = [
   {
     text: 'Foo bar',
     category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
@@ -61,7 +61,7 @@ const renderAwait = async (component, testIdToLookFor = 'incidentSplitContainer'
 // eslint-disable-next-line
 const Form = ({ onSubmit, ...props }) => {
   const handleSubmit = () => {
-    onSubmit(formReturnValues);
+    onSubmit(formSubmissionValues);
   };
 
   return (
@@ -149,7 +149,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     };
 
     lastCallBody.forEach((partialIncidentData, index) => {
-      expect(partialIncidentData).toEqual(expect.objectContaining(formReturnValues[index]));
+      expect(partialIncidentData).toEqual(expect.objectContaining(formSubmissionValues[index]));
       expect(partialIncidentData).toEqual(expect.objectContaining(parentData));
     });
   });
