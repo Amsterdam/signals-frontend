@@ -47,7 +47,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const { sources } = useContext(AppContext);
   const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
-
   const [state, dispatch] = useReducer(reducer, filter, init);
 
   const isNewFilter = !filter.name;
@@ -295,7 +294,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             options={dataLists.status}
           />
 
-          {configuration.fetchDistrictsFromBackend ? (
+          {configuration.fetchDistrictsFromBackend && districts && (
             <CheckboxGroup
               defaultValue={state.options.area}
               label={configuration.language.district}
@@ -304,7 +303,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               onToggle={onGroupToggle}
               options={districts}
             />
-          ) : (
+          )}
+
+          {!configuration.fetchDistrictsFromBackend && (
             <CheckboxGroup
               defaultValue={state.options.stadsdeel}
               label="Stadsdeel"
@@ -351,6 +352,16 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="feedback"
             onChange={onRadioChange}
             options={dataLists.feedback}
+          />
+
+          <CheckboxGroup
+            defaultValue={state.options.kind}
+            hasToggle={false}
+            label="Soort"
+            name="kind"
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            options={dataLists.kind}
           />
 
           <FilterGroup>
