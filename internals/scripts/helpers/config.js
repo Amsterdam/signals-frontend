@@ -31,6 +31,7 @@ const inject = files =>
   );
 
 module.exports = {
+  baseConfig,
   config,
   inject,
 };
