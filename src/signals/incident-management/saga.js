@@ -45,7 +45,7 @@ import {
   PATCH_INCIDENT_SUCCESS,
 } from './constants';
 
-import { SPLIT_INCIDENT_SUCCESS } from './containers/IncidentSplitContainer/constants';
+import { SPLIT_INCIDENT_SUCCESS } from './containers/LegacyIncidentSplitContainer/constants';
 
 import { makeSelectActiveFilter, makeSelectFilterParams } from './selectors';
 
