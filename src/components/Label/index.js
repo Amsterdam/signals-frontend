@@ -10,7 +10,7 @@ const LabelWrapper = styled.div`
 `;
 
 const StyledLabel = styled.label`
-  font-family: 'Avenir Next LT W01 Demi', arial, sans-serif;
+  font-family: Avenir Next LT W01${({ inline }) => inline ? '-Regular' : ' Demi'}, arial, sans-serif;
   font-size: 16px;
   line-height: 25px;
   margin-bottom: 8px;
@@ -35,6 +35,7 @@ const Label = ({
 Label.defaultProps = {
   as: 'label',
   className: '',
+  inline: false,
   isGroupHeader: false,
 };
 
@@ -55,6 +56,8 @@ Label.propTypes = {
 
     return null;
   },
+  /** When true, will render the label with a plain font instead of a bold font */
+  inline: PropTypes.bool,
   /** When false, the Label component will render as an inline-block element without the red header colour */
   isGroupHeader: PropTypes.bool,
 };

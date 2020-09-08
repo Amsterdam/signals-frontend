@@ -11,6 +11,7 @@ exports[`<CopyFileInput /> should render correctly 1`] = `
       as="label"
       className=""
       htmlFor="formname"
+      inline={false}
       isGroupHeader={false}
     >
       display

@@ -132,12 +132,12 @@ const StatusForm = ({ defaultTexts }) => {
                 value={state.text.value || state.text.defaultValue}
               />
 
-              {state.errors?.text && <StyledErrorMessage data-testid="error" message={state.errors.text} />}
+              {state.errors?.text && <StyledErrorMessage data-testid="statusError" message={state.errors.text} />}
             </div>
 
-            {state.warning && <Notification warning data-testid="warning">{state.warning}</Notification>}
+            {state.warning && <Notification warning data-testid="statusWarning">{state.warning}</Notification>}
 
-            {isDeelmelding && <Notification warning data-testid="explanation">{constants.DEELMELDING_EXPLANATION}</Notification>}
+            {isDeelmelding && <Notification warning data-testid="statusExplanation">{constants.DEELMELDING_EXPLANATION}</Notification>}
 
             {!isDeelmelding && (
               <StyledLabel

@@ -1,24 +1,60 @@
 {
-  "yes": {
-    "ktoContainer": {
-      "form": {
-        "is_satisfied": true,
-        "yesNo": "ja"
-      },
-      "answers": {
-        "Antwoord JA": "Antwoord JA"
-      }
+  "_links": {
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/public/feedback/standard_answers/"
+    },
+    "next": {
+      "href": null
+    },
+    "previous": {
+      "href": null
     }
   },
-  "no": {
-    "ktoContainer": {
-      "form": {
-        "is_satisfied": false,
-        "yesNo": "nee"
-      },
-      "answers": {
-        "Antwoord NEE": "Antwoord NEE"
-      }
+  "count": 11,
+  "results": [
+    {
+      "is_satisfied": true,
+      "text": "Ik vond het gemakkelijk om een melding te doen"
+    },
+    {
+      "is_satisfied": false,
+      "text": "De behandeling duurde te lang"
+    },
+    {
+      "is_satisfied": false,
+      "text": "Het contact over de afhandeling was slecht"
+    },
+    {
+      "is_satisfied": false,
+      "text": "Ik voel mij niet serieus genomen door de gemeente"
+    },
+    {
+      "is_satisfied": false,
+      "text": "Er is niets met mijn melding gedaan"
+    },
+    {
+      "is_satisfied": false,
+      "text": "Ik heb onvoldoende / onjuiste informatie gekregen"
+    },
+    {
+      "is_satisfied": false,
+      "text": "De oplossing volstaat niet, mijn melding is niet opgelost"
+    },
+    {
+      "is_satisfied": true,
+      "text": "De communicatie over de behandeling van mijn melding ging goed"
+    },
+    {
+      "is_satisfied": true,
+      "text": "De gemeente heeft mijn melding goed opgepakt"
+    },
+    {
+      "is_satisfied": true,
+      "text": "Het probleem is verholpen"
+    },
+    {
+      "is_satisfied": true,
+      "text": "Mijn melding is snel opgepakt"
     }
-  }
+  ]
 }

@@ -254,7 +254,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that an error message is NOT shown
-    expect(queryByTestId('error')).not.toBeInTheDocument();
+    expect(queryByTestId('statusError')).not.toBeInTheDocument();
 
     // submit the form
     act(() => {
@@ -262,7 +262,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that an error message is shown
-    expect(getByTestId('error')).toBeInTheDocument();
+    expect(getByTestId('statusError')).toBeInTheDocument();
 
     // verify that 'update' and 'close' have NOT been called
     expect(update).not.toHaveBeenCalled();
@@ -298,7 +298,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     );
 
     // verify that an error message is NOT shown
-    expect(queryByTestId('error')).not.toBeInTheDocument();
+    expect(queryByTestId('statusError')).not.toBeInTheDocument();
 
     // submit the form
     act(() => {
@@ -306,7 +306,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that an error message is shown
-    expect(getByTestId('error')).toBeInTheDocument();
+    expect(getByTestId('statusError')).toBeInTheDocument();
 
     // select another status
     act(() => {
@@ -314,7 +314,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that an error message is NOT shown
-    expect(queryByTestId('error')).not.toBeInTheDocument();
+    expect(queryByTestId('statusError')).not.toBeInTheDocument();
   });
 
   it('shows a warning that is specific to certain statuses', () => {
@@ -329,7 +329,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that warning with text HEROPENED_EXPLANATION is visible
-    expect(getByTestId('warning').textContent).toEqual(HEROPENED_EXPLANATION);
+    expect(getByTestId('statusWarning').textContent).toEqual(HEROPENED_EXPLANATION);
 
     // select status 'o'
     act(() => {
@@ -337,7 +337,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that warning with text AFGEHANDELD_EXPLANATION is visible
-    expect(getByTestId('warning').textContent).toEqual(AFGEHANDELD_EXPLANATION);
+    expect(getByTestId('statusWarning').textContent).toEqual(AFGEHANDELD_EXPLANATION);
 
     // select status 'a'
     act(() => {
@@ -345,7 +345,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that warning with text GEANNULEERD_EXPLANATION is visible
-    expect(getByTestId('warning').textContent).toEqual(GEANNULEERD_EXPLANATION);
+    expect(getByTestId('statusWarning').textContent).toEqual(GEANNULEERD_EXPLANATION);
 
     // select a status that is none of the above
     const status = changeStatusOptionList
@@ -357,7 +357,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that no warning is shown
-    expect(queryByTestId('warning')).not.toBeInTheDocument();
+    expect(queryByTestId('statusWarning')).not.toBeInTheDocument();
   });
 
   it('shows a warning that is specific to a deelmelding', () => {
@@ -376,8 +376,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const { container, queryByTestId, getByTestId } = render(renderWithContext(deelmelding));
 
     // verify that warning with text DEELMELDING_EXPLANATION is visible
-    expect(getByTestId('explanation').textContent).toEqual(DEELMELDING_EXPLANATION);
-    expect(queryByTestId('warning')).not.toBeInTheDocument();
+    expect(getByTestId('statusExplanation').textContent).toEqual(DEELMELDING_EXPLANATION);
+    expect(queryByTestId('statusWarning')).not.toBeInTheDocument();
 
     // select a status that will show a warning (see: )
     act(() => {
@@ -385,10 +385,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     });
 
     // verify that two warning elements are visible
-    expect(getByTestId('explanation')).toBeInTheDocument();
-    expect(getByTestId('warning')).toBeInTheDocument();
+    expect(getByTestId('statusExplanation')).toBeInTheDocument();
+    expect(getByTestId('statusWarning')).toBeInTheDocument();
 
     // verify that explanation with text DEELMELDING_EXPLANATION is visible
-    expect(getByTestId('explanation').textContent).toEqual(DEELMELDING_EXPLANATION);
+    expect(getByTestId('statusExplanation').textContent).toEqual(DEELMELDING_EXPLANATION);
   });
 });
