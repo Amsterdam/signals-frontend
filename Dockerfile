@@ -8,9 +8,9 @@ WORKDIR /app
 
 # Run updates and cleanup
 RUN apt-get update && apt-get install -y \
-      netcat \
-      git && \
-      rm -rf /var/lib/apt/lists/*
+  netcat \
+  git && \
+  rm -rf /var/lib/apt/lists/*
 
 #  Changing git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://
@@ -19,14 +19,14 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 COPY internals /app/internals
 
 COPY .gitignore \
-      .gitattributes \
-      .eslintrc.js \
-      .prettierrc \
-      jest.config.js \
-      babel.config.js \
-      package.json \
-      package-lock.json \
-      /app/
+  .gitattributes \
+  .eslintrc.js \
+  .prettierrc \
+  jest.config.js \
+  babel.config.js \
+  package.json \
+  package-lock.json \
+  /app/
 
 # Install NPM dependencies, cleaning cache afterwards:
 RUN npm --production=false --unsafe-perm --no-progress ci && npm cache clean --force
@@ -78,9 +78,10 @@ COPY environment.conf.json /environment.conf.json
 COPY internals/schemas/environment.conf.schema.json /internals/schemas/environment.conf.schema.json
 COPY internals/scripts/validate-config.js /internals/scripts/validate-config.js
 COPY internals/scripts/inject-config.js /internals/scripts/inject-config.js
+COPY internals/scripts/helpers/config.js /internals/scripts/helpers/config.js
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-      && ln -sf /dev/stderr /var/log/nginx/error.log
+  && ln -sf /dev/stderr /var/log/nginx/error.log
 
 CMD ["/usr/local/bin/start.sh"]
