@@ -130,7 +130,7 @@ export const createSignalSorting01 = () => {
         stadsdeel: 'F',
       },
       category: {
-        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-gezonken-boot',
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/civiele-constructies/sub_categories/afwatering-brug',
       },
       reporter: {},
       incident_date_start: '2020-04-16T14:06:31+02:00',
@@ -162,5 +162,35 @@ export const createSignalSorting02 = () => {
       incident_date_start: '2020-04-16T14:06:31+02:00',
       text: 'We gaan veel sorteren',
     },
+  });
+};
+
+export const createSignalDeelmelding = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.9140405, 52.34718533] },
+        address: {
+          openbare_ruimte: 'Weesperzijde',
+          huisnummer: '159-1',
+          postcode: '1097DS',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-snel-varen',
+      },
+      reporter: {},
+      incident_date_start: '2020-07-16T14:06:31+02:00',
+      text: 'Wow, er vaart iemand te hard onder de Berlagebrug door, die BTW stuk is en er ligt ook nog eens een grote plas olie op het waterrr.',
+    },
+  }).its('body').then(body => {
+    const id = body.id;
+    Cypress.env('signalId', id);
+    cy.log(id);
   });
 };

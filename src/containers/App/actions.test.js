@@ -14,6 +14,9 @@ import {
   UPLOAD_FAILURE,
   SET_SEARCH_QUERY,
   RESET_SEARCH_QUERY,
+  GET_SOURCES,
+  GET_SOURCES_SUCCESS,
+  GET_SOURCES_FAILED,
 } from './constants';
 
 import {
@@ -29,6 +32,9 @@ import {
   uploadFailure,
   setSearchQuery,
   resetSearchQuery,
+  getSources,
+  getSourcesSuccess,
+  getSourcesFailed,
 } from './actions';
 
 describe('containers/App/actions', () => {
@@ -95,5 +101,23 @@ describe('containers/App/actions', () => {
 
   it('should dispatch resetSearchQuery action', () => {
     testActionCreator(resetSearchQuery, RESET_SEARCH_QUERY);
+  });
+
+  it('should dispatch getSourcesSuccess action', () => {
+    const foo = 'bar';
+    const payload = { foo };
+
+    testActionCreator(getSourcesSuccess, GET_SOURCES_SUCCESS, payload);
+  });
+
+  it('should dispatch getSourcesFailed action', () => {
+    const foo = 'bar';
+    const payload = { foo };
+
+    testActionCreator(getSourcesFailed, GET_SOURCES_FAILED, payload);
+  });
+
+  it('should dispatch getSources action', () => {
+    testActionCreator(getSources, GET_SOURCES);
   });
 });

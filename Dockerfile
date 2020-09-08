@@ -29,7 +29,7 @@ COPY .gitignore \
   /app/
 
 # Install NPM dependencies, cleaning cache afterwards:
-RUN npm --production=false --unsafe-perm --no-progress ci && npm cache clean --force
+RUN CYPRESS_INSTALL_BINARY=0 npm --production=false --unsafe-perm --no-progress ci && npm cache clean --force
 
 COPY src /app/src
 

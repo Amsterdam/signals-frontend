@@ -17,6 +17,7 @@ export const CHANGE_STATUS = {
   buttonCancel: '[data-testid=statusFormCancelButton]',
   buttonEdit: '[data-testid=editStatusButton]',
   buttonSubmit: '[data-testid=statusFormSubmitButton]',
+  checkboxSendEmail: '[data-testid="sendEmailCheckbox"]',
   currentStatus: '[data-testid="currentStatus"]',
   inputToelichting: '[data-testid=text]',
   radioButtonGemeld: '[data-testid=status-m]',
@@ -27,6 +28,7 @@ export const CHANGE_STATUS = {
   radioButtonAfgehandeld: '[data-testid=status-o]',
   radioButtonHeropend: '[data-testid=status-reopened]',
   radioButtonGeannuleerd: '[data-testid=status-a]',
+  statusNotification: '[data-testid="statusFormToelichting"]',
 };
 
 export const CHANGE_TYPE = {
@@ -49,6 +51,24 @@ export const CHANGE_URGENCY = {
   radioButtonNormaal: '[data-testid=input-normal]',
 };
 
+export const DEELMELDING = {
+  buttonAdd: '[data-testid="splitFormPartAdd"]',
+  buttonCreate: '[data-testid="splitFormSubmit"]',
+  buttonCancel: '[data-testid="splitFormCancel"]',
+  disclaimer: '[data-testid="splitFormBottomDisclaimer"]',
+  dropdownSubcategory01: '[data-testid="part1.subcategory"]',
+  dropdownSubcategory02: '[data-testid="part2.subcategory"]',
+  dropdownSubcategory03: '[data-testid="part3.subcategory"]',
+  inputDeelmeldingDescription01: '[data-testid="part1.text"]',
+  inputDeelmeldingDescription02: '[data-testid="part2.text"]',
+  inputDeelmeldingDescription03: '[data-testid="part3.text"]',
+  inputNote01: '[data-testid="part1.note"]',
+  inputNote02: '[data-testid="part2.note"]',
+  inputNote03: '[data-testid="part3.note"]',
+  notification: '[data-testid="notification"]',
+  titleDeelmelding: '[data-testid="incidentPartTitle"]',
+};
+
 export const SIGNAL_DETAILS = {
   addressCity: '[data-testid="location-value-address-city"]',
   addressStreet: '[data-testid="location-value-address-street"]',
@@ -56,12 +76,18 @@ export const SIGNAL_DETAILS = {
   buttonCancel: '[data-testid=cancelButton]',
   buttonCancelNote: '[data-testid=addNoteCancelNoteButton]',
   buttonCloseImageViewer: '[data-testid=closeButton]',
+  buttonCreateDeelmelding: '[data-testid="detail-header-button-split"]',
   buttonEdit: '[data-testid="editButton"]',
   buttonSaveNote: '[data-testid=addNoteSaveNoteButton]',
   buttonSubmit: '[data-testid=submitButton]',
   creationDate: '[data-testid=meta-list-date-value]',
+  deelmeldingen: '[data-testid="childIncidents"]',
+  deelmeldingId: '[class*=ChildIncidents__Li] > a > [title="id"]',
+  deelmeldingStatus: '[class*=ChildIncidents__Li] > a > [title="status"]',
+  deelmeldingCategory: '[class*=ChildIncidents__Li] > a > [title="category"]',
   descriptionText: '[data-testid="detail-title"]',
   email: '[data-testid="detail-email-value"]',
+  errorMessage: '[data-testid="error"]',
   historyAction: '[class*="History__Action"]',
   historyListItem: '[data-testid="history-list-item-description"]',
   imageLocation: '[data-testid=mapStaticImage]',
@@ -72,6 +98,7 @@ export const SIGNAL_DETAILS = {
   labelOverlast: '[class*=Detail__DefinitionList] > :nth-child(1)',
   labelTelefoon: '[data-testid=detail-phone-definition]',
   labelToestemming: '[data-testid=detail-sharing-definition]',
+  linkParent: '[data-testid="parentLink"]',
   linkTerugNaarOverzicht: '[data-testid=backlink]',
   mainCategory: '[data-testid="meta-list-main-category-value"]',
   phoneNumber: '[data-testid="detail-phone-value"]',
@@ -83,6 +110,7 @@ export const SIGNAL_DETAILS = {
   stadsdeel: '[data-testid="location-value-address-stadsdeel"]',
   status: '[data-testid="meta-list-status-value"]',
   subCategory: '[data-testid="meta-list-subcategory-value"]',
+  titleDeelmelding: '[class*= ChildIncidents__Title]',
   type: '[data-testid="meta-list-type-value"]',
   urgency: '[data-testid="meta-list-priority-value"]',
 };

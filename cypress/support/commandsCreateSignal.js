@@ -91,7 +91,7 @@ export const checkSummaryPage = () => {
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
   cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
   cy.contains(
-    'Ja, ik geef de gemeente Amsterdam toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.'
+    'Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.'
   ).should('be.visible');
   cy.get('body').then($body => {
     if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
@@ -185,18 +185,17 @@ export const setPhonenumber = phoneNumber => {
   }
 };
 
-export const uploadFile = (fileName, fileType = '', selector) => {
+export const uploadFile = (fileName, fileType, selector) => {
   cy.get(selector).then(subject => {
     // eslint-disable-next-line promise/no-nesting
-    cy.fixture(fileName, 'base64')
-      .then(Cypress.Blob.base64StringToBlob)
-      .then(blob => {
-        const el = subject[0];
-        const testFile = new File([blob], fileName, { type: fileType });
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(testFile);
-        el.files = dataTransfer.files;
-      });
+    cy.fixture(fileName, 'base64').then(file => {
+      const blob = Cypress.Blob.base64StringToBlob(file, 'image/png');
+      const el = subject[0];
+      const testFile = new File([blob], fileName, { type: fileType });
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(testFile);
+      el.files = dataTransfer.files;
+    });
   });
   cy.get(CREATE_SIGNAL.buttonUploadFile).trigger('change', { force: true });
 };

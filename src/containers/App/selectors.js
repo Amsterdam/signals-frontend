@@ -2,16 +2,16 @@ import { createSelector } from 'reselect';
 
 import { initialState } from './reducer';
 
-const selectGlobal = state => (state && state.get('global')) || initialState;
+export const selectGlobal = state => (state && state.get('global')) || initialState;
 
-const makeSelectUser = createSelector(selectGlobal, globalState => globalState.get('user').toJS());
+export const makeSelectUser = createSelector(selectGlobal, globalState => globalState.get('user').toJS());
 
 /**
  * Selector that returns the list of permissions for the current user
  *
  * @returns {Object[]} - All permissions from assigned roles combined with extra permissions
  */
-const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
+export const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
   const permissionMap = new Map();
 
   user.roles
@@ -29,7 +29,7 @@ const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
  *
  * @returns {String[]} - All permissions from assigned roles combined with extra permissions
  */
-const makeSelectUserPermissionCodeNames = createSelector(makeSelectUserPermissions, permissions =>
+export const makeSelectUserPermissionCodeNames = createSelector(makeSelectUserPermissions, permissions =>
   permissions.map(({ codename }) => codename)
 );
 
@@ -39,7 +39,7 @@ const makeSelectUserPermissionCodeNames = createSelector(makeSelectUserPermissio
  *
  * @returns {Function}
  */
-const makeSelectUserCan = createSelector(
+export const makeSelectUserCan = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   ({ is_superuser }, permissions) =>
     /**
@@ -56,7 +56,7 @@ const makeSelectUserCan = createSelector(
  *
  * @returns {Function}
  */
-const makeSelectUserCanAccess = createSelector(
+export const makeSelectUserCanAccess = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   ({ is_superuser }, permissions) =>
     /**
@@ -101,24 +101,23 @@ const makeSelectUserCanAccess = createSelector(
     }
 );
 
-const makeSelectLoading = () => createSelector(selectGlobal, globalState => globalState.get('loading'));
+export const makeSelectLoading = () => createSelector(selectGlobal, globalState => globalState.get('loading'));
 
-const makeSelectError = () => createSelector(selectGlobal, globalState => globalState.get('error'));
+export const makeSelectError = () => createSelector(selectGlobal, globalState => globalState.get('error'));
 
-const makeSelectNotification = () =>
+export const makeSelectNotification = () =>
   createSelector(selectGlobal, globalState => globalState.get('notification').toJS());
 
-const makeSelectSearchQuery = createSelector(selectGlobal, globalState => globalState.get('searchQuery'));
+export const makeSelectSearchQuery = createSelector(selectGlobal, globalState => globalState.get('searchQuery'));
 
-export {
-  makeSelectError,
-  makeSelectLoading,
-  makeSelectNotification,
-  makeSelectUser,
-  makeSelectUserCan,
-  makeSelectUserCanAccess,
-  makeSelectUserPermissionCodeNames,
-  makeSelectUserPermissions,
-  selectGlobal,
-  makeSelectSearchQuery,
-};
+export const makeSelectSources = createSelector(selectGlobal, globalState =>
+  globalState.get('sources').size
+    ? globalState
+      .get('sources')
+      .toJS()
+      .map(source => ({
+        key: String(source.id),
+        value: source.name,
+      }))
+    : null
+);

@@ -11,15 +11,14 @@ const dateTypeFactory = isRequired =>
   (props, propName, componentName) => {
     // eslint-disable-line implicit-arrow-linebreak
     const date = props[propName];
-    const errorMsg = msg =>
-      `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
+    const errorMsg = msg => `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
 
     if (date === undefined) {
-      return isRequired ?
-        new Error(
+      return isRequired
+        ? new Error(
           `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``
-        ) :
-        null;
+        )
+        : null;
     }
 
     if (!isDate(date)) {
@@ -36,7 +35,9 @@ const idOrKeyPropRequired = (props, propName, componentName) => {
   const { id, key } = props;
 
   if (id === undefined && key === undefined) {
-    return new Error(`Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`);
+    return new Error(
+      `Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`
+    );
   }
 
   return null;
@@ -67,6 +68,7 @@ export const apiFilterType = PropTypes.shape({
     feedback: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(PropTypes.string),
     priority: PropTypes.arrayOf(PropTypes.string),
+    area: PropTypes.arrayOf(PropTypes.string),
     stadsdeel: PropTypes.arrayOf(PropTypes.string),
     status: PropTypes.arrayOf(PropTypes.string),
   }),
@@ -88,6 +90,8 @@ export const filterType = PropTypes.shape({
     feedback: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(dataItemType),
     priority: PropTypes.arrayOf(dataItemType),
+    area: PropTypes.arrayOf(dataItemType),
+    source: PropTypes.arrayOf(dataItemType),
     stadsdeel: PropTypes.arrayOf(dataItemType),
     status: PropTypes.arrayOf(dataItemType),
   }),
@@ -286,11 +290,13 @@ export const departmentCategory = PropTypes.shape({
 
 export const departmentCategories = PropTypes.arrayOf(departmentCategory);
 
-export const permissionsType = PropTypes.arrayOf(PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  codename: PropTypes.string.isRequired,
-}));
+export const permissionsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    codename: PropTypes.string.isRequired,
+  })
+);
 
 export const linksType = PropTypes.shape({
   self: PropTypes.shape({
@@ -305,18 +311,22 @@ export const linksType = PropTypes.shape({
   'sia-pdf': PropTypes.shape({
     href: PropTypes.string.isRequired,
   }),
-  'sia-children': PropTypes.arrayOf(PropTypes.shape({
-    href: PropTypes.string.isRequired,
-  })),
+  'sia-children': PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+    })
+  ),
 }).isRequired;
 
-const userRolePermissionType = PropTypes.arrayOf(PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  codename: PropTypes.string.isRequired,
-  _display: PropTypes.string.isRequired,
-  _links: linksType,
-}));
+const userRolePermissionType = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    codename: PropTypes.string.isRequired,
+    _display: PropTypes.string.isRequired,
+    _links: linksType,
+  })
+);
 
 const userRoleType = PropTypes.shape({
   id: PropTypes.number.isRequired,

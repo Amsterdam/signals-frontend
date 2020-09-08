@@ -1,4 +1,5 @@
 {
+  "AREAS_ENDPOINT": "/signals/v1/private/areas/",
   "AUTH_ME_ENDPOINT": "/signals/v1/private/me/",
   "CATEGORIES_ENDPOINT": "/signals/v1/public/terms/categories/",
   "CATEGORIES_PRIVATE_ENDPOINT": "/signals/v1/private/categories/",
@@ -7,7 +8,6 @@
   "FEEDBACK_STANDARD_ANSWERS_ENDPOINT": "/signals/v1/public/feedback/standard_answers/",
   "FILTERS_ENDPOINT": "/signals/v1/private/me/filters/",
   "GEOGRAPHY_ENDPOINT": "/signals/v1/private/signals/geography",
-  "IMAGE_ENDPOINT": "/signals/signal/image/",
   "INCIDENTS_ENDPOINT": "/signals/v1/private/signals/",
   "INCIDENT_PRIVATE_ENDPOINT": "/signals/v1/private/signals/",
   "INCIDENT_PUBLIC_ENDPOINT": "/signals/v1/public/signals/",
@@ -16,6 +16,7 @@
   "QUESTIONS_ENDPOINT": "/signals/v1/public/questions/",
   "ROLES_ENDPOINT": "/signals/v1/private/roles/",
   "SEARCH_ENDPOINT": "/signals/v1/private/search",
+  "SOURCES_ENDPOINT": "/signals/v1/private/sources/",
   "TERMS_ENDPOINT": "/signals/v1/private/terms/categories/",
   "USERS_ENDPOINT": "/signals/v1/private/users/"
 }

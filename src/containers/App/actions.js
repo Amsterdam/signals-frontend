@@ -13,6 +13,9 @@ import {
   UPLOAD_FAILURE,
   SET_SEARCH_QUERY,
   RESET_SEARCH_QUERY,
+  GET_SOURCES,
+  GET_SOURCES_FAILED,
+  GET_SOURCES_SUCCESS,
 } from './constants';
 
 export const loginFailed = payload => ({
@@ -79,4 +82,18 @@ export const setSearchQuery = payload => ({
 
 export const resetSearchQuery = () => ({
   type: RESET_SEARCH_QUERY,
+});
+
+export const getSources = () => ({
+  type: GET_SOURCES,
+});
+
+export const getSourcesFailed = payload => ({
+  type: GET_SOURCES_FAILED,
+  payload,
+});
+
+export const getSourcesSuccess = payload => ({
+  type: GET_SOURCES_SUCCESS,
+  payload,
 });

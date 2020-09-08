@@ -6,7 +6,7 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 
-import { IncidentSplitContainer } from '.';
+import { LegacyIncidentSplitContainer } from '.';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -23,7 +23,7 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
 // multiple data providers and child components
 jest.mock('../../components/FieldControlWrapper', () => ({
   __esModule: true,
-  default: () => (<span />),
+  default: () => <span />,
 }));
 
 const attachments = {
@@ -44,7 +44,7 @@ const attachments = {
   ],
 };
 
-describe('<IncidentSplitContainer />', () => {
+describe('<LegacyIncidentSplitContainer />', () => {
   it('should render correctly', async () => {
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
@@ -57,7 +57,7 @@ describe('<IncidentSplitContainer />', () => {
     };
 
     const { queryByTestId, queryAllByTestId, findByTestId } = render(
-      withAppContext(<IncidentSplitContainer {...props} />)
+      withAppContext(<LegacyIncidentSplitContainer {...props} />)
     );
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
@@ -66,11 +66,8 @@ describe('<IncidentSplitContainer />', () => {
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
 
-    expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(
-      /^Deelmelding 1$/
-    );
-    expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(
-      /^Deelmelding 2$/
-    );
+    expect(queryAllByTestId('splitDetailTitle')[0]).toBeInTheDocument();
+    expect(queryAllByTestId('incidentPartTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
+    expect(queryAllByTestId('incidentPartTitle')[1]).toHaveTextContent(/^Deelmelding 2$/);
   });
 });

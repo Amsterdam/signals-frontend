@@ -524,28 +524,6 @@ export const controls = {
     },
     render: FormComponents.RadioInputGroup,
   },
-  extra_fietsrek_text: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'fietsrek-nietje',
-        extra_fietsrek_aanvragen: 'ja',
-      },
-      type: 'caution',
-      value: [
-        <DefinitionComponents.Concat
-          items={[
-            'Woont u in Nieuw-West of in Oost? Dan doet u uw aanvraag op een andere manier: kijk op de pagina ',
-            <DefinitionComponents.Anchor href="https://www.amsterdam.nl/veelgevraagd/?caseid=%7B9E33EFCF-E0C7-4565-B121-1ADCF803679B%7D">
-              Hoe kan ik een fietsenrek aanvragen?
-            </DefinitionComponents.Anchor>,
-            '.',
-          ]}
-        />,
-      ],
-      pathMerge: 'extra_properties',
-    },
-    render: FormComponents.PlainText,
-  },
   extra_fietsrek_aanvraag: {
     meta: {
       ifAllOf: {

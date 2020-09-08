@@ -1,132 +1,130 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
+import * as reactRouterDom from 'react-router-dom';
 
+import configuration from 'shared/services/configuration/configuration';
+import ktoFixture from 'utils/__tests__/fixtures/kto.json';
 import { withAppContext } from 'test/utils';
-import KTOContainer, { headerStrings, KtoContainerComponent, mapDispatchToProps } from '.';
-import {
-  REQUEST_KTO_ANSWERS, CHECK_KTO, STORE_KTO, UPDATE_KTO,
-} from './constants';
+import KTOContainer, { renderSections } from '.';
 
-jest.mock('./components/KtoForm', () => () => 'KtoForm');
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}));
 
-describe('<KtoContainer />', () => {
+const uuid = 'a7ec1966-1f88-0f9c-d0cb-c64a6f3b05c3';
+
+describe('signals/incident/containers/KtoContainer', () => {
+  beforeEach(() => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      satisfactionIndication: 'ja',
+      uuid,
+    }));
+  });
+
   afterEach(() => {
-    jest.resetAllMocks();
+    fetch.resetMocks();
   });
 
-  it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<KTOContainer />));
+  it('should render a loading indicator', async () => {
+    const { queryByTestId, getByTestId, findByTestId } = render(withAppContext(<KTOContainer />));
 
-    const containerProps = tree
-      .find(KtoContainerComponent)
-      .props();
+    expect(queryByTestId('ktoFormContainer')).not.toBeInTheDocument();
+    expect(getByTestId('loadingIndicator')).toBeInTheDocument();
 
-    expect(containerProps.ktoContainer).not.toBeUndefined();
+    await findByTestId('ktoFormContainer');
+
+    expect(getByTestId('ktoFormContainer')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
-  it('should have props from action creator', () => {
-    const tree = mount(withAppContext(<KTOContainer />));
+  it('should render "already filled out header"', async () => {
+    fetch.mockResponses([JSON.stringify({ detail: 'filled out' }), { status: 410 }]);
 
-    const containerProps = tree
-      .find(KtoContainerComponent)
-      .props();
+    const { getByText, findByTestId } = render(withAppContext(<KTOContainer />));
 
-    expect(containerProps.onUpdateKto).not.toBeUndefined();
-    expect(typeof containerProps.onUpdateKto).toEqual('function');
+    await findByTestId('ktoFormContainer');
 
-    expect(containerProps.onStoreKto).not.toBeUndefined();
-    expect(typeof containerProps.onStoreKto).toEqual('function');
-
-    expect(containerProps.requestKtoAnswersAction).not.toBeUndefined();
-    expect(typeof containerProps.requestKtoAnswersAction).toEqual('function');
-
-    expect(containerProps.requestKtoAnswersAction).not.toBeUndefined();
-    expect(typeof containerProps.requestKtoAnswersAction).toEqual('function');
+    expect(getByText(renderSections.FILLED_OUT.title)).toBeInTheDocument();
   });
 
-  describe('rendering', () => {
-    const containerProps = {
-      ktoContainer: {
-        ktoFinished: false,
-      },
-      onUpdateKto: jest.fn(),
-      onStoreKto: jest.fn(),
-      requestKtoAnswersAction: jest.fn(),
-      checkKtoAction: jest.fn(),
-      match: {
-        params: {
-          yesNo: 'ja',
-          uuid: '70923ee6-338b-c991-e74a-718cb243cc83',
-        },
-      },
-    };
+  it('should render "too late"', async () => {
+    fetch.mockResponses([JSON.stringify({ detail: 'too late' }), { status: 410 }]);
 
-    it('should render yes header correctly', () => {
-      const { queryByText } = render(withAppContext(<KtoContainerComponent {...containerProps} />));
+    const { getByText, findByTestId } = render(withAppContext(<KTOContainer />));
 
-      expect(queryByText(headerStrings.ja)).not.toBeNull();
-    });
+    await findByTestId('ktoFormContainer');
 
-    it('should render no header correctly', () => {
-      containerProps.match.params.yesNo = 'nee';
-      const { queryByText } = render(withAppContext(<KtoContainerComponent {...containerProps} />));
-
-      expect(queryByText(headerStrings.nee)).not.toBeNull();
-    });
-
-    it('should render finished header correctly', () => {
-      containerProps.match.params.yesNo = 'finished';
-      const { queryByText } = render(withAppContext(<KtoContainerComponent {...containerProps} />));
-
-      expect(queryByText(headerStrings.finished)).not.toBeNull();
-
-      containerProps.ktoContainer.ktoFinished = false;
-    });
-
-    it('should render empty header correctly', () => {
-      containerProps.ktoContainer.ktoFinished = true;
-      const { queryByText } = render(withAppContext(<KtoContainerComponent {...containerProps} />));
-
-      expect(queryByText(headerStrings.finished)).not.toBeNull();
-    });
-
-    it('should render too late error header correctly', () => {
-      containerProps.ktoContainer.statusError = 'too late';
-      const { queryByText } = render(withAppContext(<KtoContainerComponent {...containerProps} />));
-
-      expect(queryByText(headerStrings.tooLate)).not.toBeNull();
-    });
-
-    it('should render filled out error header correctly', () => {
-      containerProps.ktoContainer.statusError = 'filled out';
-      const { queryByText } = render(withAppContext(<KtoContainerComponent {...containerProps} />));
-
-      expect(queryByText(headerStrings.filledOut)).not.toBeNull();
-    });
+    expect(getByText(renderSections.TOO_LATE.title)).toBeInTheDocument();
   });
 
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
+  it('should render "not found"', async () => {
+    fetch.mockResponses([JSON.stringify({ detail: 'not found' }), { status: 410 }]);
 
-    it('should get answers', () => {
-      mapDispatchToProps(dispatch).requestKtoAnswersAction('nee');
-      expect(dispatch).toHaveBeenCalledWith({ type: REQUEST_KTO_ANSWERS, payload: 'nee' });
+    const { getByText, findByTestId } = render(withAppContext(<KTOContainer />));
+
+    await findByTestId('ktoFormContainer');
+
+    expect(getByText(renderSections.NOT_FOUND.title)).toBeInTheDocument();
+  });
+
+  it('should render a correct header', async () => {
+    fetch.mockResponses([JSON.stringify({}), { status: 200 }], [JSON.stringify(ktoFixture), { status: 200 }]);
+
+    const { getByText, findByTestId, rerender } = render(withAppContext(<KTOContainer />));
+
+    await findByTestId('ktoFormContainer');
+
+    expect(getByText(/ja, ik ben/i)).toBeInTheDocument();
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+      uuid,
+    }));
+
+    rerender(withAppContext(<KTOContainer />));
+
+    await findByTestId('ktoFormContainer');
+
+    expect(getByText(/nee, ik ben niet/i)).toBeInTheDocument();
+  });
+
+  it('should PUT form data', async () => {
+    fetch.mockResponses(
+      [JSON.stringify({}), { status: 200 }], // 'GET'
+      [JSON.stringify(ktoFixture), { status: 200 }], // 'GET'
+      [JSON.stringify({}), { status: 200 }] // 'PUT'
+    );
+
+    const successHeaderText = 'Bedankt voor uw feedback!';
+    const { container, findByTestId, queryByText, getByText } = render(withAppContext(<KTOContainer />));
+
+    await findByTestId('ktoFormContainer');
+
+    // assuming the form renders a list of radio buttons and that only a checked button in that list is required
+
+    act(() => {
+      fireEvent.click(container.querySelector('input[type="radio"]'));
     });
 
-    it('should update kto', () => {
-      mapDispatchToProps(dispatch).onUpdateKto({ text: 'foo' });
-      expect(dispatch).toHaveBeenCalledWith({ type: UPDATE_KTO, payload: { text: 'foo' } });
+    const ktoSubmit = await findByTestId('ktoSubmit');
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(queryByText(successHeaderText)).not.toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(ktoSubmit);
     });
 
-    it('should check kto', () => {
-      mapDispatchToProps(dispatch).checkKtoAction({ text: 'bar' });
-      expect(dispatch).toHaveBeenCalledWith({ type: CHECK_KTO, payload: { text: 'bar' } });
-    });
+    await findByTestId('ktoFormContainer');
 
-    it('should store kto', () => {
-      mapDispatchToProps(dispatch).onStoreKto({ text: 'baz' });
-      expect(dispatch).toHaveBeenCalledWith({ type: STORE_KTO, payload: { text: 'baz' } });
-    });
+    expect(fetch).toHaveBeenCalledTimes(3);
+
+    expect(fetch).toHaveBeenLastCalledWith(
+      `${configuration.FEEDBACK_FORMS_ENDPOINT}${uuid}`,
+      expect.objectContaining({ method: 'PUT', body: expect.objectContaining({}) })
+    );
+
+    expect(getByText(successHeaderText)).toBeInTheDocument();
   });
 });

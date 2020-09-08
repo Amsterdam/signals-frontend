@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import MapInputComponent from 'components/MapInput';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import configuration from 'shared/services/configuration/configuration';
 import { formatMapLocation } from 'shared/services/map-location';
 
 import Label from 'components/Label';
@@ -14,9 +15,11 @@ export const MapInput = props => {
   const render = ({ handler }) => {
     const value = formatMapLocation(handler().value || {});
     const { lat, lng } = value?.location || {};
+    const defaultCenter = configuration.map.optionsBackOffice?.center || MAP_OPTIONS.center;
     const mapOptions = {
       ...MAP_OPTIONS,
-      center: lat && lng ? [lat, lng] : [...MAP_OPTIONS.center],
+      ...configuration.map.optionsBackOffice || {},
+      center: lat && lng ? [lat, lng] : [...defaultCenter],
     };
 
     const onLocationChange = location => {

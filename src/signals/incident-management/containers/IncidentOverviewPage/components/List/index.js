@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -10,14 +10,28 @@ import { Icon } from '@datapunt/asc-ui';
 import { string2date, string2time } from 'shared/services/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import * as types from 'shared/types';
+import configuration from 'shared/services/configuration/configuration';
 import { statusList } from 'signals/incident-management/definitions';
+
+import IncidentManagementContext from '../../../../context';
+
+const getDaysOpen = incident => {
+  const statusesWithoutDaysOpen = statusList
+    .filter(({ shows_remaining_sla_days }) => shows_remaining_sla_days === false)
+    .map(({ key }) => key);
+  const hasDaysOpen = incident.status && !statusesWithoutDaysOpen.includes(incident.status.state);
+  const start = hasDaysOpen && parseISO(incident.created_at);
+  return hasDaysOpen ? -differenceInCalendarDays(start, new Date()) : '-';
+};
 
 const Wrapper = styled.div`
   width: 100%;
 
-  ${({ loading }) => loading && css`
-    opacity: 0.3;
-  `}
+  ${({ loading }) =>
+    loading &&
+    css`
+      opacity: 0.3;
+    `}
 `;
 
 const Table = styled.table`
@@ -81,41 +95,27 @@ const Th = styled.th`
 `;
 
 const List = ({ className, incidents, loading, onChangeOrdering, priority, sort, stadsdeel, status }) => {
-  const onSort = useCallback(
-    srt => () => {
-      const sortIsAsc = sort?.indexOf(srt) === 0;
+  const { districts } = useContext(IncidentManagementContext);
 
-      onChangeOrdering(sortIsAsc ? `-${srt}` : srt);
+  const onSort = useCallback(
+    newSort => () => {
+      const sortIsAsc = sort?.indexOf(newSort) === 0;
+      onChangeOrdering(sortIsAsc ? `-${newSort}` : newSort);
     },
     [onChangeOrdering, sort]
   );
 
-  const getDaysOpen = useCallback(incident => {
-    const statusesWithoutDaysOpen = statusList
-      .filter(({ shows_remaining_sla_days }) => shows_remaining_sla_days === false)
-      .map(({ key }) => key);
-
-    if (incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)) {
-      const start = parseISO(incident.created_at);
-      return -differenceInCalendarDays(start, new Date());
-    }
-
-    return '-';
-  }, []);
-
   const renderChevron = useCallback(
     column => {
       const currentSort = sort?.split(',')[0];
-
-      if (currentSort?.indexOf(column) < 0) return null;
-
+      const isColumnSorted = currentSort?.indexOf(column) > -1;
       const sortDirection = currentSort?.charAt(0) === '-' ? 'down' : 'up';
 
-      return (
+      return isColumnSorted ? (
         <Icon inline size={12}>
           {sortDirection === 'up' ? <ChevronDown /> : <ChevronUp />}
         </Icon>
-      );
+      ) : null;
     },
     [sort]
   );
@@ -125,14 +125,36 @@ const List = ({ className, incidents, loading, onChangeOrdering, priority, sort,
       <Table cellSpacing="0">
         <thead>
           <tr>
-            <Th data-testid="sortId" onClick={onSort('id')}>Id {renderChevron('id')}</Th>
-            <Th data-testid="sortDaysOpen" onClick={onSort('days_open')}>Dag {renderChevron('days_open')}</Th>
-            <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>Datum en tijd {renderChevron('created_at')}</Th>
-            <Th data-testid="sortStadsdeel" onClick={onSort('stadsdeel,-created_at')}>Stadsdeel {renderChevron('stadsdeel')}</Th>
-            <Th data-testid="sortSubcategory" onClick={onSort('sub_category,-created_at')}>Subcategorie {renderChevron('sub_category')}</Th>
-            <Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>Status {renderChevron('status')}</Th>
-            <Th data-testid="sortPriority" onClick={onSort('priority,-created_at')}>Urgentie {renderChevron('priority')}</Th>
-            <Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>Adres {renderChevron('address')}</Th>
+            <Th data-testid="sortId" onClick={onSort('id')}>
+              Id {renderChevron('id')}
+            </Th>
+            <Th data-testid="sortDaysOpen" onClick={onSort('days_open')}>
+              Dag {renderChevron('days_open')}
+            </Th>
+            <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
+              Datum en tijd {renderChevron('created_at')}
+            </Th>
+            {configuration.fetchDistrictsFromBackend ? (
+              <Th data-testid="sortDistrict" onClick={onSort('district,-created_at')}>
+                {configuration.language.district} {renderChevron('district')}
+              </Th>
+            ) : (
+              <Th data-testid="sortStadsdeel" onClick={onSort('stadsdeel,-created_at')}>
+                Stadsdeel {renderChevron('stadsdeel')}
+              </Th>
+            )}
+            <Th data-testid="sortSubcategory" onClick={onSort('sub_category,-created_at')}>
+              Subcategorie {renderChevron('sub_category')}
+            </Th>
+            <Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>
+              Status {renderChevron('status')}
+            </Th>
+            <Th data-testid="sortPriority" onClick={onSort('priority,-created_at')}>
+              Urgentie {renderChevron('priority')}
+            </Th>
+            <Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
+              Adres {renderChevron('address')}
+            </Th>
           </tr>
         </thead>
         <tbody>
@@ -153,7 +175,9 @@ const List = ({ className, incidents, loading, onChangeOrdering, priority, sort,
                 </td>
                 <td>
                   <Link to={detailLink}>
-                    {getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
+                    {configuration.fetchDistrictsFromBackend
+                      ? getListValueByKey(districts, incident.location && incident.location.area_code)
+                      : getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
                   </Link>
                 </td>
                 <td>

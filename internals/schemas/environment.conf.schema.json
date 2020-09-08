@@ -1,37 +1,30 @@
 {
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "$ref": "#/definitions/Test",
+  "$ref": "#/definitions/Config",
   "definitions": {
-    "Test": {
+    "Config": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "head": {
-          "$ref": "#/definitions/Head"
+        "apiBaseUrl": {
+          "description": "The base URL of the signals API",
+          "type": "string",
+          "format": "uri"
         },
-        "logo": {
-          "$ref": "#/definitions/Logo"
+        "areaTypeCodeForDistrict": {
+          "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
+          "type": "string"
         },
-        "sentry": {
-          "$ref": "#/definitions/Sentry"
-        },
-        "matomo": {
-          "$ref": "#/definitions/Matomo"
-        },
-        "language": {
-          "$ref": "#/definitions/Language"
-        },
-        "links": {
-          "$ref": "#/definitions/Links"
-        },
-        "theme": {
-          "$ref": "#/definitions/Theme"
-        },
-        "map": {
-          "$ref": "#/definitions/Map"
+        "fetchDistrictsFromBackend": {
+          "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
+          "type": "boolean"
         },
         "fetchQuestionsFromBackend": {
           "description": " When true, will bypass getting the configuration for the incident submission form questions from local modules. Instead, a request to an API endpoint is made to retrieve the configuration. See [QUESTIONS_ENDPOINT](#QUESTIONS_ENDPOINT)",
+          "type": "boolean"
+        },
+        "fetchSourcesFromBackend": {
+          "description": " When true, the possible sources an incident can originate from will be fetched from the backend. See [SOURCES_ENDPOINT](#SOURCES_ENDPOINT)",
           "type": "boolean"
         },
         "showVulaanControls": {
@@ -42,31 +35,66 @@
           "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
         },
-        "apiBaseUrl": {
-          "description": "The base URL of the signals API",
-          "type": "string",
-          "format": "uri"
+        "head": {
+          "$ref": "#/definitions/Head"
+        },
+        "language": {
+          "$ref": "#/definitions/Language"
+        },
+        "links": {
+          "$ref": "#/definitions/Links"
+        },
+        "logo": {
+          "$ref": "#/definitions/Logo"
+        },
+        "map": {
+          "$ref": "#/definitions/Map"
+        },
+        "matomo": {
+          "$ref": "#/definitions/Matomo"
         },
         "oidc": {
           "$ref": "#/definitions/Oidc"
+        },
+        "sentry": {
+          "$ref": "#/definitions/Sentry"
+        },
+        "theme": {
+          "$ref": "#/definitions/Theme"
         }
       },
       "required": [
+        "apiBaseUrl",
+        "fetchDistrictsFromBackend",
+        "fetchQuestionsFromBackend",
+        "fetchSourcesFromBackend",
         "head",
-        "logo",
-        "sentry",
-        "matomo",
         "language",
         "links",
-        "theme",
+        "logo",
         "map",
-        "fetchQuestionsFromBackend",
+        "oidc",
         "showVulaanControls",
-        "useStaticMapServer",
-        "apiBaseUrl",
-        "oidc"
+        "theme",
+        "useStaticMapServer"
       ],
-      "title": "Test"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "fetchDistrictsFromBackend": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "areaTypeCodeForDistrict"
+            ]
+          }
+        }
+      ],
+      "title": "Config"
     },
     "Head": {
       "type": "object",
@@ -120,6 +148,10 @@
           "description": "The message to ask for consent to share contact information",
           "type": "string"
         },
+        "district": {
+          "description": "The label for the district (stadsdeel/wijk)",
+          "type": "string"
+        },
         "footer1": {
           "description": "Extra information to show in the footer of the application",
           "type": "string"
@@ -160,6 +192,7 @@
       "required": [
         "avgDisclaimer",
         "consentToContactSharing",
+        "district",
         "footer1",
         "footer2",
         "headerTitle",
@@ -294,10 +327,9 @@
       "required": [
         "municipality",
         "options",
-        "optionsBackOffice",
-        "tiles",
         "staticUrl",
-        "layers"
+        "layers",
+        "tiles"
       ],
       "title": "Map"
     },
@@ -344,15 +376,20 @@
       "additionalProperties": false,
       "properties": {
         "authEndpoint": {
+          "description": "URL for the oAuth2 service",
+          "format": "uri",
           "type": "string"
         },
         "clientId": {
+          "description": "oAuth2 `client_id` service parameter value",
           "type": "string"
         },
         "responseType": {
+          "description": "oAuth2 `response_type` service parameter value",
           "type": "string"
         },
         "scope": {
+          "description": "oAuth2 `scope` service parameter value (specific to `signals-amsterdam` and `signals-weesp` implementations)",
           "type": "string"
         }
       }
@@ -361,6 +398,12 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "center": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
         "maxZoom": {
           "type": "integer"
         },
@@ -371,11 +414,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "maxZoom",
-        "minZoom",
-        "zoom"
-      ],
+      "required": [],
       "title": "OptionsBackOffice"
     },
     "Tiles": {
@@ -419,7 +458,6 @@
       },
       "required": [
         "attribution",
-        "subdomains",
         "tms"
       ],
       "title": "TilesOptions"
@@ -460,9 +498,9 @@
       "title": "Sentry"
     },
     "Theme": {
-      "description": "Configuration object that is merged with the application's theme provider configuration and will override any existing theme configuration. See the `amsterdam styled components theme configuration (https://github.com/Amsterdam/amsterdam-styled-components/blob/master/packages/asc-ui/src/theme/default/index.ts) for the structure of the object.\n\nUsed in the `ThemeProvider` component (src/components/ThemeProvider/index.js)",
+      "description": "Configuration object that is merged with the application's theme provider configuration and will override any existing theme configuration. See the `amsterdam styled components theme configuration (https://github.com/Amsterdam/amsterdam-styled-components/blob/master/packages/asc-ui/src/theme/default/index.ts) for the structure of the object.\n\nUsed in the `ThemeProvider` component (src/components/ThemeProvider/index.js). For more information on the options see: https://github.com/Amsterdam/amsterdam-styled-components/tree/master/packages/asc-ui/src/theme",
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "title": "Theme"
     }
   }

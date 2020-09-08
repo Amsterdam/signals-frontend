@@ -65,19 +65,25 @@ describe('components/PDOKAutoSuggest', () => {
   describe('municipality', () => {
     it('should call fetch without municipality by default', async () => {
       await renderAndSearch();
-      expect(fetch).toHaveBeenCalledWith(expect.not.stringContaining(municipalityQs), expect.anything());
+      expect(fetch).toHaveBeenCalledWith(
+        expect.not.stringContaining(municipalityQs),
+        expect.objectContaining({ method: 'GET' })
+      );
     });
 
     it('should call fetch with municipality', async () => {
       await renderAndSearch('Dam', { municipality: 'amsterdam' });
-      expect(fetch).toHaveBeenCalledWith(expect.stringContaining(`${municipalityQs}"amsterdam"`), expect.anything());
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`${municipalityQs}"amsterdam"`),
+        expect.objectContaining({ method: 'GET' })
+      );
     });
 
     it('should work with an array for municipality', async () => {
       await renderAndSearch('Dam', { municipality: ['utrecht', 'amsterdam'] });
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}"utrecht" "amsterdam"`),
-        expect.anything()
+        expect.objectContaining({ method: 'GET' })
       );
     });
   });
@@ -87,7 +93,7 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch();
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${fieldListQs}${defaultFieldsQs}`),
-        expect.anything()
+        expect.objectContaining({ method: 'GET' })
       );
     });
 
@@ -95,7 +101,7 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch('Dam', { fieldList: ['name', 'type'] });
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${fieldListQs}name,type,${defaultFieldsQs}`),
-        expect.anything()
+        expect.objectContaining({ method: 'GET' })
       );
     });
   });

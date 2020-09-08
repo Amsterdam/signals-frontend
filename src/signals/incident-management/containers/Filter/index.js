@@ -6,7 +6,7 @@ import { compose, bindActionCreators } from 'redux';
 
 import { makeSelectEditFilter } from 'signals/incident-management/selectors';
 import FilterForm from 'signals/incident-management/components/FilterForm';
-import * as types from 'shared/types';
+import { filterType } from 'shared/types';
 
 import {
   applyFilter,
@@ -43,7 +43,7 @@ export const FilterContainerComponent = ({
 };
 
 FilterContainerComponent.propTypes = {
-  filter: types.filterType.isRequired,
+  filter: filterType.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onClearFilter: PropTypes.func.isRequired,

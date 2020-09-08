@@ -16,6 +16,10 @@ const Wrapper = styled.div`
 
 const StyledInput = styled(Input)`
   outline: 2px solid rgb(0,0,0,0.1);
+
+  & > * {
+    margin: 0;
+  }
 `;
 
 const AbsoluteList = styled(SuggestList)`

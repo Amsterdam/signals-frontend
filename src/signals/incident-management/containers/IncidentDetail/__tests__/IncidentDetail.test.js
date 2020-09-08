@@ -201,6 +201,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   it('should render correctly', async () => {
     const { queryByTestId, getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
 
+    expect(queryByTestId('detail-location')).not.toBeInTheDocument();
     expect(queryByTestId('attachmentsDefinition')).not.toBeInTheDocument();
     expect(queryByTestId('history')).not.toBeInTheDocument();
     expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
@@ -208,6 +209,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await findByTestId('incidentDetail');
 
+    expect(queryByTestId('detail-location')).toBeInTheDocument();
     expect(getByTestId('attachmentsDefinition')).toBeInTheDocument();
     expect(getByTestId('history')).toBeInTheDocument();
     expect(getByTestId('mapStatic')).toBeInTheDocument();

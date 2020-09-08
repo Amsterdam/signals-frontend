@@ -14,6 +14,7 @@ import HighLight from '../../../Highlight';
 import EditButton from '../../../EditButton';
 import IconEdit from '../../../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../../../context';
+import IncidentManagementContext from '../../../../../../context';
 
 const mapWidth = 80;
 const mapHeight = 80;
@@ -54,6 +55,7 @@ const StyledMap = styled(MapDetail)`
 `;
 
 const Location = ({ location }) => {
+  const { districts } = useContext(IncidentManagementContext);
   const { preview, edit } = useContext(IncidentDetailContext);
   const latitude = location?.geometrie?.coordinates[1];
   const longitude = location?.geometrie?.coordinates[0];
@@ -100,7 +102,12 @@ const Location = ({ location }) => {
 
           {location.address_text ? (
             <div>
-              {location.stadsdeel && (
+              {configuration.fetchDistrictsFromBackend && location.area_code && districts && (
+                <div data-testid="location-value-address-stadsdeel">
+                  {configuration.language.district}: {getListValueByKey(districts, location.area_code)}
+                </div>
+              )}
+              {!configuration.fetchDistrictsFromBackend && location.stadsdeel && (
                 <div data-testid="location-value-address-stadsdeel">
                   Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
                 </div>

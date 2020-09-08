@@ -46,8 +46,7 @@ sizes.forEach(size => {
       cy.get(SIGNAL_DETAILS.buttonAddNote).should('not.be.visible');
       cy.get(SIGNAL_DETAILS.inputNoteText).should('be.visible');
       cy.get(SIGNAL_DETAILS.buttonSaveNote)
-        .should('be.visible')
-        .and('be.disabled');
+        .should('be.visible');
 
       cy.get(SIGNAL_DETAILS.buttonCancelNote)
         .should('be.visible')
@@ -57,6 +56,13 @@ sizes.forEach(size => {
       cy.get(SIGNAL_DETAILS.inputNoteText).should('not.be.visible');
       cy.get(SIGNAL_DETAILS.buttonSaveNote).should('not.be.visible');
       cy.get(SIGNAL_DETAILS.buttonCancelNote).should('not.be.visible');
+    });
+    it('Should show an error message when saving a note without content', () => {
+      cy.get(SIGNAL_DETAILS.buttonAddNote).click();
+      cy.get(SIGNAL_DETAILS.buttonSaveNote).click();
+      cy.get(SIGNAL_DETAILS.errorMessage).should('have.text', 'Dit veld is verplicht')
+        .and('be.visible').and('have.css', 'color', 'rgb(236, 0, 0)');
+      cy.get(SIGNAL_DETAILS.buttonCancelNote).click();
     });
 
     it('Should add a note', () => {
@@ -68,6 +74,7 @@ sizes.forEach(size => {
       createSignal.addNote(note1);
       cy.waitForPostNoteRoutes();
 
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 6);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Notitie toegevoegd')
@@ -79,13 +86,11 @@ sizes.forEach(size => {
 
       createSignal.addNote(note2);
       cy.waitForPostNoteRoutes();
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 7);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Notitie toegevoegd')
         .and('be.visible');
-      // Added a wait because sometimes the test is failing, wait for route is not enough.
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(1000);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
         .should('contain', note2)
