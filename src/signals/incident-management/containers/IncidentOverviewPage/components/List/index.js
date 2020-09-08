@@ -27,8 +27,8 @@ const getDaysOpen = incident => {
 const Wrapper = styled.div`
   width: 100%;
 
-  ${({ loading }) =>
-    loading &&
+  ${({ isLoading }) =>
+    isLoading &&
     css`
       opacity: 0.3;
     `}
@@ -94,7 +94,7 @@ const Th = styled.th`
   }}
 `;
 
-const List = ({ className, incidents, loading, onChangeOrdering, priority, sort, stadsdeel, status }) => {
+const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sort, stadsdeel, status }) => {
   const { districts } = useContext(IncidentManagementContext);
 
   const onSort = useCallback(
@@ -121,7 +121,7 @@ const List = ({ className, incidents, loading, onChangeOrdering, priority, sort,
   );
 
   return (
-    <Wrapper loading={loading} className={className} data-testid="incidentOverviewListComponent">
+    <Wrapper isLoading={isLoading} className={className} data-testid="incidentOverviewListComponent">
       <Table cellSpacing="0">
         <thead>
           <tr>
@@ -205,13 +205,14 @@ const List = ({ className, incidents, loading, onChangeOrdering, priority, sort,
 
 List.defaultProps = {
   className: '',
+  isLoading: false,
 };
 
 List.propTypes = {
   className: PropTypes.string,
   incidents: PropTypes.arrayOf(types.incidentType).isRequired,
   onChangeOrdering: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
+  isLoading: PropTypes.bool,
   priority: types.dataListType.isRequired,
   sort: PropTypes.string,
   stadsdeel: types.dataListType.isRequired,
