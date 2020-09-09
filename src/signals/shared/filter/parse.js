@@ -9,6 +9,7 @@ const arrayFields = [
   'area',
   'category_slug',
   'contact_details',
+  'directing_department',
   'kind',
   'maincategory_slug',
   'priority',
@@ -46,14 +47,15 @@ export const parseOutputFormData = options =>
       case 'maincategory_slug':
         entryValue = value.map(({ slug }) => slug);
         break;
+      case 'area':
       case 'contact_details':
+      case 'directing_department':
+      case 'kind':
       case 'priority':
       case 'source':
-      case 'area':
       case 'stadsdeel':
       case 'status':
       case 'type':
-      case 'kind':
         entryValue = value.map(({ key: itemKey }) => itemKey);
         break;
       case 'created_after':
