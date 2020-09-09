@@ -17,60 +17,49 @@ const Nav = styled.div`
   padding: ${themeSpacing(0, 4)};
 `;
 
-const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit } }) => {
-  const hideSubmit = controls?.hide_navigation_buttons?.meta ? controls.hide_navigation_buttons.meta.isVisible : false;
+const IncidentNavigation = ({ meta: { wizard, handleSubmit } }) => (
+  <WithWizard
+    render={({ next, previous, step }) => {
+      const currentStep = step?.id?.split('/').pop();
+      const wizardStep = currentStep !== 'bedankt' && wizard[currentStep];
 
-  return (
-    <WithWizard
-      render={({ next, previous, step }) => {
-        const currentStep = step?.id?.split('/').pop() || 0;
-        const wizardStep = currentStep !== 'bedankt' && wizard[currentStep];
+      if (!wizardStep) return null;
 
-        if (!wizardStep) return null;
+      return (
+        wizardStep && (
+          <Nav className="incident-navigation">
+            {wizardStep.previousButtonLabel ? (
+              <PreviousButton
+                className={wizardStep.previousButtonClass}
+                onClick={previous}
+                data-testid="previousButton"
+              >
+                {wizardStep.previousButtonLabel}
+              </PreviousButton>
+            ) : (
+              <span />
+            )}
 
-        return (
-          wizardStep && (
-            <Nav className="incident-navigation">
-              {!hideSubmit && wizardStep.previousButtonLabel ? (
-                <PreviousButton
-                  className={wizardStep.previousButtonClass}
-                  onClick={previous}
-                  data-testid="previousButton"
-                >
-                  {wizardStep.previousButtonLabel}
-                </PreviousButton>
-              ) : (
-                <span />
-              )}
-
-              {!hideSubmit && wizardStep.nextButtonLabel && (
-                <NextButton onClick={e => handleSubmit(e, next, wizardStep.formAction)} data-testid="nextButton">
-                  <span className="value">{wizardStep.nextButtonLabel}</span>
-                  {submitting && (
-                    <span className="working">
-                      <div className="progress-indicator progress-white"></div>
-                    </span>
-                  )}
-                </NextButton>
-              )}
-            </Nav>
-          )
-        );
-      }}
-    />
-  );
-};
+            {wizardStep.nextButtonLabel && (
+              <NextButton onClick={e => handleSubmit(e, next, wizardStep.formAction)} data-testid="nextButton">
+                <span className="value">{wizardStep.nextButtonLabel}</span>
+              </NextButton>
+            )}
+          </Nav>
+        )
+      );
+    }}
+  />
+);
 
 IncidentNavigation.defaultProps = {
   meta: {},
 };
 
 IncidentNavigation.propTypes = {
-  controls: PropTypes.object.isRequired,
   meta: PropTypes.shape({
-    wizard: PropTypes.object,
-    submitting: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    wizard: PropTypes.shape({}),
+    handleSubmit: PropTypes.func.isRequired,
   }),
 };
 
