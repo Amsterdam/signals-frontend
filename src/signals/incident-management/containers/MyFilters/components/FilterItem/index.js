@@ -68,7 +68,7 @@ const FilterItem = ({ filter, onApplyFilter, onEditFilter, onRemoveFilter, onClo
   );
 
   return (
-    <Wrapper>
+    <Wrapper className="filter-item">
       <StyledH4 forwardedAs="h4">
         {filter.refresh && <RefreshIcon />}
         {filter.name}
