@@ -42,6 +42,9 @@ export const mapKeys = key => {
     case 'contact_details':
       return 'contact';
 
+    case 'directing_department':
+      return 'verantwoordelijke afdeling';
+
     default:
       return key;
   }
