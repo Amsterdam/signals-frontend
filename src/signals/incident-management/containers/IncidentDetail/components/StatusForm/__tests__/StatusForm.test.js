@@ -348,12 +348,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(getByTestId('statusWarning').textContent).toEqual(GEANNULEERD_EXPLANATION);
 
     // select a status that is none of the above
-    const status = changeStatusOptionList
-      .filter(({ key }) => !['reopened', 'o', 'a'].includes(key))
-      .sort(() => 0.5 - Math.random())[0];
-
     act(() => {
-      fireEvent.click(container.querySelector(`input[value="${status.key}"]`));
+      fireEvent.click(container.querySelector('input[value="b"]'));
     });
 
     // verify that no warning is shown
