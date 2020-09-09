@@ -1,89 +1,748 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<IncidentNavigation /> rendering render correctly button with submitting state 1`] = `
-<Wizard
-  basename=""
-  history={
-    Object {
-      "listen": [MockFunction] {
-        "calls": Array [
-          Array [
-            [Function],
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-    }
-  }
-  onNext={null}
-  render={null}
->
-  <IncidentNavigation
-    controls={Object {}}
-    meta={
+<ThemeProvider>
+  <ThemeProvider
+    theme={
       Object {
-        "createIncident": [MockFunction],
-        "handleSubmit": [MockFunction],
-        "incidentContainer": Object {
-          "incident": Object {},
+        "DEFAULT_THEME_NAME": "default",
+        "breakpoints": Object {
+          "desktop": [Function],
+          "desktopL": [Function],
+          "laptop": [Function],
+          "laptopL": [Function],
+          "laptopM": [Function],
+          "mobileL": [Function],
+          "mobileM": [Function],
+          "mobileS": [Function],
+          "tabletM": [Function],
+          "tabletS": [Function],
         },
-        "submitting": true,
-        "updateIncident": [MockFunction],
-        "wizard": Object {
-          "bedankt": Object {
-            "form": Object {
-              "controls": Object {},
-            },
+        "colors": Object {
+          "bright": Object {
+            "main": "#ffffff",
           },
-          "beschrijf": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "formAction": "UPDATE_INCIDENT",
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
+          "error": Object {
+            "main": "#ec0000",
           },
-          "email": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+          "primary": Object {
+            "dark": "#00387a",
+            "main": "#004699",
           },
-          "samenvatting": Object {
-            "form": Object {
-              "controls": Object {},
+          "secondary": Object {
+            "dark": "#bc0000",
+            "main": "#ec0000",
+          },
+          "supplement": Object {
+            "darkgreen": "#00A03C",
+            "lightblue": "#009DEC",
+            "lightgreen": "#BED200",
+            "orange": "#FF9100",
+            "pink": "#E50082",
+            "purple": "#A00078",
+            "yellow": "#FFE600",
+          },
+          "support": Object {
+            "focus": "#FEC813",
+            "invalid": "#EC0000",
+            "valid": "#00A03C",
+          },
+          "tint": Object {
+            "level1": "#ffffff",
+            "level2": "#F5F5F5",
+            "level3": "#E6E6E6",
+            "level4": "#B4B4B4",
+            "level5": "#767676",
+            "level6": "#323232",
+            "level7": "#000000",
+          },
+        },
+        "globalStyle": "",
+        "layouts": Object {
+          "big": Object {
+            "columns": 6,
+            "gutter": 24,
+            "margin": 24,
+            "max": 1024,
+            "min": 768,
+          },
+          "large": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 32,
+            "max": 1200,
+            "min": 1024,
+          },
+          "medium": Object {
+            "columns": 2,
+            "gutter": 20,
+            "margin": 20,
+            "max": 768,
+            "min": 414,
+          },
+          "small": Object {
+            "columns": 1,
+            "margin": 20,
+            "max": 414,
+          },
+          "xLarge": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 44,
+            "min": 1200,
+          },
+        },
+        "maxContainerWidth": 1920,
+        "maxGridWidth": 1430,
+        "spacing": 4,
+        "typography": Object {
+          "a": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
             },
-            "formAction": "CREATE_INCIDENT",
-            "nextButtonClass": "next-class send-button",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": "inherit",
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "0",
+          },
+          "em": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": 1.25,
+            "marginBottom": "0",
+          },
+          "fontFamily": "Avenir Next, Arial, sans-serif",
+          "fontSize": "16px",
+          "h1": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "30px",
+                "lineHeight": "38px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "24px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "30px",
+            "marginBottom": "0",
+          },
+          "h2": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "24px",
+                "lineHeight": "30px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h3": Object {
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h4": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h5": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h6": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 500,
+            "letterSpacing": "inherit",
+            "lineHeight": "20px",
+            "marginBottom": "0",
+          },
+          "li": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "8",
+          },
+          "p": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+              "tabletS": Object {
+                "marginBottom": "24px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "20px",
+          },
+          "small": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
+          },
+          "span": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
           },
         },
       }
     }
-    valid={true}
-    value={Object {}}
   >
-    <WithWizard
-      render={[Function]}
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "injectedReducers": Object {
+            "categories": [Function],
+            "departments": [Function],
+            "history": [Function],
+            "roles": [Function],
+          },
+          "injectedSagas": Object {
+            "categories": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 17,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchCategoriesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "departments": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 14,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchDepartmentsSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "history": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 1,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchHistorySaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "roles": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 4,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchRolesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+          },
+          "replaceReducer": [Function],
+          "runSaga": [Function],
+          "subscribe": [Function],
+          Symbol(Symbol.observable): [Function],
+        }
+      }
     >
-      0
-    </WithWizard>
-  </IncidentNavigation>
-</Wizard>
+      <Connect(ConnectedRouterWithContext)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "key": "cq88ca",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+      >
+        <ConnectedRouterWithContext
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          onLocationChanged={[Function]}
+        >
+          <ConnectedRouter
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onLocationChanged={[Function]}
+            store={
+              Object {
+                "dispatch": [Function],
+                "getState": [Function],
+                "injectedReducers": Object {
+                  "categories": [Function],
+                  "departments": [Function],
+                  "history": [Function],
+                  "roles": [Function],
+                },
+                "injectedSagas": Object {
+                  "categories": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 17,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchCategoriesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "departments": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 14,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchDepartmentsSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "history": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 1,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchHistorySaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "roles": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 4,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchRolesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                },
+                "replaceReducer": [Function],
+                "runSaga": [Function],
+                "subscribe": [Function],
+                Symbol(Symbol.observable): [Function],
+              }
+            }
+          >
+            <Router
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "canGo": [Function],
+                  "createHref": [Function],
+                  "entries": Array [
+                    Object {
+                      "hash": "",
+                      "key": "cq88ca",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                  ],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "index": 0,
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+            >
+              <Wizard
+                basename=""
+                history={
+                  Object {
+                    "listen": [MockFunction] {
+                      "calls": Array [
+                        Array [
+                          [Function],
+                        ],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  }
+                }
+                onNext={null}
+                render={null}
+              >
+                <IncidentNavigation
+                  controls={Object {}}
+                  meta={
+                    Object {
+                      "createIncident": [MockFunction],
+                      "handleSubmit": [MockFunction],
+                      "incidentContainer": Object {
+                        "incident": Object {},
+                      },
+                      "submitting": true,
+                      "updateIncident": [MockFunction],
+                      "wizard": Object {
+                        "bedankt": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                        },
+                        "beschrijf": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "UPDATE_INCIDENT",
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                        },
+                        "email": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                        "samenvatting": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "CREATE_INCIDENT",
+                          "nextButtonClass": "next-class send-button",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                      },
+                    }
+                  }
+                  valid={true}
+                  value={Object {}}
+                >
+                  <WithWizard
+                    render={[Function]}
+                  />
+                </IncidentNavigation>
+              </Wizard>
+            </Router>
+          </ConnectedRouter>
+        </ConnectedRouterWithContext>
+      </Connect(ConnectedRouterWithContext)>
+    </Provider>
+  </ThemeProvider>
+</ThemeProvider>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly button with submitting state 2`] = `
-<div
+<IncidentNavigation__Nav
   className="incident-navigation"
 >
   <span />
@@ -105,93 +764,752 @@ exports[`<IncidentNavigation /> rendering render correctly button with submittin
       />
     </span>
   </NextButton>
-</div>
+</IncidentNavigation__Nav>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly first step with one button: next 1`] = `
-<Wizard
-  basename=""
-  history={
-    Object {
-      "listen": [MockFunction] {
-        "calls": Array [
-          Array [
-            [Function],
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-    }
-  }
-  onNext={null}
-  render={null}
->
-  <IncidentNavigation
-    controls={Object {}}
-    meta={
+<ThemeProvider>
+  <ThemeProvider
+    theme={
       Object {
-        "createIncident": [MockFunction],
-        "handleSubmit": [MockFunction],
-        "incidentContainer": Object {
-          "incident": Object {},
+        "DEFAULT_THEME_NAME": "default",
+        "breakpoints": Object {
+          "desktop": [Function],
+          "desktopL": [Function],
+          "laptop": [Function],
+          "laptopL": [Function],
+          "laptopM": [Function],
+          "mobileL": [Function],
+          "mobileM": [Function],
+          "mobileS": [Function],
+          "tabletM": [Function],
+          "tabletS": [Function],
         },
-        "submitting": false,
-        "updateIncident": [MockFunction],
-        "wizard": Object {
-          "bedankt": Object {
-            "form": Object {
-              "controls": Object {},
-            },
+        "colors": Object {
+          "bright": Object {
+            "main": "#ffffff",
           },
-          "beschrijf": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "formAction": "UPDATE_INCIDENT",
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
+          "error": Object {
+            "main": "#ec0000",
           },
-          "email": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+          "primary": Object {
+            "dark": "#00387a",
+            "main": "#004699",
           },
-          "samenvatting": Object {
-            "form": Object {
-              "controls": Object {},
+          "secondary": Object {
+            "dark": "#bc0000",
+            "main": "#ec0000",
+          },
+          "supplement": Object {
+            "darkgreen": "#00A03C",
+            "lightblue": "#009DEC",
+            "lightgreen": "#BED200",
+            "orange": "#FF9100",
+            "pink": "#E50082",
+            "purple": "#A00078",
+            "yellow": "#FFE600",
+          },
+          "support": Object {
+            "focus": "#FEC813",
+            "invalid": "#EC0000",
+            "valid": "#00A03C",
+          },
+          "tint": Object {
+            "level1": "#ffffff",
+            "level2": "#F5F5F5",
+            "level3": "#E6E6E6",
+            "level4": "#B4B4B4",
+            "level5": "#767676",
+            "level6": "#323232",
+            "level7": "#000000",
+          },
+        },
+        "globalStyle": "",
+        "layouts": Object {
+          "big": Object {
+            "columns": 6,
+            "gutter": 24,
+            "margin": 24,
+            "max": 1024,
+            "min": 768,
+          },
+          "large": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 32,
+            "max": 1200,
+            "min": 1024,
+          },
+          "medium": Object {
+            "columns": 2,
+            "gutter": 20,
+            "margin": 20,
+            "max": 768,
+            "min": 414,
+          },
+          "small": Object {
+            "columns": 1,
+            "margin": 20,
+            "max": 414,
+          },
+          "xLarge": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 44,
+            "min": 1200,
+          },
+        },
+        "maxContainerWidth": 1920,
+        "maxGridWidth": 1430,
+        "spacing": 4,
+        "typography": Object {
+          "a": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
             },
-            "formAction": "CREATE_INCIDENT",
-            "nextButtonClass": "next-class send-button",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": "inherit",
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "0",
+          },
+          "em": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": 1.25,
+            "marginBottom": "0",
+          },
+          "fontFamily": "Avenir Next, Arial, sans-serif",
+          "fontSize": "16px",
+          "h1": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "30px",
+                "lineHeight": "38px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "24px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "30px",
+            "marginBottom": "0",
+          },
+          "h2": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "24px",
+                "lineHeight": "30px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h3": Object {
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h4": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h5": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h6": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 500,
+            "letterSpacing": "inherit",
+            "lineHeight": "20px",
+            "marginBottom": "0",
+          },
+          "li": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "8",
+          },
+          "p": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+              "tabletS": Object {
+                "marginBottom": "24px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "20px",
+          },
+          "small": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
+          },
+          "span": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
           },
         },
       }
     }
-    valid={true}
-    value={Object {}}
   >
-    <WithWizard
-      render={[Function]}
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "injectedReducers": Object {
+            "categories": [Function],
+            "departments": [Function],
+            "history": [Function],
+            "roles": [Function],
+          },
+          "injectedSagas": Object {
+            "categories": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 17,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchCategoriesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "departments": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 14,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchDepartmentsSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "history": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 1,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchHistorySaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "roles": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 4,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchRolesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+          },
+          "replaceReducer": [Function],
+          "runSaga": [Function],
+          "subscribe": [Function],
+          Symbol(Symbol.observable): [Function],
+        }
+      }
     >
-      0
-    </WithWizard>
-  </IncidentNavigation>
-</Wizard>
+      <Connect(ConnectedRouterWithContext)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "key": "cq88ca",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+      >
+        <ConnectedRouterWithContext
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          onLocationChanged={[Function]}
+        >
+          <ConnectedRouter
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onLocationChanged={[Function]}
+            store={
+              Object {
+                "dispatch": [Function],
+                "getState": [Function],
+                "injectedReducers": Object {
+                  "categories": [Function],
+                  "departments": [Function],
+                  "history": [Function],
+                  "roles": [Function],
+                },
+                "injectedSagas": Object {
+                  "categories": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 17,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchCategoriesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "departments": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 14,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchDepartmentsSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "history": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 1,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchHistorySaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "roles": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 4,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchRolesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                },
+                "replaceReducer": [Function],
+                "runSaga": [Function],
+                "subscribe": [Function],
+                Symbol(Symbol.observable): [Function],
+              }
+            }
+          >
+            <Router
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "canGo": [Function],
+                  "createHref": [Function],
+                  "entries": Array [
+                    Object {
+                      "hash": "",
+                      "key": "cq88ca",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                  ],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "index": 0,
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+            >
+              <Wizard
+                basename=""
+                history={
+                  Object {
+                    "listen": [MockFunction] {
+                      "calls": Array [
+                        Array [
+                          [Function],
+                        ],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  }
+                }
+                onNext={null}
+                render={null}
+              >
+                <IncidentNavigation
+                  controls={Object {}}
+                  meta={
+                    Object {
+                      "createIncident": [MockFunction],
+                      "handleSubmit": [MockFunction],
+                      "incidentContainer": Object {
+                        "incident": Object {},
+                      },
+                      "submitting": false,
+                      "updateIncident": [MockFunction],
+                      "wizard": Object {
+                        "bedankt": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                        },
+                        "beschrijf": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "UPDATE_INCIDENT",
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                        },
+                        "email": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                        "samenvatting": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "CREATE_INCIDENT",
+                          "nextButtonClass": "next-class send-button",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                      },
+                    }
+                  }
+                  valid={true}
+                  value={Object {}}
+                >
+                  <WithWizard
+                    render={[Function]}
+                  />
+                </IncidentNavigation>
+              </Wizard>
+            </Router>
+          </ConnectedRouter>
+        </ConnectedRouterWithContext>
+      </Connect(ConnectedRouterWithContext)>
+    </Provider>
+  </ThemeProvider>
+</ThemeProvider>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly first step with one button: next 2`] = `
-<div
+<IncidentNavigation__Nav
   className="incident-navigation"
 >
   <span />
@@ -206,183 +1524,1495 @@ exports[`<IncidentNavigation /> rendering render correctly first step with one b
       Volgende
     </span>
   </NextButton>
-</div>
+</IncidentNavigation__Nav>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly last step with no button 1`] = `
-<Wizard
-  basename=""
-  history={
-    Object {
-      "listen": [MockFunction] {
-        "calls": Array [
-          Array [
-            [Function],
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-    }
-  }
-  onNext={null}
-  render={null}
->
-  <IncidentNavigation
-    controls={Object {}}
-    meta={
+<ThemeProvider>
+  <ThemeProvider
+    theme={
       Object {
-        "createIncident": [MockFunction],
-        "handleSubmit": [MockFunction],
-        "incidentContainer": Object {
-          "incident": Object {},
+        "DEFAULT_THEME_NAME": "default",
+        "breakpoints": Object {
+          "desktop": [Function],
+          "desktopL": [Function],
+          "laptop": [Function],
+          "laptopL": [Function],
+          "laptopM": [Function],
+          "mobileL": [Function],
+          "mobileM": [Function],
+          "mobileS": [Function],
+          "tabletM": [Function],
+          "tabletS": [Function],
         },
-        "submitting": false,
-        "updateIncident": [MockFunction],
-        "wizard": Object {
-          "bedankt": Object {
-            "form": Object {
-              "controls": Object {},
-            },
+        "colors": Object {
+          "bright": Object {
+            "main": "#ffffff",
           },
-          "beschrijf": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "formAction": "UPDATE_INCIDENT",
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
+          "error": Object {
+            "main": "#ec0000",
           },
-          "email": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+          "primary": Object {
+            "dark": "#00387a",
+            "main": "#004699",
           },
-          "samenvatting": Object {
-            "form": Object {
-              "controls": Object {},
+          "secondary": Object {
+            "dark": "#bc0000",
+            "main": "#ec0000",
+          },
+          "supplement": Object {
+            "darkgreen": "#00A03C",
+            "lightblue": "#009DEC",
+            "lightgreen": "#BED200",
+            "orange": "#FF9100",
+            "pink": "#E50082",
+            "purple": "#A00078",
+            "yellow": "#FFE600",
+          },
+          "support": Object {
+            "focus": "#FEC813",
+            "invalid": "#EC0000",
+            "valid": "#00A03C",
+          },
+          "tint": Object {
+            "level1": "#ffffff",
+            "level2": "#F5F5F5",
+            "level3": "#E6E6E6",
+            "level4": "#B4B4B4",
+            "level5": "#767676",
+            "level6": "#323232",
+            "level7": "#000000",
+          },
+        },
+        "globalStyle": "",
+        "layouts": Object {
+          "big": Object {
+            "columns": 6,
+            "gutter": 24,
+            "margin": 24,
+            "max": 1024,
+            "min": 768,
+          },
+          "large": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 32,
+            "max": 1200,
+            "min": 1024,
+          },
+          "medium": Object {
+            "columns": 2,
+            "gutter": 20,
+            "margin": 20,
+            "max": 768,
+            "min": 414,
+          },
+          "small": Object {
+            "columns": 1,
+            "margin": 20,
+            "max": 414,
+          },
+          "xLarge": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 44,
+            "min": 1200,
+          },
+        },
+        "maxContainerWidth": 1920,
+        "maxGridWidth": 1430,
+        "spacing": 4,
+        "typography": Object {
+          "a": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
             },
-            "formAction": "CREATE_INCIDENT",
-            "nextButtonClass": "next-class send-button",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": "inherit",
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "0",
+          },
+          "em": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": 1.25,
+            "marginBottom": "0",
+          },
+          "fontFamily": "Avenir Next, Arial, sans-serif",
+          "fontSize": "16px",
+          "h1": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "30px",
+                "lineHeight": "38px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "24px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "30px",
+            "marginBottom": "0",
+          },
+          "h2": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "24px",
+                "lineHeight": "30px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h3": Object {
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h4": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h5": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h6": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 500,
+            "letterSpacing": "inherit",
+            "lineHeight": "20px",
+            "marginBottom": "0",
+          },
+          "li": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "8",
+          },
+          "p": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+              "tabletS": Object {
+                "marginBottom": "24px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "20px",
+          },
+          "small": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
+          },
+          "span": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
           },
         },
       }
     }
-    valid={true}
-    value={Object {}}
   >
-    <WithWizard
-      render={[Function]}
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "injectedReducers": Object {
+            "categories": [Function],
+            "departments": [Function],
+            "history": [Function],
+            "roles": [Function],
+          },
+          "injectedSagas": Object {
+            "categories": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 17,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchCategoriesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "departments": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 14,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchDepartmentsSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "history": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 1,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchHistorySaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "roles": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 4,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchRolesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+          },
+          "replaceReducer": [Function],
+          "runSaga": [Function],
+          "subscribe": [Function],
+          Symbol(Symbol.observable): [Function],
+        }
+      }
     >
-      0
-    </WithWizard>
-  </IncidentNavigation>
-</Wizard>
+      <Connect(ConnectedRouterWithContext)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "key": "cq88ca",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+      >
+        <ConnectedRouterWithContext
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          onLocationChanged={[Function]}
+        >
+          <ConnectedRouter
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onLocationChanged={[Function]}
+            store={
+              Object {
+                "dispatch": [Function],
+                "getState": [Function],
+                "injectedReducers": Object {
+                  "categories": [Function],
+                  "departments": [Function],
+                  "history": [Function],
+                  "roles": [Function],
+                },
+                "injectedSagas": Object {
+                  "categories": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 17,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchCategoriesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "departments": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 14,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchDepartmentsSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "history": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 1,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchHistorySaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "roles": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 4,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchRolesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                },
+                "replaceReducer": [Function],
+                "runSaga": [Function],
+                "subscribe": [Function],
+                Symbol(Symbol.observable): [Function],
+              }
+            }
+          >
+            <Router
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "canGo": [Function],
+                  "createHref": [Function],
+                  "entries": Array [
+                    Object {
+                      "hash": "",
+                      "key": "cq88ca",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                  ],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "index": 0,
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+            >
+              <Wizard
+                basename=""
+                history={
+                  Object {
+                    "listen": [MockFunction] {
+                      "calls": Array [
+                        Array [
+                          [Function],
+                        ],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  }
+                }
+                onNext={null}
+                render={null}
+              >
+                <IncidentNavigation
+                  controls={Object {}}
+                  meta={
+                    Object {
+                      "createIncident": [MockFunction],
+                      "handleSubmit": [MockFunction],
+                      "incidentContainer": Object {
+                        "incident": Object {},
+                      },
+                      "submitting": false,
+                      "updateIncident": [MockFunction],
+                      "wizard": Object {
+                        "bedankt": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                        },
+                        "beschrijf": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "UPDATE_INCIDENT",
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                        },
+                        "email": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                        "samenvatting": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "CREATE_INCIDENT",
+                          "nextButtonClass": "next-class send-button",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                      },
+                    }
+                  }
+                  valid={true}
+                  value={Object {}}
+                >
+                  <WithWizard
+                    render={[Function]}
+                  />
+                </IncidentNavigation>
+              </Wizard>
+            </Router>
+          </ConnectedRouter>
+        </ConnectedRouterWithContext>
+      </Connect(ConnectedRouterWithContext)>
+    </Provider>
+  </ThemeProvider>
+</ThemeProvider>
 `;
 
-exports[`<IncidentNavigation /> rendering render correctly last step with no button 2`] = `
-<div
-  className="incident-navigation"
->
-  <span />
-</div>
-`;
+exports[`<IncidentNavigation /> rendering render correctly last step with no button 2`] = `""`;
 
 exports[`<IncidentNavigation /> rendering render correctly last step with two buttons: previous and submit 1`] = `
-<Wizard
-  basename=""
-  history={
-    Object {
-      "listen": [MockFunction] {
-        "calls": Array [
-          Array [
-            [Function],
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-    }
-  }
-  onNext={null}
-  render={null}
->
-  <IncidentNavigation
-    controls={Object {}}
-    meta={
+<ThemeProvider>
+  <ThemeProvider
+    theme={
       Object {
-        "createIncident": [MockFunction],
-        "handleSubmit": [MockFunction],
-        "incidentContainer": Object {
-          "incident": Object {},
+        "DEFAULT_THEME_NAME": "default",
+        "breakpoints": Object {
+          "desktop": [Function],
+          "desktopL": [Function],
+          "laptop": [Function],
+          "laptopL": [Function],
+          "laptopM": [Function],
+          "mobileL": [Function],
+          "mobileM": [Function],
+          "mobileS": [Function],
+          "tabletM": [Function],
+          "tabletS": [Function],
         },
-        "submitting": false,
-        "updateIncident": [MockFunction],
-        "wizard": Object {
-          "bedankt": Object {
-            "form": Object {
-              "controls": Object {},
-            },
+        "colors": Object {
+          "bright": Object {
+            "main": "#ffffff",
           },
-          "beschrijf": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "formAction": "UPDATE_INCIDENT",
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
+          "error": Object {
+            "main": "#ec0000",
           },
-          "email": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+          "primary": Object {
+            "dark": "#00387a",
+            "main": "#004699",
           },
-          "samenvatting": Object {
-            "form": Object {
-              "controls": Object {},
+          "secondary": Object {
+            "dark": "#bc0000",
+            "main": "#ec0000",
+          },
+          "supplement": Object {
+            "darkgreen": "#00A03C",
+            "lightblue": "#009DEC",
+            "lightgreen": "#BED200",
+            "orange": "#FF9100",
+            "pink": "#E50082",
+            "purple": "#A00078",
+            "yellow": "#FFE600",
+          },
+          "support": Object {
+            "focus": "#FEC813",
+            "invalid": "#EC0000",
+            "valid": "#00A03C",
+          },
+          "tint": Object {
+            "level1": "#ffffff",
+            "level2": "#F5F5F5",
+            "level3": "#E6E6E6",
+            "level4": "#B4B4B4",
+            "level5": "#767676",
+            "level6": "#323232",
+            "level7": "#000000",
+          },
+        },
+        "globalStyle": "",
+        "layouts": Object {
+          "big": Object {
+            "columns": 6,
+            "gutter": 24,
+            "margin": 24,
+            "max": 1024,
+            "min": 768,
+          },
+          "large": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 32,
+            "max": 1200,
+            "min": 1024,
+          },
+          "medium": Object {
+            "columns": 2,
+            "gutter": 20,
+            "margin": 20,
+            "max": 768,
+            "min": 414,
+          },
+          "small": Object {
+            "columns": 1,
+            "margin": 20,
+            "max": 414,
+          },
+          "xLarge": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 44,
+            "min": 1200,
+          },
+        },
+        "maxContainerWidth": 1920,
+        "maxGridWidth": 1430,
+        "spacing": 4,
+        "typography": Object {
+          "a": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
             },
-            "formAction": "CREATE_INCIDENT",
-            "nextButtonClass": "next-class send-button",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": "inherit",
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "0",
+          },
+          "em": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": 1.25,
+            "marginBottom": "0",
+          },
+          "fontFamily": "Avenir Next, Arial, sans-serif",
+          "fontSize": "16px",
+          "h1": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "30px",
+                "lineHeight": "38px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "24px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "30px",
+            "marginBottom": "0",
+          },
+          "h2": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "24px",
+                "lineHeight": "30px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h3": Object {
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h4": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h5": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h6": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 500,
+            "letterSpacing": "inherit",
+            "lineHeight": "20px",
+            "marginBottom": "0",
+          },
+          "li": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "8",
+          },
+          "p": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+              "tabletS": Object {
+                "marginBottom": "24px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "20px",
+          },
+          "small": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
+          },
+          "span": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
           },
         },
       }
     }
-    valid={true}
-    value={Object {}}
   >
-    <WithWizard
-      render={[Function]}
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "injectedReducers": Object {
+            "categories": [Function],
+            "departments": [Function],
+            "history": [Function],
+            "roles": [Function],
+          },
+          "injectedSagas": Object {
+            "categories": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 17,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchCategoriesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "departments": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 14,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchDepartmentsSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "history": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 1,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchHistorySaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "roles": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 4,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchRolesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+          },
+          "replaceReducer": [Function],
+          "runSaga": [Function],
+          "subscribe": [Function],
+          Symbol(Symbol.observable): [Function],
+        }
+      }
     >
-      0
-    </WithWizard>
-  </IncidentNavigation>
-</Wizard>
+      <Connect(ConnectedRouterWithContext)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "key": "cq88ca",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+      >
+        <ConnectedRouterWithContext
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          onLocationChanged={[Function]}
+        >
+          <ConnectedRouter
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onLocationChanged={[Function]}
+            store={
+              Object {
+                "dispatch": [Function],
+                "getState": [Function],
+                "injectedReducers": Object {
+                  "categories": [Function],
+                  "departments": [Function],
+                  "history": [Function],
+                  "roles": [Function],
+                },
+                "injectedSagas": Object {
+                  "categories": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 17,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchCategoriesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "departments": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 14,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchDepartmentsSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "history": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 1,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchHistorySaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "roles": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 4,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchRolesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                },
+                "replaceReducer": [Function],
+                "runSaga": [Function],
+                "subscribe": [Function],
+                Symbol(Symbol.observable): [Function],
+              }
+            }
+          >
+            <Router
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "canGo": [Function],
+                  "createHref": [Function],
+                  "entries": Array [
+                    Object {
+                      "hash": "",
+                      "key": "cq88ca",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                  ],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "index": 0,
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+            >
+              <Wizard
+                basename=""
+                history={
+                  Object {
+                    "listen": [MockFunction] {
+                      "calls": Array [
+                        Array [
+                          [Function],
+                        ],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  }
+                }
+                onNext={null}
+                render={null}
+              >
+                <IncidentNavigation
+                  controls={Object {}}
+                  meta={
+                    Object {
+                      "createIncident": [MockFunction],
+                      "handleSubmit": [MockFunction],
+                      "incidentContainer": Object {
+                        "incident": Object {},
+                      },
+                      "submitting": false,
+                      "updateIncident": [MockFunction],
+                      "wizard": Object {
+                        "bedankt": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                        },
+                        "beschrijf": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "UPDATE_INCIDENT",
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                        },
+                        "email": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                        "samenvatting": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "CREATE_INCIDENT",
+                          "nextButtonClass": "next-class send-button",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                      },
+                    }
+                  }
+                  valid={true}
+                  value={Object {}}
+                >
+                  <WithWizard
+                    render={[Function]}
+                  />
+                </IncidentNavigation>
+              </Wizard>
+            </Router>
+          </ConnectedRouter>
+        </ConnectedRouterWithContext>
+      </Connect(ConnectedRouterWithContext)>
+    </Provider>
+  </ThemeProvider>
+</ThemeProvider>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly last step with two buttons: previous and submit 2`] = `
-<div
+<IncidentNavigation__Nav
   className="incident-navigation"
 >
   <PreviousButton
@@ -403,191 +3033,1509 @@ exports[`<IncidentNavigation /> rendering render correctly last step with two bu
       Volgende
     </span>
   </NextButton>
-</div>
+</IncidentNavigation__Nav>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with no buttons 1`] = `
-<Wizard
-  basename=""
-  history={
-    Object {
-      "listen": [MockFunction] {
-        "calls": Array [
-          Array [
-            [Function],
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-    }
-  }
-  onNext={null}
-  render={null}
->
-  <IncidentNavigation
-    controls={
+<ThemeProvider>
+  <ThemeProvider
+    theme={
       Object {
-        "hide_navigation_buttons": Object {
-          "meta": Object {
-            "isVisible": true,
+        "DEFAULT_THEME_NAME": "default",
+        "breakpoints": Object {
+          "desktop": [Function],
+          "desktopL": [Function],
+          "laptop": [Function],
+          "laptopL": [Function],
+          "laptopM": [Function],
+          "mobileL": [Function],
+          "mobileM": [Function],
+          "mobileS": [Function],
+          "tabletM": [Function],
+          "tabletS": [Function],
+        },
+        "colors": Object {
+          "bright": Object {
+            "main": "#ffffff",
+          },
+          "error": Object {
+            "main": "#ec0000",
+          },
+          "primary": Object {
+            "dark": "#00387a",
+            "main": "#004699",
+          },
+          "secondary": Object {
+            "dark": "#bc0000",
+            "main": "#ec0000",
+          },
+          "supplement": Object {
+            "darkgreen": "#00A03C",
+            "lightblue": "#009DEC",
+            "lightgreen": "#BED200",
+            "orange": "#FF9100",
+            "pink": "#E50082",
+            "purple": "#A00078",
+            "yellow": "#FFE600",
+          },
+          "support": Object {
+            "focus": "#FEC813",
+            "invalid": "#EC0000",
+            "valid": "#00A03C",
+          },
+          "tint": Object {
+            "level1": "#ffffff",
+            "level2": "#F5F5F5",
+            "level3": "#E6E6E6",
+            "level4": "#B4B4B4",
+            "level5": "#767676",
+            "level6": "#323232",
+            "level7": "#000000",
+          },
+        },
+        "globalStyle": "",
+        "layouts": Object {
+          "big": Object {
+            "columns": 6,
+            "gutter": 24,
+            "margin": 24,
+            "max": 1024,
+            "min": 768,
+          },
+          "large": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 32,
+            "max": 1200,
+            "min": 1024,
+          },
+          "medium": Object {
+            "columns": 2,
+            "gutter": 20,
+            "margin": 20,
+            "max": 768,
+            "min": 414,
+          },
+          "small": Object {
+            "columns": 1,
+            "margin": 20,
+            "max": 414,
+          },
+          "xLarge": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 44,
+            "min": 1200,
+          },
+        },
+        "maxContainerWidth": 1920,
+        "maxGridWidth": 1430,
+        "spacing": 4,
+        "typography": Object {
+          "a": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": "inherit",
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "0",
+          },
+          "em": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": 1.25,
+            "marginBottom": "0",
+          },
+          "fontFamily": "Avenir Next, Arial, sans-serif",
+          "fontSize": "16px",
+          "h1": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "30px",
+                "lineHeight": "38px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "24px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "30px",
+            "marginBottom": "0",
+          },
+          "h2": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "24px",
+                "lineHeight": "30px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h3": Object {
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h4": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h5": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h6": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 500,
+            "letterSpacing": "inherit",
+            "lineHeight": "20px",
+            "marginBottom": "0",
+          },
+          "li": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "8",
+          },
+          "p": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+              "tabletS": Object {
+                "marginBottom": "24px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "20px",
+          },
+          "small": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
+          },
+          "span": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
           },
         },
       }
     }
-    meta={
-      Object {
-        "createIncident": [MockFunction],
-        "handleSubmit": [MockFunction],
-        "incidentContainer": Object {
-          "incident": Object {},
-        },
-        "submitting": false,
-        "updateIncident": [MockFunction],
-        "wizard": Object {
-          "bedankt": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-          },
-          "beschrijf": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "formAction": "UPDATE_INCIDENT",
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
-          },
-          "email": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
-          },
-          "samenvatting": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "formAction": "CREATE_INCIDENT",
-            "nextButtonClass": "next-class send-button",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
-          },
-        },
-      }
-    }
-    valid={true}
-    value={Object {}}
   >
-    <WithWizard
-      render={[Function]}
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "injectedReducers": Object {
+            "categories": [Function],
+            "departments": [Function],
+            "history": [Function],
+            "roles": [Function],
+          },
+          "injectedSagas": Object {
+            "categories": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 17,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchCategoriesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "departments": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 14,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchDepartmentsSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "history": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 1,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchHistorySaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "roles": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 4,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchRolesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+          },
+          "replaceReducer": [Function],
+          "runSaga": [Function],
+          "subscribe": [Function],
+          Symbol(Symbol.observable): [Function],
+        }
+      }
     >
-      0
-    </WithWizard>
-  </IncidentNavigation>
-</Wizard>
+      <Connect(ConnectedRouterWithContext)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "key": "cq88ca",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+      >
+        <ConnectedRouterWithContext
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          onLocationChanged={[Function]}
+        >
+          <ConnectedRouter
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onLocationChanged={[Function]}
+            store={
+              Object {
+                "dispatch": [Function],
+                "getState": [Function],
+                "injectedReducers": Object {
+                  "categories": [Function],
+                  "departments": [Function],
+                  "history": [Function],
+                  "roles": [Function],
+                },
+                "injectedSagas": Object {
+                  "categories": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 17,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchCategoriesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "departments": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 14,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchDepartmentsSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "history": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 1,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchHistorySaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "roles": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 4,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchRolesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                },
+                "replaceReducer": [Function],
+                "runSaga": [Function],
+                "subscribe": [Function],
+                Symbol(Symbol.observable): [Function],
+              }
+            }
+          >
+            <Router
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "canGo": [Function],
+                  "createHref": [Function],
+                  "entries": Array [
+                    Object {
+                      "hash": "",
+                      "key": "cq88ca",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                  ],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "index": 0,
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+            >
+              <Wizard
+                basename=""
+                history={
+                  Object {
+                    "listen": [MockFunction] {
+                      "calls": Array [
+                        Array [
+                          [Function],
+                        ],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  }
+                }
+                onNext={null}
+                render={null}
+              >
+                <IncidentNavigation
+                  controls={
+                    Object {
+                      "hide_navigation_buttons": Object {
+                        "meta": Object {
+                          "isVisible": true,
+                        },
+                      },
+                    }
+                  }
+                  meta={
+                    Object {
+                      "createIncident": [MockFunction],
+                      "handleSubmit": [MockFunction],
+                      "incidentContainer": Object {
+                        "incident": Object {},
+                      },
+                      "submitting": false,
+                      "updateIncident": [MockFunction],
+                      "wizard": Object {
+                        "bedankt": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                        },
+                        "beschrijf": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "UPDATE_INCIDENT",
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                        },
+                        "email": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                        "samenvatting": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "CREATE_INCIDENT",
+                          "nextButtonClass": "next-class send-button",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                      },
+                    }
+                  }
+                  valid={true}
+                  value={Object {}}
+                >
+                  <WithWizard
+                    render={[Function]}
+                  />
+                </IncidentNavigation>
+              </Wizard>
+            </Router>
+          </ConnectedRouter>
+        </ConnectedRouterWithContext>
+      </Connect(ConnectedRouterWithContext)>
+    </Provider>
+  </ThemeProvider>
+</ThemeProvider>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly second step when submit button is suppressed with no buttons 2`] = `
-<div
+<IncidentNavigation__Nav
   className="incident-navigation"
 >
   <span />
-</div>
+</IncidentNavigation__Nav>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly second step with two buttons: previous and next 1`] = `
-<Wizard
-  basename=""
-  history={
-    Object {
-      "listen": [MockFunction] {
-        "calls": Array [
-          Array [
-            [Function],
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-    }
-  }
-  onNext={null}
-  render={null}
->
-  <IncidentNavigation
-    controls={Object {}}
-    meta={
+<ThemeProvider>
+  <ThemeProvider
+    theme={
       Object {
-        "createIncident": [MockFunction],
-        "handleSubmit": [MockFunction],
-        "incidentContainer": Object {
-          "incident": Object {},
+        "DEFAULT_THEME_NAME": "default",
+        "breakpoints": Object {
+          "desktop": [Function],
+          "desktopL": [Function],
+          "laptop": [Function],
+          "laptopL": [Function],
+          "laptopM": [Function],
+          "mobileL": [Function],
+          "mobileM": [Function],
+          "mobileS": [Function],
+          "tabletM": [Function],
+          "tabletS": [Function],
         },
-        "submitting": false,
-        "updateIncident": [MockFunction],
-        "wizard": Object {
-          "bedankt": Object {
-            "form": Object {
-              "controls": Object {},
-            },
+        "colors": Object {
+          "bright": Object {
+            "main": "#ffffff",
           },
-          "beschrijf": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "formAction": "UPDATE_INCIDENT",
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
+          "error": Object {
+            "main": "#ec0000",
           },
-          "email": Object {
-            "form": Object {
-              "controls": Object {},
-            },
-            "nextButtonClass": "next-class",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+          "primary": Object {
+            "dark": "#00387a",
+            "main": "#004699",
           },
-          "samenvatting": Object {
-            "form": Object {
-              "controls": Object {},
+          "secondary": Object {
+            "dark": "#bc0000",
+            "main": "#ec0000",
+          },
+          "supplement": Object {
+            "darkgreen": "#00A03C",
+            "lightblue": "#009DEC",
+            "lightgreen": "#BED200",
+            "orange": "#FF9100",
+            "pink": "#E50082",
+            "purple": "#A00078",
+            "yellow": "#FFE600",
+          },
+          "support": Object {
+            "focus": "#FEC813",
+            "invalid": "#EC0000",
+            "valid": "#00A03C",
+          },
+          "tint": Object {
+            "level1": "#ffffff",
+            "level2": "#F5F5F5",
+            "level3": "#E6E6E6",
+            "level4": "#B4B4B4",
+            "level5": "#767676",
+            "level6": "#323232",
+            "level7": "#000000",
+          },
+        },
+        "globalStyle": "",
+        "layouts": Object {
+          "big": Object {
+            "columns": 6,
+            "gutter": 24,
+            "margin": 24,
+            "max": 1024,
+            "min": 768,
+          },
+          "large": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 32,
+            "max": 1200,
+            "min": 1024,
+          },
+          "medium": Object {
+            "columns": 2,
+            "gutter": 20,
+            "margin": 20,
+            "max": 768,
+            "min": 414,
+          },
+          "small": Object {
+            "columns": 1,
+            "margin": 20,
+            "max": 414,
+          },
+          "xLarge": Object {
+            "columns": 12,
+            "gutter": 24,
+            "margin": 44,
+            "min": 1200,
+          },
+        },
+        "maxContainerWidth": 1920,
+        "maxGridWidth": 1430,
+        "spacing": 4,
+        "typography": Object {
+          "a": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
             },
-            "formAction": "CREATE_INCIDENT",
-            "nextButtonClass": "next-class send-button",
-            "nextButtonLabel": "Volgende",
-            "previousButtonClass": "previous-class",
-            "previousButtonLabel": "Vorige",
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": "inherit",
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "0",
+          },
+          "em": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": 1.25,
+            "marginBottom": "0",
+          },
+          "fontFamily": "Avenir Next, Arial, sans-serif",
+          "fontSize": "16px",
+          "h1": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "30px",
+                "lineHeight": "38px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "24px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "30px",
+            "marginBottom": "0",
+          },
+          "h2": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "24px",
+                "lineHeight": "30px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h3": Object {
+            "color": "#000000",
+            "fontSize": "20px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "28px",
+            "marginBottom": "8px",
+          },
+          "h4": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h5": Object {
+            "color": "#000000",
+            "fontSize": "18px",
+            "fontWeight": 700,
+            "letterSpacing": "inherit",
+            "lineHeight": "25px",
+            "marginBottom": "8px",
+          },
+          "h6": Object {
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 500,
+            "letterSpacing": "inherit",
+            "lineHeight": "20px",
+            "marginBottom": "0",
+          },
+          "li": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "8",
+          },
+          "p": Object {
+            "breakpoints": Object {
+              "laptop": Object {
+                "fontSize": "18px",
+                "lineHeight": "25px",
+              },
+              "tabletS": Object {
+                "marginBottom": "24px",
+              },
+            },
+            "color": "#000000",
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "22px",
+            "marginBottom": "20px",
+          },
+          "small": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
+          },
+          "span": Object {
+            "color": "#000000",
+            "fontSize": "14px",
+            "fontWeight": 400,
+            "letterSpacing": "inherit",
+            "lineHeight": "18px",
+            "marginBottom": "0",
           },
         },
       }
     }
-    valid={true}
-    value={Object {}}
   >
-    <WithWizard
-      render={[Function]}
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "injectedReducers": Object {
+            "categories": [Function],
+            "departments": [Function],
+            "history": [Function],
+            "roles": [Function],
+          },
+          "injectedSagas": Object {
+            "categories": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 17,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchCategoriesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "departments": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 14,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchDepartmentsSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "history": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 1,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchHistorySaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+            "roles": Object {
+              "mode": "@@saga-injector/daemon",
+              "saga": [Function],
+              "task": Object {
+                "@@redux-saga/TASK": true,
+                "cancel": [Function],
+                "cont": [Function],
+                "context": Object {},
+                "end": [Function],
+                "error": [Function],
+                "id": 4,
+                "isAborted": [Function],
+                "isCancelled": [Function],
+                "isRoot": true,
+                "isRunning": [Function],
+                "joiners": Array [],
+                "meta": Object {
+                  "location": undefined,
+                  "name": "watchRolesSaga",
+                },
+                "queue": Object {
+                  "abort": [Function],
+                  "addTask": [Function],
+                  "cancelAll": [Function],
+                  "getTasks": [Function],
+                },
+                "result": [Function],
+                "setContext": [Function],
+                "toPromise": [Function],
+              },
+            },
+          },
+          "replaceReducer": [Function],
+          "runSaga": [Function],
+          "subscribe": [Function],
+          Symbol(Symbol.observable): [Function],
+        }
+      }
     >
-      0
-    </WithWizard>
-  </IncidentNavigation>
-</Wizard>
+      <Connect(ConnectedRouterWithContext)
+        history={
+          Object {
+            "action": "POP",
+            "block": [Function],
+            "canGo": [Function],
+            "createHref": [Function],
+            "entries": Array [
+              Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+            ],
+            "go": [Function],
+            "goBack": [Function],
+            "goForward": [Function],
+            "index": 0,
+            "length": 1,
+            "listen": [Function],
+            "location": Object {
+              "hash": "",
+              "key": "cq88ca",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+            "push": [Function],
+            "replace": [Function],
+          }
+        }
+      >
+        <ConnectedRouterWithContext
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "key": "cq88ca",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          onLocationChanged={[Function]}
+        >
+          <ConnectedRouter
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "canGo": [Function],
+                "createHref": [Function],
+                "entries": Array [
+                  Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                ],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "index": 0,
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "key": "cq88ca",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            onLocationChanged={[Function]}
+            store={
+              Object {
+                "dispatch": [Function],
+                "getState": [Function],
+                "injectedReducers": Object {
+                  "categories": [Function],
+                  "departments": [Function],
+                  "history": [Function],
+                  "roles": [Function],
+                },
+                "injectedSagas": Object {
+                  "categories": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 17,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchCategoriesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "departments": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 14,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchDepartmentsSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "history": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 1,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchHistorySaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                  "roles": Object {
+                    "mode": "@@saga-injector/daemon",
+                    "saga": [Function],
+                    "task": Object {
+                      "@@redux-saga/TASK": true,
+                      "cancel": [Function],
+                      "cont": [Function],
+                      "context": Object {},
+                      "end": [Function],
+                      "error": [Function],
+                      "id": 4,
+                      "isAborted": [Function],
+                      "isCancelled": [Function],
+                      "isRoot": true,
+                      "isRunning": [Function],
+                      "joiners": Array [],
+                      "meta": Object {
+                        "location": undefined,
+                        "name": "watchRolesSaga",
+                      },
+                      "queue": Object {
+                        "abort": [Function],
+                        "addTask": [Function],
+                        "cancelAll": [Function],
+                        "getTasks": [Function],
+                      },
+                      "result": [Function],
+                      "setContext": [Function],
+                      "toPromise": [Function],
+                    },
+                  },
+                },
+                "replaceReducer": [Function],
+                "runSaga": [Function],
+                "subscribe": [Function],
+                Symbol(Symbol.observable): [Function],
+              }
+            }
+          >
+            <Router
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "canGo": [Function],
+                  "createHref": [Function],
+                  "entries": Array [
+                    Object {
+                      "hash": "",
+                      "key": "cq88ca",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                  ],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "index": 0,
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "key": "cq88ca",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+            >
+              <Wizard
+                basename=""
+                history={
+                  Object {
+                    "listen": [MockFunction] {
+                      "calls": Array [
+                        Array [
+                          [Function],
+                        ],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  }
+                }
+                onNext={null}
+                render={null}
+              >
+                <IncidentNavigation
+                  controls={Object {}}
+                  meta={
+                    Object {
+                      "createIncident": [MockFunction],
+                      "handleSubmit": [MockFunction],
+                      "incidentContainer": Object {
+                        "incident": Object {},
+                      },
+                      "submitting": false,
+                      "updateIncident": [MockFunction],
+                      "wizard": Object {
+                        "bedankt": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                        },
+                        "beschrijf": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "UPDATE_INCIDENT",
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                        },
+                        "email": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "nextButtonClass": "next-class",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                        "samenvatting": Object {
+                          "form": Object {
+                            "controls": Object {},
+                          },
+                          "formAction": "CREATE_INCIDENT",
+                          "nextButtonClass": "next-class send-button",
+                          "nextButtonLabel": "Volgende",
+                          "previousButtonClass": "previous-class",
+                          "previousButtonLabel": "Vorige",
+                        },
+                      },
+                    }
+                  }
+                  valid={true}
+                  value={Object {}}
+                >
+                  <WithWizard
+                    render={[Function]}
+                  />
+                </IncidentNavigation>
+              </Wizard>
+            </Router>
+          </ConnectedRouter>
+        </ConnectedRouterWithContext>
+      </Connect(ConnectedRouterWithContext)>
+    </Provider>
+  </ThemeProvider>
+</ThemeProvider>
 `;
 
 exports[`<IncidentNavigation /> rendering render correctly second step with two buttons: previous and next 2`] = `
-<div
+<IncidentNavigation__Nav
   className="incident-navigation"
 >
   <PreviousButton
@@ -608,5 +4556,5 @@ exports[`<IncidentNavigation /> rendering render correctly second step with two 
       Volgende
     </span>
   </NextButton>
-</div>
+</IncidentNavigation__Nav>
 `;

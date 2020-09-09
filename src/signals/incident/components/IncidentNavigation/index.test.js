@@ -1,7 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Wizard, WithWizard } from 'react-albus';
+
 import * as auth from 'shared/services/auth/auth';
+import { withAppContext } from 'test/utils';
 
 import IncidentNavigation from '.';
 
@@ -21,9 +23,11 @@ describe('<IncidentNavigation />', () => {
 
   function getComponent() {
     wrapper = mount(
-      <Wizard history={historySpy}>
-        <IncidentNavigation {...props} />
-      </Wizard>
+      withAppContext(
+        <Wizard history={historySpy}>
+          <IncidentNavigation {...props} />
+        </Wizard>
+      )
     );
 
     withWizard = wrapper.find(WithWizard);

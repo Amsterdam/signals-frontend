@@ -26,6 +26,8 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
         const currentStep = step?.id?.split('/').pop() || 0;
         const wizardStep = currentStep !== 'bedankt' && wizard[currentStep];
 
+        if (!wizardStep) return null;
+
         return (
           wizardStep && (
             <Nav className="incident-navigation">
