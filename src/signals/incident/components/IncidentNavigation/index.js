@@ -1,16 +1,21 @@
-/**
- *
- * IncidentNavigation
- *
- */
-
 import React from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { WithWizard } from 'react-albus';
+import { themeSpacing, themeColor } from '@datapunt/asc-ui';
 
 import PreviousButton from 'components/PreviousButton';
 import NextButton from 'components/NextButton';
-import './style.scss';
+
+const Nav = styled.div`
+  align-items: center;
+  background-color: ${themeColor('tint', 'level3')};
+  display: flex;
+  height: ${themeSpacing(16)};
+  justify-content: space-between;
+  margin-top: ${themeSpacing(7)};
+  padding: ${themeSpacing(0, 4)};
+`;
 
 const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit } }) => {
   const hideSubmit = controls?.hide_navigation_buttons?.meta ? controls.hide_navigation_buttons.meta.isVisible : false;
@@ -18,12 +23,12 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
   return (
     <WithWizard
       render={({ next, previous, step }) => {
-        const currentStep = (step && step.id && step.id.split('/').pop()) || 0;
-        const wizardStep = currentStep && wizard[currentStep];
+        const currentStep = step?.id?.split('/').pop() || 0;
+        const wizardStep = currentStep !== 'bedankt' && wizard[currentStep];
 
         return (
           wizardStep && (
-            <div className="incident-navigation">
+            <Nav className="incident-navigation">
               {!hideSubmit && wizardStep.previousButtonLabel ? (
                 <PreviousButton
                   className={wizardStep.previousButtonClass}
@@ -46,7 +51,7 @@ const IncidentNavigation = ({ controls, meta: { wizard, submitting, handleSubmit
                   )}
                 </NextButton>
               )}
-            </div>
+            </Nav>
           )
         );
       }}
