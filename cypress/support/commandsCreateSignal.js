@@ -1,12 +1,33 @@
 import appConfig from '../../app.base.json';
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
-import { SIGNAL_DETAILS } from './selectorsSignalDetails';
+import { CHANGE_STATUS, SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS } from './selectorsManageIncidents';
 
 export const addNote = noteText => {
   cy.get(SIGNAL_DETAILS.buttonAddNote).click();
   cy.get(SIGNAL_DETAILS.inputNoteText).type(noteText);
   cy.get(SIGNAL_DETAILS.buttonSaveNote).click();
+};
+
+export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
+  cy.server();
+  cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignal');
+  cy.route(`/signals/v1/private/signals/${Cypress.env('signalId')}/history`).as('getHistory');
+  cy.get(CHANGE_STATUS.buttonEdit).click();
+  cy.contains('Status wijzigen').should('be.visible');
+  cy.get(CHANGE_STATUS.currentStatus).contains(initialStatus).should('be.visible');
+  cy.get(radioButton).click().should('be.checked');
+  cy.get(CHANGE_STATUS.inputToelichting).type('Toeterlichting');
+  cy.get(CHANGE_STATUS.buttonSubmit).click();
+
+  cy.wait('@getHistory');
+  cy.wait('@getSignal');
+  cy.get(SIGNAL_DETAILS.status)
+    .should('have.text', newStatus)
+    .and('be.visible')
+    .and($labels => {
+      expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
+    });
 };
 
 // General functions for creating a signal

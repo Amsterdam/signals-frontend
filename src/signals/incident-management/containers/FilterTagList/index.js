@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Tag } from '@datapunt/asc-ui';
+import { Tag, themeSpacing } from '@datapunt/asc-ui';
 import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 
@@ -15,14 +15,15 @@ import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
 
 const FilterWrapper = styled.div`
-  margin-top: 10px;
+  margin-top: ${themeSpacing(2)};
   flex-basis: 100%;
 `;
 
 const StyledTag = styled(Tag)`
   display: inline-block;
-  margin: 0 5px 5px 0;
+  margin: ${themeSpacing(0, 2, 2, 0)};
   white-space: nowrap;
+
   :first-letter {
     text-transform: capitalize;
   }
@@ -40,6 +41,9 @@ export const mapKeys = key => {
 
     case 'contact_details':
       return 'contact';
+
+    case 'directing_department':
+      return 'verantwoordelijke afdeling';
 
     default:
       return key;

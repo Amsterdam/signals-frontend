@@ -364,6 +364,18 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             options={dataLists.kind}
           />
 
+          <Fieldset isSection>
+            <CheckboxGroup
+              defaultValue={state.options.directing_department}
+              hasToggle={false}
+              label="Regie hoofdmelding"
+              name="directing_department"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={dataLists.directing_department}
+            />
+          </Fieldset>
+
           <FilterGroup>
             <Label htmlFor="filter_date" isGroupHeader>
               Datum

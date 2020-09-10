@@ -225,7 +225,7 @@ describe('Filtering', () => {
   it('Should filter on Wonen', () => {
     filtering.filterOnCategorySlug('vakantieverhuur', 'Vakantieverhuur');
   });
-  it('Should filter on uregentie hoog', () => {
+  it('Should filter on urgentie hoog', () => {
     cy.route('**?priority=high&page=1&ordering=-created_at&page_size=50').as('getUrgencyHigh');
     cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
     cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
