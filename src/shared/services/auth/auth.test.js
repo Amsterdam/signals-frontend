@@ -14,6 +14,7 @@ import randomStringGenerator from './services/random-string-generator/random-str
 import accessTokenParser from './services/access-token-parser/access-token-parser';
 import CONFIGURATION from '../configuration/configuration';
 
+jest.mock('shared/services/configuration/configuration');
 jest.mock('./services/query-string-parser/query-string-parser');
 jest.mock('./services/random-string-generator/random-string-generator');
 jest.mock('./services/access-token-parser/access-token-parser');
@@ -92,6 +93,8 @@ describe('The auth service', () => {
   });
 
   afterEach(() => {
+    configuration.__reset();
+
     global.history.replaceState.mockRestore();
     global.location.assign.mockRestore();
     global.location.reload.mockRestore();
@@ -283,8 +286,6 @@ describe('The auth service', () => {
     });
 
     it('Redirects to the auth service', () => {
-      const originalEndpoint = CONFIGURATION.OIDC_AUTH_ENDPOINT;
-      const originalClientId = CONFIGURATION.OIDC_CLIENT_ID;
       CONFIGURATION.OIDC_AUTH_ENDPOINT = 'https://example.com/oauth2/authorize';
       CONFIGURATION.OIDC_CLIENT_ID = 'test';
 
@@ -300,9 +301,6 @@ describe('The auth service', () => {
           '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
           '&idp_id=datapunt'
       );
-
-      CONFIGURATION.OIDC_AUTH_ENDPOINT = originalEndpoint;
-      CONFIGURATION.OIDC_CLIENT_ID = originalClientId;
     });
   });
 

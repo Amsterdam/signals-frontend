@@ -10,6 +10,7 @@ import { getSources } from './actions';
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+jest.mock('shared/services/configuration/configuration');
 jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
@@ -23,15 +24,12 @@ describe('<App />', () => {
   let spyScrollTo;
   let props;
 
-  beforeEach(() => {
-    dispatch.mockReset();
-  });
-
   afterAll(() => {
     jest.restoreAllMocks();
   });
 
   beforeEach(() => {
+    dispatch.mockReset();
     spyScrollTo = jest.fn();
     Object.defineProperty(global.window, 'scrollTo', { value: spyScrollTo });
     listenSpy = jest.spyOn(history, 'listen');
@@ -41,6 +39,7 @@ describe('<App />', () => {
   });
 
   afterEach(() => {
+    configuration.__reset();
     listenSpy.mockRestore();
   });
 
