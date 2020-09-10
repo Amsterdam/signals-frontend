@@ -15,8 +15,15 @@ const reverseGeocoderService = async location => {
     latitude: location.lat,
   };
   const url = formatRequest(serviceURL, wgs84point);
-  const result = await fetch(url).then(res => res.json());
-  return formatPDOKResponse(result)[0];
+
+  const result = await fetch(url)
+    .then(res => res.json())
+    // make sure to catch any error responses from the geocoder service
+    .catch(() => ({}));
+
+  const formattedResponse = formatPDOKResponse(result);
+
+  return formattedResponse[0];
 };
 
 export default reverseGeocoderService;

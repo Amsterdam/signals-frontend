@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, cleanup } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
@@ -59,6 +59,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     close.mockReset();
     update.mockReset();
   });
+
+  afterEach(cleanup);
 
   it('renders correctly', () => {
     const { container, getByTestId, getByLabelText, getByText } = render(renderWithContext());
