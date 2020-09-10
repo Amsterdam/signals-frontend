@@ -8,13 +8,13 @@ import CheckboxInput from '../CheckboxInput';
 
 const Emphasis = styled.div`
   background-color: ${themeColor('tint', 'level3')};
-  padding: ${themeSpacing(4, 4, 5, 4)};
+  padding: ${themeSpacing(4, 4, 5, 3)};
 
-  .checkboxWrapper {
+  label {
     display: flex;
     align-items: flex-start;
 
-    * {
+    & > * {
       margin: 0;
     }
   }

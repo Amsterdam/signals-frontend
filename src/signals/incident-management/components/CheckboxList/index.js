@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { Label } from '@datapunt/asc-ui';
 
 import Checkbox from 'components/Checkbox';
 import * as types from 'shared/types';
@@ -23,7 +23,7 @@ const Toggle = styled.label`
   font-size: 16px;
   line-height: 20px;
   white-space: nowrap;
-  position:relative ;
+  position: relative;
 
   &:hover {
     color: rgb(236, 0, 0);
@@ -35,20 +35,13 @@ const Toggle = styled.label`
 
   & input[type='checkbox'] {
     position: absolute;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
     visibility: hidden;
   }
 `;
 
-const StyledCheckbox = styled(Checkbox)`
-  padding-left: 0;
-  padding-right: ${themeSpacing(2)};
-`;
-
 const Wrapper = styled.div`
-  padding: 6px 14px 6px 0;
-
   ${({ disabled }) =>
     disabled &&
     css`
@@ -60,8 +53,7 @@ const Wrapper = styled.div`
     `}
 `;
 
-const setsAreEqual = (a, b) =>
-  a.size === b.size && [...a].every(value => b.has(value));
+const setsAreEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value));
 
 const CheckboxList = ({
   boxWrapperKeyPrefix,
@@ -174,8 +166,7 @@ const CheckboxList = ({
 
     if (setsAreEqual(state, checked)) return;
 
-    const wholeGroupChecked =
-      isChecked(groupId, state) || state.size === numOptions;
+    const wholeGroupChecked = isChecked(groupId, state) || state.size === numOptions;
 
     setToggled(wholeGroupChecked);
 
@@ -238,11 +229,7 @@ const CheckboxList = ({
       {title}
 
       {hasToggle && (
-        <Toggle
-          indent={Boolean(title)}
-          tabIndex={0}
-          onClick={groupName ? null : handleToggle}
-        >
+        <Toggle indent={Boolean(title)} tabIndex={0} onClick={groupName ? null : handleToggle}>
           {toggled ? toggleNothingLabel : toggleAllLabel}
 
           {groupName && (
@@ -260,12 +247,9 @@ const CheckboxList = ({
 
       {options.map(({ id, key, slug, value: label }) => {
         const uid = id || key;
-        const optionId = [boxWrapperKeyPrefix, name, uid]
-          .filter(Boolean)
-          .join('_');
+        const optionId = [boxWrapperKeyPrefix, name, uid].filter(Boolean).join('_');
         const value = slug || key;
-        const defaultOption =
-          defaultValue.find(option => option.id === id) || {};
+        const defaultOption = defaultValue.find(option => option.id === id) || {};
 
         if (!uid) {
           return null;
@@ -273,18 +257,19 @@ const CheckboxList = ({
 
         return (
           <Wrapper disabled={defaultOption.disabled} key={optionId}>
-            <StyledCheckbox
-              checked={isChecked(groupId) || isChecked(uid)}
-              data-testid={`checkbox-${optionId}`}
-              data-id={uid}
-              disabled={defaultOption.disabled}
-              id={optionId}
-              name={name}
-              onChange={handleIndividualCheck}
-              type="checkbox"
-              value={value}
-            />
-            <label htmlFor={optionId}>{label}</label>
+            <Label htmlFor={optionId} label={label}>
+              <Checkbox
+                checked={isChecked(groupId) || isChecked(uid)}
+                data-testid={`checkbox-${optionId}`}
+                data-id={uid}
+                disabled={defaultOption.disabled}
+                id={optionId}
+                name={name}
+                onChange={handleIndividualCheck}
+                type="checkbox"
+                value={value}
+              />
+            </Label>
           </Wrapper>
         );
       })}

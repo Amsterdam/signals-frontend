@@ -1,18 +1,11 @@
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Radio, Label } from '@datapunt/asc-ui';
+import { Label } from '@datapunt/asc-ui';
+
+import Radio from 'components/RadioButton';
 
 import { resetExtraState, updateIncident } from 'signals/incident/containers/IncidentContainer/actions';
-
-const StyledLabel = styled(Label)`
-  align-self: baseline;
-
-  & > * {
-    font-weight: 400 !important;
-  }
-`;
 
 const RadioInput = ({ checked, id, idAttr, label, info, name, resetsStateOnChange }) => {
   const dispatch = useDispatch();
@@ -34,15 +27,9 @@ const RadioInput = ({ checked, id, idAttr, label, info, name, resetsStateOnChang
   }, [dispatch, id, info, label, name, resetsStateOnChange]);
 
   return (
-    <StyledLabel htmlFor={idAttr} label={label}>
-      <Radio
-        checked={checked}
-        data-testid="inputUsingDispatch"
-        id={idAttr}
-        onChange={onChange}
-        type="radio"
-      />
-    </StyledLabel>
+    <Label inline htmlFor={idAttr} label={label}>
+      <Radio checked={checked} data-testid="inputUsingDispatch" id={idAttr} onChange={onChange} type="radio" />
+    </Label>
   );
 };
 

@@ -57,10 +57,7 @@ export const DepartmentDetailContainer = ({
 
   useEffect(() => {
     get(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`);
-    // Disabling linter; only need to execute on mount; defining the dependencies
-    // will throw the component in an endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [get, departmentId]);
 
   return (
     <Fragment>
