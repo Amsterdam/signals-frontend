@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { Fragment, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
@@ -131,14 +131,25 @@ const DetailHeader = () => {
 
       <ButtonContainer>
         {canSplit && (
-          <ButtonLink
-            variant="application"
-            forwardedAs={Link}
-            to={`${INCIDENT_URL}/${incident.id}/split`}
-            data-testid="detail-header-button-split"
-          >
-            Splitsen
-          </ButtonLink>
+          <Fragment>
+            <ButtonLink
+              variant="application"
+              forwardedAs={Link}
+              to={`${INCIDENT_URL}/${incident.id}/splitincident`}
+              data-testid="detail-header-button-delen"
+            >
+              Delen
+            </ButtonLink>
+
+            <ButtonLink
+              variant="application"
+              forwardedAs={Link}
+              to={`${INCIDENT_URL}/${incident.id}/split`}
+              data-testid="detail-header-button-split"
+            >
+              Splitsen
+            </ButtonLink>
+          </Fragment>
         )}
 
         {canThor && (
