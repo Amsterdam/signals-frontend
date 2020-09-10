@@ -10,6 +10,8 @@ import incidents from 'utils/__tests__/fixtures/incidents.json';
 import List from '.';
 import IncidentManagementContext from '../../../../context';
 
+jest.mock('shared/services/configuration/configuration');
+
 const withContext = Component =>
   withAppContext(
     <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
@@ -26,6 +28,10 @@ describe('<List />', () => {
       stadsdeel: stadsdeelList,
       onChangeOrdering: jest.fn(),
     };
+  });
+
+  afterEach(() => {
+    configuration.__reset();
   });
 
   it('should render correctly', () => {
