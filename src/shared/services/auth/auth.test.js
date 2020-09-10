@@ -93,7 +93,7 @@ describe('The auth service', () => {
   });
 
   afterEach(() => {
-    configuration.__reset();
+    CONFIGURATION.__reset();
 
     global.history.replaceState.mockRestore();
     global.location.assign.mockRestore();
