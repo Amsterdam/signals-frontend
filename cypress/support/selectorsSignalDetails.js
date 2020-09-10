@@ -80,6 +80,7 @@ export const SIGNAL_DETAILS = {
   buttonEdit: '[data-testid="editButton"]',
   buttonSaveNote: '[data-testid=addNoteSaveNoteButton]',
   buttonSubmit: '[data-testid=submitButton]',
+  buttonTHOR: '[data-testid=detail-header-button-thor]',
   creationDate: '[data-testid=meta-list-date-value]',
   deelmeldingen: '[data-testid="childIncidents"]',
   deelmeldingId: '[class*=ChildIncidents__Li] > a > [title="id"]',
