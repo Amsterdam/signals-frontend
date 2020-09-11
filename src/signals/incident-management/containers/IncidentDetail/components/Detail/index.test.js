@@ -51,4 +51,46 @@ describe('<Detail />', () => {
     expect(getByTestId('attachmentsDefinition')).toBeInTheDocument();
     expect(getByTestId('detail-location')).toBeInTheDocument();
   });
+
+  it('should only render elements that have data', async () => {
+    const reporterNoPhone = {
+      reporter: {
+        email: 'foo@bar.com',
+      },
+    };
+
+    const { queryByTestId, findByTestId, unmount, rerender } = render(
+      withAppContext(
+        <IncidentDetailContext.Provider value={{ incident: { ...incidentFixture, ...reporterNoPhone } }}>
+          <Detail {...props} />
+        </IncidentDetailContext.Provider>
+      )
+    );
+
+    await findByTestId('detail-title');
+
+    expect(queryByTestId('detail-phone-definition')).toBeInTheDocument();
+    expect(queryByTestId('detail-email-definition')).toBeInTheDocument();
+
+    unmount();
+
+    const reporterNoEmail = {
+      reporter: {
+        phone: '14020',
+      },
+    };
+
+    rerender(
+      withAppContext(
+        <IncidentDetailContext.Provider value={{ incident: { ...incidentFixture, ...reporterNoEmail } }}>
+          <Detail {...props} />
+        </IncidentDetailContext.Provider>
+      )
+    );
+
+    await findByTestId('detail-title');
+
+    expect(queryByTestId('detail-phone-definition')).toBeInTheDocument();
+    expect(queryByTestId('detail-email-definition')).toBeInTheDocument();
+  });
 });

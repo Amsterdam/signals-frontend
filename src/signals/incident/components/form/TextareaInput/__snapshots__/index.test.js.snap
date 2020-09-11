@@ -17,6 +17,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
 >
   <ForwardRef
     helpText="0/300 tekens"
+    maxRows={15}
     onBlur={[Function]}
     placeholder="type here"
   />
@@ -40,6 +41,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
 >
   <ForwardRef
     helpText="4/300 tekens"
+    maxRows={15}
     onBlur={[Function]}
     placeholder="type here"
   />
@@ -64,6 +66,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
 >
   <ForwardRef
     helpText={false}
+    maxRows={15}
     onBlur={[Function]}
     placeholder="type here"
   />

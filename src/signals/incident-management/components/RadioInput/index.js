@@ -11,6 +11,8 @@ const Wrapper = styled.div`
 `;
 
 const StyledLabel = styled(AscLabel)`
+  align-self: baseline;
+
   * {
     font-weight: normal
   }

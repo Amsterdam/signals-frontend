@@ -12,9 +12,15 @@ const FilterGroup = styled.div`
 `;
 
 const StyledLabel = styled(Label)`
+  align-self: baseline;
+
   * {
     font-weight: normal
   }
+`;
+
+const StyledRadioGroup = styled(RadioGroup)`
+  display: inline-flex;
 `;
 
 /**
@@ -44,10 +50,11 @@ const RadioButtonList = ({
         </Label>
       )}
 
-      <RadioGroup name={groupName} disabled={disabled}>
+      <StyledRadioGroup name={groupName} disabled={disabled}>
         {radioOptions.map(option => (
           <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
             <Radio
+              data-testid={`${groupName}-${option.key || option.name}`}
               checked={option.key === defaultValue}
               id={option.key || option.name}
               onChange={() => {
@@ -57,7 +64,7 @@ const RadioButtonList = ({
             />
           </StyledLabel>
         ))}
-      </RadioGroup>
+      </StyledRadioGroup>
     </FilterGroup>
   );
 };

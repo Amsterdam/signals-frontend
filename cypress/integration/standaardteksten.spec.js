@@ -3,6 +3,7 @@ import * as createSignal from '../support/commandsCreateSignal';
 import { STANDAARDTEKSTEN } from '../support/selectorsSettings';
 import { MANAGE_SIGNALS } from '../support/selectorsManageIncidents';
 import { CHANGE_STATUS, SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import * as requests from '../support/commandsRequests';
 
 describe('Standaardteksten', () => {
   describe('Create standaardteksten', () => {
@@ -156,7 +157,7 @@ describe('Standaardteksten', () => {
       cy.contains('Huidige status').should('be.visible');
       cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
 
-      cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('not.be.visible');
+      cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonIngepland).click().should('be.checked');
       cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('be.visible');
       cy.get(STANDAARDTEKSTEN.defaultTextItemTitle).should('have.text', STANDAARDTEKSTEN.textTitleInplannen);
@@ -173,6 +174,7 @@ describe('Standaardteksten', () => {
       cy.get(CHANGE_STATUS.buttonSubmit).click();
       cy.wait('@getSignals');
       cy.wait('@getHistory');
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 2);
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven INPLANNEN. De overlastgevende duif is geïdentificeerd als Cher Ami');
     });
     it('Should change the status of the signal to Afgehandeld and show standaardtekst', () => {
@@ -206,6 +208,7 @@ describe('Standaardteksten', () => {
       cy.wait('@patchSignal');
       cy.wait('@getSignals');
       cy.wait('@getHistory');
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 3);
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven AFHANDELEN. De overlastgevende duif is geïdentificeerd als Valiant');
     });
     it('Should change the status of the signal to Heropend and show standaardtekst', () => {
@@ -235,7 +238,35 @@ describe('Standaardteksten', () => {
       cy.get(CHANGE_STATUS.buttonSubmit).click();
       cy.wait('@getSignals');
       cy.wait('@getHistory');
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 4);
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven HEROPENEN. De overlastgevende duif is geïdentificeerd als Lance Sterling');
+    });
+  });
+  describe('Check message if there is no standaardtekst', () => {
+    describe('Create signal', () => {
+      it('Should create a signal for a category without a standaardtekst', () => {
+        requests.createSignalDeelmelding();
+      });
+    });
+    describe('Check message', () => {
+      before(() => {
+        localStorage.setItem('accessToken', Cypress.env('token'));
+        cy.server();
+        cy.getManageSignalsRoutes();
+        cy.getSignalDetailsRoutesById();
+        cy.visitFetch('/manage/incidents/');
+        cy.waitForManageSignalsRoutes();
+        cy.log(Cypress.env('signalId'));
+      });
+      it('Should show no message when there is no standaardtekst', () => {
+        cy.get('[href*="/manage/incident/"]').contains(Cypress.env('signalId')).click();
+        cy.get(CHANGE_STATUS.buttonEdit).click();
+        cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('be.visible').and('have.text', 'Standaard teksten');
+        // eslint-disable-next-line max-nested-callbacks
+        cy.contains('Er is geen standaard tekst voor deze subcategorie en status combinatie.').should('be.visible').and($labels => {
+          expect($labels).to.have.css('color', 'rgb(118, 118, 118)');
+        });
+      });
     });
   });
 });

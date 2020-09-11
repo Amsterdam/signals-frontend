@@ -74,7 +74,7 @@ describe('<AddNote />', () => {
   });
 
   it('should not call update when note field is empty', async () => {
-    const { getByTestId, findByTestId } = render(renderWithContext());
+    const { getByTestId, queryByTestId, findByTestId } = render(renderWithContext());
 
     act(() => {
       fireEvent.click(getByTestId('addNoteNewNoteButton'));
@@ -88,12 +88,14 @@ describe('<AddNote />', () => {
     });
 
     expect(update).not.toHaveBeenCalled();
+    expect(queryByTestId('error')).not.toBeInTheDocument();
 
     act(() => {
       fireEvent.click(saveNoteButton);
     });
 
     expect(update).not.toHaveBeenCalled();
+    expect(queryByTestId('error')).toBeInTheDocument();
   });
 
   it('should clear the textarea', async () => {

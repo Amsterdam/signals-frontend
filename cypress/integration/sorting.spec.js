@@ -41,7 +41,7 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.firstSignaldag).should('not.have.text', '0');
   });
 
-  it('Should sort on column Datum en tijd', () => {
+  it.skip('Should sort on column Datum en tijd', () => {
     cy.route('/signals/v1/private/signals/?page=1&ordering=created_at&page_size=50').as('getSortedASC');
     const todaysDate = Cypress.moment().format('DD-MM-YYYY');
 

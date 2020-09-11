@@ -1,12 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
 import { Heading, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
+import { sourceList } from 'signals/incident-management/definitions';
+import configuration from 'shared/services/configuration/configuration';
 import LoadingIndicator from 'components/LoadingIndicator';
 
+import AppContext from '../../../../containers/App/context';
 import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
 import onNext from './services/on-next';
@@ -17,6 +20,8 @@ const StyledH1 = styled(Heading)`
 `;
 
 const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, createIncident, incidentContainer }) => {
+  const appContext = useContext(AppContext);
+  const sources = configuration?.fetchSourcesFromBackend ? appContext.sources : sourceList;
   const incident = useMemo(() => incidentContainer.incident, [incidentContainer.incident]);
 
   return (
@@ -24,9 +29,9 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
       <Route
         render={({ history }) => (
           <Wizard history={history} onNext={wiz => onNext(wizardDefinition, wiz, incident)}>
-            {incidentContainer.loading && <LoadingIndicator />}
-
-            {!incidentContainer.loading && (
+            {incidentContainer.loading || appContext.loading ? (
+              <LoadingIndicator />
+            ) : (
               <Steps>
                 {Object.keys(wizardDefinition).map(key => (
                   <Step
@@ -50,7 +55,7 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
 
                           {(form || formFactory) && (
                             <IncidentForm
-                              fieldConfig={form || formFactory(incident)}
+                              fieldConfig={form || formFactory(incident, sources)}
                               incidentContainer={incidentContainer}
                               getClassification={getClassification}
                               updateIncident={updateIncident}

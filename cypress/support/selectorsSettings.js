@@ -37,7 +37,9 @@ export const STANDAARDTEKSTEN = {
 };
 
 export const USERS = {
+  buttonAnnuleren: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid="submitBtn"]',
+  historyAction: '[class*="History__Action"]',
   inputAchternaam: '#last_name',
   inputMail: '#username',
   inputVoornaam: '#first_name',

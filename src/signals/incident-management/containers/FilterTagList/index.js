@@ -1,27 +1,29 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Tag } from '@datapunt/asc-ui';
+import { Tag, themeSpacing } from '@datapunt/asc-ui';
 import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 
-import {
-  makeSelectMainCategories,
-  makeSelectSubCategories,
-} from 'models/categories/selectors';
+import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
-import * as types from 'shared/types';
+import configuration from 'shared/services/configuration/configuration';
+import { dataListType, filterType } from 'shared/types';
+
+import AppContext from '../../../../containers/App/context';
+import IncidentManagementContext from '../../context';
 
 const FilterWrapper = styled.div`
-  margin-top: 10px;
+  margin-top: ${themeSpacing(2)};
   flex-basis: 100%;
 `;
 
 const StyledTag = styled(Tag)`
   display: inline-block;
-  margin: 0 5px 5px 0;
+  margin: ${themeSpacing(0, 2, 2, 0)};
   white-space: nowrap;
+
   :first-letter {
     text-transform: capitalize;
   }
@@ -40,18 +42,16 @@ export const mapKeys = key => {
     case 'contact_details':
       return 'contact';
 
+    case 'directing_department':
+      return 'verantwoordelijke afdeling';
+
     default:
       return key;
   }
 };
 
 const renderItem = (display, key) => (
-  <StyledTag
-    colorType="tint"
-    colorSubtype="level3"
-    key={key}
-    data-testid="filterTagListTag"
-  >
+  <StyledTag colorType="tint" colorSubtype="level3" key={key} data-testid="filterTagListTag">
     {display}
   </StyledTag>
 );
@@ -84,16 +84,16 @@ const renderTag = (key, mainCategories, list) => {
 };
 
 export const FilterTagListComponent = props => {
-  const {
-    tags,
-    mainCategories,
-    subCategories,
-  } = props;
+  const { tags, mainCategories, subCategories } = props;
+  const { sources } = useContext(AppContext);
+  const { districts } = useContext(IncidentManagementContext);
 
   const map = {
     ...dataLists,
+    area: districts,
     maincategory_slug: mainCategories,
     category_slug: subCategories,
+    source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
   };
 
   const tagsList = { ...tags };
@@ -106,9 +106,7 @@ export const FilterTagListComponent = props => {
       'Datum:',
       tagsList.created_after && format(parseISO(tagsList.created_after), 'dd-MM-yyyy'),
       't/m',
-      (tagsList.created_before &&
-        format(parseISO(tagsList.created_before), 'dd-MM-yyyy')) ||
-      'nu',
+      (tagsList.created_before && format(parseISO(tagsList.created_before), 'dd-MM-yyyy')) || 'nu',
     ]
       .filter(Boolean)
       .join(' ');
@@ -124,18 +122,18 @@ export const FilterTagListComponent = props => {
   return mainCategories && subCategories ? (
     <FilterWrapper>
       {Object.entries(tagsList).map(([tagKey, tag]) =>
-        Array.isArray(tag) ?
-          renderGroup(tag, mainCategories, map[tagKey], tagKey) :
-          renderTag(tag, mainCategories, map[tagKey])
+        Array.isArray(tag)
+          ? renderGroup(tag, mainCategories, map[tagKey], tagKey)
+          : renderTag(tag, mainCategories, map[tagKey])
       )}
     </FilterWrapper>
   ) : null;
 };
 
 FilterTagListComponent.propTypes = {
-  tags: types.filterType,
-  mainCategories: types.dataListType,
-  subCategories: types.dataListType,
+  tags: filterType,
+  mainCategories: dataListType,
+  subCategories: dataListType,
 };
 
 FilterTagListComponent.defaultProps = {

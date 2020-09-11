@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { themeSpacing, Row, Column } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import { userType } from 'shared/types';
+import { userType, historyType } from 'shared/types';
 
 import { rolesModelSelector, inputCheckboxRolesSelector } from 'models/roles/selectors';
 
@@ -16,6 +16,7 @@ import Input from 'components/Input';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
 import FormFooter from 'components/FormFooter';
+import History from 'components/History';
 
 const Form = styled.form`
   width: 100%;
@@ -28,6 +29,10 @@ const StyledColumn = styled(Column).attrs({
 `;
 
 const FieldGroup = styled.div`
+  @media (max-width: ${({ theme }) => theme.layouts.large.min}px) {
+    margin-top: ${themeSpacing(8)};
+  }
+
   & + & {
     margin-top: ${themeSpacing(8)};
   }
@@ -42,27 +47,28 @@ const statusOptions = [
   { key: 'false', value: 'Niet actief' },
 ];
 
+const StyledHistory = styled(History)`
+  h2 {
+    font-size: 16px;
+  }
+`;
+
 const DEFAULT_STATUS_OPTION = 'true';
 
 const reducer = (state, { field, value }) => ({ ...state, [field]: value });
 
-const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
+const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
   const inputRoles = useSelector(inputCheckboxRolesSelector);
   const roles = useSelector(rolesModelSelector).list;
-
   const departments = useSelector(makeSelectDepartments);
   const departmentList = departments.list.map(({ id, name }) => ({ id: String(id), value: name }));
 
-  const userDepartments = data
-    ?.profile
-    ?.departments
-    ?.map(department => departmentList.find(({ value }) => value === department))
-    .filter(Boolean) || [];
+  const userDepartments =
+    data?.profile?.departments
+      ?.map(department => departmentList.find(({ value }) => value === department))
+      .filter(Boolean) || [];
 
-  const userRoles = data
-    ?.roles
-    ?.map(role => inputRoles.find(({ name }) => name === role.name))
-    .filter(Boolean) || [];
+  const userRoles = data?.roles?.map(role => inputRoles.find(({ name }) => name === role.name)).filter(Boolean) || [];
 
   const [state, dispatch] = React.useReducer(reducer, {
     username: data.username,
@@ -74,13 +80,19 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     roles: userRoles,
   });
 
-  const onChangeEvent = useCallback(event => {
-    onChange(event.target.name, event.target.value);
-  }, [onChange]);
+  const onChangeEvent = useCallback(
+    event => {
+      onChange(event.target.name, event.target.value);
+    },
+    [onChange]
+  );
 
-  const onChange = useCallback((field, value) => {
-    dispatch({ field, value });
-  }, [dispatch]);
+  const onChange = useCallback(
+    (field, value) => {
+      dispatch({ field, value });
+    },
+    [dispatch]
+  );
 
   const getFormData = useCallback(() => {
     const form = { ...data, profile: { ...data.profile } };
@@ -107,106 +119,125 @@ const UserForm = ({ data, onCancel, onSubmit, readOnly }) => {
     return { form, postPatch };
   }, [data, roles, state]);
 
-  const onSubmitForm = useCallback(event => {
-    event.preventDefault();
-    onSubmit(getFormData());
-  }, [getFormData, onSubmit]);
+  const onSubmitForm = useCallback(
+    event => {
+      event.preventDefault();
+      onSubmit(getFormData());
+    },
+    [getFormData, onSubmit]
+  );
 
-  const onCancelForm = useCallback(event => {
-    event.preventDefault();
-    onCancel(getFormData());
-  }, [getFormData, onCancel]);
+  const onCancelForm = useCallback(
+    event => {
+      event.preventDefault();
+      onCancel(getFormData());
+    },
+    [getFormData, onCancel]
+  );
 
   return (
     <Form action="" data-testid="detailUserForm">
       <Row>
         <StyledColumn>
-          <FieldGroup>
-            <Input
-              value={state.username}
-              id="username"
-              name="username"
-              label="E-mailadres"
-              disabled={data.username !== undefined || readOnly}
-              readOnly={readOnly}
-              onChange={onChangeEvent}
-            />
-          </FieldGroup>
+          <div>
+            <FieldGroup>
+              <Input
+                disabled={data.username !== undefined || readOnly}
+                id="username"
+                label="E-mailadres"
+                name="username"
+                onChange={onChangeEvent}
+                readOnly={readOnly}
+                type="text"
+                value={state.username}
+              />
+            </FieldGroup>
 
-          <FieldGroup>
-            <Input
-              value={state.first_name}
-              id="first_name"
-              name="first_name"
-              label="Voornaam"
-              disabled={readOnly}
-              onChange={onChangeEvent}
-            />
-          </FieldGroup>
+            <FieldGroup>
+              <Input
+                disabled={readOnly}
+                id="first_name"
+                label="Voornaam"
+                name="first_name"
+                onChange={onChangeEvent}
+                type="text"
+                value={state.first_name}
+              />
+            </FieldGroup>
 
-          <FieldGroup>
-            <Input
-              value={state.last_name}
-              id="last_name"
-              name="last_name"
-              label="Achternaam"
-              disabled={readOnly}
-              onChange={onChangeEvent}
-            />
-          </FieldGroup>
+            <FieldGroup>
+              <Input
+                disabled={readOnly}
+                id="last_name"
+                label="Achternaam"
+                name="last_name"
+                onChange={onChangeEvent}
+                type="text"
+                value={state.last_name}
+              />
+            </FieldGroup>
 
-          <FieldGroup>
-            <Label as="span">Status</Label>
-            <RadioButtonList
-              defaultValue={state.is_active}
-              groupName="is_active"
-              hasEmptySelectionButton={false}
-              options={statusOptions}
-              disabled={readOnly}
-              onChange={(field, { key: value }) => { onChange(field, value); }}
-            />
-          </FieldGroup>
+            <FieldGroup>
+              <Label as="span">Status</Label>
+              <RadioButtonList
+                defaultValue={state.is_active}
+                groupName="is_active"
+                hasEmptySelectionButton={false}
+                options={statusOptions}
+                disabled={readOnly}
+                onChange={(field, { key: value }) => {
+                  onChange(field, value);
+                }}
+              />
+            </FieldGroup>
 
-          <FieldGroup>
-            <Label as="span">Rollen</Label>
-            <CheckboxList
-              defaultValue={state.roles}
-              disabled={readOnly}
-              groupName="roles"
-              name="roles"
-              options={inputRoles}
-              onChange={(field, value) => { onChange(field, value); }}
-            />
-          </FieldGroup>
+            <FieldGroup>
+              <Label as="span">Rollen</Label>
+              <CheckboxList
+                defaultValue={state.roles}
+                disabled={readOnly}
+                groupName="roles"
+                name="roles"
+                options={inputRoles}
+                onChange={(field, value) => {
+                  onChange(field, value);
+                }}
+              />
+            </FieldGroup>
 
-          <FieldGroup>
-            <Label as="span">Afdeling</Label>
-            <CheckboxList
-              defaultValue={state.departments}
-              disabled={readOnly}
-              groupName="departments"
-              name="departments"
-              options={departmentList}
-              onChange={(field, value) => { onChange(field, value); }}
-            />
-          </FieldGroup>
+            <FieldGroup>
+              <Label as="span">Afdeling</Label>
+              <CheckboxList
+                defaultValue={state.departments}
+                disabled={readOnly}
+                groupName="departments"
+                name="departments"
+                options={departmentList}
+                onChange={(field, value) => {
+                  onChange(field, value);
+                }}
+              />
+            </FieldGroup>
+          </div>
         </StyledColumn>
 
         <StyledColumn push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}>
-          <FieldGroup>
-            <Label as="span">Notitie</Label>
-            <TextArea
-              disabled={readOnly}
-              value={state.note}
-              id="note"
-              name="note"
-              rows="8"
-              onChange={onChangeEvent}
-            />
-          </FieldGroup>
-        </StyledColumn>
+          <div>
+            <FieldGroup>
+              <Label as="span">Notitie</Label>
+              <TextArea
+                disabled={readOnly}
+                value={state.note}
+                id="note"
+                name="note"
+                rows="8"
+                onChange={onChangeEvent}
+              />
+            </FieldGroup>
 
-        <Column span={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }} />
+            <FieldGroup>{history && <StyledHistory list={history} />}</FieldGroup>
+          </div>
+        </StyledColumn>
 
         {!readOnly && (
           <StyledFormFooter
@@ -230,6 +261,7 @@ UserForm.defaultProps = {
 
 UserForm.propTypes = {
   data: userType,
+  history: historyType,
   /**
    * Callback handler called whenever form is canceled
    * @param {Object} form data

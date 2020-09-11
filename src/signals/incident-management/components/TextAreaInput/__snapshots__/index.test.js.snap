@@ -11,6 +11,7 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
       as="label"
       className=""
       htmlFor="formname"
+      inline={false}
       isGroupHeader={false}
     >
       display
@@ -22,6 +23,7 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
         data-testid="name"
         helpText="0/300 tekens"
         id="formname"
+        maxRows={15}
         name="name"
         placeholder="placeholder"
         rows={2}
@@ -43,6 +45,7 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
       as="label"
       className=""
       htmlFor="formname"
+      inline={false}
       isGroupHeader={false}
     >
       display
@@ -54,6 +57,7 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
         data-testid="name"
         helpText="4/300 tekens"
         id="formname"
+        maxRows={15}
         name="name"
         placeholder="placeholder"
         rows={2}
@@ -75,6 +79,7 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
       as="label"
       className=""
       htmlFor="formname"
+      inline={false}
       isGroupHeader={false}
     >
       display
@@ -86,6 +91,7 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
         data-testid="name"
         helpText={false}
         id="formname"
+        maxRows={15}
         name="name"
         placeholder="placeholder"
         rows={2}

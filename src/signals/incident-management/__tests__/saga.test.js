@@ -13,6 +13,7 @@ import watchIncidentManagementSaga, {
   fetchProxy,
   doSaveFilter,
   doUpdateFilter,
+  fetchDistricts,
   fetchFilters,
   refreshIncidents,
   removeFilter,
@@ -21,11 +22,12 @@ import watchIncidentManagementSaga, {
   fetchIncidents,
   searchIncidents,
 } from '../saga';
-import { SPLIT_INCIDENT_SUCCESS } from '../containers/IncidentSplitContainer/constants';
+import { SPLIT_INCIDENT_SUCCESS } from '../containers/LegacyIncidentSplitContainer/constants';
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   APPLY_FILTER,
+  GET_DISTRICTS,
   GET_FILTERS,
   REMOVE_FILTER,
   SAVE_FILTER_FAILED,
@@ -44,6 +46,8 @@ import {
   filterSaveSuccess,
   filterUpdatedFailed,
   filterUpdatedSuccess,
+  getDistrictsFailed,
+  getDistrictsSuccess,
   getFilters,
   getFiltersFailed,
   getFiltersSuccess,
@@ -64,6 +68,7 @@ describe('signals/incident-management/saga', () => {
     testSaga(watchIncidentManagementSaga)
       .next()
       .all([
+        takeLatest(GET_DISTRICTS, fetchDistricts),
         takeLatest(GET_FILTERS, fetchFilters),
         takeLatest(REMOVE_FILTER, removeFilter),
         takeLatest(SAVE_FILTER, saveFilter),
@@ -269,6 +274,37 @@ describe('signals/incident-management/saga', () => {
     });
   });
 
+  describe('fetch districts', () => {
+    it('should dispatch getDistrictsSuccess', () => {
+      const districts = { results: [{ a: 1 }] };
+
+      testSaga(fetchDistricts)
+        .next()
+        .call(authCall, CONFIGURATION.AREAS_ENDPOINT, {
+          type_code: CONFIGURATION.areaTypeCodeForDistrict,
+        })
+        .next(districts)
+        .put(getDistrictsSuccess(districts.results))
+        .next()
+        .isDone();
+    });
+
+    it('should dispatch getDistrictsFailed', () => {
+      const message = '404 not found';
+      const error = new Error(message);
+
+      testSaga(fetchDistricts)
+        .next()
+        .call(authCall, CONFIGURATION.AREAS_ENDPOINT, {
+          type_code: CONFIGURATION.areaTypeCodeForDistrict,
+        })
+        .throw(error)
+        .put(getDistrictsFailed(message))
+        .next()
+        .isDone();
+    });
+  });
+
   describe('fetch filters', () => {
     it('should dispatch getFiltersSuccess', () => {
       const filters = { results: [{ a: 1 }] };
@@ -384,12 +420,7 @@ describe('signals/incident-management/saga', () => {
         status: 300,
       };
 
-      testSaga(doSaveFilter, action)
-        .next()
-        .throw(error)
-        .put(filterSaveFailed(error))
-        .next()
-        .isDone();
+      testSaga(doSaveFilter, action).next().throw(error).put(filterSaveFailed(error)).next().isDone();
     });
 
     it('catches 400', () => {
@@ -398,12 +429,7 @@ describe('signals/incident-management/saga', () => {
         status: 400,
       };
 
-      testSaga(doSaveFilter, action)
-        .next()
-        .throw(error)
-        .put(filterSaveFailed('Invalid data supplied'))
-        .next()
-        .isDone();
+      testSaga(doSaveFilter, action).next().throw(error).put(filterSaveFailed('Invalid data supplied')).next().isDone();
     });
 
     it('catches 500', () => {
@@ -412,12 +438,7 @@ describe('signals/incident-management/saga', () => {
         status: 500,
       };
 
-      testSaga(doSaveFilter, action)
-        .next()
-        .throw(error)
-        .put(filterSaveFailed('Internal server error'))
-        .next()
-        .isDone();
+      testSaga(doSaveFilter, action).next().throw(error).put(filterSaveFailed('Internal server error')).next().isDone();
     });
   });
 
@@ -474,12 +495,7 @@ describe('signals/incident-management/saga', () => {
         status: 300,
       };
 
-      testSaga(doUpdateFilter, action)
-        .next()
-        .throw(error)
-        .put(filterUpdatedFailed(error))
-        .next()
-        .isDone();
+      testSaga(doUpdateFilter, action).next().throw(error).put(filterUpdatedFailed(error)).next().isDone();
     });
 
     it('catches 400', () => {
@@ -523,9 +539,7 @@ describe('signals/incident-management/saga', () => {
         payload,
       };
 
-      return expectSaga(saveFilter, action)
-        .spawn(doSaveFilter, action)
-        .run();
+      return expectSaga(saveFilter, action).spawn(doSaveFilter, action).run();
     });
   });
 
@@ -541,9 +555,7 @@ describe('signals/incident-management/saga', () => {
         payload,
       };
 
-      return expectSaga(updateFilter, action)
-        .spawn(doUpdateFilter, action)
-        .run();
+      return expectSaga(updateFilter, action).spawn(doUpdateFilter, action).run();
     });
   });
 });

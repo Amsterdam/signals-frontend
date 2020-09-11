@@ -7,6 +7,8 @@ import { Radio, Label } from '@datapunt/asc-ui';
 import { resetExtraState, updateIncident } from 'signals/incident/containers/IncidentContainer/actions';
 
 const StyledLabel = styled(Label)`
+  align-self: baseline;
+
   & > * {
     font-weight: 400 !important;
   }

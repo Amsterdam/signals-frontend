@@ -10,7 +10,7 @@ const selectIncidentSplitContainerDomain = state => state.get('incidentSplitCont
  */
 
 /**
- * Default selector used by IncidentSplitContainer
+ * Default selector used by LegacyIncidentSplitContainer
  */
 
 const makeSelectIncidentSplitContainer = () => createSelector(

@@ -2,8 +2,10 @@ import { fromJS } from 'immutable';
 
 import { parseInputFormData } from 'signals/shared/filter/parse';
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
+import configuration from 'shared/services/configuration/configuration';
 
 import { createSelector } from 'reselect';
+import { makeSelectSources } from '../../containers/App/selectors';
 import { initialState } from './reducer';
 import { FILTER_PAGE_SIZE } from './constants';
 
@@ -11,6 +13,19 @@ import { FILTER_PAGE_SIZE } from './constants';
  * Direct selector to the overviewPage state domain
  */
 const selectIncidentManagementDomain = state => (state && state.get('incidentManagement')) || fromJS(initialState);
+
+export const makeSelectDistricts = createSelector([selectIncidentManagementDomain], stateMap =>
+  stateMap.get('districts').size
+    ? stateMap
+      .get('districts')
+      .push({ code: 'null', name: 'Niet bepaald' })
+      .toJS()
+      .map(district => ({
+        key: district.code,
+        value: district.name,
+      }))
+    : null
+);
 
 export const makeSelectAllFilters = createSelector(
   [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories],
@@ -37,8 +52,14 @@ export const makeSelectAllFilters = createSelector(
 );
 
 export const makeSelectActiveFilter = createSelector(
-  [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories],
-  (stateMap, maincategory_slug, category_slug) => {
+  [
+    selectIncidentManagementDomain,
+    makeSelectDistricts,
+    makeSelectSources,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+  ],
+  (stateMap, area, source, maincategory_slug, category_slug) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
@@ -54,60 +75,82 @@ export const makeSelectActiveFilter = createSelector(
         priority: converted,
       },
     };
-
-    return parseInputFormData(filter, {
+    const fixtures = {
       maincategory_slug,
       category_slug,
-    });
+      area,
+    };
+    const allFixtures = configuration.fetchSourcesFromBackend
+      ? {
+        ...fixtures,
+        source,
+      }
+      : fixtures;
+
+    return parseInputFormData(filter, allFixtures);
   }
 );
 
 export const makeSelectEditFilter = createSelector(
-  [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories],
-  (stateMap, maincategory_slug, category_slug) => {
+  [
+    selectIncidentManagementDomain,
+    makeSelectDistricts,
+    makeSelectSources,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+  ],
+  (stateMap, area, source, maincategory_slug, category_slug) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
 
     const state = stateMap.toJS();
-
-    return parseInputFormData(
-      state.editFilter,
-      {
-        maincategory_slug,
-        category_slug,
-      },
-      (category, value) => {
-        if (category.key || category.slug) return undefined;
-
-        return category._links.self.public.endsWith(`/${value}`);
+    const fixtures = {
+      maincategory_slug,
+      category_slug,
+      area,
+    };
+    const allFixtures = configuration.fetchSourcesFromBackend
+      ? {
+        ...fixtures,
+        source,
       }
-    );
+      : fixtures;
+
+    return parseInputFormData(state.editFilter, allFixtures, (category, value) => {
+      if (category.key || category.slug) return undefined;
+
+      return category._links.self.public.endsWith(`/${value}`);
+    });
   }
 );
 
+const filterParamsMap = {
+  area: 'area_code',
+  areaType: 'area_type_code',
+};
+const mapFilterParam = param => (filterParamsMap[param] ? filterParamsMap[param] : param);
+const orderingMap = {
+  days_open: '-created_at',
+  '-days_open': 'created_at',
+};
+
 export const makeSelectFilterParams = createSelector(selectIncidentManagementDomain, incidentManagementState => {
-  const incidentManagement = incidentManagementState.toJS();
-  const filter = incidentManagement.activeFilter;
-  const { options } = filter;
-  const { page } = incidentManagement;
-  let { ordering } = incidentManagement;
-
-  if (ordering === 'days_open') {
-    ordering = '-created_at';
-  }
-
-  if (ordering === '-days_open') {
-    ordering = 'created_at';
-  }
-
+  const { activeFilter: filter, ordering, page } = incidentManagementState.toJS();
   const pagingOptions = {
     page,
-    ordering,
+    ordering: orderingMap[ordering] || ordering,
     page_size: FILTER_PAGE_SIZE,
   };
+  const options = filter.options.area
+    ? { ...filter.options, areaType: configuration.areaTypeCodeForDistrict }
+    : filter.options;
+  const optionParams = Object.keys(options).reduce((acc, key) => ({ ...acc, [mapFilterParam(key)]: options[key] }), {});
 
-  return { ...options, ...pagingOptions };
+  return {
+    ...optionParams,
+    ...pagingOptions,
+  };
 });
 
 export const makeSelectPage = createSelector(selectIncidentManagementDomain, state => {

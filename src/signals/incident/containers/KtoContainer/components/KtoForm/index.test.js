@@ -1,171 +1,197 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { mount } from 'enzyme';
+import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import ktoContainerMock from 'utils/__tests__/fixtures/kto.json';
-import ktoMock from '../../../../definitions/kto';
+import KtoForm from '.';
 
-import KtoForm, { andersOptionText } from '.';
+const onSubmit = jest.fn();
 
-// temporarily skipping tests for this component; picking up later
-describe.skip('<KtoForm />', () => {
-  let props;
-  let wrapper;
-  let instance;
-  let spy;
+const options = [
+  { key: 'a', value: 'Foo' },
+  { key: 'b', value: 'Bar' },
+  { key: 'c', value: 'Baz' },
+  { key: 'anders', value: 'Here be dragons' },
+];
 
+describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   beforeEach(() => {
-    props = {
-      fieldConfig: {
-        controls: {},
-      },
-      ktoContainer: {
-        form: {},
-        answers: {},
-      },
-      onUpdateKto: jest.fn(),
-      onStoreKto: jest.fn(),
-    };
-
-    wrapper = mount(withAppContext(<KtoForm {...props} />));
-
-    instance = wrapper.find('KtoForm').instance();
-
-    spy = jest.spyOn(instance, 'setValues');
+    onSubmit.mockReset();
   });
 
-  describe('rendering', () => {
-    it('expect to render YES form correctly', () => {
-      const { queryByText, rerender } = render(
-        withAppContext(
-          <KtoForm {...props} />,
-        ),
-      );
+  it('renders correctly', () => {
+    const { container, getByTestId } = render(
+      withAppContext(<KtoForm isSatisfied onSubmit={onSubmit} options={options} />)
+    );
 
-      expect(queryByText(ktoMock.controls.tevreden.meta.label)).not.toBeInTheDocument();
-      expect(queryByText('Antwoord Ja')).not.toBeInTheDocument();
-      expect(queryByText(ktoMock.controls.text_extra.meta.label)).toBeInTheDocument();
-      expect(queryByText('Verstuur')).toBeInTheDocument();
+    expect(container.querySelectorAll('input[type="radio"]')).toHaveLength(options.length);
 
-      const yesProps = {
-        ...props,
-        ...ktoContainerMock.yes,
-      };
-
-      rerender(
-        withAppContext(
-          <KtoForm {...yesProps} />,
-        ),
-      );
-
-      expect(queryByText(ktoMock.controls.tevreden.meta.label)).toBeInTheDocument();
-      expect(queryByText('Antwoord JA')).toBeInTheDocument();
-    });
-
-    it('expect to render NO form correctly', () => {
-      const { queryByText, rerender } = render(
-        withAppContext(
-          <KtoForm {...props} />,
-        ),
-      );
-
-      expect(queryByText(ktoMock.controls.niet_tevreden.meta.label)).not.toBeInTheDocument();
-      expect(queryByText('Antwoord NEE')).not.toBeInTheDocument();
-      expect(queryByText(ktoMock.controls.text_extra.meta.label)).toBeInTheDocument();
-      expect(queryByText('Verstuur')).toBeInTheDocument();
-
-      const noProps = {
-        ...props,
-        ...ktoContainerMock.no,
-      };
-
-      rerender(
-        withAppContext(
-          <KtoForm {...noProps} />,
-        ),
-      );
-
-      expect(queryByText(ktoMock.controls.niet_tevreden.meta.label)).toBeInTheDocument();
-      expect(queryByText('Antwoord NEE')).toBeInTheDocument();
-    });
+    expect(getByTestId('ktoTextExtra')).toBeInTheDocument();
+    expect(getByTestId('ktoAllowsContact')).toBeInTheDocument();
+    expect(getByTestId('ktoSubmit')).toBeInTheDocument();
   });
 
-  describe('events', () => {
-    let form;
+  it('renders the correct title', () => {
+    const { getByText, unmount, rerender } = render(
+      withAppContext(<KtoForm isSatisfied onSubmit={onSubmit} options={options} />)
+    );
 
-    it('expect to update kto', () => {
-      const values = { text_extra: 'weer andere tekst' };
-      instance.updateKto(values);
+    expect(getByText('Waarom bent u tevreden?')).toBeInTheDocument();
 
-      expect(props.onUpdateKto).toHaveBeenCalledWith(values);
+    unmount();
+
+    rerender(withAppContext(<KtoForm isSatisfied={false} onSubmit={onSubmit} options={options} />));
+
+    expect(getByText('Waarom bent u ontevreden?')).toBeInTheDocument();
+  });
+
+  it('requires one of the options to be selected', () => {
+    const { queryByText, getByText, getByTestId } = render(
+      withAppContext(<KtoForm isSatisfied onSubmit={onSubmit} options={options} />)
+    );
+
+    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
+    expect(onSubmit).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(getByTestId('ktoSubmit'));
     });
 
-    it('expect to set values when form vars have changed', () => {
-      form = { text_extra: 'weer andere tekst', is_satisfied: true };
-      instance.form.patchValue(form);
-      const ktoContainer = { form };
-      wrapper.setProps({ ktoContainer });
+    expect(getByText('Dit veld is verplicht')).toBeInTheDocument();
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
 
-      expect(spy).toHaveBeenCalledWith(form);
+  it('requires text area to contain content when last option is selected', () => {
+    const { queryByText, getByText, queryByTestId, getByTestId } = render(
+      withAppContext(<KtoForm isSatisfied onSubmit={onSubmit} options={options} />)
+    );
+
+    const lastOption = getByTestId(`kto-${[...options].reverse()[0].key}`);
+    expect(queryByTestId('ktoText')).not.toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(lastOption);
     });
 
-    it('submit JA should trigger store kto', () => {
-      form = {
-        tevreden: {},
-        tevreden_anders: '',
-        text_extra: 'Zoveel te vertellen',
-        allows_contact: { value: true },
-        is_satisfied: true,
-      };
-      instance.form.patchValue(form);
-      const ktoContainer = {
-        form,
-        uuid: 'abc-42',
-      };
-      wrapper.setProps({ ktoContainer });
+    expect(getByTestId('ktoText')).toBeInTheDocument();
+    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
 
-      wrapper.find('form').simulate('submit', { preventDefault: jest.fn() });
-
-      expect(props.onStoreKto).toHaveBeenCalledWith({
-        uuid: 'abc-42',
-        form: {
-          text: '',
-          text_extra: 'Zoveel te vertellen',
-          allows_contact: true,
-          is_satisfied: true,
-        },
-      });
+    act(() => {
+      fireEvent.click(getByTestId('ktoSubmit'));
     });
 
-    it('submit NEE with Anders-option should trigger store kto', () => {
-      form = {
-        niet_tevreden: {
-          id: 'anders',
-          label: andersOptionText,
-        },
-        niet_tevreden_anders: 'Meer over die melding',
-        text_extra: 'Zoveel te vertellen',
-        is_satisfied: false,
-      };
-      instance.form.patchValue(form);
-      const ktoContainer = {
-        form,
-        uuid: 'abc-42',
-      };
-      wrapper.setProps({ ktoContainer });
+    expect(getByText('Dit veld is verplicht')).toBeInTheDocument();
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
 
-      wrapper.find('form').simulate('submit', { preventDefault: jest.fn() });
+  it('should clear error message', () => {
+    const { queryByText, getByText, queryByTestId, getByTestId } = render(
+      withAppContext(<KtoForm isSatisfied onSubmit={onSubmit} options={options} />)
+    );
 
-      expect(props.onStoreKto).toHaveBeenCalledWith({
-        uuid: 'abc-42',
-        form: {
-          text: 'Meer over die melding',
-          text_extra: 'Zoveel te vertellen',
-          allows_contact: false,
-          is_satisfied: false,
-        },
-      });
+    const lastOption = getByTestId(`kto-${[...options].reverse()[0].key}`);
+    expect(queryByTestId('ktoText')).not.toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(lastOption);
+    });
+
+    act(() => {
+      fireEvent.click(getByTestId('ktoSubmit'));
+    });
+
+    expect(getByText('Dit veld is verplicht')).toBeInTheDocument();
+
+    const value = 'Qux Baz';
+
+    act(() => {
+      fireEvent.change(getByTestId('ktoText'), { target: { value } });
+    });
+
+    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument();
+  });
+
+  it('should handle submit for all but last option', () => {
+    const isSatisfied = true;
+    const { getByTestId } = render(
+      withAppContext(<KtoForm isSatisfied={isSatisfied} onSubmit={onSubmit} options={options} />)
+    );
+
+    const firstOption = getByTestId(`kto-${options[0].key}`);
+
+    act(() => {
+      fireEvent.click(firstOption);
+    });
+
+    expect(onSubmit).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(getByTestId('ktoSubmit'));
+    });
+
+    expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
+      is_satisfied: isSatisfied,
+      text: options[0].value,
+    }));
+  });
+
+  it('should handle submit for last option', () => {
+    const { getByTestId } = render(
+      withAppContext(<KtoForm isSatisfied onSubmit={onSubmit} options={options} />)
+    );
+
+    const lastOption = getByTestId(`kto-${[...options].reverse()[0].key}`);
+
+    act(() => {
+      fireEvent.click(lastOption);
+    });
+
+    const value = 'Qux Baz';
+
+    act(() => {
+      fireEvent.change(getByTestId('ktoText'), { target: { value } });
+    });
+
+    act(() => {
+      fireEvent.click(getByTestId('ktoSubmit'));
+    });
+
+    expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
+      text: value,
+    }));
+  });
+
+  it('should contain the correct values in the submit payload', () => {
+    const isSatisfied = false;
+
+    const { getByTestId } = render(
+      withAppContext(<KtoForm isSatisfied={isSatisfied} onSubmit={onSubmit} options={options} />)
+    );
+
+    const secondOption = getByTestId(`kto-${options[1].key}`);
+
+    act(() => {
+      fireEvent.click(secondOption);
+    });
+
+    const value = 'Bar baz foo';
+
+    act(() => {
+      fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } });
+    });
+
+    act(() => {
+      fireEvent.click(getByTestId('ktoAllowsContact'));
+    });
+
+    act(() => {
+      fireEvent.click(getByTestId('ktoSubmit'));
+    });
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      allows_contact: true,
+      is_satisfied: isSatisfied,
+      text_extra: value,
+      text: options[1].value,
     });
   });
 });
