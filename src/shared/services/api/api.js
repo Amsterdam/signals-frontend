@@ -100,9 +100,11 @@ export const errorMessageDictionary = {
  * @returns {String}
  */
 export const getErrorMessage = (error, defaultErrorMessage) => {
-  if (!error.status) {
+  const status = error?.response?.status || error.status;
+
+  if (!status) {
     return defaultErrorMessage || errorMessageDictionary.default;
   }
 
-  return errorMessageDictionary[error.status] || defaultErrorMessage || errorMessageDictionary.default;
+  return errorMessageDictionary[status] || defaultErrorMessage || errorMessageDictionary.default;
 };
