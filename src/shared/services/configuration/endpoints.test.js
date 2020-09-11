@@ -5,6 +5,11 @@ const { prefixEndpoints } = require('./endpoints');
 jest.mock('./endpoints.json', () => mockedEndpoints, { virtual: true });
 
 describe('shared/services/configuration/endpoints', () => {
+  it('should remove all comment entries', () => {
+    const actual = prefixEndpoints('prefix');
+    expect(Object.keys(actual).length).toBe(2);
+  });
+
   it('should prefix all entries', () => {
     const actual = prefixEndpoints('prefix');
     expect(actual.ENDPOINT_1).toBe('prefix/endpoint/1');
