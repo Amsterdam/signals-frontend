@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -10,24 +10,19 @@ const StyledTD = styled.td`
   cursor: pointer;
 `;
 
-const List = ({
-  columnOrder,
-  invisibleColumns,
-  items,
-  onItemClick,
-  primaryKeyColumn,
-  className,
-}) => {
+const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyColumn, className }) => {
+  const filterVisibleColumns = useCallback(colHeader => invisibleColumns.includes(colHeader) === false, [
+    invisibleColumns,
+  ]);
+
+  const colHeaders = useMemo(
+    () => (columnOrder.length && columnOrder) || Object.keys(items[0]).filter(filterVisibleColumns),
+    [columnOrder, filterVisibleColumns, items]
+  );
+
   if (!items.length) {
     return null;
   }
-
-  const filterVisibleColumns = colHeader =>
-    invisibleColumns.includes(colHeader) === false;
-
-  const colHeaders =
-    (columnOrder.length && columnOrder) ||
-    Object.keys(items[0]).filter(filterVisibleColumns);
 
   return (
     <table cellPadding="0" cellSpacing="0" width="100%" className={className}>
