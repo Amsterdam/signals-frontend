@@ -59,8 +59,6 @@ const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}, state
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
-    dispatch.mockReset();
-
     jest.spyOn(reactRouter, 'useParams').mockImplementation(() => ({ pageNum: 1 }));
 
     const push = jest.fn();
