@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { Row, Column, themeSpacing, themeColor, Heading } from '@datapunt/asc-ui';
 import { Link } from 'react-router-dom';
 
+import configuration from 'shared/services/configuration/configuration';
+
 import { MAP_URL, INCIDENTS_URL } from '../../../../routes';
 
 export const Wrapper = styled(Row)`
@@ -62,7 +64,7 @@ export const TabWrapper = styled(Column)`
 const SubNav = ({ showsMap }) => (
   <Wrapper data-testid="subNav">
     <Column span={{ small: 1, medium: 1, big: 3, large: 6, xLarge: 6 }}>
-      {showsMap && <MapHeading>Afgelopen 24 uur</MapHeading>}
+      {showsMap && configuration.mapFilter24Hours && <MapHeading>Afgelopen 24 uur</MapHeading>}
     </Column>
 
     <TabWrapper span={{ small: 1, medium: 1, big: 3, large: 6, xLarge: 6 }}>
