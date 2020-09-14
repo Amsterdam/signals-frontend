@@ -1,8 +1,6 @@
-import mockedEndpoints from './__mocks__/endpoints.json';
+import { prefixEndpoints } from './endpoints';
 
-const { prefixEndpoints } = require('./endpoints');
-
-jest.mock('./endpoint-definitions', () => mockedEndpoints, { virtual: true });
+jest.mock('./endpoint-definitions');
 
 describe('shared/services/configuration/endpoints', () => {
   it('should prefix all entries', () => {
