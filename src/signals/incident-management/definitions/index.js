@@ -1,4 +1,5 @@
 import contactDetailsList from './contactDetailsList';
+import directingDepartmentList from './directingDepartmentList';
 import feedbackList from './feedbackList';
 import kindList from './kindList';
 import priorityList from './priorityList';
@@ -11,6 +12,7 @@ export { feedbackList, priorityList, stadsdeelList, statusList, sourceList, cont
 
 export default {
   contact_details: contactDetailsList,
+  directing_department: directingDepartmentList,
   feedback: feedbackList,
   kind: kindList,
   priority: priorityList,

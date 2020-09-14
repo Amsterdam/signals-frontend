@@ -16,12 +16,13 @@ export default function configureStore(initialState, history) {
   let composeEnhancers = compose;
   const reduxSagaMonitorOptions = {
     onError: e => {
+      const message = (e.response && e.response.jsonBody && e.response.jsonBody.message) || e.message;
       const notificationTitle = getErrorMessage(e);
 
       store.dispatch(
         showGlobalNotification({
           title: notificationTitle,
-          message: e.message,
+          message,
           variant: VARIANT_ERROR,
           type: TYPE_GLOBAL,
         })

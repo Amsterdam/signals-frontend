@@ -10,6 +10,7 @@ import IncidentManagementModule, { IncidentManagementModuleComponent } from '..'
 
 const history = createMemoryHistory();
 
+jest.mock('shared/services/configuration/configuration');
 jest.mock('shared/services/auth/auth');
 
 describe('signals/incident-management', () => {
@@ -27,6 +28,10 @@ describe('signals/incident-management', () => {
       requestIncidentsAction: jest.fn(),
       searchIncidentsAction: jest.fn(),
     };
+  });
+
+  afterEach(() => {
+    configuration.__reset();
   });
 
   it('should have props from structured selector', () => {

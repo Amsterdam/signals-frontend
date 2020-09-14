@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import { PAGE_SIZE } from 'containers/App/constants';
 import { getAuthHeaders } from 'shared/services/auth/auth';
@@ -25,11 +25,10 @@ const useFetchUsers = ({ page, filters } = {}) => {
   const [isLoading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [errorState, setError] = useState(false);
+  const controller = useMemo(() => new AbortController(), []);
+  const { signal } = useMemo(() => controller, [controller]);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-
     (async function fetchData() {
       setLoading(true);
 
@@ -68,7 +67,7 @@ const useFetchUsers = ({ page, filters } = {}) => {
     return () => {
       controller.abort();
     };
-  }, [page, filters]);
+  }, [page, filters, controller, signal]);
 
   /**
    * @typedef {Object} FetchResponse

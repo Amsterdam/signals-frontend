@@ -1,7 +1,7 @@
 import FormFooter from 'components/FormFooter';
 
 import styled, { css } from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing, themeColor } from '@datapunt/asc-ui';
 
 export const Form = styled.form`
   column-count: 2;
@@ -31,6 +31,11 @@ export const Fieldset = styled.fieldset`
   border: 0;
   padding: 0;
 
+  &:not(:first-of-type),
+  &:first-of-type:last-of-type {
+    margin: ${themeSpacing(7, 0)};
+  }
+
   legend {
     border: 0;
     clip: rect(0 0 0 0);
@@ -51,8 +56,8 @@ export const Fieldset = styled.fieldset`
   }
 
   ${({ isSection }) => isSection && css`
-    background-color: #f5f5f5;
-    padding: 15px 20px;
+    background-color: ${themeColor('tint', 'level2')};
+    padding: 15px 21px;
   `}
 `;
 

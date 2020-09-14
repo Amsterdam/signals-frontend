@@ -1,7 +1,9 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Checkbox, themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@datapunt/asc-ui';
+
+import Checkbox from 'components/Checkbox';
 import * as types from 'shared/types';
 
 const FilterGroup = styled.div`
@@ -45,6 +47,8 @@ const StyledCheckbox = styled(Checkbox)`
 `;
 
 const Wrapper = styled.div`
+  padding: 6px 14px 6px 0;
+
   ${({ disabled }) =>
     disabled &&
     css`

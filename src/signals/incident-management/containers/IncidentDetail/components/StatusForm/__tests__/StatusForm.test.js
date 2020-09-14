@@ -102,9 +102,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(queryByText('(optioneel)')).toBeInTheDocument();
   });
 
-  it('requires a text value when the checkbox is selected', () => {
+  it('requires a text value when the checkbox is selected', async () => {
     // render component with incident status that will disable the checkbox
-    const { container, getByTestId, queryByText } = render(
+    const { container, getByTestId, queryByText, findByTestId } = render(
       renderWithContext({ ...incidentFixture, status: { state: statusSendsEmailWhenSet.key } })
     );
 
@@ -117,6 +117,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
+
+    await findByTestId('statusForm');
 
     // verify that an error message is shown
     expect(queryByText('Dit veld is verplicht')).toBeInTheDocument();
@@ -139,6 +141,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
+
+    await findByTestId('statusForm');
 
     // verify that 'update' and 'close' have been called
     expect(update).toHaveBeenCalledWith(
@@ -242,9 +246,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(textarea.value).toEqual(value);
   });
 
-  it('shows an error when the text field contains specific characters', () => {
+  it('shows an error when the text field contains specific characters', async () => {
     // render component
-    const { container, getByTestId, queryByTestId } = render(renderWithContext());
+    const { container, getByTestId, queryByTestId, findByTestId } = render(renderWithContext());
 
     // fire onChange event on textarea with special characters '{{' and '}}'
     const textarea = container.querySelector('textarea');
@@ -260,6 +264,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
+
+    await findByTestId('statusForm');
 
     // verify that an error message is shown
     expect(getByTestId('statusError')).toBeInTheDocument();
@@ -279,6 +285,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
 
+    await findByTestId('statusForm');
+
     // verify that 'update' and 'close' have been called
     expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -291,9 +299,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(close).toHaveBeenCalled();
   });
 
-  it('clears the error message when another status is selected', () => {
+  it('clears the error message when another status is selected', async () => {
     // render component with incident status that will disable the checkbox
-    const { container, getByTestId, queryByTestId } = render(
+    const { container, getByTestId, queryByTestId, findByTestId } = render(
       renderWithContext({ ...incidentFixture, status: { state: statusSendsEmailWhenSet.key } })
     );
 
@@ -304,6 +312,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     act(() => {
       fireEvent.click(getByTestId('statusFormSubmitButton'));
     });
+
+    await findByTestId('statusForm');
 
     // verify that an error message is shown
     expect(getByTestId('statusError')).toBeInTheDocument();
@@ -348,12 +358,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(getByTestId('statusWarning').textContent).toEqual(GEANNULEERD_EXPLANATION);
 
     // select a status that is none of the above
-    const status = changeStatusOptionList
-      .filter(({ key }) => !['reopened', 'o', 'a'].includes(key))
-      .sort(() => 0.5 - Math.random())[0];
-
     act(() => {
-      fireEvent.click(container.querySelector(`input[value="${status.key}"]`));
+      fireEvent.click(container.querySelector('input[value="b"]'));
     });
 
     // verify that no warning is shown

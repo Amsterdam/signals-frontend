@@ -10,6 +10,7 @@ module.exports = {
     '!src/polyfills.js',
     '!src/global-styles.js',
     '!src/**/definitions/*',
+    '!src/sw-proxy*.js',
   ],
   coverageThreshold: {
     global: {
