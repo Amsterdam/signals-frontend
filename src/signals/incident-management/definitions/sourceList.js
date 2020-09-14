@@ -13,7 +13,7 @@ const sourceList = [
   { key: 'E-mail – ASC', value: 'E-mail – ASC' },
   { key: 'E-mail – Stadsdeel', value: 'E-mail – Stadsdeel' },
   { key: 'Webcare – CCA', value: 'Webcare – CCA' },
-  { key: 'Eigen organisatie', value: 'Eigen organisatie' },
+  { key: 'Interne melding', value: 'Interne melding' },
   { key: 'Fixi Weesp', value: 'Fixi Weesp' },
   {
     key: 'Meldkamer burger/ondernemer',
