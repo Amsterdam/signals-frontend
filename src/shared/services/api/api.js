@@ -84,7 +84,7 @@ export const errorMessageDictionary = {
   default: 'De opgevraagde gegevens konden niet gevonden worden',
   400: 'Deze wijziging is niet toegestaan in deze situatie.',
   401: 'Om de opgevraagde gegevens te bekijken is een geautoriseerde sessie noodzakelijk',
-  403: 'Je bent niet voldoende rechten om deze actie uit te voeren.',
+  403: 'Je hebt niet voldoende rechten om deze actie uit te voeren.',
   408: 'Het verzoek kan niet verwerkt worden door een timeout op de server',
   413: 'De grootte van de payload overschrijdt de toegestane limiet',
   418: 'The server refuses to brew coffee because it is a teapot',
