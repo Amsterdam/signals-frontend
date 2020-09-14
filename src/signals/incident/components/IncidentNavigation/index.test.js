@@ -16,7 +16,7 @@ jest.mock('shared/services/auth/auth', () => ({
 jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
 const steps = Object.keys(wizardDefinition)
-  .filter(key => !['opslaan'].includes(key))
+  .filter(key => key !== 'opslaan')
   .map(key => `incident/${key}`);
 
 const handleSubmit = jest.fn();
