@@ -34,7 +34,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
   });
 
   it('renders a next button for the first step', () => {
-    const { getByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       withAppContext(
         <Wizard history={history}>
           <Steps>
@@ -47,6 +47,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
     );
 
     expect(getByTestId('nextButton')).toBeInTheDocument();
+    expect(queryByTestId('previousButton')).not.toBeInTheDocument();
   });
 
   it('renders previous and next buttons for intermediate steps', () => {
@@ -69,7 +70,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
   it('renders a previous button for the last step', () => {
     const lastStep = [...steps].reverse()[0];
 
-    const { getByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       withAppContext(
         <Wizard history={history}>
           <Steps>
@@ -81,6 +82,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     );
 
+    expect(queryByTestId('nextButton')).not.toBeInTheDocument();
     expect(getByTestId('previousButton')).toBeInTheDocument();
   });
 
@@ -134,5 +136,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
     act(() => {
       fireEvent.click(getByTestId('nextButton'));
     });
+
+    expect(handleSubmit).toHaveBeenCalled();
   });
 });
