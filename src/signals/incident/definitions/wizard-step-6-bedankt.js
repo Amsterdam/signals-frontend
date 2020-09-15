@@ -1,3 +1,6 @@
+import React from 'react';
+import { Heading } from '@datapunt/asc-ui';
+
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 
@@ -7,23 +10,26 @@ export default {
     controls: {
       text_melding: {
         meta: {
-          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
-          value: 'Uw melding is bij ons bekend onder nummer: <a href="/manage/incident/{incident.id}">{incident.id}<a>.',
+          value:
+            'Uw melding is bij ons bekend onder nummer: <a href="/manage/incident/{incident.id}">{incident.id}<a>.',
         },
         render: FormComponents.PlainText,
       },
       text: {
         meta: {
-          className: 'col-sm-12 col-md-6',
           label: 'Wat doen we met uw melding?',
           type: 'bedankt',
         },
-        render: FormComponents.PlainText,
+        // eslint-disable-next-line
+        render: ({ meta: { label } }) => (
+          <Heading as="h2" styleAs="h3">
+            {label}
+          </Heading>
+        ),
       },
       text_melding_extra: {
         meta: {
-          className: 'col-sm-12 col-md-6',
           type: 'bedankt',
           key: 'incident.handling_message',
         },
