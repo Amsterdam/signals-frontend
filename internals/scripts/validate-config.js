@@ -9,6 +9,6 @@ const valid = validate(config);
 if (!valid) {
   /* eslint-disable no-console */
   console.log('Configuration is not valid according to app.schema.json');
-  console.log(validate.errors);
+  console.table(validate.errors);
   process.exit(1);
 }
