@@ -6,7 +6,7 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 
-import { IncidentSplitContainer } from '.';
+import { LegacyIncidentSplitContainer } from '.';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -44,7 +44,7 @@ const attachments = {
   ],
 };
 
-describe('<IncidentSplitContainer />', () => {
+describe('<LegacyIncidentSplitContainer />', () => {
   it('should render correctly', async () => {
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
@@ -57,7 +57,7 @@ describe('<IncidentSplitContainer />', () => {
     };
 
     const { queryByTestId, queryAllByTestId, findByTestId } = render(
-      withAppContext(<IncidentSplitContainer {...props} />)
+      withAppContext(<LegacyIncidentSplitContainer {...props} />)
     );
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();

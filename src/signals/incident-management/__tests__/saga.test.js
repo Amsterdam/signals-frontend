@@ -22,7 +22,7 @@ import watchIncidentManagementSaga, {
   fetchIncidents,
   searchIncidents,
 } from '../saga';
-import { SPLIT_INCIDENT_SUCCESS } from '../containers/IncidentSplitContainer/constants';
+import { SPLIT_INCIDENT_SUCCESS } from '../containers/LegacyIncidentSplitContainer/constants';
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,

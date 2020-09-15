@@ -1,174 +1,167 @@
-import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose, bindActionCreators } from 'redux';
-import { Row, Column } from '@datapunt/asc-ui';
-import { withRouter } from 'react-router-dom';
+import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
+import styled from 'styled-components';
+import { Row, Column, Heading, Paragraph, themeSpacing } from '@datapunt/asc-ui';
+import { useParams } from 'react-router-dom';
 
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import makeSelectKtoContainer from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+import configuration from 'shared/services/configuration/configuration';
+import useFetch from 'hooks/useFetch';
 
-import {
-  updateKto, requestKtoAnswers, checkKto, storeKto,
-} from './actions';
+import LoadingIndicator from 'components/LoadingIndicator';
+
 import KtoForm from './components/KtoForm';
 
-export const headerStrings = {
-  ja: 'Ja, ik ben tevreden met de behandeling van mijn melding',
-  nee: 'Nee, ik ben niet tevreden met de behandeling van mijn melding',
-  finished: 'Bedankt voor uw feedback!',
-  tooLate: 'Helaas, de mogelijkheid om feedback te geven is verlopen',
-  filledOut: 'Er is al feedback gegeven voor deze melding',
+const StyledHeading = styled(Heading)`
+  margin-top: ${themeSpacing(6)};
+`;
+
+const StyledParagraph = styled(Paragraph)`
+  margin-top: ${themeSpacing(5)};
+`;
+
+const initialState = {
+  formOptions: undefined,
+  renderSection: undefined,
+  shouldRender: false,
 };
 
-const renderHeader = type => {
-  switch (type) {
-    case 'ja':
-      return <h1>{headerStrings.ja}</h1>;
+export const renderSections = {
+  TOO_LATE: {
+    title: 'Helaas, de mogelijkheid om feedback te geven is verlopen',
+    body: 'Na het afhandelen van uw melding heeft u 2 weken de gelegenheid om feedback te geven.',
+  },
+  FILLED_OUT: {
+    title: 'Er is al feedback gegeven voor deze melding',
+    body: 'Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.',
+  },
+  NOT_FOUND: {
+    title: 'Het feedback formulier voor deze melding kon niet gevonden worden',
+  },
+};
 
-    case 'nee':
-      return <h1>{headerStrings.nee}</h1>;
+// eslint-disable-next-line consistent-return
+const reducer = (state, action) => {
+  // eslint-disable-next-line default-case
+  switch (action.type) {
+    case 'SET_FORM_OPTIONS':
+      return { ...state, formOptions: action.payload, shouldRender: true };
 
-    case 'finished':
-      return (
-        <header>
-          <h1>{headerStrings.finished}</h1>
-          <p>We zijn voortdurend bezig onze dienstverlening te verbeteren.</p>
-        </header>
-      );
-
-    case 'too late':
-      return (
-        <header>
-          <h1>{headerStrings.tooLate}</h1>
-          <p>
-            Na het afhandelend van uw melding heeft u 2 weken de gelegenheid om
-            feedback te geven.
-          </p>
-        </header>
-      );
-
-    case 'filled out':
-      return (
-        <header>
-          <h1>{headerStrings.filledOut}</h1>
-          <p>
-            Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze
-            dienstverlening te verbeteren.
-          </p>
-        </header>
-      );
-    default:
-      return null;
+    case 'SET_RENDER_SECTION':
+      return { ...state, renderSection: action.payload, shouldRender: true };
   }
 };
 
-export const KtoContainerComponent = ({
-  requestKtoAnswersAction,
-  checkKtoAction,
-  ktoContainer,
-  onUpdateKto,
-  onStoreKto,
-  match,
-}) => {
-  const {
-    params: { yesNo, uuid },
-  } = match;
+export const KtoContainer = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { get: getCheck, isLoading: isLoadingCheck, error: errorCheck, put, isSuccess } = useFetch();
+  const { get: getOptions, isLoading: isLoadingOptions, data: options } = useFetch();
+  const { satisfactionIndication, uuid } = useParams();
+  const isSatisfied = satisfactionIndication === 'ja';
 
+  // first, retrieve the status of the feedback
   useEffect(() => {
-    requestKtoAnswersAction(yesNo === 'ja');
-    checkKtoAction(uuid);
-  }, [requestKtoAnswersAction, checkKtoAction, yesNo, uuid]);
+    getCheck(`${configuration.FEEDBACK_FORMS_ENDPOINT}${uuid}`);
+  }, [getCheck, uuid]);
 
-  if (ktoContainer.statusError) {
-    return (
-      <Row>
-        <Column span={12}>{renderHeader(ktoContainer.statusError)}</Column>
-      </Row>
-    );
+  // if the status retrieval is done, parse the response and retrieve the form options
+  useEffect(() => {
+    if (isLoadingCheck || isSuccess || errorCheck === undefined) return;
+
+    if (errorCheck === false) {
+      getOptions(configuration.FEEDBACK_STANDARD_ANSWERS_ENDPOINT);
+      return;
+    }
+
+    parseResponse();
+  }, [errorCheck, isLoadingCheck, isSuccess, getOptions, parseResponse]);
+
+  // on succesful retrieval of the form options, map the results and store them in the component's state
+  useEffect(() => {
+    if (!options || isLoadingOptions) return;
+
+    const opts = options.results
+      .filter(({ is_satisfied }) => is_satisfied === isSatisfied)
+      .map((option, index) => ({ key: `${index}`, value: option.text }));
+
+    opts.push({ key: 'anders', value: 'Anders, namelijk...' });
+
+    dispatch({ type: 'SET_FORM_OPTIONS', payload: opts });
+  }, [options, satisfactionIndication, isLoadingOptions, isSatisfied]);
+
+  const parseResponse = useCallback(async () => {
+    let payload = '';
+
+    try {
+      const { detail } = await errorCheck.json();
+
+      if (detail === 'filled out') {
+        payload = 'FILLED_OUT';
+      } else if (detail === 'too late') {
+        payload = 'TOO_LATE';
+      } else {
+        payload = 'NOT_FOUND';
+      }
+    } catch {
+      payload = 'NOT_FOUND';
+    }
+
+    dispatch({ type: 'SET_RENDER_SECTION', payload });
+  }, [errorCheck]);
+
+  const onSubmit = useCallback(
+    formData => {
+      put(`${configuration.FEEDBACK_FORMS_ENDPOINT}${uuid}`, formData);
+    },
+    [uuid, put]
+  );
+
+  if (isLoadingCheck || isLoadingOptions) {
+    return <LoadingIndicator />;
   }
 
-  if (ktoContainer.ktoFinished) {
-    return (
-      <Row>
-        <Column span={12}>{renderHeader('finished')}</Column>
-      </Row>
-    );
-  }
+  if (!state.shouldRender) return null;
 
   return (
     <Fragment>
-      <Row>
-        <Column span={12}>{renderHeader(yesNo)}</Column>
-      </Row>
+      <Row data-testid="ktoFormContainer">
+        <Column span={12}>
+          {isSuccess && (
+            <header>
+              <StyledHeading>Bedankt voor uw feedback!</StyledHeading>
+              <StyledParagraph>We zijn voortdurend bezig onze dienstverlening te verbeteren.</StyledParagraph>
+            </header>
+          )}
 
-      <Row>
-        <Column
-          span={{
-            small: 2, medium: 2, big: 8, large: 8, xLarge: 8,
-          }}
-        >
-          <KtoForm
-            ktoContainer={ktoContainer}
-            onUpdateKto={onUpdateKto}
-            onStoreKto={onStoreKto}
-          />
+          {!isSuccess &&
+            (state.renderSection ? (
+              <header>
+                <StyledHeading>{renderSections[state.renderSection].title}</StyledHeading>
+                <StyledParagraph>{renderSections[state.renderSection].body}</StyledParagraph>
+              </header>
+            ) : (
+              <StyledHeading>
+                {isSatisfied ? 'Ja, ik ben' : 'Nee, ik ben niet'} tevreden met de behandeling van mijn melding
+              </StyledHeading>
+            ))}
         </Column>
       </Row>
+
+      {state.formOptions && !isSuccess && (
+        <Row>
+          <Column
+            span={{
+              small: 2,
+              medium: 2,
+              big: 8,
+              large: 8,
+              xLarge: 8,
+            }}
+          >
+            <KtoForm isSatisfied={isSatisfied} options={state.formOptions} onSubmit={onSubmit} />
+          </Column>
+        </Row>
+      )}
     </Fragment>
   );
 };
 
-KtoContainerComponent.defaultProps = {
-  ktoContainer: {},
-};
-
-KtoContainerComponent.propTypes = {
-  ktoContainer: PropTypes.shape({
-    statusError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    ktoFinished: PropTypes.bool.isRequired,
-  }),
-  onUpdateKto: PropTypes.func.isRequired,
-  onStoreKto: PropTypes.func.isRequired,
-  requestKtoAnswersAction: PropTypes.func.isRequired,
-  checkKtoAction: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      yesNo: PropTypes.string,
-      uuid: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  ktoContainer: makeSelectKtoContainer(),
-});
-
-export const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    onUpdateKto: updateKto,
-    onStoreKto: storeKto,
-    requestKtoAnswersAction: requestKtoAnswers,
-    checkKtoAction: checkKto,
-  },
-  dispatch,
-);
-
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
-
-const withReducer = injectReducer({ key: 'ktoContainer', reducer });
-const withSaga = injectSaga({ key: 'ktoContainer', saga });
-
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-  withRouter,
-)(KtoContainerComponent);
+export default KtoContainer;
