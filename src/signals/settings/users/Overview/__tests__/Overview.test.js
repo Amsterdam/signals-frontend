@@ -65,7 +65,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const push = jest.fn();
     const scrollTo = jest.fn();
-    const apiHeaders = { headers: { Accept: 'application/json' } };
 
     const history = { ...memoryHistory, push };
 
@@ -77,7 +76,6 @@ describe('signals/settings/users/containers/Overview', () => {
     global.window.scrollTo = scrollTo;
 
     testContext = {
-      apiHeaders,
       history,
       push,
       scrollTo,
@@ -512,7 +510,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('role=Behandelaar'),
-      expect.objectContaining(testContext.apiHeaders)
+      expect.objectContaining({ method: 'GET' })
     );
   });
 
@@ -537,7 +535,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('is_active=true'),
-      expect.objectContaining(testContext.apiHeaders)
+      expect.objectContaining({ method: 'GET' })
     );
   });
 
@@ -566,7 +564,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringMatching(/is_active=true|role=Behandelaar/),
-      expect.objectContaining(testContext.apiHeaders)
+      expect.objectContaining({ method: 'GET' })
     );
   });
 });
