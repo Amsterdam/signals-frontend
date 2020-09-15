@@ -206,6 +206,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(dataLists.source.length);
   });
 
+  it('should render a list of directing_department options', () => {
+    const { container, getByText } = render(withContext(<FilterForm {...formProps} />));
+
+    expect(getByText('Regie hoofdmelding')).toBeInTheDocument();
+    expect(container.querySelectorAll('input[type="checkbox"][name="directing_department"]')).toHaveLength(dataLists.directing_department.length);
+  });
+
   it('should render a list of source options with feature flag enabled', async () => {
     configuration.fetchSourcesFromBackend = true;
     const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null, sources));

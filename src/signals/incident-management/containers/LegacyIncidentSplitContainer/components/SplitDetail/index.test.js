@@ -11,6 +11,7 @@ import incident from 'utils/__tests__/fixtures/incident.json';
 import SplitDetail from '.';
 import IncidentManagementContext from '../../../../context';
 
+jest.mock('shared/services/configuration/configuration');
 jest.mock('shared/services/string-parser');
 
 const withContext = Component =>
@@ -29,6 +30,10 @@ describe('<SplitDetail />', () => {
   beforeEach(() => {
     string2date.mockImplementation(() => '14-01-1969');
     string2time.mockImplementation(() => '11:56');
+  });
+
+  afterEach(() => {
+    configuration.__reset();
   });
 
   describe('rendering', () => {

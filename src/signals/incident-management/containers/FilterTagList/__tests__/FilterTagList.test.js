@@ -255,5 +255,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     expect(mapKeys('any_key')).toEqual('any_key');
     expect(mapKeys('priority')).toEqual('urgentie');
     expect(mapKeys('contact_details')).toEqual('contact');
+    expect(mapKeys('directing_department')).toEqual('verantwoordelijke afdeling');
   });
 });
