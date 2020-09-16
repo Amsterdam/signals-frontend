@@ -155,11 +155,20 @@ const ChangeValue = ({
           {info && <InfoText text={info} />}
 
           <ButtonBar>
-            <SaveButton data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="secondary" type="submit">
+            <SaveButton
+              data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`}
+              variant="secondary"
+              type="submit"
+            >
               Opslaan
             </SaveButton>
 
-            <Button data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`} variant="tertiary" type="button" onClick={handleCancel}>
+            <Button
+              data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`}
+              variant="tertiary"
+              type="button"
+              onClick={handleCancel}
+            >
               Annuleren
             </Button>
           </ButtonBar>
@@ -171,7 +180,7 @@ const ChangeValue = ({
   return (
     <Fragment>
       <dt data-testid={`meta-list-${type}-definition`}>
-        {display}
+        <DisplayValue>{display}</DisplayValue>
         {!showForm && (
           <EditButton
             data-testid={`edit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`}

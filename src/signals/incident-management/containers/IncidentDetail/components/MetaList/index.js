@@ -122,7 +122,7 @@ const MetaList = () => {
         <Highlight type="subcategory">
           <ChangeValue
             disabled={subcatHighlightDisabled}
-            display="Subcategorie"
+            display="Subcategorie (verantwoordelijke afdeling)"
             list={subcategoryOptions}
             infoKey="description"
             onPatchIncident={update}
