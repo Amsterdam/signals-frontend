@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useFetch } from 'hooks';
 import configuration from 'shared/services/configuration/configuration';
 
@@ -14,7 +14,7 @@ const IncidentClassification = () => {
 
   useEffect(() => {
     get(`${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`);
-  }, [category, subcategory, get, history]);
+  }, [category, subcategory, get]);
 
   useEffect(() => {
     if (!data && !error) return;
@@ -23,10 +23,10 @@ const IncidentClassification = () => {
     history.push('/');
   }, [data, error, history, dispatch, category, subcategory]);
 
-  // This component doesn't render anything, it is used to build the logic
+  // This component is empty, it is used to build the logic
   // for setting the category and subcategory from the url
   // before redirecting to the incident page
-  return null;
+  return <div data-testid="incidentClassification"></div>;
 };
 
 export default IncidentClassification;
