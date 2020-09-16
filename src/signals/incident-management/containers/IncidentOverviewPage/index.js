@@ -28,7 +28,7 @@ import {
 import { MAP_URL } from '../../routes';
 
 import ListComponent from './components/List';
-import OverviewMap from './components/Map';
+import OverviewMap from './components/OverviewMap';
 import SubNav from './components/SubNav';
 import FilterTagList from '../FilterTagList';
 import { MapWrapper, NoResults, StyledButton, StyledPagination } from './styled';
