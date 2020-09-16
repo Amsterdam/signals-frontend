@@ -103,8 +103,6 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should request users from API on mount', async () => {
-    const { apiHeaders } = testContext;
-
     const { findByTestId } = render(usersOverviewWithAppContext());
 
     await findByTestId('usersOverview');
@@ -112,7 +110,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining(configuration.USERS_ENDPOINT),
-      expect.objectContaining(apiHeaders)
+      expect.objectContaining({ method: 'GET' })
     );
   });
 
