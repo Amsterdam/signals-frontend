@@ -69,19 +69,13 @@
       },
       "required": [
         "apiBaseUrl",
-        "fetchDistrictsFromBackend",
-        "fetchQuestionsFromBackend",
-        "fetchSourcesFromBackend",
         "head",
         "language",
         "links",
         "logo",
         "map",
-        "mapFilter24Hours",
         "oidc",
-        "showVulaanControls",
-        "theme",
-        "useStaticMapServer"
+        "theme"
       ],
       "allOf": [
         {
