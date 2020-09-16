@@ -16,7 +16,7 @@ const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyCol
   ]);
 
   const colHeaders = useMemo(
-    () => (columnOrder.length && columnOrder) || Object.keys(items[0]).filter(filterVisibleColumns),
+    () => (columnOrder.length && columnOrder) || Object.keys(items[0] || []).filter(filterVisibleColumns),
     [columnOrder, filterVisibleColumns, items]
   );
 
