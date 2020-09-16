@@ -49,7 +49,7 @@ describe('<MetaList />', () => {
       expect(queryByText('Urgentie')).toBeInTheDocument();
       expect(queryByText('Normaal')).toBeInTheDocument();
 
-      expect(queryByText('Subcategorie')).toBeInTheDocument();
+      expect(queryByText('Subcategorie (verantwoordelijke afdeling)')).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
       expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 

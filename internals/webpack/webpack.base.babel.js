@@ -122,6 +122,7 @@ module.exports = options => ({
     // drop any unreachable code.
     new webpack.EnvironmentPlugin({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      PROXY: JSON.stringify(process.env.PROXY) || false,
       GIT_BRANCH: JSON.stringify(process.env.GIT_BRANCH) || 'dummy',
       BUILD_ENV: JSON.stringify(process.env.BUILD_ENV) || 'development',
     }),
