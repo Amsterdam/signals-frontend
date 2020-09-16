@@ -65,7 +65,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const push = jest.fn();
     const scrollTo = jest.fn();
-    const apiHeaders = { headers: { Accept: 'application/json' } };
 
     const history = { ...memoryHistory, push };
 
@@ -77,7 +76,6 @@ describe('signals/settings/users/containers/Overview', () => {
     global.window.scrollTo = scrollTo;
 
     testContext = {
-      apiHeaders,
       history,
       push,
       scrollTo,
@@ -105,8 +103,6 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should request users from API on mount', async () => {
-    const { apiHeaders } = testContext;
-
     const { findByTestId } = render(usersOverviewWithAppContext());
 
     await findByTestId('usersOverview');
@@ -114,44 +110,24 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining(configuration.USERS_ENDPOINT),
-      expect.objectContaining(apiHeaders)
+      expect.objectContaining({ method: 'GET' })
     );
   });
 
   it('should render title, data view with headers only and loading indicator when loading', async () => {
-    jest.useFakeTimers();
-    fetch.mockResponse(
-      () =>
-        new Promise(resolve => {
-          setTimeout(() => resolve({ body: JSON.stringify(usersJSON) }), 50);
-        })
-    );
+    fetch.mockResponse(JSON.stringify(usersJSON));
 
     const { getByText, findByTestId, queryByTestId } = render(usersOverviewWithAppContext());
 
+    expect(getByText('Gebruikers')).toBeInTheDocument();
+    expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+
     await findByTestId('loadingIndicator');
-
-    expect(getByText('Gebruikers')).toBeInTheDocument();
-    expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
-
-    jest.advanceTimersByTime(25);
-
-    await findByTestId('dataViewHeadersRow');
-
-    expect(getByText('Gebruikers')).toBeInTheDocument();
-    expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
-
-    jest.advanceTimersByTime(25);
-
-    await findByTestId('dataViewHeadersRow');
 
     expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
     expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).toBeNull();
-
-    jest.runAllTimers();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
   it('should render title and data view with headers only when no data', async () => {
@@ -167,40 +143,16 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should render data view with no data when loading', async () => {
-    jest.useFakeTimers();
-    fetch.mockResponse(
-      () =>
-        new Promise(resolve => {
-          setTimeout(
-            () =>
-              resolve({
-                body: JSON.stringify(usersJSON),
-              }),
-            50
-          );
-        })
-    );
+    fetch.mockResponse(JSON.stringify(usersJSON));
 
-    const { queryByTestId, findByTestId, queryAllByTestId, findAllByTestId } = render(usersOverviewWithAppContext());
-
-    await findByTestId('loadingIndicator');
+    const { queryByTestId, findByTestId, queryAllByTestId } = render(usersOverviewWithAppContext());
 
     expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
-
-    jest.advanceTimersByTime(25);
 
     await findByTestId('dataViewHeadersRow');
 
-    expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
-
-    jest.advanceTimersByTime(25);
-
-    await findAllByTestId('dataViewBodyRow');
-
     expect(queryByTestId('loadingIndicator')).toBeNull();
     expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(usersJSON.count);
-
-    jest.runAllTimers();
   });
 
   it('should data view when data', async () => {
@@ -353,6 +305,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
+
+    await findByTestId('filterUsersByUsername');
   });
 
   it('should remove reset the filter when the search box is cleared ', async () => {
@@ -416,6 +370,8 @@ describe('signals/settings/users/containers/Overview', () => {
     await waitFor(() => resolveAfterMs(250));
 
     expect(dispatch).toHaveBeenCalledTimes(1);
+
+    await findByTestId('filterUsersByUsername');
   });
 
   it('should render a role filter', async () => {
@@ -445,6 +401,8 @@ describe('signals/settings/users/containers/Overview', () => {
     act(() => {
       fireEvent.change(filterByRoleSelect, { target: { value: filterValue } });
     });
+
+    await findByTestId('roleSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ role: filterValue }));
@@ -478,6 +436,8 @@ describe('signals/settings/users/containers/Overview', () => {
       fireEvent.change(filterByUserActiveSelect, { target: { value: filterValue } });
     });
 
+    await findByTestId('userActiveSelect');
+
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ is_active: filterValue }));
 
@@ -501,6 +461,8 @@ describe('signals/settings/users/containers/Overview', () => {
       fireEvent.change(filterByUserActiveSelect, { target: { value: userActiveFilterValue } });
       fireEvent.change(filterByRoleSelect, { target: { value: roleFilterValue } });
     });
+
+    await findByTestId('userActiveSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(2);
 
@@ -537,6 +499,8 @@ describe('signals/settings/users/containers/Overview', () => {
       fireEvent.change(filterByRoleSelect, { target: { value: 'Behandelaar' } });
     });
 
+    await findByTestId('roleSelect');
+
     expect(dispatch).toHaveBeenCalledTimes(1);
 
     expect(filterByRoleSelect.value).toBe('Behandelaar');
@@ -544,7 +508,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('role=Behandelaar'),
-      expect.objectContaining(testContext.apiHeaders)
+      expect.objectContaining({ method: 'GET' })
     );
   });
 
@@ -560,6 +524,8 @@ describe('signals/settings/users/containers/Overview', () => {
       fireEvent.change(filterByUserActiveSelect, { target: { value: true } });
     });
 
+    await findByTestId('userActiveSelect');
+
     expect(dispatch).toHaveBeenCalledTimes(1);
 
     expect(filterByUserActiveSelect.value).toBe('true');
@@ -567,7 +533,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('is_active=true'),
-      expect.objectContaining(testContext.apiHeaders)
+      expect.objectContaining({ method: 'GET' })
     );
   });
 
@@ -596,7 +562,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(
       expect.stringMatching(/is_active=true|role=Behandelaar/),
-      expect.objectContaining(testContext.apiHeaders)
+      expect.objectContaining({ method: 'GET' })
     );
   });
 });

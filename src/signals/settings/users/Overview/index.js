@@ -55,8 +55,7 @@ const UsersOverviewContainer = () => {
   const { filters } = state.users;
   const {
     isLoading,
-    users: { list: data },
-    users,
+    users: { list: data, count },
   } = useFetchUsers({ page, filters });
   const userCan = useSelector(makeSelectUserCan);
   const selectRoles = useSelector(inputSelectRolesSelector);
@@ -145,7 +144,7 @@ const UsersOverviewContainer = () => {
 
   return (
     <Fragment>
-      <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}>
+      <PageHeader title={`Gebruikers${count ? ` (${count})` : ''}`}>
         {userCan('add_user') && (
           <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
             Gebruiker toevoegen
@@ -190,16 +189,16 @@ const UsersOverviewContainer = () => {
               invisibleColumns={['id']}
               onItemClick={onItemClick}
               primaryKeyColumn="id"
-              data={(!isLoading && data) || []}
+              data={(!isLoading && data?.length > 0 && data) || []}
             />
           </Column>
 
-          {!isLoading && users.count > 0 && (
+          {!isLoading && count > 0 && (
             <Column span={12}>
               <StyledPagination
                 currentPage={page}
                 onClick={onPaginationClick}
-                totalPages={Math.ceil(users.count / PAGE_SIZE)}
+                totalPages={Math.ceil(count / PAGE_SIZE)}
               />
             </Column>
           )}
