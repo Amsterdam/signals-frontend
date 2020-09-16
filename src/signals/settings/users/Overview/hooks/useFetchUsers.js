@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
-import { PAGE_SIZE } from 'containers/App/constants';
-import { getAuthHeaders } from 'shared/services/auth/auth';
+import { PAGE_SIZE as page_size } from 'containers/App/constants';
 import configuration from 'shared/services/configuration/configuration';
+import useFetch from 'hooks/useFetch';
 
 import filterData from '../../../filterData';
 
@@ -22,60 +22,30 @@ const colMap = {
  * @returns {FetchResponse}
  */
 const useFetchUsers = ({ page, filters } = {}) => {
-  const [isLoading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
-  const [errorState, setError] = useState(false);
-  const controller = useMemo(() => new AbortController(), []);
-  const { signal } = useMemo(() => controller, [controller]);
+  const { get, data, isLoading, error } = useFetch();
 
   useEffect(() => {
-    (async function fetchData() {
-      setLoading(true);
+    const pageParams = { page, page_size };
 
-      const pageParams = [page && `page=${page}`, `page_size=${PAGE_SIZE}`];
+    const filterParams = Object.entries(filters || {})
+      .filter(([, value]) => value !== '*')
+      .reduce((acc, [filter, value]) => ({ ...acc, [filter]: value }), {});
 
-      const filterParams = Object.entries(filters || {})
-        .filter(([, value]) => value !== '*')
-        .reduce((acc, [filter, value]) => [...acc, `${filter}=${value}`], []);
+    const queryParams = { ...pageParams, ...filterParams };
 
-      const queryParams = [...pageParams, ...filterParams]
-        .filter(Boolean)
-        .join('&');
+    get(configuration.USERS_ENDPOINT, queryParams);
+  }, [filters, get, page]);
 
-      try {
-        const url = [configuration.USERS_ENDPOINT, queryParams].join('?');
+  useEffect(() => {
+    if (!data) return;
 
-        const response = await fetch(url, {
-          headers: {
-            ...getAuthHeaders(),
-            Accept: 'application/json',
-          },
-          signal,
-        });
+    const filteredUserData = filterData(data.results, colMap);
 
-        const userData = await response.json();
-        const filteredUserData = filterData(userData.results, colMap);
+    setUsers({ count: data.count, list: filteredUserData });
+  }, [data]);
 
-        setUsers({ count: userData.count, list: filteredUserData });
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    })();
-
-    return () => {
-      controller.abort();
-    };
-  }, [page, filters, controller, signal]);
-
-  /**
-   * @typedef {Object} FetchResponse
-   * @property {Boolean} isLoading - Indicator of fetch state
-   * @property {Object[]} users - Array of user objects
-   * @property {Error} error - Error object thrown during fetch and data parsing
-   */
-  return { isLoading, users, error: errorState };
+  return { isLoading, users, error };
 };
 
 export default useFetchUsers;
