@@ -103,7 +103,7 @@ export const AppContainer = () => {
               <Route path="/instellingen" component={SettingsModule} />
               <Route path="/incident" component={IncidentContainer} />
               <Route path="/kto/:satisfactionIndication/:uuid" component={KtoContainer} />
-              <Route path="/category/:category/:subcategory" component={IncidentClassification} />
+              <Route path="/categorie/:category/:subcategory" component={IncidentClassification} />
               <Route component={NotFoundPage} />
             </Switch>
           </ContentContainer>
