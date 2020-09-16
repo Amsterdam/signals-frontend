@@ -17,7 +17,7 @@ const StyledLabel = styled(Label)`
   align-self: baseline;
 
   * {
-    font-weight: normal
+    font-weight: normal;
   }
 `;
 

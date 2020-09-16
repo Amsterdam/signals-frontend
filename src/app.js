@@ -101,3 +101,7 @@ if (process.env.NODE_ENV === 'production') {
     },
   });
 }
+
+if ('serviceWorker' in navigator && process.env.PROXY) {
+  navigator.serviceWorker.register('/sw-proxy.js');
+}
