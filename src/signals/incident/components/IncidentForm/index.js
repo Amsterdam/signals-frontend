@@ -26,10 +26,6 @@ export const Form = styled.form`
     grid-template-columns: 8fr 4fr;
     grid-column-gap: ${themeSpacing(5)};
 
-    ${({ isThankYouPage }) => isThankYouPage && css`
-      grid-template-columns: 1fr;
-    `}
-
     ${({ isSummary }) => isSummary && css`
       grid-template-columns: 4fr 6fr;
 
@@ -178,11 +174,10 @@ class IncidentForm extends React.Component {
   render() {
     const fields = this?.form?.value || {};
     const isSummary = Object.keys(fields).includes('page_summary');
-    const isThankYouPage = this.props.fieldConfig.controls?.text_melding?.meta?.type === 'bedankt';
 
     return (
       <div className="incident-form" data-testid="incidentForm">
-        <Form onSubmit={this.handleSubmit} isSummary={isSummary} isThankYouPage={isThankYouPage}>
+        <Form onSubmit={this.handleSubmit} isSummary={isSummary}>
           <FormGenerator
             onMount={this.setForm}
             fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}
