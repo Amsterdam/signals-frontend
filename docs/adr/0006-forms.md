@@ -30,7 +30,7 @@ We would like to update how we develop forms. The following requirements are
 important to us:
 
 - *Should have* low footprint, few dependencies.
-- *Should be* easy to customize, or define custom components, validation, localization.
+- *Should be* easy to customize, or use custom components, validation, localization.
 - *Should have* no re-rendering on changes to form fields
 - *Must have* integration with React hooks.
 - *Must have* validation.
@@ -54,4 +54,59 @@ Generating a form based on a definition coming from the back end can easily be d
 
 ## Consequences
 
-These libraries can exist side by side in the code base. New forms can be built using the new [react-hook-form](https://github.com/react-hook-form/react-hook-form) while existing forms still use [react-reactive-form](https://github.com/bietkul/react-reactive-form). Existing forms can be re-written when decide it would be worth the effort.
+These libraries can exist side by side in the code base. New forms can be built using the new [react-hook-form](https://github.com/react-hook-form/react-hook-form) while existing forms still use [react-reactive-form](https://github.com/bietkul/react-reactive-form). Existing forms can be re-written when we decide it would be worth the effort.
+
+
+### Incident form
+
+- src/signals/incident/components/IncidentForm/index.js
+
+Two form components specifically using the dependency. These can easily be updated when using the new lib.
+
+- src/signals/incident/components/form/EmphasisCheckboxInput/index.js
+- src/signals/incident/components/form/Header/index.js
+
+The definitions for all steps in the wizard can be turned into components, defining the form directly.
+
+- src/signals/incident/definitions/wizard-step-1-beschrijf.js
+- src/signals/incident/definitions/wizard-step-3-telefoon.js
+- src/signals/incident/definitions/wizard-step-4-email.js
+- src/signals/incident/definitions/wizard-step-5-samenvatting.js
+- src/signals/incident/definitions/wizard-step-6-bedankt.js
+- src/signals/incident/definitions/wizard-step-7-fout.js
+
+The definition for step 2 should be turned into a component and define logic for rendering definitions for additional questions.
+
+- src/signals/incident/definitions/wizard-step-2-vulaan.js
+
+### Incident management
+
+#### Steps
+
+Rewrite the forms by rewriting:
+
+- the render output to use form components directly, without the [wrapper component](src/signals/incident-management/components/FieldControlWrapper/index.js);
+- the form initialization;
+- the submit function;
+- validation;
+- any specific logic as watching for changes;
+- the specific components within that form.
+
+#### Forms
+
+The default texts admin page with the texts form and select form.
+
+- src/signals/incident-management/containers/DefaultTextsAdmin/components/DefaultTextsForm/index.js
+- src/signals/incident-management/containers/DefaultTextsAdmin/components/SelectForm/index.js
+
+The incident detail location form with the location input component.
+
+- src/signals/incident-management/containers/IncidentDetail/components/LocationForm/index.js
+- src/signals/incident-management/containers/IncidentDetail/components/LocationForm/components/LocationInput/index.js
+
+The incident detail meta list form with the change value component.
+- src/signals/incident-management/containers/IncidentDetail/components/MetaList/components/ChangeValue/index.js
+
+The incident split form and incident part.
+- src/signals/incident-management/containers/LegacyIncidentSplitContainer/components/SplitForm/index.js
+- src/signals/incident-management/containers/LegacyIncidentSplitContainer/components/IncidentPart/index.js
