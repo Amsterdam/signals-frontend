@@ -5,6 +5,7 @@ import configuration from 'shared/services/configuration/configuration';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setClassification } from 'signals/incident/containers/IncidentContainer/actions';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 const IncidentClassification = () => {
   const history = useHistory();
@@ -17,16 +18,14 @@ const IncidentClassification = () => {
   }, [category, subcategory, get]);
 
   useEffect(() => {
-    if (!data && !error) return;
-
     if (data) dispatch(setClassification({ category, subcategory }));
-    history.push('/');
+    if (data || error) history.push('/');
   }, [data, error, history, dispatch, category, subcategory]);
 
-  // This component is empty, it is used to build the logic
+  // This shows a loading indicator, it is used to build the logic
   // for setting the category and subcategory from the url
   // before redirecting to the incident page
-  return <div data-testid="incidentClassification"></div>;
+  return <LoadingIndicator />;
 };
 
 export default IncidentClassification;

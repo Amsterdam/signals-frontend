@@ -23,9 +23,6 @@ describe('signals/incident/components/IncidentClassification', () => {
     dispatch.mockReset();
   });
 
-  afterEach(() => {
-  });
-
   it('sets the category and subcategory', async() => {
     const category = 'foo';
     const subcategory = 'bar';
@@ -41,7 +38,7 @@ describe('signals/incident/components/IncidentClassification', () => {
       method: 'GET',
     }));
 
-    await findByTestId('incidentClassification');
+    await findByTestId('loadingIndicator');
     expect(dispatch).toHaveBeenCalledWith(setClassification({ category, subcategory }));
     expect(history.location.pathname).toEqual('/');
   });
@@ -61,7 +58,7 @@ describe('signals/incident/components/IncidentClassification', () => {
       method: 'GET',
     }));
 
-    await findByTestId('incidentClassification');
+    await findByTestId('loadingIndicator');
     expect(dispatch).not.toHaveBeenCalled();
     expect(history.location.pathname).toEqual('/');
   });
@@ -82,7 +79,7 @@ describe('signals/incident/components/IncidentClassification', () => {
       method: 'GET',
     }));
 
-    await findByTestId('incidentClassification');
+    await findByTestId('loadingIndicator');
     expect(dispatch).not.toHaveBeenCalled();
     expect(history.location.pathname).toEqual('/');
 
@@ -104,7 +101,7 @@ describe('signals/incident/components/IncidentClassification', () => {
       method: 'GET',
     }));
 
-    await findByTestId('incidentClassification');
+    await findByTestId('loadingIndicator');
     expect(dispatch).not.toHaveBeenCalled();
     expect(history.location.pathname).toEqual('/');
   });
