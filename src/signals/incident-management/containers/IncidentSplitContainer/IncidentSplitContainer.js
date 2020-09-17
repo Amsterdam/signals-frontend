@@ -56,8 +56,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
      * @param {string} formData[].type
      */
     formData => {
-      console.log('submitted form:');
-      console.log(JSON.stringify(formData, null, 2));
+      console.log('submitted form:', JSON.stringify(formData, null, 2));
 
       // const { extra_properties, incident_date_end, incident_date_start, location, reporter, source, text_extra } = data;
       // const { stadsdeel, buurt_code, address, geometrie } = location;
@@ -87,8 +86,6 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     },
     [data, post]
   );
-
-  console.log('poppe data:', data);
 
   return (
     <div data-testid="incidentSplitContainer">

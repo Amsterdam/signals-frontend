@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, Label, RadioGroup, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import Button from 'components/Button';
 
@@ -56,4 +56,38 @@ export const StyledButton = styled(Button)`
 
 export const StyledSubmitButton = styled(Button)`
   margin-right: ${themeSpacing(5)};
+`;
+
+export const StyledFormWrapper = styled.div`
+  border-top: 2px solid ${themeColor('tint', 'level3')};
+  padding-top: ${themeSpacing(4)};
+  margin-top: ${themeSpacing(4)};
+`;
+
+export const StyledBorderBottomWrapper = styled.div`
+  border-bottom: 2px solid ${themeColor('tint', 'level3')};
+  padding-bottom: ${themeSpacing(4)};
+  margin-bottom: ${themeSpacing(4)};
+`;
+
+export const StyledRadioGroup = styled(RadioGroup)`
+  display: inline-flex;
+`;
+
+export const StyledLabel = styled(Label)`
+  align-self: baseline;
+
+  * {
+    font-weight: normal
+  }
+`;
+
+export const Wrapper = styled.div`
+  width: 100%;
+  margin-bottom: ${themeSpacing(6)};
+`;
+
+export const StyledHeading = styled(Heading)`
+  font-weight: normal;
+  margin-bottom: ${themeSpacing(3)};
 `;

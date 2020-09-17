@@ -1,61 +1,42 @@
-/* eslint-disable no-console */
 import React, { useState, Fragment, useMemo } from 'react';
+import { Controller } from 'react-hook-form';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-import { useForm, Controller } from 'react-hook-form';
+import { typesList, priorityList } from 'signals/incident-management/definitions';
 
-// import { typesList, priorityList } from 'signals/incident-management/definitions';
-
-// import PropTypes from 'prop-types';
 import SelectInputNG from 'signals/incident-management/components/SelectInput/SelectInputNG';
 import TextArea from 'components/TextArea';
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { useSelector } from 'react-redux';
 
-// import RadioInputNG from 'signals/incident-management/components/RadioInput/RadioInputNG';
+import RadioInput from './RadioInput';
 
-import { StyledButton, StyledSubmitButton } from './styled';
+import { StyledBorderBottomWrapper, StyledButton, StyledHeading } from './styled';
 
-const INCIDENT_MAX_SPLIT_LEVEL = 10;
+const INCIDENT_SPLIT_LIMIT = 10;
 
-const defaultValues = {
-  select: '',
-};
-
-const IncidentSplitFormIncident = ({ parentIncident, onSubmit }) => {
-  const [indexes, setIndexes] = useState([]);
-  const [counter, setCounter] = useState(0);
-  const { register, handleSubmit, control } = useForm({ defaultValues });
+const IncidentSplitFormIncident = ({ parentIncident, register, control }) => {
+  const [indexes, setIndexes] = useState([1]);
 
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
-    () =>
-      subcategories?.map(category => ({ ...category, value: category.extendedName })),
-    // disabling linter; we want to allow possible null subcategories
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    () => subcategories?.map(category => ({ ...category, value: category.extendedName })),
     [subcategories]
   );
 
   if (!subcategories) return null;
 
   const addIncident = () => {
-    console.log('add incident:', counter);
-    if (counter > INCIDENT_MAX_SPLIT_LEVEL - 1) {
-      console.log('maximum split level reached');
-      return;
-    }
-    setIndexes(prevIndexes => [...prevIndexes, counter]);
-    setCounter(prevCounter => prevCounter + 1);
-  };
-
-  const removeIncident = index => () => {
-    setIndexes(prevIndexes => [...prevIndexes.filter(item => item !== index)]);
-    setCounter(prevCounter => prevCounter - 1);
+    if (indexes.length > INCIDENT_SPLIT_LIMIT - 1) return;
+    setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Fragment>
       {indexes.map(index => (
-        <Fragment>
+        <StyledBorderBottomWrapper>
+          <StyledHeading forwardedAs="h3" data-testid="incidentPartTitle">Deelmelding {index}</StyledHeading>
+
           <TextArea
             name={`issues[${index}].description`}
             ref={register}
@@ -73,52 +54,50 @@ const IncidentSplitFormIncident = ({ parentIncident, onSubmit }) => {
             sort
           />
 
-          {/*
-          // RadioInput component need some changes first to make this work
-
-          <Controller
-            as={<RadioInputNG />}
+          <RadioInput
             display="Urgentie"
-            values={priorityList}
-            control={control}
+            register={register}
+            initialValue={parentIncident.priority}
             name={`issues[${index}].priority`}
-            defaultValue={parentIncident.priority}
+            id="priority"
+            options={priorityList}
           />
 
-          <Controller
-            as={<RadioInputNG />}
+          <RadioInput
             display="Type"
-            control={control}
-            handler={(data, value) => { console.log('type handler:', data, value); }}
-            defaultValue={parentIncident.type}
-            values={typesList}
+            register={register}
+            initialValue={parentIncident.type}
+            name={`issues[${index}].type`}
+            id="type"
+            options={typesList}
           />
-          */}
-        </Fragment>
+        </StyledBorderBottomWrapper>
       ))}
 
-      {counter < INCIDENT_MAX_SPLIT_LEVEL && (
-        <StyledButton data-testid="splitAnother" variant="primaryInverted" onClick={addIncident}>
-          Extra deelmelding toevoegen
-        </StyledButton>
+      {indexes.length < INCIDENT_SPLIT_LIMIT && (
+        <StyledBorderBottomWrapper>
+          <StyledButton type="button" variant="primaryInverted" onClick={addIncident}>
+            Extra deelmelding toevoegen
+          </StyledButton>
+        </StyledBorderBottomWrapper>
       )}
-
-      <StyledSubmitButton data-testid="splitFormSubmit" variant="secondary">Opslaan</StyledSubmitButton>
-
-      <StyledButton
-        data-testid="splitFormCancel"
-        variant="primaryInverted"
-        onClick={() => { console.warn('`goBack` is not implemented yet (in IncidentSplitContainer)'); }}
-      >
-        Annuleren
-      </StyledButton>
-    </form>
+    </Fragment>
   );
 };
 
-// IncidentSplitFormIncident.propTypes = {
-//   parentIncident: incidentType,
-//   onSubmit: PropTypes.func.isRequired,
-// };
+IncidentSplitFormIncident.propTypes = {
+  parentIncident: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
+    statusDisplayName: PropTypes.string.isRequired,
+    priority: PropTypes.string.isRequired,
+    subcategory: PropTypes.string.isRequired,
+    subcategoryDisplayName: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+  }),
+  register: PropTypes.func,
+  control: PropTypes.shape({ setValue: PropTypes.func }).isRequired,
+};
 
 export default IncidentSplitFormIncident;
