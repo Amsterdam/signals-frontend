@@ -43,7 +43,7 @@ important to us:
 | plain HTML                                                            | ✅                | ✅        | ❌     | ✅          | ✅            | ✅            | –          | –              |
 | [react-reactive-form](https://github.com/bietkul/react-reactive-form) | ✅                | ✅        | ❌     | ✅          | ✅            | ❌            | 250        | 25 months ago  |
 
-\* Only support for 3rd party validation, integrated support for [Yup](https://github.com/jquense/yup).
+\* Only support for 3rd party validation, integrated support for [Yup](https://github.com/jquense/yup).\
 ** Integrated validation follows the [HTML standard for form validation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation). Support for 3rd party validation, integrated support for [Yup](https://github.com/jquense/yup) [Joi](https://github.com/hapijs/joi) and [Superstruct](https://github.com/ianstormtaylor/superstruct).
 
 ## Decision
@@ -61,9 +61,8 @@ These libraries can exist side by side in the code base. New forms can be built 
 
 - [IncidentForm/index.js](../../src/signals/incident/components/IncidentForm/index.js)
 
-Two form components specifically using the dependency. These can easily be updated when using the new lib.
+A form components specifically using the dependency, which can easily be updated when using the new lib.
 
-- [form/Header/index.js](../../src/signals/incident/components/form/Header/index.js)
 - [form/Header/index.js](../../src/signals/incident/components/form/Header/index.js)
 
 The definitions for all steps in the wizard can be turned into components, defining the form directly.
