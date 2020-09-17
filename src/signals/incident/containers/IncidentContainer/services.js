@@ -1,7 +1,7 @@
 const fieldTypeMap = {
   checkbox_input: 'CheckboxInput',
   date_time_input: 'DateTimeInput',
-  description_with_classification_input: 'DescriptionWithClassificationInput',
+  description_with_classification_input: 'DescriptionInput',
   emphasis_checkbox_input: 'EmphasisCheckboxInput',
   file_input: 'FileInputRenderer',
   handling_message: 'HandlingMessage',
