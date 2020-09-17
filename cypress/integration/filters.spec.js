@@ -272,7 +272,7 @@ describe('Filtering', () => {
     cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht');
     cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
   });
-  it('Should filter on Bron Interswtich', () => {
+  it('Should filter on Bron Interswitch', () => {
     cy.getSignalDetailsRoutes();
     cy.route('**?source=Telefoon – Interswitch&page=1&ordering=-created_at&page_size=50').as('getBronInterswitch');
     cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');

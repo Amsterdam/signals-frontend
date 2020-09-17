@@ -4,6 +4,7 @@ import * as requests from '../support/commandsRequests';
 import * as deelmelding from '../support/commandsDeelmeldingen';
 import * as createSignal from '../support/commandsCreateSignal';
 import { CHANGE_STATUS, DEELMELDING, SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
+import { FILTER } from '../support/selectorsManageIncidents';
 
 describe('Deelmeldingen', () => {
   describe('Create Deelmeldingen', () => {
@@ -79,6 +80,29 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.historyAction).eq(0).contains('Notitie toegevoegd').should('be.visible');
         cy.get(SIGNAL_DETAILS.historyListItem).eq(0).contains('Nootje 1').should('be.visible');
       });
+    });
+  });
+  describe('Filter Deelmeldingen', () => {
+    beforeEach(() => {
+      localStorage.setItem('accessToken', Cypress.env('token'));
+      cy.server();
+      cy.getManageSignalsRoutes();
+      cy.route('/maps/topografie?bbox=*').as('getMap');
+      cy.route('/signals/v1/private/terms/categories/**').as('getTerms');
+      cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
+      cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+      cy.visitFetch('/manage/incidents/');
+      cy.waitForManageSignalsRoutes();
+      cy.log(Cypress.env('signalId'));
+    });
+    it('Should filter on melding', () => {
+      deelmelding.filterSignalOnType('Melding', FILTER.checkboxMelding);
+    });
+    it('Should filter on hoofdmelding', () => {
+      deelmelding.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
+    });
+    it('Should filter on deelmelding', () => {
+      deelmelding.filterSignalOnType('Deelmelding', FILTER.checkboxDeelmelding);
     });
   });
   describe.skip('Change status Deelmeldingen', () => {
