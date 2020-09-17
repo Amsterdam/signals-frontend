@@ -5,6 +5,7 @@ import configuration from 'shared/services/configuration/configuration';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setClassification } from 'signals/incident/containers/IncidentContainer/actions';
+import { isAuthenticated } from 'shared/services/auth/auth';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 const IncidentClassification = () => {
@@ -14,11 +15,16 @@ const IncidentClassification = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    get(`${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`);
-  }, [category, subcategory, get]);
+    if (isAuthenticated()) {
+      history.push('/');
+    }
+    else {
+      get(`${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`);
+    }
+  }, [category, subcategory, get, history]);
 
   useEffect(() => {
-    if (data) dispatch(setClassification({ category, subcategory }));
+    if (data && data.is_active) dispatch(setClassification({ category, subcategory }));
     if (data || error) history.push('/');
   }, [data, error, history, dispatch, category, subcategory]);
 
