@@ -18,7 +18,7 @@ describe('hooks/useDelayedDoubleClick', () => {
 
     expect(clickFunc).not.toHaveBeenCalled();
 
-    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT);
+    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT * 2);
 
     expect(clickFunc).toHaveBeenCalledWith(event);
   });
@@ -40,7 +40,7 @@ describe('hooks/useDelayedDoubleClick', () => {
       result.current.doubleClick();
     });
 
-    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT);
+    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT * 2);
 
     expect(clickFunc).not.toHaveBeenCalled();
 
@@ -50,11 +50,7 @@ describe('hooks/useDelayedDoubleClick', () => {
 
     expect(clickFunc).not.toHaveBeenCalled();
 
-    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT);
-
-    act(() => {
-      result.current.click(event);
-    });
+    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT * 2);
 
     expect(clickFunc).toHaveBeenCalledWith(event);
   });
