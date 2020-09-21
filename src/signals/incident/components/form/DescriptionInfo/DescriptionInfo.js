@@ -41,7 +41,7 @@ const DescriptionInfo = ({ info }) => {
   }, [subcategories, subcategoryPrediction]);
 
   return (
-    <DescriptionInfoStyle>
+    <DescriptionInfoStyle data-testid="descriptionInfo">
       <div>{info}</div>
       {suggestion && <div>{`Subcategorie voorstel: ${suggestion.name}`}</div>}
     </DescriptionInfoStyle>
