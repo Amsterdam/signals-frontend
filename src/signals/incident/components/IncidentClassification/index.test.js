@@ -19,7 +19,7 @@ const dispatch = jest.fn();
 const testUnhappyWorkflow = async setFetchResult => {
   const category = 'foo';
   const subcategory = 'bar';
-  jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ category: 'foo', subcategory: 'bar' }));
+  jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ category, subcategory }));
 
   setFetchResult();
 

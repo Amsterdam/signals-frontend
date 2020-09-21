@@ -27,8 +27,8 @@ const getDaysOpen = incident => {
 const Wrapper = styled.div`
   width: 100%;
 
-  ${({ loading }) =>
-    loading &&
+  ${({ isLoading }) =>
+    isLoading &&
     css`
       opacity: 0.3;
     `}
@@ -121,7 +121,7 @@ const List = ({ className, incidents, loading, onChangeOrdering, priority, sort,
   );
 
   return (
-    <Wrapper loading={loading} className={className} data-testid="incidentOverviewListComponent">
+    <Wrapper isLoading={loading} className={className} data-testid="incidentOverviewListComponent">
       <Table cellSpacing="0">
         <thead>
           <tr>
