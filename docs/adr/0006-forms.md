@@ -35,13 +35,12 @@ important to us:
 - *Must have* integration with React hooks.
 - *Must have* validation.
 
-
-| Package                                                               | No run-time deps. | < 10 kB | Hooks | Validation | Customizable | No re-render | Stargazers | Updated        |
-| --------------------------------------------------------------------- | ---------------- | -------- | ----- | ---------- | ------------ | ------------ | ---------- | -------------- |
-| [formik](https://github.com/jaredpalmer/formik)                       | ❌                | ❌        | ❌     | ✅*         | ✅            | ❌            | 24.5k      | 2 months ago   |
-| [react-hook-form](https://github.com/react-hook-form/react-hook-form) | ✅                | ✅        | ✅     | ✅**        | ✅            | ✅            | 14.1k      | recently       |
-| plain HTML                                                            | ✅                | ✅        | ❌     | ✅          | ✅            | ✅            | –          | –              |
-| [react-reactive-form](https://github.com/bietkul/react-reactive-form) | ✅                | ✅        | ❌     | ✅          | ✅            | ❌            | 250        | 25 months ago  |
+| Package                                                               | No run-time deps. | < 10 kB | Hooks | Custom comps | Validation | Custom val. | i18n | No re-render | Stargazers | Updated        |
+| --------------------------------------------------------------------- | ----------------- | ------- | ----- | ------------ | ---------- | ----------- | ---- | ------------ | ---------- | -------------- |
+| [formik](https://github.com/jaredpalmer/formik)                       | ❌                | ❌        | ❌      | ❌          | ✅*          | ✅           | ✅    | ❌            | 24.5k      | 2 months ago   |
+| [react-hook-form](https://github.com/react-hook-form/react-hook-form) | ✅                | ✅        | ✅      | ✅          | ✅**         | ✅           | ✅    | ✅            | 14.1k      | recently       |
+| plain HTML                                                            | ✅                | ✅        | ❌      | ✅          | ✅           | ✅           | ✅    | ✅            | –          | –              |
+| [react-reactive-form](https://github.com/bietkul/react-reactive-form) | ✅                | ✅        | ❌      | ✅          | ✅           | ✅           | ❌    | ❌            | 250        | 25 months ago  |
 
 \* Only support for 3rd party validation, integrated support for [Yup](https://github.com/jquense/yup).\
 ** Integrated validation follows the [HTML standard for form validation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation). Support for 3rd party validation, integrated support for [Yup](https://github.com/jquense/yup) [Joi](https://github.com/hapijs/joi) and [Superstruct](https://github.com/ianstormtaylor/superstruct).
