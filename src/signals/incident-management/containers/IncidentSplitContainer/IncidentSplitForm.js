@@ -1,37 +1,42 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-// import { Row, Column } from '@datapunt/asc-ui';
 
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 
-import { DefinitionList, StyledBorderBottomWrapper, StyledButton, StyledSubmitButton, Title } from './styled';
+import {
+  StyledDefinitionList,
+  StyledBorderBottomWrapper,
+  StyledButton,
+  StyledForm,
+  StyledHeading,
+  StyledSubmitButton,
+  StyledTitle,
+} from './styled';
 
 import RadioInput from './RadioInput';
 
 import IncidentSplitFormIncident from './IncidentSplitFormIncident';
 
-const IncidentSplitForm = ({ parentIncident, onSubmit }) => {
+const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
   const { register, handleSubmit, control } = useForm();
 
-  if (!parentIncident) return <h1>Hoofdmelding niet gevonden</h1>;
-
   return (
-    <Fragment>
-      <Title forwardedAs="h2" styleAs="h2">Deelmelding maken</Title>
+    <StyledForm>
+      <StyledTitle forwardedAs="h2" styleAs="h2">Deelmelding maken</StyledTitle>
 
-      <Title forwardedAs="h2" styleAs="h4">Hoofdmelding</Title>
+      <StyledHeading styleAs="h3">Hoofdmelding</StyledHeading>
 
-      <DefinitionList>
+      <StyledDefinitionList>
         <dt>Melding</dt>
-        <dd>{parentIncident.id}</dd>
+        <dd data-testid="parentIncidentId">{parentIncident.id}</dd>
 
         <dt>Status</dt>
-        <dd>{parentIncident.statusDisplayName}</dd>
+        <dd data-testid="statusDisplayName">{parentIncident.statusDisplayName}</dd>
 
         <dt>Subcategorie (verantwoordelijke afdeling)</dt>
-        <dd>{parentIncident.subcategoryDisplayName}</dd>
-      </DefinitionList>
+        <dd data-testid="subcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
+      </StyledDefinitionList>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <StyledBorderBottomWrapper>
@@ -41,23 +46,29 @@ const IncidentSplitForm = ({ parentIncident, onSubmit }) => {
             initialValue="null"
             name="department"
             id="department"
+            data-testid="radioInputDepartment"
             options={directingDepartmentList}
           />
         </StyledBorderBottomWrapper>
 
-        <IncidentSplitFormIncident parentIncident={parentIncident} register={register} control={control} />
+        <IncidentSplitFormIncident
+          parentIncident={parentIncident}
+          subcategories={subcategories}
+          register={register}
+          control={control}
+        />
 
-        <StyledSubmitButton data-testid="splitFormSubmit" variant="secondary">Opslaan</StyledSubmitButton>
+        <StyledSubmitButton data-testid="incidentSplitFormSubmit" variant="secondary">Opslaan</StyledSubmitButton>
 
         <StyledButton
-          data-testid="splitFormCancel"
+          data-testid="incidentSplitFormCancel"
           variant="primaryInverted"
           onClick={() => { console.warn('`goBack` is not implemented yet (in IncidentSplitContainer)'); }}
         >
           Annuleren
         </StyledButton>
       </form>
-    </Fragment>
+    </StyledForm>
   );
 };
 
@@ -72,6 +83,13 @@ IncidentSplitForm.propTypes = {
     text: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }),
+  subcategories: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      info: PropTypes.string,
+    })
+  ),
   onSubmit: PropTypes.func.isRequired,
 };
 

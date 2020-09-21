@@ -1,15 +1,15 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Heading, Label, RadioGroup, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import Button from 'components/Button';
 
-export const Title = styled(Heading)`
+export const StyledTitle = styled(Heading)`
   font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `;
 
-export const DefinitionList = styled.dl`
+export const StyledDefinitionList = styled.dl`
   margin: 0;
   display: grid;
 
@@ -82,12 +82,25 @@ export const StyledLabel = styled(Label)`
   }
 `;
 
-export const Wrapper = styled.div`
+export const StyledHeading = styled(Heading)`
+  font-weight: normal;
+  margin-bottom: ${themeSpacing(3)};
+`;
+
+export const StyledWrapper = styled.div`
   width: 100%;
   margin-bottom: ${themeSpacing(6)};
 `;
 
-export const StyledHeading = styled(Heading)`
-  font-weight: normal;
-  margin-bottom: ${themeSpacing(3)};
+export const StyledForm = styled.form`
+  padding: ${themeSpacing(4)};
+  margin: ${themeSpacing(4)};
+
+  display: grid;
+  grid-template-columns: 80% 20%;
+  grid-row-gap: ${themeSpacing(8)};
+
+  & > * {
+    grid-column-start: 1;
+  }
 `;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
 import InfoText from 'components/InfoText';
-import { StyledLabel, Wrapper } from './styled';
+import { StyledLabel, StyledWrapper } from './styled';
 
 const getInfo = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
 
@@ -11,7 +11,7 @@ const RadioInput = ({ id, name, display, options, initialValue, register }) => {
   const [selected, setSelected] = useState(getInfo(options, initialValue));
 
   return (
-    <Wrapper>
+    <StyledWrapper>
       <div className="mode_input text rij_verplicht">
         <Label htmlFor={name} label={<strong>{display}</strong>} />
 
@@ -32,9 +32,9 @@ const RadioInput = ({ id, name, display, options, initialValue, register }) => {
           ))}
         </RadioGroup>
 
-        {selected.info && <InfoText text={`${selected.value}: ${selected.info}`} />}
+        {selected?.info && <InfoText text={`${selected.value}: ${selected.info}`} />}
       </div>
-    </Wrapper>
+    </StyledWrapper>
   );
 };
 
@@ -48,7 +48,8 @@ RadioInput.propTypes = {
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
       info: PropTypes.string,
-    })),
+    })
+  ),
   register: PropTypes.func,
 };
 

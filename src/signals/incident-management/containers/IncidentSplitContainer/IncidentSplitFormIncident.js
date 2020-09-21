@@ -1,13 +1,11 @@
-import React, { useState, Fragment, useMemo } from 'react';
+import React, { useCallback, useState, Fragment } from 'react';
 import { Controller } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
 import SelectInputNG from 'signals/incident-management/components/SelectInput/SelectInputNG';
 import TextArea from 'components/TextArea';
-import { makeSelectSubCategories } from 'models/categories/selectors';
 
 import RadioInput from './RadioInput';
 
@@ -15,26 +13,22 @@ import { StyledBorderBottomWrapper, StyledButton, StyledHeading } from './styled
 
 const INCIDENT_SPLIT_LIMIT = 10;
 
-const IncidentSplitFormIncident = ({ parentIncident, register, control }) => {
+const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, control }) => {
   const [indexes, setIndexes] = useState([1]);
 
-  const subcategories = useSelector(makeSelectSubCategories);
-  const subcategoryOptions = useMemo(
-    () => subcategories?.map(category => ({ ...category, value: category.extendedName })),
-    [subcategories]
-  );
+  const addIncident = useCallback(event => {
+    event.preventDefault();
 
-  if (!subcategories) return null;
-
-  const addIncident = () => {
     if (indexes.length > INCIDENT_SPLIT_LIMIT - 1) return;
+
     setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
-  };
+  },
+  [indexes]);
 
   return (
     <Fragment>
       {indexes.map(index => (
-        <StyledBorderBottomWrapper>
+        <StyledBorderBottomWrapper key={`incident-splitform-incident-${index}`}>
           <StyledHeading forwardedAs="h3" data-testid="incidentPartTitle">Deelmelding {index}</StyledHeading>
 
           <TextArea
@@ -47,7 +41,7 @@ const IncidentSplitFormIncident = ({ parentIncident, register, control }) => {
           <Controller
             as={<SelectInputNG />}
             display="Subcategorie"
-            values={subcategoryOptions}
+            values={subcategories}
             control={control}
             name={`issues[${index}].subcategory`}
             defaultValue={parentIncident.subcategory}
@@ -96,6 +90,13 @@ IncidentSplitFormIncident.propTypes = {
     text: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }),
+  subcategories: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      info: PropTypes.string,
+    })
+  ),
   register: PropTypes.func,
   control: PropTypes.shape({ setValue: PropTypes.func }).isRequired,
 };
