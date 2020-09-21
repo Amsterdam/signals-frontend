@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { Heading, Label, RadioGroup, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
@@ -40,13 +40,6 @@ export const StyledDefinitionList = styled.dl`
     padding-bottom: ${themeSpacing(2)};
     width: 100%;
   }
-`;
-
-export const StyledRemoveButton = styled(Button)`
-  background-color: ${themeColor('tint', 'level1')};
-  padding: 0;
-  border-color: transparent;
-  float: right;
 `;
 
 export const StyledButton = styled(Button)`

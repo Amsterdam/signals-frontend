@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
-import SelectInputNG from 'signals/incident-management/components/SelectInput/SelectInputNG';
 import TextArea from 'components/TextArea';
 
+import SelectInput from 'components/SelectInput';
 import RadioInput from './RadioInput';
 
 import { StyledBorderBottomWrapper, StyledButton, StyledHeading } from './styled';
@@ -35,13 +35,13 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, co
             name={`issues[${index}].description`}
             ref={register}
             rows={10}
-            defaultValue={parentIncident.text}
+            defaultValue={parentIncident.description}
           />
 
           <Controller
-            as={<SelectInputNG />}
+            as={<SelectInput options={subcategories} name={`issues[${index}].subcategory`} />}
+            label={<strong>Subcategorie</strong>}
             display="Subcategorie"
-            values={subcategories}
             control={control}
             name={`issues[${index}].subcategory`}
             defaultValue={parentIncident.subcategory}
@@ -87,7 +87,7 @@ IncidentSplitFormIncident.propTypes = {
     priority: PropTypes.string.isRequired,
     subcategory: PropTypes.string.isRequired,
     subcategoryDisplayName: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }),
   subcategories: PropTypes.arrayOf(

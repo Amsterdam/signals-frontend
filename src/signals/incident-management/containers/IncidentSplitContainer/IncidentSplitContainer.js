@@ -59,8 +59,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
      * Data coming from the submitted form
      *
      * @param {Object[]} formData
-     * @param {string} formData[].text
-     * @param {string} formData[].sub_category
+     * @param {string} formData[].description
+     * @param {string} formData[].subcategory
      * @param {string} formData[].priority
      * @param {string} formData[].type
      */
@@ -93,8 +93,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
           return [...acc, { ...parentData, ...partialData, parent: data.id }];
         }, []);
 
-      console.log('post mergedData:', JSON.stringify(mergedData, null, 2));
-      // post(configuration.INCIDENTS_ENDPOINT, mergedData);
+      // console.log('post mergedData:', JSON.stringify(mergedData, null, 2));
+      post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
     [data, post]
   );
@@ -113,7 +113,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             priority: data.priority.priority,
             subcategory: data.category.category_url,
             subcategoryDisplayName: data.category.departments,
-            text: data.text,
+            description: data.text,
             type: data.type.code,
           }}
           subcategories={subcategoryOptions}

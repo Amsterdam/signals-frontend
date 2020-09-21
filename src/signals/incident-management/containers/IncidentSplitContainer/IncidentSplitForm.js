@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 
@@ -22,7 +22,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
   const { register, handleSubmit, control } = useForm();
 
   return (
-    <StyledForm>
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <StyledTitle forwardedAs="h2" styleAs="h2">Deelmelding maken</StyledTitle>
 
       <StyledHeading styleAs="h3">Hoofdmelding</StyledHeading>
@@ -38,26 +38,26 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
         <dd data-testid="subcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
       </StyledDefinitionList>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <StyledBorderBottomWrapper>
-          <RadioInput
-            display="Regie"
-            register={register}
-            initialValue="null"
-            name="department"
-            id="department"
-            data-testid="radioInputDepartment"
-            options={directingDepartmentList}
-          />
-        </StyledBorderBottomWrapper>
-
-        <IncidentSplitFormIncident
-          parentIncident={parentIncident}
-          subcategories={subcategories}
+      <StyledBorderBottomWrapper>
+        <RadioInput
+          display="Regie"
           register={register}
-          control={control}
+          initialValue="null"
+          name="department"
+          id="department"
+          data-testid="radioInputDepartment"
+          options={directingDepartmentList}
         />
+      </StyledBorderBottomWrapper>
 
+      <IncidentSplitFormIncident
+        parentIncident={parentIncident}
+        subcategories={subcategories}
+        register={register}
+        control={control}
+      />
+
+      <div>
         <StyledSubmitButton data-testid="incidentSplitFormSubmit" variant="secondary">Opslaan</StyledSubmitButton>
 
         <StyledButton
@@ -67,7 +67,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
         >
           Annuleren
         </StyledButton>
-      </form>
+      </div>
     </StyledForm>
   );
 };
@@ -80,7 +80,7 @@ IncidentSplitForm.propTypes = {
     priority: PropTypes.string.isRequired,
     subcategory: PropTypes.string.isRequired,
     subcategoryDisplayName: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }),
   subcategories: PropTypes.arrayOf(
