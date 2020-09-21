@@ -101,5 +101,69 @@ describe('signals/incident/components/form/DescriptionInput', () => {
         'input-field-name': 'diabolo',
       });
     });
+
+    it('doesn\'t call the predictions for empty values', async () => {
+      const { getByTestId, findByTestId } = render(
+        withAppContext(
+          <DescriptionInput
+            {...props}
+            meta={{
+              ...metaFields,
+              maxLength: 100,
+            }}
+            value="the-value"
+          />
+        )
+      );
+
+      const element = getByTestId('descriptionInput');
+      element.focus();
+      act(() => {
+        fireEvent.change(element, { target: { value: '' } });
+        element.blur();
+      });
+
+      await findByTestId('descriptionInput');
+
+      expect(props.parent.meta.getClassification).not.toHaveBeenCalled();
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': '',
+      });
+    });
+
+    it('doesn\'t call the predictions when they are disabled', async () => {
+      const parent = {
+        ...props.parent,
+        meta: {
+          ...props.parent.meta,
+          incidentContainer: { usePredictions: false },
+        },
+      };
+
+      const { getByTestId, findByTestId } = render(
+        withAppContext(
+          <DescriptionInput
+            {...props}
+            meta={{
+              ...metaFields,
+              maxLength: 100,
+            }}
+            parent={parent}
+          />
+        )
+      );
+
+      const element = getByTestId('descriptionInput');
+      element.focus();
+      act(() => {
+        fireEvent.change(element, event);
+        element.blur();
+      });
+
+      await findByTestId('descriptionInput');
+
+      expect(parent.meta.getClassification).not.toHaveBeenCalled();
+      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
+    });
   });
 });
