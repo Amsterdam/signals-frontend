@@ -7,6 +7,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  SET_CLASSIFICATION,
   GET_QUESTIONS,
   GET_QUESTIONS_SUCCESS,
   GET_QUESTIONS_ERROR,
@@ -48,6 +49,11 @@ export const getClassificationSuccess = payload => ({
 
 export const getClassificationError = payload => ({
   type: GET_CLASSIFICATION_ERROR,
+  payload,
+});
+
+export const setClassification = payload => ({
+  type: SET_CLASSIFICATION,
   payload,
 });
 
