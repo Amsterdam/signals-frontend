@@ -16,7 +16,7 @@ const IncidentClassification = () => {
 
   useEffect(() => {
     if (isAuthenticated()) {
-      history.push('/');
+      history.replace('/');
     }
     else {
       get(`${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`);
@@ -25,7 +25,7 @@ const IncidentClassification = () => {
 
   useEffect(() => {
     if (data && data.is_active) dispatch(setClassification({ category, subcategory }));
-    if (data || error) history.push('/');
+    if (data || error) history.replace('/');
   }, [data, error, history, dispatch, category, subcategory]);
 
   // This shows a loading indicator, it is used to build the logic
