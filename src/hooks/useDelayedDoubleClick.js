@@ -1,12 +1,12 @@
 import { useCallback, useRef } from 'react';
-import debounce from 'lodash/debounce';
+import useDebounce from './useDebounce';
 
 /**
  * Timeout by which clicks on the map are delayed so that potential double click can be captured
  * Increasing the value lead to a perceivable delay between click and the placement of the marker. Decreasing the value
  * could lead to a double click never being captured, because of the limited time to have both click registered.
  */
-export const DOUBLE_CLICK_TIMEOUT = 200;
+export const CLICK_TIMEOUT = 200;
 
 const useDelayedDoubleClick = clickFunc => {
   const doubleClicking = useRef(false);
@@ -16,13 +16,13 @@ const useDelayedDoubleClick = clickFunc => {
    *
    * Will prevent click events from being fired until the timeout has expired
    */
-  const doubleClick = useCallback(() => {
+  const debouncedDoubleClick = useCallback(() => {
     doubleClicking.current = true;
 
     const dblClickTimeout = setTimeout(() => {
       doubleClicking.current = false;
       clearTimeout(dblClickTimeout);
-    }, DOUBLE_CLICK_TIMEOUT * 2);
+    }, CLICK_TIMEOUT * 2);
   }, []);
 
   const debouncedClick = useCallback(
@@ -34,12 +34,10 @@ const useDelayedDoubleClick = clickFunc => {
     [clickFunc]
   );
 
-  // linter complaining about the use of the debounce function
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const click = useCallback(debounce(debouncedClick, DOUBLE_CLICK_TIMEOUT), [debouncedClick]);
+  const click = useDebounce(debouncedClick, CLICK_TIMEOUT);
 
   return {
-    doubleClick,
+    doubleClick: debouncedDoubleClick,
     click,
   };
 };

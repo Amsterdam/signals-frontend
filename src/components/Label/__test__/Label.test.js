@@ -61,7 +61,7 @@ describe('signals/incident-management/components/Label', () => {
       ),
     );
 
-    expect(container.querySelector('label')).toHaveStyleRule('color', '#ec0000');
+    expect(container.querySelector('label')).not.toHaveStyleRule('color', 'inherit');
 
     rerender(
       withAppContext(
@@ -72,6 +72,6 @@ describe('signals/incident-management/components/Label', () => {
       ),
     );
 
-    expect(container.querySelector('label')).not.toHaveStyleRule('color', '#ec0000');
+    expect(container.querySelector('label')).toHaveStyleRule('color', 'inherit');
   });
 });

@@ -1,14 +1,14 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 
 import context from 'containers/MapContext/context';
 
 import { INPUT_DELAY } from 'components/AutoSuggest';
-import { withAppContext, resolveAfterMs, withMapContext } from 'test/utils';
+import { withAppContext, withMapContext } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import * as actions from 'containers/MapContext/actions';
-import { DOUBLE_CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
+import { CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
 
 import MapInput from '..';
 
@@ -52,11 +52,19 @@ const geocoderResponse = {
 };
 
 describe('components/MapInput', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
   afterEach(() => {
     fetch.resetMocks();
+    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
+
     setValuesSpy.mockClear();
     setLocationSpy.mockClear();
     resetLocationSpy.mockClear();
+
+    jest.useRealTimers();
   });
 
   const testLocation = {
@@ -99,8 +107,6 @@ describe('components/MapInput', () => {
   });
 
   it('should handle click', async () => {
-    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
-
     const onChange = jest.fn();
     const { findByTestId } = render(
       withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
@@ -112,7 +118,9 @@ describe('components/MapInput', () => {
     expect(onChange).not.toHaveBeenCalled();
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
 
-    act(() => { fireEvent.click(map, { clientX: 100, clientY: 100 }); });
+    act(() => {
+      fireEvent.click(map, { clientX: 100, clientY: 100 });
+    });
 
     await findByTestId('map-base');
 
@@ -120,7 +128,11 @@ describe('components/MapInput', () => {
     expect(onChange).not.toHaveBeenCalled();
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
 
-    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+    act(() => {
+      jest.advanceTimersByTime(CLICK_TIMEOUT);
+    });
+
+    await findByTestId('map-base');
 
     expect(setLocationSpy).toHaveBeenCalledTimes(1);
     expect(setLocationSpy).toHaveBeenCalledWith({
@@ -151,9 +163,9 @@ describe('components/MapInput', () => {
         docs: [],
       },
     };
-    fetch
-      .mockResponseOnce(JSON.stringify(noneFoundResponse))
-      .mockResponseOnce(JSON.stringify(geocoderResponse));
+
+    fetch.resetMocks();
+    fetch.mockResponseOnce(JSON.stringify(noneFoundResponse)).mockResponseOnce(JSON.stringify(geocoderResponse));
 
     const { getByTestId, findByTestId } = render(
       withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
@@ -172,7 +184,11 @@ describe('components/MapInput', () => {
     expect(setValuesSpy).toHaveBeenCalledTimes(1);
     expect(onChange).not.toHaveBeenCalled();
 
-    await waitFor(() => resolveAfterMs(DOUBLE_CLICK_TIMEOUT));
+    act(() => {
+      jest.advanceTimersByTime(CLICK_TIMEOUT);
+    });
+
+    await findByTestId('map-base');
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2);
     expect(setValuesSpy).toHaveBeenLastCalledWith({ addressText: '', address: '' });
@@ -242,11 +258,16 @@ describe('components/MapInput', () => {
     const input = getByTestId('autoSuggest').querySelector('input');
     const value = 'Midden';
 
-    act(() => { input.focus(); });
+    act(() => {
+      input.focus();
+    });
 
+    fetch.resetMocks();
     fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
 
-    act(() => { fireEvent.change(input, { target: { value } }); });
+    act(() => {
+      fireEvent.change(input, { target: { value } });
+    });
 
     const suggestList = await findByTestId('suggestList');
 
@@ -256,6 +277,7 @@ describe('components/MapInput', () => {
     expect(onChange).not.toHaveBeenCalled();
 
     // mock the geosearch response
+    fetch.resetMocks();
     fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
 
     // click option in list
@@ -299,7 +321,11 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value: addressText } });
     });
 
-    await waitFor(() => resolveAfterMs(INPUT_DELAY));
+    await findByTestId('autoSuggest');
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
 
     expect(resetLocationSpy).not.toHaveBeenCalled();
 
@@ -307,8 +333,14 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value: '' } });
     });
 
-    await waitFor(() => resolveAfterMs(INPUT_DELAY));
+    await findByTestId('autoSuggest');
 
-    expect(resetLocationSpy).toHaveBeenCalledWith();
+    expect(resetLocationSpy).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
+
+    expect(resetLocationSpy).toHaveBeenCalled();
   });
 });
