@@ -25,19 +25,13 @@ import CategoryLists from './components/CategoryLists';
 
 import DepartmentDetailContext from './context';
 
-export const DepartmentDetailContainer = ({
-  categories,
-  findByMain,
-  subCategories,
-}) => {
+export const DepartmentDetailContainer = ({ categories, findByMain, subCategories }) => {
   const { departmentId } = useParams();
   const isExistingDepartment = departmentId !== undefined;
   const { isLoading, isSuccess, data, error, get, patch } = useFetch();
   const confirmedCancel = useConfirmedCancel(routes.departments);
   const entityName = `Afdeling${data ? ` '${data.name}'` : ''}`;
-  const title = `${entityName} ${
-    isExistingDepartment ? 'wijzigen' : 'toevoegen'
-  }`;
+  const title = `${entityName} ${isExistingDepartment ? 'wijzigen' : 'toevoegen'}`;
 
   useFetchResponseNotification({
     entityName,
@@ -57,19 +51,11 @@ export const DepartmentDetailContainer = ({
 
   useEffect(() => {
     get(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`);
-    // Disabling linter; only need to execute on mount; defining the dependencies
-    // will throw the component in an endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [get, departmentId]);
 
   return (
     <Fragment>
-      <PageHeader
-        title={title}
-        BackLink={
-          <BackLink to={routes.departments}>Terug naar overzicht</BackLink>
-        }
-      />
+      <PageHeader title={title} BackLink={<BackLink to={routes.departments}>Terug naar overzicht</BackLink>} />
 
       {isLoading && <LoadingIndicator />}
 
@@ -88,10 +74,7 @@ export const DepartmentDetailContainer = ({
 
           {categories && (
             <DepartmentDetailContext.Provider value={{ categories, department: data, subCategories, findByMain }}>
-              <CategoryLists
-                onCancel={confirmedCancel}
-                onSubmit={onSubmit}
-              />
+              <CategoryLists onCancel={confirmedCancel} onSubmit={onSubmit} />
             </DepartmentDetailContext.Provider>
           )}
         </Fragment>

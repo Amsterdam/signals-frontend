@@ -59,7 +59,7 @@ const CategoryDetail = () => {
   const isExistingCategory = categoryId !== undefined;
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch();
-  const historyFetch = useFetch();
+  const { get: historyGet, data: historyData } = useFetch();
 
   const confirmedCancel = useConfirmedCancel(redirectURL);
 
@@ -143,13 +143,9 @@ const CategoryDetail = () => {
   useEffect(() => {
     if (isExistingCategory) {
       get(categoryURL);
-      historyFetch.get(`${categoryURL}/history`);
+      historyGet(`${categoryURL}/history`);
     }
-
-    // Disabling linter; only need to execute on mount; defining the dependencies
-    // will throw the component in an endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [get, historyGet, categoryURL, isExistingCategory]);
 
   return (
     <Fragment>
@@ -161,7 +157,7 @@ const CategoryDetail = () => {
         {shouldRenderForm && (
           <CategoryForm
             data={data}
-            history={historyFetch.data}
+            history={historyData}
             onCancel={onCancel}
             onSubmitForm={onSubmit}
             readOnly={!userCanSubmitForm}
