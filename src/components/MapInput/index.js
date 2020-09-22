@@ -102,6 +102,10 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
     [map, dispatch, onChange]
   );
 
+  const onClear = useCallback(() => {
+    dispatch(resetLocationAction());
+  }, [dispatch]);
+
   const { click, doubleClick } = useDelayedDoubleClick(clickFunc);
 
   /**
@@ -143,7 +147,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
             <StyledAutosuggest
               formatResponse={formatPDOKResponse}
               municipality={configuration.map?.municipality}
-              onClear={() => dispatch(resetLocationAction())}
+              onClear={onClear}
               onSelect={onSelect}
               placeholder="Zoek adres"
               value={addressValue}

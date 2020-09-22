@@ -1,3 +1,4 @@
+export { default as useDebounce } from './useDebounce';
 export { default as useDelayedDoubleClick } from './useDelayedDoubleClick';
 export { default as useEventEmitter } from './useEventEmitter';
 export { default as useFetch } from './useFetch';

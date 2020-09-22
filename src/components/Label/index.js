@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import { themeColor } from '@datapunt/asc-ui';
 
 const LabelWrapper = styled.div`
   ${({ isGroupHeader }) => !isGroupHeader &&
@@ -15,12 +16,13 @@ const StyledLabel = styled.label`
   line-height: 25px;
   margin-bottom: 8px;
   display: inline-block;
+  color: inherit;
 
   ${({ isGroupHeader }) =>
     isGroupHeader &&
     css`
     font-size: 18px;
-    color: #ec0000;
+    color: ${themeColor('secondary')};
   `}
 `;
 
