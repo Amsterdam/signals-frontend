@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing, themeColor } from '@datapunt/asc-ui';
 
 const LabelWrapper = styled.div`
   ${({ isGroupHeader }) => !isGroupHeader &&
@@ -16,12 +16,13 @@ const StyledLabel = styled.label`
   margin-bottom: ${themeSpacing(2)};
   display: inline-block;
   vertical-align: text-top;
+  color: inherit;
 
   ${({ isGroupHeader }) =>
     isGroupHeader &&
     css`
     font-size: 18px;
-    color: #ec0000;
+    color: ${themeColor('secondary')};
   `}
 `;
 

@@ -25,6 +25,7 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       meta: {
         updateIncident: jest.fn(),
         getClassification: jest.fn(),
+        incidentContainer: { usePredictions: true },
       },
     };
 
@@ -121,6 +122,26 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': '',
       });
+    });
+
+    it('doesn\'t call the predictions when they are disabled', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+        },
+        parent: {
+          ...parent,
+          meta: {
+            ...parent.meta,
+            incidentContainer: { usePredictions: false },
+          },
+        },
+      });
+
+      wrapper.find(TextArea).simulate('blur', { target: { value: 'diabolo' } });
+      expect(parent.meta.getClassification).not.toHaveBeenCalled();
+      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
     });
   });
 });

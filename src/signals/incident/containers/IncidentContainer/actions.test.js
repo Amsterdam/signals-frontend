@@ -9,6 +9,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  SET_CLASSIFICATION,
   GET_QUESTIONS,
   GET_QUESTIONS_SUCCESS,
   GET_QUESTIONS_ERROR,
@@ -24,6 +25,7 @@ import {
   getClassification,
   getClassificationSuccess,
   getClassificationError,
+  setClassification,
   getQuestions,
   getQuestionsSuccess,
   getQuestionsError,
@@ -72,6 +74,13 @@ describe('Incident container actions', () => {
 
   it('should dispatch classification error action', () => {
     testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR);
+  });
+
+  it('should dispatch set classification', () => {
+    testActionCreator(setClassification, SET_CLASSIFICATION, {
+      category: 'overig',
+      subcategory: 'overig',
+    });
   });
 
   it('should dispatch get questions action', () => {

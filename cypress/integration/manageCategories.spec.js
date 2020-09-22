@@ -121,7 +121,7 @@ describe('Change category', () => {
       cy.waitForSignalDetailsRoutes();
 
       // Edit signal category
-      cy.get('dt').contains('Subcategorie').find(CHANGE_CATEGORY.buttonEdit).click();
+      cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(SIGNAL_DETAILS.infoText).should('contain', 'Dit is het verhaal van de brug die moest afwateren');
     });
   });

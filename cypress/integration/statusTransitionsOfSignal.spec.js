@@ -158,7 +158,7 @@ describe('All status transitions of a signal', () => {
       createSignal.changeSignalStatus('In behandeling', 'Geannuleerd', CHANGE_STATUS.radioButtonGeannuleerd);
     });
   });
-  describe('Send signal to THOR', () => {
+  describe('Set up testdata for signal to THOR', () => {
     it('Should setup the testdata', () => {
       // Create a random signal
       requests.createSignalDeelmelding();

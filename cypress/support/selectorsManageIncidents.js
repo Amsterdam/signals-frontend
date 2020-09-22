@@ -18,6 +18,7 @@ export const MANAGE_SIGNALS = {
   refreshIcon: '[class*=PageHeader__RefreshIcon]',
   searchBar: '[data-testid="searchBar"]',
   searchResultsTag: '[class*=PageHeader__SubTitle]',
+  spinner: '[data-testid="loadingIndicator"]',
   stadsdeelFromSignal: 'tr td:nth-child(4)',
 };
 
@@ -27,10 +28,14 @@ export const FILTER = {
   buttonNieuwFilter: '[data-testid=resetBtn]',
   buttonCancel: '[data-testid=cancelBtn]',
   checkboxBronInterswitch: '[data-testid="checkbox-source_Telefoon – Interswitch"]',
+  checkboxDeelmelding: '[data-testid="checkbox-kind_child_signal"]',
   checkboxGemeld: '#status_m',
+  checkboxHoofdmelding: '[data-testid="checkbox-kind_parent_signal"]',
+  checkboxMelding: '[data-testid="checkbox-kind_signal"]',
   checkboxRefresh: '#filter_refresh',
   checkboxTypeKlacht: '[data-testid="checkbox-type_COM"]',
   checkboxUrgentieHoog: '[data-testid="checkbox-priority_high"]',
+  checkboxVerantwoordelijkeAfdeling: '[data-testid="checkbox-directing_department_null"]',
   inputFilterAddres: '[data-testid="filterAddress"]',
   inputFilterDayBefore: '#filter_created_before',
   inputFilterDayFrom: '#filter_created_after',

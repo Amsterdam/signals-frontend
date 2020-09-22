@@ -8,6 +8,7 @@ export const CREATE_INCIDENT_ERROR = 'sia/IncidentContainer/CREATE_INCIDENT_ERRO
 export const GET_CLASSIFICATION = 'sia/IncidentContainer/GET_CLASSIFICATION';
 export const GET_CLASSIFICATION_SUCCESS = 'sia/IncidentContainer/GET_CLASSIFICATION_SUCCESS';
 export const GET_CLASSIFICATION_ERROR = 'sia/IncidentContainer/GET_CLASSIFICATION_ERROR';
+export const SET_CLASSIFICATION = 'sia/IncidentContainer/SET_CLASSIFICATION';
 
 export const RESET_EXTRA_STATE = 'src/IncidentContainer/RESET_EXTRA_STATE';
 

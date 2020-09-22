@@ -25,7 +25,6 @@ export const IncidentContainerComponent = ({
   updateIncidentAction,
 }) => (
   <Row>
-
     <Column span={12}>
       <IncidentWizard
         wizardDefinition={wizardDefinition}
