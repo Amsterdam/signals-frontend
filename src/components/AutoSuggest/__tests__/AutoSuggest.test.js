@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
-import { withAppContext, resolveAfterMs } from 'test/utils';
+import { render, fireEvent, act } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
 
 import AutoSuggest, { INPUT_DELAY } from '..';
 import JSONResponse from './mockResponse.json';
@@ -23,10 +23,14 @@ describe('src/components/AutoSuggest', () => {
   beforeEach(() => {
     fetch.mockResponse(mockResponse);
     onSelect.mockReset();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
     fetch.resetMocks();
+
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
   });
 
   it('should render a combobox with input field', () => {
@@ -40,7 +44,7 @@ describe('src/components/AutoSuggest', () => {
   });
 
   it('should request external service', async () => {
-    const { container } = render(withAppContext(<AutoSuggest {...props} />));
+    const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
     const input = container.querySelector('input');
 
     input.focus();
@@ -49,7 +53,11 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'A' } });
     });
 
-    await waitFor(() => resolveAfterMs(INPUT_DELAY));
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
+
+    await findByTestId('autoSuggest');
 
     expect(fetch).not.toHaveBeenCalled();
 
@@ -57,7 +65,11 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'Am' } });
     });
 
-    await waitFor(() => resolveAfterMs(INPUT_DELAY));
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
+
+    await findByTestId('autoSuggest');
 
     expect(fetch).not.toHaveBeenCalled();
 
@@ -65,17 +77,25 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'Ams' } });
     });
 
+    await findByTestId('autoSuggest');
+
     expect(fetch).not.toHaveBeenCalled();
 
-    await waitFor(() => resolveAfterMs(INPUT_DELAY));
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
+
+    await findByTestId('autoSuggest');
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(`${url}Ams`, expect.anything());
   });
 
-  it('should show a value without sending a request to the external service', () => {
-    const { container, rerender } = render(withAppContext(<AutoSuggest {...props} />));
+  it('should show a value without sending a request to the external service', async () => {
+    const { container, findByTestId, rerender } = render(withAppContext(<AutoSuggest {...props} />));
     const input = container.querySelector('input');
+
+    await findByTestId('autoSuggest');
 
     input.focus();
 
@@ -86,6 +106,8 @@ describe('src/components/AutoSuggest', () => {
     expect(fetch).not.toHaveBeenCalled();
 
     rerender(withAppContext(<AutoSuggest {...props} value={value} />));
+
+    await findByTestId('autoSuggest');
 
     expect(input.value).toEqual(value);
 
@@ -431,7 +453,7 @@ describe('src/components/AutoSuggest', () => {
 
   it('should call onClear', async () => {
     const onClear = jest.fn();
-    const { container } = render(
+    const { container, findByTestId } = render(
       withAppContext(<AutoSuggest {...props} onClear={onClear} />)
     );
     const input = container.querySelector('input');
@@ -440,7 +462,11 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'Rembrandt' } });
     });
 
-    await waitFor(() => resolveAfterMs(INPUT_DELAY));
+    await findByTestId('autoSuggest');
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
 
     expect(onClear).not.toHaveBeenCalled();
 
@@ -448,7 +474,11 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: '' } });
     });
 
-    await waitFor(() => resolveAfterMs(INPUT_DELAY));
+    await findByTestId('autoSuggest');
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
 
     expect(onClear).toHaveBeenCalled();
   });

@@ -8,6 +8,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  SET_CLASSIFICATION,
   RESET_EXTRA_STATE,
   GET_QUESTIONS_SUCCESS,
 } from './constants';
@@ -39,6 +40,7 @@ export const initialState = fromJS({
     },
   },
   loadingClassification: false,
+  usePredictions: true,
 });
 
 const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) => {
@@ -98,6 +100,15 @@ export default (state = initialState, action) => {
           .set('category', action.payload.category)
           .set('subcategory', action.payload.subcategory)
       );
+
+    case SET_CLASSIFICATION:
+      return state.set(
+        'incident',
+        state
+          .get('incident')
+          .set('category', action.payload.category)
+          .set('subcategory', action.payload.subcategory)
+      ).set('usePredictions', false);
 
     case RESET_EXTRA_STATE:
       return state.set('incident', getIncidentWithoutExtraProps(state.get('incident'), action.payload));

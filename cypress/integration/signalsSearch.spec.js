@@ -80,7 +80,7 @@ describe('Create signal boten', () => {
     it('Should filter on text in description', () => {
       createSignal.searchAndCheck('Pakjesboot', SIGNAL_DETAILS.descriptionText);
     });
-    it('Should filter on text in main category', () => {
+    it.skip('Should filter on text in main category', () => {
       createSignal.searchAndCheck('Overlast op het water', SIGNAL_DETAILS.mainCategory);
     });
     it('Should filter on text in subcategory', () => {
