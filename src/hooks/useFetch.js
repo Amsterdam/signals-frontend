@@ -38,7 +38,7 @@ const reducer = (state, action) => {
  * @param {Object} params - key/value
  * @returns {FetchResponse}
  */
-export default () => {
+const useFetch = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const controller = useMemo(() => new AbortController(), []);
@@ -169,3 +169,5 @@ export default () => {
     ...state,
   };
 };
+
+export default useFetch;

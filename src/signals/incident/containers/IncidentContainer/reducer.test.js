@@ -10,6 +10,7 @@ import {
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
   GET_CLASSIFICATION_ERROR,
+  SET_CLASSIFICATION,
   GET_QUESTIONS_SUCCESS,
   RESET_EXTRA_STATE,
 } from './constants';
@@ -268,6 +269,31 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           subcategory: 'overig(poep)',
         },
         loadingClassification: false,
+      });
+    });
+  });
+
+  describe('SET_CLASSIFICATION', () => {
+    it('sets category and subcategory and disables the predictions', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {},
+          }),
+          {
+            type: SET_CLASSIFICATION,
+            payload: {
+              category: 'overig',
+              subcategory: 'overig(poep)',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'overig',
+          subcategory: 'overig(poep)',
+        },
+        usePredictions: false,
       });
     });
   });

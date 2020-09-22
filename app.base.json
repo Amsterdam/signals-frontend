@@ -1,0 +1,123 @@
+{
+  "apiBaseUrl": "https://acc.api.data.amsterdam.nl",
+  "areaTypeCodeForDistrict": "stadsdeel",
+  "fetchDistrictsFromBackend": false,
+  "fetchQuestionsFromBackend": false,
+  "fetchSourcesFromBackend": false,
+  "showVulaanControls": true,
+  "useStaticMapServer": true,
+  "head": {
+    "androidIcon": "/icon_192x192.png",
+    "backgroundColor": "#ffffff",
+    "favicon": "/favicon.png",
+    "iosIcon": "/icon_180x180.png",
+    "statusBarStyle": "default",
+    "themeColor": "#ec0000"
+  },
+  "language": {
+    "avgDisclaimer": "De gemeente Amsterdam verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='##AVG_DISCLAIMER_URL##'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
+    "district": "Stadsdeel",
+    "consentToContactSharing": "Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
+    "footer1": "Bel het Gemeentelijk informatienummer: <a href='tel:##GENERAL_PHONE_NUMBER_FORMATTED##'>##GENERAL_PHONE_NUMBER##</a>",
+    "footer2": "op werkdagen van 08.00 tot 18.00 uur.",
+    "headerTitle": "",
+    "phoneNumber": "14 020",
+    "shortTitle": "SIA",
+    "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
+    "smallHeaderTitle": "SIA",
+    "title": "Signalen Informatievoorziening Amsterdam",
+    "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020."
+  },
+  "links": {
+    "help": "https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365",
+    "home": "https://www.amsterdam.nl",
+    "privacy": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/"
+  },
+  "logo": {
+    "url": null,
+    "width": 0,
+    "height": 0,
+    "smallWidth": 0,
+    "smallHeight": 0
+  },
+  "map": {
+    "municipality": "amsterdam",
+    "options": {
+      "center": [
+        52.3731081,
+        4.8932945
+      ],
+      "maxBounds": [
+        [
+          52.25168,
+          4.64034
+        ],
+        [
+          52.50536,
+          5.10737
+        ]
+      ],
+      "maxZoom": 14,
+      "minZoom": 8,
+      "zoom": 10
+    },
+    "optionsBackOffice": {
+      "maxZoom": 16,
+      "minZoom": 7,
+      "zoom": 7
+    },
+    "tiles": {
+      "args": [
+        "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
+      ],
+      "options": {
+        "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam",
+        "subdomains": [
+          "t1",
+          "t2",
+          "t3",
+          "t4"
+        ],
+        "tms": true
+      }
+    },
+    "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
+    "layers": {
+      "klokken": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
+      "verlichting": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326"
+    }
+  },
+  "matomo": {
+    "urlBase": "https://analytics.data.amsterdam.nl/",
+    "siteId": 14
+  },
+  "oidc": {
+    "authEndpoint": "https://acc.api.data.amsterdam.nl/oauth2/authorize",
+    "clientId": "sia",
+    "responseType": "token",
+    "scope": "SIG/ALL"
+  },
+  "sentry": {
+    "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
+  },
+  "theme": {
+    "colors": {
+      "primary": {
+        "main": "#004699",
+        "dark": "#00387a"
+      },
+      "secondary": {
+        "main": "#ec0000",
+        "dark": "#bc0000"
+      },
+      "support": {
+        "valid": "#00A03C",
+        "invalid": "#EC0000",
+        "focus": "#FEC813"
+      },
+      "error": {
+        "main": "#ec0000"
+      }
+    }
+  }
+}

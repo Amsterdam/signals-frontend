@@ -28,7 +28,7 @@ describe('Create signal afval and check signal details', () => {
     it('Should enter a phonenumber and email address', () => {
       createSignal.setPhonenumber('06-12345678');
       cy.contains('Volgende').click();
-      createSignal.setEmailAddress('siafakemail@fake.nl');
+      createSignal.setEmailAddress('siafakemail@amsterdam.nl');
     });
 
     it('Should show a summary', () => {
@@ -89,7 +89,7 @@ describe('Create signal afval and check signal details', () => {
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Veeg- / zwerfvuil (STW)').and('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Schoon').and('be.visible');
-      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'Interne melding').and('be.visible');
     });
   });
 });

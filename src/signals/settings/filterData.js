@@ -10,7 +10,7 @@
 const filterData = (data, colMap) => {
   const allowedKeys = Object.keys(colMap);
 
-  return data.map(item =>
+  return (data && data?.map(item =>
     Object.keys(item)
       .filter(key => allowedKeys.includes(key))
       .reduce((rawObj, key) => {
@@ -27,7 +27,7 @@ const filterData = (data, colMap) => {
 
         return obj;
       }, {})
-  );
+  )) || [];
 };
 
 export default filterData;

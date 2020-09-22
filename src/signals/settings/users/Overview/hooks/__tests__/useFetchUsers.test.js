@@ -21,11 +21,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringMatching(configuration.USERS_ENDPOINT),
-      expect.objectContaining({
-        headers: {
-          Accept: 'application/json',
-        },
-      })
+      expect.objectContaining({ method: 'GET' }),
     );
 
     expect(result.current.isLoading).toEqual(false);
@@ -41,7 +37,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     expect(fetch).toHaveBeenCalledWith(
       expect.stringMatching(new RegExp(`\\/?page=${page}`)),
-      expect.objectContaining({ headers: { Accept: 'application/json' } })
+      expect.objectContaining({ method: 'GET' }),
     );
   });
 
