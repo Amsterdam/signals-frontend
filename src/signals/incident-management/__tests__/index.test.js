@@ -22,7 +22,6 @@ describe('signals/incident-management', () => {
 
   beforeEach(() => {
     props = {
-      fetchCategoriesAction: jest.fn(),
       getDistrictsAction: jest.fn(),
       getFiltersAction: jest.fn(),
       requestIncidentsAction: jest.fn(),
@@ -58,9 +57,6 @@ describe('signals/incident-management', () => {
 
     expect(containerProps.searchIncidentsAction).toBeDefined();
     expect(typeof containerProps.searchIncidentsAction).toEqual('function');
-
-    expect(containerProps.fetchCategoriesAction).toBeDefined();
-    expect(typeof containerProps.fetchCategoriesAction).toEqual('function');
   });
 
   it('should render correctly', () => {
@@ -119,20 +115,6 @@ describe('signals/incident-management', () => {
       render(withAppContext(<IncidentManagementModuleComponent {...props} />));
 
       expect(props.getFiltersAction).toHaveBeenCalledTimes(1);
-    });
-
-    it('should request categories on mount', () => {
-      isAuthenticated.mockImplementation(() => false);
-
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
-
-      expect(props.fetchCategoriesAction).not.toHaveBeenCalled();
-
-      isAuthenticated.mockImplementation(() => true);
-
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
-
-      expect(props.fetchCategoriesAction).toHaveBeenCalledTimes(1);
     });
 
     it('should request incidents on mount', () => {
