@@ -136,17 +136,16 @@ describe('signals/settings', () => {
   it('should provide pages with a location that has a referrer', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    await act(async () => render(withAppContext(<Module {...actionProps} />)));
+    render(withAppContext(<Module {...actionProps} />));
 
-    // After a change in the URL is picked up by the component, we need to wait till all state updates
-    // have been completed before we perform any assertions. Using async/await to achieve that.
-    await act(async () => history.push(`${USER_URL}/1`));
-    await act(async () => history.push(`${USER_URL}/2`));
+    act(() => history.push(`${USER_URL}/1`));
+
+    act(() => history.push(`${USER_URL}/2`));
 
     const lastUseLocationResult = reactRouterDom.useLocation.mock.results.pop();
 
-    expect(lastUseLocationResult.value.pathname).toEqual(`${USER_URL}/2`);
-    expect(lastUseLocationResult.value.referrer).toEqual(`${USER_URL}/1`);
+    await waitFor(() => expect(lastUseLocationResult.value.pathname).toEqual(`${USER_URL}/2`));
+    await waitFor(() => expect(lastUseLocationResult.value.referrer).toEqual(`${USER_URL}/1`));
   });
 
   it('should allow routing to users pages', async () => {
