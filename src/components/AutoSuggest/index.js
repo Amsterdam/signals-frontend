@@ -173,14 +173,6 @@ const AutoSuggest = ({
     setShowList(false);
   }, []);
 
-  const onChange = useCallback(
-    event => {
-      event.persist();
-      debouncedServiceRequest(event.target.value);
-    },
-    [debouncedServiceRequest]
-  );
-
   const serviceRequest = useCallback(
     inputValue => {
       if (inputValue.length >= 3) {
@@ -197,6 +189,14 @@ const AutoSuggest = ({
   );
 
   const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY);
+
+  const onChange = useCallback(
+    event => {
+      event.persist();
+      debouncedServiceRequest(event.target.value);
+    },
+    [debouncedServiceRequest]
+  );
 
   const onSelectOption = useCallback(
     option => {
