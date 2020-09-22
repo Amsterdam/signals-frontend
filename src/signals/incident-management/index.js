@@ -52,11 +52,17 @@ export const IncidentManagementModuleComponent = ({
     if (configuration.fetchDistrictsFromBackend) {
       getDistrictsAction();
     }
+
     getFiltersAction();
     fetchCategoriesAction();
-    // disabling linter; no deps needed, only execute on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [
+    fetchCategoriesAction,
+    getDistrictsAction,
+    getFiltersAction,
+    requestIncidentsAction,
+    searchIncidentsAction,
+    searchQuery,
+  ]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
