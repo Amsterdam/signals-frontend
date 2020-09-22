@@ -22,7 +22,6 @@ import KtoContainer from 'signals/incident/containers/KtoContainer';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
-import IncidentClassification from 'signals/incident/components/IncidentClassification';
 import { getSources } from './actions';
 import AppContext from './context';
 import reducer from './reducer';
@@ -103,7 +102,7 @@ export const AppContainer = () => {
               <Route path="/instellingen" component={SettingsModule} />
               <Route path="/incident" component={IncidentContainer} />
               <Route path="/kto/:satisfactionIndication/:uuid" component={KtoContainer} />
-              <Route path="/categorie/:category/:subcategory" component={IncidentClassification} />
+              <Route path="/categorie/:category/:subcategory" component={IncidentContainer} />
               <Route component={NotFoundPage} />
             </Switch>
           </ContentContainer>
