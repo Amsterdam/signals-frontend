@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 
 import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import debounce from 'lodash/debounce';
 
+import useDebounce from 'hooks/useDebounce';
 import { PAGE_SIZE } from 'containers/App/constants';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Pagination from 'components/Pagination';
@@ -92,9 +92,7 @@ const UsersOverviewContainer = () => {
     [setUsernameFilter]
   );
 
-  // linter complaining about the use of the debounce function
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnChangeFilter = useCallback(debounce(createOnChangeFilter, 250), [createOnChangeFilter]);
+  const debouncedOnChangeFilter = useDebounce(createOnChangeFilter, 250);
 
   const selectUserActiveOnChange = useCallback(
     event => {

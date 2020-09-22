@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor, within, act } from '@testing-library/react';
-import { history as memoryHistory, withCustomAppContext, resolveAfterMs } from 'test/utils';
+import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import inputSelectRolesSelectorJSON from 'utils/__tests__/fixtures/inputSelectRolesSelector.json';
@@ -59,6 +59,8 @@ const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}, state
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
+    jest.useFakeTimers();
+
     jest.spyOn(reactRouter, 'useParams').mockImplementation(() => ({ pageNum: 1 }));
 
     const push = jest.fn();
@@ -66,7 +68,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const history = { ...memoryHistory, push };
 
-    jest.useRealTimers();
     fetch.resetMocks();
 
     fetch.mockResponse(JSON.stringify(usersJSON));
@@ -81,6 +82,9 @@ describe('signals/settings/users/containers/Overview', () => {
 
   afterEach(() => {
     dispatch.mockReset();
+
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
   });
 
   it('should render "add user" button', async () => {
@@ -213,14 +217,12 @@ describe('signals/settings/users/containers/Overview', () => {
   it('should push on list item with an itemId click', async () => {
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
     const { push } = testContext;
-    const { container } = render(usersOverviewWithAppContext());
+    const { container, findByTestId } = render(usersOverviewWithAppContext());
     const itemId = 666;
 
-    let row;
+    await findByTestId('usersOverview');
 
-    await waitFor(() => {
-      row = container.querySelector('tbody tr:nth-child(42)');
-    });
+    const row = container.querySelector('tbody tr:nth-child(42)');
 
     const username = row.querySelector('td:first-of-type');
 
@@ -261,11 +263,9 @@ describe('signals/settings/users/containers/Overview', () => {
     const { push } = testContext;
     const { container, findByTestId } = render(usersOverviewWithAppContext());
 
-    let row;
+    await findByTestId('usersOverview');
 
-    await waitFor(() => {
-      row = container.querySelector('tbody tr:nth-child(42)');
-    });
+    const row = container.querySelector('tbody tr:nth-child(42)');
 
     // Explicitly set an 'itemId'.
     row.dataset.itemId = 666;
@@ -298,11 +298,15 @@ describe('signals/settings/users/containers/Overview', () => {
       fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
     });
 
-    await waitFor(() => resolveAfterMs(50));
+    act(() => {
+      jest.advanceTimersByTime(50);
+    });
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    await waitFor(() => resolveAfterMs(200));
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
@@ -321,7 +325,10 @@ describe('signals/settings/users/containers/Overview', () => {
       fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
     });
 
-    await waitFor(() => resolveAfterMs(300));
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
 
@@ -352,7 +359,11 @@ describe('signals/settings/users/containers/Overview', () => {
       });
     });
 
-    await waitFor(() => resolveAfterMs(250));
+    await findByTestId('filterUsersByUsername');
+
+    act(() => {
+      jest.advanceTimersByTime(250);
+    });
 
     expect(dispatch).toHaveBeenCalledTimes(1);
 
@@ -368,7 +379,11 @@ describe('signals/settings/users/containers/Overview', () => {
       });
     });
 
-    await waitFor(() => resolveAfterMs(250));
+    await findByTestId('filterUsersByUsername');
+
+    act(() => {
+      jest.advanceTimersByTime(250);
+    });
 
     expect(dispatch).toHaveBeenCalledTimes(1);
 
