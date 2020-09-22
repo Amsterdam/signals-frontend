@@ -103,14 +103,21 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const [layerInstance, setLayerInstance] = useState();
   const [incidentId, setIncidentId] = useState(0);
 
-  const params = useMemo(() => ({
-    ...filterParams,
-    // fixed query period (24 hours)
-    created_after: format(subDays(new Date(), -1), "yyyy-MM-dd'T'HH:mm:ss"),
-    created_before: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss"),
-    // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
-    page_size: 4000,
-  }), [filterParams]);
+  const params = useMemo(
+    () => ({
+      ...filterParams,
+      // fixed query period (24 hours, with featuere flag mapFilter24Hours enabled)
+      created_after: configuration.mapFilter24Hours
+        ? format(subDays(new Date(), -1), "yyyy-MM-dd'T'HH:mm:ss")
+        : filterParams.created_after,
+      created_before: configuration.mapFilter24Hours
+        ? format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")
+        : filterParams.created_before,
+      // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)
+      page_size: 4000,
+    }),
+    [filterParams]
+  );
 
   /**
    * AutoSuggest callback handler
