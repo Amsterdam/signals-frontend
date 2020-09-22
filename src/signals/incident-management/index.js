@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 
+import useFetch from 'hooks/useFetch';
 import configuration from 'shared/services/configuration/configuration';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
@@ -36,6 +37,7 @@ const IncidentManagement = () => {
   const districts = useSelector(makeSelectDistricts);
   const searchQuery = useSelector(makeSelectSearchQuery);
   const dispatch = useDispatch();
+  const users = useFetch();
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -48,6 +50,7 @@ const IncidentManagement = () => {
       dispatch(requestIncidents());
     }
 
+    users.get(configuration.USERS_ENDPOINT);
     if (configuration.fetchDistrictsFromBackend) {
       dispatch(getDistricts());
     }
@@ -60,7 +63,7 @@ const IncidentManagement = () => {
   }
 
   return (
-    <IncidentManagementContext.Provider value={{ districts }}>
+    <IncidentManagementContext.Provider value={{ districts, loading: users.isLoading, users: users.data?.results }}>
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
           <Route exact path={routes.incidents} component={IncidentOverviewPage} />
