@@ -19,10 +19,16 @@ import RadioInput from './RadioInput';
 import IncidentSplitFormIncident from './IncidentSplitFormIncident';
 
 const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control, reset } = useForm();
+
+  const submit = formData => {
+    console.log(formData);
+    onSubmit(formData);
+    reset();
+  };
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(submit)} data-testid="incidentSplitForm">
       <StyledTitle forwardedAs="h2" styleAs="h2">Deelmelding maken</StyledTitle>
 
       <StyledHeading styleAs="h3">Hoofdmelding</StyledHeading>
@@ -58,7 +64,9 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
       />
 
       <div>
-        <StyledSubmitButton data-testid="incidentSplitFormSubmit" variant="secondary">Opslaan</StyledSubmitButton>
+        <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary">
+          Opslaan
+        </StyledSubmitButton>
 
         <StyledButton
           data-testid="incidentSplitFormCancel"
