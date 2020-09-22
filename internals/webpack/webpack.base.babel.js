@@ -142,12 +142,6 @@ module.exports = options => ({
     .concat(options.plugins)
     .filter(Boolean),
   resolve: {
-    // Setting aliases to make sure that, whenever dependent packages are linked, shared dependencies won't conflict
-    alias: {
-      react: path.resolve(__rootdir, 'node_modules/react'),
-      'react-dom': path.resolve(__rootdir, 'node_modules/react-dom'),
-      'styled-components': path.resolve(__rootdir, 'node_modules/styled-components'),
-    },
     modules: [path.resolve(__rootdir, 'src'), 'node_modules'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],

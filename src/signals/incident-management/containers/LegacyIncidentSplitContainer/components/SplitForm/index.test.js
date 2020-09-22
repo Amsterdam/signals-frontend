@@ -21,7 +21,7 @@ const subCategories = categoriesFixture.results
 describe('<SplitForm />', () => {
   const mockCreate = {
     category: {
-      sub_category: '',
+      sub_category: incident.category.category_url,
     },
     reuse_parent_image: true,
     text: incident.text,
@@ -33,7 +33,7 @@ describe('<SplitForm />', () => {
     image: true,
     note: '',
     priority: incident.priority.priority,
-    subcategory: '',
+    subcategory: incident.category.category_url,
     text: incident.text,
     type: incident.type.code,
   };
