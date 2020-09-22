@@ -7,7 +7,7 @@ import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext, history } from 'test/utils';
 import SettingsModule, { SettingsModule as Module } from '..';
-import { USER_URL, USERS_URL, ROLES_URL } from '../routes';
+import { USERS_URL, ROLES_URL } from '../routes';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -122,31 +122,11 @@ describe('signals/settings', () => {
   it('should redirect to manage overview page', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    await act(async () =>
-      render(
-        withAppContext(<Module {...actionProps} userCanAccess={() => false} />)
-      )
-    );
+    render(withAppContext(<Module {...actionProps} userCanAccess={() => false} />));
 
     expect(
       reactRouterDom.useLocation.mock.results.pop().value.pathname
     ).toEqual('/manage/incidents');
-  });
-
-  it('should provide pages with a location that has a referrer', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
-
-    await act(async () => render(withAppContext(<Module {...actionProps} />)));
-
-    // After a change in the URL is picked up by the component, we need to wait till all state updates
-    // have been completed before we perform any assertions. Using async/await to achieve that.
-    await act(async () => history.push(`${USER_URL}/1`));
-    await act(async () => history.push(`${USER_URL}/2`));
-
-    const lastUseLocationResult = reactRouterDom.useLocation.mock.results.pop();
-
-    expect(lastUseLocationResult.value.pathname).toEqual(`${USER_URL}/2`);
-    expect(lastUseLocationResult.value.referrer).toEqual(`${USER_URL}/1`);
   });
 
   it('should allow routing to users pages', async () => {

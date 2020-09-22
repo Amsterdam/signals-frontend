@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ChevronLeft } from '@datapunt/asc-assets';
+import { themeColor } from '@datapunt/asc-ui';
 
 import Button from 'components/Button';
 
@@ -10,11 +11,15 @@ const StyledButton = styled(Button)`
   align-self: auto;
 `;
 
+const Chevron = styled(ChevronLeft)`
+  fill: ${themeColor('primary')};
+`;
+
 const PreviousButton = ({ className, children, onClick }) => (
   <StyledButton
     className={className}
     data-testid="previousButton"
-    iconLeft={<ChevronLeft />}
+    iconLeft={<Chevron />}
     iconSize={14}
     onClick={onClick}
     type="button"
