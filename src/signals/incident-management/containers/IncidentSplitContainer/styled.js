@@ -12,6 +12,7 @@ export const StyledTitle = styled(Heading)`
 export const StyledDefinitionList = styled.dl`
   margin: 0;
   display: grid;
+  grid-row-gap: 40px;
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
@@ -92,6 +93,22 @@ export const StyledForm = styled.form`
   display: grid;
   grid-template-columns: 80% 20%;
   grid-row-gap: ${themeSpacing(8)};
+
+  // needs to be tested:
+
+  // fieldset {
+  //   position: relative;
+  //   padding: 0;
+  //   border: 0;
+  // }
+
+  // fieldset:not(:last-child):after {
+  //   content: '',
+  //   height: 1px;
+  //   background: black;
+  //   position: absolute;
+  //   bottom: -20px;
+  // }
 
   & > * {
     grid-column-start: 1;

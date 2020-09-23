@@ -16,29 +16,34 @@ const INCIDENT_SPLIT_LIMIT = 10;
 const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, control, splitLimit }) => {
   const [indexes, setIndexes] = useState([1]);
 
-  const addIncident = useCallback(event => {
-    event.preventDefault();
+  const addIncident = useCallback(
+    event => {
+      event.preventDefault();
 
-    if (indexes.length > splitLimit - 1) return;
+      if (indexes.length > splitLimit - 1) return;
 
-    setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
-  },
-  [indexes, splitLimit]);
+      setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
+    },
+    [indexes, splitLimit]
+  );
 
   return (
     <Fragment>
       {indexes.map(index => (
-        <StyledBorderBottomWrapper key={`incident-splitform-incident-${index}`}>
-          <StyledHeading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</StyledHeading>
+        <fieldset key={`incident-splitform-incident-${index}`}>
+          <StyledBorderBottomWrapper>
+            <StyledHeading forwardedAs="h3" data-testid="splittedIncidentTitle">
+              Deelmelding {index}
+            </StyledHeading>
 
-          <TextArea
-            name={`issues[${index}].description`}
-            ref={register}
-            rows={10}
-            defaultValue={parentIncident.description}
-          />
+            <TextArea
+              name={`issues[${index}].description`}
+              ref={register}
+              rows={10}
+              defaultValue={parentIncident.description}
+            />
 
-          {/*
+            {/*
           <Controller
             as={<SelectInput options={subcategories} name={`issues[${index}].subcategory`} />}
             label={<strong>Subcategorie</strong>}
@@ -50,24 +55,25 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, co
           />
           */}
 
-          <RadioInput
-            display="Urgentie"
-            register={register}
-            initialValue={parentIncident.priority}
-            name={`issues[${index}].priority`}
-            id="priority"
-            options={priorityList}
-          />
+            <RadioInput
+              display="Urgentie"
+              register={register}
+              initialValue={parentIncident.priority}
+              name={`issues[${index}].priority`}
+              id="priority"
+              options={priorityList}
+            />
 
-          <RadioInput
-            display="Type"
-            register={register}
-            initialValue={parentIncident.type}
-            name={`issues[${index}].type`}
-            id="type"
-            options={typesList}
-          />
-        </StyledBorderBottomWrapper>
+            <RadioInput
+              display="Type"
+              register={register}
+              initialValue={parentIncident.type}
+              name={`issues[${index}].type`}
+              id="type"
+              options={typesList}
+            />
+          </StyledBorderBottomWrapper>
+        </fieldset>
       ))}
 
       {indexes.length < splitLimit && (
@@ -86,7 +92,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, co
   );
 };
 
-IncidentSplitFormIncident.defaultProps = { splitLimit: 10 };
+IncidentSplitFormIncident.defaultProps = { splitLimit: INCIDENT_SPLIT_LIMIT };
 
 IncidentSplitFormIncident.propTypes = {
   parentIncident: PropTypes.shape({
@@ -98,14 +104,14 @@ IncidentSplitFormIncident.propTypes = {
     subcategoryDisplayName: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
   subcategories: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
       info: PropTypes.string,
     })
-  ),
+  ).isRequired,
   register: PropTypes.func,
   splitLimit: PropTypes.oneOf([...new Array(INCIDENT_SPLIT_LIMIT)].map((_, index) => index + 1)),
   // control: PropTypes.shape({ setValue: PropTypes.func }).isRequired,
