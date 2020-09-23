@@ -1,6 +1,6 @@
 import CheckboxInput from './CheckboxInput';
 import EmphasisCheckboxInput from './EmphasisCheckboxInput';
-import DescriptionWithClassificationInput from './DescriptionWithClassificationInput';
+import DescriptionInputRenderer from './DescriptionInputRenderer';
 import DateTimeInput from './DateTimeInput';
 import FileInputRenderer from './FileInputRenderer';
 import HandlingMessage from './HandlingMessage';
@@ -18,7 +18,7 @@ export default {
   EmphasisCheckboxInput,
   CheckboxInput,
   DateTimeInput,
-  DescriptionWithClassificationInput,
+  DescriptionInputRenderer,
   FileInputRenderer,
   HandlingMessage,
   HiddenInput,
