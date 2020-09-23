@@ -8,7 +8,7 @@ import { fetchCategories } from 'models/categories/actions';
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-const DescriptionInfoStyle = styled.div`
+const DescriptionInfoWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -41,10 +41,10 @@ const DescriptionInfo = ({ info }) => {
   }, [subcategories, subcategoryPrediction]);
 
   return (
-    <DescriptionInfoStyle data-testid="descriptionInfo">
+    <DescriptionInfoWrapper data-testid="descriptionInfo">
       <div>{info}</div>
       {suggestion && <div>{`Subcategorie voorstel: ${suggestion.name}`}</div>}
-    </DescriptionInfoStyle>
+    </DescriptionInfoWrapper>
   );
 };
 

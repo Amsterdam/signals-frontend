@@ -163,7 +163,9 @@ describe('signals/incident/components/form/DescriptionInput', () => {
       await findByTestId('descriptionInput');
 
       expect(parent.meta.getClassification).not.toHaveBeenCalled();
-      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': 'diabolo',
+      });
     });
   });
 });
