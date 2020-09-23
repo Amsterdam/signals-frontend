@@ -8,8 +8,7 @@ import './style.scss';
 
 function get(e, meta, parent) {
   const { getClassification, updateIncident, incidentContainer: { usePredictions } } = parent?.meta;
-  if (!usePredictions) return;
-  if (e.target.value) getClassification(e.target.value);
+  if (usePredictions && e.target.value) getClassification(e.target.value);
   updateIncident({ [meta.name]: e.target.value });
 }
 
