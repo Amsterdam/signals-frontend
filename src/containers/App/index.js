@@ -1,17 +1,17 @@
 import React, { Fragment, useEffect } from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import { compose } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
-import ThemeProvider from 'components/ThemeProvider';
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 
+import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
 import NotFoundPage from 'components/NotFoundPage';
 import Footer from 'components/Footer';
+import ThemeProvider from 'components/ThemeProvider';
 import SiteHeaderContainer from 'containers/SiteHeader';
 
 import IncidentManagementModule from 'signals/incident-management';
@@ -55,6 +55,9 @@ export const AppContainer = () => {
   const isFrontOffice = useIsFrontOffice();
   const headerIsTall = isFrontOffice && !isAuthenticated();
 
+  useInjectSaga({ key: 'global', saga });
+  useInjectReducer({ key: 'global', reducer });
+
   authenticate();
 
   useEffect(() => {
@@ -80,12 +83,12 @@ export const AppContainer = () => {
     // when the current session has not been authenticated
     if (!isAuthenticated()) return;
 
+    dispatch(fetchCategoriesAction());
+
     if (configuration.fetchSourcesFromBackend) {
       dispatch(getSources());
     }
-    // disabling linter; no deps needed, only execute on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <ThemeProvider>
@@ -118,7 +121,4 @@ export const AppContainer = () => {
   );
 };
 
-const withReducer = injectReducer({ key: 'global', reducer });
-const withSaga = injectSaga({ key: 'global', saga });
-
-export default compose(withReducer, withSaga)(AppContainer);
+export default AppContainer;
