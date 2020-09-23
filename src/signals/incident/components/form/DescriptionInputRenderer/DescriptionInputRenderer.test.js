@@ -36,5 +36,21 @@ describe('signals/incident/components/form/DescriptionInputRenderer', () => {
       const element = queryByTestId('descriptionInput');
       expect(element).toBeInTheDocument();
     });
+
+    it('should NOT render when not visible', () => {
+      const { queryByTestId } = render(
+        withAppContext(
+          <DescriptionInputRenderer
+            {...props}
+            meta={{
+              isVisible: false,
+              maxLength: 100,
+            }}
+          />
+        )
+      );
+
+      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument();
+    });
   });
 });
