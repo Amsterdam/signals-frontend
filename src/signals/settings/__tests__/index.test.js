@@ -7,7 +7,7 @@ import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext, history } from 'test/utils';
 import SettingsModule, { SettingsModule as Module } from '..';
-import { USERS_URL, ROLES_URL } from '../routes';
+import { USER_URL, USERS_URL, ROLES_URL } from '../routes';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
