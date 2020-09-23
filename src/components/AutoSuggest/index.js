@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import debounce from 'lodash/debounce';
 
+import useDebounce from 'hooks/useDebounce';
 import useFetch from 'hooks/useFetch';
 import Input from 'components/Input';
 import SuggestList from './components/SuggestList';
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const StyledInput = styled(Input)`
-  outline: 2px solid rgb(0,0,0,0.1);
+  outline: 2px solid rgb(0, 0, 0, 0.1);
 
   & > * {
     margin: 0;
@@ -173,21 +173,6 @@ const AutoSuggest = ({
     setShowList(false);
   }, []);
 
-  // linter complaining about the use of the debounce function
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const delayedCallback = useCallback(
-    debounce(inputValue => serviceRequest(inputValue), INPUT_DELAY),
-    [serviceRequest, url]
-  );
-
-  const onChange = useCallback(
-    event => {
-      event.persist();
-      delayedCallback(event.target.value);
-    },
-    [delayedCallback]
-  );
-
   const serviceRequest = useCallback(
     inputValue => {
       if (inputValue.length >= 3) {
@@ -201,6 +186,16 @@ const AutoSuggest = ({
       }
     },
     [get, onClear, url]
+  );
+
+  const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY);
+
+  const onChange = useCallback(
+    event => {
+      event.persist();
+      debouncedServiceRequest(event.target.value);
+    },
+    [debouncedServiceRequest]
   );
 
   const onSelectOption = useCallback(

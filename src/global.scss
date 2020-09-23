@@ -71,15 +71,6 @@ h1, h2, h3, h4, th, strong {
   @include avenirnextdemi();
 }
 
-label {
-  font-size: 1rem !important;
-
-  & > div {
-    /* Overwriting styling from @datapunt/asc-ui */
-    padding: 0 !important;
-  }
-}
-
 ul li {
   margin: 0;
   padding: 0;
@@ -160,10 +151,6 @@ fieldset {
   display: flex;
   flex-direction: column;
   height: 100vh;
-}
-
-[aria-hidden="true"] {
-  display: none !important;
 }
 
 @media print {

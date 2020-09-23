@@ -2,9 +2,10 @@ import React, { useEffect, useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { Label as FieldLabel, Checkbox, themeSpacing } from '@datapunt/asc-ui';
+import { Label as FieldLabel, themeSpacing } from '@datapunt/asc-ui';
 import useFormValidation from 'hooks/useFormValidation';
 
+import Checkbox from 'components/Checkbox';
 import Input from 'components/Input';
 import FormFooter from 'components/FormFooter';
 
@@ -106,7 +107,6 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly 
                 checked={rolePermissions.find(item => item.id === permission.id)}
                 onChange={handleChange(permission.id)}
               />
-              <span>&nbsp;</span>
             </FieldLabel>
           </div>
         ))}

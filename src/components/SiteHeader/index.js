@@ -101,6 +101,10 @@ const HeaderWrapper = styled.div`
     z-index: 2;
   }
 
+  [aria-hidden="true"] {
+    display: none;
+  }
+
   ${({ tall }) =>
     !tall &&
     css`

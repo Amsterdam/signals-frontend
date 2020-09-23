@@ -1,7 +1,11 @@
+import { prefixEndpoints } from '../endpoints';
+
 const config = {};
 
 const reset = () => {
-  const newConfig = JSON.parse(JSON.stringify(window.CONFIG || {}));
+  const newConfig = JSON.parse(
+    JSON.stringify({ ...window.CONFIG || {}, ...prefixEndpoints(window.CONFIG?.apiBaseUrl) })
+  );
   Object.keys(config).forEach(key => {
     delete config[key];
   });

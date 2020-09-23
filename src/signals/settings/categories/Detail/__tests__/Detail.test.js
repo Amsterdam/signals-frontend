@@ -304,15 +304,17 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: undefined,
     }));
 
-    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId, findByText, unmount } = render(withAppContext(<CategoryDetailContainer />));
 
-    await findByTestId('detailCategoryForm');
+    await findByText('Terug naar overzicht');
 
     expect(fetch).not.toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 900,
     }));
+
+    unmount();
 
     fetch
       .once(JSON.stringify(categoryJSON)) // GET response (category)

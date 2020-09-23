@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json';
@@ -10,7 +10,6 @@ import PDOKAutoSuggest, { formatResponseFunc } from '..';
 const mockResponse = JSON.stringify(JSONResponse);
 
 const onSelect = jest.fn();
-const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
 const municipalityQs = 'fq=gemeentenaam:';
 const fieldListQs = 'fl=';
 const defaultFieldsQs = 'id,weergavenaam';
@@ -25,7 +24,11 @@ const renderAndSearch = async (value = 'Dam', props = {}) => {
     fireEvent.change(input, { target: { value } });
   });
 
-  await waitFor(() => resolveAfterMs(INPUT_DELAY));
+  act(() => {
+    jest.advanceTimersByTime(INPUT_DELAY);
+  });
+
+  await result.findByTestId('autoSuggest');
 
   return result;
 };
@@ -33,11 +36,14 @@ const renderAndSearch = async (value = 'Dam', props = {}) => {
 describe('components/PDOKAutoSuggest', () => {
   beforeEach(() => {
     fetch.mockResponse(mockResponse);
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
     fetch.mockReset();
     onSelect.mockReset();
+
+    jest.useRealTimers();
   });
 
   it('should render an AutoSuggest', () => {
