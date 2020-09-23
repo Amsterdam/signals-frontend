@@ -5,7 +5,6 @@ import * as auth from 'shared/services/auth/auth';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import PlainText from '.';
-import 'jest-styled-components';
 
 jest.mock('shared/services/auth/auth');
 
@@ -119,46 +118,5 @@ describe('Form component <PlainText />', () => {
       expect(queryByTestId('plainText')).not.toBeInTheDocument();
       expect(queryByText(props.meta.value)).not.toBeInTheDocument();
     });
-  });
-});
-
-describe('PlainText with html', () => {
-  const props = {
-    meta: {
-      label: 'plain-text-label',
-      type: 'bedankt',
-      value: 'Uw melding is bij ons bekend onder nummer: <a href="/manage/incident/{incident.id}">{incident.id}<a>.',
-      isVisible: true,
-    },
-    parent: {
-      meta: {
-        incidentContainer: {
-          incident: {
-            id: 666,
-          },
-        },
-      },
-    },
-  };
-
-  beforeEach(() => {});
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it('should render when authenticated and NOT authenticated', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
-
-    const { container, rerender, getByTestId } = render(withAppContext(<PlainText {...props} />));
-    expect(getByTestId('plainText')).toBeInTheDocument();
-    expect(container.querySelector('a')).toHaveStyle('pointer-events: none');
-    expect(container.querySelector('a')).not.toHaveStyle('font-weight: bold');
-
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
-    rerender(withAppContext(<PlainText {...props} />));
-    expect(getByTestId('plainText')).toBeInTheDocument();
-    expect(container.querySelector('a')).toHaveStyle('font-weight: bold');
-    expect(container.querySelector('a')).not.toHaveStyle('pointer-events: none');
   });
 });
