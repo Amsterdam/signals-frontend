@@ -41,6 +41,7 @@ export const initialState = fromJS({
   },
   loadingClassification: false,
   usePredictions: true,
+  subcategoryPrediction: '',
 });
 
 const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) => {
@@ -90,7 +91,7 @@ export default (state = initialState, action) => {
         getIncidentWithoutExtraProps(state.get('incident'), action.payload)
           .set('category', action.payload.category)
           .set('subcategory', action.payload.subcategory)
-      );
+      ).set('subcategoryPrediction', action.payload.subcategory);
 
     case GET_CLASSIFICATION_ERROR:
       return state.set('loadingClassification', false).set(

@@ -32,6 +32,7 @@ const Map = ({
   canBeDragged,
   children,
   className,
+  'data-testid': dataTestId,
   events,
   hasGPSControl,
   hasZoomControls,
@@ -78,7 +79,7 @@ const Map = ({
   return (
     <StyledMap
       className={className}
-      data-testid="map-base"
+      data-testid={dataTestId}
       data-max-zoom={maxZoom}
       data-min-zoom={minZoom}
       events={events}
@@ -131,6 +132,7 @@ const Map = ({
 Map.defaultProps = {
   canBeDragged: true,
   className: '',
+  'data-testid': 'map-base',
   hasGPSControl: false,
   hasZoomControls: false,
 };
@@ -145,6 +147,7 @@ Map.propTypes = {
    * Map events
    * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
    */
+  'data-testid': PropTypes.string,
   events: PropTypes.shape({}),
   hasGPSControl: PropTypes.bool,
   hasZoomControls: PropTypes.bool,

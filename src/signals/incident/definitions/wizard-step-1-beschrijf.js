@@ -49,7 +49,7 @@ const getControls = memoize(
         options: {
           validators: [Validators.required, Validators.maxLength(1000)],
         },
-        render: FormComponents.DescriptionWithClassificationInput,
+        render: FormComponents.DescriptionInputRenderer,
       },
       category: {
         meta: {

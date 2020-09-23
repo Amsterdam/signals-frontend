@@ -183,6 +183,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           subcategory: 'Honden(poep)',
         },
         loadingClassification: false,
+        subcategoryPrediction: 'Honden(poep)',
       });
     });
 

@@ -32,7 +32,7 @@ export const MapInput = props => {
           <Label htmlFor={`form${name}`}>{display}</Label>
 
           <div className="map-input__control invoer">
-            <MapInputComponent value={value} onChange={onLocationChange} mapOptions={mapOptions} hasZoomControls />
+            <MapInputComponent data-testid="mapInput" value={value} onChange={onLocationChange} mapOptions={mapOptions} hasZoomControls />
           </div>
         </div>
       </div>

@@ -8,9 +8,9 @@ import { incidentType } from 'shared/types';
 import MapSelect from 'components/MapSelect';
 import { getOVLIcon } from '../../../form/MapSelect/iconMapping';
 
-const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
+export const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
 
-const getLatlng = location => {
+export const getLatlng = location => {
   const coords = location?.geometrie?.coordinates || DEFAULT_COORDS;
   return {
     latitude: coords[1],

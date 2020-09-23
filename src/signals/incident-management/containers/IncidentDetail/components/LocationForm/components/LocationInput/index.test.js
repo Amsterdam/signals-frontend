@@ -24,7 +24,7 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm/
     );
 
     expect(getByTestId('locationForm')).toBeInTheDocument();
-    expect(getByTestId('map-base')).toBeInTheDocument();
+    expect(getByTestId('mapInput')).toBeInTheDocument();
     expect(getByTestId('submitBtn')).toBeInTheDocument();
     expect(getByTestId('cancelBtn')).toBeInTheDocument();
   });

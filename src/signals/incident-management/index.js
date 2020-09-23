@@ -9,7 +9,6 @@ import configuration from 'shared/services/configuration/configuration';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { fetchCategories } from 'models/categories/actions';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
 
@@ -28,7 +27,6 @@ import routes from './routes';
 import { makeSelectDistricts } from './selectors';
 
 export const IncidentManagementModuleComponent = ({
-  fetchCategoriesAction,
   getDistrictsAction,
   getFiltersAction,
   requestIncidentsAction,
@@ -54,9 +52,7 @@ export const IncidentManagementModuleComponent = ({
     }
 
     getFiltersAction();
-    fetchCategoriesAction();
   }, [
-    fetchCategoriesAction,
     getDistrictsAction,
     getFiltersAction,
     requestIncidentsAction,
@@ -82,7 +78,6 @@ export const IncidentManagementModuleComponent = ({
 };
 
 IncidentManagementModuleComponent.propTypes = {
-  fetchCategoriesAction: PropTypes.func.isRequired,
   getDistrictsAction: PropTypes.func.isRequired,
   getFiltersAction: PropTypes.func.isRequired,
   requestIncidentsAction: PropTypes.func.isRequired,
@@ -97,7 +92,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      fetchCategoriesAction: fetchCategories,
       getDistrictsAction: getDistricts,
       getFiltersAction: getFilters,
       requestIncidentsAction: requestIncidents,
