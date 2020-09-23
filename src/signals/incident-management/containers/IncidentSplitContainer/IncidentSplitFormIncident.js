@@ -13,23 +13,23 @@ import { StyledBorderBottomWrapper, StyledButton, StyledHeading } from './styled
 
 const INCIDENT_SPLIT_LIMIT = 10;
 
-const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, control }) => {
+const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, control, splitLimit }) => {
   const [indexes, setIndexes] = useState([1]);
 
   const addIncident = useCallback(event => {
     event.preventDefault();
 
-    if (indexes.length > INCIDENT_SPLIT_LIMIT - 1) return;
+    if (indexes.length > splitLimit - 1) return;
 
     setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
   },
-  [indexes]);
+  [indexes, splitLimit]);
 
   return (
     <Fragment>
       {indexes.map(index => (
         <StyledBorderBottomWrapper key={`incident-splitform-incident-${index}`}>
-          <StyledHeading forwardedAs="h3" data-testid="incidentPartTitle">Deelmelding {index}</StyledHeading>
+          <StyledHeading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</StyledHeading>
 
           <TextArea
             name={`issues[${index}].description`}
@@ -38,15 +38,17 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, co
             defaultValue={parentIncident.description}
           />
 
+          {/*
           <Controller
             as={<SelectInput options={subcategories} name={`issues[${index}].subcategory`} />}
             label={<strong>Subcategorie</strong>}
             display="Subcategorie"
             control={control}
-            name={`issues[${index}].subcategory`}
+            name={`issues-${index}-subcategory`}
             defaultValue={parentIncident.subcategory}
             sort
           />
+          */}
 
           <RadioInput
             display="Urgentie"
@@ -68,9 +70,14 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, co
         </StyledBorderBottomWrapper>
       ))}
 
-      {indexes.length < INCIDENT_SPLIT_LIMIT && (
+      {indexes.length < splitLimit && (
         <StyledBorderBottomWrapper>
-          <StyledButton type="button" variant="primaryInverted" onClick={addIncident}>
+          <StyledButton
+            type="button"
+            variant="primaryInverted"
+            onClick={addIncident}
+            data-testid="incidentSplitFormSplitButton"
+          >
             Extra deelmelding toevoegen
           </StyledButton>
         </StyledBorderBottomWrapper>
@@ -78,6 +85,8 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, co
     </Fragment>
   );
 };
+
+IncidentSplitFormIncident.defaultProps = { splitLimit: 10 };
 
 IncidentSplitFormIncident.propTypes = {
   parentIncident: PropTypes.shape({
@@ -98,7 +107,8 @@ IncidentSplitFormIncident.propTypes = {
     })
   ),
   register: PropTypes.func,
-  control: PropTypes.shape({ setValue: PropTypes.func }).isRequired,
+  splitLimit: PropTypes.oneOf([...new Array(INCIDENT_SPLIT_LIMIT)].map((_, index) => index + 1)),
+  // control: PropTypes.shape({ setValue: PropTypes.func }).isRequired,
 };
 
 export default IncidentSplitFormIncident;
