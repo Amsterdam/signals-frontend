@@ -90,14 +90,14 @@ IncidentSplitForm.propTypes = {
     subcategoryDisplayName: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
   subcategories: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
       info: PropTypes.string,
     })
-  ),
+  ).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
