@@ -37,7 +37,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   it('should render the map and the autosuggest', async () => {
     const { getByTestId, findByTestId } = render(withMapContext(<OverviewMap />));
 
-    await findByTestId('map-base');
+    await findByTestId('overviewMap');
 
     expect(getByTestId('autoSuggest')).toBeInTheDocument();
   });
@@ -45,7 +45,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   it('should request locations', async () => {
     const { findByTestId, rerender, unmount } = render(withMapContext(<OverviewMap />));
 
-    await findByTestId('map-base');
+    await findByTestId('overviewMap');
 
     const reDateTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
     const expectedFilterParams = {
@@ -73,7 +73,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
 
     rerender(withMapContext(<OverviewMap />));
 
-    await findByTestId('map-base');
+    await findByTestId('overviewMap');
 
     expect(fetch.mock.calls).toHaveLength(2);
   });
@@ -82,7 +82,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
     configuration.mapFilter24Hours = false;
     const { findByTestId } = render(withMapContext(<OverviewMap />));
 
-    await findByTestId('map-base');
+    await findByTestId('overviewMap');
 
     const requestUrl = new URL(fetch.mock.calls[0][0]);
     const params = new URLSearchParams(requestUrl.search);
@@ -94,7 +94,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   it('should render detail panel', async () => {
     const { getByTestId, findByTestId } = render(withMapContext(<OverviewMap showPanelOnInit />));
 
-    await findByTestId('map-base');
+    await findByTestId('overviewMap');
 
     expect(getByTestId('mapDetailPanel')).toBeInTheDocument();
   });
