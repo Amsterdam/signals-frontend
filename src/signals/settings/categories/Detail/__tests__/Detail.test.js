@@ -319,7 +319,7 @@ describe('signals/settings/categories/Detail', () => {
     }));
 
     fetch.resetMocks();
-    
+
     unmount();
 
     fetch
