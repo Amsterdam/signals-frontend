@@ -30,7 +30,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
           <input type="hidden" {...handler()} />
 
           {map(meta.values, (value, key) => (
-            <div key={key}>
+            <Label htmlFor={`${meta.name}-${key + 1}`} label={value}>
               <Checkbox
                 id={`${meta.name}-${key + 1}`}
                 name={`${meta.name}-${key + 1}`}
@@ -38,12 +38,11 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
                 checked={(handler().value || []).find(item => item.id === key)}
                 onClick={e => updateIncidentCheckboxMulti(e.target.checked, value, key, handler().value, meta, parent)}
               />
-              <label htmlFor={`${meta.name}-${key + 1}`}>{value}</label>
-            </div>
+            </Label>
           ))}
         </Fragment>
       ) : (
-        <div className="checkboxWrapper">
+        <Label htmlFor={meta.name} label={meta.value}>
           <Checkbox
             id={meta.name}
             name={meta.name}
@@ -57,8 +56,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
               });
             }}
           />
-          <Label htmlFor={meta.name} label={meta.value} />
-        </div>
+        </Label>
       )}
     </Header>
   );

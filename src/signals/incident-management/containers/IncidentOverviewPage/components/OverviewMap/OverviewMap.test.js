@@ -1,13 +1,36 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import geographyJSON from 'utils/__tests__/fixtures/geography.json';
+
+import configuration from 'shared/services/configuration/configuration';
 import { withMapContext } from 'test/utils';
-import OverviewMap from '..';
+import geographyJSON from 'utils/__tests__/fixtures/geography.json';
+
+import OverviewMap from '.';
+
+let mockFilterParams;
+
+jest.mock('shared/services/configuration/configuration');
+jest.mock('signals/incident-management/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('signals/incident-management/selectors'),
+  makeSelectFilterParams: () => mockFilterParams,
+}));
 
 fetch.mockResponse(JSON.stringify(geographyJSON));
 
+const createdAfter = '1999-01-01T00:00:00';
+const createdBefore = '1999-01-05T00:00:00';
+
 describe('signals/incident-management/containers/IncidentOverviewPage/components/Map', () => {
+  beforeEach(() => {
+    mockFilterParams = {
+      created_after: createdAfter,
+      created_before: createdBefore,
+    };
+  });
+
   afterEach(() => {
+    configuration.__reset();
     fetch.resetMocks();
   });
 
@@ -43,6 +66,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
       expect(param).toMatch(expectedFilterParams[key]);
     });
 
+    expect(params.created_after).not.toEqual(createdAfter);
+    expect(params.created_before).not.toEqual(createdBefore);
+
     unmount();
 
     rerender(withMapContext(<OverviewMap />));
@@ -50,6 +76,19 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
     await findByTestId('map-base');
 
     expect(fetch.mock.calls).toHaveLength(2);
+  });
+
+  it('should not overwrite date filter params when mapFilter24Hours is false', async () => {
+    configuration.mapFilter24Hours = false;
+    const { findByTestId } = render(withMapContext(<OverviewMap />));
+
+    await findByTestId('map-base');
+
+    const requestUrl = new URL(fetch.mock.calls[0][0]);
+    const params = new URLSearchParams(requestUrl.search);
+
+    expect(params.get('created_after')).toEqual(createdAfter);
+    expect(params.get('created_before')).toEqual(createdBefore);
   });
 
   it('should render detail panel', async () => {

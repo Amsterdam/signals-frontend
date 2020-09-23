@@ -141,6 +141,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     const { stadsdeel, buurt_code, address, geometrie } = incidentFixture.location;
 
     const parentData = {
+      attachments: incidentFixture.attachments,
       extra_properties: incidentFixture.extra_properties,
       incident_date_end: incidentFixture.incident_date_end,
       incident_date_start: incidentFixture.incident_date_start,

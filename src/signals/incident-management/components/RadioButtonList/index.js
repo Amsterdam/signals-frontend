@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
+import { RadioGroup, Label } from '@datapunt/asc-ui';
+
+import RadioButton from 'components/RadioButton';
 
 const FilterGroup = styled.div`
   position: relative;
@@ -49,7 +51,7 @@ const RadioButtonList = ({
       <StyledRadioGroup name={groupName} disabled={disabled}>
         {radioOptions.map(option => (
           <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
-            <Radio
+            <RadioButton
               data-testid={`${groupName}-${option.key || option.name}`}
               checked={option.key === defaultValue}
               id={option.key || option.name}

@@ -56,10 +56,20 @@ const IncidentSplitContainer = ({ FormComponent }) => {
      * @param {string} formData[].type
      */
     formData => {
-      const { extra_properties, incident_date_end, incident_date_start, location, reporter, source, text_extra } = data;
+      const {
+        attachments,
+        extra_properties,
+        incident_date_end,
+        incident_date_start,
+        location,
+        reporter,
+        source,
+        text_extra,
+      } = data;
       const { stadsdeel, buurt_code, address, geometrie } = location;
 
       const parentData = {
+        attachments,
         extra_properties,
         incident_date_end,
         incident_date_start,

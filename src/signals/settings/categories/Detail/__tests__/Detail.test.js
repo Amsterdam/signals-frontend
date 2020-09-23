@@ -308,9 +308,9 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: undefined,
     }));
 
-    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId, findByText, unmount } = render(withAppContext(<CategoryDetailContainer />));
 
-    await findByTestId('detailCategoryForm');
+    await findByText('Terug naar overzicht');
 
     expect(fetch).not.toHaveBeenLastCalledWith(expect.stringContaining('/history'), expect.any(Object));
 
@@ -319,6 +319,8 @@ describe('signals/settings/categories/Detail', () => {
     }));
 
     fetch.resetMocks();
+    
+    unmount();
 
     fetch
       .once(JSON.stringify(categoryJSON)) // GET response (category)

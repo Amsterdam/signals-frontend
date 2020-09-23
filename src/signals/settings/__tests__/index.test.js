@@ -7,7 +7,7 @@ import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext, history } from 'test/utils';
 import SettingsModule, { SettingsModule as Module } from '..';
-import { USER_URL, USERS_URL, ROLES_URL } from '../routes';
+import { USERS_URL, ROLES_URL } from '../routes';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -122,11 +122,7 @@ describe('signals/settings', () => {
   it('should redirect to manage overview page', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    await act(async () =>
-      render(
-        withAppContext(<Module {...actionProps} userCanAccess={() => false} />)
-      )
-    );
+    render(withAppContext(<Module {...actionProps} userCanAccess={() => false} />));
 
     expect(
       reactRouterDom.useLocation.mock.results.pop().value.pathname

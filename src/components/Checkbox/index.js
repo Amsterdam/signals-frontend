@@ -1,22 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Checkbox as AscCheckbox, themeSpacing } from '@datapunt/asc-ui';
+import { Checkbox as AscCheckbox } from '@datapunt/asc-ui';
 
 const Wrapper = styled.div`
   display: inline-block;
-  background: white;
-  padding-right: ${themeSpacing(2)};
-  background-clip: content-box;
-`;
+  position: relative;
+  z-index: 0;
 
-const StyledBox = styled(AscCheckbox)`
-  padding: 0;
+  & > * {
+    margin-left: -4px;
+  }
+
+  & ~ label {
+    vertical-align: middle;
+  }
 `;
 
 const Checkbox = ({ className, ...props }) => (
   <Wrapper className={className}>
-    <StyledBox {...props} />
+    <AscCheckbox {...props} />
   </Wrapper>
 );
 

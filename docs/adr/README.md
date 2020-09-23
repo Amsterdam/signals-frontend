@@ -6,3 +6,4 @@
 3. [Application configuration setup](./0003-application-configuration-setup.md)
 4. [Multi-tenant architecture](./0004-multi-tenant-architecture.md)
 5. [Deploy setup](./0005-deploy-setup.md)
+6. [Forms](./0006-forms.md)
