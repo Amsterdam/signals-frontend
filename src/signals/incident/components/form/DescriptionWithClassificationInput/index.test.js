@@ -141,7 +141,9 @@ describe('Form component <DescriptionWithClassificationInput />', () => {
 
       wrapper.find(TextArea).simulate('blur', { target: { value: 'diabolo' } });
       expect(parent.meta.getClassification).not.toHaveBeenCalled();
-      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        'input-field-name': 'diabolo',
+      });
     });
   });
 });
