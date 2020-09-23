@@ -5,7 +5,7 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import IncidentDetailContext from '../../../../context';
+import IncidentDetailContext from '../../context';
 
 import ChangeValue from '.';
 

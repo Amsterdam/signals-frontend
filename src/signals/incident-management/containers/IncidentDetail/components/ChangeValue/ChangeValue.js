@@ -13,8 +13,8 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import InfoText from 'components/InfoText';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
-import EditButton from '../../../EditButton';
-import IncidentDetailContext from '../../../../context';
+import EditButton from '../EditButton';
+import IncidentDetailContext from '../../context';
 
 const DisplayValue = styled.span`
   display: inline-block;
@@ -62,8 +62,9 @@ const ChangeValue = ({
       event.preventDefault();
 
       const payload = { ...patch };
+      const newValue = form.value.input || list.find(({ key }) => !key)?.key;
 
-      set(payload, path, form.value.input);
+      set(payload, path, newValue);
 
       update({
         type,
@@ -73,7 +74,7 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [patch, path, type, update, form]
+    [form, list, patch, path, type, update]
   );
 
   const handleCancel = useCallback(() => {
