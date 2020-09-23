@@ -2,9 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import * as reactRedux from 'react-redux';
-import * as auth from 'shared/services/auth/auth';
 import { withAppContext } from 'test/utils';
-import { fetchCategories } from 'models/categories/actions';
 import * as catgorySelectors from 'models/categories/selectors';
 import * as incidentContainerSelectors from 'signals/incident/containers/IncidentContainer/selectors';
 import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
@@ -26,14 +24,6 @@ describe('signals/incident/components/form/DescriptionInfo', () => {
 
     const element = await findByTestId('descriptionInfo');
     expect(element.firstChild.textContent).toEqual('the-info');
-  });
-
-  it('should fetch categories when authenticated', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
-    const { findByTestId } = render(withAppContext(<DescriptionInfo info="the-info" />));
-
-    await findByTestId('descriptionInfo');
-    expect(dispatch).toHaveBeenCalledWith(fetchCategories());
   });
 
   it('should show the suggestion when subcategory is active', async () => {

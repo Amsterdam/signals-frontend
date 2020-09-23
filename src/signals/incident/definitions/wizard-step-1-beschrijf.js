@@ -1,7 +1,8 @@
 import some from 'lodash.some';
 import memoize from 'lodash/memoize';
 import { Validators } from 'react-reactive-form';
-import { priorityList, typesList } from 'signals/incident-management/definitions';
+import { priorityList, typesList, sourceList } from 'signals/incident-management/definitions';
+import configuration from 'shared/services/configuration/configuration';
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/checkVisibility';
@@ -13,152 +14,155 @@ const reduceSources = sources =>
   sources.reduce((acc, { value }) => ({ ...acc, [value]: value }), { '': 'Vul bron in' });
 
 const getControls = memoize(
-  sources => ({
-    controls: {
-      source: {
-        meta: {
-          className: 'col-sm-12 col-md-6',
-          label: 'Hoe komt de melding binnen?',
-          path: 'source',
-          values: sources ? reduceSources(sources) : [],
+  appContext => {
+    const sources = configuration?.fetchSourcesFromBackend ? appContext.sources : sourceList;
+    return {
+      controls: {
+        source: {
+          meta: {
+            className: 'col-sm-12 col-md-6',
+            label: 'Hoe komt de melding binnen?',
+            path: 'source',
+            values: sources ? reduceSources(sources) : [],
+          },
+          options: {
+            validators: [Validators.required],
+          },
+          authenticated: true,
+          render: FormComponents.SelectInput,
         },
-        options: {
-          validators: [Validators.required],
+        location: {
+          meta: {
+            label: 'Waar is het?',
+            subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
+            path: 'location',
+          },
+          options: {
+            validators: [Validators.required],
+          },
+          render: FormComponents.MapInput,
         },
-        authenticated: true,
-        render: FormComponents.SelectInput,
-      },
-      location: {
-        meta: {
-          label: 'Waar is het?',
-          subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
-          path: 'location',
+        description: {
+          meta: {
+            label: 'Waar gaat het om?',
+            subtitle: 'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
+            path: 'text',
+            maxLength: 1000,
+          },
+          options: {
+            validators: [Validators.required, Validators.maxLength(1000)],
+          },
+          render: FormComponents.DescriptionInputRenderer,
         },
-        options: {
-          validators: [Validators.required],
+        category: {
+          meta: {
+            label: 'Categorie',
+            path: 'category',
+            type: 'text',
+          },
+          options: {
+            validators: [Validators.required],
+          },
+          render: FormComponents.HiddenInput,
         },
-        render: FormComponents.MapInput,
-      },
-      description: {
-        meta: {
-          label: 'Waar gaat het om?',
-          subtitle: 'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
-          path: 'text',
-          maxLength: 1000,
+        subcategory: {
+          meta: {
+            label: 'Subcategorie',
+            path: 'subcategory',
+            type: 'text',
+          },
+          options: {
+            validators: [Validators.required],
+          },
+          render: FormComponents.HiddenInput,
         },
-        options: {
-          validators: [Validators.required, Validators.maxLength(1000)],
+        datetime: {
+          meta: {
+            className: 'col-sm-12 col-md-6',
+            label: 'Geef het tijdstip aan',
+            values: {
+              Nu: 'Nu',
+              Eerder: 'Eerder',
+            },
+          },
+          options: {
+            validators: [Validators.required],
+          },
+          render: FormComponents.RadioInputGroup,
         },
-        render: FormComponents.DescriptionInputRenderer,
-      },
-      category: {
-        meta: {
-          label: 'Categorie',
-          path: 'category',
-          type: 'text',
+        incident_date: {
+          meta: {
+            ifAllOf: {
+              datetime: 'Eerder',
+            },
+          },
+          render: FormComponents.DateTimeInput,
+          strict: false,
         },
-        options: {
-          validators: [Validators.required],
+        incident_time_hours: {
+          meta: {
+            label: 'Incident time hours',
+            readOnly: true,
+          },
+          render: FormComponents.HiddenInput,
         },
-        render: FormComponents.HiddenInput,
-      },
-      subcategory: {
-        meta: {
-          label: 'Subcategorie',
-          path: 'subcategory',
-          type: 'text',
+        incident_time_minutes: {
+          meta: {
+            label: 'Incident time minutes',
+            readOnly: true,
+          },
+          render: FormComponents.HiddenInput,
         },
-        options: {
-          validators: [Validators.required],
+        priority: {
+          meta: {
+            className: 'col-sm-12 col-md-6',
+            label: 'Wat is de urgentie?',
+            path: 'priority',
+            values: priorityValuesList,
+          },
+          options: {
+            validators: [Validators.required],
+          },
+          authenticated: true,
+          render: FormComponents.RadioInputGroup,
         },
-        render: FormComponents.HiddenInput,
-      },
-      datetime: {
-        meta: {
-          className: 'col-sm-12 col-md-6',
-          label: 'Geef het tijdstip aan',
-          values: {
-            Nu: 'Nu',
-            Eerder: 'Eerder',
+        type: {
+          meta: {
+            className: 'col-sm-12 col-md-6',
+            label: 'Type',
+            path: 'type',
+            values: typesValuesList,
+          },
+          authenticated: true,
+          render: FormComponents.RadioInputGroup,
+          options: {
+            validators: [Validators.required],
           },
         },
-        options: {
-          validators: [Validators.required],
-        },
-        render: FormComponents.RadioInputGroup,
-      },
-      incident_date: {
-        meta: {
-          ifAllOf: {
-            datetime: 'Eerder',
+        images_previews: {
+          meta: {
+            label: 'images_previews',
           },
+          render: FormComponents.HiddenInput,
         },
-        render: FormComponents.DateTimeInput,
-        strict: false,
-      },
-      incident_time_hours: {
-        meta: {
-          label: 'Incident time hours',
-          readOnly: true,
+        images: {
+          meta: {
+            label: "Foto's toevoegen",
+            subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
+            minFileSize: 30 * 2 ** 10, // 30 KiB.
+            maxFileSize: 8 * 2 ** 20, // 8 MiB.
+            allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
+            maxNumberOfFiles: 3,
+          },
+          render: FormComponents.FileInputRenderer,
         },
-        render: FormComponents.HiddenInput,
-      },
-      incident_time_minutes: {
-        meta: {
-          label: 'Incident time minutes',
-          readOnly: true,
-        },
-        render: FormComponents.HiddenInput,
-      },
-      priority: {
-        meta: {
-          className: 'col-sm-12 col-md-6',
-          label: 'Wat is de urgentie?',
-          path: 'priority',
-          values: priorityValuesList,
-        },
-        options: {
-          validators: [Validators.required],
-        },
-        authenticated: true,
-        render: FormComponents.RadioInputGroup,
-      },
-      type: {
-        meta: {
-          className: 'col-sm-12 col-md-6',
-          label: 'Type',
-          path: 'type',
-          values: typesValuesList,
-        },
-        authenticated: true,
-        render: FormComponents.RadioInputGroup,
-        options: {
-          validators: [Validators.required],
+        $field_0: {
+          isStatic: false,
+          render: IncidentNavigation,
         },
       },
-      images_previews: {
-        meta: {
-          label: 'images_previews',
-        },
-        render: FormComponents.HiddenInput,
-      },
-      images: {
-        meta: {
-          label: "Foto's toevoegen",
-          subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
-          minFileSize: 30 * 2 ** 10, // 30 KiB.
-          maxFileSize: 8 * 2 ** 20, // 8 MiB.
-          allowedFileTypes: ['image/jpeg', 'image/png', 'image/gif'],
-          maxNumberOfFiles: 3,
-        },
-        render: FormComponents.FileInputRenderer,
-      },
-      $field_0: {
-        isStatic: false,
-        render: IncidentNavigation,
-      },
-    },
-  }),
+    };
+  },
   () => ''
 );
 
@@ -180,5 +184,5 @@ export default {
   nextButtonLabel: 'Volgende',
   nextButtonClass: 'action primary arrow-right',
   postponeSubmitWhenLoading: 'incidentContainer.loadingClassification',
-  formFactory: (incident, sources) => getControls(sources),
+  formFactory: (incident, appContext) => getControls(appContext),
 };

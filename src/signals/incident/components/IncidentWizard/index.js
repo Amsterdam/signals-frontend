@@ -5,11 +5,9 @@ import { Wizard, Steps, Step } from 'react-albus';
 import { Heading, themeSpacing } from '@datapunt/asc-ui';
 import styled from 'styled-components';
 
-import { sourceList } from 'signals/incident-management/definitions';
-import configuration from 'shared/services/configuration/configuration';
 import LoadingIndicator from 'components/LoadingIndicator';
 
-import AppContext from '../../../../containers/App/context';
+import AppContext from 'containers/App/context';
 import IncidentForm from '../IncidentForm';
 import IncidentPreview from '../IncidentPreview';
 import onNext from './services/on-next';
@@ -21,7 +19,6 @@ const StyledH1 = styled(Heading)`
 
 const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, createIncident, incidentContainer }) => {
   const appContext = useContext(AppContext);
-  const sources = configuration?.fetchSourcesFromBackend ? appContext.sources : sourceList;
   const incident = useMemo(() => incidentContainer.incident, [incidentContainer.incident]);
 
   return (
@@ -55,7 +52,7 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
 
                           {(form || formFactory) && (
                             <IncidentForm
-                              fieldConfig={form || formFactory(incident, sources)}
+                              fieldConfig={form || formFactory(incident, appContext)}
                               incidentContainer={incidentContainer}
                               getClassification={getClassification}
                               updateIncident={updateIncident}
