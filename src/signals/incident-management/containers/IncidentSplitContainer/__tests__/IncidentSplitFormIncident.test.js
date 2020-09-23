@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import { withAppContext } from 'test/utils';
 import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
+import { withAppContext } from 'test/utils';
 import * as modelSelectors from 'models/categories/selectors';
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
@@ -10,44 +10,48 @@ import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 const subcategories = categoriesFixture.results
   .filter(modelSelectors.filterForSub)
   // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
-  .map(subCat => ({ ...subCat, value: subCat.name, key: subCat._links.self.href }));
+  .map(subcategory => ({ ...subcategory, value: subcategory.name, key: subcategory._links.self.href }));
 
 const parentIncident = {
   id: 6010,
   status: 'm',
   statusDisplayName: 'Gemeld',
   priority: 'normal',
-  subcategory:
-    'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad',
+  subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad',
   subcategoryDisplayName: 'STW',
   description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
   type: 'SIG',
 };
 
 describe('IncidentSplitFormIncident', () => {
-  it('renders one form part by default', () => {
-    const register = jest.fn();
-    render(
+  const register = jest.fn();
+  const control = {};
+
+  it('renders one splitted incident by default', () => {
+    const { queryAllByTestId } = render(
       withAppContext(
         <IncidentSplitFormIncident
-          register={register}
           parentIncident={parentIncident}
           subcategories={subcategories}
+          control={control}
+          register={register}
         />
       )
     );
 
+    expect(queryAllByTestId('splittedIncidentTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
+
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
-  it('renders multiple form parts', () => {
-    const register = jest.fn();
-    const { getByTestId, queryByTestId } = render(
+  it('should split incidents until limit is reached then it should hide incident split button', () => {
+    const { getByTestId, queryAllByTestId, queryByTestId } = render(
       withAppContext(
         <IncidentSplitFormIncident
-          register={register}
           parentIncident={parentIncident}
           subcategories={subcategories}
+          control={control}
+          register={register}
         />
       )
     );
@@ -56,15 +60,18 @@ describe('IncidentSplitFormIncident', () => {
 
     const button = getByTestId('incidentSplitFormSplitButton');
 
-    for (let i = 1; i < 10; i++) { // eslint-disable-line no-unused-vars
+    Array(10 - 1).fill().forEach((_, index) => {
       fireEvent.click(button);
 
-      if (i < 9) {
-        expect(getByTestId('incidentSplitFormSplitButton')).toBeInTheDocument();
-      }
-      expect(screen.getAllByRole('textbox')).toHaveLength(i + 1);
-    }
+      const splittedIncidentCount = index + 2;
+
+      if (splittedIncidentCount < 10) expect(getByTestId('incidentSplitFormSplitButton')).toBeInTheDocument();
+
+      expect(screen.getAllByRole('textbox')).toHaveLength(splittedIncidentCount);
+    });
 
     expect(queryByTestId('incidentSplitFormSplitButton')).not.toBeInTheDocument();
+
+    expect(queryAllByTestId('splittedIncidentTitle')[9]).toHaveTextContent(/^Deelmelding 10$/);
   });
 });

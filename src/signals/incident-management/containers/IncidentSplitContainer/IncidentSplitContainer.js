@@ -80,7 +80,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         text_extra,
       };
 
-      const mergedData = formData.issues
+      const mergedData = formData.incidents
         .filter(issue => issue)
         .reduce((acc, { subcategory, description, type, priority }) => {
           const partialData = {

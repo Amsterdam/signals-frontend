@@ -1,15 +1,13 @@
-/* eslint-disable no-await-in-loop */
 import React from 'react';
-import { act, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
-// import incident from 'utils/__tests__/fixtures/incident.json';
+
 import * as modelSelectors from 'models/categories/selectors';
+
 import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
 
-// import { onSubmit } from 'react-hook-form';
 import IncidentSplitForm from '../IncidentSplitForm';
-import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 
 const parentIncident = {
   id: 6010,
@@ -22,31 +20,17 @@ const parentIncident = {
   type: 'SIG',
 };
 
-// const parentIncident =
-
-jest.mock('containers/App/selectors', () => ({
-  __esModule: true,
-  ...jest.requireActual('containers/App/selectors'),
-}));
-
-const subCategories = categoriesFixture.results
+const subcategories = categoriesFixture.results
   .filter(modelSelectors.filterForSub)
   // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
-  .map(subCat => ({ ...subCat, key: subCat._links.self.href }));
+  .map(subcategory => ({ ...subcategory, value: subcategory.name, key: subcategory._links.self.href }));
 
 describe('<IncidentSplitForm />', () => {
-  let props;
   const onSubmit = jest.fn();
 
-  beforeEach(() => {
-    jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
+  let props;
 
-    props = {
-      parentIncident,
-      // subcategories: [{ key: 'poep', value: 'Poep', slug: 'poep' }],
-      onSubmit,
-    };
-  });
+  beforeEach(() => { props = { parentIncident, subcategories, onSubmit }; });
 
   it('should render correctly', () => {
     const { queryAllByText } = render(withAppContext(<IncidentSplitForm {...props} />));
@@ -54,36 +38,16 @@ describe('<IncidentSplitForm />', () => {
     expect(queryAllByText(parentIncident.description)).toHaveLength(1);
   });
 
-  it('should split into 2 more incidents', () => {
-    const { getByTestId, queryAllByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
-
-    act(() => { fireEvent.click(getByTestId('incidentSplitFormSplitButton')); });
-    expect(queryAllByTestId('splittedIncidentTitle')[1]).toHaveTextContent(/^Deelmelding 2$/);
-
-    act(() => { fireEvent.click(getByTestId('incidentSplitFormSplitButton')); });
-    expect(queryAllByTestId('splittedIncidentTitle')[2]).toHaveTextContent(/^Deelmelding 3$/);
-  });
-
-  // it('should disable submit button when clicked', () => {
-  //   const { debug, getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
-  //   const incidentSplitFormSubmitButton = getByTestId('incidentSplitFormSubmitButton');
-
-  //   expect(incidentSplitFormSubmitButton.disabled).toEqual(false);
-
-  //   act(() => { fireEvent.click(getByTestId('incidentSplitFormSubmitButton')); });
-  //   expect(incidentSplitFormSubmitButton.disabled).toEqual(true);
-  // });
-
   it('should handle submit', async () => {
     const { getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
 
-    act(() => { fireEvent.click(getByTestId('incidentSplitFormSplitButton')); });
+    fireEvent.click(getByTestId('incidentSplitFormSplitButton'));
 
     await act(async () => { fireEvent.submit(getByTestId('incidentSplitFormSubmitButton')); });
 
     expect(onSubmit).toHaveBeenCalledWith({
       department: 'null',
-      issues: [
+      incidents: [
         undefined,
         {
           description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
@@ -99,86 +63,6 @@ describe('<IncidentSplitForm />', () => {
     });
   });
 
-  it('should hide incident split button when split limit reached', async () => {
-    const { debug, getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
-
-    const splitLimit = IncidentSplitFormIncident.defaultProps.splitLimit;
-
-    console.log(splitLimit);
-    debug(screen.getByRole('button'));
-
-    for (const _value of Array(splitLimit - 1)) { // eslint-disable-line no-unused-vars
-      act(() => { fireEvent.click(getByTestId('incidentSplitFormSplitButton')); });
-      expect(getByTestId('incidentSplitFormSubmitButton')).toBeInTheDocument();
-    }
-
-    debug(getByTestId('incidentSplitFormSubmitButton'));
-
-    await act(async () => { fireEvent.click(getByTestId('incidentSplitFormSplitButton')); });
-
-    // const submitButton = screen.queryAllByText('submit');
-    // expect(submitButton).toBeNull();
-
-    // fireEvent.click(getByTestId('incidentSplitFormSplitButton'));
-
-    // await waitForElementToBeRemoved(() => getByTestId('incidentSplitFormSubmitButton'));
-    // await waitFor(() =>
-
-    // );
-    // await waitFor(() => expect(getByTestId('incidentSplitFormSubmitButton')).toBeDefined());
-    // await waitFor(() => expect(getByTestId('incidentSplitFormSubmitButton')).toBeDefined());
-    // await waitFor(() => expect(getByTestId('incidentSplitFormSubmitButton')).toBeDefined());
-
-    // // expect(getByTestId('incidentSplitFormSubmitButton')).toBeDefined();
-
-    // await act(async () => {
-    //   await waitFor(() => expect(getByTestId('incidentSplitFormSubmitButton')).toBeDefined());
-    // });
-
-    // await waitFor(() => expect(getByTestId('incidentSplitFormSubmitButton')).toBeDefined());
-
-    // await waitForElementToBeRemoved(() => queryByText('the mummy'));
-
-    // expect(getByTestId('incidentSplitFormSubmitButton')).toBeInTheDocument();
-    // expect(getByTestId('incidentSplitFormSubmitButton')).toBeInTheDocument();
-
-    // Array(splitLimit - 1).fill().forEach(() => {
-    //   act(() => { fireEvent.click(getByTestId('incidentSplitFormSplitButton')); });
-    //   expect(getByTestId('incidentSplitFormSubmitButton')).toBeInTheDocument();
-    // });
-
-    // act(() => { fireEvent.click(getByTestId('incidentSplitFormSplitButton')); });
-
-    // act(() => { fireEvent.click(getByTestId('incidentSplitFormSplitButton')); });
-    // expect(getByTestId('incidentSplitFormSubmitButton')).not.toBeInTheDocument();
-
-    // await act(async () => { fireEvent.submit(getByTestId('incidentSplitFormSubmitButton')); });
-
-    // expect(onSubmit).toHaveBeenCalledWith({
-    //   department: 'null',
-    //   issues: [
-    //     undefined,
-    //     {
-    //       description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
-    //       priority: 'normal',
-    //       type: 'SIG',
-    //     },
-    //     {
-    //       description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
-    //       priority: 'normal',
-    //       type: 'SIG',
-    //     },
-    //   ],
-    // });
-  });
-
-  // it('should handle cancel', () => {
-  //   const { getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
-
-  //   act(() => { fireEvent.click(getByTestId('splitFormCancel')); });
-  //   expect(props.onHandleCancel).toHaveBeenCalled();
-  // });
-
   // it('should handle empty incidents', () => {
   //   const { getByTestId, queryAllByText } = render(withAppContext(<IncidentSplitForm {...props} incident={null} />));
 
@@ -186,5 +70,12 @@ describe('<IncidentSplitForm />', () => {
 
   //   act(() => { fireEvent.click(getByTestId('incidentSplitFormSubmitButton')); });
   //   expect(props.onSubmit).not.toHaveBeenCalled();
+  // });
+
+  // it('should handle cancel', () => {
+  //   const { getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
+
+  //   act(() => { fireEvent.click(getByTestId('splitFormCancel')); });
+  //   expect(props.onHandleCancel).toHaveBeenCalled();
   // });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render as reactRender, act, fireEvent } from '@testing-library/react';
+import { render as reactRender, fireEvent } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
@@ -35,11 +35,11 @@ jest.mock('containers/App/selectors', () => ({
 const subcategories = categoriesFixture.results
   .filter(modelSelectors.filterForSub)
   // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
-  .map(subCat => ({ ...subCat, key: subCat._links.self.href }));
+  .map(subcategory => ({ ...subcategory, key: subcategory._links.self.href }));
 
 const submittedFormData = {
   department: 'ASC',
-  issues: [
+  incidents: [
     {
       description: 'Foo bar',
       subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
@@ -135,9 +135,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     // mocking global error handler, because jsdom will complain about unimplemented submit listener
     global.console.error = jest.fn();
 
-    act(() => {
-      fireEvent.click(container.querySelector('input[type="submit"]'));
-    });
+    fireEvent.click(container.querySelector('input[type="submit"]'));
 
     global.console.error.mockRestore();
 
@@ -166,7 +164,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       parent: incidentFixture.id,
     };
 
-    const expectedTransformedBecauseOfReasonsUnknownToManValues = submittedFormData.issues.map(
+    const expectedTransformedBecauseOfReasonsUnknownToManValues = submittedFormData.incidents.map(
       ({ subcategory, description, type, priority }) => ({
         category: { subcategory },
         priority: { priority },
@@ -190,7 +188,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    act(() => { fireEvent.click(container.querySelector('input[type="submit"]')); });
+    fireEvent.click(container.querySelector('input[type="submit"]'));
 
     await findByTestId('incidentSplitForm');
 
@@ -214,9 +212,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    act(() => {
-      fireEvent.click(container.querySelector('input[type="submit"]'));
-    });
+    fireEvent.click(container.querySelector('input[type="submit"]'));
 
     await findByTestId('incidentSplitForm');
 
@@ -227,14 +223,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
         type: TYPE_LOCAL,
       })
     );
+
     expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
   });
-
-  // it('should load categories', async () => {
-  //   const { container } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
-
-  //   expect(container.querySelector('select')).toBeInTheDocument();
-
-  //   jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => null);
-  // });
 });
