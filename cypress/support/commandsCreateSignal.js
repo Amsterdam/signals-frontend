@@ -16,7 +16,7 @@ export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.get(CHANGE_STATUS.buttonEdit).click();
   cy.contains('Status wijzigen').should('be.visible');
   cy.get(CHANGE_STATUS.currentStatus).contains(initialStatus).should('be.visible');
-  cy.get(radioButton).click().should('be.checked');
+  cy.get(radioButton).click({ force: true }).should('be.checked');
   cy.get(CHANGE_STATUS.inputToelichting).type('Toeterlichting');
   cy.get(CHANGE_STATUS.buttonSubmit).click();
 
@@ -172,9 +172,9 @@ export const setAddress = (searchAdress, selectAdress) => {
 
 export const setDateTime = dateTime => {
   if (dateTime === 'Nu') {
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click();
+    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click({ force: true });
   } else {
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click();
+    cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click({ force: true });
     cy.get(CREATE_SIGNAL.dropdownDag).select('Vandaag');
     cy.get(CREATE_SIGNAL.dropdownUur).select('5');
     cy.get(CREATE_SIGNAL.dropdownMinuten).select('45');

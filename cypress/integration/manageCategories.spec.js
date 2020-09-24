@@ -3,7 +3,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CATEGORIES } from '../support/selectorsSettings';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
-describe('Change category', () => {
+describe('Manage categories', () => {
   describe('Change category ', () => {
     before(() => {
       localStorage.setItem('accessToken', Cypress.env('token'));
@@ -20,8 +20,8 @@ describe('Change category', () => {
       cy.contains('Categorieën').click();
 
       cy.waitForCategoriesRoutes();
-      cy.url().should('include', '/instellingen/categorieen/');
       cy.checkHeaderText('Categorieën');
+      cy.url().should('include', '/instellingen/categorieen/');
 
       // Open category Afwatering brug
       cy.contains('Afwatering brug').click();

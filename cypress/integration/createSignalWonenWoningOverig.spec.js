@@ -40,91 +40,91 @@ describe('Create signal wonen woning overig and check signal details', () => {
       cy.contains(questions.wonen.wonen_overig.label).should('be.visible');
 
       // Holiday rental
-      cy.get(WONEN_OVERIG.radioButtonToeristischeVerhuur).check().should('be.checked');
+      cy.get(WONEN_OVERIG.radioButtonToeristischeVerhuur).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_toeristen_aanwezig.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenNee).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenNee).check({ force: true }).should('be.checked');
       cy.contains(warningPhone).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenWeetIkNiet).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenWeetIkNiet).check({ force: true }).should('be.checked');
       cy.contains(warningPhone).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenJa).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenJa).check({ force: true }).should('be.checked');
       cy.contains(warningPhone).should('be.visible');
 
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderTelefonisch).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderTelefonisch).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers1).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers2).should('be.visible');
 
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderMeldformulier).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderMeldformulier).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers1).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers2).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_footer.answers).should('be.visible');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_aantal_mensen.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVierOfMinder).check().should('be.checked');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVijfOfMeer).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVierOfMinder).check({ force: true }).should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVijfOfMeer).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_hoe_vaak.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakEersteKeer).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakEersteKeer).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakWekelijks).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakWekelijks).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakDagelijks).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakDagelijks).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakMaandelijks).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakMaandelijks).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWeekend).check().should('be.checked');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerDoordeweeks).check().should('be.checked');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWisselend).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWeekend).check({ force: true }).should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerDoordeweeks).check({ force: true }).should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWisselend).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bewoning.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bewoning.subtitle).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningWeetIkNiet).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningWeetIkNiet).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningNee).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningJa).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningJa).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.inputBewoner).eq(0).type('Gijsbrecht van Aemstel');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_online_aangeboden.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineNee).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_link_advertentie.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineJa).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_link_advertentie.label).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.inputLink).eq(1).type('https://amsterdam.intercontinental.com/nl/');
     });
 
     it('Should show specific questions illegal rental', () => {
       // Illegal rental
-      cy.get(WONEN_OVERIG.radioButtonIllegaleOnderhuur).check().should('be.checked');
+      cy.get(WONEN_OVERIG.radioButtonIllegaleOnderhuur).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_aantal_personen.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen1).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen1).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen3).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen3).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen2).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen2).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen4).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen4).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonenWeetNiet).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonenWeetNiet).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen5).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen5).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('be.visible');
 
-      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieJa).check().should('be.checked');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieNee).check().should('be.checked');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieWeetNiet).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieJa).check({ force: true }).should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieNee).check({ force: true }).should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieWeetNiet).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_naam_bewoners.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.inputNamen).type('Yennefer en Geralt of Rivia');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_woon_periode.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangWeetNiet).check().should('be.checked');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangMinderZesMaanden).check().should('be.checked');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangLangerZesMaanden).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangWeetNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangMinderZesMaanden).check({ force: true }).should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangLangerZesMaanden).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_iemand_aanwezig.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.inputTijdstip).eq(0).type('Elke avond en nacht zijn deze personen aanwezig.');
@@ -134,11 +134,11 @@ describe('Create signal wonen woning overig and check signal details', () => {
       cy.get(WONEN_ONDERVERHUUR.inputHuurder).eq(1).type('Ja, dat is Vesemir');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_huurder_woont.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaZelfde).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaZelfde).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderNee).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaAnder).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaAnder).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.inputAdresHuurder).eq(2).type('Kaer Morhen');
@@ -146,24 +146,24 @@ describe('Create signal wonen woning overig and check signal details', () => {
 
     it('Should show specific questions vacancy', () => {
       // Vacancy
-      cy.get(WONEN_OVERIG.radioButtonLeegstand).check().should('be.checked');
+      cy.get(WONEN_OVERIG.radioButtonLeegstand).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.inputEigenaar).eq(0).type('A. Hitchcock');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_periode.label).should('be.visible');
-      cy.get(WONEN_LEEGSTAND.radioButtonLeegZesMaandenOfLanger).check().should('be.checked');
-      cy.get(WONEN_LEEGSTAND.radioButtonLeegMinderDanZesMaanden).check().should('be.checked');
-      cy.get(WONEN_LEEGSTAND.radioButtonLeegPeriodeWeetIkNiet).check().should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonLeegZesMaandenOfLanger).check({ force: true }).should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonLeegMinderDanZesMaanden).check({ force: true }).should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonLeegPeriodeWeetIkNiet).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.label).should('be.visible');
-      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktWeetIkNiet).check().should('be.checked');
-      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktNee).check().should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktWeetIkNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.label).should('not.be.visible');
 
-      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktJa).check().should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktJa).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('be.visible');
@@ -174,7 +174,7 @@ describe('Create signal wonen woning overig and check signal details', () => {
 
     it('Should show specific questions house sharing', () => {
       // House sharing
-      cy.get(WONEN_OVERIG.radioButtonWoningdelen).check().should('be.checked');
+      cy.get(WONEN_OVERIG.radioButtonWoningdelen).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_vermoeden.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woningdelen_vermoeden.subtitle).should('be.visible');
       cy.get(WONEN_WONINGDELEN.inputWatSpeeltZichAf).eq(0).type('Ik vermoed tovenarij');
@@ -184,39 +184,39 @@ describe('Create signal wonen woning overig and check signal details', () => {
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_adres_huurder.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woningdelen_adres_huurder.subtitle).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaZelfde).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaZelfde).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderNee).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaAnder).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaAnder).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_aantal_personen.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen1).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen1).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen3).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen3).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen2).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen2).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen4).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen4).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonenWeetNiet).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonenWeetNiet).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen5).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen5).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonFamilieWeetNiet).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonFamilieJa).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonFamilieNee).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonFamilieWeetNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonFamilieJa).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonFamilieNee).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_samenwonen.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkWeetNiet).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkJa).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkNee).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkWeetNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkJa).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkNee).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_wisselende_bewoners.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersWeetNiet).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersNee).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersJa).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersWeetNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersNee).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersJa).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_iemand_aanwezig.label).should('be.visible');
       cy.get(WONEN_WONINGDELEN.inputTijdstip).eq(2).type('Voornamelijk op de dinsdagen om 23:23:05');
@@ -224,37 +224,37 @@ describe('Create signal wonen woning overig and check signal details', () => {
 
     it('Should show specific questions house quality', () => {
       // House quality
-      cy.get(WONEN_OVERIG.radioButtonAchterstalligOnderhoud).check().should('be.checked');
+      cy.get(WONEN_OVERIG.radioButtonAchterstalligOnderhoud).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_direct_gevaar.label).should('be.visible');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonGevaarJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonGevaarJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_direct_gevaar_alert.answers)
         .should('be.visible')
         .and($labels => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
         });
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonGevaarNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonGevaarNee).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_gemeld_bij_eigenaar.label).should('be.visible');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonKlachtGemeldNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonKlachtGemeldNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_direct_gevaar_ja.answers).should('be.visible');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonKlachtGemeldJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonKlachtGemeldJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_direct_gevaar_ja.answers).should('not.be.visible');
 
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_bewoner.label).should('be.visible');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonBewonerJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonBewonerJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_namens_bewoner.label).should('not.be.visible');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonBewonerNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonBewonerNee).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_namens_bewoner.label).should('be.visible');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonNamensBewonerJa).check().should('be.checked');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonNamensBewonerNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonNamensBewonerJa).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonNamensBewonerNee).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_toestemming_contact.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_toestemming_contact.subtitle).should('be.visible');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonContactJa).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonContactJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_toestemming_contact_ja.answers).should('be.visible');
-      cy.get(WONEN_WONINGKWALITEIT.radioButtonContactNee).check().should('be.checked');
+      cy.get(WONEN_WONINGKWALITEIT.radioButtonContactNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_toestemming_contact_ja.answers).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_geen_contact.label).should('be.visible');
 
@@ -263,8 +263,8 @@ describe('Create signal wonen woning overig and check signal details', () => {
 
     it('Should show specific questions criminal', () => {
       // Criminal
-      cy.get(WONEN_OVERIG.radioButtonCrimineleBewoning).check().should('be.checked');
-      cy.get(WONEN_OVERIG.radioButtonWoningdelen).check().should('be.checked');
+      cy.get(WONEN_OVERIG.radioButtonCrimineleBewoning).check({ force: true }).should('be.checked');
+      cy.get(WONEN_OVERIG.radioButtonWoningdelen).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_vermoeden.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woningdelen_vermoeden.subtitle).should('be.visible');
       cy.get(WONEN_WONINGDELEN.inputWatSpeeltZichAf).eq(0).type('Ik vermoed iets met katten');
@@ -272,35 +272,35 @@ describe('Create signal wonen woning overig and check signal details', () => {
       cy.get(WONEN_WONINGDELEN.inputEigenaar).eq(1).type('Ja, dat weet ik wel.');
       cy.contains(questions.wonen.extra_wonen_woningdelen_adres_huurder.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woningdelen_adres_huurder.subtitle).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaZelfde).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaZelfde).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderNee).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaAnder).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaAnder).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_aantal_personen.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen1).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen1).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen3).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen3).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen2).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen2).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen5).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen5).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonenWeetNiet).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonenWeetNiet).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen4).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAantalPersonen4).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonFamilieWeetNiet).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonFamilieNee).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonFamilieJa).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonFamilieWeetNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonFamilieNee).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonFamilieJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_samenwonen.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkWeetNiet).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkNee).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkJa).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkWeetNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkNee).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonTegelijkJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_wisselende_bewoners.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersWeetNiet).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersJa).check().should('be.checked');
-      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersNee).check().should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersWeetNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersJa).check({ force: true }).should('be.checked');
+      cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_iemand_aanwezig.label).should('be.visible');
       cy.get(WONEN_WONINGDELEN.inputTijdstip).eq(2).type('Elke dag is er wel iemand anders');
       cy.contains('Volgende').click();

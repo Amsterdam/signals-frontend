@@ -40,27 +40,27 @@ describe('Create signal klok', () => {
 
       // First question
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.label).should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkAanrijding).check().should('be.checked');
+      cy.get(KLOK.radioButtonGevaarlijkAanrijding).check({ force: true }).should('be.checked');
       cy.contains(warning)
         .should('be.visible')
         .and($labels => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
         });
-      cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef).check().should('be.checked');
+      cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef).check({ force: true }).should('be.checked');
       cy.contains(warning).should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkDeurtje).check().should('be.checked');
+      cy.get(KLOK.radioButtonGevaarlijkDeurtje).check({ force: true }).should('be.checked');
       cy.contains(warning).should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkLosseKabels).check().should('be.checked');
+      cy.get(KLOK.radioButtonGevaarlijkLosseKabels).check({ force: true }).should('be.checked');
       cy.contains(warning).should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkNietGevaarlijk).check().should('be.checked');
+      cy.get(KLOK.radioButtonGevaarlijkNietGevaarlijk).check({ force: true }).should('be.checked');
       cy.contains(warning).should('not.be.visible');
 
       // Second question
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_probleem.label).should('be.visible');
-      cy.get(KLOK.radioButtonProbleemNietOpTijd).check().should('be.checked');
-      cy.get(KLOK.radioButtonProbleemBeschadigd).check().should('be.checked');
-      cy.get(KLOK.radioButtonProbleemVervuild).check().should('be.checked');
-      cy.get(KLOK.radioButtonProbleemOverig).check().should('be.checked');
+      cy.get(KLOK.radioButtonProbleemNietOpTijd).check({ force: true }).should('be.checked');
+      cy.get(KLOK.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked');
+      cy.get(KLOK.radioButtonProbleemVervuild).check({ force: true }).should('be.checked');
+      cy.get(KLOK.radioButtonProbleemOverig).check({ force: true }).should('be.checked');
 
       // Third question
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_nummer.label).should('be.visible');
@@ -166,11 +166,11 @@ describe('Create signal klok', () => {
 
       // First question
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.label).should('be.visible');
-      cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef).check().should('be.checked');
+      cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef).check({ force: true }).should('be.checked');
 
       // Second question
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_probleem.label).should('be.visible');
-      cy.get(KLOK.radioButtonProbleemBeschadigd).check().should('be.checked');
+      cy.get(KLOK.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked');
 
       // Third question
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_nummer.label).should('be.visible');

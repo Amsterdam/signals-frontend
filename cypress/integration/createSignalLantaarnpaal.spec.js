@@ -41,32 +41,32 @@ describe('Create signal lantaarnpaal and check signal details', () => {
         .contains('Dit is een verplicht veld');
 
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.label).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet).check().should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag).check().should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder).check().should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemVies).check().should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemVies).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check().should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemOverig).check().should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemOverig).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
       cy.wait('@getOpenbareVerlichting');
 
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijk3OfMeerKapot).check().should('be.checked');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijk3OfMeerKapot).check({ force: true }).should('be.checked');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijkAanrijding).check().should('be.checked');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkAanrijding).check({ force: true }).should('be.checked');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijkOpGrond).check().should('be.checked');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkOpGrond).check({ force: true }).should('be.checked');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijkDeur).check().should('be.checked');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkDeur).check({ force: true }).should('be.checked');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonGevaarlijkLosseKabels).check().should('be.checked');
+      cy.get(LANTAARNPAAL.radioButtonGevaarlijkLosseKabels).check({ force: true }).should('be.checked');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check().should('be.checked');
+      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check({ force: true }).should('be.checked');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('not.be.visible');
     });
 
