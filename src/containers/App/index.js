@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
 import NotFoundPage from 'components/NotFoundPage';
@@ -24,8 +22,6 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
 import { getSources } from './actions';
 import AppContext from './context';
-import reducer from './reducer';
-import saga from './saga';
 import { makeSelectLoading, makeSelectSources } from './selectors';
 
 const FooterContainer = styled.div`
@@ -54,9 +50,6 @@ export const AppContainer = () => {
   const location = useLocationReferrer();
   const isFrontOffice = useIsFrontOffice();
   const headerIsTall = isFrontOffice && !isAuthenticated();
-
-  useInjectSaga({ key: 'global', saga });
-  useInjectReducer({ key: 'global', reducer });
 
   authenticate();
 
