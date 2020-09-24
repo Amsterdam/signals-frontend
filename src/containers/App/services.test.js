@@ -14,10 +14,10 @@ jest.mock('./saga');
 
 describe('containers/App/services', () => {
   const store = { foo: 'bar' };
-  let spy;
+  let injecModelSpy;
 
   beforeEach(() => {
-    spy = jest.fn();
+    injecModelSpy = jest.fn();
   });
 
   afterEach(() => {
@@ -25,16 +25,16 @@ describe('containers/App/services', () => {
   });
 
   it('should inject reducer', () => {
-    injectReducerModel.mockImplementation(spy);
+    injectReducerModel.mockImplementation(injecModelSpy);
     loadModel(store);
 
-    expect(spy).toHaveBeenCalledWith('global', reducer, store);
+    expect(injecModelSpy).toHaveBeenCalledWith('global', reducer, store);
   });
 
   it('should inject saga', () => {
-    injectSagaModel.mockImplementation(spy);
+    injectSagaModel.mockImplementation(injecModelSpy);
     loadModel(store);
 
-    expect(spy).toHaveBeenCalledWith('global', saga, store);
+    expect(injecModelSpy).toHaveBeenCalledWith('global', saga, store);
   });
 });
