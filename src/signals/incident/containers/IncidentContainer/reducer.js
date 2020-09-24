@@ -19,7 +19,7 @@ export const initialState = fromJS({
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0,
-    category: '',
+    category: null,
     description: '',
     email: '',
     handling_message: '',
@@ -33,7 +33,6 @@ export const initialState = fromJS({
     },
     questions: [],
     source: undefined,
-    subcategory: '',
     type: {
       id: 'SIG',
       label: 'Melding',
@@ -41,15 +40,14 @@ export const initialState = fromJS({
   },
   loadingClassification: false,
   usePredictions: true,
-  subcategoryPrediction: '',
+  categoryPrediction: null,
 });
 
-const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) => {
+const getIncidentWithoutExtraProps = (incident, category = {}) => {
   const prevCategory = incident.get('category');
-  const prevSubcategory = incident.get('subcategory');
-  const hasChanged = prevCategory !== category || prevSubcategory !== subcategory;
+  const hasChanged = prevCategory?.slug !== category?.slug;
 
-  if (!hasChanged && category && subcategory) return incident;
+  if (!hasChanged && category) return incident;
 
   const seq = Seq(incident).filter((val, key) => !key.startsWith('extra'));
 
@@ -85,21 +83,22 @@ export default (state = initialState, action) => {
     case GET_CLASSIFICATION:
       return state.set('loadingClassification', true);
 
-    case GET_CLASSIFICATION_SUCCESS:
+    case GET_CLASSIFICATION_SUCCESS: {
+      const { handling_message, ...category } = action.payload;
       return state.set('loadingClassification', false).set(
         'incident',
-        getIncidentWithoutExtraProps(state.get('incident'), action.payload)
-          .set('category', action.payload.category)
-          .set('subcategory', action.payload.subcategory)
-      ).set('subcategoryPrediction', action.payload.subcategory);
+        getIncidentWithoutExtraProps(state.get('incident'), category)
+          .set('category', category)
+          .set('handling_message', handling_message)
+      ).set('categoryPrediction', category);
+    }
 
     case GET_CLASSIFICATION_ERROR:
       return state.set('loadingClassification', false).set(
         'incident',
         state
           .get('incident')
-          .set('category', action.payload.category)
-          .set('subcategory', action.payload.subcategory)
+          .set('category', action.payload)
       );
 
     case SET_CLASSIFICATION:
@@ -107,8 +106,7 @@ export default (state = initialState, action) => {
         'incident',
         state
           .get('incident')
-          .set('category', action.payload.category)
-          .set('subcategory', action.payload.subcategory)
+          .set('category', action.payload)
       ).set('usePredictions', false);
 
     case RESET_EXTRA_STATE:

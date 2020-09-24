@@ -4,6 +4,8 @@ export const DEFAULT_CLASSIFICATION = 'overig';
 // main and subcategory slug matcher regex
 export const reCategory = /terms\/categories\/([^/]+)(?:\/?[^/]+\/([^/]+))?$/;
 
+export const getCategory = ({ id, name, slug, handling_message }) => ({ sub_category: id, name, slug, handling_message });
+
 /**
  * Resolve classification
  *
@@ -17,18 +19,16 @@ export const reCategory = /terms\/categories\/([^/]+)(?:\/?[^/]+\/([^/]+))?$/;
  *
  * @returns {Object} With keys `category`, `subcategory`
  */
-const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] } = {}) => {
+const resolveClassification = (subcategories, { hoofdrubriek = [[], []], subrubriek = [[], []] } = {}) => {
   const subrubriekMeetsMinimumCertainty = MINIMUM_CERTAINTY <= subrubriek[1][0];
   const hoofdrubriekMeetsMinimumCertainty =
     MINIMUM_CERTAINTY <= hoofdrubriek[1][0];
 
   if (subrubriekMeetsMinimumCertainty) {
+    // eslint-disable-next-line no-unused-vars
     const [, category, subcategory] = subrubriek[0][0].match(reCategory);
 
-    return {
-      category,
-      subcategory,
-    };
+    return getCategory(subcategories.find(s => s.slug === subcategory));
   }
 
   if (hoofdrubriekMeetsMinimumCertainty) {
@@ -76,16 +76,10 @@ const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] 
         subcategory = DEFAULT_CLASSIFICATION;
     }
 
-    return {
-      category,
-      subcategory,
-    };
+    return getCategory(subcategories.find(s => s.slug === subcategory));
   }
 
-  return {
-    category: DEFAULT_CLASSIFICATION,
-    subcategory: DEFAULT_CLASSIFICATION,
-  };
+  return getCategory(subcategories.find(s => s.slug === DEFAULT_CLASSIFICATION));
 };
 
 export default resolveClassification;

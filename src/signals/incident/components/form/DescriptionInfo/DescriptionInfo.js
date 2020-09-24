@@ -23,13 +23,13 @@ const DescriptionInfoWrapper = styled.div`
 
 const DescriptionInfo = ({ info }) => {
   const subcategories = useSelector(makeSelectSubCategories);
-  const { subcategoryPrediction } = useSelector(makeSelectIncidentContainer);
+  const { categoryPrediction } = useSelector(makeSelectIncidentContainer);
   const [suggestion, setSuggestion] = useState();
 
   useEffect(() => {
     if (!subcategories) return;
-    setSuggestion(subcategories.find(s => s.is_active && s.slug === subcategoryPrediction));
-  }, [subcategories, subcategoryPrediction]);
+    setSuggestion(subcategories.find(s => s.is_active && s.slug === categoryPrediction?.slug));
+  }, [subcategories, categoryPrediction]);
 
   return (
     <DescriptionInfoWrapper data-testid="descriptionInfo">

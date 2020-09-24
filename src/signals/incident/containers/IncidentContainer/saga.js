@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-react-router/immutable';
 
 import request from 'utils/request';
@@ -8,6 +8,7 @@ import { uploadFile } from 'containers/App/saga';
 import resolveClassification from 'shared/services/resolveClassification';
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params';
 import { isAuthenticated } from 'shared/services/auth/auth';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 import { resolveQuestions } from './services';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, GET_QUESTIONS } from './constants';
 import {
@@ -21,20 +22,20 @@ import {
 } from './actions';
 
 export function* getClassification(action) {
+  const subcategories = yield select(makeSelectSubCategories);
   try {
     const result = yield call(postCall, configuration.PREDICTION_ENDPOINT, {
       text: action.payload,
     });
 
-    const classification = yield call(resolveClassification, result);
-
+    const classification = resolveClassification(subcategories, result);
     yield put(getClassificationSuccess(classification));
 
     if (configuration.fetchQuestionsFromBackend) {
       yield put(getQuestions(classification));
     }
   } catch {
-    const classification = yield call(resolveClassification);
+    const classification = resolveClassification(subcategories);
 
     yield put(getClassificationError(classification));
   }
@@ -107,23 +108,11 @@ export function* postIncident(postData) {
  * @returns {Object}
  */
 export function* getPostData(action) {
-  const { category, subcategory } = action.payload.incident;
-
-  const {
-    handling_message,
-    _links: {
-      self: { href: sub_category },
-    },
-  } = yield call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`);
-
   const controlsToParams = yield call(mapControlsToParams, action.payload.incident, action.payload.wizard);
 
   const primedPostData = {
     ...action.payload.incident,
     ...controlsToParams,
-    category: {
-      sub_category,
-    },
     // the priority prop needs to be a nested value 🤷
     priority: {
       priority: action.payload.incident.priority.id,
@@ -131,7 +120,6 @@ export function* getPostData(action) {
     type: {
       code: action.payload.incident.type.id,
     },
-    handling_message,
   };
 
   primedPostData.reporter = {
