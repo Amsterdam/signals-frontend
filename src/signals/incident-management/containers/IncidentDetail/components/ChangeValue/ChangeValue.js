@@ -1,49 +1,33 @@
 import React, { useMemo, Fragment, useEffect, useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import get from 'lodash.get';
 import set from 'lodash.set';
 import Button from 'components/Button';
-import { themeSpacing } from '@datapunt/asc-ui';
 
 import { dataListType } from 'shared/types';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-
 import InfoText from 'components/InfoText';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+
+import * as S from './ChangeValue.styles';
 import EditButton from '../EditButton';
 import IncidentDetailContext from '../../context';
 
-const DisplayValue = styled.span`
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: calc(100% - ${themeSpacing(10)});
-`;
-
-const SaveButton = styled(Button)`
-  margin-right: ${themeSpacing(2)};
-`;
-
-const ButtonBar = styled.div`
-  margin-top: ${themeSpacing(6)};
-`;
-
 const ChangeValue = ({
-  component,
-  disabled,
+  component = SelectInput,
+  disabled = false,
   display,
-  infoKey,
+  /** Indicator that is used to determine which list item prop should be used to display info text between the form field and the buttons */
+  infoKey = '',
   list,
-  patch,
+  patch = {},
   path,
   sort,
   type,
-  valueClass,
-  valuePath,
+  valueClass = '',
+  valuePath = '',
 }) => {
   const { incident, update } = useContext(IncidentDetailContext);
   const [showForm, setShowForm] = useState(false);
@@ -155,14 +139,14 @@ const ChangeValue = ({
 
           {info && <InfoText text={info} />}
 
-          <ButtonBar>
-            <SaveButton
+          <S.ButtonBar>
+            <S.SaveButton
               data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`}
               variant="secondary"
               type="submit"
             >
               Opslaan
-            </SaveButton>
+            </S.SaveButton>
 
             <Button
               data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(1)}Button`}
@@ -172,7 +156,7 @@ const ChangeValue = ({
             >
               Annuleren
             </Button>
-          </ButtonBar>
+          </S.ButtonBar>
         </form>
       )}
     />
@@ -181,7 +165,7 @@ const ChangeValue = ({
   return (
     <Fragment>
       <dt data-testid={`meta-list-${type}-definition`}>
-        <DisplayValue>{display}</DisplayValue>
+        <S.DisplayValue>{display}</S.DisplayValue>
         {!showForm && (
           <EditButton
             data-testid={`edit${type.charAt(0).toUpperCase()}${type.slice(1)}Button`}
@@ -195,29 +179,19 @@ const ChangeValue = ({
         <dd data-testid={`meta-list-${type}-value`}>{editForm}</dd>
       ) : (
         <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
-          <DisplayValue data-testid="valuePath">
+          <S.DisplayValue data-testid="valuePath">
             {getListValueByKey(list, get(incident, valuePath || path))}
-          </DisplayValue>
+          </S.DisplayValue>
         </dd>
       )}
     </Fragment>
   );
 };
 
-ChangeValue.defaultProps = {
-  component: SelectInput,
-  disabled: false,
-  infoKey: '',
-  patch: {},
-  valueClass: '',
-  valuePath: '',
-};
-
 ChangeValue.propTypes = {
   component: PropTypes.func,
   disabled: PropTypes.bool,
   display: PropTypes.string.isRequired,
-  /** Indicator that is used to determine which list item prop should be used to display info text between the form field and the buttons */
   infoKey: PropTypes.string,
   list: dataListType.isRequired,
   patch: PropTypes.object,

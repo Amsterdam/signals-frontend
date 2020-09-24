@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
@@ -10,40 +8,12 @@ import { typesList, priorityList } from 'signals/incident-management/definitions
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 
+import * as S from './MetaList.styles';
 import ChangeValue from '../ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
-
-const List = styled.dl`
-  dt {
-    color: ${themeColor('tint', 'level5')};
-    margin-bottom: ${themeSpacing(1)};
-    position: relative;
-    font-weight: 400;
-  }
-
-  dd {
-    margin-bottom: ${themeSpacing(4)};
-
-    &.alert {
-      color: ${themeColor('secondary')};
-      font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-    }
-
-    .childLink:not(:first-child) {
-      margin-left: ${themeSpacing(2)};
-    }
-  }
-`;
-
-const EditButton = styled(Button)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: ${themeSpacing(0, 1.5)};
-`;
 
 const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
@@ -89,7 +59,7 @@ const MetaList = () => {
   ].includes(incident.status.state);
 
   return (
-    <List>
+    <S.MetaList>
       <dt data-testid="meta-list-date-definition">Gemeld op</dt>
       <dd data-testid="meta-list-date-value">
         {string2date(incident.created_at)} {string2time(incident.created_at)}
@@ -97,7 +67,7 @@ const MetaList = () => {
 
       <Highlight type="status">
         <dt data-testid="meta-list-status-definition">
-          <EditButton
+          <S.EditButton
             data-testid="editStatusButton"
             icon={<IconEdit />}
             iconSize={18}
@@ -176,7 +146,7 @@ const MetaList = () => {
 
       <dt data-testid="meta-list-source-definition">Bron</dt>
       <dd data-testid="meta-list-source-value">{incident.source}</dd>
-    </List>
+    </S.MetaList>
   );
 };
 

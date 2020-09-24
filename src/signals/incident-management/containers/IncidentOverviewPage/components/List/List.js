@@ -1,6 +1,5 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
@@ -13,6 +12,7 @@ import * as types from 'shared/types';
 import configuration from 'shared/services/configuration/configuration';
 import { statusList } from 'signals/incident-management/definitions';
 
+import * as S from './List.styles';
 import IncidentManagementContext from '../../../../context';
 
 const getDaysOpen = incident => {
@@ -24,77 +24,16 @@ const getDaysOpen = incident => {
   return hasDaysOpen ? -differenceInCalendarDays(start, new Date()) : '-';
 };
 
-const Wrapper = styled.div`
-  width: 100%;
-
-  ${({ isLoading }) =>
-    isLoading &&
-    css`
-      opacity: 0.3;
-    `}
-`;
-
-const Table = styled.table`
-  border-collapse: separate;
-  width: 100%;
-  height: 100%;
-
-  td {
-    padding: 0;
-
-    a {
-      text-decoration: none;
-      color: black;
-      display: block;
-      width: 100%;
-      height: 100%;
-      padding: 8px;
-    }
-  }
-
-  tr:hover td,
-  td {
-    box-shadow: unset;
-  }
-`;
-
-const Th = styled.th`
-  font-weight: normal;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  ${props => {
-    // making sure that both text and icon are placed on one line by setting explicit min-width values
-    switch (props['data-testid']) {
-      case 'sortId':
-        return 'min-width: 75px;';
-
-      case 'sortDaysOpen':
-        return 'min-width: 65px;';
-
-      case 'sortCreatedAt':
-      case 'sortStadsdeel':
-        return 'min-width: 150px;';
-
-      case 'sortSubcategory':
-        return 'min-width: 135px;';
-
-      case 'sortPriority':
-        return 'min-width: 100px;';
-
-      case 'sortAddress':
-        return 'min-width: 80px;';
-
-      default:
-        return 'width: auto;';
-    }
-  }}
-`;
-
-const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sort, stadsdeel, status }) => {
+const List = ({
+  className = '',
+  incidents,
+  isLoading = false,
+  onChangeOrdering,
+  priority,
+  sort,
+  stadsdeel,
+  status,
+}) => {
   const { districts, users } = useContext(IncidentManagementContext);
 
   const onSort = useCallback(
@@ -123,40 +62,40 @@ const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sor
   const getAssignedUserName = useCallback(userId => users?.find(user => user.id === userId)?.username, [users]);
 
   return (
-    <Wrapper isLoading={isLoading} className={className} data-testid="incidentOverviewListComponent">
-      <Table cellSpacing="0">
+    <S.List isLoading={isLoading} className={className} data-testid="incidentOverviewListComponent">
+      <S.Table cellSpacing="0">
         <thead>
           <tr>
-            <Th data-testid="sortId" onClick={onSort('id')}>
+            <S.Th data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
-            </Th>
-            <Th data-testid="sortDaysOpen" onClick={onSort('days_open')}>
+            </S.Th>
+            <S.Th data-testid="sortDaysOpen" onClick={onSort('days_open')}>
               Dag {renderChevron('days_open')}
-            </Th>
-            <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
+            </S.Th>
+            <S.Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
               Datum en tijd {renderChevron('created_at')}
-            </Th>
+            </S.Th>
             {configuration.fetchDistrictsFromBackend ? (
-              <Th data-testid="sortDistrict" onClick={onSort('district,-created_at')}>
+              <S.Th data-testid="sortDistrict" onClick={onSort('district,-created_at')}>
                 {configuration.language.district} {renderChevron('district')}
-              </Th>
+              </S.Th>
             ) : (
-              <Th data-testid="sortStadsdeel" onClick={onSort('stadsdeel,-created_at')}>
+              <S.Th data-testid="sortStadsdeel" onClick={onSort('stadsdeel,-created_at')}>
                 Stadsdeel {renderChevron('stadsdeel')}
-              </Th>
+              </S.Th>
             )}
-            <Th data-testid="sortSubcategory" onClick={onSort('sub_category,-created_at')}>
+            <S.Th data-testid="sortSubcategory" onClick={onSort('sub_category,-created_at')}>
               Subcategorie {renderChevron('sub_category')}
-            </Th>
-            <Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>
+            </S.Th>
+            <S.Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>
               Status {renderChevron('status')}
-            </Th>
-            <Th data-testid="sortPriority" onClick={onSort('priority,-created_at')}>
+            </S.Th>
+            <S.Th data-testid="sortPriority" onClick={onSort('priority,-created_at')}>
               Urgentie {renderChevron('priority')}
-            </Th>
-            <Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
+            </S.Th>
+            <S.Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
               Adres {renderChevron('address')}
-            </Th>
+            </S.Th>
             {users && <th data-testid="sortAssigedUserId">Toegewezen aan</th>}
           </tr>
         </thead>
@@ -165,55 +104,50 @@ const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sor
             const detailLink = `/manage/incident/${incident.id}`;
             return (
               <tr key={incident.id}>
-                <td>
+                <S.Td>
                   <Link to={detailLink}>{incident.id}</Link>
-                </td>
-                <td data-testid="incidentDaysOpen">
+                </S.Td>
+                <S.Td data-testid="incidentDaysOpen">
                   <Link to={detailLink}>{getDaysOpen(incident)}</Link>
-                </td>
-                <td className="no-wrap">
+                </S.Td>
+                <S.Td noWrap>
                   <Link to={detailLink}>
                     {string2date(incident.created_at)} {string2time(incident.created_at)}
                   </Link>
-                </td>
-                <td>
+                </S.Td>
+                <S.Td>
                   <Link to={detailLink}>
                     {configuration.fetchDistrictsFromBackend
                       ? getListValueByKey(districts, incident.location && incident.location.area_code)
                       : getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
                   </Link>
-                </td>
-                <td>
+                </S.Td>
+                <S.Td>
                   <Link to={detailLink}>{incident.category && incident.category.sub}</Link>
-                </td>
-                <td>
+                </S.Td>
+                <S.Td>
                   <Link to={detailLink}>{getListValueByKey(status, incident.status && incident.status.state)}</Link>
-                </td>
-                <td>
+                </S.Td>
+                <S.Td>
                   <Link to={detailLink}>
                     {getListValueByKey(priority, incident.priority && incident.priority.priority)}
                   </Link>
-                </td>
-                <td>
+                </S.Td>
+                <S.Td>
                   <Link to={detailLink}>{incident.location && incident.location.address_text}</Link>
-                </td>
+                </S.Td>
                 {users && (
-                  <td>
+                  <S.Td>
                     <Link to={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Link>
-                  </td>
+                  </S.Td>
                 )}
               </tr>
             );
           })}
         </tbody>
-      </Table>
-    </Wrapper>
+      </S.Table>
+    </S.List>
   );
-};
-
-List.defaultProps = {
-  className: '',
-  isLoading: false,
 };
 
 List.propTypes = {
