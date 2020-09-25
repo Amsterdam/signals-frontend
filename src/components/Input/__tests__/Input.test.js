@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import 'jest-styled-components';
 import Input from '..';
 
 describe('src/components/Input', () => {

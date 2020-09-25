@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import 'jest-styled-components';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import { withAppContext } from 'test/utils';

@@ -98,8 +98,7 @@ describe('Form component <PlainText />', () => {
       props.meta.value.forEach(value => {
         if (typeof value === 'string') {
           expect(getByText(value)).toBeInTheDocument();
-        }
-        else {
+        } else {
           expect(getByText(value.props.children)).toBeInTheDocument();
         }
       });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, act } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
-import 'jest-styled-components';
 
 import useEventEmitter from 'hooks/useEventEmitter';
 
