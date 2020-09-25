@@ -1,60 +1,52 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
 
+import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import * as modelSelectors from 'models/categories/selectors';
-
-import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
+import CONFIGURATION from 'shared/services/configuration/configuration';
+import { subcategories } from './transformer';
+import parentIncidentFixture from './parentIncidentFixture.json';
 
 import IncidentSplitForm from '../IncidentSplitForm';
 
-const parentIncident = {
-  id: 6010,
-  status: 'm',
-  statusDisplayName: 'Gemeld',
-  priority: 'normal',
-  subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad',
-  subcategoryDisplayName: 'STW',
-  description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
-  type: 'SIG',
-};
+const mockHistoryPush = jest.fn();
 
-const subcategories = categoriesFixture.results
-  .filter(modelSelectors.filterForSub)
-  // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
-  .map(subcategory => ({ ...subcategory, value: subcategory.name, key: subcategory._links.self.href }));
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({ push: mockHistoryPush }),
+}));
 
 describe('<IncidentSplitForm />', () => {
   const onSubmit = jest.fn();
-
-  let props;
-
-  beforeEach(() => { props = { parentIncident, subcategories, onSubmit }; });
+  const props = { parentIncident: parentIncidentFixture, subcategories, onSubmit };
 
   it('should render correctly', () => {
     const { queryAllByText } = render(withAppContext(<IncidentSplitForm {...props} />));
-
-    expect(queryAllByText(parentIncident.description)).toHaveLength(1);
+    expect(queryAllByText(parentIncidentFixture.description)).toHaveLength(1);
   });
 
   it('should handle submit', async () => {
-    const { getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
+    const { findByTestId, getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
 
     fireEvent.click(getByTestId('incidentSplitFormSplitButton'));
+    fireEvent.submit(getByTestId('incidentSplitFormSubmitButton'));
 
-    await act(async () => { fireEvent.submit(getByTestId('incidentSplitFormSubmitButton')); });
+    await findByTestId('incidentSplitForm');
 
     expect(onSubmit).toHaveBeenCalledWith({
       department: 'null',
       incidents: [
         undefined,
         {
+          // WARNING: this value does not match acc and that sucks because it is confusing..
+          subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145',
           description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
           priority: 'normal',
           type: 'SIG',
         },
         {
+          // WARNING: this value does not match acc and that sucks because it is confusing..
+          subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145',
           description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
           priority: 'normal',
           type: 'SIG',
@@ -63,19 +55,11 @@ describe('<IncidentSplitForm />', () => {
     });
   });
 
-  // it('should handle empty incidents', () => {
-  //   const { getByTestId, queryAllByText } = render(withAppContext(<IncidentSplitForm {...props} incident={null} />));
+  it('should handle cancel', async () => {
+    const { findByTestId, getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
+    fireEvent.click(getByTestId('incidentSplitFormCancel'));
 
-  //   expect(queryAllByText(incident.text)).toHaveLength(0);
-
-  //   act(() => { fireEvent.click(getByTestId('incidentSplitFormSubmitButton')); });
-  //   expect(props.onSubmit).not.toHaveBeenCalled();
-  // });
-
-  // it('should handle cancel', () => {
-  //   const { getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
-
-  //   act(() => { fireEvent.click(getByTestId('splitFormCancel')); });
-  //   expect(props.onHandleCancel).toHaveBeenCalled();
-  // });
+    await findByTestId('incidentSplitForm');
+    expect(mockHistoryPush).toHaveBeenCalledWith(CONFIGURATION.INCIDENTS_ENDPOINT);
+  });
 });

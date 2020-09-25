@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import priorityList from 'signals/incident-management/definitions/priorityList';
 import { register } from 'react-hook-form';
@@ -40,5 +40,15 @@ describe('<RadioInput />', () => {
     const { container } = render(withAppContext(<RadioInput {...props} />));
 
     expect(container.querySelectorAll(`label[for="${props.name}"]`)).toHaveLength(1);
+  });
+
+  it('should select radio button and update info text', async () => {
+    const { key, info, value } = priorityList[2];
+    const { getByTestId, getByLabelText, getByText } = render(withAppContext(<RadioInput {...props} />));
+
+    fireEvent.click(getByTestId(`priority-${key}`));
+
+    expect(getByLabelText(value).checked).toBe(true);
+    expect(getByText(new RegExp(info))).toBeInTheDocument();
   });
 });

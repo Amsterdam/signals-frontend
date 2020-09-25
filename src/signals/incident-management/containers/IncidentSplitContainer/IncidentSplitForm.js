@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+
 import PropTypes from 'prop-types';
+
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+
+import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 
@@ -19,13 +24,14 @@ import RadioInput from './RadioInput';
 import IncidentSplitFormIncident from './IncidentSplitFormIncident';
 
 const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
-  const { register, handleSubmit, control, reset } = useForm();
+  const { control, handleSubmit, register } = useForm();
 
-  const submit = formData => {
-    console.log(formData);
-    onSubmit(formData);
-    reset();
-  };
+  const history = useHistory();
+
+  // is this useCallback required? when this action happens the page will be unmounted from dom...
+  const onCancel = useCallback(() => { history.push(CONFIGURATION.INCIDENTS_ENDPOINT); }, [history]);
+
+  const submit = formData => { onSubmit(formData); };
 
   return (
     <StyledForm onSubmit={handleSubmit(submit)} data-testid="incidentSplitForm">
@@ -68,11 +74,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
           Opslaan
         </StyledSubmitButton>
 
-        <StyledButton
-          data-testid="incidentSplitFormCancel"
-          variant="primaryInverted"
-          onClick={() => { console.warn('`goBack` is not implemented yet (in IncidentSplitContainer)'); }}
-        >
+        <StyledButton data-testid="incidentSplitFormCancel" variant="primaryInverted" onClick={onCancel}>
           Annuleren
         </StyledButton>
       </div>

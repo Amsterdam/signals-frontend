@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
@@ -10,8 +10,16 @@ const getInfo = (options, value) => options.find(({ key: currentValue }) => curr
 const RadioInput = ({ id, name, display, options, initialValue, register }) => {
   const [selected, setSelected] = useState(getInfo(options, initialValue));
 
+  const onChange = useCallback(
+    event => {
+      event.preventDefault();
+      setSelected(getInfo(options, event.target.value));
+    },
+    [options]
+  );
+
   return (
-    <StyledWrapper>
+    <StyledWrapper data-testid="radioInput">
       <div className="mode_input text rij_verplicht">
         <Label htmlFor={name} label={<strong>{display}</strong>} />
 
@@ -21,12 +29,10 @@ const RadioInput = ({ id, name, display, options, initialValue, register }) => {
               <Radio
                 checked={key === initialValue}
                 id={`${id}-${key}`}
+                data-testid={`${id}-${key}`}
                 value={key}
                 ref={register}
-                onChange={event => {
-                  event.preventDefault();
-                  setSelected(getInfo(options, event.target.value));
-                }}
+                onChange={onChange}
               />
             </StyledLabel>
           ))}

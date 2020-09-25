@@ -9,8 +9,8 @@ import { withAppContext } from 'test/utils';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
-import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
 import * as modelSelectors from 'models/categories/selectors';
+import { subcategories } from './transformer';
 
 import IncidentSplitContainer from '..';
 
@@ -31,11 +31,6 @@ jest.mock('containers/App/selectors', () => ({
   __esModule: true,
   ...jest.requireActual('containers/App/selectors'),
 }));
-
-const subcategories = categoriesFixture.results
-  .filter(modelSelectors.filterForSub)
-  // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
-  .map(subcategory => ({ ...subcategory, key: subcategory._links.self.href }));
 
 const submittedFormData = {
   department: 'ASC',
@@ -77,7 +72,6 @@ const Form = ({ onSubmit, ...props }) => {
   const handleSubmit = () => { onSubmit(submittedFormData); };
 
   // skip error log
-  // console.log(props.parentIncident);
   delete props.parentIncident; // eslint-disable-line no-param-reassign, react/prop-types
 
   return (
