@@ -1,10 +1,10 @@
 import React, { useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
+import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
-
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 
@@ -29,6 +29,7 @@ const MetaList = () => {
   );
   const userOptions = useMemo(
     () =>
+      configuration.assignSignalToEmployee &&
       users && [
         {
           key: null,
@@ -103,7 +104,7 @@ const MetaList = () => {
         </Highlight>
       )}
 
-      {userOptions && (
+      {configuration.assignSignalToEmployee && userOptions && (
         <Highlight type="assigned_user_id">
           <ChangeValue
             component={SelectInput}

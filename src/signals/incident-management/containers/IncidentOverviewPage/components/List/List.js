@@ -96,7 +96,7 @@ const List = ({
             <S.Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
               Adres {renderChevron('address')}
             </S.Th>
-            {users && <th data-testid="sortAssigedUserId">Toegewezen aan</th>}
+            {configuration.assignSignalToEmployee && users && <th data-testid="sortAssigedUserId">Toegewezen aan</th>}
           </tr>
         </thead>
         <tbody>
@@ -136,7 +136,7 @@ const List = ({
                 <S.Td>
                   <Link to={detailLink}>{incident.location && incident.location.address_text}</Link>
                 </S.Td>
-                {users && (
+                {configuration.assignSignalToEmployee && users && (
                   <S.Td>
                     <Link to={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Link>
                   </S.Td>
