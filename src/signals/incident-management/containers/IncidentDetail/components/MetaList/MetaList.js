@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -18,7 +18,6 @@ import IncidentManagementContext from '../../../../context';
 const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
-  const [usersList, setUsersList] = useState([]);
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () =>
@@ -26,27 +25,22 @@ const MetaList = () => {
         ...category,
         value: category.extendedName,
       })),
-    // disabling linter; we want to allow possible null subcategories
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [subcategories]
   );
-
-  useEffect(() => {
-    setUsersList(
-      users
-        ? [
-          {
-            key: null,
-            value: 'Niet toegewezen',
-          },
-          ...users.map(user => ({
-            key: user.id,
-            value: user.username,
-          })),
-        ]
-        : []
-    );
-  }, [users]);
+  const userOptions = useMemo(
+    () =>
+      users && [
+        {
+          key: null,
+          value: 'Niet toegewezen',
+        },
+        ...users.map(user => ({
+          key: user.id,
+          value: user.username,
+        })),
+      ],
+    [users]
+  );
 
   const subcatHighlightDisabled = ![
     'm',
@@ -109,12 +103,12 @@ const MetaList = () => {
         </Highlight>
       )}
 
-      {(incident.assigned_user_id || usersList.length) && (
+      {userOptions && (
         <Highlight type="assigned_user_id">
           <ChangeValue
             component={SelectInput}
             display="Toegewezen aan"
-            list={usersList}
+            list={userOptions}
             onPatchIncident={update}
             path="assigned_user_id"
             type="assigned_user_id"
