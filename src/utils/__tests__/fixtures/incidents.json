@@ -65,7 +65,8 @@
       "category_url": "https://category-url.amsterdam.nl"
     },
     "incident_date_start": "2018-12-03T10:41:42+01:00",
-    "text_extra": ""
+    "text_extra": "",
+    "assigned_user_id": 1
   },
   {
     "reporter": {

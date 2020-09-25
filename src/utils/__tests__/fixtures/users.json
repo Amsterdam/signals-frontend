@@ -15,6 +15,24 @@
     {
       "_links": {
         "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/1"
+        }
+      },
+      "_display": "user1@example.com",
+      "id": 1,
+      "username": "user1@example.com",
+      "is_active": true,
+      "roles": [
+        "monitors"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.849670+02:00",
+        "updated_at": "2019-10-24T10:25:48.849700+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
           "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/4"
         }
       },
@@ -1184,24 +1202,6 @@
       "profile": {
         "created_at": "2019-10-24T10:25:48.851878+02:00",
         "updated_at": "2019-10-24T10:25:48.851908+02:00"
-      }
-    },
-    {
-      "_links": {
-        "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/1"
-        }
-      },
-      "_display": "undefined@domain.com",
-      "id": 1,
-      "username": "undefined@domain.com",
-      "is_active": true,
-      "roles": [
-        "monitors"
-      ],
-      "profile": {
-        "created_at": "2019-10-24T10:25:48.849670+02:00",
-        "updated_at": "2019-10-24T10:25:48.849700+02:00"
       }
     },
     {
