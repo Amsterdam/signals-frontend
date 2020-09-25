@@ -35,8 +35,6 @@ const props = {
   ],
   display: 'De letter',
   path: 'incident.mockPath',
-  patch: {},
-  disabled: false,
   sort: false,
   type: 'mockType',
 };
@@ -50,7 +48,7 @@ const renderWithContext = (componentProps = props) =>
     </IncidentDetailContext.Provider>
   );
 
-describe('<ChangeValue />', () => {
+describe('ChangeValue', () => {
   // data-testid attributes are generated dynamically
   const editTestId = `edit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
   const submitTestId = `submit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
@@ -98,6 +96,32 @@ describe('<ChangeValue />', () => {
       type: props.type,
       patch: {
         incident: expect.any(Object),
+      },
+    });
+  });
+
+  it('should call update with extra props', async () => {
+    const { getByTestId, findByTestId } = render(renderWithContext({ ...props, patch: { extraProp: true } }));
+
+    const editButton = getByTestId(editTestId);
+
+    act(() => {
+      fireEvent.click(editButton);
+    });
+
+    const submitBtn = await findByTestId(submitTestId);
+
+    expect(update).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(update).toHaveBeenCalledWith({
+      type: props.type,
+      patch: {
+        incident: expect.any(Object),
+        extraProp: true,
       },
     });
   });
@@ -185,5 +209,17 @@ describe('<ChangeValue />', () => {
     });
 
     expect(renderProps.queryByTestId('infoText').textContent).toEqual('Zork');
+  });
+
+  it('should render disabled edit button', async () => {
+    const renderProps = render(renderWithContext({ ...props, disabled: true }));
+
+    await expectInitialState(renderProps);
+
+    act(() => {
+      fireEvent.click(renderProps.getByTestId(editTestId));
+    });
+
+    await expectInitialState(renderProps);
   });
 });
