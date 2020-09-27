@@ -57,7 +57,7 @@ describe('<IncidentSplitForm />', () => {
 
   it('should handle cancel', async () => {
     const { findByTestId, getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
-    fireEvent.click(getByTestId('incidentSplitFormCancel'));
+    fireEvent.click(getByTestId('incidentSplitFormCancelButton'));
 
     await findByTestId('incidentSplitForm');
     expect(mockHistoryPush).toHaveBeenCalledWith(CONFIGURATION.INCIDENTS_ENDPOINT);

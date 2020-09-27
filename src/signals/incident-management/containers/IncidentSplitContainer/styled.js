@@ -48,20 +48,10 @@ export const StyledButton = styled(Button)`
   background-color: ${themeColor('tint', 'level1')};
 `;
 
+export const StyledCancelButton = styled(StyledButton)``;
+
 export const StyledSubmitButton = styled(Button)`
   margin-right: ${themeSpacing(5)};
-`;
-
-export const StyledFormWrapper = styled.div`
-  border-top: 2px solid ${themeColor('tint', 'level3')};
-  padding-top: ${themeSpacing(4)};
-  margin-top: ${themeSpacing(4)};
-`;
-
-export const StyledBorderBottomWrapper = styled.div`
-  border-bottom: 2px solid ${themeColor('tint', 'level3')};
-  padding-bottom: ${themeSpacing(4)};
-  margin-bottom: ${themeSpacing(4)};
 `;
 
 export const StyledRadioGroup = styled(RadioGroup)`
@@ -94,21 +84,21 @@ export const StyledForm = styled.form`
   grid-template-columns: 80% 20%;
   grid-row-gap: ${themeSpacing(8)};
 
-  // needs to be tested:
+  fieldset {
+    position: relative;
+    padding: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
 
-  // fieldset {
-  //   position: relative;
-  //   padding: 0;
-  //   border: 0;
-  // }
-
-  // fieldset:not(:last-child):after {
-  //   content: '',
-  //   height: 1px;
-  //   background: black;
-  //   position: absolute;
-  //   bottom: -20px;
-  // }
+  fieldset:not(:last-child):after {
+    content: '';
+    height: 1px;
+    background: black;
+    position: absolute;
+    bottom: -20px;
+  }
 
   & > * {
     grid-column-start: 1;

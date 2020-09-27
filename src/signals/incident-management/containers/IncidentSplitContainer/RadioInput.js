@@ -19,7 +19,7 @@ const RadioInput = ({ id, name, display, options, initialValue, register }) => {
   );
 
   return (
-    <StyledWrapper data-testid="radioInput">
+    <StyledWrapper data-testid={`radioInput-${id}`}>
       <div className="mode_input text rij_verplicht">
         <Label htmlFor={name} label={<strong>{display}</strong>} />
 

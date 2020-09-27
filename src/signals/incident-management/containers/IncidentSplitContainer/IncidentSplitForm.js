@@ -11,12 +11,11 @@ import directingDepartmentList from 'signals/incident-management/definitions/dir
 
 import {
   StyledDefinitionList,
-  StyledBorderBottomWrapper,
-  StyledButton,
-  StyledForm,
   StyledHeading,
-  StyledSubmitButton,
   StyledTitle,
+  StyledForm,
+  StyledCancelButton,
+  StyledSubmitButton,
 } from './styled';
 
 import RadioInput from './RadioInput';
@@ -50,17 +49,15 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
         <dd data-testid="subcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
       </StyledDefinitionList>
 
-      <StyledBorderBottomWrapper>
-        <RadioInput
-          display="Regie"
-          register={register}
-          initialValue="null"
-          name="department"
-          id="department"
-          data-testid="radioInputDepartment"
-          options={directingDepartmentList}
-        />
-      </StyledBorderBottomWrapper>
+      <RadioInput
+        display="Regie"
+        register={register}
+        initialValue="null"
+        name="department"
+        id="department"
+        data-testid="radioInputDepartment"
+        options={directingDepartmentList}
+      />
 
       <IncidentSplitFormIncident
         parentIncident={parentIncident}
@@ -74,9 +71,9 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
           Opslaan
         </StyledSubmitButton>
 
-        <StyledButton data-testid="incidentSplitFormCancel" variant="primaryInverted" onClick={onCancel}>
+        <StyledCancelButton data-testid="incidentSplitFormCancelButton" variant="primaryInverted" onClick={onCancel}>
           Annuleren
-        </StyledButton>
+        </StyledCancelButton>
       </div>
     </StyledForm>
   );

@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
-import { Select } from '@datapunt/asc-ui';
-
 import TextArea from 'components/TextArea';
 
 import RadioInput from './RadioInput';
+import SelectInput from './SelectInput';
 
-import { StyledBorderBottomWrapper, StyledButton, StyledHeading } from './styled';
+import { StyledButton, StyledHeading } from './styled';
 
 export const INCIDENT_SPLIT_LIMIT = 10;
 
@@ -38,56 +37,53 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
     <Fragment>
       {indexes.map(index => (
         <fieldset key={`incident-splitform-incident-${index}`}>
-          <StyledBorderBottomWrapper>
-            <StyledHeading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</StyledHeading>
+          <StyledHeading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</StyledHeading>
 
-            <TextArea
-              name={`incidents[${index}].description`}
-              ref={register}
-              rows={10}
-              defaultValue={parentIncident.description}
-            />
+          <TextArea
+            name={`incidents[${index}].description`}
+            ref={register}
+            rows={10}
+            defaultValue={parentIncident.description}
+          />
 
-            <Select ref={register} label={<strong>Subcategorie</strong>} name={`incidents[${index}].subcategory`}>
-              {subcategories.map(subcategory => (
-                <option key={`incidents-subcategory-${subcategory.key}`} value={subcategory.key}>
-                  {subcategory.name}
-                </option>
-              ))}
-            </Select>
+          <SelectInput
+            name={`incidents[${index}].subcategory`}
+            id="subcategory"
+            display="Subcategorie"
+            register={register}
+            initialValue={parentIncident.subcategory}
+            options={subcategories}
+          />
 
-            <RadioInput
-              display="Urgentie"
-              register={register}
-              initialValue={parentIncident.priority}
-              name={`incidents[${index}].priority`}
-              id="priority"
-              options={priorityList}
-            />
+          <RadioInput
+            display="Urgentie"
+            register={register}
+            initialValue={parentIncident.priority}
+            name={`incidents[${index}].priority`}
+            id={`incidents-${index}-priority`}
+            options={priorityList}
+          />
 
-            <RadioInput
-              display="Type"
-              register={register}
-              initialValue={parentIncident.type}
-              name={`incidents[${index}].type`}
-              id="type"
-              options={typesList}
-            />
-          </StyledBorderBottomWrapper>
+          <RadioInput
+            display="Type"
+            register={register}
+            initialValue={parentIncident.type}
+            name={`incidents[${index}].type`}
+            id="type"
+            options={typesList}
+          />
         </fieldset>
       ))}
 
       {indexes.length < INCIDENT_SPLIT_LIMIT && (
-        <StyledBorderBottomWrapper>
-          <StyledButton
-            type="button"
-            variant="primaryInverted"
-            onClick={addIncident}
-            data-testid="incidentSplitFormSplitButton"
-          >
-            Extra deelmelding toevoegen
-          </StyledButton>
-        </StyledBorderBottomWrapper>
+        <StyledButton
+          type="button"
+          variant="primaryInverted"
+          onClick={addIncident}
+          data-testid="incidentSplitFormSplitButton"
+        >
+          Extra deelmelding toevoegen
+        </StyledButton>
       )}
     </Fragment>
   );
