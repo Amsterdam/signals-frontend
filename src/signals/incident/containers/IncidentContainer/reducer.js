@@ -43,11 +43,11 @@ export const initialState = fromJS({
   categoryPrediction: null,
 });
 
-const getIncidentWithoutExtraProps = (incident, category = {}) => {
-  const prevCategory = incident.get('category');
+const getIncidentWithoutExtraProps = (incident, category) => {
+  const prevCategory = incident.get('category')?.toJS();
   const hasChanged = prevCategory?.slug !== category?.slug;
 
-  if (!hasChanged && category) return incident;
+  if (!hasChanged && category?.slug) return incident;
 
   const seq = Seq(incident).filter((val, key) => !key.startsWith('extra'));
 
@@ -88,26 +88,32 @@ export default (state = initialState, action) => {
       return state.set('loadingClassification', false).set(
         'incident',
         getIncidentWithoutExtraProps(state.get('incident'), category)
-          .set('category', category)
+          .set('category', fromJS(category))
           .set('handling_message', handling_message)
-      ).set('categoryPrediction', category);
+      ).set('categoryPrediction', fromJS(category));
     }
 
-    case GET_CLASSIFICATION_ERROR:
+    case GET_CLASSIFICATION_ERROR: {
+      const { handling_message, ...category } = action.payload;
       return state.set('loadingClassification', false).set(
         'incident',
         state
           .get('incident')
-          .set('category', action.payload)
+          .set('category', fromJS(category))
+          .set('handling_message', handling_message)
       );
+    }
 
-    case SET_CLASSIFICATION:
+    case SET_CLASSIFICATION: {
+      const { handling_message, ...category } = action.payload;
       return state.set(
         'incident',
         state
           .get('incident')
-          .set('category', action.payload)
+          .set('category', fromJS(category))
+          .set('handling_message', handling_message)
       ).set('usePredictions', false);
+    }
 
     case RESET_EXTRA_STATE:
       return state.set('incident', getIncidentWithoutExtraProps(state.get('incident'), action.payload));
