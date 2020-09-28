@@ -8,7 +8,7 @@ import TextArea from 'components/TextArea';
 import RadioInput from './RadioInput';
 import SelectInput from './SelectInput';
 
-import { StyledButton, StyledHeading } from './styled';
+import { StyledButton, StyledHeading2 } from './styled';
 
 export const INCIDENT_SPLIT_LIMIT = 10;
 
@@ -37,7 +37,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
     <Fragment>
       {indexes.map(index => (
         <fieldset key={`incident-splitform-incident-${index}`}>
-          <StyledHeading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</StyledHeading>
+          <StyledHeading2 forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</StyledHeading2>
 
           <TextArea
             name={`incidents[${index}].description`}
@@ -76,14 +76,16 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
       ))}
 
       {indexes.length < INCIDENT_SPLIT_LIMIT && (
-        <StyledButton
-          type="button"
-          variant="primaryInverted"
-          onClick={addIncident}
-          data-testid="incidentSplitFormSplitButton"
-        >
-          Extra deelmelding toevoegen
-        </StyledButton>
+        <fieldset>
+          <StyledButton
+            type="button"
+            variant="primaryInverted"
+            onClick={addIncident}
+            data-testid="incidentSplitFormSplitButton"
+          >
+            Extra deelmelding toevoegen
+          </StyledButton>
+        </fieldset>
       )}
     </Fragment>
   );

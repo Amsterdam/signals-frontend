@@ -34,9 +34,9 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
 
   return (
     <StyledForm onSubmit={handleSubmit(submit)} data-testid="incidentSplitForm">
-      <StyledTitle forwardedAs="h2" styleAs="h2">Deelmelding maken</StyledTitle>
+      <StyledTitle forwardedAs="h1" styleAs="h1">Deelmelding maken</StyledTitle>
 
-      <StyledHeading styleAs="h3">Hoofdmelding</StyledHeading>
+      <StyledHeading styleAs="h2">Hoofdmelding</StyledHeading>
 
       <StyledDefinitionList>
         <dt>Melding</dt>

@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
 import InfoText from 'components/InfoText';
-import { StyledLabel, StyledWrapper } from './styled';
+import { StyledLabel } from './styled';
 
 const getInfo = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
 
@@ -19,28 +19,26 @@ const RadioInput = ({ id, name, display, options, initialValue, register }) => {
   );
 
   return (
-    <StyledWrapper data-testid={`radioInput-${id}`}>
-      <div className="mode_input text rij_verplicht">
-        <Label htmlFor={name} label={<strong>{display}</strong>} />
+    <Fragment>
+      <Label htmlFor={name} label={<strong>{display}</strong>} />
 
-        <RadioGroup name={name}>
-          {options.map(({ key, value }) => (
-            <StyledLabel key={key} label={value}>
-              <Radio
-                checked={key === initialValue}
-                id={`${id}-${key}`}
-                data-testid={`${id}-${key}`}
-                value={key}
-                ref={register}
-                onChange={onChange}
-              />
-            </StyledLabel>
-          ))}
-        </RadioGroup>
+      <RadioGroup name={name}>
+        {options.map(({ key, value }) => (
+          <StyledLabel key={key} label={value}>
+            <Radio
+              checked={key === initialValue}
+              id={`${id}-${key}`}
+              data-testid={`${id}-${key}`}
+              value={key}
+              ref={register}
+              onChange={onChange}
+            />
+          </StyledLabel>
+        ))}
+      </RadioGroup>
 
-        {selected?.info && <InfoText text={`${selected.value}: ${selected.info}`} />}
-      </div>
-    </StyledWrapper>
+      {selected?.info && <InfoText text={`${selected.value}: ${selected.info}`} />}
+    </Fragment>
   );
 };
 
