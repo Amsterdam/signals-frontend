@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
@@ -12,19 +12,19 @@ import injectSaga from 'utils/injectSaga';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
 
-import LoginPage from 'components/LoginPage';
-
-import IncidentOverviewPage from './containers/IncidentOverviewPage';
 import { getDistricts, getFilters, searchIncidents, requestIncidents } from './actions';
-import IncidentDetail from './containers/IncidentDetail';
-import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
-import LegacyIncidentSplitContainer from './containers/LegacyIncidentSplitContainer';
 
 import IncidentManagementContext from './context';
 import reducer from './reducer';
 import saga from './saga';
 import routes from './routes';
 import { makeSelectDistricts } from './selectors';
+
+const LoginPage = lazy(() => import('components/LoginPage'));
+const IncidentOverviewPage = lazy(() => import('./containers/IncidentOverviewPage'));
+const IncidentDetail = lazy(() => import('./containers/IncidentDetail'));
+const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'));
+const LegacyIncidentSplitContainer = lazy(() => import('./containers/LegacyIncidentSplitContainer'));
 
 export const IncidentManagementModuleComponent = ({
   getDistrictsAction,
@@ -66,13 +66,15 @@ export const IncidentManagementModuleComponent = ({
 
   return (
     <IncidentManagementContext.Provider value={{ districts }}>
-      <Switch location={location}>
-        <Route exact path={routes.incidents} component={IncidentOverviewPage} />
-        <Route exact path={routes.incident} component={IncidentDetail} />
-        <Route exact path={routes.split} component={LegacyIncidentSplitContainer} />
-        <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
-        <Route component={IncidentOverviewPage} />
-      </Switch>
+      <Suspense>
+        <Switch location={location}>
+          <Route exact path={routes.incidents} component={IncidentOverviewPage} />
+          <Route exact path={routes.incident} component={IncidentDetail} />
+          <Route exact path={routes.split} component={LegacyIncidentSplitContainer} />
+          <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
+          <Route component={IncidentOverviewPage} />
+        </Switch>
+      </Suspense>
     </IncidentManagementContext.Provider>
   );
 };

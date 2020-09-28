@@ -7,6 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+
 const template = require('./template');
 
 const __rootdir = pkgDir.sync();
@@ -46,23 +47,15 @@ module.exports = require('./webpack.base.babel')({
       new OptimizeCSSAssetsPlugin(),
     ],
     nodeEnv: 'production',
-    sideEffects: true,
-    concatenateModules: true,
+    concatenateModules: false,
     runtimeChunk: 'single',
     splitChunks: {
-      chunks: 'all',
-      maxInitialRequests: 24,
-      minSize: 0,
-      cacheGroups: {
-        vendor: {
-          test: /[/\\]node_modules[/\\](?!@datapunt[/\\]asc-ui)(?!leaflet)(?!react-reactive-form)(?!date-fns)/,
-          name(module) {
-            const packageName = module.context.match(/[/\\]node_modules[/\\](.*?)([/\\]|$)/)[1];
-            return `npm.${packageName.replace('@', '')}`;
-          },
-          reuseExistingChunk: true,
-        },
-      },
+      chunks: 'async',
+      minSize: 20000,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
     },
   },
 

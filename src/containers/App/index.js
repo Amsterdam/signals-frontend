@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,16 +7,12 @@ import configuration from 'shared/services/configuration/configuration';
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
-import NotFoundPage from 'components/NotFoundPage';
 import Footer from 'components/Footer';
+import LoadingIndicator from 'components/LoadingIndicator';
 import ThemeProvider from 'components/ThemeProvider';
 import SiteHeaderContainer from 'containers/SiteHeader';
 
-import IncidentManagementModule from 'signals/incident-management';
-import SettingsModule from 'signals/settings';
-import IncidentContainer from 'signals/incident/containers/IncidentContainer';
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
-import KtoContainer from 'signals/incident/containers/KtoContainer';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
@@ -41,6 +37,12 @@ const ContentContainer = styled.div`
   z-index: 0;
   padding-top: ${({ headerIsTall }) => !headerIsTall && 50}px;
 `;
+
+const IncidentContainer = lazy(() => import('signals/incident/containers/IncidentContainer'));
+const KtoContainer = lazy(() => import('signals/incident/containers/KtoContainer'));
+const IncidentManagementModule = lazy(() => import('signals/incident-management'));
+const SettingsModule = lazy(() => import('signals/settings'));
+const NotFoundPage = lazy(() => import('components/NotFoundPage'));
 
 export const AppContainer = () => {
   const dispatch = useDispatch();
@@ -90,17 +92,19 @@ export const AppContainer = () => {
           <SiteHeaderContainer />
 
           <ContentContainer headerIsTall={headerIsTall}>
-            <Switch>
-              <Redirect exact from="/" to="/incident/beschrijf" />
-              <Redirect exact from="/login" to="/manage" />
-              <Redirect exact from="/manage" to="/manage/incidents" />
-              <Route path="/manage" component={IncidentManagementModule} />
-              <Route path="/instellingen" component={SettingsModule} />
-              <Route path="/incident" component={IncidentContainer} />
-              <Route path="/kto/:satisfactionIndication/:uuid" component={KtoContainer} />
-              <Route exact path="/categorie/:category/:subcategory" component={IncidentContainer} />
-              <Route component={NotFoundPage} />
-            </Switch>
+            <Suspense fallback={<LoadingIndicator />}>
+              <Switch>
+                <Redirect exact from="/" to="/incident/beschrijf" />
+                <Redirect exact from="/login" to="/manage" />
+                <Redirect exact from="/manage" to="/manage/incidents" />
+                <Route path="/manage" component={IncidentManagementModule} />
+                <Route path="/instellingen" component={SettingsModule} />
+                <Route path="/incident" component={IncidentContainer} />
+                <Route path="/kto/:satisfactionIndication/:uuid" component={KtoContainer} />
+                <Route exact path="/categorie/:category/:subcategory" component={IncidentContainer} />
+                <Route component={NotFoundPage} />
+              </Switch>
+            </Suspense>
           </ContentContainer>
 
           {!isAuthenticated() && (
