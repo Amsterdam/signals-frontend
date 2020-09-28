@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Heading, Label, RadioGroup, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, Label, RadioGroup, themeColor, themeSpacing, Row } from '@datapunt/asc-ui';
 
 import Button from 'components/Button';
 
@@ -21,7 +21,7 @@ export const StyledDefinitionList = styled.dl`
 
   @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-    /* grid-template-columns: 3fr 4fr; */
+    grid-template-columns: 3fr 4fr;
   }
 
   dt,
@@ -42,15 +42,6 @@ export const StyledDefinitionList = styled.dl`
     font-weight: 600;
     width: 100%;
   }
-`;
-
-export const StyledButton = styled(Button)`
-  width: 40%;
-  background-color: ${themeColor('tint', 'level1')};
-`;
-
-export const StyledCancelButton = styled(StyledButton)`
-  background-color: ${themeColor('tint', 'level1')};
 `;
 
 export const StyledSubmitButton = styled(Button)`
@@ -80,9 +71,13 @@ export const StyledHeading2 = styled(Heading)`
 `;
 
 export const StyledWrapper = styled.div`
-  width: 40%;
   margin-top: ${themeSpacing(6)};
   margin-bottom: ${themeSpacing(6)};
+`;
+
+export const FormWrapper = styled(Row)`
+  display: grid;
+  grid-template-columns: 7fr 5fr;
 `;
 
 export const StyledForm = styled.form`
@@ -90,19 +85,18 @@ export const StyledForm = styled.form`
   margin: ${themeSpacing(4)};
 
   display: grid;
-  grid-template-columns: 80% 20%;
-  /* grid-row-gap: ${themeSpacing(8)}; */
+  grid-row-gap: ${themeSpacing(8)};
 
   fieldset {
     position: relative;
-    padding: 0;
-    margin-top: ${themeSpacing(4)};
-    margin-bottom: ${themeSpacing(4)};
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-    border-color: gray;
-    border-width: 1px;
+    padding: ${themeSpacing(0, 0, 8)};
+    border: 0;
+    border-bottom: 1px solid ${themeColor('tint', 'level3')};
+    margin: 0;
+
+    & *:last-child {
+      margin-bottom: 0;
+    }
   }
 
   /*

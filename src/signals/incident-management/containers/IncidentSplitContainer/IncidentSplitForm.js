@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-
 import PropTypes from 'prop-types';
+import { Heading } from '@datapunt/asc-ui';
 
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -8,14 +8,14 @@ import { useHistory } from 'react-router-dom';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
+import Button from 'components/Button';
 
 import {
   StyledDefinitionList,
-  StyledHeading,
   StyledTitle,
   StyledForm,
-  StyledCancelButton,
   StyledSubmitButton,
+  FormWrapper,
 } from './styled';
 
 import RadioInput from './RadioInput';
@@ -28,54 +28,64 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
   const history = useHistory();
 
   // is this useCallback required? when this action happens the page will be unmounted from dom...
-  const onCancel = useCallback(() => { history.push(CONFIGURATION.INCIDENTS_ENDPOINT); }, [history]);
+  const onCancel = useCallback(() => {
+    history.push(CONFIGURATION.INCIDENTS_ENDPOINT);
+  }, [history]);
 
-  const submit = formData => { onSubmit(formData); };
+  const submit = formData => {
+    onSubmit(formData);
+  };
 
   return (
-    <StyledForm onSubmit={handleSubmit(submit)} data-testid="incidentSplitForm">
-      <StyledTitle forwardedAs="h1" styleAs="h1">Deelmelding maken</StyledTitle>
+    <FormWrapper>
+      <StyledForm onSubmit={handleSubmit(submit)} data-testid="incidentSplitForm">
+        <StyledTitle>
+          Deelmelding maken
+        </StyledTitle>
 
-      <StyledHeading styleAs="h2">Hoofdmelding</StyledHeading>
+        <fieldset>
+          <Heading forwardedAs="h2">Hoofdmelding</Heading>
 
-      <StyledDefinitionList>
-        <dt>Melding</dt>
-        <dd data-testid="parentIncidentId">{parentIncident.id}</dd>
+          <StyledDefinitionList>
+            <dt>Melding</dt>
+            <dd data-testid="parentIncidentId">{parentIncident.id}</dd>
 
-        <dt>Status</dt>
-        <dd data-testid="statusDisplayName">{parentIncident.statusDisplayName}</dd>
+            <dt>Status</dt>
+            <dd data-testid="statusDisplayName">{parentIncident.statusDisplayName}</dd>
 
-        <dt>Subcategorie (verantwoordelijke afdeling)</dt>
-        <dd data-testid="subcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
-      </StyledDefinitionList>
+            <dt>Subcategorie (verantwoordelijke afdeling)</dt>
+            <dd data-testid="subcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
+          </StyledDefinitionList>
 
-      <RadioInput
-        display="Regie"
-        register={register}
-        initialValue="null"
-        name="department"
-        id="department"
-        data-testid="radioInputDepartment"
-        options={directingDepartmentList}
-      />
+          <RadioInput
+            display="Regie"
+            register={register}
+            initialValue="null"
+            name="department"
+            id="department"
+            data-testid="radioInputDepartment"
+            options={directingDepartmentList}
+          />
+        </fieldset>
 
-      <IncidentSplitFormIncident
-        parentIncident={parentIncident}
-        subcategories={subcategories}
-        register={register}
-        control={control}
-      />
+        <IncidentSplitFormIncident
+          parentIncident={parentIncident}
+          subcategories={subcategories}
+          register={register}
+          control={control}
+        />
 
-      <div>
-        <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary">
-          Opslaan
-        </StyledSubmitButton>
+        <fieldset>
+          <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary">
+            Opslaan
+          </StyledSubmitButton>
 
-        <StyledCancelButton data-testid="incidentSplitFormCancelButton" variant="primaryInverted" onClick={onCancel}>
-          Annuleren
-        </StyledCancelButton>
-      </div>
-    </StyledForm>
+          <Button data-testid="incidentSplitFormCancelButton" variant="primaryInverted" onClick={onCancel}>
+            Annuleren
+          </Button>
+        </fieldset>
+      </StyledForm>
+    </FormWrapper>
   );
 };
 

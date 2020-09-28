@@ -1,14 +1,14 @@
 import React, { useCallback, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { Heading } from '@datapunt/asc-ui';
 
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
 import TextArea from 'components/TextArea';
+import Button from 'components/Button';
 
 import RadioInput from './RadioInput';
 import SelectInput from './SelectInput';
-
-import { StyledButton, StyledHeading2 } from './styled';
 
 export const INCIDENT_SPLIT_LIMIT = 10;
 
@@ -19,16 +19,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
     event => {
       event.preventDefault();
 
-      // the following code is valid (also from the testing-library philosophy) but won't cover branches 100% ...
-      // if (indexes.length < INCIDENT_SPLIT_LIMIT) setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
-
-      // 100% coverage, but needs allowShortCircuit in no-used-expressions, not a recommended pattern, but ....
-      // eslint-disable-next-line no-unused-expressions
-      // indexes.length < INCIDENT_SPLIT_LIMIT && setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
-
-      // meh, but 100% coverage and no need for allowShortCircuit...
-      return indexes.length < INCIDENT_SPLIT_LIMIT &&
-        setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
+      setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
     },
     [indexes]
   );
@@ -37,7 +28,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
     <Fragment>
       {indexes.map(index => (
         <fieldset key={`incident-splitform-incident-${index}`}>
-          <StyledHeading2 forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</StyledHeading2>
+          <Heading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</Heading>
 
           <TextArea
             name={`incidents[${index}].description`}
@@ -77,14 +68,14 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
 
       {indexes.length < INCIDENT_SPLIT_LIMIT && (
         <fieldset>
-          <StyledButton
+          <Button
             type="button"
             variant="primaryInverted"
             onClick={addIncident}
             data-testid="incidentSplitFormSplitButton"
           >
             Extra deelmelding toevoegen
-          </StyledButton>
+          </Button>
         </fieldset>
       )}
     </Fragment>
