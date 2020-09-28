@@ -83,4 +83,12 @@ describe('reverseGeocoderService', () => {
 
     expect(result).toEqual(testResult);
   });
+
+  it('should handle failed requests', async () => {
+    fetch.mockReject(() => Promise.reject(new Error('something bad happened')));
+
+    const result = await reverseGeocoderService(testLocation);
+
+    expect(result).toBeUndefined();
+  });
 });
