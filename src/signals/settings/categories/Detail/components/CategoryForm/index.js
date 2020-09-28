@@ -9,6 +9,7 @@ import RadioButtonList from 'signals/incident-management/components/RadioButtonL
 import History from 'components/History';
 import Label from 'components/Label';
 import Input from 'components/Input';
+import TextArea from 'components/TextArea';
 import FormFooter from 'components/FormFooter';
 
 const Form = styled.form`
@@ -79,8 +80,7 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => (
           </FieldGroup>
 
           <FieldGroup>
-            <Input
-              as="textarea"
+            <TextArea
               defaultValue={data.description}
               disabled={readOnly}
               hint="Ter verduidelijking van de inhoud van de categorie"
@@ -122,8 +122,7 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => (
           </FieldGroup>
 
           <FieldGroup>
-            <Input
-              as="textarea"
+            <TextArea
               defaultValue={data.handling_message}
               disabled={readOnly}
               hint="Deze tekst krijgt de burger via e-mail bij het aanmaken van een melding"

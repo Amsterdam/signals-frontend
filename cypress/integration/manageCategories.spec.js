@@ -3,7 +3,7 @@
 import * as createSignal from '../support/commandsCreateSignal';
 import { CATEGORIES } from '../support/selectorsSettings';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
-describe('Change category', () => {
+describe('Manage categories', () => {
   describe('Change category ', () => {
     before(() => {
       localStorage.setItem('accessToken', Cypress.env('token'));
@@ -20,8 +20,8 @@ describe('Change category', () => {
       cy.contains('Categorieën').click();
 
       cy.waitForCategoriesRoutes();
-      cy.url().should('include', '/instellingen/categorieen/');
       cy.checkHeaderText('Categorieën');
+      cy.url().should('include', '/instellingen/categorieen/');
 
       // Open category Afwatering brug
       cy.contains('Afwatering brug').click();
@@ -121,7 +121,7 @@ describe('Change category', () => {
       cy.waitForSignalDetailsRoutes();
 
       // Edit signal category
-      cy.get('dt').contains('Subcategorie').find(CHANGE_CATEGORY.buttonEdit).click();
+      cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(SIGNAL_DETAILS.infoText).should('contain', 'Dit is het verhaal van de brug die moest afwateren');
     });
   });

@@ -8,10 +8,6 @@ import { Validators } from 'react-reactive-form';
 const Children = styled.div`
   display: flex;
   flex-flow: column;
-
-  & > * + * {
-    margin-top: ${themeSpacing(2)};
-  }
 `;
 
 const Wrapper = styled.div`

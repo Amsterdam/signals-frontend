@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import { themeSpacing, themeColor } from '@datapunt/asc-ui';
 
 const LabelWrapper = styled.div`
   ${({ isGroupHeader }) => !isGroupHeader &&
@@ -12,15 +13,16 @@ const LabelWrapper = styled.div`
 const StyledLabel = styled.label`
   font-family: Avenir Next LT W01${({ inline }) => inline ? '-Regular' : ' Demi'}, arial, sans-serif;
   font-size: 16px;
-  line-height: 25px;
-  margin-bottom: 8px;
+  margin-bottom: ${themeSpacing(2)};
   display: inline-block;
+  vertical-align: text-top;
+  color: inherit;
 
   ${({ isGroupHeader }) =>
     isGroupHeader &&
     css`
     font-size: 18px;
-    color: #ec0000;
+    color: ${themeColor('secondary')};
   `}
 `;
 

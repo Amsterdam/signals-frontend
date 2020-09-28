@@ -40,55 +40,55 @@ describe('Create signal wonen vakantie verhuur and check signal details', () => 
 
       // Input specific information
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_toeristen_aanwezig.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenNee).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenNee).check({ force: true }).should('be.checked');
       cy.contains(warningPhone).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenWeetIkNiet).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenWeetIkNiet).check({ force: true }).should('be.checked');
       cy.contains(warningPhone).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenJa).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenJa).check({ force: true }).should('be.checked');
       cy.contains(warningPhone).should('be.visible');
 
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderTelefonisch).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderTelefonisch).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers1).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers2).should('be.visible');
 
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderMeldformulier).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderMeldformulier).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers1).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers2).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_footer.answers).should('be.visible');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_aantal_mensen.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVierOfMinder).check().should('be.checked');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVijfOfMeer).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVierOfMinder).check({ force: true }).should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVijfOfMeer).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_hoe_vaak.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakEersteKeer).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakEersteKeer).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakWekelijks).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakWekelijks).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakDagelijks).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakDagelijks).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakMaandelijks).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeVaakMaandelijks).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_wanneer.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWeekend).check().should('be.checked');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerDoordeweeks).check().should('be.checked');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWisselend).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWeekend).check({ force: true }).should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerDoordeweeks).check({ force: true }).should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonWanneerWisselend).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bewoning.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bewoning.subtitle).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningWeetIkNiet).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningWeetIkNiet).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningNee).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningJa).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningJa).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.inputBewoner).eq(0).type('Gijsbrecht van Aemstel');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_online_aangeboden.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineNee).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_link_advertentie.label).should('not.be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineJa).check().should('be.checked');
+      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_link_advertentie.label).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.inputLink).eq(1).type('https://amsterdam.intercontinental.com/nl/');
 

@@ -95,7 +95,7 @@ const Footer = () => (
 
     <Container>
       <Privacy>
-        <StyledLink href={configuration.links.privacy} variant="with-chevron">
+        <StyledLink href={configuration.links.privacy} inList>
           Privacy
         </StyledLink>
       </Privacy>

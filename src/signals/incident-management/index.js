@@ -9,7 +9,6 @@ import configuration from 'shared/services/configuration/configuration';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { fetchCategories } from 'models/categories/actions';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
 
@@ -28,7 +27,6 @@ import routes from './routes';
 import { makeSelectDistricts } from './selectors';
 
 export const IncidentManagementModuleComponent = ({
-  fetchCategoriesAction,
   getDistrictsAction,
   getFiltersAction,
   requestIncidentsAction,
@@ -52,11 +50,15 @@ export const IncidentManagementModuleComponent = ({
     if (configuration.fetchDistrictsFromBackend) {
       getDistrictsAction();
     }
+
     getFiltersAction();
-    fetchCategoriesAction();
-    // disabling linter; no deps needed, only execute on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [
+    getDistrictsAction,
+    getFiltersAction,
+    requestIncidentsAction,
+    searchIncidentsAction,
+    searchQuery,
+  ]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
@@ -76,7 +78,6 @@ export const IncidentManagementModuleComponent = ({
 };
 
 IncidentManagementModuleComponent.propTypes = {
-  fetchCategoriesAction: PropTypes.func.isRequired,
   getDistrictsAction: PropTypes.func.isRequired,
   getFiltersAction: PropTypes.func.isRequired,
   requestIncidentsAction: PropTypes.func.isRequired,
@@ -91,7 +92,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      fetchCategoriesAction: fetchCategories,
       getDistrictsAction: getDistricts,
       getFiltersAction: getFilters,
       requestIncidentsAction: requestIncidents,

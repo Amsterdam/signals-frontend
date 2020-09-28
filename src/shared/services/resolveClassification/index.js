@@ -17,7 +17,7 @@ export const reCategory = /terms\/categories\/([^/]+)(?:\/?[^/]+\/([^/]+))?$/;
  *
  * @returns {Object} With keys `category`, `subcategory`
  */
-export default ({ hoofdrubriek = [[], []], subrubriek = [[], []] } = {}) => {
+const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] } = {}) => {
   const subrubriekMeetsMinimumCertainty = MINIMUM_CERTAINTY <= subrubriek[1][0];
   const hoofdrubriekMeetsMinimumCertainty =
     MINIMUM_CERTAINTY <= hoofdrubriek[1][0];
@@ -87,3 +87,5 @@ export default ({ hoofdrubriek = [[], []], subrubriek = [[], []] } = {}) => {
     subcategory: DEFAULT_CLASSIFICATION,
   };
 };
+
+export default resolveClassification;

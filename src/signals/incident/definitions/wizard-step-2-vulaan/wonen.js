@@ -654,7 +654,7 @@ const vakantieverhuur = {
       shortLabel: 'Aantal personen',
       pathMerge: 'extra_properties',
       values: {
-        vier_of_minder: '4 of minder personen',
+        vier_of_minder: '1-4 personen',
         vijf_of_meer: '5 of meer personen',
       },
     },

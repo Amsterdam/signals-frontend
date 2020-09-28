@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import SelectInput from '..';
@@ -35,7 +35,12 @@ describe('<SelectInput />', () => {
     const onChangeMock = jest.fn();
     const { container } = render(<SelectInput {...props} onChange={onChangeMock} />);
 
-    fireEvent.change(container.querySelector('select'), { target: { value: 'active' } });
+    expect(onChangeMock).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.change(container.querySelector('select'), { target: { value: 'active' } });
+    });
+
     expect(onChangeMock).toHaveBeenCalledTimes(1);
   });
 });

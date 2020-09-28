@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/import-style */
 /* eslint consistent-return:0 import/order:0 */
 const fs = require('fs');
 const https = require('https');

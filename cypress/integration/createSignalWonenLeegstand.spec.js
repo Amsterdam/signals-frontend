@@ -44,28 +44,28 @@ describe('Create signal wonen leegstand and check signal details', () => {
 
       cy.contains(questions.wonen.extra_wonen_leegstand_periode.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.radioButtonLeegZesMaandenOfLanger)
-        .check()
+        .check({ force: true })
         .should('be.checked');
       cy.get(WONEN_LEEGSTAND.radioButtonLeegMinderDanZesMaanden)
-        .check()
+        .check({ force: true })
         .should('be.checked');
       cy.get(WONEN_LEEGSTAND.radioButtonLeegPeriodeWeetIkNiet)
-        .check()
+        .check({ force: true })
         .should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktWeetIkNiet)
-        .check()
+        .check({ force: true })
         .should('be.checked');
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktNee)
-        .check()
+        .check({ force: true })
         .should('be.checked');
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.label).should('not.be.visible');
 
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktJa)
-        .check()
+        .check({ force: true })
         .should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('be.visible');

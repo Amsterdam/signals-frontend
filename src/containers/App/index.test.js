@@ -1,10 +1,13 @@
 import React from 'react';
 import { render, act } from '@testing-library/react';
 import * as reactRedux from 'react-redux';
+
 import { withAppContext, history } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
+import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
+
 import App, { AppContainer } from '.';
 import { getSources } from './actions';
 
@@ -178,13 +181,13 @@ describe('<App />', () => {
 
       render(withAppContext(<AppContainer {...props} />));
 
-      expect(dispatch).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalledWith(getSources());
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
       render(withAppContext(<AppContainer {...props} />));
 
-      expect(dispatch).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalledWith(getSources());
     });
 
     it('should request sources on mount with feature flag enabled', () => {
@@ -194,14 +197,27 @@ describe('<App />', () => {
 
       render(withAppContext(<AppContainer {...props} />));
 
-      expect(dispatch).not.toHaveBeenCalled();
+      expect(dispatch).not.toHaveBeenCalledWith(getSources());
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
       render(withAppContext(<AppContainer {...props} />));
 
-      expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith(getSources());
+    });
+
+    it('should request subcategories on mount for authenticated users', () => {
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+
+      render(withAppContext(<AppContainer {...props} />));
+
+      expect(dispatch).not.toHaveBeenCalledWith(fetchCategoriesAction());
+
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
+      render(withAppContext(<AppContainer {...props} />));
+
+      expect(dispatch).toHaveBeenCalledWith(fetchCategoriesAction());
     });
   });
 });
