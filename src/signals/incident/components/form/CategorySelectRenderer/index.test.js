@@ -1,118 +1,69 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { withAppContext } from 'test/utils';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
-import Select from 'components/SelectInput';
-import SelectInput from '.';
+import CategorySelectRenderer from '.';
 
-describe('Form component <SelectInput />', () => {
-  const metaFields = {
-    name: 'input-field-name',
-    placeholder: 'type here',
-    values: {
-      foo: 'Foo',
-      bar: 'Bar',
-      baz: 'Baz',
-    },
-  };
-  let wrapper;
-  let handler;
-  let touched;
-  let getError;
-  let hasError;
-  let parent;
+jest.mock('shared/services/auth/auth');
+jest.mock('signals/incident/components/form/CategorySelect', () => () => <div data-testid="descriptionInput"></div>);
 
-  beforeEach(() => {
-    handler = jest.fn();
-    touched = false;
-    getError = jest.fn();
-    hasError = jest.fn();
-    parent = {
+describe('signals/incident/components/form/CategorySelectRenderer', () => {
+  const props = {
+    handler: jest.fn(() => ({
+      value: {
+        sub_category: 'baz',
+        name: 'Baz',
+        slug: 'baz',
+      },
+    })),
+    touched: false,
+    getError: jest.fn(),
+    hasError: jest.fn(),
+    value: 'the-description',
+    parent: {
       meta: {
         updateIncident: jest.fn(),
       },
-    };
+      controls: {},
+    },
+    validatorsOrOpts: {},
+  };
 
-    handler.mockImplementation(() => ({
-      value: {
-        id: 'baz',
-        label: 'Baz',
-      },
-    }));
+  const meta = {
+    label: 'Subcategorie',
+    path: 'category',
+    name: 'category',
+    isVisible: true,
+  };
 
-    wrapper = shallow(
-      <SelectInput
-        handler={handler}
-        parent={parent}
-        touched={touched}
-        hasError={hasError}
-        getError={getError}
-      />
-    );
+  beforeEach(() => {
+    isAuthenticated.mockImplementation(() => true);
   });
 
   describe('rendering', () => {
-    it('should render select field correctly', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-        },
-      });
+    it('should render correctly', async () => {
+      const { queryByTestId } = render(withAppContext(<CategorySelectRenderer {...props} meta={meta} />));
 
-      expect(wrapper).toMatchSnapshot();
+      const element = queryByTestId('descriptionInput');
+      expect(element).toBeInTheDocument();
     });
 
-    it('should render empty select field when values are not supplied', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-          values: undefined,
-        },
-      });
+    it('should NOT render when not visible', () => {
+      const { queryByTestId } = render(
+        withAppContext(<CategorySelectRenderer {...props} meta={{ ...meta, isVisible: false }} />)
+      );
 
-      expect(wrapper).toMatchSnapshot();
+      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument();
     });
 
-    it('should render no select field when not visible', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: false,
-        },
-      });
+    it('should NOT render when not authenticated', () => {
+      isAuthenticated.mockImplementation(() => false);
+      const { queryByTestId } = render(
+        withAppContext(<CategorySelectRenderer {...props} meta={{ ...meta, isVisible: true }} />)
+      );
 
-      expect(wrapper).toMatchSnapshot();
-    });
-  });
-
-  describe('events', () => {
-    const event = {
-      target: {
-        selectedIndex: 2,
-        2: {
-          text: 'Baz',
-        },
-        value: 'baz',
-      },
-    };
-
-    it('sets incident when value changes', () => {
-      wrapper.setProps({
-        meta: {
-          ...metaFields,
-          isVisible: true,
-        },
-      });
-
-      wrapper.find(Select).simulate('change', event);
-
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
-        'input-field-name': {
-          id: 'baz',
-          label: 'Baz',
-        },
-      });
+      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument();
     });
   });
 });
