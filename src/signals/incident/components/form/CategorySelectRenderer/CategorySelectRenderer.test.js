@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-import CategorySelectRenderer from '.';
+import CategorySelectRenderer from './CategorySelectRenderer';
 
 jest.mock('shared/services/auth/auth');
 jest.mock('signals/incident/components/form/CategorySelect', () => () => <div data-testid="descriptionInput"></div>);
