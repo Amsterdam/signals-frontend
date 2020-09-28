@@ -21,7 +21,7 @@ export const StyledDefinitionList = styled.dl`
 
   @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-    grid-template-columns: 3fr 4fr;
+    grid-template-columns: 4fr 3fr;
   }
 
   dt,
@@ -77,7 +77,11 @@ export const StyledWrapper = styled.div`
 
 export const FormWrapper = styled(Row)`
   display: grid;
-  grid-template-columns: 7fr 5fr;
+
+  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
+    grid-template-columns: 7fr 5fr;
+  }
 `;
 
 export const StyledForm = styled.form`
