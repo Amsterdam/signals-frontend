@@ -30,7 +30,7 @@ describe('Create signal boten', () => {
 
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(BOTEN.radioButtonRondvaartbootNee).click();
+      cy.get(BOTEN.radioButtonRondvaartbootNee).click({ force: true });
       cy.get(BOTEN.inputNaamBoot).type('Pakjesboot 12');
       cy.get(BOTEN.inputNogMeer).type('De boot vaart over de Amstel heen en weer');
 

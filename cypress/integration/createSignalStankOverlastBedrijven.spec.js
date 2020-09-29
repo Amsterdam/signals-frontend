@@ -30,7 +30,7 @@ describe('Create signal stank overlast bedrijven and check signal details', () =
 
       // Provide information about smell
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_wat.label).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.radioButtonAnderBedrijf).click();
+      cy.get(BEDRIJVEN_HORECA.radioButtonAnderBedrijf).click({ force: true });
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_naam.label).should('be.visible');
       cy.get(BEDRIJVEN_HORECA.inputWieWat).eq(0).type('Klanten van de sportsschool');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_adres.label).should('be.visible');
@@ -46,10 +46,10 @@ describe('Create signal stank overlast bedrijven and check signal details', () =
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank_weer.label).should('be.visible');
       cy.get(STANK_OVERLAST.inputWeersomstandigheden).eq(4).type('Het is erg warm buiten, de zon schijnt volop');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank_ramen.label).should('be.visible');
-      cy.get(STANK_OVERLAST.radioButtonRaamOpen).click();
+      cy.get(STANK_OVERLAST.radioButtonRaamOpen).click({ force: true });
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_vaker.label).should('be.visible');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_vaker.subtitle).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.radioButtonVakerNee).click();
+      cy.get(BEDRIJVEN_HORECA.radioButtonVakerNee).click({ force: true });
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_caution.answers).should('be.visible');
 
       cy.contains('Volgende').click();

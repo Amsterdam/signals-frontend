@@ -206,36 +206,36 @@ describe('Change signal after submit', () => {
 
       // Check all checkboxes and submit change
       const sendMailText = 'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.';
-      cy.get(CHANGE_STATUS.radioButtonGemeld).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonGemeld).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(sendMailText).should('be.visible');
       cy.contains('Toelichting (optioneel)').should('be.visible');
-      cy.get(CHANGE_STATUS.radioButtonInAfwachting).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonInAfwachting).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(sendMailText).should('be.visible');
       cy.contains('Toelichting (optioneel)').should('be.visible');
-      cy.get(CHANGE_STATUS.radioButtonIngepland).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonIngepland).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(sendMailText).should('be.visible');
       cy.contains('Toelichting (optioneel)').should('not.be.visible');
-      cy.get(CHANGE_STATUS.radioButtonExtern).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonExtern).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(sendMailText).should('be.visible');
       cy.contains('Toelichting (optioneel)').should('be.visible');
-      cy.get(CHANGE_STATUS.radioButtonAfgehandeld).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonAfgehandeld).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(sendMailText).should('be.visible');
       cy.contains('Toelichting (optioneel)').should('not.be.visible');
-      cy.get(CHANGE_STATUS.radioButtonHeropend).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonHeropend).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(sendMailText).should('be.visible');
       cy.contains('Toelichting (optioneel)').should('not.be.visible');
-      cy.get(CHANGE_STATUS.radioButtonGeannuleerd).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonGeannuleerd).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(sendMailText).should('be.visible');
       cy.contains('Toelichting (optioneel)').should('be.visible');
 
-      cy.get(CHANGE_STATUS.radioButtonInBehandeling).click().should('be.checked');
+      cy.get(CHANGE_STATUS.radioButtonInBehandeling).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben uw zinloze melding toch maar in behandeling genomen');
       cy.get(CHANGE_STATUS.buttonSubmit).click();
 
@@ -272,9 +272,9 @@ describe('Change signal after submit', () => {
 
       // Check on urgency information
       cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
-      cy.get(CHANGE_URGENCY.radioButtonLaag).click();
+      cy.get(CHANGE_URGENCY.radioButtonLaag).click({ force: true });
       cy.contains('interne melding zonder servicebelofte').should('be.visible');
-      cy.get(CHANGE_URGENCY.radioButtonHoog).click();
+      cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
       cy.contains('Hoog: melding met spoed oppakken').should('be.visible');
 
       // Cancel edit urgency
@@ -284,7 +284,7 @@ describe('Change signal after submit', () => {
       // Edit signal urgency and submit
       cy.get(CHANGE_URGENCY.buttonEdit).click();
       cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
-      cy.get(CHANGE_URGENCY.radioButtonHoog).click();
+      cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
       cy.get(CHANGE_URGENCY.buttonSubmit).click();
 
       // Check if background colour of changed element is flashing orange
@@ -317,13 +317,13 @@ describe('Change signal after submit', () => {
       // Check on type information
       cy.get(CHANGE_TYPE.radioButtonMelding).should('be.checked');
       cy.contains('Melding: Een verzoek tot herstel of handhaving om de normale situatie te herstellen');
-      cy.get(CHANGE_TYPE.radioButtonAanvraag).click().should('be.checked');
+      cy.get(CHANGE_TYPE.radioButtonAanvraag).click({ force: true }).should('be.checked');
       cy.contains('Aanvraag: Een verzoek om iets structureels te veranderen');
-      cy.get(CHANGE_TYPE.radioButtonVraag).click().should('be.checked');
+      cy.get(CHANGE_TYPE.radioButtonVraag).click({ force: true }).should('be.checked');
       cy.contains('Vraag: Een verzoek om informatie');
-      cy.get(CHANGE_TYPE.radioButtonKlacht).click().should('be.checked');
+      cy.get(CHANGE_TYPE.radioButtonKlacht).click({ force: true }).should('be.checked');
       cy.contains('Klacht: Een uiting van ongenoegen over het handelen van de gemeente.');
-      cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click().should('be.checked');
+      cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click({ force: true }).should('be.checked');
       cy.contains(
         'Groot onderhoud: Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.'
       );
@@ -334,7 +334,7 @@ describe('Change signal after submit', () => {
 
       // Edit signal type and submit
       cy.get(CHANGE_TYPE.buttonEdit).click();
-      cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click();
+      cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click({ force: true });
       cy.get(CHANGE_TYPE.buttonSubmit).click();
 
       // Check if background colour of changed element is flashing orange

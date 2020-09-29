@@ -6,6 +6,22 @@ export const CATEGORIES = {
   inputMessage: '#handling_message',
 };
 
+export const DEPARTMENTS = {
+  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonOpslaan: '[data-testid="submitBtn"]',
+  categoryLists: '[data-testid="categoryLists"]',
+  checkboxAsbestAccu: '[data-testid*="asbest-accu"]',
+  checkboxDrankDrugsOverlast: '[data-testid*="drank-en-drugsoverlast"]',
+  checkboxWildplassenPoepen: '[data-testid*="wildplassen-poepen-overgeven"]',
+  departmentDetail: '[data-testid="departmentDetail"]',
+  linkBack: '[data-testid="backlink"]',
+  notification: '[data-testid="notification"]',
+};
+
+export const MENU = {
+  buttonMenu: '[aria-label="Menu"]',
+};
+
 export const STANDAARDTEKSTEN = {
   buttonCloseNotification: '[data-testid=notificationClose]',
   buttonGebruikDezeTekst: '[data-testid="defaultTextsItemButton"]',
