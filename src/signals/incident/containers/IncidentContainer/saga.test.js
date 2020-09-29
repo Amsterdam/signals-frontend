@@ -9,14 +9,13 @@ import incidentJSON from 'utils/__tests__/fixtures/incident.json';
 import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json';
 
 import configuration from 'shared/services/configuration/configuration';
-import { DEFAULT_CLASSIFICATION, getCategory } from 'shared/services/resolveClassification';
 import * as auth from 'shared/services/auth/auth';
 import { authPostCall, postCall } from 'shared/services/api/api';
 
 import { uploadFile } from 'containers/App/saga';
 
-import { makeSelectSubCategories, filterForSub } from 'models/categories/selectors';
-import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
+import { makeSelectSubCategories } from 'models/categories/selectors';
+import { defaultSubcategory, subCategories } from 'utils/__tests__/fixtures';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
 
@@ -46,14 +45,6 @@ const postIncident = JSON.stringify(postIncidentJSON);
 
 const category = 'afval';
 const subcategory = 'veegzwerfvuil';
-const subcategories = categoriesFixture.results
-  .filter(filterForSub)
-  .filter(item => item.is_active)
-  .map(item => ({
-    ...item,
-    id: item._links.self.public,
-  }));
-const defaultCategory = getCategory(subcategories.find(s => s.slug === DEFAULT_CLASSIFICATION));
 
 const predictionResponse = {
   hoofdrubriek: [
@@ -108,7 +99,7 @@ const wizard = {
   },
 };
 
-const { handling_message, ...selectedCategory } = defaultCategory;
+const { handling_message, ...selectedCategory } = defaultSubcategory;
 
 const payloadIncident = {
   text: 'Foo Baz',
@@ -151,7 +142,7 @@ describe('IncidentContainer saga', () => {
     it('should dispatch success without fetching questions', () =>
       expectSaga(getClassification, { payload })
         .provide([
-          [select(makeSelectSubCategories), subcategories],
+          [select(makeSelectSubCategories), subCategories],
           [matchers.call.fn(postCall), predictionResponse],
         ])
         .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
@@ -163,7 +154,7 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(getClassification, { payload })
         .provide([
-          [select(makeSelectSubCategories), subcategories],
+          [select(makeSelectSubCategories), subCategories],
           [matchers.call.fn(postCall), predictionResponse],
         ])
         .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
@@ -172,11 +163,11 @@ describe('IncidentContainer saga', () => {
     });
 
     it('should dispatch error', () => {
-      const errorResponse = defaultCategory;
+      const errorResponse = defaultSubcategory;
 
       return expectSaga(getClassification, { payload })
         .provide([
-          [select(makeSelectSubCategories), subcategories],
+          [select(makeSelectSubCategories), subCategories],
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
         ])
         .call(postCall, configuration.PREDICTION_ENDPOINT, { text: payload })
@@ -363,7 +354,7 @@ describe('IncidentContainer saga', () => {
   describe('createIncident', () => {
     const postData = {
       text: payloadIncident.text,
-      category: defaultCategory,
+      category: defaultSubcategory,
     };
 
     it('should POST incident', () =>

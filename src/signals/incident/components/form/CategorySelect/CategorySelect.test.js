@@ -1,16 +1,11 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
+import { subCategories } from 'utils/__tests__/fixtures';
 import * as catgorySelectors from 'models/categories/selectors';
 
 import { getCategory } from 'shared/services/resolveClassification';
 import CategorySelect from './CategorySelect';
-
-const subcategories = categoriesFixture.results
-  .filter(catgorySelectors.filterForSub)
-  .filter(category => category.is_active)
-  .slice(0, 2);
 
 describe('signals/incident/components/form/CategorySelect', () => {
   let props;
@@ -43,7 +38,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
       },
     };
 
-    jest.spyOn(catgorySelectors, 'makeSelectSubCategories').mockImplementation(() => subcategories);
+    jest.spyOn(catgorySelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
   });
 
   afterEach(() => {
@@ -64,7 +59,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
 
     const element = getByTestId('categorySelect');
     expect(element).toBeInTheDocument();
-    expect(element.querySelectorAll('option').length).toEqual(subcategories.length);
+    expect(element.querySelectorAll('option').length).toEqual(subCategories.length);
   });
 
   it('should render empty select field when no categoeies are found', () => {
@@ -90,13 +85,13 @@ describe('signals/incident/components/form/CategorySelect', () => {
     const element = getByTestId('categorySelect');
     element.focus();
     act(() => {
-      const event = { target: { value: subcategories[1].slug } };
+      const event = { target: { value: subCategories[1].slug } };
       fireEvent.change(element, event);
     });
 
     await findByTestId('categorySelect');
 
-    const { handling_message, ...category } = getCategory(subcategories[1]);
+    const { handling_message, ...category } = getCategory(subCategories[1]);
     expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({ category, handling_message });
   });
 });

@@ -5,7 +5,7 @@ import { FormControl } from 'react-reactive-form';
 import { withAppContext } from 'test/utils';
 import incident from 'utils/__tests__/fixtures/incident.json';
 import * as modelSelectors from 'models/categories/selectors';
-import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
+import { subCategories } from 'utils/__tests__/fixtures';
 
 import IncidentPart from '.';
 
@@ -13,11 +13,6 @@ jest.mock('containers/App/selectors', () => ({
   __esModule: true,
   ...jest.requireActual('containers/App/selectors'),
 }));
-
-const subCategories = categoriesFixture.results
-  .filter(modelSelectors.filterForSub)
-  // mapping subcategories to prevent a warning about non-unique keys rendered by the SelectInput element 🙄
-  .map(subCat => ({ ...subCat, key: subCat._links.self.href }));
 
 describe('<IncidentPart />', () => {
   let props;

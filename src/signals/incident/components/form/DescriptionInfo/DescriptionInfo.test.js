@@ -5,11 +5,10 @@ import * as reactRedux from 'react-redux';
 import { withAppContext } from 'test/utils';
 import * as catgorySelectors from 'models/categories/selectors';
 import * as incidentContainerSelectors from 'signals/incident/containers/IncidentContainer/selectors';
-import categoriesFixture from 'utils/__tests__/fixtures/categories_private.json';
+import { subCategories } from 'utils/__tests__/fixtures';
 import DescriptionInfo from '.';
 
-const subcategory = categoriesFixture.results
-  .filter(catgorySelectors.filterForSub).find(category => category.is_active);
+const subcategory = subCategories[0];
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
