@@ -65,8 +65,6 @@ const IncidentSplitContainer = ({ FormComponent }) => {
      * @param {string} formData[].type
      */
     formData => {
-      // console.log('submitted form raw data:', JSON.stringify(formData, null, 2));
-
       const {
         attachments,
         extra_properties,
@@ -104,7 +102,6 @@ const IncidentSplitContainer = ({ FormComponent }) => {
           return [...acc, { ...parentData, ...partialData, parent: data.id }];
         }, []);
 
-      // console.log('post mergedData:', JSON.stringify(mergedData, null, 2));
       post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
     [data, post]
