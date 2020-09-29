@@ -4,41 +4,42 @@ import { Heading } from '@datapunt/asc-ui';
 
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
+import { subcategoriesType } from 'shared/types';
+
 import TextArea from 'components/TextArea';
 import Button from 'components/Button';
 
-import RadioInput from './RadioInput';
-import SelectInput from './SelectInput';
+import IncidentSplitRadioInput from './IncidentSplitRadioInput';
+import IncidentSplitSelectInput from './IncidentSplitSelectInput';
 
 export const INCIDENT_SPLIT_LIMIT = 10;
 
 const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) => {
-  const [indexes, setIndexes] = useState([1]);
+  const [splitCount, setSplitCount] = useState(1);
 
   const addIncident = useCallback(
     event => {
       event.preventDefault();
-
-      setIndexes(previousIndexes => [...previousIndexes, indexes.length + 1]);
+      setSplitCount(previousSplitCount => previousSplitCount + 1);
     },
-    [indexes]
+    []
   );
 
   return (
     <Fragment>
-      {indexes.map(index => (
-        <fieldset key={`incident-splitform-incident-${index}`}>
-          <Heading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {index}</Heading>
+      {[...Array(splitCount + 1).keys()].slice(1).map(splitNumber => (
+        <fieldset key={`incident-splitform-incident-${splitNumber}`}>
+          <Heading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {splitNumber}</Heading>
 
           <TextArea
-            name={`incidents[${index}].description`}
+            name={`incidents[${splitNumber}].description`}
             ref={register}
             rows={10}
             defaultValue={parentIncident.description}
           />
 
-          <SelectInput
-            name={`incidents[${index}].subcategory`}
+          <IncidentSplitSelectInput
+            name={`incidents[${splitNumber}].subcategory`}
             id="subcategory"
             display="Subcategorie"
             register={register}
@@ -46,27 +47,27 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
             options={subcategories}
           />
 
-          <RadioInput
+          <IncidentSplitRadioInput
             display="Urgentie"
             register={register}
             initialValue={parentIncident.priority}
-            name={`incidents[${index}].priority`}
-            id={`incidents-${index}-priority`}
+            name={`incidents[${splitNumber}].priority`}
+            id={`incidents-${splitNumber}-priority`}
             options={priorityList}
           />
 
-          <RadioInput
+          <IncidentSplitRadioInput
             display="Type"
             register={register}
             initialValue={parentIncident.type}
-            name={`incidents[${index}].type`}
+            name={`incidents[${splitNumber}].type`}
             id="type"
             options={typesList}
           />
         </fieldset>
       ))}
 
-      {indexes.length < INCIDENT_SPLIT_LIMIT && (
+      {splitCount < INCIDENT_SPLIT_LIMIT && (
         <fieldset>
           <Button
             type="button"
@@ -93,13 +94,7 @@ IncidentSplitFormIncident.propTypes = {
     description: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
-  subcategories: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      info: PropTypes.string,
-    })
-  ).isRequired,
+  subcategories: subcategoriesType.isRequired,
   register: PropTypes.func.isRequired,
 };
 

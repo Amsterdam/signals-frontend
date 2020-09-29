@@ -7,7 +7,7 @@ import { StyledWrapper } from './styled';
 
 const getDescription = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
 
-const SelectInput = ({ id, name, display, options, initialValue, register }) => {
+const IncidentSplitSelectInput = ({ id, name, display, options, initialValue, register }) => {
   const [selected, setSelected] = useState(getDescription(options, initialValue));
 
   const onChange = useCallback(
@@ -38,7 +38,7 @@ const SelectInput = ({ id, name, display, options, initialValue, register }) => 
   );
 };
 
-SelectInput.propTypes = {
+IncidentSplitSelectInput.propTypes = {
   id: PropTypes.string.isRequired,
   display: PropTypes.string.isRequired,
   initialValue: PropTypes.string.isRequired,
@@ -49,8 +49,8 @@ SelectInput.propTypes = {
       value: PropTypes.string.isRequired,
       info: PropTypes.string,
     })
-  ),
-  register: PropTypes.func,
+  ).isRequired,
+  register: PropTypes.func.isRequired,
 };
 
-export default SelectInput;
+export default IncidentSplitSelectInput;

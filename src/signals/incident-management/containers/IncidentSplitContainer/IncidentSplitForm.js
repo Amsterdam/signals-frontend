@@ -5,6 +5,8 @@ import { Heading } from '@datapunt/asc-ui';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
+import { subcategoriesType } from 'shared/types';
+
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
@@ -18,7 +20,7 @@ import {
   FormWrapper,
 } from './styled';
 
-import RadioInput from './RadioInput';
+import IncidentSplitRadioInput from './IncidentSplitRadioInput';
 
 import IncidentSplitFormIncident from './IncidentSplitFormIncident';
 
@@ -27,18 +29,13 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
 
   const history = useHistory();
 
-  // is this useCallback required? when this action happens the page will be unmounted from dom...
   const onCancel = useCallback(() => {
     history.push(CONFIGURATION.INCIDENTS_ENDPOINT);
   }, [history]);
 
-  const submit = formData => {
-    onSubmit(formData);
-  };
-
   return (
     <FormWrapper>
-      <StyledForm onSubmit={handleSubmit(submit)} data-testid="incidentSplitForm">
+      <StyledForm onSubmit={handleSubmit(data => onSubmit(data))} data-testid="incidentSplitForm">
         <StyledTitle>
           Deelmelding maken
         </StyledTitle>
@@ -57,7 +54,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
             <dd data-testid="subcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
           </StyledDefinitionList>
 
-          <RadioInput
+          <IncidentSplitRadioInput
             display="Regie"
             register={register}
             initialValue="null"
@@ -100,13 +97,7 @@ IncidentSplitForm.propTypes = {
     description: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
-  subcategories: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      info: PropTypes.string,
-    })
-  ).isRequired,
+  subcategories: subcategoriesType.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 

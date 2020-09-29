@@ -7,7 +7,7 @@ import { StyledLabel } from './styled';
 
 const getInfo = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
 
-const RadioInput = ({ id, name, display, options, initialValue, register }) => {
+const IncidentSplitRadioInput = ({ id, name, display, options, initialValue, register }) => {
   const [selected, setSelected] = useState(getInfo(options, initialValue));
 
   const onChange = useCallback(
@@ -42,7 +42,7 @@ const RadioInput = ({ id, name, display, options, initialValue, register }) => {
   );
 };
 
-RadioInput.propTypes = {
+IncidentSplitRadioInput.propTypes = {
   id: PropTypes.string.isRequired,
   display: PropTypes.string.isRequired,
   initialValue: PropTypes.string.isRequired,
@@ -53,8 +53,8 @@ RadioInput.propTypes = {
       value: PropTypes.string.isRequired,
       info: PropTypes.string,
     })
-  ),
-  register: PropTypes.func,
+  ).isRequired,
+  register: PropTypes.func.isRequired,
 };
 
-export default RadioInput;
+export default IncidentSplitRadioInput;

@@ -1,14 +1,15 @@
 import { fromJS } from 'immutable';
+
 import {
   makeSelectSubCategories,
   makeSelectCategories,
   makeSelectMainCategories,
 } from 'models/categories/selectors';
 
-import categories from './categories_private.json';
+import categoriesFixture from './categories_private.json';
 
 const state = fromJS({
-  categories,
+  categories: categoriesFixture,
 });
 
 export const mainCategories = makeSelectMainCategories.resultFunc(
@@ -18,3 +19,7 @@ export const mainCategories = makeSelectMainCategories.resultFunc(
 export const subCategories = makeSelectSubCategories.resultFunc(
   makeSelectCategories.resultFunc(state)
 );
+
+// map subcategories to prevent a warning about non-unique keys rendered by input elements 🙄
+export const subcategories = subCategories
+  .map(subcategory => ({ ...subcategory, value: subcategory.name, key: subcategory._links.self.href }));

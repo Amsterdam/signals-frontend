@@ -3,14 +3,19 @@ import { render as reactRender, fireEvent } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
+import CONFIGURATION from 'shared/services/configuration/configuration';
+
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import configuration from 'shared/services/configuration/configuration';
+import { subcategories } from 'utils/__tests__/fixtures';
+
+import { INCIDENT_URL } from 'signals/incident-management/routes';
+
 import { withAppContext } from 'test/utils';
+
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
-import { INCIDENT_URL } from 'signals/incident-management/routes';
+
 import * as modelSelectors from 'models/categories/selectors';
-import { subcategories } from './transformer';
 
 import IncidentSplitContainer from '..';
 
@@ -110,7 +115,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
 
     expect(fetch).toHaveBeenCalledWith(
-      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
+      `${CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT}${id}`,
       expect.objectContaining({ method: 'GET' })
     );
   });
@@ -138,7 +143,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(fetch).toHaveBeenCalledTimes(2);
 
     expect(fetch).toHaveBeenLastCalledWith(
-      configuration.INCIDENT_PRIVATE_ENDPOINT,
+      CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT,
       expect.objectContaining({ method: 'POST' })
     );
 

@@ -3,11 +3,10 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 
-import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
-
+import { subcategories } from 'utils/__tests__/fixtures';
 import parentIncidentFixture from './parentIncidentFixture.json';
 
-import { subcategories } from './transformer';
+import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 
 describe('IncidentSplitFormIncident', () => {
   const register = jest.fn();

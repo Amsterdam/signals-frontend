@@ -4,7 +4,8 @@ import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { subcategories } from './transformer';
+
+import { subcategories } from 'utils/__tests__/fixtures';
 import parentIncidentFixture from './parentIncidentFixture.json';
 
 import IncidentSplitForm from '../IncidentSplitForm';
@@ -35,17 +36,16 @@ describe('<IncidentSplitForm />', () => {
 
     expect(onSubmit).toHaveBeenCalledWith({
       department: 'null',
+      // WARNING: data does not match acc and that sucks because it is confusing..
       incidents: [
         undefined,
         {
-          // WARNING: this value does not match acc and that sucks because it is confusing..
           subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145',
           description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
           priority: 'normal',
           type: 'SIG',
         },
         {
-          // WARNING: this value does not match acc and that sucks because it is confusing..
           subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145',
           description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
           priority: 'normal',
