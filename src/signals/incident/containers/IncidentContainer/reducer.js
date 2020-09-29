@@ -54,6 +54,13 @@ const getIncidentWithoutExtraProps = (incident, category) => {
   return seq.toMap();
 };
 
+const getIncidentCategory = (state, category) => {
+  const prevCategory = state.get('incident').get('category')?.toJS();
+  const categoryPrediction = state.get('categoryPrediction')?.toJS();
+  const canChange = categoryPrediction === null || prevCategory === null || prevCategory?.slug === categoryPrediction?.slug;
+  return canChange ? category : prevCategory;
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_INCIDENT:
@@ -88,7 +95,7 @@ export default (state = initialState, action) => {
       return state.set('loadingClassification', false).set(
         'incident',
         getIncidentWithoutExtraProps(state.get('incident'), category)
-          .set('category', fromJS(category))
+          .set('category', fromJS(getIncidentCategory(state, category)))
           .set('handling_message', handling_message)
       ).set('categoryPrediction', fromJS(category));
     }
