@@ -9,6 +9,7 @@ export const getCategory = ({ id, name, slug, handling_message }) => ({ sub_cate
 /**
  * Resolve classification
  *
+ * @param {Array[]} subcategories - The list of subcategoryes for match
  * @param {Object} classification - Prediction service POST response
  * @param {Array[]} classification.hoofdrubriek - Hoofdrubriek prediction
  * @param {String[]} classification.hoofdrubriek[0] - Hoofdrubriek main category ID
