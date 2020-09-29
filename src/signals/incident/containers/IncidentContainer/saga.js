@@ -1,4 +1,4 @@
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-react-router/immutable';
 
 import request from 'utils/request';
@@ -8,7 +8,6 @@ import { uploadFile } from 'containers/App/saga';
 import resolveClassification from 'shared/services/resolveClassification';
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params';
 import { isAuthenticated } from 'shared/services/auth/auth';
-import { makeSelectSubCategories } from 'models/categories/selectors';
 import { resolveQuestions } from './services';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, GET_QUESTIONS } from './constants';
 import {
@@ -21,23 +20,38 @@ import {
   getQuestionsError,
 } from './actions';
 
+const getClassificationData = ({ _links, name, slug, handling_message }) => ({
+  sub_category: _links.self.href,
+  name,
+  slug,
+  handling_message,
+});
+
 export function* getClassification(action) {
-  const subcategories = yield select(makeSelectSubCategories);
   try {
     const result = yield call(postCall, configuration.PREDICTION_ENDPOINT, {
       text: action.payload,
     });
 
-    const classification = resolveClassification(subcategories, result);
-    yield put(getClassificationSuccess(classification));
+    const { category, subcategory } = resolveClassification(result);
+    const classification = yield call(
+      request,
+      `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+    );
+
+    yield put(getClassificationSuccess(getClassificationData(classification)));
 
     if (configuration.fetchQuestionsFromBackend) {
       yield put(getQuestions(classification));
     }
   } catch {
-    const classification = resolveClassification(subcategories);
+    const { category, subcategory } = resolveClassification();
+    const classification = yield call(
+      request,
+      `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+    );
 
-    yield put(getClassificationError(classification));
+    yield put(getClassificationError(getClassificationData(classification)));
   }
 }
 

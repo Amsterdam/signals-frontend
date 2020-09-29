@@ -2,9 +2,8 @@ import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import { subCategories } from 'utils/__tests__/fixtures';
-import * as catgorySelectors from 'models/categories/selectors';
+import * as categorySelectors from 'models/categories/selectors';
 
-import { getCategoryData } from 'shared/services/resolveClassification';
 import CategorySelect from './CategorySelect';
 
 describe('signals/incident/components/form/CategorySelect', () => {
@@ -38,7 +37,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
       },
     };
 
-    jest.spyOn(catgorySelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
+    jest.spyOn(categorySelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
   });
 
   afterEach(() => {
@@ -63,7 +62,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
   });
 
   it('should render empty select field when no categoeies are found', () => {
-    jest.spyOn(catgorySelectors, 'makeSelectSubCategories').mockImplementation(() => []);
+    jest.spyOn(categorySelectors, 'makeSelectSubCategories').mockImplementation(() => []);
     const { getByTestId } = render(withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />));
     const element = getByTestId('categorySelect');
     expect(element).toBeInTheDocument();
@@ -91,7 +90,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
 
     await findByTestId('categorySelect');
 
-    const { handling_message, ...category } = getCategoryData(subCategories[1]);
+    const { handling_message, ...category } = categorySelectors.getCategoryData(subCategories[1]);
     expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({ category, handling_message });
   });
 });

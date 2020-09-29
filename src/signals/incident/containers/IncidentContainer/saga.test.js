@@ -1,4 +1,4 @@
-import { select, takeLatest } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-react-router/immutable';
 import { expectSaga, testSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
@@ -14,8 +14,7 @@ import { authPostCall, postCall } from 'shared/services/api/api';
 
 import { uploadFile } from 'containers/App/saga';
 
-import { makeSelectSubCategories } from 'models/categories/selectors';
-import { defaultCategoryData, subCategories } from 'utils/__tests__/fixtures';
+import { defaultCategoryData } from 'utils/__tests__/fixtures';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
 
@@ -121,6 +120,13 @@ const action = {
   },
 };
 
+const categoryResponse = {
+  ...defaultCategoryData,
+  _links: {
+    self: { href: defaultCategoryData.sub_category },
+  },
+};
+
 describe('IncidentContainer saga', () => {
   afterEach(() => {
     configuration.__reset();
@@ -142,9 +148,10 @@ describe('IncidentContainer saga', () => {
     it('should dispatch success without fetching questions', () =>
       expectSaga(getClassification, { payload })
         .provide([
-          [select(makeSelectSubCategories), subCategories],
+          [matchers.call.fn(request), categoryResponse],
           [matchers.call.fn(postCall), predictionResponse],
         ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
         .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
         .not.put.actionType(constants.GET_QUESTIONS)
         .run());
@@ -154,9 +161,10 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(getClassification, { payload })
         .provide([
-          [select(makeSelectSubCategories), subCategories],
+          [matchers.call.fn(request), categoryResponse],
           [matchers.call.fn(postCall), predictionResponse],
         ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
         .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
         .put.actionType(constants.GET_QUESTIONS)
         .run();
@@ -167,10 +175,11 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(getClassification, { payload })
         .provide([
-          [select(makeSelectSubCategories), subCategories],
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
+          [matchers.call.fn(request), categoryResponse],
         ])
         .call(postCall, configuration.PREDICTION_ENDPOINT, { text: payload })
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}overig/sub_categories/overig`)
         .put({ type: constants.GET_CLASSIFICATION_ERROR, payload: errorResponse })
         .run();
     });

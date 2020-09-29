@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import Select from 'components/SelectInput';
 import { useSelector } from 'react-redux';
-import { makeSelectSubCategories } from 'models/categories/selectors';
-import { getCategoryData } from 'shared/services/resolveClassification';
+import { makeSelectSubCategories, getCategoryData } from 'models/categories/selectors';
 
 const CategorySelect = ({ handler, meta, parent }) => {
   const subcategories = useSelector(makeSelectSubCategories);

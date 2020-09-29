@@ -3,6 +3,8 @@ import { createSelector } from 'reselect';
 
 import { initialState } from './reducer';
 
+export const getCategoryData = ({ id, name, slug, handling_message }) => ({ sub_category: id, name, slug, handling_message });
+
 export const selectCategoriesDomain = state =>
   (state && state.get('categories')) || initialState;
 

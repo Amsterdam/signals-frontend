@@ -4,12 +4,9 @@ export const DEFAULT_CLASSIFICATION = 'overig';
 // main and subcategory slug matcher regex
 export const reCategory = /terms\/categories\/([^/]+)(?:\/?[^/]+\/([^/]+))?$/;
 
-export const getCategoryData = ({ id, name, slug, handling_message }) => ({ sub_category: id, name, slug, handling_message });
-
 /**
  * Resolve classification
  *
- * @param {Array[]} subcategories - The list of subcategoryes for match
  * @param {Object} classification - Prediction service POST response
  * @param {Array[]} classification.hoofdrubriek - Hoofdrubriek prediction
  * @param {String[]} classification.hoofdrubriek[0] - Hoofdrubriek main category ID
@@ -20,16 +17,18 @@ export const getCategoryData = ({ id, name, slug, handling_message }) => ({ sub_
  *
  * @returns {Object} With keys `category`, `subcategory`
  */
-const resolveClassification = (subcategories, { hoofdrubriek = [[], []], subrubriek = [[], []] } = {}) => {
+const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] } = {}) => {
   const subrubriekMeetsMinimumCertainty = MINIMUM_CERTAINTY <= subrubriek[1][0];
   const hoofdrubriekMeetsMinimumCertainty =
     MINIMUM_CERTAINTY <= hoofdrubriek[1][0];
 
   if (subrubriekMeetsMinimumCertainty) {
-    // eslint-disable-next-line no-unused-vars
     const [, category, subcategory] = subrubriek[0][0].match(reCategory);
 
-    return getCategoryData(subcategories.find(s => s.slug === subcategory));
+    return {
+      category,
+      subcategory,
+    };
   }
 
   if (hoofdrubriekMeetsMinimumCertainty) {
@@ -77,10 +76,16 @@ const resolveClassification = (subcategories, { hoofdrubriek = [[], []], subrubr
         subcategory = DEFAULT_CLASSIFICATION;
     }
 
-    return getCategoryData(subcategories.find(s => s.slug === subcategory));
+    return {
+      category,
+      subcategory,
+    };
   }
 
-  return getCategoryData(subcategories.find(s => s.slug === DEFAULT_CLASSIFICATION));
+  return {
+    category: DEFAULT_CLASSIFICATION,
+    subcategory: DEFAULT_CLASSIFICATION,
+  };
 };
 
 export default resolveClassification;

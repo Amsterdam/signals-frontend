@@ -3,8 +3,9 @@ import {
   makeSelectSubCategories,
   makeSelectCategories,
   makeSelectMainCategories,
+  getCategoryData,
 } from 'models/categories/selectors';
-import { DEFAULT_CLASSIFICATION, getCategoryData } from 'shared/services/resolveClassification';
+import { DEFAULT_CLASSIFICATION } from 'shared/services/resolveClassification';
 
 import categories from './categories_private.json';
 
