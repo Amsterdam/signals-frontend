@@ -35,7 +35,6 @@ describe('<IncidentSplitForm />', () => {
     await findByTestId('incidentSplitForm');
 
     expect(onSubmit).toHaveBeenCalledWith({
-      department: 'null',
       // WARNING: data does not match acc and that sucks because it is confusing..
       incidents: [
         undefined,

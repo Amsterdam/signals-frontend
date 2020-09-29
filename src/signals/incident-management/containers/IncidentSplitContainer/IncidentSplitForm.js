@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 import { subcategoriesType } from 'shared/types';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 
 import { Heading } from '@datapunt/asc-ui';
 
@@ -18,7 +17,6 @@ import {
   FormWrapper,
 } from './styled';
 
-import IncidentSplitRadioInput from './IncidentSplitRadioInput';
 import IncidentSplitFormIncident from './IncidentSplitFormIncident';
 
 const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
@@ -49,6 +47,9 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
             <dd data-testid="incidentSplitFormSubcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
           </StyledDefinitionList>
 
+          {/*
+          can be uncommented as soon as SIG-2473 is picked up
+
           <IncidentSplitRadioInput
             display="Regie"
             register={register}
@@ -58,6 +59,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
             data-testid="incidentSplitFormRadioInputDepartment"
             options={directingDepartmentList}
           />
+          */}
         </fieldset>
 
         <IncidentSplitFormIncident
