@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 import { subCategories } from 'utils/__tests__/fixtures';
 import * as catgorySelectors from 'models/categories/selectors';
 
-import { getCategory } from 'shared/services/resolveClassification';
+import { getCategoryData } from 'shared/services/resolveClassification';
 import CategorySelect from './CategorySelect';
 
 describe('signals/incident/components/form/CategorySelect', () => {
@@ -91,7 +91,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
 
     await findByTestId('categorySelect');
 
-    const { handling_message, ...category } = getCategory(subCategories[1]);
+    const { handling_message, ...category } = getCategoryData(subCategories[1]);
     expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({ category, handling_message });
   });
 });

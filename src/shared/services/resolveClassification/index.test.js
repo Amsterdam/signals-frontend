@@ -1,6 +1,6 @@
-import { defaultSubcategory, subCategories } from 'utils/__tests__/fixtures';
+import { defaultCategoryData, subCategories } from 'utils/__tests__/fixtures';
 
-import resolveClassification, { MINIMUM_CERTAINTY, getCategory } from '.';
+import resolveClassification, { MINIMUM_CERTAINTY, getCategoryData } from '.';
 
 describe('The resolve classification service', () => {
   let hoofdrubriek;
@@ -27,20 +27,20 @@ describe('The resolve classification service', () => {
   });
 
   it('should return the default classifications', () => {
-    expect(resolveClassification(subCategories)).toEqual(defaultSubcategory);
+    expect(resolveClassification(subCategories)).toEqual(defaultCategoryData);
 
-    expect(resolveClassification(subCategories, {})).toEqual(defaultSubcategory);
+    expect(resolveClassification(subCategories, {})).toEqual(defaultCategoryData);
   });
 
   it('should return correct classification when minimum subcategory chance is met', () => {
     subrubriek[1][0] = MINIMUM_CERTAINTY;
-    const testCategory = getCategory(subCategories.find(s => s.slug === 'uitwerpselen'));
+    const testCategory = getCategoryData(subCategories.find(s => s.slug === 'uitwerpselen'));
 
     expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
   });
 
   it('should return Overig when minimum maincategory and subcategory chance are not met', () => {
-    expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(defaultSubcategory);
+    expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(defaultCategoryData);
   });
 
   describe('use main classification when sub category fails', () => {
@@ -49,7 +49,7 @@ describe('The resolve classification service', () => {
         hoofdrubriek[0][0] = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
 
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overig-afval'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'overig-afval'));
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
     });
@@ -59,7 +59,7 @@ describe('The resolve classification service', () => {
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overig-groen-en-water'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'overig-groen-en-water'));
 
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
@@ -70,7 +70,7 @@ describe('The resolve classification service', () => {
         hoofdrubriek[0][0] =
         'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overig-horecabedrijven'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'overig-horecabedrijven'));
 
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
@@ -81,7 +81,7 @@ describe('The resolve classification service', () => {
         hoofdrubriek[0][0] =
         'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overig-openbare-ruimte'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'overig-openbare-ruimte'));
 
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
@@ -92,7 +92,7 @@ describe('The resolve classification service', () => {
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overig-boten'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'overig-boten'));
 
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
@@ -102,7 +102,7 @@ describe('The resolve classification service', () => {
       it('should return overig-dieren when minimum subcategory chance is not met and maincategory chance is met', () => {
         hoofdrubriek[0][0] = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overig-dieren'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'overig-dieren'));
 
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
@@ -113,7 +113,7 @@ describe('The resolve classification service', () => {
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overige-overlast-door-personen'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'overige-overlast-door-personen'));
 
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
@@ -124,7 +124,7 @@ describe('The resolve classification service', () => {
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overig-wegen-verkeer-straatmeubilair'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'overig-wegen-verkeer-straatmeubilair'));
 
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
@@ -134,7 +134,7 @@ describe('The resolve classification service', () => {
       it('should return wonen-overig when minimum subcategory chance is not met and maincategory chance is met', () => {
         hoofdrubriek[0][0] = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'wonen-overig'));
+        const testCategory = getCategoryData(subCategories.find(s => s.slug === 'wonen-overig'));
 
         expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
       });
@@ -144,9 +144,8 @@ describe('The resolve classification service', () => {
       it('should return overig when minimum subcategory chance is not met and maincategory chance is met', () => {
         hoofdrubriek[0][0] = 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/unknown-category';
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
-        const testCategory = getCategory(subCategories.find(s => s.slug === 'overig'));
 
-        expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(testCategory);
+        expect(resolveClassification(subCategories, { subrubriek, hoofdrubriek })).toEqual(defaultCategoryData);
       });
     });
   });

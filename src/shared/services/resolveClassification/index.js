@@ -4,7 +4,7 @@ export const DEFAULT_CLASSIFICATION = 'overig';
 // main and subcategory slug matcher regex
 export const reCategory = /terms\/categories\/([^/]+)(?:\/?[^/]+\/([^/]+))?$/;
 
-export const getCategory = ({ id, name, slug, handling_message }) => ({ sub_category: id, name, slug, handling_message });
+export const getCategoryData = ({ id, name, slug, handling_message }) => ({ sub_category: id, name, slug, handling_message });
 
 /**
  * Resolve classification
@@ -29,7 +29,7 @@ const resolveClassification = (subcategories, { hoofdrubriek = [[], []], subrubr
     // eslint-disable-next-line no-unused-vars
     const [, category, subcategory] = subrubriek[0][0].match(reCategory);
 
-    return getCategory(subcategories.find(s => s.slug === subcategory));
+    return getCategoryData(subcategories.find(s => s.slug === subcategory));
   }
 
   if (hoofdrubriekMeetsMinimumCertainty) {
@@ -77,10 +77,10 @@ const resolveClassification = (subcategories, { hoofdrubriek = [[], []], subrubr
         subcategory = DEFAULT_CLASSIFICATION;
     }
 
-    return getCategory(subcategories.find(s => s.slug === subcategory));
+    return getCategoryData(subcategories.find(s => s.slug === subcategory));
   }
 
-  return getCategory(subcategories.find(s => s.slug === DEFAULT_CLASSIFICATION));
+  return getCategoryData(subcategories.find(s => s.slug === DEFAULT_CLASSIFICATION));
 };
 
 export default resolveClassification;

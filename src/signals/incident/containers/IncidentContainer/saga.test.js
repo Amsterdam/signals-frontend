@@ -15,7 +15,7 @@ import { authPostCall, postCall } from 'shared/services/api/api';
 import { uploadFile } from 'containers/App/saga';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { defaultSubcategory, subCategories } from 'utils/__tests__/fixtures';
+import { defaultCategoryData, subCategories } from 'utils/__tests__/fixtures';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
 
@@ -99,7 +99,7 @@ const wizard = {
   },
 };
 
-const { handling_message, ...selectedCategory } = defaultSubcategory;
+const { handling_message, ...selectedCategory } = defaultCategoryData;
 
 const payloadIncident = {
   text: 'Foo Baz',
@@ -163,7 +163,7 @@ describe('IncidentContainer saga', () => {
     });
 
     it('should dispatch error', () => {
-      const errorResponse = defaultSubcategory;
+      const errorResponse = defaultCategoryData;
 
       return expectSaga(getClassification, { payload })
         .provide([
@@ -354,7 +354,7 @@ describe('IncidentContainer saga', () => {
   describe('createIncident', () => {
     const postData = {
       text: payloadIncident.text,
-      category: defaultSubcategory,
+      category: defaultCategoryData,
     };
 
     it('should POST incident', () =>
