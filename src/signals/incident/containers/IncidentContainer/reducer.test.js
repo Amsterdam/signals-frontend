@@ -164,10 +164,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
     describe('GET_CLASSIFICATION_SUCCESS', () => {
       const intermediateState = initialState.set(
         'incident',
-        initialState
-          .get('incident')
-          .set('extra_something', 'foo bar')
-          .set('extra_something_else', 'baz qux')
+        initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
       );
 
       it('sets category, prediction and handling_message', () => {
@@ -221,6 +218,31 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
 
         expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
+      });
+
+      it('only changes the category when this is not modified by the user', () => {
+        const categoryPrediction = {
+          sub_category: 'tork',
+          name: 'tork',
+          slug: 'tork',
+          handling_message: 'Handling message tork.',
+        };
+
+        const newPrediction = {
+          sub_category: 'zork',
+          name: 'zork',
+          slug: 'zork',
+          handling_message: 'Handling message zork.',
+        };
+
+        const testState = initialState.toJS();
+        testState.incident.category = payload;
+        testState.categoryPrediction = categoryPrediction;
+        const newState = incidentContainerReducer(fromJS(testState), {
+          GET_CLASSIFICATION_SUCCESS,
+          newPayload: newPrediction,
+        }).toJS();
+        expect(newState.incident.category.slug).toEqual(payload.slug);
       });
     });
 
@@ -298,10 +320,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   describe('RESET_EXTRA_STATE', () => {
     const intermediateState = initialState.set(
       'incident',
-      initialState
-        .get('incident')
-        .set('extra_something', 'foo bar')
-        .set('extra_something_else', 'baz qux')
+      initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
     );
 
     it('returns partially reset state', () => {
