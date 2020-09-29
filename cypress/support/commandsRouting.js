@@ -32,7 +32,6 @@ Cypress.Commands.add('waitForCategoriesRoutes', () => {
   cy.wait('@getDepartments');
   cy.wait('@getRoles');
   cy.wait('@getPermissions');
-  cy.wait('@getCategories');
 });
 
 // Submit signal public

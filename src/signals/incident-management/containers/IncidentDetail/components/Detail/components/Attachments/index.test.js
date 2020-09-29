@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
+import 'jest-styled-components';
 
 import { withAppContext } from 'test/utils';
 
@@ -44,8 +45,8 @@ describe('<Attachments />', () => {
       expect(queryByTestId('attachmentsDefinition')).toHaveTextContent(/^Foto$/);
       expect(queryAllByTestId('attachmentsValueButton')).toHaveLength(3);
 
-      expect(queryAllByTestId('attachmentsValueButton')[0]).toHaveStyle(
-        `background-image: url(${attachmentProps.attachments[0].location})`
+      expect(queryAllByTestId('attachmentsValueButton')[0]).toHaveStyleRule(
+        'background-image', `url(${attachmentProps.attachments[0].location})`
       );
     });
 

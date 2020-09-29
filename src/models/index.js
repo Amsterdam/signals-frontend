@@ -1,3 +1,4 @@
+import loadGlobalModel from 'containers/App/services';
 import loadHistoryModel from './history';
 import loadRolesModel from './roles';
 import loadDepartmentsModel from './departments';
@@ -8,6 +9,7 @@ const loadModels = store => {
   loadRolesModel(store);
   loadDepartmentsModel(store);
   loadCategoriesModel(store);
+  loadGlobalModel(store);
 };
 
 export default loadModels;

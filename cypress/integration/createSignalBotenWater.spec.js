@@ -30,7 +30,7 @@ describe('Create signal boten and check signal details', () => {
 
       // Select rondvaartboot company and name
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_rondvaartboot.label).should('be.visible');
-      cy.get(BOTEN.radioButtonRondvaartbootJa).click();
+      cy.get(BOTEN.radioButtonRondvaartbootJa).click({ force: true });
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_rederij.label).should('be.visible');
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_rederij.subtitle).should('be.visible');
       cy.get('select').select(questions.overlastOpHetWater.extra_boten_snelheid_rederij.values.amsterdam_boat_center);

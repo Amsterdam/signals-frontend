@@ -55,6 +55,7 @@ export const DEELMELDING = {
   buttonAdd: '[data-testid="splitFormPartAdd"]',
   buttonCreate: '[data-testid="splitFormSubmit"]',
   buttonCancel: '[data-testid="splitFormCancel"]',
+  childIncidents: '[data-testid="childIncidents"]',
   disclaimer: '[data-testid="splitFormBottomDisclaimer"]',
   dropdownSubcategory01: '[data-testid="part1.subcategory"]',
   dropdownSubcategory02: '[data-testid="part2.subcategory"]',
@@ -65,6 +66,7 @@ export const DEELMELDING = {
   inputNote01: '[data-testid="part1.note"]',
   inputNote02: '[data-testid="part2.note"]',
   inputNote03: '[data-testid="part3.note"]',
+  linkParent: '[data-testid="parentLink"]',
   notification: '[data-testid="notification"]',
   titleDeelmelding: '[data-testid="incidentPartTitle"]',
 };

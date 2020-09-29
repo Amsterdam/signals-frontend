@@ -1,4 +1,4 @@
-import environmentConfig from '../../environment.conf.json';
+import appConfig from '../../app.base.json';
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
 import { CHANGE_STATUS, SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS } from './selectorsManageIncidents';
@@ -16,7 +16,7 @@ export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.get(CHANGE_STATUS.buttonEdit).click();
   cy.contains('Status wijzigen').should('be.visible');
   cy.get(CHANGE_STATUS.currentStatus).contains(initialStatus).should('be.visible');
-  cy.get(radioButton).click().should('be.checked');
+  cy.get(radioButton).click({ force: true }).should('be.checked');
   cy.get(CHANGE_STATUS.inputToelichting).type('Toeterlichting');
   cy.get(CHANGE_STATUS.buttonSubmit).click();
 
@@ -56,23 +56,21 @@ export const checkDescriptionPage = () => {
 export const checkFlashingYellow = () => {
   if (Cypress.browser.name === 'firefox') {
     cy.log('No check on flashing yellow in Firefox');
-  }
-  else {
-    cy.get('.animate')
-      .then($selectors => {
-        const win = $selectors[0].ownerDocument.defaultView;
-        const after = win.getComputedStyle($selectors[0], 'after');
-        const contentValue = after.getPropertyValue('background-color');
-        expect(contentValue).to.eq('rgb(254, 200, 19)');
-      });
+  } else {
+    cy.get('.animate').then($selectors => {
+      const win = $selectors[0].ownerDocument.defaultView;
+      const after = win.getComputedStyle($selectors[0], 'after');
+      const contentValue = after.getPropertyValue('background-color');
+      expect(contentValue).to.eq('rgb(254, 200, 19)');
+    });
   }
 };
 
 export const checkHeaderFooter = () => {
-  cy.get(CREATE_SIGNAL.logoAmsterdam).should('have.attr', 'href', `${environmentConfig.links.home}`).and('be.visible');
+  cy.get(CREATE_SIGNAL.logoAmsterdam).should('have.attr', 'href', `${appConfig.links.home}`).and('be.visible');
   cy.get(`${CREATE_SIGNAL.disclaimer} h2`).should('have.text', 'Lukt het niet om een melding te doen?');
-  cy.contains(environmentConfig.language.footer2);
-  cy.get(CREATE_SIGNAL.footerPrivacyLink).should('have.attr', 'href', `${environmentConfig.links.privacy}`).and('be.visible');
+  cy.contains(appConfig.language.footer2);
+  cy.get(CREATE_SIGNAL.footerPrivacyLink).should('have.attr', 'href', `${appConfig.links.privacy}`).and('be.visible');
 };
 
 export const checkRedTextStatus = status => {
@@ -174,9 +172,9 @@ export const setAddress = (searchAdress, selectAdress) => {
 
 export const setDateTime = dateTime => {
   if (dateTime === 'Nu') {
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click();
+    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click({ force: true });
   } else {
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click();
+    cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click({ force: true });
     cy.get(CREATE_SIGNAL.dropdownDag).select('Vandaag');
     cy.get(CREATE_SIGNAL.dropdownUur).select('5');
     cy.get(CREATE_SIGNAL.dropdownMinuten).select('45');

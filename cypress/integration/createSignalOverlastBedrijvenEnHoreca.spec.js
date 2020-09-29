@@ -31,7 +31,7 @@ describe('Create signal bedrijven en horeca and check signal details', () => {
       cy.contains(Cypress.env('description')).should('be.visible');
 
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_wat.label).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.radioButtonHoreca).click();
+      cy.get(BEDRIJVEN_HORECA.radioButtonHoreca).click({ force: true });
 
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_naam.label).should('be.visible');
       cy.get(BEDRIJVEN_HORECA.inputWieWat).eq(0).type('Klanten van het cafe');
@@ -46,7 +46,7 @@ describe('Create signal bedrijven en horeca and check signal details', () => {
 
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_vaker.label).should('be.visible');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_vaker.subtitle).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.radioButtonVakerJa).click();
+      cy.get(BEDRIJVEN_HORECA.radioButtonVakerJa).click({ force: true });
 
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_tijdstippen.label).should('be.visible');
       cy.get(BEDRIJVEN_HORECA.inputDatum).eq(2).type('Elke dag');

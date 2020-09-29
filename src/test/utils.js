@@ -90,14 +90,4 @@ export const userObjects = (users = usersJSON) =>
       }, {})
   );
 
-/**
- * Timeboxed promise resolver
- *
- * Particularly useful when when functionality that is debounced with lodash.debounce
- *
- * @param {Number} timeMs
- * @returns {Promise} Resolved promise
- */
-export const resolveAfterMs = timeMs => new Promise(resolve => setTimeout(resolve, timeMs));
-
 export const withMapContext = Component => withAppContext(<MapContext>{Component}</MapContext>);

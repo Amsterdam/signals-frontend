@@ -49,4 +49,10 @@ describe('signals/settings/users/containers/Overview/hooks/filterData', () => {
 
     expect(filteredKeys).toEqual(mapValues);
   });
+
+  it('should return empty array', () => {
+    expect(filterData(undefined, colMap)).toEqual([]);
+    expect(filterData(null, colMap)).toEqual([]);
+    expect(filterData(0, colMap)).toEqual([]);
+  });
 });

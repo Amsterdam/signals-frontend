@@ -1,11 +1,18 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 
-import { resolveAfterMs } from 'test/utils';
-
-import useDelayedDoubleClick, { DOUBLE_CLICK_TIMEOUT } from '../useDelayedDoubleClick';
+import useDelayedDoubleClick, { CLICK_TIMEOUT } from '../useDelayedDoubleClick';
 
 describe('hooks/useDelayedDoubleClick', () => {
-  it('should execute clickFunc', async () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.runAllTimers();
+    jest.useRealTimers();
+  });
+
+  it('should execute clickFunc', () => {
     const clickFunc = jest.fn();
 
     const { result } = renderHook(() => useDelayedDoubleClick(clickFunc));
@@ -18,12 +25,25 @@ describe('hooks/useDelayedDoubleClick', () => {
 
     expect(clickFunc).not.toHaveBeenCalled();
 
-    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT);
+    jest.advanceTimersByTime(CLICK_TIMEOUT - 2);
 
+    expect(clickFunc).not.toHaveBeenCalled();
+
+    act(() => {
+      result.current.click(event);
+    });
+
+    jest.advanceTimersByTime(1);
+
+    expect(clickFunc).not.toHaveBeenCalled();
+
+    jest.runOnlyPendingTimers();
+
+    expect(clickFunc).toHaveBeenCalledTimes(1);
     expect(clickFunc).toHaveBeenCalledWith(event);
   });
 
-  it('should not execute clickFunc when double clicking', async () => {
+  it('should not execute clickFunc when double clicking', () => {
     const clickFunc = jest.fn();
 
     const { result } = renderHook(() => useDelayedDoubleClick(clickFunc));
@@ -40,7 +60,7 @@ describe('hooks/useDelayedDoubleClick', () => {
       result.current.doubleClick();
     });
 
-    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT);
+    jest.advanceTimersByTime(CLICK_TIMEOUT);
 
     expect(clickFunc).not.toHaveBeenCalled();
 
@@ -50,11 +70,13 @@ describe('hooks/useDelayedDoubleClick', () => {
 
     expect(clickFunc).not.toHaveBeenCalled();
 
-    await resolveAfterMs(DOUBLE_CLICK_TIMEOUT);
+    jest.advanceTimersByTime(CLICK_TIMEOUT);
 
     act(() => {
       result.current.click(event);
     });
+
+    jest.runOnlyPendingTimers();
 
     expect(clickFunc).toHaveBeenCalledWith(event);
   });

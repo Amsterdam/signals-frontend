@@ -1,7 +1,7 @@
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import randomStringGenerator from './services/random-string-generator/random-string-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
-import CONFIGURATION from '../configuration/configuration';
+import configuration from '../configuration/configuration';
 
 const storage = global.localStorage ? global.localStorage : global.sessionStorage;
 
@@ -159,9 +159,9 @@ export function login(domain) {
   storage.setItem(NONCE_KEY, nonce);
   storage.setItem(OAUTH_DOMAIN_KEY, domain);
 
-  const encodedClientId = encodeURIComponent(CONFIGURATION.OIDC_CLIENT_ID);
-  const encodedResponseType = encodeURIComponent(CONFIGURATION.OIDC_RESPONSE_TYPE);
-  const encodedScope = encodeURIComponent(CONFIGURATION.OIDC_SCOPE);
+  const encodedClientId = encodeURIComponent(configuration.oidc.clientId);
+  const encodedResponseType = encodeURIComponent(configuration.oidc.responseType);
+  const encodedScope = encodeURIComponent(configuration.oidc.scope);
   const encodedStateToken = encodeURIComponent(stateToken);
   const encodedNonce = encodeURIComponent(nonce);
   const encodedRedirectUri = encodeURIComponent(
@@ -170,7 +170,7 @@ export function login(domain) {
   const encodedDomain = encodeURIComponent(getDomain(domain));
 
   global.location.assign(
-    `${CONFIGURATION.OIDC_AUTH_ENDPOINT}` +
+    `${configuration.oidc.authEndpoint}` +
       `?client_id=${encodedClientId}` +
       `&response_type=${encodedResponseType}` +
       `&scope=${encodedScope}` +

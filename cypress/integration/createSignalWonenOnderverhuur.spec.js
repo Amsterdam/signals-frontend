@@ -30,30 +30,30 @@ describe('Create signal wonen onderverhuur and check signal details', () => {
 
       // Input specific information
       cy.contains(questions.wonen.extra_wonen_onderhuur_aantal_personen.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen1).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen1).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen3).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen3).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen2).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen2).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen4).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen4).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonenWeetNiet).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonenWeetNiet).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen5).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen5).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('be.visible');
 
-      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieJa).check().should('be.checked');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieNee).check().should('be.checked');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieWeetNiet).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieJa).check({ force: true }).should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieNee).check({ force: true }).should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonFamilieWeetNiet).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_naam_bewoners.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.inputNamen).type('Yennefer en Geralt of Rivia');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_woon_periode.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangWeetNiet).check().should('be.checked');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangMinderZesMaanden).check().should('be.checked');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangLangerZesMaanden).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangWeetNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangMinderZesMaanden).check({ force: true }).should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangLangerZesMaanden).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_iemand_aanwezig.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.inputTijdstip).eq(0).type('Elke avond en nacht zijn deze personen aanwezig.');
@@ -63,11 +63,11 @@ describe('Create signal wonen onderverhuur and check signal details', () => {
       cy.get(WONEN_ONDERVERHUUR.inputHuurder).eq(1).type('Ja, dat is Vesemir');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_huurder_woont.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaZelfde).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaZelfde).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderNee).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('not.be.visible');
-      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaAnder).check().should('be.checked');
+      cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaAnder).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.inputAdresHuurder).eq(2).type('Kaer Morhen');

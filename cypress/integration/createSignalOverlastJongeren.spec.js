@@ -34,9 +34,9 @@ describe('Create signal overlast door groep jongeren and check signal details', 
       cy.contains(questions.overlastPersonenEnGroepen.extra_jongeren_text.answers).should('be.visible');
       cy.contains('Melding zorg en woonoverlast').should('have.attr', 'href').and('include', 'meldpunt-zorg');
       cy.contains(questions.overlastPersonenEnGroepen.extra_personen_overig.label).should('be.visible');
-      cy.get(JONGEREN.radioButtonAantalPersonen).check();
+      cy.get(JONGEREN.radioButtonAantalPersonen).check({ force: true });
       cy.contains(questions.overlastPersonenEnGroepen.extra_personen_overig_vaker.label).should('be.visible');
-      cy.get(JONGEREN.checkBoxVaker).check();
+      cy.get(JONGEREN.checkBoxVaker).check({ force: true });
       cy.contains(questions.overlastPersonenEnGroepen.extra_personen_overig_vaker_momenten.label).should('be.visible');
       cy.get(JONGEREN.inputMoment).type('Bijna iedere dag');
 

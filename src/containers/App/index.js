@@ -1,17 +1,15 @@
 import React, { Fragment, useEffect } from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import { compose } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
-import ThemeProvider from 'components/ThemeProvider';
-import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
 
+import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
 import NotFoundPage from 'components/NotFoundPage';
 import Footer from 'components/Footer';
+import ThemeProvider from 'components/ThemeProvider';
 import SiteHeaderContainer from 'containers/SiteHeader';
 
 import IncidentManagementModule from 'signals/incident-management';
@@ -24,8 +22,6 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice';
 
 import { getSources } from './actions';
 import AppContext from './context';
-import reducer from './reducer';
-import saga from './saga';
 import { makeSelectLoading, makeSelectSources } from './selectors';
 
 const FooterContainer = styled.div`
@@ -80,12 +76,12 @@ export const AppContainer = () => {
     // when the current session has not been authenticated
     if (!isAuthenticated()) return;
 
+    dispatch(fetchCategoriesAction());
+
     if (configuration.fetchSourcesFromBackend) {
       dispatch(getSources());
     }
-    // disabling linter; no deps needed, only execute on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <ThemeProvider>
@@ -102,6 +98,7 @@ export const AppContainer = () => {
               <Route path="/instellingen" component={SettingsModule} />
               <Route path="/incident" component={IncidentContainer} />
               <Route path="/kto/:satisfactionIndication/:uuid" component={KtoContainer} />
+              <Route exact path="/categorie/:category/:subcategory" component={IncidentContainer} />
               <Route component={NotFoundPage} />
             </Switch>
           </ContentContainer>
@@ -117,7 +114,4 @@ export const AppContainer = () => {
   );
 };
 
-const withReducer = injectReducer({ key: 'global', reducer });
-const withSaga = injectSaga({ key: 'global', saga });
-
-export default compose(withReducer, withSaga)(AppContainer);
+export default AppContainer;

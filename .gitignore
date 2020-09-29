@@ -5,8 +5,8 @@ node_modules
 stats.json
 .eslintcache
 
-# Local development environment config
-environment.conf.development.json
+# Local config
+app.json
 
 # Cruft
 .DS_Store

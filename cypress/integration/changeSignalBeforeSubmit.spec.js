@@ -30,8 +30,8 @@ describe('Change a signal before submit and check signal details', () => {
       );
       createSignal.checkSpecificInformationPage();
 
-      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check().should('be.checked').and('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check().should('be.checked');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check({ force: true }).should('be.checked');
       cy.wait('@getOpenbareVerlichting');
       cy.get(LANTAARNPAAL.checkBoxNietOpKaart).check().should('be.checked');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_niet_op_kaart_nummer.label).should('be.visible');

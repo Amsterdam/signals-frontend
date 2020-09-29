@@ -5,14 +5,6 @@ import { withAppContext } from 'test/utils';
 import Modal from '..';
 
 describe('components/Modal', () => {
-  it('should not render', () => {
-    const { container } = render(
-      withAppContext(<Modal isOpen={false} title="Modal" />),
-    );
-
-    expect(container.firstChild).toBeNull();
-  });
-
   it('should have a heading', () => {
     const { container } = render(
       withAppContext(<Modal isOpen title="Modal" />),

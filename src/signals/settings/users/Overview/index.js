@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 
 import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
 import styled from 'styled-components';
-import debounce from 'lodash/debounce';
 
+import useDebounce from 'hooks/useDebounce';
 import { PAGE_SIZE } from 'containers/App/constants';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Pagination from 'components/Pagination';
@@ -55,8 +55,7 @@ const UsersOverviewContainer = () => {
   const { filters } = state.users;
   const {
     isLoading,
-    users: { list: data },
-    users,
+    users: { list: data, count },
   } = useFetchUsers({ page, filters });
   const userCan = useSelector(makeSelectUserCan);
   const selectRoles = useSelector(inputSelectRolesSelector);
@@ -93,9 +92,7 @@ const UsersOverviewContainer = () => {
     [filters, setUsernameFilter]
   );
 
-  // linter complaining about the use of the debounce function
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnChangeFilter = useCallback(debounce(createOnChangeFilter('username'), 250), [createOnChangeFilter]);
+  const debouncedOnChangeFilter = useDebounce(createOnChangeFilter('username'), 250);
 
   const selectUserActiveOnChange = useCallback(
     event => {
@@ -145,7 +142,7 @@ const UsersOverviewContainer = () => {
 
   return (
     <Fragment>
-      <PageHeader title={`Gebruikers ${users.count ? `(${users.count})` : ''}`}>
+      <PageHeader title={`Gebruikers${count ? ` (${count})` : ''}`}>
         {userCan('add_user') && (
           <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
             Gebruiker toevoegen
@@ -190,16 +187,16 @@ const UsersOverviewContainer = () => {
               invisibleColumns={['id']}
               onItemClick={onItemClick}
               primaryKeyColumn="id"
-              data={(!isLoading && data) || []}
+              data={(!isLoading && data?.length > 0 && data) || []}
             />
           </Column>
 
-          {!isLoading && users.count > 0 && (
+          {!isLoading && count > 0 && (
             <Column span={12}>
               <StyledPagination
                 currentPage={page}
                 onClick={onPaginationClick}
-                totalPages={Math.ceil(users.count / PAGE_SIZE)}
+                totalPages={Math.ceil(count / PAGE_SIZE)}
               />
             </Column>
           )}
