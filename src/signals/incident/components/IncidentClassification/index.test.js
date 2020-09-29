@@ -48,12 +48,12 @@ describe('signals/incident/components/IncidentClassification', () => {
     dispatch.mockReset();
   });
 
-  it('sets the category and subcategory', async () => {
+  it('sets the subcategory', async () => {
     const category = 'foo';
     const subcategory = 'bar';
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ category: 'foo', subcategory: 'bar' }));
-
-    fetch.mockResponseOnce(JSON.stringify({ is_active: true }));
+    const mockCategory = { id: 'sub_category_id', slug: 'slug', name: 'name' };
+    fetch.mockResponseOnce(JSON.stringify({ ...mockCategory, is_active: true }));
 
     act(() => history.push('/initial-location'));
 
@@ -67,7 +67,8 @@ describe('signals/incident/components/IncidentClassification', () => {
     );
 
     await findByTestId('loadingIndicator');
-    expect(dispatch).toHaveBeenCalledWith(setClassification({ category, subcategory }));
+    const testCategory = { sub_category: 'sub_category_id', slug: 'slug', name: 'name' };
+    expect(dispatch).toHaveBeenCalledWith(setClassification(testCategory));
     expect(history.location.pathname).toEqual('/');
   });
 

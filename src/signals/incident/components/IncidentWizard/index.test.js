@@ -166,7 +166,7 @@ describe('<IncidentWizard />', () => {
       expect(queryByTestId('incidentForm')).toBeInTheDocument();
       expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
       expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-      expect(formFactory).toHaveBeenCalledWith(incident, { loading: false, sources });
+      expect(formFactory).toHaveBeenCalledWith(incident, sources);
     });
   });
 });
