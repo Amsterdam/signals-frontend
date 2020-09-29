@@ -42,12 +42,15 @@ describe('<IncidentSplitRadioInput />', () => {
   });
 
   it('should select radio button and update info text', async () => {
-    const { key, info, value } = priorityList[2];
-    const { getByTestId, getByLabelText, getByText } = render(withAppContext(<IncidentSplitRadioInput {...props} />));
+    const { info, value } = priorityList[2];
+    const { getByLabelText, getByText } = render(withAppContext(<IncidentSplitRadioInput {...props} />));
+    const radio = getByLabelText(value);
 
-    fireEvent.click(getByTestId(`incidentSplitRadioInput-priority-${key}`));
+    expect(radio.checked).toBe(false);
 
-    expect(getByLabelText(value).checked).toBe(true);
+    fireEvent.click(radio);
+
+    expect(radio.checked).toBe(true);
     expect(getByText(new RegExp(info))).toBeInTheDocument();
   });
 });

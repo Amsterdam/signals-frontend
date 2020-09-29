@@ -22,13 +22,12 @@ const IncidentSplitRadioInput = ({ id, name, display, options, initialValue, reg
     <Fragment>
       <Label htmlFor={name} label={<strong>{display}</strong>} />
 
-      <RadioGroup name={name}>
+      <RadioGroup name={name} data-testid={`incidentSplitRadioInput-${id}`}>
         {options.map(({ key, value }) => (
           <StyledLabel key={key} label={value}>
             <Radio
-              checked={key === initialValue}
               id={`${id}-${key}`}
-              data-testid={`incidentSplitRadioInput-${id}-${key}`}
+              checked={key === initialValue}
               value={key}
               ref={register}
               onChange={onChange}

@@ -33,6 +33,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
           <Heading forwardedAs="h3" data-testid="incidentSplitFormIncidentTitle">Deelmelding {splitNumber}</Heading>
 
           <TextArea
+            data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
             name={`incidents[${splitNumber}].description`}
             ref={register}
             rows={10}
@@ -40,30 +41,33 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
           />
 
           <IncidentSplitSelectInput
+            id={`subcategory-${splitNumber}`}
+            data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
             name={`incidents[${splitNumber}].subcategory`}
-            id="subcategory"
             display="Subcategorie"
-            register={register}
-            initialValue={parentIncident.subcategory}
             options={subcategories}
+            initialValue={parentIncident.subcategory}
+            register={register}
           />
 
           <IncidentSplitRadioInput
-            display="Urgentie"
-            register={register}
-            initialValue={parentIncident.priority}
+            id={`priority-${splitNumber}`}
+            data-testid={`incidentSplitFormIncidentPriorityRadio-${splitNumber}`}
             name={`incidents[${splitNumber}].priority`}
-            id={`incidents-${splitNumber}-priority`}
+            display="Urgentie"
             options={priorityList}
+            initialValue={parentIncident.priority}
+            register={register}
           />
 
           <IncidentSplitRadioInput
-            display="Type"
-            register={register}
-            initialValue={parentIncident.type}
+            id={`type-${splitNumber}`}
+            data-testid={`incidentSplitFormIncidentTypeRadio-${splitNumber}`}
             name={`incidents[${splitNumber}].type`}
-            id="type"
+            display="Type"
             options={typesList}
+            initialValue={parentIncident.type}
+            register={register}
           />
         </fieldset>
       ))}
@@ -71,10 +75,10 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
       {splitCount < INCIDENT_SPLIT_LIMIT && (
         <fieldset>
           <StyledButton
+            data-testid="incidentSplitFormIncidentSplitButton"
             type="button"
             variant="primaryInverted"
             onClick={addIncident}
-            data-testid="incidentSplitFormIncidentSplitButton"
           >
             Extra deelmelding toevoegen
           </StyledButton>

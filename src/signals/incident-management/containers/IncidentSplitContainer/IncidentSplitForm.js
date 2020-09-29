@@ -55,7 +55,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
             initialValue="null"
             name="department"
             id="department"
-            data-testid="radioInputDepartment"
+            data-testid="incidentSplitFormRadioInputDepartment"
             options={directingDepartmentList}
           />
         </fieldset>
