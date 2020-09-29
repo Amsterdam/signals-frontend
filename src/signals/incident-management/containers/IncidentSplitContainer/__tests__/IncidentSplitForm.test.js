@@ -29,7 +29,7 @@ describe('<IncidentSplitForm />', () => {
   it('should handle submit', async () => {
     const { findByTestId, getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
 
-    fireEvent.click(getByTestId('incidentSplitFormSplitButton'));
+    fireEvent.click(getByTestId('incidentSplitFormIncidentSplitButton'));
     fireEvent.submit(getByTestId('incidentSplitFormSubmitButton'));
 
     await findByTestId('incidentSplitForm');

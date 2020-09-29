@@ -15,7 +15,7 @@ describe('IncidentSplitFormIncident', () => {
   it('renders one splitted incident by default', () => {
     const { queryAllByTestId } = render(withAppContext(<IncidentSplitFormIncident {...props} />));
 
-    expect(queryAllByTestId('splittedIncidentTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
+    expect(queryAllByTestId('incidentSplitFormIncidentTitle')[0]).toHaveTextContent(/^Deelmelding 1$/);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
@@ -26,18 +26,18 @@ describe('IncidentSplitFormIncident', () => {
 
     expect(screen.getAllByRole('textbox')).toHaveLength(1);
 
-    const button = getByTestId('incidentSplitFormSplitButton');
+    const button = getByTestId('incidentSplitFormIncidentSplitButton');
 
     Array(10 - 1).fill().forEach((_, index) => {
       fireEvent.click(button);
 
       const splittedIncidentCount = index + 2;
-      if (splittedIncidentCount < 10) expect(getByTestId('incidentSplitFormSplitButton')).toBeInTheDocument();
+      if (splittedIncidentCount < 10) expect(getByTestId('incidentSplitFormIncidentSplitButton')).toBeInTheDocument();
       expect(screen.getAllByRole('textbox')).toHaveLength(splittedIncidentCount);
     });
 
-    expect(queryByTestId('incidentSplitFormSplitButton')).not.toBeInTheDocument();
+    expect(queryByTestId('incidentSplitFormIncidentSplitButton')).not.toBeInTheDocument();
 
-    expect(queryAllByTestId('splittedIncidentTitle')[9]).toHaveTextContent(/^Deelmelding 10$/);
+    expect(queryAllByTestId('incidentSplitFormIncidentTitle')[9]).toHaveTextContent(/^Deelmelding 10$/);
   });
 });

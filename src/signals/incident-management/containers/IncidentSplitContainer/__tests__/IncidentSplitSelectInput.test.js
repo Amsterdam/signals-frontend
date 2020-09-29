@@ -47,7 +47,7 @@ describe('<IncidentSplitSelectInput />', () => {
     const { key, description } = subcategoriesFixture[1];
     const { findByText, getByTestId } = render(withAppContext(<IncidentSplitSelectInput {...props} />));
 
-    fireEvent.change(getByTestId('selectInput-subcategory'), { target: { value: key } });
+    fireEvent.change(getByTestId('incidentSelectInput-subcategory'), { target: { value: key } });
     expect(await findByText(new RegExp(description))).toBeInTheDocument();
   });
 });

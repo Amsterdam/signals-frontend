@@ -45,7 +45,7 @@ describe('<IncidentSplitRadioInput />', () => {
     const { key, info, value } = priorityList[2];
     const { getByTestId, getByLabelText, getByText } = render(withAppContext(<IncidentSplitRadioInput {...props} />));
 
-    fireEvent.click(getByTestId(`priority-${key}`));
+    fireEvent.click(getByTestId(`incidentSplitRadioInput-priority-${key}`));
 
     expect(getByLabelText(value).checked).toBe(true);
     expect(getByText(new RegExp(info))).toBeInTheDocument();

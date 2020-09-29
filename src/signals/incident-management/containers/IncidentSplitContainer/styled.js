@@ -4,11 +4,6 @@ import { Heading, Label, RadioGroup, themeColor, themeSpacing, Row } from '@data
 
 import Button from 'components/Button';
 
-export const StyledTitle = styled(Heading)`
-  font-weight: 400;
-  margin: ${themeSpacing(4)} 0;
-`;
-
 export const StyledDefinitionList = styled.dl`
   margin: 0;
   display: grid;
@@ -16,12 +11,17 @@ export const StyledDefinitionList = styled.dl`
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
-    grid-template-columns: 2fr 4fr;
+    grid-template-columns: 3fr 3fr;
   }
 
   @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-    grid-template-columns: 4fr 3fr;
+    grid-template-columns: 3fr 2fr;
+  }
+
+  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
+    grid-template-columns: 3fr 2fr;
   }
 
   dt,
@@ -44,6 +44,11 @@ export const StyledDefinitionList = styled.dl`
   }
 `;
 
+// white should be provided by ASC but it's not
+export const StyledButton = styled(Button)`
+  background-color: white;
+`;
+
 export const StyledSubmitButton = styled(Button)`
   margin-right: ${themeSpacing(5)};
 `;
@@ -62,12 +67,6 @@ export const StyledLabel = styled(Label)`
 
 export const StyledHeading = styled(Heading)`
   font-weight: normal;
-`;
-
-export const StyledHeading2 = styled(Heading)`
-  font-weight: normal;
-  margin-top: ${themeSpacing(3)};
-  margin-bottom: ${themeSpacing(6)};
 `;
 
 export const StyledWrapper = styled.div`
@@ -102,16 +101,6 @@ export const StyledForm = styled.form`
       margin-bottom: 0;
     }
   }
-
-  /*
-  fieldset:not(:last-child):after {
-    content: '';
-    height: 1px;
-    width: 100%;
-    background: gray;
-    position: absolute;
-  }
-  */
 
   & > * {
     grid-column-start: 1;

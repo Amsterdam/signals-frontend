@@ -28,7 +28,7 @@ const IncidentSplitRadioInput = ({ id, name, display, options, initialValue, reg
             <Radio
               checked={key === initialValue}
               id={`${id}-${key}`}
-              data-testid={`${id}-${key}`}
+              data-testid={`incidentSplitRadioInput-${id}-${key}`}
               value={key}
               ref={register}
               onChange={onChange}

@@ -7,7 +7,8 @@ import { typesList, priorityList } from 'signals/incident-management/definitions
 import { subcategoriesType } from 'shared/types';
 
 import TextArea from 'components/TextArea';
-import Button from 'components/Button';
+
+import { StyledButton } from './styled';
 
 import IncidentSplitRadioInput from './IncidentSplitRadioInput';
 import IncidentSplitSelectInput from './IncidentSplitSelectInput';
@@ -29,7 +30,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
     <Fragment>
       {[...Array(splitCount + 1).keys()].slice(1).map(splitNumber => (
         <fieldset key={`incident-splitform-incident-${splitNumber}`}>
-          <Heading forwardedAs="h3" data-testid="splittedIncidentTitle">Deelmelding {splitNumber}</Heading>
+          <Heading forwardedAs="h3" data-testid="incidentSplitFormIncidentTitle">Deelmelding {splitNumber}</Heading>
 
           <TextArea
             name={`incidents[${splitNumber}].description`}
@@ -69,14 +70,14 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
 
       {splitCount < INCIDENT_SPLIT_LIMIT && (
         <fieldset>
-          <Button
+          <StyledButton
             type="button"
             variant="primaryInverted"
             onClick={addIncident}
-            data-testid="incidentSplitFormSplitButton"
+            data-testid="incidentSplitFormIncidentSplitButton"
           >
             Extra deelmelding toevoegen
-          </Button>
+          </StyledButton>
         </fieldset>
       )}
     </Fragment>
