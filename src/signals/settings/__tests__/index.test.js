@@ -97,21 +97,6 @@ describe('signals/settings', () => {
     await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(DEPARTMENTS_URL));
   });
 
-  it('should provide pages with a location that has a referrer', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
-
-    render(withSuspense());
-
-    act(() => history.push(`${USER_URL}/1`));
-
-    act(() => history.push(`${USER_URL}/2`));
-
-    const lastUseLocationResult = reactRouterDom.useLocation.mock.results.pop();
-
-    await waitFor(() => expect(lastUseLocationResult.value.pathname).toEqual(`${USER_URL}/2`));
-    await waitFor(() => expect(lastUseLocationResult.value.referrer).toEqual(`${USER_URL}/1`));
-  });
-
   it('should allow routing to users pages', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
     jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'departments');
