@@ -18,6 +18,8 @@ import saga from './saga';
 import IncidentClassification from '../../components/IncidentClassification';
 import './style.scss';
 
+// Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
+// istanbul ignore next
 const IncidentWizard = lazy(() => import('../../components/IncidentWizard'));
 
 export const IncidentContainerComponent = ({

@@ -16,17 +16,27 @@ import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL, CATEGORIES_PAGED_URL, CATE
 import SettingsContext from './context';
 import reducer, { initialState } from './reducer';
 
+// Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
+// istanbul ignore next
 const LoginPage = lazy(() => import('components/LoginPage'));
+// istanbul ignore next
 const UsersOverviewContainer = lazy(() => import('./users/Overview'));
+// istanbul ignore next
 const RolesListContainer = lazy(() => import('./roles/containers/RolesListContainer'));
+// istanbul ignore next
 const RoleFormContainer = lazy(() => import('./roles/containers/RoleFormContainer'));
+// istanbul ignore next
 const UsersDetailContainer = lazy(() => import('./users/Detail'));
+// istanbul ignore next
 const DepartmentsOverviewContainer = lazy(() => import('./departments/Overview'));
+// istanbul ignore next
 const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'));
+// istanbul ignore next
 const CategoriesOverviewContainer = lazy(() => import('./categories/Overview'));
+// istanbul ignore next
 const CategoryDetailContainer = lazy(() => import('./categories/Detail'));
 
-export const SettingsModule = () => {
+const SettingsModule = () => {
   const storeDispatch = useDispatch();
   const location = useLocationReferrer();
   const [state, dispatch] = useReducer(reducer, initialState);

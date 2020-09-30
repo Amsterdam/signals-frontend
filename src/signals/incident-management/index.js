@@ -19,10 +19,16 @@ import saga from './saga';
 import routes from './routes';
 import { makeSelectDistricts } from './selectors';
 
+// Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
+// istanbul ignore next
 const LoginPage = lazy(() => import('components/LoginPage'));
+// istanbul ignore next
 const IncidentOverviewPage = lazy(() => import('./containers/IncidentOverviewPage'));
+// istanbul ignore next
 const IncidentDetail = lazy(() => import('./containers/IncidentDetail'));
+// istanbul ignore next
 const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'));
+// istanbul ignore next
 const LegacyIncidentSplitContainer = lazy(() => import('./containers/LegacyIncidentSplitContainer'));
 
 const IncidentManagement = () => {
