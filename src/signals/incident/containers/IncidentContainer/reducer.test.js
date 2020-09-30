@@ -221,6 +221,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
       });
 
       it('only changes the category when this is not modified by the user', () => {
+        const type = GET_CLASSIFICATION_SUCCESS;
         const categoryPrediction = {
           sub_category: 'tork',
           name: 'tork',
@@ -239,8 +240,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         testState.incident.category = payload;
         testState.categoryPrediction = categoryPrediction;
         const newState = incidentContainerReducer(fromJS(testState), {
-          GET_CLASSIFICATION_SUCCESS,
-          newPayload: newPrediction,
+          type,
+          payload: newPrediction,
         }).toJS();
         expect(newState.incident.category.slug).toEqual(payload.slug);
       });

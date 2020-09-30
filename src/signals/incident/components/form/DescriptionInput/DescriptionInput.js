@@ -20,7 +20,11 @@ const DescriptionInput = ({
       updateIncident,
       incidentContainer: { usePredictions },
     } = parent?.meta;
-    if (usePredictions && event.target.value) getClassification(event.target.value);
+
+    if (usePredictions && event.target.value) {
+      getClassification(event.target.value);
+    }
+
     updateIncident({ [meta.name]: event.target.value });
   }, [meta, parent]);
 

@@ -62,7 +62,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
   });
 
   it('should render empty select field when no categoeies are found', () => {
-    jest.spyOn(categorySelectors, 'makeSelectSubCategories').mockImplementation(() => []);
+    jest.spyOn(categorySelectors, 'makeSelectSubCategories').mockImplementation(() => null);
     const { getByTestId } = render(withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />));
     const element = getByTestId('categorySelect');
     expect(element).toBeInTheDocument();
