@@ -44,11 +44,6 @@ export const StyledDefinitionList = styled.dl`
   }
 `;
 
-// white should be provided by ASC but it's not
-export const StyledButton = styled(Button)`
-  background-color: white;
-`;
-
 export const StyledSubmitButton = styled(Button)`
   margin-right: ${themeSpacing(5)};
 `;
@@ -97,12 +92,8 @@ export const StyledForm = styled.form`
     border-bottom: 1px solid ${themeColor('tint', 'level3')};
     margin: 0;
 
-    & *:last-child {
+    & > *:last-child {
       margin-bottom: 0;
     }
-  }
-
-  & > * {
-    grid-column-start: 1;
   }
 `;

@@ -21,5 +21,5 @@ export const subCategories = makeSelectSubCategories.resultFunc(
 );
 
 // map subcategories to prevent a warning about non-unique keys rendered by input elements 🙄
-export const subcategories = subCategories
+export const subcategoriesWithUniqueKeys = subCategories
   .map(subcategory => ({ ...subcategory, value: subcategory.name, key: subcategory._links.self.href }));

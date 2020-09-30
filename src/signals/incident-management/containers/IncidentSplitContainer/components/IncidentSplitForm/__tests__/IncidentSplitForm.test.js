@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { subcategories } from 'utils/__tests__/fixtures';
+import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
 import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json';
 
 import IncidentSplitForm from '..';

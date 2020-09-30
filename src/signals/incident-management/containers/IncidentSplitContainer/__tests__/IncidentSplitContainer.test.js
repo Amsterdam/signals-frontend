@@ -6,7 +6,7 @@ import * as reactRedux from 'react-redux';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { subcategories } from 'utils/__tests__/fixtures';
+import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
 
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 

@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
+import { Button, Heading } from '@datapunt/asc-ui';
+
 import { subcategoriesType } from 'shared/types';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
-import { Heading } from '@datapunt/asc-ui';
-
 import {
-  StyledButton,
   StyledDefinitionList,
   StyledForm,
   StyledSubmitButton,
@@ -74,9 +73,9 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
             Opslaan
           </StyledSubmitButton>
 
-          <StyledButton data-testid="incidentSplitFormCancelButton" variant="primaryInverted" onClick={onCancel}>
+          <Button data-testid="incidentSplitFormCancelButton" variant="primaryInverted" onClick={onCancel}>
             Annuleren
-          </StyledButton>
+          </Button>
         </fieldset>
       </StyledForm>
     </FormWrapper>

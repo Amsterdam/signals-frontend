@@ -1,14 +1,12 @@
 import React, { useCallback, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Heading } from '@datapunt/asc-ui';
+import { Button, Heading } from '@datapunt/asc-ui';
 
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 
 import { subcategoriesType } from 'shared/types';
 
 import TextArea from 'components/TextArea';
-
-import { StyledButton } from '../styled';
 
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
@@ -74,14 +72,14 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
 
       {splitCount < INCIDENT_SPLIT_LIMIT && (
         <fieldset>
-          <StyledButton
+          <Button
             data-testid="incidentSplitFormIncidentSplitButton"
             type="button"
             variant="primaryInverted"
             onClick={addIncident}
           >
             Extra deelmelding toevoegen
-          </StyledButton>
+          </Button>
         </fieldset>
       )}
     </Fragment>
