@@ -22,7 +22,6 @@ import watchIncidentManagementSaga, {
   fetchIncidents,
   searchIncidents,
 } from '../saga';
-import { SPLIT_INCIDENT_SUCCESS } from '../containers/LegacyIncidentSplitContainer/constants';
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
@@ -83,7 +82,6 @@ describe('signals/incident-management/saga', () => {
             PAGE_CHANGED,
             ORDERING_CHANGED,
             PATCH_INCIDENT_SUCCESS,
-            SPLIT_INCIDENT_SUCCESS,
           ],
           fetchProxy
         ),
