@@ -63,9 +63,7 @@ export const RoleFormContainer = ({
       type: TYPE_LOCAL,
     });
 
-    if (responseSuccess) {
-      history.push(redirectURL);
-    }
+    history.push(redirectURL);
   }, [
     history,
     onResetResponse,

@@ -8,7 +8,6 @@ export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE';
 export const STATUS_RESPONSE_REQUIRED = 'components/ChildIncidents/STATUS_RESPONSE_REQUIRED';
 
 const FIRST_VALUE_WIDTH = 100;
-const LAST_VALUE_WIDTH = 80;
 
 const Li = styled(ListItem)`
   display: flex;
@@ -63,11 +62,7 @@ const Li = styled(ListItem)`
     }
 
     & > :not(:first-child):not(:last-child) {
-      flex: 1 1
-        calc(
-          50% -
-            ${({ numValues }) => (numValues > 3 ? (FIRST_VALUE_WIDTH + LAST_VALUE_WIDTH) / 2 : FIRST_VALUE_WIDTH / 2)}px
-        );
+      flex: 1 1 calc(50% - ${FIRST_VALUE_WIDTH / 2}px);
 
       @media (max-width: ${({ theme }) => theme.layouts.large.min}px) {
         flex: 0 0 auto;

@@ -22,7 +22,7 @@ const Emphasis = styled.div`
 
 const EmphasisCheckboxInput = props => (
   <Emphasis>
-    <CheckboxInput {...props} parent={props._parent} />
+    <CheckboxInput {...props} parent={props?._parent} />
   </Emphasis>
 );
 

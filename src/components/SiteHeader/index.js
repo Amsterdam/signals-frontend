@@ -221,7 +221,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
         </MenuItem>
       )}
 
-      {showItems.settings && (showItems.users || showItems.groups || showItems.departments) && (
+      {showItems.settings && (showItems.users || showItems.groups || showItems.departments || showItems.categories) && (
         <StyledMenuFlyout label="Instellingen" forwardedAs="span">
           {showItems.users && (
             <StyledMenuButton forwardedAs={NavLink} to="/instellingen/gebruikers">

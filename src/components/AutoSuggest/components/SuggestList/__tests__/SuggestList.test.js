@@ -13,6 +13,10 @@ const options = [
 ];
 
 describe('src/components/AutoSuggest/components/SuggestList', () => {
+  beforeEach(() => {
+    onSelectOption.mockReset();
+  });
+
   it('should render a list', () => {
     const { container, queryByTestId, getByText, rerender } = render(
       withAppContext(<SuggestList options={[]} onSelectOption={onSelectOption} />)
@@ -81,6 +85,28 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
     expect(onSelectOption).toHaveBeenLastCalledWith(options[1]);
   });
 
+  it('should NOT call onSelectOption', () => {
+    const { container } = render(
+      withAppContext(<SuggestList options={options} onSelectOption={onSelectOption} activeIndex={2} />)
+    );
+
+    const secondItem = container.querySelector('li:nth-of-type(2)');
+
+    expect(onSelectOption).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.keyDown(secondItem, { key: 'Up', code: 38, keyCode: 38 });
+    });
+
+    expect(onSelectOption).not.toHaveBeenCalled();
+
+    act(() => {
+      fireEvent.keyDown(secondItem, { key: 'A', code: 65, keyCode: 65 });
+    });
+
+    expect(onSelectOption).not.toHaveBeenCalled();
+  });
+
   it('should prevent event default', () => {
     const { container } = render(
       withAppContext(<SuggestList options={options} onSelectOption={onSelectOption} activeIndex={2} />)
@@ -106,7 +132,5 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
     act(() => {
       fireEvent(thirdItem, arrowUpEvent);
     });
-
-    expect(arrowUpEvent.preventDefault).toHaveBeenCalled();
   });
 });

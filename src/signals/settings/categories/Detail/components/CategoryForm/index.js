@@ -142,6 +142,7 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => (
               hasEmptySelectionButton={false}
               options={statusOptions}
               disabled={readOnly}
+              onChange={() => {}}
             />
           </FieldGroup>
         </div>
