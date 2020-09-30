@@ -42,19 +42,19 @@ const submittedFormData = {
   incidents: [
     {
       description: 'Foo bar',
-      subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+      category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
       priority: 'high',
       type: 'SIG',
     },
     {
       description: 'Bar baz',
-      subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/japanse-duizendknoop',
+      category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/japanse-duizendknoop',
       priority: 'normal',
       type: 'REQ',
     },
     {
       description: 'Zork!!!1!',
-      subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+      category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
       priority: 'low',
       type: 'COM',
     },

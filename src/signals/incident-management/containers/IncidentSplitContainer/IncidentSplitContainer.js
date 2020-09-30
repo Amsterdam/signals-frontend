@@ -104,9 +104,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         .filter(issue => issue)
         .reduce((acc, { subcategory, description, type, priority }) => {
           const partialData = {
-            // FIXME: update fixtures and uncomment next line and delete the one after that ;)
-            // category: { category_url: subcategory },
-            category: { subcategory },
+            category: { category_url: subcategory },
             priority: { priority },
             text: description,
             type: { code: type },
