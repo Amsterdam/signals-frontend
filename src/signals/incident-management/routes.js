@@ -8,8 +8,7 @@ const routes = {
   incidents: INCIDENTS_URL,
   map: MAP_URL,
   incident: `${INCIDENT_URL}/:id(\\d+)`,
-  split: `${INCIDENT_URL}/:id(\\d+)/split`,
-  splitIncident: `${INCIDENT_URL}/:id(\\d+)/splitincident`,
+  split: `${INCIDENT_URL}/:id(\\d+)/delen`,
   defaultTexts: `${BASE_URL}/standaard/teksten`,
 };
 

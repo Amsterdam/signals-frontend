@@ -134,7 +134,7 @@ const DetailHeader = () => {
           <ButtonLink
             variant="application"
             forwardedAs={Link}
-            to={`${INCIDENT_URL}/${incident.id}/splitincident`}
+            to={`${INCIDENT_URL}/${incident.id}/delen`}
             data-testid="detail-header-button-split"
           >
             Delen

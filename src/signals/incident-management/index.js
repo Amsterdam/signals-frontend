@@ -19,7 +19,6 @@ import { getDistricts, getFilters, searchIncidents, requestIncidents } from './a
 import IncidentDetail from './containers/IncidentDetail';
 import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
 import IncidentSplitContainer from './containers/IncidentSplitContainer';
-import LegacyIncidentSplitContainer from './containers/LegacyIncidentSplitContainer';
 
 import IncidentManagementContext from './context';
 import reducer from './reducer';
@@ -70,8 +69,7 @@ export const IncidentManagementModuleComponent = ({
       <Switch location={location}>
         <Route exact path={routes.incidents} component={IncidentOverviewPage} />
         <Route exact path={routes.incident} component={IncidentDetail} />
-        <Route exact path={routes.split} component={LegacyIncidentSplitContainer} />
-        <Route exact path={routes.splitIncident} component={IncidentSplitContainer} />
+        <Route exact path={routes.split} component={IncidentSplitContainer} />
         <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
         <Route component={IncidentOverviewPage} />
       </Switch>
