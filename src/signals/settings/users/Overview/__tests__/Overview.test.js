@@ -69,7 +69,6 @@ describe('signals/settings/users/containers/Overview', () => {
     const history = { ...memoryHistory, push };
 
     fetch.resetMocks();
-    dispatch.mockReset();
 
     fetch.mockResponse(JSON.stringify(usersJSON));
     global.window.scrollTo = scrollTo;
@@ -82,6 +81,9 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   afterEach(() => {
+    dispatch.mockReset();
+
+    jest.runOnlyPendingTimers();
     jest.useRealTimers();
   });
 
@@ -473,6 +475,9 @@ describe('signals/settings/users/containers/Overview', () => {
 
     act(() => {
       fireEvent.change(filterByUserActiveSelect, { target: { value: userActiveFilterValue } });
+    });
+
+    act(() => {
       fireEvent.change(filterByRoleSelect, { target: { value: roleFilterValue } });
     });
 

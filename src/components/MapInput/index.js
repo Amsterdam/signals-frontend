@@ -134,8 +134,9 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
   }, [marker, location, hasLocation, map]);
 
   return (
-    <Wrapper data-testid="map-input" className={className}>
+    <Wrapper className={className}>
       <StyledMap
+        data-testid="mapInput"
         events={{ click, dblclick: doubleClick, ...events }}
         hasGPSControl={hasGPSControl}
         hasZoomControls

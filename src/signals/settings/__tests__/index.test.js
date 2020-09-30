@@ -11,7 +11,7 @@ import { fetchRoles as fetchRolesAction, fetchPermissions as fetchPermissionsAct
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 import { withAppContext, history } from 'test/utils';
 import SettingsModule from '..';
-import { USERS_URL, ROLES_URL } from '../routes';
+import { USER_URL, USERS_URL, ROLES_URL } from '../routes';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -83,6 +83,21 @@ describe('signals/settings', () => {
     render(withAppContext(<SettingsModule />));
 
     expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual('/manage/incidents');
+  });
+
+  it('should provide pages with a location that has a referrer', async () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+
+    render(withAppContext(<SettingsModule />));
+
+    act(() => history.push(`${USER_URL}/1`));
+
+    act(() => history.push(`${USER_URL}/2`));
+
+    const lastUseLocationResult = reactRouterDom.useLocation.mock.results.pop();
+
+    await waitFor(() => expect(lastUseLocationResult.value.pathname).toEqual(`${USER_URL}/2`));
+    await waitFor(() => expect(lastUseLocationResult.value.referrer).toEqual(`${USER_URL}/1`));
   });
 
   it('should allow routing to users pages', async () => {
