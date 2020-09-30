@@ -14,11 +14,22 @@ import { INCIDENT_URL } from 'signals/incident-management/routes';
 import LoadingIndicator from 'components/LoadingIndicator';
 import IncidentSplitForm from './IncidentSplitForm';
 
+const getParentIncident = incident => ({
+  id: incident.id,
+  status: incident.status.state,
+  statusDisplayName: incident.status.state_display,
+  priority: incident.priority.priority,
+  subcategory: incident.category.category_url,
+  subcategoryDisplayName: incident.category.departments,
+  description: incident.text,
+  type: incident.type.code,
+});
+
 const IncidentSplitContainer = ({ FormComponent }) => {
   const { data, error, get, isLoading, isSuccess, post } = useFetch();
   const { id } = useParams();
   const history = useHistory();
-  const storeDispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const subcategories = useSelector(makeSelectSubCategories);
 
@@ -44,7 +55,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         variant: VARIANT_ERROR,
       };
 
-    storeDispatch(
+    dispatch(
       showGlobalNotification({
         ...notificationProps,
         type: TYPE_LOCAL,
@@ -52,7 +63,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     );
 
     history.push(`${INCIDENT_URL}/${id}`);
-  }, [error, history, id, isSuccess, storeDispatch]);
+  }, [error, history, id, isSuccess, dispatch]);
 
   const onSubmit = useCallback(
     /**
@@ -93,7 +104,9 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         .filter(issue => issue)
         .reduce((acc, { subcategory, description, type, priority }) => {
           const partialData = {
-            category: { category_url: subcategory },
+            // FIXME: update fixtures and uncomment next line and delete the one after that ;)
+            // category: { category_url: subcategory },
+            category: { subcategory },
             priority: { priority },
             text: description,
             type: { code: type },
@@ -114,16 +127,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       ) : (
         <FormComponent
           data-testid="incidentSplitForm"
-          parentIncident={{
-            id: data.id,
-            status: data.status.state,
-            statusDisplayName: data.status.state_display,
-            priority: data.priority.priority,
-            subcategory: data.category.category_url,
-            subcategoryDisplayName: data.category.departments,
-            description: data.text,
-            type: data.type.code,
-          }}
+          parentIncident={getParentIncident(data)}
           subcategories={subcategoryOptions}
           onSubmit={onSubmit}
         />
