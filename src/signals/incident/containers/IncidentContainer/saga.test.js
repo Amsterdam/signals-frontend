@@ -9,11 +9,12 @@ import incidentJSON from 'utils/__tests__/fixtures/incident.json';
 import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json';
 
 import configuration from 'shared/services/configuration/configuration';
-import resolveClassification from 'shared/services/resolveClassification';
 import * as auth from 'shared/services/auth/auth';
 import { authPostCall, postCall } from 'shared/services/api/api';
 
 import { uploadFile } from 'containers/App/saga';
+
+import { defaultCategoryData } from 'utils/__tests__/fixtures';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
 
@@ -42,7 +43,7 @@ const incident = JSON.stringify(incidentJSON);
 const postIncident = JSON.stringify(postIncidentJSON);
 
 const category = 'afval';
-const subcategory = 'veeg-zwerfvuil';
+const subcategory = 'veegzwerfvuil';
 
 const predictionResponse = {
   hoofdrubriek: [
@@ -97,6 +98,8 @@ const wizard = {
   },
 };
 
+const { handling_message, ...selectedCategory } = defaultCategoryData;
+
 const payloadIncident = {
   text: 'Foo Baz',
   priority: {
@@ -105,8 +108,8 @@ const payloadIncident = {
   type: {
     id: 'SIG',
   },
-  category,
-  subcategory,
+  handling_message,
+  category: selectedCategory,
 };
 
 const action = {
@@ -117,12 +120,10 @@ const action = {
   },
 };
 
-const sub_category = predictionResponse.subrubriek[0][0];
-const handling_message = 'zork';
 const categoryResponse = {
-  handling_message,
+  ...defaultCategoryData,
   _links: {
-    self: { href: sub_category },
+    self: { href: defaultCategoryData.sub_category },
   },
 };
 
@@ -146,8 +147,11 @@ describe('IncidentContainer saga', () => {
 
     it('should dispatch success without fetching questions', () =>
       expectSaga(getClassification, { payload })
-        .provide([[matchers.call.fn(postCall), predictionResponse]])
-        .call(resolveClassification, predictionResponse)
+        .provide([
+          [matchers.call.fn(request), categoryResponse],
+          [matchers.call.fn(postCall), predictionResponse],
+        ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
         .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
         .not.put.actionType(constants.GET_QUESTIONS)
         .run());
@@ -156,23 +160,26 @@ describe('IncidentContainer saga', () => {
       configuration.fetchQuestionsFromBackend = true;
 
       return expectSaga(getClassification, { payload })
-        .provide([[matchers.call.fn(postCall), predictionResponse]])
-        .call(resolveClassification, predictionResponse)
+        .provide([
+          [matchers.call.fn(request), categoryResponse],
+          [matchers.call.fn(postCall), predictionResponse],
+        ])
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
         .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
         .put.actionType(constants.GET_QUESTIONS)
         .run();
     });
 
     it('should dispatch error', () => {
-      const errorResponse = { foo: 'bar' };
+      const errorResponse = defaultCategoryData;
 
       return expectSaga(getClassification, { payload })
         .provide([
-          [matchers.call.fn(resolveClassification), errorResponse],
           [matchers.call.fn(postCall), throwError(new Error('whoops!!!1!'))],
+          [matchers.call.fn(request), categoryResponse],
         ])
         .call(postCall, configuration.PREDICTION_ENDPOINT, { text: payload })
-        .call(resolveClassification)
+        .call(request, `${configuration.CATEGORIES_ENDPOINT}overig/sub_categories/overig`)
         .put({ type: constants.GET_CLASSIFICATION_ERROR, payload: errorResponse })
         .run();
     });
@@ -235,9 +242,7 @@ describe('IncidentContainer saga', () => {
       const postData = {
         text: payloadIncident.text,
         handling_message,
-        category: {
-          sub_category,
-        },
+        category: selectedCategory,
         reporter: {
           sharing_allowed: false,
         },
@@ -250,11 +255,7 @@ describe('IncidentContainer saga', () => {
       };
 
       return expectSaga(getPostData, invalidAction)
-        .provide([
-          [matchers.call.fn(request), categoryResponse],
-          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
-        ])
-        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
+        .provide([[matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse]])
         .call(mapControlsToParams, invalidAction.payload.incident, invalidAction.payload.wizard)
         .returns(postData)
         .run(false);
@@ -272,9 +273,7 @@ describe('IncidentContainer saga', () => {
       const postData = {
         text: payloadIncident.text,
         handling_message,
-        category: {
-          sub_category,
-        },
+        category: selectedCategory,
         reporter: {
           sharing_allowed: false,
         },
@@ -282,10 +281,8 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(getPostData, action)
         .provide([
-          [matchers.call.fn(request), categoryResponse],
           [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
         ])
-        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
         .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
@@ -303,10 +300,8 @@ describe('IncidentContainer saga', () => {
 
       const postData = {
         text: payloadIncident.text,
-        category: {
-          sub_category,
-        },
         handling_message,
+        category: selectedCategory,
         priority: {
           priority: payloadIncident.priority.id,
         },
@@ -320,10 +315,8 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(getPostData, action)
         .provide([
-          [matchers.call.fn(request), categoryResponse],
           [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
         ])
-        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
         .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
@@ -343,9 +336,7 @@ describe('IncidentContainer saga', () => {
 
       const postData = {
         text: payloadIncident.text,
-        category: {
-          sub_category,
-        },
+        category: selectedCategory,
         handling_message,
         priority: {
           priority: payloadIncident.priority.id,
@@ -361,10 +352,8 @@ describe('IncidentContainer saga', () => {
 
       return expectSaga(getPostData, action)
         .provide([
-          [matchers.call.fn(request), categoryResponse],
           [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
         ])
-        .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
         .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
@@ -374,10 +363,7 @@ describe('IncidentContainer saga', () => {
   describe('createIncident', () => {
     const postData = {
       text: payloadIncident.text,
-      category: {
-        sub_category,
-      },
-      subcategory: payloadIncident.subcategory,
+      category: defaultCategoryData,
     };
 
     it('should POST incident', () =>

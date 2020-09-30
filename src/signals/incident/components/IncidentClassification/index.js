@@ -24,7 +24,10 @@ const IncidentClassification = () => {
   }, [category, subcategory, get, history]);
 
   useEffect(() => {
-    if (data && data.is_active) dispatch(setClassification({ category, subcategory }));
+    if (data && data.is_active) {
+      const { id: sub_category, name, slug } = data;
+      dispatch(setClassification({ sub_category, name, slug }));
+    }
     if (data || error) history.replace('/');
   }, [data, error, history, dispatch, category, subcategory]);
 

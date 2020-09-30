@@ -107,6 +107,11 @@ export default {
         label: 'Beschrijving',
         render: ({ value }) => value,
       },
+      category: {
+        label: 'Subcategorie',
+        render: ({ value }) => value?.name,
+        authenticated: true,
+      },
       datetime: {
         label: 'Tijdstip',
         render: PreviewComponents.DateTime,

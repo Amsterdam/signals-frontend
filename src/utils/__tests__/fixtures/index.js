@@ -3,7 +3,9 @@ import {
   makeSelectSubCategories,
   makeSelectCategories,
   makeSelectMainCategories,
+  getCategoryData,
 } from 'models/categories/selectors';
+import { DEFAULT_CLASSIFICATION } from 'shared/services/resolveClassification';
 
 import categories from './categories_private.json';
 
@@ -18,3 +20,5 @@ export const mainCategories = makeSelectMainCategories.resultFunc(
 export const subCategories = makeSelectSubCategories.resultFunc(
   makeSelectCategories.resultFunc(state)
 );
+
+export const defaultCategoryData = getCategoryData(subCategories.find(s => s.slug === DEFAULT_CLASSIFICATION));

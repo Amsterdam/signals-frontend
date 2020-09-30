@@ -20,23 +20,38 @@ import {
   getQuestionsError,
 } from './actions';
 
+const getClassificationData = ({ _links, name, slug, handling_message }) => ({
+  sub_category: _links.self.href,
+  name,
+  slug,
+  handling_message,
+});
+
 export function* getClassification(action) {
   try {
     const result = yield call(postCall, configuration.PREDICTION_ENDPOINT, {
       text: action.payload,
     });
 
-    const classification = yield call(resolveClassification, result);
+    const { category, subcategory } = resolveClassification(result);
+    const classification = yield call(
+      request,
+      `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+    );
 
-    yield put(getClassificationSuccess(classification));
+    yield put(getClassificationSuccess(getClassificationData(classification)));
 
     if (configuration.fetchQuestionsFromBackend) {
       yield put(getQuestions(classification));
     }
   } catch {
-    const classification = yield call(resolveClassification);
+    const { category, subcategory } = resolveClassification();
+    const classification = yield call(
+      request,
+      `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
+    );
 
-    yield put(getClassificationError(classification));
+    yield put(getClassificationError(getClassificationData(classification)));
   }
 }
 
@@ -107,23 +122,11 @@ export function* postIncident(postData) {
  * @returns {Object}
  */
 export function* getPostData(action) {
-  const { category, subcategory } = action.payload.incident;
-
-  const {
-    handling_message,
-    _links: {
-      self: { href: sub_category },
-    },
-  } = yield call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`);
-
   const controlsToParams = yield call(mapControlsToParams, action.payload.incident, action.payload.wizard);
 
   const primedPostData = {
     ...action.payload.incident,
     ...controlsToParams,
-    category: {
-      sub_category,
-    },
     // the priority prop needs to be a nested value 🤷
     priority: {
       priority: action.payload.incident.priority.id,
@@ -131,7 +134,6 @@ export function* getPostData(action) {
     type: {
       code: action.payload.incident.type.id,
     },
-    handling_message,
   };
 
   primedPostData.reporter = {

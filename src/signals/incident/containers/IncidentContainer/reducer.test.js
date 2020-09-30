@@ -34,8 +34,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           id: 'SIG',
           label: 'Melding',
         },
-        category: '',
-        subcategory: '',
+        category: null,
         handling_message: '',
       })
     );
@@ -140,161 +139,155 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
       });
     });
   });
+  describe('Classification ', () => {
+    const payload = {
+      sub_category: 'uitwerpselen',
+      name: 'Uitwerpselen',
+      slug: 'uitwerpselen',
+      handling_message: 'Handling message.',
+    };
+    const { handling_message, ...category } = payload;
 
-  describe('GET_CLASSIFICATION', () => {
-    it('resets error and loading and id', () => {
-      expect(
-        incidentContainerReducer(fromJS({ incident: {} }), {
-          type: GET_CLASSIFICATION,
-        }).toJS()
-      ).toEqual({
-        incident: {},
-        loadingClassification: true,
-      });
-    });
-  });
-
-  describe('GET_CLASSIFICATION_SUCCESS', () => {
-    const intermediateState = initialState.set(
-      'incident',
-      initialState
-        .get('incident')
-        .set('extra_something', 'foo bar')
-        .set('extra_something_else', 'baz qux')
-    );
-
-    it('sets category and subcategory', () => {
-      expect(
-        incidentContainerReducer(
-          fromJS({
-            incident: {},
-          }),
-          {
-            type: GET_CLASSIFICATION_SUCCESS,
-            payload: {
-              category: 'Overlast in de openbare ruimte',
-              subcategory: 'Honden(poep)',
-            },
-          }
-        ).toJS()
-      ).toEqual({
-        incident: {
-          category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)',
-        },
-        loadingClassification: false,
-        subcategoryPrediction: 'Honden(poep)',
+    describe('GET_CLASSIFICATION', () => {
+      it('resets error and loading and id', () => {
+        expect(
+          incidentContainerReducer(fromJS({ incident: {} }), {
+            type: GET_CLASSIFICATION,
+          }).toJS()
+        ).toEqual({
+          incident: {},
+          loadingClassification: true,
+        });
       });
     });
 
-    it('removes all extra_ props', () => {
-      const newState = incidentContainerReducer(intermediateState, {
-        type: GET_CLASSIFICATION_SUCCESS,
-        payload: {
-          category: 'Overlast in de openbare ruimte',
-          subcategory: 'Honden(poep)',
-        },
+    describe('GET_CLASSIFICATION_SUCCESS', () => {
+      const intermediateState = initialState.set(
+        'incident',
+        initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
+      );
+
+      it('sets category, prediction and handling_message', () => {
+        expect(
+          incidentContainerReducer(
+            fromJS({
+              incident: {},
+            }),
+            {
+              type: GET_CLASSIFICATION_SUCCESS,
+              payload,
+            }
+          ).toJS()
+        ).toEqual({
+          incident: {
+            category,
+            handling_message,
+          },
+          loadingClassification: false,
+          categoryPrediction: category,
+        });
       });
 
-      expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
-      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
-    });
+      it('removes all extra_ props', () => {
+        const newState = incidentContainerReducer(intermediateState, {
+          type: GET_CLASSIFICATION_SUCCESS,
+          payload,
+        });
 
-    it('only removes all extra_ props when category has changed', () => {
-      const type = GET_CLASSIFICATION_SUCCESS;
-      const payload = {
-        category: 'foo',
-        subcategory: 'bar',
-      };
+        expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
+        expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
+      });
 
-      const newState = incidentContainerReducer(intermediateState, { type, payload }).toJS();
-      newState.incident.extra_something = 'qux';
+      it('only removes all extra_ props when category has changed', () => {
+        const type = GET_CLASSIFICATION_SUCCESS;
 
-      const updatedState = incidentContainerReducer(fromJS(newState), { type, payload });
+        const newState = incidentContainerReducer(intermediateState, { type, payload }).toJS();
+        newState.incident.extra_something = 'qux';
 
-      expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
+        const updatedState = incidentContainerReducer(fromJS(newState), { type, payload });
 
-      const changedPayload = {
-        category: 'zork',
-        subcategory: 'bar',
-      };
+        expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
 
-      const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
+        const changedPayload = {
+          sub_category: 'zork',
+          name: 'zork',
+          slug: 'zork',
+          handling_message: 'Handling message zork.',
+        };
 
-      expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
-    });
+        const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
 
-    it('only removes all extra_ props when subcategory has changed', () => {
-      const type = GET_CLASSIFICATION_SUCCESS;
-      const payload = {
-        category: 'foo',
-        subcategory: 'bar',
-      };
+        expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
+      });
 
-      const newState = incidentContainerReducer(intermediateState, { type, payload }).toJS();
-      newState.incident.extra_something = 'qux';
+      it('only changes the category when this is not modified by the user', () => {
+        const type = GET_CLASSIFICATION_SUCCESS;
+        const categoryPrediction = {
+          sub_category: 'tork',
+          name: 'tork',
+          slug: 'tork',
+          handling_message: 'Handling message tork.',
+        };
 
-      const updatedState = incidentContainerReducer(fromJS(newState), { type, payload });
+        const newPrediction = {
+          sub_category: 'zork',
+          name: 'zork',
+          slug: 'zork',
+          handling_message: 'Handling message zork.',
+        };
 
-      expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
-
-      const changedPayload = {
-        category: 'foo',
-        subcategory: 'bazzz',
-      };
-
-      const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
-
-      expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
-    });
-  });
-
-  describe('GET_CLASSIFICATION_ERROR', () => {
-    it('sets category and subcategory', () => {
-      expect(
-        incidentContainerReducer(
-          fromJS({
-            incident: {},
-          }),
-          {
-            type: GET_CLASSIFICATION_ERROR,
-            payload: {
-              category: 'overig',
-              subcategory: 'overig(poep)',
-            },
-          }
-        ).toJS()
-      ).toEqual({
-        incident: {
-          category: 'overig',
-          subcategory: 'overig(poep)',
-        },
-        loadingClassification: false,
+        const testState = initialState.toJS();
+        testState.incident.category = payload;
+        testState.categoryPrediction = categoryPrediction;
+        const newState = incidentContainerReducer(fromJS(testState), {
+          type,
+          payload: newPrediction,
+        }).toJS();
+        expect(newState.incident.category.slug).toEqual(payload.slug);
       });
     });
-  });
 
-  describe('SET_CLASSIFICATION', () => {
-    it('sets category and subcategory and disables the predictions', () => {
-      expect(
-        incidentContainerReducer(
-          fromJS({
-            incident: {},
-          }),
-          {
-            type: SET_CLASSIFICATION,
-            payload: {
-              category: 'overig',
-              subcategory: 'overig(poep)',
-            },
-          }
-        ).toJS()
-      ).toEqual({
-        incident: {
-          category: 'overig',
-          subcategory: 'overig(poep)',
-        },
-        usePredictions: false,
+    describe('GET_CLASSIFICATION_ERROR', () => {
+      it('sets category ', () => {
+        expect(
+          incidentContainerReducer(
+            fromJS({
+              incident: {},
+            }),
+            {
+              type: GET_CLASSIFICATION_ERROR,
+              payload,
+            }
+          ).toJS()
+        ).toEqual({
+          incident: {
+            category,
+            handling_message,
+          },
+          loadingClassification: false,
+        });
+      });
+    });
+
+    describe('SET_CLASSIFICATION', () => {
+      it('sets category and disables the predictions', () => {
+        expect(
+          incidentContainerReducer(
+            fromJS({
+              incident: {},
+            }),
+            {
+              type: SET_CLASSIFICATION,
+              payload,
+            }
+          ).toJS()
+        ).toEqual({
+          incident: {
+            category,
+            handling_message,
+          },
+          usePredictions: false,
+        });
       });
     });
   });
@@ -328,10 +321,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   describe('RESET_EXTRA_STATE', () => {
     const intermediateState = initialState.set(
       'incident',
-      initialState
-        .get('incident')
-        .set('extra_something', 'foo bar')
-        .set('extra_something_else', 'baz qux')
+      initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
     );
 
     it('returns partially reset state', () => {

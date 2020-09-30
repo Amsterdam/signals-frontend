@@ -53,25 +53,13 @@ const getControls = memoize(
       },
       category: {
         meta: {
-          label: 'Categorie',
-          path: 'category',
-          type: 'text',
-        },
-        options: {
-          validators: [Validators.required],
-        },
-        render: FormComponents.HiddenInput,
-      },
-      subcategory: {
-        meta: {
           label: 'Subcategorie',
-          path: 'subcategory',
-          type: 'text',
+          path: 'category',
         },
         options: {
           validators: [Validators.required],
         },
-        render: FormComponents.HiddenInput,
+        render: FormComponents.CategorySelectRenderer,
       },
       datetime: {
         meta: {
