@@ -1,9 +1,10 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+
 import priorityList from 'signals/incident-management/definitions/priorityList';
 
-import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
+import IncidentSplitRadioInput from '..';
 
 describe('<IncidentSplitRadioInput />', () => {
   const props = {

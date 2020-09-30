@@ -12,7 +12,7 @@ import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notificat
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
 import LoadingIndicator from 'components/LoadingIndicator';
-import IncidentSplitForm from './IncidentSplitForm';
+import IncidentSplitForm from './components/IncidentSplitForm';
 
 const getParentIncident = incident => ({
   id: incident.id,

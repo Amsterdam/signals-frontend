@@ -6,9 +6,9 @@ import { withAppContext } from 'test/utils';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { subcategories } from 'utils/__tests__/fixtures';
-import parentIncidentFixture from './parentIncidentFixture.json';
+import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json';
 
-import IncidentSplitForm from '../IncidentSplitForm';
+import IncidentSplitForm from '..';
 
 const mockHistoryPush = jest.fn();
 

@@ -8,10 +8,10 @@ import { subcategoriesType } from 'shared/types';
 
 import TextArea from 'components/TextArea';
 
-import { StyledButton } from './styled';
+import { StyledButton } from '../styled';
 
-import IncidentSplitRadioInput from './IncidentSplitRadioInput';
-import IncidentSplitSelectInput from './IncidentSplitSelectInput';
+import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
+import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
 
 export const INCIDENT_SPLIT_LIMIT = 10;
 

@@ -3,9 +3,9 @@ import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import priorityList from 'signals/incident-management/definitions/priorityList';
 
-import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
+import IncidentSplitSelectInput from '..';
 
-import subcategoriesFixture from './departmentsFixture.json';
+import subcategoriesFixture from '../../../__tests__/departmentsFixture.json';
 
 describe('<IncidentSplitSelectInput />', () => {
   const props = {
@@ -32,7 +32,9 @@ describe('<IncidentSplitSelectInput />', () => {
 
   it('should not display description', () => {
     const { key: initialValue } = subcategoriesFixture[0];
-    const { queryByText } = render(withAppContext(<IncidentSplitSelectInput {...props} initialValue={initialValue} />));
+    const { queryByText } = render(withAppContext(
+      <IncidentSplitSelectInput {...props} initialValue={initialValue} />
+    ));
 
     expect(queryByText(new RegExp(initialValue))).not.toBeInTheDocument();
   });

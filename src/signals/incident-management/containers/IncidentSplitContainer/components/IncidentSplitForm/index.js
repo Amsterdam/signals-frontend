@@ -15,9 +15,9 @@ import {
   StyledForm,
   StyledSubmitButton,
   FormWrapper,
-} from './styled';
+} from '../styled';
 
-import IncidentSplitFormIncident from './IncidentSplitFormIncident';
+import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 
 const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
   const { control, handleSubmit, register } = useForm();
