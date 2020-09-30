@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import * as reactRouterDom from 'react-router-dom';
@@ -26,6 +26,8 @@ jest.mock('containers/App/selectors', () => ({
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 
+const withSuspense = () => withAppContext(<Suspense fallback={<div>Loading...</div>}><SettingsModule /></Suspense>);
+
 describe('signals/settings', () => {
   beforeEach(() => {
     dispatch.mockReset();
@@ -45,7 +47,7 @@ describe('signals/settings', () => {
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     expect(dispatch).toHaveBeenCalledWith(fetchRolesAction());
     expect(dispatch).toHaveBeenCalledWith(fetchPermissionsAction());
@@ -57,7 +59,7 @@ describe('signals/settings', () => {
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     expect(dispatch).not.toHaveBeenCalled();
   });
@@ -65,13 +67,13 @@ describe('signals/settings', () => {
   it('should render login page', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    const { queryByTestId, getByTestId, rerender } = render(withAppContext(<SettingsModule />));
+    const { queryByTestId, getByTestId, rerender } = render(withSuspense());
 
     expect(getByTestId('loginPage')).toBeInTheDocument();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    rerender(withAppContext(<SettingsModule />));
+    rerender(withSuspense());
 
     expect(queryByTestId('loginPage')).toBeNull();
   });
@@ -80,7 +82,7 @@ describe('signals/settings', () => {
     jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => () => false);
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual('/manage/incidents');
   });
@@ -89,7 +91,7 @@ describe('signals/settings', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
     jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section !== 'groups');
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     // load users overview page
     act(() => history.push(USERS_URL));
@@ -106,7 +108,7 @@ describe('signals/settings', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
     jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section !== 'users');
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     // load roles overview page
     act(() => history.push(ROLES_URL));

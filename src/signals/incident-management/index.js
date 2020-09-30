@@ -1,9 +1,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { compose } from 'redux';
 import { Route, Switch } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
 
 import configuration from 'shared/services/configuration/configuration';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -11,6 +9,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import { getDistricts, getFilters, searchIncidents, requestIncidents } from './actions';
 
@@ -26,15 +25,11 @@ const IncidentDetail = lazy(() => import('./containers/IncidentDetail'));
 const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'));
 const LegacyIncidentSplitContainer = lazy(() => import('./containers/LegacyIncidentSplitContainer'));
 
-export const IncidentManagementModuleComponent = ({
-  getDistrictsAction,
-  getFiltersAction,
-  requestIncidentsAction,
-  searchIncidentsAction,
-  searchQuery,
-}) => {
+const IncidentManagement = () => {
   const location = useLocationReferrer();
   const districts = useSelector(makeSelectDistricts);
+  const searchQuery = useSelector(makeSelectSearchQuery);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -42,23 +37,17 @@ export const IncidentManagementModuleComponent = ({
     if (!isAuthenticated()) return;
 
     if (searchQuery) {
-      searchIncidentsAction(searchQuery);
+      dispatch(searchIncidents(searchQuery));
     } else {
-      requestIncidentsAction();
+      dispatch(requestIncidents());
     }
 
     if (configuration.fetchDistrictsFromBackend) {
-      getDistrictsAction();
+      dispatch(getDistricts());
     }
 
-    getFiltersAction();
-  }, [
-    getDistrictsAction,
-    getFiltersAction,
-    requestIncidentsAction,
-    searchIncidentsAction,
-    searchQuery,
-  ]);
+    dispatch(getFilters());
+  }, [dispatch, searchQuery]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
@@ -66,7 +55,7 @@ export const IncidentManagementModuleComponent = ({
 
   return (
     <IncidentManagementContext.Provider value={{ districts }}>
-      <Suspense>
+      <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
           <Route exact path={routes.incidents} component={IncidentOverviewPage} />
           <Route exact path={routes.incident} component={IncidentDetail} />
@@ -79,31 +68,7 @@ export const IncidentManagementModuleComponent = ({
   );
 };
 
-IncidentManagementModuleComponent.propTypes = {
-  getDistrictsAction: PropTypes.func.isRequired,
-  getFiltersAction: PropTypes.func.isRequired,
-  requestIncidentsAction: PropTypes.func.isRequired,
-  searchQuery: PropTypes.string,
-  searchIncidentsAction: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  searchQuery: makeSelectSearchQuery,
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getDistrictsAction: getDistricts,
-      getFiltersAction: getFilters,
-      requestIncidentsAction: requestIncidents,
-      searchIncidentsAction: searchIncidents,
-    },
-    dispatch
-  );
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentManagement', reducer });
 const withSaga = injectSaga({ key: 'incidentManagement', saga });
 
-export default compose(withConnect, withReducer, withSaga)(IncidentManagementModuleComponent);
+export default compose(withReducer, withSaga)(IncidentManagement);
