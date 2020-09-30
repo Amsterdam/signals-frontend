@@ -93,7 +93,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         .filter(issue => issue)
         .reduce((acc, { subcategory, description, type, priority }) => {
           const partialData = {
-            category: { subcategory },
+            category: { category_url: subcategory },
             priority: { priority },
             text: description,
             type: { code: type },
