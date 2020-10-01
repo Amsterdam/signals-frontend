@@ -27,7 +27,7 @@ describe('signals/incident/components/form/DescriptionInfo', () => {
 
   it('should show the suggestion when subcategory is active', async () => {
     jest.spyOn(catgorySelectors, 'makeSelectSubCategories').mockImplementation(() => [subcategory]);
-    jest.spyOn(incidentContainerSelectors, 'makeSelectIncidentContainer').mockImplementation(() => ({ categoryPrediction: { slug: subcategory.slug } }));
+    jest.spyOn(incidentContainerSelectors, 'makeSelectIncidentContainer').mockImplementation(() => ({ classificationPrediction: { slug: subcategory.slug } }));
     const { findByTestId, queryByText } = render(withAppContext(<DescriptionInfo info="the-info" />));
 
     await findByTestId('descriptionInfo');
@@ -36,7 +36,7 @@ describe('signals/incident/components/form/DescriptionInfo', () => {
 
   it('should show NO suggestion when subcategory is NOT active', async () => {
     jest.spyOn(catgorySelectors, 'makeSelectSubCategories').mockImplementation(() => [{ ...subcategory, is_active: false }]);
-    jest.spyOn(incidentContainerSelectors, 'makeSelectIncidentContainer').mockImplementation(() => ({ categoryPrediction: subcategory.slug }));
+    jest.spyOn(incidentContainerSelectors, 'makeSelectIncidentContainer').mockImplementation(() => ({ classificationPrediction: subcategory.slug }));
     const { findByTestId, queryByText } = render(withAppContext(<DescriptionInfo info="the-info" />));
 
     await findByTestId('descriptionInfo');

@@ -51,10 +51,10 @@ const getControls = memoize(
         },
         render: FormComponents.DescriptionInputRenderer,
       },
-      category: {
+      subcategory: {
         meta: {
           label: 'Subcategorie',
-          path: 'category',
+          path: 'subcategory',
         },
         options: {
           validators: [Validators.required],

@@ -181,10 +181,12 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         ).toEqual({
           incident: {
             category,
+            subcategory,
+            classification,
             handling_message,
           },
           loadingClassification: false,
-          categoryPrediction: category,
+          classificationPrediction: classification,
         });
       });
 
@@ -222,11 +224,10 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
 
       it('only changes the category when this is not modified by the user', () => {
         const type = GET_CLASSIFICATION_SUCCESS;
-        const categoryPrediction = {
-          sub_category: 'tork',
+        const classificationPrediction = {
+          id: 'tork',
           name: 'tork',
           slug: 'tork',
-          handling_message: 'Handling message tork.',
         };
 
         const newPrediction = {
@@ -238,7 +239,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
 
         const testState = initialState.toJS();
         testState.incident.category = payload;
-        testState.categoryPrediction = categoryPrediction;
+        testState.classificationPrediction = classificationPrediction;
         const newState = incidentContainerReducer(fromJS(testState), {
           type,
           payload: newPrediction,

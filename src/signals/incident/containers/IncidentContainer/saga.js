@@ -8,6 +8,7 @@ import { uploadFile } from 'containers/App/saga';
 import resolveClassification from 'shared/services/resolveClassification';
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params';
 import { isAuthenticated } from 'shared/services/auth/auth';
+import { getClassificationData } from 'signals/incident/containers/IncidentContainer/selectors';
 import { resolveQuestions } from './services';
 import { CREATE_INCIDENT, GET_CLASSIFICATION, GET_QUESTIONS } from './constants';
 import {
@@ -19,13 +20,6 @@ import {
   getQuestionsSuccess,
   getQuestionsError,
 } from './actions';
-
-const getClassificationData = ({ _links, name, slug, handling_message }) => ({
-  sub_category: _links.self.href,
-  name,
-  slug,
-  handling_message,
-});
 
 export function* getClassification(action) {
   try {
@@ -39,7 +33,7 @@ export function* getClassification(action) {
       `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
     );
 
-    yield put(getClassificationSuccess(getClassificationData(classification)));
+    yield put(getClassificationSuccess(getClassificationData(category, subcategory, classification)));
 
     if (configuration.fetchQuestionsFromBackend) {
       yield put(getQuestions(classification));
@@ -51,7 +45,7 @@ export function* getClassification(action) {
       `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
     );
 
-    yield put(getClassificationError(getClassificationData(classification)));
+    yield put(getClassificationError(getClassificationData(category, subcategory, classification)));
   }
 }
 
@@ -122,17 +116,21 @@ export function* postIncident(postData) {
  * @returns {Object}
  */
 export function* getPostData(action) {
-  const controlsToParams = yield call(mapControlsToParams, action.payload.incident, action.payload.wizard);
+  const { incident, wizard } = action.payload;
+  const controlsToParams = yield call(mapControlsToParams, incident, wizard);
 
   const primedPostData = {
-    ...action.payload.incident,
+    ...incident,
     ...controlsToParams,
+    category: {
+      sub_category: incident.classification.id,
+    },
     // the priority prop needs to be a nested value 🤷
     priority: {
-      priority: action.payload.incident.priority.id,
+      priority: incident.priority.id,
     },
     type: {
-      code: action.payload.incident.type.id,
+      code: incident.type.id,
     },
   };
 

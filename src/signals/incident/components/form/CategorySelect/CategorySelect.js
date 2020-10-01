@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Select from 'components/SelectInput';
 import { useSelector } from 'react-redux';
-import { makeSelectSubCategories, getCategoryData } from 'models/categories/selectors';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 
 const CategorySelect = ({ handler, meta, parent }) => {
   const subcategories = useSelector(makeSelectSubCategories);
@@ -13,9 +13,15 @@ const CategorySelect = ({ handler, meta, parent }) => {
 
   const handleChange = useCallback(
     event => {
-      const { handling_message, ...category } = getCategoryData(subcategories.find(s => s.slug === event.target.value));
+      const { id, slug, category_slug: category, name, handling_message } = subcategories.find(s => s.slug === event.target.value);
       parent.meta.updateIncident({
         category,
+        subcategory: slug,
+        classification: {
+          id,
+          name,
+          slug,
+        },
         handling_message,
       });
     },
@@ -23,7 +29,7 @@ const CategorySelect = ({ handler, meta, parent }) => {
   );
 
   return (
-    <Select name={meta.name} value={`${handler().value.slug}`} onChange={handleChange} options={options || []} />
+    <Select name={meta.name} value={`${handler().value}`} onChange={handleChange} options={options || []} />
   );
 };
 
