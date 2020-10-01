@@ -56,7 +56,7 @@ const IncidentManagement = () => {
     }
 
     dispatch(getFilters());
-  }, [dispatch, searchQuery]);
+  }, [dispatch, searchQuery, users]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
