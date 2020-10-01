@@ -166,7 +166,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     const expectedTransformedBecauseOfReasonsUnknownToManValues = submittedFormData.incidents.map(
       ({ subcategory, description, type, priority }) => ({
-        category: { subcategory },
+        category: { category_url: subcategory },
         priority: { priority },
         text: description,
         type: { code: type },
@@ -190,7 +190,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     fireEvent.click(container.querySelector('input[type="submit"]'));
 
-    await findByTestId('incidentSplitForm');
+    await findByTestId('incidentSplitContainer');
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({

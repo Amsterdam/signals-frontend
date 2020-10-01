@@ -120,7 +120,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   return (
     <div data-testid="incidentSplitContainer">
-      {isLoading || !data || !subcategories ? (
+      {isLoading || isSuccess || !data || !subcategories ? (
         <LoadingIndicator />
       ) : (
         <FormComponent
