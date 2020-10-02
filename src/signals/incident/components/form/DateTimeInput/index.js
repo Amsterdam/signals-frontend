@@ -2,7 +2,7 @@ import React from 'react';
 import format from 'date-fns/format';
 import subDays from 'date-fns/subDays';
 import PropTypes from 'prop-types';
-import { nl } from 'date-fns/locale';
+import nl from 'date-fns/locale/nl';
 import Select from 'components/SelectInput';
 import { capitalize } from 'shared/services/date-utils';
 import Header from '../Header';

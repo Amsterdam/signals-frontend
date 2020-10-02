@@ -1,6 +1,5 @@
-import React from 'react';
-import { render, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import React, { Suspense } from 'react';
+import { render, waitFor, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
@@ -11,7 +10,7 @@ import { fetchRoles as fetchRolesAction, fetchPermissions as fetchPermissionsAct
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 import { withAppContext, history } from 'test/utils';
 import SettingsModule from '..';
-import { USER_URL, USERS_URL, ROLES_URL } from '../routes';
+import { USER_URL, USERS_URL, ROLES_URL, ROLE_URL, DEPARTMENTS_URL, DEPARTMENT_URL, CATEGORIES_URL, CATEGORY_URL } from '../routes';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -25,6 +24,8 @@ jest.mock('containers/App/selectors', () => ({
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+
+const withSuspense = () => withAppContext(<Suspense fallback={<div data-testid="loadingText">Loading...</div>}><SettingsModule /></Suspense>);
 
 describe('signals/settings', () => {
   beforeEach(() => {
@@ -45,7 +46,7 @@ describe('signals/settings', () => {
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     expect(dispatch).toHaveBeenCalledWith(fetchRolesAction());
     expect(dispatch).toHaveBeenCalledWith(fetchPermissionsAction());
@@ -57,7 +58,7 @@ describe('signals/settings', () => {
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     expect(dispatch).not.toHaveBeenCalled();
   });
@@ -65,13 +66,13 @@ describe('signals/settings', () => {
   it('should render login page', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
-    const { queryByTestId, getByTestId, rerender } = render(withAppContext(<SettingsModule />));
+    const { queryByTestId, getByTestId, rerender } = render(withSuspense());
 
     expect(getByTestId('loginPage')).toBeInTheDocument();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    rerender(withAppContext(<SettingsModule />));
+    rerender(withSuspense());
 
     expect(queryByTestId('loginPage')).toBeNull();
   });
@@ -80,48 +81,102 @@ describe('signals/settings', () => {
     jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => () => false);
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual('/manage/incidents');
   });
 
-  it('should provide pages with a location that has a referrer', async () => {
+  it('should allow routing to departments page', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'departments');
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
-    act(() => history.push(`${USER_URL}/1`));
+    act(() => history.push(DEPARTMENTS_URL));
 
-    act(() => history.push(`${USER_URL}/2`));
-
-    const lastUseLocationResult = reactRouterDom.useLocation.mock.results.pop();
-
-    await waitFor(() => expect(lastUseLocationResult.value.pathname).toEqual(`${USER_URL}/2`));
-    await waitFor(() => expect(lastUseLocationResult.value.referrer).toEqual(`${USER_URL}/1`));
+    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(DEPARTMENTS_URL));
   });
 
   it('should allow routing to users pages', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
-    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section !== 'groups');
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'departments');
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
+
+    act(() => history.push(DEPARTMENTS_URL));
+
+    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(DEPARTMENTS_URL));
+  });
+
+  it('should allow routing to department page', async () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'departmentForm' || section === 'departments');
+
+    render(withSuspense());
+
+    const url = `${DEPARTMENT_URL}/1`;
+
+    act(() => history.push(url));
+
+    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(url));
+  });
+
+  it('should allow routing to categories page', async () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'categories');
+
+    render(withSuspense());
+
+    act(() => history.push(CATEGORIES_URL));
+
+    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(CATEGORIES_URL));
+  });
+
+  it('should allow routing to individual category page', async () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'categories' || section === 'categoryForm');
+
+    render(withSuspense());
+
+    const url = `${CATEGORY_URL}/1`;
+
+    act(() => history.push(url));
+
+    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(url));
+  });
+
+  it('should allow routing to users page', async () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'users');
+
+    render(withSuspense());
+
+    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).not.toEqual(USERS_URL));
 
     // load users overview page
     act(() => history.push(USERS_URL));
 
     await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(USERS_URL));
+  });
 
-    // load roles overview page (should not be allowed)
-    act(() => history.push(ROLES_URL));
+  it('should allow routing to individual user page', async () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'users' || section === 'userForm');
 
-    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).not.toEqual(ROLES_URL));
+    render(withSuspense());
+
+    const url = `${USER_URL}/1`;
+
+    act(() => history.push(url));
+
+    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(url));
   });
 
   it('should allow routing to groups pages', async () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
     jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section !== 'users');
 
-    render(withAppContext(<SettingsModule />));
+    render(withSuspense());
 
     // load roles overview page
     act(() => history.push(ROLES_URL));
@@ -132,5 +187,17 @@ describe('signals/settings', () => {
     act(() => history.push(USERS_URL));
 
     await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).not.toEqual(USERS_URL));
+  });
+
+  it('should allow routing to group form', async () => {
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => section => section === 'groups' || section === 'settings');
+    jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => section => section === 'add_group');
+
+    render(withSuspense());
+
+    act(() => history.push(ROLE_URL));
+
+    await waitFor(() => expect(reactRouterDom.useLocation.mock.results.pop().value.pathname).toEqual(ROLE_URL));
   });
 });
