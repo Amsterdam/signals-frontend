@@ -7,12 +7,8 @@ import { useSelector } from 'react-redux';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import InfoText from 'components/InfoText';
 
-const Wrapper = styled.div`
-  width: 100%;
+const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;
-  p {
-    margin-bottom: 0;
-  }
 `;
 
 const CategorySelect = ({ handler, meta, parent }) => {
@@ -52,10 +48,10 @@ const CategorySelect = ({ handler, meta, parent }) => {
   );
 
   return (
-    <Wrapper>
+    <div>
       <Select name={meta.name} value={`${handler().value}`} onChange={handleChange} options={options || []} />
-      {info && <InfoText text={`${info}`} />}
-    </Wrapper>
+      {info && <StyledInfoText text={`${info}`} />}
+    </div>
   );
 };
 
