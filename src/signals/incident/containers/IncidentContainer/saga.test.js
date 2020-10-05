@@ -14,7 +14,7 @@ import { authPostCall, postCall } from 'shared/services/api/api';
 
 import { uploadFile } from 'containers/App/saga';
 
-import { defaultCategoryData } from 'utils/__tests__/fixtures';
+import { subCategories } from 'utils/__tests__/fixtures';
 
 import mapControlsToParams from '../../services/map-controls-to-params';
 
@@ -28,6 +28,7 @@ import watchIncidentContainerSaga, {
 } from './saga';
 import { resolveQuestions } from './services';
 import { createIncidentSuccess, createIncidentError } from './actions';
+import { getClassificationData } from './selectors';
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
@@ -44,6 +45,7 @@ const postIncident = JSON.stringify(postIncidentJSON);
 
 const category = 'afval';
 const subcategory = 'veegzwerfvuil';
+export const mockCategoryData = subCategories.find(s => s.slug === subcategory);
 
 const predictionResponse = {
   hoofdrubriek: [
@@ -98,7 +100,7 @@ const wizard = {
   },
 };
 
-const { handling_message, ...selectedCategory } = defaultCategoryData;
+const { handling_message, classification } = getClassificationData(category, subcategory, mockCategoryData);
 
 const payloadIncident = {
   text: 'Foo Baz',
@@ -109,7 +111,9 @@ const payloadIncident = {
     id: 'SIG',
   },
   handling_message,
-  category: selectedCategory,
+  category,
+  subcategory,
+  classification,
 };
 
 const action = {
@@ -121,10 +125,7 @@ const action = {
 };
 
 const categoryResponse = {
-  ...defaultCategoryData,
-  _links: {
-    self: { href: defaultCategoryData.sub_category },
-  },
+  ...mockCategoryData,
 };
 
 describe('IncidentContainer saga', () => {
@@ -171,7 +172,7 @@ describe('IncidentContainer saga', () => {
     });
 
     it('should dispatch error', () => {
-      const errorResponse = defaultCategoryData;
+      const errorResponse = { category: 'overig', subcategory: 'overig', handling_message, classification };
 
       return expectSaga(getClassification, { payload })
         .provide([
@@ -242,7 +243,7 @@ describe('IncidentContainer saga', () => {
       const postData = {
         text: payloadIncident.text,
         handling_message,
-        category: selectedCategory,
+        category: { sub_category: payloadIncident.classification.id },
         reporter: {
           sharing_allowed: false,
         },
@@ -273,16 +274,14 @@ describe('IncidentContainer saga', () => {
       const postData = {
         text: payloadIncident.text,
         handling_message,
-        category: selectedCategory,
+        category: { sub_category: payloadIncident.classification.id },
         reporter: {
           sharing_allowed: false,
         },
       };
 
       return expectSaga(getPostData, action)
-        .provide([
-          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
-        ])
+        .provide([[matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse]])
         .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
@@ -301,7 +300,7 @@ describe('IncidentContainer saga', () => {
       const postData = {
         text: payloadIncident.text,
         handling_message,
-        category: selectedCategory,
+        category: { sub_category: payloadIncident.classification.id },
         priority: {
           priority: payloadIncident.priority.id,
         },
@@ -314,9 +313,7 @@ describe('IncidentContainer saga', () => {
       };
 
       return expectSaga(getPostData, action)
-        .provide([
-          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
-        ])
+        .provide([[matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse]])
         .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
@@ -336,7 +333,7 @@ describe('IncidentContainer saga', () => {
 
       const postData = {
         text: payloadIncident.text,
-        category: selectedCategory,
+        category: { sub_category: payloadIncident.classification.id },
         handling_message,
         priority: {
           priority: payloadIncident.priority.id,
@@ -351,9 +348,7 @@ describe('IncidentContainer saga', () => {
       };
 
       return expectSaga(getPostData, action)
-        .provide([
-          [matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse],
-        ])
+        .provide([[matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse]])
         .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
@@ -363,7 +358,7 @@ describe('IncidentContainer saga', () => {
   describe('createIncident', () => {
     const postData = {
       text: payloadIncident.text,
-      category: defaultCategoryData,
+      category: mockCategoryData,
     };
 
     it('should POST incident', () =>
