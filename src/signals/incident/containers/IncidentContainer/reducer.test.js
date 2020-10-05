@@ -34,7 +34,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           id: 'SIG',
           label: 'Melding',
         },
-        category: null,
+        category: '',
+        subcategory: '',
         handling_message: '',
       })
     );
@@ -139,14 +140,15 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
       });
     });
   });
+
   describe('Classification ', () => {
     const payload = {
-      sub_category: 'uitwerpselen',
-      name: 'Uitwerpselen',
-      slug: 'uitwerpselen',
-      handling_message: 'Handling message.',
+      category: 'wegen-verkeer-straatmeubilair',
+      subcategory: 'onderhoud-stoep-straat-en-fietspad',
+      handling_message: 'the handling message',
+      classification: null,
     };
-    const { handling_message, ...category } = payload;
+    const { category, subcategory, handling_message, classification } = payload;
 
     describe('GET_CLASSIFICATION', () => {
       it('resets error and loading and id', () => {
@@ -167,7 +169,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
       );
 
-      it('sets category, prediction and handling_message', () => {
+      it('sets the classification properties', () => {
         expect(
           incidentContainerReducer(
             fromJS({
@@ -181,10 +183,12 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         ).toEqual({
           incident: {
             category,
+            subcategory,
+            classification,
             handling_message,
           },
           loadingClassification: false,
-          categoryPrediction: category,
+          classificationPrediction: classification,
         });
       });
 
@@ -209,10 +213,9 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
 
         const changedPayload = {
-          sub_category: 'zork',
-          name: 'zork',
-          slug: 'zork',
-          handling_message: 'Handling message zork.',
+          ...payload,
+          category: 'zork',
+          subcategory: 'zork',
         };
 
         const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
@@ -222,23 +225,21 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
 
       it('only changes the category when this is not modified by the user', () => {
         const type = GET_CLASSIFICATION_SUCCESS;
-        const categoryPrediction = {
-          sub_category: 'tork',
+        const classificationPrediction = {
+          id: 'tork',
           name: 'tork',
           slug: 'tork',
-          handling_message: 'Handling message tork.',
         };
 
         const newPrediction = {
-          sub_category: 'zork',
-          name: 'zork',
-          slug: 'zork',
-          handling_message: 'Handling message zork.',
+          ...payload,
+          category: 'zork',
+          subcategory: 'zork',
         };
 
         const testState = initialState.toJS();
         testState.incident.category = payload;
-        testState.categoryPrediction = categoryPrediction;
+        testState.classificationPrediction = classificationPrediction;
         const newState = incidentContainerReducer(fromJS(testState), {
           type,
           payload: newPrediction,
@@ -262,9 +263,12 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         ).toEqual({
           incident: {
             category,
+            subcategory,
+            classification,
             handling_message,
           },
           loadingClassification: false,
+          classificationPrediction: null,
         });
       });
     });
@@ -284,6 +288,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         ).toEqual({
           incident: {
             category,
+            subcategory,
+            classification,
             handling_message,
           },
           usePredictions: false,

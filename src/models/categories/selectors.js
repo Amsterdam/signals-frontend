@@ -1,9 +1,8 @@
 import { Seq } from 'immutable';
 import { createSelector } from 'reselect';
+import { reCategory } from 'shared/services/resolveClassification';
 
 import { initialState } from './reducer';
-
-export const getCategoryData = ({ id, name, slug, handling_message }) => ({ sub_category: id, name, slug, handling_message });
 
 export const selectCategoriesDomain = state =>
   (state && state.get('categories')) || initialState;
@@ -115,9 +114,12 @@ export const makeSelectSubCategories = createSelector(
         extendedName = `${subCategory.name} (${responsibleDeptCodes.join(', ')})`;
       }
 
+      const [, category_slug] = subCategory._links.self.public.match(reCategory);
+
       return {
         ...subCategory,
         extendedName,
+        category_slug,
       };
     });
   }
