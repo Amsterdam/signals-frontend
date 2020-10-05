@@ -14,7 +14,7 @@ import {
   StyledForm,
   StyledSubmitButton,
   FormWrapper,
-} from '../styled';
+} from '../../styled';
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 

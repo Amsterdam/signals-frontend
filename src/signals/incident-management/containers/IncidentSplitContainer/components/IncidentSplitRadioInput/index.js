@@ -5,7 +5,7 @@ import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
 
 import InfoText from 'components/InfoText';
 
-import { StyledLabel } from '../styled';
+import { StyledLabel } from '../../styled';
 
 const getInfo = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
 
