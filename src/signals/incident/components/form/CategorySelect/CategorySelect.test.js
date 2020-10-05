@@ -10,14 +10,13 @@ describe('signals/incident/components/form/CategorySelect', () => {
   let props;
   const metaFields = {
     name: 'categorySelect',
-    placeholder: 'type here',
   };
 
   beforeEach(() => {
     props = {
       handler: jest.fn(() => ({
         value: {
-          sub_category: 'baz',
+          id: 'baz',
           name: 'Baz',
           slug: 'baz',
         },
@@ -70,6 +69,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
   });
 
   it('sets incident when value changes', async () => {
+    const { id, slug, category_slug: category, name, handling_message } = subCategories[1];
     const { getByTestId, findByTestId } = render(
       withAppContext(
         <CategorySelect
@@ -84,13 +84,21 @@ describe('signals/incident/components/form/CategorySelect', () => {
     const element = getByTestId('categorySelect');
     element.focus();
     act(() => {
-      const event = { target: { value: subCategories[1].slug } };
+      const event = { target: { value: slug } };
       fireEvent.change(element, event);
     });
 
     await findByTestId('categorySelect');
-
-    const { handling_message, ...category } = categorySelectors.getCategoryData(subCategories[1]);
-    expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({ category, handling_message });
+    const testCategory = {
+      category,
+      subcategory: slug,
+      classification: {
+        id,
+        name,
+        slug,
+      },
+      handling_message,
+    };
+    expect(props.parent.meta.updateIncident).toHaveBeenCalledWith(testCategory);
   });
 });
