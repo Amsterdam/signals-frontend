@@ -19,8 +19,8 @@ export const initialState = fromJS({
     incident_date: 'Vandaag',
     incident_time_hours: 9,
     incident_time_minutes: 0,
-    category: null,
-    subcategory: null,
+    category: '',
+    subcategory: '',
     classification: null,
     description: '',
     email: '',
@@ -45,7 +45,7 @@ export const initialState = fromJS({
   classificationPrediction: null,
 });
 
-const getIncidentWithoutExtraProps = (incident, { category, subcategory }) => {
+const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) => {
   const prevCategory = incident.get('category');
   const prevSubcategory = incident.get('subcategory');
   const hasChanged = prevCategory !== category || prevSubcategory !== subcategory;
@@ -93,11 +93,11 @@ export default (state = initialState, action) => {
       return state.set('loadingClassification', true);
 
     case GET_CLASSIFICATION_SUCCESS: {
-      const { category, classification } = action.payload;
+      const { classification } = action.payload;
       return state.set('loadingClassification', false).set(
         'incident',
         fromJS({
-          ...getIncidentWithoutExtraProps(state.get('incident'), category).toJS(),
+          ...getIncidentWithoutExtraProps(state.get('incident'), action.payload).toJS(),
           ...getIncidentClassification(state, action.payload),
         })
       ).set('classificationPrediction', fromJS(classification));
