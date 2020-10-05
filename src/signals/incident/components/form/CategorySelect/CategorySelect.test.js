@@ -15,11 +15,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
   beforeEach(() => {
     props = {
       handler: jest.fn(() => ({
-        value: {
-          id: 'baz',
-          name: 'Baz',
-          slug: 'baz',
-        },
+        value: 'asbest-accu',
       })),
       parent: {
         meta: {
@@ -35,7 +31,6 @@ describe('signals/incident/components/form/CategorySelect', () => {
         },
       },
     };
-
     jest.spyOn(categorySelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
   });
 
@@ -44,7 +39,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
   });
 
   it('should render select field correctly', () => {
-    const { getByTestId } = render(
+    const { queryByTestId } = render(
       withAppContext(
         <CategorySelect
           {...props}
@@ -55,21 +50,25 @@ describe('signals/incident/components/form/CategorySelect', () => {
       )
     );
 
-    const element = getByTestId('categorySelect');
+    const element = queryByTestId('categorySelect');
     expect(element).toBeInTheDocument();
     expect(element.querySelectorAll('option').length).toEqual(subCategories.length);
+    expect(queryByTestId('infoText')).toBeInTheDocument();
   });
 
   it('should render empty select field when no categoeies are found', () => {
     jest.spyOn(categorySelectors, 'makeSelectSubCategories').mockImplementation(() => null);
-    const { getByTestId } = render(withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />));
-    const element = getByTestId('categorySelect');
+    const { queryByTestId } = render(withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />));
+    const element = queryByTestId('categorySelect');
     expect(element).toBeInTheDocument();
     expect(element.querySelectorAll('option').length).toEqual(0);
+    expect(queryByTestId('infoText')).not.toBeInTheDocument();
   });
 
   it('sets incident when value changes', async () => {
-    const { id, slug, category_slug: category, name, handling_message } = subCategories[1];
+    const testSubcategory = { ...subCategories[1] };
+    const { id, slug, category_slug: category, name, handling_message } = testSubcategory;
+
     const { getByTestId, findByTestId } = render(
       withAppContext(
         <CategorySelect
@@ -100,5 +99,8 @@ describe('signals/incident/components/form/CategorySelect', () => {
       handling_message,
     };
     expect(props.parent.meta.updateIncident).toHaveBeenCalledWith(testCategory);
+
+    await findByTestId('categorySelect');
+    expect(getByTestId('infoText')).toBeInTheDocument();
   });
 });
