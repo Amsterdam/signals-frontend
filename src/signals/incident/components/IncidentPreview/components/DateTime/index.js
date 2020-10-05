@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import { capitalize } from 'shared/services/date-utils';
 import parseISO from 'date-fns/parseISO';
-import { nl } from 'date-fns/locale';
+import nl from 'date-fns/locale/nl';
 
 const getValue = (value, incident) => {
   if (value && value.id === 'Nu') {

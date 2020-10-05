@@ -6,6 +6,7 @@ import { withAppContext } from 'test/utils';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { showGlobalNotification } from 'containers/App/actions';
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants';
+import configuration from 'shared/services/configuration/configuration';
 import Map from '..';
 
 const dispatch = jest.fn();
@@ -24,6 +25,16 @@ describe('components/Map', () => {
 
     // Tile layer
     expect(queryByText(/Kaartgegevens CC-BY-4.0 Gemeente Amsterdam/)).toBeInTheDocument();
+  });
+
+  it('should call setInstance', () => {
+    const setInstance = jest.fn();
+
+    expect(setInstance).not.toHaveBeenCalled();
+
+    render(withAppContext(<Map mapOptions={MAP_OPTIONS} setInstance={setInstance} />));
+
+    expect(setInstance).toHaveBeenCalled();
   });
 
   it('should render the zoom control', () => {
@@ -144,5 +155,25 @@ describe('components/Map', () => {
         variant: VARIANT_NOTICE,
       }))
     );
+  });
+
+  it('should fall back to configuration settings', () => {
+    const { getByTestId, rerender, unmount } = render(withAppContext(<Map mapOptions={MAP_OPTIONS} />));
+
+    const maxZoom = Number.parseInt(getByTestId('map-base').dataset.maxZoom, 10);
+    const minZoom = Number.parseInt(getByTestId('map-base').dataset.minZoom, 10);
+
+    expect(maxZoom).toEqual(MAP_OPTIONS.maxZoom);
+    expect(minZoom).toEqual(MAP_OPTIONS.minZoom);
+
+    unmount();
+
+    rerender(withAppContext(<Map mapOptions={{ ...MAP_OPTIONS, maxZoom: undefined, minZoom: undefined }} />));
+
+    const maxZoomFromConfig = Number.parseInt(getByTestId('map-base').dataset.maxZoom, 10);
+    const minZoomFromConfig = Number.parseInt(getByTestId('map-base').dataset.minZoom, 10);
+
+    expect(maxZoomFromConfig).toEqual(configuration.map.options.maxZoom);
+    expect(minZoomFromConfig).toEqual(configuration.map.options.minZoom);
   });
 });

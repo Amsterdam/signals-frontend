@@ -253,6 +253,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   it('should map keys', () => {
     expect(mapKeys('source')).toEqual('bron');
     expect(mapKeys('any_key')).toEqual('any_key');
+    expect(mapKeys('priority')).toEqual('urgentie');
     expect(mapKeys('contact_details')).toEqual('contact');
     expect(mapKeys('directing_department')).toEqual('verantwoordelijke afdeling');
   });

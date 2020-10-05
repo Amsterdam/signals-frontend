@@ -28,7 +28,7 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
     const { getByTestId } = render(renderWithContext());
 
     expect(getByTestId('locationForm')).toBeInTheDocument();
-    expect(getByTestId('map-base')).toBeInTheDocument();
+    expect(getByTestId('mapInput')).toBeInTheDocument();
   });
 
   it('should call handlers', () => {

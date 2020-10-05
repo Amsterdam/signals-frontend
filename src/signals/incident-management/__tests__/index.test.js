@@ -1,90 +1,68 @@
-import React from 'react';
-import { mount } from 'enzyme';
+import React, { Suspense } from 'react';
 import { createMemoryHistory } from 'history';
 import { withAppContext } from 'test/utils';
 import { render } from '@testing-library/react';
+
 import { isAuthenticated } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
+import * as appSelectors from 'containers/App/selectors';
 
-import IncidentManagementModule, { IncidentManagementModuleComponent } from '..';
+import * as actions from '../actions';
+import IncidentManagementModule from '..';
 
 const history = createMemoryHistory();
 
 jest.mock('shared/services/configuration/configuration');
 jest.mock('shared/services/auth/auth');
+jest.mock('containers/App/selectors');
+jest.mock('../actions');
+
+const withSuspense = () => withAppContext(<Suspense fallback={<div>Loading...</div>}><IncidentManagementModule /></Suspense>);
 
 describe('signals/incident-management', () => {
-  let props;
-
-  afterAll(() => {
-    jest.restoreAllMocks();
-  });
-
   beforeEach(() => {
-    props = {
-      getDistrictsAction: jest.fn(),
-      getFiltersAction: jest.fn(),
-      requestIncidentsAction: jest.fn(),
-      searchIncidentsAction: jest.fn(),
-    };
+    jest.spyOn(actions, 'getDistricts').mockImplementation(payload => ({ type: 'FOO', payload }));
+    jest.spyOn(actions, 'getFilters').mockImplementation(payload => ({ type: 'BAR', payload }));
+    jest.spyOn(actions, 'searchIncidents').mockImplementation(payload => ({ type: 'BAZ', payload }));
+    jest.spyOn(actions, 'requestIncidents').mockImplementation(payload => ({ type: 'QUX', payload }));
   });
 
   afterEach(() => {
+    jest.resetAllMocks();
     configuration.__reset();
   });
 
-  it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<IncidentManagementModule />));
+  it('should redirect to login page', async () => {
+    isAuthenticated.mockImplementation(() => false);
 
-    const moduleProps = tree.find(IncidentManagementModuleComponent).props();
+    const { findByTestId, rerender } = render(withSuspense());
 
-    expect(moduleProps.searchQuery).toBeDefined();
-  });
+    const loginPage = await findByTestId('loginPage');
 
-  it('should have props from action creator', () => {
-    const tree = mount(withAppContext(<IncidentManagementModule />));
+    expect(loginPage).toBeInTheDocument();
 
-    const containerProps = tree.find(IncidentManagementModuleComponent).props();
+    isAuthenticated.mockImplementation(() => true);
 
-    expect(containerProps.getDistrictsAction).toBeDefined();
-    expect(typeof containerProps.getDistrictsAction).toEqual('function');
+    rerender(withSuspense());
 
-    expect(containerProps.getFiltersAction).toBeDefined();
-    expect(typeof containerProps.getFiltersAction).toEqual('function');
+    const incidentManagementOverviewPage = await findByTestId('incidentManagementOverviewPage');
 
-    expect(containerProps.requestIncidentsAction).toBeDefined();
-    expect(typeof containerProps.requestIncidentsAction).toEqual('function');
-
-    expect(containerProps.searchIncidentsAction).toBeDefined();
-    expect(typeof containerProps.searchIncidentsAction).toEqual('function');
-  });
-
-  it('should render correctly', () => {
-    localStorage.getItem.mockImplementationOnce(() => 'token');
-
-    const { rerender, asFragment } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
-    const firstRender = asFragment();
-
-    localStorage.getItem.mockImplementationOnce(() => undefined);
-
-    rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
-
-    expect(firstRender.firstElementChild === asFragment().firstElementChild).toEqual(false);
+    expect(incidentManagementOverviewPage).toBeInTheDocument();
   });
 
   describe('fetching', () => {
     it('should not request districts on mount by default', () => {
       isAuthenticated.mockImplementation(() => false);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.getDistrictsAction).not.toHaveBeenCalled();
+      expect(actions.getDistricts).not.toHaveBeenCalled();
 
       isAuthenticated.mockImplementation(() => true);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.getDistrictsAction).not.toHaveBeenCalled();
+      expect(actions.getDistricts).not.toHaveBeenCalled();
     });
 
     it('should request districts on mount with feature flag enabled', () => {
@@ -92,61 +70,64 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => false);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.getDistrictsAction).not.toHaveBeenCalled();
+      expect(actions.getDistricts).not.toHaveBeenCalled();
 
       isAuthenticated.mockImplementation(() => true);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.getDistrictsAction).toHaveBeenCalledTimes(1);
+      expect(actions.getDistricts).toHaveBeenCalledTimes(1);
     });
 
     it('should request filters on mount', () => {
       isAuthenticated.mockImplementation(() => false);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.getFiltersAction).not.toHaveBeenCalled();
+      expect(actions.getFilters).not.toHaveBeenCalled();
 
       isAuthenticated.mockImplementation(() => true);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.getFiltersAction).toHaveBeenCalledTimes(1);
+      expect(actions.getFilters).toHaveBeenCalledTimes(1);
     });
 
     it('should request incidents on mount', () => {
       isAuthenticated.mockImplementation(() => false);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.requestIncidentsAction).not.toHaveBeenCalled();
+      expect(actions.requestIncidents).not.toHaveBeenCalled();
 
       isAuthenticated.mockImplementation(() => true);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.requestIncidentsAction).toHaveBeenCalledTimes(1);
+      expect(actions.requestIncidents).toHaveBeenCalledTimes(1);
     });
 
     it('should search incidents on mount', () => {
       isAuthenticated.mockImplementation(() => false);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.searchIncidentsAction).not.toHaveBeenCalled();
+      expect(actions.searchIncidents).not.toHaveBeenCalled();
 
       isAuthenticated.mockImplementation(() => true);
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      render(withSuspense());
 
-      expect(props.searchIncidentsAction).not.toHaveBeenCalled();
+      expect(actions.searchIncidents).not.toHaveBeenCalled();
 
-      render(withAppContext(<IncidentManagementModuleComponent {...props} searchQuery="stoeptegels" />));
+      const searchQuery = 'stoeptegels';
+      jest.spyOn(appSelectors, 'makeSelectSearchQuery').mockImplementation(() => searchQuery);
 
-      expect(props.searchIncidentsAction).toHaveBeenCalledWith('stoeptegels');
+      render(withSuspense());
+
+      expect(actions.searchIncidents).toHaveBeenCalledWith(searchQuery);
     });
   });
 
@@ -158,13 +139,13 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => false);
 
-      const { rerender, queryByText } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      const { rerender, queryByText } = render(withSuspense());
 
       expect(queryByText(loginText)).not.toBeNull();
 
       isAuthenticated.mockImplementation(() => true);
 
-      rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      rerender(withSuspense());
 
       expect(queryByText(loginText)).toBeNull();
     });
@@ -174,13 +155,13 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => false);
 
-      const { rerender, queryByText } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      const { rerender, queryByText } = render(withSuspense());
 
       expect(queryByText(loginText)).not.toBeNull();
 
       isAuthenticated.mockImplementation(() => true);
 
-      rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      rerender(withSuspense());
 
       expect(queryByText(loginText)).toBeNull();
     });
@@ -190,13 +171,13 @@ describe('signals/incident-management', () => {
 
       isAuthenticated.mockImplementation(() => false);
 
-      const { rerender, queryByText } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      const { rerender, queryByText } = render(withSuspense());
 
       expect(queryByText(loginText)).not.toBeNull();
 
       isAuthenticated.mockImplementation(() => true);
 
-      rerender(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      rerender(withSuspense());
 
       expect(queryByText(loginText)).toBeNull();
     });
@@ -206,7 +187,7 @@ describe('signals/incident-management', () => {
 
       history.push('/manage/this-url-definitely-does-not-exist');
 
-      const { getByTestId } = render(withAppContext(<IncidentManagementModuleComponent {...props} />));
+      const { getByTestId } = render(withSuspense());
 
       expect(getByTestId('incidentManagementOverviewPage')).toBeInTheDocument();
     });

@@ -4,10 +4,7 @@ import * as reactRouterDom from 'react-router-dom';
 import { withAppContext } from 'test/utils';
 import rolesJson from 'utils/__tests__/fixtures/roles.json';
 
-import {
-  VARIANT_SUCCESS,
-  TYPE_LOCAL,
-} from 'containers/Notification/constants';
+import { VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants';
 import routes from 'signals/settings/routes';
 
 import { RoleFormContainer } from '..';
@@ -20,13 +17,8 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-const mockRoleId = roleId => {
-  jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
-    roleId,
-  }));
-};
-
 const push = jest.fn();
+const roleId = '2';
 
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
   beforeEach(() => {
@@ -34,6 +26,10 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
       push,
+    }));
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      roleId,
     }));
   });
 
@@ -56,7 +52,9 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
   };
 
   it('should lazy load form correctly', () => {
-    mockRoleId(undefined);
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      roleId: undefined,
+    }));
 
     const loadingProps = {
       ...props,
@@ -65,9 +63,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
         loading: true,
       },
     };
-    const { container, queryByTestId, rerender } = render(
-      withAppContext(<RoleFormContainer {...loadingProps} />)
-    );
+    const { container, queryByTestId, rerender } = render(withAppContext(<RoleFormContainer {...loadingProps} />));
 
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
     expect(queryByTestId('rolesForm')).not.toBeInTheDocument();
@@ -84,14 +80,10 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
     expect(queryByTestId('rolesForm')).toBeInTheDocument();
-    expect(container.querySelector('h1')).toHaveTextContent(
-      /^Rol toevoegen$/
-    );
+    expect(container.querySelector('h1')).toHaveTextContent(/^Rol toevoegen$/);
   });
 
   it('should load form with existing role correctly', () => {
-    mockRoleId('2');
-
     const notLoadingProps = {
       ...props,
       roles: {
@@ -100,18 +92,16 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
         loadingPermissions: false,
       },
     };
-    const { container, queryByTestId } = render(
-      withAppContext(<RoleFormContainer {...notLoadingProps} />)
-    );
+    const { container, queryByTestId } = render(withAppContext(<RoleFormContainer {...notLoadingProps} />));
 
     expect(queryByTestId('rolesForm')).toBeInTheDocument();
-    expect(container.querySelector('h1')).toHaveTextContent(
-      /^Rol wijzigen$/
-    );
+    expect(container.querySelector('h1')).toHaveTextContent(/^Rol wijzigen$/);
   });
 
   it('should show success notication and navigate to role list page', () => {
-    mockRoleId(undefined);
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      roleId: undefined,
+    }));
 
     const message = 'Rol toegevoegd';
     const propsWithSuccess = {
@@ -128,9 +118,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     expect(push).not.toHaveBeenCalled();
 
     props.roles.responseSuccess = true;
-    render(
-      withAppContext(<RoleFormContainer {...propsWithSuccess} />)
-    );
+    render(withAppContext(<RoleFormContainer {...propsWithSuccess} />));
 
     expect(props.showGlobalNotification).toHaveBeenCalledWith({
       title: message,
@@ -142,8 +130,6 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
   });
 
   it('should show success notication and navigate to role list page with existing role', () => {
-    mockRoleId('2');
-
     const message = 'Gegevens opgeslagen';
     const propsWithSuccess = {
       ...props,
@@ -159,9 +145,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     expect(push).not.toHaveBeenCalled();
 
     props.roles.responseSuccess = true;
-    render(
-      withAppContext(<RoleFormContainer {...propsWithSuccess} />)
-    );
+    render(withAppContext(<RoleFormContainer {...propsWithSuccess} />));
 
     expect(props.showGlobalNotification).toHaveBeenCalledWith({
       title: message,
@@ -173,8 +157,6 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
   });
 
   it('should show error notication and not navigate to role list page', () => {
-    mockRoleId('2');
-
     const propsWithError = {
       ...props,
       roles: {
@@ -188,9 +170,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     expect(props.onResetResponse).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    render(
-      withAppContext(<RoleFormContainer {...propsWithError} />)
-    );
+    render(withAppContext(<RoleFormContainer {...propsWithError} />));
 
     expect(props.onResetResponse).toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
