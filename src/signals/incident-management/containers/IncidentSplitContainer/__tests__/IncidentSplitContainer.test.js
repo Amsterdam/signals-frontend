@@ -8,6 +8,9 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
 
+import departmentsFixture from 'utils/__tests__/fixtures/departments.json';
+import * as departmentsSelectors from 'models/departments/selectors';
+
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
 import { withAppContext } from 'test/utils';
@@ -37,24 +40,39 @@ jest.mock('containers/App/selectors', () => ({
   ...jest.requireActual('containers/App/selectors'),
 }));
 
+jest.mock('models/departments/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/departments/selectors'),
+}));
+
+const departments = {
+  ...departmentsFixture,
+  count: departmentsFixture.count,
+  list: departmentsFixture.results,
+  results: undefined,
+};
+
 const submittedFormData = {
   department: 'ASC',
   incidents: [
     {
       description: 'Foo bar',
-      category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+      category_url:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
       priority: 'high',
       type: 'SIG',
     },
     {
       description: 'Bar baz',
-      category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/japanse-duizendknoop',
+      category_url:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/japanse-duizendknoop',
       priority: 'normal',
       type: 'REQ',
     },
     {
       description: 'Zork!!!1!',
-      category_url: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+      category_url:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
       priority: 'low',
       type: 'COM',
     },
@@ -74,7 +92,9 @@ const renderAwait = async (component, testIdToLookFor = 'incidentSplitContainer'
 
 // eslint-disable-next-line
 const Form = ({ onSubmit, ...props }) => {
-  const handleSubmit = () => { onSubmit(submittedFormData); };
+  const handleSubmit = () => {
+    onSubmit(submittedFormData);
+  };
 
   // skip error log
   delete props.parentIncident; // eslint-disable-line no-param-reassign, react/prop-types
@@ -93,6 +113,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     fetch.resetMocks();
 
     jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => subcategories);
+    jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ id }));
 
@@ -174,15 +195,20 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     );
 
     lastCallBody.forEach((partialIncidentData, index) => {
-      expect(partialIncidentData).toEqual(expect.objectContaining(expectedTransformedBecauseOfReasonsUnknownToManValues[index]));
+      expect(partialIncidentData).toEqual(
+        expect.objectContaining(expectedTransformedBecauseOfReasonsUnknownToManValues[index])
+      );
       expect(partialIncidentData).toEqual(expect.objectContaining(parentData));
     });
   });
 
-  it('should display a global notification on POST success', async () => {
+  it('should display a global notification on success', async () => {
     fetch.resetMocks();
-    fetch.once(JSON.stringify(incidentFixture)).once(JSON.stringify(incidentFixture));
-
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }], // post
+      [JSON.stringify({}), { status: 201 }] // patch
+    );
     const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
 
     expect(dispatch).not.toHaveBeenCalled();
@@ -219,6 +245,33 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
         title: 'De melding kon niet gesplitst worden',
+        variant: VARIANT_ERROR,
+        type: TYPE_LOCAL,
+      })
+    );
+
+    expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
+  });
+
+  it('should display a global notification on PATCH fail', async () => {
+    fetch.resetMocks();
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }], // post
+    ).mockReject(new Error('Whoops!!1!'));
+
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+
+    expect(dispatch).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
+
+    fireEvent.click(container.querySelector('input[type="submit"]'));
+
+    await findByTestId('incidentSplitForm');
+
+    expect(dispatch).toHaveBeenCalledWith(
+      showGlobalNotification({
+        title: 'De melding is gesplits maar het bijwerken van de hoofdmelding regie is niet gelukt',
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })

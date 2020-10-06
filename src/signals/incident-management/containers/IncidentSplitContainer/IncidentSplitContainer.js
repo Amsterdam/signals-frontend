@@ -1,9 +1,11 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
 import configuration from 'shared/services/configuration/configuration';
@@ -26,11 +28,21 @@ const getParentIncident = incident => ({
 });
 
 const IncidentSplitContainer = ({ FormComponent }) => {
-  const { data, error, get, isLoading, isSuccess, post } = useFetch();
+  const { error: errorSplit, isSuccess: isSuccessSplit, post } = useFetch();
+  const {
+    data: dataParent,
+    error: errorParent,
+    get: getParent,
+    isLoading: isLoadingParent,
+    isSuccess: isSuccessParent,
+  } = useFetch();
+  const { error: errorUpdate, patch, isSuccess: isSuccessUpdate } = useFetch();
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const [parentIncident, setParentIncident] = useState();
+  const [directingDepartment, setDirectingDepartment] = useState([]);
+  const departments = useSelector(makeSelectDepartments);
   const subcategories = useSelector(makeSelectSubCategories);
 
   const subcategoryOptions = useMemo(
@@ -38,20 +50,60 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     [subcategories]
   );
 
-  useEffect(() => {
-    get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
-  }, [get, id]);
+  const updateDepartment = useCallback(
+    name => {
+      if (!name || !departments) return;
+
+      const department = departments.list.find(d => d.code === name);
+      setDirectingDepartment(department ? [{ id: department.id }] : []);
+    },
+    [departments, setDirectingDepartment]
+  );
 
   useEffect(() => {
-    if (isSuccess === undefined || error === undefined) return;
+    dispatch(fetchDepartmentsAction());
+  }, [dispatch]);
 
-    const notificationProps = isSuccess
+  useEffect(() => {
+    getParent(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
+  }, [getParent, id]);
+
+  useEffect(() => {
+    if (isLoadingParent || isSuccessParent || errorParent === undefined) return;
+
+    if (errorParent === false) {
+      setParentIncident(dataParent);
+    }
+  }, [errorParent, isLoadingParent, isSuccessParent, dataParent]);
+
+  useEffect(() => {
+    if (isSuccessSplit === undefined || errorSplit === undefined) return;
+    if (isSuccessSplit) {
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_department: directingDepartment });
+    } else {
+      dispatch(
+        showGlobalNotification({
+          title: 'De melding kon niet gesplitst worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      );
+      history.push(`${INCIDENT_URL}/${id}`);
+    }
+
+    // Disabling linter; patch and history dependencies are generating infinite loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorSplit, isSuccessSplit, id, dispatch]);
+
+  useEffect(() => {
+    if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
+    const notificationProps = isSuccessUpdate
       ? {
         title: 'De melding is succesvol gesplitst',
         variant: VARIANT_SUCCESS,
       }
       : {
-        title: 'De melding kon niet gesplitst worden',
+        title: 'De melding is gesplits maar het bijwerken van de hoofdmelding regie is niet gelukt',
         variant: VARIANT_ERROR,
       };
 
@@ -63,20 +115,22 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     );
 
     history.push(`${INCIDENT_URL}/${id}`);
-  }, [error, history, id, isSuccess, dispatch]);
+  }, [errorUpdate, history, id, isSuccessUpdate, dispatch]);
 
   const onSubmit = useCallback(
     /**
      * Data coming from the submitted form
      *
-     * @param {Object[]} formData
-     * @param {string} formData[].description
-     * @param {string} formData[].subcategory
-     * @param {string} formData[].priority
-     * @param {string} formData[].type
+     * @param {Object} formData
+     * @param {string} formData.department
+     * @param {string} formData.incidents[].description
+     * @param {string} formData.incidents[].subcategory
+     * @param {string} formData.incidents[].priority
+     * @param {string} formData.incidents[].type
      */
-    formData => {
+    ({ department, incidents }) => {
       const {
+        id: parent,
         attachments,
         extra_properties,
         incident_date_end,
@@ -85,8 +139,9 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         reporter,
         source,
         text_extra,
-      } = data;
+      } = parentIncident;
 
+      updateDepartment(department);
       const { stadsdeel, buurt_code, address, geometrie } = location;
 
       const parentData = {
@@ -100,7 +155,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         text_extra,
       };
 
-      const mergedData = formData.incidents
+      const mergedData = incidents
         .filter(issue => issue)
         .reduce((acc, { subcategory, description, type, priority }) => {
           const partialData = {
@@ -110,22 +165,22 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             type: { code: type },
           };
 
-          return [...acc, { ...parentData, ...partialData, parent: data.id }];
+          return [...acc, { ...parentData, ...partialData, parent }];
         }, []);
 
       post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
-    [data, post]
+    [parentIncident, post, updateDepartment]
   );
 
   return (
     <div data-testid="incidentSplitContainer">
-      {isLoading || isSuccess || !data || !subcategories ? (
+      {isLoadingParent || isSuccessParent || !parentIncident || !subcategories ? (
         <LoadingIndicator />
       ) : (
         <FormComponent
           data-testid="incidentSplitForm"
-          parentIncident={getParentIncident(data)}
+          parentIncident={getParentIncident(parentIncident)}
           subcategories={subcategoryOptions}
           onSubmit={onSubmit}
         />
