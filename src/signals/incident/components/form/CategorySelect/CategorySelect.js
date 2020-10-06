@@ -11,11 +11,14 @@ const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;
 `;
 
+const defaultOption = { key: '', name: 'Selecteer subcatgorie', value: '' };
+
 const CategorySelect = ({ handler, meta, parent }) => {
   const subcategories = useSelector(makeSelectSubCategories);
   const options = useMemo(() => subcategories?.map(({ slug, name }) => ({ key: slug, name, value: slug })), [
     subcategories,
   ]);
+
   const { value } = handler();
 
   const [info, setInfo] = useState();
@@ -49,7 +52,7 @@ const CategorySelect = ({ handler, meta, parent }) => {
 
   return (
     <div>
-      <Select name={meta.name} value={`${handler().value}`} onChange={handleChange} options={options || []} />
+      <Select name={meta.name} value={`${handler().value}`} onChange={handleChange} options={[defaultOption, ...options || []]} />
       {info && <StyledInfoText text={`${info}`} />}
     </div>
   );
