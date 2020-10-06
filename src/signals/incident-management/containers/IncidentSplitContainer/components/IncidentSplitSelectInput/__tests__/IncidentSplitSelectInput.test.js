@@ -5,7 +5,7 @@ import priorityList from 'signals/incident-management/definitions/priorityList';
 
 import IncidentSplitSelectInput from '..';
 
-import subcategoriesFixture from '../../../__tests__/departmentsFixture.json';
+import subcategoriesFixture from '../../../__tests__/subcategoriesFixture.json';
 
 describe('<IncidentSplitSelectInput />', () => {
   const props = {
