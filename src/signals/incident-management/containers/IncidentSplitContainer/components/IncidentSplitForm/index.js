@@ -51,7 +51,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
           <IncidentSplitRadioInput
             display="Regie"
             register={register}
-            initialValue="null"
+            initialValue={directingDepartmentList[0].key}
             name="department"
             id="department"
             data-testid="incidentSplitFormRadioInputDepartment"

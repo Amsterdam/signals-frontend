@@ -6,6 +6,7 @@ import { withAppContext } from 'test/utils';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
 import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
+import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json';
 
 import IncidentSplitForm from '..';
@@ -35,6 +36,7 @@ describe('<IncidentSplitForm />', () => {
     await findByTestId('incidentSplitForm');
 
     expect(onSubmit).toHaveBeenCalledWith({
+      department: directingDepartmentList[0].key,
       // WARNING: data does not match acc and that sucks because it is confusing..
       incidents: [
         undefined,
