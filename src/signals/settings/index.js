@@ -8,7 +8,6 @@ import LoginPage from 'components/LoginPage';
 import { makeSelectUserCanAccess, makeSelectUserCan } from 'containers/App/selectors';
 
 import { fetchRoles as fetchRolesAction, fetchPermissions as fetchPermissionsAction } from 'models/roles/actions';
-import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 
 import routes, { USERS_PAGED_URL, USER_URL, ROLE_URL, CATEGORIES_PAGED_URL, CATEGORY_URL } from './routes';
@@ -36,7 +35,6 @@ export const SettingsModule = () => {
       return;
     }
 
-    storeDispatch(fetchDepartmentsAction());
     storeDispatch(fetchRolesAction());
     storeDispatch(fetchPermissionsAction());
   }, [storeDispatch]);

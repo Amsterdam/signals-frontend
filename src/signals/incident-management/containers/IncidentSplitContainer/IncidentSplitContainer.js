@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectDepartments } from 'models/departments/selectors';
@@ -59,10 +58,6 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     },
     [departments, setDirectingDepartment]
   );
-
-  useEffect(() => {
-    dispatch(fetchDepartmentsAction());
-  }, [dispatch]);
 
   useEffect(() => {
     getParent(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
