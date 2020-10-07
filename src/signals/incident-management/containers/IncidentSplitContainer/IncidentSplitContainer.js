@@ -82,12 +82,13 @@ const IncidentSplitContainer = ({ FormComponent }) => {
           type: TYPE_LOCAL,
         })
       );
+
       history.push(`${INCIDENT_URL}/${id}`);
     }
 
-    // Disabling linter; patch and history dependencies are generating infinite loops
+    // Disabling linter; the `history` dependency is generating infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorSplit, isSuccessSplit, id, dispatch]);
+  }, [errorSplit, isSuccessSplit, id, dispatch, patch, directingDepartment]);
 
   useEffect(() => {
     if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
