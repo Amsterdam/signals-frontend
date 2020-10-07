@@ -91,9 +91,9 @@ const renderAwait = async (component, testIdToLookFor = 'incidentSplitContainer'
 };
 
 // eslint-disable-next-line
-const Form = ({ onSubmit, ...props }) => {
+const Form = (formData = submittedFormData) => ({ onSubmit, ...props }) => {
   const handleSubmit = () => {
-    onSubmit(submittedFormData);
+    onSubmit(formData);
   };
 
   // skip error log
@@ -122,7 +122,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
   it('should render loading indicator', async () => {
     const { getByTestId, findByTestId, queryByTestId } = reactRender(
-      withAppContext(<IncidentSplitContainer FormComponent={Form} />)
+      withAppContext(<IncidentSplitContainer FormComponent={Form()} />)
     );
 
     expect(getByTestId('loadingIndicator')).toBeInTheDocument();
@@ -133,7 +133,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
   });
 
   it('should request incident data on mount', async () => {
-    await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(fetch).toHaveBeenCalledWith(
       `${CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT}${id}`,
@@ -142,13 +142,13 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
   });
 
   it('should render the form on successful fetch', async () => {
-    const { queryByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    const { queryByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(queryByTestId('incidentSplitForm')).toBeInTheDocument();
   });
 
   it('should POST the form data', async () => {
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(fetch).toHaveBeenCalledTimes(1);
 
@@ -209,7 +209,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       [JSON.stringify({}), { status: 201 }], // post
       [JSON.stringify({}), { status: 201 }] // patch
     );
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: null })} />);
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
@@ -220,7 +220,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De melding is succesvol gesplitst',
+        title: 'De melding is succesvol gedeeld',
         variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })
@@ -233,7 +233,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     fetch.resetMocks();
     fetch.once(JSON.stringify(incidentFixture)).mockReject(new Error('Whoops!!1!'));
 
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
@@ -244,7 +244,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De melding kon niet gesplitst worden',
+        title: 'De melding kon niet gedeeld worden',
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })
@@ -260,7 +260,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       [JSON.stringify({}), { status: 201 }], // post
     ).mockReject(new Error('Whoops!!1!'));
 
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
@@ -271,8 +271,8 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De melding is gesplits maar het bijwerken van de hoofdmelding regie is niet gelukt',
-        variant: VARIANT_ERROR,
+        title: 'De melding is succesvol gedeeld',
+        variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })
     );

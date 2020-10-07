@@ -51,9 +51,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   const updateDepartment = useCallback(
     name => {
-      if (!name || !departments) return;
-
-      const department = departments.list.find(d => d.code === name);
+      const department = departments?.list.find(d => d.code === name);
       setDirectingDepartment(department ? [{ id: department.id }] : []);
     },
     [departments, setDirectingDepartment]
@@ -66,6 +64,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   useEffect(() => {
     if (isLoadingParent || isSuccessParent || errorParent === undefined) return;
 
+    /* istanbul ignore else */
     if (errorParent === false) {
       setParentIncident(dataParent);
     }
@@ -78,7 +77,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     } else {
       dispatch(
         showGlobalNotification({
-          title: 'De melding kon niet gesplitst worden',
+          title: 'De melding kon niet gedeeld worden',
           variant: VARIANT_ERROR,
           type: TYPE_LOCAL,
         })
@@ -92,19 +91,14 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   useEffect(() => {
     if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
-    const notificationProps = isSuccessUpdate
-      ? {
-        title: 'De melding is succesvol gesplitst',
-        variant: VARIANT_SUCCESS,
-      }
-      : {
-        title: 'De melding is gesplits maar het bijwerken van de hoofdmelding regie is niet gelukt',
-        variant: VARIANT_ERROR,
-      };
+
+    // The scenario when there is an error during the patch of the parent incident
+    // is intentionally left out.
 
     dispatch(
       showGlobalNotification({
-        ...notificationProps,
+        title: 'De melding is succesvol gedeeld',
+        variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })
     );
