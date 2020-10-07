@@ -100,8 +100,8 @@ const Location = ({ location }) => {
             </MapTile>
           )}
 
-          {location.stadsdeel && (
-            <div data-testid="location-value-address-stadsdeel">
+          {!configuration.fetchDistrictsFromBackend && location.stadsdeel && (
+            <div data-testid="location-value-address-district">
               Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
             </div>
           )}
@@ -111,11 +111,6 @@ const Location = ({ location }) => {
               {configuration.fetchDistrictsFromBackend && location.area_code && districts && (
                 <div data-testid="location-value-address-district">
                   {configuration.language.district}: {getListValueByKey(districts, location.area_code)}
-                </div>
-              )}
-              {!configuration.fetchDistrictsFromBackend && location.stadsdeel && (
-                <div data-testid="location-value-address-district">
-                  Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
                 </div>
               )}
 
