@@ -13,7 +13,7 @@ const StyledInfoText = styled(InfoText)`
 
 const CategorySelect = ({ handler, meta, parent }) => {
   const subcategories = useSelector(makeSelectSubCategories);
-  const options = useMemo(() => subcategories?.map(({ slug, name }) => ({ key: slug, name, value: slug })), [
+  const options = useMemo(() => subcategories?.map(({ slug, extendedName: name }) => ({ key: slug, name, value: slug })), [
     subcategories,
   ]);
   const { value } = handler();
