@@ -11,7 +11,7 @@ const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;
 `;
 
-const defaultOption = { key: '', name: 'Selecteer subcatgorie', value: '' };
+const defaultOption = { key: '', name: 'Selecteer subcategorie', value: '' };
 
 const CategorySelect = ({ handler, meta, parent }) => {
   const subcategories = useSelector(makeSelectSubCategories);
