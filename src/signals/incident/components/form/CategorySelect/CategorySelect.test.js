@@ -52,7 +52,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
 
     const element = queryByTestId('categorySelect');
     expect(element).toBeInTheDocument();
-    expect(element.querySelectorAll('option').length).toEqual(subCategories.length);
+    expect(element.querySelectorAll('option').length).toEqual(subCategories.length + 1);
     expect(queryByTestId('infoText')).toBeInTheDocument();
   });
 
@@ -61,7 +61,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
     const { queryByTestId } = render(withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />));
     const element = queryByTestId('categorySelect');
     expect(element).toBeInTheDocument();
-    expect(element.querySelectorAll('option').length).toEqual(0);
+    expect(element.querySelectorAll('option').length).toEqual(1);
     expect(queryByTestId('infoText')).not.toBeInTheDocument();
   });
 
