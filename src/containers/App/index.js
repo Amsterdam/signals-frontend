@@ -11,6 +11,7 @@ import Footer from 'components/Footer';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ThemeProvider from 'components/ThemeProvider';
 import SiteHeaderContainer from 'containers/SiteHeader';
+import IncidentContainer from 'signals/incident/containers/IncidentContainer';
 
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
 import useLocationReferrer from 'hooks/useLocationReferrer';
@@ -39,8 +40,6 @@ const ContentContainer = styled.div`
 `;
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
-// istanbul ignore next
-const IncidentContainer = lazy(() => import('signals/incident/containers/IncidentContainer'));
 // istanbul ignore next
 const KtoContainer = lazy(() => import('signals/incident/containers/KtoContainer'));
 // istanbul ignore next
