@@ -68,9 +68,6 @@ describe('Standaardteksten', () => {
         .clear()
         .type(STANDAARDTEKSTEN.textDescriptionInplannen, { parseSpecialCharSequences: false });
       cy.get(STANDAARDTEKSTEN.buttonOpslaan).click();
-      cy.get(STANDAARDTEKSTEN.notification).should('be.visible');
-      cy.get(STANDAARDTEKSTEN.buttonCloseNotification).click();
-      cy.get(STANDAARDTEKSTEN.notification).should('not.be.visible');
       cy.wait('@PostDuiven');
 
       // Status Heropend
@@ -135,7 +132,7 @@ describe('Standaardteksten', () => {
       createSignal.getSignalId();
     });
   });
-  describe('Change staus of signal and check standaardtekst', () => {
+  describe('Change status of signal and check standaardtekst', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', Cypress.env('token'));
       cy.server();

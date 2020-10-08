@@ -231,6 +231,8 @@ describe('signals/settings/categories/Detail', () => {
   });
 
   it('should call patch on submit', async () => {
+    fetch.resetMocks();
+
     fetch
       .once(JSON.stringify(categoryJSON)) // GET response (category)
       .once(JSON.stringify(historyJSON)) // GET response (history)
@@ -268,6 +270,8 @@ describe('signals/settings/categories/Detail', () => {
   });
 
   it('should redirect on patch success', async () => {
+    fetch.resetMocks();
+
     fetch
       .once(JSON.stringify(categoryJSON)) // GET response (category)
       .once(JSON.stringify(historyJSON)) // GET response (history)
@@ -313,6 +317,8 @@ describe('signals/settings/categories/Detail', () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 900,
     }));
+
+    fetch.resetMocks();
 
     unmount();
 

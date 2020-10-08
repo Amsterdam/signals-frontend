@@ -8,7 +8,7 @@ import RadioGroup from '../RadioGroup';
 describe('signals/incident-management/components/FilterForm/components/RadioGroup', () => {
   it('should not render anything', () => {
     const { container } = render(withAppContext(
-      <RadioGroup label="Label text" name="groupName" options={[]} />
+      <RadioGroup label="Label text" name="groupName" options={[]} onChange={() => {}} />
     ));
 
     expect(container.firstChild).not.toBeInTheDocument();
@@ -18,7 +18,7 @@ describe('signals/incident-management/components/FilterForm/components/RadioGrou
     const label = 'Label text';
     const name = 'groupName';
     const { getByText, getByTestId } = render(withAppContext(
-      <RadioGroup label={label} name={name} options={priorityJSON} />
+      <RadioGroup label={label} name={name} options={priorityJSON} onChange={() => {}} />
     ));
 
     expect(getByText(label)).toBeInTheDocument();

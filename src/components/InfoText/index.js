@@ -9,9 +9,15 @@ const Info = styled(Paragraph)`
   font-size: 16px;
 `;
 
-const InfoText = ({ text }) => <Info data-testid="infoText">{text}</Info>;
+const InfoText = ({ className, text }) => <Info className={className} data-testid="infoText">{text}</Info>;
+
+InfoText.defaultProps = {
+  className: '',
+};
 
 InfoText.propTypes = {
+  /** @ignore */
+  className: PropTypes.string,
   text: PropTypes.string.isRequired,
 };
 
