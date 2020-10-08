@@ -32,6 +32,7 @@ const Map = ({
   canBeDragged,
   children,
   className,
+  'data-testid': dataTestId,
   events,
   hasGPSControl,
   hasZoomControls,
@@ -43,28 +44,26 @@ const Map = ({
   const [geolocation, setGeolocation] = useState();
   const hasTouchCapabilities = 'ontouchstart' in window;
   const showZoom = hasZoomControls && !hasTouchCapabilities;
+  const maxZoom = mapOptions.maxZoom || configuration.map.options.maxZoom;
+  const minZoom = mapOptions.minZoom || configuration.map.options.minZoom;
   const options = useMemo(() => {
     const center = geolocation ? [geolocation.latitude, geolocation.longitude] : mapOptions.center;
 
     return {
       ...{ ...mapOptions, center },
-      maxZoom: mapOptions.maxZoom || configuration.map.options.maxZoom,
-      minZoom: mapOptions.minZoom || configuration.map.options.minZoom,
+      maxZoom,
+      minZoom,
       dragging: canBeDragged && !hasTouchCapabilities,
       tap: false,
       scrollWheelZoom: false,
     };
-  }, [canBeDragged, hasTouchCapabilities, mapOptions, geolocation]);
+  }, [canBeDragged, hasTouchCapabilities, mapOptions, geolocation, maxZoom, minZoom]);
 
   useLayoutEffect(() => {
     if (!mapInstance || !geolocation || !geolocation.toggled) return;
 
-    mapInstance.flyTo(
-      [geolocation.latitude, geolocation.longitude],
-      mapOptions.maxZoom || configuration.map.options.maxZoom,
-      { animate: true, noMoveStart: true }
-    );
-  }, [geolocation, mapInstance, mapOptions.maxZoom]);
+    mapInstance.flyTo([geolocation.latitude, geolocation.longitude], maxZoom, { animate: true, noMoveStart: true });
+  }, [geolocation, mapInstance, maxZoom]);
 
   const captureInstance = useCallback(
     instance => {
@@ -80,9 +79,11 @@ const Map = ({
   return (
     <StyledMap
       className={className}
-      data-testid="map-base"
-      options={options}
+      data-testid={dataTestId}
+      data-max-zoom={maxZoom}
+      data-min-zoom={minZoom}
       events={events}
+      options={options}
       setInstance={captureInstance}
     >
       <StyledViewerContainer
@@ -131,6 +132,7 @@ const Map = ({
 Map.defaultProps = {
   canBeDragged: true,
   className: '',
+  'data-testid': 'map-base',
   hasGPSControl: false,
   hasZoomControls: false,
 };
@@ -145,6 +147,7 @@ Map.propTypes = {
    * Map events
    * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
    */
+  'data-testid': PropTypes.string,
   events: PropTypes.shape({}),
   hasGPSControl: PropTypes.bool,
   hasZoomControls: PropTypes.bool,

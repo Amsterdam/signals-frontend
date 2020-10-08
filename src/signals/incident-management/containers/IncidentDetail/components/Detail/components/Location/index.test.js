@@ -101,7 +101,7 @@ describe('<Location />', () => {
         await findByText('Locatie');
 
         expect(queryByTestId('mapStaticImage')).not.toBeInTheDocument();
-        expect(queryByTestId('map-base')).toBeInTheDocument();
+        expect(queryByTestId('mapDetail')).toBeInTheDocument();
       });
     });
 

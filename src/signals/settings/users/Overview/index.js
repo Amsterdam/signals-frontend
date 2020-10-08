@@ -84,15 +84,15 @@ const UsersOverviewContainer = () => {
   );
 
   const createOnChangeFilter = useCallback(
-    filter => event => {
+    event => {
       const { value } = event.target;
-      if (filters[filter] === value) return;
+
       setUsernameFilter(value);
     },
-    [filters, setUsernameFilter]
+    [setUsernameFilter]
   );
 
-  const debouncedOnChangeFilter = useDebounce(createOnChangeFilter('username'), 250);
+  const debouncedOnChangeFilter = useDebounce(createOnChangeFilter, 250);
 
   const selectUserActiveOnChange = useCallback(
     event => {

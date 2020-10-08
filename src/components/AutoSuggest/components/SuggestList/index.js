@@ -55,10 +55,10 @@ const SuggestList = ({ activeIndex, className, role, options, onSelectOption, ..
 
     // preventing the page from scrolling when cycling through the list of options
     switch (event.key) {
-      case 'Up':
       case 'ArrowUp':
-      case 'Down':
+      case 'Up':
       case 'ArrowDown':
+      case 'Down':
         break;
 
       case 'Enter':

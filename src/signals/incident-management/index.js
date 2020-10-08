@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import React, { useEffect, lazy, Suspense } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { compose } from 'redux';
 import { Route, Switch } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
 
 import configuration from 'shared/services/configuration/configuration';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -11,14 +9,9 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 import { makeSelectSearchQuery } from 'containers/App/selectors';
+import LoadingIndicator from 'components/LoadingIndicator';
 
-import LoginPage from 'components/LoginPage';
-
-import IncidentOverviewPage from './containers/IncidentOverviewPage';
 import { getDistricts, getFilters, searchIncidents, requestIncidents } from './actions';
-import IncidentDetail from './containers/IncidentDetail';
-import DefaultTextsAdmin from './containers/DefaultTextsAdmin';
-import LegacyIncidentSplitContainer from './containers/LegacyIncidentSplitContainer';
 
 import IncidentManagementContext from './context';
 import reducer from './reducer';
@@ -26,15 +19,23 @@ import saga from './saga';
 import routes from './routes';
 import { makeSelectDistricts } from './selectors';
 
-export const IncidentManagementModuleComponent = ({
-  getDistrictsAction,
-  getFiltersAction,
-  requestIncidentsAction,
-  searchIncidentsAction,
-  searchQuery,
-}) => {
+// Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
+// istanbul ignore next
+const LoginPage = lazy(() => import('components/LoginPage'));
+// istanbul ignore next
+const IncidentOverviewPage = lazy(() => import('./containers/IncidentOverviewPage'));
+// istanbul ignore next
+const IncidentDetail = lazy(() => import('./containers/IncidentDetail'));
+// istanbul ignore next
+const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'));
+// istanbul ignore next
+const LegacyIncidentSplitContainer = lazy(() => import('./containers/LegacyIncidentSplitContainer'));
+
+const IncidentManagement = () => {
   const location = useLocationReferrer();
   const districts = useSelector(makeSelectDistricts);
+  const searchQuery = useSelector(makeSelectSearchQuery);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -42,23 +43,17 @@ export const IncidentManagementModuleComponent = ({
     if (!isAuthenticated()) return;
 
     if (searchQuery) {
-      searchIncidentsAction(searchQuery);
+      dispatch(searchIncidents(searchQuery));
     } else {
-      requestIncidentsAction();
+      dispatch(requestIncidents());
     }
 
     if (configuration.fetchDistrictsFromBackend) {
-      getDistrictsAction();
+      dispatch(getDistricts());
     }
 
-    getFiltersAction();
-  }, [
-    getDistrictsAction,
-    getFiltersAction,
-    requestIncidentsAction,
-    searchIncidentsAction,
-    searchQuery,
-  ]);
+    dispatch(getFilters());
+  }, [dispatch, searchQuery]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
@@ -66,42 +61,20 @@ export const IncidentManagementModuleComponent = ({
 
   return (
     <IncidentManagementContext.Provider value={{ districts }}>
-      <Switch location={location}>
-        <Route exact path={routes.incidents} component={IncidentOverviewPage} />
-        <Route exact path={routes.incident} component={IncidentDetail} />
-        <Route exact path={routes.split} component={LegacyIncidentSplitContainer} />
-        <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
-        <Route component={IncidentOverviewPage} />
-      </Switch>
+      <Suspense fallback={<LoadingIndicator />}>
+        <Switch location={location}>
+          <Route exact path={routes.incidents} component={IncidentOverviewPage} />
+          <Route exact path={routes.incident} component={IncidentDetail} />
+          <Route exact path={routes.split} component={LegacyIncidentSplitContainer} />
+          <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
+          <Route component={IncidentOverviewPage} />
+        </Switch>
+      </Suspense>
     </IncidentManagementContext.Provider>
   );
 };
 
-IncidentManagementModuleComponent.propTypes = {
-  getDistrictsAction: PropTypes.func.isRequired,
-  getFiltersAction: PropTypes.func.isRequired,
-  requestIncidentsAction: PropTypes.func.isRequired,
-  searchQuery: PropTypes.string,
-  searchIncidentsAction: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  searchQuery: makeSelectSearchQuery,
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getDistrictsAction: getDistricts,
-      getFiltersAction: getFilters,
-      requestIncidentsAction: requestIncidents,
-      searchIncidentsAction: searchIncidents,
-    },
-    dispatch
-  );
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'incidentManagement', reducer });
 const withSaga = injectSaga({ key: 'incidentManagement', saga });
 
-export default compose(withConnect, withReducer, withSaga)(IncidentManagementModuleComponent);
+export default compose(withReducer, withSaga)(IncidentManagement);
