@@ -4,7 +4,7 @@ on:
     branches:
       - develop
       - master
-  pull_request:
+      - release/*
 
 env:
   TZ: "Europe/Amsterdam"
