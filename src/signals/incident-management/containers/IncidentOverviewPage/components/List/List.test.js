@@ -77,7 +77,7 @@ describe('List', () => {
     const { rerender, getByTestId } = render(withContext(<List {...props} />));
     expect(getByTestId('incidentOverviewListComponent')).not.toHaveStyleRule('opacity', opacity);
 
-    rerender(withContext(<List {...{ ...props, loading: true }} />));
+    rerender(withContext(<List {...{ ...props, isLoading: true }} />));
     expect(getByTestId('incidentOverviewListComponent')).toHaveStyleRule('opacity', opacity);
   });
 
