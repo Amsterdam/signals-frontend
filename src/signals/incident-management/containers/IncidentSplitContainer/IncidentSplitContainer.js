@@ -73,7 +73,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   useEffect(() => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
     if (isSuccessSplit) {
-      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_department: directingDepartment });
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_departments: directingDepartment });
     } else {
       dispatch(
         showGlobalNotification({
