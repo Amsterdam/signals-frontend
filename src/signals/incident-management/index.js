@@ -50,13 +50,18 @@ const IncidentManagement = () => {
       dispatch(requestIncidents());
     }
 
-    users.get(configuration.USERS_ENDPOINT);
     if (configuration.fetchDistrictsFromBackend) {
       dispatch(getDistricts());
     }
 
     dispatch(getFilters());
-  }, [dispatch, searchQuery, users]);
+  }, [dispatch, searchQuery]);
+
+  useEffect(() => {
+    if (!users.isLoading && !users.data) {
+      users.get(configuration.USERS_ENDPOINT);
+    }
+  }, [users]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
