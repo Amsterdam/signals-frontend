@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { ascDefaultTheme as theme } from '@datapunt/asc-ui';
+import 'jest-styled-components';
 
 import { withAppContext } from 'test/utils';
 import { VARIANT_ERROR, VARIANT_SUCCESS, VARIANT_NOTICE, VARIANT_DEFAULT } from 'containers/Notification/constants';

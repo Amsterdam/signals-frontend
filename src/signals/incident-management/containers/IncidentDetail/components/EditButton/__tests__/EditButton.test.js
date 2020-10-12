@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
+import 'jest-styled-components';
 
 import { withAppContext } from 'test/utils';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
+import 'jest-styled-components';
 
 import * as auth from 'shared/services/auth/auth';
 import { history, withAppContext } from 'test/utils';

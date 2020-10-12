@@ -4,6 +4,8 @@ import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import configuration from 'shared/services/configuration/configuration';
 
+import 'jest-styled-components';
+
 import Logo from '..';
 
 jest.mock('shared/services/configuration/configuration');

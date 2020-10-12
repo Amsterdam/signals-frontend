@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import { history, withAppContext } from 'test/utils';
 import { ascDefaultTheme as theme } from '@datapunt/asc-ui';
+import 'jest-styled-components';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 

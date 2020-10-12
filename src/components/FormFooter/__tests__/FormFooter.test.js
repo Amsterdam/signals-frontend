@@ -1,57 +1,84 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+import 'jest-styled-components';
 import FormFooter from '..';
 
 describe('src/components/FormFooter', () => {
   it('should render correctly', () => {
-    const { getByTestId, rerender } = render(withAppContext(<FormFooter />));
+    const { getByTestId, rerender } = render(
+      withAppContext(<FormFooter />)
+    );
 
     expect(getByTestId('formFooter')).toHaveStyleRule('position', 'fixed');
     expect(getByTestId('formFooter')).toHaveStyleRule('left', '50%');
 
-    rerender(withAppContext(<FormFooter inline />));
+    rerender(
+      withAppContext(<FormFooter inline />)
+    );
 
     expect(getByTestId('formFooter')).not.toHaveStyleRule('position', 'fixed');
     expect(getByTestId('formFooter')).not.toHaveStyleRule('left', '50%');
   });
 
   it('should render the correct buttons', () => {
-    const { queryByTestId, container, rerender, getByText } = render(withAppContext(<FormFooter />));
+    const { queryByTestId, container, rerender, getByText } = render(
+      withAppContext(<FormFooter />)
+    );
 
     expect(container.querySelectorAll('button')).toHaveLength(0);
 
-    rerender(withAppContext(<FormFooter resetBtnLabel="Reset" />));
+    rerender(
+      withAppContext(
+        <FormFooter resetBtnLabel="Reset" />
+      )
+    );
 
     expect(queryByTestId('resetBtn')).not.toBeNull();
     expect(getByText('Reset')).toBeInTheDocument();
     expect(queryByTestId('resetBtn').getAttribute('type')).toEqual('reset');
 
-    rerender(withAppContext(<FormFooter onResetForm={() => {}} resetBtnLabel="Reset" />));
+    rerender(
+      withAppContext(
+        <FormFooter onResetForm={() => {}} resetBtnLabel="Reset" />
+      )
+    );
 
     expect(queryByTestId('resetBtn')).not.toBeNull();
     expect(getByText('Reset')).toBeInTheDocument();
     expect(queryByTestId('resetBtn').getAttribute('type')).toEqual('reset');
 
-    rerender(withAppContext(<FormFooter cancelBtnLabel="Cancel" />));
+    rerender(
+      withAppContext(<FormFooter cancelBtnLabel="Cancel" />)
+    );
 
     expect(queryByTestId('cancelBtn')).not.toBeNull();
     expect(getByText('Cancel')).toBeInTheDocument();
     expect(queryByTestId('cancelBtn').getAttribute('type')).toEqual('button');
 
-    rerender(withAppContext(<FormFooter onCancel={() => {}} cancelBtnLabel="Cancel" />));
+    rerender(
+      withAppContext(<FormFooter onCancel={() => {}} cancelBtnLabel="Cancel" />)
+    );
 
     expect(queryByTestId('cancelBtn')).not.toBeNull();
     expect(getByText('Cancel')).toBeInTheDocument();
     expect(queryByTestId('cancelBtn').getAttribute('type')).toEqual('button');
 
-    rerender(withAppContext(<FormFooter submitBtnLabel="Submit" />));
+    rerender(
+      withAppContext(
+        <FormFooter submitBtnLabel="Submit" />
+      )
+    );
 
     expect(queryByTestId('submitBtn')).not.toBeNull();
     expect(getByText('Submit')).toBeInTheDocument();
     expect(queryByTestId('submitBtn').getAttribute('type')).toEqual('submit');
 
-    rerender(withAppContext(<FormFooter onSubmitForm={() => {}} submitBtnLabel="Submit" />));
+    rerender(
+      withAppContext(
+        <FormFooter onSubmitForm={() => {}} submitBtnLabel="Submit" />
+      )
+    );
 
     expect(queryByTestId('submitBtn')).not.toBeNull();
     expect(getByText('Submit')).toBeInTheDocument();
@@ -61,7 +88,12 @@ describe('src/components/FormFooter', () => {
   it('should render the buttons in the correct order', () => {
     render(
       withAppContext(
-        <FormFooter onCancel={() => {}} cancelBtnLabel="Cancel" onSubmitForm={() => {}} submitBtnLabel="Submit" />
+        <FormFooter
+          onCancel={() => {}}
+          cancelBtnLabel="Cancel"
+          onSubmitForm={() => {}}
+          submitBtnLabel="Submit"
+        />
       )
     );
 
