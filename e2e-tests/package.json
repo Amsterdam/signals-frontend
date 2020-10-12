@@ -1,0 +1,14 @@
+{
+  "name": "@signalen/e2e-tests",
+  "private": true,
+  "dependencies": {
+    "cypress": "^5.3.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "scripts": {
+    "open": "cypress open",
+    "run": "cypress run",
+    "start": "npm run open",
+    "test": "npm run run"
+  }
+}
