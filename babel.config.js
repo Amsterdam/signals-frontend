@@ -28,7 +28,7 @@ module.exports = api => {
       ],
       '@babel/plugin-syntax-dynamic-import',
     ],
-    presets: [presetEnv, '@babel/preset-react'].filter(Boolean),
+    presets: [presetEnv, '@babel/preset-react', '@babel/preset-typescript'].filter(Boolean),
     env: {
       production: {
         only: ['src'],

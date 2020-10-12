@@ -42,7 +42,7 @@ if (dsn) {
 // Create redux store with history
 const initialState = Immutable.Map();
 const store = configureStore(initialState, history);
-const MOUNT_NODE = document.getElementById('app');
+const MOUNT_NODE = document.getElementById('app')!;
 
 loadModels(store);
 
@@ -55,7 +55,7 @@ if (urlBase && siteId) {
     urlBase,
     siteId,
   });
-  MatomoInstance.trackPageView();
+  MatomoInstance.trackPageView({});
 }
 
 const render = () => {

@@ -29,7 +29,7 @@ const FooterContainer = styled.div`
   max-width: 1400px;
 `;
 
-const ContentContainer = styled.div`
+const ContentContainer = styled.div<{headerIsTall: boolean}>`
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;

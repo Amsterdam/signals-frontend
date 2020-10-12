@@ -1,14 +1,12 @@
-require('@babel/register');
-
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
 
   settings: {
     react: { version: 'detect' },
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.react.js'],
+        extensions: ['.js', '.jsx', '.react.js', '.ts', '.tsx'],
         moduleDirectory: ['node_modules', './src'],
       },
     },
@@ -25,8 +23,10 @@ module.exports = {
   ],
 
   plugins: [
+    'jest',
     'jsx-a11y',
     'prettier',
+    '@typescript-eslint',
     'promise',
     'react',
     'react-hooks',
@@ -36,9 +36,9 @@ module.exports = {
     'unicorn',
   ],
   env: {
+    'jest/globals': true,
     browser: true,
     es6: true,
-    jest: true,
     node: true,
   },
   parserOptions: {
@@ -139,7 +139,6 @@ module.exports = {
     'getter-return': 'error',
     'guard-for-in': 'error',
     'handle-callback-err': 'error',
-    'import/extensions': 'error',
     'import/first': 'error',
     'import/no-amd': 'error',
     'jsx-a11y/alt-text': 'error',
@@ -224,7 +223,11 @@ module.exports = {
     'no-prototype-builtins': 'error',
     'no-regex-spaces': 'error',
     'no-restricted-modules': 'error',
-    'no-restricted-properties': ['error', { object: 'require', property: 'ensure' }, { object: 'System', property: 'import' }],
+    'no-restricted-properties': [
+      'error',
+      { object: 'require', property: 'ensure' },
+      { object: 'System', property: 'import' },
+    ],
     'no-return-await': 'error',
     'no-script-url': 'error',
     'no-self-assign': 'error',
@@ -244,7 +247,6 @@ module.exports = {
     'no-unreachable': 'error',
     'no-unused-expressions': 'error',
     'no-unused-labels': 'error',
-    'no-unused-vars': 'error',
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
@@ -276,7 +278,10 @@ module.exports = {
     'promise/param-names': 'error',
     'promise/valid-params': 'error',
     'react/button-has-type': 'error',
-    'react/function-component-definition': ['error', { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' }],
+    'react/function-component-definition': [
+      'error',
+      { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
+    ],
     'react/jsx-curly-spacing': 'error',
     'react/jsx-no-useless-fragment': 'error',
     'react/jsx-tag-spacing': 'error',
@@ -313,14 +318,17 @@ module.exports = {
     'import/no-unresolved': ['error', { commonjs: true }],
     indent: ['error', 2, { SwitchCase: 1, MemberExpression: 1 }],
     'jsx-a11y/aria-props': 'error',
-    'jsx-a11y/label-has-associated-control': ['error', {
-      /*
-       * NOTE: If this error triggers, either disable it or add
-       * your custom components, labels and attributes via these options
-       * See https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
-       */
-      controlComponents: ['Input'],
-    }],
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        /*
+         * NOTE: If this error triggers, either disable it or add
+         * your custom components, labels and attributes via these options
+         * See https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
+         */
+        controlComponents: ['Input'],
+      },
+    ],
     'jsx-a11y/mouse-events-have-key-events': 'error',
     'jsx-a11y/role-has-required-aria-props': 'error',
     'jsx-a11y/role-supports-aria-props': 'error',
@@ -429,5 +437,27 @@ module.exports = {
     'no-invalid-this': 'off',
     'class-methods-use-this': 'off',
     'react/no-did-mount-set-state': 'off',
+
+    // typescript
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        vars: 'all',
+        args: 'after-used',
+        ignoreRestSiblings: false,
+      },
+    ],
+    'no-unused-vars': 'error',
+
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
 };
