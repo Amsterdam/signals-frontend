@@ -36,7 +36,14 @@ Run the unit-tests and generate a coverage report with:
 npm test
 ```
 
-Run the end-to-end tests with:
+To run the end-to-end tests make sure you are running a development watch server or start the stack with:
+
+```bash
+docker-compose build
+docker-compose up -d
+```
+
+Then start the end-to-end tests with:
 
 ```bash
 cd e2e-tests/
