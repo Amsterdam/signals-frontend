@@ -27,25 +27,26 @@ export function* getClassification(action) {
       text: action.payload,
     });
 
-    const { category, subcategory } = resolveClassification(result);
-    const classification = yield call(
+    const resolved = resolveClassification(result);
+    const { category, subcategory } = resolved;
+    const categoryData = yield call(
       request,
       `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
     );
 
-    yield put(getClassificationSuccess(getClassificationData(category, subcategory, classification)));
+    yield put(getClassificationSuccess(getClassificationData(category, subcategory, categoryData)));
 
     if (configuration.fetchQuestionsFromBackend) {
-      yield put(getQuestions(classification));
+      yield put(getQuestions(resolved));
     }
   } catch {
     const { category, subcategory } = resolveClassification();
-    const classification = yield call(
+    const categoryData = yield call(
       request,
       `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
     );
 
-    yield put(getClassificationError(getClassificationData(category, subcategory, classification)));
+    yield put(getClassificationError(getClassificationData(category, subcategory, categoryData)));
   }
 }
 
