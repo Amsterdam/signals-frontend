@@ -9,7 +9,6 @@ import { subcategoriesType } from 'shared/types';
 
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 
-import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 import {
   StyledDefinitionList,
   StyledForm,
