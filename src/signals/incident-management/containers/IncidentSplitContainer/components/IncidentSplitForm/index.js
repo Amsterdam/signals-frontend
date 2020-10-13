@@ -9,8 +9,6 @@ import { subcategoriesType } from 'shared/types';
 
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-
 import {
   StyledDefinitionList,
   StyledForm,
@@ -27,8 +25,8 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
   const history = useHistory();
 
   const onCancel = useCallback(() => {
-    history.push(CONFIGURATION.INCIDENTS_ENDPOINT);
-  }, [history]);
+    history.push(`/manage/incident/${parentIncident.id}`);
+  }, [history, parentIncident.id]);
 
   return (
     <FormWrapper>
