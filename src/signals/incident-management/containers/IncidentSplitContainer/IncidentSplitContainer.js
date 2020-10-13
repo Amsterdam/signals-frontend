@@ -21,7 +21,7 @@ const getParentIncident = incident => ({
   statusDisplayName: incident.status.state_display,
   priority: incident.priority.priority,
   subcategory: incident.category.category_url,
-  subcategoryDisplayName: incident.category.departments,
+  subcategoryDisplayName: `${incident.category.sub} (${incident.category.departments})`,
   description: incident.text,
   type: incident.type.code,
 });
