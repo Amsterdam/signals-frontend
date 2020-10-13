@@ -6,6 +6,7 @@ import { typesList, priorityList } from 'signals/incident-management/definitions
 
 import { subcategoriesType } from 'shared/types';
 
+import Label from 'components/Label';
 import TextArea from 'components/TextArea';
 
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
@@ -30,14 +31,6 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
         <fieldset key={`incident-splitform-incident-${splitNumber}`}>
           <Heading forwardedAs="h3" data-testid="incidentSplitFormIncidentTitle">Deelmelding {splitNumber}</Heading>
 
-          <TextArea
-            data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
-            name={`incidents[${splitNumber}].description`}
-            ref={register}
-            rows={10}
-            defaultValue={parentIncident.description}
-          />
-
           <IncidentSplitSelectInput
             id={`subcategory-${splitNumber}`}
             data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
@@ -47,6 +40,18 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
             initialValue={parentIncident.subcategory}
             register={register}
           />
+
+          <div>
+            <Label as="span">Omschrijving</Label>
+
+            <TextArea
+              data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
+              name={`incidents[${splitNumber}].description`}
+              ref={register}
+              rows={10}
+              defaultValue={parentIncident.description}
+            />
+          </div>
 
           <IncidentSplitRadioInput
             id={`priority-${splitNumber}`}
