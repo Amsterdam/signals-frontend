@@ -31,7 +31,7 @@ const IncidentSplitSelectInput = ({ id, name, display, options, initialValue, re
         value={selected.key}
       >
         {options.map(option => (
-          <option key={`${id}-${option.key}`} value={option.key}>{option.name}</option>
+          <option key={`${id}-${option.key}`} value={option.key}>{option.value}</option>
         ))}
       </Select>
 
