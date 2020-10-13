@@ -71,7 +71,7 @@ describe('<MapSelect />', () => {
       )
     );
 
-    await findByTestId('map-base');
+    await findByTestId('mapSelect');
 
     expect(getByTestId('gpsButton')).toBeInTheDocument();
     expect(LegendControl).not.toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe('<MapSelect />', () => {
       )
     );
 
-    await findByTestId('map-base');
+    await findByTestId('mapSelect');
 
     expect(LegendControl).toHaveBeenCalled();
   });
@@ -117,7 +117,7 @@ describe('<MapSelect />', () => {
       )
     );
 
-    await findByTestId('map-base');
+    await findByTestId('mapSelect');
 
     const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/;
     expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);

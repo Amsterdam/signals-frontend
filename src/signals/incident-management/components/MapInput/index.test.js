@@ -39,7 +39,7 @@ describe('<MapInput />', () => {
     const MapInputRender = MapInput(props);
     const { queryByTestId } = render(withMapContext(<MapInputRender {...props} />));
 
-    expect(queryByTestId('map-input')).toBeInTheDocument();
+    expect(queryByTestId('mapInput')).toBeInTheDocument();
     expect(queryByTestId('autoSuggest')).toBeInTheDocument();
   });
 });

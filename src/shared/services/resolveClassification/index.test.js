@@ -69,6 +69,19 @@ describe('The resolve classification service', () => {
       });
     });
 
+    describe('schoon', () => {
+      it('should return veegzwerfvuil when minimum subcategory chance is not met and maincategory chance is met', () => {
+        hoofdrubriek[0][0] =
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon';
+        hoofdrubriek[1][0] = MINIMUM_CERTAINTY;
+
+        expect(resolveClassification({ subrubriek, hoofdrubriek })).toEqual({
+          category: 'schoon',
+          subcategory: 'veegzwerfvuil',
+        });
+      });
+    });
+
     describe('openbaar-groen-en-water', () => {
       it('should return overig-groen-en-water when minimum subcategory chance is not met and maincategory chance is met', () => {
         hoofdrubriek[0][0] =

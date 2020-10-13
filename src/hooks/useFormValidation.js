@@ -5,7 +5,10 @@ import { useRef, useState, useCallback } from 'react';
  *
  * When called, will go through all form elements and look up those that have their `required` attribute
  * set. For all those fields, the value of their `type` attribute determines which error message is
- * returned
+ * returned.
+ * Do note that this hook is ONLY to be used for forms that have uncontrolled components. Using controlled
+ * components or a combination of controlled and uncontrolled components will yield false positives when
+ * using this hook.
  *
  * @param {HTMLFormElement} formRef - Reference to the form node of which the fields should be validated
  */

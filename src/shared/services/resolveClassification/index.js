@@ -40,6 +40,10 @@ const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] 
         subcategory = 'overig-afval';
         break;
 
+      case 'schoon':
+        subcategory = 'veegzwerfvuil';
+        break;
+
       case 'openbaar-groen-en-water':
         subcategory = 'overig-groen-en-water';
         break;

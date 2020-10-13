@@ -25,19 +25,13 @@ import CategoryLists from './components/CategoryLists';
 
 import DepartmentDetailContext from './context';
 
-export const DepartmentDetailContainer = ({
-  categories,
-  findByMain,
-  subCategories,
-}) => {
+export const DepartmentDetailContainer = ({ categories, findByMain, subCategories }) => {
   const { departmentId } = useParams();
   const isExistingDepartment = departmentId !== undefined;
   const { isLoading, isSuccess, data, error, get, patch } = useFetch();
   const confirmedCancel = useConfirmedCancel(routes.departments);
   const entityName = `Afdeling${data ? ` '${data.name}'` : ''}`;
-  const title = `${entityName} ${
-    isExistingDepartment ? 'wijzigen' : 'toevoegen'
-  }`;
+  const title = `${entityName} ${isExistingDepartment ? 'wijzigen' : 'toevoegen'}`;
 
   useFetchResponseNotification({
     entityName,
@@ -61,12 +55,7 @@ export const DepartmentDetailContainer = ({
 
   return (
     <Fragment>
-      <PageHeader
-        title={title}
-        BackLink={
-          <BackLink to={routes.departments}>Terug naar overzicht</BackLink>
-        }
-      />
+      <PageHeader title={title} BackLink={<BackLink to={routes.departments}>Terug naar overzicht</BackLink>} />
 
       {isLoading && <LoadingIndicator />}
 
@@ -85,10 +74,7 @@ export const DepartmentDetailContainer = ({
 
           {categories && (
             <DepartmentDetailContext.Provider value={{ categories, department: data, subCategories, findByMain }}>
-              <CategoryLists
-                onCancel={confirmedCancel}
-                onSubmit={onSubmit}
-              />
+              <CategoryLists onCancel={confirmedCancel} onSubmit={onSubmit} />
             </DepartmentDetailContext.Provider>
           )}
         </Fragment>

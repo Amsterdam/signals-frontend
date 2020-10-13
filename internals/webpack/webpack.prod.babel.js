@@ -7,6 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+
 const template = require('./template');
 
 const __rootdir = pkgDir.sync();
@@ -46,23 +47,18 @@ module.exports = require('./webpack.base.babel')({
       new OptimizeCSSAssetsPlugin(),
     ],
     nodeEnv: 'production',
-    sideEffects: true,
-    concatenateModules: true,
+    namedChunks: true,
+    namedModules: true,
+    moduleIds: 'named',
+    chunkIds: 'named',
     runtimeChunk: 'single',
     splitChunks: {
-      chunks: 'all',
-      maxInitialRequests: 24,
-      minSize: 0,
-      cacheGroups: {
-        vendor: {
-          test: /[/\\]node_modules[/\\](?!@datapunt[/\\]asc-ui)(?!leaflet)(?!react-reactive-form)(?!date-fns)/,
-          name(module) {
-            const packageName = module.context.match(/[/\\]node_modules[/\\](.*?)([/\\]|$)/)[1];
-            return `npm.${packageName.replace('@', '')}`;
-          },
-          reuseExistingChunk: true,
-        },
-      },
+      chunks: 'async',
+      minSize: 25000,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 85000,
     },
   },
 
@@ -100,7 +96,7 @@ module.exports = require('./webpack.base.babel')({
 
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-    new OfflinePlugin({
+    process.env.ENABLE_SERVICEWORKER === '1' ? new OfflinePlugin({
       version: '$SIGNALS_SERVICE_WORKER_VERSION',
       ServiceWorker: {
         events: true,
@@ -122,7 +118,7 @@ module.exports = require('./webpack.base.babel')({
 
       // Removes warning for about `additional` section usage
       safeToUseOptionalCaches: true,
-    }),
+    }) : null,
 
     new CopyPlugin({
       patterns: [
@@ -132,7 +128,7 @@ module.exports = require('./webpack.base.babel')({
         },
       ],
     }),
-  ],
+  ].filter(Boolean),
 
   performance: {
     assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),

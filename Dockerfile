@@ -6,17 +6,15 @@ LABEL maintainer="datapunt@amsterdam.nl"
 
 WORKDIR /app
 
-# Run updates and cleanup
+# Install dependencies and remove apt cache
 RUN apt-get update && apt-get install -y \
+  git \
   netcat \
-  git && \
-  rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
-#  Changing git URL because network is blocking git protocol...
+# Change git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
-
-COPY internals /app/internals
 
 COPY .gitignore \
   .gitattributes \
@@ -28,19 +26,11 @@ COPY .gitignore \
   package-lock.json \
   /app/
 
-# Install NPM dependencies, cleaning cache afterwards:
-RUN CYPRESS_INSTALL_BINARY=0 npm --production=false --unsafe-perm --no-progress ci && npm cache clean --force
-
-COPY src /app/src
-
-################################
-# Build
-################################
-FROM node:12.18-stretch AS builder
-COPY --from=base /app /app
-WORKDIR /app
+RUN npm ci
 
 COPY assets /app/assets
+COPY internals /app/internals
+COPY src /app/src
 
 ARG GIT_BRANCH
 ENV GIT_BRANCH ${GIT_BRANCH}
@@ -48,25 +38,24 @@ ENV GIT_BRANCH ${GIT_BRANCH}
 ARG BUILD_ENV
 ENV BUILD_ENV ${BUILD_ENV}
 
-ENV NODE_ENV=production
-RUN echo "run build"
+ARG ENABLE_SERVICEWORKER=1
+ENV ENABLE_SERVICEWORKER=${ENABLE_SERVICEWORKER}
+
 RUN npm run build
 
-# Write the build number
 ARG BUILD_NUMBER=0
 RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
-
 
 ################################
 # Deploy
 ################################
 FROM nginx:stable-alpine
 
-RUN echo -e "https://dl-4.alpinelinux.org/alpine/latest-stable/main\nhttps://dl-4.alpinelinux.org/alpine/latest-stable/community" > /etc/apk/repositories && apk upgrade
 RUN apk add --no-cache jq nodejs npm
+
 RUN npm install @exodus/schemasafe lodash.merge
 
-COPY --from=builder /app/build/. /usr/share/nginx/html/
+COPY --from=base /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/
 

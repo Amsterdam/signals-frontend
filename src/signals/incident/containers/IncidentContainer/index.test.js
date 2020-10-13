@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { render } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
@@ -21,6 +21,8 @@ jest.mock('signals/incident/components/IncidentClassification', () => () => (
 ));
 jest.mock('signals/incident/components/IncidentWizard', () => () => <span data-testid="incidentWizard" />);
 
+const withSuspense = props => withAppContext(<Suspense fallback={<div>Loading...</div>}><IncidentContainerComponent {...props} /></Suspense>);
+
 describe('signals/incident/containers/IncidentContainer', () => {
   const props = {
     incidentContainer: { incident: {} },
@@ -33,16 +35,20 @@ describe('signals/incident/containers/IncidentContainer', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly', () => {
-    const { queryByTestId } = render(withAppContext(<IncidentContainerComponent {...props} />));
+  it('should render correctly', async () => {
+    const { findByTestId, queryByTestId } = render(withSuspense(props));
+
+    await findByTestId('incidentWizard');
 
     expect(queryByTestId('incidentWizard')).toBeInTheDocument();
     expect(queryByTestId('incidentClassification')).not.toBeInTheDocument();
   });
 
-  it('should render correctly when category should be set', () => {
+  it('should render correctly when category should be set', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({ pathname: '/categorie/cat/sub' }));
-    const { queryByTestId } = render(withAppContext(<IncidentContainerComponent {...props} />));
+    const { findByTestId, queryByTestId } = render(withSuspense(props));
+
+    await findByTestId('incidentClassification');
 
     expect(queryByTestId('incidentWizard')).not.toBeInTheDocument();
     expect(queryByTestId('incidentClassification')).toBeInTheDocument();

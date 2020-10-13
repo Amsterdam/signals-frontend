@@ -134,6 +134,18 @@ describe('signals/settings/departments/Detail/components', () => {
     expect(incoming(departmentCategories, subCategories)).toEqual(
       expectedIncoming
     );
+
+    const departmentCategoriesWithMismatch = [...departmentCategories];
+    departmentCategoriesWithMismatch[0].category._links.self.href = 'foo bar';
+
+    expect(incoming(departmentCategoriesWithMismatch, subCategories)).toEqual({
+      can_view: {
+        afval: [{ ...getMatching(2), disabled: true }],
+      },
+      is_responsible: {
+        afval: [getMatching(1), getMatching(2)],
+      },
+    });
   });
 
   it('should format outgoing data', () => {
