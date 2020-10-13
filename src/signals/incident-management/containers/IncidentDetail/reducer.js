@@ -52,7 +52,7 @@ const reducer = (state, action) => {
       return { ...state, defaultTexts: action.payload };
 
     case SET_INCIDENT:
-      return { ...state, children: undefined, incident: { ...state.incident, ...action.payload } };
+      return { ...state, incident: { ...state.incident, ...action.payload.incident } };
 
     case PATCH_START:
       return { ...state, patching: action.payload };

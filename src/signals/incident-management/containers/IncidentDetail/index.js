@@ -140,8 +140,7 @@ const IncidentDetail = () => {
 
   useEffect(() => {
     if (!incident) return;
-
-    dispatch({ type: SET_INCIDENT, payload: incident });
+    dispatch({ type: SET_INCIDENT, payload: { incident } });
 
     retrieveUnderlyingData();
   }, [incident, retrieveUnderlyingData]);
