@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setClassification } from 'signals/incident/containers/IncidentContainer/actions';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import LoadingIndicator from 'components/LoadingIndicator';
+import { getClassificationData } from 'signals/incident/containers/IncidentContainer/selectors';
 
 const IncidentClassification = () => {
   const history = useHistory();
@@ -24,7 +25,9 @@ const IncidentClassification = () => {
   }, [category, subcategory, get, history]);
 
   useEffect(() => {
-    if (data && data.is_active) dispatch(setClassification({ category, subcategory }));
+    if (data && data.is_active) {
+      dispatch(setClassification(getClassificationData(category, subcategory, data)));
+    }
     if (data || error) history.replace('/');
   }, [data, error, history, dispatch, category, subcategory]);
 

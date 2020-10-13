@@ -30,7 +30,7 @@ const UserDetail = () => {
 
   const isExistingUser = userId !== undefined;
   const { isLoading, isSuccess, error, data, get, patch, post } = useFetch();
-  const { get: historyGet, data: history } = useFetch();
+  const { get: historyGet, data: historyData } = useFetch();
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data));
   const redirectURL = location.referrer || routes.users;
   const userCanSubmitForm = (isExistingUser && userCan('change_user')) || (!isExistingUser && userCan('add_user'));
@@ -85,7 +85,7 @@ const UserDetail = () => {
         {shouldRenderForm && (
           <UserForm
             data={data}
-            history={history}
+            history={historyData}
             onCancel={onCancel}
             onSubmit={onSubmit}
             readOnly={!userCanSubmitForm}

@@ -75,16 +75,6 @@ module.exports = {
         'no-console': 'error',
       },
     },
-    {
-      env: { 'cypress/globals': true },
-      files: ['cypress/**/*'],
-      extends: ['plugin:cypress/recommended'],
-      plugins: ['cypress'],
-      rules: {
-        'promise/always-return': 'off',
-        'promise/catch-or-return': 'off',
-      },
-    },
   ],
   rules: {
     // proposed rules

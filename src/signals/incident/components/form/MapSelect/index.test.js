@@ -44,13 +44,13 @@ describe('signals/incident/components/form/MapSelect', () => {
         withAppContext(<MapSelect parent={parent} meta={meta} handler={handler} />)
       );
 
-      expect(queryByTestId('map-base')).toBeInTheDocument();
+      expect(queryByTestId('mapSelect')).toBeInTheDocument();
       expect(queryByTestId('gpsButton')).toBeInTheDocument();
       expect(container.firstChild.classList.contains('mapSelect')).toBeTruthy();
 
       rerender(withAppContext(<MapSelect parent={parent} meta={{ ...meta, isVisible: false }} handler={handler} />));
 
-      expect(queryByTestId('map-base')).not.toBeInTheDocument();
+      expect(queryByTestId('mapSelect')).not.toBeInTheDocument();
     });
 
     it('should render selected item numbers', () => {
@@ -69,7 +69,7 @@ describe('signals/incident/components/form/MapSelect', () => {
         withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value })} />)
       );
 
-      await findByTestId('map-base');
+      await findByTestId('mapSelect');
 
       expect(parent.meta.updateIncident).not.toHaveBeenCalled();
 

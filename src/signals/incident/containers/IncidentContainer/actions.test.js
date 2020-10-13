@@ -38,6 +38,13 @@ describe('Incident container actions', () => {
     category: 'bar',
   };
 
+  const category = {
+    sub_category: 'uitwerpselen',
+    name: 'Uitwerpselen',
+    slug: 'uitwerpselen',
+    handling_message: 'Handling message.',
+  };
+
   it('should dispatch update incident action', () => {
     testActionCreator(updateIncident, UPDATE_INCIDENT, incident);
   });
@@ -63,24 +70,15 @@ describe('Incident container actions', () => {
   });
 
   it('should dispatch classification success action', () => {
-    const payload = {
-      category: {
-        main: [],
-        sub: [],
-      },
-    };
-    testActionCreator(getClassificationSuccess, GET_CLASSIFICATION_SUCCESS, payload);
+    testActionCreator(getClassificationSuccess, GET_CLASSIFICATION_SUCCESS, category);
   });
 
   it('should dispatch classification error action', () => {
-    testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR);
+    testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR, category);
   });
 
   it('should dispatch set classification', () => {
-    testActionCreator(setClassification, SET_CLASSIFICATION, {
-      category: 'overig',
-      subcategory: 'overig',
-    });
+    testActionCreator(setClassification, SET_CLASSIFICATION, category);
   });
 
   it('should dispatch get questions action', () => {

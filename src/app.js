@@ -91,7 +91,7 @@ store.dispatch(authenticateUser(credentials));
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
-if (process.env.NODE_ENV === 'production') {
+if (process.env.ENABLE_SERVICEWORKER === '1') {
   // eslint-disable-next-line global-require
   const runtime = require('offline-plugin/runtime');
 

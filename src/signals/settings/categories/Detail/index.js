@@ -59,7 +59,7 @@ const CategoryDetail = () => {
   const isExistingCategory = categoryId !== undefined;
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch();
-  const { get: historyGet, data: history } = useFetch();
+  const { get: historyGet, data: historyData } = useFetch();
 
   const confirmedCancel = useConfirmedCancel(redirectURL);
 
@@ -145,7 +145,7 @@ const CategoryDetail = () => {
       get(categoryURL);
       historyGet(`${categoryURL}/history`);
     }
-  }, [categoryURL, isExistingCategory, historyGet, get]);
+  }, [get, historyGet, categoryURL, isExistingCategory]);
 
   return (
     <Fragment>
@@ -157,7 +157,7 @@ const CategoryDetail = () => {
         {shouldRenderForm && (
           <CategoryForm
             data={data}
-            history={history}
+            history={historyData}
             onCancel={onCancel}
             onSubmitForm={onSubmit}
             readOnly={!userCanSubmitForm}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -15,9 +15,12 @@ import { getClassification, updateIncident, createIncident } from './actions';
 import { makeSelectIncidentContainer } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import IncidentWizard from '../../components/IncidentWizard';
 import IncidentClassification from '../../components/IncidentClassification';
 import './style.scss';
+
+// Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
+// istanbul ignore next
+const IncidentWizard = lazy(() => import('../../components/IncidentWizard'));
 
 export const IncidentContainerComponent = ({
   createIncidentAction,
@@ -34,14 +37,16 @@ export const IncidentContainerComponent = ({
         {presetClassification ? (
           <IncidentClassification />
         ) : (
-          <IncidentWizard
-            wizardDefinition={wizardDefinition}
-            getClassification={getClassificationAction}
-            updateIncident={updateIncidentAction}
-            createIncident={createIncidentAction}
-            incidentContainer={incidentContainer}
-            isAuthenticated={isAuthenticated()}
-          />
+          <Suspense>
+            <IncidentWizard
+              wizardDefinition={wizardDefinition}
+              getClassification={getClassificationAction}
+              updateIncident={updateIncidentAction}
+              createIncident={createIncidentAction}
+              incidentContainer={incidentContainer}
+              isAuthenticated={isAuthenticated()}
+            />
+          </Suspense>
         )}
       </Column>
     </Row>

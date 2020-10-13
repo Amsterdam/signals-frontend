@@ -128,10 +128,7 @@ const IncidentDetail = () => {
 
     dispatch({ type: RESET });
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
-
-    // disabling linter; only need to update when the id changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [getIncident, id]);
 
   useEffect(() => {
     if (!isSuccess || !state.patching) return;

@@ -1,5 +1,6 @@
 import { Seq } from 'immutable';
 import { createSelector } from 'reselect';
+import { reCategory } from 'shared/services/resolveClassification';
 
 import { initialState } from './reducer';
 
@@ -113,9 +114,12 @@ export const makeSelectSubCategories = createSelector(
         extendedName = `${subCategory.name} (${responsibleDeptCodes.join(', ')})`;
       }
 
+      const [, category_slug] = subCategory._links.self.public.match(reCategory);
+
       return {
         ...subCategory,
         extendedName,
+        category_slug,
       };
     });
   }

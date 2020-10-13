@@ -3,16 +3,6 @@ import PropTypes from 'prop-types';
 import TextArea from 'components/TextArea';
 import DescriptionInfo from '../DescriptionInfo';
 
-const get = (event, meta, parent) => {
-  const {
-    getClassification,
-    updateIncident,
-    incidentContainer: { usePredictions },
-  } = parent?.meta;
-  if (usePredictions && event.target.value) getClassification(event.target.value);
-  updateIncident({ [meta.name]: event.target.value });
-};
-
 const DescriptionInput = ({
   handler,
   value,
@@ -24,7 +14,19 @@ const DescriptionInput = ({
     [value, meta.maxLength]
   );
 
-  const handleBlur = useCallback(event => get(event, meta, parent), [meta, parent]);
+  const handleBlur = useCallback(event => {
+    const {
+      getClassification,
+      updateIncident,
+      incidentContainer: { usePredictions },
+    } = parent?.meta;
+
+    if (usePredictions && event.target.value) {
+      getClassification(event.target.value);
+    }
+
+    updateIncident({ [meta.name]: event.target.value });
+  }, [meta, parent]);
 
   return (
     <TextArea

@@ -66,7 +66,7 @@ describe('<Location />', () => {
 
       await findByText('Locatie');
 
-      expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^Stadsdeel: Centrum$/);
+      expect(queryByTestId('location-value-address-district')).toHaveTextContent(/^Stadsdeel: Centrum$/);
       expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
       expect(getByTestId('previewLocationButton')).toBeInTheDocument();
@@ -80,7 +80,7 @@ describe('<Location />', () => {
 
       await findByText('Locatie');
 
-      expect(queryByTestId('location-value-address-stadsdeel')).toHaveTextContent(/^District: North/);
+      expect(queryByTestId('location-value-address-district')).toHaveTextContent(/^District: North/);
     });
 
     describe('location preview', () => {
@@ -101,7 +101,7 @@ describe('<Location />', () => {
         await findByText('Locatie');
 
         expect(queryByTestId('mapStaticImage')).not.toBeInTheDocument();
-        expect(queryByTestId('map-base')).toBeInTheDocument();
+        expect(queryByTestId('mapDetail')).toBeInTheDocument();
       });
     });
 
@@ -136,9 +136,9 @@ describe('<Location />', () => {
       const pinned = await findByTestId('location-value-pinned');
 
       expect(pinned).toHaveTextContent(/^Locatie is gepind op de kaart$/);
-      expect(queryByTestId('location-value-address-stadsdeel')).toBeNull();
-      expect(queryByTestId('location-value-address-street')).toBeNull();
-      expect(queryByTestId('location-value-address-city')).toBeNull();
+      expect(queryByTestId('location-value-address-district')).toBeInTheDocument();
+      expect(queryByTestId('location-value-address-street')).not.toBeInTheDocument();
+      expect(queryByTestId('location-value-address-city')).not.toBeInTheDocument();
     });
   });
 
