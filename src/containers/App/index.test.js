@@ -7,6 +7,7 @@ import * as auth from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
+import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 
 import App, { AppContainer } from '.';
 import { getSources } from './actions';
@@ -212,12 +213,14 @@ describe('<App />', () => {
       render(withAppContext(<AppContainer {...props} />));
 
       expect(dispatch).not.toHaveBeenCalledWith(fetchCategoriesAction());
+      expect(dispatch).not.toHaveBeenCalledWith(fetchDepartmentsAction());
 
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
       render(withAppContext(<AppContainer {...props} />));
 
       expect(dispatch).toHaveBeenCalledWith(fetchCategoriesAction());
+      expect(dispatch).toHaveBeenCalledWith(fetchDepartmentsAction());
     });
   });
 });

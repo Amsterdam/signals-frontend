@@ -7,7 +7,6 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import { makeSelectUserCanAccess, makeSelectUserCan } from 'containers/App/selectors';
 
 import { fetchRoles as fetchRolesAction, fetchPermissions as fetchPermissionsAction } from 'models/roles/actions';
-import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 import useLocationReferrer from 'hooks/useLocationReferrer';
 import LoadingIndicator from 'components/LoadingIndicator';
 
@@ -48,7 +47,6 @@ const SettingsModule = () => {
       return;
     }
 
-    storeDispatch(fetchDepartmentsAction());
     storeDispatch(fetchRolesAction());
     storeDispatch(fetchPermissionsAction());
   }, [storeDispatch]);

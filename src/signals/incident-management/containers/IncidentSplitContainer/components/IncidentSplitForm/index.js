@@ -9,12 +9,13 @@ import { subcategoriesType } from 'shared/types';
 
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 
+import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 import {
   StyledDefinitionList,
   StyledForm,
   StyledSubmitButton,
   FormWrapper,
-} from '../styled';
+} from '../../styled';
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
@@ -50,7 +51,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
           <IncidentSplitRadioInput
             display="Regie"
             register={register}
-            initialValue="null"
+            initialValue={directingDepartmentList[0].key}
             name="department"
             id="department"
             data-testid="incidentSplitFormRadioInputDepartment"

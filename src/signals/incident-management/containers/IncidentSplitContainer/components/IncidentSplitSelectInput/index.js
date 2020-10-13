@@ -5,7 +5,7 @@ import { Select } from '@datapunt/asc-ui';
 
 import InfoText from 'components/InfoText';
 
-import { StyledWrapper } from '../styled';
+import { StyledWrapper } from '../../styled';
 
 const getDescription = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
 
