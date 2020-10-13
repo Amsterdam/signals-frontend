@@ -7,23 +7,26 @@ import { childIncidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
+const isChildChanged = (childDatetime, parentDatetime) => new Date(childDatetime) > new Date(parentDatetime);
+
 const Title = styled(Heading)`
   font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ChildIncidents = ({ incidents }) => {
+const ChildIncidents = ({ incidents, parent }) => {
   const children = useMemo(
     () =>
-      Object.values(incidents).map(({ status, category, id }) => ({
+      Object.values(incidents).map(({ status, category, id, updated_at }) => ({
         href: `${INCIDENT_URL}/${id}`,
         values: {
           id,
           status: status.state_display,
           category: `${category.sub} (${category.departments})`,
         },
+        changed: isChildChanged(updated_at, parent.updated_at),
       })),
-    [incidents]
+    [incidents, parent.updated_at]
   );
 
   if (!children?.length) {
@@ -43,6 +46,7 @@ const ChildIncidents = ({ incidents }) => {
 
 ChildIncidents.propTypes = {
   incidents: PropTypes.arrayOf(childIncidentType).isRequired,
+  parent: PropTypes.shape({ updated_at: PropTypes.string }).isRequired,
 };
 
 export default ChildIncidents;
