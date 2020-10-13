@@ -9,14 +9,16 @@ import { subcategoriesType } from 'shared/types';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
+import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 import {
   StyledDefinitionList,
   StyledForm,
   StyledSubmitButton,
   FormWrapper,
-} from '../styled';
+} from '../../styled';
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
+import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 
 const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
   const { control, handleSubmit, register } = useForm();
@@ -46,19 +48,15 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
             <dd data-testid="incidentSplitFormSubcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
           </StyledDefinitionList>
 
-          {/*
-          can be uncommented as soon as SIG-2473 is picked up
-
           <IncidentSplitRadioInput
             display="Regie"
             register={register}
-            initialValue="null"
+            initialValue={directingDepartmentList[0].key}
             name="department"
             id="department"
             data-testid="incidentSplitFormRadioInputDepartment"
             options={directingDepartmentList}
           />
-          */}
         </fieldset>
 
         <IncidentSplitFormIncident
