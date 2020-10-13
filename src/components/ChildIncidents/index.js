@@ -130,6 +130,7 @@ ChildIncidents.propTypes = {
         status: PropTypes.string.isRequired,
         category: PropTypes.string.isRequired,
       }),
+      changed: PropTypes.bool.isRequired,
     })
   ),
 };
