@@ -17,7 +17,12 @@ jest.mock('shared/services/auth/auth');
 jest.mock('containers/App/selectors');
 jest.mock('../actions');
 
-const withSuspense = () => withAppContext(<Suspense fallback={<div>Loading...</div>}><IncidentManagementModule /></Suspense>);
+const withSuspense = () =>
+  withAppContext(
+    <Suspense fallback={<div>Loading...</div>}>
+      <IncidentManagementModule />
+    </Suspense>
+  );
 
 describe('signals/incident-management', () => {
   beforeEach(() => {
@@ -25,171 +30,248 @@ describe('signals/incident-management', () => {
     jest.spyOn(actions, 'getFilters').mockImplementation(payload => ({ type: 'BAR', payload }));
     jest.spyOn(actions, 'searchIncidents').mockImplementation(payload => ({ type: 'BAZ', payload }));
     jest.spyOn(actions, 'requestIncidents').mockImplementation(payload => ({ type: 'QUX', payload }));
+    fetch.mockResponses([JSON.stringify({}), { status: 200 }]);
   });
 
   afterEach(() => {
     jest.resetAllMocks();
     configuration.__reset();
+    fetch.resetMocks();
   });
 
-  it('should redirect to login page', async () => {
-    isAuthenticated.mockImplementation(() => false);
+  describe('not authenticated', () => {
+    it('should redirect to the login page', async () => {
+      isAuthenticated.mockImplementation(() => false);
+      const { findByTestId } = render(withSuspense());
+      const loginPage = await findByTestId('loginPage');
 
-    const { findByTestId, rerender } = render(withSuspense());
+      expect(loginPage).toBeInTheDocument();
+    });
 
-    const loginPage = await findByTestId('loginPage');
+    it('should not fetch anything', async () => {
+      isAuthenticated.mockImplementation(() => false);
+      const { findByTestId } = render(withSuspense());
+      await findByTestId('loginPage');
 
-    expect(loginPage).toBeInTheDocument();
+      expect(actions.getDistricts).not.toHaveBeenCalled();
+      expect(actions.getFilters).not.toHaveBeenCalled();
+      expect(actions.requestIncidents).not.toHaveBeenCalled();
+      expect(actions.searchIncidents).not.toHaveBeenCalled();
+      expect(fetch).not.toHaveBeenCalled();
+    });
+  });
 
-    isAuthenticated.mockImplementation(() => true);
+  describe('login page', () => {
+    it('should redirect when not authenticated', async () => {
+      isAuthenticated.mockImplementation(() => false);
+      const { findByTestId } = render(withSuspense());
+      const loginPage = await findByTestId('loginPage');
 
-    rerender(withSuspense());
+      expect(loginPage).toBeInTheDocument();
+    });
 
-    const incidentManagementOverviewPage = await findByTestId('incidentManagementOverviewPage');
+    it('should not redirect when authenticated', async () => {
+      isAuthenticated.mockImplementation(() => true);
+      const { findByTestId } = render(withSuspense());
+      const incidentManagementOverviewPage = await findByTestId('incidentManagementOverviewPage');
 
-    expect(incidentManagementOverviewPage).toBeInTheDocument();
+      expect(incidentManagementOverviewPage).toBeInTheDocument();
+    });
   });
 
   describe('fetching', () => {
-    it('should not request districts on mount by default', () => {
-      isAuthenticated.mockImplementation(() => false);
+    describe('districts', () => {
+      describe('with fetchDistrictsFromBackend disabled', () => {
+        it('should not fetch when not authenticated', async () => {
+          isAuthenticated.mockImplementation(() => false);
+          const { findByTestId } = render(withSuspense());
+          await findByTestId('loginPage');
 
-      render(withSuspense());
+          expect(actions.getDistricts).not.toHaveBeenCalled();
+        });
 
-      expect(actions.getDistricts).not.toHaveBeenCalled();
+        it('should not fetch when authenticated', async () => {
+          isAuthenticated.mockImplementation(() => true);
+          const { findByTestId } = render(withSuspense());
+          await findByTestId('incidentManagementOverviewPage');
 
-      isAuthenticated.mockImplementation(() => true);
+          expect(actions.getDistricts).not.toHaveBeenCalled();
+        });
+      });
+      describe('with fetchDistrictsFromBackend enabled', () => {
+        it('should not fetch when not authenticated', async () => {
+          configuration.fetchDistrictsFromBackend = true;
+          isAuthenticated.mockImplementation(() => false);
+          const { findByTestId } = render(withSuspense());
+          await findByTestId('loginPage');
 
-      render(withSuspense());
+          expect(actions.getDistricts).not.toHaveBeenCalled();
+        });
 
-      expect(actions.getDistricts).not.toHaveBeenCalled();
+        it('should fetch when authenticated', async () => {
+          configuration.fetchDistrictsFromBackend = true;
+          isAuthenticated.mockImplementation(() => true);
+          const { findByTestId } = render(withSuspense());
+          await findByTestId('incidentManagementOverviewPage');
+
+          expect(actions.getDistricts).toHaveBeenCalledTimes(1);
+        });
+      });
     });
 
-    it('should request districts on mount with feature flag enabled', () => {
-      configuration.fetchDistrictsFromBackend = true;
+    describe('filters', () => {
+      it('should not fetch when not authenticated', async () => {
+        isAuthenticated.mockImplementation(() => false);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('loginPage');
 
-      isAuthenticated.mockImplementation(() => false);
+        expect(actions.getFilters).not.toHaveBeenCalled();
+      });
 
-      render(withSuspense());
+      it('should fetch when authenticated', async () => {
+        isAuthenticated.mockImplementation(() => true);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('incidentManagementOverviewPage');
 
-      expect(actions.getDistricts).not.toHaveBeenCalled();
-
-      isAuthenticated.mockImplementation(() => true);
-
-      render(withSuspense());
-
-      expect(actions.getDistricts).toHaveBeenCalledTimes(1);
+        expect(actions.getFilters).toHaveBeenCalledTimes(1);
+      });
     });
 
-    it('should request filters on mount', () => {
-      isAuthenticated.mockImplementation(() => false);
+    describe('incidents', () => {
+      it('should not fetch when not authenticated', async () => {
+        isAuthenticated.mockImplementation(() => false);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('loginPage');
 
-      render(withSuspense());
+        expect(actions.requestIncidents).not.toHaveBeenCalled();
+      });
 
-      expect(actions.getFilters).not.toHaveBeenCalled();
+      it('should fetch when authenticated', async () => {
+        isAuthenticated.mockImplementation(() => true);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('incidentManagementOverviewPage');
 
-      isAuthenticated.mockImplementation(() => true);
+        expect(actions.requestIncidents).toHaveBeenCalledTimes(1);
+      });
 
-      render(withSuspense());
+      it('should not search when not authenticated', async () => {
+        isAuthenticated.mockImplementation(() => false);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('loginPage');
 
-      expect(actions.getFilters).toHaveBeenCalledTimes(1);
+        expect(actions.searchIncidents).not.toHaveBeenCalled();
+      });
+
+      it('should not search without search query', async () => {
+        isAuthenticated.mockImplementation(() => true);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('incidentManagementOverviewPage');
+
+        expect(actions.searchIncidents).not.toHaveBeenCalled();
+      });
+
+      it('should search with search query when authenticated', async () => {
+        isAuthenticated.mockImplementation(() => true);
+        const searchQuery = 'stoeptegels';
+        jest.spyOn(appSelectors, 'makeSelectSearchQuery').mockImplementation(() => searchQuery);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('incidentManagementOverviewPage');
+
+        expect(actions.searchIncidents).toHaveBeenCalledWith(searchQuery);
+      });
     });
 
-    it('should request incidents on mount', () => {
-      isAuthenticated.mockImplementation(() => false);
+    describe('users', () => {
+      it('should not fetch when not authenticated', async () => {
+        isAuthenticated.mockImplementation(() => false);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('loginPage');
 
-      render(withSuspense());
+        expect(fetch).not.toHaveBeenCalled();
+      });
 
-      expect(actions.requestIncidents).not.toHaveBeenCalled();
+      it('should fetch when authenticated', async () => {
+        isAuthenticated.mockImplementation(() => true);
+        const { findByTestId } = render(withSuspense());
+        await findByTestId('incidentManagementOverviewPage');
 
-      isAuthenticated.mockImplementation(() => true);
-
-      render(withSuspense());
-
-      expect(actions.requestIncidents).toHaveBeenCalledTimes(1);
-    });
-
-    it('should search incidents on mount', () => {
-      isAuthenticated.mockImplementation(() => false);
-
-      render(withSuspense());
-
-      expect(actions.searchIncidents).not.toHaveBeenCalled();
-
-      isAuthenticated.mockImplementation(() => true);
-
-      render(withSuspense());
-
-      expect(actions.searchIncidents).not.toHaveBeenCalled();
-
-      const searchQuery = 'stoeptegels';
-      jest.spyOn(appSelectors, 'makeSelectSearchQuery').mockImplementation(() => searchQuery);
-
-      render(withSuspense());
-
-      expect(actions.searchIncidents).toHaveBeenCalledWith(searchQuery);
+        expect(fetch).toHaveBeenCalledTimes(1);
+        expect(fetch).toHaveBeenCalledWith(configuration.USERS_ENDPOINT, expect.objectContaining({ method: 'GET' }));
+      });
     });
   });
 
   describe('routing', () => {
     const loginText = 'Om deze pagina te zien dient u ingelogd te zijn.';
 
-    it('can navigate to incident list', () => {
-      history.push('/manage/incidents');
+    describe('incident list', () => {
+      it('should show warning when not authenticated', async () => {
+        history.push('/manage/incidents');
+        isAuthenticated.mockImplementation(() => false);
+        const { findByTestId, queryByText } = render(withSuspense());
+        await findByTestId('loginPage');
 
-      isAuthenticated.mockImplementation(() => false);
+        expect(queryByText(loginText)).not.toBeNull();
+      });
 
-      const { rerender, queryByText } = render(withSuspense());
+      it('should not show warning when authenticated', async () => {
+        history.push('/manage/incidents');
+        isAuthenticated.mockImplementation(() => true);
+        const { findByTestId, queryByText } = render(withSuspense());
+        await findByTestId('incidentManagementOverviewPage');
 
-      expect(queryByText(loginText)).not.toBeNull();
-
-      isAuthenticated.mockImplementation(() => true);
-
-      rerender(withSuspense());
-
-      expect(queryByText(loginText)).toBeNull();
+        expect(queryByText(loginText)).toBeNull();
+      });
     });
 
-    it('can navigate to incident detail', () => {
-      history.push('/manage/incident/1101');
+    describe('incident detail', () => {
+      it('should show warning when not authenticated', async () => {
+        history.push('/manage/incident/1101');
+        isAuthenticated.mockImplementation(() => false);
+        const { findByTestId, queryByText } = render(withSuspense());
+        await findByTestId('loginPage');
 
-      isAuthenticated.mockImplementation(() => false);
+        expect(queryByText(loginText)).not.toBeNull();
+      });
 
-      const { rerender, queryByText } = render(withSuspense());
+      it('should not show warning when authenticated', async () => {
+        history.push('/manage/incident/1101');
+        isAuthenticated.mockImplementation(() => true);
+        const { findByTestId, queryByText } = render(withSuspense());
+        await findByTestId('incidentManagementOverviewPage');
 
-      expect(queryByText(loginText)).not.toBeNull();
-
-      isAuthenticated.mockImplementation(() => true);
-
-      rerender(withSuspense());
-
-      expect(queryByText(loginText)).toBeNull();
+        expect(queryByText(loginText)).toBeNull();
+      });
     });
 
-    it('can navigate to incident split', () => {
-      history.push('/manage/incident/1101/split');
+    describe('incident split', () => {
+      it('should show warning when not authenticated', async () => {
+        history.push('/manage/incident/1101/split');
+        isAuthenticated.mockImplementation(() => false);
+        const { findByTestId, queryByText } = render(withSuspense());
+        await findByTestId('loginPage');
 
-      isAuthenticated.mockImplementation(() => false);
+        expect(queryByText(loginText)).not.toBeNull();
+      });
 
-      const { rerender, queryByText } = render(withSuspense());
+      it('should not show warning when authenticated', async () => {
+        history.push('/manage/incident/1101/split');
+        isAuthenticated.mockImplementation(() => true);
+        const { findByTestId, queryByText } = render(withSuspense());
+        await findByTestId('incidentManagementOverviewPage');
 
-      expect(queryByText(loginText)).not.toBeNull();
-
-      isAuthenticated.mockImplementation(() => true);
-
-      rerender(withSuspense());
-
-      expect(queryByText(loginText)).toBeNull();
+        expect(queryByText(loginText)).toBeNull();
+      });
     });
 
-    it('will use overview page as routing fallback', () => {
+    it('will use overview page as routing fallback', async () => {
       isAuthenticated.mockImplementation(() => true);
+      const { findByTestId } = render(withSuspense());
+      await findByTestId('incidentManagementOverviewPage');
 
       history.push('/manage/this-url-definitely-does-not-exist');
 
-      const { getByTestId } = render(withSuspense());
-
-      expect(getByTestId('incidentManagementOverviewPage')).toBeInTheDocument();
+      expect(await findByTestId('incidentManagementOverviewPage')).toBeInTheDocument();
     });
   });
 });
