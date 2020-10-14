@@ -374,6 +374,16 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               onToggle={onGroupToggle}
               options={dataLists.directing_department}
             />
+
+            <CheckboxGroup
+              defaultValue={state.options.has_changed_children}
+              hasToggle={false}
+              label="Wijziging"
+              name="has_changed_children"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              options={dataLists.has_changed_children}
+            />
           </Fieldset>
 
           <FilterGroup>
