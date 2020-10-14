@@ -5,7 +5,6 @@ export const PATCH_TYPE_STATUS = 'status';
 export const PATCH_TYPE_SUBCATEGORY = 'subcategory';
 export const PATCH_TYPE_THOR = 'thor';
 export const PATCH_TYPE_TYPE = 'type';
-export const PATCH_TYPE_UPDATED_AT = 'updated_at';
 
 export const RESET = 'sia/incidentManagement/containers/IncidentDetail/RESET';
 export const CLOSE_ALL = 'sia/incidentManagement/containers/IncidentDetail/CLOSE_ALL';

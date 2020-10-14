@@ -8,9 +8,8 @@ import { childIncidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
-import { dateToISOString } from 'shared/services/date-utils';
 import IncidentDetailContext from '../../context';
-import { PATCH_TYPE_UPDATED_AT } from '../../constants';
+import { PATCH_TYPE_NOTES } from '../../constants';
 
 const isChildChanged = (childDatetime, parentDatetime) => new Date(childDatetime) > new Date(parentDatetime);
 
@@ -41,12 +40,10 @@ const ChildIncidents = ({ incidents, parent }) => {
   );
 
   const canReset = useMemo(() => children.some(({ changed }) => changed), [children]);
-
   const resetAction = useCallback(() => {
     update({
-      type: PATCH_TYPE_UPDATED_AT,
+      type: PATCH_TYPE_NOTES,
       patch: {
-        updated_at: dateToISOString(new Date()),
         notes: [{ text: 'Geen actie nodig' }],
       },
     });
@@ -67,7 +64,7 @@ const ChildIncidents = ({ incidents, parent }) => {
       <section>
         {canReset &&
           <NoActionButton
-            data-testid="addNoteNewNoteButton"
+            data-testid="noActionButton"
             variant="application"
             type="button"
             onClick={() => resetAction()}
