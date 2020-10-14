@@ -10,6 +10,7 @@ const arrayFields = [
   'category_slug',
   'contact_details',
   'directing_department',
+  'has_changed_children',
   'kind',
   'maincategory_slug',
   'priority',
@@ -50,6 +51,7 @@ export const parseOutputFormData = options =>
       case 'area':
       case 'contact_details':
       case 'directing_department':
+      case 'has_changed_children':
       case 'kind':
       case 'priority':
       case 'source':
