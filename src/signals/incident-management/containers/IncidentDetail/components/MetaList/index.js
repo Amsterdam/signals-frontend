@@ -52,9 +52,10 @@ const MetaList = () => {
   const departments = useSelector(makeSelectDepartments);
   const incidentDepartmentNames = useMemo(
     () =>
-      departments?.list
+      configuration.assignSignalToEmployee && departments?.list
         ? (incident.category?.departments || '')
           .split(',')
+          .map(code => code.trim())
           .map(code => departments.list.find(department => department.code === code)?.name)
           .filter(Boolean)
         : [],
