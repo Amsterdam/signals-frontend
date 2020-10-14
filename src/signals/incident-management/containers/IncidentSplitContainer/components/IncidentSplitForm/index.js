@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
-import { Button, Heading } from '@datapunt/asc-ui';
+import { Heading } from '@datapunt/asc-ui';
 
 import { subcategoriesType } from 'shared/types';
 
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
+
+import Button from 'components/Button';
 
 import {
   StyledDefinitionList,
@@ -65,15 +67,15 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
           control={control}
         />
 
-        <fieldset>
+        <div>
           <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary">
             Opslaan
           </StyledSubmitButton>
 
-          <Button data-testid="incidentSplitFormCancelButton" variant="primaryInverted" onClick={onCancel}>
+          <Button data-testid="incidentSplitFormCancelButton" variant="tertiary" onClick={onCancel}>
             Annuleren
           </Button>
-        </fieldset>
+        </div>
       </StyledForm>
     </FormWrapper>
   );

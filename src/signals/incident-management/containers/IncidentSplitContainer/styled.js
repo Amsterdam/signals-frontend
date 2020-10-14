@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Heading, Label, RadioGroup, themeColor, themeSpacing, Row } from '@datapunt/asc-ui';
 
 import Button from 'components/Button';
+import InfoText from 'components/InfoText';
 
 export const StyledDefinitionList = styled.dl`
   margin: 0;
@@ -65,8 +66,8 @@ export const StyledHeading = styled(Heading)`
 `;
 
 export const StyledWrapper = styled.div`
-  margin-top: ${themeSpacing(6)};
-  margin-bottom: ${themeSpacing(6)};
+  padding-top: ${themeSpacing(6)};
+  padding-bottom: ${themeSpacing(6)};
 `;
 
 export const FormWrapper = styled(Row)`
@@ -78,6 +79,19 @@ export const FormWrapper = styled(Row)`
   }
 `;
 
+export const StyledGrid = styled.div`
+  display: grid;
+  grid-row-gap: ${themeSpacing(8)};
+`;
+
+export const StyledGridRow = styled.div`
+  /* background-color: fuchsia; */
+`;
+
+export const StyledInfoText = styled(InfoText)`
+  margin: ${themeSpacing(2, 0, 0)};
+`;
+
 export const StyledForm = styled.form`
   padding: ${themeSpacing(4)};
   margin: ${themeSpacing(4)};
@@ -86,14 +100,16 @@ export const StyledForm = styled.form`
   grid-row-gap: ${themeSpacing(8)};
 
   fieldset {
-    position: relative;
     padding: ${themeSpacing(0, 0, 8)};
+    position: relative;
     border: 0;
-    border-bottom: 1px solid ${themeColor('tint', 'level3')};
+    border-bottom: 2px solid ${themeColor('tint', 'level3')};
     margin: 0;
-
-    & > *:last-child {
-      margin-bottom: 0;
-    }
   }
+
+  /*
+  & > *:last-child {
+    margin-bottom: 0;
+  }
+  */
 `;

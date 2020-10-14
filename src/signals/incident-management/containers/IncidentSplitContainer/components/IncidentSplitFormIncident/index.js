@@ -1,13 +1,17 @@
 import React, { useCallback, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Heading } from '@datapunt/asc-ui';
 
-import { typesList, priorityList } from 'signals/incident-management/definitions';
+import { Heading } from '@datapunt/asc-ui';
+
+import { priorityList, typesList } from 'signals/incident-management/definitions';
 
 import { subcategoriesType } from 'shared/types';
 
+import Button from 'components/Button';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
+
+import { StyledGrid, StyledGridRow } from '../../styled';
 
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
@@ -29,49 +33,57 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
     <Fragment>
       {[...Array(splitCount + 1).keys()].slice(1).map(splitNumber => (
         <fieldset key={`incident-splitform-incident-${splitNumber}`}>
-          <Heading forwardedAs="h3" data-testid="incidentSplitFormIncidentTitle">Deelmelding {splitNumber}</Heading>
+          <StyledGrid>
+            <Heading forwardedAs="h2" data-testid="incidentSplitFormIncidentTitle">Deelmelding {splitNumber}</Heading>
 
-          <IncidentSplitSelectInput
-            id={`subcategory-${splitNumber}`}
-            data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
-            name={`incidents[${splitNumber}].subcategory`}
-            display="Subcategorie"
-            options={subcategories}
-            initialValue={parentIncident.subcategory}
-            register={register}
-          />
+            <StyledGridRow>
+              <IncidentSplitSelectInput
+                id={`subcategory-${splitNumber}`}
+                data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
+                name={`incidents[${splitNumber}].subcategory`}
+                display="Subcategorie"
+                options={subcategories}
+                initialValue={parentIncident.subcategory}
+                register={register}
+              />
+            </StyledGridRow>
 
-          <div>
-            <Label as="span">Omschrijving</Label>
+            <StyledGridRow>
+              <Label as="span">Omschrijving</Label>
 
-            <TextArea
-              data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
-              name={`incidents[${splitNumber}].description`}
-              ref={register}
-              rows={10}
-              defaultValue={parentIncident.description}
-            />
-          </div>
+              <TextArea
+                data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
+                name={`incidents[${splitNumber}].description`}
+                ref={register}
+                rows={10}
+                defaultValue={parentIncident.description}
+              />
+            </StyledGridRow>
 
-          <IncidentSplitRadioInput
-            id={`priority-${splitNumber}`}
-            data-testid={`incidentSplitFormIncidentPriorityRadio-${splitNumber}`}
-            name={`incidents[${splitNumber}].priority`}
-            display="Urgentie"
-            options={priorityList}
-            initialValue={parentIncident.priority}
-            register={register}
-          />
+            <StyledGridRow>
+              <IncidentSplitRadioInput
+                id={`priority-${splitNumber}`}
+                data-testid={`incidentSplitFormIncidentPriorityRadio-${splitNumber}`}
+                name={`incidents[${splitNumber}].priority`}
+                display="Urgentie"
+                options={priorityList}
+                initialValue={parentIncident.priority}
+                register={register}
+              />
+            </StyledGridRow>
 
-          <IncidentSplitRadioInput
-            id={`type-${splitNumber}`}
-            data-testid={`incidentSplitFormIncidentTypeRadio-${splitNumber}`}
-            name={`incidents[${splitNumber}].type`}
-            display="Type"
-            options={typesList}
-            initialValue={parentIncident.type}
-            register={register}
-          />
+            <StyledGridRow>
+              <IncidentSplitRadioInput
+                id={`type-${splitNumber}`}
+                data-testid={`incidentSplitFormIncidentTypeRadio-${splitNumber}`}
+                name={`incidents[${splitNumber}].type`}
+                display="Type"
+                options={typesList}
+                initialValue={parentIncident.type}
+                register={register}
+              />
+            </StyledGridRow>
+          </StyledGrid>
         </fieldset>
       ))}
 

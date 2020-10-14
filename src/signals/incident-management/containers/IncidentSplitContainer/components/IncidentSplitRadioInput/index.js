@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 
 import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
 
-import InfoText from 'components/InfoText';
-
-import { StyledLabel } from '../../styled';
+import { StyledInfoText, StyledLabel } from '../../styled';
 
 const getInfo = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
 
@@ -38,7 +36,7 @@ const IncidentSplitRadioInput = ({ id, name, display, options, initialValue, reg
         ))}
       </RadioGroup>
 
-      {selected?.info && <InfoText text={`${selected.value}: ${selected.info}`} />}
+      {selected?.info && <StyledInfoText text={`${selected.value}: ${selected.info}`} />}
     </Fragment>
   );
 };
