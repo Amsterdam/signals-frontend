@@ -12,17 +12,10 @@ export const StyledDefinitionList = styled.dl`
   padding-bottom: ${themeSpacing(4)};
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
     grid-template-columns: 3fr 3fr;
   }
 
   @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
-    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-    grid-template-columns: 3fr 2fr;
-  }
-
-  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
-    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
     grid-template-columns: 3fr 2fr;
   }
 
