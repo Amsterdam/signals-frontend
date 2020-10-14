@@ -3,8 +3,6 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-
 import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
 import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
 import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json';
@@ -61,6 +59,6 @@ describe('<IncidentSplitForm />', () => {
     fireEvent.click(getByTestId('incidentSplitFormCancelButton'));
 
     await findByTestId('incidentSplitForm');
-    expect(mockHistoryPush).toHaveBeenCalledWith(CONFIGURATION.INCIDENTS_ENDPOINT);
+    expect(mockHistoryPush).toHaveBeenCalledWith('/manage/incident/6010');
   });
 });
