@@ -78,13 +78,17 @@ const MetaList = () => {
           value: 'Niet toegewezen',
         },
         ...users
-          .filter(user => incidentDepartmentNames.some(name => user.profile.departments.includes(name)))
+          .filter(
+            user =>
+              user.id === incident.assigned_user_id ||
+              incidentDepartmentNames.some(name => user.profile.departments.includes(name))
+          )
           .map(user => ({
             key: user.id,
             value: user.username,
           })),
       ],
-    [incidentDepartmentNames, users]
+    [incident, incidentDepartmentNames, users]
   );
 
   const subcatHighlightDisabled = ![
