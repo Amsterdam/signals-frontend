@@ -3,9 +3,10 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
+import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
-import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
@@ -48,6 +49,17 @@ const EditButton = styled(Button)`
 const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
+  const departments = useSelector(makeSelectDepartments);
+  const incidentDepartmentNames = useMemo(
+    () =>
+      departments?.list
+        ? (incident.category?.departments || '')
+          .split(',')
+          .map(code => departments.list.find(department => department.code === code)?.name)
+          .filter(Boolean)
+        : [],
+    [departments, incident]
+  );
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () =>
@@ -65,12 +77,14 @@ const MetaList = () => {
           key: null,
           value: 'Niet toegewezen',
         },
-        ...users.map(user => ({
-          key: user.id,
-          value: user.username,
-        })),
+        ...users
+          .filter(user => incidentDepartmentNames.some(name => user.profile.departments.includes(name)))
+          .map(user => ({
+            key: user.id,
+            value: user.username,
+          })),
       ],
-    [users]
+    [incidentDepartmentNames, users]
   );
 
   const subcatHighlightDisabled = ![
