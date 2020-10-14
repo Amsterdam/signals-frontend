@@ -1,9 +1,9 @@
-import React, { useCallback, useState, Fragment } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Select } from '@datapunt/asc-ui';
 
-import { StyledInfoText } from '../../styled';
+import { StyledInfoText, StyledSelect } from '../../styled';
 
 const getDescription = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
 
@@ -19,7 +19,7 @@ const IncidentSplitSelectInput = ({ id, name, display, options, initialValue, re
   );
 
   return (
-    <Fragment>
+    <StyledSelect>
       <Select
         label={<strong>{display}</strong>}
         name={name}
@@ -34,7 +34,7 @@ const IncidentSplitSelectInput = ({ id, name, display, options, initialValue, re
       </Select>
 
       {selected?.description && <StyledInfoText text={selected.description} />}
-    </Fragment>
+    </StyledSelect>
   );
 };
 

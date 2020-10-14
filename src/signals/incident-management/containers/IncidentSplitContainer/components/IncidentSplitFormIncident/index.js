@@ -1,8 +1,6 @@
 import React, { useCallback, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { Heading } from '@datapunt/asc-ui';
-
 import { priorityList, typesList } from 'signals/incident-management/definitions';
 
 import { subcategoriesType } from 'shared/types';
@@ -11,7 +9,7 @@ import Button from 'components/Button';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
 
-import { StyledGrid, StyledGridRow } from '../../styled';
+import { StyledGrid, StyledGridRow, StyledHeading } from '../../styled';
 
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
@@ -34,7 +32,9 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
       {[...Array(splitCount + 1).keys()].slice(1).map(splitNumber => (
         <fieldset key={`incident-splitform-incident-${splitNumber}`}>
           <StyledGrid>
-            <Heading forwardedAs="h2" data-testid="incidentSplitFormIncidentTitle">Deelmelding {splitNumber}</Heading>
+            <StyledHeading forwardedAs="h2" data-testid="incidentSplitFormIncidentTitle">
+              Deelmelding {splitNumber}
+            </StyledHeading>
 
             <StyledGridRow>
               <IncidentSplitSelectInput

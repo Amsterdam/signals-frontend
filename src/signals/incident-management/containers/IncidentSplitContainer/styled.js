@@ -9,6 +9,7 @@ export const StyledDefinitionList = styled.dl`
   margin: 0;
   display: grid;
   grid-row-gap: 0;
+  padding-bottom: ${themeSpacing(4)};
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
@@ -62,7 +63,7 @@ export const StyledLabel = styled(Label)`
 `;
 
 export const StyledHeading = styled(Heading)`
-  font-weight: normal;
+  margin-bottom: 0;
 `;
 
 export const StyledWrapper = styled.div`
@@ -84,8 +85,13 @@ export const StyledGrid = styled.div`
   grid-row-gap: ${themeSpacing(8)};
 `;
 
+export const StyledSelect = styled.div`
+  strong {
+    font-size: 16px;
+  }
+`;
+
 export const StyledGridRow = styled.div`
-  /* background-color: fuchsia; */
 `;
 
 export const StyledInfoText = styled(InfoText)`
@@ -93,8 +99,7 @@ export const StyledInfoText = styled(InfoText)`
 `;
 
 export const StyledForm = styled.form`
-  padding: ${themeSpacing(4)};
-  margin: ${themeSpacing(4)};
+  padding-top: ${themeSpacing(8)};
 
   display: grid;
   grid-row-gap: ${themeSpacing(8)};
@@ -106,10 +111,4 @@ export const StyledForm = styled.form`
     border-bottom: 2px solid ${themeColor('tint', 'level3')};
     margin: 0;
   }
-
-  /*
-  & > *:last-child {
-    margin-bottom: 0;
-  }
-  */
 `;
