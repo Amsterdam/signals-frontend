@@ -10,7 +10,7 @@ import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json'
 import ChildIncidents, { STATUS_RESPONSE_REQUIRED, STATUS_NONE } from '..';
 
 const getChildren = (opts = {}) => {
-  const options = { ...{ numValues: 4, withHref: true, withStatus: true }, ...opts };
+  const options = { ...{ numValues: 4, withHref: true, withStatus: true, withChanged: false }, ...opts };
 
   return childIncidentsFixture.results.map(({ status, category, id }) => {
     const values = {
@@ -23,6 +23,7 @@ const getChildren = (opts = {}) => {
       href: options.withHref ? `${INCIDENT_URL}/${id}` : undefined,
       status: options.withStatus ? STATUS_RESPONSE_REQUIRED : STATUS_NONE,
       values,
+      changed: options.withChanged,
     };
   });
 };
@@ -66,6 +67,21 @@ describe('components/ChildIncidents', () => {
       expect(element).not.toHaveStyleRule('border-right', '2px solid white', {
         modifier: '::before',
       });
+    });
+  });
+
+  it('should mark the changed children', () => {
+    const children = getChildren();
+    const { container, rerender } = render(withAppContext(<ChildIncidents incidents={children} />));
+
+    container.querySelectorAll('li').forEach(element => {
+      expect(element).not.toHaveStyleRule('border-left');
+    });
+
+    rerender(withAppContext(<ChildIncidents incidents={getChildren({ withChanged: true })} />));
+
+    container.querySelectorAll('li').forEach(element => {
+      expect(element).toHaveStyleRule('border-left', '4px solid #FEC813');
     });
   });
 });
