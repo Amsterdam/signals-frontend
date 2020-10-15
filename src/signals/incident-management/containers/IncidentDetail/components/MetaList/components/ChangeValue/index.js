@@ -11,7 +11,6 @@ import { dataListType } from 'shared/types';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
 import InfoText from 'components/InfoText';
-import SelectInput from 'signals/incident-management/components/SelectInput';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
 import EditButton from '../../../EditButton';
 import IncidentDetailContext from '../../../../context';
@@ -37,13 +36,15 @@ const ChangeValue = ({
   disabled,
   display,
   infoKey,
-  list,
+  options,
   patch,
   path,
   sort,
   type,
   valueClass,
   valuePath,
+  getPathValue,
+  getSelectedValue,
 }) => {
   const { incident, update } = useContext(IncidentDetailContext);
   const [showForm, setShowForm] = useState(false);
@@ -52,9 +53,9 @@ const ChangeValue = ({
   const form = useMemo(
     () =>
       FormBuilder.group({
-        input: [get(incident, valuePath), Validators.required],
+        input: [getPathValue(get(incident, valuePath)), Validators.required],
       }),
-    [incident, valuePath]
+    [incident, valuePath, getPathValue]
   );
 
   const handleSubmit = useCallback(
@@ -62,8 +63,7 @@ const ChangeValue = ({
       event.preventDefault();
 
       const payload = { ...patch };
-
-      set(payload, path, form.value.input);
+      set(payload, path, getSelectedValue(form.value.input));
 
       update({
         type,
@@ -73,7 +73,7 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [patch, path, type, update, form]
+    [patch, path, type, update, form, getSelectedValue]
   );
 
   const handleCancel = useCallback(() => {
@@ -108,24 +108,24 @@ const ChangeValue = ({
   const showInfo = useCallback(
     value => {
       if (infoKey) {
-        const valueItem = list.find(({ key }) => key === value);
+        const valueItem = options.find(({ key }) => key === value);
 
         if (valueItem) {
           setInfo(valueItem[infoKey]);
         }
       }
     },
-    [infoKey, list]
+    [infoKey, options]
   );
 
   const onShowForm = useCallback(() => {
-    const value = get(incident, valuePath || path);
+    const value = getPathValue(get(incident, valuePath || path));
 
     form.controls.input.setValue(value);
     setShowForm(true);
 
     showInfo(value);
-  }, [incident, valuePath, path, showInfo, form]);
+  }, [incident, valuePath, path, showInfo, form, getPathValue]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -149,7 +149,7 @@ const ChangeValue = ({
             name="input"
             render={component}
             sort={sort}
-            values={list}
+            values={options}
           />
 
           {info && <InfoText text={info} />}
@@ -195,7 +195,7 @@ const ChangeValue = ({
       ) : (
         <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
           <DisplayValue data-testid="valuePath">
-            {getListValueByKey(list, get(incident, valuePath || path))}
+            {getListValueByKey(options, getPathValue(get(incident, valuePath || path)))}
           </DisplayValue>
         </dd>
       )}
@@ -204,27 +204,34 @@ const ChangeValue = ({
 };
 
 ChangeValue.defaultProps = {
-  component: SelectInput,
   disabled: false,
   infoKey: '',
   patch: {},
   valueClass: '',
   valuePath: '',
+  getPathValue: value => value,
+  getSelectedValue: value => value,
 };
 
 ChangeValue.propTypes = {
-  component: PropTypes.func,
+  /* The selector component. Possible values: (RadioInput, SelectInput) */
+  component: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   display: PropTypes.string.isRequired,
   /** Indicator that is used to determine which list item prop should be used to display info text between the form field and the buttons */
   infoKey: PropTypes.string,
-  list: dataListType.isRequired,
+  /** The options to choose from, either for an RadioGroup or SelectInput*/
+  options: dataListType.isRequired,
   patch: PropTypes.object,
   path: PropTypes.string.isRequired,
   sort: PropTypes.bool,
   type: PropTypes.string.isRequired,
   valueClass: PropTypes.string,
   valuePath: PropTypes.string,
+  /** Format function for the selected option. By default returns the selected option */
+  getSelectedValue: PropTypes.func,
+  /** Returns the value of the incident path. Can be overridden to implement specific logic */
+  getPathValue: PropTypes.func,
 };
 
 export default ChangeValue;

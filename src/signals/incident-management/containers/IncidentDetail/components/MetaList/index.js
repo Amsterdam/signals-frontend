@@ -1,14 +1,16 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { typesList, priorityList } from 'signals/incident-management/definitions';
+import { typesList, priorityList, directingDepartmentList } from 'signals/incident-management/definitions';
 
 import RadioInput from 'signals/incident-management/components/RadioInput';
+import SelectInput from 'signals/incident-management/components/SelectInput';
 
+import { makeSelectDepartments } from 'models/departments/selectors';
 import ChangeValue from './components/ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
@@ -43,9 +45,12 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
+const getDirectingDepartmentValue = value => (value?.length === 1 && value[0].code === 'ASC' ? 'ASC' : 'null');
+
 const MetaList = () => {
-  const { incident, update, edit } = useContext(IncidentDetailContext);
+  const { incident, edit } = useContext(IncidentDetailContext);
   const subcategories = useSelector(makeSelectSubCategories);
+  const departments = useSelector(makeSelectDepartments);
   const subcategoryOptions = useMemo(
     () =>
       subcategories?.map(category => ({
@@ -56,6 +61,7 @@ const MetaList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [subcategories]
   );
+  const hasChildren = useMemo(() => incident?._links['sia:children']?.length > 0, [incident]);
 
   const subcatHighlightDisabled = ![
     'm',
@@ -66,6 +72,15 @@ const MetaList = () => {
     'send failed',
     'closure requested',
   ].includes(incident.status.state);
+
+  // This conversion is needed to meet the api structure
+  const getDirectingDepartmentPostData = useCallback(
+    code => {
+      const department = departments?.list.find(d => d.code === code);
+      return department ? [{ id: department.id }] : [];
+    },
+    [departments]
+  );
 
   return (
     <List>
@@ -96,10 +111,9 @@ const MetaList = () => {
           <ChangeValue
             display="Urgentie"
             valueClass={incident.priority.priority === 'high' ? 'alert' : ''}
-            list={priorityList}
+            options={priorityList}
             path="priority.priority"
             type="priority"
-            onPatchIncident={update}
             component={RadioInput}
           />
         </Highlight>
@@ -107,30 +121,37 @@ const MetaList = () => {
 
       {incident.type && (
         <Highlight type="type">
-          <ChangeValue
-            component={RadioInput}
-            display="Type"
-            list={typesList}
-            onPatchIncident={update}
-            path="type.code"
-            type="type"
-          />
+          <ChangeValue component={RadioInput} display="Type" options={typesList} path="type.code" type="type" />
         </Highlight>
       )}
 
       {subcategoryOptions && (
         <Highlight type="subcategory">
           <ChangeValue
+            component={SelectInput}
             disabled={subcatHighlightDisabled}
             display="Subcategorie (verantwoordelijke afdeling)"
-            list={subcategoryOptions}
+            options={subcategoryOptions}
             infoKey="description"
-            onPatchIncident={update}
             patch={{ status: { state: 'm' } }}
             path="category.sub_category"
             sort
             type="subcategory"
             valuePath="category.category_url"
+          />
+        </Highlight>
+      )}
+
+      {hasChildren && (
+        <Highlight type="directing_departments">
+          <ChangeValue
+            component={RadioInput}
+            display="Regie"
+            options={directingDepartmentList}
+            path="directing_departments"
+            type="directing_departments"
+            getPathValue={getDirectingDepartmentValue}
+            getSelectedValue={getDirectingDepartmentPostData}
           />
         </Highlight>
       )}
