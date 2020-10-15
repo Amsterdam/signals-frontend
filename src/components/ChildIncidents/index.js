@@ -88,11 +88,21 @@ const Li = styled(ListItem)`
       }
     }
   }
+
+  ${({ changed }) =>
+    changed &&
+    css`
+      border-left: 4px solid ${themeColor('support', 'focus')};
+
+      & > a {
+        border-left: 2px solid white;
+      }
+    `}
 `;
 
 const ChildIncidents = ({ className, incidents }) => (
   <List className={className} data-testid="childIncidents">
-    {incidents.map(({ href, status, values }) => {
+    {incidents.map(({ href, status, values, changed }) => {
       const valueEntries = Object.entries(values).map(([key, value]) => (
         <span key={key} title={key}>
           {value}
@@ -100,7 +110,7 @@ const ChildIncidents = ({ className, incidents }) => (
       ));
 
       return (
-        <Li key={JSON.stringify(values)} status={status} numValues={values.length}>
+        <Li key={JSON.stringify(values)} status={status} numValues={values.length} changed={changed}>
           {href ? <Link to={href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
         </Li>
       );
@@ -120,6 +130,7 @@ ChildIncidents.propTypes = {
         status: PropTypes.string.isRequired,
         category: PropTypes.string.isRequired,
       }),
+      changed: PropTypes.bool.isRequired,
     })
   ),
 };

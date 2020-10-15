@@ -1,3 +1,4 @@
+import changedChildrenList from './changedChildrenList';
 import contactDetailsList from './contactDetailsList';
 import directingDepartmentList from './directingDepartmentList';
 import feedbackList from './feedbackList';
@@ -12,6 +13,7 @@ export { feedbackList, priorityList, stadsdeelList, statusList, sourceList, cont
 
 export default {
   contact_details: contactDetailsList,
+  has_changed_children: changedChildrenList,
   directing_department: directingDepartmentList,
   feedback: feedbackList,
   kind: kindList,
