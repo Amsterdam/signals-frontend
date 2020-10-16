@@ -7,3 +7,4 @@
 4. [Multi-tenant architecture](./0004-multi-tenant-architecture.md)
 5. [Deploy setup](./0005-deploy-setup.md)
 6. [Forms](./0006-forms.md)
+7. [TypeScript](./0007-typescript.md)
