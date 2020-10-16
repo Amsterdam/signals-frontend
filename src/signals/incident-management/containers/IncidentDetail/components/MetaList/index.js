@@ -50,14 +50,14 @@ const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
+
   const incidentDepartmentNames = useMemo(() => {
-    if (!configuration.assignSignalToEmployee) {
-      return [];
-    }
+    if (!configuration.assignSignalToEmployee) return [];
 
     const routingRelation = incident.signal_departments?.find(relation => relation.relation_type === 'routing');
     const routingDepartmentNames =
       routingRelation?.departments?.length && routingRelation.departments.map(department => department.name);
+
     const categoryDepartmentNames =
       !routingDepartmentNames &&
       departments?.list &&
@@ -69,6 +69,7 @@ const MetaList = () => {
 
     return routingDepartmentNames || categoryDepartmentNames || [];
   }, [departments, incident]);
+
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () =>
@@ -90,7 +91,7 @@ const MetaList = () => {
           .filter(
             user =>
               user.id === incident.assigned_user_id ||
-              incidentDepartmentNames.some(name => user.profile.departments.includes(name))
+              incidentDepartmentNames.some(name => user.profile?.departments?.includes(name))
           )
           .map(user => ({
             key: user.id,
