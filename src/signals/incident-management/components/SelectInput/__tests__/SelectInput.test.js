@@ -18,7 +18,6 @@ describe('<SelectInput />', () => {
         { key: '2', value: 'item2', slug: 'item-2', _display: 'description-2' },
       ],
       multiple: false,
-      emptyOptionText: 'all items',
       size: 4,
     };
   });
@@ -33,7 +32,7 @@ describe('<SelectInput />', () => {
 
     const options = container.firstChild.querySelectorAll('option');
     expect(options).toHaveLength(props.values.length);
-    expect(options[0].textContent).toEqual('all items');
+    expect(options[0].textContent).toEqual('none');
     expect(queryByTestId(props.name)).not.toBeNull();
   });
 
@@ -67,7 +66,7 @@ describe('<SelectInput />', () => {
 
       const options = container.firstChild.querySelectorAll('option');
       expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('all items');
+      expect(options[0].textContent).toEqual('none');
       expect(options[1].textContent).toEqual('item1');
       expect(options[2].textContent).toEqual('item2');
     });
@@ -81,7 +80,7 @@ describe('<SelectInput />', () => {
 
       const options = container.firstChild.querySelectorAll('option');
       expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('all items');
+      expect(options[0].textContent).toEqual('none');
       expect(options[1].textContent).toEqual('item1');
       expect(options[2].textContent).toEqual('item2');
     });
@@ -95,7 +94,7 @@ describe('<SelectInput />', () => {
 
       const options = container.firstChild.querySelectorAll('option');
       expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('all items');
+      expect(options[0].textContent).toEqual('none');
       expect(options[1].textContent).toEqual('item1');
       expect(options[2].textContent).toEqual('item2');
     });
@@ -109,7 +108,7 @@ describe('<SelectInput />', () => {
 
       const options = container.firstChild.querySelectorAll('option');
       expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('all items');
+      expect(options[0].textContent).toEqual('none');
       expect(options[1].textContent).toEqual('item1');
       expect(options[2].textContent).toEqual('item2');
     });
@@ -123,7 +122,7 @@ describe('<SelectInput />', () => {
 
       const options = container.firstChild.querySelectorAll('option');
       expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('all items');
+      expect(options[0].textContent).toEqual('none');
       expect(options[1].textContent).toEqual('item1');
       expect(options[2].textContent).toEqual('item2');
     });
