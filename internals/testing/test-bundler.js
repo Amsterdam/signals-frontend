@@ -4,7 +4,6 @@ import 'core-js/stable';
 import 'regenerator-runtime';
 import 'url-polyfill';
 import 'jest-localstorage-mock';
-import 'jest-styled-components';
 
 import { JSDOM } from 'jsdom';
 import Enzyme from 'enzyme';

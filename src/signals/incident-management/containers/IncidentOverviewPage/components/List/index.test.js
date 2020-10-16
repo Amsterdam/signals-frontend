@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import configuration from 'shared/services/configuration/configuration';
 import { priorityList, statusList, stadsdeelList } from 'signals/incident-management/definitions';
 import { withAppContext } from 'test/utils';
+import 'jest-styled-components';
 
 import districts from 'utils/__tests__/fixtures/districts.json';
 import incidents from 'utils/__tests__/fixtures/incidents.json';
