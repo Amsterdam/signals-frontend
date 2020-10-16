@@ -150,8 +150,8 @@ const MetaList = () => {
             options={directingDepartmentList}
             path="directing_departments"
             type="directing_departments"
-            getPathValue={getDirectingDepartmentValue}
-            getSelectedValue={getDirectingDepartmentPostData}
+            getValue={getDirectingDepartmentValue}
+            getSelectedOption={getDirectingDepartmentPostData}
           />
         </Highlight>
       )}

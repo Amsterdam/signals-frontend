@@ -43,8 +43,8 @@ const ChangeValue = ({
   type,
   valueClass,
   valuePath,
-  getPathValue,
-  getSelectedValue,
+  getValue,
+  getSelectedOption,
 }) => {
   const { incident, update } = useContext(IncidentDetailContext);
   const [showForm, setShowForm] = useState(false);
@@ -53,9 +53,9 @@ const ChangeValue = ({
   const form = useMemo(
     () =>
       FormBuilder.group({
-        input: [getPathValue(get(incident, valuePath)), Validators.required],
+        input: [getValue(get(incident, valuePath)), Validators.required],
       }),
-    [incident, valuePath, getPathValue]
+    [incident, valuePath, getValue]
   );
 
   const handleSubmit = useCallback(
@@ -63,7 +63,7 @@ const ChangeValue = ({
       event.preventDefault();
 
       const payload = { ...patch };
-      set(payload, path, getSelectedValue(form.value.input));
+      set(payload, path, getSelectedOption(form.value.input));
 
       update({
         type,
@@ -73,7 +73,7 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [patch, path, type, update, form, getSelectedValue]
+    [patch, path, type, update, form, getSelectedOption]
   );
 
   const handleCancel = useCallback(() => {
@@ -119,13 +119,13 @@ const ChangeValue = ({
   );
 
   const onShowForm = useCallback(() => {
-    const value = getPathValue(get(incident, valuePath || path));
+    const value = getValue(get(incident, valuePath || path));
 
     form.controls.input.setValue(value);
     setShowForm(true);
 
     showInfo(value);
-  }, [incident, valuePath, path, showInfo, form, getPathValue]);
+  }, [incident, valuePath, path, showInfo, form, getValue]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -195,7 +195,7 @@ const ChangeValue = ({
       ) : (
         <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
           <DisplayValue data-testid="valuePath">
-            {getListValueByKey(options, getPathValue(get(incident, valuePath || path)))}
+            {getListValueByKey(options, getValue(get(incident, valuePath || path)))}
           </DisplayValue>
         </dd>
       )}
@@ -209,8 +209,8 @@ ChangeValue.defaultProps = {
   patch: {},
   valueClass: '',
   valuePath: '',
-  getPathValue: value => value,
-  getSelectedValue: value => value,
+  getValue: value => value,
+  getSelectedOption: value => value,
 };
 
 ChangeValue.propTypes = {
@@ -228,10 +228,10 @@ ChangeValue.propTypes = {
   type: PropTypes.string.isRequired,
   valueClass: PropTypes.string,
   valuePath: PropTypes.string,
-  /** Format function for the selected option. By default returns the selected option */
-  getSelectedValue: PropTypes.func,
   /** Returns the value of the incident path. Can be overridden to implement specific logic */
-  getPathValue: PropTypes.func,
+  getValue: PropTypes.func,
+  /** Format function for the selected option. By default returns the selected option put can be overridden to implement sepecific logic */
+  getSelectedOption: PropTypes.func,
 };
 
 export default ChangeValue;
