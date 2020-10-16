@@ -1,7 +1,7 @@
 {
   "_links": {
     "self": {
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5296/children/"
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/6219/children/"
     },
     "next": {
       "href": null
@@ -15,59 +15,62 @@
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5371"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/6254"
         }
       },
-      "id": 5371,
+      "id": 6254,
       "status": {
-        "state": "m",
-        "state_display": "Gemeld"
+        "state": "o",
+        "state_display": "Afgehandeld"
       },
       "category": {
-        "sub": "Veeg- / zwerfvuil",
-        "sub_slug": "veegzwerfvuil",
-        "departments": "STW",
-        "main": "Schoon",
-        "main_slug": "schoon"
-      }
+        "sub": "Wrak in het water",
+        "sub_slug": "overlast-op-het-water-gezonken-boot",
+        "departments": "ASC, WAT",
+        "main": "Overlast op het water",
+        "main_slug": "overlast-op-het-water"
+      },
+      "updated_at": "2020-10-14T09:25:04.130682+02:00"
     },
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5372"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/6255"
         }
       },
-      "id": 5372,
+      "id": 6255,
       "status": {
-        "state": "m",
-        "state_display": "Gemeld"
+        "state": "a",
+        "state_display": "Geannuleerd"
       },
       "category": {
-        "sub": "Kades",
-        "sub_slug": "kades",
-        "departments": "STW",
-        "main": "Civiele Constructies",
-        "main_slug": "civiele-constructies"
-      }
+        "sub": "Wrak in het water",
+        "sub_slug": "overlast-op-het-water-gezonken-boot",
+        "departments": "ASC, WAT",
+        "main": "Overlast op het water",
+        "main_slug": "overlast-op-het-water"
+      },
+      "updated_at": "2020-10-14T09:25:04.153647+02:00"
     },
     {
       "_links": {
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5373"
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/6256"
         }
       },
-      "id": 5373,
+      "id": 6256,
       "status": {
-        "state": "m",
-        "state_display": "Gemeld"
+        "state": "a",
+        "state_display": "Geannuleerd"
       },
       "category": {
-        "sub": "Asbest / accu",
-        "sub_slug": "asbest-accu",
-        "departments": "ASC, FB, THO",
-        "main": "Afval",
-        "main_slug": "afval"
-      }
+        "sub": "Wrak in het water",
+        "sub_slug": "overlast-op-het-water-gezonken-boot",
+        "departments": "ASC, WAT",
+        "main": "Overlast op het water",
+        "main_slug": "overlast-op-het-water"
+      },
+      "updated_at": "2020-10-14T09:25:04.167552+02:00"
     }
   ]
 }

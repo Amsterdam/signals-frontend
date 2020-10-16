@@ -67,13 +67,13 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
       children,
     };
 
-    expect(reducer(intermediateState, { type: SET_INCIDENT, payload: incident })).toEqual({
+    expect(reducer(intermediateState, { type: SET_INCIDENT, payload: { incident } })).toEqual({
       ...intermediateState,
       incident: {
         ...intermediateState.incident,
         ...incident,
       },
-      children: undefined,
+      children,
     });
   });
 

@@ -140,8 +140,7 @@ const IncidentDetail = () => {
 
   useEffect(() => {
     if (!incident) return;
-
-    dispatch({ type: SET_INCIDENT, payload: incident });
+    dispatch({ type: SET_INCIDENT, payload: { incident } });
 
     retrieveUnderlyingData();
   }, [incident, retrieveUnderlyingData]);
@@ -240,7 +239,7 @@ const IncidentDetail = () => {
 
           <AddNote />
 
-          {state.children && <ChildIncidents incidents={state.children.results} />}
+          {state.children && <ChildIncidents incidents={state.children.results} parent={state.incident} />}
 
           {state.history && <History list={state.history} />}
         </DetailContainer>

@@ -28,19 +28,35 @@ The server listens on port 3001 by default. You can change the by setting the en
 
 Configuration for theming, map and API endpoint URLs is defined in `app.base.json`. Override the default configuration by creating the file `app.json`. This file is ignored by Git. Changes to the configuration file will only be picked up when the development server is restarted.
 
-## Testing
+## Unit tests
 
-Run the unit-tests and generate a coverage report with:
+Run the unit tests and generate a coverage report with:
 
 ```bash
 npm test
 ```
 
-Run the end-to-end tests with:
+## End-to-end tests
+
+First start the backend and frontend with Docker compose:
 
 ```bash
-npm run cy:open
+docker-compose build
+docker-compose up -d
 ```
+
+Then run the end-to-end tests:
+
+```bash
+cd e2e-tests/
+npm install
+npm run open
+```
+
+It is possible to login manually on http://localhost:3001/manage with the following credentials:
+
+- E-mail: signals.admin@example.com
+- Password: password
 
 ## Service Worker
 

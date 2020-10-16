@@ -31,6 +31,8 @@ export const initialState = {
     area: [],
     stadsdeel: [],
     status: [],
+    directing_department: [],
+    has_changed_children: [],
   },
 };
 

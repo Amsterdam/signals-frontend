@@ -167,7 +167,7 @@ describe('IncidentContainer saga', () => {
         ])
         .call(request, `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`)
         .put.actionType(constants.GET_CLASSIFICATION_SUCCESS)
-        .put.actionType(constants.GET_QUESTIONS)
+        .put({ type: constants.GET_QUESTIONS, payload: { category, subcategory } })
         .run();
     });
 

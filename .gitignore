@@ -6,7 +6,7 @@ stats.json
 .eslintcache
 
 # Local config
-app.json
+/app.json
 
 # Cruft
 .DS_Store
