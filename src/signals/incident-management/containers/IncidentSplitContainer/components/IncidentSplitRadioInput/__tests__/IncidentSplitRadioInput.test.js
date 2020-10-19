@@ -22,36 +22,24 @@ describe('IncidentSplitRadioInput', () => {
     expect(container.querySelectorAll('input[type=radio]')).toHaveLength(priorityList.length);
   });
 
-  it('should display info text', () => {
-    const { key: initialValue, info } = priorityList[0];
-    const { getByText } = render(withAppContext(<IncidentSplitRadioInput {...props} initialValue={initialValue} />));
-
-    expect(getByText(new RegExp(info))).toBeInTheDocument();
-  });
-
-  it('should not display info text', () => {
-    const { key: initialValue } = priorityList[0];
-    const { queryByText } = render(withAppContext(<IncidentSplitRadioInput {...props} initialValue={initialValue} />));
-
-    expect(queryByText(new RegExp(initialValue))).not.toBeInTheDocument();
-  });
-
-  it('should display a label', () => {
+  it('should render a label', () => {
     const { container } = render(withAppContext(<IncidentSplitRadioInput {...props} />));
 
     expect(container.querySelectorAll(`label[for="${props.name}"]`)).toHaveLength(1);
   });
 
-  it('should select radio button and update info text', async () => {
+  it('should select radio buttons and display info text when available', async () => {
     const { info, value } = priorityList[2];
-    const { getByLabelText, getByText } = render(withAppContext(<IncidentSplitRadioInput {...props} />));
+    const { getByLabelText, getByText, queryByText } = render(withAppContext(<IncidentSplitRadioInput {...props} />));
     const radio = getByLabelText(value);
+    const infoTextRegex = new RegExp(info);
 
     expect(radio.checked).toBe(false);
+    expect(queryByText(infoTextRegex)).not.toBeInTheDocument();
 
     fireEvent.click(radio);
 
     expect(radio.checked).toBe(true);
-    expect(getByText(new RegExp(info))).toBeInTheDocument();
+    expect(getByText(infoTextRegex)).toBeInTheDocument();
   });
 });
