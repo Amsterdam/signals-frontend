@@ -62,13 +62,13 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   }, [getParent, id]);
 
   useEffect(() => {
-    if (isLoadingParent || isSuccessParent || errorParent === undefined) return;
+    if (errorParent === undefined && dataParent === undefined) return;
 
     /* istanbul ignore else */
     if (errorParent === false) {
       setParentIncident(dataParent);
     }
-  }, [errorParent, isLoadingParent, isSuccessParent, dataParent]);
+  }, [errorParent, dataParent]);
 
   useEffect(() => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
