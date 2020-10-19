@@ -7,7 +7,7 @@ import { makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
@@ -58,7 +58,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   );
 
   useEffect(() => {
-    getParent(`${CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT}${id}`);
+    getParent(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
   }, [getParent, id]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   useEffect(() => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
     if (isSuccessSplit) {
-      patch(`${CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_departments: directingDepartment });
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_departments: directingDepartment });
     } else {
       dispatch(
         showGlobalNotification({
@@ -158,7 +158,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
           return { ...parentData, ...partialData, parent };
         });
 
-      post(CONFIGURATION.INCIDENTS_ENDPOINT, mergedData);
+      post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
     [parentIncident, post, updateDepartment]
   );
