@@ -36,7 +36,6 @@ const ChangeValue = ({
   component = SelectInput,
   disabled = false,
   display,
-  /** Indicator that is used to determine which list item prop should be used to display info text between the form field and the buttons */
   infoKey = '',
   list,
   patch = {},
@@ -209,6 +208,7 @@ ChangeValue.propTypes = {
   component: PropTypes.func,
   disabled: PropTypes.bool,
   display: PropTypes.string.isRequired,
+  /** Indicator that is used to determine which list item prop should be used to display info text between the form field and the buttons */
   infoKey: PropTypes.string,
   list: dataListType.isRequired,
   patch: PropTypes.object,

@@ -68,7 +68,7 @@ const IncidentManagement = () => {
   }
 
   return (
-    <IncidentManagementContext.Provider value={{ districts, loading: users.isLoading, users: users.data?.results }}>
+    <IncidentManagementContext.Provider value={{ districts, users: users.data?.results }}>
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
           <Route exact path={routes.incidents} component={IncidentOverviewPage} />

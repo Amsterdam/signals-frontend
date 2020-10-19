@@ -79,6 +79,7 @@ const MetaList = () => {
       })),
     [subcategories]
   );
+
   const userOptions = useMemo(
     () =>
       configuration.assignSignalToEmployee &&
