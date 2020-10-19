@@ -86,9 +86,6 @@ export const StyledSelect = styled.div`
   }
 `;
 
-export const StyledGridRow = styled.div`
-`;
-
 export const StyledInfoText = styled(InfoText)`
   margin: ${themeSpacing(2, 0, 0)};
 `;
