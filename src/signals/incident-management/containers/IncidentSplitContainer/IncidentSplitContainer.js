@@ -146,7 +146,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       };
 
       const mergedData = incidents
-        .filter(issue => issue)
+        .filter(Boolean)
         .reduce((acc, { subcategory, description, type, priority }) => {
           const partialData = {
             category: { category_url: subcategory },
