@@ -7,7 +7,7 @@ import { makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
-import configuration from 'shared/services/configuration/configuration';
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
@@ -58,7 +58,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   );
 
   useEffect(() => {
-    getParent(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
+    getParent(`${CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT}${id}`);
   }, [getParent, id]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   useEffect(() => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
     if (isSuccessSplit) {
-      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_departments: directingDepartment });
+      patch(`${CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_departments: directingDepartment });
     } else {
       dispatch(
         showGlobalNotification({
@@ -147,7 +147,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
       const mergedData = incidents
         .filter(Boolean)
-        .reduce((acc, { subcategory, description, type, priority }) => {
+        .map(({ subcategory, description, type, priority }) => {
           const partialData = {
             category: { category_url: subcategory },
             priority: { priority },
@@ -155,10 +155,10 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             type: { code: type },
           };
 
-          return [...acc, { ...parentData, ...partialData, parent }];
-        }, []);
+          return { ...parentData, ...partialData, parent };
+        });
 
-      post(configuration.INCIDENTS_ENDPOINT, mergedData);
+      post(CONFIGURATION.INCIDENTS_ENDPOINT, mergedData);
     },
     [parentIncident, post, updateDepartment]
   );
