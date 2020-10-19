@@ -7,7 +7,7 @@ import IncidentSplitSelectInput from '..';
 
 import subcategoriesFixture from '../../../__tests__/subcategoriesFixture.json';
 
-describe('<IncidentSplitSelectInput />', () => {
+describe('IncidentSplitSelectInput', () => {
   const props = {
     name: 'subcategory',
     display: 'Subcategorie',

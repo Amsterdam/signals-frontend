@@ -6,7 +6,7 @@ import priorityList from 'signals/incident-management/definitions/priorityList';
 
 import IncidentSplitRadioInput from '..';
 
-describe('<IncidentSplitRadioInput />', () => {
+describe('IncidentSplitRadioInput', () => {
   const props = {
     name: 'priority',
     display: 'Urgentie',

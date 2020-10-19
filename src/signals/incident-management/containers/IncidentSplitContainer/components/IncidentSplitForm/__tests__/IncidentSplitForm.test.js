@@ -16,7 +16,7 @@ jest.mock('react-router-dom', () => ({
   useHistory: () => ({ push: mockHistoryPush }),
 }));
 
-describe('<IncidentSplitForm />', () => {
+describe('IncidentSplitForm', () => {
   const onSubmit = jest.fn();
   const props = { parentIncident: parentIncidentFixture, subcategories, onSubmit };
 
