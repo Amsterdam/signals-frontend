@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
@@ -68,9 +68,7 @@ describe('ChangeValue', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectEditState(renderProps);
   });
@@ -80,17 +78,13 @@ describe('ChangeValue', () => {
 
     const editButton = getByTestId(editTestId);
 
-    act(() => {
-      fireEvent.click(editButton);
-    });
+    fireEvent.click(editButton);
 
     const submitBtn = await findByTestId(submitTestId);
 
     expect(update).not.toHaveBeenCalled();
 
-    act(() => {
-      fireEvent.click(submitBtn);
-    });
+    fireEvent.click(submitBtn);
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -105,17 +99,13 @@ describe('ChangeValue', () => {
 
     const editButton = getByTestId(editTestId);
 
-    act(() => {
-      fireEvent.click(editButton);
-    });
+    fireEvent.click(editButton);
 
     const submitBtn = await findByTestId(submitTestId);
 
     expect(update).not.toHaveBeenCalled();
 
-    act(() => {
-      fireEvent.click(submitBtn);
-    });
+    fireEvent.click(submitBtn);
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -131,15 +121,11 @@ describe('ChangeValue', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectEditState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(cancelTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(cancelTestId));
 
     await expectInitialState(renderProps);
   });
@@ -149,33 +135,23 @@ describe('ChangeValue', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectEditState(renderProps);
 
-    act(() => {
-      fireEvent.keyUp(document, { key: 'ArrowUp', code: 38, keyCode: 38 });
-    });
+    fireEvent.keyUp(document, { key: 'ArrowUp', code: 38, keyCode: 38 });
 
     await expectEditState(renderProps);
 
-    act(() => {
-      fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 });
-    });
+    fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 });
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectEditState(renderProps);
 
-    act(() => {
-      fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 });
-    });
+    fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 });
 
     await expectInitialState(renderProps);
   });
@@ -185,9 +161,7 @@ describe('ChangeValue', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     expect(renderProps.queryByTestId('infoText')).not.toBeInTheDocument();
 
@@ -197,16 +171,12 @@ describe('ChangeValue', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     expect(renderProps.queryByTestId('infoText')).toBeInTheDocument();
     expect(renderProps.queryByTestId('infoText').textContent).toEqual('Foo bar baz');
 
-    act(() => {
-      fireEvent.change(document.querySelector('select'), { target: { value: 'a' } });
-    });
+    fireEvent.change(document.querySelector('select'), { target: { value: 'a' } });
 
     expect(renderProps.queryByTestId('infoText').textContent).toEqual('Zork');
   });
@@ -216,9 +186,7 @@ describe('ChangeValue', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectInitialState(renderProps);
   });
