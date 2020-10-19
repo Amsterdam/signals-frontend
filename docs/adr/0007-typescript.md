@@ -19,5 +19,5 @@ Transition to TypeScript will be done gradually.
 ## Consequences
 
 - Webpack and linting need to be set up accordingly.
-- When transitioning te TypeScript we need to take unit tests along as well.
+- When transitioning to TypeScript we need to take unit tests along as well.
 - When we start using GraphQL we can use generated TypeScript interfaces.
