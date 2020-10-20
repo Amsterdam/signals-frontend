@@ -5,10 +5,6 @@ const emailSentWhenStatusChangedTo = status =>
   Boolean(changeStatusOptionList.find(({ email_sent_when_set, key }) => email_sent_when_set && status === key));
 
 const determineWarning = selectedStatusKey => {
-  if (selectedStatusKey === 'reopened') {
-    return constants.HEROPENED_EXPLANATION;
-  }
-
   if (selectedStatusKey === 'o') {
     return constants.AFGEHANDELD_EXPLANATION;
   }
