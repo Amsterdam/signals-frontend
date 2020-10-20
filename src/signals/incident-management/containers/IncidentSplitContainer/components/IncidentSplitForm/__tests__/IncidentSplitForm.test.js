@@ -35,7 +35,6 @@ describe('IncidentSplitForm', () => {
 
     expect(onSubmit).toHaveBeenCalledWith({
       department: directingDepartmentList[0].key,
-      // WARNING: data does not match acc and that sucks because it is confusing..
       incidents: [
         undefined,
         {
