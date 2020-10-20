@@ -1,8 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
-import get from 'lodash.get';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { typesList, priorityList, directingDepartmentList } from 'signals/incident-management/definitions';
@@ -54,24 +53,32 @@ const MetaList = () => {
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
 
-  const incidentDepartmentNames = useMemo(() => {
-    if (!configuration.assignSignalToEmployee) return [];
-
+  const routingDepartments = useMemo(() => {
     const routingRelation = incident.signal_departments?.find(relation => relation.relation_type === 'routing');
-    const routingDepartmentNames =
-      routingRelation?.departments?.length && routingRelation.departments.map(department => department.name);
 
-    const categoryDepartmentNames =
-      !routingDepartmentNames &&
+    return routingRelation?.departments?.length && routingRelation.departments;
+  }, [incident]);
+
+  const categoryDepartments = useMemo(
+    () =>
       departments?.list &&
       (incident.category?.departments || '')
         .split(',')
         .map(code => code.trim())
-        .map(code => departments.list.find(department => department.code === code)?.name)
-        .filter(Boolean);
+        .map(code => departments.list.find(department => department.code === code))
+        .filter(Boolean),
+    [departments, incident]
+  );
+
+  const incidentDepartmentNames = useMemo(() => {
+    if (!configuration.assignSignalToEmployee) return [];
+
+    const routingDepartmentNames = routingDepartments?.length && routingDepartments.map(department => department.name);
+
+    const categoryDepartmentNames = !routingDepartmentNames && categoryDepartments?.map(department => department.name);
 
     return routingDepartmentNames || categoryDepartmentNames || [];
-  }, [departments, incident]);
+  }, [routingDepartments, categoryDepartments]);
 
   const subcategories = useSelector(makeSelectSubCategories);
 
@@ -86,10 +93,10 @@ const MetaList = () => {
   const hasChildren = useMemo(() => incident?._links['sia:children']?.length > 0, [incident]);
 
   // eslint-disable-next-line no-shadow
-  const getDirectingDepartmentValue = useCallback((incident, path) => {
-    const value = get(incident, path);
-    return value?.length === 1 && value[0].code === 'ASC' ? 'ASC' : 'null';
-  }, []);
+  const getDirectingDepartmentCode = useCallback(
+    value => (value?.length === 1 && value[0].code === 'ASC' ? 'ASC' : 'null'),
+    []
+  );
 
   const userOptions = useMemo(
     () =>
@@ -111,6 +118,45 @@ const MetaList = () => {
           })),
       ],
     [incident, incidentDepartmentNames, users]
+  );
+
+  const departmentOptions = useMemo(() => {
+    if (!configuration.assignSignalToDepartment) return [];
+
+    const options = categoryDepartments?.map(department => ({
+      key: department.id,
+      value: department.name,
+    }));
+
+    return routingDepartments
+      ? options
+      : [
+        {
+          value: 'Niet gekoppeld',
+        },
+        ...options,
+      ];
+  }, [categoryDepartments, routingDepartments]);
+
+  const getDepartmentId = useCallback(
+    () => (routingDepartments ? routingDepartments[0].id : departmentOptions && departmentOptions[0].key),
+    [departmentOptions, routingDepartments]
+  );
+
+  const getDepartmentPostData = useCallback(
+    id => [
+      {
+        relation_type: 'routing',
+        departments: id
+          ? [
+            {
+              id,
+            },
+          ]
+          : [],
+      },
+    ],
+    []
   );
 
   const subcatHighlightDisabled = ![
@@ -188,6 +234,21 @@ const MetaList = () => {
         </Highlight>
       )}
 
+      {configuration.assignSignalToDepartment && departmentOptions && (
+        <Highlight type="signal_departments">
+          <ChangeValue
+            component={SelectInput}
+            display="Afdeling"
+            options={departmentOptions}
+            onPatchIncident={update}
+            path="signal_departments"
+            type="signal_departments"
+            rawDataToKey={getDepartmentId}
+            keyToRawData={getDepartmentPostData}
+          />
+        </Highlight>
+      )}
+
       {subcategoryOptions && (
         <Highlight type="subcategory">
           <ChangeValue
@@ -213,8 +274,8 @@ const MetaList = () => {
             options={directingDepartmentList}
             path="directing_departments"
             type="directing_departments"
-            get={getDirectingDepartmentValue}
-            getSelectedOption={getDirectingDepartmentPostData}
+            rawDataToKey={getDirectingDepartmentCode}
+            keyToRawData={getDirectingDepartmentPostData}
           />
         </Highlight>
       )}
