@@ -1,20 +1,20 @@
 import React, { useMemo, Fragment, useEffect, useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import get from 'lodash.get';
 import set from 'lodash.set';
-import Button from 'components/Button';
+import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
+import Button from 'components/Button';
 import { dataListType } from 'shared/types';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-
 import InfoText from 'components/InfoText';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
-import EditButton from '../../../EditButton';
-import IncidentDetailContext from '../../../../context';
+
+import EditButton from '../EditButton';
+import IncidentDetailContext from '../../context';
 
 const DisplayValue = styled.span`
   display: inline-block;
@@ -33,17 +33,17 @@ const ButtonBar = styled.div`
 `;
 
 const ChangeValue = ({
-  component,
-  disabled,
+  component = SelectInput,
+  disabled = false,
   display,
-  infoKey,
+  infoKey = '',
   list,
-  patch,
+  patch = {},
   path,
   sort,
   type,
-  valueClass,
-  valuePath,
+  valueClass = '',
+  valuePath = '',
 }) => {
   const { incident, update } = useContext(IncidentDetailContext);
   const [showForm, setShowForm] = useState(false);
@@ -62,8 +62,9 @@ const ChangeValue = ({
       event.preventDefault();
 
       const payload = { ...patch };
+      const newValue = form.value.input || list.find(({ key }) => !key)?.key;
 
-      set(payload, path, form.value.input);
+      set(payload, path, newValue);
 
       update({
         type,
@@ -73,7 +74,7 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [patch, path, type, update, form]
+    [form, list, patch, path, type, update]
   );
 
   const handleCancel = useCallback(() => {
@@ -201,15 +202,6 @@ const ChangeValue = ({
       )}
     </Fragment>
   );
-};
-
-ChangeValue.defaultProps = {
-  component: SelectInput,
-  disabled: false,
-  infoKey: '',
-  patch: {},
-  valueClass: '',
-  valuePath: '',
 };
 
 ChangeValue.propTypes = {

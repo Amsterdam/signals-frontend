@@ -3,9 +3,11 @@ import { render, fireEvent } from '@testing-library/react';
 import configuration from 'shared/services/configuration/configuration';
 import { priorityList, statusList, stadsdeelList } from 'signals/incident-management/definitions';
 import { withAppContext } from 'test/utils';
+import 'jest-styled-components';
 
 import districts from 'utils/__tests__/fixtures/districts.json';
 import incidents from 'utils/__tests__/fixtures/incidents.json';
+import users from 'utils/__tests__/fixtures/users.json';
 
 import List from '.';
 import IncidentManagementContext from '../../../../context';
@@ -14,24 +16,25 @@ jest.mock('shared/services/configuration/configuration');
 
 const withContext = Component =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+    <IncidentManagementContext.Provider value={{ districts, users: users.results }}>
+      {Component}
+    </IncidentManagementContext.Provider>
   );
 
-describe('<List />', () => {
-  let props;
+const props = {
+  incidents,
+  priority: priorityList,
+  status: statusList,
+  stadsdeel: stadsdeelList,
+  onChangeOrdering: jest.fn(),
+};
 
-  beforeEach(() => {
-    props = {
-      incidents,
-      priority: priorityList,
-      status: statusList,
-      stadsdeel: stadsdeelList,
-      onChangeOrdering: jest.fn(),
-    };
-  });
+describe('List', () => {
+  beforeEach(() => {});
 
   afterEach(() => {
     configuration.__reset();
+    props.onChangeOrdering.mockReset();
   });
 
   it('should render correctly', () => {
@@ -60,6 +63,15 @@ describe('<List />', () => {
     );
   });
 
+  it('should render correctly when loading', () => {
+    const opacity = '0.3';
+    const { rerender, getByTestId } = render(withContext(<List {...props} />));
+    expect(getByTestId('incidentOverviewListComponent')).not.toHaveStyleRule('opacity', opacity);
+
+    rerender(withContext(<List {...{ ...props, isLoading: true }} />));
+    expect(getByTestId('incidentOverviewListComponent')).toHaveStyleRule('opacity', opacity);
+  });
+
   it('should render correctly with fetchDistrictsFromBackend', () => {
     configuration.fetchDistrictsFromBackend = true;
     configuration.language.district = 'District';
@@ -69,6 +81,16 @@ describe('<List />', () => {
     expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^District/);
     expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^North/);
     expect(container.querySelector('tr:nth-child(2) td:nth-child(4)')).toHaveTextContent(/^South/);
+  });
+
+  it('should render correctly with assignSignalToEmployee', () => {
+    configuration.assignSignalToEmployee = true;
+
+    const { container } = render(withContext(<List {...props} />));
+
+    expect(container.querySelector('tr th:nth-child(9)')).toHaveTextContent('Toegewezen aan');
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(9)')).toHaveTextContent(users.results[0].username);
+    expect(container.querySelector('tr:nth-child(2) td:nth-child(9)')).toHaveTextContent(/^$/);
   });
 
   describe('events', () => {

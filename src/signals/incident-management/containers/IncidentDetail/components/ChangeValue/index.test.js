@@ -1,11 +1,11 @@
 import React from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 
-import IncidentDetailContext from '../../../../context';
+import IncidentDetailContext from '../../context';
 
 import ChangeValue from '.';
 
@@ -35,8 +35,6 @@ const props = {
   ],
   display: 'De letter',
   path: 'incident.mockPath',
-  patch: {},
-  disabled: false,
   sort: false,
   type: 'mockType',
 };
@@ -50,7 +48,7 @@ const renderWithContext = (componentProps = props) =>
     </IncidentDetailContext.Provider>
   );
 
-describe('<ChangeValue />', () => {
+describe('ChangeValue', () => {
   // data-testid attributes are generated dynamically
   const editTestId = `edit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
   const submitTestId = `submit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
@@ -70,9 +68,7 @@ describe('<ChangeValue />', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectEditState(renderProps);
   });
@@ -82,17 +78,13 @@ describe('<ChangeValue />', () => {
 
     const editButton = getByTestId(editTestId);
 
-    act(() => {
-      fireEvent.click(editButton);
-    });
+    fireEvent.click(editButton);
 
     const submitBtn = await findByTestId(submitTestId);
 
     expect(update).not.toHaveBeenCalled();
 
-    act(() => {
-      fireEvent.click(submitBtn);
-    });
+    fireEvent.click(submitBtn);
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -102,20 +94,38 @@ describe('<ChangeValue />', () => {
     });
   });
 
+  it('should call update with extra props', async () => {
+    const { getByTestId, findByTestId } = render(renderWithContext({ ...props, patch: { extraProp: true } }));
+
+    const editButton = getByTestId(editTestId);
+
+    fireEvent.click(editButton);
+
+    const submitBtn = await findByTestId(submitTestId);
+
+    expect(update).not.toHaveBeenCalled();
+
+    fireEvent.click(submitBtn);
+
+    expect(update).toHaveBeenCalledWith({
+      type: props.type,
+      patch: {
+        incident: expect.any(Object),
+        extraProp: true,
+      },
+    });
+  });
+
   it('should hide form on cancel', async () => {
     const renderProps = render(renderWithContext());
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectEditState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(cancelTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(cancelTestId));
 
     await expectInitialState(renderProps);
   });
@@ -125,33 +135,23 @@ describe('<ChangeValue />', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectEditState(renderProps);
 
-    act(() => {
-      fireEvent.keyUp(document, { key: 'ArrowUp', code: 38, keyCode: 38 });
-    });
+    fireEvent.keyUp(document, { key: 'ArrowUp', code: 38, keyCode: 38 });
 
     await expectEditState(renderProps);
 
-    act(() => {
-      fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 });
-    });
+    fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 });
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     await expectEditState(renderProps);
 
-    act(() => {
-      fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 });
-    });
+    fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 });
 
     await expectInitialState(renderProps);
   });
@@ -161,9 +161,7 @@ describe('<ChangeValue />', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     expect(renderProps.queryByTestId('infoText')).not.toBeInTheDocument();
 
@@ -173,17 +171,23 @@ describe('<ChangeValue />', () => {
 
     await expectInitialState(renderProps);
 
-    act(() => {
-      fireEvent.click(renderProps.getByTestId(editTestId));
-    });
+    fireEvent.click(renderProps.getByTestId(editTestId));
 
     expect(renderProps.queryByTestId('infoText')).toBeInTheDocument();
     expect(renderProps.queryByTestId('infoText').textContent).toEqual('Foo bar baz');
 
-    act(() => {
-      fireEvent.change(document.querySelector('select'), { target: { value: 'a' } });
-    });
+    fireEvent.change(document.querySelector('select'), { target: { value: 'a' } });
 
     expect(renderProps.queryByTestId('infoText').textContent).toEqual('Zork');
+  });
+
+  it('should render disabled edit button', async () => {
+    const renderProps = render(renderWithContext({ ...props, disabled: true }));
+
+    await expectInitialState(renderProps);
+
+    fireEvent.click(renderProps.getByTestId(editTestId));
+
+    await expectInitialState(renderProps);
   });
 });

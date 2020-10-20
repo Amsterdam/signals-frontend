@@ -3,6 +3,10 @@ import { getListValueByKey } from './list-helper';
 describe('The list helper service', () => {
   const list = [
     {
+      key: null,
+      value: 'null',
+    },
+    {
       key: 'A',
       value: 'Centrum',
     },
@@ -47,5 +51,13 @@ describe('The list helper service', () => {
 
   it('should return not found value whem it does not exist', () => {
     expect(getListValueByKey(list, 'NOT_FOUND')).toEqual('Niet gevonden');
+  });
+
+  it('should be able to handle null keys with any falsy key parameter', () => {
+    expect(getListValueByKey(list)).toEqual('null');
+    expect(getListValueByKey(list, null)).toEqual('null');
+    expect(getListValueByKey(list, false)).toEqual('null');
+    expect(getListValueByKey(list, 0)).toEqual('null');
+    expect(getListValueByKey(list, '')).toEqual('null');
   });
 });

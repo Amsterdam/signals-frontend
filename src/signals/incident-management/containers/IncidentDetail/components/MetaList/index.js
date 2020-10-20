@@ -1,20 +1,23 @@
 import React, { useContext, useMemo } from 'react';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
-import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectDepartments } from 'models/departments/selectors';
+import configuration from 'shared/services/configuration/configuration';
+import { string2date, string2time } from 'shared/services/string-parser';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
-
 import RadioInput from 'signals/incident-management/components/RadioInput';
+import SelectInput from 'signals/incident-management/components/SelectInput';
 
-import ChangeValue from './components/ChangeValue';
+import ChangeValue from '../ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../context';
+import IncidentManagementContext from '../../../../context';
 
-const List = styled.dl`
+const StyledMetaList = styled.dl`
   dt {
     color: ${themeColor('tint', 'level5')};
     margin-bottom: ${themeSpacing(1)};
@@ -45,6 +48,28 @@ const EditButton = styled(Button)`
 
 const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
+  const { users } = useContext(IncidentManagementContext);
+  const departments = useSelector(makeSelectDepartments);
+
+  const incidentDepartmentNames = useMemo(() => {
+    if (!configuration.assignSignalToEmployee) return [];
+
+    const routingRelation = incident.signal_departments?.find(relation => relation.relation_type === 'routing');
+    const routingDepartmentNames =
+      routingRelation?.departments?.length && routingRelation.departments.map(department => department.name);
+
+    const categoryDepartmentNames =
+      !routingDepartmentNames &&
+      departments?.list &&
+      (incident.category?.departments || '')
+        .split(',')
+        .map(code => code.trim())
+        .map(code => departments.list.find(department => department.code === code)?.name)
+        .filter(Boolean);
+
+    return routingDepartmentNames || categoryDepartmentNames || [];
+  }, [departments, incident]);
+
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () =>
@@ -52,9 +77,29 @@ const MetaList = () => {
         ...category,
         value: category.extendedName,
       })),
-    // disabling linter; we want to allow possible null subcategories
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [subcategories]
+  );
+
+  const userOptions = useMemo(
+    () =>
+      configuration.assignSignalToEmployee &&
+      users && [
+        {
+          key: null,
+          value: 'Niet toegewezen',
+        },
+        ...users
+          .filter(
+            user =>
+              user.id === incident.assigned_user_id ||
+              incidentDepartmentNames.some(name => user.profile?.departments?.includes(name))
+          )
+          .map(user => ({
+            key: user.id,
+            value: user.username,
+          })),
+      ],
+    [incident, incidentDepartmentNames, users]
   );
 
   const subcatHighlightDisabled = ![
@@ -68,7 +113,7 @@ const MetaList = () => {
   ].includes(incident.status.state);
 
   return (
-    <List>
+    <StyledMetaList>
       <dt data-testid="meta-list-date-definition">Gemeld op</dt>
       <dd data-testid="meta-list-date-value">
         {string2date(incident.created_at)} {string2time(incident.created_at)}
@@ -118,6 +163,19 @@ const MetaList = () => {
         </Highlight>
       )}
 
+      {configuration.assignSignalToEmployee && userOptions && (
+        <Highlight type="assigned_user_id">
+          <ChangeValue
+            component={SelectInput}
+            display="Toegewezen aan"
+            list={userOptions}
+            onPatchIncident={update}
+            path="assigned_user_id"
+            type="assigned_user_id"
+          />
+        </Highlight>
+      )}
+
       {subcategoryOptions && (
         <Highlight type="subcategory">
           <ChangeValue
@@ -142,7 +200,7 @@ const MetaList = () => {
 
       <dt data-testid="meta-list-source-definition">Bron</dt>
       <dd data-testid="meta-list-source-value">{incident.source}</dd>
-    </List>
+    </StyledMetaList>
   );
 };
 

@@ -1,11 +1,11 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import { ChevronUp, ChevronDown } from '@datapunt/asc-assets';
 import { Icon } from '@datapunt/asc-ui';
+import styled, { css } from 'styled-components';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
@@ -24,7 +24,7 @@ const getDaysOpen = incident => {
   return hasDaysOpen ? -differenceInCalendarDays(start, new Date()) : '-';
 };
 
-const Wrapper = styled.div`
+const StyledList = styled.div`
   width: 100%;
 
   ${({ isLoading }) =>
@@ -59,8 +59,8 @@ const Table = styled.table`
 `;
 
 const Th = styled.th`
-  font-weight: normal;
   cursor: pointer;
+  font-weight: normal;
 
   &:hover {
     text-decoration: underline;
@@ -71,31 +71,34 @@ const Th = styled.th`
     switch (props['data-testid']) {
       case 'sortId':
         return 'min-width: 75px;';
-
       case 'sortDaysOpen':
         return 'min-width: 65px;';
-
       case 'sortCreatedAt':
       case 'sortStadsdeel':
         return 'min-width: 150px;';
-
       case 'sortSubcategory':
         return 'min-width: 135px;';
-
       case 'sortPriority':
         return 'min-width: 100px;';
-
       case 'sortAddress':
         return 'min-width: 80px;';
-
       default:
         return 'width: auto;';
     }
   }}
 `;
 
-const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sort, stadsdeel, status }) => {
-  const { districts } = useContext(IncidentManagementContext);
+const List = ({
+  className = '',
+  incidents,
+  isLoading = false,
+  onChangeOrdering,
+  priority,
+  sort,
+  stadsdeel,
+  status,
+}) => {
+  const { districts, users } = useContext(IncidentManagementContext);
 
   const onSort = useCallback(
     newSort => () => {
@@ -120,8 +123,10 @@ const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sor
     [sort]
   );
 
+  const getAssignedUserName = useCallback(userId => users?.find(user => user.id === userId)?.username, [users]);
+
   return (
-    <Wrapper isLoading={isLoading} className={className} data-testid="incidentOverviewListComponent">
+    <StyledList isLoading={isLoading} className={className} data-testid="incidentOverviewListComponent">
       <Table cellSpacing="0">
         <thead>
           <tr>
@@ -155,6 +160,7 @@ const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sor
             <Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
               Adres {renderChevron('address')}
             </Th>
+            {configuration.assignSignalToEmployee && users && <th data-testid="sortAssigedUserId">Toegewezen aan</th>}
           </tr>
         </thead>
         <tbody>
@@ -168,7 +174,7 @@ const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sor
                 <td data-testid="incidentDaysOpen">
                   <Link to={detailLink}>{getDaysOpen(incident)}</Link>
                 </td>
-                <td className="no-wrap">
+                <td>
                   <Link to={detailLink}>
                     {string2date(incident.created_at)} {string2time(incident.created_at)}
                   </Link>
@@ -194,18 +200,18 @@ const List = ({ className, incidents, isLoading, onChangeOrdering, priority, sor
                 <td>
                   <Link to={detailLink}>{incident.location && incident.location.address_text}</Link>
                 </td>
+                {configuration.assignSignalToEmployee && users && (
+                  <td>
+                    <Link to={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Link>
+                  </td>
+                )}
               </tr>
             );
           })}
         </tbody>
       </Table>
-    </Wrapper>
+    </StyledList>
   );
-};
-
-List.defaultProps = {
-  className: '',
-  isLoading: false,
 };
 
 List.propTypes = {

@@ -10,9 +10,9 @@ const Wrapper = styled.div`
 
 export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
   const options = values.map(({ key, value, slug }) => ({
-    key: useSlug ? slug : key,
+    key: useSlug ? slug : key || '',
     name: key ? value : emptyOptionText || value,
-    value: useSlug ? slug : key,
+    value: useSlug ? slug : key || '',
   }));
 
   const render = ({ handler }) => (
