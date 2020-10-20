@@ -38,7 +38,7 @@
     "test:only": "cross-env NODE_ENV=test jest --watch --onlyChanged --coverage --verbose false",
     "test:update": "cross-env NODE_ENV=test jest --updateSnapshot --coverage --verbose false",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll --coverage --verbose false",
-    "test": "cross-env NODE_ENV=test jest --coverage",
+    "test": "cross-env NODE_ENV=test jest --coverage --maxWorkers=6",
     "validate-config": "node ./internals/scripts/validate-config.js"
   },
   "lint-staged": {
