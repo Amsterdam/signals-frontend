@@ -15,17 +15,6 @@ import { INCIDENT_URL } from 'signals/incident-management/routes';
 import LoadingIndicator from 'components/LoadingIndicator';
 import IncidentSplitForm from './components/IncidentSplitForm';
 
-const getParentIncident = incident => ({
-  id: incident.id,
-  status: incident.status.state,
-  statusDisplayName: incident.status.state_display,
-  priority: incident.priority.priority,
-  subcategory: incident.category.category_url,
-  subcategoryDisplayName: `${incident.category.sub} (${incident.category.departments})`,
-  description: incident.text,
-  type: incident.type.code,
-});
-
 const IncidentSplitContainer = ({ FormComponent }) => {
   const { error: errorSplit, isSuccess: isSuccessSplit, post } = useFetch();
   const {
@@ -62,13 +51,13 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   }, [getParent, id]);
 
   useEffect(() => {
-    if (isLoadingParent || isSuccessParent || errorParent === undefined) return;
+    if (errorParent === undefined && dataParent === undefined) return;
 
     /* istanbul ignore else */
     if (errorParent === false) {
       setParentIncident(dataParent);
     }
-  }, [errorParent, isLoadingParent, isSuccessParent, dataParent]);
+  }, [errorParent, dataParent]);
 
   useEffect(() => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
@@ -146,8 +135,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       };
 
       const mergedData = incidents
-        .filter(issue => issue)
-        .reduce((acc, { subcategory, description, type, priority }) => {
+        .filter(Boolean)
+        .map(({ subcategory, description, type, priority }) => {
           const partialData = {
             category: { category_url: subcategory },
             priority: { priority },
@@ -155,8 +144,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             type: { code: type },
           };
 
-          return [...acc, { ...parentData, ...partialData, parent }];
-        }, []);
+          return { ...parentData, ...partialData, parent };
+        });
 
       post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
@@ -170,7 +159,16 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       ) : (
         <FormComponent
           data-testid="incidentSplitForm"
-          parentIncident={getParentIncident(parentIncident)}
+          parentIncident={{
+            id: parentIncident.id,
+            status: parentIncident.status.state,
+            statusDisplayName: parentIncident.status.state_display,
+            priority: parentIncident.priority.priority,
+            subcategory: parentIncident.category.category_url,
+            subcategoryDisplayName: `${parentIncident.category.sub} (${parentIncident.category.departments})`,
+            description: parentIncident.text,
+            type: parentIncident.type.code,
+          }}
           subcategories={subcategoryOptions}
           onSubmit={onSubmit}
         />

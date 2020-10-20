@@ -5,15 +5,15 @@ import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
 
 import { StyledInfoText, StyledLabel } from '../../styled';
 
-const getInfo = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
+const getSelectedOption = (options, value) => options.find(({ key }) => key === value);
 
 const IncidentSplitRadioInput = ({ id, name, display, options, initialValue, register }) => {
-  const [selected, setSelected] = useState(getInfo(options, initialValue));
+  const [selected, setSelected] = useState(getSelectedOption(options, initialValue));
 
   const onChange = useCallback(
     event => {
       event.preventDefault();
-      setSelected(getInfo(options, event.target.value));
+      setSelected(getSelectedOption(options, event.target.value));
     },
     [options]
   );

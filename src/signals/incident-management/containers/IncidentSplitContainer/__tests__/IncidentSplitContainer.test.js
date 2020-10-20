@@ -3,7 +3,7 @@ import { render as reactRender, fireEvent } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration';
 
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
@@ -136,7 +136,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(fetch).toHaveBeenCalledWith(
-      `${CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT}${id}`,
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
       expect.objectContaining({ method: 'GET' })
     );
   });
@@ -164,7 +164,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(fetch).toHaveBeenCalledTimes(2);
 
     expect(fetch).toHaveBeenLastCalledWith(
-      CONFIGURATION.INCIDENT_PRIVATE_ENDPOINT,
+      configuration.INCIDENT_PRIVATE_ENDPOINT,
       expect.objectContaining({ method: 'POST' })
     );
 

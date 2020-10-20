@@ -9,7 +9,7 @@ import Button from 'components/Button';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
 
-import { StyledGrid, StyledGridRow, StyledHeading } from '../../styled';
+import { StyledGrid, StyledHeading } from '../../styled';
 
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
@@ -36,19 +36,17 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
               Deelmelding {splitNumber}
             </StyledHeading>
 
-            <StyledGridRow>
-              <IncidentSplitSelectInput
-                id={`subcategory-${splitNumber}`}
-                data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
-                name={`incidents[${splitNumber}].subcategory`}
-                display="Subcategorie"
-                options={subcategories}
-                initialValue={parentIncident.subcategory}
-                register={register}
-              />
-            </StyledGridRow>
+            <IncidentSplitSelectInput
+              id={`subcategory-${splitNumber}`}
+              data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
+              name={`incidents[${splitNumber}].subcategory`}
+              display="Subcategorie"
+              options={subcategories}
+              initialValue={parentIncident.subcategory}
+              register={register}
+            />
 
-            <StyledGridRow>
+            <div>
               <Label as="span">Omschrijving</Label>
 
               <TextArea
@@ -58,9 +56,9 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
                 rows={10}
                 defaultValue={parentIncident.description}
               />
-            </StyledGridRow>
+            </div>
 
-            <StyledGridRow>
+            <div>
               <IncidentSplitRadioInput
                 id={`priority-${splitNumber}`}
                 data-testid={`incidentSplitFormIncidentPriorityRadio-${splitNumber}`}
@@ -70,9 +68,9 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
                 initialValue={parentIncident.priority}
                 register={register}
               />
-            </StyledGridRow>
+            </div>
 
-            <StyledGridRow>
+            <div>
               <IncidentSplitRadioInput
                 id={`type-${splitNumber}`}
                 data-testid={`incidentSplitFormIncidentTypeRadio-${splitNumber}`}
@@ -82,7 +80,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
                 initialValue={parentIncident.type}
                 register={register}
               />
-            </StyledGridRow>
+            </div>
           </StyledGrid>
         </fieldset>
       ))}

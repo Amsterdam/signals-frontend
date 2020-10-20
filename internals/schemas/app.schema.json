@@ -15,6 +15,10 @@
           "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
           "type": "string"
         },
+        "assignSignalToEmployee": {
+          "description": "Feature switch to enable assigning an incident to an individual employee.",
+          "type": "boolean"
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -69,6 +73,7 @@
       },
       "required": [
         "apiBaseUrl",
+        "assignSignalToEmployee",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "fetchSourcesFromBackend",

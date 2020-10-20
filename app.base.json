@@ -1,6 +1,7 @@
 {
   "apiBaseUrl": "https://acc.api.data.amsterdam.nl",
   "areaTypeCodeForDistrict": "stadsdeel",
+  "assignSignalToEmployee": false,
   "fetchDistrictsFromBackend": false,
   "fetchQuestionsFromBackend": false,
   "fetchSourcesFromBackend": false,

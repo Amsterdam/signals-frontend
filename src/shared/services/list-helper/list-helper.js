@@ -1,8 +1,7 @@
 export const getListValueByKey = (list, key) => {
-  if (list && key) {
-    const item = list.find(s => s.key === key);
-    return item ? item.value : 'Niet gevonden';
-  }
+  const comparator = list && key ? s => s.key === key : s => !s.key;
+  const item = list?.find(comparator);
+  const value = item ? item.value : 'Niet gevonden';
 
-  return false;
+  return item || key ? value : false;
 };

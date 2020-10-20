@@ -5,15 +5,15 @@ import { Select } from '@datapunt/asc-ui';
 
 import { StyledInfoText, StyledSelect } from '../../styled';
 
-const getDescription = (options, value) => options.find(({ key: currentValue }) => currentValue === value);
+const getSelectedOption = (options, value) => options.find(({ key }) => key === value);
 
 const IncidentSplitSelectInput = ({ id, name, display, options, initialValue, register }) => {
-  const [selected, setSelected] = useState(getDescription(options, initialValue));
+  const [selected, setSelected] = useState(getSelectedOption(options, initialValue));
 
   const onChange = useCallback(
     event => {
       event.preventDefault();
-      setSelected(getDescription(options, event.target.value));
+      setSelected(getSelectedOption(options, event.target.value));
     },
     [options]
   );

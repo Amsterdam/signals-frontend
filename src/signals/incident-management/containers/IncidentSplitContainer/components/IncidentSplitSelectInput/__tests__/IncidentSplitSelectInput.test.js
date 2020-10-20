@@ -7,7 +7,7 @@ import IncidentSplitSelectInput from '..';
 
 import subcategoriesFixture from '../../../__tests__/subcategoriesFixture.json';
 
-describe('<IncidentSplitSelectInput />', () => {
+describe('IncidentSplitSelectInput', () => {
   const props = {
     name: 'subcategory',
     display: 'Subcategorie',
@@ -23,33 +23,23 @@ describe('<IncidentSplitSelectInput />', () => {
     expect(container.querySelectorAll('option')).toHaveLength(priorityList.length);
   });
 
-  it('should display description', () => {
-    const { key: initialValue, description } = subcategoriesFixture[0];
-    const { getByText } = render(withAppContext(<IncidentSplitSelectInput {...props} initialValue={initialValue} />));
-
-    expect(getByText(new RegExp(description))).toBeInTheDocument();
-  });
-
-  it('should not display description', () => {
-    const { key: initialValue } = subcategoriesFixture[0];
-    const { queryByText } = render(withAppContext(
-      <IncidentSplitSelectInput {...props} initialValue={initialValue} />
-    ));
-
-    expect(queryByText(new RegExp(initialValue))).not.toBeInTheDocument();
-  });
-
-  it('should display a label', () => {
+  it('should render a label', () => {
     const { container } = render(withAppContext(<IncidentSplitSelectInput {...props} />));
 
     expect(container.querySelectorAll('label')).toHaveLength(1);
   });
 
-  it('should select an option and update the info text', async () => {
+  it('should select options and display info text when available', async () => {
+    const { key: emptyDescriptionKey } = subcategoriesFixture[0];
     const { key, description } = subcategoriesFixture[1];
-    const { findByText, getByTestId } = render(withAppContext(<IncidentSplitSelectInput {...props} />));
+    const { findByText, getByTestId, queryByText } = render(withAppContext(<IncidentSplitSelectInput {...props} />));
+
+    const descriptionTextRegex = new RegExp(description);
+
+    fireEvent.change(getByTestId('incidentSelectInput-subcategory'), { target: { value: emptyDescriptionKey } });
+    expect(queryByText(descriptionTextRegex)).not.toBeInTheDocument();
 
     fireEvent.change(getByTestId('incidentSelectInput-subcategory'), { target: { value: key } });
-    expect(await findByText(new RegExp(description))).toBeInTheDocument();
+    expect(await findByText(descriptionTextRegex)).toBeInTheDocument();
   });
 });

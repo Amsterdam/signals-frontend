@@ -1,19 +1,19 @@
 import React, { useMemo, Fragment, useEffect, useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import loadashGet from 'lodash.get';
 import set from 'lodash.set';
-import Button from 'components/Button';
+import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
 
+import Button from 'components/Button';
 import { dataListType } from 'shared/types';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
-
 import InfoText from 'components/InfoText';
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
-import EditButton from '../../../EditButton';
-import IncidentDetailContext from '../../../../context';
+
+import EditButton from '../EditButton';
+import IncidentDetailContext from '../../context';
 
 const DisplayValue = styled.span`
   display: inline-block;
@@ -33,7 +33,7 @@ const ButtonBar = styled.div`
 
 const ChangeValue = ({
   component,
-  disabled,
+  disabled = false,
   display,
   infoKey,
   options,
@@ -63,7 +63,9 @@ const ChangeValue = ({
       event.preventDefault();
 
       const payload = { ...patch };
-      set(payload, path, getSelectedOption(form.value.input));
+
+      const newValue = form.value.input || options.find(({ key }) => !key)?.key;
+      set(payload, path, getSelectedOption(newValue));
 
       update({
         type,
@@ -73,7 +75,7 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [patch, path, type, update, form, getSelectedOption]
+    [patch, form, options, path, getSelectedOption, update, type]
   );
 
   const handleCancel = useCallback(() => {
