@@ -7,6 +7,7 @@ import {
 } from 'models/categories/selectors';
 
 import categoriesFixture from './categories_private.json';
+import departmentsFixture from './departments.json';
 
 const state = fromJS({
   categories: categoriesFixture,
@@ -23,3 +24,10 @@ export const subCategories = makeSelectSubCategories.resultFunc(
 // map subcategories to prevent a warning about non-unique keys rendered by input elements 🙄
 export const subcategoriesWithUniqueKeys = subCategories
   .map(subcategory => ({ ...subcategory, value: subcategory.name, key: subcategory._links.self.href }));
+
+export const departments = {
+  ...departmentsFixture,
+  count: departmentsFixture.count,
+  list: departmentsFixture.results,
+  results: undefined,
+};

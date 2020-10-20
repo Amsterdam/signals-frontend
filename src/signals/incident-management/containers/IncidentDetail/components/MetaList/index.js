@@ -51,6 +51,7 @@ const MetaList = () => {
   const { incident, edit } = useContext(IncidentDetailContext);
   const subcategories = useSelector(makeSelectSubCategories);
   const departments = useSelector(makeSelectDepartments);
+
   const subcategoryOptions = useMemo(
     () =>
       subcategories?.map(category => ({
