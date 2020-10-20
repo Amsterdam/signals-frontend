@@ -152,7 +152,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   useEffect(() => {
     if (!options || isLoading || !initialMount) return;
 
-    const { name, ...initialActive } = initialState.get('activeFilter').toJS();
+    const { ...initialActive } = initialState.get('activeFilter').toJS();
     const paramsAreInitial = isEqual(initialActive.options, options);
 
     if (paramsAreInitial) return;

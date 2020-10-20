@@ -164,7 +164,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     it('works with feature flag fetchDistrictsFromBackend enabled', () => {
       configuration.fetchDistrictsFromBackend = true;
 
-      const { stadsdeel, ...otherTags } = tags;
+      const { ...otherTags } = tags;
       const { queryAllByTestId, queryByText } = render(
         withContext(
           <FilterTagListComponent
