@@ -61,19 +61,31 @@ const Table = styled.table`
 const Th = styled.th`
   cursor: pointer;
   font-weight: normal;
-  white-space: nowrap;
 
   &:hover {
     text-decoration: underline;
   }
-`;
 
-const Td = styled.td`
-  ${({ noWrap }) =>
-    noWrap &&
-    css`
-      white-space: nowrap;
-    `}
+  ${props => {
+    // making sure that both text and icon are placed on one line by setting explicit min-width values
+    switch (props['data-testid']) {
+      case 'sortId':
+        return 'min-width: 75px;';
+      case 'sortDaysOpen':
+        return 'min-width: 65px;';
+      case 'sortCreatedAt':
+      case 'sortStadsdeel':
+        return 'min-width: 150px;';
+      case 'sortSubcategory':
+        return 'min-width: 135px;';
+      case 'sortPriority':
+        return 'min-width: 100px;';
+      case 'sortAddress':
+        return 'min-width: 80px;';
+      default:
+        return 'width: auto;';
+    }
+  }}
 `;
 
 const List = ({
@@ -156,42 +168,42 @@ const List = ({
             const detailLink = `/manage/incident/${incident.id}`;
             return (
               <tr key={incident.id}>
-                <Td>
+                <td>
                   <Link to={detailLink}>{incident.id}</Link>
-                </Td>
-                <Td data-testid="incidentDaysOpen">
+                </td>
+                <td data-testid="incidentDaysOpen">
                   <Link to={detailLink}>{getDaysOpen(incident)}</Link>
-                </Td>
-                <Td noWrap>
+                </td>
+                <td>
                   <Link to={detailLink}>
                     {string2date(incident.created_at)} {string2time(incident.created_at)}
                   </Link>
-                </Td>
-                <Td>
+                </td>
+                <td>
                   <Link to={detailLink}>
                     {configuration.fetchDistrictsFromBackend
                       ? getListValueByKey(districts, incident.location && incident.location.area_code)
                       : getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
                   </Link>
-                </Td>
-                <Td>
+                </td>
+                <td>
                   <Link to={detailLink}>{incident.category && incident.category.sub}</Link>
-                </Td>
-                <Td>
+                </td>
+                <td>
                   <Link to={detailLink}>{getListValueByKey(status, incident.status && incident.status.state)}</Link>
-                </Td>
-                <Td>
+                </td>
+                <td>
                   <Link to={detailLink}>
                     {getListValueByKey(priority, incident.priority && incident.priority.priority)}
                   </Link>
-                </Td>
-                <Td>
+                </td>
+                <td>
                   <Link to={detailLink}>{incident.location && incident.location.address_text}</Link>
-                </Td>
+                </td>
                 {configuration.assignSignalToEmployee && users && (
-                  <Td>
+                  <td>
                     <Link to={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Link>
-                  </Td>
+                  </td>
                 )}
               </tr>
             );
