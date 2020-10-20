@@ -7,7 +7,6 @@ import * as appSelectors from 'containers/App/selectors'; // { makeSelectUserCan
 import * as auth from 'shared/services/auth/auth';
 
 import { fetchRoles as fetchRolesAction, fetchPermissions as fetchPermissionsAction } from 'models/roles/actions';
-import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 import { withAppContext, history } from 'test/utils';
 import SettingsModule from '..';
 import { USER_URL, USERS_URL, ROLES_URL, ROLE_URL, DEPARTMENTS_URL, DEPARTMENT_URL, CATEGORIES_URL, CATEGORY_URL } from '../routes';
@@ -50,7 +49,6 @@ describe('signals/settings', () => {
 
     expect(dispatch).toHaveBeenCalledWith(fetchRolesAction());
     expect(dispatch).toHaveBeenCalledWith(fetchPermissionsAction());
-    expect(dispatch).toHaveBeenCalledWith(fetchDepartmentsAction());
   });
 
   it('should NOT initiate fetches on mount when session has not been authenticated', () => {

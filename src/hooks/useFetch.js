@@ -147,9 +147,9 @@ const useFetch = () => {
     [requestHeaders, signal]
   );
 
-  const post = modify('POST');
-  const patch = modify('PATCH');
-  const put = modify('PUT');
+  const post = useMemo(() => modify('POST'), [modify]);
+  const patch = useMemo(() => modify('PATCH'), [modify]);
+  const put = useMemo(() => modify('PUT'), [modify]);
 
   /**
    * @typedef {Object} FetchResponse

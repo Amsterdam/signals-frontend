@@ -29,7 +29,7 @@ const IncidentDetail = lazy(() => import('./containers/IncidentDetail'));
 // istanbul ignore next
 const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'));
 // istanbul ignore next
-const LegacyIncidentSplitContainer = lazy(() => import('./containers/LegacyIncidentSplitContainer'));
+const IncidentSplitContainer = lazy(() => import('./containers/IncidentSplitContainer'));
 
 const IncidentManagement = () => {
   const location = useLocationReferrer();
@@ -65,7 +65,7 @@ const IncidentManagement = () => {
         <Switch location={location}>
           <Route exact path={routes.incidents} component={IncidentOverviewPage} />
           <Route exact path={routes.incident} component={IncidentDetail} />
-          <Route exact path={routes.split} component={LegacyIncidentSplitContainer} />
+          <Route exact path={routes.split} component={IncidentSplitContainer} />
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
           <Route component={IncidentOverviewPage} />
         </Switch>

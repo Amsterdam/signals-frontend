@@ -348,3 +348,11 @@ export const userType = PropTypes.shape({
     note: PropTypes.string,
   }),
 });
+
+export const subcategoriesType = PropTypes.arrayOf(
+  PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    info: PropTypes.string,
+  })
+);

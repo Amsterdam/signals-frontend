@@ -1,14 +1,24 @@
 import React from 'react';
-import { render as reactRender, act, fireEvent } from '@testing-library/react';
+import { render as reactRender, fireEvent } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
-import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import configuration from 'shared/services/configuration/configuration';
+
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
+import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
+
+import departmentsFixture from 'utils/__tests__/fixtures/departments.json';
+import * as departmentsSelectors from 'models/departments/selectors';
+
+import { INCIDENT_URL } from 'signals/incident-management/routes';
+
 import { withAppContext } from 'test/utils';
+
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
-import { INCIDENT_URL } from 'signals/incident-management/routes';
+
+import * as modelSelectors from 'models/categories/selectors';
 
 import IncidentSplitContainer from '..';
 
@@ -25,27 +35,49 @@ jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
   push,
 }));
 
-const formSubmissionValues = [
-  {
-    text: 'Foo bar',
-    sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
-    priority: 'high',
-    type: 'SIG',
-  },
-  {
-    text: 'Bar baz',
-    sub_category:
-      'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/japanse-duizendknoop',
-    priority: 'normal',
-    type: 'REQ',
-  },
-  {
-    text: 'Zork!!!1!',
-    sub_category: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
-    priority: 'low',
-    type: 'COM',
-  },
-];
+jest.mock('containers/App/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('containers/App/selectors'),
+}));
+
+jest.mock('models/departments/selectors', () => ({
+  __esModule: true,
+  ...jest.requireActual('models/departments/selectors'),
+}));
+
+const departments = {
+  ...departmentsFixture,
+  count: departmentsFixture.count,
+  list: departmentsFixture.results,
+  results: undefined,
+};
+
+const submittedFormData = {
+  department: 'ASC',
+  incidents: [
+    {
+      description: 'Foo bar',
+      category_url:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+      priority: 'high',
+      type: 'SIG',
+    },
+    {
+      description: 'Bar baz',
+      category_url:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/japanse-duizendknoop',
+      priority: 'normal',
+      type: 'REQ',
+    },
+    {
+      description: 'Zork!!!1!',
+      category_url:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+      priority: 'low',
+      type: 'COM',
+    },
+  ],
+};
 
 const id = 999;
 
@@ -59,10 +91,13 @@ const renderAwait = async (component, testIdToLookFor = 'incidentSplitContainer'
 };
 
 // eslint-disable-next-line
-const Form = ({ onSubmit, ...props }) => {
+const Form = (formData = submittedFormData) => ({ onSubmit, ...props }) => {
   const handleSubmit = () => {
-    onSubmit(formSubmissionValues);
+    onSubmit(formData);
   };
+
+  // skip error log
+  delete props.parentIncident; // eslint-disable-line no-param-reassign, react/prop-types
 
   return (
     <form onSubmit={handleSubmit} {...props}>
@@ -75,19 +110,19 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
   beforeEach(() => {
     dispatch.mockReset();
     push.mockReset();
-
     fetch.resetMocks();
 
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
-      id,
-    }));
+    jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => subcategories);
+    jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ id }));
 
     fetch.once(JSON.stringify(incidentFixture));
   });
 
   it('should render loading indicator', async () => {
     const { getByTestId, findByTestId, queryByTestId } = reactRender(
-      withAppContext(<IncidentSplitContainer FormComponent={Form} />)
+      withAppContext(<IncidentSplitContainer FormComponent={Form()} />)
     );
 
     expect(getByTestId('loadingIndicator')).toBeInTheDocument();
@@ -98,7 +133,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
   });
 
   it('should request incident data on mount', async () => {
-    await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(fetch).toHaveBeenCalledWith(
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
@@ -107,22 +142,20 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
   });
 
   it('should render the form on successful fetch', async () => {
-    const { queryByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    const { queryByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(queryByTestId('incidentSplitForm')).toBeInTheDocument();
   });
 
   it('should POST the form data', async () => {
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(fetch).toHaveBeenCalledTimes(1);
 
     // mocking global error handler, because jsdom will complain about unimplemented submit listener
     global.console.error = jest.fn();
 
-    act(() => {
-      fireEvent.click(container.querySelector('input[type="submit"]'));
-    });
+    fireEvent.click(container.querySelector('input[type="submit"]'));
 
     global.console.error.mockRestore();
 
@@ -152,43 +185,47 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       parent: incidentFixture.id,
     };
 
-    const expectedTransformedBecauseOfReasonsUnknownToManValues = formSubmissionValues.map(
-      ({ sub_category, text, type, priority }) => ({
-        category: { sub_category },
+    const expectedTransformedBecauseOfReasonsUnknownToManValues = submittedFormData.incidents.map(
+      ({ subcategory, description, type, priority }) => ({
+        category: { category_url: subcategory },
         priority: { priority },
-        text,
+        text: description,
         type: { code: type },
       })
     );
 
     lastCallBody.forEach((partialIncidentData, index) => {
-      expect(partialIncidentData).toEqual(expect.objectContaining(expectedTransformedBecauseOfReasonsUnknownToManValues[index]));
+      expect(partialIncidentData).toEqual(
+        expect.objectContaining(expectedTransformedBecauseOfReasonsUnknownToManValues[index])
+      );
       expect(partialIncidentData).toEqual(expect.objectContaining(parentData));
     });
   });
 
-  it('should display a global notification on POST success', async () => {
+  it('should display a global notification on success', async () => {
     fetch.resetMocks();
-    fetch.once(JSON.stringify(incidentFixture)).once(JSON.stringify(incidentFixture));
-
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }], // post
+      [JSON.stringify({}), { status: 201 }] // patch
+    );
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: null })} />);
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    act(() => {
-      fireEvent.click(container.querySelector('input[type="submit"]'));
-    });
+    fireEvent.click(container.querySelector('input[type="submit"]'));
 
-    await findByTestId('incidentSplitForm');
+    await findByTestId('incidentSplitContainer');
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De melding is succesvol gesplitst',
+        title: 'De melding is succesvol gedeeld',
         variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })
     );
+
     expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
   });
 
@@ -196,24 +233,50 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     fetch.resetMocks();
     fetch.once(JSON.stringify(incidentFixture)).mockReject(new Error('Whoops!!1!'));
 
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form} />);
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    act(() => {
-      fireEvent.click(container.querySelector('input[type="submit"]'));
-    });
+    fireEvent.click(container.querySelector('input[type="submit"]'));
 
     await findByTestId('incidentSplitForm');
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De melding kon niet gesplitst worden',
+        title: 'De melding kon niet gedeeld worden',
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })
     );
+
+    expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
+  });
+
+  it('should display a global notification on PATCH fail', async () => {
+    fetch.resetMocks();
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }], // post
+    ).mockReject(new Error('Whoops!!1!'));
+
+    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
+
+    expect(dispatch).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
+
+    fireEvent.click(container.querySelector('input[type="submit"]'));
+
+    await findByTestId('incidentSplitForm');
+
+    expect(dispatch).toHaveBeenCalledWith(
+      showGlobalNotification({
+        title: 'De melding is succesvol gedeeld',
+        variant: VARIANT_SUCCESS,
+        type: TYPE_LOCAL,
+      })
+    );
+
     expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
   });
 });
