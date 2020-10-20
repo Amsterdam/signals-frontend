@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import get from 'lodash.get';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { makeSelectSubCategories } from 'models/categories/selectors';
@@ -45,8 +46,6 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-const getDirectingDepartmentValue = value => (value?.length === 1 && value[0].code === 'ASC' ? 'ASC' : 'null');
-
 const MetaList = () => {
   const { incident, edit } = useContext(IncidentDetailContext);
   const subcategories = useSelector(makeSelectSubCategories);
@@ -63,6 +62,12 @@ const MetaList = () => {
     [subcategories]
   );
   const hasChildren = useMemo(() => incident?._links['sia:children']?.length > 0, [incident]);
+
+  // eslint-disable-next-line no-shadow
+  const getDirectingDepartmentValue = useCallback((incident, path) => {
+    const value = get(incident, path);
+    return value?.length === 1 && value[0].code === 'ASC' ? 'ASC' : 'null';
+  }, []);
 
   const subcatHighlightDisabled = ![
     'm',
@@ -151,7 +156,7 @@ const MetaList = () => {
             options={directingDepartmentList}
             path="directing_departments"
             type="directing_departments"
-            getValue={getDirectingDepartmentValue}
+            get={getDirectingDepartmentValue}
             getSelectedOption={getDirectingDepartmentPostData}
           />
         </Highlight>
