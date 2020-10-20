@@ -19,7 +19,7 @@ jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
-  ...jest.requireActual('shared/services/auth/auth'),
+  ...jest.requireActual('shared/services/auth/auth') as any,
 }));
 
 jest.useFakeTimers();
@@ -48,7 +48,7 @@ describe('<App />', () => {
     listenSpy.mockRestore();
   });
 
-  it.only('should call authenticate', () => {
+  it('should call authenticate', () => {
     jest.spyOn(auth, 'authenticate');
 
     expect(auth.authenticate).not.toHaveBeenCalled();
