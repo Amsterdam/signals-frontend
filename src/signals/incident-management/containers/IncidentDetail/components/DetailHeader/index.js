@@ -85,11 +85,24 @@ const ParentLink = styled(Link)`
   color: black;
 `;
 
+const isIncidentSplittable = incident => {
+  if (incident.status.state !== 'm') return false;
+
+  if (incident?._links?.['sia:parent']) return false;
+
+  const children = incident?._links?.['sia:children'];
+  if (children?.length && children.length >= 10) return false;
+
+  // const canSplit = incident.status.state === 'm' && !(incident?._links?.['sia:children'] || incident?._links?.['sia:parent']);
+  return true;
+};
+
 const DetailHeader = () => {
   const { incident, update } = useContext(IncidentDetailContext);
   const location = useLocation();
-  const canSplit =
-    incident.status.state === 'm' && !(incident?._links?.['sia:children'] || incident?._links?.['sia:parent']);
+
+  const canSplit = isIncidentSplittable(incident);
+
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === incident.status.state);
   const downloadLink = incident?._links?.['sia:pdf']?.href;
 
