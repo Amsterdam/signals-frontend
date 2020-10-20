@@ -19,7 +19,7 @@ describe('Create signal klok', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1014DA 1', 'Polonceau-kade 1, 1014DA Amsterdam');
       createSignal.setDescription(
-        'De klok bij de bakker draait op volle snelheid rondjes naar links ipv rustig naar rechts'
+        'De klok bij de bakker draait op volle snelheid rondjes naar links ipv rustig naar rechts',
       );
       createSignal.setDateTime('Nu');
 

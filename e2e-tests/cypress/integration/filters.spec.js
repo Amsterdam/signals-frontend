@@ -12,7 +12,7 @@ describe('Filtering', () => {
     cy.getManageSignalsRoutes();
     cy.route('DELETE', '**/signals/v1/private/me/filters/*').as('deleteFilter');
     cy.route('/signals/v1/private/signals/?stadsdeel=B&status=m&page=1&ordering=-created_at&page_size=50').as(
-      'getFilteredSignals'
+      'getFilteredSignals',
     );
     cy.route('POST', '/signals/v1/private/me/filters/').as('postFilter');
 
@@ -167,7 +167,8 @@ describe('Filtering', () => {
       .and('contain', `Datum: ${todaysDate} t/m ${todaysDate}`)
       .and('be.visible');
   });
-  it('Should check checkboxes per category', () => {
+  it.skip('Should check checkboxes per category', () => {
+    // Skipped because this test takes too much time
     cy.get(MANAGE_SIGNALS.buttonFilteren).click();
     filtering.filterCategory(FILTER_ALL_ITEMS.selectAllStatus, 'status');
     filtering.filterCategory(FILTER_ALL_ITEMS.selectAllStadsdelen, 'stadsdeel');

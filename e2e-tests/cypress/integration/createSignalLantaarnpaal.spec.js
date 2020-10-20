@@ -28,7 +28,7 @@ describe('Create signal lantaarnpaal and check signal details', () => {
     it('Should enter specific information', () => {
       cy.server();
       cy.route('/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as(
-        'getOpenbareVerlichting'
+        'getOpenbareVerlichting',
       );
 
       createSignal.checkSpecificInformationPage();

@@ -19,7 +19,7 @@ describe('Create signal wonen leegstand and check signal details', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1101DS 600', 'Johan Cruijff Boulevard 600, 1101DS Amsterdam');
       createSignal.setDescription(
-        'Woning heeft leeg gestaan. Soms is iemand in de avond aanwezig. Het is verschrikkelijk.'
+        'Woning heeft leeg gestaan. Soms is iemand in de avond aanwezig. Het is verschrikkelijk.',
       );
       createSignal.setDateTime('Nu');
 

@@ -18,7 +18,7 @@ describe('Create signal parkeeroverlast and check signal details', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1098VZ 35', 'Anfieldroad 35, 1098VZ Amsterdam');
       createSignal.setDescription(
-        'Voor onze deur staat al minimaal 5 maanden een auto geparkeerd, deze wordt nooit verplaatst.'
+        'Voor onze deur staat al minimaal 5 maanden een auto geparkeerd, deze wordt nooit verplaatst.',
       );
       createSignal.setDateTime('Nu');
 

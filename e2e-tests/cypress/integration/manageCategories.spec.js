@@ -1,6 +1,7 @@
 // <reference types="Cypress" />
 import * as createSignal from '../support/commandsCreateSignal';
 import { CATEGORIES } from '../support/selectorsSettings';
+import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 import { generateToken } from '../support/jwt';
 
@@ -74,12 +75,12 @@ describe('Manage categories', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1069HM 224', 'Lederambachtstraat 224, 1069HM Amsterdam');
       createSignal.setDescription(
-        'Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?'
+        'Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?',
       );
       createSignal.setDateTime('Nu');
 
       // Select source
-      cy.get('select').select('Telefoon – Stadsdeel');
+      cy.get(CREATE_SIGNAL.dropdownSource).select('Telefoon – Stadsdeel');
 
       cy.contains('Volgende').click();
     });
@@ -157,7 +158,7 @@ describe('Manage categories', () => {
       cy.get(CATEGORIES.inputMessage)
         .clear()
         .type(
-          '  Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.'
+          '  Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.',
         );
       cy.get(CATEGORIES.buttonOpslaan).click();
 
