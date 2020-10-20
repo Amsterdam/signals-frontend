@@ -180,7 +180,7 @@ const MetaList = () => {
           <ChangeValue
             component={SelectInput}
             display="Toegewezen aan"
-            list={userOptions}
+            options={userOptions}
             onPatchIncident={update}
             path="assigned_user_id"
             type="assigned_user_id"

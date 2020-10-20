@@ -44,7 +44,7 @@ const plainIncident = { ...incidentFixture, _links: { ...plainLinks } };
 const parentIncident = { ...incidentFixture };
 const childIncident = { ...plainIncident, _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } } };
 
-const renderWithContext = (incident = plainIncident, users = usersFixture.results) =>
+const renderWithContext = (incident = parentIncident, users = usersFixture.results) =>
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
       <IncidentDetailContext.Provider value={{ incident, update, edit }}>
@@ -614,8 +614,8 @@ describe('MetaList', () => {
 
     describe('update directing departmens', () => {
       it('should update for directing department to ASC', async () => {
-        jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
-        const { getAllByTestId, getByTestId } = render(renderWithContext(props, parentIncident));
+        jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
+        const { getAllByTestId, getByTestId } = render(renderWithContext(parentIncident));
 
         // priority button data-testid attribute is dynamically generated in the ChangeValue component:
         const editTestId = 'editDirecting_departmentsButton';
@@ -644,9 +644,9 @@ describe('MetaList', () => {
 
       it('should update for directing department to directing department', async () => {
         const { id } = departments.list.find(d => d.code === 'ASC');
-        jest.spyOn(modelSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
+        jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
         const { getAllByTestId, getByTestId } = render(
-          renderWithContext(props, { ...parentIncident, directing_departments: [{ id }] })
+          renderWithContext({ ...parentIncident, directing_departments: [{ id }] })
         );
 
         // priority button data-testid attribute is dynamically generated in the ChangeValue component:
