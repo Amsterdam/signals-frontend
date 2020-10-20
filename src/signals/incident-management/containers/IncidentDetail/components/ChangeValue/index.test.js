@@ -4,6 +4,7 @@ import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
+import SelectInput from 'signals/incident-management/components/SelectInput';
 
 import IncidentDetailContext from '../../context';
 
@@ -28,7 +29,8 @@ const expectEditState = async ({ queryByTestId, findByTestId }) => {
 };
 
 const props = {
-  list: [
+  component: SelectInput,
+  options: [
     { key: 'c', value: 'Cee', description: 'Foo bar baz' },
     { key: 'b', value: 'Bee' },
     { key: 'a', value: 'Aaaaaaaa', description: 'Zork' },

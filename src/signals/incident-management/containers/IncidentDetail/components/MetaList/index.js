@@ -1,17 +1,20 @@
-import React, { useContext, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import get from 'lodash.get';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { makeSelectDepartments } from 'models/departments/selectors';
-import configuration from 'shared/services/configuration/configuration';
-import { string2date, string2time } from 'shared/services/string-parser';
-import { typesList, priorityList } from 'signals/incident-management/definitions';
+import { typesList, priorityList, directingDepartmentList } from 'signals/incident-management/definitions';
+
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 
+import { makeSelectDepartments } from 'models/departments/selectors';
+import configuration from 'shared/services/configuration/configuration';
+import { string2date, string2time } from 'shared/services/string-parser';
 import ChangeValue from '../ChangeValue';
+
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../context';
@@ -71,6 +74,7 @@ const MetaList = () => {
   }, [departments, incident]);
 
   const subcategories = useSelector(makeSelectSubCategories);
+
   const subcategoryOptions = useMemo(
     () =>
       subcategories?.map(category => ({
@@ -79,6 +83,13 @@ const MetaList = () => {
       })),
     [subcategories]
   );
+  const hasChildren = useMemo(() => incident?._links['sia:children']?.length > 0, [incident]);
+
+  // eslint-disable-next-line no-shadow
+  const getDirectingDepartmentValue = useCallback((incident, path) => {
+    const value = get(incident, path);
+    return value?.length === 1 && value[0].code === 'ASC' ? 'ASC' : 'null';
+  }, []);
 
   const userOptions = useMemo(
     () =>
@@ -112,6 +123,15 @@ const MetaList = () => {
     'closure requested',
   ].includes(incident.status.state);
 
+  // This conversion is needed to meet the api structure
+  const getDirectingDepartmentPostData = useCallback(
+    code => {
+      const department = departments?.list.find(d => d.code === code);
+      return department ? [{ id: department.id }] : [];
+    },
+    [departments]
+  );
+
   return (
     <StyledMetaList>
       <dt data-testid="meta-list-date-definition">Gemeld op</dt>
@@ -141,10 +161,9 @@ const MetaList = () => {
           <ChangeValue
             display="Urgentie"
             valueClass={incident.priority.priority === 'high' ? 'alert' : ''}
-            list={priorityList}
+            options={priorityList}
             path="priority.priority"
             type="priority"
-            onPatchIncident={update}
             component={RadioInput}
           />
         </Highlight>
@@ -152,14 +171,7 @@ const MetaList = () => {
 
       {incident.type && (
         <Highlight type="type">
-          <ChangeValue
-            component={RadioInput}
-            display="Type"
-            list={typesList}
-            onPatchIncident={update}
-            path="type.code"
-            type="type"
-          />
+          <ChangeValue component={RadioInput} display="Type" options={typesList} path="type.code" type="type" />
         </Highlight>
       )}
 
@@ -168,7 +180,7 @@ const MetaList = () => {
           <ChangeValue
             component={SelectInput}
             display="Toegewezen aan"
-            list={userOptions}
+            options={userOptions}
             onPatchIncident={update}
             path="assigned_user_id"
             type="assigned_user_id"
@@ -179,16 +191,30 @@ const MetaList = () => {
       {subcategoryOptions && (
         <Highlight type="subcategory">
           <ChangeValue
+            component={SelectInput}
             disabled={subcatHighlightDisabled}
             display="Subcategorie (verantwoordelijke afdeling)"
-            list={subcategoryOptions}
+            options={subcategoryOptions}
             infoKey="description"
-            onPatchIncident={update}
             patch={{ status: { state: 'm' } }}
             path="category.sub_category"
             sort
             type="subcategory"
             valuePath="category.category_url"
+          />
+        </Highlight>
+      )}
+
+      {hasChildren && (
+        <Highlight type="directing_departments">
+          <ChangeValue
+            component={RadioInput}
+            display="Regie"
+            options={directingDepartmentList}
+            path="directing_departments"
+            type="directing_departments"
+            get={getDirectingDepartmentValue}
+            getSelectedOption={getDirectingDepartmentPostData}
           />
         </Highlight>
       )}

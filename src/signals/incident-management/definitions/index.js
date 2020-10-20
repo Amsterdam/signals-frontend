@@ -9,7 +9,16 @@ import stadsdeelList from './stadsdeelList';
 import statusList from './statusList';
 import typesList from './typesList';
 
-export { feedbackList, priorityList, stadsdeelList, statusList, sourceList, contactDetailsList, typesList };
+export {
+  feedbackList,
+  priorityList,
+  stadsdeelList,
+  statusList,
+  sourceList,
+  contactDetailsList,
+  typesList,
+  directingDepartmentList,
+};
 
 export default {
   contact_details: contactDetailsList,
