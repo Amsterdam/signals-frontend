@@ -137,7 +137,7 @@ const DetailHeader = () => {
             to={`${INCIDENT_URL}/${incident.id}/split`}
             data-testid="detail-header-button-split"
           >
-            Splitsen
+            Delen
           </ButtonLink>
         )}
 
