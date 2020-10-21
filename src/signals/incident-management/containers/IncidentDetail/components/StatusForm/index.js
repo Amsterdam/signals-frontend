@@ -1,8 +1,9 @@
-import React, { Fragment, useCallback, useReducer, useContext } from 'react';
+import React, { Fragment, useCallback, useReducer, useContext, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { Label } from '@datapunt/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
-import statusList, { changeStatusOptionList } from 'signals/incident-management/definitions/statusList';
+import statusList, { changeStatusOptionList, isStatusClosed } from 'signals/incident-management/definitions/statusList';
 
 import TextArea from 'components/TextArea';
 import Checkbox from 'components/Checkbox';
@@ -28,11 +29,15 @@ import {
 import * as constants from './constants';
 import reducer, { init } from './reducer';
 
-const StatusForm = ({ defaultTexts }) => {
+const StatusForm = ({ defaultTexts, childIncidents }) => {
   const { incident, update, close } = useContext(IncidentDetailContext);
   const [state, dispatch] = useReducer(reducer, incident, init);
-  const isDeelmelding = incident?._links?.['sia:parent'] !== undefined;
-  const currentStatus = statusList.find(({ key }) => key === incident.status.state);
+  const isDeelmelding = useMemo(() => incident?._links?.['sia:parent'] !== undefined, [incident]);
+  const currentStatus = useMemo(() => statusList.find(({ key }) => key === incident.status.state), [incident]);
+  const hasOpenChildren = useMemo(
+    () => childIncidents?.map(child => !isStatusClosed(child.status.state)).some(v => v === true),
+    [childIncidents]
+  );
 
   const onRadioChange = useCallback((name, selectedStatus) => {
     dispatch({ type: 'SET_STATUS', payload: selectedStatus });
@@ -98,16 +103,24 @@ const StatusForm = ({ defaultTexts }) => {
           </HeaderArea>
 
           <OptionsArea>
-            <Label as="strong" htmlFor="status" label="Nieuwe status" />
-            <input type="hidden" name="status" value={currentStatus.key} />
-            <RadioButtonList
-              defaultValue={state.status.key}
-              groupName="status"
-              hasEmptySelectionButton={false}
-              name="status"
-              onChange={onRadioChange}
-              options={changeStatusOptionList}
-            />
+            <div>
+              <Label as="strong" htmlFor="status" label="Nieuwe status" />
+              <input type="hidden" name="status" value={currentStatus.key} />
+              <RadioButtonList
+                defaultValue={state.status.key}
+                groupName="status"
+                hasEmptySelectionButton={false}
+                name="status"
+                onChange={onRadioChange}
+                options={changeStatusOptionList}
+              />
+            </div>
+
+            {isStatusClosed(state.status.key) && hasOpenChildren && (
+              <Notification warning data-testid="statusHasChildrenOpen">
+                Let op! Er zijn deelmeldingen nog niet afgehandeld.
+              </Notification>
+            )}
           </OptionsArea>
 
           <FormArea>
@@ -135,9 +148,17 @@ const StatusForm = ({ defaultTexts }) => {
               {state.errors?.text && <StyledErrorMessage data-testid="statusError" message={state.errors.text} />}
             </div>
 
-            {state.warning && <Notification warning data-testid="statusWarning">{state.warning}</Notification>}
+            {state.warning && (
+              <Notification warning data-testid="statusWarning">
+                {state.warning}
+              </Notification>
+            )}
 
-            {isDeelmelding && <Notification warning data-testid="statusExplanation">{constants.DEELMELDING_EXPLANATION}</Notification>}
+            {isDeelmelding && (
+              <Notification warning data-testid="statusExplanation">
+                {constants.DEELMELDING_EXPLANATION}
+              </Notification>
+            )}
 
             {!isDeelmelding && (
               <StyledLabel
@@ -182,6 +203,7 @@ const StatusForm = ({ defaultTexts }) => {
 
 StatusForm.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
+  childIncidents: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 export default StatusForm;
