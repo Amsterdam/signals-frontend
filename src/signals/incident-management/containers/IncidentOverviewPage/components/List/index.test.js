@@ -154,7 +154,19 @@ describe('List', () => {
         element => element.textContent !== '-'
       );
 
-      expect(elementsWithTextContent).toHaveLength(2);
+      expect(elementsWithTextContent).toHaveLength(3);
+    });
+
+    it('should render an icon for each parent incident', () => {
+      const { container, rerender } = render(withContext(<List {...props} />));
+      const incidentList = [...props.incidents];
+
+      const parentsCount = incidentList.filter(incident => incident.has_children).length;
+      expect(container.querySelectorAll('span > svg').length).toEqual(parentsCount);
+
+      const incidentParents = incidentList.map(parent => ({ ...parent, has_children: true }));
+      rerender(withContext(<List {...props} incidents={incidentParents} />));
+      expect(container.querySelectorAll('span > svg').length).toEqual(incidentParents.length);
     });
   });
 });
