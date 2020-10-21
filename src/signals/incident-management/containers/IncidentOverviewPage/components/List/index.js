@@ -5,7 +5,7 @@ import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import { ChevronUp, ChevronDown } from '@datapunt/asc-assets';
 import { Icon } from '@datapunt/asc-ui';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
@@ -27,11 +27,7 @@ const getDaysOpen = incident => {
 const StyledList = styled.div`
   width: 100%;
 
-  ${({ isLoading }) =>
-    isLoading &&
-    css`
-      opacity: 0.3;
-    `}
+  ${({ isLoading }) => isLoading && 'opacity: 0.3;'}
 `;
 
 const Table = styled.table`
@@ -66,14 +62,15 @@ const Th = styled.th`
   &:hover {
     text-decoration: underline;
   }
+
+  ${props =>
+    // Keep Amsterdam's 'Stadsdeel' column at a min-width of 120px to make sure that 'Nieuw-West'
+    // doesn't wrap (but 'Het Amsterdamse Bos' is allowed to wrap)
+    props['data-testid'] === 'sortStadsdeel' && 'min-width: 120px;'}
 `;
 
 const Td = styled.td`
-  ${({ noWrap }) =>
-    noWrap &&
-    css`
-      white-space: nowrap;
-    `}
+  ${({ noWrap }) => noWrap && 'white-space: nowrap;'}
 `;
 
 const List = ({
@@ -148,7 +145,7 @@ const List = ({
             <Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
               Adres {renderChevron('address')}
             </Th>
-            {configuration.assignSignalToEmployee && users && <th data-testid="sortAssigedUserId">Toegewezen aan</th>}
+            {configuration.assignSignalToEmployee && users && <Th data-testid="sortAssigedUserId">Toegewezen aan</Th>}
           </tr>
         </thead>
         <tbody>
