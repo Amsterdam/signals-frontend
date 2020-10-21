@@ -40,25 +40,26 @@ describe('List', () => {
   it('should render correctly', () => {
     const { container } = render(withContext(<List {...props} />));
 
-    expect(container.querySelector('tr th:nth-child(1)')).toHaveTextContent(/^Id$/);
-    expect(container.querySelector('tr th:nth-child(2)')).toHaveTextContent(/^Dag$/);
-    expect(container.querySelector('tr th:nth-child(3)')).toHaveTextContent(/^Datum en tijd$/);
-    expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^Stadsdeel$/);
-    expect(container.querySelector('tr th:nth-child(5)')).toHaveTextContent(/^Subcategorie$/);
-    expect(container.querySelector('tr th:nth-child(6)')).toHaveTextContent(/^Status$/);
-    expect(container.querySelector('tr th:nth-child(7)')).toHaveTextContent(/^Urgentie$/);
-    expect(container.querySelector('tr th:nth-child(8)')).toHaveTextContent(/^Adres$/);
+    expect(container.querySelector('tr th:nth-child(1)')).toHaveTextContent(/^$/);
+    expect(container.querySelector('tr th:nth-child(2)')).toHaveTextContent(/^Id$/);
+    expect(container.querySelector('tr th:nth-child(3)')).toHaveTextContent(/^Dag$/);
+    expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^Datum en tijd$/);
+    expect(container.querySelector('tr th:nth-child(5)')).toHaveTextContent(/^Stadsdeel$/);
+    expect(container.querySelector('tr th:nth-child(6)')).toHaveTextContent(/^Subcategorie$/);
+    expect(container.querySelector('tr th:nth-child(7)')).toHaveTextContent(/^Status$/);
+    expect(container.querySelector('tr th:nth-child(8)')).toHaveTextContent(/^Urgentie$/);
+    expect(container.querySelector('tr th:nth-child(9)')).toHaveTextContent(/^Adres$/);
 
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(1)')).toHaveTextContent(incidents[0].id);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).toHaveTextContent(/^-$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(3)')).toHaveTextContent(/^03-12-2018 10:41$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^Centrum$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).toHaveTextContent(incidents[0].category.sub);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(6)')).toHaveTextContent(
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).toHaveTextContent(incidents[0].id);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(3)')).toHaveTextContent(/^-$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^03-12-2018 10:41$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).toHaveTextContent(/^Centrum$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(6)')).toHaveTextContent(incidents[0].category.sub);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(7)')).toHaveTextContent(
       incidents[0].status.state_display
     );
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(7)')).toHaveTextContent(/^Normaal$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(8)')).toHaveTextContent(
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(8)')).toHaveTextContent(/^Normaal$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(9)')).toHaveTextContent(
       incidents[0].location.address_text
     );
   });
@@ -78,9 +79,9 @@ describe('List', () => {
 
     const { container } = render(withContext(<List {...props} />));
 
-    expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^District/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^North/);
-    expect(container.querySelector('tr:nth-child(2) td:nth-child(4)')).toHaveTextContent(/^South/);
+    expect(container.querySelector('tr th:nth-child(5)')).toHaveTextContent(/^District/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).toHaveTextContent(/^North/);
+    expect(container.querySelector('tr:nth-child(2) td:nth-child(5)')).toHaveTextContent(/^South/);
   });
 
   it('should render correctly with assignSignalToEmployee', () => {
@@ -88,9 +89,9 @@ describe('List', () => {
 
     const { container } = render(withContext(<List {...props} />));
 
-    expect(container.querySelector('tr th:nth-child(9)')).toHaveTextContent('Toegewezen aan');
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(9)')).toHaveTextContent(users.results[0].username);
-    expect(container.querySelector('tr:nth-child(2) td:nth-child(9)')).toHaveTextContent(/^$/);
+    expect(container.querySelector('tr th:nth-child(10)')).toHaveTextContent('Toegewezen aan');
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(10)')).toHaveTextContent(users.results[0].username);
+    expect(container.querySelector('tr:nth-child(2) td:nth-child(10)')).toHaveTextContent(/^$/);
   });
 
   describe('events', () => {
@@ -99,7 +100,7 @@ describe('List', () => {
 
       expect(props.onChangeOrdering).not.toHaveBeenCalled();
 
-      fireEvent.click(container.querySelector('tr th:nth-child(3)'));
+      fireEvent.click(container.querySelector('tr th:nth-child(4)'));
 
       expect(props.onChangeOrdering).toHaveBeenCalledWith('created_at');
     });
@@ -109,7 +110,7 @@ describe('List', () => {
 
       expect(props.onChangeOrdering).not.toHaveBeenCalled();
 
-      fireEvent.click(container.querySelector('tr th:nth-child(3)'));
+      fireEvent.click(container.querySelector('tr th:nth-child(4)'));
 
       expect(props.onChangeOrdering).toHaveBeenCalledWith('-created_at');
     });

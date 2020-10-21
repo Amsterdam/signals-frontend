@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import { ChevronUp, ChevronDown } from '@datapunt/asc-assets';
-import { Icon } from '@datapunt/asc-ui';
+import { FastForward, ChevronUp, ChevronDown } from '@datapunt/asc-assets';
+import { Icon, themeSpacing } from '@datapunt/asc-ui';
 import styled, { css } from 'styled-components';
 
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -38,19 +38,6 @@ const Table = styled.table`
   border-collapse: separate;
   width: 100%;
   height: 100%;
-
-  td {
-    padding: 0;
-
-    a {
-      text-decoration: none;
-      color: black;
-      display: block;
-      width: 100%;
-      height: 100%;
-      padding: 8px;
-    }
-  }
 
   tr:hover td,
   td {
@@ -87,6 +74,37 @@ const Th = styled.th`
     }
   }}
 `;
+
+const TdStyle = styled.td`
+  padding: 0;
+
+  span {
+    display: flex;
+    box-sizing: content-box;
+
+    a {
+      text-decoration: none;
+      color: black;
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: ${themeSpacing(2)};
+    }
+  }
+`;
+
+const Td = ({ detailLink, children, ...rest }) => (
+  <TdStyle {...rest}>
+    <span>
+      <Link to={detailLink}>{children}</Link>
+    </span>
+  </TdStyle>
+);
+
+Td.propTypes = {
+  detailLink: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
 
 const List = ({
   className = '',
@@ -130,6 +148,7 @@ const List = ({
       <Table cellSpacing="0">
         <thead>
           <tr>
+            <Th data-testid="parent"></Th>
             <Th data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
             </Th>
@@ -168,42 +187,33 @@ const List = ({
             const detailLink = `/manage/incident/${incident.id}`;
             return (
               <tr key={incident.id}>
-                <td>
-                  <Link to={detailLink}>{incident.id}</Link>
-                </td>
-                <td data-testid="incidentDaysOpen">
-                  <Link to={detailLink}>{getDaysOpen(incident)}</Link>
-                </td>
-                <td>
-                  <Link to={detailLink}>
-                    {string2date(incident.created_at)} {string2time(incident.created_at)}
-                  </Link>
-                </td>
-                <td>
-                  <Link to={detailLink}>
-                    {configuration.fetchDistrictsFromBackend
-                      ? getListValueByKey(districts, incident.location && incident.location.area_code)
-                      : getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
-                  </Link>
-                </td>
-                <td>
-                  <Link to={detailLink}>{incident.category && incident.category.sub}</Link>
-                </td>
-                <td>
-                  <Link to={detailLink}>{getListValueByKey(status, incident.status && incident.status.state)}</Link>
-                </td>
-                <td>
-                  <Link to={detailLink}>
-                    {getListValueByKey(priority, incident.priority && incident.priority.priority)}
-                  </Link>
-                </td>
-                <td>
-                  <Link to={detailLink}>{incident.location && incident.location.address_text}</Link>
-                </td>
+                <Td detailLink={detailLink}>
+                  {incident.has_children && (
+                    <Icon size={14}>
+                      <FastForward />
+                    </Icon>
+                  )}
+                </Td>
+                <Td detailLink={detailLink}>{incident.id}</Td>
+                <Td detailLink={detailLink} data-testid="incidentDaysOpen">
+                  {getDaysOpen(incident)}
+                </Td>
+                <Td detailLink={detailLink}>
+                  {string2date(incident.created_at)} {string2time(incident.created_at)}
+                </Td>
+                <Td detailLink={detailLink}>
+                  {configuration.fetchDistrictsFromBackend
+                    ? getListValueByKey(districts, incident.location && incident.location.area_code)
+                    : getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
+                </Td>
+                <Td detailLink={detailLink}>{incident.category && incident.category.sub}</Td>
+                <Td detailLink={detailLink}>{getListValueByKey(status, incident.status && incident.status.state)}</Td>
+                <Td detailLink={detailLink}>
+                  {getListValueByKey(priority, incident.priority && incident.priority.priority)}
+                </Td>
+                <Td detailLink={detailLink}>{incident.location && incident.location.address_text}</Td>
                 {configuration.assignSignalToEmployee && users && (
-                  <td>
-                    <Link to={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Link>
-                  </td>
+                  <Td detailLink={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Td>
                 )}
               </tr>
             );
