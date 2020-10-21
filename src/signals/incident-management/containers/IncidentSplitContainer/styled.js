@@ -79,7 +79,7 @@ export const StyledGrid = styled.div`
 `;
 
 export const StyledSelect = styled.div`
-  max-width: calc(100% - ${themeSpacing(50)});
+  max-width: 420px;
 
   strong {
     font-size: 16px;
