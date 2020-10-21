@@ -82,3 +82,5 @@ globalAny.URL.revokeObjectURL = jest.fn();
 
 const noop = () => {};
 Object.defineProperty(globalAny.window, 'scrollTo', { value: noop, writable: true });
+
+jest.setTimeout(1000 * 60 * 10);
