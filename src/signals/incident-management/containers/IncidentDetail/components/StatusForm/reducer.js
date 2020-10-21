@@ -4,24 +4,17 @@ import * as constants from './constants';
 const emailSentWhenStatusChangedTo = status =>
   Boolean(changeStatusOptionList.find(({ email_sent_when_set, key }) => email_sent_when_set && status === key));
 
-const determineWarning = selectedStatusKey => {
-  if (selectedStatusKey === 'reopened') {
-    return constants.HEROPENED_EXPLANATION;
-  }
-
-  if (selectedStatusKey === 'o') {
-    return constants.AFGEHANDELD_EXPLANATION;
-  }
-
-  if (selectedStatusKey === 'a') {
-    return constants.GEANNULEERD_EXPLANATION;
-  }
-
+const determineWarning = (selectedStatusKey, isSplitIncident) => {
+  if (isSplitIncident) return '';
+  if (selectedStatusKey === 'reopened') return constants.HEROPENED_EXPLANATION;
+  if (selectedStatusKey === 'o') return constants.AFGEHANDELD_EXPLANATION;
+  if (selectedStatusKey === 'a') return constants.GEANNULEERD_EXPLANATION;
   return '';
 };
 
 export const init = incident => {
   const incidentStatus = statusList.find(({ key }) => key === incident.status.state);
+  const isSplitIncident = incident?._links?.['sia:parent'] !== undefined;
 
   return {
     status: incidentStatus,
@@ -35,7 +28,8 @@ export const init = incident => {
       value: '',
       required: emailSentWhenStatusChangedTo(incidentStatus.key),
     },
-    warning: determineWarning(incidentStatus.key),
+    isSplitIncident,
+    warning: determineWarning(incidentStatus.key, isSplitIncident),
   };
 };
 
@@ -53,7 +47,7 @@ const reducer = (state, action) => {
         errors: { ...state.errors, text: undefined },
         status: action.payload,
         text: { ...state.text, defaultValue: '', required: checkboxIsChecked },
-        warning: determineWarning(action.payload.key),
+        warning: determineWarning(action.payload.key, state.isSplitIncident),
       };
     }
 
