@@ -88,8 +88,18 @@ const ParentLink = styled(Link)`
 const DetailHeader = () => {
   const { incident, update } = useContext(IncidentDetailContext);
   const location = useLocation();
-  const canSplit =
-    incident.status.state === 'm' && !(incident?._links?.['sia:children'] || incident?._links?.['sia:parent']);
+
+  const canSplit = useCallback(() => {
+    if (incident.status.state !== 'm') return false;
+
+    if (incident?._links?.['sia:parent']) return false;
+
+    const children = incident?._links?.['sia:children'];
+    if (children?.length && children.length >= 10) return false;
+
+    return true;
+  }, [incident]);
+
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === incident.status.state);
   const downloadLink = incident?._links?.['sia:pdf']?.href;
 
@@ -130,7 +140,7 @@ const DetailHeader = () => {
       </HeadingContainer>
 
       <ButtonContainer>
-        {canSplit && (
+        {canSplit() && (
           <ButtonLink
             variant="application"
             forwardedAs={Link}

@@ -61,21 +61,32 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
     unmount();
   });
 
-  it('should render no split button when children are present', () => {
+  it('should render no split button when 10 or more children are present', () => {
     const { queryByTestId, rerender, unmount } = render(renderWithContext());
 
-    expect(queryByTestId('detail-header-button-split')).not.toBeInTheDocument();
+    expect(queryByTestId('detail-header-button-split')).toBeInTheDocument();
 
     unmount();
 
     rerender(
       renderWithContext({
         ...incidentFixture,
-        _links: { ...incidentFixture._links, 'sia:parent': undefined, 'sia:children': undefined },
+        _links: { ...incidentFixture._links, 'sia:parent': undefined, 'sia:children': [...Array(8)] },
       })
     );
 
     expect(queryByTestId('detail-header-button-split')).toBeInTheDocument();
+
+    unmount();
+
+    rerender(
+      renderWithContext({
+        ...incidentFixture,
+        _links: { ...incidentFixture._links, 'sia:parent': undefined, 'sia:children': [...Array(10)] },
+      })
+    );
+
+    expect(queryByTestId('detail-header-button-split')).not.toBeInTheDocument();
   });
 
   it('should render no split button when parent is present', () => {
