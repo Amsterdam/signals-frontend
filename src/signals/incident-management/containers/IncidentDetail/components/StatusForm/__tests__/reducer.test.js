@@ -19,6 +19,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         disabled: false,
       },
       errors: {},
+      isSplitIncident: false,
       text: {
         defaultValue: '',
         value: '',

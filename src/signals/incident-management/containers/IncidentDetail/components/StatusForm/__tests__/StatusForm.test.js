@@ -388,13 +388,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(queryByTestId('statusWarning')).not.toBeInTheDocument();
 
     // select a status that will show a warning (see: )
-    act(() => {
-      fireEvent.click(container.querySelector('input[value="reopened"]'));
-    });
+    fireEvent.click(container.querySelector('input[value="reopened"]'));
 
-    // verify that two warning elements are visible
+    // verify that statusExplanation is visible
     expect(getByTestId('statusExplanation')).toBeInTheDocument();
-    expect(getByTestId('statusWarning')).toBeInTheDocument();
 
     // verify that explanation with text DEELMELDING_EXPLANATION is visible
     expect(getByTestId('statusExplanation').textContent).toEqual(DEELMELDING_EXPLANATION);
