@@ -189,7 +189,7 @@ const List = ({
               <tr key={incident.id}>
                 <Td detailLink={detailLink}>
                   {incident.has_children && (
-                    <Icon size={14}>
+                    <Icon size={14} role="img" aria-label="Hoofdmelding">
                       <FastForward />
                     </Icon>
                   )}

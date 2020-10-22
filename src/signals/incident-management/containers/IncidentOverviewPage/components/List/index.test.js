@@ -158,15 +158,15 @@ describe('List', () => {
     });
 
     it('should render an icon for each parent incident', () => {
-      const { container, rerender } = render(withContext(<List {...props} />));
+      const { rerender, queryAllByRole } = render(withContext(<List {...props} />));
       const incidentList = [...props.incidents];
 
       const parentsCount = incidentList.filter(incident => incident.has_children).length;
-      expect(container.querySelectorAll('span > svg').length).toEqual(parentsCount);
+      expect(queryAllByRole('img').length).toEqual(parentsCount);
 
       const incidentParents = incidentList.map(parent => ({ ...parent, has_children: true }));
       rerender(withContext(<List {...props} incidents={incidentParents} />));
-      expect(container.querySelectorAll('span > svg').length).toEqual(incidentParents.length);
+      expect(queryAllByRole('img').length).toEqual(incidentParents.length);
     });
   });
 });
