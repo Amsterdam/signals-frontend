@@ -253,7 +253,7 @@ const IncidentDetail = () => {
 
         {(state.preview || state.edit) && (
           <Preview>
-            {state.edit === 'status' && <StatusForm defaultTexts={state.defaultTexts} error={state.error} />}
+            {state.edit === 'status' && <StatusForm defaultTexts={state.defaultTexts} childIncidents={state.children?.results} />}
 
             {state.preview === 'location' && <LocationPreview />}
 

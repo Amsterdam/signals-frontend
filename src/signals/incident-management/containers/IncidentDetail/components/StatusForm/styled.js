@@ -32,6 +32,8 @@ export const HeaderArea = styled.div`
 
 export const OptionsArea = styled.div`
   grid-area: options;
+  display: grid;
+  grid-row-gap: ${themeSpacing(4)};
 `;
 
 export const TextsArea = styled.div`
