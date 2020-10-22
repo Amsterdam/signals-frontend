@@ -26,7 +26,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
   <div
     key="input-field-name-1"
   >
-    <Styled(Component)
+    <MultiTextInput__StyledInput
       id="input-field-name-1"
       maxLength="15"
       name="input-field-name-1"
@@ -38,7 +38,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
       value="Lorem"
     />
   </div>
-  <Styled(Component)
+  <Button
     onClick={[Function]}
     variant="textButton"
   />
@@ -65,7 +65,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
   <div
     key="input-field-name-1"
   >
-    <Styled(Component)
+    <MultiTextInput__StyledInput
       id="input-field-name-1"
       maxLength="15"
       name="input-field-name-1"
@@ -77,7 +77,7 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
       value=""
     />
   </div>
-  <Styled(Component)
+  <Button
     onClick={[Function]}
     variant="textButton"
   />

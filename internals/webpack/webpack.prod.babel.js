@@ -15,25 +15,13 @@ const __rootdir = pkgDir.sync();
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
 
-  entry: [path.join(process.cwd(), 'src/app.tsx')],
+  entry: [path.join(process.cwd(), 'src/app.js')],
 
   // Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
   },
-
-  tsLoaders: [
-    // Babel also have typescript transpiler. Uncomment this if you prefer and comment-out ts-loader
-    // { loader: 'babel-loader' },
-    {
-      loader: 'ts-loader',
-      options: {
-        transpileOnly: true, // fork-ts-checker-webpack-plugin is used for type checking
-        logLevel: 'info',
-      },
-    },
-  ],
 
   optimization: {
     minimize: true,

@@ -40,9 +40,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Display environment information
-        run: npx envinfo --preset jest
-
       - name: Run ${{ matrix.job }}
         run: npm run ${{ matrix.job }}
 
