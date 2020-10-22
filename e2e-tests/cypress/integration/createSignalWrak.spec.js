@@ -4,8 +4,8 @@ import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 import questions from '../support/questions.json';
 import { generateToken } from '../support/jwt';
 
-describe('Create signal parkeeroverlast and check signal details', () => {
-  describe('Create signal parkeeroverlast', () => {
+describe('Create signal Wrak and check signal details', () => {
+  describe('Create signal Wrak', () => {
     before(() => {
       cy.visitFetch('incident/beschrijf');
     });
@@ -18,7 +18,7 @@ describe('Create signal parkeeroverlast and check signal details', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1066CD 1045', 'Sloterweg 1045, 1066CD Amsterdam');
       createSignal.setDescription(
-        'Voor het Velodrome ligt een fietswrak, het lijkt een beetje op die van Tom Dumoulin.'
+        'Voor het Velodrome ligt een fietswrak, het lijkt een beetje op die van Tom Dumoulin.',
       );
       createSignal.setDateTime('Nu');
 

@@ -26,7 +26,7 @@ describe('Create signal wonen woning overig and check signal details', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1015AB 38G', 'Singel 38G, 1015AB Amsterdam');
       createSignal.setDescription(
-        'Ik zie elke dag meerdere poezen lopen over deze boot, het is een vreemde situatie. Zijn dit criminele activiteiten?'
+        'Ik zie elke dag meerdere poezen lopen over deze boot, het is een vreemde situatie. Zijn dit criminele activiteiten?',
       );
       createSignal.setDateTime('Nu');
 

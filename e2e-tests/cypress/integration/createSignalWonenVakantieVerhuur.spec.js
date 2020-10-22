@@ -19,7 +19,7 @@ describe('Create signal wonen vakantie verhuur and check signal details', () => 
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1018GX 1', 'Prof. Tulpplein 1, 1018GX Amsterdam');
       createSignal.setDescription(
-        'Ik zie regelmatig toeristen met rolkoffers in dit gebouw naar binnen gaan. Volgens mij wordt het illegaal verhuurd.'
+        'Ik zie regelmatig toeristen met rolkoffers in dit gebouw naar binnen gaan. Volgens mij wordt het illegaal verhuurd.',
       );
       createSignal.setDateTime('Nu');
 

@@ -82,7 +82,7 @@ describe('Create signal stank overlast bedrijven and check signal details', () =
       cy.contains('Een zeer indringende zweetgeur').should('be.visible');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank_oorzaak.shortLabel).should('be.visible');
       cy.contains(
-        'Klanten van de sportschool die voor de deur staan te sporten, maar ook binnen voor een open raam'
+        'Klanten van de sportschool die voor de deur staan te sporten, maar ook binnen voor een open raam',
       ).should('be.visible');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank_weer.shortLabel).should('be.visible');
       cy.contains('Het is erg warm buiten, de zon schijnt volop').should('be.visible');

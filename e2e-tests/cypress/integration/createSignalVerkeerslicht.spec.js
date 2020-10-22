@@ -19,7 +19,7 @@ describe('Create signal Verkeerslicht and check signal details', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1018VN 113', 'Weesperstraat 113, 1018VN Amsterdam');
       createSignal.setDescription(
-        'Het stoplicht op de kruising weesperstraat met de nieuwe kerkkstraat richting de stad staat altijd op groen. Dit zorgt voor gevaarlijke situaties.'
+        'Het stoplicht op de kruising weesperstraat met de nieuwe kerkkstraat richting de stad staat altijd op groen. Dit zorgt voor gevaarlijke situaties.',
       );
       createSignal.setDateTime('Eerder');
 
