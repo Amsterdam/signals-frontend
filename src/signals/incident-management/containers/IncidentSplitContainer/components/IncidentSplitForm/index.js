@@ -84,6 +84,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
 IncidentSplitForm.propTypes = {
   parentIncident: PropTypes.shape({
     id: PropTypes.number.isRequired,
+    childrenCount: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     statusDisplayName: PropTypes.string.isRequired,
     priority: PropTypes.string.isRequired,
