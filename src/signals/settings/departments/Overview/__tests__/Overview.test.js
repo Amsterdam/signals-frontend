@@ -3,20 +3,13 @@ import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext } from 'test/utils';
-import departmentsJson from 'utils/__tests__/fixtures/departments.json';
+import { departments } from 'utils/__tests__/fixtures';
 import { DEPARTMENT_URL } from 'signals/settings/routes';
 
 import * as modelSelectors from 'models/departments/selectors';
 import * as appSelectors from 'containers/App/selectors';
 
 import DepartmentOverview from '..';
-
-const departments = {
-  ...departmentsJson,
-  count: departmentsJson.count,
-  list: departmentsJson.results,
-  results: undefined,
-};
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -87,7 +80,7 @@ describe('signals/settings/departments/Overview', () => {
   it('should push on list item click', async () => {
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
 
-    const { id } = departmentsJson.results[12];
+    const { id } = departments.list[12];
     const { container } = render(withAppContext(<DepartmentOverview />));
 
     let row;
@@ -129,7 +122,7 @@ describe('signals/settings/departments/Overview', () => {
 
   it('should not push on list item click when permissions are insufficient', async () => {
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
-    const { id } = departmentsJson.results[9];
+    const { id } = departments.list[9];
     const { container } = render(withAppContext(<DepartmentOverview />));
 
     let row;
