@@ -5,7 +5,7 @@ import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import { ChevronUp, ChevronDown } from '@datapunt/asc-assets';
 import { Icon } from '@datapunt/asc-ui';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
@@ -27,11 +27,7 @@ const getDaysOpen = incident => {
 const StyledList = styled.div`
   width: 100%;
 
-  ${({ isLoading }) =>
-    isLoading &&
-    css`
-      opacity: 0.3;
-    `}
+  ${({ isLoading }) => isLoading && 'opacity: 0.3;'}
 `;
 
 const Table = styled.table`
@@ -61,31 +57,20 @@ const Table = styled.table`
 const Th = styled.th`
   cursor: pointer;
   font-weight: normal;
+  white-space: nowrap;
 
   &:hover {
     text-decoration: underline;
   }
 
-  ${props => {
-    // making sure that both text and icon are placed on one line by setting explicit min-width values
-    switch (props['data-testid']) {
-      case 'sortId':
-        return 'min-width: 75px;';
-      case 'sortDaysOpen':
-        return 'min-width: 65px;';
-      case 'sortCreatedAt':
-      case 'sortStadsdeel':
-        return 'min-width: 150px;';
-      case 'sortSubcategory':
-        return 'min-width: 135px;';
-      case 'sortPriority':
-        return 'min-width: 100px;';
-      case 'sortAddress':
-        return 'min-width: 80px;';
-      default:
-        return 'width: auto;';
-    }
-  }}
+  ${props =>
+    // Keep Amsterdam's 'Stadsdeel' column at a min-width of 120px to make sure that 'Nieuw-West'
+    // doesn't wrap (but 'Het Amsterdamse Bos' is allowed to wrap)
+    props['data-testid'] === 'sortStadsdeel' && 'min-width: 120px;'}
+`;
+
+const Td = styled.td`
+  ${({ noWrap }) => noWrap && 'white-space: nowrap;'}
 `;
 
 const List = ({
@@ -160,7 +145,7 @@ const List = ({
             <Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
               Adres {renderChevron('address')}
             </Th>
-            {configuration.assignSignalToEmployee && users && <th data-testid="sortAssigedUserId">Toegewezen aan</th>}
+            {configuration.assignSignalToEmployee && users && <Th data-testid="sortAssigedUserId">Toegewezen aan</Th>}
           </tr>
         </thead>
         <tbody>
@@ -168,42 +153,42 @@ const List = ({
             const detailLink = `/manage/incident/${incident.id}`;
             return (
               <tr key={incident.id}>
-                <td>
+                <Td>
                   <Link to={detailLink}>{incident.id}</Link>
-                </td>
-                <td data-testid="incidentDaysOpen">
+                </Td>
+                <Td data-testid="incidentDaysOpen">
                   <Link to={detailLink}>{getDaysOpen(incident)}</Link>
-                </td>
-                <td>
+                </Td>
+                <Td noWrap>
                   <Link to={detailLink}>
                     {string2date(incident.created_at)} {string2time(incident.created_at)}
                   </Link>
-                </td>
-                <td>
+                </Td>
+                <Td>
                   <Link to={detailLink}>
                     {configuration.fetchDistrictsFromBackend
                       ? getListValueByKey(districts, incident.location && incident.location.area_code)
                       : getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
                   </Link>
-                </td>
-                <td>
+                </Td>
+                <Td>
                   <Link to={detailLink}>{incident.category && incident.category.sub}</Link>
-                </td>
-                <td>
+                </Td>
+                <Td>
                   <Link to={detailLink}>{getListValueByKey(status, incident.status && incident.status.state)}</Link>
-                </td>
-                <td>
+                </Td>
+                <Td>
                   <Link to={detailLink}>
                     {getListValueByKey(priority, incident.priority && incident.priority.priority)}
                   </Link>
-                </td>
-                <td>
+                </Td>
+                <Td>
                   <Link to={detailLink}>{incident.location && incident.location.address_text}</Link>
-                </td>
+                </Td>
                 {configuration.assignSignalToEmployee && users && (
-                  <td>
+                  <Td>
                     <Link to={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Link>
-                  </td>
+                  </Td>
                 )}
               </tr>
             );
