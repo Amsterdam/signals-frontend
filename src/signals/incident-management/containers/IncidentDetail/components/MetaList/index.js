@@ -123,14 +123,16 @@ const MetaList = () => {
   const departmentOptions = useMemo(() => {
     if (!configuration.assignSignalToDepartment) return [];
 
-    const options = categoryDepartments?.map(department => ({
-      key: department.id,
-      value: department.name,
-    }));
+    const options =
+      categoryDepartments?.length > 1 &&
+      categoryDepartments.map(department => ({
+        key: department.id,
+        value: department.name,
+      }));
 
     return routingDepartments
       ? options
-      : [
+      : options && [
         {
           value: 'Niet gekoppeld',
         },
