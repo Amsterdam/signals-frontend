@@ -41,7 +41,7 @@ const selectedSources = [
 describe('containers/App/selectors', () => {
   describe('selectGlobal', () => {
     it('should return the initialState', () => {
-      expect(selectGlobal(fromJS({}))).toEqual(initialState);
+      expect(selectGlobal()).toEqual(initialState);
     });
 
     it('should select the global state', () => {

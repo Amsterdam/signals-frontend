@@ -25,17 +25,14 @@ describe('containers/App/services', () => {
   });
 
   it('should inject reducer', () => {
-    const mockedInjectReducerModel = (injectReducerModel as unknown) as jest.Mock<typeof injectReducerModel>; // compiler doesn't know that it's mocked. So manually cast it.
-
-    mockedInjectReducerModel.mockImplementation(injecModelSpy);
+    injectReducerModel.mockImplementation(injecModelSpy);
     loadModel(store);
 
     expect(injecModelSpy).toHaveBeenCalledWith('global', reducer, store);
   });
 
   it('should inject saga', () => {
-    const mockedInjectSagaModel = (injectSagaModel as unknown) as jest.Mock<typeof injectSagaModel>; // compiler doesn't know that it's mocked. So manually cast it.
-    mockedInjectSagaModel.mockImplementation(injecModelSpy);
+    injectSagaModel.mockImplementation(injecModelSpy);
     loadModel(store);
 
     expect(injecModelSpy).toHaveBeenCalledWith('global', saga, store);

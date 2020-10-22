@@ -179,7 +179,7 @@ const me = {
  * - `status`: Number (optional), HTTP status code
  * - `statusText`: String (optional), HTTP status text
  */
-export const proxyConfig = [
+const proxyConfig = [
   {
     request: {
       url: 'https://geodata.nationaalgeoregister.nl/locatieserver/revgeo',

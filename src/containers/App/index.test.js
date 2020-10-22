@@ -16,10 +16,9 @@ const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 jest.mock('shared/services/configuration/configuration');
 jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
-
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
-  ...jest.requireActual('shared/services/auth/auth') as any,
+  ...jest.requireActual('shared/services/auth/auth'),
 }));
 
 jest.useFakeTimers();

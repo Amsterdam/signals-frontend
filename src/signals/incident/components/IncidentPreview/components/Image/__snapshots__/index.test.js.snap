@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Preview component <Image /> should render image correctly 1`] = `
-<styled.div>
-  <styled.img
+<Image__ImageContainer>
+  <Image__Thumbnail
     alt=""
     key="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
     src="blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c"
   />
-  <styled.img
+  <Image__Thumbnail
     alt=""
     key="blob:http://host/another-unique-key"
     src="blob:http://host/another-unique-key"
   />
-</styled.div>
+</Image__ImageContainer>
 `;
