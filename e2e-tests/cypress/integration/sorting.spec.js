@@ -15,6 +15,7 @@ describe('Sorting', () => {
     requests.createSignalOverviewMap();
     requests.createSignalSorting01();
     requests.createSignalSorting02();
+    requests.createPrivateSignalForFilters();
   });
   it('Should sort on column Id', () => {
     cy.route('/signals/v1/private/signals/?page=1&ordering=id&page_size=50').as('getSortedASC');
