@@ -164,6 +164,8 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     it('works with feature flag fetchDistrictsFromBackend enabled', () => {
       configuration.fetchDistrictsFromBackend = true;
 
+      // stadsdeel is intentionaly removed from the tags list here
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { stadsdeel, ...otherTags } = tags;
       const { queryAllByTestId, queryByText } = render(
         withContext(
