@@ -161,7 +161,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
           data-testid="incidentSplitForm"
           parentIncident={{
             id: parentIncident.id,
-            childrenCount: parentIncident?._links?.['sia:children'].length,
+            childrenCount: parentIncident?._links?.['sia:children']?.length || 0,
             status: parentIncident.status.state,
             statusDisplayName: parentIncident.status.state_display,
             priority: parentIncident.priority.priority,
