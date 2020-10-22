@@ -154,19 +154,17 @@ describe('List', () => {
         element => element.textContent !== '-'
       );
 
-      expect(elementsWithTextContent).toHaveLength(3);
+      expect(elementsWithTextContent).toHaveLength(2);
     });
 
     it('should render an icon for each parent incident', () => {
-      const { rerender, queryAllByRole } = render(withContext(<List {...props} />));
-      const incidentList = [...props.incidents];
-
+      const incidentWithChildren = { ...props.incidents[0], has_children: true };
+      const incidentList = [incidentWithChildren, ...props.incidents.slice(1)];
       const parentsCount = incidentList.filter(incident => incident.has_children).length;
-      expect(queryAllByRole('img').length).toEqual(parentsCount);
 
-      const incidentParents = incidentList.map(parent => ({ ...parent, has_children: true }));
-      rerender(withContext(<List {...props} incidents={incidentParents} />));
-      expect(queryAllByRole('img').length).toEqual(incidentParents.length);
+      const { queryAllByRole } = render(withContext(<List {...props} incidents={incidentList} />));
+
+      expect(queryAllByRole('img').length).toEqual(parentsCount);
     });
   });
 });
