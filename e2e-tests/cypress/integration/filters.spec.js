@@ -2,7 +2,9 @@
 
 import * as requests from '../support/commandsRequests';
 import * as filtering from '../support/commandsFiltering';
-import { MANAGE_SIGNALS, FILTER, FILTER_ALL_ITEMS, MY_FILTERS } from '../support/selectorsManageIncidents';
+import {
+  MANAGE_SIGNALS, FILTER, FILTER_ALL_ITEMS, MY_FILTERS,
+} from '../support/selectorsManageIncidents';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 import { generateToken } from '../support/jwt';
 
