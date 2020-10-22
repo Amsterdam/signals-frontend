@@ -81,5 +81,5 @@ export const OVERVIEW_MAP = {
   openSignalDetails: '[data-testid=mapDetailPanel] > [href*="/manage"]',
   markerCluster: '.leaflet-marker-icon',
   markerSignal: '.map-marker-incident',
-  overViewMap: '[data-testid=map-base]',
+  overViewMap: '[data-testid="overviewMap"]',
 };

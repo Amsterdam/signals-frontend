@@ -19,7 +19,7 @@ describe('Create signal bedrijven en horeca and check signal details', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1012AN 5A', 'Zeedijk 5A, 1012AN Amsterdam');
       createSignal.setDescription(
-        'Ik heb ontzettende overlast van cafe het 11e gebod, dronken mensen staan buiten te schreeuwen'
+        'Ik heb ontzettende overlast van cafe het 11e gebod, dronken mensen staan buiten te schreeuwen',
       );
       createSignal.setDateTime('Nu');
 

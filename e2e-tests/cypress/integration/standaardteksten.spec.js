@@ -12,14 +12,14 @@ describe('Standaardteksten', () => {
       cy.server();
       cy.getManageSignalsRoutes();
       cy.route('**/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates').as(
-        'getAsbestAccu'
+        'getAsbestAccu',
       );
       cy.route(
-        '/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/duiven/status-message-templates'
+        '/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/duiven/status-message-templates',
       ).as('getDuiven');
       cy.route(
         'POST',
-        '/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/duiven/status-message-templates'
+        '/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/duiven/status-message-templates',
       ).as('PostDuiven');
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       cy.visitFetch('/manage/incidents/');
@@ -173,7 +173,7 @@ describe('Standaardteksten', () => {
       cy.get(CHANGE_STATUS.buttonSubmit).click();
       cy.wait('@getSignals');
       cy.wait('@getHistory');
-      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 2);
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 3);
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven INPLANNEN. De overlastgevende duif is geïdentificeerd als Cher Ami');
     });
     it('Should change the status of the signal to Afgehandeld and show standaardtekst', () => {
@@ -207,7 +207,7 @@ describe('Standaardteksten', () => {
       cy.wait('@patchSignal');
       cy.wait('@getSignals');
       cy.wait('@getHistory');
-      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 3);
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 4);
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven AFHANDELEN. De overlastgevende duif is geïdentificeerd als Valiant');
     });
     it('Should change the status of the signal to Heropend and show standaardtekst', () => {
@@ -237,7 +237,7 @@ describe('Standaardteksten', () => {
       cy.get(CHANGE_STATUS.buttonSubmit).click();
       cy.wait('@getSignals');
       cy.wait('@getHistory');
-      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 4);
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 5);
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven HEROPENEN. De overlastgevende duif is geïdentificeerd als Lance Sterling');
     });
   });

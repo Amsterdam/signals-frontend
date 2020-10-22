@@ -64,6 +64,17 @@ describe('List', () => {
     );
   });
 
+  it('should render nowrap correctly', () => {
+    const whiteSpace = 'nowrap';
+    const { container } = render(withContext(<List {...props} />));
+
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(1)')).not.toHaveStyleRule('white-space', whiteSpace);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).not.toHaveStyleRule('white-space', whiteSpace);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(3)')).not.toHaveStyleRule('white-space', whiteSpace);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveStyleRule('white-space', whiteSpace);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).not.toHaveStyleRule('white-space', whiteSpace);
+  });
+
   it('should render correctly when loading', () => {
     const opacity = '0.3';
     const { rerender, getByTestId } = render(withContext(<List {...props} />));

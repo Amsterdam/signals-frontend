@@ -19,7 +19,7 @@ describe('Create signal overlast door groep jongeren and check signal details', 
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1018CN 28-H', 'Plantage Doklaan 28-H, 1018CN Amsterdam');
       createSignal.setDescription(
-        'De laatste paar weken staat er in de avond een grote groep jongeren voor mijn deur te blowen. Dit zorgt voor veel overlast.'
+        'De laatste paar weken staat er in de avond een grote groep jongeren voor mijn deur te blowen. Dit zorgt voor veel overlast.',
       );
       createSignal.setDateTime('Nu');
 

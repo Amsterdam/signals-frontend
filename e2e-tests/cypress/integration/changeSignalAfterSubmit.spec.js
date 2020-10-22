@@ -115,13 +115,13 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_LOCATION.buttonEdit).click();
 
       // Check on map and cancel
-      cy.get(OVERVIEW_MAP.overViewMap).should('be.visible');
+      cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(CHANGE_LOCATION.buttonCancel).click();
       cy.contains('Mijn hele huis zit onder de graffiti');
 
       // Edit signal location
       cy.get(CHANGE_LOCATION.buttonEdit).click();
-      cy.get(OVERVIEW_MAP.overViewMap).should('be.visible');
+      cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Bethaniënstraat 12', { delay: 60 });
       cy.wait('@getAddress');
       createSignal.selectAddress('Bethaniënstraat 12, 1012CA Amsterdam');
@@ -140,7 +140,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012CA Amsterdam').should('be.visible');
 
       // Check history
-      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 2);
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 3);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
         .should('contain', 'Stadsdeel: Centrum')
@@ -155,7 +155,7 @@ describe('Change signal after submit', () => {
       cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
       cy.get(SIGNAL_DETAILS.imageLocation).click();
       cy.get(CHANGE_LOCATION.buttonLocationDetailEdit).click();
-      cy.get(OVERVIEW_MAP.overViewMap).should('be.visible');
+      cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Noordhollandschkanaaldijk 114', { delay: 60 });
       cy.wait('@getAddress');
       createSignal.selectAddress('Noordhollandschkanaaldijk 114, 1034NW Amsterdam');
@@ -175,7 +175,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1034NW Amsterdam').should('be.visible');
 
       // Check history
-      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 3);
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 4);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
         .should('contain', 'Stadsdeel: Noord')
@@ -254,7 +254,7 @@ describe('Change signal after submit', () => {
         });
 
       // Check history
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 8);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 9);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Update status naar: In behandeling')
@@ -302,7 +302,7 @@ describe('Change signal after submit', () => {
         });
 
       // Check history
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 9);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 10);
       cy.get(SIGNAL_DETAILS.historyAction).contains('Urgentie update naar: Hoog').should('be.visible');
     });
 
@@ -326,7 +326,7 @@ describe('Change signal after submit', () => {
       cy.contains('Klacht: Een uiting van ongenoegen over het handelen van de gemeente.');
       cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click({ force: true }).should('be.checked');
       cy.contains(
-        'Groot onderhoud: Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.'
+        'Groot onderhoud: Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
       );
 
       // Cancel edit type
@@ -347,7 +347,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Groot onderhoud').and('be.visible');
 
       // Check history
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 10);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 11);
       cy.get(SIGNAL_DETAILS.historyAction).contains('Type update naar: Groot onderhoud').should('be.visible');
     });
 
@@ -380,7 +380,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast in de openbare ruimte').and('be.visible');
 
       // Check history
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 12);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 13);
       cy.get(SIGNAL_DETAILS.historyAction)
         .contains('Categorie gewijzigd naar: Overig openbare ruimte')
         .should('be.visible');

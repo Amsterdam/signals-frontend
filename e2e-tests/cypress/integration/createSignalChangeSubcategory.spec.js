@@ -1,23 +1,55 @@
 // <reference types="Cypress" />
+import { CATEGORIES } from '../support/selectorsSettings';
 import * as createSignal from '../support/commandsCreateSignal';
+import { CONTAINERS, CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 import { SIGNAL_DETAILS } from '../support/selectorsSignalDetails';
 import questions from '../support/questions.json';
 import { generateToken } from '../support/jwt';
-import { CREATE_SIGNAL } from '../support/selectorsCreateSignal';
 
-describe('Create signal animals from incident management and chek signal details', () => {
+describe('Create signal and choose other subcategory than proposed', () => {
+  describe('Set up testdata', () => {
+    beforeEach(() => {
+      localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+    });
+    it('Set description for category', () => {
+      cy.server();
+      cy.getManageSignalsRoutes();
+      cy.getCategoriesRoutes();
+
+      cy.visitFetch('/manage/incidents/');
+      cy.waitForManageSignalsRoutes();
+      cy.openMenu();
+      cy.contains('Instellingen').click();
+      cy.contains('Categorieën').click();
+
+      cy.waitForCategoriesRoutes();
+      cy.url().should('include', '/instellingen/categorieen/');
+
+      cy.contains('Container is kapot').click();
+      cy.url().should('include', 'instellingen/categorie/');
+      cy.wait('@getCategories');
+
+      // Change category
+      cy.get(CATEGORIES.inputDescription).clear().type('Een verhaal over een kapotte container');
+      cy.get(CATEGORIES.buttonOpslaan).click();
+
+      // Wait for saving the data
+      cy.wait('@patchCategory');
+      cy.wait('@getCategories');
+
+      // Check if Categorieën page opens again
+      cy.url().should('include', '/instellingen/categorieen/page/1');
+    });
+  });
   describe('Create signal animals', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
-
-    it('Initiate create signal from manage', () => {
+    it('Should initiate create signal from manage', () => {
       cy.server();
       cy.getManageSignalsRoutes();
 
       cy.visitFetch('/manage/incidents/');
-
-      // Wait till page is loaded
       cy.waitForManageSignalsRoutes();
       cy.openMenu();
       cy.contains('Melden').click();
@@ -25,7 +57,6 @@ describe('Create signal animals from incident management and chek signal details
 
       cy.visitFetch('incident/beschrijf');
     });
-
     it('Should search for an address', () => {
       cy.server();
       cy.getAddressRoute();
@@ -33,23 +64,18 @@ describe('Create signal animals from incident management and chek signal details
 
       createSignal.checkDescriptionPage();
       // Select source
-      cy.get(CREATE_SIGNAL.dropdownSource).select('Telefoon – Stadsdeel');
+      cy.get(CREATE_SIGNAL.dropdownSource).select('Interne melding');
 
       createSignal.setAddress('1012GX 23', 'Oudekerksplein 23, 1012GX Amsterdam');
-      createSignal.setDescription('Er is een wespennest bij de hoofdingang van de Oude kerk');
+      createSignal.setDescription('Er vliegen allemaal wespen in de kerk.');
+      cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Container is kapot (AEG)');
       createSignal.setDateTime('Nu');
+      cy.get(CREATE_SIGNAL.descriptionInfo).should('contain', 'Subcategorie voorstel: Wespen').and('be.visible');
+      cy.get(CREATE_SIGNAL.infoText).should('contain', 'Een verhaal over een kapotte container').and('be.visible');
 
-      // Check Urgency
-      cy.contains('Wat is de urgentie?').should('be.visible');
-      cy.contains('Hoog').should('be.visible').click();
-      cy.contains('Hoog: melding met spoed oppakken').should('be.visible');
       cy.contains('Laag').should('be.visible').click();
-      cy.contains('Laag: interne melding zonder servicebelofte').should('be.visible');
-      cy.contains('Normaal').should('be.visible').click();
 
-      // Check Type
-      cy.contains('Type').should('be.visible');
-      cy.contains('Klacht').should('be.visible').click();
+      cy.contains('Groot onderhoud').should('be.visible').click();
 
       cy.contains('Volgende').click();
     });
@@ -58,12 +84,12 @@ describe('Create signal animals from incident management and chek signal details
       createSignal.checkSpecificInformationPage();
 
       cy.contains(Cypress.env('description')).should('be.visible');
-      cy.get(questions.overlastVanDieren.extra_dieren_text.answers)
-        .each($element => {
-          cy.contains($element).should('be.visible');
-        });
-      cy.contains('Dierenambulance Amsterdam').should('have.attr', 'href').and('include', 'dierenambulance-amsterdam');
-      cy.contains('overlast van dieren').should('have.attr', 'href').and('include', 'veelgevraagd');
+
+      // Select container soort and number
+      cy.contains(questions.afval.extra_container_kind.label).should('be.visible');
+      cy.get(CONTAINERS.inputContainerSoort).eq(0).type('Een papiercontainer');
+      cy.contains(questions.afval.extra_container_number.label).should('be.visible');
+      cy.get(CONTAINERS.inputContainerNummer).eq(1).type('Nummertje 911');
 
       cy.contains('Volgende').click();
     });
@@ -84,6 +110,7 @@ describe('Create signal animals from incident management and chek signal details
       // Check information provided by user
       cy.contains(Cypress.env('address')).should('be.visible');
       cy.contains(Cypress.env('description')).should('be.visible');
+      cy.contains('Container is kapot');
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
     });
@@ -112,7 +139,7 @@ describe('Create signal animals from incident management and chek signal details
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
+      // cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Oudekerksplein 23').and('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012GX Amsterdam').and('be.visible');
       cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
@@ -121,11 +148,11 @@ describe('Create signal animals from incident management and chek signal details
 
       createSignal.checkCreationDate();
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
-      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht').and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Wespen (GGD)').and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast van dieren').and('be.visible');
-      cy.get(SIGNAL_DETAILS.source).should('have.text', 'Telefoon – Stadsdeel').and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Laag').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Groot onderhoud').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Container is kapot (AEG)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Afval').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'Interne melding').and('be.visible');
     });
   });
 });
