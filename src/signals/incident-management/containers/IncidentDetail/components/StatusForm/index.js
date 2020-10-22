@@ -118,7 +118,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
 
             {isStatusClosed(state.status.key) && hasOpenChildren && (
               <Notification warning data-testid="statusHasChildrenOpen">
-                Let op! Er zijn deelmeldingen nog niet afgehandeld.
+                {constants.DEELMELDINGEN_STILL_OPEN}
               </Notification>
             )}
           </OptionsArea>
