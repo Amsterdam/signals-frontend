@@ -135,6 +135,6 @@ export const changeStatusOptionList = [
   GEANNULEERD,
 ];
 
-export const isStatusClosed = status => [AFGEHANDELD, GEANNULEERD].map(({ key }) => key).some(s => s === status);
+export const isStatusClosed = status => [AFGEHANDELD, GEANNULEERD].map(({ key }) => key).some(value => value === status);
 
 export const defaultTextsOptionList = [...changeStatusOptionList];
