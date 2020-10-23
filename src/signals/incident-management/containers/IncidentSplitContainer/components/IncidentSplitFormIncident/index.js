@@ -17,7 +17,7 @@ import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
 export const INCIDENT_SPLIT_LIMIT = 10;
 
 const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) => {
-  const [splitCount, setSplitCount] = useState(1);
+  const [splitCount, setSplitCount] = useState(parentIncident.childrenCount || 1);
 
   const addIncident = useCallback(
     event => {
@@ -33,7 +33,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
         <fieldset key={`incident-splitform-incident-${splitNumber}`}>
           <StyledGrid>
             <StyledHeading forwardedAs="h2" data-testid="incidentSplitFormIncidentTitle">
-              Deelmelding {splitNumber}
+              Deelmelding {splitNumber + parentIncident.childrenCount}
             </StyledHeading>
 
             <IncidentSplitSelectInput
@@ -85,7 +85,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
         </fieldset>
       ))}
 
-      {splitCount < INCIDENT_SPLIT_LIMIT && (
+      {splitCount < INCIDENT_SPLIT_LIMIT - parentIncident.childrenCount && (
         <fieldset>
           <Button
             data-testid="incidentSplitFormIncidentSplitButton"
@@ -104,6 +104,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
 IncidentSplitFormIncident.propTypes = {
   parentIncident: PropTypes.shape({
     id: PropTypes.number.isRequired,
+    childrenCount: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     statusDisplayName: PropTypes.string.isRequired,
     priority: PropTypes.string.isRequired,

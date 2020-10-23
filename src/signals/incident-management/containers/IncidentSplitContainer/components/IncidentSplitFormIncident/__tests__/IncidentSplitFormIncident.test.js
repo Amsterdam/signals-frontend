@@ -40,4 +40,14 @@ describe('IncidentSplitFormIncident', () => {
 
     expect(queryAllByTestId('incidentSplitFormIncidentTitle')[9]).toHaveTextContent(/^Deelmelding 10$/);
   });
+
+  it('should render incremented incident count for new split incidents', () => {
+    const parentIncidentWithChildCount = {
+      ...parentIncidentFixture,
+      childrenCount: 3,
+    };
+    render(withAppContext(<IncidentSplitFormIncident {...props} parentIncident={parentIncidentWithChildCount} />));
+
+    expect(screen.getByRole('heading', { name: 'Deelmelding 4' })).toBeInTheDocument();
+  });
 });

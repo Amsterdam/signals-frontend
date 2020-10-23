@@ -2,6 +2,7 @@
   "id": 6010,
   "status": "m",
   "statusDisplayName": "Gemeld",
+  "childrenCount": 0,
   "priority": "normal",
   "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145",
   "subcategoryDisplayName": "STW",
