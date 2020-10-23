@@ -27,7 +27,7 @@ describe('Change a signal before submit and check signal details', () => {
     it('Should enter specific information', () => {
       cy.server();
       cy.route('/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as(
-        'getOpenbareVerlichting'
+        'getOpenbareVerlichting',
       );
       createSignal.checkSpecificInformationPage();
 
@@ -87,7 +87,7 @@ describe('Change a signal before submit and check signal details', () => {
 
       // Change descripton to change category
       createSignal.setDescription(
-        'Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?'
+        'Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?',
       );
       createSignal.setDateTime('Eerder');
 
@@ -133,7 +133,7 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.checkSummaryPage();
       cy.contains('Ruysdaelstraat 5, 1071WX Amsterdam');
       cy.contains(
-        'Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?'
+        'Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?',
       );
       cy.contains('Vandaag, 5:45').should('be.visible');
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');

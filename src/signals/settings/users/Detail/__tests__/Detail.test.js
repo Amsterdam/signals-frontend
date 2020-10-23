@@ -11,7 +11,7 @@ import routes from 'signals/settings/routes';
 import userFixture from 'utils/__tests__/fixtures/user.json';
 import historyFixture from 'utils/__tests__/fixtures/history.json';
 import rolesFixture from 'utils/__tests__/fixtures/roles.json';
-import departmentsFixture from 'utils/__tests__/fixtures/departments.json';
+import { departments } from 'utils/__tests__/fixtures';
 import inputCheckboxRolesSelectorJson from 'utils/__tests__/fixtures/inputCheckboxRolesSelector.json';
 
 import * as rolesSelectors from 'models/roles/selectors';
@@ -19,13 +19,6 @@ import * as modelSelectors from 'models/departments/selectors';
 import * as appSelectors from 'containers/App/selectors';
 
 import UserDetail from '..';
-
-const departments = {
-  ...departmentsFixture,
-  count: departmentsFixture.count,
-  list: departmentsFixture.results,
-  results: undefined,
-};
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,

@@ -76,7 +76,7 @@ sizes.forEach(size => {
       createSignal.addNote(note1);
       cy.waitForPostNoteRoutes();
 
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 6);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 7);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Notitie toegevoegd')
@@ -88,7 +88,7 @@ sizes.forEach(size => {
 
       createSignal.addNote(note2);
       cy.waitForPostNoteRoutes();
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 7);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 8);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Notitie toegevoegd')

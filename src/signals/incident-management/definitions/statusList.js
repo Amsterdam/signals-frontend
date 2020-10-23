@@ -1,4 +1,4 @@
-const GEMELD = {
+export const GEMELD = {
   key: 'm',
   value: 'Gemeld',
   color: 'red',
@@ -6,7 +6,7 @@ const GEMELD = {
   shows_remaining_sla_days: true,
 };
 
-const AFWACHTING = {
+export const AFWACHTING = {
   key: 'i',
   value: 'In afwachting van behandeling',
   color: 'purple',
@@ -14,7 +14,7 @@ const AFWACHTING = {
   shows_remaining_sla_days: true,
 };
 
-const BEHANDELING = {
+export const BEHANDELING = {
   key: 'b',
   value: 'In behandeling',
   color: 'blue',
@@ -22,7 +22,7 @@ const BEHANDELING = {
   shows_remaining_sla_days: true,
 };
 
-const AFGEHANDELD = {
+export const AFGEHANDELD = {
   key: 'o',
   value: 'Afgehandeld',
   color: 'lightgreen',
@@ -30,7 +30,7 @@ const AFGEHANDELD = {
   shows_remaining_sla_days: false,
 };
 
-const GESPLITST = {
+export const GESPLITST = {
   key: 's',
   value: 'Gesplitst',
   color: 'lightgreen',
@@ -38,7 +38,7 @@ const GESPLITST = {
   shows_remaining_sla_days: false,
 };
 
-const INGEPLAND = {
+export const INGEPLAND = {
   key: 'ingepland',
   value: 'Ingepland',
   color: 'grey',
@@ -46,7 +46,7 @@ const INGEPLAND = {
   shows_remaining_sla_days: true,
 };
 
-const GEANNULEERD = {
+export const GEANNULEERD = {
   key: 'a',
   value: 'Geannuleerd',
   color: 'darkgrey',
@@ -54,7 +54,7 @@ const GEANNULEERD = {
   shows_remaining_sla_days: false,
 };
 
-const VERZOEK_TOT_HEROPENEN = {
+export const VERZOEK_TOT_HEROPENEN = {
   key: 'reopen requested',
   value: 'Verzoek tot heropenen',
   color: 'orange',
@@ -62,7 +62,7 @@ const VERZOEK_TOT_HEROPENEN = {
   shows_remaining_sla_days: false,
 };
 
-const HEROPEND = {
+export const HEROPEND = {
   key: 'reopened',
   value: 'Heropend',
   color: 'orange',
@@ -70,35 +70,35 @@ const HEROPEND = {
   shows_remaining_sla_days: true,
 };
 
-const TE_VERZENDEN = {
+export const TE_VERZENDEN = {
   key: 'ready to send',
   value: 'Extern: te verzenden',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 };
 
-const VERZONDEN = {
+export const VERZONDEN = {
   key: 'sent',
   value: 'Extern: verzonden',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 };
 
-const VERZENDEN_MISLUKT = {
+export const VERZENDEN_MISLUKT = {
   key: 'send failed',
   value: 'Extern: mislukt',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 };
 
-const VERZOEK_TOT_AFHANDELING = {
+export const VERZOEK_TOT_AFHANDELING = {
   key: 'closure requested',
   value: 'Extern: verzoek tot afhandeling',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 };
 
-const AFGEHANDELD_EXTERN = {
+export const AFGEHANDELD_EXTERN = {
   key: 'done external',
   value: 'Extern: afgehandeld',
   email_sent_when_set: false,
@@ -134,5 +134,7 @@ export const changeStatusOptionList = [
   HEROPEND,
   GEANNULEERD,
 ];
+
+export const isStatusClosed = status => [AFGEHANDELD, GEANNULEERD].map(({ key }) => key).some(value => value === status);
 
 export const defaultTextsOptionList = [...changeStatusOptionList];

@@ -11,6 +11,7 @@ export const CHANGE_LOCATION = {
   buttonEdit: '[data-testid="editLocationButton"]',
   buttonLocationDetailEdit: '[data-testid=location-preview-button-edit]',
   buttonSubmit: '[data-testid=submitBtn]',
+  map: '[data-testid="mapInput"]',
 };
 
 export const CHANGE_STATUS = {
@@ -52,9 +53,9 @@ export const CHANGE_URGENCY = {
 };
 
 export const DEELMELDING = {
-  buttonAdd: '[data-testid="splitFormPartAdd"]',
-  buttonCreate: '[data-testid="splitFormSubmit"]',
-  buttonCancel: '[data-testid="splitFormCancel"]',
+  buttonAdd: '[data-testid="incidentSplitFormIncidentSplitButton"]',
+  buttonCancel: '[data-testid="incidentSplitFormCancelButton"]',
+  buttonSubmit: '[data-testid="incidentSplitFormSubmitButton"]',
   childIncidents: '[data-testid="childIncidents"]',
   disclaimer: '[data-testid="splitFormBottomDisclaimer"]',
   dropdownSubcategory01: '[data-testid="part1.subcategory"]',
@@ -68,7 +69,9 @@ export const DEELMELDING = {
   inputNote03: '[data-testid="part3.note"]',
   linkParent: '[data-testid="parentLink"]',
   notification: '[data-testid="notification"]',
-  titleDeelmelding: '[data-testid="incidentPartTitle"]',
+  radioButtonASC: '#department-ASC',
+  radioButtonVerantwoordelijkeAfdeling: '#department-null',
+  titleDeelmelding: '[data-testid="incidentSplitFormIncidentTitle"]',
 };
 
 export const SIGNAL_DETAILS = {
@@ -110,7 +113,7 @@ export const SIGNAL_DETAILS = {
   shareContactDetails: '[data-testid="detail-sharing-value"]',
   signalId: '[data-testid=detail-header-title] > span',
   source: '[data-testid="meta-list-source-value"]',
-  stadsdeel: '[data-testid="location-value-address-stadsdeel"]',
+  stadsdeel: '[data-testid="location-value-address-district"]',
   status: '[data-testid="meta-list-status-value"]',
   subCategory: '[data-testid="meta-list-subcategory-value"]',
   titleDeelmelding: '[class*= ChildIncidents__Title]',

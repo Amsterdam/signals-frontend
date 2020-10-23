@@ -3,7 +3,7 @@ import { act, fireEvent, render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { withAppContext } from 'test/utils';
 
-import departmentsJson from 'utils/__tests__/fixtures/departments.json';
+import { departments } from 'utils/__tests__/fixtures';
 import inputCheckboxRolesSelectorJson from
   'utils/__tests__/fixtures/inputCheckboxRolesSelector.json';
 
@@ -11,12 +11,6 @@ import * as modelSelectors from 'models/departments/selectors';
 import * as rolesSelectors from 'models/roles/selectors';
 
 import UserForm from '..';
-
-const departments = {
-  ...departmentsJson,
-  list: departmentsJson.results,
-  results: undefined,
-};
 
 jest.mock('models/departments/selectors', () => ({
   __esModule: true,
@@ -50,10 +44,10 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelectorAll('[name="is_active"]')[1].value).toBe('false');
     expect(container.querySelectorAll('[name="is_active"]')[1].checked).toBe(false);
 
-    expect(container.querySelectorAll('[name="departments"]')).toHaveLength(departmentsJson.count);
+    expect(container.querySelectorAll('[name="departments"]')).toHaveLength(departments.count);
 
-    const uncheckedDepartmentIndex = departmentsJson.results.indexOf(
-      departmentsJson.results.find(({ name }) => name === 'Port of Amsterdam')
+    const uncheckedDepartmentIndex = departments.list.indexOf(
+      departments.list.find(({ name }) => name === 'Port of Amsterdam')
     );
 
     expect(container.querySelectorAll('[name="departments"]')[uncheckedDepartmentIndex].checked)
@@ -136,13 +130,13 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(container.querySelector('[name="is_active"][value="false"]').checked).toBe(false);
     expect(container.querySelector('[name="note"]').value).toBe(data.profile.note);
 
-    const checkedDepartmentIndex = departmentsJson.results.indexOf(
-      departmentsJson.results.find(({ name }) => name === 'Actie Service Centrum')
+    const checkedDepartmentIndex = departments.list.indexOf(
+      departments.list.find(({ name }) => name === 'Actie Service Centrum')
     );
     expect(container.querySelectorAll('[name="departments"]')[checkedDepartmentIndex].checked).toBe(true);
 
-    const uncheckedDepartmentIndex = departmentsJson.results.indexOf(
-      departmentsJson.results.find(({ name }) => name === 'Port of Amsterdam')
+    const uncheckedDepartmentIndex = departments.list.indexOf(
+      departments.list.find(({ name }) => name === 'Port of Amsterdam')
     );
     expect(container.querySelectorAll('[name="departments"]')[uncheckedDepartmentIndex].checked).toBe(false);
   });

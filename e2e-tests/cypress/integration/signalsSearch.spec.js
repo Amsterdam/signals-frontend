@@ -14,12 +14,12 @@ describe('Create signal boten', () => {
     it('Should search for an address', () => {
       cy.server();
       cy.getAddressRoute();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:water.json').as('prediction');
+      cy.route('POST', '**/signals/category/prediction', 'fixture:waterSnelVaren.json').as('prediction');
 
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1096AC 45A', 'Korte Ouderkerkerdijk 45A, 1096AC Amsterdam');
       createSignal.setDescription(
-        'Een boot met de naam Pakjesboot 12 vaart de hele dag over de Amstel heen en weer met een ongekende snelheid'
+        'Een boot met de naam Pakjesboot 12 vaart de hele dag over de Amstel heen en weer met een ongekende snelheid',
       );
       createSignal.setDateTime('Nu');
 

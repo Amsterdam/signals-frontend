@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
@@ -89,8 +89,8 @@ const DetailHeader = () => {
   const { incident, update } = useContext(IncidentDetailContext);
   const location = useLocation();
 
-  const canSplit = useCallback(() => {
-    if (incident.status.state !== 'm') return false;
+  const showSplitButton = useMemo(() => {
+    if (incident.status.state === 'o') return false;
 
     if (incident?._links?.['sia:parent']) return false;
 
@@ -140,7 +140,7 @@ const DetailHeader = () => {
       </HeadingContainer>
 
       <ButtonContainer>
-        {canSplit() && (
+        {showSplitButton && (
           <ButtonLink
             variant="application"
             forwardedAs={Link}

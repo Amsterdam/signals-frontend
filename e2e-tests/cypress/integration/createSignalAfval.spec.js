@@ -19,7 +19,7 @@ describe('Create signal afval and check signal details', () => {
 
       createSignal.setAddress('1035LA 43', 'Sandwijk 43, 1035LA Amsterdam');
       createSignal.setDescription(
-        'Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?'
+        'Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?',
       );
       createSignal.setDateTime('Nu');
 

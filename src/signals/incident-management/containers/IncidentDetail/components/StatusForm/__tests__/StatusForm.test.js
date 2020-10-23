@@ -3,7 +3,7 @@ import { render, fireEvent, act, cleanup } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { changeStatusOptionList } from '../../../../../definitions/statusList';
+import { changeStatusOptionList, GEMELD, INGEPLAND, AFGEHANDELD, GEANNULEERD } from 'signals/incident-management/definitions/statusList';
 
 import { PATCH_TYPE_STATUS } from '../../../constants';
 import IncidentDetailContext from '../../../context';
@@ -14,6 +14,7 @@ import {
   AFGEHANDELD_EXPLANATION,
   GEANNULEERD_EXPLANATION,
   DEELMELDING_EXPLANATION,
+  DEELMELDINGEN_STILL_OPEN,
 } from '../constants';
 
 const defaultTexts = [
@@ -39,10 +40,10 @@ const defaultTexts = [
 const close = jest.fn();
 const update = jest.fn();
 
-const renderWithContext = (incident = incidentFixture) =>
+const renderWithContext = (incident = incidentFixture, childIncidents) =>
   withAppContext(
     <IncidentDetailContext.Provider value={{ incident, update, close }}>
-      <StatusForm defaultTexts={defaultTexts} />
+      <StatusForm defaultTexts={defaultTexts} childIncidents={childIncidents} />
     </IncidentDetailContext.Provider>
   );
 
@@ -388,15 +389,54 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(queryByTestId('statusWarning')).not.toBeInTheDocument();
 
     // select a status that will show a warning (see: )
-    act(() => {
-      fireEvent.click(container.querySelector('input[value="reopened"]'));
-    });
+    fireEvent.click(container.querySelector('input[value="reopened"]'));
 
-    // verify that two warning elements are visible
+    // verify that statusExplanation is visible
     expect(getByTestId('statusExplanation')).toBeInTheDocument();
-    expect(getByTestId('statusWarning')).toBeInTheDocument();
 
     // verify that explanation with text DEELMELDING_EXPLANATION is visible
     expect(getByTestId('statusExplanation').textContent).toEqual(DEELMELDING_EXPLANATION);
+  });
+
+  it('shows a warning when there are child incidents still open', async () => {
+    const childIncidents = [GEMELD, INGEPLAND].map(({ key }) => ({
+      status: { state: key },
+    }));
+    const { container, queryByTestId, getByTestId } = render(renderWithContext(incidentFixture, childIncidents));
+
+    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument();
+
+    fireEvent.click(container.querySelector(`input[value="${AFGEHANDELD.key}"]`));
+
+    expect(getByTestId('statusHasChildrenOpen').textContent).toEqual(DEELMELDINGEN_STILL_OPEN);
+
+    fireEvent.click(container.querySelector(`input[value="${INGEPLAND.key}"]`));
+
+    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument();
+
+    fireEvent.click(container.querySelector(`input[value="${GEANNULEERD.key}"]`));
+    expect(getByTestId('statusHasChildrenOpen').textContent).toEqual(DEELMELDINGEN_STILL_OPEN);
+  });
+
+  it('shows NO warning when the child incidents are closed', async () => {
+    const childIncidents = [AFGEHANDELD, GEANNULEERD].map(({ key }) => ({
+      status: { state: key },
+    }));
+
+    const { container, queryByTestId } = render(renderWithContext(incidentFixture, childIncidents));
+
+    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument();
+
+    fireEvent.click(container.querySelector(`input[value="${AFGEHANDELD.key}"]`));
+
+    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument();
+
+    fireEvent.click(container.querySelector(`input[value="${INGEPLAND.key}"]`));
+
+    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument();
+
+    fireEvent.click(container.querySelector(`input[value="${GEANNULEERD.key}"]`));
+
+    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument();
   });
 });

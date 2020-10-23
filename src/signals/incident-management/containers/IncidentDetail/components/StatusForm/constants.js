@@ -5,3 +5,4 @@ export const GEANNULEERD_EXPLANATION =
 export const MELDING_CHECKBOX_DESCRIPTION =
   'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.';
 export const DEELMELDING_EXPLANATION = 'De melder ontvangt deze toelichting niet.';
+export const DEELMELDINGEN_STILL_OPEN = 'Let op! Er zijn deelmeldingen nog niet afgehandeld.';
