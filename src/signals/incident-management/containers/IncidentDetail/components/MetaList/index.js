@@ -4,16 +4,14 @@ import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { typesList, priorityList, directingDepartmentList } from 'signals/incident-management/definitions';
-
-import RadioInput from 'signals/incident-management/components/RadioInput';
-import SelectInput from 'signals/incident-management/components/SelectInput';
-
 import { makeSelectDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
-import ChangeValue from '../ChangeValue';
+import RadioInput from 'signals/incident-management/components/RadioInput';
+import SelectInput from 'signals/incident-management/components/SelectInput';
+import { typesList, priorityList, directingDepartmentList } from 'signals/incident-management/definitions';
 
+import ChangeValue from '../ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../context';
@@ -90,7 +88,7 @@ const MetaList = () => {
       })),
     [subcategories]
   );
-  const hasChildren = useMemo(() => incident?._links['sia:children']?.length > 0, [incident]);
+  const hasChildren = useMemo(() => incident._links['sia:children']?.length > 0, [incident]);
 
   // eslint-disable-next-line no-shadow
   const getDirectingDepartmentCode = useCallback(
@@ -126,7 +124,7 @@ const MetaList = () => {
     const options =
       categoryDepartments?.length > 1 &&
       categoryDepartments.map(department => ({
-        key: department.id,
+        key: `${department.id}`,
         value: department.name,
       }));
 
@@ -134,6 +132,7 @@ const MetaList = () => {
       ? options
       : options && [
         {
+          key: null,
           value: 'Niet gekoppeld',
         },
         ...options,
@@ -141,7 +140,7 @@ const MetaList = () => {
   }, [categoryDepartments, routingDepartments]);
 
   const getDepartmentId = useCallback(
-    () => (routingDepartments ? routingDepartments[0].id : departmentOptions && departmentOptions[0].key),
+    () => (routingDepartments ? `${routingDepartments[0].id}` : departmentOptions && departmentOptions[0].key),
     [departmentOptions, routingDepartments]
   );
 
@@ -152,7 +151,7 @@ const MetaList = () => {
         departments: id
           ? [
             {
-              id,
+              id: Number.parseInt(id, 10),
             },
           ]
           : [],
@@ -284,7 +283,7 @@ const MetaList = () => {
 
       <Highlight type="subcategory">
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
-        <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
+        <dd data-testid="meta-list-main-category-value">{incident.category?.main}</dd>
       </Highlight>
 
       <dt data-testid="meta-list-source-definition">Bron</dt>
