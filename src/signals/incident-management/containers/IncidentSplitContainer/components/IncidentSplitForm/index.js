@@ -52,7 +52,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
           <IncidentSplitRadioInput
             display="Regie"
             register={register}
-            initialValue={directingDepartmentList[0].key}
+            initialValue={parentIncident.directingDepartment}
             name="department"
             id="department"
             data-testid="incidentSplitFormRadioInputDepartment"
@@ -92,6 +92,7 @@ IncidentSplitForm.propTypes = {
     subcategoryDisplayName: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
+    directingDepartment: PropTypes.string.isRequired,
   }).isRequired,
   subcategories: subcategoriesType.isRequired,
   onSubmit: PropTypes.func.isRequired,
