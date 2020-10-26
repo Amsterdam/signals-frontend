@@ -16,11 +16,7 @@ import injectReducer from 'utils/injectReducer';
 import SelectForm from './components/SelectForm';
 import DefaultTextsForm from './components/DefaultTextsForm';
 
-import {
-  fetchDefaultTexts,
-  storeDefaultTexts,
-  orderDefaultTexts,
-} from './actions';
+import { fetchDefaultTexts, storeDefaultTexts, orderDefaultTexts } from './actions';
 import makeSelectDefaultTextsAdmin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -35,12 +31,7 @@ export const DefaultTextsAdminContainer = ({
   onFetchDefaultTexts,
   onSubmitTexts,
   onOrderDefaultTexts,
-  defaultTextsAdmin: {
-    defaultTexts,
-    defaultTextsOptionList,
-    categoryUrl,
-    state,
-  },
+  defaultTextsAdmin: { defaultTexts, defaultTextsOptionList, categoryUrl, loading, error, state },
 }) => (
   <Row>
     <Column span={12}>
@@ -60,7 +51,7 @@ export const DefaultTextsAdminContainer = ({
     </Column>
 
     <Column span={8}>
-      {subCategories && (
+      {subCategories && categoryUrl && !loading && !error && (
         <DefaultTextsForm
           defaultTexts={defaultTexts}
           categoryUrl={categoryUrl}
@@ -78,7 +69,7 @@ DefaultTextsAdminContainer.defaultProps = {
   defaultTextsAdmin: {
     defaultTexts: [],
     defaultTextsOptionList: [],
-    categoryUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+    categoryUrl: null,
     state: 'o',
   },
 };
@@ -89,6 +80,8 @@ DefaultTextsAdminContainer.propTypes = {
     defaultTextsOptionList: dataListType,
     categoryUrl: PropTypes.string,
     state: PropTypes.string,
+    loading: PropTypes.bool,
+    error: PropTypes.bool,
   }),
   subCategories: dataListType,
 
@@ -97,30 +90,24 @@ DefaultTextsAdminContainer.propTypes = {
   onOrderDefaultTexts: PropTypes.func.isRequired,
 };
 
-export const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    onFetchDefaultTexts: fetchDefaultTexts,
-    onSubmitTexts: storeDefaultTexts,
-    onOrderDefaultTexts: orderDefaultTexts,
-  },
-  dispatch,
-);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onFetchDefaultTexts: fetchDefaultTexts,
+      onSubmitTexts: storeDefaultTexts,
+      onOrderDefaultTexts: orderDefaultTexts,
+    },
+    dispatch
+  );
 
 const mapStateToProps = createStructuredSelector({
   defaultTextsAdmin: makeSelectDefaultTextsAdmin(),
   subCategories: makeSelectSubCategories,
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: 'defaultTextsAdmin', reducer });
 const withSaga = injectSaga({ key: 'defaultTextsAdmin', saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(DefaultTextsAdminContainer);
+export default compose(withReducer, withSaga, withConnect)(DefaultTextsAdminContainer);
