@@ -114,6 +114,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => subcategories);
     jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
+    jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => [departments.list[0]]);
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ id }));
 
@@ -209,7 +210,9 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       [JSON.stringify({}), { status: 201 }], // post
       [JSON.stringify({}), { status: 201 }] // patch
     );
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: null })} />);
+    const { container, findByTestId } = await renderAwait(
+      <IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: null })} />
+    );
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
@@ -255,10 +258,12 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
   it('should display a global notification on PATCH fail', async () => {
     fetch.resetMocks();
-    fetch.mockResponses(
-      [JSON.stringify(incidentFixture), { status: 200 }], // get
-      [JSON.stringify({}), { status: 201 }], // post
-    ).mockReject(new Error('Whoops!!1!'));
+    fetch
+      .mockResponses(
+        [JSON.stringify(incidentFixture), { status: 200 }], // get
+        [JSON.stringify({}), { status: 201 }] // post
+      )
+      .mockReject(new Error('Whoops!!1!'));
 
     const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form()} />);
 
