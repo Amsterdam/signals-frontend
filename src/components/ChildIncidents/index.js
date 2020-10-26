@@ -2,12 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { List, ListItem, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { breakpoint, List, ListItem, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE';
 export const STATUS_RESPONSE_REQUIRED = 'components/ChildIncidents/STATUS_RESPONSE_REQUIRED';
 
-const FIRST_VALUE_WIDTH = 100;
+// Fixed width for the child element attributes
+const ID_VALUE_WIDTH = 64;
+const STATE_VALUE_WIDTH = 228;
+
+const DisplayValue = styled.span`
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 
 const Li = styled(ListItem)`
   display: flex;
@@ -50,41 +59,31 @@ const Li = styled(ListItem)`
   }
 
   & > * {
-    padding: ${themeSpacing(3, 5, 3, 7)};
+    padding: ${themeSpacing(3, 5, 3, 4)};
     display: flex;
     width: 100%;
     text-decoration: none;
     color: black;
 
-    @media (max-width: ${({ theme }) => theme.layouts.large.min}px) {
+    @media screen and ${breakpoint('max-width', 'laptop')} {
       flex-wrap: wrap;
-      justify-content: space-between;
     }
 
-    & > :not(:first-child):not(:last-child) {
-      flex: 1 1 calc(50% - ${FIRST_VALUE_WIDTH / 2}px);
+    & > * {
+      margin-right: ${themeSpacing(4)};
 
-      @media (max-width: ${({ theme }) => theme.layouts.large.min}px) {
-        flex: 0 0 auto;
-        min-width: 150px;
+      :first-child {
+        flex: 0 0 ${ID_VALUE_WIDTH}px;
       }
-    }
 
-    & > :first-child {
-      flex: 0 0 ${FIRST_VALUE_WIDTH}px;
-
-      @media (max-width: ${({ theme }) => theme.layouts.large.min}px) {
-        flex: 0 0 100%;
+      :nth-child(2) {
+        flex: 0 0 ${STATE_VALUE_WIDTH}px;
       }
-    }
 
-    & > *:nth-last-child(4) ~ *:last-child {
-      flex: 0 0 100%;
-
-      @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-        display: flex;
-        justify-content: flex-end;
-        flex: 0 0 ${FIRST_VALUE_WIDTH}px;
+      :nth-child(2) ~ * {
+        @media screen and ${breakpoint('max-width', 'laptop')} {
+          flex: 0 0 100%;
+        }
       }
     }
   }
@@ -104,9 +103,9 @@ const ChildIncidents = ({ className, incidents }) => (
   <List className={className} data-testid="childIncidents">
     {incidents.map(({ href, status, values, changed }) => {
       const valueEntries = Object.entries(values).map(([key, value]) => (
-        <span key={key} title={key}>
+        <DisplayValue key={key} title={value}>
           {value}
-        </span>
+        </DisplayValue>
       ));
 
       return (
