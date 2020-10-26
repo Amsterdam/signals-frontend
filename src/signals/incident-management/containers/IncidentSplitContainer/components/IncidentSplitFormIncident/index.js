@@ -1,4 +1,4 @@
-import React, { useCallback, useState, Fragment } from 'react';
+import React, { useCallback, useState, Fragment, useEffect, createRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { priorityList, typesList } from 'signals/incident-management/definitions';
@@ -27,10 +27,18 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
     []
   );
 
+  const incidentSplitFormIncidentRefs = useMemo(() => Array(splitCount).fill().map(() => createRef()), [splitCount]);
+
+  useEffect(() => {
+    if (splitCount === 1) return;
+
+    incidentSplitFormIncidentRefs[splitCount - 1].current.scrollIntoView({ behavior: 'smooth' });
+  }, [splitCount, incidentSplitFormIncidentRefs]);
+
   return (
     <Fragment>
-      {[...Array(splitCount + 1).keys()].slice(1).map(splitNumber => (
-        <fieldset key={`incident-splitform-incident-${splitNumber}`}>
+      {[...Array(splitCount + 1).keys()].slice(1).map((splitNumber, index) => (
+        <fieldset key={`incident-splitform-incident-${splitNumber}`} ref={incidentSplitFormIncidentRefs[index]}>
           <StyledGrid>
             <StyledHeading forwardedAs="h2" data-testid="incidentSplitFormIncidentTitle">
               Deelmelding {splitNumber + parentIncident.childrenCount}

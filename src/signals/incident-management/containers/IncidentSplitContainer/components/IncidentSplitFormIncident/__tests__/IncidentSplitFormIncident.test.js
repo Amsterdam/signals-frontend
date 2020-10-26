@@ -8,7 +8,21 @@ import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json
 
 import IncidentSplitFormIncident from '..';
 
+const scrollIntoView = jest.fn();
+
 describe('IncidentSplitFormIncident', () => {
+  beforeAll(() => {
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
+  });
+
+  beforeEach(() => {
+    scrollIntoView.mockReset();
+  });
+
+  afterAll(() => {
+    delete window.HTMLElement.prototype.scrollIntoView;
+  });
+
   const register = jest.fn();
   const props = { parentIncident: parentIncidentFixture, subcategories, register };
 
@@ -50,5 +64,16 @@ describe('IncidentSplitFormIncident', () => {
 
     expect(screen.getAllByRole('heading', { name: /^Deelmelding \d+$/ })).toHaveLength(1);
     expect(screen.getByRole('heading', { name: 'Deelmelding 4' })).toBeInTheDocument();
+  });
+
+  it('should scroll new incident into view', () => {
+    render(withAppContext(<IncidentSplitFormIncident {...props} />));
+
+    expect(scrollIntoView).not.toHaveBeenCalled();
+
+    const addIncidentButton = screen.getByRole('button', { name: 'Extra deelmelding toevoegen' });
+    fireEvent.click(addIncidentButton);
+
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 });
