@@ -11,8 +11,10 @@ import IncidentSplitFormIncident from '..';
 const scrollIntoView = jest.fn();
 
 describe('IncidentSplitFormIncident', () => {
+  let originalScrollIntoView;
   beforeAll(() => {
-    window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
+    originalScrollIntoView = global.window.HTMLElement.prototype.scrollIntoView;
+    global.window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
   });
 
   beforeEach(() => {
@@ -20,7 +22,7 @@ describe('IncidentSplitFormIncident', () => {
   });
 
   afterAll(() => {
-    delete window.HTMLElement.prototype.scrollIntoView;
+    global.window.HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
   });
 
   const register = jest.fn();

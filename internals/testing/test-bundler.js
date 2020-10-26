@@ -49,3 +49,5 @@ global.URL.revokeObjectURL = jest.fn();
 
 const noop = () => {};
 Object.defineProperty(global.window, 'scrollTo', { value: noop, writable: true });
+
+global.window.HTMLElement.prototype.scrollIntoView = jest.fn();
