@@ -98,7 +98,7 @@ const Map = ({
                   dispatch(
                     showGlobalNotification({
                       variant: VARIANT_NOTICE,
-                      title: 'meldingen.amsterdam.nl heeft geen toestemming om uw locatie te gebruiken.',
+                      title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
                       message: 'Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.',
                       type: TYPE_LOCAL,
                     })
