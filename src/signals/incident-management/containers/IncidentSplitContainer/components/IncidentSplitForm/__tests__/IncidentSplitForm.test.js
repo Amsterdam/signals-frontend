@@ -3,7 +3,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
+import { subcategoriesWithUniqueKeys as subcategories, departments } from 'utils/__tests__/fixtures';
 import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json';
 
 import IncidentSplitForm from '..';
@@ -15,13 +15,26 @@ jest.mock('react-router-dom', () => ({
   useHistory: () => ({ push: mockHistoryPush }),
 }));
 
+const directingDepartments = [
+  { key: 'null', value: 'Verantwoordelijke afdeling' },
+  { key: departments.list[0].code, value: departments.list[0].code },
+];
+
 describe('IncidentSplitForm', () => {
   const onSubmit = jest.fn();
-  const props = { parentIncident: parentIncidentFixture, subcategories, onSubmit };
+  const props = { parentIncident: parentIncidentFixture, subcategories, directingDepartments, onSubmit };
 
   it('should render correctly', () => {
-    const { queryAllByText } = render(withAppContext(<IncidentSplitForm {...props} />));
+    const { container, queryAllByText } = render(withAppContext(<IncidentSplitForm {...props} />));
     expect(queryAllByText(parentIncidentFixture.description)).toHaveLength(1);
+    expect(container.querySelector('input[value="null"]').checked).toBe(true);
+  });
+
+  it('should render correctly with selected directing department', () => {
+    const directingDepartment = departments.list[0].code;
+    const parentIncident = { ...props.parentIncident, directingDepartment };
+    const { container } = render(withAppContext(<IncidentSplitForm {...props} parentIncident={parentIncident} />));
+    expect(container.querySelector(`input[value="${directingDepartment}"]`).checked).toBe(true);
   });
 
   it('should handle submit', async () => {

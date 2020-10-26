@@ -356,3 +356,10 @@ export const subcategoriesType = PropTypes.arrayOf(
     info: PropTypes.string,
   })
 );
+
+export const directingDepartmentsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  })
+);

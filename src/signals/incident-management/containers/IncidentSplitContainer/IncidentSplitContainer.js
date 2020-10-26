@@ -32,7 +32,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const [directingDepartment, setDirectingDepartment] = useState([]);
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
-  const directingDepartmentList = useMemo(
+  const directingDepartmentsList = useMemo(
     () => [
       { key: 'null', value: 'Verantwoordelijke afdeling' },
       ...directingDepartments.map(({ code }) => ({ key: code, value: code })),
@@ -50,8 +50,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     const department = parentIncident?.directing_departments;
     if (!Array.isArray(department) || department.length !== 1) return 'null';
     const { code } = department[0];
-    return directingDepartmentList.find(({ key }) => key === code) ? code : 'null';
-  }, [parentIncident, directingDepartmentList]);
+    return directingDepartmentsList.find(({ key }) => key === code) ? code : 'null';
+  }, [parentIncident, directingDepartmentsList]);
 
   const updateDepartment = useCallback(
     name => {
@@ -187,6 +187,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             directingDepartment: parentDirectingDepartment,
           }}
           subcategories={subcategoryOptions}
+          directingDepartments={directingDepartmentsList}
           onSubmit={onSubmit}
         />
       )}

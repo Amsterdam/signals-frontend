@@ -58,7 +58,8 @@
         "Vuurwerkoverlast",
         "Wildplassen / poepen / overgeven",
         "Wrak in het water"
-      ]
+      ],
+      "can_direct": true
     },
     {
       "_links": {

@@ -5,9 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import { Heading } from '@datapunt/asc-ui';
 
-import { subcategoriesType } from 'shared/types';
-
-import directingDepartmentList from 'signals/incident-management/definitions/directingDepartmentList';
+import { directingDepartmentsType, subcategoriesType } from 'shared/types';
 
 import Button from 'components/Button';
 
@@ -21,7 +19,7 @@ import {
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 
-const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
+const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit }) => {
   const { control, handleSubmit, register } = useForm();
 
   const history = useHistory();
@@ -56,7 +54,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, onSubmit }) => {
             name="department"
             id="department"
             data-testid="incidentSplitFormRadioInputDepartment"
-            options={directingDepartmentList}
+            options={directingDepartments}
           />
         </fieldset>
 
@@ -95,6 +93,7 @@ IncidentSplitForm.propTypes = {
     directingDepartment: PropTypes.string.isRequired,
   }).isRequired,
   subcategories: subcategoriesType.isRequired,
+  directingDepartments: directingDepartmentsType.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
