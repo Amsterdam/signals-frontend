@@ -161,7 +161,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(queryByTestId('incidentSplitForm')).toBeInTheDocument();
   });
 
-  it('should render the form on successful fetch with directing_departments set on an not directing department ', async () => {
+  it('should render the form on successful fetch with directing_departments set on an non directing department ', async () => {
     const directingDepartment = 'null';
     const incident = { ...incidentFixture, directing_departments: [departments.list[1]] };
     fetch.resetMocks();
