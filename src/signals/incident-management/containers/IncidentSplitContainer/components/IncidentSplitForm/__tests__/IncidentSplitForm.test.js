@@ -39,6 +39,8 @@ describe('IncidentSplitForm', () => {
 
   it('should handle submit', async () => {
     const { findByTestId, getByTestId } = render(withAppContext(<IncidentSplitForm {...props} />));
+    // scrollIntoView is called in <IncidentSplitFormIncident /> when split button is clicked.
+    global.window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
     fireEvent.click(getByTestId('incidentSplitFormIncidentSplitButton'));
     fireEvent.submit(getByTestId('incidentSplitFormSubmitButton'));
