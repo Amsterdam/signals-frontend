@@ -183,7 +183,7 @@
           "type": "string"
         },
         "siteAddress": {
-          "description": "The site's address, for having a means of referencing the site by it's address",
+          "description": "The site's address, for having a means of referencing the site by its address",
           "type": "string"
         },
         "siteTitle": {
