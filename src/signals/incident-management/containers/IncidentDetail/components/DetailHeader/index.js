@@ -90,7 +90,7 @@ const DetailHeader = () => {
   const location = useLocation();
 
   const showSplitButton = useMemo(() => {
-    if (incident.status.state === 'o') return false;
+    if (incident.status.state === 'o' || incident.status.state === 'a') return false;
 
     if (incident?._links?.['sia:parent']) return false;
 
