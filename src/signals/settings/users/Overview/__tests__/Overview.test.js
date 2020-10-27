@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, within, act } from '@testing-library/react';
+import { render, within, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
@@ -206,9 +207,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const page2 = await findByText('2');
 
-    act(() => {
-      fireEvent.click(page2);
-    });
+    userEvent.click(page2);
 
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
     expect(push).toHaveBeenCalled();
@@ -231,9 +230,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(push).toHaveBeenCalledTimes(0);
 
-    act(() => {
-      fireEvent.click(username);
-    });
+    userEvent.click(username);
 
     expect(push).toHaveBeenCalledTimes(1);
     expect(push).toHaveBeenCalledWith(`${USER_URL}/${itemId}`);
@@ -241,18 +238,14 @@ describe('signals/settings/users/containers/Overview', () => {
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId;
 
-    act(() => {
-      fireEvent.click(username);
-    });
+    userEvent.click(username);
 
     expect(push).toHaveBeenCalledTimes(1);
 
     // Set 'itemId' again and fire click event once more.
     row.dataset.itemId = itemId;
 
-    act(() => {
-      fireEvent.click(username);
-    });
+    userEvent.click(username);
 
     expect(push).toHaveBeenCalledTimes(2);
   });
@@ -270,9 +263,7 @@ describe('signals/settings/users/containers/Overview', () => {
     // Explicitly set an 'itemId'.
     row.dataset.itemId = 666;
 
-    act(() => {
-      fireEvent.click(row.querySelector('td:first-of-type'));
-    });
+    userEvent.click(row.querySelector('td:first-of-type'));
 
     await findByTestId('usersOverview');
 
@@ -294,9 +285,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const filterByUserNameInput = filterByUserName.querySelector('input');
     const filterValue = 'test1';
 
-    act(() => {
-      fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
-    });
+    userEvent.type(filterByUserNameInput, filterValue);
 
     act(() => {
       jest.advanceTimersByTime(50);
@@ -321,9 +310,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const filterByUserNameInput = filterByUserName.querySelector('input');
     const filterValue = 'test1';
 
-    act(() => {
-      fireEvent.change(filterByUserNameInput, { target: { value: filterValue } });
-    });
+    userEvent.type(filterByUserNameInput, filterValue);
 
     act(() => {
       jest.advanceTimersByTime(300);
@@ -333,9 +320,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
 
     const clearButton = filterByUserName.querySelector('button[aria-label="Close"]');
-    act(() => {
-      fireEvent.click(clearButton);
-    });
+    userEvent.click(clearButton);
 
     await findByTestId('filterUsersByUsername');
     expect(dispatch).toHaveBeenCalledTimes(2);
@@ -353,11 +338,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const filterByUserName = await findByTestId('filterUsersByUsername');
     const filterByUserNameInput = filterByUserName.querySelector('input');
 
-    act(() => {
-      fireEvent.input(filterByUserNameInput, {
-        target: { value: username },
-      });
-    });
+    userEvent.type(filterByUserNameInput, username);
 
     await findByTestId('filterUsersByUsername');
 
@@ -373,11 +354,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await findByTestId('filterUsersByUsername');
 
-    act(() => {
-      fireEvent.input(filterByUserNameInput, {
-        target: { value: username },
-      });
-    });
+    userEvent.type(filterByUserNameInput, username);
 
     await findByTestId('filterUsersByUsername');
 
@@ -414,9 +391,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).toHaveBeenCalledTimes(0);
 
-    act(() => {
-      fireEvent.change(filterByRoleSelect, { target: { value: filterValue } });
-    });
+    userEvent.selectOptions(filterByRoleSelect, filterValue);
 
     await findByTestId('roleSelect');
 
@@ -448,9 +423,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const filterValue = 'true';
 
-    act(() => {
-      fireEvent.change(filterByUserActiveSelect, { target: { value: filterValue } });
-    });
+    userEvent.selectOptions(filterByUserActiveSelect, filterValue);
 
     await findByTestId('userActiveSelect');
 
@@ -473,13 +446,9 @@ describe('signals/settings/users/containers/Overview', () => {
     const userActiveFilterValue = 'true';
     const roleFilterValue = 'Regievoerder';
 
-    act(() => {
-      fireEvent.change(filterByUserActiveSelect, { target: { value: userActiveFilterValue } });
-    });
+    userEvent.selectOptions(filterByUserActiveSelect, userActiveFilterValue);
 
-    act(() => {
-      fireEvent.change(filterByRoleSelect, { target: { value: roleFilterValue } });
-    });
+    userEvent.selectOptions(filterByRoleSelect, roleFilterValue);
 
     await findByTestId('userActiveSelect');
 
@@ -514,9 +483,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).toHaveBeenCalledTimes(0);
 
-    act(() => {
-      fireEvent.change(filterByRoleSelect, { target: { value: 'Behandelaar' } });
-    });
+    userEvent.selectOptions(filterByRoleSelect, 'Behandelaar');
 
     await findByTestId('roleSelect');
 
@@ -539,9 +506,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).toHaveBeenCalledTimes(0);
 
-    act(() => {
-      fireEvent.change(filterByUserActiveSelect, { target: { value: true } });
-    });
+    userEvent.selectOptions(filterByUserActiveSelect, 'true');
 
     await findByTestId('userActiveSelect');
 
@@ -568,10 +533,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).toHaveBeenCalledTimes(0);
 
-    act(() => {
-      fireEvent.change(filterByUserActiveSelect, { target: { value: true } });
-      fireEvent.change(filterByRoleSelect, { target: { value: 'Behandelaar' } });
-    });
+    userEvent.selectOptions(filterByUserActiveSelect, 'true');
+    userEvent.selectOptions(filterByRoleSelect, 'Behandelaar');
 
     expect(dispatch).toHaveBeenCalledTimes(2);
 
