@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 import { withAppContext } from 'test/utils';
@@ -59,11 +59,11 @@ describe('signals/settings/categories/Detail', () => {
   });
 
   it('should render a backlink', async () => {
-    const { container } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await waitFor(() => container.querySelector('a'));
+    const backLink = await findByTestId('backlink');
 
-    expect(container.querySelector('a').getAttribute('href')).toEqual(routes.categories);
+    expect(backLink.getAttribute('href')).toEqual(routes.categories);
   });
 
   it('should render a backlink with the proper referrer', async () => {
@@ -73,18 +73,18 @@ describe('signals/settings/categories/Detail', () => {
       referrer,
     }));
 
-    const { container } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await waitFor(() => container.querySelector('a'));
+    const backLink = await findByTestId('backlink');
 
-    expect(container.querySelector('a').getAttribute('href')).toEqual(referrer);
+    expect(backLink.getAttribute('href')).toEqual(referrer);
   });
 
   it('should render the correct page title for a new category', async () => {
-    const { getByText } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    await waitFor(() => getByText('Categorie toevoegen'));
-    expect(getByText('Categorie toevoegen')).toBeInTheDocument();
+    const title = await findByText('Categorie toevoegen');
+    expect(title).toBeInTheDocument();
   });
 
   it('should render the correct page title for an existing category', async () => {
@@ -92,10 +92,10 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: categoryJSON.id,
     }));
 
-    const { getByText } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    await waitFor(() => getByText('Categorie wijzigen'));
-    expect(getByText('Categorie wijzigen')).toBeInTheDocument();
+    const title = await findByText('Categorie wijzigen');
+    expect(title).toBeInTheDocument();
   });
 
   it('should render a form for a new category', async () => {
@@ -103,10 +103,10 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: undefined,
     }));
 
-    const { getByTestId } = render(withAppContext(<CategoryDetailContainer />));
+    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />));
 
-    await waitFor(() => getByTestId('detailCategoryForm'));
-    expect(getByTestId('detailCategoryForm')).toBeInTheDocument();
+    const form = await findByTestId('detailCategoryForm');
+    expect(form).toBeInTheDocument();
 
     document.querySelectorAll('input[type="text"], textarea').forEach(element => {
       expect(element.value).toEqual('');

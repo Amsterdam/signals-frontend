@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, cleanup, act } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -63,7 +63,6 @@ describe('MetaList', () => {
   });
 
   afterEach(() => {
-    cleanup();
     configuration.__reset();
   });
 
