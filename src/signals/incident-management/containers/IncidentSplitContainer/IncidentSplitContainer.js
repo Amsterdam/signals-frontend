@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { makeSelectDepartments } from 'models/departments/selectors';
+import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
 import configuration from 'shared/services/configuration/configuration';
@@ -31,12 +31,27 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const [parentIncident, setParentIncident] = useState();
   const [directingDepartment, setDirectingDepartment] = useState([]);
   const departments = useSelector(makeSelectDepartments);
-  const subcategories = useSelector(makeSelectSubCategories);
+  const directingDepartments = useSelector(makeSelectDirectingDepartments);
+  const directingDepartmentsList = useMemo(
+    () => [
+      { key: 'null', value: 'Verantwoordelijke afdeling' },
+      ...directingDepartments.map(({ code }) => ({ key: code, value: code })),
+    ],
+    [directingDepartments]
+  );
 
+  const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
     () => subcategories?.map(category => ({ ...category, value: category.extendedName })),
     [subcategories]
   );
+
+  const parentDirectingDepartment = useMemo(() => {
+    const department = parentIncident?.directing_departments;
+    if (!Array.isArray(department) || department.length !== 1) return 'null';
+    const { code } = department[0];
+    return directingDepartmentsList.find(({ key }) => key === code) ? code : 'null';
+  }, [parentIncident, directingDepartmentsList]);
 
   const updateDepartment = useCallback(
     name => {
@@ -169,8 +184,10 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             subcategoryDisplayName: `${parentIncident.category.sub} (${parentIncident.category.departments})`,
             description: parentIncident.text,
             type: parentIncident.type.code,
+            directingDepartment: parentDirectingDepartment,
           }}
           subcategories={subcategoryOptions}
+          directingDepartments={directingDepartmentsList}
           onSubmit={onSubmit}
         />
       )}

@@ -17,7 +17,7 @@ import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
 export const INCIDENT_SPLIT_LIMIT = 10;
 
 const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) => {
-  const [splitCount, setSplitCount] = useState(parentIncident.childrenCount || 1);
+  const [splitCount, setSplitCount] = useState(1);
 
   const addIncident = useCallback(
     event => {

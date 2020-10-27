@@ -7,5 +7,6 @@
   "subcategory": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145",
   "subcategoryDisplayName": "STW",
   "description": "Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?",
-  "type": "SIG"
+  "type": "SIG",
+  "directingDepartment": "null"
 }
