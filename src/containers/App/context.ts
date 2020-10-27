@@ -1,6 +1,6 @@
 import React from 'react';
 
-const initialContext = { sources: undefined };
+const initialContext = { loading: false, sources: undefined };
 
 const AppContext = React.createContext(initialContext);
 

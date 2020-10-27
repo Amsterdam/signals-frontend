@@ -52,9 +52,10 @@ Object.defineProperties(global, {
 
 describe('containers/App/saga', () => {
   let origLocalStorage;
+  const mockedRandomStringGenerator = randomStringGenerator as unknown as jest.Mock<string | undefined>;
 
   beforeEach(() => {
-    randomStringGenerator.mockImplementation(() => 'n8vd9fv528934n797cv342bj3h56');
+    mockedRandomStringGenerator.mockImplementation(() => 'n8vd9fv528934n797cv342bj3h56');
     global.window.open = jest.fn();
     origLocalStorage = global.localStorage;
     global.localStorage = {
@@ -70,6 +71,9 @@ describe('containers/App/saga', () => {
       },
       setItem: jest.fn(),
       removeItem: jest.fn(),
+      length: 10,
+      clear: jest.fn(),
+      key: jest.fn(),
     };
   });
 
@@ -103,7 +107,7 @@ describe('containers/App/saga', () => {
     });
 
     it('should dispatch error', () => {
-      randomStringGenerator.mockImplementationOnce(() => undefined);
+      mockedRandomStringGenerator.mockImplementationOnce(() => undefined);
 
       const action = { payload };
 
@@ -167,7 +171,8 @@ describe('containers/App/saga', () => {
     });
 
     afterEach(() => {
-      global.location.reload.mockRestore();
+      // eslint-disable-next-line no-extra-parens
+      (global.location.reload as any).mockRestore();
     });
 
     const payload = {
@@ -192,7 +197,7 @@ describe('containers/App/saga', () => {
 
     it('should dispatch error when authorization has failed', async () => {
       const action = { payload };
-      const errorObj = new Error('Whoops');
+      const errorObj: any = new Error('Whoops');
       errorObj.response = {
         status: 403,
       };
@@ -211,7 +216,7 @@ describe('containers/App/saga', () => {
 
     it('should dispatch error when session has expired', async () => {
       const action = { payload };
-      const errorObj = new Error('Whoops');
+      const errorObj: any = new Error('Whoops');
       errorObj.response = {
         status: 401,
       };
@@ -269,7 +274,7 @@ describe('containers/App/saga', () => {
           error: false,
           success: true,
         }).value
-      ).toEqual(put(uploadSuccess({ name: 'image.jpg' }))); // eslint-disable-line redux-saga/yield-effects
+      ).toEqual(put(uploadSuccess())); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next().value).toBeUndefined();
     });

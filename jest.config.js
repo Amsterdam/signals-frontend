@@ -1,24 +1,30 @@
 module.exports = {
+  preset: 'ts-jest/presets/js-with-babel',
   collectCoverageFrom: [
-    'src/*.js',
-    'src/**/*.{js,jsx}',
-    '!src/*.test.js',
-    '!src/**/*.test.{js,jsx}',
-    '!src/test/**/*.{js,jsx}',
-    '!src/*/RbGenerated*/*.{js,jsx}',
-    '!src/app.js',
-    '!src/polyfills.js',
-    '!src/global-styles.js',
+    'src/*.{js,jsx,ts,tsx}',
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.test.{js,jsx,ts,tsx}',
+    '!src/test/**/*.{js,jsx,ts,tsx}',
+    '!src/*/RbGenerated*/*.{js,jsx,ts,tsx}',
+    '!src/app.tsx',
+    '!src/polyfills.{js,jsx,ts,tsx}',
+    '!src/global-styles.{js,jsx,ts,tsx}',
     '!src/**/definitions/*',
     '!src/**/.*',
-    '!src/sw-proxy*.js',
+    '!src/sw-proxy*.{js,jsx,ts,tsx}',
   ],
   coverageThreshold: {
     global: {
       statements: 98.86,
-      branches: 97.41,
-      functions: 98.53,
+      branches: 95.84,
+      functions: 98.46,
       lines: 98.88,
+    },
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
+  globals: {
+    'ts-jest': {
+      tsConfig: 'tsconfig.json',
     },
   },
   moduleDirectories: ['node_modules', 'src'],
@@ -29,11 +35,11 @@ module.exports = {
       '<rootDir>/internals/mocks/image.js',
   },
   setupFilesAfterEnv: [
-    '<rootDir>/internals/testing/test-bundler.js',
+    '<rootDir>/internals/testing/test-bundler.ts',
   ],
   transform: {
-    '^.+\\.js$': 'babel-jest',
+    '^.+\\.(ts(x?)|js)$': 'ts-jest',
   },
-  testRegex: '.*\\.test\\.js$',
+  testRegex: '.*\\.test\\.(js|ts(x?))$',
   snapshotSerializers: ['enzyme-to-json/serializer'],
 };
