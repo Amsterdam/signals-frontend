@@ -1,4 +1,4 @@
-import React, { useCallback, useState, Fragment, useEffect, createRef, useMemo } from 'react';
+import React, { useCallback, useState, Fragment, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { priorityList, typesList } from 'signals/incident-management/definitions';
@@ -18,27 +18,26 @@ export const INCIDENT_SPLIT_LIMIT = 10;
 
 const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) => {
   const [splitCount, setSplitCount] = useState(1);
+  const incidentRef = useRef(null);
 
-  const addIncident = useCallback(
-    event => {
-      event.preventDefault();
-      setSplitCount(previousSplitCount => previousSplitCount + 1);
-    },
-    []
-  );
+  const addIncident = useCallback(event => {
+    event.preventDefault();
+    setSplitCount(previousSplitCount => previousSplitCount + 1);
+  }, []);
 
-  const incidentRefs = useMemo(() => Array(splitCount).fill().map(() => createRef()), [splitCount]);
+  const indexWithIncidentRef = useMemo(() => (splitCount === 1 ? null : splitCount - 1), [splitCount]);
 
   useEffect(() => {
-    if (splitCount === 1) return;
-
-    incidentRefs[splitCount - 1].current.scrollIntoView({ behavior: 'smooth' });
-  }, [splitCount, incidentRefs]);
+    incidentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [splitCount, incidentRef]);
 
   return (
     <Fragment>
       {[...Array(splitCount + 1).keys()].slice(1).map((splitNumber, index) => (
-        <fieldset key={`incident-splitform-incident-${splitNumber}`} ref={incidentRefs[index]}>
+        <fieldset
+          key={`incident-splitform-incident-${splitNumber}`}
+          ref={index === indexWithIncidentRef ? incidentRef : null}
+        >
           <StyledGrid>
             <StyledHeading forwardedAs="h2" data-testid="incidentSplitFormIncidentTitle">
               Deelmelding {splitNumber + parentIncident.childrenCount}
