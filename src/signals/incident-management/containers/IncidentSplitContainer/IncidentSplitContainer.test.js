@@ -20,7 +20,7 @@ import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notificat
 
 import * as modelSelectors from 'models/categories/selectors';
 
-import IncidentSplitContainer from '..';
+import IncidentSplitContainer from '.';
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -146,7 +146,10 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     const directingDepartment = 'null';
     const { queryByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={formComponentMock.render} />);
 
-    expect(renderSpy).toHaveBeenCalledWith(expect.objectContaining({ parentIncident: expect.objectContaining({ directingDepartment }) }), expect.any(Object));
+    expect(renderSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ parentIncident: expect.objectContaining({ directingDepartment }) }),
+      expect.any(Object)
+    );
     expect(queryByTestId('incidentSplitForm')).toBeInTheDocument();
   });
 
@@ -157,7 +160,10 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     fetch.once(JSON.stringify(incident));
 
     const { queryByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={formComponentMock.render} />);
-    expect(renderSpy).toHaveBeenCalledWith(expect.objectContaining({ parentIncident: expect.objectContaining({ directingDepartment }) }), expect.any(Object));
+    expect(renderSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ parentIncident: expect.objectContaining({ directingDepartment }) }),
+      expect.any(Object)
+    );
     expect(queryByTestId('incidentSplitForm')).toBeInTheDocument();
   });
 
@@ -169,12 +175,17 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     const { queryByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={formComponentMock.render} />);
 
-    expect(renderSpy).toHaveBeenCalledWith(expect.objectContaining({ parentIncident: expect.objectContaining({ directingDepartment }) }), expect.any(Object));
+    expect(renderSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ parentIncident: expect.objectContaining({ directingDepartment }) }),
+      expect.any(Object)
+    );
     expect(queryByTestId('incidentSplitForm')).toBeInTheDocument();
   });
 
   it('should POST the form data', async () => {
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={formComponentMock.render} />);
+    const { container, findByTestId } = await renderAwait(
+      <IncidentSplitContainer FormComponent={formComponentMock.render} />
+    );
 
     expect(fetch).toHaveBeenCalledTimes(1);
 
@@ -235,7 +246,9 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       [JSON.stringify({}), { status: 201 }], // post
       [JSON.stringify({}), { status: 201 }] // patch
     );
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: null })} />);
+    const { container, findByTestId } = await renderAwait(
+      <IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: null })} />
+    );
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
@@ -259,7 +272,9 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     fetch.resetMocks();
     fetch.once(JSON.stringify(incidentFixture)).mockReject(new Error('Whoops!!1!'));
 
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={formComponentMock.render} />);
+    const { container, findByTestId } = await renderAwait(
+      <IncidentSplitContainer FormComponent={formComponentMock.render} />
+    );
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
@@ -281,12 +296,16 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
   it('should display a global notification on PATCH fail', async () => {
     fetch.resetMocks();
-    fetch.mockResponses(
-      [JSON.stringify(incidentFixture), { status: 200 }], // get
-      [JSON.stringify({}), { status: 201 }], // post
-    ).mockReject(new Error('Whoops!!1!'));
+    fetch
+      .mockResponses(
+        [JSON.stringify(incidentFixture), { status: 200 }], // get
+        [JSON.stringify({}), { status: 201 }] // post
+      )
+      .mockReject(new Error('Whoops!!1!'));
 
-    const { container, findByTestId } = await renderAwait(<IncidentSplitContainer FormComponent={formComponentMock.render} />);
+    const { container, findByTestId } = await renderAwait(
+      <IncidentSplitContainer FormComponent={formComponentMock.render} />
+    );
 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
