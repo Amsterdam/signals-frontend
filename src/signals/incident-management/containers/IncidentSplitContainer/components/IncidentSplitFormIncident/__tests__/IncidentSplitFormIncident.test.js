@@ -53,7 +53,6 @@ describe('IncidentSplitFormIncident', () => {
   });
 
   it('should scroll new incident into view', () => {
-    const originalScrollIntoView = global.window.HTMLElement.prototype.scrollIntoView;
     const scrollIntoView = jest.fn();
     global.window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
     render(withAppContext(<IncidentSplitFormIncident {...props} />));
@@ -65,6 +64,6 @@ describe('IncidentSplitFormIncident', () => {
 
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
 
-    global.window.HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+    delete global.window.HTMLElement.prototype.scrollIntoView;
   });
 });
