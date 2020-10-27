@@ -100,12 +100,17 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
     expect(queryByTestId('detail-header-button-split')).toBeNull();
   });
 
-  it('should render no split button when state is not m', () => {
+  it('should render no split button when state is o', () => {
     const { queryByTestId } = render(
-      renderWithContext({
-        ...incidentFixture,
-        status: { ...incidentFixture.status, state: 'o' },
-      })
+      renderWithContext({ ...incidentFixture, status: { ...incidentFixture.status, state: 'o' } })
+    );
+
+    expect(queryByTestId('detail-header-button-split')).toBeNull();
+  });
+
+  it('should render no split button when state a', () => {
+    const { queryByTestId } = render(
+      renderWithContext({ ...incidentFixture, status: { ...incidentFixture.status, state: 'a' } })
     );
 
     expect(queryByTestId('detail-header-button-split')).toBeNull();
