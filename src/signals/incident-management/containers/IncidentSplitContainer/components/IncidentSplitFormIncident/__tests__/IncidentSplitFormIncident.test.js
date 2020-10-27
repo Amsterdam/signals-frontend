@@ -20,6 +20,7 @@ describe('IncidentSplitFormIncident', () => {
   });
 
   it('should split incidents until limit is reached then it should hide incident split button', () => {
+    global.window.HTMLElement.prototype.scrollIntoView = jest.fn();
     const { getByTestId, queryAllByTestId, queryByTestId } = render(withAppContext(
       <IncidentSplitFormIncident {...props} />)
     );
@@ -39,6 +40,7 @@ describe('IncidentSplitFormIncident', () => {
     expect(queryByTestId('incidentSplitFormIncidentSplitButton')).not.toBeInTheDocument();
 
     expect(queryAllByTestId('incidentSplitFormIncidentTitle')[9]).toHaveTextContent(/^Deelmelding 10$/);
+    delete global.window.HTMLElement.prototype.scrollIntoView;
   });
 
   it('should render incident split form when parent already has split incidents', () => {
