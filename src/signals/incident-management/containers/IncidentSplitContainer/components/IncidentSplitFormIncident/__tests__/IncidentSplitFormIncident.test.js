@@ -8,23 +8,7 @@ import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json
 
 import IncidentSplitFormIncident from '..';
 
-const scrollIntoView = jest.fn();
-
 describe('IncidentSplitFormIncident', () => {
-  let originalScrollIntoView;
-  beforeAll(() => {
-    originalScrollIntoView = global.window.HTMLElement.prototype.scrollIntoView;
-    global.window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
-  });
-
-  beforeEach(() => {
-    scrollIntoView.mockReset();
-  });
-
-  afterAll(() => {
-    global.window.HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
-  });
-
   const register = jest.fn();
   const props = { parentIncident: parentIncidentFixture, subcategories, register };
 
@@ -69,6 +53,9 @@ describe('IncidentSplitFormIncident', () => {
   });
 
   it('should scroll new incident into view', () => {
+    const originalScrollIntoView = global.window.HTMLElement.prototype.scrollIntoView;
+    const scrollIntoView = jest.fn();
+    global.window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
     render(withAppContext(<IncidentSplitFormIncident {...props} />));
 
     expect(scrollIntoView).not.toHaveBeenCalled();
@@ -77,5 +64,7 @@ describe('IncidentSplitFormIncident', () => {
     fireEvent.click(addIncidentButton);
 
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
+
+    global.window.HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
   });
 });
