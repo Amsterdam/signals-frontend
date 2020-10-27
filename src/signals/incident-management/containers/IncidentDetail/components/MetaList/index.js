@@ -10,9 +10,10 @@ import { typesList, priorityList } from 'signals/incident-management/definitions
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 
-import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
+import { makeSelectDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
+import useDirectingDepartments from 'models/departments/useDirectingDepartments';
 import ChangeValue from '../ChangeValue';
 
 import Highlight from '../Highlight';
@@ -53,14 +54,7 @@ const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
-  const directingDepartments = useSelector(makeSelectDirectingDepartments);
-  const directingDepartmentsList = useMemo(
-    () => [
-      { key: 'null', value: 'Verantwoordelijke afdeling' },
-      ...directingDepartments.map(({ code }) => ({ key: code, value: code })),
-    ],
-    [directingDepartments]
-  );
+  const directingDepartments = useDirectingDepartments();
 
   const incidentDepartmentNames = useMemo(() => {
     if (!configuration.assignSignalToEmployee) return [];
@@ -98,8 +92,8 @@ const MetaList = () => {
     const value = get(incident, path);
     if (!Array.isArray(value) || value.length !== 1) return 'null';
     const { code } = value[0];
-    return directingDepartmentsList.find(({ key }) => key === code) ? code : 'null';
-  }, [directingDepartmentsList]);
+    return directingDepartments.find(({ key }) => key === code) ? code : 'null';
+  }, [directingDepartments]);
 
   const userOptions = useMemo(
     () =>
@@ -220,7 +214,7 @@ const MetaList = () => {
           <ChangeValue
             component={RadioInput}
             display="Regie"
-            options={directingDepartmentsList}
+            options={directingDepartments}
             path="directing_departments"
             type="directing_departments"
             get={getDirectingDepartmentValue}

@@ -16,7 +16,7 @@ import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
 import { dateToISOString } from 'shared/services/date-utils';
 
-import { makeSelectDirectingDepartments } from 'models/departments/selectors';
+import useDirectingDepartments from 'models/departments/useDirectingDepartments';
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
@@ -48,14 +48,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const { sources } = useContext(AppContext);
   const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
-  const directingDepartments = useSelector(makeSelectDirectingDepartments);
-  const directingDepartmentsList = useMemo(
-    () => [
-      { key: 'null', value: 'Verantwoordelijke afdeling' },
-      ...directingDepartments.map(({ code }) => ({ key: code, value: code })),
-    ],
-    [directingDepartments]
-  );
+  const directingDepartments = useDirectingDepartments();
 
   const [state, dispatch] = useReducer(reducer, filter, init);
 
@@ -382,7 +375,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="directing_department"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
-              options={directingDepartmentsList}
+              options={directingDepartments}
             />
 
             <CheckboxGroup

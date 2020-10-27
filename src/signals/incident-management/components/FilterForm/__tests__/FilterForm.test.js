@@ -9,7 +9,7 @@ import typesList from 'signals/incident-management/definitions/typesList';
 import kindList from 'signals/incident-management/definitions/kindList';
 import dataLists from 'signals/incident-management/definitions';
 import configuration from 'shared/services/configuration/configuration';
-import { departments } from 'utils/__tests__/fixtures';
+import { directingDepartments } from 'utils/__tests__/fixtures';
 
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
@@ -209,7 +209,6 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of directing_department options', () => {
-    const directingDepartments = [departments.list[0]];
     jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
     const { container, getByText } = render(withContext(<FilterForm {...formProps} />));
 

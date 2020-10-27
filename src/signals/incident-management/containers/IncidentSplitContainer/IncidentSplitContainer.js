@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
+import { makeSelectDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
 import configuration from 'shared/services/configuration/configuration';
@@ -13,6 +13,7 @@ import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notificat
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
 import LoadingIndicator from 'components/LoadingIndicator';
+import useDirectingDepartments from 'models/departments/useDirectingDepartments';
 import IncidentSplitForm from './components/IncidentSplitForm';
 
 const IncidentSplitContainer = ({ FormComponent }) => {
@@ -31,14 +32,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const [parentIncident, setParentIncident] = useState();
   const [directingDepartment, setDirectingDepartment] = useState([]);
   const departments = useSelector(makeSelectDepartments);
-  const directingDepartments = useSelector(makeSelectDirectingDepartments);
-  const directingDepartmentsList = useMemo(
-    () => [
-      { key: 'null', value: 'Verantwoordelijke afdeling' },
-      ...directingDepartments.map(({ code }) => ({ key: code, value: code })),
-    ],
-    [directingDepartments]
-  );
+  const directingDepartments = useDirectingDepartments();
 
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
@@ -50,8 +44,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     const department = parentIncident?.directing_departments;
     if (!Array.isArray(department) || department.length !== 1) return 'null';
     const { code } = department[0];
-    return directingDepartmentsList.find(({ key }) => key === code) ? code : 'null';
-  }, [parentIncident, directingDepartmentsList]);
+    return directingDepartments.find(({ key }) => key === code) ? code : 'null';
+  }, [parentIncident, directingDepartments]);
 
   const updateDepartment = useCallback(
     name => {
@@ -187,7 +181,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             directingDepartment: parentDirectingDepartment,
           }}
           subcategories={subcategoryOptions}
-          directingDepartments={directingDepartmentsList}
+          directingDepartments={directingDepartments}
           onSubmit={onSubmit}
         />
       )}
