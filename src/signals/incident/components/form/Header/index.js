@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 
 const Label = styled.div`
   font-family: Avenir Next LT W01 Demi;
-  margin-bottom: 10px;
+  margin-bottom: ${themeSpacing(2)};
 `;
 
 const Optional = styled.span`
