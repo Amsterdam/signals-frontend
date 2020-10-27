@@ -9,7 +9,7 @@ import Button from 'components/Button';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
 
-import { StyledGrid, StyledHeading } from '../../styled';
+import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled';
 
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
@@ -34,7 +34,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
   return (
     <Fragment>
       {[...Array(splitCount + 1).keys()].slice(1).map((splitNumber, index) => (
-        <fieldset
+        <StyledFieldset
           key={`incident-splitform-incident-${splitNumber}`}
           ref={index === indexWithIncidentRef ? incidentRef : null}
         >
@@ -89,7 +89,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
               />
             </div>
           </StyledGrid>
-        </fieldset>
+        </StyledFieldset>
       ))}
 
       {splitCount < INCIDENT_SPLIT_LIMIT - parentIncident.childrenCount && (
