@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import ExtraProperties from '.';
 
@@ -56,8 +56,6 @@ describe('<ExtraProperties />', () => {
       },
     ],
   };
-
-  afterEach(cleanup);
 
   it('should render correctly', () => {
     const { queryAllByTestId } = render(<ExtraProperties {...props} />);

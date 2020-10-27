@@ -95,6 +95,7 @@ const Li = styled(ListItem)`
 
       & > a {
         border-left: 2px solid white;
+        padding-left: ${themeSpacing(2)};
       }
     `}
 `;

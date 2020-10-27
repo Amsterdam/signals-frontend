@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { withAppContext } from 'test/utils';
 
 import MapSelect from '.';
@@ -73,9 +74,7 @@ describe('signals/incident/components/form/MapSelect', () => {
 
       expect(parent.meta.updateIncident).not.toHaveBeenCalled();
 
-      act(() => {
-        fireEvent.click(container.querySelector(`img[alt="${value[0]}"]`));
-      });
+      userEvent.click(container.querySelector(`img[alt="${value[0]}"]`));
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({ [meta.name]: [value[1]] });
     });

@@ -13,12 +13,15 @@ describe('<DefaultTextsAdmin />', () => {
   beforeEach(() => {
     props = {
       defaultTextsAdmin: {
-        defaultTexts: [{
-          title: 'Accu',
-          text: 'accutekst',
-        }],
+        defaultTexts: [
+          {
+            title: 'Accu',
+            text: 'accutekst',
+          },
+        ],
         defaultTextsOptionList,
-        categoryUrl: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        categoryUrl:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
         state: 'o',
       },
       categories: {},
@@ -55,25 +58,79 @@ describe('<DefaultTextsAdmin />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const { queryByTestId, rerender } = render(
-        withAppContext(<DefaultTextsAdminContainer {...props} />)
-      );
+      const { queryByTestId, rerender } = render(withAppContext(<DefaultTextsAdminContainer {...props} />));
 
       expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
       expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument();
       expect(queryByTestId('selectFormForm')).not.toBeInTheDocument();
 
-      rerender(
+      rerender(withAppContext(<DefaultTextsAdminContainer {...props} subCategories={subCategories} />));
+
+      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+      expect(queryByTestId('defaultTextFormForm')).toBeInTheDocument();
+      expect(queryByTestId('selectFormForm')).toBeInTheDocument();
+    });
+
+    it('should not render the texts form without categoryUrl', () => {
+      const { queryByTestId } = render(
         withAppContext(
           <DefaultTextsAdminContainer
-            {...props}
+            {...{
+              ...props,
+              defaultTextsAdmin: {
+                ...props.defaultTextsAdmin,
+                categoryUrl: '',
+              },
+            }}
             subCategories={subCategories}
           />
         )
       );
 
       expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-      expect(queryByTestId('defaultTextFormForm')).toBeInTheDocument();
+      expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument();
+      expect(queryByTestId('selectFormForm')).toBeInTheDocument();
+    });
+
+    it('should not render the texts form when loading', () => {
+      const { queryByTestId } = render(
+        withAppContext(
+          <DefaultTextsAdminContainer
+            {...{
+              ...props,
+              defaultTextsAdmin: {
+                ...props.defaultTextsAdmin,
+                loading: true,
+              },
+            }}
+            subCategories={subCategories}
+          />
+        )
+      );
+
+      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+      expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument();
+      expect(queryByTestId('selectFormForm')).toBeInTheDocument();
+    });
+
+    it('should not render the texts on error', () => {
+      const { queryByTestId } = render(
+        withAppContext(
+          <DefaultTextsAdminContainer
+            {...{
+              ...props,
+              defaultTextsAdmin: {
+                ...props.defaultTextsAdmin,
+                error: true,
+              },
+            }}
+            subCategories={subCategories}
+          />
+        )
+      );
+
+      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+      expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument();
       expect(queryByTestId('selectFormForm')).toBeInTheDocument();
     });
   });

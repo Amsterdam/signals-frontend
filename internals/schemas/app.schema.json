@@ -187,6 +187,10 @@
           "description": "PWA `short_name` property value. Should not exceed 12 characters. See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/short_name for reference",
           "type": "string"
         },
+        "siteAddress": {
+          "description": "The site's address, for having a means of referencing the site by its address",
+          "type": "string"
+        },
         "siteTitle": {
           "description": "Application title showing up in the title bar and search results",
           "type": "string"
@@ -213,6 +217,7 @@
         "headerTitle",
         "phoneNumber",
         "shortTitle",
+        "siteAddress",
         "siteTitle",
         "smallHeaderTitle",
         "title",
