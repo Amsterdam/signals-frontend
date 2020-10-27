@@ -8,3 +8,4 @@
 5. [Deploy setup](./0005-deploy-setup.md)
 6. [Forms](./0006-forms.md)
 7. [TypeScript](./0007-typescript.md)
+7. [Testing Library conventions](./0008-testing-library.md)
