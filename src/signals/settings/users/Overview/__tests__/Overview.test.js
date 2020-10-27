@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, within, act } from '@testing-library/react';
+import { render, fireEvent, within, act } from '@testing-library/react';
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
 import usersJSON from 'utils/__tests__/fixtures/users.json';
@@ -202,12 +202,12 @@ describe('signals/settings/users/containers/Overview', () => {
   it('should push to the history stack and scroll to top on pagination item click', async () => {
     constants.PAGE_SIZE = 50;
     const { push, scrollTo } = testContext;
-    const { getByText } = render(usersOverviewWithAppContext());
+    const { findByText } = render(usersOverviewWithAppContext());
 
-    await waitFor(() => getByText('2'));
+    const page2 = await findByText('2');
 
     act(() => {
-      fireEvent.click(getByText('2'));
+      fireEvent.click(page2);
     });
 
     expect(scrollTo).toHaveBeenCalledWith(0, 0);
