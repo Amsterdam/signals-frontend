@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { themeSpacing, Row, Column } from '@datapunt/asc-ui';
+import { themeSpacing, Row, Column } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import { userType, historyType } from 'shared/types';

@@ -8,8 +8,8 @@ import {
   Modal as ASCModal,
   Heading,
   themeColor,
-} from '@datapunt/asc-ui';
-import { Close as CloseIcon } from '@datapunt/asc-assets';
+} from '@amsterdam/asc-ui';
+import { Close as CloseIcon } from '@amsterdam/asc-assets';
 
 const StyledModal = styled(ASCModal)`
   & [role='dialog'] {

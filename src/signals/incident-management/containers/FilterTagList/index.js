@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Tag, themeSpacing } from '@datapunt/asc-ui';
+import { Tag, themeSpacing } from '@amsterdam/asc-ui';
 import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 

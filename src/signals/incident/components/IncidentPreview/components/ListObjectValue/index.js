@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { List, ListItem } from '@datapunt/asc-ui';
+import { List, ListItem } from '@amsterdam/asc-ui';
 
 const StyledList = styled(List)`
   margin-bottom: 0;

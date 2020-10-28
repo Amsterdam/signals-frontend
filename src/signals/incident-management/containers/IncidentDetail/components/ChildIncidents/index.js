@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeSpacing, Heading } from '@datapunt/asc-ui';
+import { themeSpacing, Heading } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 
 import { childIncidentType } from 'shared/types';

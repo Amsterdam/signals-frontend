@@ -9,8 +9,8 @@ const devMode = process.env.NODE_ENV !== 'production';
 const __rootdir = pkgDir.sync();
 
 const esModules = [
-  path.resolve(__rootdir, 'node_modules/@datapunt/asc-assets'),
-  path.resolve(__rootdir, 'node_modules/@datapunt/asc-ui'),
+  path.resolve(__rootdir, 'node_modules/@amsterdam/asc-assets'),
+  path.resolve(__rootdir, 'node_modules/@amsterdam/asc-ui'),
 ];
 
 module.exports = options => ({

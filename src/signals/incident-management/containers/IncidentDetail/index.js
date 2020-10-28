@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Column } from '@datapunt/asc-ui';
+import { Row, Column } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 

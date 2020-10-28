@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { Heading, Row, Paragraph, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, Row, Paragraph, themeSpacing } from '@amsterdam/asc-ui';
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;

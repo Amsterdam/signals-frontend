@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@amsterdam/asc-ui';
 
 const ImageContainer = styled.div`
   display: flex;

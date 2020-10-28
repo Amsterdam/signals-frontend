@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import { FormGenerator } from 'react-reactive-form';
 import get from 'lodash.get';
 import isEqual from 'lodash.isequal';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@amsterdam/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import formatConditionalForm from '../../services/format-conditional-form';

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Row, Column, Paragraph, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Row, Column, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import { login } from 'shared/services/auth/auth';
 

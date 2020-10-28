@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import get from 'lodash.get';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';

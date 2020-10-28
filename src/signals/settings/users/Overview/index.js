@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useContext, useEffect, useState } from 'r
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Row, Column, themeSpacing, Button, SearchBar } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing, Button, SearchBar } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import useDebounce from 'hooks/useDebounce';

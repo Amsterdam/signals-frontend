@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
-import { Label as AscLabel } from '@datapunt/asc-ui';
+import { Label as AscLabel } from '@amsterdam/asc-ui';
 
 import configuration from 'shared/services/configuration/configuration';
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
