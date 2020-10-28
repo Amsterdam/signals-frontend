@@ -10,10 +10,9 @@ import { typesList, priorityList } from 'signals/incident-management/definitions
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 
-import { makeSelectDepartments } from 'models/departments/selectors';
+import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
-import useDirectingDepartments from 'models/departments/useDirectingDepartments';
 import ChangeValue from '../ChangeValue';
 
 import Highlight from '../Highlight';
@@ -54,7 +53,7 @@ const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
-  const directingDepartments = useDirectingDepartments();
+  const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
   const incidentDepartmentNames = useMemo(() => {
     if (!configuration.assignSignalToEmployee) return [];

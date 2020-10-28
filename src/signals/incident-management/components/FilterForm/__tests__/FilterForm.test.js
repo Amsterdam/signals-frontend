@@ -213,7 +213,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, getByText } = render(withContext(<FilterForm {...formProps} />));
 
     expect(getByText('Regie hoofdmelding')).toBeInTheDocument();
-    expect(container.querySelectorAll('input[type="checkbox"][name="directing_department"]')).toHaveLength(directingDepartments.length + 1);
+    expect(container.querySelectorAll('input[type="checkbox"][name="directing_department"]')).toHaveLength(directingDepartments.length);
   });
 
   it('should render a list of source options with feature flag enabled', async () => {

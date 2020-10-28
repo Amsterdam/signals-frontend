@@ -6,7 +6,7 @@ import * as reactRedux from 'react-redux';
 import configuration from 'shared/services/configuration/configuration';
 
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
+import { directingDepartments, subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
 
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json';
 import * as departmentsSelectors from 'models/departments/selectors';
@@ -114,7 +114,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => subcategories);
     jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
-    jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => [departments.list[0]]);
+    jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ id }));
 
