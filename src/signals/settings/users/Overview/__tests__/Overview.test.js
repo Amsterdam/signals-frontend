@@ -335,8 +335,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    const filterByUserName = await findByTestId('filterUsersByUsername');
-    const filterByUserNameInput = filterByUserName.querySelector('input');
+    let filterByUserName = await findByTestId('filterUsersByUsername');
+    let filterByUserNameInput = filterByUserName.querySelector('input');
 
     userEvent.type(filterByUserNameInput, username);
 
@@ -347,6 +347,7 @@ describe('signals/settings/users/containers/Overview', () => {
     });
 
     expect(dispatch).toHaveBeenCalledTimes(1);
+    dispatch.mockReset();
 
     unmount();
 
@@ -354,6 +355,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await findByTestId('filterUsersByUsername');
 
+    filterByUserName = await findByTestId('filterUsersByUsername');
+    filterByUserNameInput = filterByUserName.querySelector('input');
     userEvent.type(filterByUserNameInput, username);
 
     await findByTestId('filterUsersByUsername');
