@@ -59,8 +59,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       ...dataLists,
       area: districts,
       source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+      directing_department: directingDepartments,
     }),
-    [districts, sources]
+    [districts, sources, directingDepartments]
   );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
@@ -231,6 +232,16 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
         {filter.id && <input type="hidden" name="id" value={filter.id} />}
         <Fieldset isSection>
           <legend className="hiddenvisually">Naam van het filter</legend>
+
+          <CheckboxGroup
+            defaultValue={state.options.directing_department}
+            hasToggle={false}
+            label="Regie hoofdmelding"
+            name="directing_department"
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            options={directingDepartments}
+          />
 
           <Label htmlFor="filter_name" isGroupHeader>
             Filternaam

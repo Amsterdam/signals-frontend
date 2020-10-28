@@ -11,6 +11,7 @@ import dataLists from 'signals/incident-management/definitions';
 import configuration from 'shared/services/configuration/configuration';
 import { dataListType, filterType } from 'shared/types';
 
+import useDirectingDepartments from 'models/departments/useDirectingDepartments';
 import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
 
@@ -90,13 +91,14 @@ export const FilterTagListComponent = props => {
   const { tags, mainCategories, subCategories } = props;
   const { sources } = useContext(AppContext);
   const { districts } = useContext(IncidentManagementContext);
-
+  const directingDepartments = useDirectingDepartments();
   const map = {
     ...dataLists,
     area: districts,
     maincategory_slug: mainCategories,
     category_slug: subCategories,
     source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+    directing_department: directingDepartments,
   };
 
   const tagsList = { ...tags };
