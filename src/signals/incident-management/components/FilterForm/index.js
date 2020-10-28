@@ -16,6 +16,7 @@ import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
 import { dateToISOString } from 'shared/services/date-utils';
 
+import { makeSelectDirectingDepartments } from 'models/departments/selectors';
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
@@ -47,6 +48,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const { sources } = useContext(AppContext);
   const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
+  const directingDepartments = useSelector(makeSelectDirectingDepartments);
+
   const [state, dispatch] = useReducer(reducer, filter, init);
 
   const isNewFilter = !filter.name;
@@ -56,8 +59,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       ...dataLists,
       area: districts,
       source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+      directing_department: directingDepartments,
     }),
-    [districts, sources]
+    [districts, sources, directingDepartments]
   );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
@@ -372,7 +376,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="directing_department"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
-              options={dataLists.directing_department}
+              options={directingDepartments}
             />
 
             <CheckboxGroup

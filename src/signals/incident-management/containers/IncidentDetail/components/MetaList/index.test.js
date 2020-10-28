@@ -11,7 +11,7 @@ import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
 import * as categoriesSelectors from 'models/categories/selectors';
 
-import { departments } from 'utils/__tests__/fixtures';
+import { departments, directingDepartments } from 'utils/__tests__/fixtures';
 
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
@@ -1071,6 +1071,7 @@ describe('MetaList', () => {
   describe('update directing departmens', () => {
     it('should update for directing department to ASC', async () => {
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
+      jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
       const { getAllByTestId, getByTestId } = render(renderWithContext(parentIncident));
 
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:
@@ -1099,10 +1100,10 @@ describe('MetaList', () => {
     });
 
     it('should update for directing department to directing department', async () => {
-      const { id, code } = departments.list.find(d => d.code === 'ASC');
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
+      jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
       const { getAllByTestId, getByTestId } = render(
-        renderWithContext({ ...parentIncident, directing_departments: [{ id, code }] })
+        renderWithContext({ ...parentIncident, directing_departments: [{ id: departments.list[0].id }] })
       );
 
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:

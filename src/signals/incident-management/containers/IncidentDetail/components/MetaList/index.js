@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { makeSelectDepartments } from 'models/departments/selectors';
+import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
-import { typesList, priorityList, directingDepartmentList } from 'signals/incident-management/definitions';
+import { typesList, priorityList } from 'signals/incident-management/definitions';
 
 import ChangeValue from '../ChangeValue';
 import Highlight from '../Highlight';
@@ -50,6 +50,7 @@ const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
+  const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
   const routingDepartments = useMemo(() => {
     const routingRelation = incident.signal_departments?.find(relation => relation.relation_type === 'routing');
@@ -90,10 +91,13 @@ const MetaList = () => {
   );
   const hasChildren = useMemo(() => incident._links['sia:children']?.length > 0, [incident]);
 
-  // eslint-disable-next-line no-shadow
   const getDirectingDepartmentCode = useCallback(
-    value => (value?.length === 1 && value[0].code === 'ASC' ? 'ASC' : 'null'),
-    []
+    value => {
+      if (!Array.isArray(value) || value.length !== 1) return 'null';
+      const { code } = value[0];
+      return directingDepartments.some(({ key }) => key === code) ? code : 'null';
+    },
+    [directingDepartments]
   );
 
   const userOptions = useMemo(
@@ -272,7 +276,7 @@ const MetaList = () => {
           <ChangeValue
             component={RadioInput}
             display="Regie"
-            options={directingDepartmentList}
+            options={directingDepartments}
             path="directing_departments"
             type="directing_departments"
             rawDataToKey={getDirectingDepartmentCode}

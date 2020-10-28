@@ -55,6 +55,10 @@ export const StyledLabel = styled(Label)`
   }
 `;
 
+export const StyledFieldset = styled.fieldset`
+  scroll-margin-top: ${themeSpacing(15)};
+`;
+
 export const StyledHeading = styled(Heading)`
   margin-bottom: 0;
 `;
