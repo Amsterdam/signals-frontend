@@ -9,10 +9,12 @@ import typesList from 'signals/incident-management/definitions/typesList';
 import kindList from 'signals/incident-management/definitions/kindList';
 import dataLists from 'signals/incident-management/definitions';
 import configuration from 'shared/services/configuration/configuration';
+import { directingDepartments } from 'utils/__tests__/fixtures';
 
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
+import * as departmentsSelectors from 'models/departments/selectors';
 import FilterForm from '..';
 import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
 
@@ -207,10 +209,11 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of directing_department options', () => {
+    jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
     const { container, getByText } = render(withContext(<FilterForm {...formProps} />));
 
     expect(getByText('Regie hoofdmelding')).toBeInTheDocument();
-    expect(container.querySelectorAll('input[type="checkbox"][name="directing_department"]')).toHaveLength(dataLists.directing_department.length);
+    expect(container.querySelectorAll('input[type="checkbox"][name="directing_department"]')).toHaveLength(directingDepartments.length + 1);
   });
 
   it('should render a list of source options with feature flag enabled', async () => {

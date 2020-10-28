@@ -614,6 +614,7 @@ describe('MetaList', () => {
     describe('update directing departmens', () => {
       it('should update for directing department to ASC', async () => {
         jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
+        jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => [departments.list[0]]);
         const { getAllByTestId, getByTestId } = render(renderWithContext(parentIncident));
 
         // priority button data-testid attribute is dynamically generated in the ChangeValue component:
@@ -642,10 +643,10 @@ describe('MetaList', () => {
       });
 
       it('should update for directing department to directing department', async () => {
-        const { id } = departments.list.find(d => d.code === 'ASC');
         jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
+        jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => [departments.list[0]]);
         const { getAllByTestId, getByTestId } = render(
-          renderWithContext({ ...parentIncident, directing_departments: [{ id }] })
+          renderWithContext({ ...parentIncident, directing_departments: [{ id: departments.list[0].id }] })
         );
 
         // priority button data-testid attribute is dynamically generated in the ChangeValue component:
