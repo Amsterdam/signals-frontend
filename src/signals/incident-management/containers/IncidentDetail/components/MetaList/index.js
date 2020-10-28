@@ -5,12 +5,12 @@ import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
 import get from 'lodash.get';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { typesList, priorityList, directingDepartmentList } from 'signals/incident-management/definitions';
+import { typesList, priorityList } from 'signals/incident-management/definitions';
 
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 
-import { makeSelectDepartments } from 'models/departments/selectors';
+import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
 import ChangeValue from '../ChangeValue';
@@ -53,6 +53,7 @@ const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
+  const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
   const incidentDepartmentNames = useMemo(() => {
     if (!configuration.assignSignalToEmployee) return [];
@@ -88,8 +89,10 @@ const MetaList = () => {
   // eslint-disable-next-line no-shadow
   const getDirectingDepartmentValue = useCallback((incident, path) => {
     const value = get(incident, path);
-    return value?.length === 1 && value[0].code === 'ASC' ? 'ASC' : 'null';
-  }, []);
+    if (!Array.isArray(value) || value.length !== 1) return 'null';
+    const { code } = value[0];
+    return directingDepartments.find(({ key }) => key === code) ? code : 'null';
+  }, [directingDepartments]);
 
   const userOptions = useMemo(
     () =>
@@ -210,7 +213,7 @@ const MetaList = () => {
           <ChangeValue
             component={RadioInput}
             display="Regie"
-            options={directingDepartmentList}
+            options={directingDepartments}
             path="directing_departments"
             type="directing_departments"
             get={getDirectingDepartmentValue}
