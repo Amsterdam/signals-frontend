@@ -8,8 +8,6 @@ const municipalityFilterName = 'gemeentenaam';
 const serviceParams = [
   ['fq', 'bron:BAG'],
   ['fq', 'type:adres'],
-  // ['fl', '*'], // undocumented; requests all available field values from the API
-  ['fl', pdokResponseFieldList.join(',')],
   ['q', ''],
 ];
 const serviceUrl = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?';
@@ -22,11 +20,13 @@ export const formatResponseFunc = ({ response }) =>
  *
  * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
  */
+
 const PDOKAutoSuggest = ({ className, fieldList, municipality, onSelect, formatResponse, value, ...rest }) => {
   const municipalityArray = Array.isArray(municipality) ? municipality : [municipality].filter(Boolean);
-  const municipalityString = municipalityArray.map(item => `"${item}"`).join(' ');
-  const fq = municipality ? [['fq', `${municipalityFilterName}:${municipalityString}`]] : [];
-  const fl = [['fl', fieldList.concat(['id', 'weergavenaam']).join(',')]];
+  const municipalityString = municipalityArray.map(item => `${municipalityFilterName}:"${item}"`).join('');
+  const fq = municipality ? [['fq', municipalityString]] : [];
+  // ['fl', '*'], // undocumented; requests all available field values from the API
+  const fl = [['fl', [...pdokResponseFieldList, ...fieldList].join(',')]];
   const params = [...fq, ...fl, ...serviceParams];
   const queryParams = params.map(([key, val]) => `${key}=${val}`).join('&');
   const url = `${serviceUrl}${queryParams}`;
