@@ -71,6 +71,7 @@ const StyledHeading = styled(Heading)`
 `;
 
 const ButtonLink = styled(Button)`
+  display: none;
   color: ${themeColor('tint', 'level7')};
   text-decoration: none;
 
@@ -141,14 +142,16 @@ const DetailHeader = () => {
 
       <ButtonContainer>
         {showSplitButton && (
-          <ButtonLink
-            variant="application"
-            forwardedAs={Link}
-            to={`${INCIDENT_URL}/${incident.id}/split`}
-            data-testid="detail-header-button-split"
-          >
-            Delen
-          </ButtonLink>
+          <div hidden>
+            <ButtonLink
+              variant="application"
+              forwardedAs={Link}
+              to={`${INCIDENT_URL}/${incident.id}/split`}
+              data-testid="detail-header-button-split"
+            >
+              Delen
+            </ButtonLink>
+          </div>
         )}
 
         {canThor && (
