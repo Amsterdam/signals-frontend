@@ -15,6 +15,10 @@
           "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
           "type": "string"
         },
+        "assignSignalToDepartment": {
+          "description": "Feature switch to enable assigning an incident to a department directly.",
+          "type": "boolean"
+        },
         "assignSignalToEmployee": {
           "description": "Feature switch to enable assigning an incident to an individual employee.",
           "type": "boolean"
@@ -73,6 +77,7 @@
       },
       "required": [
         "apiBaseUrl",
+        "assignSignalToDepartment",
         "assignSignalToEmployee",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",

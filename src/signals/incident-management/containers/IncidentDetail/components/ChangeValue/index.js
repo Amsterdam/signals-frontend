@@ -1,7 +1,7 @@
 import React, { useMemo, Fragment, useEffect, useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
-import loadashGet from 'lodash.get';
+import get from 'lodash.get';
 import set from 'lodash.set';
 import styled from 'styled-components';
 import { themeSpacing } from '@datapunt/asc-ui';
@@ -31,20 +31,22 @@ const ButtonBar = styled.div`
   margin-top: ${themeSpacing(6)};
 `;
 
+const identity = value => value;
+
 const ChangeValue = ({
   component,
   disabled = false,
   display,
-  infoKey,
+  infoKey = '',
   options,
-  patch,
+  patch = {},
   path,
   sort,
   type,
-  valueClass,
-  valuePath,
-  get = loadashGet,
-  getSelectedOption,
+  valueClass = '',
+  valuePath = '',
+  rawDataToKey = identity,
+  keyToRawData = identity,
 }) => {
   const { incident, update } = useContext(IncidentDetailContext);
   const [showForm, setShowForm] = useState(false);
@@ -53,9 +55,9 @@ const ChangeValue = ({
   const form = useMemo(
     () =>
       FormBuilder.group({
-        input: [get(incident, valuePath), Validators.required],
+        input: [rawDataToKey(get(incident, valuePath)), Validators.required],
       }),
-    [incident, valuePath, get]
+    [incident, rawDataToKey, valuePath]
   );
 
   const handleSubmit = useCallback(
@@ -65,7 +67,7 @@ const ChangeValue = ({
       const payload = { ...patch };
 
       const newValue = form.value.input || options.find(({ key }) => !key)?.key;
-      set(payload, path, getSelectedOption(newValue));
+      set(payload, path, keyToRawData(newValue));
 
       update({
         type,
@@ -75,7 +77,7 @@ const ChangeValue = ({
       form.reset();
       setShowForm(false);
     },
-    [patch, form, options, path, getSelectedOption, update, type]
+    [patch, form, options, path, keyToRawData, update, type]
   );
 
   const handleCancel = useCallback(() => {
@@ -121,13 +123,13 @@ const ChangeValue = ({
   );
 
   const onShowForm = useCallback(() => {
-    const value = get(incident, valuePath || path);
+    const value = rawDataToKey(get(incident, valuePath || path));
 
     form.controls.input.setValue(value);
     setShowForm(true);
 
     showInfo(value);
-  }, [incident, valuePath, path, showInfo, form, get]);
+  }, [incident, rawDataToKey, valuePath, path, showInfo, form]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -197,22 +199,12 @@ const ChangeValue = ({
       ) : (
         <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
           <DisplayValue data-testid="valuePath">
-            {getListValueByKey(options, get(incident, valuePath || path))}
+            {getListValueByKey(options, rawDataToKey(get(incident, valuePath || path)))}
           </DisplayValue>
         </dd>
       )}
     </Fragment>
   );
-};
-
-ChangeValue.defaultProps = {
-  disabled: false,
-  infoKey: '',
-  patch: {},
-  valueClass: '',
-  valuePath: '',
-  get: loadashGet,
-  getSelectedOption: value => value,
 };
 
 ChangeValue.propTypes = {
@@ -231,9 +223,9 @@ ChangeValue.propTypes = {
   valueClass: PropTypes.string,
   valuePath: PropTypes.string,
   /** Returns the value of the incident path. Can be overridden to implement specific logic */
-  get: PropTypes.func,
+  rawDataToKey: PropTypes.func,
   /** Format function for the selected option. By default returns the selected option but can be overridden to implement sepecific logic */
-  getSelectedOption: PropTypes.func,
+  keyToRawData: PropTypes.func,
 };
 
 export default ChangeValue;
