@@ -52,11 +52,13 @@ const MetaList = () => {
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
-  const routingDepartments = useMemo(() => {
-    const routingRelation = incident.signal_departments?.find(relation => relation.relation_type === 'routing');
-
-    return routingRelation?.departments?.length && routingRelation.departments;
-  }, [incident]);
+  const routingDepartments = useMemo(
+    () =>
+      (configuration.assignSignalToEmployee || configuration.assignSignalToDepartment) &&
+      incident.routing_departments?.length &&
+      incident.routing_departments,
+    [incident]
+  );
 
   const categoryDepartments = useMemo(
     () =>
@@ -149,18 +151,14 @@ const MetaList = () => {
   );
 
   const getDepartmentPostData = useCallback(
-    id => [
-      {
-        relation_type: 'routing',
-        departments: id
-          ? [
-            {
-              id: Number.parseInt(id, 10),
-            },
-          ]
-          : [],
-      },
-    ],
+    id =>
+      id
+        ? [
+          {
+            id: Number.parseInt(id, 10),
+          },
+        ]
+        : [],
     []
   );
 
@@ -240,14 +238,14 @@ const MetaList = () => {
       )}
 
       {configuration.assignSignalToDepartment && departmentOptions && (
-        <Highlight type="signal_departments">
+        <Highlight type="routing_departments">
           <ChangeValue
             component={SelectInput}
             display="Afdeling"
             options={departmentOptions}
             onPatchIncident={update}
-            path="signal_departments"
-            type="signal_departments"
+            path="routing_departments"
+            type="routing_departments"
             rawDataToKey={getDepartmentId}
             keyToRawData={getDepartmentPostData}
           />

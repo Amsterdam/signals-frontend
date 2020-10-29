@@ -27,7 +27,6 @@ const edit = jest.fn();
 const departmentAscId = departments.list[0].id;
 const departmentAscCode = departments.list[0].code;
 const departmentAscName = departments.list[0].name;
-const departmentAegId = departments.list[1].id;
 const departmentAegCode = departments.list[1].code;
 const departmentAegName = departments.list[1].name;
 const departmentThoId = departments.list[11].id;
@@ -514,15 +513,10 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
+            routing_departments: [
               {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    code: departmentThoCode,
-                    name: departmentThoName,
-                  },
-                ],
+                code: departmentThoCode,
+                name: departmentThoName,
               },
             ],
           })
@@ -540,7 +534,7 @@ describe('MetaList', () => {
         expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
 
-      it('should work while other routing relation types are present', () => {
+      it('should fallback to departments related to category when no routing departments present', () => {
         const { container, getByTestId, queryByText } = render(
           renderWithContext({
             ...incidentFixture,
@@ -548,60 +542,7 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
-              {
-                relation_type: 'directing',
-                departments: [
-                  {
-                    code: departmentAscCode,
-                    name: departmentAscName,
-                  },
-                ],
-              },
-              {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    code: departmentThoCode,
-                    name: departmentThoName,
-                  },
-                ],
-              },
-            ],
-          })
-        );
-        const editButton = getByTestId('editAssigned_user_idButton');
-
-        fireEvent.click(editButton);
-
-        expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
-      });
-
-      it('should fallback to departments related to category when no routing relation type present', () => {
-        const { container, getByTestId, queryByText } = render(
-          renderWithContext({
-            ...incidentFixture,
-            category: {
-              ...incidentFixture.category,
-              departments: `${departmentAscCode}, ${departmentAegCode}`,
-            },
-            signal_departments: [
-              {
-                relation_type: 'directing',
-                departments: [
-                  {
-                    code: departmentThoCode,
-                    name: departmentThoName,
-                  },
-                ],
-              },
-            ],
+            routing_departments: [],
           })
         );
         const editButton = getByTestId('editAssigned_user_idButton');
@@ -731,56 +672,11 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
+            routing_departments: [
               {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    id: departmentAscId,
-                    code: departmentAscCode,
-                    name: departmentAscName,
-                  },
-                ],
-              },
-            ],
-          })
-        );
-
-        expect(screen.queryByText(notFound)).not.toBeInTheDocument();
-        expect(screen.queryByText(notLinked)).not.toBeInTheDocument();
-        expect(screen.getByText(departmentAscName)).toBeInTheDocument();
-        expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
-      });
-
-      it('should work while other routing relation types are present', () => {
-        render(
-          renderWithContext({
-            ...incidentFixture,
-            category: {
-              ...incidentFixture.category,
-              departments: `${departmentAscCode}, ${departmentAegCode}`,
-            },
-            signal_departments: [
-              {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    id: departmentAscId,
-                    code: departmentAscCode,
-                    name: departmentAscName,
-                  },
-                ],
-              },
-              {
-                relation_type: 'directing',
-                departments: [
-                  {
-                    id: departmentAegId,
-                    code: departmentAegCode,
-                    name: departmentAegName,
-                  },
-                ],
+                id: departmentAscId,
+                code: departmentAscCode,
+                name: departmentAscName,
               },
             ],
           })
@@ -801,16 +697,11 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
+            routing_departments: [
               {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    id: departmentThoId,
-                    code: departmentThoCode,
-                    name: departmentThoName,
-                  },
-                ],
+                id: departmentThoId,
+                code: departmentThoCode,
+                name: departmentThoName,
               },
             ],
           })
@@ -832,12 +723,7 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
-              {
-                relation_type: 'routing',
-                departments: [],
-              },
-            ],
+            routing_departments: [],
           })
         );
 
@@ -856,37 +742,7 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: null,
-          })
-        );
-
-        expect(screen.queryByText(notFound)).not.toBeInTheDocument();
-        expect(screen.getByText(notLinked)).toBeInTheDocument();
-        expect(screen.queryByText(departmentAscName)).not.toBeInTheDocument();
-        expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
-      });
-
-      it('should indicate not linked with only other relation types', () => {
-        render(
-          renderWithContext({
-            ...incidentFixture,
-            category: {
-              ...incidentFixture.category,
-              departments: `${departmentAscCode}, ${departmentAegCode}`,
-            },
-            signal_departments: [
-              {
-                relation_type: 'directing',
-                departments: [
-                  {
-                    id: departmentAegId,
-                    code: departmentAegCode,
-                    name: departmentAegName,
-                  },
-                ],
-              },
-            ],
+            routing_departments: null,
           })
         );
 
@@ -911,22 +767,17 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
+            routing_departments: [
               {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    id: departmentAscId,
-                    code: departmentAscCode,
-                    name: departmentAscName,
-                  },
-                ],
+                id: departmentAscId,
+                code: departmentAscCode,
+                name: departmentAscName,
               },
             ],
           })
         );
 
-        fireEvent.click(screen.getByTestId('editSignal_departmentsButton'));
+        fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
 
         expect(document.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
         expect(screen.queryByText(notLinked)).not.toBeInTheDocument();
@@ -943,11 +794,11 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [],
+            routing_departments: [],
           })
         );
 
-        fireEvent.click(screen.getByTestId('editSignal_departmentsButton'));
+        fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
 
         expect(document.querySelectorAll('select[data-testid="input"] option').length).toBe(3);
         expect(screen.getAllByText(notLinked).length).toBe(2);
@@ -964,22 +815,17 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
+            routing_departments: [
               {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    id: departmentThoId,
-                    code: departmentThoCode,
-                    name: departmentThoName,
-                  },
-                ],
+                id: departmentThoId,
+                code: departmentThoCode,
+                name: departmentThoName,
               },
             ],
           })
         );
 
-        fireEvent.click(screen.getByTestId('editSignal_departmentsButton'));
+        fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
 
         expect(document.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
         expect(screen.queryByText(notLinked)).not.toBeInTheDocument();
@@ -998,38 +844,28 @@ describe('MetaList', () => {
             ...incidentFixture.category,
             departments: `${departmentAscCode}, ${departmentAegCode}`,
           },
-          signal_departments: [
+          routing_departments: [
             {
-              relation_type: 'routing',
-              departments: [
-                {
-                  id: departmentAscId,
-                  code: departmentAscCode,
-                  name: departmentAscName,
-                },
-              ],
+              id: departmentAscId,
+              code: departmentAscCode,
+              name: departmentAscName,
             },
           ],
         })
       );
 
-      fireEvent.click(screen.getByTestId('editSignal_departmentsButton'));
-      fireEvent.click(screen.getByTestId('submitSignal_departmentsButton'));
+      fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
+      fireEvent.click(screen.getByTestId('submitRouting_departmentsButton'));
 
       expect(update).toHaveBeenCalledWith({
         patch: {
-          signal_departments: [
+          routing_departments: [
             {
-              relation_type: 'routing',
-              departments: [
-                {
-                  id: departmentAscId,
-                },
-              ],
+              id: departmentAscId,
             },
           ],
         },
-        type: 'signal_departments',
+        type: 'routing_departments',
       });
     });
 
@@ -1042,28 +878,18 @@ describe('MetaList', () => {
             ...incidentFixture.category,
             departments: `${departmentAscCode}, ${departmentAegCode}`,
           },
-          signal_departments: [
-            {
-              relation_type: 'routing',
-              departments: [],
-            },
-          ],
+          routing_departments: [],
         })
       );
 
-      fireEvent.click(screen.getByTestId('editSignal_departmentsButton'));
-      fireEvent.click(screen.getByTestId('submitSignal_departmentsButton'));
+      fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
+      fireEvent.click(screen.getByTestId('submitRouting_departmentsButton'));
 
       expect(update).toHaveBeenCalledWith({
         patch: {
-          signal_departments: [
-            {
-              relation_type: 'routing',
-              departments: [],
-            },
-          ],
+          routing_departments: [],
         },
-        type: 'signal_departments',
+        type: 'routing_departments',
       });
     });
   });
