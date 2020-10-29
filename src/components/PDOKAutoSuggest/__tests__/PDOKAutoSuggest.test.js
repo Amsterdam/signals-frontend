@@ -10,8 +10,7 @@ import PDOKAutoSuggest, { formatResponseFunc } from '..';
 const mockResponse = JSON.stringify(JSONResponse);
 
 const onSelect = jest.fn();
-const municipalityName = 'gemeentenaam:';
-const municipalityQs = 'fq=';
+const municipalityQs = 'fq=gemeentenaam:';
 const fieldListQs = 'fl=';
 
 const renderAndSearch = async (value = 'Dam', props = {}) => {
@@ -72,7 +71,7 @@ describe('components/PDOKAutoSuggest', () => {
     it('should call fetch without municipality by default', async () => {
       await renderAndSearch();
       expect(fetch).toHaveBeenCalledWith(
-        expect.not.stringContaining(`${municipalityQs}${municipalityName}`),
+        expect.not.stringContaining(municipalityQs),
         expect.objectContaining({ method: 'GET' })
       );
     });
@@ -80,7 +79,7 @@ describe('components/PDOKAutoSuggest', () => {
     it('should call fetch with municipality', async () => {
       await renderAndSearch('Dam', { municipality: 'amsterdam' });
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${municipalityQs}${municipalityName}"amsterdam"`),
+        expect.stringContaining(`${municipalityQs}("amsterdam")`),
         expect.objectContaining({ method: 'GET' })
       );
     });
@@ -88,7 +87,7 @@ describe('components/PDOKAutoSuggest', () => {
     it('should work with an array for municipality', async () => {
       await renderAndSearch('Dam', { municipality: ['utrecht', 'amsterdam'] });
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${municipalityQs}${municipalityName}"utrecht"${municipalityName}"amsterdam"`),
+        expect.stringContaining(`${municipalityQs}("utrecht" "amsterdam")`),
         expect.objectContaining({ method: 'GET' })
       );
     });
