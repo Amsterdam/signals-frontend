@@ -26,7 +26,7 @@ describe('components/Logo', () => {
 
   it('should render correctly', () => {
     const { container, getByTestId } = render(withAppContext(<Logo />));
-    const media = `screen and ${ascDefaultTheme.breakpoints.laptopM('max-width')}`;
+    const media = `screen and ${ascDefaultTheme.breakpoints.tabletS('max-width')}`;
 
     expect(container.querySelector(`a[href="${configuration.links.home}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
@@ -53,7 +53,7 @@ describe('components/Logo', () => {
 
   it('should render differently when not tall', () => {
     const { container, getByTestId } = render(withAppContext(<Logo tall={false} />));
-    const media = `screen and ${ascDefaultTheme.breakpoints.laptopM('max-width')}`;
+    const media = `screen and ${ascDefaultTheme.breakpoints.tabletS('max-width')}`;
 
     expect(container.querySelector('a[href="/"]')).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();

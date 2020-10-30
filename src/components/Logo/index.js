@@ -14,7 +14,7 @@ const StyledLogo = styled.img`
   ${({ tall }) =>
     tall &&
     css`
-      @media screen and ${breakpoint('max-width', 'laptopM')} {
+      @media screen and ${breakpoint('max-width', 'tabletS')} {
         width: ${configuration.logo.smallWidth};
         height: ${configuration.logo.smallHeight};
       }
@@ -38,7 +38,7 @@ const StyledA = styled.a`
   ${({ tall }) =>
     tall &&
     css`
-      @media screen and ${breakpoint('max-width', 'laptopM')} {
+      @media screen and ${breakpoint('max-width', 'tabletS')} {
         width: ${configuration.logo.smallWidth};
         height: ${configuration.logo.smallHeight};
       }
