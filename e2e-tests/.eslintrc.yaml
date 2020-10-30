@@ -4,11 +4,12 @@ extends:
   - 'plugin:amsterdam/base'
   - 'plugin:amsterdam/cypress'
 rules:
-  comma-dangle: 'off'
-  # semi: [error, never]
-
-  # disabled rules
+  # overrides
   camelcase: 'off'
+
+  # proposed rules
+  # semi: [error, never]
+  comma-dangle: 'off'
   line-comment-position: 'off'
   max-len: 'off'
   no-extra-parens: 'off'

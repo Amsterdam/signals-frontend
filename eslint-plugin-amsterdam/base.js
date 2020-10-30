@@ -113,7 +113,7 @@ module.exports = {
     'block-scoped-var': 'error',
     'block-spacing': 'error',
     // 'comma-dangle': ['error', { arrays: 'always-multiline', objects: 'always-multiline', imports: 'always-multiline', exports: 'never', functions: 'never' }],
-    'comma-dangle': ['error', { arrays: 'always-multiline', objects: 'always-multiline', imports: 'always-multiline' }],
+    'comma-dangle': ['error', { arrays: 'always-multiline', objects: 'always-multiline', imports: 'always-multiline', functions: 'never' }],
     'comma-spacing': 'error',
     'comma-style': 'error',
     'computed-property-spacing': ['error', 'never'],
