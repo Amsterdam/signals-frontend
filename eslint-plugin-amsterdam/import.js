@@ -6,7 +6,6 @@ module.exports = {
     'import/no-webpack-loader-syntax': 'error',
 
     // disabled rules
-    'import/imports-first': 'off',
     'import/newline-after-import': 'off',
     'import/no-dynamic-require': 'off',
     'import/no-extraneous-dependencies': 'off',
@@ -17,6 +16,6 @@ module.exports = {
     'import/extensions': 'error',
     'import/first': 'error',
     'import/no-amd': 'error',
-    'import/no-unresolved': ['error', { commonjs: true, }],
+    'import/no-unresolved': ['error', { commonjs: true }],
   },
 };
