@@ -1,0 +1,21 @@
+root: true
+parser: babel-eslint
+extends:
+  - 'plugin:amsterdam/base'
+  - 'plugin:amsterdam/cypress'
+rules:
+  comma-dangle: 'off'
+  # semi: [error, never]
+
+  # disabled rules
+  camelcase: 'off'
+  line-comment-position: 'off'
+  max-len: 'off'
+  no-extra-parens: 'off'
+  no-magic-numbers: 'off'
+  no-undef: 'off'
+  no-use-before-define: 'off'
+  require-unicode-regexp: 'off'
+  sonarjs/no-duplicate-string: 'off'
+  sonarjs/no-identical-functions: 'off'
+  unicorn/prevent-abbreviations: 'off'
