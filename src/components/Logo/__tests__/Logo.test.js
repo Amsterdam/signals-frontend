@@ -33,7 +33,6 @@ describe('components/Logo', () => {
 
     expect(getByTestId('logo-link')).toHaveStyleRule('height', configuration.logo.height);
     expect(getByTestId('logo-link')).toHaveStyleRule('width', configuration.logo.width);
-    expect(getByTestId('logo-link')).toHaveStyleRule('max-height', '56px');
     expect(getByTestId('logo-link')).toHaveStyleRule('width', configuration.logo.smallWidth, {
       media,
     });
@@ -60,7 +59,6 @@ describe('components/Logo', () => {
 
     expect(getByTestId('logo-link')).toHaveStyleRule('height', configuration.logo.smallHeight);
     expect(getByTestId('logo-link')).toHaveStyleRule('width', configuration.logo.smallWidth);
-    expect(getByTestId('logo-link')).toHaveStyleRule('max-height', '32px');
     expect(getByTestId('logo-link')).not.toHaveStyleRule('width', configuration.logo.smallWidth, {
       media,
     });

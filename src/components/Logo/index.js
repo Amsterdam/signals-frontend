@@ -9,7 +9,6 @@ const StyledLogo = styled.img`
   display: block;
   width: ${({ tall }) => (tall ? configuration.logo.width : configuration.logo.smallWidth)};
   height: ${({ tall }) => (tall ? configuration.logo.height : configuration.logo.smallHeight)};
-  max-height: ${({ tall }) => (tall ? '56px' : '32px')};
 
   ${({ tall }) =>
     tall &&
@@ -25,7 +24,6 @@ const StyledA = styled.a`
   display: inline-block;
   width: ${({ tall }) => (tall ? configuration.logo.width : configuration.logo.smallWidth)};
   height: ${({ tall }) => (tall ? configuration.logo.height : configuration.logo.smallHeight)};
-  max-height: ${({ tall }) => (tall ? '56px' : '32px')};
   margin-right: ${themeSpacing(3)};
 
   &&:focus {
