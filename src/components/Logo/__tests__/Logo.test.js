@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { ascDefaultTheme } from '@datapunt/asc-ui';
 
 import { withAppContext } from 'test/utils';
 import configuration from 'shared/services/configuration/configuration';
@@ -25,20 +26,56 @@ describe('components/Logo', () => {
 
   it('should render correctly', () => {
     const { container, getByTestId } = render(withAppContext(<Logo />));
+    const media = `screen and ${ascDefaultTheme.breakpoints.laptopM('max-width')}`;
 
     expect(container.querySelector(`a[href="${configuration.links.home}"]`)).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
-    expect(getByTestId('logo')).toHaveStyleRule('height', configuration.logo.height.toString());
-    expect(getByTestId('logo')).toHaveStyleRule('width', configuration.logo.width.toString());
+
+    expect(getByTestId('logo-link')).toHaveStyleRule('height', configuration.logo.height);
+    expect(getByTestId('logo-link')).toHaveStyleRule('width', configuration.logo.width);
+    expect(getByTestId('logo-link')).toHaveStyleRule('max-height', '56px');
+    expect(getByTestId('logo-link')).toHaveStyleRule('width', configuration.logo.smallWidth, {
+      media,
+    });
+    expect(getByTestId('logo-link')).toHaveStyleRule('height', configuration.logo.smallHeight, {
+      media,
+    });
+
+    expect(getByTestId('logo')).toHaveStyleRule('height', configuration.logo.height);
+    expect(getByTestId('logo')).toHaveStyleRule('width', configuration.logo.width);
+    expect(getByTestId('logo')).toHaveStyleRule('width', configuration.logo.smallWidth, {
+      media,
+    });
+    expect(getByTestId('logo')).toHaveStyleRule('height', configuration.logo.smallHeight, {
+      media,
+    });
   });
 
   it('should render differently when not tall', () => {
     const { container, getByTestId } = render(withAppContext(<Logo tall={false} />));
+    const media = `screen and ${ascDefaultTheme.breakpoints.laptopM('max-width')}`;
 
     expect(container.querySelector('a[href="/"]')).toBeInTheDocument();
     expect(container.querySelector(`img[src="${configuration.logo.url}"]`)).toBeInTheDocument();
-    expect(getByTestId('logo')).toHaveStyleRule('height', configuration.logo.smallHeight.toString());
-    expect(getByTestId('logo')).toHaveStyleRule('width', configuration.logo.smallWidth.toString());
+
+    expect(getByTestId('logo-link')).toHaveStyleRule('height', configuration.logo.smallHeight);
+    expect(getByTestId('logo-link')).toHaveStyleRule('width', configuration.logo.smallWidth);
+    expect(getByTestId('logo-link')).toHaveStyleRule('max-height', '32px');
+    expect(getByTestId('logo-link')).not.toHaveStyleRule('width', configuration.logo.smallWidth, {
+      media,
+    });
+    expect(getByTestId('logo-link')).not.toHaveStyleRule('height', configuration.logo.smallHeight, {
+      media,
+    });
+
+    expect(getByTestId('logo')).toHaveStyleRule('height', configuration.logo.smallHeight);
+    expect(getByTestId('logo')).toHaveStyleRule('width', configuration.logo.smallWidth);
+    expect(getByTestId('logo')).not.toHaveStyleRule('width', configuration.logo.smallWidth, {
+      media,
+    });
+    expect(getByTestId('logo')).not.toHaveStyleRule('height', configuration.logo.smallHeight, {
+      media,
+    });
   });
 
   it('should render extra props', () => {

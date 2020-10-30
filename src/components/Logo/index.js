@@ -38,7 +38,7 @@ const StyledA = styled.a`
   ${({ tall }) =>
     tall &&
     css`
-      @media screen and ${breakpoint('min-width', 'laptopM')} {
+      @media screen and ${breakpoint('max-width', 'laptopM')} {
         width: ${configuration.logo.smallWidth};
         height: ${configuration.logo.smallHeight};
       }
@@ -49,7 +49,7 @@ const StyledA = styled.a`
 `;
 
 export const Logo = ({ tall, ...props }) => (
-  <StyledA href={tall ? configuration.links.home : '/'}>
+  <StyledA data-testid="logo-link" tall={tall} href={tall ? configuration.links.home : '/'}>
     <StyledLogo data-testid="logo" alt="Logo" tall={tall} src={configuration.logo.url} {...props} />
   </StyledA>
 );
