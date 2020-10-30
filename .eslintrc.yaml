@@ -13,7 +13,10 @@ globals:
 rules:
   # 'new' rules to check
   array-bracket-newline: 'off'
+  function-paren-newline: 'off'
   import/namespace: 'off'
+  jsx-a11y/control-has-associated-label: 'off'
+  jsx-a11y/no-autofocus: 'off'
   lines-around-command: 'off'
   lines-around-comment: 'off'
   multiline-ternary: 'off'
@@ -22,20 +25,21 @@ rules:
   no-mixed-operators: 'off'
   no-unused-vars: 'off'
   prefer-const: 'off'
+  promise/prefer-await-to-then: 'off'
   react/display-name: 'off'
   react/forbid-component-props: 'off'
   react/jsx-key: 'off'
+  react/jsx-no-bind: 'off'
   react/no-did-mount-set-state: 'off'
   react/no-unused-prop-types: 'off'
   react/require-optimization: 'off'
   react/static-property-placement: 'off'
+  redux-saga/no-unhandled-errors: 'off'
   require-yield: 'off'
   space-before-function-paren: 'off'
   unicorn/no-useless-undefined: 'off'
   unicorn/prefer-ternary: 'off'
   wrap-regex: 'off'
-  react/jsx-no-bind: 'off'
-  function-paren-newline: 'off'
 
   # proposed rules
   camelcase: 'off' # a man can dream, let's see if we can accomplish this one day without cheating :p
@@ -63,6 +67,10 @@ rules:
   sonarjs/no-duplicate-string: 'off'
   sonarjs/no-identical-functions: 'off'
   sonarjs/no-small-switch: 'off'
+  testing-library/await-fire-event: 'off'
+  testing-library/no-render-in-setup: 'off'
+  testing-library/prefer-presence-queries: 'off'
+  testing-library/prefer-screen-queries: 'off'
   unicorn/catch-error-name: 'off'
   unicorn/no-abusive-eslint-disable: 'off'
   unicorn/no-zero-fractions: 'off' # autofix available
@@ -94,6 +102,12 @@ rules:
   jest/require-to-throw-message: 'off'
   jest/valid-expect: 'off'
   jest/valid-title: 'off'
+
+  # crashes ESLint
+  testing-library/consistent-data-testid: 'off'
+
+
+  # missing rules to check
 
   # to fix
   # comma-dangle: 'off'

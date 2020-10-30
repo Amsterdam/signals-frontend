@@ -1,13 +1,13 @@
 module.exports = {
   extends: ['plugin:react/all'],
   plugins: ['jsx-a11y', 'react', 'react-hooks'],
-  env: { browser: true, },
+  env: { browser: true },
   parserOptions: {
     ecmaVersion: 9,
     sourceType: 'module',
   },
   settings: {
-    react: { version: 'detect', },
+    react: { version: 'detect' },
     // 'import/resolver': { node: { extensions: ['.js', '.tsx'], moduleDirectory: ['node_modules', './src'] } },
   },
   overrides: [
@@ -17,7 +17,7 @@ module.exports = {
         'consistent-return': 'off', // clashes with useEffect,
         'react/prop-types': 'off',
       },
-    }
+    },
   ],
   rules: {
     // base overrides
@@ -34,6 +34,9 @@ module.exports = {
     // 'indent': ['warn', 2, {SwitchCase: 1, ignoredNodes: ['JSXAttribute', 'JSXSpreadAttribute']}]
     // 'indent': [2, 4, {'SwitchCase': 1, 'VariableDeclarator': 1}],
     // 'react/prop-types': [2, { ignore: ['children'] }],
+
+    // eslint
+    'jsx-quotes': 'error',
 
     // disabled rules
     'react/jsx-filename-extension': 'off', // This will allow to fine tune tooling like a shared lint configuration
@@ -63,24 +66,36 @@ module.exports = {
     // jsx-a11y
     'jsx-a11y/alt-text': 'error',
     'jsx-a11y/anchor-has-content': 'error',
-    'jsx-a11y/anchor-is-valid': ['error', { aspects: ['noHref', 'invalidHref'], }],
+    'jsx-a11y/anchor-is-valid': ['error', { aspects: ['noHref', 'invalidHref'] }],
     'jsx-a11y/aria-activedescendant-has-tabindex': 'error',
+    'jsx-a11y/aria-props': 'error',
     'jsx-a11y/aria-proptypes': 'error',
-    'jsx-a11y/aria-role': ['error', { ignoreNonDOM: true, }],
+    'jsx-a11y/aria-role': ['error', { ignoreNonDOM: true }],
     'jsx-a11y/aria-unsupported-elements': 'error',
+    'jsx-a11y/autocomplete-valid': 'error',
+    'jsx-a11y/click-events-have-key-events': 'error',
     'jsx-a11y/heading-has-content': 'error',
+    'jsx-a11y/html-has-lang': 'error',
     'jsx-a11y/iframe-has-title': 'error',
     'jsx-a11y/img-redundant-alt': 'error',
+    'jsx-a11y/interactive-supports-focus': 'error',
+    'jsx-a11y/label-has-associated-control': ['error', { controlComponents: ['Input'] }],
+    'jsx-a11y/lang': 'error',
+    'jsx-a11y/media-has-caption': 'error',
+    'jsx-a11y/mouse-events-have-key-events': 'error',
     'jsx-a11y/no-access-key': 'error',
     'jsx-a11y/no-distracting-elements': 'error',
+    'jsx-a11y/no-interactive-element-to-noninteractive-role': 'error',
+    'jsx-a11y/no-noninteractive-element-interactions': 'error',
+    'jsx-a11y/no-noninteractive-element-to-interactive-role': 'error',
+    'jsx-a11y/no-noninteractive-tabindex': 'error',
+    'jsx-a11y/no-onchange': 'error',
     'jsx-a11y/no-redundant-roles': 'error',
-    'jsx-a11y/scope': 'error',
-    'jsx-quotes': 'error',
-    'jsx-a11y/aria-props': 'error',
-    'jsx-a11y/label-has-associated-control': ['error', { controlComponents: ['Input'], }],
-    'jsx-a11y/mouse-events-have-key-events': 'error',
+    'jsx-a11y/no-static-element-interactions': 'error',
     'jsx-a11y/role-has-required-aria-props': 'error',
     'jsx-a11y/role-supports-aria-props': 'error',
+    'jsx-a11y/scope': 'error',
+    'jsx-a11y/tabindex-no-positive': 'error',
 
     // react-hooks
     'react-hooks/exhaustive-deps': 'error',
@@ -88,18 +103,18 @@ module.exports = {
 
     // rules
     'react/button-has-type': 'error',
-    'react/forbid-foreign-prop-types': ['error', { allowInPropTypes: true, }],
-    'react/function-component-definition': ['error', { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function', }],
+    'react/forbid-foreign-prop-types': ['error', { allowInPropTypes: true }],
+    'react/function-component-definition': ['error', { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' }],
     'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
     'react/jsx-curly-spacing': 'error',
     'react/jsx-first-prop-new-line': ['error', 'multiline-multiprop'],
     'react/jsx-fragments': ['error', 'element'],
-    'react/jsx-indent': ['error', 2, { checkAttributes: true, }],
+    'react/jsx-indent': ['error', 2, { checkAttributes: true }],
     'react/jsx-no-comment-textnodes': 'error',
     'react/jsx-no-duplicate-props': 'error',
     'react/jsx-no-undef': 'error',
     'react/jsx-no-useless-fragment': 'error',
-    'react/jsx-pascal-case': ['error', { allowAllCaps: true, ignore: [], }],
+    'react/jsx-pascal-case': ['error', { allowAllCaps: true, ignore: [] }],
     'react/jsx-tag-spacing': 'error',
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
