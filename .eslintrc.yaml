@@ -1,5 +1,5 @@
 root: true
-parser: babel-eslint
+parser: '@typescript-eslint/parser'
 extends:
   - plugin:amsterdam/base
   - plugin:amsterdam/import
@@ -7,7 +7,7 @@ extends:
   - plugin:amsterdam/redux-saga
   - plugin:amsterdam/testing-library-react
   - plugin:amsterdam/jest
-  # - plugin:@amsterdam/amsterdam/typescript
+  - plugin:amsterdam/typescript
 globals:
   L: true
 rules:
@@ -96,7 +96,9 @@ rules:
   jest/valid-title: 'off'
 
   # to fix
-  comma-dangle: 'off'
+  # comma-dangle: 'off'
+  space-infix-ops: 'off'
+  max-nested-callbacks: 'off'
 
   # temporary (make eslint aware of babel or js configuration)
   import/no-unresolved: 'off'
