@@ -2,14 +2,8 @@ module.exports = {
   extends: ['plugin:react/all'],
   plugins: ['jsx-a11y', 'react', 'react-hooks'],
   env: { browser: true },
-  parserOptions: {
-    ecmaVersion: 9,
-    sourceType: 'module',
-  },
-  settings: {
-    react: { version: 'detect' },
-    // 'import/resolver': { node: { extensions: ['.js', '.tsx'], moduleDirectory: ['node_modules', './src'] } },
-  },
+  parserOptions: { ecmaVersion: 9, sourceType: 'module' },
+  settings: { react: { version: 'detect' } },
   overrides: [
     {
       files: ['**/*.tsx'],
@@ -23,19 +17,7 @@ module.exports = {
     // base overrides
     'function-paren-newline': 'off',
 
-    // proposed rules
-    // 'react/boolean-prop-naming': 'off',
-    // 'react/display-name': 'off',
-    // 'react/jsx-key': 'off',
-    // 'react/require-optimization': 'off',
-
-    // to check
-    // 'react/jsx-indent': ['error', 2],
-    // 'indent': ['warn', 2, {SwitchCase: 1, ignoredNodes: ['JSXAttribute', 'JSXSpreadAttribute']}]
-    // 'indent': [2, 4, {'SwitchCase': 1, 'VariableDeclarator': 1}],
-    // 'react/prop-types': [2, { ignore: ['children'] }],
-
-    // eslint
+    // eslint rules
     'jsx-quotes': 'error',
 
     // disabled rules
@@ -102,7 +84,9 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
 
     // rules
+    'react/boolean-prop-naming': 'error',
     'react/button-has-type': 'error',
+    'react/display-name': 'error',
     'react/forbid-foreign-prop-types': ['error', { allowInPropTypes: true }],
     'react/function-component-definition': ['error', { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' }],
     'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
@@ -110,6 +94,7 @@ module.exports = {
     'react/jsx-first-prop-new-line': ['error', 'multiline-multiprop'],
     'react/jsx-fragments': ['error', 'element'],
     'react/jsx-indent': ['error', 2, { checkAttributes: true }],
+    'react/jsx-key': 'error',
     'react/jsx-no-comment-textnodes': 'error',
     'react/jsx-no-duplicate-props': 'error',
     'react/jsx-no-undef': 'error',
@@ -120,13 +105,14 @@ module.exports = {
     'react/jsx-uses-vars': 'error',
     'react/no-danger-with-children': 'error',
     'react/no-deprecated': 'error',
+    'react/no-did-mount-set-state': 'error',
     'react/no-direct-mutation-state': 'error',
     'react/no-is-mounted': 'error',
     'react/no-typos': 'error',
     'react/prop-types': 'error',
     'react/react-in-jsx-scope': 'error',
+    'react/require-optimization': 'error',
     'react/require-render-return': 'error',
     'react/style-prop-object': 'error',
-    'react/no-did-mount-set-state': 'error',
   },
 };

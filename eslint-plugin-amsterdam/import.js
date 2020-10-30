@@ -1,6 +1,9 @@
 module.exports = {
   // extends: ['plugin:import/errors', 'plugin:import/warnings', 'plugin:import/typescript'],
   plugins: ['import'],
+  settings: {
+    'import/resolver': { node: { extensions: ['.js', 'ts', '.tsx'], moduleDirectory: ['node_modules', './src'] } },
+  },
   rules: {
     // proposed rules
     'import/no-webpack-loader-syntax': 'error',

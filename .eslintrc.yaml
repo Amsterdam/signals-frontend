@@ -68,6 +68,7 @@ rules:
   sonarjs/no-identical-functions: 'off'
   sonarjs/no-small-switch: 'off'
   testing-library/await-fire-event: 'off'
+  testing-library/consistent-data-testid: 'off' # crashes ESLint
   testing-library/no-render-in-setup: 'off'
   testing-library/prefer-presence-queries: 'off'
   testing-library/prefer-screen-queries: 'off'
@@ -76,7 +77,7 @@ rules:
   unicorn/no-zero-fractions: 'off' # autofix available
   unicorn/prefer-add-event-listener: 'off'
   unicorn/prefer-includes: 'off' # autofix but breaks test
-  unicorn/prefer-text-content: 'off' # autofix but breaks snapshots test
+  unicorn/prefer-text-content: 'off' # autofix but breaks snapshots tests
   unicorn/prevent-abbreviations: 'off'
 
   # jest rules to check
@@ -102,18 +103,3 @@ rules:
   jest/require-to-throw-message: 'off'
   jest/valid-expect: 'off'
   jest/valid-title: 'off'
-
-  # crashes ESLint
-  testing-library/consistent-data-testid: 'off'
-
-
-  # missing rules to check
-
-  # to fix
-  # comma-dangle: 'off'
-  space-infix-ops: 'off'
-  max-nested-callbacks: 'off'
-
-  # temporary (make eslint aware of babel or js configuration)
-  import/no-unresolved: 'off'
-  import/extensions: 'off'
