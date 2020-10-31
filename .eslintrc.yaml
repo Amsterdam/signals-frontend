@@ -43,17 +43,23 @@ rules:
 
   # proposed rules
   camelcase: 'off' # a man can dream, let's see if we can accomplish this one day without cheating :p
-  max-len: 'off'
-  no-invalid-this: 'off'
   default-param-last: 'off'
   func-names: 'off'
   id-length: 'off'
+  import/dynamic-import-chunkname: 'off'
+  import/no-anonymous-default-export: 'off'
+  import/no-commonjs: 'off'
+  import/no-unassigned-import: 'off'
   import/no-webpack-loader-syntax: 'off'
+  import/order: 'off'
+  import/unambiguous: 'off'
   init-declarations: 'off'
   line-comment-position: 'off'
+  max-len: 'off'
   new-cap: 'off'
   no-implicit-coercion: 'off'
   no-import-assign: 'off'
+  no-invalid-this: 'off'
   no-magic-numbers: 'off' # except for tests
   no-negated-condition: 'off'
   no-promise-executor-return: 'off'
