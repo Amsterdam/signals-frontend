@@ -10,14 +10,17 @@
     "run": "cypress run",
     "start": "npm run open",
     "test": "npm run run",
-    "lint": "eslint cypress"
+    "lint": "eslint cypress",
+    "lint:find-rules": "eslint-find-rules -dun .eslintrc.yaml",
+    "lint:nibble": "NODE_ENV=production eslint-nibble --cache --ext js cypress"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@typescript-eslint/parser": "^4.6.0",
     "eslint": "^7.12.1",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.15.0",
+    "eslint-find-rules": "^3.6.1",
     "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-nibble": "^6.0.0",
     "eslint-plugin-amsterdam": "file:../eslint-plugin-amsterdam",

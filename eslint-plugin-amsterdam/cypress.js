@@ -6,5 +6,8 @@ module.exports = {
     // base overrides
     'promise/always-return': 'off',
     'promise/catch-or-return': 'off',
+
+    // rules
+    'cypress/assertion-before-screenshot': 'error',
   },
 };
