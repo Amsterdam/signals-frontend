@@ -76,6 +76,7 @@ module.exports = {
     'no-inline-comments': 'off',
     'no-invalid-this': 'error',
     'no-restricted-syntax': 'off',
+    'no-process-exit': 'off',
     'no-ternary': 'off',
     'no-undefined': 'off',
     'no-underscore-dangle': ['off', { allow: ['_display', '_links'] }],

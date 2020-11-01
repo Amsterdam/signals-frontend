@@ -2,7 +2,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   overrides: [
     {
-      files: ['**/*.ts(x)'],
+      files: ['**/*.ts', '**/*.tsx'],
       plugins: ['@typescript-eslint'],
       extends: ['plugin:@typescript-eslint/all'],
       parserOptions: {
@@ -32,18 +32,19 @@ module.exports = {
         '@typescript-eslint/init-declarations': 'off',
         '@typescript-eslint/semi': ['error', 'always'],
 
-        // extensions (superseded by other rules)
-        // 'semi': 'off', // superseded by @typescript-eslint/semi
-        // 'semi-style': 'off', // superseded by @typescript-eslint/semi
-        // 'brace-style': 'off', // superseded by @typescript-eslint/brace-style
-        // 'indent': 'off', // superseded by @typescript-eslint/indent
-        // 'comma-spacing': 'off', // superseded by @typescript-eslint/comma-spacing
-        // 'func-call-spacing': 'off', // superseded by @typescript-eslint/func-call-spacing
-        // 'no-extra-semi': 'off', // superseded by @typescript-eslint/no-extra-semi
-        // 'quotes': 'off', // superseded by @typescript-eslint/quotes
-        // 'space-before-function-paren': 'off', // superseded by @typescript-eslint/space-before-function-paren
-        // 'require-await': 'off', // superseded by @typescript-eslint/space-before-function-paren
-        'init-declarations': 'off', // note you must disable the base rule as it can report incorrect errors
+        // extensions (superseded by typescript rules)
+        'init-declarations': 'off',
+        'no-use-before-define': 'off',
+        // 'brace-style': 'off',
+        // 'comma-spacing': 'off',
+        // 'func-call-spacing': 'off',
+        // 'indent': 'off',
+        // 'no-extra-semi': 'off',
+        // 'quotes': 'off',
+        // 'require-await': 'off',
+        // 'semi': 'off'
+        // 'semi-style': 'off',
+        // 'space-before-function-paren': 'off',
       },
     },
   ],
