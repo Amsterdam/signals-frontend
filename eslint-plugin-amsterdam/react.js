@@ -2,7 +2,7 @@ module.exports = {
   extends: ['plugin:react/all'],
   plugins: ['jsx-a11y', 'react', 'react-hooks'],
   env: { browser: true },
-  parserOptions: { ecmaVersion: 9, sourceType: 'module' },
+  parserOptions: { ecmaVersion: 2020, sourceType: 'module' },
   settings: { react: { version: 'detect' } },
   overrides: [
     {
