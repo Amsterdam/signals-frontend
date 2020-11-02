@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import configuration from 'shared/services/configuration/configuration';
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
@@ -86,10 +85,7 @@ export const AppContainer = () => {
 
     dispatch(fetchCategoriesAction());
     dispatch(fetchDepartmentsAction());
-
-    if (configuration.fetchSourcesFromBackend) {
-      dispatch(getSources());
-    }
+    dispatch(getSources());
   }, [dispatch]);
 
   return (

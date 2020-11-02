@@ -217,7 +217,6 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of source options with feature flag enabled', async () => {
-    configuration.fetchSourcesFromBackend = true;
     const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null));
     await findByTestId('sourceCheckboxGroup');
 
@@ -441,7 +440,6 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   describe('checkbox list toggle', () => {
     it('should watch for changes', async () => {
-      configuration.fetchSourcesFromBackend = true;
       const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
 
       const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup');
@@ -472,9 +470,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       });
     });
 
-    it('should watch for changes with fetchSourcesFromBackend enabled', async () => {
-      configuration.fetchSourcesFromBackend = true;
-
+    it('should watch for changes ', async () => {
       const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null));
       const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup');
       const toggle = sourceCheckboxGroup.querySelector('label').firstChild;

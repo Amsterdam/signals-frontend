@@ -187,9 +187,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(8);
     });
 
-    it('works with feature flag fetchSourcesFromBackend enabled', () => {
-      configuration.fetchSourcesFromBackend = true;
-
+    it('renders correctly with sources', () => {
       const { queryAllByTestId, queryByText } = render(
         withContext(
           <FilterTagListComponent

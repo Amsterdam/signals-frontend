@@ -321,7 +321,6 @@ describe('signals/incident-management/selectors', () => {
     });
 
     it('should not work without sources', () => {
-      configuration.fetchSourcesFromBackend = true;
       const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
       const actual = makeSelectEditFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
 
