@@ -114,15 +114,10 @@ export const makeSelectEditFilter = createSelector(
       category_slug,
       area,
       directing_department,
+      source,
     };
-    const allFixtures = configuration.fetchSourcesFromBackend
-      ? {
-        ...fixtures,
-        source,
-      }
-      : fixtures;
 
-    return parseInputFormData(state.editFilter, allFixtures, (category, value) => {
+    return parseInputFormData(state.editFilter, fixtures, (category, value) => {
       if (category.key || category.slug) return undefined;
 
       return category._links.self.public.endsWith(`/${value}`);

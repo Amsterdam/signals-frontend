@@ -58,7 +58,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     () => ({
       ...dataLists,
       area: districts,
-      source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+      source: sources,
       directing_department: directingDepartments,
     }),
     [districts, sources, directingDepartments]
@@ -432,26 +432,14 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </FilterGroup>
 
-          {configuration.fetchSourcesFromBackend && (
-            <CheckboxGroup
-              defaultValue={state.options.source}
-              label="Bron"
-              name="source"
-              onChange={onGroupChange}
-              onToggle={onGroupToggle}
-              options={sources}
-            />
-          )}
-          {!configuration.fetchSourcesFromBackend && (
-            <CheckboxGroup
-              defaultValue={state.options.source}
-              label="Bron"
-              name="source"
-              onChange={onGroupChange}
-              onToggle={onGroupToggle}
-              options={dataLists.source}
-            />
-          )}
+          <CheckboxGroup
+            defaultValue={state.options.source}
+            label="Bron"
+            name="source"
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            options={sources}
+          />
         </Fieldset>
       </ControlsWrapper>
 
