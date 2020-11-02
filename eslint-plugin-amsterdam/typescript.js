@@ -24,9 +24,9 @@ module.exports = {
         '@typescript-eslint/no-unnecessary-type-assertion': 'error',
         '@typescript-eslint/space-before-function-paren': ['error', 'never'],
 
-        '@typescript-eslint/member-delimiter-style': [
-          'error', { singleline: { delimiter: 'comma', requireLast: false }, multiline: { delimiter: 'none' } },
-        ],
+        // '@typescript-eslint/member-delimiter-style': [
+        //   'error', { singleline: { delimiter: 'comma', requireLast: false }, multiline: { delimiter: 'none' } },
+        // ],
 
         // disable for tests
         '@typescript-eslint/init-declarations': 'off',
