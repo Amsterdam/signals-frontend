@@ -140,7 +140,7 @@ const IncidentDetail = () => {
 
   useEffect(() => {
     if (!incident) return;
-    dispatch({ type: SET_INCIDENT, payload: { incident } });
+    dispatch({ type: SET_INCIDENT, payload: incident });
 
     retrieveUnderlyingData();
   }, [incident, retrieveUnderlyingData]);
@@ -253,7 +253,9 @@ const IncidentDetail = () => {
 
         {(state.preview || state.edit) && (
           <Preview>
-            {state.edit === 'status' && <StatusForm defaultTexts={state.defaultTexts} childIncidents={state.children?.results} />}
+            {state.edit === 'status' && (
+              <StatusForm defaultTexts={state.defaultTexts} childIncidents={state.children?.results} />
+            )}
 
             {state.preview === 'location' && <LocationPreview />}
 

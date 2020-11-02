@@ -95,7 +95,7 @@ const Location = ({ location }) => {
               {configuration.useStaticMapServer ? (
                 <MapStatic boundsScaleFactor={0.25} height={mapHeight} markerSize={20} width={mapWidth} {...geometry} />
               ) : (
-                <StyledMap value={location} icon={smallMarkerIcon} zoom={mapZoom} />
+                <StyledMap key={`${latitude},${longitude}`} value={location} icon={smallMarkerIcon} zoom={mapZoom} />
               )}
             </MapTile>
           )}
