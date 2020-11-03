@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import SelectInputComponent from 'components/SelectInput';
+import Select from 'components/Select';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -17,11 +17,9 @@ export const SelectInput = ({ name, display, values, useSlug, emptyOptionText })
 
   const render = ({ handler }) => (
     <Wrapper>
-      <SelectInputComponent
+      <Select
         label={<strong>{display}</strong>}
         name={name}
-        data-testid={name}
-        id={`form${name}`}
         {...handler()}
         options={options}
       />

@@ -2,9 +2,9 @@ import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import SelectInput from '..';
+import Select from '.';
 
-describe('<SelectInput />', () => {
+describe('<Select />', () => {
   let props;
 
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('<SelectInput />', () => {
   afterEach(() => { jest.resetAllMocks(); });
 
   it('should render correctly', () => {
-    const { container } = render(withAppContext(<SelectInput {...props} />));
+    const { container } = render(withAppContext(<Select {...props} />));
 
     const options = container.querySelectorAll('option');
     expect(options).toHaveLength(props.options.length);
@@ -33,7 +33,7 @@ describe('<SelectInput />', () => {
 
   it('should call onChange prop', () => {
     const onChangeMock = jest.fn();
-    const { container } = render(<SelectInput {...props} onChange={onChangeMock} />);
+    const { container } = render(<Select {...props} onChange={onChangeMock} />);
 
     expect(onChangeMock).not.toHaveBeenCalled();
 

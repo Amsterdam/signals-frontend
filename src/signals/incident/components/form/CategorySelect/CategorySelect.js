@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Select from 'components/SelectInput';
+import Select from 'components/Select';
 import { useSelector } from 'react-redux';
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import InfoText from 'components/InfoText';

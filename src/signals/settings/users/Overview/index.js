@@ -16,7 +16,7 @@ import SettingsContext from 'signals/settings/context';
 import { setUserFilters } from 'signals/settings/actions';
 import { inputSelectRolesSelector } from 'models/roles/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
-import SelectInput from 'components/SelectInput';
+import Select from 'components/Select';
 import useFetchUsers from './hooks/useFetchUsers';
 
 const StyledPagination = styled(Pagination)`
@@ -169,14 +169,14 @@ const UsersOverviewContainer = () => {
                   data-testid="filterUsersByUsername"
                 />,
 
-                <SelectInput
+                <Select
                   name="roleSelect"
                   value={filters.role}
                   options={selectRoles}
                   onChange={selectRoleOnChange}
                 />,
 
-                <SelectInput
+                <Select
                   name="userActiveSelect"
                   value={filters.userActive}
                   options={selectUserActive}
