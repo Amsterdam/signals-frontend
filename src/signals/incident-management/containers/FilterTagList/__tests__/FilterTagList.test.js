@@ -207,8 +207,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
       expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
       expect(queryByText(districts[0].value)).not.toBeInTheDocument();
-      expect(queryByText(definitions.sourceList[0].value)).not.toBeInTheDocument();
-      expect(queryByText(definitions.sourceList[1].value)).not.toBeInTheDocument();
       expect(queryByText(sources[0].value)).toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);

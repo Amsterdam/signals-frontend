@@ -106,6 +106,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     event => {
       event.preventDefault();
       const options = parseOutputFormData(state.options);
+
       const formData = { ...state.filter, options };
       const hasName = formData.name.trim() !== '';
 
