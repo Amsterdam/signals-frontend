@@ -1,8 +1,8 @@
 import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
-import { Marker } from '@datapunt/react-maps';
+import { themeSpacing } from '@amsterdam/asc-ui';
+import { Marker } from '@amsterdam/react-maps';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';

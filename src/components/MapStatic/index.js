@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeColor } from '@datapunt/asc-ui';
+import { themeColor } from '@amsterdam/asc-ui';
 import configuration from 'shared/services/configuration/configuration';
 
 import useFetch from 'hooks/useFetch';

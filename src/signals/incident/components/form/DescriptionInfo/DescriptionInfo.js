@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { breakpoint } from '@datapunt/asc-ui';
+import { breakpoint } from '@amsterdam/asc-ui';
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors';
 
 const DescriptionInfoWrapper = styled.div`

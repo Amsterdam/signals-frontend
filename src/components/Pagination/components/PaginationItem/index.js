@@ -8,8 +8,8 @@ import {
   Link as AscLink,
   themeColor,
   themeSpacing,
-} from '@datapunt/asc-ui';
-import { ChevronLeft, ChevronRight } from '@datapunt/asc-assets';
+} from '@amsterdam/asc-ui';
+import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets';
 
 import { NEXT, PREVIOUS } from '../../utils';
 

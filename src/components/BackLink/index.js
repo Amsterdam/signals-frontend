@@ -8,8 +8,8 @@ import {
   Typography,
   themeColor,
   themeSpacing,
-} from '@datapunt/asc-ui';
-import { ChevronLeft } from '@datapunt/asc-assets';
+} from '@amsterdam/asc-ui';
+import { ChevronLeft } from '@amsterdam/asc-assets';
 
 const LinkLabel = styled(Typography).attrs({
   forwardedAs: 'span',

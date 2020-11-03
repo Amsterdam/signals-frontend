@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Link, Heading, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Link, Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 

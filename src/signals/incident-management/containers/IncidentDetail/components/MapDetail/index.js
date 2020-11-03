@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Map from 'components/Map';
 import { markerIcon } from 'shared/services/configuration/map-markers';
-import { Marker } from '@datapunt/react-maps';
+import { Marker } from '@amsterdam/react-maps';
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { locationType } from 'shared/types';

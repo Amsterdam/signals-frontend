@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { ascDefaultTheme as theme } from '@datapunt/asc-ui';
+import { ascDefaultTheme as theme } from '@amsterdam/asc-ui';
 import 'jest-styled-components';
 
 import { withAppContext } from 'test/utils';

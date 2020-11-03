@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import { Map } from '@datapunt/react-maps';
+import { Map } from '@amsterdam/react-maps';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import MarkerCluster from '..';
 

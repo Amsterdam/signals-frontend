@@ -1,9 +1,9 @@
 import React, { useMemo, useState, useLayoutEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { ViewerContainer } from '@datapunt/asc-ui';
-import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
+import { ViewerContainer } from '@amsterdam/asc-ui';
+import { Zoom } from '@amsterdam/arm-core';
 import styled from 'styled-components';
-import { Map as MapComponent, TileLayer } from '@datapunt/react-maps';
+import { Map as MapComponent, TileLayer } from '@amsterdam/react-maps';
 import { useDispatch } from 'react-redux';
 
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants';

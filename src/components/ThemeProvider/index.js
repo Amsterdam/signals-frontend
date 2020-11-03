@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { ThemeProvider as ASCThemeProvider } from '@datapunt/asc-ui';
+import { ThemeProvider as ASCThemeProvider } from '@amsterdam/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';

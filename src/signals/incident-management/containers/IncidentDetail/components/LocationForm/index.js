@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useContext } from 'react';
 import styled from 'styled-components';
-import { Row, Column } from '@datapunt/asc-ui';
+import { Row, Column } from '@amsterdam/asc-ui';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
 import MapContext from 'containers/MapContext';

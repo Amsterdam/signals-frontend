@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { Wizard, Steps, Step } from 'react-albus';
-import { Heading, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import { sourceList } from 'signals/incident-management/definitions';

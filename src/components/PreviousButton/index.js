@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { ChevronLeft } from '@datapunt/asc-assets';
-import { themeColor } from '@datapunt/asc-ui';
+import { ChevronLeft } from '@amsterdam/asc-assets';
+import { themeColor } from '@amsterdam/asc-ui';
 
 import Button from 'components/Button';
 

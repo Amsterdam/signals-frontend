@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useReducer, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Label } from '@datapunt/asc-ui';
+import { Label } from '@amsterdam/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 import statusList, { changeStatusOptionList, isStatusClosed } from 'signals/incident-management/definitions/statusList';

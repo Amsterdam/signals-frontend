@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Row, Column, Heading, themeSpacing } from '@datapunt/asc-ui';
+import { Row, Column, Heading, themeSpacing } from '@amsterdam/asc-ui';
 
 const StyledHeading = styled(Heading)`
   margin: ${themeSpacing(5)} 0;

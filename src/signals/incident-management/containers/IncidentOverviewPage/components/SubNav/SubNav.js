@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Row, Column, themeSpacing, themeColor, Heading } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing, themeColor, Heading } from '@amsterdam/asc-ui';
 import { Link } from 'react-router-dom';
 
 import configuration from 'shared/services/configuration/configuration';

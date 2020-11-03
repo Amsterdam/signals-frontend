@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { breakpoint, List, ListItem, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { breakpoint, List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE';
 export const STATUS_RESPONSE_REQUIRED = 'components/ChildIncidents/STATUS_RESPONSE_REQUIRED';

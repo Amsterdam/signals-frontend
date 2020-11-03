@@ -7,7 +7,7 @@ import {
   themeColor,
   Typography,
   themeSpacing,
-} from '@datapunt/asc-ui';
+} from '@amsterdam/asc-ui';
 
 const Hint = styled(Typography).attrs({
   forwardedAs: 'span',

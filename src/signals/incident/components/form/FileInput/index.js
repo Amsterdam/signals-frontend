@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { TrashBin, Enlarge } from '@datapunt/asc-assets';
+import { TrashBin, Enlarge } from '@amsterdam/asc-assets';
 import fileSize from '../../../services/file-size';
 import FileInputStyle, {
   FileInputPreviewBox,

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Row, Heading, Link, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Row, Heading, Link, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import configuration from 'shared/services/configuration/configuration';

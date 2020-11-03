@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Media from 'react-media';
 
-import { Logout as LogoutIcon } from '@datapunt/asc-assets';
+import { Logout as LogoutIcon } from '@amsterdam/asc-assets';
 
 import {
   Header as HeaderComponent,
@@ -16,7 +16,7 @@ import {
   themeColor,
   themeSpacing,
   breakpoint,
-} from '@datapunt/asc-ui';
+} from '@amsterdam/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import useIsFrontOffice from 'hooks/useIsFrontOffice';

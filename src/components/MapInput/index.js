@@ -2,8 +2,8 @@ import React, { useLayoutEffect, useContext, useState, useEffect, useCallback, u
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
-import { Marker } from '@datapunt/react-maps';
-import { ViewerContainer } from '@datapunt/asc-ui';
+import { Marker } from '@amsterdam/react-maps';
+import { ViewerContainer } from '@amsterdam/asc-ui';
 import 'leaflet/dist/leaflet.css';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
