@@ -5,6 +5,7 @@ import { makeSelectMainCategories, makeSelectSubCategories } from 'models/catego
 import configuration from 'shared/services/configuration/configuration';
 
 import { createSelector } from 'reselect';
+import { makeSelectDirectingDepartments } from 'models/departments/selectors';
 import { makeSelectSources } from '../../containers/App/selectors';
 import { initialState } from './reducer';
 import { FILTER_PAGE_SIZE } from './constants';
@@ -58,14 +59,14 @@ export const makeSelectActiveFilter = createSelector(
     makeSelectSources,
     makeSelectMainCategories,
     makeSelectSubCategories,
+    makeSelectDirectingDepartments,
   ],
-  (stateMap, area, source, maincategory_slug, category_slug) => {
+  (stateMap, area, source, maincategory_slug, category_slug, directing_department) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
 
     const state = stateMap.toJS();
-
     const { priority } = state.activeFilter.options;
     const converted = (Array.isArray(priority) ? priority : [priority]).filter(Boolean);
     const filter = {
@@ -79,6 +80,7 @@ export const makeSelectActiveFilter = createSelector(
       maincategory_slug,
       category_slug,
       area,
+      directing_department,
     };
     const allFixtures = configuration.fetchSourcesFromBackend
       ? {
@@ -98,8 +100,10 @@ export const makeSelectEditFilter = createSelector(
     makeSelectSources,
     makeSelectMainCategories,
     makeSelectSubCategories,
+    makeSelectDirectingDepartments,
+
   ],
-  (stateMap, area, source, maincategory_slug, category_slug) => {
+  (stateMap, area, source, maincategory_slug, category_slug, directing_department) => {
     if (!(maincategory_slug && category_slug)) {
       return {};
     }
@@ -109,6 +113,7 @@ export const makeSelectEditFilter = createSelector(
       maincategory_slug,
       category_slug,
       area,
+      directing_department,
     };
     const allFixtures = configuration.fetchSourcesFromBackend
       ? {

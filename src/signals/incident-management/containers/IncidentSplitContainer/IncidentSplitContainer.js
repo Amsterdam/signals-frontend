@@ -1,7 +1,10 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
 import configuration from 'shared/services/configuration/configuration';
@@ -10,53 +13,111 @@ import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notificat
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
 import LoadingIndicator from 'components/LoadingIndicator';
-import Form from './Form';
+import IncidentSplitForm from './components/IncidentSplitForm';
 
 const IncidentSplitContainer = ({ FormComponent }) => {
-  const { data, error, get, isLoading, isSuccess, post } = useFetch();
+  const { error: errorSplit, isSuccess: isSuccessSplit, post } = useFetch();
+  const {
+    data: dataParent,
+    error: errorParent,
+    get: getParent,
+    isLoading: isLoadingParent,
+    isSuccess: isSuccessParent,
+  } = useFetch();
+  const { error: errorUpdate, patch, isSuccess: isSuccessUpdate } = useFetch();
   const { id } = useParams();
   const history = useHistory();
-  const storeDispatch = useDispatch();
+  const dispatch = useDispatch();
+  const [parentIncident, setParentIncident] = useState();
+  const [directingDepartment, setDirectingDepartment] = useState([]);
+  const departments = useSelector(makeSelectDepartments);
+  const directingDepartments = useSelector(makeSelectDirectingDepartments);
+
+  const subcategories = useSelector(makeSelectSubCategories);
+  const subcategoryOptions = useMemo(
+    () => subcategories?.map(category => ({ ...category, value: category.extendedName })),
+    [subcategories]
+  );
+
+  const parentDirectingDepartment = useMemo(() => {
+    const department = parentIncident?.directing_departments;
+    if (!Array.isArray(department) || department.length !== 1) return 'null';
+    const { code } = department[0];
+    return directingDepartments.find(({ key }) => key === code) ? code : 'null';
+  }, [parentIncident, directingDepartments]);
+
+  const updateDepartment = useCallback(
+    name => {
+      const department = departments?.list.find(d => d.code === name);
+      setDirectingDepartment(department ? [{ id: department.id }] : []);
+    },
+    [departments, setDirectingDepartment]
+  );
 
   useEffect(() => {
-    get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
-  }, [get, id]);
+    getParent(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
+  }, [getParent, id]);
 
   useEffect(() => {
-    if (isSuccess === undefined || error === undefined) return;
+    if (errorParent === undefined && dataParent === undefined) return;
 
-    const notificationProps = isSuccess
-      ? {
-        title: 'De melding is succesvol gesplitst',
-        variant: VARIANT_SUCCESS,
-      }
-      : {
-        title: 'De melding kon niet gesplitst worden',
-        variant: VARIANT_ERROR,
-      };
+    /* istanbul ignore else */
+    if (errorParent === false) {
+      setParentIncident(dataParent);
+    }
+  }, [errorParent, dataParent]);
 
-    storeDispatch(
+  useEffect(() => {
+    if (isSuccessSplit === undefined || errorSplit === undefined) return;
+    if (isSuccessSplit) {
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_departments: directingDepartment });
+    } else {
+      dispatch(
+        showGlobalNotification({
+          title: 'De melding kon niet gedeeld worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      );
+
+      history.push(`${INCIDENT_URL}/${id}`);
+    }
+
+    // Disabling linter; the `history` dependency is generating infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorSplit, isSuccessSplit, id, dispatch, patch, directingDepartment]);
+
+  useEffect(() => {
+    if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
+
+    // The scenario when there is an error during the patch of the parent incident
+    // is intentionally left out.
+
+    dispatch(
       showGlobalNotification({
-        ...notificationProps,
+        title: 'De melding is succesvol gedeeld',
+        variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })
     );
 
     history.push(`${INCIDENT_URL}/${id}`);
-  }, [error, history, id, isSuccess, storeDispatch]);
+  }, [errorUpdate, history, id, isSuccessUpdate, dispatch]);
 
   const onSubmit = useCallback(
     /**
      * Data coming from the submitted form
      *
-     * @param {Object[]} formData
-     * @param {string} formData[].text
-     * @param {string} formData[].sub_category
-     * @param {string} formData[].priority
-     * @param {string} formData[].type
+     * @param {Object} formData
+     * @param {string} formData.department
+     * @param {string} formData.incidents[].description
+     * @param {string} formData.incidents[].subcategory
+     * @param {string} formData.incidents[].priority
+     * @param {string} formData.incidents[].type
      */
-    formData => {
+    ({ department, incidents }) => {
       const {
+        id: parent,
         attachments,
         extra_properties,
         incident_date_end,
@@ -65,7 +126,9 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         reporter,
         source,
         text_extra,
-      } = data;
+      } = parentIncident;
+
+      updateDepartment(department);
       const { stadsdeel, buurt_code, address, geometrie } = location;
 
       const parentData = {
@@ -79,35 +142,54 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         text_extra,
       };
 
-      const mergedData = formData.reduce((acc, { sub_category, text, type, priority }) => {
-        const partialData = {
-          category: { sub_category },
-          priority: { priority },
-          text,
-          type: { code: type },
-        };
+      const mergedData = incidents
+        .filter(Boolean)
+        .map(({ subcategory, description, type, priority }) => {
+          const partialData = {
+            category: { category_url: subcategory },
+            priority: { priority },
+            text: description,
+            type: { code: type },
+          };
 
-        return [...acc, { ...parentData, ...partialData, parent: data.id }];
-      }, []);
+          return { ...parentData, ...partialData, parent };
+        });
 
       post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
-    [data, post]
+    [parentIncident, post, updateDepartment]
   );
 
   return (
     <div data-testid="incidentSplitContainer">
-      {isLoading ? (
+      {isLoadingParent || isSuccessParent || !parentIncident || !subcategories ? (
         <LoadingIndicator />
       ) : (
-        <FormComponent data-testid="incidentSplitForm" onSubmit={onSubmit} incident={data} />
+        <FormComponent
+          data-testid="incidentSplitForm"
+          parentIncident={{
+            id: parentIncident.id,
+            childrenCount: parentIncident?._links?.['sia:children']?.length || 0,
+            status: parentIncident.status.state,
+            statusDisplayName: parentIncident.status.state_display,
+            priority: parentIncident.priority.priority,
+            subcategory: parentIncident.category.category_url,
+            subcategoryDisplayName: `${parentIncident.category.sub} (${parentIncident.category.departments})`,
+            description: parentIncident.text,
+            type: parentIncident.type.code,
+            directingDepartment: parentDirectingDepartment,
+          }}
+          subcategories={subcategoryOptions}
+          directingDepartments={directingDepartments}
+          onSubmit={onSubmit}
+        />
       )}
     </div>
   );
 };
 
 IncidentSplitContainer.defaultProps = {
-  FormComponent: Form,
+  FormComponent: IncidentSplitForm,
 };
 
 IncidentSplitContainer.propTypes = {

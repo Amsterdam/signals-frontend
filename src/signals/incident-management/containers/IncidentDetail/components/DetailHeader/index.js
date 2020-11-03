@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
@@ -71,6 +71,7 @@ const StyledHeading = styled(Heading)`
 `;
 
 const ButtonLink = styled(Button)`
+  display: none;
   color: ${themeColor('tint', 'level7')};
   text-decoration: none;
 
@@ -88,8 +89,18 @@ const ParentLink = styled(Link)`
 const DetailHeader = () => {
   const { incident, update } = useContext(IncidentDetailContext);
   const location = useLocation();
-  const canSplit =
-    incident.status.state === 'm' && !(incident?._links?.['sia:children'] || incident?._links?.['sia:parent']);
+
+  const showSplitButton = useMemo(() => {
+    if (incident.status.state === 'o' || incident.status.state === 'a') return false;
+
+    if (incident?._links?.['sia:parent']) return false;
+
+    const children = incident?._links?.['sia:children'];
+    if (children?.length && children.length >= 10) return false;
+
+    return true;
+  }, [incident]);
+
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === incident.status.state);
   const downloadLink = incident?._links?.['sia:pdf']?.href;
 
@@ -130,15 +141,17 @@ const DetailHeader = () => {
       </HeadingContainer>
 
       <ButtonContainer>
-        {canSplit && (
-          <ButtonLink
-            variant="application"
-            forwardedAs={Link}
-            to={`${INCIDENT_URL}/${incident.id}/split`}
-            data-testid="detail-header-button-split"
-          >
-            Splitsen
-          </ButtonLink>
+        {showSplitButton && (
+          <div hidden>
+            <ButtonLink
+              variant="application"
+              forwardedAs={Link}
+              to={`${INCIDENT_URL}/${incident.id}/split`}
+              data-testid="detail-header-button-split"
+            >
+              Delen
+            </ButtonLink>
+          </div>
         )}
 
         {canThor && (

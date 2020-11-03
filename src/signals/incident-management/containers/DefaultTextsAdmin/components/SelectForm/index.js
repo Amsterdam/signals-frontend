@@ -11,19 +11,13 @@ import RadioInput from '../../../../components/RadioInput';
 import HiddenInput from '../../../../components/HiddenInput';
 
 const form = FormBuilder.group({
-  category_url: [
-    'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
-  ],
-  state: ['o'],
-  sub_slug: ['asbest-accu'],
-  main_slug: ['afval'],
+  category_url: null,
+  state: 'o',
+  sub_slug: null,
+  main_slug: null,
 });
 
-const SelectForm = ({
-  subCategories,
-  defaultTextsOptionList,
-  onFetchDefaultTexts,
-}) => {
+const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts }) => {
   const handleChange = useCallback(
     changed => {
       const newValues = {
@@ -38,13 +32,7 @@ const SelectForm = ({
 
   useEffect(() => {
     form.controls.category_url.valueChanges.subscribe(category_url => {
-      const found = subCategories.find(
-        sub =>
-          sub._links &&
-          sub._links.self &&
-          sub._links.self.public &&
-          sub._links.self.public === category_url
-      );
+      const found = category_url && subCategories.find(sub => sub?._links?.self?.public === category_url);
 
       /* istanbul ignore else */
       if (found) {
@@ -63,8 +51,12 @@ const SelectForm = ({
       handleChange({ state });
     });
 
-    form.updateValueAndValidity();
-    handleChange({});
+    const firstCategoryUrl = subCategories[0]?._links?.self?.public;
+    if (firstCategoryUrl) {
+      form.patchValue({
+        category_url: firstCategoryUrl,
+      });
+    }
 
     return () => {
       form.controls.category_url.valueChanges.unsubscribe();
@@ -99,16 +91,8 @@ const SelectForm = ({
             control={form.get('state')}
           />
 
-          <FieldControlWrapper
-            render={HiddenInput}
-            name="sub_slug"
-            control={form.get('sub_slug')}
-          />
-          <FieldControlWrapper
-            render={HiddenInput}
-            name="main_slug"
-            control={form.get('main_slug')}
-          />
+          <FieldControlWrapper render={HiddenInput} name="sub_slug" control={form.get('sub_slug')} />
+          <FieldControlWrapper render={HiddenInput} name="main_slug" control={form.get('main_slug')} />
         </form>
       )}
     />

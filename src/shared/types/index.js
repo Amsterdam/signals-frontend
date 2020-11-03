@@ -179,6 +179,7 @@ export const childIncidentType = PropTypes.exact({
     state: PropTypes.string.isRequired,
     state_display: PropTypes.string.isRequired,
   }),
+  updated_at: PropTypes.string.isRequired,
 });
 
 export const attachmentsType = PropTypes.arrayOf(
@@ -347,3 +348,18 @@ export const userType = PropTypes.shape({
     note: PropTypes.string,
   }),
 });
+
+export const subcategoriesType = PropTypes.arrayOf(
+  PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    info: PropTypes.string,
+  })
+);
+
+export const directingDepartmentsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  })
+);

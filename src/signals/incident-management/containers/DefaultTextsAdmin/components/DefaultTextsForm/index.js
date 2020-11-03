@@ -55,7 +55,15 @@ const fields = [...new Array(DEFAULT_TEXT_FIELDS).keys()].reduce(
 );
 
 const DefaultTextsForm = ({ categoryUrl, state, defaultTexts, subCategories, onSubmitTexts, onOrderDefaultTexts }) => {
-  const form = useMemo(() => FormBuilder.group(fields), []);
+  const form = useMemo(
+    () =>
+      FormBuilder.group({
+        ...fields,
+        categoryUrl: null,
+        state: null,
+      }),
+    []
+  );
   const items = Object.keys(form.controls).slice(0, -2);
 
   const handleSubmit = useCallback(

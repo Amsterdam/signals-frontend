@@ -1,6 +1,7 @@
 {
   "apiBaseUrl": "https://acc.api.data.amsterdam.nl",
   "areaTypeCodeForDistrict": "stadsdeel",
+  "assignSignalToEmployee": false,
   "fetchDistrictsFromBackend": false,
   "fetchQuestionsFromBackend": false,
   "fetchSourcesFromBackend": false,
@@ -24,6 +25,7 @@
     "headerTitle": "",
     "phoneNumber": "14 020",
     "shortTitle": "SIA",
+    "siteAddress": "meldingen.amsterdam.nl",
     "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
     "smallHeaderTitle": "SIA",
     "title": "Signalen Informatievoorziening Amsterdam",

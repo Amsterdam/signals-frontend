@@ -15,6 +15,10 @@
           "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
           "type": "string"
         },
+        "assignSignalToEmployee": {
+          "description": "Feature switch to enable assigning an incident to an individual employee.",
+          "type": "boolean"
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -69,6 +73,7 @@
       },
       "required": [
         "apiBaseUrl",
+        "assignSignalToEmployee",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "fetchSourcesFromBackend",
@@ -177,6 +182,10 @@
           "description": "PWA `short_name` property value. Should not exceed 12 characters. See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/short_name for reference",
           "type": "string"
         },
+        "siteAddress": {
+          "description": "The site's address, for having a means of referencing the site by its address",
+          "type": "string"
+        },
         "siteTitle": {
           "description": "Application title showing up in the title bar and search results",
           "type": "string"
@@ -203,6 +212,7 @@
         "headerTitle",
         "phoneNumber",
         "shortTitle",
+        "siteAddress",
         "siteTitle",
         "smallHeaderTitle",
         "title",

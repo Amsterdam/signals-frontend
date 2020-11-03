@@ -7,6 +7,7 @@ import configuration from 'shared/services/configuration/configuration';
 import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
+import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
 import Footer from 'components/Footer';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ThemeProvider from 'components/ThemeProvider';
@@ -84,6 +85,7 @@ export const AppContainer = () => {
     if (!isAuthenticated()) return;
 
     dispatch(fetchCategoriesAction());
+    dispatch(fetchDepartmentsAction());
 
     if (configuration.fetchSourcesFromBackend) {
       dispatch(getSources());

@@ -45,8 +45,6 @@ import {
   PATCH_INCIDENT_SUCCESS,
 } from './constants';
 
-import { SPLIT_INCIDENT_SUCCESS } from './containers/LegacyIncidentSplitContainer/constants';
-
 import { makeSelectActiveFilter, makeSelectFilterParams } from './selectors';
 
 export function* fetchProxy(action) {
@@ -229,7 +227,6 @@ export default function* watchIncidentManagementSaga() {
         PAGE_CHANGED,
         ORDERING_CHANGED,
         PATCH_INCIDENT_SUCCESS,
-        SPLIT_INCIDENT_SUCCESS,
       ],
       fetchProxy
     ),

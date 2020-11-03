@@ -27,7 +27,7 @@ import {
 
 import { MAP_URL } from '../../routes';
 
-import ListComponent from './components/List';
+import List from './components/List';
 import OverviewMap from './components/OverviewMap';
 import SubNav from './components/SubNav';
 import FilterTagList from '../FilterTagList';
@@ -153,7 +153,7 @@ export const IncidentOverviewPageContainerComponent = ({
             {loadingIncidents && <LoadingIndicator size={100} />}
 
             {canRenderList && (
-              <ListComponent
+              <List
                 incidents={incidents.results}
                 onChangeOrdering={orderingChangedAction}
                 sort={ordering}

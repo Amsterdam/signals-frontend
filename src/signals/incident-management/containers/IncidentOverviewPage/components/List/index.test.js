@@ -3,9 +3,11 @@ import { render, fireEvent } from '@testing-library/react';
 import configuration from 'shared/services/configuration/configuration';
 import { priorityList, statusList, stadsdeelList } from 'signals/incident-management/definitions';
 import { withAppContext } from 'test/utils';
+import 'jest-styled-components';
 
 import districts from 'utils/__tests__/fixtures/districts.json';
 import incidents from 'utils/__tests__/fixtures/incidents.json';
+import users from 'utils/__tests__/fixtures/users.json';
 
 import List from '.';
 import IncidentManagementContext from '../../../../context';
@@ -14,50 +16,72 @@ jest.mock('shared/services/configuration/configuration');
 
 const withContext = Component =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+    <IncidentManagementContext.Provider value={{ districts, users: users.results }}>
+      {Component}
+    </IncidentManagementContext.Provider>
   );
 
-describe('<List />', () => {
-  let props;
+const props = {
+  incidents,
+  priority: priorityList,
+  status: statusList,
+  stadsdeel: stadsdeelList,
+  onChangeOrdering: jest.fn(),
+};
 
-  beforeEach(() => {
-    props = {
-      incidents,
-      priority: priorityList,
-      status: statusList,
-      stadsdeel: stadsdeelList,
-      onChangeOrdering: jest.fn(),
-    };
-  });
+describe('List', () => {
+  beforeEach(() => {});
 
   afterEach(() => {
     configuration.__reset();
+    props.onChangeOrdering.mockReset();
   });
 
   it('should render correctly', () => {
     const { container } = render(withContext(<List {...props} />));
 
-    expect(container.querySelector('tr th:nth-child(1)')).toHaveTextContent(/^Id$/);
-    expect(container.querySelector('tr th:nth-child(2)')).toHaveTextContent(/^Dag$/);
-    expect(container.querySelector('tr th:nth-child(3)')).toHaveTextContent(/^Datum en tijd$/);
-    expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^Stadsdeel$/);
-    expect(container.querySelector('tr th:nth-child(5)')).toHaveTextContent(/^Subcategorie$/);
-    expect(container.querySelector('tr th:nth-child(6)')).toHaveTextContent(/^Status$/);
-    expect(container.querySelector('tr th:nth-child(7)')).toHaveTextContent(/^Urgentie$/);
-    expect(container.querySelector('tr th:nth-child(8)')).toHaveTextContent(/^Adres$/);
+    expect(container.querySelector('tr th:nth-child(1)')).toHaveTextContent(/^$/);
+    expect(container.querySelector('tr th:nth-child(2)')).toHaveTextContent(/^Id$/);
+    expect(container.querySelector('tr th:nth-child(3)')).toHaveTextContent(/^Dag$/);
+    expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^Datum en tijd$/);
+    expect(container.querySelector('tr th:nth-child(5)')).toHaveTextContent(/^Stadsdeel$/);
+    expect(container.querySelector('tr th:nth-child(6)')).toHaveTextContent(/^Subcategorie$/);
+    expect(container.querySelector('tr th:nth-child(7)')).toHaveTextContent(/^Status$/);
+    expect(container.querySelector('tr th:nth-child(8)')).toHaveTextContent(/^Urgentie$/);
+    expect(container.querySelector('tr th:nth-child(9)')).toHaveTextContent(/^Adres$/);
 
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(1)')).toHaveTextContent(incidents[0].id);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).toHaveTextContent(/^-$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(3)')).toHaveTextContent(/^03-12-2018 10:41$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^Centrum$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).toHaveTextContent(incidents[0].category.sub);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(6)')).toHaveTextContent(
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).toHaveTextContent(incidents[0].id);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(3)')).toHaveTextContent(/^-$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^03-12-2018 10:41$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).toHaveTextContent(/^Centrum$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(6)')).toHaveTextContent(incidents[0].category.sub);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(7)')).toHaveTextContent(
       incidents[0].status.state_display
     );
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(7)')).toHaveTextContent(/^Normaal$/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(8)')).toHaveTextContent(
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(8)')).toHaveTextContent(/^Normaal$/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(9)')).toHaveTextContent(
       incidents[0].location.address_text
     );
+  });
+
+  it('should render nowrap correctly', () => {
+    const whiteSpace = 'nowrap';
+    const { container } = render(withContext(<List {...props} />));
+
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(1)')).not.toHaveStyleRule('white-space', whiteSpace);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(2)')).not.toHaveStyleRule('white-space', whiteSpace);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(3)')).not.toHaveStyleRule('white-space', whiteSpace);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveStyleRule('white-space', whiteSpace);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).not.toHaveStyleRule('white-space', whiteSpace);
+  });
+
+  it('should render correctly when loading', () => {
+    const opacity = '0.3';
+    const { rerender, getByTestId } = render(withContext(<List {...props} />));
+    expect(getByTestId('incidentOverviewListComponent')).not.toHaveStyleRule('opacity', opacity);
+
+    rerender(withContext(<List {...{ ...props, isLoading: true }} />));
+    expect(getByTestId('incidentOverviewListComponent')).toHaveStyleRule('opacity', opacity);
   });
 
   it('should render correctly with fetchDistrictsFromBackend', () => {
@@ -66,9 +90,19 @@ describe('<List />', () => {
 
     const { container } = render(withContext(<List {...props} />));
 
-    expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(/^District/);
-    expect(container.querySelector('tr:nth-child(1) td:nth-child(4)')).toHaveTextContent(/^North/);
-    expect(container.querySelector('tr:nth-child(2) td:nth-child(4)')).toHaveTextContent(/^South/);
+    expect(container.querySelector('tr th:nth-child(5)')).toHaveTextContent(/^District/);
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(5)')).toHaveTextContent(/^North/);
+    expect(container.querySelector('tr:nth-child(2) td:nth-child(5)')).toHaveTextContent(/^South/);
+  });
+
+  it('should render correctly with assignSignalToEmployee', () => {
+    configuration.assignSignalToEmployee = true;
+
+    const { container } = render(withContext(<List {...props} />));
+
+    expect(container.querySelector('tr th:nth-child(10)')).toHaveTextContent('Toegewezen aan');
+    expect(container.querySelector('tr:nth-child(1) td:nth-child(10)')).toHaveTextContent(users.results[0].username);
+    expect(container.querySelector('tr:nth-child(2) td:nth-child(10)')).toHaveTextContent(/^$/);
   });
 
   describe('events', () => {
@@ -77,7 +111,7 @@ describe('<List />', () => {
 
       expect(props.onChangeOrdering).not.toHaveBeenCalled();
 
-      fireEvent.click(container.querySelector('tr th:nth-child(3)'));
+      fireEvent.click(container.querySelector('tr th:nth-child(4)'));
 
       expect(props.onChangeOrdering).toHaveBeenCalledWith('created_at');
     });
@@ -87,7 +121,7 @@ describe('<List />', () => {
 
       expect(props.onChangeOrdering).not.toHaveBeenCalled();
 
-      fireEvent.click(container.querySelector('tr th:nth-child(3)'));
+      fireEvent.click(container.querySelector('tr th:nth-child(4)'));
 
       expect(props.onChangeOrdering).toHaveBeenCalledWith('-created_at');
     });
@@ -132,6 +166,16 @@ describe('<List />', () => {
       );
 
       expect(elementsWithTextContent).toHaveLength(2);
+    });
+
+    it('should render an icon for each parent incident', () => {
+      const incidentWithChildren = { ...props.incidents[0], has_children: true };
+      const incidentList = [incidentWithChildren, ...props.incidents.slice(1)];
+      const parentsCount = incidentList.filter(incident => incident.has_children).length;
+
+      const { queryAllByRole } = render(withContext(<List {...props} incidents={incidentList} />));
+
+      expect(queryAllByRole('img').length).toEqual(parentsCount);
     });
   });
 });

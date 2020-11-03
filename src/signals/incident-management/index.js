@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';
 import { Route, Switch } from 'react-router-dom';
 
+import useFetch from 'hooks/useFetch';
 import configuration from 'shared/services/configuration/configuration';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
@@ -29,13 +30,14 @@ const IncidentDetail = lazy(() => import('./containers/IncidentDetail'));
 // istanbul ignore next
 const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'));
 // istanbul ignore next
-const LegacyIncidentSplitContainer = lazy(() => import('./containers/LegacyIncidentSplitContainer'));
+const IncidentSplitContainer = lazy(() => import('./containers/IncidentSplitContainer'));
 
 const IncidentManagement = () => {
   const location = useLocationReferrer();
   const districts = useSelector(makeSelectDistricts);
   const searchQuery = useSelector(makeSelectSearchQuery);
   const dispatch = useDispatch();
+  const users = useFetch();
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -55,17 +57,23 @@ const IncidentManagement = () => {
     dispatch(getFilters());
   }, [dispatch, searchQuery]);
 
+  useEffect(() => {
+    if (isAuthenticated() && !users.isLoading && !users.data) {
+      users.get(configuration.USERS_ENDPOINT);
+    }
+  }, [users]);
+
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
   }
 
   return (
-    <IncidentManagementContext.Provider value={{ districts }}>
+    <IncidentManagementContext.Provider value={{ districts, users: users.data?.results }}>
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
           <Route exact path={routes.incidents} component={IncidentOverviewPage} />
           <Route exact path={routes.incident} component={IncidentDetail} />
-          <Route exact path={routes.split} component={LegacyIncidentSplitContainer} />
+          <Route exact path={routes.split} component={IncidentSplitContainer} />
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
           <Route component={IncidentOverviewPage} />
         </Switch>

@@ -1,0 +1,338 @@
+[
+  {
+    "departments": [
+      {
+        "id": 20,
+        "code": "AB",
+        "name": "Amsterdamse Bos",
+        "is_intern": "True",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 6,
+        "code": "ASC",
+        "name": "Actie Service Centrum",
+        "is_intern": "True",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 22,
+        "code": "MRB",
+        "name": "Marktbureau",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 21,
+        "code": "PRK",
+        "name": "Parkeren",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 24,
+        "code": "STD",
+        "name": "Stadsdelen",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 4,
+        "code": "STW",
+        "name": "Stadswerken",
+        "is_intern": "True",
+        "is_responsible": true,
+        "can_view": true
+      },
+      {
+        "id": 9,
+        "code": "VOR",
+        "name": "V&OR",
+        "is_intern": "True",
+        "is_responsible": true,
+        "can_view": true
+      },
+      {
+        "id": 23,
+        "code": "VTW",
+        "name": "VTW",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      }
+    ],
+    "_display": "Afwatering brug (Civiele Constructies)",
+    "fk": 145,
+    "sla": {
+      "n_days": 5,
+      "use_calendar_days": false
+    },
+    "name": "Afwatering brug",
+    "slug": "afwatering-brug",
+    "handling_message": "Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.",
+    "value": "Afwatering brug (STW, VOR)",
+    "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies",
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/afwatering-brug"
+      },
+      "archives": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145/history"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/civiele-constructies/sub_categories/afwatering-brug/status-message-templates"
+      },
+      "sia:parent": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/afwatering-brug",
+    "is_active": true,
+    "description": "Dit is het verhaal van de brug die moest afwateren.",
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/afwatering-brug",
+    "extendedName": "Afwatering brug (STW, VOR)"
+  },
+  {
+    "departments": [
+      {
+        "id": 20,
+        "code": "AB",
+        "name": "Amsterdamse Bos",
+        "is_intern": "True",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 5,
+        "code": "AEG",
+        "name": "Afval en Grondstoffen",
+        "is_intern": "True",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 6,
+        "code": "ASC",
+        "name": "Actie Service Centrum",
+        "is_intern": "True",
+        "is_responsible": true,
+        "can_view": true
+      },
+      {
+        "id": 16,
+        "code": "FB",
+        "name": "FB",
+        "is_intern": "True",
+        "is_responsible": true,
+        "can_view": true
+      },
+      {
+        "id": 22,
+        "code": "MRB",
+        "name": "Marktbureau",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 21,
+        "code": "PRK",
+        "name": "Parkeren",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 24,
+        "code": "STD",
+        "name": "Stadsdelen",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 4,
+        "code": "STW",
+        "name": "Stadswerken",
+        "is_intern": "True",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 2,
+        "code": "THO",
+        "name": "THOR",
+        "is_intern": "True",
+        "is_responsible": true,
+        "can_view": true
+      },
+      {
+        "id": 23,
+        "code": "VTW",
+        "name": "VTW",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      }
+    ],
+    "_display": "Asbest / accu (Afval)",
+    "fk": 10,
+    "sla": {
+      "n_days": 3,
+      "use_calendar_days": false
+    },
+    "name": "Asbest / accu",
+    "slug": "asbest-accu",
+    "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+    "value": "Asbest / accu (ASC, FB, THO)",
+    "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval",
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/10",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu"
+      },
+      "archives": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/10/history"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates"
+      },
+      "sia:parent": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
+    "is_active": true,
+    "description": "Alles met betrekking tot asbest gerelateerd afval en bijtende/corrosieve vloeistoffen.",
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
+    "extendedName": "Asbest / accu (ASC, FB, THO)"
+  },
+  {
+    "departments": [
+      {
+        "id": 20,
+        "code": "AB",
+        "name": "Amsterdamse Bos",
+        "is_intern": "True",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 6,
+        "code": "ASC",
+        "name": "Actie Service Centrum",
+        "is_intern": "True",
+        "is_responsible": true,
+        "can_view": true
+      },
+      {
+        "id": 12,
+        "code": "CCA",
+        "name": "CCA",
+        "is_intern": "True",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 22,
+        "code": "MRB",
+        "name": "Marktbureau",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 21,
+        "code": "PRK",
+        "name": "Parkeren",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 24,
+        "code": "STD",
+        "name": "Stadsdelen",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 4,
+        "code": "STW",
+        "name": "Stadswerken",
+        "is_intern": "True",
+        "is_responsible": false,
+        "can_view": true
+      },
+      {
+        "id": 2,
+        "code": "THO",
+        "name": "THOR",
+        "is_intern": "True",
+        "is_responsible": true,
+        "can_view": true
+      },
+      {
+        "id": 23,
+        "code": "VTW",
+        "name": "VTW",
+        "is_intern": "False",
+        "is_responsible": false,
+        "can_view": true
+      }
+    ],
+    "_display": "Auto- / scooter- / bromfiets(wrak) (Overlast in de openbare ruimte)",
+    "fk": 34,
+    "sla": {
+      "n_days": 21,
+      "use_calendar_days": true
+    },
+    "name": "Auto- / scooter- / bromfiets(wrak)",
+    "slug": "auto-scooter-bromfietswrak",
+    "handling_message": "We laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+    "value": "Auto- / scooter- / bromfiets(wrak) (ASC, THO)",
+    "parentKey": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte",
+    "_links": {
+      "curies": {
+        "name": "sia",
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+      },
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/34",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak"
+      },
+      "archives": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/34/history"
+      },
+      "sia:status-message-templates": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak/status-message-templates"
+      },
+      "sia:parent": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/81",
+        "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
+      }
+    },
+    "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak",
+    "is_active": true,
+    "description": null,
+    "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak",
+    "extendedName": "Auto- / scooter- / bromfiets(wrak) (ASC, THO)"
+  }
+]
