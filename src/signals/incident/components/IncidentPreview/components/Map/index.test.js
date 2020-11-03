@@ -34,7 +34,7 @@ describe('signals/incident/components/IncidentPreview/components/Map', () => {
   });
 
   it('should render normal map with useStaticMapServer disabled', () => {
-    configuration.useStaticMapServer = false;
+    configuration.featureFlags.useStaticMapServer = false;
 
     const { queryByTestId } = render(withAppContext(<MapPreview value={{ geometrie }} />));
 

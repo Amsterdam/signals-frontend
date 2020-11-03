@@ -73,7 +73,7 @@ describe('<Location />', () => {
     });
 
     it('should render correctly with fetchDistrictsFromBackend', async () => {
-      configuration.fetchDistrictsFromBackend = true;
+      configuration.featureFlags.fetchDistrictsFromBackend = true;
       configuration.language.district = 'District';
 
       const { findByText, queryByTestId } = render(renderWithContext());
@@ -94,7 +94,7 @@ describe('<Location />', () => {
       });
 
       it('should render normal map with useStaticMapServer disabled', async () => {
-        configuration.useStaticMapServer = false;
+        configuration.featureFlags.useStaticMapServer = false;
 
         const { findByText, queryByTestId } = render(renderWithContext());
 

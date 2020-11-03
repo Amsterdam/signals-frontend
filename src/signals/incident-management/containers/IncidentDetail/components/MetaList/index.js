@@ -54,7 +54,7 @@ const MetaList = () => {
 
   const routingDepartments = useMemo(
     () =>
-      (configuration.assignSignalToEmployee || configuration.assignSignalToDepartment) &&
+      (configuration.featureFlags.assignSignalToEmployee || configuration.featureFlags.assignSignalToDepartment) &&
       incident.routing_departments?.length &&
       incident.routing_departments,
     [incident]
@@ -72,7 +72,7 @@ const MetaList = () => {
   );
 
   const incidentDepartmentNames = useMemo(() => {
-    if (!configuration.assignSignalToEmployee) return [];
+    if (!configuration.featureFlags.assignSignalToEmployee) return [];
 
     const routingDepartmentNames = routingDepartments?.length && routingDepartments.map(department => department.name);
 
@@ -104,7 +104,7 @@ const MetaList = () => {
 
   const userOptions = useMemo(
     () =>
-      configuration.assignSignalToEmployee &&
+      configuration.featureFlags.assignSignalToEmployee &&
       users && [
         {
           key: null,
@@ -125,7 +125,7 @@ const MetaList = () => {
   );
 
   const departmentOptions = useMemo(() => {
-    if (!configuration.assignSignalToDepartment) return [];
+    if (!configuration.featureFlags.assignSignalToDepartment) return [];
 
     const options =
       categoryDepartments?.length > 1 &&
@@ -224,7 +224,7 @@ const MetaList = () => {
         </Highlight>
       )}
 
-      {configuration.assignSignalToEmployee && userOptions && (
+      {configuration.featureFlags.assignSignalToEmployee && userOptions && (
         <Highlight type="assigned_user_id">
           <ChangeValue
             component={SelectInput}
@@ -237,7 +237,7 @@ const MetaList = () => {
         </Highlight>
       )}
 
-      {configuration.assignSignalToDepartment && departmentOptions && (
+      {configuration.featureFlags.assignSignalToDepartment && departmentOptions && (
         <Highlight type="routing_departments">
           <ChangeValue
             component={SelectInput}
