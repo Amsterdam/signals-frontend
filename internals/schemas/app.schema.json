@@ -273,7 +273,7 @@
           ]
         },
         "height": {
-          "description": "Length value that sets the logo image's height. In pixels, the height should be 86 or less.",
+          "description": "Length value that sets the logo image's height. In pixels, the height should be 74 or less.",
           "type": [
             "string",
             "integer"
