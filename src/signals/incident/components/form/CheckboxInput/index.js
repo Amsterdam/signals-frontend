@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash.map';
 import isObject from 'lodash.isobject';
-import { Label } from '@datapunt/asc-ui';
+import { Label } from '@amsterdam/asc-ui';
 
 import Checkbox from 'components/Checkbox';
 

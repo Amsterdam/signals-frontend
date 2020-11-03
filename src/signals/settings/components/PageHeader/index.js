@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import BackLinkComponent from 'components/BackLink';
 
-import { Heading, Row, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, Row, themeSpacing } from '@amsterdam/asc-ui';
 
 const StyledSection = styled.section`
   padding-top: ${themeSpacing(6)};

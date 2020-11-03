@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading } from '@datapunt/asc-ui';
+import { Heading } from '@amsterdam/asc-ui';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';

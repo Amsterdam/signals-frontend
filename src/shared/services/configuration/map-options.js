@@ -1,4 +1,4 @@
-import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
+import { getCrsRd } from '@amsterdam/arm-core';
 
 import configuration from 'shared/services/configuration/configuration';
 

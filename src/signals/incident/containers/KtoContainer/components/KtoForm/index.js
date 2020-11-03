@@ -1,7 +1,7 @@
 import React, { useCallback, useReducer } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { themeColor } from '@datapunt/asc-ui';
+import { themeColor } from '@amsterdam/asc-ui';
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 import TextArea from 'components/TextArea';

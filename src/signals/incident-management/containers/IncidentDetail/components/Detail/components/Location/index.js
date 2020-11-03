@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo, useContext } from 'react';
 import styled from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@amsterdam/asc-ui';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { locationType } from 'shared/types';

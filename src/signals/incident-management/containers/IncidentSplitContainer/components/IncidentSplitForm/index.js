@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
-import { Heading } from '@datapunt/asc-ui';
+import { Heading } from '@amsterdam/asc-ui';
 
 import { directingDepartmentsType, subcategoriesType } from 'shared/types';
 

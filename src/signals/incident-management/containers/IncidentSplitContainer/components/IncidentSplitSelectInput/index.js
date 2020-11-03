@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Select } from '@datapunt/asc-ui';
+import { Select } from '@amsterdam/asc-ui';
 
 import { StyledInfoText, StyledSelect } from '../../styled';
 

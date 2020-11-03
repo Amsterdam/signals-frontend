@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Button, themeSpacing, Row, Column } from '@datapunt/asc-ui';
+import { Button, themeSpacing, Row, Column } from '@amsterdam/asc-ui';
 
 import { markerIcon } from 'shared/services/configuration/map-markers';
 

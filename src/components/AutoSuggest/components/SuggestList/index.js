@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeColor, themeSpacing, Icon } from '@datapunt/asc-ui';
-import { ChevronRight } from '@datapunt/asc-assets';
+import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui';
+import { ChevronRight } from '@amsterdam/asc-assets';
 
 const StyledList = styled.ul`
   border: 1px solid ${themeColor('tint', 'level5')};

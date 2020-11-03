@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Column, Row } from '@datapunt/asc-ui';
-import { Close } from '@datapunt/asc-assets';
+import { Column, Row } from '@amsterdam/asc-ui';
+import { Close } from '@amsterdam/asc-assets';
 import { useHistory } from 'react-router-dom';
 import {
   SITE_HEADER_HEIGHT_SHORT,

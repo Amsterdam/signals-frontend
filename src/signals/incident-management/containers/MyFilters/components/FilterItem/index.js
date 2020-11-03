@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Heading, Link, themeSpacing, themeColor } from '@datapunt/asc-ui';
+import { Heading, Link, themeSpacing, themeColor } from '@amsterdam/asc-ui';
 import * as types from 'shared/types';
 import { parseToAPIData } from 'signals/shared/filter/parse';
 

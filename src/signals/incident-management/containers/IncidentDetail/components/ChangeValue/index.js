@@ -4,7 +4,7 @@ import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import get from 'lodash.get';
 import set from 'lodash.set';
 import styled from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@amsterdam/asc-ui';
 
 import Button from 'components/Button';
 import { dataListType } from 'shared/types';

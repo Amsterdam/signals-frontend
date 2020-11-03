@@ -1,7 +1,7 @@
 import React from 'react';
-import { LogoShort } from '@datapunt/asc-assets';
+import { LogoShort } from '@amsterdam/asc-assets';
 import styled, { css } from 'styled-components';
-import { breakpoint, themeSpacing, themeColor } from '@datapunt/asc-ui';
+import { breakpoint, themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
 export const LogoStyle = styled(LogoShort)`
   display: block;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Spinner as AscSpinner } from '@datapunt/asc-assets';
-import { themeColor } from '@datapunt/asc-ui';
+import { Spinner as AscSpinner } from '@amsterdam/asc-assets';
+import { themeColor } from '@amsterdam/asc-ui';
 
 const rotate = keyframes`
   from {

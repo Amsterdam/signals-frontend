@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeColor, Heading, styles, themeSpacing } from '@datapunt/asc-ui';
+import { themeColor, Heading, styles, themeSpacing } from '@amsterdam/asc-ui';
 
 import { string2date, string2time } from 'shared/services/string-parser';
 import { historyType } from 'shared/types';
