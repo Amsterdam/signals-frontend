@@ -11,8 +11,8 @@ describe('Standaardteksten', () => {
     beforeEach(() => {
       cy.server();
       cy.getManageSignalsRoutes();
-      cy.route('**/signals/v1/private/terms/categories/afval/sub_categories/asbest-accu/status-message-templates').as(
-        'getAsbestAccu',
+      cy.route('/signals/v1/private/terms/categories/civiele-constructies/sub_categories/afwatering-brug/status-message-templates').as(
+        'getAfwateringBrug',
       );
       cy.route(
         '/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/duiven/status-message-templates',
@@ -29,7 +29,7 @@ describe('Standaardteksten', () => {
     it('Should create standaardteksten for duiven', () => {
       cy.openMenu();
       cy.contains('Standaard teksten').click();
-      cy.wait('@getAsbestAccu');
+      cy.wait('@getAfwateringBrug');
 
       cy.url().should('include', '/manage/standaard/teksten');
       cy.checkHeaderText('Beheer standaard teksten');
@@ -80,9 +80,6 @@ describe('Standaardteksten', () => {
         .clear()
         .type(STANDAARDTEKSTEN.textDescriptionHeropenen, { parseSpecialCharSequences: false });
       cy.get(STANDAARDTEKSTEN.buttonOpslaan).click();
-      cy.get(STANDAARDTEKSTEN.notification).should('be.visible');
-      cy.get(STANDAARDTEKSTEN.buttonCloseNotification).click();
-      cy.get(STANDAARDTEKSTEN.notification).should('not.be.visible');
       cy.wait('@PostDuiven');
     });
   });

@@ -30,6 +30,7 @@ export const CHANGE_STATUS = {
   radioButtonHeropend: '[data-testid=status-reopened]',
   radioButtonGeannuleerd: '[data-testid=status-a]',
   statusNotification: '[data-testid="statusFormToelichting"]',
+  warningDeelmeldingenOpen: '[data-testid="statusHasChildrenOpen"]',
 };
 
 export const CHANGE_TYPE = {
@@ -55,7 +56,10 @@ export const CHANGE_URGENCY = {
 export const DEELMELDING = {
   buttonAdd: '[data-testid="incidentSplitFormIncidentSplitButton"]',
   buttonCancel: '[data-testid="incidentSplitFormCancelButton"]',
+  buttonEditDirectingDepartment: '[data-testid="editDirecting_departmentsButton"]',
   buttonSubmit: '[data-testid="incidentSplitFormSubmitButton"]',
+  buttonSubmitDirectingDepartment: '[data-testid="submitDirecting_departmentsButton"]',
+  childIncident: '[class*="ChildIncidents__Li"]',
   childIncidents: '[data-testid="childIncidents"]',
   disclaimer: '[data-testid="splitFormBottomDisclaimer"]',
   dropdownSubcategory01: '[data-testid="part1.subcategory"]',
@@ -71,6 +75,8 @@ export const DEELMELDING = {
   notification: '[data-testid="notification"]',
   radioButtonASC: '#department-ASC',
   radioButtonVerantwoordelijkeAfdeling: '#department-null',
+  radioButtonEditASC: '[data-testid="input-ASC"]',
+  radioButtonEditVerantwoordelijkeAfdeling: '[data-testid="input-null"]',
   titleDeelmelding: '[data-testid="incidentSplitFormIncidentTitle"]',
 };
 
@@ -87,11 +93,11 @@ export const SIGNAL_DETAILS = {
   buttonSubmit: '[data-testid=submitButton]',
   buttonTHOR: '[data-testid=detail-header-button-thor]',
   creationDate: '[data-testid=meta-list-date-value]',
+  deelmeldingBlock: '[data-testid="childIncidents"] > li',
+  deelmeldingBlockValue: '[class*="ChildIncidents__DisplayValue"]',
   deelmeldingen: '[data-testid="childIncidents"]',
-  deelmeldingId: '[class*=ChildIncidents__Li] > a > [title="id"]',
-  deelmeldingStatus: '[class*=ChildIncidents__Li] > a > [title="status"]',
-  deelmeldingCategory: '[class*=ChildIncidents__Li] > a > [title="category"]',
   descriptionText: '[data-testid="detail-title"]',
+  directingDepartment: '[data-testid="meta-list-directing_departments-value"]',
   email: '[data-testid="detail-email-value"]',
   errorMessage: '[data-testid="error"]',
   historyAction: '[class*="History__Action"]',

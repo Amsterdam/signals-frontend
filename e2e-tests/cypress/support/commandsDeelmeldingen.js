@@ -1,20 +1,21 @@
 import { DEELMELDING, SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS, FILTER } from './selectorsManageIncidents';
 
-export const setDeelmelding = (deelmeldingNumber, subcategory, description) => {
-  cy.get(DEELMELDING.titleDeelmelding).eq(deelmeldingNumber - 1).should('contain', `Deelmelding ${deelmeldingNumber}`);
-  cy.get(`[data-testid='part${deelmeldingNumber}.subcategory']`).parent().siblings().contains('Subcategorie');
-  cy.get(`[data-testid='part${deelmeldingNumber}.subcategory']`).select(subcategory);
-  cy.get(`[data-testid="part${deelmeldingNumber}.text"]`).clear().type(description);
-  cy.get(`[data-testid="part${deelmeldingNumber}.note"]`).type(`Nootje ${deelmeldingNumber}`);
+export const setDeelmelding = (id, deelmeldingNumber, subcategory, description) => {
+  cy.get(DEELMELDING.titleDeelmelding).eq(id - 1).should('contain', `Deelmelding ${deelmeldingNumber}`);
+  cy.get(`[data-testid="incidentSelectInput-subcategory-${id}"]`).parent().siblings().contains('Subcategorie');
+  cy.get(`[data-testid="incidentSelectInput-subcategory-${id}"]`).select(subcategory);
+  cy.get(`[data-testid="incidentSplitFormIncidentDescriptionText-${id}"]`).clear().type(description);
 };
 
 export const checkDeelmelding = (deelmeldingNumber, subcategory) => {
-  const deelMeldingId = Cypress.env('signalId') + Number.parseInt(deelmeldingNumber, 10);
+  const deelMeldingId = Number.parseInt(Cypress.env('signalId'), 10) + Number.parseInt(deelmeldingNumber, 10);
   cy.log(deelMeldingId);
-  cy.get(SIGNAL_DETAILS.deelmeldingId).eq(deelmeldingNumber - 1).should('have.text', deelMeldingId);
-  cy.get(SIGNAL_DETAILS.deelmeldingStatus).eq(deelmeldingNumber - 1).should('have.text', 'Gemeld').and('be.visible');
-  cy.get(SIGNAL_DETAILS.deelmeldingCategory).eq(deelmeldingNumber - 1).should('have.text', subcategory).and('be.visible');
+
+  cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).should('have.text', deelMeldingId);
+  cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('have.text', 'Gemeld').and('be.visible');
+  cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', subcategory).and('be.visible');
+
 };
 
 export const filterSignalOnType = (type, selector) => {
@@ -35,6 +36,7 @@ export const filterSignalOnType = (type, selector) => {
   cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
   checkSignalType(type);
+  cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
 };
 export const checkSignalType = type => {
   switch (type) {
