@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { WithWizard } from 'react-albus';
-import { themeSpacing, themeColor } from '@datapunt/asc-ui';
+import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
 import PreviousButton from 'components/PreviousButton';
 import NextButton from 'components/NextButton';

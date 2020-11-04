@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { Label as FieldLabel, themeSpacing } from '@datapunt/asc-ui';
+import { Label as FieldLabel, themeSpacing } from '@amsterdam/asc-ui';
 import useFormValidation from 'hooks/useFormValidation';
 
 import Checkbox from 'components/Checkbox';

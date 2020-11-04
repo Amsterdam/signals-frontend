@@ -23,8 +23,8 @@ export const formatResponseFunc = ({ response }) =>
 
 const PDOKAutoSuggest = ({ className, fieldList, municipality, onSelect, formatResponse, value, ...rest }) => {
   const municipalityArray = Array.isArray(municipality) ? municipality : [municipality].filter(Boolean);
-  const municipalityString = municipalityArray.map(item => `${municipalityFilterName}:"${item}"`).join('');
-  const fq = municipality ? [['fq', municipalityString]] : [];
+  const municipalityString = municipalityArray.map(item => `"${item}"`).join(' ');
+  const fq = municipality ? [['fq', `${municipalityFilterName}:(${municipalityString})`]] : [];
   // ['fl', '*'], // undocumented; requests all available field values from the API
   const fl = [['fl', [...pdokResponseFieldList, ...fieldList].join(',')]];
   const params = [...fq, ...fl, ...serviceParams];

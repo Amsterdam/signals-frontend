@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { themeSpacing, themeColor } from '@datapunt/asc-ui';
+import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
 import { Validators } from 'react-reactive-form';
 

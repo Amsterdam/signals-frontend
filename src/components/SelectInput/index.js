@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Select } from '@datapunt/asc-ui';
+import { Select } from '@amsterdam/asc-ui';
 
 const SelectInput = ({ label, onChange, name, options, value }) => (
   <Select value={value} onChange={onChange} data-testid={name} label={label} name={name}>

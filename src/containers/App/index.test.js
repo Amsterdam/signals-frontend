@@ -177,23 +177,7 @@ describe('<App />', () => {
   });
 
   describe('fetching', () => {
-    it('should not request sources on mount by default', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
-
-      render(withAppContext(<AppContainer {...props} />));
-
-      expect(dispatch).not.toHaveBeenCalledWith(getSources());
-
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
-
-      render(withAppContext(<AppContainer {...props} />));
-
-      expect(dispatch).not.toHaveBeenCalledWith(getSources());
-    });
-
-    it('should request sources on mount with feature flag enabled', () => {
-      configuration.fetchSourcesFromBackend = true;
-
+    it('should request sources on mount', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
       render(withAppContext(<AppContainer {...props} />));

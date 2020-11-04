@@ -115,58 +115,52 @@ describe('<IncidentWizard />', () => {
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
   });
 
-  describe('with fetchSourcesFromBackend flag enabled', () => {
-    beforeEach(() => {
-      configuration.fetchSourcesFromBackend = true;
-    });
+  it('should render loading when App loading', () => {
+    const { queryByTestId } = render(withContext(<IncidentWizard {...props} />, null, true));
 
-    it('should render loading when App loading', () => {
-      const { queryByTestId } = render(withContext(<IncidentWizard {...props} />, null, true));
+    expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+  });
 
-      expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
-      expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-      expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
-    });
-
-    it('should work without sources (not authorized)', () => {
-      const propsWithForm = {
-        ...props,
-        wizardDefinition: {
-          beschrijf: {
-            form: {
-              controls: {},
-            },
+  it('should work without sources (not authorized)', () => {
+    const propsWithForm = {
+      ...props,
+      wizardDefinition: {
+        beschrijf: {
+          form: {
+            controls: {},
           },
         },
-      };
-      const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithForm} />));
+      },
+    };
+    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithForm} />));
 
-      expect(queryByTestId('incidentForm')).toBeInTheDocument();
-      expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-    });
+    expect(queryByTestId('incidentForm')).toBeInTheDocument();
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+  });
 
-    it('should pass the sources to the formFactory', () => {
-      const formFactory = jest.fn();
-      const incident = {};
-      const propsWithFormFactory = {
-        ...props,
-        incidentContainer: {
-          incident,
+  it('should pass the sources to the formFactory', () => {
+    const formFactory = jest.fn();
+    const incident = {};
+    const propsWithFormFactory = {
+      ...props,
+      incidentContainer: {
+        incident,
+      },
+      wizardDefinition: {
+        beschrijf: {
+          formFactory,
         },
-        wizardDefinition: {
-          beschrijf: {
-            formFactory,
-          },
-        },
-      };
+      },
+    };
 
-      const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithFormFactory} />, sources));
+    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithFormFactory} />, sources));
 
-      expect(queryByTestId('incidentForm')).toBeInTheDocument();
-      expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-      expect(formFactory).toHaveBeenCalledWith(incident, sources);
-    });
+    expect(queryByTestId('incidentForm')).toBeInTheDocument();
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+    expect(formFactory).toHaveBeenCalledWith(incident, sources);
   });
 });

@@ -115,9 +115,9 @@ export const makeSelectSources = createSelector(selectGlobal, globalState =>
     ? globalState
       .get('sources')
       .toJS()
-      .map(source => ({
-        key: String(source.id),
-        value: source.name,
+      .map(({ name }) => ({
+        key: name,
+        value: name,
       }))
     : null
 );
