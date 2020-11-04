@@ -100,7 +100,7 @@ describe('signals/incident-management', () => {
       });
       describe('with fetchDistrictsFromBackend enabled', () => {
         it('should not fetch when not authenticated', async () => {
-          configuration.fetchDistrictsFromBackend = true;
+          configuration.featureFlags.fetchDistrictsFromBackend = true;
           isAuthenticated.mockImplementation(() => false);
           const { findByTestId } = render(withSuspense());
           await findByTestId('loginPage');
@@ -109,7 +109,7 @@ describe('signals/incident-management', () => {
         });
 
         it('should fetch when authenticated', async () => {
-          configuration.fetchDistrictsFromBackend = true;
+          configuration.featureFlags.fetchDistrictsFromBackend = true;
           isAuthenticated.mockImplementation(() => true);
           const { findByTestId } = render(withSuspense());
           await findByTestId('incidentManagementOverviewPage');

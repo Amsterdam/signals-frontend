@@ -226,7 +226,7 @@ describe('MetaList', () => {
     });
 
     it('should show assigned user with assignSignalToEmployee enabled', () => {
-      configuration.assignSignalToEmployee = true;
+      configuration.featureFlags.assignSignalToEmployee = true;
 
       const { queryByText, queryByTestId } = render(renderWithContext());
 
@@ -236,7 +236,7 @@ describe('MetaList', () => {
     });
 
     it('should not show assigned user when users not defined', () => {
-      configuration.assignSignalToEmployee = true;
+      configuration.featureFlags.assignSignalToEmployee = true;
 
       const { queryByTestId } = render(renderWithContext(incidentFixture, null));
 
@@ -246,7 +246,7 @@ describe('MetaList', () => {
 
     describe('username', () => {
       it('should be visible', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -269,7 +269,7 @@ describe('MetaList', () => {
       });
 
       it('should be visible even if in another department', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -292,7 +292,7 @@ describe('MetaList', () => {
       });
 
       it('should be visible even if not in a department', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -315,7 +315,7 @@ describe('MetaList', () => {
       });
 
       it('should be visible even if it has no departments defined', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -338,7 +338,7 @@ describe('MetaList', () => {
       });
 
       it('should be visible even if the category has no departments defined', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -362,7 +362,7 @@ describe('MetaList', () => {
 
     describe('available users', () => {
       beforeEach(() => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
       });
 
       it('should be based on departments related to category', () => {
@@ -572,7 +572,7 @@ describe('MetaList', () => {
     });
 
     it('should not show assigned department without departments defined', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ count: 0, list: [] }));
       render(renderWithContext());
 
@@ -580,7 +580,7 @@ describe('MetaList', () => {
     });
 
     it('should not show assigned department without departments result set', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => null);
       render(renderWithContext());
 
@@ -588,7 +588,7 @@ describe('MetaList', () => {
     });
 
     it('should not show assigned department if given category departments are not defined', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       render(
         renderWithContext({
           ...incidentFixture,
@@ -603,7 +603,7 @@ describe('MetaList', () => {
     });
 
     it('should not show assigned department without any category department', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       render(
         renderWithContext({
           ...incidentFixture,
@@ -618,7 +618,7 @@ describe('MetaList', () => {
     });
 
     it('should not show assigned department without any category', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       render(
         renderWithContext({
           ...incidentFixture,
@@ -630,7 +630,7 @@ describe('MetaList', () => {
     });
 
     it('should not show assigned department with only one category department', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       render(
         renderWithContext({
           ...incidentFixture,
@@ -645,7 +645,7 @@ describe('MetaList', () => {
     });
 
     it('should show assigned department with more than one category department and assignSignalToDepartment enabled', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       render(
         renderWithContext({
           ...incidentFixture,
@@ -661,7 +661,7 @@ describe('MetaList', () => {
 
     describe('department name', () => {
       beforeEach(() => {
-        configuration.assignSignalToDepartment = true;
+        configuration.featureFlags.assignSignalToDepartment = true;
       });
 
       it('should be visible', () => {
@@ -756,7 +756,7 @@ describe('MetaList', () => {
 
     describe('available departments', () => {
       beforeEach(() => {
-        configuration.assignSignalToDepartment = true;
+        configuration.featureFlags.assignSignalToDepartment = true;
       });
 
       it('should be based on departments related to category', () => {
@@ -836,7 +836,7 @@ describe('MetaList', () => {
     });
 
     it('should update connected department', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       render(
         renderWithContext({
           ...incidentFixture,
@@ -870,7 +870,7 @@ describe('MetaList', () => {
     });
 
     it('should update not connected department', () => {
-      configuration.assignSignalToDepartment = true;
+      configuration.featureFlags.assignSignalToDepartment = true;
       render(
         renderWithContext({
           ...incidentFixture,
@@ -929,7 +929,10 @@ describe('MetaList', () => {
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
       jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
       const { getAllByTestId, getByTestId } = render(
-        renderWithContext({ ...parentIncident, directing_departments: [{ id: departments.list[0].id }] })
+        renderWithContext({
+          ...parentIncident,
+          directing_departments: [{ id: departments.list[0].id, code: departments.list[0].code }],
+        })
       );
 
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:
@@ -939,6 +942,36 @@ describe('MetaList', () => {
 
       fireEvent.click(editButtons[0]);
       fireEvent.click(getByTestId('input-null'));
+
+      const submitButtons = getAllByTestId(submitTestId);
+
+      expect(update).not.toHaveBeenCalled();
+
+      fireEvent.click(submitButtons[0]);
+
+      expect(update).toHaveBeenCalledWith({
+        patch: {
+          directing_departments: [],
+        },
+        type: 'directing_departments',
+      });
+    });
+
+    it('should update for directing department to empty if code unknown', async () => {
+      jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => null);
+      const { getAllByTestId } = render(
+        renderWithContext({
+          ...parentIncident,
+          directing_departments: [{ id: departments.list[0].id, code: 'unknown' }],
+        })
+      );
+
+      // priority button data-testid attribute is dynamically generated in the ChangeValue component:
+      const editTestId = 'editDirecting_departmentsButton';
+      const submitTestId = 'submitDirecting_departmentsButton';
+      const editButtons = getAllByTestId(editTestId);
+
+      fireEvent.click(editButtons[0]);
 
       const submitButtons = getAllByTestId(submitTestId);
 

@@ -44,14 +44,14 @@ describe('Wizard step 2 vulaan, formFactory', () => {
     });
 
     it('should return empty controls when showVulaanControls is false', () => {
-      configuration.showVulaanControls = false;
+      configuration.featureFlags.showVulaanControls = false;
       expect(step2.formFactory({ category: 'afval' }).controls).toEqual({});
     });
   });
 
   describe('Fetch questions from backend', () => {
     beforeEach(() => {
-      configuration.fetchQuestionsFromBackend = true;
+      configuration.featureFlags.fetchQuestionsFromBackend = true;
     });
 
     it('should return empty controls without questions', () => {

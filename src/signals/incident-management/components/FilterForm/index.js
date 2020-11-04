@@ -299,7 +299,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             options={dataLists.status}
           />
 
-          {configuration.fetchDistrictsFromBackend && districts && (
+          {configuration.featureFlags.fetchDistrictsFromBackend && districts && (
             <CheckboxGroup
               defaultValue={state.options.area}
               label={configuration.language.district}
@@ -310,7 +310,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           )}
 
-          {!configuration.fetchDistrictsFromBackend && (
+          {!configuration.featureFlags.fetchDistrictsFromBackend && (
             <CheckboxGroup
               defaultValue={state.options.stadsdeel}
               label="Stadsdeel"

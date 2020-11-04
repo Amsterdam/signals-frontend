@@ -57,7 +57,7 @@ const MapPreview = ({ value }) => {
         <Address>{value?.address ? formatAddress(value.address) : 'Geen adres gevonden'}</Address>
         {latitude &&
           longitude &&
-          (configuration.useStaticMapServer ? (
+          (configuration.featureFlags.useStaticMapServer ? (
             <MapStatic height={mapHeight} width={mapWidth} {...geometry} />
           ) : (
             <StyledMap mapOptions={options} canBeDragged={false}>
