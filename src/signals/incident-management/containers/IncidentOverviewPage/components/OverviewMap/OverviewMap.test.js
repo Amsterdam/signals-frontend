@@ -79,7 +79,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   });
 
   it('should not overwrite date filter params when mapFilter24Hours is false', async () => {
-    configuration.mapFilter24Hours = false;
+    configuration.featureFlags.mapFilter24Hours = false;
     const { findByTestId } = render(withMapContext(<OverviewMap />));
 
     await findByTestId('overviewMap');

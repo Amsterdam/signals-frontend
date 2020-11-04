@@ -81,15 +81,10 @@ export const makeSelectActiveFilter = createSelector(
       category_slug,
       area,
       directing_department,
+      source,
     };
-    const allFixtures = configuration.fetchSourcesFromBackend
-      ? {
-        ...fixtures,
-        source,
-      }
-      : fixtures;
 
-    return parseInputFormData(filter, allFixtures);
+    return parseInputFormData(filter, fixtures);
   }
 );
 
@@ -101,7 +96,6 @@ export const makeSelectEditFilter = createSelector(
     makeSelectMainCategories,
     makeSelectSubCategories,
     makeSelectDirectingDepartments,
-
   ],
   (stateMap, area, source, maincategory_slug, category_slug, directing_department) => {
     if (!(maincategory_slug && category_slug)) {
@@ -114,15 +108,10 @@ export const makeSelectEditFilter = createSelector(
       category_slug,
       area,
       directing_department,
+      source,
     };
-    const allFixtures = configuration.fetchSourcesFromBackend
-      ? {
-        ...fixtures,
-        source,
-      }
-      : fixtures;
 
-    return parseInputFormData(state.editFilter, allFixtures, (category, value) => {
+    return parseInputFormData(state.editFilter, fixtures, (category, value) => {
       if (category.key || category.slug) return undefined;
 
       return category._links.self.public.endsWith(`/${value}`);

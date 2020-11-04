@@ -37,9 +37,9 @@ const formProps = {
   onSubmit: () => {},
 };
 
-const withContext = (Component, actualDistricts = null, actualSources = null) =>
+const withContext = (Component, actualDistricts = null) =>
   withAppContext(
-    <AppContext.Provider value={{ sources: actualSources }}>
+    <AppContext.Provider value={{ sources }}>
       <IncidentManagementContext.Provider value={{ districts: actualDistricts }}>
         {Component}
       </IncidentManagementContext.Provider>
@@ -171,7 +171,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should render a list of district options with feature flag enabled', () => {
-    configuration.fetchDistrictsFromBackend = true;
+    configuration.featureFlags.fetchDistrictsFromBackend = true;
     const { container } = render(withContext(<FilterForm {...formProps} />, districts));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(0);
@@ -179,7 +179,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   it('should not render districts without districts available', () => {
-    configuration.fetchDistrictsFromBackend = true;
+    configuration.featureFlags.fetchDistrictsFromBackend = true;
     const { container } = render(withContext(<FilterForm {...formProps} />));
 
     expect(container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')).toHaveLength(0);
@@ -205,7 +205,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   it('should render a list of source options', () => {
     const { container } = render(withContext(<FilterForm {...formProps} />));
 
-    expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(dataLists.source.length);
+    expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(sources.length);
   });
 
   it('should render a list of directing_department options', () => {
@@ -213,12 +213,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, getByText } = render(withContext(<FilterForm {...formProps} />));
 
     expect(getByText('Regie hoofdmelding')).toBeInTheDocument();
-    expect(container.querySelectorAll('input[type="checkbox"][name="directing_department"]')).toHaveLength(directingDepartments.length);
+    expect(container.querySelectorAll('input[type="checkbox"][name="directing_department"]')).toHaveLength(
+      directingDepartments.length
+    );
   });
 
   it('should render a list of source options with feature flag enabled', async () => {
-    configuration.fetchSourcesFromBackend = true;
-    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null, sources));
+    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null));
     await findByTestId('sourceCheckboxGroup');
 
     expect(container.querySelectorAll('input[type="checkbox"][name="source"]')).toHaveLength(sources.length);
@@ -471,10 +472,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       });
     });
 
-    it('should watch for changes with fetchSourcesFromBackend enabled', async () => {
-      configuration.fetchSourcesFromBackend = true;
-
-      const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null, sources));
+    it('should watch for changes ', async () => {
+      const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />, null));
       const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup');
       const toggle = sourceCheckboxGroup.querySelector('label').firstChild;
 

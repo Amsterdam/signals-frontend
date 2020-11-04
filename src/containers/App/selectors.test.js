@@ -29,11 +29,11 @@ const sources = [
 ];
 const selectedSources = [
   {
-    key: '1',
+    key: 'Source1',
     value: 'Source1',
   },
   {
-    key: '2',
+    key: 'Source2',
     value: 'Source2',
   },
 ];
