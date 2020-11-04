@@ -266,7 +266,7 @@
           ]
         },
         "height": {
-          "description": "Length value that sets the logo image's height",
+          "description": "Length value that sets the logo image's height. In pixels, the height should be 74 or less.",
           "type": [
             "string",
             "integer"
@@ -280,7 +280,7 @@
           ]
         },
         "smallHeight": {
-          "description": "Length value that sets the logo image's height in case the logo is rendered in a site header with limited height",
+          "description": "Length value that sets the logo image's height in case the logo is rendered in a site header with limited height. In pixels, the smallHeight should be 34 or less.",
           "type": [
             "string",
             "integer"
