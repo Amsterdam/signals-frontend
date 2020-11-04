@@ -300,16 +300,6 @@ describe('signals/incident-management/selectors', () => {
       });
     });
 
-    it('should not work without sources', () => {
-      const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
-      const actual = makeSelectEditFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
-
-      expect(actual.id).toEqual(sourceFilter.id);
-      expect(actual.options).toEqual({
-        source: [],
-      });
-    });
-
     it('should select edit source filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
       const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
