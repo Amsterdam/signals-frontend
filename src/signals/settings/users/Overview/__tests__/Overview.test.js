@@ -327,7 +327,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(dispatch).toHaveBeenLastCalledWith(setUserFilters({ username: '' }));
   });
 
-  it('should not dispatch filter values when input value has not changed', async () => {
+  it('should dispatch filter values when input value has changed', async () => {
     const username = 'foo bar baz';
     const stateCfg = { users: { filters: { username } } };
 
@@ -335,16 +335,14 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    let filterByUserName = await findByTestId('filterUsersByUsername');
-    let filterByUserNameInput = filterByUserName.querySelector('input');
+    const filterByUserName = await findByTestId('filterUsersByUsername');
+    const filterByUserNameInput = filterByUserName.querySelector('input');
 
     userEvent.type(filterByUserNameInput, username);
 
     await findByTestId('filterUsersByUsername');
 
-    act(() => {
-      jest.advanceTimersByTime(250);
-    });
+    jest.advanceTimersByTime(250);
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     dispatch.mockReset();
@@ -355,15 +353,14 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await findByTestId('filterUsersByUsername');
 
-    filterByUserName = await findByTestId('filterUsersByUsername');
-    filterByUserNameInput = filterByUserName.querySelector('input');
-    userEvent.type(filterByUserNameInput, username);
+    const filterByUserNameUnchanged = await findByTestId('filterUsersByUsername');
+    const filterByUserNameInputUnchanged = filterByUserNameUnchanged.querySelector('input');
+    userEvent.clear(filterByUserNameInputUnchanged);
+    userEvent.type(filterByUserNameInputUnchanged, username);
 
     await findByTestId('filterUsersByUsername');
 
-    act(() => {
-      jest.advanceTimersByTime(250);
-    });
+    jest.advanceTimersByTime(250);
 
     expect(dispatch).toHaveBeenCalledTimes(1);
 
