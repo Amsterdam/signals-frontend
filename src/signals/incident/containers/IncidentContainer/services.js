@@ -46,7 +46,10 @@ export const resolveQuestions = questions => ({
     (acc, question) => ({
       ...acc,
       [question.key]: {
-        meta: question.meta,
+        meta: {
+          ...question.meta,
+          pathMerge: 'extra_properties',
+        },
         options: {
           validators: (question.meta?.validators || []).map(mapValidator),
         },
