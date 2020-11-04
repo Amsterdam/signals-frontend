@@ -6,7 +6,6 @@
     "assignSignalToEmployee": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
-    "fetchSourcesFromBackend": false,
     "mapFilter24Hours": true,
     "showVulaanControls": true,
     "useStaticMapServer": true

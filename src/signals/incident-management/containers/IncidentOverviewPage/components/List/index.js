@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import { FastForward, ChevronUp, ChevronDown } from '@datapunt/asc-assets';
-import { Icon, themeSpacing } from '@datapunt/asc-ui';
+import { FastForward, ChevronUp, ChevronDown } from '@amsterdam/asc-assets';
+import { Icon, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import { string2date, string2time } from 'shared/services/string-parser';

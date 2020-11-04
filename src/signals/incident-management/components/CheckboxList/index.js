@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Label } from '@datapunt/asc-ui';
+import { Label } from '@amsterdam/asc-ui';
 
 import Checkbox from 'components/Checkbox';
 import * as types from 'shared/types';

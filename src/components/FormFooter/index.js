@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Row, Column, themeColor } from '@datapunt/asc-ui';
+import { Row, Column, themeColor } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 
 export const FooterWrapper = styled.footer`

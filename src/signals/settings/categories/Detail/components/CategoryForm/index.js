@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { themeSpacing, Row, Column, Select } from '@datapunt/asc-ui';
+import { themeSpacing, Row, Column, Select } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import { historyType } from 'shared/types';

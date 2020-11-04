@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from 'react';
 import styled from 'styled-components';
-import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import { attachmentsType } from 'shared/types';
 import IncidentDetailContext from '../../../../context';

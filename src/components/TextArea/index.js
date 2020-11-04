@@ -1,7 +1,7 @@
 import React, { Fragment, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { styles, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { styles, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import ErrorMessage from '../ErrorMessage';
 

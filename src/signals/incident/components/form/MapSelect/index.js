@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash.get';
 import styled from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@amsterdam/asc-ui';
 
 import MapSelectComponent from 'components/MapSelect';
 

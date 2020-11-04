@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import styled from 'styled-components';
-import { Row, Column, Heading, Paragraph, themeSpacing } from '@datapunt/asc-ui';
+import { Row, Column, Heading, Paragraph, themeSpacing } from '@amsterdam/asc-ui';
 import { useParams } from 'react-router-dom';
 
 import configuration from 'shared/services/configuration/configuration';

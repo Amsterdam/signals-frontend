@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import { makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';

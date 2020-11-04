@@ -16,9 +16,9 @@ import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '
 
 jest.mock('shared/services/configuration/configuration');
 
-const withContext = (Component, actualSources = null) =>
+const withContext = Component =>
   withAppContext(
-    <AppContext.Provider value={{ sources: actualSources }}>
+    <AppContext.Provider value={{ sources }}>
       <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
     </AppContext.Provider>
   );
@@ -31,7 +31,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     stadsdeel: [definitions.stadsdeelList[0], definitions.stadsdeelList[1]],
     address_text: 'februariplein 1',
     incident_date: '2019-09-17',
-    source: [definitions.sourceList[0], definitions.sourceList[1]],
+    source: [sources[0]],
     category_slug: [
       {
         key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
@@ -154,11 +154,9 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
       expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
       expect(queryByText(districts[0].value)).not.toBeInTheDocument();
-      expect(queryByText(definitions.sourceList[0].value)).toBeInTheDocument();
-      expect(queryByText(definitions.sourceList[1].value)).toBeInTheDocument();
-      expect(queryByText(sources[0].value)).not.toBeInTheDocument();
+      expect(queryByText(sources[0].value)).toBeInTheDocument();
 
-      expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
     });
 
     it('works with feature flag fetchDistrictsFromBackend enabled', () => {
@@ -184,16 +182,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText(definitions.stadsdeelList[0].value)).not.toBeInTheDocument();
       expect(queryByText(definitions.stadsdeelList[1].value)).not.toBeInTheDocument();
       expect(queryByText(districts[0].value)).toBeInTheDocument();
-      expect(queryByText(definitions.sourceList[0].value)).toBeInTheDocument();
-      expect(queryByText(definitions.sourceList[1].value)).toBeInTheDocument();
-      expect(queryByText(sources[0].value)).not.toBeInTheDocument();
+      expect(queryByText(sources[0].value)).toBeInTheDocument();
 
-      expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
+      expect(queryAllByTestId('filterTagListTag')).toHaveLength(8);
     });
 
-    it('works with feature flag fetchSourcesFromBackend enabled', () => {
-      configuration.fetchSourcesFromBackend = true;
-
+    it('renders correctly with sources', () => {
       const { queryAllByTestId, queryByText } = render(
         withContext(
           <FilterTagListComponent
@@ -203,8 +197,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             }}
             subCategories={subCategories}
             mainCategories={mainCategories}
-          />,
-          sources
+          />
         )
       );
 
@@ -214,8 +207,6 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
       expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
       expect(queryByText(districts[0].value)).not.toBeInTheDocument();
-      expect(queryByText(definitions.sourceList[0].value)).not.toBeInTheDocument();
-      expect(queryByText(definitions.sourceList[1].value)).not.toBeInTheDocument();
       expect(queryByText(sources[0].value)).toBeInTheDocument();
 
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
@@ -225,7 +216,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       const groupedTags = {
         status: definitions.statusList,
         stadsdeel: definitions.stadsdeelList,
-        source: definitions.sourceList,
+        source: sources,
         priority: definitions.priorityList,
       };
 

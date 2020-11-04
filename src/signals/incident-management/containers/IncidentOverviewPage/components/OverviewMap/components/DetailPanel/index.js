@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button, Link as AscLink } from '@datapunt/asc-ui';
-import { Close } from '@datapunt/asc-assets';
+import { Button, Link as AscLink } from '@amsterdam/asc-ui';
+import { Close } from '@amsterdam/asc-assets';
 import { Link } from 'react-router-dom';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 

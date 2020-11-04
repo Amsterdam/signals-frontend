@@ -80,10 +80,6 @@
           "description": "When true, will bypass getting the configuration for the incident submission form questions from local modules. Instead, a request to an API endpoint is made to retrieve the configuration. See [QUESTIONS_ENDPOINT](#QUESTIONS_ENDPOINT)",
           "type": "boolean"
         },
-        "fetchSourcesFromBackend": {
-          "description": "When true, the possible sources an incident can originate from will be fetched from the backend. See [SOURCES_ENDPOINT](#SOURCES_ENDPOINT)",
-          "type": "boolean"
-        },
         "mapFilter24Hours": {
           "description": "When true, will show no more and no less than the incidents of the last 24 hours on the map (in the back office), regardless of the start and end date filters.",
           "type": "boolean"
@@ -102,7 +98,6 @@
         "assignSignalToEmployee",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
-        "fetchSourcesFromBackend",
         "mapFilter24Hours",
         "showVulaanControls",
         "useStaticMapServer"

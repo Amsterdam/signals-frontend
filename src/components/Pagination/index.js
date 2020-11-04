@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeColor, themeSpacing, Typography } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing, Typography } from '@amsterdam/asc-ui';
 import PaginationItem from './components/PaginationItem';
 import { getPreviousIndex, getNextIndex, pageNumbersList, FILLER, NEXT, PREVIOUS } from './utils';
 

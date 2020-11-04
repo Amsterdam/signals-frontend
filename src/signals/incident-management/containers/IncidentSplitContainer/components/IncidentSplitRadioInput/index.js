@@ -1,7 +1,7 @@
 import React, { useCallback, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { RadioGroup, Radio, Label } from '@datapunt/asc-ui';
+import { RadioGroup, Radio, Label } from '@amsterdam/asc-ui';
 
 import { StyledInfoText, StyledLabel } from '../../styled';
 

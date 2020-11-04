@@ -5,7 +5,7 @@ import isString from 'lodash.isstring';
 import get from 'lodash.get';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
-import { themeColor } from '@datapunt/asc-ui';
+import { themeColor } from '@amsterdam/asc-ui';
 import mapDynamicFields from '../../../services/map-dynamic-fields';
 import './style.scss';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Checkbox as AscCheckbox } from '@datapunt/asc-ui';
+import { Checkbox as AscCheckbox } from '@amsterdam/asc-ui';
 
 const Wrapper = styled.div`
   display: inline-block;

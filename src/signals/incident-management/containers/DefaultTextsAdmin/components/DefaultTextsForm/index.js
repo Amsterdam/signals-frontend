@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
-import { Button, themeColor } from '@datapunt/asc-ui';
+import { Button, themeColor } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import { dataListType, defaultTextsType } from 'shared/types';
@@ -13,7 +13,7 @@ import HiddenInput from 'signals/incident-management/components/HiddenInput';
 import { reCategory } from 'shared/services/resolveClassification';
 import { statusList } from 'signals/incident-management/definitions';
 
-import { ChevronDown, ChevronUp } from '@datapunt/asc-assets';
+import { ChevronDown, ChevronUp } from '@amsterdam/asc-assets';
 
 const StyledWrapper = styled.div`
   margin-top: 33px;
