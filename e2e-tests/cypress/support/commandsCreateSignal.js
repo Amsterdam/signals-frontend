@@ -110,7 +110,7 @@ export const checkSummaryPage = () => {
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
   cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
   cy.contains(
-    'Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.'
+    'Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
   ).should('be.visible');
   cy.get('body').then($body => {
     if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
