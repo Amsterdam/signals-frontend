@@ -51,7 +51,9 @@ export const resolveQuestions = questions => ({
           pathMerge: 'extra_properties',
         },
         options: {
-          validators: (question.meta?.validators || []).map(mapValidator),
+          validators: [
+            ...new Set([...question.meta?.validators || [], ...question.required ? ['required'] : []]),
+          ].map(mapValidator),
         },
         render: fieldTypeMap[question.field_type],
       },

@@ -15,6 +15,19 @@ const mockedQuestions = [
     },
     field_type: 'radio_input',
   },
+  {
+    key: 'key3',
+    field_type: 'select_input',
+    required: true,
+  },
+  {
+    key: 'key4',
+    meta: {
+      validators: ['required', ['max_length', 100]],
+    },
+    field_type: 'select_input',
+    required: true,
+  },
 ];
 
 describe('The resolve questions service', () => {
@@ -24,12 +37,16 @@ describe('The resolve questions service', () => {
     expect(result).toHaveProperty('$field_0');
     expect(Object.keys(result).length).toBe(2);
   });
+
   it('should return the questions mapped to their key property', () => {
     const result = resolveQuestions(mockedQuestions);
     expect(result).toHaveProperty('key1');
     expect(result).toHaveProperty('key2');
-    expect(Object.keys(result).length).toBe(4);
+    expect(result).toHaveProperty('key3');
+    expect(result).toHaveProperty('key4');
+    expect(Object.keys(result).length).toBe(6);
   });
+
   it('should pass meta prop', () => {
     const result = resolveQuestions(mockedQuestions);
     expect(result.key1).toMatchObject({
@@ -42,6 +59,7 @@ describe('The resolve questions service', () => {
       meta: {},
     });
   });
+
   it('should add render prop', () => {
     const result = resolveQuestions(mockedQuestions);
     expect(result.key1).toMatchObject({
@@ -51,6 +69,7 @@ describe('The resolve questions service', () => {
       render: 'RadioInputGroup',
     });
   });
+
   it('should add options prop with validators', () => {
     const result = resolveQuestions(mockedQuestions);
     expect(result.key1).toMatchObject({
@@ -59,6 +78,16 @@ describe('The resolve questions service', () => {
       },
     });
     expect(result.key2).toMatchObject({
+      options: {
+        validators: ['required', ['maxLength', 100]],
+      },
+    });
+    expect(result.key3).toMatchObject({
+      options: {
+        validators: ['required'],
+      },
+    });
+    expect(result.key4).toMatchObject({
       options: {
         validators: ['required', ['maxLength', 100]],
       },
