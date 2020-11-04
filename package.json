@@ -19,10 +19,10 @@
     "clean:all": "npm run analyze:clean && npm run test:clean && npm run build:clean",
     "clean": "shjs ./internals/scripts/clean.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "lint:eslint": "NODE_ENV=production eslint --ignore-path .gitignore --ignore-pattern e2e-tests",
+    "lint:eslint": "NODE_ENV=production eslint --ignore-path .gitignore",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:verbose": "npm run lint:eslint -- --format=mo . ",
-    "lint:staged": "BABEL_ENV=lint lint-staged",
+    "lint:staged": "lint-staged",
     "lint:fix": "npm run lint:js -- --fix",
     "lint:nibble": "NODE_ENV=production eslint-nibble --cache --ext=js src",
     "lint:find-rules": "eslint-find-rules -dun .eslintrc.yaml",
@@ -43,9 +43,6 @@
     "test": "cross-env NODE_ENV=test jest --coverage",
     "validate-config": "node ./internals/scripts/validate-config.js",
     "validate-base-config": "node ./internals/scripts/validate-base-config.js"
-  },
-  "lint-staged": {
-    "*.js": "eslint --ignore-pattern internals/scripts --ignore-pattern e2e-tests"
   },
   "pre-commit": [
     "lint:staged",

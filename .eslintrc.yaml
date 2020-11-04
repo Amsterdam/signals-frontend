@@ -1,5 +1,6 @@
 root: true
 parser: '@typescript-eslint/parser'
+ignorePatterns: ['e2e-tests']
 extends:
   - plugin:amsterdam/base
   - plugin:amsterdam/import
