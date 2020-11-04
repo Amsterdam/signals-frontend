@@ -9,18 +9,13 @@ import { directingDepartmentsType, subcategoriesType } from 'shared/types';
 
 import Button from 'components/Button';
 
-import {
-  StyledDefinitionList,
-  StyledForm,
-  StyledSubmitButton,
-  FormWrapper,
-} from '../../styled';
+import { StyledDefinitionList, StyledForm, StyledSubmitButton, FormWrapper } from '../../styled';
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 
 const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit }) => {
-  const { control, handleSubmit, register } = useForm();
+  const { handleSubmit, register } = useForm();
 
   const history = useHistory();
 
@@ -58,12 +53,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
           />
         </fieldset>
 
-        <IncidentSplitFormIncident
-          parentIncident={parentIncident}
-          subcategories={subcategories}
-          register={register}
-          control={control}
-        />
+        <IncidentSplitFormIncident parentIncident={parentIncident} subcategories={subcategories} register={register} />
 
         <div>
           <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary">

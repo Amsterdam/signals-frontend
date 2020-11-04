@@ -12,7 +12,6 @@ const IncidentSplitRadioInput = ({ id, name, display, options, initialValue, reg
 
   const onChange = useCallback(
     event => {
-      event.preventDefault();
       setSelected(getSelectedOption(options, event.target.value));
     },
     [options]
@@ -25,13 +24,7 @@ const IncidentSplitRadioInput = ({ id, name, display, options, initialValue, reg
       <RadioGroup name={name} data-testid={`incidentSplitRadioInput-${id}`}>
         {options.map(({ key, value }) => (
           <StyledLabel key={key} label={value}>
-            <Radio
-              id={`${id}-${key}`}
-              checked={key === initialValue}
-              value={key}
-              ref={register}
-              onChange={onChange}
-            />
+            <Radio id={`${id}-${key}`} checked={key === initialValue} value={key} ref={register} onChange={onChange} />
           </StyledLabel>
         ))}
       </RadioGroup>
