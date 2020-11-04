@@ -162,10 +162,10 @@ const IncidentDetail = () => {
       getAttachments(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`);
     }
 
-    // retrieve children only once per page load and only when an incident has children
+    // retrieve children only when an incident has children
     const hasChildren = incident?._links['sia:children']?.length > 0;
 
-    if (!state.children && hasChildren) {
+    if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
     }
   }, [
@@ -176,7 +176,6 @@ const IncidentDetail = () => {
     id,
     incident,
     state.attachments,
-    state.children,
     state.defaultTexts,
   ]);
 
