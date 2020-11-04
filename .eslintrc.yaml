@@ -105,6 +105,7 @@ rules:
   unicorn/prefer-includes: 'off' # autofix but breaks test
   unicorn/prefer-text-content: 'off' # autofix but breaks snapshots tests
   unicorn/prevent-abbreviations: 'off'
+  '@typescript-eslint/space-before-function-paren': 'off'
 
   # jest rules to check
   jest/consistent-test-it: 'off'

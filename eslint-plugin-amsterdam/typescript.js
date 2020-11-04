@@ -9,6 +9,9 @@ module.exports = {
         project: './tsconfig.json',
       },
       rules: {
+        // disabled
+        '@typescript-eslint/typedef': 'off',
+
         // to tweak?
         '@typescript-eslint/brace-style': 'off',
         '@typescript-eslint/lines-between-class-members': 'off',
