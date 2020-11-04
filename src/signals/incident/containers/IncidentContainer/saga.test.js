@@ -158,7 +158,7 @@ describe('IncidentContainer saga', () => {
         .run());
 
     it('should fetch questions when flag enabled', () => {
-      configuration.fetchQuestionsFromBackend = true;
+      configuration.featureFlags.fetchQuestionsFromBackend = true;
 
       return expectSaga(getClassification, { payload })
         .provide([

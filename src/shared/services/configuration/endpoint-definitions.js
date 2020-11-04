@@ -54,7 +54,7 @@ export default {
   // available.
   PREDICTION_ENDPOINT: '/signals/category/prediction',
   // Public. Used to `GET` question configuration based on the value of
-  // fetchQuestionsFromBackend in the app configuration app.json.
+  // featureFlags.fetchQuestionsFromBackend in the app configuration app.json.
   QUESTIONS_ENDPOINT: '/signals/v1/public/questions/',
   // Private. Used by the settings module to `GET`, `PATCH` and `POST` roles.
   // No Swagger documentation available.

@@ -58,7 +58,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     () => ({
       ...dataLists,
       area: districts,
-      source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+      source: sources,
       directing_department: directingDepartments,
     }),
     [districts, sources, directingDepartments]
@@ -106,6 +106,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     event => {
       event.preventDefault();
       const options = parseOutputFormData(state.options);
+
       const formData = { ...state.filter, options };
       const hasName = formData.name.trim() !== '';
 
@@ -298,7 +299,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             options={dataLists.status}
           />
 
-          {configuration.fetchDistrictsFromBackend && districts && (
+          {configuration.featureFlags.fetchDistrictsFromBackend && districts && (
             <CheckboxGroup
               defaultValue={state.options.area}
               label={configuration.language.district}
@@ -309,7 +310,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           )}
 
-          {!configuration.fetchDistrictsFromBackend && (
+          {!configuration.featureFlags.fetchDistrictsFromBackend && (
             <CheckboxGroup
               defaultValue={state.options.stadsdeel}
               label="Stadsdeel"
@@ -432,26 +433,14 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </FilterGroup>
 
-          {configuration.fetchSourcesFromBackend && (
-            <CheckboxGroup
-              defaultValue={state.options.source}
-              label="Bron"
-              name="source"
-              onChange={onGroupChange}
-              onToggle={onGroupToggle}
-              options={sources}
-            />
-          )}
-          {!configuration.fetchSourcesFromBackend && (
-            <CheckboxGroup
-              defaultValue={state.options.source}
-              label="Bron"
-              name="source"
-              onChange={onGroupChange}
-              onToggle={onGroupToggle}
-              options={dataLists.source}
-            />
-          )}
+          <CheckboxGroup
+            defaultValue={state.options.source}
+            label="Bron"
+            name="source"
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            options={sources}
+          />
         </Fieldset>
       </ControlsWrapper>
 
