@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { ascDefaultTheme } from '@datapunt/asc-ui';
+import { ascDefaultTheme } from '@amsterdam/asc-ui';
 
 import { withAppContext } from 'test/utils';
 import configuration from 'shared/services/configuration/configuration';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { breakpoint, themeSpacing, themeColor } from '@datapunt/asc-ui';
+import { breakpoint, themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
 import configuration from 'shared/services/configuration/configuration';
 
