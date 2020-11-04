@@ -3,7 +3,9 @@ import { resolveQuestions } from './services';
 const mockedQuestions = [
   {
     key: 'key1',
-    meta: 'meta1',
+    meta: {
+      metaProp: 'metaProp',
+    },
     field_type: 'checkbox_input',
   },
   {
@@ -31,7 +33,10 @@ describe('The resolve questions service', () => {
   it('should pass meta prop', () => {
     const result = resolveQuestions(mockedQuestions);
     expect(result.key1).toMatchObject({
-      meta: 'meta1',
+      meta: {
+        metaProp: 'metaProp',
+        pathMerge: 'extra_properties',
+      },
     });
     expect(result.key2).toMatchObject({
       meta: {},
