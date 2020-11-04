@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Select from 'components/Select';
 import { useSelector } from 'react-redux';
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import InfoText from 'components/InfoText';
 
 const StyledInfoText = styled(InfoText)`
@@ -14,18 +14,22 @@ const StyledInfoText = styled(InfoText)`
 const defaultOption = { key: '', name: 'Selecteer subcategorie', value: '' };
 
 const CategorySelect = ({ handler, meta, parent }) => {
+  const categories = useSelector(makeSelectMainCategories);
   const subcategories = useSelector(makeSelectSubCategories);
-  const options = useMemo(() => subcategories?.map(({ slug, extendedName: name }) => ({ key: slug, name, value: slug })), [
-    subcategories,
-  ]);
+  const options = useMemo(
+    () => subcategories?.map(({ slug, extendedName: name, category_slug }) => ({ key: slug, name, value: slug, group: category_slug })),
+    [subcategories]
+  );
+  const groups = useMemo(
+    () => categories?.map(({ slug: value, name }) => ({ name, value })),
+    [categories]
+  );
 
   const { value } = handler();
 
   const [info, setInfo] = useState();
 
-  const getSubcategory = useCallback(slug => subcategories?.find(
-    s => s.slug === slug
-  ) || {}, [subcategories]);
+  const getSubcategory = useCallback(slug => subcategories?.find(s => s.slug === slug) || {}, [subcategories]);
 
   useEffect(() => {
     const { description } = getSubcategory(value);
@@ -34,7 +38,9 @@ const CategorySelect = ({ handler, meta, parent }) => {
 
   const handleChange = useCallback(
     event => {
-      const { id, slug, category_slug: category, name, handling_message, description } = getSubcategory(event.target.value);
+      const { id, slug, category_slug: category, name, handling_message, description } = getSubcategory(
+        event.target.value
+      );
       setInfo(description);
       parent.meta.updateIncident({
         category,
@@ -52,7 +58,13 @@ const CategorySelect = ({ handler, meta, parent }) => {
 
   return (
     <div>
-      <Select name={meta.name} value={`${handler().value}`} onChange={handleChange} options={[defaultOption, ...options || []]} />
+      <Select
+        name={meta.name}
+        value={`${handler().value}`}
+        onChange={handleChange}
+        options={[defaultOption, ...options || []]}
+        groups={groups}
+      />
       {info && <StyledInfoText text={`${info}`} />}
     </div>
   );

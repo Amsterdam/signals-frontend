@@ -3,15 +3,30 @@ import PropTypes from 'prop-types';
 
 import { Select as AscSelect } from '@amsterdam/asc-ui';
 
-const Select = ({ label, onChange, name, options, value }) => (
+const SelectOptions = ({ name, options }) =>
+  options.map(option => (
+    <option key={`${name}-${option.key}`} value={option.value}>
+      {option.name}
+    </option>
+  ));
+
+const Select = ({ label, onChange, name, value, options, groups }) => (
   <AscSelect value={value} onChange={onChange} data-testid={name} label={label} name={name}>
-    {options.map(option => (
-      <option key={`${name}-${option.key}`} value={option.value}>
-        {option.name}
-      </option>
-    ))}
+    {groups?.length > 1 ?
+        groups?.map(group => (
+          <optgroup key={group.name} label={group.name}>
+            <SelectOptions name={name} options={options.filter(option => option.group === group.value)} />
+          </optgroup>
+        ))
+      : (
+        <SelectOptions name={name} options={options} />
+      )}
   </AscSelect>
 );
+
+Select.defaultProps = {
+  groups: null,
+};
 
 Select.propTypes = {
   label: PropTypes.node,
@@ -22,9 +37,16 @@ Select.propTypes = {
       key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]).isRequired,
+      group: PropTypes.string,
     }).isRequired
   ).isRequired,
   value: PropTypes.string,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
 };
 
 export default Select;

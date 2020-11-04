@@ -39,6 +39,7 @@ const ChangeValue = ({
   display,
   infoKey = '',
   options,
+  groups = null,
   patch = {},
   path,
   sort,
@@ -154,6 +155,7 @@ const ChangeValue = ({
             render={component}
             sort={sort}
             values={options}
+            groups={groups}
           />
 
           {info && <InfoText text={info} />}
@@ -216,6 +218,8 @@ ChangeValue.propTypes = {
   infoKey: PropTypes.string,
   /** The options to choose from, either for a RadioGroup or SelectInput*/
   options: dataListType.isRequired,
+  /** The option groups to be used for grouping the options for SelectInput*/
+  groups: PropTypes.array,
   patch: PropTypes.object,
   path: PropTypes.string.isRequired,
   sort: PropTypes.bool,

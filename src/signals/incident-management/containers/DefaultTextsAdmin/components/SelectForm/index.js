@@ -5,10 +5,10 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import { dataListType } from 'shared/types';
 import { reCategory } from 'shared/services/resolveClassification';
 
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import SelectInput from '../../../../components/SelectInput';
-import RadioInput from '../../../../components/RadioInput';
-import HiddenInput from '../../../../components/HiddenInput';
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import SelectInput from 'signals/incident-management/components/SelectInput';
+import RadioInput from 'signals/incident-management/components/RadioInput';
+import HiddenInput from 'signals/incident-management/components/HiddenInput';
 
 const form = FormBuilder.group({
   category_url: null,

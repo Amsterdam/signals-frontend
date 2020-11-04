@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -81,16 +81,23 @@ const MetaList = () => {
     return routingDepartmentNames || categoryDepartmentNames || [];
   }, [routingDepartments, categoryDepartments]);
 
+  const categories = useSelector(makeSelectMainCategories);
+
   const subcategories = useSelector(makeSelectSubCategories);
 
   const subcategoryOptions = useMemo(
     () =>
-      subcategories?.map(category => ({
-        ...category,
-        value: category.extendedName,
+      subcategories?.map(({ key, extendedName: name, category_slug, description }) => ({
+        key,
+        name,
+        value: name,
+        group: category_slug,
+        description,
       })),
     [subcategories]
   );
+  const subcategoryGroups = useMemo(() => categories?.map(({ slug: value, name }) => ({ name, value })), [categories]);
+
   const hasChildren = useMemo(() => incident._links['sia:children']?.length > 0, [incident]);
 
   const getDirectingDepartmentCode = useCallback(
@@ -259,10 +266,10 @@ const MetaList = () => {
             disabled={subcatHighlightDisabled}
             display="Subcategorie (verantwoordelijke afdeling)"
             options={subcategoryOptions}
+            groups={subcategoryGroups}
             infoKey="description"
             patch={{ status: { state: 'm' } }}
             path="category.sub_category"
-            sort
             type="subcategory"
             valuePath="category.category_url"
           />

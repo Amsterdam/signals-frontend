@@ -8,20 +8,22 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
-  const options = values.map(({ key, value, slug }) => ({
-    key: useSlug ? slug : key || '',
+export const SelectInput = ({ name: inputName, display, values, groups, emptyOptionText }) => {
+  const options = values.map(({ key, value, group }) => ({
+    key: key || '',
     name: key ? value : emptyOptionText || value,
-    value: useSlug ? slug : key || '',
+    value: key || '',
+    group,
   }));
 
   const render = ({ handler }) => (
     <Wrapper>
       <Select
         label={<strong>{display}</strong>}
-        name={name}
+        name={inputName}
         {...handler()}
         options={options}
+        groups={groups}
       />
     </Wrapper>
   );
