@@ -15,6 +15,10 @@
           "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
           "type": "string"
         },
+        "assignSignalToDepartment": {
+          "description": "Feature switch to enable assigning an incident to a department directly.",
+          "type": "boolean"
+        },
         "assignSignalToEmployee": {
           "description": "Feature switch to enable assigning an incident to an individual employee.",
           "type": "boolean"
@@ -25,10 +29,6 @@
         },
         "fetchQuestionsFromBackend": {
           "description": "When true, will bypass getting the configuration for the incident submission form questions from local modules. Instead, a request to an API endpoint is made to retrieve the configuration. See [QUESTIONS_ENDPOINT](#QUESTIONS_ENDPOINT)",
-          "type": "boolean"
-        },
-        "fetchSourcesFromBackend": {
-          "description": "When true, the possible sources an incident can originate from will be fetched from the backend. See [SOURCES_ENDPOINT](#SOURCES_ENDPOINT)",
           "type": "boolean"
         },
         "mapFilter24Hours": {
@@ -73,10 +73,10 @@
       },
       "required": [
         "apiBaseUrl",
+        "assignSignalToDepartment",
         "assignSignalToEmployee",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
-        "fetchSourcesFromBackend",
         "head",
         "language",
         "links",

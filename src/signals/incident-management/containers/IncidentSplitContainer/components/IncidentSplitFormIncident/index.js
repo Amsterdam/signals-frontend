@@ -1,4 +1,4 @@
-import React, { useCallback, useState, Fragment } from 'react';
+import React, { useCallback, useState, Fragment, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { priorityList, typesList } from 'signals/incident-management/definitions';
@@ -9,7 +9,7 @@ import Button from 'components/Button';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
 
-import { StyledGrid, StyledHeading } from '../../styled';
+import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled';
 
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
@@ -18,19 +18,26 @@ export const INCIDENT_SPLIT_LIMIT = 10;
 
 const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) => {
   const [splitCount, setSplitCount] = useState(1);
+  const incidentRef = useRef(null);
 
-  const addIncident = useCallback(
-    event => {
-      event.preventDefault();
-      setSplitCount(previousSplitCount => previousSplitCount + 1);
-    },
-    []
-  );
+  const addIncident = useCallback(event => {
+    event.preventDefault();
+    setSplitCount(previousSplitCount => previousSplitCount + 1);
+  }, []);
+
+  const indexWithIncidentRef = useMemo(() => (splitCount === 1 ? null : splitCount - 1), [splitCount]);
+
+  useEffect(() => {
+    incidentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [splitCount, incidentRef]);
 
   return (
     <Fragment>
-      {[...Array(splitCount + 1).keys()].slice(1).map(splitNumber => (
-        <fieldset key={`incident-splitform-incident-${splitNumber}`}>
+      {[...Array(splitCount + 1).keys()].slice(1).map((splitNumber, index) => (
+        <StyledFieldset
+          key={`incident-splitform-incident-${splitNumber}`}
+          ref={index === indexWithIncidentRef ? incidentRef : null}
+        >
           <StyledGrid>
             <StyledHeading forwardedAs="h2" data-testid="incidentSplitFormIncidentTitle">
               Deelmelding {splitNumber + parentIncident.childrenCount}
@@ -82,7 +89,7 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
               />
             </div>
           </StyledGrid>
-        </fieldset>
+        </StyledFieldset>
       ))}
 
       {splitCount < INCIDENT_SPLIT_LIMIT - parentIncident.childrenCount && (

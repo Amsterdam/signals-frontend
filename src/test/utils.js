@@ -2,7 +2,7 @@ import React from 'react';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from '@datapunt/asc-ui';
+import { ThemeProvider } from '@amsterdam/asc-ui';
 import MatchMediaMock from 'match-media-mock';
 import Immutable from 'immutable';
 import isObject from 'lodash.isobject';

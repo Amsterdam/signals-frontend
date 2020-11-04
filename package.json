@@ -52,12 +52,12 @@
     "validate-base-config"
   ],
   "dependencies": {
-    "@datapunt/amsterdam-react-maps": "^0.1.2",
-    "@datapunt/asc-assets": "^0.24.4",
-    "@datapunt/asc-ui": "^0.24.4",
+    "@amsterdam/arm-core": "^0.4.0",
+    "@amsterdam/asc-assets": "^0.25.2",
+    "@amsterdam/asc-ui": "^0.25.2",
+    "@amsterdam/react-maps": "^0.10.0",
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
     "@datapunt/matomo-tracker-js": "0.0.15",
-    "@datapunt/react-maps": "0.8.0",
     "@sentry/browser": "^5.24.2",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.8.0",

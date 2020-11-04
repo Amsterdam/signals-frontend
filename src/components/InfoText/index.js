@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeColor, Paragraph, themeSpacing } from '@datapunt/asc-ui';
+import { themeColor, Paragraph, themeSpacing } from '@amsterdam/asc-ui';
 
 const Info = styled(Paragraph)`
   color: ${themeColor('tint', 'level5')};

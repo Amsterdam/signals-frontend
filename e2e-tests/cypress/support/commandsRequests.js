@@ -172,21 +172,21 @@ export const createSignalDeelmelding = () => {
     headers: { 'Content-Type': 'application/json' },
     body: {
       location: {
-        geometrie: { type: 'Point', coordinates: [4.9140405, 52.34718533] },
+        geometrie: { type: 'Point', coordinates: [4.89916557, 52.37195803] },
         address: {
-          openbare_ruimte: 'Weesperzijde',
-          huisnummer: '159-1',
-          postcode: '1097DS',
+          openbare_ruimte: 'Kloveniersburgwal',
+          huisnummer: '12',
+          postcode: '1012CT',
           woonplaats: 'Amsterdam',
         },
         stadsdeel: 'A',
       },
       category: {
-        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-snel-varen',
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/stankoverlast',
       },
       reporter: {},
-      incident_date_start: '2020-07-16T14:06:31+02:00',
-      text: 'Wow, er vaart iemand te hard onder de Berlagebrug door, die BTW stuk is en er ligt ook nog eens een grote plas olie op het waterrr.',
+      incident_date_start: '2020-10-16T14:06:31+02:00',
+      text: 'Het stinkt hier naar eigenaardige kruiden en er ligt allemaal afval op stoep',
     },
   }).its('body').then(body => {
     const id = body.id;

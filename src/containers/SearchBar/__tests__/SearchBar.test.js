@@ -40,8 +40,8 @@ describe('containers/SearchBar', () => {
             setSearchQueryAction={setSearchQueryAction}
             resetSearchQueryAction={resetSearchQueryAction}
             query={query}
-          />,
-        ),
+          />
+        )
       );
 
       const formInput = queryByTestId('searchBar').querySelector('input');
@@ -65,8 +65,8 @@ describe('containers/SearchBar', () => {
             setSearchQueryAction={setSearchQueryAction}
             resetSearchQueryAction={resetSearchQueryAction}
             query={query}
-          />,
-        ),
+          />
+        )
       );
 
       expect(resetSearchQueryAction).not.toHaveBeenCalledWith();
@@ -86,8 +86,8 @@ describe('containers/SearchBar', () => {
             setSearchQueryAction={setSearchQueryAction}
             resetSearchQueryAction={resetSearchQueryAction}
             query={query}
-          />,
-        ),
+          />
+        )
       );
 
       expect(resetSearchQueryAction).not.toHaveBeenCalledWith();

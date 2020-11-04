@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo, useContext } from 'react';
 import styled from 'styled-components';
-import { themeSpacing } from '@datapunt/asc-ui';
+import { themeSpacing } from '@amsterdam/asc-ui';
 
 import { getListValueByKey } from 'shared/services/list-helper/list-helper';
 import { locationType } from 'shared/types';
@@ -95,7 +95,7 @@ const Location = ({ location }) => {
               {configuration.useStaticMapServer ? (
                 <MapStatic boundsScaleFactor={0.25} height={mapHeight} markerSize={20} width={mapWidth} {...geometry} />
               ) : (
-                <StyledMap value={location} icon={smallMarkerIcon} zoom={mapZoom} />
+                <StyledMap key={`${latitude},${longitude}`} value={location} icon={smallMarkerIcon} zoom={mapZoom} />
               )}
             </MapTile>
           )}

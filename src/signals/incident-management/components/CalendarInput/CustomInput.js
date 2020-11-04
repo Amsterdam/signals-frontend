@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Calendar } from '@datapunt/asc-assets';
-import { styles } from '@datapunt/asc-ui';
+import { Calendar } from '@amsterdam/asc-assets';
+import { styles } from '@amsterdam/asc-ui';
 
 import Label from 'components/Label';
 

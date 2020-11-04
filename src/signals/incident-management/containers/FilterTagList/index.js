@@ -2,15 +2,15 @@ import React, { useContext, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Tag, themeSpacing } from '@datapunt/asc-ui';
+import { Tag, themeSpacing } from '@amsterdam/asc-ui';
 import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
-import configuration from 'shared/services/configuration/configuration';
 import { dataListType, filterType } from 'shared/types';
 
+import { makeSelectDirectingDepartments } from 'models/departments/selectors';
 import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
 
@@ -87,7 +87,7 @@ const renderTag = (key, mainCategories, list) => {
 };
 
 export const FilterTagListComponent = props => {
-  const { tags, mainCategories, subCategories } = props;
+  const { tags, mainCategories, subCategories, directingDepartments } = props;
   const { sources } = useContext(AppContext);
   const { districts } = useContext(IncidentManagementContext);
 
@@ -96,7 +96,8 @@ export const FilterTagListComponent = props => {
     area: districts,
     maincategory_slug: mainCategories,
     category_slug: subCategories,
-    source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+    source: sources,
+    directing_department: directingDepartments,
   };
 
   const tagsList = { ...tags };
@@ -137,6 +138,7 @@ FilterTagListComponent.propTypes = {
   tags: filterType,
   mainCategories: dataListType,
   subCategories: dataListType,
+  directingDepartments: dataListType,
 };
 
 FilterTagListComponent.defaultProps = {
@@ -146,6 +148,7 @@ FilterTagListComponent.defaultProps = {
 const mapStateToProps = createStructuredSelector({
   mainCategories: makeSelectMainCategories,
   subCategories: makeSelectSubCategories,
+  directingDepartments: makeSelectDirectingDepartments,
 });
 
 const withConnect = connect(mapStateToProps);

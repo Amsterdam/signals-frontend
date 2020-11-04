@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
-import { Label as AscLabel } from '@datapunt/asc-ui';
+import { Label as AscLabel } from '@amsterdam/asc-ui';
 
 import configuration from 'shared/services/configuration/configuration';
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
@@ -16,6 +16,7 @@ import Input from 'components/Input';
 import Checkbox from 'components/Checkbox';
 import { dateToISOString } from 'shared/services/date-utils';
 
+import { makeSelectDirectingDepartments } from 'models/departments/selectors';
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
@@ -47,6 +48,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const { sources } = useContext(AppContext);
   const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
+  const directingDepartments = useSelector(makeSelectDirectingDepartments);
+
   const [state, dispatch] = useReducer(reducer, filter, init);
 
   const isNewFilter = !filter.name;
@@ -55,9 +58,10 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     () => ({
       ...dataLists,
       area: districts,
-      source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+      source: sources,
+      directing_department: directingDepartments,
     }),
-    [districts, sources]
+    [districts, sources, directingDepartments]
   );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
@@ -102,6 +106,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     event => {
       event.preventDefault();
       const options = parseOutputFormData(state.options);
+
       const formData = { ...state.filter, options };
       const hasName = formData.name.trim() !== '';
 
@@ -372,7 +377,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="directing_department"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
-              options={dataLists.directing_department}
+              options={directingDepartments}
             />
 
             <CheckboxGroup
@@ -428,26 +433,14 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </FilterGroup>
 
-          {configuration.fetchSourcesFromBackend && (
-            <CheckboxGroup
-              defaultValue={state.options.source}
-              label="Bron"
-              name="source"
-              onChange={onGroupChange}
-              onToggle={onGroupToggle}
-              options={sources}
-            />
-          )}
-          {!configuration.fetchSourcesFromBackend && (
-            <CheckboxGroup
-              defaultValue={state.options.source}
-              label="Bron"
-              name="source"
-              onChange={onGroupChange}
-              onToggle={onGroupToggle}
-              options={dataLists.source}
-            />
-          )}
+          <CheckboxGroup
+            defaultValue={state.options.source}
+            label="Bron"
+            name="source"
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            options={sources}
+          />
         </Fieldset>
       </ControlsWrapper>
 

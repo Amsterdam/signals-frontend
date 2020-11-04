@@ -6,7 +6,7 @@ import isEqual from 'lodash.isequal';
 import format from 'date-fns/format';
 import subDays from 'date-fns/addDays';
 import L from 'leaflet';
-import { ViewerContainer, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { ViewerContainer, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import MapContext from 'containers/MapContext/context';
 import { setAddressAction } from 'containers/MapContext/actions';

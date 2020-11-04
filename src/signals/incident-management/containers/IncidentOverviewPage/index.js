@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Row, Column } from '@datapunt/asc-ui';
+import { Row, Column } from '@amsterdam/asc-ui';
 import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 
 import MyFilters from 'signals/incident-management/containers/MyFilters';

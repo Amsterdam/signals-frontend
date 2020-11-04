@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { themeColor, themeSpacing, Heading, styles } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing, Heading, styles } from '@amsterdam/asc-ui';
 
 import BackLink from 'components/BackLink';
 import Button from 'components/Button';
@@ -71,6 +71,7 @@ const StyledHeading = styled(Heading)`
 `;
 
 const ButtonLink = styled(Button)`
+  display: none;
   color: ${themeColor('tint', 'level7')};
   text-decoration: none;
 
@@ -141,14 +142,16 @@ const DetailHeader = () => {
 
       <ButtonContainer>
         {showSplitButton && (
-          <ButtonLink
-            variant="application"
-            forwardedAs={Link}
-            to={`${INCIDENT_URL}/${incident.id}/split`}
-            data-testid="detail-header-button-split"
-          >
-            Delen
-          </ButtonLink>
+          <div hidden>
+            <ButtonLink
+              variant="application"
+              forwardedAs={Link}
+              to={`${INCIDENT_URL}/${incident.id}/split`}
+              data-testid="detail-header-button-split"
+            >
+              Delen
+            </ButtonLink>
+          </div>
         )}
 
         {canThor && (
