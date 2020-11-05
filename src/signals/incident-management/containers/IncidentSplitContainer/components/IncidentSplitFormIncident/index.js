@@ -48,7 +48,8 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
               data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
               name={`incidents[${splitNumber}].subcategory`}
               display="Subcategorie"
-              options={subcategories}
+              options={subcategories.options}
+              groups={subcategories.groups}
               initialValue={parentIncident.subcategory}
               register={register}
             />

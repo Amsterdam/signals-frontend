@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { Select as AscSelect } from '@amsterdam/asc-ui';
 
 const SelectOptions = ({ name, options }) =>
   options.map(option => (
-    <option key={`${name}-${option.key}`} value={option.value}>
+    <option key={`${name}-${option.key}`} value={option.key}>
       {option.name}
     </option>
   ));
 
-const Select = ({ label, onChange, name, value, options, groups }) => (
-  <AscSelect value={value} onChange={onChange} data-testid={name} label={label} name={name}>
+const Select = forwardRef(({ label, onChange, name, value, options, groups }, ref) => (
+  <AscSelect value={value} onChange={onChange} data-testid={name} label={label} name={name} ref={ref}>
     {groups?.length > 1 ?
         groups?.map(group => (
           <optgroup key={group.name} label={group.name}>
@@ -22,7 +22,7 @@ const Select = ({ label, onChange, name, value, options, groups }) => (
         <SelectOptions name={name} options={options} />
       )}
   </AscSelect>
-);
+));
 
 Select.defaultProps = {
   groups: null,

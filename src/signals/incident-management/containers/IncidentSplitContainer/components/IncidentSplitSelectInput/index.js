@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Select } from '@amsterdam/asc-ui';
+import Select from 'components/Select';
 
 import { StyledInfoText, StyledSelect } from '../../styled';
 
-const getSelectedOption = (options, value) => options.find(({ key }) => key === value);
+const getSelectedOption = (options, value) => options.find(item => item.key === value);
 
-const IncidentSplitSelectInput = ({ id, name, display, options, initialValue, register }) => {
+const IncidentSplitSelectInput = ({ id, name, display, options, groups = null, initialValue, register }) => {
   const [selected, setSelected] = useState(getSelectedOption(options, initialValue));
 
   const onChange = useCallback(
@@ -27,11 +27,9 @@ const IncidentSplitSelectInput = ({ id, name, display, options, initialValue, re
         data-testid={`incidentSelectInput-${id}`}
         onChange={onChange}
         value={selected.key}
-      >
-        {options.map(option => (
-          <option key={`${id}-${option.key}`} value={option.key}>{option.value}</option>
-        ))}
-      </Select>
+        options={options}
+        groups={groups}
+      ></Select>
 
       {selected?.description && <StyledInfoText text={selected.description} />}
     </StyledSelect>
@@ -50,6 +48,12 @@ IncidentSplitSelectInput.propTypes = {
       info: PropTypes.string,
     })
   ).isRequired,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
   register: PropTypes.func.isRequired,
 };
 

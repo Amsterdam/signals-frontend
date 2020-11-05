@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
@@ -33,9 +33,19 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
+  const categories = useSelector(makeSelectMainCategories);
+  const subcategoryGroups = useMemo(() => categories?.map(({ slug: value, name }) => ({ name, value })), [categories]);
+
   const subcategories = useSelector(makeSelectSubCategories);
   const subcategoryOptions = useMemo(
-    () => subcategories?.map(category => ({ ...category, value: category.extendedName })),
+    () =>
+      subcategories?.map(({ key, extendedName: name, category_slug, description }) => ({
+        key,
+        name,
+        value: name,
+        group: category_slug,
+        description,
+      })),
     [subcategories]
   );
 
@@ -142,18 +152,16 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         text_extra,
       };
 
-      const mergedData = incidents
-        .filter(Boolean)
-        .map(({ subcategory, description, type, priority }) => {
-          const partialData = {
-            category: { category_url: subcategory },
-            priority: { priority },
-            text: description,
-            type: { code: type },
-          };
+      const mergedData = incidents.filter(Boolean).map(({ subcategory, description, type, priority }) => {
+        const partialData = {
+          category: { category_url: subcategory },
+          priority: { priority },
+          text: description,
+          type: { code: type },
+        };
 
-          return { ...parentData, ...partialData, parent };
-        });
+        return { ...parentData, ...partialData, parent };
+      });
 
       post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
@@ -179,7 +187,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             type: parentIncident.type.code,
             directingDepartment: parentDirectingDepartment,
           }}
-          subcategories={subcategoryOptions}
+          subcategories={{ options: subcategoryOptions, groups: subcategoryGroups }}
           directingDepartments={directingDepartments}
           onSubmit={onSubmit}
         />
