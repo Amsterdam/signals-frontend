@@ -30,6 +30,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const dispatch = useDispatch();
   const [parentIncident, setParentIncident] = useState();
   const [directingDepartment, setDirectingDepartment] = useState([]);
+  const [note, setNote] = useState('');
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
@@ -69,8 +70,17 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   useEffect(() => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
+
     if (isSuccessSplit) {
-      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_departments: directingDepartment });
+      const updateDirectingDepartment = directingDepartment !== parentIncident.directingDepartment;
+      const addNote = !!note.trim();
+
+      if (addNote || updateDirectingDepartment) {
+        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, {
+          directing_departments: updateDirectingDepartment ? directingDepartment : undefined,
+          notes: addNote ? [{ text: note }] : undefined,
+        });
+      }
     } else {
       dispatch(
         showGlobalNotification({
@@ -85,7 +95,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
     // Disabling linter; the `history` dependency is generating infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorSplit, isSuccessSplit, id, dispatch, patch, directingDepartment]);
+  }, [errorSplit, isSuccessSplit, id, dispatch, patch, directingDepartment, parentIncident]);
 
   useEffect(() => {
     if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
@@ -115,7 +125,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
      * @param {string} formData.incidents[].priority
      * @param {string} formData.incidents[].type
      */
-    ({ department, incidents }) => {
+    ({ department, incidents, noteText }) => {
       const {
         id: parent,
         attachments,
@@ -129,6 +139,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       } = parentIncident;
 
       updateDepartment(department);
+      setNote(noteText);
+
       const { stadsdeel, buurt_code, address, geometrie } = location;
 
       const parentData = {
@@ -142,18 +154,16 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         text_extra,
       };
 
-      const mergedData = incidents
-        .filter(Boolean)
-        .map(({ subcategory, description, type, priority }) => {
-          const partialData = {
-            category: { category_url: subcategory },
-            priority: { priority },
-            text: description,
-            type: { code: type },
-          };
+      const mergedData = incidents.filter(Boolean).map(({ subcategory, description, type, priority }) => {
+        const partialData = {
+          category: { category_url: subcategory },
+          priority: { priority },
+          text: description,
+          type: { code: type },
+        };
 
-          return { ...parentData, ...partialData, parent };
-        });
+        return { ...parentData, ...partialData, parent };
+      });
 
       post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },

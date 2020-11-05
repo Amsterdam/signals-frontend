@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -13,6 +13,7 @@ import { StyledDefinitionList, StyledForm, StyledSubmitButton, FormWrapper } fro
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
+import IncidentSplitTextAreaInput from '../IncidentSplitTextAreaInput';
 
 const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit }) => {
   const { handleSubmit, register } = useForm();
@@ -50,6 +51,17 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
             id="department"
             data-testid="incidentSplitFormRadioInputDepartment"
             options={directingDepartments}
+          />
+
+          <IncidentSplitTextAreaInput
+            display={
+              <Fragment>
+                <strong>Notitie</strong> (optioneel)
+              </Fragment>
+            }
+            register={register}
+            name="noteText"
+            id="incidentSplitFormParentIncidentNote"
           />
         </fieldset>
 
