@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
 
-const IncidentSplitTextAreaInput = ({ id, display, register, name, rows = 7 }) => (
+const DEFAULT_ROWS = 7;
+
+const IncidentSplitTextAreaInput = ({ id, display, register, name, rows = DEFAULT_ROWS }) => (
   <Fragment>
     <Label inline htmlFor={id}>
       {display}

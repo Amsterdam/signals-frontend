@@ -30,7 +30,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const dispatch = useDispatch();
   const [parentIncident, setParentIncident] = useState();
   const [directingDepartment, setDirectingDepartment] = useState([]);
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState();
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
@@ -73,7 +73,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
     if (isSuccessSplit) {
       const updateDirectingDepartment = directingDepartment !== parentIncident.directingDepartment;
-      const addNote = !!note.trim();
+      const addNote = !!note?.trim();
 
       if (addNote || updateDirectingDepartment) {
         patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, {
@@ -124,6 +124,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
      * @param {string} formData.incidents[].subcategory
      * @param {string} formData.incidents[].priority
      * @param {string} formData.incidents[].type
+     * @param {string} formData.noteText
      */
     ({ department, incidents, noteText }) => {
       const {
