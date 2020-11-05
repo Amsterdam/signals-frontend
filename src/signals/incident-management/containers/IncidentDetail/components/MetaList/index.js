@@ -82,9 +82,9 @@ const MetaList = () => {
   }, [routingDepartments, categoryDepartments]);
 
   const categories = useSelector(makeSelectMainCategories);
+  const subcategoryGroups = useMemo(() => categories?.map(({ slug: value, name }) => ({ name, value })), [categories]);
 
   const subcategories = useSelector(makeSelectSubCategories);
-
   const subcategoryOptions = useMemo(
     () =>
       subcategories?.map(({ key, extendedName: name, category_slug, description }) => ({
@@ -96,7 +96,6 @@ const MetaList = () => {
       })),
     [subcategories]
   );
-  const subcategoryGroups = useMemo(() => categories?.map(({ slug: value, name }) => ({ name, value })), [categories]);
 
   const hasChildren = useMemo(() => incident._links['sia:children']?.length > 0, [incident]);
 
