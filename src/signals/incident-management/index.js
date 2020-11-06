@@ -50,7 +50,7 @@ const IncidentManagement = () => {
       dispatch(requestIncidents());
     }
 
-    if (configuration.fetchDistrictsFromBackend) {
+    if (configuration.featureFlags.fetchDistrictsFromBackend) {
       dispatch(getDistricts());
     }
 

@@ -85,7 +85,7 @@ describe('List', () => {
   });
 
   it('should render correctly with fetchDistrictsFromBackend', () => {
-    configuration.fetchDistrictsFromBackend = true;
+    configuration.featureFlags.fetchDistrictsFromBackend = true;
     configuration.language.district = 'District';
 
     const { container } = render(withContext(<List {...props} />));
@@ -96,7 +96,7 @@ describe('List', () => {
   });
 
   it('should render correctly with assignSignalToEmployee', () => {
-    configuration.assignSignalToEmployee = true;
+    configuration.featureFlags.assignSignalToEmployee = true;
 
     const { container } = render(withContext(<List {...props} />));
 

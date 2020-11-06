@@ -15,33 +15,8 @@
           "description": "The area_type_code that is being used as districts, fetched from the areas endpoint (when [fetchDistrictsFromBackend](#fetchDistrictsFromBackend) is set to true).",
           "type": "string"
         },
-        "assignSignalToDepartment": {
-          "description": "Feature switch to enable assigning an incident to a department directly.",
-          "type": "boolean"
-        },
-        "assignSignalToEmployee": {
-          "description": "Feature switch to enable assigning an incident to an individual employee.",
-          "type": "boolean"
-        },
-        "fetchDistrictsFromBackend": {
-          "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
-          "type": "boolean"
-        },
-        "fetchQuestionsFromBackend": {
-          "description": "When true, will bypass getting the configuration for the incident submission form questions from local modules. Instead, a request to an API endpoint is made to retrieve the configuration. See [QUESTIONS_ENDPOINT](#QUESTIONS_ENDPOINT)",
-          "type": "boolean"
-        },
-        "mapFilter24Hours": {
-          "description": "When true, will show no more and no less than the incidents of the last 24 hours on the map (in the back office), regardless of the start and end date filters.",
-          "type": "boolean"
-        },
-        "showVulaanControls": {
-          "description": "When true, will show extra questions after the first page of questions in the incident submission form",
-          "type": "boolean"
-        },
-        "useStaticMapServer": {
-          "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
-          "type": "boolean"
+        "featureFlags": {
+          "$ref": "#/definitions/FeatureFlags"
         },
         "head": {
           "$ref": "#/definitions/Head"
@@ -73,38 +48,61 @@
       },
       "required": [
         "apiBaseUrl",
-        "assignSignalToDepartment",
-        "assignSignalToEmployee",
-        "fetchDistrictsFromBackend",
-        "fetchQuestionsFromBackend",
+        "areaTypeCodeForDistrict",
         "head",
         "language",
         "links",
         "logo",
         "map",
-        "mapFilter24Hours",
         "oidc",
-        "showVulaanControls",
-        "theme",
-        "useStaticMapServer"
-      ],
-      "allOf": [
-        {
-          "if": {
-            "properties": {
-              "fetchDistrictsFromBackend": {
-                "const": true
-              }
-            }
-          },
-          "then": {
-            "required": [
-              "areaTypeCodeForDistrict"
-            ]
-          }
-        }
+        "theme"
       ],
       "title": "Config"
+    },
+    "FeatureFlags": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Feature flag toggles",
+      "properties": {
+        "assignSignalToDepartment": {
+          "description": "Feature switch to enable assigning an incident to a department directly.",
+          "type": "boolean"
+        },
+        "assignSignalToEmployee": {
+          "description": "Feature switch to enable assigning an incident to an individual employee.",
+          "type": "boolean"
+        },
+        "fetchDistrictsFromBackend": {
+          "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
+          "type": "boolean"
+        },
+        "fetchQuestionsFromBackend": {
+          "description": "When true, will bypass getting the configuration for the incident submission form questions from local modules. Instead, a request to an API endpoint is made to retrieve the configuration. See [QUESTIONS_ENDPOINT](#QUESTIONS_ENDPOINT)",
+          "type": "boolean"
+        },
+        "mapFilter24Hours": {
+          "description": "When true, will show no more and no less than the incidents of the last 24 hours on the map (in the back office), regardless of the start and end date filters.",
+          "type": "boolean"
+        },
+        "showVulaanControls": {
+          "description": "When true, will show extra questions after the first page of questions in the incident submission form",
+          "type": "boolean"
+        },
+        "useStaticMapServer": {
+          "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "assignSignalToDepartment",
+        "assignSignalToEmployee",
+        "fetchDistrictsFromBackend",
+        "fetchQuestionsFromBackend",
+        "mapFilter24Hours",
+        "showVulaanControls",
+        "useStaticMapServer"
+      ],
+      "title": "FeatureFlags"
     },
     "Head": {
       "type": "object",
@@ -268,7 +266,7 @@
           ]
         },
         "height": {
-          "description": "Length value that sets the logo image's height",
+          "description": "Length value that sets the logo image's height. In pixels, the height should be 74 or less.",
           "type": [
             "string",
             "integer"
@@ -282,7 +280,7 @@
           ]
         },
         "smallHeight": {
-          "description": "Length value that sets the logo image's height in case the logo is rendered in a site header with limited height",
+          "description": "Length value that sets the logo image's height in case the logo is rendered in a site header with limited height. In pixels, the smallHeight should be 34 or less.",
           "type": [
             "string",
             "integer"

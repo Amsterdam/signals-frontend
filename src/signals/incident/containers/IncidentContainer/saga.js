@@ -36,7 +36,7 @@ export function* getClassification(action) {
 
     yield put(getClassificationSuccess(getClassificationData(category, subcategory, categoryData)));
 
-    if (configuration.fetchQuestionsFromBackend) {
+    if (configuration.featureFlags.fetchQuestionsFromBackend) {
       yield put(getQuestions(resolved));
     }
   } catch {

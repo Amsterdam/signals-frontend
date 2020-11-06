@@ -92,7 +92,7 @@ const Location = ({ location }) => {
               }}
               data-testid="previewLocationButton"
             >
-              {configuration.useStaticMapServer ? (
+              {configuration.featureFlags.useStaticMapServer ? (
                 <MapStatic boundsScaleFactor={0.25} height={mapHeight} markerSize={20} width={mapWidth} {...geometry} />
               ) : (
                 <StyledMap key={`${latitude},${longitude}`} value={location} icon={smallMarkerIcon} zoom={mapZoom} />
@@ -100,7 +100,7 @@ const Location = ({ location }) => {
             </MapTile>
           )}
 
-          {!configuration.fetchDistrictsFromBackend && location.stadsdeel && (
+          {!configuration.featureFlags.fetchDistrictsFromBackend && location.stadsdeel && (
             <div data-testid="location-value-address-district">
               Stadsdeel: {getListValueByKey(stadsdeelList, location.stadsdeel)}
             </div>
@@ -108,7 +108,7 @@ const Location = ({ location }) => {
 
           {location.address_text ? (
             <div>
-              {configuration.fetchDistrictsFromBackend && location.area_code && districts && (
+              {configuration.featureFlags.fetchDistrictsFromBackend && location.area_code && districts && (
                 <div data-testid="location-value-address-district">
                   {configuration.language.district}: {getListValueByKey(districts, location.area_code)}
                 </div>

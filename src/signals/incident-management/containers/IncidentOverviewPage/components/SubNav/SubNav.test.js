@@ -34,7 +34,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   });
 
   it('should not render last 24 hours header when mapFilter24Hours feature flag is disabled', () => {
-    configuration.mapFilter24Hours = false;
+    configuration.featureFlags.mapFilter24Hours = false;
 
     const { queryByText } = render(withAppContext(<SubNav showsMap />));
 
