@@ -9,7 +9,7 @@ export const generateParams = data => Object.entries(data)
       .filter(val => val)
       .map(val => `${pair[0]}=${val}`)
       .join('&') :
-    pair.map(encodeURIComponent).join('='),)
+    pair.map(encodeURIComponent).join('='))
   .join('&');
 
 export function* authCall(url, params, authorizationToken) {

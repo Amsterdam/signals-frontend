@@ -81,8 +81,8 @@ describe('signals/incident-management/containers/MyFilters', () => {
           onEditFilter={() => {}}
           onRemoveFilter={() => {}}
           onRequestIncidents={() => {}}
-        />,
-      ),
+        />
+      )
     );
 
     expect(container.querySelector('.my-filters--empty')).toBeTruthy();
@@ -98,8 +98,8 @@ describe('signals/incident-management/containers/MyFilters', () => {
           onEditFilter={() => {}}
           onRemoveFilter={() => {}}
           onRequestIncidents={() => {}}
-        />,
-      ),
+        />
+      )
     );
 
     expect(sortSpy).toHaveBeenCalled();
@@ -130,11 +130,11 @@ describe('signals/incident-management/containers/MyFilters', () => {
       const onRequestIncidents = jest.fn();
 
       const { getAllByTestId } = render(
-        withAppContext(<MyFiltersComponent {...{ ...props, onApplyFilter, onEditFilter, onRequestIncidents }} />),
+        withAppContext(<MyFiltersComponent {...{ ...props, onApplyFilter, onEditFilter, onRequestIncidents }} />)
       );
 
       const handleApplyFilterButton = getAllByTestId(
-        'handleApplyFilterButton',
+        'handleApplyFilterButton'
       )[0];
 
       const event = createEvent.click(handleApplyFilterButton, { button: 1 });
@@ -149,11 +149,11 @@ describe('signals/incident-management/containers/MyFilters', () => {
       const onEditFilter = jest.fn();
 
       const { getAllByTestId } = render(
-        withAppContext(<MyFiltersComponent {...{ ...props, onEditFilter }} />),
+        withAppContext(<MyFiltersComponent {...{ ...props, onEditFilter }} />)
       );
 
       const handleEditFilterButton = getAllByTestId(
-        'handleEditFilterButton',
+        'handleEditFilterButton'
       )[0];
       const event = createEvent.click(handleEditFilterButton, { button: 1 });
       event.preventDefault = jest.fn();
@@ -171,11 +171,11 @@ describe('signals/incident-management/containers/MyFilters', () => {
       const onEditFilter = jest.fn();
 
       const { getAllByTestId } = render(
-        withAppContext(<MyFiltersComponent {...{ ...props, onEditFilter }} />),
+        withAppContext(<MyFiltersComponent {...{ ...props, onEditFilter }} />)
       );
 
       const handleEditFilterButton = getAllByTestId(
-        'handleEditFilterButton',
+        'handleEditFilterButton'
       )[0];
       const event = createEvent.click(handleEditFilterButton, { button: 1 });
       event.preventDefault = jest.fn();

@@ -73,7 +73,7 @@ describe('The mapCategories service', () => {
             ],
           },
         ],
-      }),
+      })
     ).toEqual({
       main: [
         {

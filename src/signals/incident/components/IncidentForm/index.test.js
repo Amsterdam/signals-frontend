@@ -74,7 +74,7 @@ describe('<IncidentForm />', () => {
               </Step>
             </Steps>
           </Wizard>
-        ),
+        )
       );
 
       expect(queryByText(mockForm.controls.phone.meta.label)).toBeInTheDocument();

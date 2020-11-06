@@ -15,7 +15,7 @@ describe('<TextInput />', () => {
 
     const TextInputRender = TextInput(props);
     const { container } = render(
-      withAppContext(<TextInputRender {...props} />),
+      withAppContext(<TextInputRender {...props} />)
     );
 
     expect(container.firstChild.querySelector('input[type="text"][id="formmy_input"]')).toBeTruthy();
