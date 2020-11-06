@@ -52,7 +52,7 @@ Label.propTypes = {
 
     if ((!as || as === 'label') && !value) {
       return new TypeError(
-        `Failed prop type: The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${value}\`.`,
+        `Failed prop type: The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${value}\`.`
       );
     }
 

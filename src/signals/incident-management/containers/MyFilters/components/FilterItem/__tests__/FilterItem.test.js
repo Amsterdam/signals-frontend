@@ -47,7 +47,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
     };
 
     const { container, getByText, rerender } = render(
-      withAppContext(<FilterItem {...props} />),
+      withAppContext(<FilterItem {...props} />)
     );
 
     expect(container.querySelectorAll('a')).toHaveLength(3); // interaction buttons

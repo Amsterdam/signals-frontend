@@ -13,7 +13,7 @@ export {
   stadsdeelList,
   statusList,
   contactDetailsList,
-  typesList,
+  typesList
 };
 
 export default {
