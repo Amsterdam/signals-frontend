@@ -5,6 +5,6 @@ module.exports = {
       files: ['**/*.test.js', '**/*.test.ts', 'src/test/utils.js', '**/*.spec.ts'],
       rules: {
       },
-    }
+    },
   ],
 };

@@ -47,14 +47,14 @@ describe('injectSaga decorator', () => {
     expect(injectors.injectSaga).toHaveBeenCalledWith(
       'test',
       { saga: testSaga, mode: 'testMode' },
-      props,
+      props
     );
   });
 
   it('should eject on unmount with a correct saga key', () => {
     const props = { test: 'test' };
     const renderedComponent = renderer.create(
-      withAppContext(<ComponentWithSaga {...props} />),
+      withAppContext(<ComponentWithSaga {...props} />)
     );
     renderedComponent.unmount();
 
@@ -65,14 +65,14 @@ describe('injectSaga decorator', () => {
   it('should set a correct display name', () => {
     expect(ComponentWithSaga.displayName).toBe('withSaga(Component)');
     expect(
-      injectSaga({ key: 'test', saga: testSaga })(() => null).displayName,
+      injectSaga({ key: 'test', saga: testSaga })(() => null).displayName
     ).toBe('withSaga(Component)');
   });
 
   it('should propagate props', () => {
     const props = { testProp: 'test' };
     const renderedComponent = mount(
-      withAppContext(<ComponentWithSaga {...props} />),
+      withAppContext(<ComponentWithSaga {...props} />)
     );
 
     const { props: componentProps } = renderedComponent
@@ -122,7 +122,7 @@ describe('useInjectSaga hook', () => {
   it('should eject on unmount with a correct saga key', () => {
     const props = { test: 'test' };
     const { unmount } = render(
-      withAppContext(<ComponentWithSaga {...props} />),
+      withAppContext(<ComponentWithSaga {...props} />)
     );
     unmount();
 

@@ -10,8 +10,8 @@ describe('components/PageHeader', () => {
       withAppContext(
         <PageHeader title="I am a title">
           <span>I am a child</span>
-        </PageHeader>,
-      ),
+        </PageHeader>
+      )
     );
 
     // title
@@ -28,8 +28,8 @@ describe('components/PageHeader', () => {
       withAppContext(
         <PageHeader title="I am a title" subTitle={subTitle}>
           <span>I am a child</span>
-        </PageHeader>,
-      ),
+        </PageHeader>
+      )
     );
 
     expect(getByText(subTitle)).toBeTruthy();
