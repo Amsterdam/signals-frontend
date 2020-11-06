@@ -18,7 +18,7 @@ const form = FormBuilder.group({
   main_slug: null,
 });
 
-const emptyOption = { key: '', name: 'Kies', value: '', group: '' };
+const emptyOption = { key: '', name: 'Selecteer subcategorie', value: '', group: '' };
 
 const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);

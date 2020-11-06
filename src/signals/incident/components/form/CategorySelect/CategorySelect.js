@@ -1,10 +1,10 @@
-import React, { useMemo, useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Select from 'components/Select';
 import { useSelector } from 'react-redux';
-import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectSubCategories, makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import InfoText from 'components/InfoText';
 
 const StyledInfoText = styled(InfoText)`
@@ -14,16 +14,8 @@ const StyledInfoText = styled(InfoText)`
 const emptyOption = { key: '', name: 'Selecteer subcategorie', value: '', group: '' };
 
 const CategorySelect = ({ handler, meta, parent }) => {
-  const categories = useSelector(makeSelectMainCategories);
   const subcategories = useSelector(makeSelectSubCategories);
-  const options = useMemo(
-    () => subcategories?.map(({ slug, extendedName: name, category_slug }) => ({ key: slug, name, value: slug, group: category_slug })),
-    [subcategories]
-  );
-  const groups = useMemo(
-    () => categories?.map(({ slug: value, name }) => ({ name, value })),
-    [categories]
-  );
+  const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const { value } = handler();
 
@@ -38,10 +30,9 @@ const CategorySelect = ({ handler, meta, parent }) => {
 
   const handleChange = useCallback(
     event => {
-      const { id, slug, category_slug: category, name, handling_message, description } = getSubcategory(
-        event.target.value
-      );
-      setInfo(description);
+      const item = getSubcategory(event.target.value);
+
+      const { id, slug, category_slug: category, name, handling_message } = item;
       parent.meta.updateIncident({
         category,
         subcategory: slug,
@@ -58,14 +49,17 @@ const CategorySelect = ({ handler, meta, parent }) => {
 
   return (
     <div>
-      <Select
-        name={meta.name}
-        value={`${handler().value}`}
-        onChange={handleChange}
-        options={options}
-        groups={groups}
-        emptyOption={emptyOption}
-      />
+      {subcategoryOptions && (
+        <Select
+          name={meta.name}
+          value={value}
+          onChange={handleChange}
+          options={subcategoryOptions}
+          optionKey="slug"
+          groups={subcategoryGroups}
+          emptyOption={emptyOption}
+        />
+      )}
       {info && <StyledInfoText text={`${info}`} />}
     </div>
   );

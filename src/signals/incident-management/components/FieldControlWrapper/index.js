@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { shape } from 'prop-types';
+import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import styled from 'styled-components';
@@ -89,7 +89,6 @@ FieldControlWrapper.propTypes = {
   render: PropTypes.func.isRequired,
   /** Form values */
   values: PropTypes.arrayOf(PropTypes.shape({})),
-  emptyOption: shape({}),
 };
 
 export default FieldControlWrapper;

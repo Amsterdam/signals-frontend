@@ -3,35 +3,43 @@ import PropTypes from 'prop-types';
 
 import { Select as AscSelect } from '@amsterdam/asc-ui';
 
-const SelectOptions = ({ name, options }) =>
+const SelectOptions = ({ name, options, optionKey, optionValue }) =>
   options.map(option => (
-    <option key={`${name}-${option.key}`} value={option.key}>
-      {option.name}
+    <option key={`${name}-${option[optionKey]}`} value={option[optionKey]}>
+      {option[optionValue]}
     </option>
   ));
 
-const Select = forwardRef(({ label, onChange, name, value, options, groups, emptyOption }, ref) => (
-  <AscSelect value={value} onChange={onChange} data-testid={name} label={label} name={name} ref={ref}>
-    {emptyOption && (
-      <option key={`${name}-${emptyOption.key}`} value={emptyOption.key}>
-        {emptyOption.name}
-      </option>
-    )}
-
-    {groups?.length > 1 ?
-      groups?.map(group => (
-        <optgroup key={group.name} label={group.name}>
-          <SelectOptions name={name} options={options.filter(option => option.group === group.value)} />
-        </optgroup>
-      ))
-      : (
-        <SelectOptions name={name} options={options} />
+const Select = forwardRef(
+  ({ label, onChange, name, value, options, optionKey = 'key', optionValue = 'name', groups, emptyOption }, ref) => (
+    <AscSelect value={value} onChange={onChange} data-testid={name} label={label} name={name} ref={ref}>
+      {emptyOption && (
+        <option key={`${name}-${emptyOption[optionKey]}`} value={emptyOption[optionKey]}>
+          {emptyOption[optionValue]}
+        </option>
       )}
-  </AscSelect>
-));
+
+      {groups?.length > 1 ?
+        groups?.map(group => (
+          <optgroup key={group.name} label={group.name}>
+            <SelectOptions
+              name={name}
+              options={options.filter(option => option.group === group.value)}
+              optionKey={optionKey}
+              optionValue={optionValue}
+            />
+          </optgroup>
+        ))
+        : (
+          <SelectOptions name={name} options={options} optionKey={optionKey} optionValue={optionValue} />
+        )}
+    </AscSelect>
+  )
+);
 
 Select.defaultProps = {
   groups: null,
+  emptyOption: null,
 };
 
 const optionType = PropTypes.shape({
@@ -46,6 +54,8 @@ Select.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(optionType.isRequired).isRequired,
+  optionKey: PropTypes.string,
+  optionValue: PropTypes.string,
   value: PropTypes.string,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
@@ -53,7 +63,7 @@ Select.propTypes = {
       value: PropTypes.string,
     })
   ),
-  emptyOption: PropTypes.optionType,
+  emptyOption: optionType,
 };
 
 export default Select;
