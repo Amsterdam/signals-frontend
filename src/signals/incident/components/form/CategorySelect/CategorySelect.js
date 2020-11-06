@@ -11,7 +11,7 @@ const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;
 `;
 
-const defaultOption = { key: '', name: 'Selecteer subcategorie', value: '' };
+const emptyOption = { key: '', name: 'Selecteer subcategorie', value: '', group: '' };
 
 const CategorySelect = ({ handler, meta, parent }) => {
   const categories = useSelector(makeSelectMainCategories);
@@ -62,8 +62,9 @@ const CategorySelect = ({ handler, meta, parent }) => {
         name={meta.name}
         value={`${handler().value}`}
         onChange={handleChange}
-        options={[defaultOption, ...options || []]}
+        options={options}
         groups={groups}
+        emptyOption={emptyOption}
       />
       {info && <StyledInfoText text={`${info}`} />}
     </div>

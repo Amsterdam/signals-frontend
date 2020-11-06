@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup } from 'react-reactive-form';
 
@@ -9,7 +9,7 @@ import FieldControlWrapper from 'signals/incident-management/components/FieldCon
 import SelectInput from 'signals/incident-management/components/SelectInput';
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import { useSelector } from 'react-redux';
-import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 
 const form = FormBuilder.group({
   category_url: null,
@@ -18,22 +18,10 @@ const form = FormBuilder.group({
   main_slug: null,
 });
 
-const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
-  const categories = useSelector(makeSelectMainCategories);
-  const subcategoryGroups = useMemo(() => categories?.map(({ slug: value, name }) => ({ name, value })), [categories]);
+const emptyOption = { key: '', name: 'Kies', value: '', group: '' };
 
-  const subcategories = useSelector(makeSelectSubCategories);
-  const subcategoryOptions = useMemo(
-    () =>
-      subcategories?.map(({ key, extendedName: name, category_slug, description }) => ({
-        key,
-        name,
-        value: name,
-        group: category_slug,
-        description,
-      })),
-    [subcategories]
-  );
+const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
+  const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const handleChange = useCallback(
     changed => {
@@ -96,7 +84,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
             values={subcategoryOptions}
             groups={subcategoryGroups}
             control={form.get('category_url')}
-            emptyOptionText="Kies"
+            emptyOption={emptyOption}
             sort
           />
           <FieldControlWrapper

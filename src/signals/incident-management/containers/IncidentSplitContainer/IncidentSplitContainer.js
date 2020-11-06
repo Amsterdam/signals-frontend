@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
@@ -33,21 +33,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
-  const categories = useSelector(makeSelectMainCategories);
-  const subcategoryGroups = useMemo(() => categories?.map(({ slug: value, name }) => ({ name, value })), [categories]);
-
-  const subcategories = useSelector(makeSelectSubCategories);
-  const subcategoryOptions = useMemo(
-    () =>
-      subcategories?.map(({ key, extendedName: name, category_slug, description }) => ({
-        key,
-        name,
-        value: name,
-        group: category_slug,
-        description,
-      })),
-    [subcategories]
-  );
+  const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const parentDirectingDepartment = useMemo(() => {
     const department = parentIncident?.directing_departments;
@@ -170,7 +156,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   return (
     <div data-testid="incidentSplitContainer">
-      {isLoadingParent || isSuccessParent || !parentIncident || !subcategories ? (
+      {isLoadingParent || isSuccessParent || !parentIncident || !subcategoryOptions ? (
         <LoadingIndicator />
       ) : (
         <FormComponent

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { shape } from 'prop-types';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import styled from 'styled-components';
@@ -73,14 +73,12 @@ class FieldControlWrapper extends React.Component {
 }
 
 FieldControlWrapper.defaultProps = {
-  emptyOptionText: '',
   values: [],
 };
 
 FieldControlWrapper.propTypes = {
   /** Element containing the value of the current field */
   control: PropTypes.instanceOf(FormControl).isRequired,
-  emptyOptionText: PropTypes.string,
   /** Object containing custom data or handlers */
   meta: PropTypes.shape({}),
   /** Name of the form element */
@@ -91,6 +89,7 @@ FieldControlWrapper.propTypes = {
   render: PropTypes.func.isRequired,
   /** Form values */
   values: PropTypes.arrayOf(PropTypes.shape({})),
+  emptyOption: shape({}),
 };
 
 export default FieldControlWrapper;

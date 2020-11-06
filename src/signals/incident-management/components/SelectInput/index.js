@@ -8,10 +8,10 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const SelectInput = ({ name: inputName, display, values, groups, emptyOptionText }) => {
+export const SelectInput = ({ name: inputName, display, values, groups, emptyOption }) => {
   const options = values.map(({ key, value, group }) => ({
     key: key || '',
-    name: key ? value : emptyOptionText || value,
+    name: value,
     value: key || '',
     group,
   }));
@@ -24,6 +24,7 @@ export const SelectInput = ({ name: inputName, display, values, groups, emptyOpt
         {...handler()}
         options={options}
         groups={groups}
+        emptyOption={emptyOption}
       />
     </Wrapper>
   );
