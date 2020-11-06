@@ -1,6 +1,6 @@
 root: true
 parser: '@typescript-eslint/parser'
-ignorePatterns: ['e2e-tests']
+ignorePatterns: [e2e-tests]
 extends:
   - plugin:amsterdam/base
   - plugin:amsterdam/import
@@ -12,12 +12,8 @@ extends:
 globals:
   L: true
 overrides:
-  - files:
-    - './eslint-plugin-amsterdam/**/*'
-    - './internals/**/*'
-    - './server/**/*'
-    extends:
-      - plugin:amsterdam/node
+  - files: [./eslint-plugin-amsterdam/**/*, ./internals/**/*, ./server/**/*]
+    extends: [plugin:amsterdam/node]
     rules:
       node/shebang: 'off'
       no-process-exit: 'off'

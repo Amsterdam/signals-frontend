@@ -1,13 +1,9 @@
 root: true
-# parser: babel-eslint
 parser: '@typescript-eslint/parser'
-extends:
-  - 'plugin:amsterdam/base'
-  - 'plugin:amsterdam/cypress'
+extends: [plugin:amsterdam/base, plugin:amsterdam/cypress]
 rules:
   # overrides
   camelcase: 'off'
-
 
   # proposed rules
   # semi: [error, never]
