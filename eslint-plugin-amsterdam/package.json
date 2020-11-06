@@ -2,7 +2,6 @@
   "name": "eslint-plugin-amsterdam",
   "description": "eslint plugin shared by Amsterdam",
   "version": "0.0.1",
-  "author": "Jasper Poppe",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Amsterdam/signals-frontend/issues"
