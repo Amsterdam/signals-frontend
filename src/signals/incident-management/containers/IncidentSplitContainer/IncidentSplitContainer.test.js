@@ -1,5 +1,6 @@
 import React from 'react';
-import { render as reactRender, fireEvent } from '@testing-library/react';
+import { render as reactRender, fireEvent, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
@@ -77,6 +78,7 @@ const submittedFormData = {
       type: 'COM',
     },
   ],
+  noteText: 'Nieuwe notitie',
 };
 
 const id = 999;
@@ -239,12 +241,62 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     });
   });
 
+  it('should PATCH the parent incident data', async () => {
+    fetch.resetMocks();
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }], // post
+      [JSON.stringify({}), { status: 200 }] // patch
+    );
+    reactRender(withAppContext(<IncidentSplitContainer FormComponent={Form()} />));
+    const submitButton = await screen.findByRole('button', { name: 'Submit' });
+
+    userEvent.click(submitButton);
+
+    // trigger extra render where PATCH effect is triggered
+    await screen.findByTestId('incidentSplitContainer');
+
+    expect(fetch).toHaveBeenLastCalledWith(
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
+      expect.objectContaining({
+        method: 'PATCH',
+        body: JSON.stringify({
+          directing_departments: [
+            { id: departmentsFixture.results.find(department => department.code === submittedFormData.department).id },
+          ],
+          notes: [{ text: submittedFormData.noteText }],
+        }),
+      })
+    );
+  });
+
+  it('should not PATCH the parent incident data when this data has not been updated', async () => {
+    fetch.resetMocks();
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }] // post
+    );
+    reactRender(
+      withAppContext(
+        <IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: 'null', noteText: '' })} />
+      )
+    );
+
+    const submitButton = await screen.findByRole('button', { name: 'Submit' });
+    userEvent.click(submitButton);
+
+    // trigger extra render where PATCH effect is triggered
+    await screen.findByTestId('incidentSplitContainer');
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+  });
+
   it('should display a global notification on success', async () => {
     fetch.resetMocks();
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }], // get
       [JSON.stringify({}), { status: 201 }], // post
-      [JSON.stringify({}), { status: 201 }] // patch
+      [JSON.stringify({}), { status: 200 }] // patch
     );
     const { container, findByTestId } = await renderAwait(
       <IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: null })} />

@@ -55,6 +55,37 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     [departments, setDirectingDepartment]
   );
 
+  const handleCompletedFormSubmit = useCallback(
+    /**
+     * @param {Object} params
+     * @param {boolean} params.success
+     */
+    ({ success }) => {
+      if (success) {
+        dispatch(
+          showGlobalNotification({
+            title: 'De melding is succesvol gedeeld',
+            variant: VARIANT_SUCCESS,
+            type: TYPE_LOCAL,
+          })
+        );
+      } else {
+        dispatch(
+          showGlobalNotification({
+            title: 'De melding kon niet gedeeld worden',
+            variant: VARIANT_ERROR,
+            type: TYPE_LOCAL,
+          })
+        );
+      }
+
+      history.push(`${INCIDENT_URL}/${id}`);
+    },
+    // Disabling linter; the `history` dependency is generating infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id, dispatch]
+  );
+
   useEffect(() => {
     getParent(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
   }, [getParent, id]);
@@ -72,7 +103,9 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
 
     if (isSuccessSplit) {
-      const updateDirectingDepartment = directingDepartment !== parentIncident.directingDepartment;
+      const updateDirectingDepartment =
+        parentIncident.directing_departments.length !== directingDepartment.length &&
+        !parentIncident.directing_departments.find(department => department?.id === directingDepartment[0]?.id);
       const addNote = !!note?.trim();
 
       if (addNote || updateDirectingDepartment) {
@@ -80,39 +113,21 @@ const IncidentSplitContainer = ({ FormComponent }) => {
           directing_departments: updateDirectingDepartment ? directingDepartment : undefined,
           notes: addNote ? [{ text: note }] : undefined,
         });
+      } else {
+        handleCompletedFormSubmit({ success: true });
       }
     } else {
-      dispatch(
-        showGlobalNotification({
-          title: 'De melding kon niet gedeeld worden',
-          variant: VARIANT_ERROR,
-          type: TYPE_LOCAL,
-        })
-      );
-
-      history.push(`${INCIDENT_URL}/${id}`);
+      handleCompletedFormSubmit({ success: false });
     }
-
-    // Disabling linter; the `history` dependency is generating infinite loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorSplit, isSuccessSplit, id, dispatch, patch, directingDepartment, parentIncident]);
+  }, [errorSplit, isSuccessSplit, id, patch, directingDepartment, note, parentIncident, handleCompletedFormSubmit]);
 
   useEffect(() => {
-    if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
+    if (errorUpdate === undefined || isSuccessUpdate === undefined) return;
 
     // The scenario when there is an error during the patch of the parent incident
     // is intentionally left out.
-
-    dispatch(
-      showGlobalNotification({
-        title: 'De melding is succesvol gedeeld',
-        variant: VARIANT_SUCCESS,
-        type: TYPE_LOCAL,
-      })
-    );
-
-    history.push(`${INCIDENT_URL}/${id}`);
-  }, [errorUpdate, history, id, isSuccessUpdate, dispatch]);
+    handleCompletedFormSubmit({ success: true });
+  }, [errorUpdate, isSuccessUpdate, handleCompletedFormSubmit]);
 
   const onSubmit = useCallback(
     /**
