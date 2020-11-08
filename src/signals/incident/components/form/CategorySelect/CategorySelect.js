@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Select from 'components/Select';
 import { useSelector } from 'react-redux';
-import { makeSelectSubCategories, makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import InfoText from 'components/InfoText';
 
 const StyledInfoText = styled(InfoText)`
@@ -14,13 +14,12 @@ const StyledInfoText = styled(InfoText)`
 const emptyOption = { key: '', name: 'Selecteer subcategorie', value: '', group: '' };
 
 const CategorySelect = ({ handler, meta, parent }) => {
-  const subcategories = useSelector(makeSelectSubCategories);
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const { value } = handler();
   const [info, setInfo] = useState();
 
-  const getSubcategory = useCallback(slug => subcategories?.find(s => s.slug === slug) || {}, [subcategories]);
+  const getSubcategory = useCallback(slug => subcategoryOptions?.find(s => s.slug === slug) || {}, [subcategoryOptions]);
 
   useEffect(() => {
     const { description } = getSubcategory(value);

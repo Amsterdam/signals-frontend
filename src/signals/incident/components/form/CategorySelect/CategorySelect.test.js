@@ -1,13 +1,14 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import { subCategories, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
+import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
 import * as categoriesSelectors from 'models/categories/selectors';
 
 import CategorySelect from './CategorySelect';
 
 describe('signals/incident/components/form/CategorySelect', () => {
   let props;
+  const subcategoryOptions = [...subcategoriesGroupedByCategories[1]];
   const metaFields = {
     name: 'categorySelect',
   };
@@ -31,7 +32,6 @@ describe('signals/incident/components/form/CategorySelect', () => {
         },
       },
     };
-    jest.spyOn(categoriesSelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
     jest
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
       .mockImplementation(() => subcategoriesGroupedByCategories);
@@ -55,12 +55,11 @@ describe('signals/incident/components/form/CategorySelect', () => {
 
     const element = queryByTestId('categorySelect');
     expect(element).toBeInTheDocument();
-    expect(element.querySelectorAll('option').length).toEqual(subcategoriesGroupedByCategories[1].length + 1);
+    expect(element.querySelectorAll('option').length).toEqual(subcategoryOptions.length + 1);
     expect(queryByTestId('infoText')).toBeInTheDocument();
   });
 
   it('should render empty select field when no categoeies are found', () => {
-    jest.spyOn(categoriesSelectors, 'makeSelectSubCategories').mockImplementation(() => null);
     jest
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
       .mockImplementation(() => [[], []]);
@@ -72,7 +71,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
   });
 
   it('sets incident when value changes', async () => {
-    const testSubcategory = { ...subCategories[1] };
+    const testSubcategory = { ...subcategoryOptions[1] };
     const { id, slug, category_slug: category, name, handling_message } = testSubcategory;
 
     const { getByTestId, findByTestId } = render(
