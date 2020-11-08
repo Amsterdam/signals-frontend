@@ -42,8 +42,8 @@ describe('<SelectInput />', () => {
     const { container } = render(withAppContext(<SelectInputRender {...props} />));
 
     const options = container.firstChild.querySelectorAll('option');
-    expect(options).toHaveLength(props.values.length);
-    expect(options[0].textContent).toEqual(emptyOption.value);
+    expect(options).toHaveLength(props.values.length + 1);
+    expect(options[0].textContent).toEqual(emptyOption.name);
   });
 
   it('should render correctly with using slugs', () => {

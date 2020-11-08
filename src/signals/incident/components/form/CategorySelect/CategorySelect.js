@@ -18,7 +18,6 @@ const CategorySelect = ({ handler, meta, parent }) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const { value } = handler();
-
   const [info, setInfo] = useState();
 
   const getSubcategory = useCallback(slug => subcategories?.find(s => s.slug === slug) || {}, [subcategories]);
@@ -32,7 +31,8 @@ const CategorySelect = ({ handler, meta, parent }) => {
     event => {
       const item = getSubcategory(event.target.value);
 
-      const { id, slug, category_slug: category, name, handling_message } = item;
+      const { id, slug, category_slug: category, name, description, handling_message } = item;
+      setInfo(description);
       parent.meta.updateIncident({
         category,
         subcategory: slug,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
-import { subCategories } from 'utils/__tests__/fixtures';
-import * as categorySelectors from 'models/categories/selectors';
+import { subCategories, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
+import * as categoriesSelectors from 'models/categories/selectors';
 
 import CategorySelect from './CategorySelect';
 
@@ -31,7 +31,10 @@ describe('signals/incident/components/form/CategorySelect', () => {
         },
       },
     };
-    jest.spyOn(categorySelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
+    jest.spyOn(categoriesSelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
+      .mockImplementation(() => subcategoriesGroupedByCategories);
   });
 
   afterEach(() => {
@@ -52,12 +55,15 @@ describe('signals/incident/components/form/CategorySelect', () => {
 
     const element = queryByTestId('categorySelect');
     expect(element).toBeInTheDocument();
-    expect(element.querySelectorAll('option').length).toEqual(subCategories.length + 1);
+    expect(element.querySelectorAll('option').length).toEqual(subcategoriesGroupedByCategories[1].length + 1);
     expect(queryByTestId('infoText')).toBeInTheDocument();
   });
 
   it('should render empty select field when no categoeies are found', () => {
-    jest.spyOn(categorySelectors, 'makeSelectSubCategories').mockImplementation(() => null);
+    jest.spyOn(categoriesSelectors, 'makeSelectSubCategories').mockImplementation(() => null);
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
+      .mockImplementation(() => [[], []]);
     const { queryByTestId } = render(withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />));
     const element = queryByTestId('categorySelect');
     expect(element).toBeInTheDocument();

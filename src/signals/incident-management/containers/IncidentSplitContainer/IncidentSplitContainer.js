@@ -173,7 +173,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             type: parentIncident.type.code,
             directingDepartment: parentDirectingDepartment,
           }}
-          subcategories={{ options: subcategoryOptions, groups: subcategoryGroups }}
+          subcategories={[subcategoryGroups, subcategoryOptions]}
           directingDepartments={directingDepartments}
           onSubmit={onSubmit}
         />

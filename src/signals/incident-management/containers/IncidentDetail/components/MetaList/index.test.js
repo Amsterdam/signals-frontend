@@ -11,7 +11,7 @@ import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
 import * as categoriesSelectors from 'models/categories/selectors';
 
-import { departments, directingDepartments } from 'utils/__tests__/fixtures';
+import { departments, directingDepartments, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
 
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
@@ -49,17 +49,6 @@ const plainIncident = { ...incidentFixture, _links: { ...plainLinks } };
 const parentIncident = { ...incidentFixture };
 const childIncident = { ...plainIncident, _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } } };
 
-const subcategories = [
-  {
-    key: parentIncident.category.category_url,
-    extendedName: 'Container is kapot',
-  },
-  {
-    key: 'something-else',
-    extendedName: 'Something Else',
-  },
-];
-
 const renderWithContext = (incident = parentIncident, users = usersFixture.results) =>
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
@@ -76,7 +65,9 @@ describe('MetaList', () => {
     string2date.mockImplementation(() => '21-07-1970');
     string2time.mockImplementation(() => '11:56');
     jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
-    jest.spyOn(categoriesSelectors, 'makeSelectSubCategories').mockImplementation(() => subcategories);
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
+      .mockImplementation(() => subcategoriesGroupedByCategories);
   });
 
   afterEach(() => {
@@ -203,17 +194,18 @@ describe('MetaList', () => {
 
     it('should be visible', () => {
       render(renderWithContext());
-
       expect(screen.getByText(subcategoryLabel)).toBeInTheDocument();
-      expect(screen.getByText(parentIncident.category.sub)).toBeInTheDocument();
+      const re = new RegExp(`${parentIncident.category.sub}`, 'g');
+      expect(screen.getByText(re)).toBeInTheDocument();
     });
 
     it('should not be visible without subcategories available', () => {
-      jest.spyOn(categoriesSelectors, 'makeSelectSubCategories').mockImplementation(() => null);
+      jest.spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories').mockImplementation(() => []);
       render(renderWithContext());
 
       expect(screen.queryByText(subcategoryLabel)).not.toBeInTheDocument();
-      expect(screen.queryByText(parentIncident.category.sub)).not.toBeInTheDocument();
+      const re = new RegExp(`${parentIncident.category.sub}`, 'g');
+      expect(screen.queryByText(re)).not.toBeInTheDocument();
     });
   });
 

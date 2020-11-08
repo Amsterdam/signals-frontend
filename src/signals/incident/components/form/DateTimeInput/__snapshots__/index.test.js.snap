@@ -17,8 +17,10 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
     <div
       className="datetime-input__earlier-date"
     >
-      <Select
+      <ForwardRef
         data-testid="selectDay"
+        emptyOption={null}
+        groups={null}
         label={
           <strong>
             Dag
@@ -72,8 +74,10 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
       className="datetime-input__earlier-time"
     >
       <div>
-        <Select
+        <ForwardRef
           data-testid="selectHours"
+          emptyOption={null}
+          groups={null}
           label={
             <strong>
               Tijd
@@ -214,8 +218,10 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
         uur
       </span>
       <div>
-        <Select
+        <ForwardRef
           data-testid="selectMinutes"
+          emptyOption={null}
+          groups={null}
           name="minutes"
           onChange={[Function]}
           options={

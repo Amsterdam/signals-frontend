@@ -18,8 +18,6 @@ const form = FormBuilder.group({
   main_slug: null,
 });
 
-const emptyOption = { key: '', name: 'Selecteer subcategorie', value: '', group: '' };
-
 const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
@@ -29,6 +27,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
         ...form.value,
         ...changed,
       };
+
       onFetchDefaultTexts(newValues);
     },
     [onFetchDefaultTexts]
@@ -52,6 +51,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
     });
 
     form.controls.state.valueChanges.subscribe(state => {
+      if (!form.value.category_url) return;
       handleChange({ state });
     });
 
@@ -84,8 +84,6 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
             values={subcategoryOptions}
             groups={subcategoryGroups}
             control={form.get('category_url')}
-            emptyOption={emptyOption}
-            sort
           />
           <FieldControlWrapper
             display="Status"

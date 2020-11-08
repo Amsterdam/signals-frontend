@@ -26,7 +26,7 @@ const IncidentSplitSelectInput = ({ id, name, display, options, groups = null, i
         ref={register}
         data-testid={`incidentSelectInput-${id}`}
         onChange={onChange}
-        value={selected.key}
+        value={selected?.key}
         options={options}
         groups={groups}
       ></Select>

@@ -173,6 +173,7 @@ const UsersOverviewContainer = () => {
                   name="roleSelect"
                   value={filters.role}
                   options={selectRoles}
+                  optionKey="value"
                   onChange={selectRoleOnChange}
                 />,
 
@@ -180,6 +181,7 @@ const UsersOverviewContainer = () => {
                   name="userActiveSelect"
                   value={filters.userActive}
                   options={selectUserActive}
+                  optionKey="value"
                   onChange={selectUserActiveOnChange}
                 />,
               ]}
