@@ -36,7 +36,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
-  const parentIncidentPatchData = useMemo(() => {
+  const patchData = useMemo(() => {
     if (!parentIncident) return {};
 
     const shouldPatchDirectingDepartment =
@@ -67,7 +67,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     [departments, setDirectingDepartment]
   );
 
-  const handleCompletedFormSubmit = useCallback(
+  const submitCompleted = useCallback(
     /**
      * @param {Object} params
      * @param {boolean} params.success
@@ -115,23 +115,23 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
 
     if (isSuccessSplit) {
-      if (Object.keys(parentIncidentPatchData).length > 0) {
-        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, parentIncidentPatchData);
+      if (Object.keys(patchData).length > 0) {
+        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, patchData);
       } else {
-        handleCompletedFormSubmit({ success: true });
+        submitCompleted({ success: true });
       }
     } else {
-      handleCompletedFormSubmit({ success: false });
+      submitCompleted({ success: false });
     }
-  }, [errorSplit, isSuccessSplit, id, patch, handleCompletedFormSubmit, parentIncidentPatchData]);
+  }, [errorSplit, isSuccessSplit, id, patch, submitCompleted, patchData]);
 
   useEffect(() => {
     if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
 
     // The scenario when there is an error during the patch of the parent incident
     // is intentionally left out.
-    handleCompletedFormSubmit({ success: true });
-  }, [errorUpdate, isSuccessUpdate, handleCompletedFormSubmit]);
+    submitCompleted({ success: true });
+  }, [errorUpdate, isSuccessUpdate, submitCompleted]);
 
   const onSubmit = useCallback(
     /**
