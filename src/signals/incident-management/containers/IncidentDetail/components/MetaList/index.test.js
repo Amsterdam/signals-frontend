@@ -191,11 +191,12 @@ describe('MetaList', () => {
 
   describe('subcategory', () => {
     const subcategoryLabel = 'Subcategorie (verantwoordelijke afdeling)';
+    const selectedSubcategory = `${parentIncident.category.sub} (${departmentAegCode}, ${departmentAscCode})`;
 
     it('should be visible', () => {
       render(renderWithContext());
       expect(screen.getByText(subcategoryLabel)).toBeInTheDocument();
-      expect(screen.getByText('Container is kapot (AEG, ASC)')).toBeInTheDocument();
+      expect(screen.getByText(selectedSubcategory)).toBeInTheDocument();
     });
 
     it('should not be visible without subcategories available', () => {
@@ -203,7 +204,7 @@ describe('MetaList', () => {
       render(renderWithContext());
 
       expect(screen.queryByText(subcategoryLabel)).not.toBeInTheDocument();
-      expect(screen.queryByText('Container is kapot (AEG, ASC)')).not.toBeInTheDocument();
+      expect(screen.queryByText(selectedSubcategory)).not.toBeInTheDocument();
     });
   });
 
