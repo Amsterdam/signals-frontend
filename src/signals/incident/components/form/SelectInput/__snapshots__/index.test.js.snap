@@ -16,7 +16,6 @@ exports[`Form component <SelectInput /> rendering should render empty select fie
   touched={false}
 >
   <ForwardRef
-    emptyOption={null}
     groups={null}
     name="input-field-name"
     onChange={[Function]}
@@ -48,7 +47,6 @@ exports[`Form component <SelectInput /> rendering should render select field cor
   touched={false}
 >
   <ForwardRef
-    emptyOption={null}
     groups={null}
     name="input-field-name"
     onChange={[Function]}
