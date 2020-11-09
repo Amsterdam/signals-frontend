@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Select } from '@amsterdam/asc-ui';
+import { Select as AscSelect } from '@amsterdam/asc-ui';
 
-const SelectInput = ({ label, onChange, name, options, value }) => (
-  <Select value={value} onChange={onChange} data-testid={name} label={label} name={name}>
+const Select = ({ label, onChange, name, options, value }) => (
+  <AscSelect value={value} onChange={onChange} data-testid={name} label={label} name={name}>
     {options.map(option => (
       <option key={`${name}-${option.key}`} value={option.value}>
         {option.name}
       </option>
     ))}
-  </Select>
+  </AscSelect>
 );
 
-SelectInput.propTypes = {
+Select.propTypes = {
   label: PropTypes.node,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
@@ -27,4 +27,4 @@ SelectInput.propTypes = {
   value: PropTypes.string,
 };
 
-export default SelectInput;
+export default Select;
