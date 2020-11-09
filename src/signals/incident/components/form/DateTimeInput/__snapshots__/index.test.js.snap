@@ -19,7 +19,6 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
     >
       <ForwardRef
         data-testid="selectDay"
-        groups={null}
         label={
           <strong>
             Dag
@@ -75,7 +74,6 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
       <div>
         <ForwardRef
           data-testid="selectHours"
-          groups={null}
           label={
             <strong>
               Tijd
@@ -218,7 +216,6 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
       <div>
         <ForwardRef
           data-testid="selectMinutes"
-          groups={null}
           name="minutes"
           onChange={[Function]}
           options={

@@ -37,10 +37,6 @@ const Select = forwardRef(
   )
 );
 
-Select.defaultProps = {
-  groups: null,
-};
-
 const optionType = PropTypes.shape({
   key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
