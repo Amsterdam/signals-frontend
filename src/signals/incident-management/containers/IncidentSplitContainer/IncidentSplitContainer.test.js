@@ -289,6 +289,12 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     await screen.findByTestId('incidentSplitContainer');
 
     expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
+      expect.objectContaining({
+        method: 'PATCH',
+      })
+    );
   });
 
   it('should display a global notification on success', async () => {

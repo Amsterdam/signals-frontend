@@ -46,7 +46,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     const shouldPatchDirectingDepartment =
       !parentIncident.directing_departments ||
       parentIncident.directing_departments.length !== directingDepartment.length ||
-      !parentIncident.directing_departments.includes(department => department?.id === directingDepartment[0]?.id);
+      (!parentIncident.directing_departments.includes(department => department?.id === directingDepartment[0]?.id) &&
+        typeof directingDepartment[0]?.id !== 'undefined');
     const shouldAddNote = !!note?.trim();
 
     return {
@@ -129,7 +130,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   }, [errorSplit, isSuccessSplit, id, patch, handleCompletedFormSubmit, parentIncidentPatchData]);
 
   useEffect(() => {
-    if (errorUpdate === undefined || isSuccessUpdate === undefined) return;
+    if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
 
     // The scenario when there is an error during the patch of the parent incident
     // is intentionally left out.
