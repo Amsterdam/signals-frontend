@@ -20,7 +20,7 @@ const Select = forwardRef(
       )}
 
       {groups?.length > 1 ?
-        groups?.map(group => (
+        groups.map(group => (
           <optgroup key={group.name} label={group.name}>
             <SelectOptions
               name={name}
@@ -39,7 +39,6 @@ const Select = forwardRef(
 
 Select.defaultProps = {
   groups: null,
-  emptyOption: null,
 };
 
 const optionType = PropTypes.shape({
