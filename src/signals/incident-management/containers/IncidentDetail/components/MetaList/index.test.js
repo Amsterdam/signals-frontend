@@ -195,8 +195,7 @@ describe('MetaList', () => {
     it('should be visible', () => {
       render(renderWithContext());
       expect(screen.getByText(subcategoryLabel)).toBeInTheDocument();
-      const re = new RegExp(`${parentIncident.category.sub}`, 'g');
-      expect(screen.getByText(re)).toBeInTheDocument();
+      expect(screen.getByText('Container is kapot (AEG, ASC)')).toBeInTheDocument();
     });
 
     it('should not be visible without subcategories available', () => {
@@ -204,8 +203,7 @@ describe('MetaList', () => {
       render(renderWithContext());
 
       expect(screen.queryByText(subcategoryLabel)).not.toBeInTheDocument();
-      const re = new RegExp(`${parentIncident.category.sub}`, 'g');
-      expect(screen.queryByText(re)).not.toBeInTheDocument();
+      expect(screen.queryByText('Container is kapot (AEG, ASC)')).not.toBeInTheDocument();
     });
   });
 
