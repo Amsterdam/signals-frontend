@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useContext, useEffect, useState } from 'r
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Row, Column, themeSpacing, Button, SearchBar } from '@amsterdam/asc-ui';
+import { Row, Column, themeSpacing, Button, SearchBar, styles } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import useDebounce from 'hooks/useDebounce';
@@ -16,7 +16,7 @@ import SettingsContext from 'signals/settings/context';
 import { setUserFilters } from 'signals/settings/actions';
 import { inputSelectRolesSelector } from 'models/roles/selectors';
 import { makeSelectUserCan } from 'containers/App/selectors';
-import SelectInput from 'components/SelectInput';
+import Select from 'components/Select';
 import useFetchUsers from './hooks/useFetchUsers';
 
 const StyledPagination = styled(Pagination)`
@@ -30,6 +30,10 @@ const HeaderButton = styled(Button)`
 `;
 
 const StyledSearchbar = styled(SearchBar)`
+  ${styles.TextFieldStyle} > ${styles.InputStyle} {
+    height: ${themeSpacing(11)};
+  }
+
   > button {
     display: none;
   }
@@ -169,17 +173,19 @@ const UsersOverviewContainer = () => {
                   data-testid="filterUsersByUsername"
                 />,
 
-                <SelectInput
+                <Select
                   name="roleSelect"
                   value={filters.role}
                   options={selectRoles}
+                  optionKey="value"
                   onChange={selectRoleOnChange}
                 />,
 
-                <SelectInput
+                <Select
                   name="userActiveSelect"
                   value={filters.userActive}
                   options={selectUserActive}
+                  optionKey="value"
                   onChange={selectUserActiveOnChange}
                 />,
               ]}

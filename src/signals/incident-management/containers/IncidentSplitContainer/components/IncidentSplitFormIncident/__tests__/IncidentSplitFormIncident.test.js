@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 
-import { subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
+import { subcategoriesGroupedByCategories as subcategories } from 'utils/__tests__/fixtures';
 import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json';
 
 import IncidentSplitFormIncident from '..';

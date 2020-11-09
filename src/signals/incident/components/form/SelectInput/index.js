@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isObject from 'lodash.isobject';
 
-import Select from 'components/SelectInput';
+import Select from 'components/Select';
 
 import Header from '../Header';
 

@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable';
+import { mainCategories as mainCategoriesFixture, subCategories as subCategoriesFixture } from 'utils/__tests__/fixtures';
 
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 
@@ -13,6 +14,7 @@ import {
   makeSelectMainCategories,
   makeSelectStructuredCategories,
   makeSelectSubCategories,
+  makeSelectSubcategoriesGroupedByCategories,
   selectCategoriesDomain,
 } from '../selectors';
 
@@ -49,17 +51,13 @@ describe('models/categories/selectors', () => {
 
     expect(first).toEqual(firstWithExtraProps);
 
-    const second = categories
-      .skip(1)
-      .first()
-      .toJS();
+    const second = categories.skip(1).first().toJS();
 
     const secondWithExtraProps = categoriesJson.results[1];
     secondWithExtraProps.fk = secondWithExtraProps.id;
     secondWithExtraProps.id = secondWithExtraProps._links.self.public;
     secondWithExtraProps.key = secondWithExtraProps._links.self.public;
-    secondWithExtraProps.parentKey =
-      secondWithExtraProps._links['sia:parent'].public;
+    secondWithExtraProps.parentKey = secondWithExtraProps._links['sia:parent'].public;
     secondWithExtraProps.value = secondWithExtraProps.name;
 
     expect(second).toEqual(secondWithExtraProps);
@@ -90,13 +88,9 @@ describe('models/categories/selectors', () => {
   test('makeSelectMainCategories', () => {
     expect(makeSelectMainCategories.resultFunc()).toBeNull();
 
-    const mainCategories = makeSelectMainCategories.resultFunc(
-      makeSelectCategories.resultFunc(state)
-    );
+    const mainCategories = makeSelectMainCategories.resultFunc(makeSelectCategories.resultFunc(state));
     const slugs = mainCategories.map(({ slug }) => slug);
-    const keys = categoriesJson.results
-      .filter(filterForMain)
-      .map(({ slug }) => slug);
+    const keys = categoriesJson.results.filter(filterForMain).map(({ slug }) => slug);
 
     expect(slugs).toEqual(keys);
   });
@@ -104,9 +98,7 @@ describe('models/categories/selectors', () => {
   test('makeSelectSubCategories', () => {
     expect(makeSelectSubCategories.resultFunc()).toBeNull();
 
-    const subCategories = makeSelectSubCategories.resultFunc(
-      makeSelectCategories.resultFunc(state)
-    );
+    const subCategories = makeSelectSubCategories.resultFunc(makeSelectCategories.resultFunc(state));
     const slugs = subCategories.map(({ slug }) => slug).sort();
     const keys = categoriesJson.results
       .filter(filterForSub)
@@ -118,11 +110,11 @@ describe('models/categories/selectors', () => {
   });
 
   test('makeSelectSubCategories extendedName', () => {
-    const subCategories = makeSelectSubCategories.resultFunc(
-      makeSelectCategories.resultFunc(state)
-    );
+    const subCategories = makeSelectSubCategories.resultFunc(makeSelectCategories.resultFunc(state));
 
-    const subCatWithResponsibleDepts = subCategories.find(({ departments }) => departments.filter(({ is_responsible }) => is_responsible).length > 0);
+    const subCatWithResponsibleDepts = subCategories.find(
+      ({ departments }) => departments.filter(({ is_responsible }) => is_responsible).length > 0
+    );
     const deptCodes = subCatWithResponsibleDepts.departments.map(({ code }) => code);
 
     deptCodes.forEach(code => {
@@ -133,9 +125,7 @@ describe('models/categories/selectors', () => {
   test('makeSelectAllSubCategories', () => {
     expect(makeSelectAllSubCategories.resultFunc()).toBeNull();
 
-    const subCategories = makeSelectAllSubCategories.resultFunc(
-      makeSelectAllCategories.resultFunc(state)
-    );
+    const subCategories = makeSelectAllSubCategories.resultFunc(makeSelectAllCategories.resultFunc(state));
     const slugs = subCategories.map(({ slug }) => slug).sort();
     const keys = categoriesJson.results
       .filter(filterForSub)
@@ -146,22 +136,14 @@ describe('models/categories/selectors', () => {
   });
 
   test('makeSelectByMainCategory', () => {
-    const subCategories = makeSelectSubCategories.resultFunc(
-      makeSelectCategories.resultFunc(state)
-    );
+    const subCategories = makeSelectSubCategories.resultFunc(makeSelectCategories.resultFunc(state));
 
     const parentKey = categoriesJson.results[0]._links.self.public;
-    const count = subCategories.filter(
-      ({ _links }) => _links['sia:parent'].public === parentKey
-    ).length;
+    const count = subCategories.filter(({ _links }) => _links['sia:parent'].public === parentKey).length;
 
-    expect(
-      makeSelectByMainCategory.resultFunc()(parentKey)
-    ).toBeNull();
+    expect(makeSelectByMainCategory.resultFunc()(parentKey)).toBeNull();
 
-    expect(
-      makeSelectByMainCategory.resultFunc(subCategories)(parentKey)
-    ).toHaveLength(count);
+    expect(makeSelectByMainCategory.resultFunc(subCategories)(parentKey)).toHaveLength(count);
   });
 
   test('makeSelectStructuredCategories', () => {
@@ -175,5 +157,17 @@ describe('models/categories/selectors', () => {
     expect(makeSelectStructuredCategories.resultFunc()).toBeNull();
 
     expect(Object.keys(structuredCategories)).toHaveLength(count);
+  });
+
+  test('makeSelectSubcategoriesGroupedByCategories', () => {
+    const subcategoriesGroupedByCategories = makeSelectSubcategoriesGroupedByCategories.resultFunc(
+      mainCategoriesFixture,
+      subCategoriesFixture
+    );
+
+    expect(Object.keys(subcategoriesGroupedByCategories)).toHaveLength(2);
+    const [subcategoryGroups, subcategoryOptions] = subcategoriesGroupedByCategories;
+    expect(subcategoryGroups.length).toEqual(mainCategoriesFixture.length);
+    expect(subcategoryOptions.length).toEqual(subCategoriesFixture.length);
   });
 });

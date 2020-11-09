@@ -3,7 +3,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import { subcategoriesWithUniqueKeys as subcategories, departments } from 'utils/__tests__/fixtures';
+import { subcategoriesGroupedByCategories as subcategories, departments } from 'utils/__tests__/fixtures';
 import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json';
 
 import IncidentSplitForm from '..';
@@ -52,13 +52,13 @@ describe('IncidentSplitForm', () => {
       incidents: [
         undefined,
         {
-          subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145',
+          subcategory: parentIncidentFixture.subcategory,
           description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
           priority: 'normal',
           type: 'SIG',
         },
         {
-          subcategory: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/145',
+          subcategory: parentIncidentFixture.subcategory,
           description: 'Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?',
           priority: 'normal',
           type: 'SIG',

@@ -7,7 +7,7 @@ import * as reactRedux from 'react-redux';
 import configuration from 'shared/services/configuration/configuration';
 
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { directingDepartments, subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
+import { directingDepartments, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
 
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json';
 import * as departmentsSelectors from 'models/departments/selectors';
@@ -19,7 +19,7 @@ import { withAppContext } from 'test/utils';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
-import * as modelSelectors from 'models/categories/selectors';
+import * as categoriesSelectors from 'models/categories/selectors';
 
 import IncidentSplitContainer from '.';
 
@@ -114,7 +114,9 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     push.mockReset();
     fetch.resetMocks();
 
-    jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => subcategories);
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
+      .mockImplementation(() => subcategoriesGroupedByCategories);
     jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
     jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
 

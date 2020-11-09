@@ -5,10 +5,11 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form';
 import { dataListType } from 'shared/types';
 import { reCategory } from 'shared/services/resolveClassification';
 
-import FieldControlWrapper from '../../../../components/FieldControlWrapper';
-import SelectInput from '../../../../components/SelectInput';
-import RadioInput from '../../../../components/RadioInput';
-import HiddenInput from '../../../../components/HiddenInput';
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import SelectInput from 'signals/incident-management/components/SelectInput';
+import RadioInput from 'signals/incident-management/components/RadioInput';
+import { useSelector } from 'react-redux';
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 
 const form = FormBuilder.group({
   category_url: null,
@@ -17,7 +18,9 @@ const form = FormBuilder.group({
   main_slug: null,
 });
 
-const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts }) => {
+const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
+  const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
+
   const handleChange = useCallback(
     changed => {
       const newValues = {
@@ -32,11 +35,11 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
 
   useEffect(() => {
     form.controls.category_url.valueChanges.subscribe(category_url => {
-      const found = category_url && subCategories.find(sub => sub?._links?.self?.public === category_url);
+      const found = category_url && subcategoryOptions.find(sub => sub?.key === category_url);
 
       /* istanbul ignore else */
       if (found) {
-        const [, main_slug, sub_slug] = found._links.self.public.match(reCategory);
+        const [, main_slug, sub_slug] = found.key.match(reCategory);
 
         form.patchValue({
           sub_slug,
@@ -48,10 +51,11 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
     });
 
     form.controls.state.valueChanges.subscribe(state => {
+      if (!form.value.category_url) return;
       handleChange({ state });
     });
 
-    const firstCategoryUrl = subCategories[0]?._links?.self?.public;
+    const firstCategoryUrl = subcategoryOptions[0]?.key;
     if (firstCategoryUrl) {
       form.patchValue({
         category_url: firstCategoryUrl,
@@ -62,12 +66,11 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
       form.controls.category_url.valueChanges.unsubscribe();
       form.controls.state.valueChanges.unsubscribe();
     };
-  }, [handleChange, subCategories]);
+  }, [handleChange, subcategoryOptions]);
 
   useEffect(() => {
-    // subs = subCategories;
     form.updateValueAndValidity();
-  }, [subCategories]);
+  }, [subcategoryOptions]);
 
   return (
     <FieldGroup
@@ -78,10 +81,9 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
             render={SelectInput}
             display="Subcategorie"
             name="category_url"
-            values={subCategories}
+            values={subcategoryOptions}
+            groups={subcategoryGroups}
             control={form.get('category_url')}
-            emptyOptionText="Kies"
-            sort
           />
           <FieldControlWrapper
             display="Status"
@@ -90,9 +92,6 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
             values={defaultTextsOptionList}
             control={form.get('state')}
           />
-
-          <FieldControlWrapper render={HiddenInput} name="sub_slug" control={form.get('sub_slug')} />
-          <FieldControlWrapper render={HiddenInput} name="main_slug" control={form.get('main_slug')} />
         </form>
       )}
     />
@@ -100,7 +99,6 @@ const SelectForm = ({ subCategories, defaultTextsOptionList, onFetchDefaultTexts
 };
 
 SelectForm.propTypes = {
-  subCategories: dataListType.isRequired,
   defaultTextsOptionList: dataListType.isRequired,
 
   onFetchDefaultTexts: PropTypes.func.isRequired,

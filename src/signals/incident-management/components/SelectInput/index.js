@@ -2,28 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import SelectInputComponent from 'components/SelectInput';
+import Select from 'components/Select';
 
 const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const SelectInput = ({ name, display, values, useSlug, emptyOptionText }) => {
-  const options = values.map(({ key, value, slug }) => ({
-    key: useSlug ? slug : key || '',
-    name: key ? value : emptyOptionText || value,
-    value: useSlug ? slug : key || '',
+export const SelectInput = ({ name: inputName, display, values, groups, emptyOption }) => {
+  const options = values.map(({ key, value, group }) => ({
+    key: key || '',
+    name: value,
+    value: key || '',
+    group,
   }));
 
   const render = ({ handler }) => (
     <Wrapper>
-      <SelectInputComponent
+      <Select
         label={<strong>{display}</strong>}
-        name={name}
-        data-testid={name}
-        id={`form${name}`}
+        name={inputName}
         {...handler()}
         options={options}
+        groups={groups}
+        emptyOption={emptyOption}
       />
     </Wrapper>
   );

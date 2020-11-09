@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Select from 'components/SelectInput';
+import Select from 'components/Select';
 import SelectInput from '.';
 
 describe('Form component <SelectInput />', () => {
