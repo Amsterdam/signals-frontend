@@ -92,7 +92,7 @@ describe('FieldControlWrapper', () => {
   it('should not add an empty option if it already exists', () => {
     wrapper.setProps({
       values: [{ key: '', value: 'Selecteer...' }, ...values],
-      emptyOptionText: 'Selecteer...',
+      emptyOption: { key: '', value: 'Selecteer...' },
     });
 
     expect(wrapper.state('values')).toEqual([{ key: '', value: 'Selecteer...' }, ...values]);

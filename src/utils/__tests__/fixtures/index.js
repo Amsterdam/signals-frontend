@@ -1,6 +1,11 @@
 import { fromJS } from 'immutable';
 
-import { makeSelectSubCategories, makeSelectCategories, makeSelectMainCategories } from 'models/categories/selectors';
+import {
+  makeSelectSubCategories,
+  makeSelectCategories,
+  makeSelectMainCategories,
+  makeSelectSubcategoriesGroupedByCategories,
+} from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 
 import categoriesFixture from './categories_private.json';
@@ -30,4 +35,9 @@ export const departments = {
 
 export const directingDepartments = makeSelectDirectingDepartments.resultFunc(
   makeSelectDepartments.resultFunc(fromJS(departments))
+);
+
+export const subcategoriesGroupedByCategories = makeSelectSubcategoriesGroupedByCategories.resultFunc(
+  mainCategories,
+  subCategories
 );

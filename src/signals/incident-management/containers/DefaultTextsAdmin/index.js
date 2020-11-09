@@ -43,7 +43,6 @@ export const DefaultTextsAdminContainer = ({
     <Column span={4}>
       {subCategories && (
         <SelectForm
-          subCategories={subCategories}
           defaultTextsOptionList={defaultTextsOptionList}
           onFetchDefaultTexts={onFetchDefaultTexts}
         />

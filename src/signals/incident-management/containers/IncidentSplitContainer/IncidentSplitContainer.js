@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 
 import useFetch from 'hooks/useFetch';
@@ -33,11 +33,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
-  const subcategories = useSelector(makeSelectSubCategories);
-  const subcategoryOptions = useMemo(
-    () => subcategories?.map(category => ({ ...category, value: category.extendedName })),
-    [subcategories]
-  );
+  const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const parentDirectingDepartment = useMemo(() => {
     const department = parentIncident?.directing_departments;
@@ -142,18 +138,16 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         text_extra,
       };
 
-      const mergedData = incidents
-        .filter(Boolean)
-        .map(({ subcategory, description, type, priority }) => {
-          const partialData = {
-            category: { category_url: subcategory },
-            priority: { priority },
-            text: description,
-            type: { code: type },
-          };
+      const mergedData = incidents.filter(Boolean).map(({ subcategory, description, type, priority }) => {
+        const partialData = {
+          category: { category_url: subcategory },
+          priority: { priority },
+          text: description,
+          type: { code: type },
+        };
 
-          return { ...parentData, ...partialData, parent };
-        });
+        return { ...parentData, ...partialData, parent };
+      });
 
       post(configuration.INCIDENTS_ENDPOINT, mergedData);
     },
@@ -162,7 +156,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   return (
     <div data-testid="incidentSplitContainer">
-      {isLoadingParent || isSuccessParent || !parentIncident || !subcategories ? (
+      {isLoadingParent || isSuccessParent || !parentIncident || !subcategoryOptions ? (
         <LoadingIndicator />
       ) : (
         <FormComponent
@@ -179,7 +173,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             type: parentIncident.type.code,
             directingDepartment: parentDirectingDepartment,
           }}
-          subcategories={subcategoryOptions}
+          subcategories={[subcategoryGroups, subcategoryOptions]}
           directingDepartments={directingDepartments}
           onSubmit={onSubmit}
         />
