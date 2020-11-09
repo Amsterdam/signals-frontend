@@ -18,7 +18,7 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY .gitignore \
   .gitattributes \
-  .eslintrc.js \
+  .eslintrc.yaml \
   .prettierrc \
   jest.config.js \
   babel.config.js \
@@ -26,7 +26,7 @@ COPY .gitignore \
   package-lock.json \
   /app/
 
-RUN npm ci
+RUN npm install
 
 COPY assets /app/assets
 COPY internals /app/internals
