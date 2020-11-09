@@ -40,6 +40,21 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     [subcategories]
   );
 
+  const parentIncidentPatchData = useMemo(() => {
+    if (!parentIncident) return {};
+
+    const shouldPatchDirectingDepartment =
+      !parentIncident.directing_departments ||
+      parentIncident.directing_departments.length !== directingDepartment.length ||
+      !parentIncident.directing_departments.includes(department => department?.id === directingDepartment[0]?.id);
+    const shouldAddNote = !!note?.trim();
+
+    return {
+      ...(shouldPatchDirectingDepartment && { directing_departments: directingDepartment }),
+      ...(shouldAddNote && { notes: [{ text: note }] }),
+    };
+  }, [parentIncident, note, directingDepartment]);
+
   const parentDirectingDepartment = useMemo(() => {
     const department = parentIncident?.directing_departments;
     if (!Array.isArray(department) || department.length !== 1) return 'null';
@@ -103,23 +118,15 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
 
     if (isSuccessSplit) {
-      const updateDirectingDepartment =
-        parentIncident.directing_departments.length !== directingDepartment.length &&
-        !parentIncident.directing_departments.find(department => department?.id === directingDepartment[0]?.id);
-      const addNote = !!note?.trim();
-
-      if (addNote || updateDirectingDepartment) {
-        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, {
-          directing_departments: updateDirectingDepartment ? directingDepartment : undefined,
-          notes: addNote ? [{ text: note }] : undefined,
-        });
+      if (Object.keys(parentIncidentPatchData).length > 0) {
+        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, parentIncidentPatchData);
       } else {
         handleCompletedFormSubmit({ success: true });
       }
     } else {
       handleCompletedFormSubmit({ success: false });
     }
-  }, [errorSplit, isSuccessSplit, id, patch, directingDepartment, note, parentIncident, handleCompletedFormSubmit]);
+  }, [errorSplit, isSuccessSplit, id, patch, handleCompletedFormSubmit, parentIncidentPatchData]);
 
   useEffect(() => {
     if (errorUpdate === undefined || isSuccessUpdate === undefined) return;
