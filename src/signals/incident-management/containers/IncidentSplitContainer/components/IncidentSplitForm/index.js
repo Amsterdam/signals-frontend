@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -8,12 +8,13 @@ import { Heading } from '@amsterdam/asc-ui';
 import { directingDepartmentsType } from 'shared/types';
 
 import Button from 'components/Button';
+import TextArea from 'components/TextArea';
+import Label from 'components/Label';
 
 import { StyledDefinitionList, StyledForm, StyledSubmitButton, FormWrapper } from '../../styled';
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
-import IncidentSplitTextAreaInput from '../IncidentSplitTextAreaInput';
 
 const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit }) => {
   const { handleSubmit, register } = useForm();
@@ -53,13 +54,14 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
             options={directingDepartments}
           />
 
-          <IncidentSplitTextAreaInput
-            display={
-              <Fragment>
+          <TextArea
+            label={
+              <Label inline htmlFor="incidentSplitFormParentIncidentNote">
                 <strong>Notitie</strong> (optioneel)
-              </Fragment>
+              </Label>
             }
-            register={register}
+            rows={7}
+            ref={register}
             name="noteText"
             id="incidentSplitFormParentIncidentNote"
           />

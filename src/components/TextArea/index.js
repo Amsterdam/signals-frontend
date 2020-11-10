@@ -25,8 +25,9 @@ const HelpText = styled.div`
   margin-top: ${themeSpacing(2)};
 `;
 
-const TextArea = forwardRef(({ helpText, errorMessage, ...props }, ref) => (
+const TextArea = forwardRef(({ helpText, errorMessage, label, ...props }, ref) => (
   <Fragment>
+    {label}
     <StyledArea {...props} ref={ref} />
     {helpText && <HelpText>{helpText}</HelpText>}
     {errorMessage && <ErrorMessage message={errorMessage} />}
@@ -39,6 +40,7 @@ TextArea.defaultProps = {
 
 TextArea.propTypes = {
   helpText: PropTypes.node,
+  label: PropTypes.node,
   errorMessage: PropTypes.string,
   maxRows: PropTypes.number,
 };
