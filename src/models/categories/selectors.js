@@ -157,6 +157,7 @@ export const makeSelectSubcategoriesGroupedByCategories = createSelector(
     const subcategoryGroups = categories?.map(({ slug: value, name }) => ({ name, value }));
     const subcategoryOptions = subcategories?.map(subcategory => ({
       ...subcategory,
+      name: subcategory.extendedName,
       value: subcategory.extendedName,
       group: subcategory.category_slug,
     }));
