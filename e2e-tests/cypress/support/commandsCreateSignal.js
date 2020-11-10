@@ -12,7 +12,9 @@ export const addNote = noteText => {
 export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.server();
   cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignal');
-  cy.route(`/signals/v1/private/signals/${Cypress.env('signalId')}/history`).as('getHistory');
+  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+    cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
+  });
   cy.get(CHANGE_STATUS.buttonEdit).click();
   cy.contains('Status wijzigen').should('be.visible');
   cy.get(CHANGE_STATUS.currentStatus).contains(initialStatus).should('be.visible');
@@ -83,7 +85,9 @@ export const checkRedTextStatus = status => {
 };
 
 export const checkSignalDetailsPage = () => {
-  cy.url().should('include', `/manage/incident/${Cypress.env('signalId')}`);
+  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+    cy.url().should('include', `/manage/incident/${json.signalId}`);
+  });
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
   cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
   cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
@@ -137,8 +141,14 @@ export const getSignalId = () => {
       const signalNumber = $signalLabel.text().match(/\d+/)[0];
       cy.log(signalNumber);
       // Set the signal id in variable for later use
-      Cypress.env('signalId', signalNumber);
+      cy.writeFile('./cypress/fixtures/tempSignalData.json', { signalId: `${signalNumber}` }, { flag: 'w' });
     });
+};
+
+export const openCreatedSignal = () => {
+  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+    cy.get('[href*="/manage/incident/"]').contains(json.signalId).click();
+  });
 };
 
 export const searchAddress = address => {

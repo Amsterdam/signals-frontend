@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "http://localhost:8000/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca"
+    ],
+    [0.8508722647015613]
+  ],
+  "subrubriek": [
+    [
+      "http://localhost:8000//signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-muziek"
+    ],
+    [0.6338228909924088]
+  ]
+}
