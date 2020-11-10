@@ -36,19 +36,23 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
-  const patchData = useMemo(() => {
+  const getPatchData = useCallback(() => {
     if (!parentIncident) return {};
 
-    const shouldPatchDirectingDepartment =
-      !parentIncident.directing_departments ||
-      parentIncident.directing_departments.length !== directingDepartment.length ||
-      (!parentIncident.directing_departments.includes(department => department?.id === directingDepartment[0]?.id) &&
-        typeof directingDepartment[0]?.id !== 'undefined');
-    const shouldAddNote = !!note?.trim();
+    // Initially, directing_departments can be undefined
+    const directing_departments = parentIncident.directing_departments || [];
+
+    const differentLength = directing_departments.length !== directingDepartment.length;
+    const differentValue =
+      directingDepartment.length > 0 &&
+      !directing_departments.some(department => department.id === directingDepartment[0].id);
+
+    const shouldPatchDirectingDepartment = differentLength || differentValue;
+    const shouldPatchNote = Boolean(note?.trim());
 
     return {
       ...(shouldPatchDirectingDepartment && { directing_departments: directingDepartment }),
-      ...(shouldAddNote && { notes: [{ text: note }] }),
+      ...(shouldPatchNote && { notes: [{ text: note }] }),
     };
   }, [parentIncident, note, directingDepartment]);
 
@@ -76,7 +80,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       if (success) {
         dispatch(
           showGlobalNotification({
-            title: 'De melding is succesvol gedeeld',
+            title: 'Deelmelding gemaakt',
             variant: VARIANT_SUCCESS,
             type: TYPE_LOCAL,
           })
@@ -84,7 +88,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       } else {
         dispatch(
           showGlobalNotification({
-            title: 'De melding kon niet gedeeld worden',
+            title: 'De deelmelding kon niet gemaakt worden',
             variant: VARIANT_ERROR,
             type: TYPE_LOCAL,
           })
@@ -114,16 +118,14 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   useEffect(() => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
 
-    if (isSuccessSplit) {
-      if (Object.keys(patchData).length > 0) {
-        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, patchData);
-      } else {
-        submitCompleted({ success: true });
-      }
+    const patchData = getPatchData();
+    const hasPatchData = Object.keys(patchData).length > 0;
+    if (isSuccessSplit && hasPatchData) {
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, patchData);
     } else {
-      submitCompleted({ success: false });
+      submitCompleted({ success: isSuccessSplit });
     }
-  }, [errorSplit, isSuccessSplit, id, patch, submitCompleted, patchData]);
+  }, [errorSplit, isSuccessSplit, id, patch, submitCompleted, getPatchData]);
 
   useEffect(() => {
     if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
