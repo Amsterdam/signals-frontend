@@ -11,7 +11,7 @@ import Button from 'components/Button';
 import TextArea from 'components/TextArea';
 import Label from 'components/Label';
 
-import { StyledDefinitionList, StyledForm, StyledSubmitButton, FormWrapper } from '../../styled';
+import { StyledDefinitionList, StyledForm, StyledSubmitButton, StyledBottomWrapper, FormWrapper } from '../../styled';
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
@@ -44,15 +44,17 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
             <dd data-testid="incidentSplitFormSubcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
           </StyledDefinitionList>
 
-          <IncidentSplitRadioInput
-            display="Regie"
-            register={register}
-            initialValue={parentIncident.directingDepartment}
-            name="department"
-            id="department"
-            data-testid="incidentSplitFormRadioInputDepartment"
-            options={directingDepartments}
-          />
+          <StyledBottomWrapper>
+            <IncidentSplitRadioInput
+              display="Regie"
+              register={register}
+              initialValue={parentIncident.directingDepartment}
+              name="department"
+              id="department"
+              data-testid="incidentSplitFormRadioInputDepartment"
+              options={directingDepartments}
+            />
+          </StyledBottomWrapper>
 
           <TextArea
             label={
