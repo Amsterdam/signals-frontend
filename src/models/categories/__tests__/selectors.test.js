@@ -1,5 +1,8 @@
 import { fromJS } from 'immutable';
-import { mainCategories as mainCategoriesFixture, subCategories as subCategoriesFixture } from 'utils/__tests__/fixtures';
+import {
+  mainCategories as mainCategoriesFixture,
+  subCategories as subCategoriesFixture,
+} from 'utils/__tests__/fixtures';
 
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 
@@ -169,5 +172,10 @@ describe('models/categories/selectors', () => {
     const [subcategoryGroups, subcategoryOptions] = subcategoriesGroupedByCategories;
     expect(subcategoryGroups.length).toEqual(mainCategoriesFixture.length);
     expect(subcategoryOptions.length).toEqual(subCategoriesFixture.length);
+    subcategoryOptions.forEach(({ name, value, extendedName, category_slug, group }) => {
+      expect(name).toEqual(extendedName);
+      expect(value).toEqual(extendedName);
+      expect(group).toEqual(category_slug);
+    });
   });
 });
