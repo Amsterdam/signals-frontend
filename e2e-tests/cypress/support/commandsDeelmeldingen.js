@@ -3,19 +3,19 @@ import { MANAGE_SIGNALS, FILTER } from './selectorsManageIncidents';
 
 export const setDeelmelding = (id, deelmeldingNumber, subcategory, description) => {
   cy.get(DEELMELDING.titleDeelmelding).eq(id - 1).should('contain', `Deelmelding ${deelmeldingNumber}`);
-  cy.get(`[data-testid="incidentSelectInput-subcategory-${id}"]`).parent().siblings().contains('Subcategorie');
-  cy.get(`[data-testid="incidentSelectInput-subcategory-${id}"]`).select(subcategory);
+  cy.get(`[data-testid="incidents[${id}].subcategory"]`).select(subcategory);
   cy.get(`[data-testid="incidentSplitFormIncidentDescriptionText-${id}"]`).clear().type(description);
 };
 
 export const checkDeelmelding = (deelmeldingNumber, subcategory) => {
-  const deelMeldingId = Number.parseInt(Cypress.env('signalId'), 10) + Number.parseInt(deelmeldingNumber, 10);
-  cy.log(deelMeldingId);
+  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+    const deelMeldingId = Number.parseInt(json.signalId, 10) + Number.parseInt(deelmeldingNumber, 10);
+    cy.log(deelMeldingId);
 
-  cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).should('have.text', deelMeldingId);
-  cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('have.text', 'Gemeld').and('be.visible');
-  cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', subcategory).and('be.visible');
-
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).should('have.text', deelMeldingId);
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('have.text', 'Gemeld').and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', subcategory).and('be.visible');
+  });
 };
 
 export const filterSignalOnType = (type, selector) => {
@@ -54,4 +54,11 @@ export const checkSignalType = type => {
       break;
     default:
   }
+};
+
+export const checkDeelmeldingStatuses = status => {
+  cy.get(DEELMELDING.childIncident)
+    .each($element => {
+      cy.get($element).should('contain', status);
+    });
 };

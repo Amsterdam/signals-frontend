@@ -168,9 +168,10 @@ export const createSignalSorting02 = () => {
 export const createSignalDeelmelding = () => {
   cy.request({
     method: 'POST',
-    url: 'http://localhost:8000/signals/v1/public/signals/',
+    url: 'http://localhost:8000/signals/v1/private/signals/',
     headers: { 'Content-Type': 'application/json' },
     body: {
+      priority: { priority: 'high' },
       location: {
         geometrie: { type: 'Point', coordinates: [4.89916557, 52.37195803] },
         address: {
@@ -181,6 +182,8 @@ export const createSignalDeelmelding = () => {
         },
         stadsdeel: 'A',
       },
+      type: { code: 'COM' },
+      source: 'Interne melding',
       category: {
         sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/stankoverlast',
       },
@@ -190,7 +193,7 @@ export const createSignalDeelmelding = () => {
     },
   }).its('body').then(body => {
     const id = body.id;
-    Cypress.env('signalId', id);
+    cy.writeFile('./cypress/fixtures/tempSignalData.json', { signalId: `${id}` }, { flag: 'w' });
     cy.log(id);
   });
 };

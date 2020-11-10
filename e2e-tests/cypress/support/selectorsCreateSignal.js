@@ -31,14 +31,27 @@ export const CREATE_SIGNAL = {
 };
 
 export const BEDRIJVEN_HORECA = {
+  checkBoxBezoekers: '#extra_bedrijven_horeca_terrassen-bezoekers_op_terras1',
   checkBoxDronken: '#extra_bedrijven_horeca_personen-dronken_bezoekers1',
+  checkBoxGeluidOpruimen: '#extra_bedrijven_horeca_terrassen-opruimen_meubels1',
   checkBoxSchreeuwen: '#extra_bedrijven_horeca_personen-schreeuwende_bezoekers1',
   checkBoxWildplassen: '#extra_bedrijven_horeca_personen-wildplassen1',
   inputWieWat: '[class*=Input__StyledInput]',
   inputAdres: '[class*=Input__StyledInput]',
   inputDatum: '[class*=Input__StyledInput]',
+  inputHoeLaatEinde: '[class*=Input__StyledInput]',
+  inputSoortInstallatie: '[class*=Input__StyledInput]',
+  inputTijdstippen: '[class*=Input__StyledInput]',
+  inputWanneerBellen: '[class*=Input__StyledInput]',
+  inputWaaromGeenContact: '[class*=Input__StyledInput]',
+  radioButtonBellenNietNu: '#extra_bedrijven_horeca_muziek_geluidmeting_ja-not_now1',
+  radioButtonContactJa: '#extra_bedrijven_horeca_muziek_geluidmeting_muziek-ja1',
+  radioButtonContactNee: '#extra_bedrijven_horeca_muziek_geluidmeting_installaties-nee1',
   radioButtonHoreca: '#extra_bedrijven_horeca_wat-horecabedrijf1',
   radioButtonAnderBedrijf: '#extra_bedrijven_horeca_wat-ander_soort_bedrijf1',
+  radioButtonEvenement: '#extra_bedrijven_horeca_wat-evenement_festival_markt1',
+  radioButtonGeinformeerdJa: '#extra_bedrijven_horeca_muziek_evenement-ja1',
+  radioButtonIetsAnders: '#extra_bedrijven_horeca_wat-iets_anders1',
   radioButtonVakerJa: '#extra_bedrijven_horeca_vaker-ja1',
   radioButtonVakerNee: '#extra_bedrijven_horeca_vaker-nee1',
 };

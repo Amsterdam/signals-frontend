@@ -2,6 +2,7 @@
   "baseUrl": "http://localhost:3001",
   "defaultCommandTimeOut": 5000,
   "projectId": "xdzm5k",
+  "experimentalNetworkStubbing": true,
   "requestTimeout": 15000,
   "responseTimeout": 15000,
   "retries": {
@@ -9,4 +10,5 @@
     "openMode": 0
   },
   "video": false
+  "watchForFileChanges": false
 }
