@@ -46,6 +46,17 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
+
+const getDayString = (days, isCalendarDays) => {
+  const dayString = days === 1 ? 'dag' : 'dagen';
+  return isCalendarDays ? `werk${dayString}` : dayString;
+};
+
+const getHandlingTime = (days, isCalendarDays) => {
+  if (days === undefined) return undefined;
+  return `${days} ${getDayString(days, isCalendarDays)}`;
+};
+
 const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
@@ -144,11 +155,9 @@ const MetaList = () => {
 
     const category = subcategoryOptions?.find(item => item.slug === incident.category.sub_slug);
 
-    if (category?.sla.n_days === undefined) return undefined;
+    if (!category) return undefined;
 
-    if (category?.sla.n_days === 1) return `${category.sla.n_days} dag`;
-
-    return `${category.sla.n_days} dagen`;
+    return getHandlingTime(category.sla.n_days, category.sla.use_calendar_days);
   }, [incident, subcategoryOptions]);
 
   const getDepartmentId = useCallback(

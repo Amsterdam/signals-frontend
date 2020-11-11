@@ -63,6 +63,18 @@ const subcategories = [
     slug: 'something-else',
     sla: { n_days: 1, use_calendar_days: false },
   },
+  {
+    key: 'with-work-day',
+    extendedName: 'With Work Days',
+    slug: 'with-work-day',
+    sla: { n_days: 1, use_calendar_days: true },
+  },
+  {
+    key: 'with-work-days',
+    extendedName: 'With Work Days',
+    slug: 'with-work-days',
+    sla: { n_days: 6, use_calendar_days: true },
+  },
 ];
 
 const renderWithContext = (incident = parentIncident, users = usersFixture.results) =>
@@ -171,13 +183,23 @@ describe('MetaList', () => {
     expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
   });
 
-  it('should not render days in plural form when handling time is 1 day', () => {
-    const { queryByTestId } = render(
-      renderWithContext({ ...plainIncident, category: { sub_slug: 'something-else' } })
-    );
+  it('should render days and workdays in single and plural form', () => {
+    const { queryByTestId, rerender } = render(renderWithContext(plainIncident));
 
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^5 dagen$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'something-else' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
     expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'with-work-day' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 werkdag$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'with-work-days' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^6 werkdagen$/);
   });
 
   it('should call edit', () => {
