@@ -319,7 +319,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'Deelmelding(en) gemaakt',
+        title: 'Deelmelding gemaakt',
         variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })
@@ -345,7 +345,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De deelmelding(en) kon niet gemaakt worden',
+        title: 'De deelmelding kon niet gemaakt worden',
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })
@@ -376,7 +376,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'Deelmelding(en) gemaakt',
+        title: 'Deelmelding gemaakt',
         variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })

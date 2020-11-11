@@ -40,22 +40,22 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     if (!parentIncident) return null;
 
     // Initially, directing_departments can be undefined
-    const directing_departments = parentIncident.directing_departments || [];
+    const parentDirectingDepartments = parentIncident.directing_departments || [];
 
-    const differentLength = directing_departments.length !== directingDepartment.length;
+    const differentLength = parentDirectingDepartments.length !== directingDepartment.length;
     const differentValue =
       directingDepartment.length > 0 &&
-      !directing_departments.some(department => department.id === directingDepartment[0].id);
+      !parentDirectingDepartments.some(department => department.id === directingDepartment[0].id);
 
     const shouldPatchDirectingDepartment = differentLength || differentValue;
     const shouldPatchNote = Boolean(note?.trim());
 
-    if (!shouldPatchDirectingDepartment && !shouldPatchNote) return null;
-
-    return {
-      ...(shouldPatchDirectingDepartment && { directing_departments: directingDepartment }),
-      ...(shouldPatchNote && { notes: [{ text: note }] }),
-    };
+    return shouldPatchDirectingDepartment || shouldPatchNote
+      ? {
+        ...(shouldPatchDirectingDepartment && { directing_departments: directingDepartment }),
+        ...(shouldPatchNote && { notes: [{ text: note }] }),
+      }
+      : null;
   }, [parentIncident, note, directingDepartment]);
 
   const parentDirectingDepartment = useMemo(() => {
@@ -82,7 +82,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       if (success) {
         dispatch(
           showGlobalNotification({
-            title: 'Deelmelding(en) gemaakt',
+            title: 'Deelmelding gemaakt',
             variant: VARIANT_SUCCESS,
             type: TYPE_LOCAL,
           })
@@ -90,7 +90,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       } else {
         dispatch(
           showGlobalNotification({
-            title: 'De deelmelding(en) kon niet gemaakt worden',
+            title: 'De deelmelding kon niet gemaakt worden',
             variant: VARIANT_ERROR,
             type: TYPE_LOCAL,
           })

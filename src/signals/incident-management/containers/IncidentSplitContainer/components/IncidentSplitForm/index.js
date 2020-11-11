@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -9,7 +9,6 @@ import { directingDepartmentsType } from 'shared/types';
 
 import Button from 'components/Button';
 import TextArea from 'components/TextArea';
-import Label from 'components/Label';
 
 import { StyledDefinitionList, StyledForm, StyledSubmitButton, StyledBottomWrapper, FormWrapper } from '../../styled';
 
@@ -58,14 +57,15 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
 
           <TextArea
             label={
-              <Label inline htmlFor="incidentSplitFormParentIncidentNote">
+              <Fragment>
                 <strong>Notitie</strong> (optioneel)
-              </Label>
+              </Fragment>
             }
             rows={7}
             ref={register}
             name="noteText"
-            id="incidentSplitFormParentIncidentNote"
+            id="noteText"
+            data-testid="incidentSplitFormParentIncidentNote"
           />
         </fieldset>
 
