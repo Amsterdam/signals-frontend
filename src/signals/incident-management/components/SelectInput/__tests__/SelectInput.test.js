@@ -37,13 +37,13 @@ describe('<SelectInput />', () => {
   });
 
   it('should render correctly with empty option select', () => {
-    const emptyOptionText = 'All the things!!1!';
-    const SelectInputRender = SelectInput({ ...props, emptyOptionText });
+    const emptyOption = { key: '', name: 'All the things!!1!', value: '', group: '' };
+    const SelectInputRender = SelectInput({ ...props, emptyOption });
     const { container } = render(withAppContext(<SelectInputRender {...props} />));
 
     const options = container.firstChild.querySelectorAll('option');
-    expect(options).toHaveLength(props.values.length);
-    expect(options[0].textContent).toEqual(emptyOptionText);
+    expect(options).toHaveLength(props.values.length + 1);
+    expect(options[0].textContent).toEqual(emptyOption.name);
   });
 
   it('should render correctly with using slugs', () => {

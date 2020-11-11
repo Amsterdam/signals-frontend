@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import { Heading } from '@amsterdam/asc-ui';
 
-import { directingDepartmentsType, subcategoriesType } from 'shared/types';
+import { directingDepartmentsType } from 'shared/types';
 
 import Button from 'components/Button';
 
@@ -92,7 +92,7 @@ IncidentSplitForm.propTypes = {
     type: PropTypes.string.isRequired,
     directingDepartment: PropTypes.string.isRequired,
   }).isRequired,
-  subcategories: subcategoriesType.isRequired,
+  subcategories: PropTypes.array.isRequired,
   directingDepartments: directingDepartmentsType.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

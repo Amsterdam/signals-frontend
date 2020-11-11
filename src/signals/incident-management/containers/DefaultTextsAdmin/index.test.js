@@ -3,7 +3,8 @@ import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList';
-import { subCategories } from 'utils/__tests__/fixtures';
+import * as categoriesSelectors from 'models/categories/selectors';
+import { subCategories, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
 
 import DefaultTextsAdmin, { DefaultTextsAdminContainer } from '.';
 
@@ -30,6 +31,7 @@ describe('<DefaultTextsAdmin />', () => {
       onOrderDefaultTexts: jest.fn(),
       onSaveDefaultTextsItem: jest.fn(),
     };
+    jest.spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories').mockImplementation(() => subcategoriesGroupedByCategories);
   });
 
   it('should have props from structured selector', () => {

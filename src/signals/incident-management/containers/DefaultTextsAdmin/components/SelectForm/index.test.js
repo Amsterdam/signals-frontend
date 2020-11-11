@@ -1,29 +1,27 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { store, withAppContext } from 'test/utils';
+import { withAppContext } from 'test/utils';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
-import { fetchCategoriesSuccess } from 'models/categories/actions';
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import * as categoriesSelectors from 'models/categories/selectors';
+import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
 
 import SelectForm from '.';
 
 import { defaultTextsOptionList } from '../../../../definitions/statusList';
 
-store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
-
-const subCategories = makeSelectSubCategories(store.getState());
-
 describe('SelectForm', () => {
+  const subcategories = subcategoriesGroupedByCategories[1];
   const category_url = categoriesPrivate.results[1]._links.self.public;
-  const name = categoriesPrivate.results[1].name;
   let props;
 
   beforeEach(() => {
     props = {
-      subCategories,
       defaultTextsOptionList,
       onFetchDefaultTexts: jest.fn(),
     };
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
+      .mockImplementation(() => subcategoriesGroupedByCategories);
   });
 
   afterEach(() => {
@@ -31,23 +29,21 @@ describe('SelectForm', () => {
   });
 
   it('should render form correctly', () => {
-    const { queryByTestId, queryByText, getByDisplayValue, queryByDisplayValue } = render(
+    const { queryByTestId, queryByText, queryByDisplayValue } = render(
       withAppContext(<SelectForm {...props} />)
     );
 
     expect(queryByTestId('selectFormForm')).not.toBeNull();
 
     expect(queryByText('Subcategorie')).not.toBeNull();
-    expect(getByDisplayValue(name)).not.toBeNull();
+    expect(queryByTestId('category_url').value).not.toBeNull();
+    expect(queryByTestId('category_url').value).toEqual(subcategories[0].key);
 
     expect(queryByText('Status')).not.toBeNull();
     expect(queryByText('Afgehandeld')).not.toBeNull();
     expect(queryByDisplayValue('o')).not.toBeNull();
     expect(queryByText('Ingepland')).not.toBeNull();
     expect(queryByText('Heropend')).not.toBeNull();
-
-    expect(queryByDisplayValue('civiele-constructies')).not.toBeNull();
-    expect(queryByDisplayValue('afwatering-brug')).not.toBeNull();
   });
 
   describe('events', () => {
@@ -76,14 +72,10 @@ describe('SelectForm', () => {
     });
 
     it('should NOT trigger fetch when no matching category can be found', () => {
-      const invalidSubCategories = subCategories.map(subCat => ({
-        ...subCat,
-        _links: undefined,
-      }));
-
-      const { getByDisplayValue } = render(
-        withAppContext(<SelectForm {...props} subCategories={invalidSubCategories} />)
-      );
+      jest
+        .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
+        .mockImplementation(() => [null, []]);
+      const { getByDisplayValue } = render(withAppContext(<SelectForm {...props} />));
 
       expect(props.onFetchDefaultTexts).not.toHaveBeenCalled();
 
