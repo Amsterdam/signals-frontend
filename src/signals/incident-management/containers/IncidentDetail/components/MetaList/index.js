@@ -49,7 +49,7 @@ const EditButton = styled(Button)`
 
 const getDayString = (days, isCalendarDays) => {
   const dayString = days === 1 ? 'dag' : 'dagen';
-  return isCalendarDays ? `werk${dayString}` : dayString;
+  return isCalendarDays ? dayString : `werk${dayString}`;
 };
 
 const getHandlingTime = (days, isCalendarDays) => {

@@ -89,7 +89,7 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
       expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 dagen$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -113,7 +113,7 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
       expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 dagen$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -168,19 +168,19 @@ describe('MetaList', () => {
     const { queryByTestId, rerender } = render(renderWithContext(plainIncident));
 
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 dagen$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
 
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'beplanting' } }));
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 werkdag$/);
 
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'bewegwijzering' } }));
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 werkdag$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
 
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'parkeer-verwijssysteem' } }));
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 werkdagen$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 dagen$/);
   });
 
   it('should call edit', () => {
