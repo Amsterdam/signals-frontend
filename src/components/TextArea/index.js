@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { styles, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
+import Label from 'components/Label';
+
 import ErrorMessage from '../ErrorMessage';
 
 const { InputStyle } = styles;
@@ -25,9 +27,12 @@ const HelpText = styled.div`
   margin-top: ${themeSpacing(2)};
 `;
 
-const TextArea = forwardRef(({ helpText, errorMessage, ...props }, ref) => (
+const TextArea = forwardRef(({ helpText, errorMessage, label, id, ...props }, ref) => (
   <Fragment>
-    <StyledArea {...props} ref={ref} />
+    <Label inline htmlFor={id}>
+      {label}
+    </Label>
+    <StyledArea id={id} {...props} ref={ref} />
     {helpText && <HelpText>{helpText}</HelpText>}
     {errorMessage && <ErrorMessage message={errorMessage} />}
   </Fragment>
@@ -38,7 +43,9 @@ TextArea.defaultProps = {
 };
 
 TextArea.propTypes = {
+  id: PropTypes.string,
   helpText: PropTypes.node,
+  label: PropTypes.node,
   errorMessage: PropTypes.string,
   maxRows: PropTypes.number,
 };
