@@ -45,6 +45,7 @@ const userUndefinedName = usersFixture.results[5].username;
 const plainLinks = Object.keys(incidentFixture._links)
   .filter(link => !['sia:children', 'sia:parent'].includes(link))
   .reduce((acc, key) => ({ ...acc, [key]: { ...incidentFixture._links[key] } }), {});
+
 const plainIncident = { ...incidentFixture, _links: { ...plainLinks } };
 const parentIncident = { ...incidentFixture };
 const childIncident = { ...plainIncident, _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } } };
@@ -53,10 +54,14 @@ const subcategories = [
   {
     key: parentIncident.category.category_url,
     extendedName: 'Container is kapot',
+    slug: 'container-is-kapot',
+    sla: { n_days: 5, use_calendar_days: false },
   },
   {
     key: 'something-else',
     extendedName: 'Something Else',
+    slug: 'something-else',
+    sla: { n_days: 1, use_calendar_days: false },
   },
 ];
 
@@ -90,6 +95,9 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
+      expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^5 dagen$/);
+
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
 
@@ -110,6 +118,9 @@ describe('MetaList', () => {
 
       expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
+
+      expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^5 dagen$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -158,6 +169,15 @@ describe('MetaList', () => {
 
     expect(queryByText('Hoog')).toBeInTheDocument();
     expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
+  });
+
+  it('should not render days in plural form when handling time is 1 day', () => {
+    const { queryByTestId } = render(
+      renderWithContext({ ...plainIncident, category: { sub_slug: 'something-else' } })
+    );
+
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
   });
 
   it('should call edit', () => {

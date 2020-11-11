@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { Fragment, useCallback, useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
@@ -91,6 +91,7 @@ const MetaList = () => {
       })),
     [subcategories]
   );
+
   const hasChildren = useMemo(() => incident._links['sia:children']?.length > 0, [incident]);
 
   const getDirectingDepartmentCode = useCallback(
@@ -134,16 +135,21 @@ const MetaList = () => {
         value: department.name,
       }));
 
-    return routingDepartments
-      ? options
-      : options && [
-        {
-          key: null,
-          value: 'Niet gekoppeld',
-        },
-        ...options,
-      ];
+    return routingDepartments ? options : options && [{ key: null, value: 'Niet gekoppeld' }, ...options];
   }, [categoryDepartments, routingDepartments]);
+
+
+  const handlingTime = useMemo(() => {
+    if (!incident?.category) return undefined;
+
+    const category = subcategoryOptions?.find(item => item.slug === incident.category.sub_slug);
+
+    if (category?.sla.n_days === undefined) return undefined;
+
+    if (category?.sla.n_days === 1) return `${category.sla.n_days} dag`;
+
+    return `${category.sla.n_days} dagen`;
+  }, [incident, subcategoryOptions]);
 
   const getDepartmentId = useCallback(
     () => (routingDepartments ? `${routingDepartments[0].id}` : departmentOptions && departmentOptions[0].key),
@@ -151,14 +157,7 @@ const MetaList = () => {
   );
 
   const getDepartmentPostData = useCallback(
-    id =>
-      id
-        ? [
-          {
-            id: Number.parseInt(id, 10),
-          },
-        ]
-        : [],
+    id => id ? [{ id: Number.parseInt(id, 10) }] : [],
     []
   );
 
@@ -187,6 +186,13 @@ const MetaList = () => {
       <dd data-testid="meta-list-date-value">
         {string2date(incident.created_at)} {string2time(incident.created_at)}
       </dd>
+
+      {handlingTime && (
+        <Fragment>
+          <dt data-testid="meta-list-handling-time-definition">Afhandeltermijn</dt>
+          <dd data-testid="meta-list-handling-time-value">{handlingTime}</dd>
+        </Fragment>
+      )}
 
       <Highlight type="status">
         <dt data-testid="meta-list-status-definition">
