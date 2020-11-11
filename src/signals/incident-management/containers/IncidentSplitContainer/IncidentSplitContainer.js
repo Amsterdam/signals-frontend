@@ -82,7 +82,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       if (success) {
         dispatch(
           showGlobalNotification({
-            title: 'Deelmelding gemaakt',
+            title: 'Deelmelding(en) gemaakt',
             variant: VARIANT_SUCCESS,
             type: TYPE_LOCAL,
           })
@@ -90,7 +90,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       } else {
         dispatch(
           showGlobalNotification({
-            title: 'De deelmelding kon niet gemaakt worden',
+            title: 'De deelmelding(en) kon niet gemaakt worden',
             variant: VARIANT_ERROR,
             type: TYPE_LOCAL,
           })
