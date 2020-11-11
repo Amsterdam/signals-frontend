@@ -68,10 +68,6 @@ export const StyledWrapper = styled.div`
   padding-bottom: ${themeSpacing(6)};
 `;
 
-export const StyledBottomWrapper = styled.div`
-  padding-bottom: ${themeSpacing(6)};
-`;
-
 export const FormWrapper = styled(Row)`
   display: grid;
 

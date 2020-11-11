@@ -1,19 +1,24 @@
 import React, { useCallback, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
-import { Heading } from '@amsterdam/asc-ui';
+import { Heading, themeSpacing } from '@amsterdam/asc-ui';
 
 import { directingDepartmentsType } from 'shared/types';
 
 import Button from 'components/Button';
 import TextArea from 'components/TextArea';
 
-import { StyledDefinitionList, StyledForm, StyledSubmitButton, StyledBottomWrapper, FormWrapper } from '../../styled';
+import { StyledDefinitionList, StyledForm, StyledSubmitButton, FormWrapper } from '../../styled';
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
+
+export const StyledIncidentSplitRadioInput = styled(IncidentSplitRadioInput)`
+  padding-bottom: ${themeSpacing(6)};
+`;
 
 const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit }) => {
   const { handleSubmit, register } = useForm();
@@ -43,17 +48,15 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
             <dd data-testid="incidentSplitFormSubcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
           </StyledDefinitionList>
 
-          <StyledBottomWrapper>
-            <IncidentSplitRadioInput
-              display="Regie"
-              register={register}
-              initialValue={parentIncident.directingDepartment}
-              name="department"
-              id="department"
-              data-testid="incidentSplitFormRadioInputDepartment"
-              options={directingDepartments}
-            />
-          </StyledBottomWrapper>
+          <StyledIncidentSplitRadioInput
+            display="Regie"
+            register={register}
+            initialValue={parentIncident.directingDepartment}
+            name="department"
+            id="department"
+            data-testid="incidentSplitFormRadioInputDepartment"
+            options={directingDepartments}
+          />
 
           <TextArea
             label={
