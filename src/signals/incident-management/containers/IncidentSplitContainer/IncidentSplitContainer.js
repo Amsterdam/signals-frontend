@@ -37,7 +37,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const getPatchData = useCallback(() => {
-    if (!parentIncident) return {};
+    if (!parentIncident) return null;
 
     // Initially, directing_departments can be undefined
     const directing_departments = parentIncident.directing_departments || [];
@@ -49,6 +49,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
     const shouldPatchDirectingDepartment = differentLength || differentValue;
     const shouldPatchNote = Boolean(note?.trim());
+
+    if (!shouldPatchDirectingDepartment && !shouldPatchNote) return null;
 
     return {
       ...(shouldPatchDirectingDepartment && { directing_departments: directingDepartment }),
@@ -119,8 +121,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
 
     const patchData = getPatchData();
-    const hasPatchData = Object.keys(patchData).length > 0;
-    if (isSuccessSplit && hasPatchData) {
+    if (isSuccessSplit && patchData) {
       patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, patchData);
     } else {
       submitCompleted({ success: isSuccessSplit });
