@@ -64,6 +64,7 @@ describe('IncidentSplitForm', () => {
           type: 'SIG',
         },
       ],
+      noteText: '',
     });
   });
 

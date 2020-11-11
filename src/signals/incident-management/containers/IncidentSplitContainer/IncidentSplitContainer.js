@@ -30,10 +30,33 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   const dispatch = useDispatch();
   const [parentIncident, setParentIncident] = useState();
   const [directingDepartment, setDirectingDepartment] = useState([]);
+  const [note, setNote] = useState();
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
+
+  const getPatchData = useCallback(() => {
+    if (!parentIncident) return null;
+
+    // Initially, directing_departments can be undefined
+    const parentDirectingDepartments = parentIncident.directing_departments || [];
+
+    const differentLength = parentDirectingDepartments.length !== directingDepartment.length;
+    const differentValue =
+      directingDepartment.length > 0 &&
+      !parentDirectingDepartments.some(department => department.id === directingDepartment[0].id);
+
+    const shouldPatchDirectingDepartment = differentLength || differentValue;
+    const shouldPatchNote = Boolean(note?.trim());
+
+    return shouldPatchDirectingDepartment || shouldPatchNote
+      ? {
+        ...(shouldPatchDirectingDepartment && { directing_departments: directingDepartment }),
+        ...(shouldPatchNote && { notes: [{ text: note }] }),
+      }
+      : null;
+  }, [parentIncident, note, directingDepartment]);
 
   const parentDirectingDepartment = useMemo(() => {
     const department = parentIncident?.directing_departments;
@@ -48,6 +71,37 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       setDirectingDepartment(department ? [{ id: department.id }] : []);
     },
     [departments, setDirectingDepartment]
+  );
+
+  const submitCompleted = useCallback(
+    /**
+     * @param {Object} params
+     * @param {boolean} params.success
+     */
+    ({ success }) => {
+      if (success) {
+        dispatch(
+          showGlobalNotification({
+            title: 'Deelmelding gemaakt',
+            variant: VARIANT_SUCCESS,
+            type: TYPE_LOCAL,
+          })
+        );
+      } else {
+        dispatch(
+          showGlobalNotification({
+            title: 'De deelmelding kon niet gemaakt worden',
+            variant: VARIANT_ERROR,
+            type: TYPE_LOCAL,
+          })
+        );
+      }
+
+      history.push(`${INCIDENT_URL}/${id}`);
+    },
+    // Disabling linter; the `history` dependency is generating infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id, dispatch]
   );
 
   useEffect(() => {
@@ -65,40 +119,22 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
   useEffect(() => {
     if (isSuccessSplit === undefined || errorSplit === undefined) return;
-    if (isSuccessSplit) {
-      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, { directing_departments: directingDepartment });
+
+    const patchData = getPatchData();
+    if (isSuccessSplit && patchData) {
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, patchData);
     } else {
-      dispatch(
-        showGlobalNotification({
-          title: 'De melding kon niet gedeeld worden',
-          variant: VARIANT_ERROR,
-          type: TYPE_LOCAL,
-        })
-      );
-
-      history.push(`${INCIDENT_URL}/${id}`);
+      submitCompleted({ success: isSuccessSplit });
     }
-
-    // Disabling linter; the `history` dependency is generating infinite loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorSplit, isSuccessSplit, id, dispatch, patch, directingDepartment]);
+  }, [errorSplit, isSuccessSplit, id, patch, submitCompleted, getPatchData]);
 
   useEffect(() => {
     if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
 
     // The scenario when there is an error during the patch of the parent incident
     // is intentionally left out.
-
-    dispatch(
-      showGlobalNotification({
-        title: 'De melding is succesvol gedeeld',
-        variant: VARIANT_SUCCESS,
-        type: TYPE_LOCAL,
-      })
-    );
-
-    history.push(`${INCIDENT_URL}/${id}`);
-  }, [errorUpdate, history, id, isSuccessUpdate, dispatch]);
+    submitCompleted({ success: true });
+  }, [errorUpdate, isSuccessUpdate, submitCompleted]);
 
   const onSubmit = useCallback(
     /**
@@ -110,8 +146,9 @@ const IncidentSplitContainer = ({ FormComponent }) => {
      * @param {string} formData.incidents[].subcategory
      * @param {string} formData.incidents[].priority
      * @param {string} formData.incidents[].type
+     * @param {string} formData.noteText
      */
-    ({ department, incidents }) => {
+    ({ department, incidents, noteText }) => {
       const {
         id: parent,
         attachments,
@@ -125,6 +162,8 @@ const IncidentSplitContainer = ({ FormComponent }) => {
       } = parentIncident;
 
       updateDepartment(department);
+      setNote(noteText);
+
       const { stadsdeel, buurt_code, address, geometrie } = location;
 
       const parentData = {
