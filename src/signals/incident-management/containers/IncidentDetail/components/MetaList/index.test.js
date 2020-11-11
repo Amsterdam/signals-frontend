@@ -45,9 +45,16 @@ const userUndefinedName = usersFixture.results[5].username;
 const plainLinks = Object.keys(incidentFixture._links)
   .filter(link => !['sia:children', 'sia:parent'].includes(link))
   .reduce((acc, key) => ({ ...acc, [key]: { ...incidentFixture._links[key] } }), {});
+
 const plainIncident = { ...incidentFixture, _links: { ...plainLinks } };
 const parentIncident = { ...incidentFixture };
 const childIncident = { ...plainIncident, _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } } };
+
+// subcategoriesGroupedByCategories fixture handling time overrides
+subcategoriesGroupedByCategories[1][4].sla.n_days = 1; // beplanting
+subcategoriesGroupedByCategories[1][4].sla.use_calendar_days = false;
+subcategoriesGroupedByCategories[1][5].sla.n_days = 1; // bewegwijzering
+subcategoriesGroupedByCategories[1][5].sla.use_calendar_days = true;
 
 const renderWithContext = (incident = parentIncident, users = usersFixture.results) =>
   withAppContext(
@@ -81,6 +88,9 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
+      expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 dagen$/);
+
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
 
@@ -101,6 +111,9 @@ describe('MetaList', () => {
 
       expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
+
+      expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 dagen$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -149,6 +162,25 @@ describe('MetaList', () => {
 
     expect(queryByText('Hoog')).toBeInTheDocument();
     expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
+  });
+
+  it('should render days and workdays in single and plural form', () => {
+    const { queryByTestId, rerender } = render(renderWithContext(plainIncident));
+
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 dagen$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'beplanting' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'bewegwijzering' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 werkdag$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'parkeer-verwijssysteem' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 werkdagen$/);
   });
 
   it('should call edit', () => {
@@ -896,7 +928,7 @@ describe('MetaList', () => {
       const submitTestId = 'submitDirecting_departmentsButton';
       const editButtons = getAllByTestId(editTestId);
 
-      const { id } = departments.list.find(d => d.code === 'ASC');
+      const { id } = departments.list.find(department => department.code === 'ASC');
 
       fireEvent.click(editButtons[0]);
 
