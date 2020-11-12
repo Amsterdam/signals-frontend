@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Leaflet from 'leaflet';
 
-import { useMapInstance } from '@datapunt/react-maps';
+import { useMapInstance } from '@amsterdam/react-maps';
 import configuration from 'shared/services/configuration/configuration';
 
 const locationDotOptions = {

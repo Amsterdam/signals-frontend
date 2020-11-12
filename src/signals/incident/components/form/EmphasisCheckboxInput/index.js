@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { FormGroup } from 'react-reactive-form';
 
 import CheckboxInput from '../CheckboxInput';

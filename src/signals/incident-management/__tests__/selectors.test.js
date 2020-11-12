@@ -208,18 +208,7 @@ describe('signals/incident-management/selectors', () => {
       });
     });
 
-    it('should not select active source filter with fetchSourcesFromBackend disabled', () => {
-      const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
-      const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
-
-      expect(actual.id).toEqual(sourceFilter.id);
-      expect(actual.options).toEqual({
-        source: [],
-        priority: [],
-      });
-    });
-
-    it('should work without sources with fetchSourcesFromBackend disabled', () => {
+    it('should not select active source filter when sources are empty', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
       const actual = makeSelectActiveFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
 
@@ -230,26 +219,13 @@ describe('signals/incident-management/selectors', () => {
       });
     });
 
-    it('should select active source filter with fetchSourcesFromBackend enabled', () => {
-      configuration.fetchSourcesFromBackend = true;
+    it('should select active source filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
       const actual = makeSelectActiveFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
 
       expect(actual.id).toEqual(sourceFilter.id);
       expect(actual.options).toEqual({
         source: [sources[0]],
-        priority: [],
-      });
-    });
-
-    it('should work without sources with fetchSourcesFromBackend enabled', () => {
-      configuration.fetchSourcesFromBackend = true;
-      const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
-      const actual = makeSelectActiveFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
-
-      expect(actual.id).toEqual(sourceFilter.id);
-      expect(actual.options).toEqual({
-        source: [],
         priority: [],
       });
     });
@@ -314,28 +290,7 @@ describe('signals/incident-management/selectors', () => {
       });
     });
 
-    it('should not select edit source filter with fetchSourcesFromBackend disabled', () => {
-      const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
-      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
-
-      expect(actual.id).toEqual(sourceFilter.id);
-      expect(actual.options).toEqual({
-        source: [],
-      });
-    });
-
-    it('should work without sources with fetchSourcesFromBackend disabled', () => {
-      const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
-      const actual = makeSelectEditFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
-
-      expect(actual.id).toEqual(sourceFilter.id);
-      expect(actual.options).toEqual({
-        source: [],
-      });
-    });
-
-    it('should select edit source filter with fetchSourcesFromBackend enabled', () => {
-      configuration.fetchSourcesFromBackend = true;
+    it('should select edit source filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
       const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
 
@@ -345,8 +300,17 @@ describe('signals/incident-management/selectors', () => {
       });
     });
 
-    it('should work without sources with fetchSourcesFromBackend enabled', () => {
-      configuration.fetchSourcesFromBackend = true;
+    it('should select edit source filter', () => {
+      const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
+      const actual = makeSelectEditFilter.resultFunc(state, districts, sources, maincategory_slug, category_slug);
+
+      expect(actual.id).toEqual(sourceFilter.id);
+      expect(actual.options).toEqual({
+        source: [sources[0]],
+      });
+    });
+
+    it('should not work without sources', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
       const actual = makeSelectEditFilter.resultFunc(state, districts, null, maincategory_slug, category_slug);
 

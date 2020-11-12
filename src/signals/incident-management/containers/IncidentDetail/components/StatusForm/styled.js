@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Heading, themeSpacing, Row, Column, themeColor, Label, ErrorMessage } from '@datapunt/asc-ui';
+import { Heading, themeSpacing, Row, Column, themeColor, Label, ErrorMessage } from '@amsterdam/asc-ui';
 
 import Button from 'components/Button';
 

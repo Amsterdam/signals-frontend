@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Row, Column, themeSpacing, themeColor, Heading } from '@datapunt/asc-ui';
+import { Row, Column, themeSpacing, themeColor, Heading } from '@amsterdam/asc-ui';
 import { Link } from 'react-router-dom';
 
 import configuration from 'shared/services/configuration/configuration';
@@ -64,7 +64,9 @@ export const TabWrapper = styled(Column)`
 const SubNav = ({ showsMap }) => (
   <Wrapper data-testid="subNav">
     <Column span={{ small: 1, medium: 1, big: 3, large: 6, xLarge: 6 }}>
-      {showsMap && configuration.mapFilter24Hours && <MapHeading data-testid="subNavHeader">Afgelopen 24 uur</MapHeading>}
+      {showsMap && configuration.featureFlags.mapFilter24Hours && (
+        <MapHeading data-testid="subNavHeader">Afgelopen 24 uur</MapHeading>
+      )}
     </Column>
 
     <TabWrapper span={{ small: 1, medium: 1, big: 3, large: 6, xLarge: 6 }}>

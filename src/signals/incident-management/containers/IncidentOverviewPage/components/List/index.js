@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import { FastForward, ChevronUp, ChevronDown } from '@datapunt/asc-assets';
-import { Icon, themeSpacing } from '@datapunt/asc-ui';
+import { FastForward, ChevronUp, ChevronDown } from '@amsterdam/asc-assets';
+import { Icon, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -140,7 +140,7 @@ const List = ({
             <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
               Datum en tijd {renderChevron('created_at')}
             </Th>
-            {configuration.fetchDistrictsFromBackend ? (
+            {configuration.featureFlags.fetchDistrictsFromBackend ? (
               <Th data-testid="sortDistrict" onClick={onSort('district,-created_at')}>
                 {configuration.language.district} {renderChevron('district')}
               </Th>
@@ -161,7 +161,9 @@ const List = ({
             <Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
               Adres {renderChevron('address')}
             </Th>
-            {configuration.assignSignalToEmployee && users && <Th data-testid="sortAssigedUserId">Toegewezen aan</Th>}
+            {configuration.featureFlags.assignSignalToEmployee && users && (
+              <Th data-testid="sortAssigedUserId">Toegewezen aan</Th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -184,7 +186,7 @@ const List = ({
                   {string2date(incident.created_at)} {string2time(incident.created_at)}
                 </Td>
                 <Td detailLink={detailLink}>
-                  {configuration.fetchDistrictsFromBackend
+                  {configuration.featureFlags.fetchDistrictsFromBackend
                     ? getListValueByKey(districts, incident.location && incident.location.area_code)
                     : getListValueByKey(stadsdeel, incident.location && incident.location.stadsdeel)}
                 </Td>
@@ -194,7 +196,7 @@ const List = ({
                   {getListValueByKey(priority, incident.priority && incident.priority.priority)}
                 </Td>
                 <Td detailLink={detailLink}>{incident.location && incident.location.address_text}</Td>
-                {configuration.assignSignalToEmployee && users && (
+                {configuration.featureFlags.assignSignalToEmployee && users && (
                   <Td detailLink={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Td>
                 )}
               </tr>

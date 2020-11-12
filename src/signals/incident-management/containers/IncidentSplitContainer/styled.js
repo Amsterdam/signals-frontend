@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Heading, Label, RadioGroup, themeColor, themeSpacing, Row } from '@datapunt/asc-ui';
+import { Heading, Label, RadioGroup, themeColor, themeSpacing, Row } from '@amsterdam/asc-ui';
 
 import Button from 'components/Button';
 import InfoText from 'components/InfoText';
@@ -51,7 +51,7 @@ export const StyledLabel = styled(Label)`
   align-self: baseline;
 
   * {
-    font-weight: normal
+    font-weight: normal;
   }
 `;
 

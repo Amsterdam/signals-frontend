@@ -63,16 +63,13 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
 
     const intermediateState = {
       ...state,
-      incident: { status: 'o' },
+      incident: { status: 'o', text: 'old' },
       children,
     };
 
-    expect(reducer(intermediateState, { type: SET_INCIDENT, payload: { incident } })).toEqual({
+    expect(reducer(intermediateState, { type: SET_INCIDENT, payload: incident })).toEqual({
       ...intermediateState,
-      incident: {
-        ...intermediateState.incident,
-        ...incident,
-      },
+      incident,
       children,
     });
   });

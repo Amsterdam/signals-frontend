@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
-import { AmsterdamLogo } from '@datapunt/asc-ui';
+import { AmsterdamLogo } from '@amsterdam/asc-ui';
 
 describe('components/AmsterdamLogo', () => {
   it('should render correctly', () => {

@@ -2,13 +2,12 @@ import React, { useContext, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { Tag, themeSpacing } from '@datapunt/asc-ui';
+import { Tag, themeSpacing } from '@amsterdam/asc-ui';
 import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
-import configuration from 'shared/services/configuration/configuration';
 import { dataListType, filterType } from 'shared/types';
 
 import { makeSelectDirectingDepartments } from 'models/departments/selectors';
@@ -97,7 +96,7 @@ export const FilterTagListComponent = props => {
     area: districts,
     maincategory_slug: mainCategories,
     category_slug: subCategories,
-    source: configuration.fetchSourcesFromBackend ? sources : dataLists.source,
+    source: sources,
     directing_department: directingDepartments,
   };
 

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import { priorityList, typesList } from 'signals/incident-management/definitions';
 
-import { subcategoriesType } from 'shared/types';
-
 import Button from 'components/Button';
 import Label from 'components/Label';
 import TextArea from 'components/TextArea';
@@ -48,16 +46,20 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
               data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
               name={`incidents[${splitNumber}].subcategory`}
               display="Subcategorie"
-              options={subcategories}
+              options={subcategories[1]}
+              groups={subcategories[0]}
               initialValue={parentIncident.subcategory}
               register={register}
             />
 
             <div>
-              <Label as="span">Omschrijving</Label>
+              <Label as="span" htmlFor={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}>
+                Omschrijving
+              </Label>
 
               <TextArea
                 data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
+                id={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
                 name={`incidents[${splitNumber}].description`}
                 ref={register}
                 rows={10}
@@ -120,7 +122,7 @@ IncidentSplitFormIncident.propTypes = {
     description: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
-  subcategories: subcategoriesType.isRequired,
+  subcategories: PropTypes.array.isRequired,
   register: PropTypes.func.isRequired,
 };
 

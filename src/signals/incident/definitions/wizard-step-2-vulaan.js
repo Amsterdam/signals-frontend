@@ -48,9 +48,9 @@ export default {
   formAction: 'UPDATE_INCIDENT',
   formFactory: ({ category, subcategory, questions }) => {
     const noExtraProps = { controls: {} };
-    if (!configuration?.showVulaanControls) return noExtraProps;
+    if (!configuration?.featureFlags.showVulaanControls) return noExtraProps;
 
-    if (configuration.fetchQuestionsFromBackend) {
+    if (configuration.featureFlags.fetchQuestionsFromBackend) {
       return expandQuestions(questions || {}, category, subcategory);
     }
 

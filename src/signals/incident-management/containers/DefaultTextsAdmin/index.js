@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Heading, Row, Column, themeSpacing } from '@datapunt/asc-ui';
+import { Heading, Row, Column, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import { dataListType, defaultTextsType } from 'shared/types';
@@ -43,7 +43,6 @@ export const DefaultTextsAdminContainer = ({
     <Column span={4}>
       {subCategories && (
         <SelectForm
-          subCategories={subCategories}
           defaultTextsOptionList={defaultTextsOptionList}
           onFetchDefaultTexts={onFetchDefaultTexts}
         />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -9,8 +9,10 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import usersFixture from 'utils/__tests__/fixtures/users.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
+import * as categoriesSelectors from 'models/categories/selectors';
 
-import { departments, directingDepartments } from 'utils/__tests__/fixtures';
+import { departments, directingDepartments, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
+
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
 import MetaList from '.';
@@ -22,9 +24,12 @@ store.dispatch(fetchCategoriesSuccess(categoriesPrivate));
 
 const update = jest.fn();
 const edit = jest.fn();
+const departmentAscId = departments.list[0].id;
 const departmentAscCode = departments.list[0].code;
 const departmentAscName = departments.list[0].name;
 const departmentAegCode = departments.list[1].code;
+const departmentAegName = departments.list[1].name;
+const departmentThoId = departments.list[11].id;
 const departmentThoCode = departments.list[11].code;
 const departmentThoName = departments.list[11].name;
 const userEmptyId = usersFixture.results[0].id;
@@ -40,9 +45,16 @@ const userUndefinedName = usersFixture.results[5].username;
 const plainLinks = Object.keys(incidentFixture._links)
   .filter(link => !['sia:children', 'sia:parent'].includes(link))
   .reduce((acc, key) => ({ ...acc, [key]: { ...incidentFixture._links[key] } }), {});
+
 const plainIncident = { ...incidentFixture, _links: { ...plainLinks } };
 const parentIncident = { ...incidentFixture };
 const childIncident = { ...plainIncident, _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } } };
+
+// subcategoriesGroupedByCategories fixture handling time overrides
+subcategoriesGroupedByCategories[1][4].sla.n_days = 1; // beplanting
+subcategoriesGroupedByCategories[1][4].sla.use_calendar_days = false;
+subcategoriesGroupedByCategories[1][5].sla.n_days = 1; // bewegwijzering
+subcategoriesGroupedByCategories[1][5].sla.use_calendar_days = true;
 
 const renderWithContext = (incident = parentIncident, users = usersFixture.results) =>
   withAppContext(
@@ -60,6 +72,9 @@ describe('MetaList', () => {
     string2date.mockImplementation(() => '21-07-1970');
     string2time.mockImplementation(() => '11:56');
     jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
+      .mockImplementation(() => subcategoriesGroupedByCategories);
   });
 
   afterEach(() => {
@@ -73,18 +88,17 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
+      expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
 
       expect(queryByText('Urgentie')).toBeInTheDocument();
       expect(queryByText('Normaal')).toBeInTheDocument();
 
-      expect(queryByText('Subcategorie (verantwoordelijke afdeling)')).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
       expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
-
-      expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
-      expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
 
       expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
       expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
@@ -98,13 +112,15 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
+      expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
 
       expect(queryByText('Urgentie')).toBeInTheDocument();
       expect(queryByText('Normaal')).toBeInTheDocument();
 
-      expect(queryByText('Subcategorie (verantwoordelijke afdeling)')).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
       expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 
@@ -126,7 +142,6 @@ describe('MetaList', () => {
       expect(queryByText('Urgentie')).toBeInTheDocument();
       expect(queryByText('Normaal')).toBeInTheDocument();
 
-      expect(queryByText('Subcategorie (verantwoordelijke afdeling)')).toBeInTheDocument();
       expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
       expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 
@@ -149,14 +164,31 @@ describe('MetaList', () => {
     expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
   });
 
+  it('should render days and workdays in single and plural form', () => {
+    const { queryByTestId, rerender } = render(renderWithContext(plainIncident));
+
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'beplanting' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 werkdag$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'bewegwijzering' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
+
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'parkeer-verwijssysteem' } }));
+    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 dagen$/);
+  });
+
   it('should call edit', () => {
     const { queryByTestId } = render(renderWithContext());
 
     expect(edit).not.toHaveBeenCalled();
 
-    act(() => {
-      fireEvent.click(queryByTestId('editStatusButton'));
-    });
+    fireEvent.click(queryByTestId('editStatusButton'));
 
     expect(edit).toHaveBeenCalled();
   });
@@ -171,17 +203,13 @@ describe('MetaList', () => {
     const submitTestId = 'submitPriorityButton';
     const editButtons = getAllByTestId(editTestId);
 
-    act(() => {
-      fireEvent.click(editButtons[0]);
-    });
+    fireEvent.click(editButtons[0]);
 
     const submitButtons = getAllByTestId(submitTestId);
 
     expect(update).not.toHaveBeenCalled();
 
-    act(() => {
-      fireEvent.click(submitButtons[0]);
-    });
+    fireEvent.click(submitButtons[0]);
 
     expect(update).toHaveBeenCalledWith({
       patch: {
@@ -190,6 +218,25 @@ describe('MetaList', () => {
         },
       },
       type: 'priority',
+    });
+  });
+
+  describe('subcategory', () => {
+    const subcategoryLabel = 'Subcategorie (verantwoordelijke afdeling)';
+    const selectedSubcategory = `${parentIncident.category.sub} (${departmentAegCode}, ${departmentAscCode})`;
+
+    it('should be visible', () => {
+      render(renderWithContext());
+      expect(screen.getByText(subcategoryLabel)).toBeInTheDocument();
+      expect(screen.getByText(selectedSubcategory)).toBeInTheDocument();
+    });
+
+    it('should not be visible without subcategories available', () => {
+      jest.spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories').mockImplementation(() => []);
+      render(renderWithContext());
+
+      expect(screen.queryByText(subcategoryLabel)).not.toBeInTheDocument();
+      expect(screen.queryByText(selectedSubcategory)).not.toBeInTheDocument();
     });
   });
 
@@ -202,7 +249,7 @@ describe('MetaList', () => {
     });
 
     it('should show assigned user with assignSignalToEmployee enabled', () => {
-      configuration.assignSignalToEmployee = true;
+      configuration.featureFlags.assignSignalToEmployee = true;
 
       const { queryByText, queryByTestId } = render(renderWithContext());
 
@@ -212,7 +259,7 @@ describe('MetaList', () => {
     });
 
     it('should not show assigned user when users not defined', () => {
-      configuration.assignSignalToEmployee = true;
+      configuration.featureFlags.assignSignalToEmployee = true;
 
       const { queryByTestId } = render(renderWithContext(incidentFixture, null));
 
@@ -222,7 +269,7 @@ describe('MetaList', () => {
 
     describe('username', () => {
       it('should be visible', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -245,7 +292,7 @@ describe('MetaList', () => {
       });
 
       it('should be visible even if in another department', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -268,7 +315,7 @@ describe('MetaList', () => {
       });
 
       it('should be visible even if not in a department', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -291,7 +338,7 @@ describe('MetaList', () => {
       });
 
       it('should be visible even if it has no departments defined', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -314,7 +361,7 @@ describe('MetaList', () => {
       });
 
       it('should be visible even if the category has no departments defined', () => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
 
         const { queryByText } = render(
           renderWithContext({
@@ -338,7 +385,7 @@ describe('MetaList', () => {
 
     describe('available users', () => {
       beforeEach(() => {
-        configuration.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true;
       });
 
       it('should be based on departments related to category', () => {
@@ -353,9 +400,7 @@ describe('MetaList', () => {
         );
         const editButton = getByTestId('editAssigned_user_idButton');
 
-        act(() => {
-          fireEvent.click(editButton);
-        });
+        fireEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(4);
         expect(queryByText(userEmptyName)).not.toBeInTheDocument();
@@ -378,9 +423,7 @@ describe('MetaList', () => {
         );
         const editButton = getByTestId('editAssigned_user_idButton');
 
-        act(() => {
-          fireEvent.click(editButton);
-        });
+        fireEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(3);
         expect(queryByText(userEmptyName)).not.toBeInTheDocument();
@@ -403,9 +446,7 @@ describe('MetaList', () => {
         );
         const editButton = getByTestId('editAssigned_user_idButton');
 
-        act(() => {
-          fireEvent.click(editButton);
-        });
+        fireEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(3);
         expect(queryByText(userEmptyName)).not.toBeInTheDocument();
@@ -428,9 +469,7 @@ describe('MetaList', () => {
         );
         const editButton = getByTestId('editAssigned_user_idButton');
 
-        act(() => {
-          fireEvent.click(editButton);
-        });
+        fireEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(1);
         expect(queryByText(userEmptyName)).not.toBeInTheDocument();
@@ -454,9 +493,7 @@ describe('MetaList', () => {
         );
         const editButton = getByTestId('editAssigned_user_idButton');
 
-        act(() => {
-          fireEvent.click(editButton);
-        });
+        fireEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(1);
         expect(queryByText(userEmptyName)).not.toBeInTheDocument();
@@ -480,9 +517,7 @@ describe('MetaList', () => {
         );
         const editButton = getByTestId('editAssigned_user_idButton');
 
-        act(() => {
-          fireEvent.click(editButton);
-        });
+        fireEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(1);
         expect(queryByText(userEmptyName)).not.toBeInTheDocument();
@@ -501,24 +536,17 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
+            routing_departments: [
               {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    code: departmentThoCode,
-                    name: departmentThoName,
-                  },
-                ],
+                code: departmentThoCode,
+                name: departmentThoName,
               },
             ],
           })
         );
         const editButton = getByTestId('editAssigned_user_idButton');
 
-        act(() => {
-          fireEvent.click(editButton);
-        });
+        fireEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
         expect(queryByText(userEmptyName)).not.toBeInTheDocument();
@@ -529,7 +557,7 @@ describe('MetaList', () => {
         expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
 
-      it('should work while other routing relation types are present', () => {
+      it('should fallback to departments related to category when no routing departments present', () => {
         const { container, getByTestId, queryByText } = render(
           renderWithContext({
             ...incidentFixture,
@@ -537,69 +565,12 @@ describe('MetaList', () => {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
             },
-            signal_departments: [
-              {
-                relation_type: 'directing',
-                departments: [
-                  {
-                    code: departmentAscCode,
-                    name: departmentAscName,
-                  },
-                ],
-              },
-              {
-                relation_type: 'routing',
-                departments: [
-                  {
-                    code: departmentThoCode,
-                    name: departmentThoName,
-                  },
-                ],
-              },
-            ],
+            routing_departments: [],
           })
         );
         const editButton = getByTestId('editAssigned_user_idButton');
 
-        act(() => {
-          fireEvent.click(editButton);
-        });
-
-        expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
-      });
-
-      it('should fallback to departments related to category when no routing relation type present', () => {
-        const { container, getByTestId, queryByText } = render(
-          renderWithContext({
-            ...incidentFixture,
-            category: {
-              ...incidentFixture.category,
-              departments: `${departmentAscCode}, ${departmentAegCode}`,
-            },
-            signal_departments: [
-              {
-                relation_type: 'directing',
-                departments: [
-                  {
-                    code: departmentThoCode,
-                    name: departmentThoName,
-                  },
-                ],
-              },
-            ],
-          })
-        );
-        const editButton = getByTestId('editAssigned_user_idButton');
-
-        act(() => {
-          fireEvent.click(editButton);
-        });
+        fireEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(4);
         expect(queryByText(userEmptyName)).not.toBeInTheDocument();
@@ -610,65 +581,459 @@ describe('MetaList', () => {
         expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
     });
+  });
 
-    describe('update directing departmens', () => {
-      it('should update for directing department to ASC', async () => {
-        jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
-        jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
-        const { getAllByTestId, getByTestId } = render(renderWithContext(parentIncident));
+  describe('assign department', () => {
+    const departmentLabel = 'Afdeling';
+    const notFound = 'Niet gevonden';
+    const notLinked = 'Niet gekoppeld';
 
-        // priority button data-testid attribute is dynamically generated in the ChangeValue component:
-        const editTestId = 'editDirecting_departmentsButton';
-        const submitTestId = 'submitDirecting_departmentsButton';
-        const editButtons = getAllByTestId(editTestId);
+    it('should not show assigned department by default', () => {
+      render(renderWithContext());
 
-        const { id } = departments.list.find(d => d.code === 'ASC');
+      expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument();
+    });
 
-        fireEvent.click(editButtons[0]);
+    it('should not show assigned department without departments defined', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ count: 0, list: [] }));
+      render(renderWithContext());
 
-        fireEvent.click(getByTestId('input-ASC'));
+      expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument();
+    });
 
-        const submitButtons = getAllByTestId(submitTestId);
+    it('should not show assigned department without departments result set', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => null);
+      render(renderWithContext());
 
-        expect(update).not.toHaveBeenCalled();
+      expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument();
+    });
 
-        fireEvent.click(submitButtons[0]);
-
-        expect(update).toHaveBeenCalledWith({
-          patch: {
-            directing_departments: [{ id }],
+    it('should not show assigned department if given category departments are not defined', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          category: {
+            ...incidentFixture.category,
+            departments: 'UNDE, FINED',
           },
-          type: 'directing_departments',
-        });
+        })
+      );
+
+      expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument();
+    });
+
+    it('should not show assigned department without any category department', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          category: {
+            ...incidentFixture.category,
+            departments: '',
+          },
+        })
+      );
+
+      expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument();
+    });
+
+    it('should not show assigned department without any category', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          category: null,
+        })
+      );
+
+      expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument();
+    });
+
+    it('should not show assigned department with only one category department', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          category: {
+            ...incidentFixture.category,
+            departments: departmentAscCode,
+          },
+        })
+      );
+
+      expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument();
+    });
+
+    it('should show assigned department with more than one category department and assignSignalToDepartment enabled', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          category: {
+            ...incidentFixture.category,
+            departments: `${departmentAscCode}, ${departmentAegCode}`,
+          },
+        })
+      );
+
+      expect(screen.getByText(departmentLabel)).toBeInTheDocument();
+    });
+
+    describe('department name', () => {
+      beforeEach(() => {
+        configuration.featureFlags.assignSignalToDepartment = true;
       });
 
-      it('should update for directing department to directing department', async () => {
-        jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
-        jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
-        const { getAllByTestId, getByTestId } = render(
-          renderWithContext({ ...parentIncident, directing_departments: [{ id: departments.list[0].id }] })
+      it('should be visible', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}, ${departmentAegCode}`,
+            },
+            routing_departments: [
+              {
+                id: departmentAscId,
+                code: departmentAscCode,
+                name: departmentAscName,
+              },
+            ],
+          })
         );
 
-        // priority button data-testid attribute is dynamically generated in the ChangeValue component:
-        const editTestId = 'editDirecting_departmentsButton';
-        const submitTestId = 'submitDirecting_departmentsButton';
-        const editButtons = getAllByTestId(editTestId);
+        expect(screen.queryByText(notFound)).not.toBeInTheDocument();
+        expect(screen.queryByText(notLinked)).not.toBeInTheDocument();
+        expect(screen.getByText(departmentAscName)).toBeInTheDocument();
+        expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
+      });
 
-        fireEvent.click(editButtons[0]);
-        fireEvent.click(getByTestId('input-null'));
+      it('should indicate when not in category', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}, ${departmentAegCode}`,
+            },
+            routing_departments: [
+              {
+                id: departmentThoId,
+                code: departmentThoCode,
+                name: departmentThoName,
+              },
+            ],
+          })
+        );
 
-        const submitButtons = getAllByTestId(submitTestId);
+        expect(screen.getByText(departmentLabel)).toBeInTheDocument();
+        expect(screen.getByText(notFound)).toBeInTheDocument();
+        expect(screen.queryByText(notLinked)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
+      });
 
-        expect(update).not.toHaveBeenCalled();
+      it('should indicate when not linked yet', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}, ${departmentAegCode}`,
+            },
+            routing_departments: [],
+          })
+        );
 
-        fireEvent.click(submitButtons[0]);
+        expect(screen.queryByText(notFound)).not.toBeInTheDocument();
+        expect(screen.getByText(notLinked)).toBeInTheDocument();
+        expect(screen.queryByText(departmentAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
+      });
 
-        expect(update).toHaveBeenCalledWith({
-          patch: {
-            directing_departments: [],
+      it('should indicate not linked without signal departments', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}, ${departmentAegCode}`,
+            },
+            routing_departments: null,
+          })
+        );
+
+        expect(screen.queryByText(notFound)).not.toBeInTheDocument();
+        expect(screen.getByText(notLinked)).toBeInTheDocument();
+        expect(screen.queryByText(departmentAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
+      });
+    });
+
+    describe('available departments', () => {
+      beforeEach(() => {
+        configuration.featureFlags.assignSignalToDepartment = true;
+      });
+
+      it('should be based on departments related to category', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}, ${departmentAegCode}`,
+            },
+            routing_departments: [
+              {
+                id: departmentAscId,
+                code: departmentAscCode,
+                name: departmentAscName,
+              },
+            ],
+          })
+        );
+
+        fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
+
+        expect(document.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
+        expect(screen.queryByText(notLinked)).not.toBeInTheDocument();
+        expect(screen.getAllByText(departmentAscName).length).toBe(2);
+        expect(screen.getByText(departmentAegName)).toBeInTheDocument();
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
+      });
+
+      it('should have the extra option not linked if that is the case', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}, ${departmentAegCode}`,
+            },
+            routing_departments: [],
+          })
+        );
+
+        fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
+
+        expect(document.querySelectorAll('select[data-testid="input"] option').length).toBe(3);
+        expect(screen.getAllByText(notLinked).length).toBe(2);
+        expect(screen.getByText(departmentAscName)).toBeInTheDocument();
+        expect(screen.getByText(departmentAegName)).toBeInTheDocument();
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
+      });
+
+      it('should not be affected if a different department selected', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}, ${departmentAegCode}`,
+            },
+            routing_departments: [
+              {
+                id: departmentThoId,
+                code: departmentThoCode,
+                name: departmentThoName,
+              },
+            ],
+          })
+        );
+
+        fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
+
+        expect(document.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
+        expect(screen.queryByText(notLinked)).not.toBeInTheDocument();
+        expect(screen.getAllByText(departmentAscName).length).toBe(2);
+        expect(screen.getByText(departmentAegName)).toBeInTheDocument();
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument();
+      });
+    });
+
+    it('should update connected department', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          category: {
+            ...incidentFixture.category,
+            departments: `${departmentAscCode}, ${departmentAegCode}`,
           },
-          type: 'directing_departments',
-        });
+          routing_departments: [
+            {
+              id: departmentAscId,
+              code: departmentAscCode,
+              name: departmentAscName,
+            },
+          ],
+        })
+      );
+
+      fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
+      fireEvent.click(screen.getByTestId('submitRouting_departmentsButton'));
+
+      expect(update).toHaveBeenCalledWith({
+        patch: {
+          routing_departments: [
+            {
+              id: departmentAscId,
+            },
+          ],
+        },
+        type: 'routing_departments',
+      });
+    });
+
+    it('should update not connected department', () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          category: {
+            ...incidentFixture.category,
+            departments: `${departmentAscCode}, ${departmentAegCode}`,
+          },
+          routing_departments: [],
+        })
+      );
+
+      fireEvent.click(screen.getByTestId('editRouting_departmentsButton'));
+      fireEvent.click(screen.getByTestId('submitRouting_departmentsButton'));
+
+      expect(update).toHaveBeenCalledWith({
+        patch: {
+          routing_departments: [],
+        },
+        type: 'routing_departments',
+      });
+    });
+  });
+
+  describe('update directing departmens', () => {
+    it('should update for directing department to ASC', async () => {
+      jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
+      jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
+      const { getAllByTestId, getByTestId } = render(renderWithContext(parentIncident));
+
+      // priority button data-testid attribute is dynamically generated in the ChangeValue component:
+      const editTestId = 'editDirecting_departmentsButton';
+      const submitTestId = 'submitDirecting_departmentsButton';
+      const editButtons = getAllByTestId(editTestId);
+
+      const { id } = departments.list.find(department => department.code === 'ASC');
+
+      fireEvent.click(editButtons[0]);
+
+      fireEvent.click(getByTestId('input-ASC'));
+
+      const submitButtons = getAllByTestId(submitTestId);
+
+      expect(update).not.toHaveBeenCalled();
+
+      fireEvent.click(submitButtons[0]);
+
+      expect(update).toHaveBeenCalledWith({
+        patch: {
+          directing_departments: [{ id }],
+        },
+        type: 'directing_departments',
+      });
+    });
+
+    it('should update for directing department to directing department', async () => {
+      jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
+      jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
+      const { getAllByTestId, getByTestId } = render(
+        renderWithContext({
+          ...parentIncident,
+          directing_departments: [{ id: departments.list[0].id, code: departments.list[0].code }],
+        })
+      );
+
+      // priority button data-testid attribute is dynamically generated in the ChangeValue component:
+      const editTestId = 'editDirecting_departmentsButton';
+      const submitTestId = 'submitDirecting_departmentsButton';
+      const editButtons = getAllByTestId(editTestId);
+
+      fireEvent.click(editButtons[0]);
+      fireEvent.click(getByTestId('input-null'));
+
+      const submitButtons = getAllByTestId(submitTestId);
+
+      expect(update).not.toHaveBeenCalled();
+
+      fireEvent.click(submitButtons[0]);
+
+      expect(update).toHaveBeenCalledWith({
+        patch: {
+          directing_departments: [],
+        },
+        type: 'directing_departments',
+      });
+    });
+
+    it('should update for directing department to empty if code unknown', async () => {
+      jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => null);
+      const { getAllByTestId } = render(
+        renderWithContext({
+          ...parentIncident,
+          directing_departments: [{ id: departments.list[0].id, code: 'unknown' }],
+        })
+      );
+
+      // priority button data-testid attribute is dynamically generated in the ChangeValue component:
+      const editTestId = 'editDirecting_departmentsButton';
+      const submitTestId = 'submitDirecting_departmentsButton';
+      const editButtons = getAllByTestId(editTestId);
+
+      fireEvent.click(editButtons[0]);
+
+      const submitButtons = getAllByTestId(submitTestId);
+
+      expect(update).not.toHaveBeenCalled();
+
+      fireEvent.click(submitButtons[0]);
+
+      expect(update).toHaveBeenCalledWith({
+        patch: {
+          directing_departments: [],
+        },
+        type: 'directing_departments',
+      });
+    });
+
+    it('should update for directing department to empty if no departments defined', async () => {
+      jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => null);
+      const { getAllByTestId, getByTestId } = render(renderWithContext(parentIncident));
+
+      // priority button data-testid attribute is dynamically generated in the ChangeValue component:
+      const editTestId = 'editDirecting_departmentsButton';
+      const submitTestId = 'submitDirecting_departmentsButton';
+      const editButtons = getAllByTestId(editTestId);
+
+      fireEvent.click(editButtons[0]);
+
+      fireEvent.click(getByTestId('input-ASC'));
+
+      const submitButtons = getAllByTestId(submitTestId);
+
+      expect(update).not.toHaveBeenCalled();
+
+      fireEvent.click(submitButtons[0]);
+
+      expect(update).toHaveBeenCalledWith({
+        patch: {
+          directing_departments: [],
+        },
+        type: 'directing_departments',
       });
     });
   });

@@ -4,7 +4,7 @@ import { withAppContext } from 'test/utils';
 
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json';
 import { INPUT_DELAY } from 'components/AutoSuggest';
-import { formatPDOKResponse } from 'shared/services/map-location';
+import { formatPDOKResponse, pdokResponseFieldList } from 'shared/services/map-location';
 import PDOKAutoSuggest, { formatResponseFunc } from '..';
 
 const mockResponse = JSON.stringify(JSONResponse);
@@ -12,7 +12,6 @@ const mockResponse = JSON.stringify(JSONResponse);
 const onSelect = jest.fn();
 const municipalityQs = 'fq=gemeentenaam:';
 const fieldListQs = 'fl=';
-const defaultFieldsQs = 'id,weergavenaam';
 
 const renderAndSearch = async (value = 'Dam', props = {}) => {
   const result = render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} {...props} />));
@@ -80,7 +79,7 @@ describe('components/PDOKAutoSuggest', () => {
     it('should call fetch with municipality', async () => {
       await renderAndSearch('Dam', { municipality: 'amsterdam' });
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${municipalityQs}"amsterdam"`),
+        expect.stringContaining(`${municipalityQs}("amsterdam")`),
         expect.objectContaining({ method: 'GET' })
       );
     });
@@ -88,7 +87,7 @@ describe('components/PDOKAutoSuggest', () => {
     it('should work with an array for municipality', async () => {
       await renderAndSearch('Dam', { municipality: ['utrecht', 'amsterdam'] });
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${municipalityQs}"utrecht" "amsterdam"`),
+        expect.stringContaining(`${municipalityQs}("utrecht" "amsterdam")`),
         expect.objectContaining({ method: 'GET' })
       );
     });
@@ -98,7 +97,7 @@ describe('components/PDOKAutoSuggest', () => {
     it('should call fetch with default field list', async () => {
       await renderAndSearch();
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${fieldListQs}${defaultFieldsQs}`),
+        expect.stringContaining(`${fieldListQs}${pdokResponseFieldList}`),
         expect.objectContaining({ method: 'GET' })
       );
     });
@@ -106,7 +105,7 @@ describe('components/PDOKAutoSuggest', () => {
     it('should call fetch with extra fields', async () => {
       await renderAndSearch('Dam', { fieldList: ['name', 'type'] });
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${fieldListQs}name,type,${defaultFieldsQs}`),
+        expect.stringContaining(`${fieldListQs}${pdokResponseFieldList},name,type`),
         expect.objectContaining({ method: 'GET' })
       );
     });

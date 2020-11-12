@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { Button, themeSpacing, themeColor } from '@datapunt/asc-ui';
-import { ChevronRight, ChevronLeft } from '@datapunt/asc-assets';
+import { Button, themeSpacing, themeColor } from '@amsterdam/asc-ui';
+import { ChevronRight, ChevronLeft } from '@amsterdam/asc-assets';
 import { attachmentsType } from 'shared/types';
 
 const IconButton = styled(Button).attrs({

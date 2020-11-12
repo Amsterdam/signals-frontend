@@ -7,7 +7,7 @@ import Modal from '..';
 describe('components/Modal', () => {
   it('should have a heading', () => {
     const { container } = render(
-      withAppContext(<Modal isOpen title="Modal" />),
+      withAppContext(<Modal isOpen title="Modal" />)
     );
 
     expect(container.querySelector('h2')).not.toBeNull();
@@ -16,12 +16,12 @@ describe('components/Modal', () => {
   it('should call onClose', () => {
     const onClose = jest.fn();
     const { getByTestId } = render(
-      withAppContext(<Modal isOpen onClose={onClose} title="Modal" />),
+      withAppContext(<Modal isOpen onClose={onClose} title="Modal" />)
     );
 
     fireEvent(
       getByTestId('closeBtn'),
-      new MouseEvent('click', { bubbles: true }),
+      new MouseEvent('click', { bubbles: true })
     );
 
     expect(onClose).toHaveBeenCalled();
@@ -29,7 +29,7 @@ describe('components/Modal', () => {
 
   it('should have scroll data attribute on modal inner element', () => {
     const { container } = render(
-      withAppContext(<Modal isOpen title="Modal" />),
+      withAppContext(<Modal isOpen title="Modal" />)
     );
 
     expect(container.querySelector('[data-scroll-lock-scrollable]')).toBeTruthy();

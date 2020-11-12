@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { RadioGroup, Label as AscLabel, themeSpacing } from '@datapunt/asc-ui';
+import { RadioGroup, Label as AscLabel, themeSpacing } from '@amsterdam/asc-ui';
 
 import InfoText from 'components/InfoText';
 import Radio from 'components/RadioButton';

@@ -59,9 +59,11 @@ Cypress.Commands.add('defineMapRoutes', () => {
 
 // Routes loading signal details
 Cypress.Commands.add('getSignalDetailsRoutesById', () => {
-  cy.route(`/signals/v1/private/signals/${Cypress.env('signalId')}`).as('getSignal');
-  cy.route(`/signals/v1/private/signals/${Cypress.env('signalId')}/history`).as('getHistory');
-  cy.route(`/signals/v1/private/signals/${Cypress.env('signalId')}/attachments`).as('getAttachments');
+  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+    cy.route(`/signals/v1/private/signals/${json.signalId}`).as('getSignal');
+    cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
+    cy.route(`/signals/v1/private/signals/${json.signalId}/attachments`).as('getAttachments');
+  });
   cy.route('/maps/topografie?bbox=*').as('getMap');
   cy.route('/signals/v1/private/terms/categories/**').as('getTerms');
 });

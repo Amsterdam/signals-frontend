@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Row, Column, Heading, Paragraph } from '@datapunt/asc-ui';
+import { Row, Column, Heading, Paragraph } from '@amsterdam/asc-ui';
 
 import {
   makeSelectStructuredCategories,

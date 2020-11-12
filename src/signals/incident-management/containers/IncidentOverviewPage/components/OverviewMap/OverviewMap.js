@@ -6,7 +6,7 @@ import isEqual from 'lodash.isequal';
 import format from 'date-fns/format';
 import subDays from 'date-fns/addDays';
 import L from 'leaflet';
-import { ViewerContainer, themeColor, themeSpacing } from '@datapunt/asc-ui';
+import { ViewerContainer, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import MapContext from 'containers/MapContext/context';
 import { setAddressAction } from 'containers/MapContext/actions';
@@ -107,10 +107,10 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
     () => ({
       ...filterParams,
       // fixed query period (24 hours, with featuere flag mapFilter24Hours enabled)
-      created_after: configuration.mapFilter24Hours
+      created_after: configuration.featureFlags.mapFilter24Hours
         ? format(subDays(new Date(), -1), "yyyy-MM-dd'T'HH:mm:ss")
         : filterParams.created_after,
-      created_before: configuration.mapFilter24Hours
+      created_before: configuration.featureFlags.mapFilter24Hours
         ? format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")
         : filterParams.created_before,
       // fixed page size (default is 50; 4000 is 2.5 times the highest daily average)

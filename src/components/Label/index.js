@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { themeSpacing, themeColor } from '@datapunt/asc-ui';
+import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
 const LabelWrapper = styled.div`
   ${({ isGroupHeader }) => !isGroupHeader &&
@@ -52,7 +52,7 @@ Label.propTypes = {
 
     if ((!as || as === 'label') && !value) {
       return new TypeError(
-        `Failed prop type: The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${value}\`.`,
+        `Failed prop type: The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${value}\`.`
       );
     }
 

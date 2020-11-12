@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
-import { themeSpacing, ErrorMessage } from '@datapunt/asc-ui';
+import { themeSpacing, ErrorMessage } from '@amsterdam/asc-ui';
 
 import Button from 'components/Button';
 import TextArea from 'components/TextArea';

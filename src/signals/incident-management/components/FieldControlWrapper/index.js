@@ -73,14 +73,12 @@ class FieldControlWrapper extends React.Component {
 }
 
 FieldControlWrapper.defaultProps = {
-  emptyOptionText: '',
   values: [],
 };
 
 FieldControlWrapper.propTypes = {
   /** Element containing the value of the current field */
   control: PropTypes.instanceOf(FormControl).isRequired,
-  emptyOptionText: PropTypes.string,
   /** Object containing custom data or handlers */
   meta: PropTypes.shape({}),
   /** Name of the form element */

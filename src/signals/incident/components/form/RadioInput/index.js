@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Label } from '@datapunt/asc-ui';
+import { Label } from '@amsterdam/asc-ui';
 
 import Radio from 'components/RadioButton';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Heading, Link as AscLink, themeSpacing, themeColor } from '@datapunt/asc-ui';
+import { Heading, Link as AscLink, themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
 import { incidentType } from 'shared/types';
 import { isAuthenticated } from 'shared/services/auth/auth';

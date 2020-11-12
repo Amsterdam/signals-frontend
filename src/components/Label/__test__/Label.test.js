@@ -12,8 +12,8 @@ describe('signals/incident-management/components/Label', () => {
         <div>
           <Label htmlFor="someOtherElementId">This is my label text</Label>
           <input type="text" id="someOtherElementId" />
-        </div>,
-      ),
+        </div>
+      )
     );
 
     expect(container.querySelectorAll('label')).toHaveLength(1);
@@ -28,8 +28,8 @@ describe('signals/incident-management/components/Label', () => {
         <div>
           <Label>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
-        </div>,
-      ),
+        </div>
+      )
     );
 
     expect(global.console.error).toHaveBeenCalled();
@@ -41,8 +41,8 @@ describe('signals/incident-management/components/Label', () => {
         <div>
           <Label as="span">This is my label text</Label>
           <input type="text" id="someOtherElementId" />
-        </div>,
-      ),
+        </div>
+      )
     );
 
     expect(global.console.error).not.toHaveBeenCalled();
@@ -57,8 +57,8 @@ describe('signals/incident-management/components/Label', () => {
         <div>
           <Label htmlFor="someOtherElementId" isGroupHeader>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
-        </div>,
-      ),
+        </div>
+      )
     );
 
     expect(container.querySelector('label')).not.toHaveStyleRule('color', 'inherit');
@@ -68,8 +68,8 @@ describe('signals/incident-management/components/Label', () => {
         <div>
           <Label htmlFor="someOtherElementId" isGroupHeader={false}>This is my label text</Label>
           <input type="text" id="someOtherElementId" />
-        </div>,
-      ),
+        </div>
+      )
     );
 
     expect(container.querySelector('label')).toHaveStyleRule('color', 'inherit');

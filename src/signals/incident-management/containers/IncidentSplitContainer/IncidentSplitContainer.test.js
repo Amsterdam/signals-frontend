@@ -1,12 +1,13 @@
 import React from 'react';
-import { render as reactRender, fireEvent } from '@testing-library/react';
+import { render as reactRender, fireEvent, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
 
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import { directingDepartments, subcategoriesWithUniqueKeys as subcategories } from 'utils/__tests__/fixtures';
+import { directingDepartments, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
 
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json';
 import * as departmentsSelectors from 'models/departments/selectors';
@@ -18,7 +19,7 @@ import { withAppContext } from 'test/utils';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
-import * as modelSelectors from 'models/categories/selectors';
+import * as categoriesSelectors from 'models/categories/selectors';
 
 import IncidentSplitContainer from '.';
 
@@ -77,6 +78,7 @@ const submittedFormData = {
       type: 'COM',
     },
   ],
+  noteText: 'Nieuwe notitie',
 };
 
 const id = 999;
@@ -112,7 +114,9 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     push.mockReset();
     fetch.resetMocks();
 
-    jest.spyOn(modelSelectors, 'makeSelectSubCategories').mockImplementation(() => subcategories);
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
+      .mockImplementation(() => subcategoriesGroupedByCategories);
     jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => departments);
     jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
 
@@ -239,12 +243,68 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     });
   });
 
+  it('should PATCH the parent incident data', async () => {
+    fetch.resetMocks();
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }], // post
+      [JSON.stringify({}), { status: 200 }] // patch
+    );
+    reactRender(withAppContext(<IncidentSplitContainer FormComponent={Form()} />));
+    const submitButton = await screen.findByRole('button', { name: 'Submit' });
+
+    userEvent.click(submitButton);
+
+    // trigger extra render where PATCH effect is triggered
+    await screen.findByTestId('incidentSplitContainer');
+
+    expect(fetch).toHaveBeenLastCalledWith(
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
+      expect.objectContaining({
+        method: 'PATCH',
+        body: JSON.stringify({
+          directing_departments: [
+            { id: departmentsFixture.results.find(department => department.code === submittedFormData.department).id },
+          ],
+          notes: [{ text: submittedFormData.noteText }],
+        }),
+      })
+    );
+  });
+
+  it('should not PATCH the parent incident data when this data has not been updated', async () => {
+    fetch.resetMocks();
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }] // post
+    );
+    reactRender(
+      withAppContext(
+        <IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: 'null', noteText: '' })} />
+      )
+    );
+
+    const submitButton = await screen.findByRole('button', { name: 'Submit' });
+    userEvent.click(submitButton);
+
+    // trigger extra render where PATCH effect is triggered
+    await screen.findByTestId('incidentSplitContainer');
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).not.toHaveBeenCalledWith(
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
+      expect.objectContaining({
+        method: 'PATCH',
+      })
+    );
+  });
+
   it('should display a global notification on success', async () => {
     fetch.resetMocks();
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }], // get
       [JSON.stringify({}), { status: 201 }], // post
-      [JSON.stringify({}), { status: 201 }] // patch
+      [JSON.stringify({}), { status: 200 }] // patch
     );
     const { container, findByTestId } = await renderAwait(
       <IncidentSplitContainer FormComponent={Form({ ...submittedFormData, department: null })} />
@@ -259,7 +319,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De melding is succesvol gedeeld',
+        title: 'Deelmelding gemaakt',
         variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })
@@ -285,7 +345,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De melding kon niet gedeeld worden',
+        title: 'De deelmelding kon niet gemaakt worden',
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })
@@ -316,7 +376,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({
-        title: 'De melding is succesvol gedeeld',
+        title: 'Deelmelding gemaakt',
         variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })

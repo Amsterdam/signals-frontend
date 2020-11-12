@@ -36,10 +36,10 @@ describe('IncidentSplitSelectInput', () => {
 
     const descriptionTextRegex = new RegExp(description);
 
-    fireEvent.change(getByTestId('incidentSelectInput-subcategory'), { target: { value: emptyDescriptionKey } });
+    fireEvent.change(getByTestId('subcategory'), { target: { value: emptyDescriptionKey } });
     expect(queryByText(descriptionTextRegex)).not.toBeInTheDocument();
 
-    fireEvent.change(getByTestId('incidentSelectInput-subcategory'), { target: { value: key } });
+    fireEvent.change(getByTestId('subcategory'), { target: { value: key } });
     expect(await findByText(descriptionTextRegex)).toBeInTheDocument();
   });
 });

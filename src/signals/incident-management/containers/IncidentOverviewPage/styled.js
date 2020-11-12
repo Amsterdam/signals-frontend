@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Column, themeSpacing, Paragraph, themeColor } from '@datapunt/asc-ui';
+import { Column, themeSpacing, Paragraph, themeColor } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 import Pagination from 'components/Pagination';
 

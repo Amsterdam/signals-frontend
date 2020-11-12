@@ -5,8 +5,8 @@ import FormFooter from 'components/FormFooter';
 
 import MapContext from 'containers/MapContext/context';
 import { FormControl } from 'react-reactive-form';
-import FieldControlWrapper from '../../../../../../components/FieldControlWrapper';
-import MapInput from '../../../../../../components/MapInput';
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
+import MapInput from 'signals/incident-management/components/MapInput';
 
 const LocationInput = ({ onQueryResult, locationControl, onClose, handleSubmit }) => {
   const {

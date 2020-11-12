@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { themeColor, themeSpacing, Icon } from '@datapunt/asc-ui';
+import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 
 const FileInputStyle = styled.div`

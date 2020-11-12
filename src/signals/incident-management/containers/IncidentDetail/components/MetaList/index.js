@@ -1,20 +1,17 @@
-import React, { useCallback, useContext, useMemo } from 'react';
-import styled from 'styled-components';
+import React, { Fragment, useCallback, useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, themeColor, themeSpacing } from '@datapunt/asc-ui';
-import get from 'lodash.get';
+import styled from 'styled-components';
+import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
-import { makeSelectSubCategories } from 'models/categories/selectors';
-import { typesList, priorityList } from 'signals/incident-management/definitions';
-
-import RadioInput from 'signals/incident-management/components/RadioInput';
-import SelectInput from 'signals/incident-management/components/SelectInput';
-
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
-import ChangeValue from '../ChangeValue';
+import RadioInput from 'signals/incident-management/components/RadioInput';
+import SelectInput from 'signals/incident-management/components/SelectInput';
+import { typesList, priorityList } from 'signals/incident-management/definitions';
 
+import ChangeValue from '../ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../context';
@@ -49,54 +46,68 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
+
+const getDayString = (days, isCalendarDays) => {
+  const dayString = days === 1 ? 'dag' : 'dagen';
+  return isCalendarDays ? dayString : `werk${dayString}`;
+};
+
+const getHandlingTime = (days, isCalendarDays) => {
+  if (days === undefined) return undefined;
+  return `${days} ${getDayString(days, isCalendarDays)}`;
+};
+
 const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
-  const incidentDepartmentNames = useMemo(() => {
-    if (!configuration.assignSignalToEmployee) return [];
+  const routingDepartments = useMemo(
+    () =>
+      (configuration.featureFlags.assignSignalToEmployee || configuration.featureFlags.assignSignalToDepartment) &&
+      incident.routing_departments?.length &&
+      incident.routing_departments,
+    [incident]
+  );
 
-    const routingRelation = incident.signal_departments?.find(relation => relation.relation_type === 'routing');
-    const routingDepartmentNames =
-      routingRelation?.departments?.length && routingRelation.departments.map(department => department.name);
-
-    const categoryDepartmentNames =
-      !routingDepartmentNames &&
+  const categoryDepartments = useMemo(
+    () =>
       departments?.list &&
       (incident.category?.departments || '')
         .split(',')
         .map(code => code.trim())
-        .map(code => departments.list.find(department => department.code === code)?.name)
-        .filter(Boolean);
+        .map(code => departments.list.find(department => department.code === code))
+        .filter(Boolean),
+    [departments, incident]
+  );
+
+  const incidentDepartmentNames = useMemo(() => {
+    if (!configuration.featureFlags.assignSignalToEmployee) return [];
+
+    const routingDepartmentNames = routingDepartments?.length && routingDepartments.map(department => department.name);
+
+    const categoryDepartmentNames = !routingDepartmentNames && categoryDepartments?.map(department => department.name);
 
     return routingDepartmentNames || categoryDepartmentNames || [];
-  }, [departments, incident]);
+  }, [routingDepartments, categoryDepartments]);
 
-  const subcategories = useSelector(makeSelectSubCategories);
+  const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
-  const subcategoryOptions = useMemo(
-    () =>
-      subcategories?.map(category => ({
-        ...category,
-        value: category.extendedName,
-      })),
-    [subcategories]
+  const hasChildren = useMemo(() => incident._links['sia:children']?.length > 0, [incident]);
+
+  const getDirectingDepartmentCode = useCallback(
+    value => {
+      if (!Array.isArray(value) || value.length !== 1) return 'null';
+      const { code } = value[0];
+      return directingDepartments.some(({ key }) => key === code) ? code : 'null';
+    },
+    [directingDepartments]
   );
-  const hasChildren = useMemo(() => incident?._links['sia:children']?.length > 0, [incident]);
-
-  // eslint-disable-next-line no-shadow
-  const getDirectingDepartmentValue = useCallback((incident, path) => {
-    const value = get(incident, path);
-    if (!Array.isArray(value) || value.length !== 1) return 'null';
-    const { code } = value[0];
-    return directingDepartments.find(({ key }) => key === code) ? code : 'null';
-  }, [directingDepartments]);
 
   const userOptions = useMemo(
     () =>
-      configuration.assignSignalToEmployee &&
+      configuration.featureFlags.assignSignalToEmployee &&
       users && [
         {
           key: null,
@@ -114,6 +125,40 @@ const MetaList = () => {
           })),
       ],
     [incident, incidentDepartmentNames, users]
+  );
+
+  const departmentOptions = useMemo(() => {
+    if (!configuration.featureFlags.assignSignalToDepartment) return [];
+
+    const options =
+      categoryDepartments?.length > 1 &&
+      categoryDepartments.map(department => ({
+        key: `${department.id}`,
+        value: department.name,
+      }));
+
+    return routingDepartments ? options : options && [{ key: null, value: 'Niet gekoppeld' }, ...options];
+  }, [categoryDepartments, routingDepartments]);
+
+
+  const handlingTime = useMemo(() => {
+    if (!incident?.category) return undefined;
+
+    const category = subcategoryOptions?.find(option => option.slug === incident.category.sub_slug);
+
+    if (!category) return undefined;
+
+    return getHandlingTime(category.sla.n_days, category.sla.use_calendar_days);
+  }, [incident, subcategoryOptions]);
+
+  const getDepartmentId = useCallback(
+    () => (routingDepartments ? `${routingDepartments[0].id}` : departmentOptions && departmentOptions[0].key),
+    [departmentOptions, routingDepartments]
+  );
+
+  const getDepartmentPostData = useCallback(
+    id => id ? [{ id: Number.parseInt(id, 10) }] : [],
+    []
   );
 
   const subcatHighlightDisabled = ![
@@ -141,6 +186,13 @@ const MetaList = () => {
       <dd data-testid="meta-list-date-value">
         {string2date(incident.created_at)} {string2time(incident.created_at)}
       </dd>
+
+      {handlingTime && (
+        <Fragment>
+          <dt data-testid="meta-list-handling-time-definition">Afhandeltermijn</dt>
+          <dd data-testid="meta-list-handling-time-value">{handlingTime}</dd>
+        </Fragment>
+      )}
 
       <Highlight type="status">
         <dt data-testid="meta-list-status-definition">
@@ -178,7 +230,7 @@ const MetaList = () => {
         </Highlight>
       )}
 
-      {configuration.assignSignalToEmployee && userOptions && (
+      {configuration.featureFlags.assignSignalToEmployee && userOptions && (
         <Highlight type="assigned_user_id">
           <ChangeValue
             component={SelectInput}
@@ -191,6 +243,21 @@ const MetaList = () => {
         </Highlight>
       )}
 
+      {configuration.featureFlags.assignSignalToDepartment && departmentOptions && (
+        <Highlight type="routing_departments">
+          <ChangeValue
+            component={SelectInput}
+            display="Afdeling"
+            options={departmentOptions}
+            onPatchIncident={update}
+            path="routing_departments"
+            type="routing_departments"
+            rawDataToKey={getDepartmentId}
+            keyToRawData={getDepartmentPostData}
+          />
+        </Highlight>
+      )}
+
       {subcategoryOptions && (
         <Highlight type="subcategory">
           <ChangeValue
@@ -198,10 +265,10 @@ const MetaList = () => {
             disabled={subcatHighlightDisabled}
             display="Subcategorie (verantwoordelijke afdeling)"
             options={subcategoryOptions}
+            groups={subcategoryGroups}
             infoKey="description"
             patch={{ status: { state: 'm' } }}
             path="category.sub_category"
-            sort
             type="subcategory"
             valuePath="category.category_url"
           />
@@ -216,15 +283,15 @@ const MetaList = () => {
             options={directingDepartments}
             path="directing_departments"
             type="directing_departments"
-            get={getDirectingDepartmentValue}
-            getSelectedOption={getDirectingDepartmentPostData}
+            rawDataToKey={getDirectingDepartmentCode}
+            keyToRawData={getDirectingDepartmentPostData}
           />
         </Highlight>
       )}
 
       <Highlight type="subcategory">
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
-        <dd data-testid="meta-list-main-category-value">{incident.category.main}</dd>
+        <dd data-testid="meta-list-main-category-value">{incident.category?.main}</dd>
       </Highlight>
 
       <dt data-testid="meta-list-source-definition">Bron</dt>

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { themeSpacing } from '@datapunt/asc-ui';
-import { Close as CloseIcon } from '@datapunt/asc-assets';
+import { themeSpacing } from '@amsterdam/asc-ui';
+import { Close as CloseIcon } from '@amsterdam/asc-assets';
 import styled from 'styled-components';
 
 import Button from 'components/Button';
