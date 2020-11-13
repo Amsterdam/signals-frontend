@@ -29,7 +29,7 @@ const StyledMap = styled(Map)`
   font-family: 'Avenir Next LT W01-Regular', arial, sans-serif;
 `;
 
-const MapSelect = ({
+const MapSelectAmsterdam = ({
   geojsonUrl,
   getIcon,
   hasGPSControl,
@@ -229,13 +229,13 @@ const MapSelect = ({
   );
 };
 
-MapSelect.defaultProps = {
+MapSelectAmsterdam.defaultProps = {
   hasGPSControl: false,
   value: [],
   selectionOnly: false,
 };
 
-MapSelect.propTypes = {
+MapSelectAmsterdam.propTypes = {
   latlng: PropTypes.exact({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
@@ -256,4 +256,4 @@ MapSelect.propTypes = {
   selectionOnly: PropTypes.bool,
 };
 
-export default MapSelect;
+export default MapSelectAmsterdam;

@@ -152,7 +152,7 @@ export const controls = {
       legend_items: ['lichtmast', 'grachtmast', 'overspanning', 'gevel_armatuur', 'schijnwerper', 'overig_lichtpunt'],
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.MapSelect,
+    render: FormComponents.MapSelectAmsterdam,
   },
   extra_straatverlichting_niet_op_kaart: {
     meta: {
@@ -289,7 +289,7 @@ export const controls = {
       zoomMin: 14,
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.MapSelect,
+    render: FormComponents.MapSelectAmsterdam,
   },
   extra_klok_niet_op_kaart: {
     meta: {

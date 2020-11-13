@@ -13,6 +13,7 @@ import TextInput from './TextInput';
 import TextareaInput from './TextareaInput';
 import MapInput from './MapInput';
 import MapSelect from './MapSelect';
+import MapSelectAmsterdam from './MapSelectAmsterdam';
 import CategorySelectRenderer from './CategorySelectRenderer/CategorySelectRenderer';
 
 export default {
@@ -25,6 +26,7 @@ export default {
   HiddenInput,
   MapInput,
   MapSelect,
+  MapSelectAmsterdam,
   MultiTextInput,
   PlainText,
   RadioInputGroup,

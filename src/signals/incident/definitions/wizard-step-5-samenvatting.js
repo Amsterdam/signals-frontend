@@ -38,6 +38,9 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
     case 'MapSelect':
       return props => PreviewComponents.MapSelectPreview({ ...props, endpoint: meta.endpoint });
 
+    case 'MapSelectAmsterdam':
+      return props => PreviewComponents.MapSelectAmsterdamPreview({ ...props, endpoint: meta.endpoint });
+
     case 'TextInput':
     case 'TextareaInput':
       return Label;

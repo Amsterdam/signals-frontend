@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Leaflet legend control should render correctly with legend closed 1`] = `
+<div
+  class="legend-control is-closed leaflet-control"
+>
+  <div
+    class="legend-header"
+  />
+  <div
+    class="legend-content"
+  >
+    <div
+      class="legend-content-item"
+    >
+      <img
+        class="legend-content-icon"
+        src="foo/bar.svg"
+      />
+      <span
+        class="legend-content-text"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Leaflet legend control should render correctly with legend open 1`] = `
+<div
+  class="legend-control is-open leaflet-control"
+>
+  <div
+    class="legend-header"
+  />
+  <div
+    class="legend-content"
+  >
+    <div
+      class="legend-content-item"
+    >
+      <img
+        class="legend-content-icon"
+        src="foo/bar.svg"
+      />
+      <span
+        class="legend-content-text"
+      />
+    </div>
+  </div>
+</div>
+`;
