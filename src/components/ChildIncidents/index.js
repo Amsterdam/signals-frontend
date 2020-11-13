@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -8,8 +8,7 @@ export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE';
 export const STATUS_RESPONSE_REQUIRED = 'components/ChildIncidents/STATUS_RESPONSE_REQUIRED';
 
 // Fixed width for the child element attributes
-const ID_VALUE_WIDTH = 64;
-const STATE_VALUE_WIDTH = 228;
+const HANDLING_TIME_VALUE_WIDTH = 110;
 
 const DisplayValue = styled.span`
   display: inline-block;
@@ -64,6 +63,7 @@ const Li = styled(ListItem)`
     width: 100%;
     text-decoration: none;
     color: black;
+    align-items: stretch;
 
     @media screen and ${breakpoint('max-width', 'laptop')} {
       flex-wrap: wrap;
@@ -73,17 +73,18 @@ const Li = styled(ListItem)`
       margin-right: ${themeSpacing(4)};
 
       :first-child {
-        flex: 0 0 ${ID_VALUE_WIDTH}px;
+        flex: 0 1 auto;
       }
 
       :nth-child(2) {
-        flex: 0 0 ${STATE_VALUE_WIDTH}px;
+        flex: 1 0;
+        text-align: left;
       }
 
-      :nth-child(2) ~ * {
-        @media screen and ${breakpoint('max-width', 'laptop')} {
-          flex: 0 0 100%;
-        }
+      :nth-child(3) {
+        flex: 0 0 ${HANDLING_TIME_VALUE_WIDTH}px;
+        text-align: right;
+        margin-right: 0;
       }
     }
   }
@@ -102,15 +103,25 @@ const Li = styled(ListItem)`
 
 const ChildIncidents = ({ className, incidents }) => (
   <List className={className} data-testid="childIncidents">
-    {incidents.map(({ href, status, values, changed }) => {
-      const valueEntries = Object.entries(values).map(([key, value]) => (
-        <DisplayValue key={key} title={value}>
-          {value}
-        </DisplayValue>
-      ));
+    {incidents.map(({ href, status, values: childIncident, changed }) => {
+      const valueEntries = (
+        <Fragment>
+          <DisplayValue key="id" title={childIncident.id}>{childIncident.id}</DisplayValue>
+
+          <DisplayValue key="status-and-category" title={childIncident.status}>
+            {childIncident.status}
+            <br />
+            {childIncident.category}
+          </DisplayValue>
+
+          <DisplayValue key="handling-time" title={childIncident.handlingTime}>
+            {childIncident.handlingTime}
+          </DisplayValue>
+        </Fragment>
+      );
 
       return (
-        <Li key={JSON.stringify(values)} status={status} numValues={values.length} changed={changed}>
+        <Li key={JSON.stringify(childIncident)} status={status} numValues={childIncident.length} changed={changed}>
           {href ? <Link to={href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
         </Li>
       );

@@ -5,6 +5,7 @@ import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
 import { store, withAppContext } from 'test/utils';
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
+import handlingTimesBySlugFixture from 'utils/__tests__/fixtures/handlingTimesBySlug.json';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import usersFixture from 'utils/__tests__/fixtures/users.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
@@ -60,7 +61,7 @@ const renderWithContext = (incident = parentIncident, users = usersFixture.resul
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
       <IncidentDetailContext.Provider value={{ incident, update, edit }}>
-        <MetaList />
+        <MetaList handlingTimesBySlug={handlingTimesBySlugFixture} />
       </IncidentDetailContext.Provider>
     </IncidentManagementContext.Provider>
   );

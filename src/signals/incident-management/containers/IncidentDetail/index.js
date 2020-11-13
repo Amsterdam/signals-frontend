@@ -1,11 +1,12 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
-import History from 'components/History';
+import reducer, { initialState } from './reducer';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 import { useFetch, useEventEmitter } from 'hooks';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
@@ -18,12 +19,13 @@ import MetaList from './components/MetaList';
 import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
+import History from 'components/History';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
 import LocationPreview from './components/LocationPreview';
 import CloseButton from './components/CloseButton';
 import IncidentDetailContext from './context';
-import reducer, { initialState } from './reducer';
+
 import {
   CLOSE_ALL,
   EDIT,
@@ -62,6 +64,16 @@ const Preview = styled.div`
   z-index: 1;
 `;
 
+const formatDays = (days, isCalendarDays) => {
+  const dayString = days === 1 ? 'dag' : 'dagen';
+  return isCalendarDays ? dayString : `werk${dayString}`;
+};
+
+const getDaystring = (days, isCalendarDays) => {
+  if (days === undefined) return undefined;
+  return `${days} ${formatDays(days, isCalendarDays)}`;
+};
+
 const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter();
   const storeDispatch = useDispatch();
@@ -72,6 +84,19 @@ const IncidentDetail = () => {
   const { get: getAttachments, data: attachments } = useFetch();
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
   const { get: getChildren, data: children } = useFetch();
+
+  const subcategories = useSelector(makeSelectSubCategories);
+
+  const handlingTimesBySlug = useMemo(() => {
+    const handlingTimes = {};
+
+    subcategories?.forEach(subcategory => {
+      const { slug, sla } = subcategory;
+      handlingTimes[slug] = getDaystring(sla.n_days, sla.use_calendar_days);
+    });
+
+    return handlingTimes;
+  }, [subcategories]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -238,7 +263,13 @@ const IncidentDetail = () => {
 
           <AddNote />
 
-          {state.children && <ChildIncidents incidents={state.children.results} parent={state.incident} />}
+          {state.children &&
+            <ChildIncidents
+              handlingTimesBySlug={handlingTimesBySlug}
+              incidents={state.children.results}
+              parent={state.incident}
+            />
+          }
 
           {state.history && <History list={state.history} />}
         </DetailContainer>
@@ -247,7 +278,7 @@ const IncidentDetail = () => {
           span={{ small: 1, medium: 2, big: 3, large: 4, xLarge: 4 }}
           push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
         >
-          <MetaList />
+          <MetaList handlingTimesBySlug={handlingTimesBySlug} />
         </DetailContainer>
 
         {(state.preview || state.edit) && (

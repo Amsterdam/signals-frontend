@@ -8,6 +8,8 @@ import { childIncidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
+import handlingTimesBySlugFixture from 'utils/__tests__/fixtures/handlingTimesBySlug.json';
+
 import IncidentDetailContext from '../../context';
 import { PATCH_TYPE_NOTES } from '../../constants';
 
@@ -22,7 +24,7 @@ const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ChildIncidents = ({ incidents, parent }) => {
+const ChildIncidents = ({ handlingTimesBySlug, incidents, parent }) => {
   const { update } = useContext(IncidentDetailContext);
 
   const children = useMemo(
@@ -33,10 +35,11 @@ const ChildIncidents = ({ incidents, parent }) => {
           id,
           status: status.state_display,
           category: `${category.sub} (${category.departments})`,
+          handlingTime: handlingTimesBySlug[category.sub_slug],
         },
         changed: isChildChanged(updated_at, parent.updated_at),
       })),
-    [incidents, parent.updated_at]
+    [handlingTimesBySlug, incidents, parent.updated_at]
   );
 
   const canReset = useMemo(() => children.some(({ changed }) => changed), [children]);
@@ -55,11 +58,9 @@ const ChildIncidents = ({ incidents, parent }) => {
 
   return (
     <Fragment>
-      <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
-        Deelmelding
-      </Title>
+      <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">Deelmelding</Title>
 
-      <ChildIncidentsList incidents={children} />
+      <ChildIncidentsList handlingTimesBySlug={handlingTimesBySlugFixture} incidents={children} />
 
       <section>
         {canReset &&
@@ -79,6 +80,7 @@ const ChildIncidents = ({ incidents, parent }) => {
 };
 
 ChildIncidents.propTypes = {
+  handlingTimesBySlug: PropTypes.objectOf(PropTypes.string).isRequired,
   incidents: PropTypes.arrayOf(childIncidentType).isRequired,
   parent: PropTypes.shape({ updated_at: PropTypes.string }).isRequired,
 };

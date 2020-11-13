@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import PropTypes from 'prop-types';
 
 import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
@@ -46,18 +47,7 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-
-const getDayString = (days, isCalendarDays) => {
-  const dayString = days === 1 ? 'dag' : 'dagen';
-  return isCalendarDays ? dayString : `werk${dayString}`;
-};
-
-const getHandlingTime = (days, isCalendarDays) => {
-  if (days === undefined) return undefined;
-  return `${days} ${getDayString(days, isCalendarDays)}`;
-};
-
-const MetaList = () => {
+const MetaList = ({ handlingTimesBySlug }) => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
@@ -140,16 +130,10 @@ const MetaList = () => {
     return routingDepartments ? options : options && [{ key: null, value: 'Niet gekoppeld' }, ...options];
   }, [categoryDepartments, routingDepartments]);
 
-
-  const handlingTime = useMemo(() => {
-    if (!incident?.category) return undefined;
-
-    const category = subcategoryOptions?.find(option => option.slug === incident.category.sub_slug);
-
-    if (!category) return undefined;
-
-    return getHandlingTime(category.sla.n_days, category.sla.use_calendar_days);
-  }, [incident, subcategoryOptions]);
+  const handlingTime = useMemo(
+    () => !incident?.category ? undefined : handlingTimesBySlug[incident.category.sub_slug],
+    [handlingTimesBySlug, incident]
+  );
 
   const getDepartmentId = useCallback(
     () => (routingDepartments ? `${routingDepartments[0].id}` : departmentOptions && departmentOptions[0].key),
@@ -299,5 +283,7 @@ const MetaList = () => {
     </StyledMetaList>
   );
 };
+
+MetaList.propTypes = { handlingTimesBySlug: PropTypes.objectOf(PropTypes.string).isRequired };
 
 export default MetaList;
