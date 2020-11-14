@@ -12,7 +12,7 @@ extends:
 globals:
   L: true
 overrides:
-  - files: [./eslint-plugin-amsterdam/**/*, ./internals/**/*, ./server/**/*]
+  - files: [./eslint-plugin-amsterdam/**/*, jest.config.*, ./internals/**/*, ./server/**/*]
     extends: [plugin:amsterdam/node]
     rules:
       node/shebang: 'off'
