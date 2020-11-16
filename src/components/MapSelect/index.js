@@ -18,6 +18,7 @@ import ErrorControl from './control/ErrorControl';
 import './style.scss';
 
 const SELECTION_MAX_COUNT = 30;
+const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
 
 const Wrapper = styled.div`
   position: relative;
@@ -64,10 +65,13 @@ const MapSelect = ({
   );
 
   const fetchRequest = useCallback(
-    bbox_str =>
-      request(`${geojsonUrl}&bbox=${bbox_str}`).catch(() => {
+    coordsString => {
+      const [longitude1, latitude1, longitude2, latitude2] = coordsString.split(',');
+      const bboxString = [latitude1, longitude1, latitude2, longitude2, SRS_NAME].join(',');
+      return request(`${geojsonUrl}&bbox=${bboxString}`).catch(() => {
         errorControl.show();
-      }),
+      });
+    },
     [errorControl, geojsonUrl]
   );
 
