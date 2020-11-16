@@ -53,11 +53,12 @@ const ChangeValue = ({
   const [showForm, setShowForm] = useState(false);
   const [info, setInfo] = useState('');
 
+  useEffect(() => setShowForm(false), [incident?.id]);
+
   const form = useMemo(
-    () =>
-      FormBuilder.group({
-        input: [rawDataToKey(get(incident, valuePath)), Validators.required],
-      }),
+    () => FormBuilder.group({
+      input: [rawDataToKey(get(incident, valuePath)), Validators.required],
+    }),
     [incident, rawDataToKey, valuePath]
   );
 
@@ -133,6 +134,7 @@ const ChangeValue = ({
   }, [incident, rawDataToKey, valuePath, path, showInfo, form]);
 
   useEffect(() => {
+    setShowForm(false);
     document.addEventListener('keyup', handleKeyUp);
 
     return () => {
