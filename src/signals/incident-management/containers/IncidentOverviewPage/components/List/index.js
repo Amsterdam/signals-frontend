@@ -93,7 +93,7 @@ const ParentIconStyle = styled.span`
   flex-direction: row;
 
   & span:nth-child(2) {
-    margin-left: -5px;
+    margin-left: -5px; // specific value. Ensures the parent icon composition icons are near each other.
   }
 `;
 
