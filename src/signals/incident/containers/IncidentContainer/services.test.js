@@ -31,11 +31,9 @@ const mockedQuestions = [
 ];
 
 describe('The resolve questions service', () => {
-  it('should return summary and navigation buttons', () => {
+  it('should return empty object without questions', () => {
     const result = resolveQuestions([]);
-    expect(result).toHaveProperty('custom_text');
-    expect(result).toHaveProperty('$field_0');
-    expect(Object.keys(result).length).toBe(2);
+    expect(result).toEqual({});
   });
 
   it('should return the questions mapped to their key property', () => {
@@ -44,7 +42,7 @@ describe('The resolve questions service', () => {
     expect(result).toHaveProperty('key2');
     expect(result).toHaveProperty('key3');
     expect(result).toHaveProperty('key4');
-    expect(Object.keys(result).length).toBe(6);
+    expect(Object.keys(result).length).toBe(4);
   });
 
   it('should pass meta prop', () => {

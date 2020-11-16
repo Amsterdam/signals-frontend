@@ -62,6 +62,21 @@ describe('<IncidentWizard />', () => {
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
+  it('should not render without any form or preview', () => {
+    const propsWithout = {
+      ...props,
+      wizardDefinition: {
+        beschrijf: {},
+      },
+    };
+
+    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithout} />));
+
+    expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+  });
+
   it('expect to render form factory correctly', () => {
     const propsWithFormFactory = {
       ...props,
@@ -93,6 +108,27 @@ describe('<IncidentWizard />', () => {
 
     const { queryByTestId } = render(
       withContext(<IncidentWizard {...propsWithPreview} incidentContainer={{ incident: incidentJson }} />)
+    );
+
+    expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
+    expect(queryByTestId('incidentPreview')).toBeInTheDocument();
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+  });
+
+  it('expect to render preview factory correctly', () => {
+    const propsWithPreviewFactory = {
+      ...props,
+      wizardDefinition: {
+        samenvatting: {
+          previewFactory: () => ({
+            controls: {},
+          }),
+        },
+      },
+    };
+
+    const { queryByTestId } = render(
+      withContext(<IncidentWizard {...propsWithPreviewFactory} incidentContainer={{ incident: incidentJson }} />)
     );
 
     expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
