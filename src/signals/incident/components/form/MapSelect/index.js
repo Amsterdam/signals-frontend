@@ -58,14 +58,16 @@ const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validat
           getIcon={getOVLIcon}
           hasGPSControl
           iconField="type_name"
-          idField="objectnummer"
+          idField={meta.idField}
           latlng={latlng}
           legend={filtered_legend}
           onSelectionChange={onSelectionChange}
           value={selection}
           zoomMin={meta.zoomMin}
         />
-        {selection.length > 0 && <Selection>Het gaat om lamp of lantaarnpaal met nummer: {selection.join('; ')}</Selection>}
+        {selection.length > 0 && (
+          <Selection>Het gaat om lamp of lantaarnpaal met nummer: {selection.join('; ')}</Selection>
+        )}
       </Header>
     )
   );
