@@ -20,14 +20,19 @@ const intro = {
 };
 
 export const controls = {
-  // This element will be enabled each year near the christmass. Just comment it out and not remove it.
   extra_kerstverlichting: {
     meta: {
       label: '',
       type: 'alert',
-      value: 'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
+      value:
+        'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
       ifAllOf: {
-        subcategory: 'lantaarnpaal-straatverlichting',
+        subcategory: [
+          'lantaarnpaal-straatverlichting',
+          // This element will be enabled each year near the christmass.
+          // Comment/Uncomment next line to show/hide it.
+          // 'do-not-show-this-message',
+        ],
       },
     },
     render: FormComponents.PlainText,
