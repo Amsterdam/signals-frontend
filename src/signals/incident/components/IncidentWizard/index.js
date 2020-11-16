@@ -36,20 +36,24 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
                     key={key}
                     id={`incident/${key}`}
                     render={() => {
-                      const { form, formFactory, label, postponeSubmitWhenLoading, preview } = wizardDefinition[key];
-                      const shouldRender = preview || form || formFactory;
+                      const {
+                        form,
+                        formFactory,
+                        label,
+                        postponeSubmitWhenLoading,
+                        preview,
+                        previewFactory,
+                      } = wizardDefinition[key];
 
-                      if (!shouldRender) {
-                        return null;
-                      }
-
-                      return (
+                      return preview || previewFactory || form || formFactory ? (
                         <article>
                           <header>
                             <StyledH1>{label || key}</StyledH1>
                           </header>
 
-                          {preview && incident && <IncidentPreview incident={incident} preview={preview} />}
+                          {(preview || previewFactory) && incident && (
+                            <IncidentPreview incident={incident} preview={preview || previewFactory(incident)} />
+                          )}
 
                           {(form || formFactory) && (
                             <IncidentForm
@@ -63,7 +67,7 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
                             />
                           )}
                         </article>
-                      );
+                      ) : null;
                     }}
                   />
                 ))}
