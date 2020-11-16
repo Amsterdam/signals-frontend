@@ -47,12 +47,13 @@ const props = {
 };
 
 const update = jest.fn();
+const incidentData = { ...incidentFixture, someValue: otherKey, value: { path: rawKey } };
 
-const renderWithContext = (componentProps = props) =>
+const renderWithContext = (componentProps = props, incident = incidentData) =>
   withAppContext(
     <IncidentDetailContext.Provider
       value={{
-        incident: { ...incidentFixture, someValue: otherKey, value: { path: rawKey } },
+        incident,
         update,
         nonExistingValue: 'nonExistingValue',
       }}
@@ -324,5 +325,18 @@ describe('ChangeValue', () => {
     render(renderWithContext({ ...props, valueClass }));
 
     expect(screen.getByTestId('meta-list-mockType-value').className).toBe(valueClass);
+  });
+
+  it('should reset the edit state when the incident is changed', async () => {
+    const renderProps = render(renderWithContext());
+
+    await expectInitialState();
+
+    fireEvent.click(renderProps.getByTestId(editTestId));
+
+    await expectEditState();
+
+    renderProps.rerender(renderWithContext(props, { ...incidentData, id: incidentData.id + 1 }));
+    await expectInitialState();
   });
 });
