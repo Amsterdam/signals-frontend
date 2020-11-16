@@ -24,8 +24,8 @@ const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ChildIncidents = ({ handlingTimesBySlug, incidents, parent }) => {
-  const { update } = useContext(IncidentDetailContext);
+const ChildIncidents = ({ incidents, parent }) => {
+  const { handlingTimesBySlug, update } = useContext(IncidentDetailContext);
 
   const children = useMemo(
     () =>
@@ -60,7 +60,7 @@ const ChildIncidents = ({ handlingTimesBySlug, incidents, parent }) => {
     <Fragment>
       <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">Deelmelding</Title>
 
-      <ChildIncidentsList handlingTimesBySlug={handlingTimesBySlugFixture} incidents={children} />
+      <ChildIncidentsList incidents={children} />
 
       <section>
         {canReset &&
@@ -80,7 +80,6 @@ const ChildIncidents = ({ handlingTimesBySlug, incidents, parent }) => {
 };
 
 ChildIncidents.propTypes = {
-  handlingTimesBySlug: PropTypes.objectOf(PropTypes.string).isRequired,
   incidents: PropTypes.arrayOf(childIncidentType).isRequired,
   parent: PropTypes.shape({ updated_at: PropTypes.string }).isRequired,
 };

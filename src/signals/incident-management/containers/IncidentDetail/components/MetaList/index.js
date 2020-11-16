@@ -2,7 +2,6 @@ import React, { Fragment, useCallback, useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import PropTypes from 'prop-types';
 
 import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
@@ -47,8 +46,8 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `;
 
-const MetaList = ({ handlingTimesBySlug }) => {
-  const { incident, update, edit } = useContext(IncidentDetailContext);
+const MetaList = () => {
+  const { handlingTimesBySlug, incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
@@ -283,7 +282,5 @@ const MetaList = ({ handlingTimesBySlug }) => {
     </StyledMetaList>
   );
 };
-
-MetaList.propTypes = { handlingTimesBySlug: PropTypes.objectOf(PropTypes.string).isRequired };
 
 export default MetaList;

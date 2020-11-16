@@ -12,7 +12,7 @@ const update = jest.fn();
 
 const renderWithContext = Component =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ update }}>
+    <IncidentDetailContext.Provider value={{ handlingTimesBySlug: handlingTimesBySlugFixture, update }}>
       {Component}
     </IncidentDetailContext.Provider>
   );
@@ -26,7 +26,7 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     const childIncidents = [];
     const parent = { updated_at: null };
     const { queryByText, queryByTestId } = render(withAppContext(
-      <ChildIncidents handlingTimesBySlug={handlingTimesBySlugFixture} incidents={childIncidents} parent={parent} />)
+      <ChildIncidents incidents={childIncidents} parent={parent} />)
     );
 
     expect(queryByText('Deelmelding')).not.toBeInTheDocument();
@@ -38,22 +38,16 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     const childIncidents = childIncidentsFixture.results;
     const parent = { updated_at: childIncidentsFixture.results[0].updated_at };
 
-    const { queryByText, queryByTestId, rerender } = render(withAppContext(
-      <ChildIncidents handlingTimesBySlug={handlingTimesBySlugFixture} incidents={childIncidents} parent={parent} />)
-    );
+    const { queryByText, queryByTestId, rerender } = render(renderWithContext(
+      <ChildIncidents incidents={childIncidents} parent={parent} />
+    ));
 
     expect(queryByText('Deelmelding')).toBeInTheDocument();
     expect(queryByTestId('childIncidents')).toBeInTheDocument();
     expect(queryByTestId('noActionButton')).toBeInTheDocument();
 
     const updatedParent = { updated_at: new Date().toISOString() };
-    rerender(withAppContext(
-      <ChildIncidents
-        handlingTimesBySlug={handlingTimesBySlugFixture}
-        incidents={childIncidents}
-        parent={updatedParent}
-      />)
-    );
+    rerender(renderWithContext(<ChildIncidents incidents={childIncidents} parent={updatedParent} />));
 
     expect(queryByText('Deelmelding')).toBeInTheDocument();
     expect(queryByTestId('childIncidents')).toBeInTheDocument();
@@ -65,7 +59,7 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     const parent = { updated_at: childIncidentsFixture.results[0].updated_at };
 
     const { findByTestId } = render(withAppContext(renderWithContext(
-      <ChildIncidents handlingTimesBySlug={handlingTimesBySlugFixture} incidents={childIncidents} parent={parent} />
+      <ChildIncidents incidents={childIncidents} parent={parent} />
     )));
 
     const button = await findByTestId('noActionButton');

@@ -3,17 +3,22 @@ import { fireEvent, render, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
+import IncidentDetail, { formatWeekOrWorkdays, getHandlingTimes } from '..';
+import * as categoriesSelectors from 'models/categories/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import childIncidentFixture from 'utils/__tests__/fixtures/childIncidents.json';
+import makeSelectSubCategoriesFixture from 'utils/__tests__/fixtures/makeSelectSubCategories.json';
 import historyFixture from 'utils/__tests__/fixtures/history.json';
 import useEventEmitter from 'hooks/useEventEmitter';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
-import IncidentDetail from '..';
+jest
+  .spyOn(categoriesSelectors, 'makeSelectSubCategories')
+  .mockImplementation(() => makeSelectSubCategoriesFixture);
 
 // prevent fetch requests that we don't need to verify
 jest.mock('components/MapStatic', () => () => <span data-testid="mapStatic" />);
@@ -130,6 +135,26 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     render(withAppContext(<IncidentDetail />));
 
     expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('should transform week and calendar days in singular and plural', () => {
+    const calendarday = formatWeekOrWorkdays(1, true);
+    expect(calendarday).toBe('dag');
+
+    const calendardays = formatWeekOrWorkdays(5, true);
+    expect(calendardays).toBe('dagen');
+
+    const workday = formatWeekOrWorkdays(1, false);
+    expect(workday).toBe('werkdag');
+
+    const workdays = formatWeekOrWorkdays(5, false);
+    expect(workdays).toBe('werkdagen');
+  });
+
+  it('should get handling times from subcategories', () => {
+    const handlingTimes = getHandlingTimes(makeSelectSubCategoriesFixture);
+    expect(handlingTimes['auto-scooter-bromfietswrak']).toBe('21 dagen');
+    expect(handlingTimes.parkeerautomaten).toBe('5 werkdagen');
   });
 
   it('should retrieve default texts and attachments only once', async () => {

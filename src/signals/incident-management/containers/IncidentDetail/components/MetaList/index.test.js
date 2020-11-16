@@ -51,17 +51,13 @@ const plainIncident = { ...incidentFixture, _links: { ...plainLinks } };
 const parentIncident = { ...incidentFixture };
 const childIncident = { ...plainIncident, _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } } };
 
-// subcategoriesGroupedByCategories fixture handling time overrides
-subcategoriesGroupedByCategories[1][4].sla.n_days = 1; // beplanting
-subcategoriesGroupedByCategories[1][4].sla.use_calendar_days = false;
-subcategoriesGroupedByCategories[1][5].sla.n_days = 1; // bewegwijzering
-subcategoriesGroupedByCategories[1][5].sla.use_calendar_days = true;
-
 const renderWithContext = (incident = parentIncident, users = usersFixture.results) =>
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
-      <IncidentDetailContext.Provider value={{ incident, update, edit }}>
-        <MetaList handlingTimesBySlug={handlingTimesBySlugFixture} />
+      <IncidentDetailContext.Provider
+        value={{ handlingTimesBySlug: handlingTimesBySlugFixture, incident, update, edit }}
+      >
+        <MetaList />
       </IncidentDetailContext.Provider>
     </IncidentManagementContext.Provider>
   );

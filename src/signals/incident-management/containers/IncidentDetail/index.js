@@ -64,14 +64,22 @@ const Preview = styled.div`
   z-index: 1;
 `;
 
-const formatDays = (days, isCalendarDays) => {
+export const formatWeekOrWorkdays = (days, isCalendarDays) => {
   const dayString = days === 1 ? 'dag' : 'dagen';
   return isCalendarDays ? dayString : `werk${dayString}`;
 };
 
-const getDaystring = (days, isCalendarDays) => {
-  if (days === undefined) return undefined;
-  return `${days} ${formatDays(days, isCalendarDays)}`;
+const getDaysString = (days, isCalendarDays) => `${days} ${formatWeekOrWorkdays(days, isCalendarDays)}`;
+
+export const getHandlingTimes = subcategories => {
+  const handlingTimes = {};
+
+  subcategories?.forEach(subcategory => {
+    const { slug, sla } = subcategory;
+    handlingTimes[slug] = getDaysString(sla.n_days, sla.use_calendar_days);
+  });
+
+  return handlingTimes;
 };
 
 const IncidentDetail = () => {
@@ -87,16 +95,7 @@ const IncidentDetail = () => {
 
   const subcategories = useSelector(makeSelectSubCategories);
 
-  const handlingTimesBySlug = useMemo(() => {
-    const handlingTimes = {};
-
-    subcategories?.forEach(subcategory => {
-      const { slug, sla } = subcategory;
-      handlingTimes[slug] = getDaystring(sla.n_days, sla.use_calendar_days);
-    });
-
-    return handlingTimes;
-  }, [subcategories]);
+  const handlingTimesBySlug = useMemo(() => getHandlingTimes(subcategories), [subcategories]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -239,6 +238,8 @@ const IncidentDetail = () => {
     dispatch({ type: CLOSE_ALL });
   }, []);
 
+  if (!Object.keys(handlingTimesBySlug).length) return null;
+
   if (!state.incident) return null;
 
   return (
@@ -249,6 +250,7 @@ const IncidentDetail = () => {
         preview: previewDispatch,
         edit: editDispatch,
         close: closeDispatch,
+        handlingTimesBySlug,
       }}
     >
       <Row data-testid="incidentDetail">
@@ -263,13 +265,7 @@ const IncidentDetail = () => {
 
           <AddNote />
 
-          {state.children &&
-            <ChildIncidents
-              handlingTimesBySlug={handlingTimesBySlug}
-              incidents={state.children.results}
-              parent={state.incident}
-            />
-          }
+          {state.children && <ChildIncidents incidents={state.children.results} parent={state.incident} /> }
 
           {state.history && <History list={state.history} />}
         </DetailContainer>
@@ -278,7 +274,7 @@ const IncidentDetail = () => {
           span={{ small: 1, medium: 2, big: 3, large: 4, xLarge: 4 }}
           push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
         >
-          <MetaList handlingTimesBySlug={handlingTimesBySlug} />
+          <MetaList />
         </DetailContainer>
 
         {(state.preview || state.edit) && (
