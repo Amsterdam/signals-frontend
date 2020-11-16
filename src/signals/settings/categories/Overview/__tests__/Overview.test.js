@@ -84,7 +84,7 @@ describe('signals/settings/categories/containers/Overview', () => {
     );
 
     expect(getByText('Categorie')).toBeInTheDocument();
-    expect(getByText('Service Level Agreement')).toBeInTheDocument();
+    expect(getByText('Afhandeltermijn')).toBeInTheDocument();
     expect(getByText('Status')).toBeInTheDocument();
   });
 
