@@ -1,10 +1,10 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import { FastForward, ChevronUp, ChevronDown } from '@amsterdam/asc-assets';
-import { Icon, themeSpacing } from '@amsterdam/asc-ui';
+import { FastForward, ChevronUp, ChevronDown, Play } from '@amsterdam/asc-assets';
+import { Icon, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -87,6 +87,32 @@ Td.propTypes = {
   detailLink: PropTypes.string.isRequired,
   children: PropTypes.node,
 };
+
+const ParentIconStyle = styled.span`
+  display: flex;
+  flex-direction: row;
+
+  & span:nth-child(2) {
+    margin-left: -5px;
+  }
+`;
+
+const ParentIcon = () => (
+  <ParentIconStyle role="img" aria-label="Hoofdmelding">
+    <Icon size={14}>
+      <Play />
+    </Icon>
+    <Icon size={14}>
+      <Play />
+    </Icon>
+  </ParentIconStyle>
+);
+
+const ChildIcon = () => (
+  <Icon size={14} role="img" aria-label="Deelmelding" color={themeColor('tint', 'level4')}>
+    <Play />
+  </Icon>
+);
 
 const List = ({
   className = '',
@@ -172,11 +198,8 @@ const List = ({
             return (
               <tr key={incident.id}>
                 <Td detailLink={detailLink}>
-                  {incident.has_children && (
-                    <Icon size={14} role="img" aria-label="Hoofdmelding">
-                      <FastForward />
-                    </Icon>
-                  )}
+                  {incident.has_children && <ParentIcon />}
+                  {(incident.has_parent && <ChildIcon />) || null}
                 </Td>
                 <Td detailLink={detailLink}>{incident.id}</Td>
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">

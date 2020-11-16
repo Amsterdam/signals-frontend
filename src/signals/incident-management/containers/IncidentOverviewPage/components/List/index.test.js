@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import configuration from 'shared/services/configuration/configuration';
 import { priorityList, statusList, stadsdeelList } from 'signals/incident-management/definitions';
 import { withAppContext } from 'test/utils';
@@ -173,9 +173,21 @@ describe('List', () => {
       const incidentList = [incidentWithChildren, ...props.incidents.slice(1)];
       const parentsCount = incidentList.filter(incident => incident.has_children).length;
 
-      const { queryAllByRole } = render(withContext(<List {...props} incidents={incidentList} />));
+      render(withContext(<List {...props} incidents={incidentList} />));
 
-      expect(queryAllByRole('img').length).toEqual(parentsCount);
+      expect(screen.queryAllByRole('img').length).toEqual(parentsCount);
+      expect(screen.queryByRole('img')).toHaveAttribute('aria-label', 'Hoofdmelding');
+    });
+
+    it('should render an icon for each child incident', () => {
+      const incidentWithChildren = { ...props.incidents[0], has_parent: true };
+      const incidentList = [incidentWithChildren, ...props.incidents.slice(1)];
+      const childCount = incidentList.filter(incident => incident.parent).length;
+
+      render(withContext(<List {...props} incidents={incidentList} />));
+
+      expect(screen.queryAllByRole('img').length).toEqual(childCount);
+      expect(screen.queryByRole('img')).toHaveAttribute('aria-label', 'Deelmelding');
     });
   });
 });
