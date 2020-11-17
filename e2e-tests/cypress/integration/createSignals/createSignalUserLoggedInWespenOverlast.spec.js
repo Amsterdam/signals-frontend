@@ -3,7 +3,6 @@ import * as createSignal from '../../support/commandsCreateSignal';
 import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
 
 describe('Create signal animals from incident management and chek signal details', () => {
   describe('Create signal animals', () => {
@@ -30,8 +29,7 @@ describe('Create signal animals from incident management and chek signal details
       cy.route2('**/locatieserver/v3/suggest?fq=*').as('getAddress');
 
       createSignal.checkDescriptionPage();
-      // Select source
-      cy.get(CREATE_SIGNAL.dropdownSource).select('Telefoon – Stadsdeel');
+      createSignal.selectSource(3);
 
       createSignal.setAddress('1012GX 23', 'Oudekerksplein 23, 1012GX Amsterdam');
       createSignal.setDescription('Er is een wespennest bij de hoofdingang van de Oude kerk');
@@ -88,7 +86,7 @@ describe('Create signal animals from incident management and chek signal details
     it('Should show the last screen', () => {
       createSignal.checkThanksPage();
       // Capture signal id to check details later
-      createSignal.getSignalId();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -116,12 +114,15 @@ describe('Create signal animals from incident management and chek signal details
       cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
+      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '5 werkdagen').and('be.visible');
       createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht').and('be.visible');
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Wespen (GGD)').and('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast van dieren').and('be.visible');
-      cy.get(SIGNAL_DETAILS.source).should('have.text', 'Telefoon – Stadsdeel').and('be.visible');
+      cy.readFile('./cypress/fixtures/tempSource.json').then(json => {
+        cy.get(SIGNAL_DETAILS.source).should('have.text', json.source).and('be.visible');
+      });
     });
   });
 });

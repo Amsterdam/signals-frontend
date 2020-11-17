@@ -193,7 +193,7 @@ export const createSignalDeelmelding = () => {
     },
   }).its('body').then(body => {
     const id = body.id;
-    cy.writeFile('./cypress/fixtures/tempSignalData.json', { signalId: `${id}` }, { flag: 'w' });
+    cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${id}` }, { flag: 'w' });
     cy.log(id);
   });
 };

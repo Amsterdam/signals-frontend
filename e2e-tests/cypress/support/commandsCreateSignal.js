@@ -12,7 +12,7 @@ export const addNote = noteText => {
 export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.server();
   cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignal');
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
     cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
   });
   cy.get(CHANGE_STATUS.buttonEdit).click();
@@ -133,7 +133,7 @@ export const checkThanksPage = () => {
   });
 };
 
-export const getSignalId = () => {
+export const saveSignalId = () => {
   cy.get('.bedankt')
     .first()
     .then($signalLabel => {
@@ -141,12 +141,12 @@ export const getSignalId = () => {
       const signalNumber = $signalLabel.text().match(/\d+/)[0];
       cy.log(signalNumber);
       // Set the signal id in variable for later use
-      cy.writeFile('./cypress/fixtures/tempSignalData.json', { signalId: `${signalNumber}` }, { flag: 'w' });
+      cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${signalNumber}` }, { flag: 'w' });
     });
 };
 
 export const openCreatedSignal = () => {
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
     cy.get('[href*="/manage/incident/"]').contains(json.signalId).click();
   });
 };
@@ -233,4 +233,13 @@ export const uploadFile = (fileName, fileType, selector) => {
 export const selectLampOnCoordinate = (coordinateA, coordinateB) => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.get('.leaflet-container').should('be.visible').wait(500).click(coordinateA, coordinateB);
+};
+export const selectSource = index => {
+  cy.get('[data-testid="source"] > option')
+    .eq(index)
+    .then(element => {
+      // const source = element.val();
+      cy.get('[data-testid="source"]').select(element.val());
+      cy.writeFile('./cypress/fixtures/tempSource.json', { source: `${element.val()}` }, { flag: 'w' });
+    });
 };

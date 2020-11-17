@@ -6,8 +6,8 @@ import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 
-describe('Create signal bedrijven en horeca and check signal details', () => {
-  describe('Create signal bedrijven en horeca', () => {
+describe('Create signal "Bedrijven overlast bezoekers" and check signal details', () => {
+  describe('Create signal overlast bezoekers', () => {
     before(() => {
       cy.visitFetch('incident/beschrijf');
     });
@@ -96,7 +96,7 @@ describe('Create signal bedrijven en horeca and check signal details', () => {
     it('Should show the last screen', () => {
       createSignal.checkThanksPage();
       // Capture signal id to check details later
-      createSignal.getSignalId();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -124,6 +124,7 @@ describe('Create signal bedrijven en horeca and check signal details', () => {
       cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
+      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '5 werkdagen').and('be.visible');
       createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');

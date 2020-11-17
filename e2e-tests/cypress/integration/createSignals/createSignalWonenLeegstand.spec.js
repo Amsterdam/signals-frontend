@@ -34,41 +34,25 @@ describe('Create signal wonen leegstand and check signal details', () => {
 
       // Check if fields are mandatory
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorItem)
-        .should('contain', 'Dit is een verplicht veld')
-        .and('have.length', 3);
+      cy.get(CREATE_SIGNAL.errorItem).should('contain', 'Dit is een verplicht veld').and('have.length', 3);
 
       // Input specific information
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.label).should('be.visible');
-      cy.get(WONEN_LEEGSTAND.inputEigenaar)
-        .eq(0)
-        .type('A. Hitchcock');
+      cy.get(WONEN_LEEGSTAND.inputEigenaar).eq(0).type('A. Hitchcock');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_periode.label).should('be.visible');
-      cy.get(WONEN_LEEGSTAND.radioButtonLeegZesMaandenOfLanger)
-        .check({ force: true })
-        .should('be.checked');
-      cy.get(WONEN_LEEGSTAND.radioButtonLeegMinderDanZesMaanden)
-        .check({ force: true })
-        .should('be.checked');
-      cy.get(WONEN_LEEGSTAND.radioButtonLeegPeriodeWeetIkNiet)
-        .check({ force: true })
-        .should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonLeegZesMaandenOfLanger).check({ force: true }).should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonLeegMinderDanZesMaanden).check({ force: true }).should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonLeegPeriodeWeetIkNiet).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.label).should('be.visible');
-      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktWeetIkNiet)
-        .check({ force: true })
-        .should('be.checked');
-      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktNee)
-        .check({ force: true })
-        .should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktWeetIkNiet).check({ force: true }).should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('not.be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.label).should('not.be.visible');
 
-      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktJa)
-        .check({ force: true })
-        .should('be.checked');
+      cy.get(WONEN_LEEGSTAND.radioButtonGebruiktJa).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('be.visible');
@@ -80,15 +64,9 @@ describe('Create signal wonen leegstand and check signal details', () => {
       cy.contains('Vorige').click();
       cy.url().should('include', '/incident/vulaan');
 
-      cy.get(WONEN_LEEGSTAND.inputNaam)
-        .eq(1)
-        .type('J. Aniston');
-      cy.get(WONEN_LEEGSTAND.inputWatDoetPersoon)
-        .eq(2)
-        .type('Deze persoon zit de hele dag te acteren');
-      cy.get(WONEN_LEEGSTAND.inputTijdstip)
-        .eq(3)
-        .type('Vooral in de avond');
+      cy.get(WONEN_LEEGSTAND.inputNaam).eq(1).type('J. Aniston');
+      cy.get(WONEN_LEEGSTAND.inputWatDoetPersoon).eq(2).type('Deze persoon zit de hele dag te acteren');
+      cy.get(WONEN_LEEGSTAND.inputTijdstip).eq(3).type('Vooral in de avond');
 
       cy.contains('Volgende').click();
     });
@@ -132,7 +110,7 @@ describe('Create signal wonen leegstand and check signal details', () => {
     it('Should show the last screen', () => {
       createSignal.checkThanksPage();
       // Capture signal id to check details later
-      createSignal.getSignalId();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -152,42 +130,21 @@ describe('Create signal wonen leegstand and check signal details', () => {
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Zuidoost')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Johan Cruijff Boulevard 600')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1101DS Amsterdam')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.email)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber)
-        .should('have.text', '')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails)
-        .should('have.text', 'Nee')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Zuidoost').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Johan Cruijff Boulevard 600').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1101DS Amsterdam').and('be.visible');
+      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
+      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
+      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '5 werkdagen').and('be.visible');
       createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Leegstand (WON)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Wonen')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Leegstand (WON)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Wonen').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
   });
 });
