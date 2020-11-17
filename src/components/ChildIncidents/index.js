@@ -108,10 +108,10 @@ const ChildIncidents = ({ className, incidents }) => (
         <Fragment>
           <DisplayValue key="id" title={childIncident.id}>{childIncident.id}</DisplayValue>
 
-          <DisplayValue key="status-and-category" title={childIncident.status}>
-            {childIncident.status}
-            <br />
+          <DisplayValue key="category-and-status" title={`${childIncident.category} - ${childIncident.status}`}>
             {childIncident.category}
+            <br />
+            {childIncident.status}
           </DisplayValue>
 
           <DisplayValue key="handling-time" title={childIncident.handlingTime}>
