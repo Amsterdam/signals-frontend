@@ -41,15 +41,12 @@ const StyledMap = styled(Map)`
 
 const MapSelect = ({
   geojsonUrl,
-  getIcon,
-  hasGPSControl,
-  iconField,
+  hasGPSControl = false,
   idField,
   latlng,
-  legend,
   onSelectionChange,
-  selectionOnly,
-  value,
+  selectionOnly = false,
+  value = [],
 }) => {
   const zoomMin = 13;
   const featuresLayer = useRef();
@@ -166,17 +163,6 @@ const MapSelect = ({
 
     zoomMessageControl.addTo(mapInstance);
 
-    if (legend) {
-      // only show if legend items are provided
-      const legendControl = new LegendControl({
-        position: 'topright',
-        zoomMin,
-        elements: legend,
-      });
-
-      legendControl.addTo(mapInstance);
-    }
-
     const div = L.DomUtil.create('div', 'loading-control');
     div.innerText = 'Bezig met laden...';
 
@@ -217,7 +203,6 @@ const MapSelect = ({
       featuresLayer.current.getLayers().forEach(layer => {
         const properties = layer.feature.properties;
         const id = properties[idField];
-        const iconType = properties[iconField];
         const icon = selection.current.has(id) ? LeafletDotSelectedIcon : LeafletDotIcon;
 
         layer.setIcon(icon);
@@ -242,12 +227,6 @@ const MapSelect = ({
   );
 };
 
-MapSelect.defaultProps = {
-  hasGPSControl: false,
-  value: [],
-  selectionOnly: false,
-};
-
 MapSelect.propTypes = {
   latlng: PropTypes.exact({
     latitude: PropTypes.number.isRequired,
@@ -257,13 +236,6 @@ MapSelect.propTypes = {
   onSelectionChange: PropTypes.func,
   getIcon: PropTypes.func.isRequired,
   hasGPSControl: PropTypes.bool,
-  legend: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      iconUrl: PropTypes.string.isRequired,
-    })
-  ),
-  iconField: PropTypes.string.isRequired,
   idField: PropTypes.string.isRequired,
   value: PropTypes.arrayOf(PropTypes.string),
   selectionOnly: PropTypes.bool,

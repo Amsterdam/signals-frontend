@@ -36,7 +36,7 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
       return SCSVLabel;
 
     case 'MapSelect':
-      return props => PreviewComponents.MapSelectPreview({ ...props, endpoint: meta.endpoint });
+      return props => PreviewComponents.MapSelectPreview({ ...props, meta });
 
     case 'MapSelectAmsterdam':
       return props => PreviewComponents.MapSelectAmsterdamPreview({ ...props, endpoint: meta.endpoint });
