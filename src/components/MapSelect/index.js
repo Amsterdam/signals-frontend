@@ -10,6 +10,8 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import request from 'utils/request';
 import MaxSelection from 'utils/maxSelection';
 
+import DotIcon from '!!file-loader!../../shared/images/icon-dot-marker.svg';
+import DotSelectedIcon from '!!file-loader!../../shared/images/icon-dot-selected-marker.svg';
 import ZoomMessageControl from './control/ZoomMessageControl';
 import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
@@ -19,6 +21,13 @@ import './style.scss';
 
 const SELECTION_MAX_COUNT = 30;
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
+
+const defaultOptions = {
+  className: 'object-marker',
+  iconSize: [32, 32],
+};
+const LeafletDotIcon = L.icon({ ...defaultOptions, iconUrl: DotIcon });
+const LeafletDotSelectedIcon = L.icon({ ...defaultOptions, iconUrl: DotSelectedIcon });
 
 const Wrapper = styled.div`
   position: relative;
@@ -104,8 +113,8 @@ const MapSelect = ({
            */
           pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
             L.marker(latlong, {
-              icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
-              alt: feature.properties.objectnummer,
+              icon: selection.current.has(feature.properties[idField]) ? LeafletDotSelectedIcon : LeafletDotIcon,
+              alt: feature.properties[idField],
             }),
 
           /**
@@ -130,7 +139,7 @@ const MapSelect = ({
           },
         }
       ),
-    [fetchRequest, getIcon, iconField, idField, onSelectionChange, selection, selectionOnly]
+    [fetchRequest, idField, onSelectionChange, selection, selectionOnly]
   );
 
   /**
@@ -209,7 +218,7 @@ const MapSelect = ({
         const properties = layer.feature.properties;
         const id = properties[idField];
         const iconType = properties[iconField];
-        const icon = getIcon(iconType, selection.current.has(id));
+        const icon = selection.current.has(id) ? LeafletDotSelectedIcon : LeafletDotIcon;
 
         layer.setIcon(icon);
       });
