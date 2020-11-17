@@ -23,7 +23,7 @@ export const colMap = {
   id: 'id',
   value: 'Categorie',
   is_active: 'Status',
-  sla: 'Service Level Agreement',
+  sla: 'Afhandeltermijn',
 };
 
 const StyledDataView = styled(DataView)`
@@ -90,7 +90,7 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
     [history]
   );
 
-  const columnHeaders = ['Categorie', 'Service Level Agreement', 'Status'];
+  const columnHeaders = ['Categorie', 'Afhandeltermijn', 'Status'];
 
   return (
     <Fragment>
