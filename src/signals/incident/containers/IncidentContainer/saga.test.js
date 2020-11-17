@@ -44,7 +44,7 @@ const incident = JSON.stringify(incidentJSON);
 const postIncident = JSON.stringify(postIncidentJSON);
 
 const category = 'afval';
-const subcategory = 'veegzwerfvuil';
+const subcategory = 'asbest-accu';
 export const mockCategoryData = subCategories.find(s => s.slug === subcategory);
 
 const predictionResponse = {

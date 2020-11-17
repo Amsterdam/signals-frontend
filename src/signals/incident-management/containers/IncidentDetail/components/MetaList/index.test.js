@@ -89,7 +89,7 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
       expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -113,7 +113,7 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
       expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -168,7 +168,7 @@ describe('MetaList', () => {
     const { queryByTestId, rerender } = render(renderWithContext(plainIncident));
 
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'beplanting' } }));
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
@@ -178,7 +178,7 @@ describe('MetaList', () => {
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
     expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
 
-    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'parkeer-verwijssysteem' } }));
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'autom-verzinkbare-palen' } }));
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
     expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 dagen$/);
   });
@@ -223,12 +223,13 @@ describe('MetaList', () => {
 
   describe('subcategory', () => {
     const subcategoryLabel = 'Subcategorie (verantwoordelijke afdeling)';
-    const selectedSubcategory = `${parentIncident.category.sub} (${departmentAegCode}, ${departmentAscCode})`;
+    const selectedSubcategory = 'Asbest / accu';
 
     it('should be visible', () => {
-      render(renderWithContext());
+      const { container } = render(renderWithContext());
+
       expect(screen.getByText(subcategoryLabel)).toBeInTheDocument();
-      expect(screen.getByText(selectedSubcategory)).toBeInTheDocument();
+      expect(screen.getByText(selectedSubcategory, { exact: false })).toBeInTheDocument();
     });
 
     it('should not be visible without subcategories available', () => {

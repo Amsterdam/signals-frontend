@@ -4,7 +4,6 @@ import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 import { withAppContext } from 'test/utils';
 import routes from 'signals/settings/routes';
-import categoryJSON from 'utils/__tests__/fixtures/category.json';
 import historyJSON from 'utils/__tests__/fixtures/history.json';
 import configuration from 'shared/services/configuration/configuration';
 import { fetchCategories } from 'models/categories/actions';
@@ -13,6 +12,9 @@ import * as appSelectors from 'containers/App/selectors';
 
 import useConfirmedCancel from '../../../hooks/useConfirmedCancel';
 import CategoryDetailContainer from '..';
+import { subCategories } from 'utils/__tests__/fixtures';
+
+const categoryJSON = subCategories.find(sub => sub?._links['sia:parent']);
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
