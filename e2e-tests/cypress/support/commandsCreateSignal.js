@@ -147,7 +147,7 @@ export const saveSignalId = () => {
 
 export const openCreatedSignal = () => {
   cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-    cy.get('tr td:nth-child(2)').contains(json.signalId).click();
+    cy.get('tr td:nth-child(2)').contains(new RegExp(`^${json.signalId}$`, 'g')).click();
   });
 };
 
