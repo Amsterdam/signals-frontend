@@ -8,8 +8,6 @@ import { childIncidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
-import handlingTimesBySlugFixture from 'utils/__tests__/fixtures/handlingTimesBySlug.json';
-
 import IncidentDetailContext from '../../context';
 import { PATCH_TYPE_NOTES } from '../../constants';
 
