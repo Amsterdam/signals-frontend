@@ -37,10 +37,10 @@ const MapSelectPreview = ({ value, meta, incident }) => (
 
 MapSelectPreview.propTypes = {
   incident: incidentType,
-  meta: {
+  meta: PropTypes.shape({
     endpoint: PropTypes.string.isRequired,
     idField: PropTypes.string.isRequired,
-  },
+  }),
   value: PropTypes.arrayOf(PropTypes.string),
 };
 

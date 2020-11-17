@@ -3,14 +3,12 @@ import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import ZoomMessageControl from './control/ZoomMessageControl';
-import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
 import ErrorControl from './control/ErrorControl';
 
-import MapSelect from '.';
+import MapSelect, { SRS_NAME } from '.';
 
 jest.mock('./control/ZoomMessageControl');
-jest.mock('./control/LegendControl');
 jest.mock('./control/LoadingControl');
 jest.mock('./control/ErrorControl');
 
@@ -35,16 +33,8 @@ const fetchResponse = {
 fetch.mockResponse(JSON.stringify(fetchResponse));
 
 describe('<MapSelect />', () => {
-  const legend = [{ key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' }];
   const onSelectionChange = jest.fn();
   const url = 'foo/geo.json?';
-  const getIcon = (type, isSelected) => {
-    if (isSelected) {
-      return L.divIcon({ className: 'my-div-icon-select' });
-    }
-
-    return L.divIcon({ className: 'my-div-icon' });
-  };
 
   const latlng = {
     latitude: 4,
@@ -62,9 +52,7 @@ describe('<MapSelect />', () => {
         <MapSelect
           latlng={latlng}
           onSelectionChange={onSelectionChange}
-          getIcon={getIcon}
           geojsonUrl={url}
-          iconField="type_name"
           idField="objectnummer"
           hasGPSControl
         />
@@ -74,30 +62,9 @@ describe('<MapSelect />', () => {
     await findByTestId('mapSelect');
 
     expect(getByTestId('gpsButton')).toBeInTheDocument();
-    expect(LegendControl).not.toHaveBeenCalled();
     expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled();
-  });
-
-  it('should render legend', async () => {
-    const { findByTestId } = render(
-      withAppContext(
-        <MapSelect
-          latlng={latlng}
-          onSelectionChange={onSelectionChange}
-          getIcon={getIcon}
-          geojsonUrl={url}
-          legend={legend}
-          iconField="type_name"
-          idField="objectnummer"
-        />
-      )
-    );
-
-    await findByTestId('mapSelect');
-
-    expect(LegendControl).toHaveBeenCalled();
   });
 
   it('should do bbox fetch', async () => {
@@ -105,21 +72,13 @@ describe('<MapSelect />', () => {
 
     const { findByTestId } = render(
       withAppContext(
-        <MapSelect
-          latlng={latlng}
-          onSelectionChange={onSelectionChange}
-          getIcon={getIcon}
-          legend={legend}
-          geojsonUrl={url}
-          iconField="type_name"
-          idField="objectnummer"
-        />
+        <MapSelect latlng={latlng} onSelectionChange={onSelectionChange} geojsonUrl={url} idField="objectnummer" />
       )
     );
 
     await findByTestId('mapSelect');
 
-    const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/;
+    const bboxRegex = new RegExp(`bbox=(\\d{1,2}\\.\\d{1,16},){4}${SRS_NAME}$`);
     expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);
   });
 });

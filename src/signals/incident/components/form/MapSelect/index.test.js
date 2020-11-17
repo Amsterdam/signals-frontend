@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { withAppContext } from 'test/utils';
 
@@ -34,7 +34,7 @@ describe('signals/incident/components/form/MapSelect', () => {
     name: 'my_question',
     isVisible: true,
     endpoint: 'foo/bar?',
-    legend_items: ['klok'],
+    idField: 'objectnummer',
   };
 
   const handler = () => ({ value: 'foo' });
@@ -54,9 +54,47 @@ describe('signals/incident/components/form/MapSelect', () => {
       expect(queryByTestId('mapSelect')).not.toBeInTheDocument();
     });
 
+    it('should render with incident coordinates', () => {
+      const parentWithCoordinates = {
+        ...parent,
+        meta: {
+          ...parent.meta,
+          incidentContainer: {
+            incident: {
+              location: {
+                geometrie: {
+                  coordinates: [4, 52],
+                },
+              },
+            },
+          },
+        },
+      };
+      render(withAppContext(<MapSelect parent={parentWithCoordinates} meta={meta} handler={handler} />));
+
+      expect(screen.getByTestId('mapSelect')).toBeInTheDocument();
+    });
+
     it('should render selected item numbers', () => {
       const { getByText } = render(
         withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value: ['9673465', '808435'] })} />)
+      );
+
+      expect(getByText('Het gaat om: 9673465; 808435')).toBeInTheDocument();
+    });
+
+    it('should render selected item numbers with custom label', () => {
+      const { getByText } = render(
+        withAppContext(
+          <MapSelect
+            parent={parent}
+            meta={{
+              ...meta,
+              selectionLabel: 'lamp of lantaarnpaal met nummer',
+            }}
+            handler={() => ({ value: ['9673465', '808435'] })}
+          />
+        )
       );
 
       expect(getByText('Het gaat om lamp of lantaarnpaal met nummer: 9673465; 808435')).toBeInTheDocument();
@@ -66,7 +104,7 @@ describe('signals/incident/components/form/MapSelect', () => {
       fetch.mockResponse(JSON.stringify(jsonResponse));
 
       const value = ['002635', '147329'];
-      const { container, findByTestId } = render(
+      const { findByTestId } = render(
         withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value })} />)
       );
 
@@ -74,7 +112,7 @@ describe('signals/incident/components/form/MapSelect', () => {
 
       expect(parent.meta.updateIncident).not.toHaveBeenCalled();
 
-      userEvent.click(container.querySelector(`img[alt="${value[0]}"]`));
+      userEvent.click(screen.getByRole('img', { name: value[0] }));
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({ [meta.name]: [value[1]] });
     });

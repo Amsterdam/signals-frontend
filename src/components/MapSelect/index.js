@@ -13,14 +13,13 @@ import MaxSelection from 'utils/maxSelection';
 import DotIcon from '!!file-loader!../../shared/images/icon-dot-marker.svg';
 import DotSelectedIcon from '!!file-loader!../../shared/images/icon-dot-selected-marker.svg';
 import ZoomMessageControl from './control/ZoomMessageControl';
-import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
 import ErrorControl from './control/ErrorControl';
 
 import './style.scss';
 
 const SELECTION_MAX_COUNT = 30;
-const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
+export const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
 
 const defaultOptions = {
   className: 'object-marker',
@@ -234,7 +233,6 @@ MapSelect.propTypes = {
   }).isRequired,
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func,
-  getIcon: PropTypes.func.isRequired,
   hasGPSControl: PropTypes.bool,
   idField: PropTypes.string.isRequired,
   value: PropTypes.arrayOf(PropTypes.string),

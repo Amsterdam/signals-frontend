@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import get from 'lodash.get';
 import styled from 'styled-components';
 import { themeSpacing } from '@amsterdam/asc-ui';
 
