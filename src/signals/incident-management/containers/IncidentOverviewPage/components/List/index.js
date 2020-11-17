@@ -89,9 +89,6 @@ Td.propTypes = {
 };
 
 const ParentIconStyle = styled.span`
-  display: flex;
-  flex-direction: row;
-
   & span:nth-child(2) {
     margin-left: -5px; // specific value. Ensures the parent icon composition icons are near each other.
   }
@@ -199,7 +196,7 @@ const List = ({
               <tr key={incident.id}>
                 <Td detailLink={detailLink}>
                   {incident.has_children && <ParentIcon />}
-                  {(incident.has_parent && <ChildIcon />) || null}
+                  {incident.has_parent && <ChildIcon />}
                 </Td>
                 <Td detailLink={detailLink}>{incident.id}</Td>
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">
