@@ -54,18 +54,15 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.openMenu();
       cy.contains('Melden').click();
       cy.checkHeaderText('Beschrijf uw melding');
-
-      // cy.visitFetch('incident/beschrijf');
     });
     it('Should search for an address', () => {
       cy.server();
-      // cy.getAddressRoute();
       cy.route2('**/locatieserver/v3/suggest?fq=*').as('getAddress');
       cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/wespen.json').as('prediction');
 
       createSignal.checkDescriptionPage();
       // Select source
-      cy.get(CREATE_SIGNAL.dropdownSource).select('Interne melding');
+      createSignal.selectSource(1);
 
       createSignal.setAddress('1012GX 23', 'Oudekerksplein 23, 1012GX Amsterdam');
       createSignal.setDescription('Er vliegen allemaal wespen in de kerk.');
@@ -118,7 +115,7 @@ describe('Create signal and choose other subcategory than proposed', () => {
     it('Should show the last screen', () => {
       createSignal.checkThanksPage();
       // Capture signal id to check details later
-      createSignal.getSignalId();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -138,7 +135,7 @@ describe('Create signal and choose other subcategory than proposed', () => {
       createSignal.checkSignalDetailsPage();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      // cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Oudekerksplein 23').and('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012GX Amsterdam').and('be.visible');
       cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
@@ -146,12 +143,15 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
+      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '3 werkdagen').and('be.visible');
       createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Laag').and('be.visible');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Groot onderhoud').and('be.visible');
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Container is kapot (AEG)').and('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Afval').and('be.visible');
-      cy.get(SIGNAL_DETAILS.source).should('have.text', 'Interne melding').and('be.visible');
+      cy.readFile('./cypress/fixtures/tempSource.json').then(json => {
+        cy.get(SIGNAL_DETAILS.source).should('have.text', json.source).and('be.visible');
+      });
     });
   });
 });

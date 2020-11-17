@@ -55,7 +55,7 @@ describe('Change signal after submit', () => {
     it('Should show the last screen', () => {
       createSignal.checkThanksPage();
       // Capture signal id to check details later
-      createSignal.getSignalId();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -83,6 +83,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
 
       createSignal.checkCreationDate();
+      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '5 werkdagen').and('be.visible');
       createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').should('be.visible');
@@ -251,7 +252,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 9);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
-        .should('contain', 'Update status naar: In behandeling')
+        .should('contain', 'Status gewijzigd naar: In behandeling')
         .and('contain', 'Wij hebben uw zinloze melding toch maar in behandeling genomen')
         .and('be.visible');
     });
@@ -296,7 +297,7 @@ describe('Change signal after submit', () => {
 
       // Check history
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 10);
-      cy.get(SIGNAL_DETAILS.historyAction).contains('Urgentie update naar: Hoog').should('be.visible');
+      cy.get(SIGNAL_DETAILS.historyAction).contains('Urgentie gewijzigd naar: Hoog').should('be.visible');
     });
 
     it('Should change type', () => {
@@ -340,7 +341,7 @@ describe('Change signal after submit', () => {
 
       // Check history
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 11);
-      cy.get(SIGNAL_DETAILS.historyAction).contains('Type update naar: Groot onderhoud').should('be.visible');
+      cy.get(SIGNAL_DETAILS.historyAction).contains('Type gewijzigd naar: Groot onderhoud').should('be.visible');
     });
 
     it('Should change category', () => {

@@ -14,6 +14,8 @@ services:
   backend:
     image: signalen/backend:latest
     environment:
+      - INITIALIZE_WITH_DUMMY_DATA=1
+      - API_VALIDATE_SOURCE_AGAINST_SOURCE_MODEL=False
       - DJANGO_SETTINGS_MODULE=signals.settings.testing
       - ALLOWED_HOSTS=localhost
       - SECRET_KEY=insecure
