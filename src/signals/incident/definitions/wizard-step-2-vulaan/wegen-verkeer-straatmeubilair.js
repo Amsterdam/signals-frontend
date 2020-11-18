@@ -20,6 +20,8 @@ const intro = {
 };
 
 export const controls = {
+  // This element will be enabled each year near the christmass.
+  // Comment/Uncomment next block to show/hide it.
   extra_kerstverlichting: {
     meta: {
       label: '',
@@ -27,12 +29,7 @@ export const controls = {
       value:
         'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
       ifAllOf: {
-        subcategory: [
-          'lantaarnpaal-straatverlichting',
-          // This element will be enabled each year near the christmass.
-          // Comment/Uncomment next line to show/hide it.
-          // 'do-not-show-this-message',
-        ],
+        subcategory: ['lantaarnpaal-straatverlichting'],
       },
     },
     render: FormComponents.PlainText,
