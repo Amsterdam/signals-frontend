@@ -84,19 +84,6 @@ export const checkRedTextStatus = status => {
     });
 };
 
-export const checkSignalDetailsPage = () => {
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
-    cy.url().should('include', `/manage/incident/${json.signalId}`);
-  });
-  cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-  cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-  cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelLocatie).should('have.text', 'Locatie').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelOverlast).should('have.text', 'Overlast').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelTelefoon).should('have.text', 'Telefoon melder').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelToestemming).should('have.text', 'Toestemming contactgegevens delen').and('be.visible');
-};
-
 export const checkSpecificInformationPage = () => {
   cy.url().should('include', '/incident/vulaan');
   cy.checkHeaderText('Dit hebben we nog van u nodig');
@@ -234,6 +221,20 @@ export const selectLampOnCoordinate = (coordinateA, coordinateB) => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.get('.leaflet-container').should('be.visible').wait(500).click(coordinateA, coordinateB);
 };
+
+export const checkSignalDetailsPage = () => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+    cy.url().should('include', `/manage/incident/${json.signalId}`);
+  });
+  cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+  cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
+  cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelLocatie).should('have.text', 'Locatie').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelOverlast).should('have.text', 'Overlast').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelTelefoon).should('have.text', 'Telefoon melder').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelToestemming).should('have.text', 'Toestemming contactgegevens delen').and('be.visible');
+};
+
 export const selectSource = index => {
   cy.get('[data-testid="source"] > option')
     .eq(index)
