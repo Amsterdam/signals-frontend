@@ -3,23 +3,37 @@ import PropTypes from 'prop-types';
 
 import { Select as AscSelect } from '@amsterdam/asc-ui';
 
-const SelectOptions = ({ name, options, optionKey, optionValue }) =>
+const SelectOptions = ({ name, options, optionKey, optionName, optionValue }) =>
   options.map(option => (
-    <option key={`${name}-${option[optionKey]}`} value={option[optionKey]}>
-      {option[optionValue]}
+    <option key={`${name}-${option[optionKey]}`} value={option[optionValue]}>
+      {option[optionName]}
     </option>
   ));
 
 const Select = forwardRef(
-  ({ label, onChange, name, value, options, optionKey = 'key', optionValue = 'name', groups, emptyOption }, ref) => (
+  (
+    {
+      label,
+      onChange,
+      name,
+      value,
+      options,
+      optionKey = 'key',
+      optionValue = 'value',
+      optionName = 'name',
+      groups,
+      emptyOption,
+    },
+    ref
+  ) => (
     <AscSelect value={value} onChange={onChange} data-testid={name} label={label} name={name} ref={ref}>
       {emptyOption && (
-        <option key={`${name}-${emptyOption[optionKey]}`} value={emptyOption[optionKey]}>
-          {emptyOption[optionValue]}
+        <option key={`${name}-${emptyOption[optionKey]}`} value={emptyOption[optionValue]}>
+          {emptyOption[optionName]}
         </option>
       )}
 
-      {groups?.length > 1 ?
+      {groups?.length > 1 ? (
         groups.map(group => (
           <optgroup key={group.name} label={group.name}>
             <SelectOptions
@@ -27,12 +41,19 @@ const Select = forwardRef(
               options={options.filter(option => option.group === group.value)}
               optionKey={optionKey}
               optionValue={optionValue}
+              optionName={optionName}
             />
           </optgroup>
         ))
-        : (
-          <SelectOptions name={name} options={options} optionKey={optionKey} optionValue={optionValue} />
-        )}
+      ) : (
+        <SelectOptions
+          name={name}
+          options={options}
+          optionKey={optionKey}
+          optionValue={optionValue}
+          optionName={optionName}
+        />
+      )}
     </AscSelect>
   )
 );
@@ -50,6 +71,7 @@ Select.propTypes = {
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(optionType.isRequired).isRequired,
   optionKey: PropTypes.string,
+  optionName: PropTypes.string,
   optionValue: PropTypes.string,
   value: PropTypes.string,
   groups: PropTypes.arrayOf(

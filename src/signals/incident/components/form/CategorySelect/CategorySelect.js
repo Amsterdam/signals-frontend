@@ -11,7 +11,7 @@ const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;
 `;
 
-const emptyOption = { key: '', name: 'Selecteer subcategorie', value: '', group: '' };
+const emptyOption = { key: '', name: 'Selecteer subcategorie', slug: '', group: '' };
 
 const CategorySelect = ({ handler, meta, parent }) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
@@ -55,6 +55,7 @@ const CategorySelect = ({ handler, meta, parent }) => {
           onChange={handleChange}
           options={subcategoryOptions}
           optionKey="slug"
+          optionValue="slug"
           groups={subcategoryGroups}
           emptyOption={emptyOption}
         />
