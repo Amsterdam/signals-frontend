@@ -96,25 +96,6 @@ describe('<IncidentWizard />', () => {
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
-  it('expect to render preview correctly', () => {
-    const propsWithPreview = {
-      ...props,
-      wizardDefinition: {
-        samenvatting: {
-          preview: {},
-        },
-      },
-    };
-
-    const { queryByTestId } = render(
-      withContext(<IncidentWizard {...propsWithPreview} incidentContainer={{ incident: incidentJson }} />)
-    );
-
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-  });
-
   it('expect to render preview factory correctly', () => {
     const propsWithPreviewFactory = {
       ...props,
