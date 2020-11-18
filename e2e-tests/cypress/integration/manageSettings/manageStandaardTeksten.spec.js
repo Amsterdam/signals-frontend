@@ -128,7 +128,7 @@ describe('Standaardteksten', () => {
     it('Should show the last screen', () => {
       createSignal.checkThanksPage();
       // Capture signal id to check details later
-      createSignal.getSignalId();
+      createSignal.saveSignalId();
     });
   });
   describe('Change status of signal and check standaardtekst', () => {
