@@ -2,7 +2,7 @@ import React, { Fragment, useMemo, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing, Heading } from '@amsterdam/asc-ui';
-import Button from 'components/Button';
+import Button, { ApplicationButton } from 'components/Button';
 
 import { childIncidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
@@ -13,7 +13,7 @@ import { PATCH_TYPE_NOTES } from '../../constants';
 
 const isChildChanged = (childDatetime, parentDatetime) => new Date(childDatetime) > new Date(parentDatetime);
 
-const NoActionButton = styled(Button)`
+const Section = styled.section`
   margin: ${themeSpacing(0, 2, 6, 0)};
 `;
 
@@ -61,18 +61,16 @@ const ChildIncidents = ({ incidents, parent }) => {
 
       <ChildIncidentsList incidents={children} />
 
-      <section>
+      <Section>
         {canReset &&
-          <NoActionButton
+          <ApplicationButton
             data-testid="noActionButton"
-            variant="application"
-            type="button"
             onClick={() => resetAction()}
           >
             Geen actie nodig
-          </NoActionButton>
+          </ApplicationButton>
         }
-      </section>
+      </Section>
 
     </Fragment>
   );

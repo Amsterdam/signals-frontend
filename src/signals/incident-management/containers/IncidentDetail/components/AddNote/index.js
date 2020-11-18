@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useState, useRef, useContext } from 'rea
 import styled from 'styled-components';
 import { themeSpacing, ErrorMessage } from '@amsterdam/asc-ui';
 
-import Button from 'components/Button';
+import Button, { ApplicationButton } from 'components/Button';
 import TextArea from 'components/TextArea';
 import Label from 'components/Label';
 import IncidentDetailContext from '../../context';
 import { PATCH_TYPE_NOTES } from '../../constants';
 
-const NewNoteButton = styled(Button)`
+const Section = styled.section`
   margin: ${themeSpacing(2, 2, 2, 0)};
 `;
 
@@ -71,21 +71,19 @@ const AddNote = () => {
 
   if (!showForm) {
     return (
-      <section>
-        <NewNoteButton
+      <Section>
+        <ApplicationButton
           data-testid="addNoteNewNoteButton"
-          variant="application"
-          type="button"
           onClick={() => setShowForm(true)}
         >
           Notitie toevoegen
-        </NewNoteButton>
-      </section>
+        </ApplicationButton>
+      </Section>
     );
   }
 
   return (
-    <section>
+    <Section>
       <form action="">
         <Label htmlFor="addNoteText">Notitie toevoegen</Label>
         <TextArea id="addNoteText" ref={areaRef} onChange={onChange} rows={10} data-testid="addNoteText" value={note} />
@@ -110,7 +108,7 @@ const AddNote = () => {
           Annuleren
         </NoteButton>
       </form>
-    </section>
+    </Section>
   );
 };
 

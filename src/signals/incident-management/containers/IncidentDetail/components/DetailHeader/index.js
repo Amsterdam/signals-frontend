@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { themeColor, themeSpacing, Heading, styles } from '@amsterdam/asc-ui';
 
 import BackLink from 'components/BackLink';
-import Button from 'components/Button';
+import Button, { ApplicationButton } from 'components/Button';
 import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
 
 import DownloadButton from './components/DownloadButton';
@@ -141,20 +141,19 @@ const DetailHeader = () => {
 
       <ButtonContainer>
         {showSplitButton && (
-          <ButtonLink
-            variant="application"
+          <ApplicationButton
             forwardedAs={Link}
             to={`${INCIDENT_URL}/${incident.id}/split`}
             data-testid="detail-header-button-split"
           >
             Delen
-          </ButtonLink>
+          </ApplicationButton>
         )}
 
         {canThor && (
-          <Button variant="application" onClick={patchIncident} data-testid="detail-header-button-thor">
+          <ApplicationButton onClick={patchIncident} data-testid="detail-header-button-thor">
             THOR
-          </Button>
+          </ApplicationButton>
         )}
 
         <DownloadButton

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'components/Button';
+import { ApplicationButton } from 'components/Button';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import useFetch from 'hooks/useFetch';
@@ -31,16 +31,15 @@ const DownloadButton = ({ label, url, filename }) => {
   }, [get, url]);
 
   return (
-    <Button
+    <ApplicationButton
       disabled={isLoading}
       iconRight={isLoading && <LoadingIndicator />}
       iconSize={20}
-      variant="application"
       data-testid="download-button"
       onClick={handleDownload}
     >
       {label}
-    </Button>
+    </ApplicationButton>
   );
 };
 
