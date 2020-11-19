@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   collectCoverageFrom: [
     'src/*.js',
@@ -29,9 +31,7 @@ module.exports = {
       '<rootDir>/internals/mocks/image.js',
   },
   setupFilesAfterEnv: ['<rootDir>/internals/testing/test-bundler.js'],
-  transform: {
-    '^.+\\.js$': 'babel-jest',
-  },
+  transform: { '^.+\\.js$': ['babel-jest', { configFile: path.resolve(__dirname, 'babel.config.js') }] },
   testRegex: '.*\\.test\\.js$',
   snapshotSerializers: ['enzyme-to-json/serializer'],
 };

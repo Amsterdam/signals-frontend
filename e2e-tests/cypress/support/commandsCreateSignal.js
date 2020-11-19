@@ -12,7 +12,7 @@ export const addNote = noteText => {
 export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.server();
   cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignal');
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
     cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
   });
   cy.get(CHANGE_STATUS.buttonEdit).click();
@@ -84,19 +84,6 @@ export const checkRedTextStatus = status => {
     });
 };
 
-export const checkSignalDetailsPage = () => {
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
-    cy.url().should('include', `/manage/incident/${json.signalId}`);
-  });
-  cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-  cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-  cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelLocatie).should('have.text', 'Locatie').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelOverlast).should('have.text', 'Overlast').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelTelefoon).should('have.text', 'Telefoon melder').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelToestemming).should('have.text', 'Toestemming contactgegevens delen').and('be.visible');
-};
-
 export const checkSpecificInformationPage = () => {
   cy.url().should('include', '/incident/vulaan');
   cy.checkHeaderText('Dit hebben we nog van u nodig');
@@ -133,7 +120,7 @@ export const checkThanksPage = () => {
   });
 };
 
-export const getSignalId = () => {
+export const saveSignalId = () => {
   cy.get('.bedankt')
     .first()
     .then($signalLabel => {
@@ -141,13 +128,13 @@ export const getSignalId = () => {
       const signalNumber = $signalLabel.text().match(/\d+/)[0];
       cy.log(signalNumber);
       // Set the signal id in variable for later use
-      cy.writeFile('./cypress/fixtures/tempSignalData.json', { signalId: `${signalNumber}` }, { flag: 'w' });
+      cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${signalNumber}` }, { flag: 'w' });
     });
 };
 
 export const openCreatedSignal = () => {
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
-    cy.get('[href*="/manage/incident/"]').contains(json.signalId).click();
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+    cy.get('tr td:nth-child(2)').contains(new RegExp(`^${json.signalId}$`, 'g')).click();
   });
 };
 
@@ -233,4 +220,27 @@ export const uploadFile = (fileName, fileType, selector) => {
 export const selectLampOnCoordinate = (coordinateA, coordinateB) => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.get('.leaflet-container').should('be.visible').wait(500).click(coordinateA, coordinateB);
+};
+
+export const checkSignalDetailsPage = () => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+    cy.url().should('include', `/manage/incident/${json.signalId}`);
+  });
+  cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+  cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
+  cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelLocatie).should('have.text', 'Locatie').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelOverlast).should('have.text', 'Overlast').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelTelefoon).should('have.text', 'Telefoon melder').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelToestemming).should('have.text', 'Toestemming contactgegevens delen').and('be.visible');
+};
+
+export const selectSource = index => {
+  cy.get('[data-testid="source"] > option')
+    .eq(index)
+    .then(element => {
+      // const source = element.val();
+      cy.get('[data-testid="source"]').select(element.val());
+      cy.writeFile('./cypress/fixtures/tempSource.json', { source: `${element.val()}` }, { flag: 'w' });
+    });
 };

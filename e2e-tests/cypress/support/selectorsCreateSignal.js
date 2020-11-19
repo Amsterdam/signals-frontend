@@ -2,6 +2,7 @@ export const CREATE_SIGNAL = {
   autoSuggest: '[data-testid="autoSuggest"]',
   buttonGPS: '[data-testid=gpsButton]',
   buttonUploadFile: '#formUpload',
+  buttonVolgende: '[data-testid="nextButton"]',
   checkBoxSharingAllowed: '#sharing_allowed',
   descriptionInfo: '[data-testid="descriptionInfo"]',
   disclaimer: '[data-testid=disclaimer]',

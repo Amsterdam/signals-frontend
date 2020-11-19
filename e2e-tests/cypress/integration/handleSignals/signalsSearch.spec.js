@@ -57,7 +57,7 @@ describe.skip('Search signals', () => {
     it('Should show the last screen', () => {
       createSignal.checkThanksPage();
       // Capture signal id to check details later
-      createSignal.getSignalId();
+      createSignal.saveSignalId();
     });
   });
 
@@ -90,7 +90,7 @@ describe.skip('Search signals', () => {
       createSignal.searchAndCheck('Snel varen', SIGNAL_DETAILS.subCategory);
     });
     it('Should filter on signal ID', () => {
-      cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+      cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
         createSignal.searchAndCheck(`${json.signalId}`, SIGNAL_DETAILS.signalId);
       });
     });

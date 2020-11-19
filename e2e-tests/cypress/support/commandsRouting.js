@@ -59,7 +59,7 @@ Cypress.Commands.add('defineMapRoutes', () => {
 
 // Routes loading signal details
 Cypress.Commands.add('getSignalDetailsRoutesById', () => {
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
     cy.route(`/signals/v1/private/signals/${json.signalId}`).as('getSignal');
     cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
     cy.route(`/signals/v1/private/signals/${json.signalId}/attachments`).as('getAttachments');

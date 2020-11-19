@@ -1,7 +1,7 @@
 // <reference types="Cypress" />
 import * as requests from '../../support/commandsRequests';
 import * as createSignal from '../../support/commandsCreateSignal';
-import { FILTER, MANAGE_SIGNALS, OVERVIEW_MAP } from '../support/selectorsManageIncidents';
+import { FILTER, MANAGE_SIGNALS, OVERVIEW_MAP } from '../../support/selectorsManageIncidents';
 import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { generateToken } from '../../support/jwt';
 
@@ -86,7 +86,7 @@ describe('Signal overview Map', () => {
       cy.get(OVERVIEW_MAP.openSignalDetails).then($signalLink => {
         // Get the signal number
         const signalId = $signalLink.text().match(/\d+/)[0];
-        cy.writeFile('./cypress/fixtures/tempSignalData.json', { signalId: `${signalId}` }, { flag: 'w' });
+        cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${signalId}` }, { flag: 'w' });
         cy.get(OVERVIEW_MAP.openSignalDetails).click();
         // Url contains signal number
         cy.url().should('include', signalId);
@@ -97,39 +97,18 @@ describe('Signal overview Map', () => {
       createSignal.checkSignalDetailsPage();
       cy.contains('Er staat een paard in de gang, ja ja een paard in de gang.');
 
-      cy.get(SIGNAL_DETAILS.stadsdeel)
-        .should('have.text', 'Stadsdeel: Centrum')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet)
-        .should('have.text', 'Nieuwezijds Voorburgwal 147')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity)
-        .should('have.text', '1012RJ Amsterdam')
-        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Nieuwezijds Voorburgwal 147').and('be.visible');
+      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012RJ Amsterdam').and('be.visible');
 
-      // Check if status is 'gemeld' with red coloured text
-      cy.get(SIGNAL_DETAILS.status)
-        .should('have.text', 'Gemeld')
-        .and('be.visible')
-        .and($labels => {
-          expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
-        });
-
-      cy.get(SIGNAL_DETAILS.urgency)
-        .should('have.text', 'Normaal')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.type)
-        .should('have.text', 'Melding')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory)
-        .should('have.text', 'Overig openbare ruimte (ASC)')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory)
-        .should('have.text', 'Overlast in de openbare ruimte')
-        .and('be.visible');
-      cy.get(SIGNAL_DETAILS.source)
-        .should('have.text', 'online')
-        .and('be.visible');
+      createSignal.checkCreationDate();
+      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '21 dagen').and('be.visible');
+      createSignal.checkRedTextStatus('Gemeld');
+      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
+      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Overig openbare ruimte (ASC)').and('be.visible');
+      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast in de openbare ruimte').and('be.visible');
+      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
     });
 
     it('Should go back to the map', () => {

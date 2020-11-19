@@ -1,7 +1,6 @@
 // <reference types="Cypress" />
 import * as createSignal from '../../support/commandsCreateSignal';
 import { CATEGORIES } from '../../support/selectorsSettings';
-import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { generateToken } from '../../support/jwt';
 
@@ -80,7 +79,7 @@ describe('Manage categories', () => {
       createSignal.setDateTime('Nu');
 
       // Select source
-      cy.get(CREATE_SIGNAL.dropdownSource).select('Telefoon – Stadsdeel');
+      createSignal.selectSource(2);
 
       cy.contains('Volgende').click();
     });
@@ -108,7 +107,7 @@ describe('Manage categories', () => {
     it('Should show the last screen', () => {
       createSignal.checkThanksPage();
       // Capture signal id to check details later
-      createSignal.getSignalId();
+      createSignal.saveSignalId();
     });
     it('Should show the change in category description', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));

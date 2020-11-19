@@ -8,7 +8,7 @@ export const setDeelmelding = (id, deelmeldingNumber, subcategory, description) 
 };
 
 export const checkDeelmelding = (deelmeldingNumber, subcategory) => {
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
     const deelMeldingId = Number.parseInt(json.signalId, 10) + Number.parseInt(deelmeldingNumber, 10);
     cy.log(deelMeldingId);
 

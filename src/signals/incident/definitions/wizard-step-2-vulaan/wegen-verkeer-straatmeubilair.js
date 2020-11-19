@@ -20,6 +20,21 @@ const intro = {
 };
 
 export const controls = {
+  // This element will be enabled each year near the christmass.
+  // Comment/Uncomment next block to show/hide it.
+  extra_kerstverlichting: {
+    meta: {
+      label: '',
+      type: 'alert',
+      value:
+        'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
+      ifAllOf: {
+        subcategory: ['lantaarnpaal-straatverlichting'],
+      },
+    },
+    render: FormComponents.PlainText,
+  },
+
   extra_brug: {
     meta: {
       ifAllOf: {
@@ -125,7 +140,7 @@ export const controls = {
         ],
       },
       type: 'alert',
-      value: [`Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`],
+      value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
     },
     render: FormComponents.PlainText,
   },
@@ -236,7 +251,7 @@ export const controls = {
         ],
       },
       type: 'alert',
-      value: [`Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`],
+      value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
     },
     render: FormComponents.PlainText,
   },
@@ -369,7 +384,7 @@ export const controls = {
         ],
       },
       type: 'alert',
-      value: [`Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`],
+      value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
     },
     render: FormComponents.PlainText,
   },
