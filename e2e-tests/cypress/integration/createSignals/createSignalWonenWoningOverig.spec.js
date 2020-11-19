@@ -50,16 +50,6 @@ describe('Create signal wonen woning overig and check signal details', () => {
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenWeetIkNiet).check({ force: true }).should('be.checked');
       cy.contains(warningPhone).should('not.be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenJa).check({ force: true }).should('be.checked');
-      cy.contains(warningPhone).should('be.visible');
-
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderTelefonisch).check({ force: true }).should('be.checked');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers1).should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers2).should('be.visible');
-
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderMeldformulier).check({ force: true }).should('be.checked');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers1).should('not.be.visible');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers2).should('not.be.visible');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_footer.answers).should('be.visible');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_aantal_mensen.label).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVierOfMinder).check({ force: true }).should('be.checked');

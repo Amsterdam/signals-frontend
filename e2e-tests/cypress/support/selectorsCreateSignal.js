@@ -237,8 +237,6 @@ export const WONEN_VAKANTIEVERHUUR = {
   radioButtonToeristenJa: '#extra_wonen_vakantieverhuur_toeristen_aanwezig-ja1',
   radioButtonToeristenNee: '#extra_wonen_vakantieverhuur_toeristen_aanwezig-nee1',
   radioButtonToeristenWeetIkNiet: '#extra_wonen_vakantieverhuur_toeristen_aanwezig-weet_ik_niet1',
-  radioButtonVerderMeldformulier: '#extra_wonen_vakantieverhuur_bellen_of_formulier-formulier1',
-  radioButtonVerderTelefonisch: '#extra_wonen_vakantieverhuur_bellen_of_formulier-bellen1',
   radioButtonWanneerDoordeweeks: '#extra_wonen_vakantieverhuur_wanneer-doordeweeks1',
   radioButtonWanneerWeekend: '#extra_wonen_vakantieverhuur_wanneer-weekend1',
   radioButtonWanneerWisselend: '#extra_wonen_vakantieverhuur_wanneer-wisselend1',

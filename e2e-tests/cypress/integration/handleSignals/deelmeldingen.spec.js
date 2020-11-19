@@ -9,6 +9,21 @@ import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 
 describe('Deelmeldingen', () => {
+  describe('Set up data in Django admin', () => {
+    before(() => {
+      cy.visitFetch('http://localhost:8000/signals/admin');
+    });
+    it('Should set can manage', () => {
+      cy.get('#id_username').type('signals.admin@example.com');
+      cy.get('#id_password').type('password');
+      cy.contains('Aanmelden').click();
+      cy.get('a[href="/signals/admin/signals/department/"]').eq(1).click();
+      cy.contains('ASC').click();
+      cy.get('#id_can_direct').check().should('be.checked');
+      cy.get('[name="_save"]').click();
+      cy.get('a[href="/signals/admin/logout/"]').click();
+    });
+  });
   describe('Create Deelmeldingen', () => {
     describe('Set up data', () => {
       beforeEach(() => {
@@ -40,7 +55,11 @@ describe('Deelmeldingen', () => {
 
         createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
         createSignal.uploadFile('images/logo2.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
-        cy.get(CREATE_SIGNAL.buttonVolgende).click();
+
+        // wait is needed, otherwise test is faling
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000);
+        cy.contains('Volgende').click();
       });
       it('Should enter specific information', () => {
         cy.contains('Volgende').click();
