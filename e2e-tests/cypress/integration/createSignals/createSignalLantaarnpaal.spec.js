@@ -20,7 +20,7 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1077WV 59', 'Prinses Irenestraat 59, 1077WV Amsterdam');
       createSignal.setDescription('De lantaarnpaal voor mijn deur is kapot');
-      createSignal.setDateTime('Eerder');
+      createSignal.setDateTime('Vandaag');
 
       createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
       cy.contains('Volgende').click();

@@ -15,7 +15,7 @@ describe('Create signal container and check signal details', () => {
     it('Should describe the signal', () => {
       cy.server();
       cy.getAddressRoute();
-      cy.stubCategoryPrediction('container.json');
+      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/container.json').as('prediction');
 
       createSignal.checkDescriptionPage();
       createSignal.setAddress('1012AB 15', 'Stationsplein 15, 1012AB Amsterdam');
