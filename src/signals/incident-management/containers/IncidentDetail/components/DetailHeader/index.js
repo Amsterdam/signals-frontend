@@ -141,18 +141,23 @@ const DetailHeader = () => {
 
       <ButtonContainer>
         {showSplitButton && (
-          <ButtonLink
+          <Button
+            type="button"
             variant="application"
             forwardedAs={Link}
             to={`${INCIDENT_URL}/${incident.id}/split`}
             data-testid="detail-header-button-split"
           >
             Delen
-          </ButtonLink>
+          </Button>
         )}
 
         {canThor && (
-          <Button variant="application" onClick={patchIncident} data-testid="detail-header-button-thor">
+          <Button
+            type="button"
+            variant="application"
+            onClick={patchIncident} data-testid="detail-header-button-thor"
+          >
             THOR
           </Button>
         )}

@@ -8,7 +8,7 @@ import Label from 'components/Label';
 import IncidentDetailContext from '../../context';
 import { PATCH_TYPE_NOTES } from '../../constants';
 
-const NewNoteButton = styled(Button)`
+const Section = styled.section`
   margin: ${themeSpacing(2, 2, 2, 0)};
 `;
 
@@ -71,21 +71,21 @@ const AddNote = () => {
 
   if (!showForm) {
     return (
-      <section>
-        <NewNoteButton
-          data-testid="addNoteNewNoteButton"
-          variant="application"
+      <Section>
+        <Button
           type="button"
+          variant="application"
+          data-testid="addNoteNewNoteButton"
           onClick={() => setShowForm(true)}
         >
           Notitie toevoegen
-        </NewNoteButton>
-      </section>
+        </Button>
+      </Section>
     );
   }
 
   return (
-    <section>
+    <Section>
       <form action="">
         <Label htmlFor="addNoteText">Notitie toevoegen</Label>
         <TextArea id="addNoteText" ref={areaRef} onChange={onChange} rows={10} data-testid="addNoteText" value={note} />
@@ -110,7 +110,7 @@ const AddNote = () => {
           Annuleren
         </NoteButton>
       </form>
-    </section>
+    </Section>
   );
 };
 

@@ -13,7 +13,7 @@ import { PATCH_TYPE_NOTES } from '../../constants';
 
 const isChildChanged = (childDatetime, parentDatetime) => new Date(childDatetime) > new Date(parentDatetime);
 
-const NoActionButton = styled(Button)`
+const Section = styled.section`
   margin: ${themeSpacing(0, 2, 6, 0)};
 `;
 
@@ -61,19 +61,13 @@ const ChildIncidents = ({ incidents, parent }) => {
 
       <ChildIncidentsList incidents={children} />
 
-      <section>
-        {canReset &&
-          <NoActionButton
-            data-testid="noActionButton"
-            variant="application"
-            type="button"
-            onClick={() => resetAction()}
-          >
+      <Section>
+        {canReset && (
+          <Button type="button" variant="application" data-testid="noActionButton" onClick={() => resetAction()}>
             Geen actie nodig
-          </NoActionButton>
-        }
-      </section>
-
+          </Button>
+        )}
+      </Section>
     </Fragment>
   );
 };
