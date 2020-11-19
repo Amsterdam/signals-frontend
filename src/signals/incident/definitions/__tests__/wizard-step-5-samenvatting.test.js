@@ -1,9 +1,7 @@
 import { Validators } from 'react-reactive-form';
-import memoize from 'lodash/memoize';
 
 import configuration from 'shared/services/configuration/configuration';
 
-import { controls as afvalControls } from '../wizard-step-2-vulaan/afval';
 import step5, { renderPreview, summary, Label, ObjectLabel, SCSVLabel, Null } from '../wizard-step-5-samenvatting';
 import FormComponents from '../../components/form';
 import PreviewComponents from '../../components/IncidentPreview/components';
@@ -16,7 +14,6 @@ jest.mock('lodash/memoize', () => ({
   __esModule: true,
   default: jest.fn(fn => fn),
 }));
-jest.mock('../wizard-step-2-vulaan/afval');
 
 describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
   afterEach(() => {
@@ -80,13 +77,18 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
       });
       const expected = expect.objectContaining({
         vulaan: {
-          extra_bedrijven_horeca_wat: {
-            label: 'Soort bedrijf',
+          extra_afval: {
+            label: 'Waar vandaan',
             optional: true,
-            render: ObjectLabel,
+            render: Label,
           },
-          extra_bedrijven_horeca_naam: {
-            label: 'Mogelijke veroorzaker',
+          extra_container_kind: {
+            label: 'Soort container',
+            optional: true,
+            render: Label,
+          },
+          extra_container_number: {
+            label: 'Container nummer',
             optional: true,
             render: Label,
           },
