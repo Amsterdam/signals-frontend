@@ -2,7 +2,7 @@ import React, { Fragment, useMemo, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing, Heading } from '@amsterdam/asc-ui';
-import Button, { ApplicationButton } from 'components/Button';
+import Button from 'components/Button';
 
 import { childIncidentType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
@@ -62,16 +62,12 @@ const ChildIncidents = ({ incidents, parent }) => {
       <ChildIncidentsList incidents={children} />
 
       <Section>
-        {canReset &&
-          <ApplicationButton
-            data-testid="noActionButton"
-            onClick={() => resetAction()}
-          >
+        {canReset && (
+          <Button type="button" variant="application" data-testid="noActionButton" onClick={() => resetAction()}>
             Geen actie nodig
-          </ApplicationButton>
-        }
+          </Button>
+        )}
       </Section>
-
     </Fragment>
   );
 };

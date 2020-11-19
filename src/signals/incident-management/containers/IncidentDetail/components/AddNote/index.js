@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useRef, useContext } from 'rea
 import styled from 'styled-components';
 import { themeSpacing, ErrorMessage } from '@amsterdam/asc-ui';
 
-import Button, { ApplicationButton } from 'components/Button';
+import Button from 'components/Button';
 import TextArea from 'components/TextArea';
 import Label from 'components/Label';
 import IncidentDetailContext from '../../context';
@@ -72,12 +72,14 @@ const AddNote = () => {
   if (!showForm) {
     return (
       <Section>
-        <ApplicationButton
+        <Button
+          type="button"
+          variant="application"
           data-testid="addNoteNewNoteButton"
           onClick={() => setShowForm(true)}
         >
           Notitie toevoegen
-        </ApplicationButton>
+        </Button>
       </Section>
     );
   }

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Button as AscButton, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 const Button = styled(AscButton)`
@@ -8,13 +8,14 @@ const Button = styled(AscButton)`
   svg path {
     fill: inherit;
   }
-`;
 
-export const ApplicationButton = styled(Button).attrs({ variant: 'application', type: 'button' })`
-  padding: ${themeSpacing(1, 4)};
+  ${({ variant, type }) => variant === 'application' && type === 'button' && css`
+    padding: ${themeSpacing(1, 4)};
 
-  // Required for buttons that are rendered as 'Link'
-  color: ${themeColor('tint', 'level7')};
+    // Required for buttons that are rendered as 'Link'
+    color: ${themeColor('tint', 'level7')};
+  `}
+
 `;
 
 export default Button;
