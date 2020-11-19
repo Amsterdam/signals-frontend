@@ -18,6 +18,7 @@ Possible field types.
 | **PlainText** | This is not really a question to answer. It simply shows some information to the visitor.
 | **TextInput** | A text field for one line of text.
 | **CheckboxInput** | Could be either of the following. A *single* checkbox to allow the visitor to check or uncheck a specific option. A *list* of checkboxes to allow the visitor to choose multiple values from a fixed set of options.
+| **MapSelect** | Shows assets on a map and allows the visitor to select some assets.
 | **RadioInput** | Radio boxes to allow the visitor to choose one value from a fixed set of options.
 | **SelectInput** | Dropdown box to allow the visitor to choose one value from a fixed set of options.
 | **TextareaInput** | A bigger text field for multiple lines of text.
@@ -39,6 +40,9 @@ Possible properties are listed below. The 'Field types' column lists the possibl
 | **value** | The text to display to the visitor. | PlainText, CheckboxInput (single)
 | **values** | The possible options in key-value pairs. | CheckboxInput (list), RadioInput, SelectInput
 | **maxLength** | Displays, underneath the text area, the amount of characters typed into the text area versus the total amount of characters allowed (as specified with this property). | TextareaInput
+| **idField** | The name of the property field of an asset that shows the ID/number. | MapSelect
+| **endpoint** | The URL from which the assets can be retrieved to show on the map. | MapSelect
+| **selectionLabel** | Label specifying the specific assets selected, shown below the map. | MapSelect
 
 ### Type
 
