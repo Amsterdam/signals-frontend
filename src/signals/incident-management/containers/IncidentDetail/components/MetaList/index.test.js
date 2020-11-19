@@ -223,13 +223,13 @@ describe('MetaList', () => {
 
   describe('subcategory', () => {
     const subcategoryLabel = 'Subcategorie (verantwoordelijke afdeling)';
-    const selectedSubcategory = 'Asbest / accu';
+    const selectedSubcategory = /Asbest \/ accu/;
 
     it('should be visible', () => {
-      const { container } = render(renderWithContext());
+      render(renderWithContext());
 
       expect(screen.getByText(subcategoryLabel)).toBeInTheDocument();
-      expect(screen.getByText(selectedSubcategory, { exact: false })).toBeInTheDocument();
+      expect(screen.getByText(selectedSubcategory)).toBeInTheDocument();
     });
 
     it('should not be visible without subcategories available', () => {

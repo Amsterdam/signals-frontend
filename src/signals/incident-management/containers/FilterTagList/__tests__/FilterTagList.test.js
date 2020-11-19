@@ -121,7 +121,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     const categories = [...mainCategories, category];
 
     it('shows an extra label when a tag is a main category', () => {
-      const { container, rerender, queryByText } = render(
+      const { rerender, queryByText } = render(
         withContext(
           <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={categories} />
         )
