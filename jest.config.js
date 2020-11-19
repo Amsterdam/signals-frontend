@@ -15,10 +15,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 98.86,
-      branches: 97.41,
-      functions: 98.53,
-      lines: 98.88,
+      statements: 98.92,
+      branches: 97.69,
+      functions: 98.74,
+      lines: 98.98,
     },
   },
   moduleDirectories: ['node_modules', 'src'],
@@ -28,9 +28,7 @@ module.exports = {
     '.*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/internals/mocks/image.js',
   },
-  setupFilesAfterEnv: [
-    '<rootDir>/internals/testing/test-bundler.js',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/internals/testing/test-bundler.js'],
   transform: {
     '^.+\\.js$': 'babel-jest',
   },
