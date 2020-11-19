@@ -1,20 +1,23 @@
+import memoize from 'lodash/memoize';
+
 import configuration from 'shared/services/configuration/configuration';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components';
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen';
-import { controls as overlastBedrijvenHorecaControls } from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
-import { controls as overlastOpenbareRuimteControls } from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
+import { controls as overlastBedrijvenEnHorecaControls } from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
+import { controls as overlastInDeOpenbareRuimteControls } from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
 import { controls as overlastOpHetWaterControls } from './wizard-step-2-vulaan/overlast-op-het-water';
 import { controls as wegenVerkeerStraatmeubilairControls } from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
 import { controls as afvalControls } from './wizard-step-2-vulaan/afval';
-import { controls as overlastPersonenGroepenControls } from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
+import { controls as overlastPersonenEnGroepenControls } from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
 import FormComponents from '../components/form';
 
 export const ObjectLabel = ({ value }) => value?.label;
 export const Label = ({ value }) => value;
 export const SCSVLabel = ({ value }) => value.filter(Boolean).join('; ');
 export const Null = () => null;
+const mapFieldNameToComponent = key => FormComponents[key];
 
 export const renderPreview = ({ render: renderFunc, meta }) => {
   switch (renderFunc.name) {
@@ -57,6 +60,56 @@ export const summary = controls =>
     {}
   );
 
+const expandQuestions = memoize(
+  questions =>
+    Object.entries(questions).reduce(
+      (acc, [key, question]) => ({
+        ...acc,
+        [key]: {
+          label: question.meta.shortLabel || question.meta.label,
+          optional: !question.required,
+          render: renderPreview({ render: mapFieldNameToComponent(question.render), meta: question.meta }),
+        },
+      }),
+      {}
+    ),
+  (questions, category, subcategory) => `${category}${subcategory}`
+);
+
+const getExtraQuestions = (category, subcategory, questions) => {
+  if (!configuration?.featureFlags.showVulaanControls) return {};
+
+  if (configuration.featureFlags.fetchQuestionsFromBackend) {
+    return expandQuestions(questions || {}, category, subcategory);
+  }
+
+  switch (category) {
+    case 'afval':
+      return summary(afvalControls);
+
+    case 'overlast-bedrijven-en-horeca':
+      return summary(overlastBedrijvenEnHorecaControls);
+
+    case 'overlast-in-de-openbare-ruimte':
+      return summary(overlastInDeOpenbareRuimteControls);
+
+    case 'overlast-op-het-water':
+      return summary(overlastOpHetWaterControls);
+
+    case 'overlast-van-en-door-personen-of-groepen':
+      return summary(overlastPersonenEnGroepenControls);
+
+    case 'wegen-verkeer-straatmeubilair':
+      return summary(wegenVerkeerStraatmeubilairControls);
+
+    case 'wonen':
+      return summary(wonenControls);
+
+    default:
+      return {};
+  }
+};
+
 export default {
   label: 'Controleer uw gegevens',
   subheader: 'Maak een aanpassing als dat nodig is.',
@@ -87,7 +140,7 @@ export default {
       },
     },
   },
-  preview: {
+  previewFactory: ({ category, subcategory, questions }) => ({
     beschrijf: {
       source: {
         label: 'Bron',
@@ -123,21 +176,7 @@ export default {
       },
     },
 
-    vulaan: {
-      ...summary(wegenVerkeerStraatmeubilairControls),
-
-      ...summary(afvalControls),
-
-      ...summary(overlastOpenbareRuimteControls),
-
-      ...summary(overlastOpHetWaterControls),
-
-      ...summary(overlastPersonenGroepenControls),
-
-      ...summary(overlastBedrijvenHorecaControls),
-
-      ...summary(wonenControls),
-    },
+    vulaan: getExtraQuestions(category, subcategory, questions),
 
     telefoon: {
       phone: {
@@ -152,5 +191,5 @@ export default {
         render: ({ value }) => value,
       },
     },
-  },
+  }),
 };
