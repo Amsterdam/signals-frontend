@@ -29,9 +29,11 @@ const HelpText = styled.div`
 
 const TextArea = forwardRef(({ helpText, errorMessage, label, id, ...props }, ref) => (
   <Fragment>
-    <Label inline htmlFor={id}>
-      {label}
-    </Label>
+    {label && (
+      <Label inline htmlFor={id}>
+        {label}
+      </Label>
+    )}
     <StyledArea id={id} {...props} ref={ref} />
     {helpText && <HelpText>{helpText}</HelpText>}
     {errorMessage && <ErrorMessage message={errorMessage} />}
