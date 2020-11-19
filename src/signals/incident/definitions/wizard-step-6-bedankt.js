@@ -12,7 +12,7 @@ export default {
         meta: {
           type: 'bedankt',
           value:
-            'Uw melding is bij ons bekend onder nummer: <a href="/manage/incident/{incident.id}">{incident.id}<a>.',
+            'Uw melding is bij ons bekend onder nummer: <a href="/manage/incident/{incident.id}">{incident.id}</a>.',
         },
         render: FormComponents.PlainText,
       },

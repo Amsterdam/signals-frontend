@@ -441,7 +441,7 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_direct_gevaar: 'ja',
       },
       type: 'alert',
-      value: ['Bel 112 en vul dit formulier niet verder in'],
+      value: 'Bel 112 en vul dit formulier niet verder in',
     },
     render: FormComponents.PlainText,
   },
@@ -608,47 +608,10 @@ const vakantieverhuur = {
     },
     render: FormComponents.RadioInputGroup,
   },
-  extra_wonen_vakantieverhuur_bellen_of_formulier: {
-    meta: {
-      ifAllOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
-      },
-      label: 'In dit geval kunt u het beste telefonisch contact opnemen. Wij pakken uw melding direct op.',
-      shortLabel: 'Bellen of meldingsformulier',
-      pathMerge: 'extra_properties',
-      values: {
-        bellen: 'Ik neem telefonisch contact op',
-        formulier: 'Ik ga verder met dit meldformulier',
-      },
-    },
-    options: {
-      validators: [Validators.required],
-    },
-    render: FormComponents.RadioInputGroup,
-  },
-  extra_wonen_vakantieverhuur_bellen: {
-    meta: {
-      ifAllOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
-        extra_wonen_vakantieverhuur_bellen_of_formulier: 'bellen',
-      },
-      type: 'caution',
-      value: [
-        `Bel nu met ${configuration.language.phoneNumber}`,
-        'Vraag naar team Vakantieverhuur. U wordt direct doorverbonden met een medewerker. Handhaving gaat, indien mogelijk, binnen 24 uur langs.',
-      ],
-    },
-    render: FormComponents.PlainText,
-  },
   extra_wonen_vakantieverhuur_aantal_mensen: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: 'nee',
-        ifAllOf: {
-          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
-          extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
-
-        },
+        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
       },
       label: 'Hoeveel toeristen zijn er meestal in de woning?',
       shortLabel: 'Aantal personen',
@@ -666,12 +629,7 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_hoe_vaak: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: 'nee',
-        ifAllOf: {
-          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
-          extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
-
-        },
+        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
       },
       label: 'Heeft u vaker toeristen in de woning gezien?',
       shortLabel: 'Hoe vaak',
@@ -690,6 +648,11 @@ const vakantieverhuur = {
   },
   extra_wonen_vakantieverhuur_wanneer: {
     meta: {
+      ifAllOf: {
+        ifOneOf: {
+          extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
+        },
+      },
       ifOneOf: {
         extra_wonen_vakantieverhuur_hoe_vaak: ['maandelijks', 'wekelijks'],
       },
@@ -710,12 +673,7 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_bewoning: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: 'nee',
-        ifAllOf: {
-          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
-          extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
-
-        },
+        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
       },
       label: 'Weet u of er iemand op het adres woont?',
       subtitle: 'De persoon die langdurig de woning bewoont',
@@ -734,6 +692,11 @@ const vakantieverhuur = {
   },
   extra_wonen_vakantieverhuur_naam_bewoner: {
     meta: {
+      ifAllOf: {
+        ifOneOf: {
+          extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
+        },
+      },
       ifOneOf: {
         extra_wonen_vakantieverhuur_bewoning: 'ja',
       },
@@ -746,12 +709,7 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_online_aangeboden: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: 'nee',
-        ifAllOf: {
-          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
-          extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
-
-        },
+        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
       },
       label: 'Weet u of de woning op internet wordt aangeboden voor verhuur?',
       shortLabel: 'Online aangeboden',
@@ -768,6 +726,11 @@ const vakantieverhuur = {
   },
   extra_wonen_vakantieverhuur_link_advertentie: {
     meta: {
+      ifAllOf: {
+        ifOneOf: {
+          extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
+        },
+      },
       ifOneOf: {
         extra_wonen_vakantieverhuur_online_aangeboden: 'ja',
       },
@@ -781,12 +744,7 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_footer: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: 'nee',
-        ifAllOf: {
-          extra_wonen_vakantieverhuur_bellen_of_formulier: 'formulier',
-          extra_wonen_vakantieverhuur_toeristen_aanwezig: 'ja',
-
-        },
+        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
       },
       type: 'caution',
       value: [
@@ -842,24 +800,17 @@ const navigation = {
 
 export const controls = {
   ...woningdelen,
-
   ...onderhuur,
-
   ...leegstand,
-
   ...vakantieverhuur,
-
   ...woningkwaliteit,
 };
 
 export default {
   controls: {
     ...intro,
-
     ...overig,
-
     ...controls,
-
     ...navigation,
   },
 };
