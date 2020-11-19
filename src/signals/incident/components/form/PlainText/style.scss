@@ -18,12 +18,16 @@
     &.alert {
       color: #ec0000;
       border: 2px solid #ec0000;
-      padding:  9px 20px 0;
+      padding:  9px 20px;
       @include avenirnextdemi();
     }
 
     &-p {
       margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     ul {
@@ -35,4 +39,5 @@
       }
     }
   }
+
 }

@@ -441,7 +441,7 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_direct_gevaar: 'ja',
       },
       type: 'alert',
-      value: ['Bel 112 en vul dit formulier niet verder in'],
+      value: 'Bel 112 en vul dit formulier niet verder in',
     },
     render: FormComponents.PlainText,
   },
