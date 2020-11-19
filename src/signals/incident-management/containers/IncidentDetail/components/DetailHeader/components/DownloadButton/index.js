@@ -32,10 +32,11 @@ const DownloadButton = ({ label, url, filename }) => {
 
   return (
     <Button
+      type="button"
+      variant="application"
       disabled={isLoading}
       iconRight={isLoading && <LoadingIndicator />}
       iconSize={20}
-      variant="application"
       data-testid="download-button"
       onClick={handleDownload}
     >
