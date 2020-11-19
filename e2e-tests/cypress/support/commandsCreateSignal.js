@@ -182,7 +182,6 @@ export const setDateTime = dateTime => {
       cy.get('[data-testid=day] > option')
         .eq(2)
         .then(element => {
-          // const date = Cypress.$(element).text();
           cy.get('[data-testid=day]').select(element.val());
           cy.writeFile('./cypress/fixtures/tempDateTime.json', { dateTime: `${Cypress.$(element).text()}` }, { flag: 'w' });
         });
