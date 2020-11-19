@@ -130,7 +130,7 @@ const MetaList = () => {
   }, [categoryDepartments, routingDepartments]);
 
   const handlingTime = useMemo(
-    () => !incident?.category ? undefined : handlingTimesBySlug[incident.category.sub_slug],
+    () => incident?.category ? handlingTimesBySlug[incident.category.sub_slug] : undefined,
     [handlingTimesBySlug, incident]
   );
 

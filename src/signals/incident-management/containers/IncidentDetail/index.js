@@ -71,16 +71,14 @@ export const formatWeekOrWorkdays = (days, isCalendarDays) => {
 
 const getDaysString = (days, isCalendarDays) => `${days} ${formatWeekOrWorkdays(days, isCalendarDays)}`;
 
-export const getHandlingTimes = subcategories => {
-  const handlingTimes = {};
-
-  subcategories?.forEach(subcategory => {
-    const { slug, sla } = subcategory;
-    handlingTimes[slug] = getDaysString(sla.n_days, sla.use_calendar_days);
-  });
-
-  return handlingTimes;
-};
+export const getHandlingTimes = subcategories =>
+  (subcategories || []).reduce(
+    (acc, { slug, sla }) => ({
+      ...acc,
+      [slug]: getDaysString(sla.n_days, sla.use_calendar_days),
+    }),
+    {}
+  );
 
 const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter();
@@ -192,16 +190,7 @@ const IncidentDetail = () => {
     if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
     }
-  }, [
-    getAttachments,
-    getChildren,
-    getDefaultTexts,
-    getHistory,
-    id,
-    incident,
-    state.attachments,
-    state.defaultTexts,
-  ]);
+  }, [getAttachments, getChildren, getDefaultTexts, getHistory, id, incident, state.attachments, state.defaultTexts]);
 
   const handleKeyUp = useCallback(
     event => {
@@ -265,7 +254,7 @@ const IncidentDetail = () => {
 
           <AddNote />
 
-          {state.children && <ChildIncidents incidents={state.children.results} parent={state.incident} /> }
+          {state.children && <ChildIncidents incidents={state.children.results} parent={state.incident} />}
 
           {state.history && <History list={state.history} />}
         </DetailContainer>
