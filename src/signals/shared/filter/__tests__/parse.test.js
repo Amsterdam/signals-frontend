@@ -3,8 +3,10 @@ import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList
 import categories from 'utils/__tests__/fixtures/categories_private.json';
 import { filterForSub, filterForMain } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
+import category from 'utils/__tests__/fixtures/category.json';
 
 import { parseDate, parseOutputFormData, parseInputFormData, parseToAPIData } from '../parse';
+import { subCategories, mainCategories } from 'utils/__tests__/fixtures';
 
 const filteredSubCategories = categories.results.filter(filterForSub);
 const filteredMainCategories = categories.results.filter(filterForMain);
@@ -37,32 +39,28 @@ describe('signals/shared/filter/parse', () => {
 
   describe('parseOutputFormData', () => {
     it('should parse output FormData', () => {
-      const mainCategories = filteredMainCategories.filter(
-        ({ slug }) => slug === 'afval' || slug === 'wegen-verkeer-straatmeubilair'
-      );
-      const subCategories = filteredSubCategories.filter(
-        ({ slug }) => slug === 'drijfvuil' || slug === 'maaien-snoeien'
+      const maincategory_slug = [...mainCategories, category];
+      const category_slug = subCategories.filter(
+        ({ slug }) => slug === 'bedrijfsafval' || slug === 'autom-verzinkbare-palen'
       );
       const stadsdeel = stadsdeelList.filter(({ key }) => key === 'A' || key === 'B');
-
       const formState = {
         unparsed_key: 'Not parsed',
-        maincategory_slug: mainCategories,
-        category_slug: subCategories,
+        maincategory_slug,
+        category_slug,
         stadsdeel,
         contact_details: [dataLists.contact_details[0]],
       };
 
       const expected = {
         unparsed_key: 'Not parsed',
-        maincategory_slug: mainCategories.map(({ slug }) => slug),
-        category_slug: subCategories.map(({ slug }) => slug),
+        maincategory_slug: maincategory_slug.map(({ slug }) => slug),
+        category_slug: category_slug.map(({ slug }) => slug),
         stadsdeel: stadsdeel.map(({ key }) => key),
         contact_details: [dataLists.contact_details[0].key],
       };
 
       const parsedOutput = parseOutputFormData(formState);
-
       expect(parsedOutput).toEqual(expected);
     });
 
@@ -113,7 +111,7 @@ describe('signals/shared/filter/parse', () => {
   });
 
   describe('parseInputFormData', () => {
-    const subSlugs = ['maaien-snoeien', 'onkruid', 'autom-verzinkbare-palen'].sort();
+    const subSlugs = ['bedrijfsafval', 'autom-verzinkbare-palen'].sort();
     const input = {
       name: 'Afval in Westpoort',
       options: {
@@ -192,7 +190,6 @@ describe('signals/shared/filter/parse', () => {
         });
 
         filterData.options = output.options;
-
         expect(parseToAPIData(filterData)).toEqual({
           ...input,
           id: 123,

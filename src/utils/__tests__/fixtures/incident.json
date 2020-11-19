@@ -77,9 +77,9 @@
     "id": 3566
   },
   "category": {
-    "category_url": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
-    "sub": "Container is kapot",
-    "sub_slug": "container-is-kapot",
+    "category_url": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
+    "sub": "Astbest accu",
+    "sub_slug": "asbest-accu",
     "main": "Afval",
     "main_slug": "afval",
     "departments": "AEG, CCA"
