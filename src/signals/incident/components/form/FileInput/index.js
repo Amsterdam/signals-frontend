@@ -129,7 +129,7 @@ const FileInput = ({ handler, parent, meta }) => {
     <Fragment>
       <FileInputStyle className="file-input" data-testid="fileInput">
         {previews.length > 0 &&
-          previews.map(preview => (
+          previews.map((preview, index) => (
             <FileInputPreviewBox key={preview} data-testid="fileInputPreviewBox">
               {preview.includes('loading') ? (
                 <FileLoading>Laden...</FileLoading>
@@ -140,7 +140,7 @@ const FileInput = ({ handler, parent, meta }) => {
                     variant="blank"
                     iconSize={22}
                     icon={<TrashBin />}
-                    aria-label="Verwijder deze foto"
+                    aria-label={`Verwijder foto ${index + 1}`}
                     onClick={e => removeFile(e, preview, previews, handler().value)}
                     data-testid="deleteFotoButton"
                   />
