@@ -70,10 +70,19 @@ const MapSelect = ({
   );
 
   const fetchRequest = useCallback(
-    coordsString => {
-      const [longitude1, latitude1, longitude2, latitude2] = coordsString.split(',');
-      const bboxString = [latitude1, longitude1, latitude2, longitude2, SRS_NAME].join(',');
-      return request(`${geojsonUrl}&bbox=${bboxString}`).catch(() => {
+    lnglatString => {
+      const [longitude1, latitude1, longitude2, latitude2] = lnglatString.split(',');
+      const latlngString = [latitude1, longitude1, latitude2, longitude2].join(',');
+      const urlReplacements = {
+        latlngString,
+        lnglatString,
+        srsName: SRS_NAME,
+      };
+      const requestUrl = Object.entries(urlReplacements).reduce(
+        (acc, [key, replacement]) => acc.replace(new RegExp(`{{${key}}}`, 'g'), replacement),
+        geojsonUrl
+      );
+      return request(requestUrl).catch(() => {
         errorControl.show();
       });
     },

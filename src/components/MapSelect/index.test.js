@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import ZoomMessageControl from './control/ZoomMessageControl';
@@ -34,7 +34,12 @@ fetch.mockResponse(JSON.stringify(fetchResponse));
 
 describe('<MapSelect />', () => {
   const onSelectionChange = jest.fn();
-  const url = 'foo/geo.json?';
+  const urlLatLng =
+    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{latlng}},{{srsName}}';
+  const urlLngLat =
+    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{lnglat}},{{srsName}}';
+  const coordsRegExpString = '(\\d{1,2}\\.\\d{1,16},){4}';
+  const urlRegExpString = `^https://geoserver\\.test/\\?service=WFS&version=1\\.1\\.0&request=GetFeature&srsName=${SRS_NAME}&bbox=${coordsRegExpString}${SRS_NAME}$`;
 
   const latlng = {
     latitude: 4,
@@ -52,7 +57,7 @@ describe('<MapSelect />', () => {
         <MapSelect
           latlng={latlng}
           onSelectionChange={onSelectionChange}
-          geojsonUrl={url}
+          geojsonUrl={urlLatLng}
           idField="objectnummer"
           hasGPSControl
         />
@@ -70,15 +75,37 @@ describe('<MapSelect />', () => {
   it('should do bbox fetch', async () => {
     expect(fetch).not.toHaveBeenCalled();
 
-    const { findByTestId } = render(
+    const { unmount } = render(
       withAppContext(
-        <MapSelect latlng={latlng} onSelectionChange={onSelectionChange} geojsonUrl={url} idField="objectnummer" />
+        <MapSelect
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          geojsonUrl={urlLatLng}
+          idField="objectnummer"
+        />
       )
     );
 
-    await findByTestId('mapSelect');
+    await screen.findByTestId('mapSelect');
 
-    const bboxRegex = new RegExp(`bbox=(\\d{1,2}\\.\\d{1,16},){4}${SRS_NAME}$`);
-    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);
+    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(new RegExp(urlRegExpString)), undefined);
+
+    unmount();
+    render(
+      withAppContext(
+        <MapSelect
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          geojsonUrl={urlLngLat}
+          idField="objectnummer"
+        />
+      )
+    );
+
+    await screen.findByTestId('mapSelect');
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch.mock.calls[1][0]).toMatch(new RegExp(urlRegExpString));
+    expect(fetch.mock.calls[0][0]).not.toBe(fetch.mock.calls[1][0]);
   });
 });
