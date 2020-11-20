@@ -13,6 +13,8 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
+import { getHandlingTimesFromSubcategories } from 'shared/services/transform';
+
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
@@ -64,22 +66,6 @@ const Preview = styled.div`
   z-index: 1;
 `;
 
-export const formatWeekOrWorkdays = (days, isCalendarDays) => {
-  const dayString = days === 1 ? 'dag' : 'dagen';
-  return isCalendarDays ? dayString : `werk${dayString}`;
-};
-
-const getDaysString = (days, isCalendarDays) => `${days} ${formatWeekOrWorkdays(days, isCalendarDays)}`;
-
-export const getHandlingTimes = subcategories =>
-  (subcategories || []).reduce(
-    (acc, { slug, sla }) => ({
-      ...acc,
-      [slug]: getDaysString(sla.n_days, sla.use_calendar_days),
-    }),
-    {}
-  );
-
 const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter();
   const storeDispatch = useDispatch();
@@ -92,8 +78,7 @@ const IncidentDetail = () => {
   const { get: getChildren, data: children } = useFetch();
 
   const subcategories = useSelector(makeSelectSubCategories);
-
-  const handlingTimesBySlug = useMemo(() => getHandlingTimes(subcategories), [subcategories]);
+  const handlingTimesBySlug = useMemo(() => getHandlingTimesFromSubcategories(subcategories), [subcategories]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);

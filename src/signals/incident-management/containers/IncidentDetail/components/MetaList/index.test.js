@@ -4,15 +4,21 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
 import { store, withAppContext } from 'test/utils';
+import {
+  departments,
+  directingDepartments,
+  subcategoriesGroupedByCategories,
+  subcategoriesHandlingTimes,
+} from 'utils/__tests__/fixtures';
+
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
-import handlingTimesBySlugFixture from 'utils/__tests__/fixtures/handlingTimesBySlug.json';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import usersFixture from 'utils/__tests__/fixtures/users.json';
+
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
 import * as categoriesSelectors from 'models/categories/selectors';
 
-import { departments, directingDepartments, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
 
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
@@ -55,7 +61,7 @@ const renderWithContext = (incident = parentIncident, users = usersFixture.resul
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
       <IncidentDetailContext.Provider
-        value={{ handlingTimesBySlug: handlingTimesBySlugFixture, incident, update, edit }}
+        value={{ handlingTimesBySlug: subcategoriesHandlingTimes, incident, update, edit }}
       >
         <MetaList />
       </IncidentDetailContext.Provider>
