@@ -8,7 +8,7 @@ import {
   departments,
   directingDepartments,
   subcategoriesGroupedByCategories,
-  subcategoriesHandlingTimes,
+  subcategoriesHandlingTimesBySlug,
 } from 'utils/__tests__/fixtures';
 
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
@@ -61,7 +61,7 @@ const renderWithContext = (incident = parentIncident, users = usersFixture.resul
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
       <IncidentDetailContext.Provider
-        value={{ handlingTimesBySlug: subcategoriesHandlingTimes, incident, update, edit }}
+        value={{ handlingTimesBySlug: subcategoriesHandlingTimesBySlug, incident, update, edit }}
       >
         <MetaList />
       </IncidentDetailContext.Provider>

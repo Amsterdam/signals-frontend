@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json';
-import { subcategoriesHandlingTimes } from 'utils/__tests__/fixtures';
+import { subcategoriesHandlingTimesBySlug } from 'utils/__tests__/fixtures';
 
 import ChildIncidents from '..';
 import IncidentDetailContext from '../../../context';
@@ -12,7 +12,7 @@ const update = jest.fn();
 
 const renderWithContext = Component =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ handlingTimesBySlug: subcategoriesHandlingTimes, update }}>
+    <IncidentDetailContext.Provider value={{ handlingTimesBySlug: subcategoriesHandlingTimesBySlug, update }}>
       {Component}
     </IncidentDetailContext.Provider>
   );

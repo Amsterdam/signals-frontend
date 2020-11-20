@@ -5,7 +5,7 @@ export const formatWeekOrWorkdays = (days, isCalendarDays) => {
 
 const getDaysString = (days, isCalendarDays) => `${days} ${formatWeekOrWorkdays(days, isCalendarDays)}`;
 
-export const getHandlingTimesFromSubcategories = subcategories =>
+export const getHandlingTimesBySlugFromSubcategories = subcategories =>
   (subcategories || []).reduce(
     (acc, { slug, sla }) => ({
       ...acc,

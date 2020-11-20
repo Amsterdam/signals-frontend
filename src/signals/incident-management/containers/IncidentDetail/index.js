@@ -13,7 +13,7 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
-import { getHandlingTimesFromSubcategories } from 'shared/services/transform';
+import { getHandlingTimesBySlugFromSubcategories } from 'shared/services/transform';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -78,7 +78,7 @@ const IncidentDetail = () => {
   const { get: getChildren, data: children } = useFetch();
 
   const subcategories = useSelector(makeSelectSubCategories);
-  const handlingTimesBySlug = useMemo(() => getHandlingTimesFromSubcategories(subcategories), [subcategories]);
+  const handlingTimesBySlug = useMemo(() => getHandlingTimesBySlugFromSubcategories(subcategories), [subcategories]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);

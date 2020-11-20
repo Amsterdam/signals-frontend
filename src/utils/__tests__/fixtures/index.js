@@ -8,7 +8,7 @@ import {
 } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 
-import { getHandlingTimesFromSubcategories } from 'shared/services/transform';
+import { getHandlingTimesBySlugFromSubcategories } from 'shared/services/transform';
 
 import categoriesFixture from './categories_private.json';
 import departmentsFixture from './departments.json';
@@ -51,4 +51,4 @@ const updateHandlingTimes = handlingTimes => {
   return handlingTimes;
 };
 
-export const subcategoriesHandlingTimes = updateHandlingTimes(getHandlingTimesFromSubcategories(subCategories));
+export const subcategoriesHandlingTimesBySlug = updateHandlingTimes(getHandlingTimesBySlugFromSubcategories(subCategories));
