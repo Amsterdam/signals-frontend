@@ -8,6 +8,7 @@ import configuration from 'shared/services/configuration/configuration';
 
 import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
+import category from 'utils/__tests__/fixtures/category.json';
 
 import IncidentManagementContext from '../../../context';
 import AppContext from '../../../../../containers/App/context';
@@ -117,23 +118,23 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       },
     ];
 
+    const categories = [...mainCategories, category];
+
     it('shows an extra label when a tag is a main category', () => {
       const { rerender, queryByText } = render(
         withContext(
-          <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={mainCategories} />
+          <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={categories} />
         )
       );
 
       expect(queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)).toBeFalsy();
-
       const tagsWithMainCat = { ...tags, maincategory_slug };
-
       rerender(
         withContext(
           <FilterTagListComponent
             tags={tagsWithMainCat}
             subCategories={subCategories}
-            mainCategories={mainCategories}
+            mainCategories={categories}
           />
         )
       );

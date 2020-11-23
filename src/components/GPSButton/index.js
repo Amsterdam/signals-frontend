@@ -77,6 +77,7 @@ const GPSButton = ({ className, onLocationChange, onLocationSuccess, onLocationE
       className={className}
       data-testid="gpsButton"
       icon={loading ? <LoadingIndicator color="black" /> : <GPSIcon fill={toggled ? '#009de6' : 'black'} />}
+      aria-label="Huidige locatie"
       iconSize={20}
       onClick={onClick}
       size={44}

@@ -184,6 +184,7 @@ export default {
     telefoon: {
       phone: {
         label: 'Uw telefoonnummer',
+        optional: true,
         render: ({ value }) => value,
       },
     },
@@ -191,6 +192,7 @@ export default {
     email: {
       email: {
         label: 'Uw e-mailadres',
+        optional: true,
         render: ({ value }) => value,
       },
     },

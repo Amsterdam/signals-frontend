@@ -90,7 +90,7 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.setDescription(
         'Voor mijn achterdeur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?',
       );
-      createSignal.setDateTime('Eerder');
+      createSignal.setDateTime('Vandaag');
 
       createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
 
