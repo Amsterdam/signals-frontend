@@ -75,7 +75,6 @@ const getStyle = type => {
 };
 
 const Wrapper = styled.div`
-  opacity: 0.5;
   ul {
     padding: ${themeSpacing(0, 0, 0, 6)};
     margin: 0;
