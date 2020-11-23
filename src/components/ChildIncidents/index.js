@@ -121,7 +121,7 @@ const ChildIncidents = ({ className, incidents }) => (
       );
 
       return (
-        <Li key={JSON.stringify(childIncident)} status={status} numValues={childIncident.length} changed={changed}>
+        <Li key={JSON.stringify(childIncident)} status={status} changed={changed}>
           {href ? <Link to={href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
         </Li>
       );
