@@ -74,8 +74,8 @@ const MapSelect = ({
       const [longitude1, latitude1, longitude2, latitude2] = lnglatString.split(',');
       const latlngString = [latitude1, longitude1, latitude2, longitude2].join(',');
       const urlReplacements = {
-        latlngString,
-        lnglatString,
+        latlng: latlngString,
+        lnglat: lnglatString,
         srsName: SRS_NAME,
       };
       const requestUrl = Object.entries(urlReplacements).reduce(
