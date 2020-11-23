@@ -1,9 +1,4 @@
-export const formatWeekOrWorkdays = (days, isCalendarDays) => {
-  const dayString = days === 1 ? 'dag' : 'dagen';
-  return isCalendarDays ? dayString : `werk${dayString}`;
-};
-
-const getDaysString = (days, isCalendarDays) => `${days} ${formatWeekOrWorkdays(days, isCalendarDays)}`;
+import { getDaysString } from '../date-utils';
 
 export const getHandlingTimesBySlugFromSubcategories = subcategories =>
   (subcategories || []).reduce(

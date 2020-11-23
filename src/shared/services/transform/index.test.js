@@ -1,17 +1,11 @@
-import { formatWeekOrWorkdays } from '.';
+import { getHandlingTimesBySlugFromSubcategories } from '.';
+import { subCategories } from 'utils/__tests__/fixtures';
 
 describe('transform service', () => {
-  it('should transform week and calendar days in singular and plural', () => {
-    const calendarday = formatWeekOrWorkdays(1, true);
-    expect(calendarday).toBe('dag');
+  it('should return an object with slugs and handling times which come from subcategories', () => {
+    const handlingTimesBySlug = getHandlingTimesBySlugFromSubcategories(subCategories);
 
-    const calendardays = formatWeekOrWorkdays(5, true);
-    expect(calendardays).toBe('dagen');
-
-    const workday = formatWeekOrWorkdays(1, false);
-    expect(workday).toBe('werkdag');
-
-    const workdays = formatWeekOrWorkdays(5, false);
-    expect(workdays).toBe('werkdagen');
+    expect(handlingTimesBySlug['afwatering-brug']).toBe('5 werkdagen');
+    expect(handlingTimesBySlug['auto-scooter-bromfietswrak']).toBe('21 dagen');
   });
 });
