@@ -25,7 +25,7 @@ export const controls = {
   extra_kerstverlichting: {
     meta: {
       label: '',
-      type: 'alert',
+      type: 'alert-inverted',
       value:
         'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
       ifAllOf: {
