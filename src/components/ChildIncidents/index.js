@@ -103,26 +103,26 @@ const Li = styled(ListItem)`
 
 const ChildIncidents = ({ className, incidents }) => (
   <List className={className} data-testid="childIncidents">
-    {incidents.map(({ href, status, values: childIncident, changed }) => {
+    {incidents.map(incident => {
       const valueEntries = (
         <Fragment>
-          <DisplayValue key="id" title={childIncident.id}>{childIncident.id}</DisplayValue>
+          <DisplayValue key="id" title={incident.values.id}>{incident.values.id}</DisplayValue>
 
-          <DisplayValue key="category-and-status" title={`${childIncident.category} - ${childIncident.status}`}>
-            {childIncident.category}
+          <DisplayValue key="category-and-status" title={`${incident.values.category} - ${incident.values.status}`}>
+            {incident.values.category}
             <br />
-            {childIncident.status}
+            {incident.values.status}
           </DisplayValue>
 
-          <DisplayValue key="handling-time" title={childIncident.handlingTime}>
-            {childIncident.handlingTime}
+          <DisplayValue key="handling-time" title={incident.values.handlingTime}>
+            {incident.values.handlingTime}
           </DisplayValue>
         </Fragment>
       );
 
       return (
-        <Li key={JSON.stringify(childIncident)} status={status} changed={changed}>
-          {href ? <Link to={href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
+        <Li key={JSON.stringify(incident.values)} status={incident.status} changed={incident.changed}>
+          {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
         </Li>
       );
     })}
