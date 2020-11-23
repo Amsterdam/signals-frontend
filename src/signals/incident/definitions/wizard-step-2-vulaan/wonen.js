@@ -611,7 +611,8 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_aantal_mensen: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
+        subcategory: 'vakantieverhuur',
+        wonen_overig: 'vakantieverhuur',
       },
       label: 'Hoeveel toeristen zijn er meestal in de woning?',
       shortLabel: 'Aantal personen',
@@ -629,7 +630,8 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_hoe_vaak: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
+        subcategory: 'vakantieverhuur',
+        wonen_overig: 'vakantieverhuur',
       },
       label: 'Heeft u vaker toeristen in de woning gezien?',
       shortLabel: 'Hoe vaak',
@@ -648,11 +650,6 @@ const vakantieverhuur = {
   },
   extra_wonen_vakantieverhuur_wanneer: {
     meta: {
-      ifAllOf: {
-        ifOneOf: {
-          extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
-        },
-      },
       ifOneOf: {
         extra_wonen_vakantieverhuur_hoe_vaak: ['maandelijks', 'wekelijks'],
       },
@@ -673,7 +670,8 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_bewoning: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
+        subcategory: 'vakantieverhuur',
+        wonen_overig: 'vakantieverhuur',
       },
       label: 'Weet u of er iemand op het adres woont?',
       subtitle: 'De persoon die langdurig de woning bewoont',
@@ -692,11 +690,6 @@ const vakantieverhuur = {
   },
   extra_wonen_vakantieverhuur_naam_bewoner: {
     meta: {
-      ifAllOf: {
-        ifOneOf: {
-          extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
-        },
-      },
       ifOneOf: {
         extra_wonen_vakantieverhuur_bewoning: 'ja',
       },
@@ -709,7 +702,8 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_online_aangeboden: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
+        subcategory: 'vakantieverhuur',
+        wonen_overig: 'vakantieverhuur',
       },
       label: 'Weet u of de woning op internet wordt aangeboden voor verhuur?',
       shortLabel: 'Online aangeboden',
@@ -726,11 +720,6 @@ const vakantieverhuur = {
   },
   extra_wonen_vakantieverhuur_link_advertentie: {
     meta: {
-      ifAllOf: {
-        ifOneOf: {
-          extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
-        },
-      },
       ifOneOf: {
         extra_wonen_vakantieverhuur_online_aangeboden: 'ja',
       },
@@ -744,7 +733,8 @@ const vakantieverhuur = {
   extra_wonen_vakantieverhuur_footer: {
     meta: {
       ifOneOf: {
-        extra_wonen_vakantieverhuur_toeristen_aanwezig: ['ja', 'nee'],
+        subcategory: 'vakantieverhuur',
+        wonen_overig: 'vakantieverhuur',
       },
       type: 'caution',
       value: [
