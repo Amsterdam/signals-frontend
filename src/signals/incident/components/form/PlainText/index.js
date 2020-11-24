@@ -69,6 +69,12 @@ const getStyle = type => {
         border-left: 3px solid ${themeColor('secondary')};
         padding-left: ${themeSpacing(3)};
       `;
+    case 'alert-inverted':
+      return css`
+        background-color: ${themeColor('secondary')};
+        color: ${themeColor('tint', 'level1')};
+        padding: ${themeSpacing(4)};
+      `;
     default:
       return null;
   }

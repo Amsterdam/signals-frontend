@@ -127,6 +127,23 @@ describe('Form component <PlainText />', () => {
       expect(element).toHaveStyleRule('border', '2px solid #ec0000');
     });
 
+    it('should render plain text alert-inverted correctly', () => {
+      const props = getProps({
+        ...metaProps,
+        type: 'alert-inverted',
+      });
+
+      const { getByTestId, getByText } = render(withAppContext(<PlainText {...props} />));
+
+      expect(getByTestId('plainText')).toBeInTheDocument();
+      expect(getByText(props.meta.value)).toBeInTheDocument();
+
+      const element = getByTestId('plainText');
+      expect(element).toHaveStyleRule('background-color', '#ec0000');
+      expect(element).toHaveStyleRule('color', '#ffffff');
+      expect(element).toHaveStyleRule('padding', '16px');
+    });
+
     it('should render multiple parargraphs of text correctly', () => {
       const props = getProps({
         ...metaProps,
