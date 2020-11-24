@@ -90,7 +90,7 @@ const DetailHeader = () => {
   const location = useLocation();
 
   const showSplitButton = useMemo(() => {
-    if (incident.status.state === 'o' || incident.status.state === 'a') return false;
+    if (['o', 'a', 's'].some(value => value === incident.status.state)) return false;
 
     if (incident?._links?.['sia:parent']) return false;
 
@@ -153,11 +153,7 @@ const DetailHeader = () => {
         )}
 
         {canThor && (
-          <Button
-            type="button"
-            variant="application"
-            onClick={patchIncident} data-testid="detail-header-button-thor"
-          >
+          <Button type="button" variant="application" onClick={patchIncident} data-testid="detail-header-button-thor">
             THOR
           </Button>
         )}
