@@ -23,7 +23,7 @@ const Title = styled(Heading)`
 `;
 
 const ChildIncidents = ({ incidents, parent }) => {
-  const { update } = useContext(IncidentDetailContext);
+  const { handlingTimesBySlug, update } = useContext(IncidentDetailContext);
 
   const children = useMemo(
     () =>
@@ -33,10 +33,11 @@ const ChildIncidents = ({ incidents, parent }) => {
           id,
           status: status.state_display,
           category: `${category.sub} (${category.departments})`,
+          handlingTime: handlingTimesBySlug[category.sub_slug],
         },
         changed: isChildChanged(updated_at, parent.updated_at),
       })),
-    [incidents, parent.updated_at]
+    [handlingTimesBySlug, incidents, parent.updated_at]
   );
 
   const canReset = useMemo(() => children.some(({ changed }) => changed), [children]);
@@ -55,9 +56,7 @@ const ChildIncidents = ({ incidents, parent }) => {
 
   return (
     <Fragment>
-      <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
-        Deelmelding
-      </Title>
+      <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">Deelmelding</Title>
 
       <ChildIncidentsList incidents={children} />
 
