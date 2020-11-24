@@ -2,8 +2,10 @@ const fs = require('fs');
 const merge = require('lodash.merge');
 const path = require('path');
 
+const extendedConfigFileName = process.env.EXTENDED_CONFIG || 'app.json';
+
 const baseConfig = require('../../../app.base.json');
-const extendedConfigFile = path.join(__dirname, '..', '..', '..', 'app.json');
+const extendedConfigFile = path.join(__dirname, '..', '..', '..', extendedConfigFileName);
 const extendedConfig = fs.existsSync(extendedConfigFile) ? require(extendedConfigFile) : {};
 const config = merge({}, baseConfig, extendedConfig);
 
