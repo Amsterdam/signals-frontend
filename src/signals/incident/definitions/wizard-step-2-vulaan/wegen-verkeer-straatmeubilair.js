@@ -24,12 +24,11 @@ export const controls = {
   // Comment/Uncomment next block to show/hide it.
   extra_kerstverlichting: {
     meta: {
-      label: '',
-      type: 'alert',
+      type: 'alert-inverted',
       value:
         'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
       ifAllOf: {
-        subcategory: ['lantaarnpaal-straatverlichting'],
+        subcategory: 'lantaarnpaal-straatverlichting',
       },
     },
     render: FormComponents.PlainText,
