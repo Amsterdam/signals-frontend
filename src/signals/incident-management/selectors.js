@@ -13,7 +13,7 @@ import { FILTER_PAGE_SIZE } from './constants';
 /**
  * Direct selector to the overviewPage state domain
  */
-const selectIncidentManagementDomain = state => (state && state.get('incidentManagement')) || fromJS(initialState);
+export const selectIncidentManagementDomain = state => (state && state.get('incidentManagement')) || fromJS(initialState);
 
 export const makeSelectDistricts = createSelector([selectIncidentManagementDomain], stateMap =>
   stateMap.get('districts').size
@@ -29,10 +29,9 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
 );
 
 export const makeSelectAllFilters = createSelector(
-  [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories],
-  (stateMap, maincategory_slug, category_slug) => {
+  [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories, makeSelectDirectingDepartments],
+  (stateMap, maincategory_slug, category_slug, directing_department) => {
     const filters = stateMap.get('filters').toJS();
-
     return filters.map(filter => {
       const { priority } = filter.options;
       const converted = (Array.isArray(priority) ? priority : [priority]).filter(Boolean);
@@ -47,6 +46,7 @@ export const makeSelectAllFilters = createSelector(
       return parseInputFormData(fltr, {
         maincategory_slug,
         category_slug,
+        directing_department,
       });
     });
   }
@@ -62,12 +62,13 @@ export const makeSelectActiveFilter = createSelector(
     makeSelectDirectingDepartments,
   ],
   (stateMap, area, source, maincategory_slug, category_slug, directing_department) => {
-    if (!(maincategory_slug && category_slug)) {
+    if (!(maincategory_slug && category_slug && directing_department)) {
       return {};
     }
 
     const state = stateMap.toJS();
     const { priority } = state.activeFilter.options;
+
     const converted = (Array.isArray(priority) ? priority : [priority]).filter(Boolean);
     const filter = {
       ...state.activeFilter,
@@ -98,7 +99,7 @@ export const makeSelectEditFilter = createSelector(
     makeSelectDirectingDepartments,
   ],
   (stateMap, area, source, maincategory_slug, category_slug, directing_department) => {
-    if (!(maincategory_slug && category_slug)) {
+    if (!(maincategory_slug && category_slug && directing_department)) {
       return {};
     }
 
@@ -111,11 +112,7 @@ export const makeSelectEditFilter = createSelector(
       source,
     };
 
-    return parseInputFormData(state.editFilter, fixtures, (category, value) => {
-      if (category.key || category.slug) return undefined;
-
-      return category._links.self.public.endsWith(`/${value}`);
-    });
+    return parseInputFormData(state.editFilter, fixtures);
   }
 );
 
@@ -157,12 +154,6 @@ export const makeSelectOrdering = createSelector(selectIncidentManagementDomain,
   const obj = state.toJS();
 
   return obj.ordering;
-});
-
-export const makeSelectSearchQuery = createSelector(selectIncidentManagementDomain, state => {
-  const obj = state.toJS();
-
-  return obj.searchQuery;
 });
 
 export const makeSelectIncidents = createSelector(selectIncidentManagementDomain, state => {
