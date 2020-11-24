@@ -74,7 +74,6 @@ const getStyle = type => {
         background-color: ${themeColor('secondary')};
         color: ${themeColor('tint', 'level1')};
         padding: ${themeSpacing(4)};
-        font-family: Avenir Next LT W01 Demi;
       `;
     default:
       return null;
