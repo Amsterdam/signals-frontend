@@ -5,26 +5,26 @@
       "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
     },
     "self": {
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/23",
-      "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/sportvoorziening"
-    },
-    "sia:status-message-templates": {
-      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/sportvoorziening/status-message-templates"
-    },
-    "sia:parent": {
       "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/80",
       "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair"
+    },
+    "archives": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/80/history"
+    },
+    "sia:status-message-templates": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/wegen-verkeer-straatmeubilair/status-message-templates"
     }
   },
-  "_display": "Sportvoorziening (Wegen, verkeer, straatmeubilair)",
-  "id": 23,
-  "name": "Sportvoorziening",
-  "slug": "sportvoorziening",
+  "_display": "Wegen, verkeer, straatmeubilair",
+  "id": 80,
+  "name": "Wegen, verkeer, straatmeubilair",
+  "slug": "wegen-verkeer-straatmeubilair",
   "is_active": true,
-  "description": "Yes, description!",
-  "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+  "description": null,
+  "handling_message": "Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
   "sla": {
-    "n_days": 5,
-    "use_calendar_days": false
-  }
+    "n_days": null,
+    "use_calendar_days": null
+  },
+  "departments": []
 }

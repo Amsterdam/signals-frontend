@@ -10,7 +10,7 @@
       "href": null
     }
   },
-  "count": 158,
+  "count": 160,
   "results": [
     {
       "_links": {
@@ -68,7 +68,7 @@
       "name": "Afwatering brug",
       "slug": "afwatering-brug",
       "is_active": true,
-      "description": "Waar mogelijk dient de afwatering van de wegen gerealiseerd te worden door rechtstreekse\nzijdelingse afvloeiing van het hemelwater over de bermen naar de bermsloten.",
+      "description": "Dit is het verhaal van de brug die moest afwateren.",
       "handling_message": "Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.",
       "sla": {
         "n_days": 5,
@@ -80,6 +80,38 @@
           "code": "AB",
           "name": "Amsterdamse Bos",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -97,6 +129,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -127,10 +167,10 @@
       "name": "Asbest / accu",
       "slug": "asbest-accu",
       "is_active": true,
-      "description": "Alles met betrekking tot asbest gerelateerd afval en bijtende/corrosieve vloeistoffen.",
-      "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+      "description": "Alles met betrekking tot asbest gerelateerd afval en bijtende/corrosieve vloeistoffen. test",
+      "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail. test",
       "sla": {
-        "n_days": 3,
+        "n_days": 4,
         "use_calendar_days": false
       },
       "departments": [
@@ -167,6 +207,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -180,6 +244,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -242,6 +314,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -255,6 +351,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -301,10 +405,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -322,6 +458,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -442,6 +586,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -477,6 +629,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -538,17 +706,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -597,10 +765,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -618,6 +818,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -651,7 +859,7 @@
       "description": "",
       "handling_message": "Gevaarlijke situaties pakken wij zo snel mogelijk op. We laten u binnen 3 werkdagen weten wat we hebben gedaan. We houden u op de hoogte via e-mail.",
       "sla": {
-        "n_days": 3,
+        "n_days": 2,
         "use_calendar_days": true
       },
       "departments": [
@@ -676,6 +884,14 @@
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -715,6 +931,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -776,19 +1008,19 @@
           "can_view": true
         },
         {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 3,
           "code": "WAT",
           "name": "Waternet",
           "is_intern": "False",
           "is_responsible": true,
-          "can_view": true
-        },
-        {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
-          "is_intern": "False",
-          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -835,10 +1067,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -856,6 +1120,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -894,30 +1166,6 @@
       },
       "departments": [
         {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 14,
-          "code": "OMG",
-          "name": "Omgevingsdienst",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 18,
-          "code": "OOV",
-          "name": "Openbare Orde & Veiligheid",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
           "id": 10,
           "code": "OVL",
           "name": "V&OR OVL",
@@ -934,38 +1182,6 @@
           "can_view": true
         },
         {
-          "id": 7,
-          "code": "POL",
-          "name": "Politie",
-          "is_intern": "False",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 2,
-          "code": "THO",
-          "name": "THOR",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 17,
-          "code": "VIS",
-          "name": "V&OR - VIS",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 11,
-          "code": "VRI",
-          "name": "V&OR VRI",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
           "id": 15,
           "code": "VTH",
           "name": "VTH",
@@ -977,14 +1193,6 @@
           "id": 3,
           "code": "WAT",
           "name": "Waternet",
-          "is_intern": "False",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -1033,10 +1241,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -1046,6 +1286,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -1100,6 +1348,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -1113,6 +1385,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -1143,10 +1423,10 @@
       "name": "Boom - noodkap",
       "slug": "boom-noodkap",
       "is_active": true,
-      "description": null,
+      "description": "Bomen die in geval van nood gekapt moeten worden.",
       "handling_message": "Uw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
       "sla": {
-        "n_days": 5,
+        "n_days": 4,
         "use_calendar_days": false
       },
       "departments": [
@@ -1154,6 +1434,14 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
@@ -1167,11 +1455,43 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -1218,10 +1538,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -1231,6 +1583,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -1277,10 +1637,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -1290,6 +1682,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -1326,16 +1726,7 @@
         "n_days": 5,
         "use_calendar_days": false
       },
-      "departments": [
-        {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        }
-      ]
+      "departments": []
     },
     {
       "_links": {
@@ -1419,6 +1810,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -1454,6 +1853,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -1515,17 +1930,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -1614,6 +2029,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -1649,6 +2072,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -1710,17 +2149,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -1809,6 +2248,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -1844,6 +2291,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -1905,17 +2368,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -1964,10 +2427,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -1985,6 +2480,14 @@
           "name": "VTH",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -2065,11 +2568,51 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         },
         {
@@ -2124,9 +2667,220 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 4,
+          "code": "STW",
+          "name": "Stadswerken",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
+          "is_intern": "False",
+          "is_responsible": true,
+          "can_view": true
+        }
+      ]
+    },
+    {
+      "_links": {
+        "curies": {
+          "name": "sia",
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+        },
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/160",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/bruin-en-witgoed"
+        },
+        "archives": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/160/history"
+        },
+        "sia:status-message-templates": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/bruin-en-witgoed/status-message-templates"
+        },
+        "sia:parent": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+        }
+      },
+      "_display": "Bruin- en witgoed (Afval)",
+      "id": 160,
+      "name": "Bruin- en witgoed",
+      "slug": "bruin-en-witgoed",
+      "is_active": true,
+      "description": "Bruin en witgoed zijn zaken als: wasmachines, koelkasten, magnetrons of andere zaken met een motor en kleine electrische huishoudelijke spullen.",
+      "handling_message": "Wij handelen uw melding binnen drie werkdagen af. Als u een mailadres hebt opgegeven, zullen we u op de hoogte houden.",
+      "sla": {
+        "n_days": 3,
+        "use_calendar_days": false
+      },
+      "departments": [
+        {
+          "id": 20,
+          "code": "AB",
+          "name": "Amsterdamse Bos",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 5,
+          "code": "AEG",
+          "name": "Afval en Grondstoffen",
+          "is_intern": "True",
+          "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 12,
+          "code": "CCA",
+          "name": "CCA",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 16,
+          "code": "FB",
+          "name": "FB",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 8,
+          "code": "GGD",
+          "name": "GGD",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 14,
+          "code": "OMG",
+          "name": "Omgevingsdienst",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 18,
+          "code": "OOV",
+          "name": "Openbare Orde & Veiligheid",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 10,
+          "code": "OVL",
+          "name": "V&OR OVL",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 1,
+          "code": "POA",
+          "name": "Port of Amsterdam",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 7,
+          "code": "POL",
+          "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 13,
+          "code": "STL",
+          "name": "Stadsloket",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
@@ -2140,11 +2894,59 @@
           "can_view": true
         },
         {
+          "id": 2,
+          "code": "THO",
+          "name": "THOR",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 17,
+          "code": "VIS",
+          "name": "V&OR - VIS",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 9,
+          "code": "VOR",
+          "name": "V&OR",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 11,
+          "code": "VRI",
+          "name": "V&OR VRI",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 15,
+          "code": "VTH",
+          "name": "VTH",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 3,
           "code": "WAT",
           "name": "Waternet",
           "is_intern": "False",
-          "is_responsible": true,
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -2191,10 +2993,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -2212,6 +3046,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -2312,6 +3154,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -2339,6 +3189,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -2392,17 +3258,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -2475,6 +3341,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -2510,6 +3384,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -2563,17 +3453,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -2606,7 +3496,7 @@
       "name": "Container is kapot",
       "slug": "container-is-kapot",
       "is_active": true,
-      "description": null,
+      "description": "Een verhaal over een kapotte container",
       "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
       "sla": {
         "n_days": 3,
@@ -2646,10 +3536,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -2681,7 +3603,7 @@
       "name": "Container is vol",
       "slug": "container-is-vol",
       "is_active": true,
-      "description": null,
+      "description": "Dit is een testje",
       "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
       "sla": {
         "n_days": 3,
@@ -2721,10 +3643,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -2796,10 +3750,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -2871,10 +3857,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -2930,6 +3948,14 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
@@ -2938,10 +3964,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -3013,10 +4071,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -3048,7 +4138,7 @@
       "name": "Daklozen / bedelen",
       "slug": "daklozen-bedelen",
       "is_active": true,
-      "description": null,
+      "description": "Overlast van zwerver",
       "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
       "sla": {
         "n_days": 3,
@@ -3080,6 +4170,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -3093,6 +4207,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -3173,6 +4295,14 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
@@ -3189,10 +4319,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -3256,6 +4418,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -3269,6 +4455,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -3349,10 +4543,50 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -3408,10 +4642,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -3421,6 +4687,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -3451,8 +4725,8 @@
       "name": "Duiven",
       "slug": "duiven",
       "is_active": true,
-      "description": null,
-      "handling_message": "Uw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
+      "description": "",
+      "handling_message": "Duiven duiven en nog eens duiven in de servicebelofte. !één twryÿ",
       "sla": {
         "n_days": 5,
         "use_calendar_days": false
@@ -3462,6 +4736,14 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
@@ -3483,6 +4765,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 13,
           "code": "STL",
           "name": "Stadsloket",
@@ -3495,6 +4801,233 @@
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        }
+      ]
+    },
+    {
+      "_links": {
+        "curies": {
+          "name": "sia",
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+        },
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/161",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/eikenprocessierups"
+        },
+        "archives": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/161/history"
+        },
+        "sia:status-message-templates": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/sub_categories/eikenprocessierups/status-message-templates"
+        },
+        "sia:parent": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/82",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
+        }
+      },
+      "_display": "Eikenprocessierups (Openbaar groen en water)",
+      "id": 161,
+      "name": "Eikenprocessierups",
+      "slug": "eikenprocessierups",
+      "is_active": true,
+      "description": null,
+      "handling_message": "Uw melding wordt beoordeeld en indien nodig ingepland: wij laten u binnen twee weken weten hoe en wanneer uw melding wordt afgehandeld. Als u een mailadres hebt opgegeven, zullen we u op de hoogte houden.",
+      "sla": {
+        "n_days": 10,
+        "use_calendar_days": false
+      },
+      "departments": [
+        {
+          "id": 20,
+          "code": "AB",
+          "name": "Amsterdamse Bos",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 5,
+          "code": "AEG",
+          "name": "Afval en Grondstoffen",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 12,
+          "code": "CCA",
+          "name": "CCA",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 16,
+          "code": "FB",
+          "name": "FB",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 8,
+          "code": "GGD",
+          "name": "GGD",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 14,
+          "code": "OMG",
+          "name": "Omgevingsdienst",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 18,
+          "code": "OOV",
+          "name": "Openbare Orde & Veiligheid",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 10,
+          "code": "OVL",
+          "name": "V&OR OVL",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 1,
+          "code": "POA",
+          "name": "Port of Amsterdam",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 7,
+          "code": "POL",
+          "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 13,
+          "code": "STL",
+          "name": "Stadsloket",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 4,
+          "code": "STW",
+          "name": "Stadswerken",
+          "is_intern": "True",
+          "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 2,
+          "code": "THO",
+          "name": "THOR",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 17,
+          "code": "VIS",
+          "name": "V&OR - VIS",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 9,
+          "code": "VOR",
+          "name": "V&OR",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 11,
+          "code": "VRI",
+          "name": "V&OR VRI",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 15,
+          "code": "VTH",
+          "name": "VTH",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -3542,10 +5075,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -3555,6 +5120,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -3601,10 +5174,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -3622,6 +5227,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -3668,6 +5281,14 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
@@ -3684,10 +5305,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -3751,10 +5404,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -3810,6 +5495,38 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -3823,6 +5540,14 @@
           "name": "VTH",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -3869,6 +5594,38 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -3882,6 +5639,14 @@
           "name": "VTH",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -3928,10 +5693,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -3941,6 +5738,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -3987,10 +5792,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -4001,42 +5838,16 @@
           "is_intern": "True",
           "is_responsible": true,
           "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
         }
       ]
-    },
-    {
-      "_links": {
-        "curies": {
-          "name": "sia",
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
-        },
-        "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/16",
-          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid"
-        },
-        "archives": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/16/history"
-        },
-        "sia:status-message-templates": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid/status-message-templates"
-        },
-        "sia:parent": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/80",
-          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair"
-        }
-      },
-      "_display": "Gladheid winterdienst (Wegen, verkeer, straatmeubilair)",
-      "id": 16,
-      "name": "Gladheid winterdienst",
-      "slug": "gladheid",
-      "is_active": false,
-      "description": null,
-      "handling_message": "Bij gladheid door sneeuw of bladeren pakken we hoofdwegen en fietsroutes als eerste aan. Andere meldingen behandelen we als de belangrijkste routes zijn gedaan.",
-      "sla": {
-        "n_days": 3,
-        "use_calendar_days": false
-      },
-      "departments": []
     },
     {
       "_links": {
@@ -4080,14 +5891,88 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
           "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
         }
       ]
+    },
+    {
+      "_links": {
+        "curies": {
+          "name": "sia",
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+        },
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/16",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid"
+        },
+        "archives": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/16/history"
+        },
+        "sia:status-message-templates": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/gladheid/status-message-templates"
+        },
+        "sia:parent": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/80",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair"
+        }
+      },
+      "_display": "Gladheid winterdienst (Wegen, verkeer, straatmeubilair)",
+      "id": 16,
+      "name": "Gladheid winterdienst",
+      "slug": "gladheid",
+      "is_active": false,
+      "description": null,
+      "handling_message": "Bij gladheid door sneeuw of bladeren pakken we hoofdwegen en fietsroutes als eerste aan. Andere meldingen behandelen we als de belangrijkste routes zijn gedaan.",
+      "sla": {
+        "n_days": 3,
+        "use_calendar_days": false
+      },
+      "departments": []
     },
     {
       "_links": {
@@ -4165,11 +6050,51 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -4240,6 +6165,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -4256,10 +6205,10 @@
           "can_view": true
         },
         {
-          "id": 17,
-          "code": "VIS",
-          "name": "V&OR - VIS",
-          "is_intern": "True",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -4323,6 +6272,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -4336,6 +6309,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -4390,6 +6371,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -4403,6 +6408,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -4433,7 +6446,7 @@
       "name": "Huisafval",
       "slug": "huisafval",
       "is_active": true,
-      "description": null,
+      "description": "",
       "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
       "sla": {
         "n_days": 3,
@@ -4457,10 +6470,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -4481,10 +6526,10 @@
           "can_view": true
         },
         {
-          "id": 17,
-          "code": "VIS",
-          "name": "V&OR - VIS",
-          "is_intern": "True",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -4572,6 +6617,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -4607,6 +6660,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -4668,17 +6737,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -4743,6 +6812,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -4756,6 +6849,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -4802,10 +6903,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -4815,6 +6948,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -4861,10 +7002,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -4882,6 +7055,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -4920,18 +7101,18 @@
       },
       "departments": [
         {
-          "id": 20,
-          "code": "AB",
-          "name": "Amsterdamse Bos",
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -5037,6 +7218,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -5050,6 +7255,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -5096,10 +7309,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -5109,6 +7354,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -5139,7 +7392,7 @@
       "name": "Markten",
       "slug": "markten",
       "is_active": true,
-      "description": null,
+      "description": "blah",
       "handling_message": "Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen drie dagen af. Als u een mailadres hebt opgegeven, zullen we u op de hoogte houden.",
       "sla": {
         "n_days": 3,
@@ -5195,6 +7448,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": true,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -5230,6 +7491,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -5291,17 +7568,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -5350,6 +7627,14 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
@@ -5366,10 +7651,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -5433,10 +7750,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -5482,16 +7831,7 @@
         "n_days": 5,
         "use_calendar_days": false
       },
-      "departments": [
-        {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        }
-      ]
+      "departments": []
     },
     {
       "_links": {
@@ -5535,11 +7875,51 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -5602,6 +7982,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -5637,6 +8025,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -5690,19 +8094,19 @@
           "can_view": true
         },
         {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 3,
           "code": "WAT",
           "name": "Waternet",
           "is_intern": "False",
           "is_responsible": true,
-          "can_view": true
-        },
-        {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
-          "is_intern": "False",
-          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -5749,11 +8153,51 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -5800,10 +8244,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -5813,6 +8289,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -5843,7 +8327,7 @@
       "name": "Onderhoud stoep, straat en fietspad",
       "slug": "onderhoud-stoep-straat-en-fietspad",
       "is_active": true,
-      "description": null,
+      "description": "Hieronder vallen alle meldingen van Onderhoud stoep, straat en fietspad.",
       "handling_message": "Wij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
       "sla": {
         "n_days": 3,
@@ -5859,10 +8343,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -5872,6 +8388,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -5910,18 +8434,18 @@
       },
       "departments": [
         {
-          "id": 20,
-          "code": "AB",
-          "name": "Amsterdamse Bos",
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -6007,10 +8531,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -6028,6 +8584,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -6074,10 +8638,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -6087,6 +8683,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -6179,6 +8783,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -6214,6 +8826,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -6275,44 +8903,14 @@
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
       ]
-    },
-    {
-      "_links": {
-        "curies": {
-          "name": "sia",
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
-        },
-        "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/87",
-          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig"
-        },
-        "archives": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/87/history"
-        },
-        "sia:status-message-templates": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overig/status-message-templates"
-        }
-      },
-      "_display": "Overig",
-      "id": 87,
-      "name": "Overig",
-      "slug": "overig",
-      "is_active": true,
-      "description": null,
-      "handling_message": "Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
-      "sla": {
-        "n_days": null,
-        "use_calendar_days": null
-      },
-      "departments": []
     },
     {
       "_links": {
@@ -6370,8 +8968,46 @@
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
         }
       ]
+    },
+    {
+      "_links": {
+        "curies": {
+          "name": "sia",
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+        },
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/87",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overig"
+        },
+        "archives": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/87/history"
+        },
+        "sia:status-message-templates": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/overig/status-message-templates"
+        }
+      },
+      "_display": "Overig",
+      "id": 87,
+      "name": "Overig",
+      "slug": "overig",
+      "is_active": true,
+      "description": null,
+      "handling_message": "Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
+      "sla": {
+        "n_days": null,
+        "use_calendar_days": null
+      },
+      "departments": []
     },
     {
       "_links": {
@@ -6415,10 +9051,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -6428,6 +9096,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -6458,7 +9134,7 @@
       "name": "Overig afval",
       "slug": "overig-afval",
       "is_active": true,
-      "description": null,
+      "description": "",
       "handling_message": "Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
       "sla": {
         "n_days": 3,
@@ -6498,11 +9174,43 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -6549,6 +9257,38 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -6562,6 +9302,14 @@
           "name": "VTH",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -6608,6 +9356,14 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
@@ -6624,10 +9380,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -6675,10 +9463,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -6688,6 +9508,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -6750,10 +9578,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -6793,22 +9653,6 @@
       },
       "departments": [
         {
-          "id": 20,
-          "code": "AB",
-          "name": "Amsterdamse Bos",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 5,
-          "code": "AEG",
-          "name": "Afval en Grondstoffen",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
@@ -6817,41 +9661,9 @@
           "can_view": true
         },
         {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
           "id": 16,
           "code": "FB",
           "name": "FB",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 8,
-          "code": "GGD",
-          "name": "GGD",
-          "is_intern": "False",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 14,
-          "code": "OMG",
-          "name": "Omgevingsdienst",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 18,
-          "code": "OOV",
-          "name": "Openbare Orde & Veiligheid",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
@@ -6873,42 +9685,10 @@
           "can_view": true
         },
         {
-          "id": 7,
-          "code": "POL",
-          "name": "Politie",
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 13,
-          "code": "STL",
-          "name": "Stadsloket",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 4,
-          "code": "STW",
-          "name": "Stadswerken",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 2,
-          "code": "THO",
-          "name": "THOR",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 17,
-          "code": "VIS",
-          "name": "V&OR - VIS",
-          "is_intern": "True",
           "is_responsible": false,
           "can_view": true
         },
@@ -6916,14 +9696,6 @@
           "id": 9,
           "code": "VOR",
           "name": "V&OR",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 11,
-          "code": "VRI",
-          "name": "V&OR VRI",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
@@ -7012,10 +9784,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -7085,6 +9889,14 @@
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
         }
       ]
     },
@@ -7146,6 +9958,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -7159,6 +9995,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -7251,6 +10095,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -7264,6 +10132,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -7326,6 +10202,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -7339,6 +10239,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -7435,7 +10343,48 @@
         "n_days": 3,
         "use_calendar_days": false
       },
-      "departments": []
+      "departments": [
+        {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        }
+      ]
     },
     {
       "_links": {
@@ -7479,6 +10428,38 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -7492,6 +10473,14 @@
           "name": "VTH",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -7614,6 +10603,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -7627,6 +10640,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -7707,10 +10728,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -7728,6 +10781,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -7774,10 +10835,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -7795,6 +10888,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -7857,6 +10958,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -7870,6 +10995,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -7915,49 +11048,6 @@
           "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
         },
         "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/9",
-          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot"
-        },
-        "archives": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/9/history"
-        },
-        "sia:status-message-templates": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/prullenbak-is-kapot/status-message-templates"
-        },
-        "sia:parent": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
-          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
-        }
-      },
-      "_display": "Prullenbak is kapot (Afval)",
-      "id": 9,
-      "name": "Prullenbak is kapot",
-      "slug": "prullenbak-is-kapot",
-      "is_active": false,
-      "description": null,
-      "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
-      "sla": {
-        "n_days": 3,
-        "use_calendar_days": false
-      },
-      "departments": [
-        {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        }
-      ]
-    },
-    {
-      "_links": {
-        "curies": {
-          "name": "sia",
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
-        },
-        "self": {
           "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/151",
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/prullenbakkapot"
         },
@@ -7993,11 +11083,51 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -8030,6 +11160,40 @@
       "is_active": false,
       "description": null,
       "handling_message": "Wij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
+      "sla": {
+        "n_days": 3,
+        "use_calendar_days": false
+      },
+      "departments": []
+    },
+    {
+      "_links": {
+        "curies": {
+          "name": "sia",
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+        },
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/9",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot"
+        },
+        "archives": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/9/history"
+        },
+        "sia:status-message-templates": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/sub_categories/prullenbak-is-kapot/status-message-templates"
+        },
+        "sia:parent": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+        }
+      },
+      "_display": "Prullenbak is kapot (Afval)",
+      "id": 9,
+      "name": "Prullenbak is kapot",
+      "slug": "prullenbak-is-kapot",
+      "is_active": false,
+      "description": null,
+      "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
       "sla": {
         "n_days": 3,
         "use_calendar_days": false
@@ -8078,11 +11242,51 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -8119,16 +11323,7 @@
         "n_days": 3,
         "use_calendar_days": false
       },
-      "departments": [
-        {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        }
-      ]
+      "departments": []
     },
     {
       "_links": {
@@ -8196,10 +11391,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -8247,10 +11474,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -8260,6 +11519,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         },
         {
@@ -8314,6 +11581,14 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
@@ -8330,10 +11605,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -8421,6 +11728,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -8456,6 +11771,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -8517,17 +11848,17 @@
           "can_view": true
         },
         {
-          "id": 3,
-          "code": "WAT",
-          "name": "Waternet",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 3,
+          "code": "WAT",
+          "name": "Waternet",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -8567,14 +11898,6 @@
         "use_calendar_days": false
       },
       "departments": [
-        {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
         {
           "id": 3,
           "code": "WAT",
@@ -8657,6 +11980,38 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -8670,6 +12025,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -8732,10 +12095,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -8791,10 +12186,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -8804,6 +12231,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -8850,10 +12285,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -8863,6 +12330,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -8909,10 +12384,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -8922,6 +12429,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -8968,10 +12483,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -8989,6 +12536,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -9085,6 +12640,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -9106,6 +12685,14 @@
           "name": "VTH",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -9152,6 +12739,38 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -9165,6 +12784,14 @@
           "name": "VTH",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -9211,10 +12838,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -9224,6 +12883,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -9270,10 +12937,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -9283,6 +12982,14 @@
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -9313,7 +13020,7 @@
       "name": "Straatverlichting",
       "slug": "lantaarnpaal-straatverlichting",
       "is_active": true,
-      "description": "",
+      "description": "Dit is een tekst",
       "handling_message": "Het herstellen van problemen met de openbare verlichting lukt doorgaans binnen 21 werkdagen. Bij gevaarlijke situaties wordt de melding meteen opgepakt.",
       "sla": {
         "n_days": 21,
@@ -9329,10 +13036,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -9350,6 +13089,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -9446,6 +13193,14 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
@@ -9481,6 +13236,22 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -9542,9 +13313,9 @@
           "can_view": true
         },
         {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
           "is_intern": "False",
           "is_responsible": false,
           "can_view": true
@@ -9601,6 +13372,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -9614,6 +13409,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -9686,18 +13489,18 @@
       },
       "departments": [
         {
-          "id": 20,
-          "code": "AB",
-          "name": "Amsterdamse Bos",
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -9706,57 +13509,6 @@
           "code": "WON",
           "name": "Wonen",
           "is_intern": "False",
-          "is_responsible": true,
-          "can_view": true
-        }
-      ]
-    },
-    {
-      "_links": {
-        "curies": {
-          "name": "sia",
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
-        },
-        "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/148",
-          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/veegzwerfvuil"
-        },
-        "archives": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/148/history"
-        },
-        "sia:status-message-templates": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/schoon/sub_categories/veegzwerfvuil/status-message-templates"
-        },
-        "sia:parent": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/105",
-          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon"
-        }
-      },
-      "_display": "Veeg- / zwerfvuil (Schoon)",
-      "id": 148,
-      "name": "Veeg- / zwerfvuil",
-      "slug": "veegzwerfvuil",
-      "is_active": true,
-      "description": "",
-      "handling_message": "Wij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
-      "sla": {
-        "n_days": 3,
-        "use_calendar_days": false
-      },
-      "departments": [
-        {
-          "id": 20,
-          "code": "AB",
-          "name": "Amsterdamse Bos",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 4,
-          "code": "STW",
-          "name": "Stadswerken",
-          "is_intern": "True",
           "is_responsible": true,
           "can_view": true
         }
@@ -9791,15 +13543,97 @@
       "description": "",
       "handling_message": "Wij handelen uw melding binnen drie werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
       "sla": {
-        "n_days": 3,
+        "n_days": 5,
+        "use_calendar_days": false
+      },
+      "departments": []
+    },
+    {
+      "_links": {
+        "curies": {
+          "name": "sia",
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/relations"
+        },
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/148",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/veegzwerfvuil"
+        },
+        "archives": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/148/history"
+        },
+        "sia:status-message-templates": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/schoon/sub_categories/veegzwerfvuil/status-message-templates"
+        },
+        "sia:parent": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/105",
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon"
+        }
+      },
+      "_display": "Veeg- / zwerfvuil (Schoon)",
+      "id": 148,
+      "name": "Veeg- / zwerfvuil",
+      "slug": "veegzwerfvuil",
+      "is_active": true,
+      "description": "",
+      "handling_message": "Wij handelen uw melding binnen vijf werkdagen af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
+      "sla": {
+        "n_days": 5,
         "use_calendar_days": false
       },
       "departments": [
         {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
+          "id": 20,
+          "code": "AB",
+          "name": "Amsterdamse Bos",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 4,
+          "code": "STW",
+          "name": "Stadswerken",
+          "is_intern": "True",
+          "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -9897,11 +13731,43 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -9964,6 +13830,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -9977,6 +13867,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -10039,6 +13937,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -10052,6 +13974,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -10132,10 +14062,42 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -10153,6 +14115,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -10233,6 +14203,14 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
@@ -10246,6 +14224,14 @@
           "name": "Openbare Orde & Veiligheid",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -10282,16 +14268,7 @@
         "n_days": 5,
         "use_calendar_days": false
       },
-      "departments": [
-        {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        }
-      ]
+      "departments": []
     },
     {
       "_links": {
@@ -10369,6 +14346,38 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -10382,6 +14391,14 @@
           "name": "V&OR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -10448,40 +14465,7 @@
         "n_days": 21,
         "use_calendar_days": true
       },
-      "departments": [
-        {
-          "id": 20,
-          "code": "AB",
-          "name": "Amsterdamse Bos",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 4,
-          "code": "STW",
-          "name": "Stadswerken",
-          "is_intern": "True",
-          "is_responsible": false,
-          "can_view": true
-        },
-        {
-          "id": 2,
-          "code": "THO",
-          "name": "THOR",
-          "is_intern": "True",
-          "is_responsible": true,
-          "can_view": true
-        }
-      ]
+      "departments": []
     },
     {
       "_links": {
@@ -10525,6 +14509,14 @@
           "can_view": true
         },
         {
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
+          "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 12,
           "code": "CCA",
           "name": "CCA",
@@ -10541,10 +14533,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         }
@@ -10579,8 +14603,8 @@
       "description": "",
       "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
       "sla": {
-        "n_days": 3,
-        "use_calendar_days": false
+        "n_days": 4,
+        "use_calendar_days": true
       },
       "departments": [
         {
@@ -10608,6 +14632,30 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
@@ -10621,6 +14669,14 @@
           "name": "THOR",
           "is_intern": "True",
           "is_responsible": true,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": false,
           "can_view": true
         }
       ]
@@ -10653,16 +14709,7 @@
         "n_days": null,
         "use_calendar_days": null
       },
-      "departments": [
-        {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
-          "is_intern": "False",
-          "is_responsible": true,
-          "can_view": true
-        }
-      ]
+      "departments": []
     },
     {
       "_links": {
@@ -10698,18 +14745,18 @@
       },
       "departments": [
         {
-          "id": 20,
-          "code": "AB",
-          "name": "Amsterdamse Bos",
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },
@@ -10757,19 +14804,27 @@
       },
       "departments": [
         {
-          "id": 20,
-          "code": "AB",
-          "name": "Amsterdamse Bos",
+          "id": 6,
+          "code": "ASC",
+          "name": "Actie Service Centrum",
           "is_intern": "True",
           "is_responsible": false,
           "can_view": true
         },
         {
-          "id": 12,
-          "code": "CCA",
-          "name": "CCA",
-          "is_intern": "True",
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
           "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
+          "is_responsible": true,
           "can_view": true
         },
         {
@@ -10814,16 +14869,7 @@
         "n_days": 5,
         "use_calendar_days": false
       },
-      "departments": [
-        {
-          "id": 19,
-          "code": "WON",
-          "name": "Wonen",
-          "is_intern": "False",
-          "is_responsible": true,
-          "can_view": true
-        }
-      ]
+      "departments": []
     },
     {
       "_links": {
@@ -10883,10 +14929,42 @@
           "can_view": true
         },
         {
+          "id": 22,
+          "code": "MRB",
+          "name": "Marktbureau",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 21,
+          "code": "PRK",
+          "name": "Parkeren",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 24,
+          "code": "STD",
+          "name": "Stadsdelen",
+          "is_intern": "False",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
           "is_intern": "True",
+          "is_responsible": false,
+          "can_view": true
+        },
+        {
+          "id": 23,
+          "code": "VTW",
+          "name": "VTW",
+          "is_intern": "False",
           "is_responsible": false,
           "can_view": true
         },

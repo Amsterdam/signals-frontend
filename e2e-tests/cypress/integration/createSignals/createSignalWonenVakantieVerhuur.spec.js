@@ -47,16 +47,6 @@ describe('Create signal wonen vakantie verhuur and check signal details', () => 
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenWeetIkNiet).check({ force: true }).should('be.checked');
       cy.contains(warningPhone).should('not.be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonToeristenJa).check({ force: true }).should('be.checked');
-      cy.contains(warningPhone).should('be.visible');
-
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderTelefonisch).check({ force: true }).should('be.checked');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers1).should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers2).should('be.visible');
-
-      cy.get(WONEN_VAKANTIEVERHUUR.radioButtonVerderMeldformulier).check({ force: true }).should('be.checked');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers1).should('not.be.visible');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen.answers2).should('not.be.visible');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_footer.answers).should('be.visible');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_aantal_mensen.label).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonHoeveelVierOfMinder).check({ force: true }).should('be.checked');
@@ -117,8 +107,6 @@ describe('Create signal wonen vakantie verhuur and check signal details', () => 
       cy.contains('Aanvullende informatie').should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_toeristen_aanwezig.shortLabel).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_toeristen_aanwezig.answers.ja).should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen_of_formulier.shortLabel).should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_vakantieverhuur_bellen_of_formulier.answers.formulier).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_aantal_mensen.shortLabel).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_aantal_mensen.answers.vijf_of_meer).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_hoe_vaak.shortLabel).should('be.visible');

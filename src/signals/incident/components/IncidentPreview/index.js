@@ -121,7 +121,15 @@ const IncidentPreview = ({ incident, preview }) => (
           return false;
         }
 
-        return !optional || (optional && Boolean(incident[entryKey]));
+        if (!optional) {
+          return true;
+        }
+
+        if (Array.isArray(incident[entryKey])) {
+          return incident[entryKey].length > 0;
+        }
+
+        return Boolean(incident[entryKey]);
       });
 
       return (

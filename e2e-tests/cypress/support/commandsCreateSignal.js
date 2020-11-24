@@ -84,19 +84,6 @@ export const checkRedTextStatus = status => {
     });
 };
 
-export const checkSignalDetailsPage = () => {
-  cy.readFile('./cypress/fixtures/tempSignalData.json').then(json => {
-    cy.url().should('include', `/manage/incident/${json.signalId}`);
-  });
-  cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
-  cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
-  cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelLocatie).should('have.text', 'Locatie').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelOverlast).should('have.text', 'Overlast').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelTelefoon).should('have.text', 'Telefoon melder').and('be.visible');
-  cy.get(SIGNAL_DETAILS.labelToestemming).should('have.text', 'Toestemming contactgegevens delen').and('be.visible');
-};
-
 export const checkSpecificInformationPage = () => {
   cy.url().should('include', '/incident/vulaan');
   cy.checkHeaderText('Dit hebben we nog van u nodig');
@@ -114,7 +101,7 @@ export const checkSummaryPage = () => {
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
   cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
   cy.contains(
-    'Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
+    'Ja, ik geef gemeente Amsterdam en gemeente Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.',
   ).should('be.visible');
   cy.get('body').then($body => {
     if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
@@ -134,8 +121,7 @@ export const checkThanksPage = () => {
 };
 
 export const saveSignalId = () => {
-  cy.get('.bedankt')
-    .first()
+  cy.get('[data-testid="plainText"')
     .then($signalLabel => {
       // Get the signal id
       const signalNumber = $signalLabel.text().match(/\d+/)[0];
@@ -181,13 +167,27 @@ export const setAddress = (searchAdress, selectAdress) => {
 };
 
 export const setDateTime = dateTime => {
-  if (dateTime === 'Nu') {
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click({ force: true });
-  } else {
-    cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click({ force: true });
-    cy.get(CREATE_SIGNAL.dropdownDag).select('Vandaag');
-    cy.get(CREATE_SIGNAL.dropdownUur).select('5');
-    cy.get(CREATE_SIGNAL.dropdownMinuten).select('45');
+  switch (dateTime) {
+    case 'Nu':
+      cy.get(CREATE_SIGNAL.radioButtonTijdstipNu).click({ force: true });
+      break;
+    case 'Vandaag':
+      cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click({ force: true });
+      cy.get(CREATE_SIGNAL.dropdownDag).select('Vandaag');
+      cy.get(CREATE_SIGNAL.dropdownUur).select('5');
+      cy.get(CREATE_SIGNAL.dropdownMinuten).select('45');
+      break;
+    case 'Eerder':
+      cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click({ force: true });
+      cy.get('[data-testid=day] > option')
+        .eq(2)
+        .then(element => {
+          cy.get('[data-testid=day]').select(element.val());
+          cy.writeFile('./cypress/fixtures/tempDateTime.json', { dateTime: `${Cypress.$(element).text()}` }, { flag: 'w' });
+        });
+      break;
+    default:
+      cy.log('Unknown datetime, default is chosen');
   }
 };
 
@@ -234,11 +234,24 @@ export const selectLampOnCoordinate = (coordinateA, coordinateB) => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.get('.leaflet-container').should('be.visible').wait(500).click(coordinateA, coordinateB);
 };
+
+export const checkSignalDetailsPage = () => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+    cy.url().should('include', `/manage/incident/${json.signalId}`);
+  });
+  cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
+  cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
+  cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelLocatie).should('have.text', 'Locatie').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelOverlast).should('have.text', 'Overlast').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelTelefoon).should('have.text', 'Telefoon melder').and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelToestemming).should('have.text', 'Toestemming contactgegevens delen').and('be.visible');
+};
+
 export const selectSource = index => {
   cy.get('[data-testid="source"] > option')
     .eq(index)
     .then(element => {
-      // const source = element.val();
       cy.get('[data-testid="source"]').select(element.val());
       cy.writeFile('./cypress/fixtures/tempSource.json', { source: `${element.val()}` }, { flag: 'w' });
     });

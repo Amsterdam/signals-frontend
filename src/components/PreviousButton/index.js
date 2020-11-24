@@ -19,7 +19,7 @@ const PreviousButton = ({ className, children, onClick }) => (
   <StyledButton
     className={className}
     data-testid="previousButton"
-    iconLeft={<Chevron />}
+    iconLeft={<Chevron aria-hidden="true" />}
     iconSize={14}
     onClick={onClick}
     type="button"

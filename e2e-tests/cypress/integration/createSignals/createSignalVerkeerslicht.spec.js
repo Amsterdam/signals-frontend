@@ -225,7 +225,9 @@ describe('Create signal Verkeerslicht and check signal details', () => {
       // Check information provided by user
       cy.contains(Cypress.env('address')).should('be.visible');
       cy.contains(Cypress.env('description')).should('be.visible');
-      cy.contains('Vandaag, 5:45').should('be.visible');
+      cy.readFile('./cypress/fixtures/tempDateTime.json').then(json => {
+        cy.contains(json.dateTime).should('be.visible');
+      });
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht.shortLabel).should('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht.answers.niet_gevaarlijk).should('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_welk.shortLabel).should('be.visible');

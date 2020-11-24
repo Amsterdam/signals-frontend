@@ -4,14 +4,21 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
 import { store, withAppContext } from 'test/utils';
+import {
+  departments,
+  directingDepartments,
+  subcategoriesGroupedByCategories,
+  subcategoriesHandlingTimesBySlug,
+} from 'utils/__tests__/fixtures';
+
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import usersFixture from 'utils/__tests__/fixtures/users.json';
+
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
 import * as categoriesSelectors from 'models/categories/selectors';
 
-import { departments, directingDepartments, subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
 
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
@@ -50,16 +57,12 @@ const plainIncident = { ...incidentFixture, _links: { ...plainLinks } };
 const parentIncident = { ...incidentFixture };
 const childIncident = { ...plainIncident, _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } } };
 
-// subcategoriesGroupedByCategories fixture handling time overrides
-subcategoriesGroupedByCategories[1][4].sla.n_days = 1; // beplanting
-subcategoriesGroupedByCategories[1][4].sla.use_calendar_days = false;
-subcategoriesGroupedByCategories[1][5].sla.n_days = 1; // bewegwijzering
-subcategoriesGroupedByCategories[1][5].sla.use_calendar_days = true;
-
 const renderWithContext = (incident = parentIncident, users = usersFixture.results) =>
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
-      <IncidentDetailContext.Provider value={{ incident, update, edit }}>
+      <IncidentDetailContext.Provider
+        value={{ handlingTimesBySlug: subcategoriesHandlingTimesBySlug, incident, update, edit }}
+      >
         <MetaList />
       </IncidentDetailContext.Provider>
     </IncidentManagementContext.Provider>
@@ -89,7 +92,7 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
       expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -113,7 +116,7 @@ describe('MetaList', () => {
       expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
       expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
       expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -168,7 +171,7 @@ describe('MetaList', () => {
     const { queryByTestId, rerender } = render(renderWithContext(plainIncident));
 
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^3 werkdagen$/);
+    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'beplanting' } }));
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
@@ -178,7 +181,7 @@ describe('MetaList', () => {
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
     expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
 
-    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'parkeer-verwijssysteem' } }));
+    rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'autom-verzinkbare-palen' } }));
     expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
     expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 dagen$/);
   });
@@ -223,10 +226,11 @@ describe('MetaList', () => {
 
   describe('subcategory', () => {
     const subcategoryLabel = 'Subcategorie (verantwoordelijke afdeling)';
-    const selectedSubcategory = `${parentIncident.category.sub} (${departmentAegCode}, ${departmentAscCode})`;
+    const selectedSubcategory = /Asbest \/ accu/;
 
     it('should be visible', () => {
       render(renderWithContext());
+
       expect(screen.getByText(subcategoryLabel)).toBeInTheDocument();
       expect(screen.getByText(selectedSubcategory)).toBeInTheDocument();
     });

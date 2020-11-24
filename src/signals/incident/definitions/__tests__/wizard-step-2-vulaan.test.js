@@ -6,9 +6,12 @@ import configuration from 'shared/services/configuration/configuration';
 import step2 from '../wizard-step-2-vulaan';
 import afval from '../wizard-step-2-vulaan/afval';
 import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
 
 const { formFactory } = step2;
+const defaultControls = {
+  custom_text: expect.objectContaining({}),
+  $field_0: expect.objectContaining({}),
+};
 
 jest.mock('shared/services/configuration/configuration');
 jest.mock('react-reactive-form');
@@ -45,7 +48,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
 
     it('should return empty controls when showVulaanControls is false', () => {
       configuration.featureFlags.showVulaanControls = false;
-      expect(step2.formFactory({ category: 'afval' }).controls).toEqual({});
+      expect(formFactory({ category: 'afval' }).controls).toEqual({});
     });
   });
 
@@ -60,7 +63,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
         subcategory: 'subcategory',
       });
       const expected = {
-        controls: {},
+        controls: defaultControls,
       };
 
       expect(actual).toEqual(expected);
@@ -78,31 +81,10 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       });
       const expected = {
         controls: {
+          ...defaultControls,
           key1: {
             options: { validators: [] },
             render: FormComponents.TextInput,
-          },
-        },
-      };
-
-      expect(actual).toEqual(expected);
-    });
-
-    it('should expand render prop to component for IncidentNavigation as well', () => {
-      const actual = formFactory({
-        category: 'category',
-        subcategory: 'subcategory',
-        questions: {
-          key1: {
-            render: 'IncidentNavigation',
-          },
-        },
-      });
-      const expected = {
-        controls: {
-          key1: {
-            options: { validators: [] },
-            render: IncidentNavigation,
           },
         },
       };
@@ -125,6 +107,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       });
       const expected = {
         controls: {
+          ...defaultControls,
           key1: {
             options: { validators: [Validators.required] },
             render: FormComponents.TextInput,
@@ -150,6 +133,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       });
       const expected = {
         controls: {
+          ...defaultControls,
           key1: {
             options: { validators: [Validators.required, Validators.email] },
             render: FormComponents.TextInput,
@@ -177,6 +161,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       });
       const expected = {
         controls: {
+          ...defaultControls,
           key1: {
             options: { validators: [maxLengthFn] },
             render: FormComponents.TextInput,

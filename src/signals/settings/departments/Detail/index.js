@@ -11,6 +11,7 @@ import {
   makeSelectByMainCategory,
   makeSelectSubCategories,
 } from 'models/categories/selectors';
+
 import PageHeader from 'signals/settings/components/PageHeader';
 import LoadingIndicator from 'components/LoadingIndicator';
 import BackLink from 'components/BackLink';

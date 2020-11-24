@@ -89,7 +89,7 @@ describe('SelectForm', () => {
       const { getByTestId } = render(withAppContext(<SelectForm {...props} />));
 
       const newCategory =
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom';
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu';
       const event = {
         target: {
           value: newCategory,
@@ -100,8 +100,8 @@ describe('SelectForm', () => {
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
         category_url: newCategory,
         state: 'ingepland',
-        sub_slug: 'boom',
-        main_slug: 'openbaar-groen-en-water',
+        sub_slug: 'asbest-accu',
+        main_slug: 'afval',
       });
     });
   });

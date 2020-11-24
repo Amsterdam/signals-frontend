@@ -15,26 +15,41 @@ import wonen from './wizard-step-2-vulaan/wonen';
 import FormComponents from '../components/form';
 import IncidentNavigation from '../components/IncidentNavigation';
 
-const mapFieldNameToComponent = key => (key === 'IncidentNavigation' ? IncidentNavigation : FormComponents[key]);
+const mapFieldNameToComponent = key => FormComponents[key];
 const mapValidatorToFn = key => Validators[key];
 const expandValidatorFn = ([key, ...args]) => mapValidatorToFn(key)(...args);
 const expandValidator = key => (Array.isArray(key) ? expandValidatorFn(key) : mapValidatorToFn(key));
 
 const expandQuestions = memoize(
   questions => ({
-    controls: Object.keys(questions).reduce(
-      (acc, key) => ({
-        ...acc,
-        [key]: {
-          ...questions[key],
-          options: {
-            validators: (questions[key].options?.validators || []).map(expandValidator),
-          },
-          render: mapFieldNameToComponent(questions[key].render),
+    controls: {
+      custom_text: {
+        meta: {
+          label: 'Dit hebt u net ingevuld:',
+          type: 'citation',
+          value: '{incident.description}',
+          ignoreVisibility: true,
         },
-      }),
-      {}
-    ),
+        render: FormComponents.PlainText,
+      },
+      ...Object.entries(questions).reduce(
+        (acc, [key, question]) => ({
+          ...acc,
+          [key]: {
+            ...question,
+            options: {
+              validators: (question.options?.validators || []).map(expandValidator),
+            },
+            render: mapFieldNameToComponent(question.render),
+          },
+        }),
+        {}
+      ),
+      $field_0: {
+        isStatic: false,
+        render: IncidentNavigation,
+      },
+    },
   }),
   (questions, category, subcategory) => `${category}${subcategory}`
 );

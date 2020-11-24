@@ -1,16 +1,19 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import configuration from 'shared/services/configuration/configuration';
-import History from 'components/History';
+import reducer, { initialState } from './reducer';
+import { makeSelectSubCategories } from 'models/categories/selectors';
 import { useFetch, useEventEmitter } from 'hooks';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
+
+import { getHandlingTimesBySlugFromSubcategories } from 'shared/services/transform';
 
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
@@ -18,12 +21,13 @@ import MetaList from './components/MetaList';
 import AddNote from './components/AddNote';
 import LocationForm from './components/LocationForm';
 import AttachmentViewer from './components/AttachmentViewer';
+import History from 'components/History';
 import StatusForm from './components/StatusForm';
 import Detail from './components/Detail';
 import LocationPreview from './components/LocationPreview';
 import CloseButton from './components/CloseButton';
 import IncidentDetailContext from './context';
-import reducer, { initialState } from './reducer';
+
 import {
   CLOSE_ALL,
   EDIT,
@@ -72,6 +76,9 @@ const IncidentDetail = () => {
   const { get: getAttachments, data: attachments } = useFetch();
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
   const { get: getChildren, data: children } = useFetch();
+
+  const subcategories = useSelector(makeSelectSubCategories);
+  const handlingTimesBySlug = useMemo(() => getHandlingTimesBySlugFromSubcategories(subcategories), [subcategories]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -168,16 +175,7 @@ const IncidentDetail = () => {
     if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
     }
-  }, [
-    getAttachments,
-    getChildren,
-    getDefaultTexts,
-    getHistory,
-    id,
-    incident,
-    state.attachments,
-    state.defaultTexts,
-  ]);
+  }, [getAttachments, getChildren, getDefaultTexts, getHistory, id, incident, state.attachments, state.defaultTexts]);
 
   const handleKeyUp = useCallback(
     event => {
@@ -214,6 +212,8 @@ const IncidentDetail = () => {
     dispatch({ type: CLOSE_ALL });
   }, []);
 
+  if (!Object.keys(handlingTimesBySlug).length) return null;
+
   if (!state.incident) return null;
 
   return (
@@ -224,6 +224,7 @@ const IncidentDetail = () => {
         preview: previewDispatch,
         edit: editDispatch,
         close: closeDispatch,
+        handlingTimesBySlug,
       }}
     >
       <Row data-testid="incidentDetail">
