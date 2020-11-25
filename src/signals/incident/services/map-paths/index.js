@@ -1,11 +1,14 @@
 import forEach from 'lodash.foreach';
 import set from 'lodash.set';
 
+import configuration from 'shared/services/configuration/configuration';
 import getStepControls from '../get-step-controls';
 import convertValue from '../convert-value';
 
 const mapPaths = (params, incident, wizard) => {
-  const category_url = incident && incident.subcategory_link ? new URL(incident.subcategory_link).pathname : '';
+  const category_url = incident
+    ? new URL(`${configuration.CATEGORIES_ENDPOINT}${incident.category}/sub_categories/${incident.subcategory}`).pathname
+    : '';
 
   forEach(wizard, step => {
     const controls = getStepControls(step, incident);
@@ -21,7 +24,7 @@ const mapPaths = (params, incident, wizard) => {
           mapMerge = {
             ...mapMerge,
             [meta.pathMerge]: [
-              ...mapMerge[meta.pathMerge] || [],
+              ...(mapMerge[meta.pathMerge] || []),
               {
                 id: name,
                 label: meta.shortLabel || meta.label || '',
