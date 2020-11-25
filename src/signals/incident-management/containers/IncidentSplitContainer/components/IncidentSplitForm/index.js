@@ -20,7 +20,7 @@ export const StyledIncidentSplitRadioInput = styled(IncidentSplitRadioInput)`
   padding-bottom: ${themeSpacing(6)};
 `;
 
-const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit, isSaving }) => {
+const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit, isSubmitting }) => {
   const { handleSubmit, register } = useForm();
 
   const history = useHistory();
@@ -75,11 +75,11 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
         <IncidentSplitFormIncident parentIncident={parentIncident} subcategories={subcategories} register={register} />
 
         <div>
-          <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary" disabled={isSaving}>
+          <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary" disabled={isSubmitting}>
             Opslaan
           </StyledSubmitButton>
 
-          <Button data-testid="incidentSplitFormCancelButton" variant="tertiary" onClick={onCancel} disabled={isSaving}>
+          <Button data-testid="incidentSplitFormCancelButton" variant="tertiary" onClick={onCancel} disabled={isSubmitting}>
             Annuleren
           </Button>
         </div>
@@ -103,7 +103,7 @@ IncidentSplitForm.propTypes = {
   }).isRequired,
   subcategories: PropTypes.array.isRequired,
   directingDepartments: directingDepartmentsType.isRequired,
-  isSaving: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 

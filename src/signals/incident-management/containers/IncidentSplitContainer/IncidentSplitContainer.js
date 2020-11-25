@@ -16,7 +16,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import IncidentSplitForm from './components/IncidentSplitForm';
 
 const IncidentSplitContainer = ({ FormComponent }) => {
-  const { isLoading: isSaving, error: errorSplit, isSuccess: isSuccessSplit, post } = useFetch();
+  const { isLoading: isSubmitting, error: errorSplit, isSuccess: isSuccessSplit, post } = useFetch();
   const {
     data: dataParent,
     error: errorParent,
@@ -214,7 +214,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
           }}
           subcategories={[subcategoryGroups, subcategoryOptions]}
           directingDepartments={directingDepartments}
-          isSaving={isSaving}
+          isSubmitting={isSubmitting}
           onSubmit={onSubmit}
         />
       )}

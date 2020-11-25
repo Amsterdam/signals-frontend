@@ -27,7 +27,7 @@ describe('IncidentSplitForm', () => {
     subcategories,
     directingDepartments,
     onSubmit,
-    isSaving: false,
+    isSubmitting: false,
   };
 
   it('should render correctly', () => {
@@ -88,7 +88,7 @@ describe('IncidentSplitForm', () => {
     expect(screen.getByTestId('incidentSplitFormSubmitButton')).not.toHaveAttribute('disabled');
     expect(screen.getByTestId('incidentSplitFormCancelButton')).not.toHaveAttribute('disabled');
 
-    rerender(withAppContext(<IncidentSplitForm {...props} isSaving />));
+    rerender(withAppContext(<IncidentSplitForm {...props} isSubmitting />));
     expect(screen.getByTestId('incidentSplitFormSubmitButton')).toHaveAttribute('disabled');
     expect(screen.getByTestId('incidentSplitFormCancelButton')).toHaveAttribute('disabled');
   });
