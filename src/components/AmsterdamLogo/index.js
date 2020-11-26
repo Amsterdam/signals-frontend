@@ -2,6 +2,7 @@ import React from 'react';
 import { LogoShort } from '@amsterdam/asc-assets';
 import styled, { css } from 'styled-components';
 import { breakpoint, themeSpacing, themeColor } from '@amsterdam/asc-ui';
+import configuration from 'shared/services/configuration/configuration';
 
 export const LogoStyle = styled(LogoShort)`
   display: block;
@@ -33,7 +34,7 @@ const AmsterdamLogoStyle = styled.a`
 
 const AmsterdamLogo = ({ ...otherProps }) => (
   <AmsterdamLogoStyle {...otherProps}>
-    <LogoStyle />
+    <LogoStyle role="image" aria-label={configuration.language.logoDescription} />
   </AmsterdamLogoStyle>
 );
 

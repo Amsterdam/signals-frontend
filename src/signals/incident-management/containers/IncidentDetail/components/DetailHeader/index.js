@@ -90,7 +90,7 @@ const DetailHeader = () => {
   const location = useLocation();
 
   const showSplitButton = useMemo(() => {
-    if (incident.status.state === 'o' || incident.status.state === 'a') return false;
+    if (['o', 'a', 's'].includes(incident.status.state)) return false;
 
     if (incident?._links?.['sia:parent']) return false;
 
@@ -100,7 +100,7 @@ const DetailHeader = () => {
     return true;
   }, [incident]);
 
-  const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].some(value => value === incident.status.state);
+  const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].includes(incident.status.state);
   const downloadLink = incident?._links?.['sia:pdf']?.href;
 
   const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : INCIDENTS_URL;
@@ -153,11 +153,7 @@ const DetailHeader = () => {
         )}
 
         {canThor && (
-          <Button
-            type="button"
-            variant="application"
-            onClick={patchIncident} data-testid="detail-header-button-thor"
-          >
+          <Button type="button" variant="application" onClick={patchIncident} data-testid="detail-header-button-thor">
             THOR
           </Button>
         )}
