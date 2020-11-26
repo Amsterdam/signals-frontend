@@ -10,14 +10,23 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import request from 'utils/request';
 import MaxSelection from 'utils/maxSelection';
 
-import ZoomMessageControl from './control/ZoomMessageControl';
-import LegendControl from './control/LegendControl';
-import LoadingControl from './control/LoadingControl';
-import ErrorControl from './control/ErrorControl';
+import DotIcon from '!!file-loader!../../shared/images/icon-dot-marker.svg';
+import DotSelectedIcon from '!!file-loader!../../shared/images/icon-dot-selected-marker.svg';
+import ZoomMessageControl from '../MapSelect/control/ZoomMessageControl';
+import LoadingControl from '../MapSelect/control/LoadingControl';
+import ErrorControl from '../MapSelect/control/ErrorControl';
 
 import './style.scss';
 
 const SELECTION_MAX_COUNT = 30;
+export const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
+
+const defaultOptions = {
+  className: 'object-marker',
+  iconSize: [32, 32],
+};
+const LeafletDotIcon = L.icon({ ...defaultOptions, iconUrl: DotIcon });
+const LeafletDotSelectedIcon = L.icon({ ...defaultOptions, iconUrl: DotSelectedIcon });
 
 const Wrapper = styled.div`
   position: relative;
@@ -29,17 +38,14 @@ const StyledMap = styled(Map)`
   font-family: 'Avenir Next LT W01-Regular', arial, sans-serif;
 `;
 
-const MapSelectAmsterdam = ({
+const MapSelectGeneric = ({
   geojsonUrl,
-  getIcon,
-  hasGPSControl,
-  iconField,
+  hasGPSControl = false,
   idField,
   latlng,
-  legend,
   onSelectionChange,
-  selectionOnly,
-  value,
+  selectionOnly = false,
+  value = [],
 }) => {
   const zoomMin = 13;
   const featuresLayer = useRef();
@@ -64,10 +70,22 @@ const MapSelectAmsterdam = ({
   );
 
   const fetchRequest = useCallback(
-    bbox_str =>
-      request(`${geojsonUrl}&bbox=${bbox_str}`).catch(() => {
+    lnglatString => {
+      const [longitude1, latitude1, longitude2, latitude2] = lnglatString.split(',');
+      const latlngString = [latitude1, longitude1, latitude2, longitude2].join(',');
+      const urlReplacements = {
+        latlng: latlngString,
+        lnglat: lnglatString,
+        srsName: SRS_NAME,
+      };
+      const requestUrl = Object.entries(urlReplacements).reduce(
+        (acc, [key, replacement]) => acc.replace(new RegExp(`{{${key}}}`, 'g'), replacement),
+        geojsonUrl
+      );
+      return request(requestUrl).catch(() => {
         errorControl.show();
-      }),
+      });
+    },
     [errorControl, geojsonUrl]
   );
 
@@ -100,8 +118,8 @@ const MapSelectAmsterdam = ({
            */
           pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
             L.marker(latlong, {
-              icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
-              alt: feature.properties.objectnummer,
+              icon: selection.current.has(feature.properties[idField]) ? LeafletDotSelectedIcon : LeafletDotIcon,
+              alt: feature.properties[idField],
             }),
 
           /**
@@ -126,7 +144,7 @@ const MapSelectAmsterdam = ({
           },
         }
       ),
-    [fetchRequest, getIcon, iconField, idField, onSelectionChange, selection, selectionOnly]
+    [fetchRequest, idField, onSelectionChange, selection, selectionOnly]
   );
 
   /**
@@ -152,17 +170,6 @@ const MapSelectAmsterdam = ({
     });
 
     zoomMessageControl.addTo(mapInstance);
-
-    if (legend) {
-      // only show if legend items are provided
-      const legendControl = new LegendControl({
-        position: 'topright',
-        zoomMin,
-        elements: legend,
-      });
-
-      legendControl.addTo(mapInstance);
-    }
 
     const div = L.DomUtil.create('div', 'loading-control');
     div.innerText = 'Bezig met laden...';
@@ -204,8 +211,7 @@ const MapSelectAmsterdam = ({
       featuresLayer.current.getLayers().forEach(layer => {
         const properties = layer.feature.properties;
         const id = properties[idField];
-        const iconType = properties[iconField];
-        const icon = getIcon(iconType, selection.current.has(id));
+        const icon = selection.current.has(id) ? LeafletDotSelectedIcon : LeafletDotIcon;
 
         layer.setIcon(icon);
       });
@@ -219,7 +225,7 @@ const MapSelectAmsterdam = ({
     <Wrapper>
       <StyledMap
         className={classNames('map-component', { write: onSelectionChange })}
-        data-testid="mapSelect"
+        data-testid="mapSelectGeneric"
         hasGPSControl={hasGPSControl}
         hasZoomControls
         mapOptions={mapOptions}
@@ -229,31 +235,17 @@ const MapSelectAmsterdam = ({
   );
 };
 
-MapSelectAmsterdam.defaultProps = {
-  hasGPSControl: false,
-  value: [],
-  selectionOnly: false,
-};
-
-MapSelectAmsterdam.propTypes = {
+MapSelectGeneric.propTypes = {
   latlng: PropTypes.exact({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
   }).isRequired,
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func,
-  getIcon: PropTypes.func.isRequired,
   hasGPSControl: PropTypes.bool,
-  legend: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      iconUrl: PropTypes.string.isRequired,
-    })
-  ),
-  iconField: PropTypes.string.isRequired,
   idField: PropTypes.string.isRequired,
   value: PropTypes.arrayOf(PropTypes.string),
   selectionOnly: PropTypes.bool,
 };
 
-export default MapSelectAmsterdam;
+export default MapSelectGeneric;

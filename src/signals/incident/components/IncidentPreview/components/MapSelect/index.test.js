@@ -5,7 +5,7 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
 
-import MapSelect, { getLatlng } from '.';
+import MapSelect, { getLatlng, DEFAULT_COORDS } from '.';
 
 describe('signals/incident/components/IncidentPreview/components/MapSelect', () => {
   it('renders correctly', () => {
@@ -13,14 +13,7 @@ describe('signals/incident/components/IncidentPreview/components/MapSelect', () 
 
     render(
       withAppContext(
-        <MapSelect
-          value={value}
-          meta={{
-            endpoint: 'url',
-            idField: 'objectnummer',
-          }}
-          incident={incidentFixture}
-        />
+        <MapSelect value={value} endpoint={configuration.map.layers.verlichting} incident={incidentFixture} />
       )
     );
 
@@ -37,8 +30,8 @@ describe('signals/incident/components/IncidentPreview/components/MapSelect', () 
 
   it('returns default coords', () => {
     expect(getLatlng()).toEqual({
-      latitude: configuration.map.options.center[0],
-      longitude: configuration.map.options.center[1],
+      latitude: DEFAULT_COORDS[1],
+      longitude: DEFAULT_COORDS[0],
     });
   });
 });

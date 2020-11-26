@@ -1,14 +1,16 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import ZoomMessageControl from './control/ZoomMessageControl';
+import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
 import ErrorControl from './control/ErrorControl';
 
-import MapSelect, { SRS_NAME } from '.';
+import MapSelect from '.';
 
 jest.mock('./control/ZoomMessageControl');
+jest.mock('./control/LegendControl');
 jest.mock('./control/LoadingControl');
 jest.mock('./control/ErrorControl');
 
@@ -33,13 +35,16 @@ const fetchResponse = {
 fetch.mockResponse(JSON.stringify(fetchResponse));
 
 describe('<MapSelect />', () => {
+  const legend = [{ key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' }];
   const onSelectionChange = jest.fn();
-  const urlLatLng =
-    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{latlng}},{{srsName}}';
-  const urlLngLat =
-    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{lnglat}},{{srsName}}';
-  const coordsRegExpString = '(\\d{1,2}\\.\\d{1,16},){4}';
-  const urlRegExpString = `^https://geoserver\\.test/\\?service=WFS&version=1\\.1\\.0&request=GetFeature&srsName=${SRS_NAME}&bbox=${coordsRegExpString}${SRS_NAME}$`;
+  const url = 'foo/geo.json?';
+  const getIcon = (type, isSelected) => {
+    if (isSelected) {
+      return L.divIcon({ className: 'my-div-icon-select' });
+    }
+
+    return L.divIcon({ className: 'my-div-icon' });
+  };
 
   const latlng = {
     latitude: 4,
@@ -57,7 +62,9 @@ describe('<MapSelect />', () => {
         <MapSelect
           latlng={latlng}
           onSelectionChange={onSelectionChange}
-          geojsonUrl={urlLatLng}
+          getIcon={getIcon}
+          geojsonUrl={url}
+          iconField="type_name"
           idField="objectnummer"
           hasGPSControl
         />
@@ -67,45 +74,52 @@ describe('<MapSelect />', () => {
     await findByTestId('mapSelect');
 
     expect(getByTestId('gpsButton')).toBeInTheDocument();
+    expect(LegendControl).not.toHaveBeenCalled();
     expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled();
   });
 
+  it('should render legend', async () => {
+    const { findByTestId } = render(
+      withAppContext(
+        <MapSelect
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          getIcon={getIcon}
+          geojsonUrl={url}
+          legend={legend}
+          iconField="type_name"
+          idField="objectnummer"
+        />
+      )
+    );
+
+    await findByTestId('mapSelect');
+
+    expect(LegendControl).toHaveBeenCalled();
+  });
+
   it('should do bbox fetch', async () => {
     expect(fetch).not.toHaveBeenCalled();
 
-    const { unmount } = render(
+    const { findByTestId } = render(
       withAppContext(
         <MapSelect
           latlng={latlng}
           onSelectionChange={onSelectionChange}
-          geojsonUrl={urlLatLng}
+          getIcon={getIcon}
+          legend={legend}
+          geojsonUrl={url}
+          iconField="type_name"
           idField="objectnummer"
         />
       )
     );
 
-    await screen.findByTestId('mapSelect');
+    await findByTestId('mapSelect');
 
-    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(new RegExp(urlRegExpString)), undefined);
-
-    unmount();
-    render(
-      withAppContext(
-        <MapSelect
-          latlng={latlng}
-          onSelectionChange={onSelectionChange}
-          geojsonUrl={urlLngLat}
-          idField="objectnummer"
-        />
-      )
-    );
-
-    await screen.findByTestId('mapSelect');
-
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetch.mock.calls[1][0]).toMatch(new RegExp(urlRegExpString));
-    expect(fetch.mock.calls[0][0]).not.toBe(fetch.mock.calls[1][0]);
+    const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/;
+    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);
   });
 });

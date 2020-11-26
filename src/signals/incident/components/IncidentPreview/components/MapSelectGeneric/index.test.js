@@ -5,20 +5,27 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
 
-import MapSelect, { getLatlng, DEFAULT_COORDS } from '.';
+import MapSelectGeneric, { getLatlng } from '.';
 
-describe('signals/incident/components/IncidentPreview/components/MapSelectAmsterdam', () => {
+describe('signals/incident/components/IncidentPreview/components/MapSelectGeneric', () => {
   it('renders correctly', () => {
     const value = ['foo', 'bar', 'baz'];
 
     render(
       withAppContext(
-        <MapSelect value={value} endpoint={configuration.map.layers.verlichting} incident={incidentFixture} />
+        <MapSelectGeneric
+          value={value}
+          meta={{
+            endpoint: 'url',
+            idField: 'objectnummer',
+          }}
+          incident={incidentFixture}
+        />
       )
     );
 
     expect(screen.getByText(value.join('; '))).toBeInTheDocument();
-    expect(screen.getByTestId('mapSelect')).toBeInTheDocument();
+    expect(screen.getByTestId('mapSelectGeneric')).toBeInTheDocument();
   });
 
   it('returns a location', () => {
@@ -30,8 +37,8 @@ describe('signals/incident/components/IncidentPreview/components/MapSelectAmster
 
   it('returns default coords', () => {
     expect(getLatlng()).toEqual({
-      latitude: DEFAULT_COORDS[1],
-      longitude: DEFAULT_COORDS[0],
+      latitude: configuration.map.options.center[0],
+      longitude: configuration.map.options.center[1],
     });
   });
 });

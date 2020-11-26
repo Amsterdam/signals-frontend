@@ -10,23 +10,14 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import request from 'utils/request';
 import MaxSelection from 'utils/maxSelection';
 
-import DotIcon from '!!file-loader!../../shared/images/icon-dot-marker.svg';
-import DotSelectedIcon from '!!file-loader!../../shared/images/icon-dot-selected-marker.svg';
 import ZoomMessageControl from './control/ZoomMessageControl';
+import LegendControl from './control/LegendControl';
 import LoadingControl from './control/LoadingControl';
 import ErrorControl from './control/ErrorControl';
 
 import './style.scss';
 
 const SELECTION_MAX_COUNT = 30;
-export const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
-
-const defaultOptions = {
-  className: 'object-marker',
-  iconSize: [32, 32],
-};
-const LeafletDotIcon = L.icon({ ...defaultOptions, iconUrl: DotIcon });
-const LeafletDotSelectedIcon = L.icon({ ...defaultOptions, iconUrl: DotSelectedIcon });
 
 const Wrapper = styled.div`
   position: relative;
@@ -40,12 +31,15 @@ const StyledMap = styled(Map)`
 
 const MapSelect = ({
   geojsonUrl,
-  hasGPSControl = false,
+  getIcon,
+  hasGPSControl,
+  iconField,
   idField,
   latlng,
+  legend,
   onSelectionChange,
-  selectionOnly = false,
-  value = [],
+  selectionOnly,
+  value,
 }) => {
   const zoomMin = 13;
   const featuresLayer = useRef();
@@ -70,22 +64,10 @@ const MapSelect = ({
   );
 
   const fetchRequest = useCallback(
-    lnglatString => {
-      const [longitude1, latitude1, longitude2, latitude2] = lnglatString.split(',');
-      const latlngString = [latitude1, longitude1, latitude2, longitude2].join(',');
-      const urlReplacements = {
-        latlng: latlngString,
-        lnglat: lnglatString,
-        srsName: SRS_NAME,
-      };
-      const requestUrl = Object.entries(urlReplacements).reduce(
-        (acc, [key, replacement]) => acc.replace(new RegExp(`{{${key}}}`, 'g'), replacement),
-        geojsonUrl
-      );
-      return request(requestUrl).catch(() => {
+    bbox_str =>
+      request(`${geojsonUrl}&bbox=${bbox_str}`).catch(() => {
         errorControl.show();
-      });
-    },
+      }),
     [errorControl, geojsonUrl]
   );
 
@@ -118,8 +100,8 @@ const MapSelect = ({
            */
           pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
             L.marker(latlong, {
-              icon: selection.current.has(feature.properties[idField]) ? LeafletDotSelectedIcon : LeafletDotIcon,
-              alt: feature.properties[idField],
+              icon: getIcon(feature.properties[iconField], selection.current.has(feature.properties[idField])),
+              alt: feature.properties.objectnummer,
             }),
 
           /**
@@ -144,7 +126,7 @@ const MapSelect = ({
           },
         }
       ),
-    [fetchRequest, idField, onSelectionChange, selection, selectionOnly]
+    [fetchRequest, getIcon, iconField, idField, onSelectionChange, selection, selectionOnly]
   );
 
   /**
@@ -170,6 +152,17 @@ const MapSelect = ({
     });
 
     zoomMessageControl.addTo(mapInstance);
+
+    if (legend) {
+      // only show if legend items are provided
+      const legendControl = new LegendControl({
+        position: 'topright',
+        zoomMin,
+        elements: legend,
+      });
+
+      legendControl.addTo(mapInstance);
+    }
 
     const div = L.DomUtil.create('div', 'loading-control');
     div.innerText = 'Bezig met laden...';
@@ -211,7 +204,8 @@ const MapSelect = ({
       featuresLayer.current.getLayers().forEach(layer => {
         const properties = layer.feature.properties;
         const id = properties[idField];
-        const icon = selection.current.has(id) ? LeafletDotSelectedIcon : LeafletDotIcon;
+        const iconType = properties[iconField];
+        const icon = getIcon(iconType, selection.current.has(id));
 
         layer.setIcon(icon);
       });
@@ -235,6 +229,12 @@ const MapSelect = ({
   );
 };
 
+MapSelect.defaultProps = {
+  hasGPSControl: false,
+  value: [],
+  selectionOnly: false,
+};
+
 MapSelect.propTypes = {
   latlng: PropTypes.exact({
     latitude: PropTypes.number.isRequired,
@@ -242,7 +242,15 @@ MapSelect.propTypes = {
   }).isRequired,
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func,
+  getIcon: PropTypes.func.isRequired,
   hasGPSControl: PropTypes.bool,
+  legend: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      iconUrl: PropTypes.string.isRequired,
+    })
+  ),
+  iconField: PropTypes.string.isRequired,
   idField: PropTypes.string.isRequired,
   value: PropTypes.arrayOf(PropTypes.string),
   selectionOnly: PropTypes.bool,

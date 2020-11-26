@@ -1,18 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
-import ZoomMessageControl from './control/ZoomMessageControl';
-import LegendControl from './control/LegendControl';
-import LoadingControl from './control/LoadingControl';
-import ErrorControl from './control/ErrorControl';
+import ZoomMessageControl from '../MapSelect/control/ZoomMessageControl';
+import LoadingControl from '../MapSelect/control/LoadingControl';
+import ErrorControl from '../MapSelect/control/ErrorControl';
 
-import MapSelectAmsterdam from '.';
+import MapSelectGeneric, { SRS_NAME } from '.';
 
-jest.mock('./control/ZoomMessageControl');
-jest.mock('./control/LegendControl');
-jest.mock('./control/LoadingControl');
-jest.mock('./control/ErrorControl');
+jest.mock('../MapSelect/control/ZoomMessageControl');
+jest.mock('../MapSelect/control/LoadingControl');
+jest.mock('../MapSelect/control/ErrorControl');
 
 const fetchResponse = {
   type: 'FeatureCollection',
@@ -34,17 +32,14 @@ const fetchResponse = {
 
 fetch.mockResponse(JSON.stringify(fetchResponse));
 
-describe('<MapSelectAmsterdam />', () => {
-  const legend = [{ key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' }];
+describe('<MapSelectGeneric />', () => {
   const onSelectionChange = jest.fn();
-  const url = 'foo/geo.json?';
-  const getIcon = (type, isSelected) => {
-    if (isSelected) {
-      return L.divIcon({ className: 'my-div-icon-select' });
-    }
-
-    return L.divIcon({ className: 'my-div-icon' });
-  };
+  const urlLatLng =
+    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{latlng}},{{srsName}}';
+  const urlLngLat =
+    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{lnglat}},{{srsName}}';
+  const coordsRegExpString = '(\\d{1,2}\\.\\d{1,16},){4}';
+  const urlRegExpString = `^https://geoserver\\.test/\\?service=WFS&version=1\\.1\\.0&request=GetFeature&srsName=${SRS_NAME}&bbox=${coordsRegExpString}${SRS_NAME}$`;
 
   const latlng = {
     latitude: 4,
@@ -59,67 +54,58 @@ describe('<MapSelectAmsterdam />', () => {
   it('should render correctly', async () => {
     const { findByTestId, getByTestId } = render(
       withAppContext(
-        <MapSelectAmsterdam
+        <MapSelectGeneric
           latlng={latlng}
           onSelectionChange={onSelectionChange}
-          getIcon={getIcon}
-          geojsonUrl={url}
-          iconField="type_name"
+          geojsonUrl={urlLatLng}
           idField="objectnummer"
           hasGPSControl
         />
       )
     );
 
-    await findByTestId('mapSelect');
+    await findByTestId('mapSelectGeneric');
 
     expect(getByTestId('gpsButton')).toBeInTheDocument();
-    expect(LegendControl).not.toHaveBeenCalled();
     expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
     expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled();
   });
 
-  it('should render legend', async () => {
-    const { findByTestId } = render(
-      withAppContext(
-        <MapSelectAmsterdam
-          latlng={latlng}
-          onSelectionChange={onSelectionChange}
-          getIcon={getIcon}
-          geojsonUrl={url}
-          legend={legend}
-          iconField="type_name"
-          idField="objectnummer"
-        />
-      )
-    );
-
-    await findByTestId('mapSelect');
-
-    expect(LegendControl).toHaveBeenCalled();
-  });
-
   it('should do bbox fetch', async () => {
     expect(fetch).not.toHaveBeenCalled();
 
-    const { findByTestId } = render(
+    const { unmount } = render(
       withAppContext(
-        <MapSelectAmsterdam
+        <MapSelectGeneric
           latlng={latlng}
           onSelectionChange={onSelectionChange}
-          getIcon={getIcon}
-          legend={legend}
-          geojsonUrl={url}
-          iconField="type_name"
+          geojsonUrl={urlLatLng}
           idField="objectnummer"
         />
       )
     );
 
-    await findByTestId('mapSelect');
+    await screen.findByTestId('mapSelectGeneric');
 
-    const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/;
-    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);
+    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(new RegExp(urlRegExpString)), undefined);
+
+    unmount();
+    render(
+      withAppContext(
+        <MapSelectGeneric
+          latlng={latlng}
+          onSelectionChange={onSelectionChange}
+          geojsonUrl={urlLngLat}
+          idField="objectnummer"
+        />
+      )
+    );
+
+    await screen.findByTestId('mapSelectGeneric');
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch.mock.calls[1][0]).toMatch(new RegExp(urlRegExpString));
+    expect(fetch.mock.calls[0][0]).not.toBe(fetch.mock.calls[1][0]);
   });
 });
