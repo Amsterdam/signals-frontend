@@ -23,6 +23,7 @@ if [[ ${INITIALIZE_WITH_DUMMY_DATA:-0} == 1 ]]; then
 
   # Other scripts to load data should be placed here
   python manage.py dummy_sources --to-create 10
+  python manage.py dummy_signals --to-create 5
 
   echo "[$(date +"%FT%T%z")] - Done!!!" >> "$LOGFILE"
 fi

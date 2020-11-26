@@ -11,50 +11,35 @@ import {
 import { MANAGE_SIGNALS, OVERVIEW_MAP } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 
+const fixturePath = '../fixtures/signals/graffiti.json';
+
 describe('Change signal after submit', () => {
-  describe('Create signal graffitie', () => {
+  describe('Create signal in category "Graffiti"', () => {
     before(() => {
+      cy.server();
+      cy.getAddressRoute();
+      cy.postSignalRoutePublic();
+      cy.route2('**/maps/topografie?bbox=**').as('map');
       cy.visitFetch('incident/beschrijf');
     });
 
-    it('Should describe the signal', () => {
-      cy.server();
-      cy.getAddressRoute();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/graffiti.json').as('prediction');
-
-      createSignal.checkDescriptionPage();
-      createSignal.setAddress('1063KR 11A', "Plein '40-'45 11A, 1063KR Amsterdam");
-      createSignal.setDescription('Mijn hele huis zit onder de graffiti');
-      createSignal.setDateTime('Nu');
-
+    it('Should create the signal', () => {
+      createSignal.setDescriptionPage(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter a phonenumber and email address', () => {
+      createSignal.setPhonenumber(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should show a summary', () => {
-      cy.server();
-      cy.route('/maps/topografie?bbox=**').as('map');
-      cy.postSignalRoutePublic();
-
+      createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
+
       cy.wait('@map');
-      createSignal.checkSummaryPage();
-
-      // Check information provided by user
-      cy.contains(Cypress.env('address')).should('be.visible');
-      cy.contains(Cypress.env('description')).should('be.visible');
-
+      createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
-      cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
-    });
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-    it('Should show the last screen', () => {
       createSignal.checkThanksPage();
-      // Capture signal id to check details later
       createSignal.saveSignalId();
     });
   });
@@ -71,25 +56,8 @@ describe('Change signal after submit', () => {
     it('Should show the signal details', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
-      createSignal.checkSignalDetailsPage();
-      cy.contains(Cypress.env('description')).should('be.visible');
 
-      // Check signal data
-      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Nieuw-West').should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', "Plein '40-'45 11A").should('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1063KR Amsterdam').should('be.visible');
-      cy.get(SIGNAL_DETAILS.email).should('have.text', '').should('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').should('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
-
-      createSignal.checkCreationDate();
-      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '5 werkdagen').and('be.visible');
-      createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
-      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').should('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Graffiti / wildplak (STW)').and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Schoon').should('be.visible');
-      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').should('be.visible');
+      createSignal.checkAllDetails(fixturePath);
     });
   });
   describe('Change signal data', () => {
@@ -114,8 +82,9 @@ describe('Change signal after submit', () => {
       // Check on map and cancel
       cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(CHANGE_LOCATION.buttonCancel).click();
-      cy.contains('Mijn hele huis zit onder de graffiti');
-
+      cy.fixture(fixturePath).then(json => {
+        cy.contains(json.text).should('be.visible');
+      });
       // Edit signal location
       cy.get(CHANGE_LOCATION.buttonEdit).click();
       cy.get(CHANGE_LOCATION.map).should('be.visible');
@@ -213,7 +182,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.radioButtonIngepland).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('not.be.visible');
+      cy.contains('Toelichting (optioneel)').should('not.exist');
       cy.get(CHANGE_STATUS.radioButtonExtern).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(sendMailText).should('be.visible');
@@ -221,11 +190,11 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.radioButtonAfgehandeld).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('not.be.visible');
+      cy.contains('Toelichting (optioneel)').should('not.exist');
       cy.get(CHANGE_STATUS.radioButtonHeropend).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('not.be.visible');
+      cy.contains('Toelichting (optioneel)').should('not.exist');
       cy.get(CHANGE_STATUS.radioButtonGeannuleerd).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(sendMailText).should('be.visible');

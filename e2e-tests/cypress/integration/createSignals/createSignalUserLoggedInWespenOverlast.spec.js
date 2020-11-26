@@ -1,41 +1,33 @@
 // <reference types="Cypress" />
 import * as createSignal from '../../support/commandsCreateSignal';
-import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
+import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 
-describe('Create signal animals from incident management and chek signal details', () => {
-  describe('Create signal animals', () => {
+const fixturePath = '../fixtures/signals/wespen.json';
+
+describe('Create signal "Wespen" when logged in and check signal details', () => {
+  describe('Create signal wespen', () => {
     beforeEach(() => {
+      cy.server();
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
-
-    it('Initiate create signal from manage', () => {
-      cy.server();
+    it('Should initiate create signal from manage', () => {
       cy.getManageSignalsRoutes();
-
       cy.visitFetch('/manage/incidents/');
-
-      // Wait till page is loaded
       cy.waitForManageSignalsRoutes();
       cy.openMenu();
       cy.contains('Melden').click();
       cy.checkHeaderText('Beschrijf uw melding');
     });
-
-    it('Should search for an address', () => {
-      cy.server();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/wespen.json').as('prediction');
+    it('Should create the signal', () => {
       cy.route2('**/locatieserver/v3/suggest?fq=*').as('getAddress');
+      cy.route2('**/maps/topografie?bbox=**').as('map');
+      cy.route2('POST', '**/signals/v1/private/signals/').as('postSignalPrivate');
 
-      createSignal.checkDescriptionPage();
-      createSignal.selectSource(3);
+      createSignal.setDescriptionPage(fixturePath);
 
-      createSignal.setAddress('1012GX 23', 'Oudekerksplein 23, 1012GX Amsterdam');
-      createSignal.setDescription('Er is een wespennest bij de hoofdingang van de Oude kerk');
-      createSignal.setDateTime('Nu');
-
-      // Check Urgency
+      // Check Urgency texts
       cy.contains('Wat is de urgentie?').should('be.visible');
       cy.contains('Hoog').should('be.visible').click();
       cy.contains('Hoog: melding met spoed oppakken').should('be.visible');
@@ -43,17 +35,9 @@ describe('Create signal animals from incident management and chek signal details
       cy.contains('Laag: interne melding zonder servicebelofte').should('be.visible');
       cy.contains('Normaal').should('be.visible').click();
 
-      // Check Type
-      cy.contains('Type').should('be.visible');
-      cy.contains('Klacht').should('be.visible').click();
-
       cy.contains('Volgende').click();
-    });
+      createSignal.checkSpecificInformationPage(fixturePath);
 
-    it('Should enter specific information', () => {
-      createSignal.checkSpecificInformationPage();
-
-      cy.contains(Cypress.env('description')).should('be.visible');
       cy.get(questions.overlastVanDieren.extra_dieren_text.answers)
         .each($element => {
           cy.contains($element).should('be.visible');
@@ -62,30 +46,19 @@ describe('Create signal animals from incident management and chek signal details
       cy.contains('overlast van dieren').should('have.attr', 'href').and('include', 'veelgevraagd');
 
       cy.contains('Volgende').click();
-    });
-
-    it('Should enter a phonenumber and email address', () => {
+      createSignal.setPhonenumber(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should show a summary', () => {
-      cy.route2('**/maps/topografie?bbox=**').as('map');
-      cy.route2('POST', '/signals/v1/private/signals/').as('postSignalPrivate');
-
+      createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
+
       cy.wait('@map');
-      createSignal.checkSummaryPage();
-
-      // Check information provided by user
-      cy.contains(Cypress.env('address')).should('be.visible');
-      cy.contains(Cypress.env('description')).should('be.visible');
+      createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
-    });
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-    it('Should show the last screen', () => {
       createSignal.checkThanksPage();
-      // Capture signal id to check details later
       createSignal.saveSignalId();
     });
   });
@@ -103,26 +76,7 @@ describe('Create signal animals from incident management and chek signal details
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      createSignal.checkSignalDetailsPage();
-      cy.contains(Cypress.env('description')).should('be.visible');
-
-      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Oudekerksplein 23').and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012GX Amsterdam').and('be.visible');
-      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
-
-      createSignal.checkCreationDate();
-      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '5 werkdagen').and('be.visible');
-      createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
-      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht').and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Wespen (GGD)').and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast van dieren').and('be.visible');
-      cy.readFile('./cypress/fixtures/tempSource.json').then(json => {
-        cy.get(SIGNAL_DETAILS.source).should('have.text', json.source).and('be.visible');
-      });
+      createSignal.checkAllDetails(fixturePath);
     });
   });
 });

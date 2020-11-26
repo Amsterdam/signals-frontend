@@ -5,7 +5,7 @@ export const MANAGE_SIGNALS = {
   buttonFilteren: '[data-testid=filterModalBtn]',
   clearSearchTerm: '[aria-label="Close"]',
   firstSignalAdres: 'tbody > :nth-child(1) > :nth-child(9) > span > a',
-  firstSignalDag: 'tbody > :nth-child(1) > :nth-child(3) > span > a',
+  firstSignalDag: '[data-testid="incidentDaysOpen"] > span > a',
   firstSignalDatumTijd: 'tbody > :nth-child(1) > :nth-child(4) > span > a',
   firstSignalIcon: 'tbody > :nth-child(1) > :nth-child(1) > span > a > span',
   firstSignalId: 'tbody > :nth-child(1) > :nth-child(2) > span > a',

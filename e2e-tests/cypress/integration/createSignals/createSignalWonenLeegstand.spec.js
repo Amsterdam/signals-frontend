@@ -1,38 +1,27 @@
 // <reference types="Cypress" />
 import * as createSignal from '../../support/commandsCreateSignal';
 import { CREATE_SIGNAL, WONEN_LEEGSTAND } from '../../support/selectorsCreateSignal';
-import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 
-describe('Create signal wonen leegstand and check signal details', () => {
+const fixturePath = '../fixtures/signals/wonenLeegstand.json';
+
+describe('Create signal "Wonen leegstand" and check signal details', () => {
   describe('Create signal wonen leegstand', () => {
     before(() => {
+      cy.server();
+      cy.getAddressRoute();
+      cy.postSignalRoutePublic();
+      cy.intercept('**/maps/topografie?bbox=**').as('map');
       cy.visitFetch('incident/beschrijf');
     });
 
-    it('Should describe the signal', () => {
-      cy.server();
-      cy.getAddressRoute();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/wonenLeegstand.json').as('prediction');
-
-      createSignal.checkDescriptionPage();
-      createSignal.setAddress('1101DS 600', 'Johan Cruijff Boulevard 600, 1101DS Amsterdam');
-      createSignal.setDescription(
-        'Woning heeft leeg gestaan. Soms is iemand in de avond aanwezig. Het is verschrikkelijk.',
-      );
-      createSignal.setDateTime('Nu');
-
+    it('Should create the signal', () => {
+      createSignal.setDescriptionPage(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter specific information', () => {
-      createSignal.checkSpecificInformationPage();
-
-      cy.contains(Cypress.env('description')).should('be.visible');
-
-      // Check if fields are mandatory
+      createSignal.checkSpecificInformationPage(fixturePath);
       cy.contains('Volgende').click();
       cy.get(CREATE_SIGNAL.errorItem).should('contain', 'Dit is een verplicht veld').and('have.length', 3);
 
@@ -48,9 +37,9 @@ describe('Create signal wonen leegstand and check signal details', () => {
       cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktWeetIkNiet).check({ force: true }).should('be.checked');
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktNee).check({ force: true }).should('be.checked');
-      cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('not.be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('not.be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.label).should('not.be.visible');
+      cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('not.exist');
+      cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('not.exist');
+      cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.label).should('not.exist');
 
       cy.get(WONEN_LEEGSTAND.radioButtonGebruiktJa).check({ force: true }).should('be.checked');
 
@@ -69,47 +58,21 @@ describe('Create signal wonen leegstand and check signal details', () => {
       cy.get(WONEN_LEEGSTAND.inputTijdstip).eq(3).type('Vooral in de avond');
 
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter a phonenumber and email address', () => {
+      createSignal.setPhonenumber(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should show a summary', () => {
-      cy.server();
-      cy.route('/maps/topografie?bbox=**').as('map');
-      cy.postSignalRoutePublic();
-
+      createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
+
       cy.wait('@map');
-      createSignal.checkSummaryPage();
-
-      // Check information provided by user
-      cy.contains(Cypress.env('address')).should('be.visible');
-      cy.contains(Cypress.env('description')).should('be.visible');
-
-      cy.contains('Aanvullende informatie').should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.shortLabel).should('be.visible');
-      cy.contains('A. Hitchcock').should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_periode.shortLabel).should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_periode.answers.weet_ik_niet).should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.shortLabel).should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_woning_gebruik.answers.ja).should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.shortLabel).should('be.visible');
-      cy.contains('J. Aniston').should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.shortLabel).should('be.visible');
-      cy.contains('Deze persoon zit de hele dag te acteren').should('be.visible');
-      cy.contains(questions.wonen.extra_wonen_leegstand_iemand_aanwezig.shortLabel).should('be.visible');
-      cy.contains('Vooral in de avond').should('be.visible');
-
+      createSignal.checkSummaryPage(fixturePath);
+      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
-      cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
-    });
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-    it('Should show the last screen', () => {
       createSignal.checkThanksPage();
-      // Capture signal id to check details later
       createSignal.saveSignalId();
     });
   });
@@ -127,24 +90,7 @@ describe('Create signal wonen leegstand and check signal details', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      createSignal.checkSignalDetailsPage();
-      cy.contains(Cypress.env('description')).should('be.visible');
-
-      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Zuidoost').and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Johan Cruijff Boulevard 600').and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1101DS Amsterdam').and('be.visible');
-      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
-
-      createSignal.checkCreationDate();
-      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '5 werkdagen').and('be.visible');
-      createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
-      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Leegstand (WON)').and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Wonen').and('be.visible');
-      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
+      createSignal.checkAllDetails(fixturePath);
     });
   });
 });

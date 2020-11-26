@@ -2,7 +2,10 @@
 import * as createSignal from '../../support/commandsCreateSignal';
 import { CATEGORIES } from '../../support/selectorsSettings';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
+import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
+
+const fixturePath = '../fixtures/signals/signalForManageCategories.json';
 
 describe('Manage categories', () => {
   describe('Change category ', () => {
@@ -68,45 +71,26 @@ describe('Manage categories', () => {
 
     it('Should describe the signal', () => {
       cy.server();
-      cy.getAddressRoute();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/afwateringBrug.json').as('prediction');
+      cy.route2('**/locatieserver/v3/suggest?fq=*').as('getAddress');
+      cy.route2('**/maps/topografie?bbox=**').as('map');
+      cy.route2('POST', '**/signals/v1/private/signals/').as('postSignalPrivate');
 
-      createSignal.checkDescriptionPage();
-      createSignal.setAddress('1069HM 224', 'Lederambachtstraat 224, 1069HM Amsterdam');
-      createSignal.setDescription(
-        'Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?',
-      );
-      createSignal.setDateTime('Nu');
-
-      // Select source
-      createSignal.selectSource(2);
-
+      createSignal.setDescriptionPage(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter a phonenumber and email address', () => {
+      createSignal.setPhonenumber(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should show a summary', () => {
-      cy.server();
-      cy.route('/maps/topografie?bbox=**').as('map');
-      cy.postSignalRoutePrivate();
-
+      createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
+
       cy.wait('@map');
-      createSignal.checkSummaryPage();
-
-      cy.contains(Cypress.env('description')).should('be.visible');
-
+      createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
-      cy.contains('Ik beoordeel deze melding niet, het lijkt me namelijk allemaal onzin');
-    });
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-    it('Should show the last screen', () => {
       createSignal.checkThanksPage();
-      // Capture signal id to check details later
       createSignal.saveSignalId();
     });
     it('Should show the change in category description', () => {
