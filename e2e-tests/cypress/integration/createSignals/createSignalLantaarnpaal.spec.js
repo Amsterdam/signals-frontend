@@ -1,41 +1,31 @@
 // <reference types="Cypress" />
 import * as createSignal from '../../support/commandsCreateSignal';
 import { CREATE_SIGNAL, LANTAARNPAAL } from '../../support/selectorsCreateSignal';
-import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 
-describe('Create signal lantaarnpaal and check signal details', () => {
+const fixturePath = '../fixtures/signals/lantaarnpaal.json';
+
+describe('Create signal "Lantaarnpaal" and check signal details', () => {
   describe('Create signal lantaarnpaal', () => {
     before(() => {
-      cy.visitFetch('incident/beschrijf');
-    });
-
-    it('Should describe the signal', () => {
       cy.server();
       cy.getAddressRoute();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/lantaarnpaal.json').as('prediction');
-
-      createSignal.checkDescriptionPage();
-      createSignal.setAddress('1077WV 59', 'Prinses Irenestraat 59, 1077WV Amsterdam');
-      createSignal.setDescription('De lantaarnpaal voor mijn deur is kapot');
-      createSignal.setDateTime('Vandaag');
-
-      createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
-      cy.contains('Volgende').click();
-    });
-
-    it('Should enter specific information', () => {
-      cy.server();
+      cy.postSignalRoutePublic();
       cy.route('/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as(
         'getOpenbareVerlichting',
       );
+      cy.intercept('**/maps/topografie?bbox=**').as('map');
+      cy.visitFetch('incident/beschrijf');
+    });
 
-      createSignal.checkSpecificInformationPage();
-      cy.contains(Cypress.env('description')).should('be.visible');
+    it('Should create the signal', () => {
+      createSignal.setDescriptionPage(fixturePath);
+      cy.contains('Volgende').click();
 
-      // Click on next to invoke error message
+      createSignal.checkSpecificInformationPage(fixturePath);
+
       cy.contains('Volgende').click();
       cy.get(CREATE_SIGNAL.labelQuestion)
         .contains('Wat is het probleem?')
@@ -46,11 +36,11 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag).check({ force: true }).should('be.checked').and('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
       cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder).check({ force: true }).should('be.checked').and('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
       cy.get(LANTAARNPAAL.radioButtonProbleemVies).check({ force: true }).should('be.checked').and('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
       cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemOverig).check({ force: true }).should('be.checked').and('be.visible');
@@ -69,10 +59,8 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       cy.get(LANTAARNPAAL.radioButtonGevaarlijkLosseKabels).check({ force: true }).should('be.checked');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check({ force: true }).should('be.checked');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('not.be.visible');
-    });
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_gevaar.answers).should('not.exist');
 
-    it('Should select a light on map', () => {
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.label).should('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.subtitle).should('be.visible');
       // Click on lamp based on coordinate
@@ -91,44 +79,21 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       cy.contains('Overig lichtpunt').should('be.visible');
 
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter a phonenumber and email address', () => {
+      createSignal.setPhonenumber(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should show a summary', () => {
-      cy.server();
-      cy.route('/maps/topografie?bbox=**').as('map');
-      cy.postSignalRoutePublic();
-
+      createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
+
       cy.wait('@map');
-      createSignal.checkSummaryPage();
-
-      // Check on information provided by user
-      cy.contains(Cypress.env('address')).should('be.visible');
-      cy.contains(Cypress.env('description')).should('be.visible');
-      cy.contains('Vandaag, 5:45').should('be.visible');
-      cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.shortLabel).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.answers.overig).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.shortLabel).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.answers.niet_gevaarlijk).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.shortLabel).should('be.visible');
-      cy.contains('034575').should('be.visible');
-      cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
-      cy.get(LANTAARNPAAL.markerOnMap).should('be.visible');
-
+      createSignal.checkSummaryPage(fixturePath);
+      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
-    });
-
-    it('Should show the last screen', () => {
       createSignal.checkThanksPage();
-      // Capture signal id to check details later
       createSignal.saveSignalId();
     });
   });
@@ -146,29 +111,7 @@ describe('Create signal lantaarnpaal and check signal details', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      createSignal.checkSignalDetailsPage();
-      cy.contains(Cypress.env('description')).should('be.visible');
-
-      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Zuid').and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Prinses Irenestraat 59').and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1077WV Amsterdam').and('be.visible');
-      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
-
-      // Open and close uploaded picture
-      cy.get(SIGNAL_DETAILS.photo).should('be.visible').click();
-      cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
-      cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
-
-      createSignal.checkCreationDate();
-      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '21 dagen').and('be.visible');
-      createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
-      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Straatverlichting (VOR)').and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Wegen, verkeer, straatmeubilair').and('be.visible');
-      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
+      createSignal.checkAllDetails(fixturePath);
     });
   });
 });

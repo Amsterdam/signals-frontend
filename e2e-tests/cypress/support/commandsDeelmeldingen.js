@@ -13,8 +13,8 @@ export const checkDeelmelding = (deelmeldingNumber, subcategory) => {
     cy.log(deelMeldingId);
 
     cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).should('have.text', deelMeldingId);
-    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('have.text', 'Gemeld').and('be.visible');
-    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', subcategory).and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('have.text', subcategory).and('be.visible');
+    // cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('have.text', 'Gemeld').and('be.visible');
   });
 };
 
@@ -25,7 +25,7 @@ export const filterSignalOnType = (type, selector) => {
   cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', type).and('be.visible');
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedASC');
-  cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
+  cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
   cy.wait('@getMap');
   cy.wait('@getTerms');
@@ -33,7 +33,7 @@ export const filterSignalOnType = (type, selector) => {
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedDESC');
-  cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
+  cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
   checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();

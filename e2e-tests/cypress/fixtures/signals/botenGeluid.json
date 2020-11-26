@@ -1,0 +1,66 @@
+{
+  "category": {
+    "sub": "Geluid op het water",
+    "sub_slug": "overlast-op-het-water-geluid",
+    "main": "Overlast op het water",
+    "main_slug": "overlast-op-het-water",
+    "category_url": "http://localhost:8000/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-geluid",
+    "departments": "ASC, WAT",
+    "created_by": null,
+    "text": null,
+    "handling_time": "3 werkdagen"
+  },
+  "id": null,
+  "has_attachments": true,
+  "address": {
+    "stadsdeel": "Oost",
+    "postcode": "1096AC",
+    "huisletter": "A",
+    "huisnummer": 5,
+    "woonplaats": "Amsterdam",
+    "openbare_ruimte": "Korte Ouderkerkerdijk",
+    "huisnummer_toevoeging": "",
+    "address_text": "Korte Ouderkerkerdijk 5A 1096AC Amsterdam",
+    "geometrie": {"type": "Point", "coordinates": [4.91808994, 52.34050185]}
+  },
+  "status": {
+    "text": "",
+    "user": "",
+    "state": "m",
+    "state_display": "Gemeld",
+    "send_email": false,
+    "created_at": "2020-10-29T16:27:54.488819+01:00"
+  },
+  "reporter": {
+    "email": "",
+    "phone": "",
+    "sharing_allowed": "Nee"
+  },
+  "priority": "Normaal",
+  "notes": [],
+  "type": "Melding",
+  "source": "online",
+  "text": "Er komt hele harde muziek van De Bereboot, deze boot ligt in het haventje bij de omval.",
+  "text_extra": "",
+  "extra_properties": [
+    {
+      "id": "extra_boten_geluid_meer",
+      "label": "Extra informatie",
+      "answer": "Ik zie allemaal aangeklede dieren op de boot staan, erg verdacht.",
+      "category_url": ""
+    }
+  ],
+  "created_at": "2020-10-29T15:53:05.650429+01:00",
+  "updated_at": "2020-10-29T16:27:54.569883+01:00",
+  "incident_date_start": "2020-10-29T15:53:05+01:00",
+  "incident_date_end": null,
+  "time": "Nu",
+  "directing_departments": [
+    {"id": 6, "code": "ASC", "name": "Actie Service Centrum", "is_intern": true},
+    {"id": 3, "code": "WAT", "name": "Waternet", "is_intern": true}
+  ],
+  "fixtures":  {
+    "prediction": "waterGeluid.json",
+    "attachments": null
+  }
+}
