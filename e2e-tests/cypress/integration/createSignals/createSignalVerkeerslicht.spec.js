@@ -1,38 +1,27 @@
 // <reference types="Cypress" />
 import * as createSignal from '../../support/commandsCreateSignal';
 import { CREATE_SIGNAL, VERKEERSLICHT } from '../../support/selectorsCreateSignal';
-import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 
-describe('Create signal Verkeerslicht and check signal details', () => {
+const fixturePath = '../fixtures/signals/verkeerslicht.json';
+
+describe('Create signal "Verkeerslicht" and check signal details', () => {
   describe('Create signal Verkeerslicht', () => {
     before(() => {
+      cy.server();
+      cy.getAddressRoute();
+      cy.postSignalRoutePublic();
+      cy.intercept('**/maps/topografie?bbox=**').as('map');
       cy.visitFetch('incident/beschrijf');
     });
 
-    it('Should describe the signal', () => {
-      cy.server();
-      cy.getAddressRoute();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/verkeerslicht.json').as('prediction');
-
-      createSignal.checkDescriptionPage();
-      createSignal.setAddress('1018VN 113', 'Weesperstraat 113, 1018VN Amsterdam');
-      createSignal.setDescription(
-        'Het stoplicht op de kruising weesperstraat met de nieuwe kerkkstraat richting de stad staat altijd op groen. Dit zorgt voor gevaarlijke situaties.',
-      );
-      createSignal.setDateTime('Eerder');
-
+    it('Should create the signal', () => {
+      createSignal.setDescriptionPage(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter specific information', () => {
-      createSignal.checkSpecificInformationPage();
-
-      cy.contains(Cypress.env('description')).should('be.visible');
-
-      // Click on next to invoke error message
+      createSignal.checkSpecificInformationPage(fixturePath);
       cy.contains('Volgende').click();
       cy.get(CREATE_SIGNAL.labelQuestion)
         .contains('Is de situatie gevaarlijk?')
@@ -207,45 +196,21 @@ describe('Create signal Verkeerslicht and check signal details', () => {
       cy.get(VERKEERSLICHT.inputNummerVerkeerslicht).eq(1).type('365');
 
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter a phonenumber and email address', () => {
+      createSignal.setPhonenumber(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should show a summary', () => {
-      cy.server();
-      cy.route('/maps/topografie?bbox=**').as('map');
-      cy.postSignalRoutePublic();
-
+      createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
+
       cy.wait('@map');
-      createSignal.checkSummaryPage();
-
-      // Check information provided by user
-      cy.contains(Cypress.env('address')).should('be.visible');
-      cy.contains(Cypress.env('description')).should('be.visible');
-      cy.readFile('./cypress/fixtures/tempDateTime.json').then(json => {
-        cy.contains(json.dateTime).should('be.visible');
-      });
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht.shortLabel).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht.answers.niet_gevaarlijk).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_welk.shortLabel).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_welk.answers.tram_bus).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_bus_tram.answers.rood_werkt_niet).should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_rijrichting.shortLabel).should('be.visible');
-      cy.contains('Richting centrum').should('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_nummer.shortLabel).should('be.visible');
-      cy.contains('365').should('be.visible');
-
+      createSignal.checkSummaryPage(fixturePath);
+      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
-      cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
-    });
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-    it('Should show the last screen', () => {
       createSignal.checkThanksPage();
-      // Capture signal id to check details later
       createSignal.saveSignalId();
     });
   });
@@ -263,24 +228,7 @@ describe('Create signal Verkeerslicht and check signal details', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      createSignal.checkSignalDetailsPage();
-      cy.contains(Cypress.env('description')).should('be.visible');
-
-      cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Weesperstraat 113').and('be.visible');
-      cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1018VN Amsterdam').and('be.visible');
-      cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
-      cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
-      cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', 'Nee').and('be.visible');
-
-      createSignal.checkCreationDate();
-      cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '5 werkdagen').and('be.visible');
-      createSignal.checkRedTextStatus('Gemeld');
-      cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
-      cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
-      cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Verkeerslicht (VOR)').and('be.visible');
-      cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Wegen, verkeer, straatmeubilair').and('be.visible');
-      cy.get(SIGNAL_DETAILS.source).should('have.text', 'online').and('be.visible');
+      createSignal.checkAllDetails(fixturePath);
     });
   });
 });

@@ -1,0 +1,103 @@
+{
+  "category": {
+    "sub": "Overlast terrassen",
+    "sub_slug": "overlast-terrassen",
+    "main": "Overlast Bedrijven en Horeca",
+    "main_slug": "overlast-bedrijven-en-horeca",
+    "category_url": "http://localhost:8000/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen",
+    "departments": "ASC, VTH",
+    "created_by": null,
+    "text": null,
+    "handling_time": "5 werkdagen"
+  },
+  "id": null,
+  "has_attachments": true,
+  "address": {
+    "stadsdeel": "Centrum",
+    "postcode": "1017CV",
+    "huisletter": "",
+    "huisnummer": 26,
+    "woonplaats": "Amsterdam",
+    "openbare_ruimte": "Rembrandtplein",
+    "huisnummer_toevoeging": "",
+    "address_text": "Rembrandtplein 26 1017CV Amsterdam",
+    "geometrie": {"type": "Point", "coordinates": [4.89670927, 52.36568345]}
+  },
+  "status": {
+    "text": "",
+    "user": "",
+    "state": "m",
+    "state_display": "Gemeld",
+    "send_email": false,
+    "created_at": "2020-10-29T16:27:54.488819+01:00"
+  },
+  "reporter": {
+    "email": "",
+    "phone": "",
+    "sharing_allowed": "Nee"
+  },
+  "priority": "Normaal",
+  "notes": [],
+  "type": "Melding",
+  "source": "online",
+  "text": "Het terras voor hotel Schiller geeft enorme overlast.",
+  "text_extra": "",
+  "extra_properties": [
+    {
+      "id": "extra_bedrijven_horeca_wat",
+      "label": "Soort bedrijf",
+      "answer": {
+        "id": "horecabedrijf",
+        "info": "",
+        "label": "Horecabedrijf, zoals een café, restaurant, snackbar of kantine"
+      },
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_naam",
+      "label": "Mogelijke veroorzaker",
+      "answer": "George en Frits Schiller zingen dronken op het terras lelijke liedjes",
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_adres",
+      "label": "Adres overlast",
+      "answer": "Bij hotel Schiller op het Rembrandtplein",
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_terrassen",
+      "label": "Oorzaak overlast",
+      "answer": [
+        {"id": "bezoekers_op_terras", "label": "Bezoekers op terras"},
+        {"id": "opruimen_meubels", "label": "Geluid van opruimen meubels"}
+      ],
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_vaker",
+      "label": "Vaker overlast",
+      "answer": {"id": "ja", "info": "", "label": "Ja, het gebeurt vaker"},
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_tijdstippen",
+      "label": "Overlast momenten",
+      "answer": "Bijna elke avond",
+      "category_url": ""
+    }
+  ],
+  "created_at": "2020-10-29T15:53:05.650429+01:00",
+  "updated_at": "2020-10-29T16:27:54.569883+01:00",
+  "incident_date_start": "2020-10-29T15:53:05+01:00",
+  "incident_date_end": null,
+  "time": "Nu",
+  "directing_departments": [
+    {"id": 6, "code": "ASC", "name": "Actie Service Centrum", "is_intern": true},
+    {"id": 15, "code": "VTH", "name": "VTH", "is_intern": true}
+  ],
+  "fixtures":  {
+    "prediction": "bedrijvenTerrassenoverlast.json",
+    "attachments": null
+  }
+}

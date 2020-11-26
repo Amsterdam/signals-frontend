@@ -1,6 +1,6 @@
 // Search for an address
 Cypress.Commands.add('getAddressRoute', () => {
-  cy.route('/locatieserver/v3/suggest?fq=*').as('getAddress');
+  cy.intercept('/locatieserver/v3').as('getAddress');
 });
 
 // Routes for loading manage signals page
@@ -96,4 +96,9 @@ Cypress.Commands.add('waitForPostNoteRoutes', () => {
   cy.wait('@patchNote');
   cy.wait('@getSignal');
   cy.wait('@getHistory');
+});
+
+Cypress.Commands.add('stubCategoryPrediction', fixture => {
+  cy.route('POST', '/signals/category/prediction', `fixture:predictions/${fixture}`).as('prediction');
+  // cy.intercept('/signals/category/prediction.json', { fixture: `predictions/${fixture}` });
 });

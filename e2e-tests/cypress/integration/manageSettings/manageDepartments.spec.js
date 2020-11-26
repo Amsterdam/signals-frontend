@@ -129,7 +129,7 @@ describe('Manage departments', () => {
       it('Should change signal category and check responsible department', () => {
         createSignal.openCreatedSignal();
         cy.waitForSignalDetailsRoutes();
-        cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Drank- / drugsoverlast (ASC, CCA, THO)').and('be.visible');
+        cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Drank- / drugsoverlast (CCA, ASC, THO)').and('be.visible');
       });
     });
     describe('Change responsible department to initial state', () => {
