@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
 import { subcategoriesGroupedByCategories as subcategories, departments } from 'utils/__tests__/fixtures';
@@ -22,7 +22,13 @@ const directingDepartments = [
 
 describe('IncidentSplitForm', () => {
   const onSubmit = jest.fn();
-  const props = { parentIncident: parentIncidentFixture, subcategories, directingDepartments, onSubmit };
+  const props = {
+    parentIncident: parentIncidentFixture,
+    subcategories,
+    directingDepartments,
+    onSubmit,
+    isSubmitting: false,
+  };
 
   it('should render correctly', () => {
     const { container, queryAllByText } = render(withAppContext(<IncidentSplitForm {...props} />));
@@ -74,5 +80,16 @@ describe('IncidentSplitForm', () => {
 
     await findByTestId('incidentSplitForm');
     expect(mockHistoryPush).toHaveBeenCalledWith('/manage/incident/6010');
+  });
+
+  it('should disable buttons when saving', () => {
+    const { container, rerender } = render(withAppContext(<IncidentSplitForm {...props} />));
+
+    expect(screen.getByTestId('incidentSplitFormSubmitButton')).not.toHaveAttribute('disabled');
+    expect(screen.getByTestId('incidentSplitFormCancelButton')).not.toHaveAttribute('disabled');
+
+    rerender(withAppContext(<IncidentSplitForm {...props} isSubmitting />));
+    expect(screen.getByTestId('incidentSplitFormSubmitButton')).toHaveAttribute('disabled');
+    expect(screen.getByTestId('incidentSplitFormCancelButton')).toHaveAttribute('disabled');
   });
 });

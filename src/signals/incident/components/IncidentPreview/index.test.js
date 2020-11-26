@@ -21,6 +21,7 @@ describe('<IncidentPreview />', () => {
         phone: '0666 666 666',
         email: 'duvel@uiteendoosje.nl',
         other_prop: 'Lorem ipsum',
+        optional_array_prop: [],
       },
       preview: {
         beschrijf: {
@@ -35,6 +36,11 @@ describe('<IncidentPreview />', () => {
           },
           optional_prop: {
             label: 'Bazzzz',
+            optional: true,
+            render: ({ value }) => value,
+          },
+          optional_array_prop: {
+            label: 'Opttt',
             optional: true,
             render: ({ value }) => value,
           },
@@ -80,6 +86,7 @@ describe('<IncidentPreview />', () => {
 
       // optional prop without value should not be in the DOM
       expect(queryByText(props.preview.beschrijf.optional_prop.label)).not.toBeInTheDocument();
+      expect(queryByText(props.preview.beschrijf.optional_array_prop.label)).not.toBeInTheDocument();
 
       // required prop without value should be in the DOM
       expect(queryByText(props.preview.beschrijf.required_prop.label)).toBeInTheDocument();

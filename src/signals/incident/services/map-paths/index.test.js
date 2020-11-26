@@ -7,7 +7,6 @@ jest.mock('../get-step-controls');
 jest.mock('../convert-value');
 
 describe('The map paths service', () => {
-  const category_url = '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok';
   const wizard = {
     step: {
       form: {
@@ -68,9 +67,10 @@ describe('The map paths service', () => {
   };
 
   const incident = {
-    subcategory_link: 'https://api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
     description: 'free text',
     value_0: 0,
+    category: 'wegen-verkeer-straatmeubilair',
+    subcategory: 'straatverlichting-openbare-klok',
     checkbox_false: {
       label: 'Gebeurt het vaker?',
       value: false,
@@ -83,13 +83,16 @@ describe('The map paths service', () => {
       id: 'foo',
       label: 'Foo',
     },
-    array: [{
-      id: 'bar',
-      label: 'Bar',
-    }, {
-      id: 'baz',
-      label: 'Baz',
-    }],
+    array: [
+      {
+        id: 'bar',
+        label: 'Bar',
+      },
+      {
+        id: 'baz',
+        label: 'Baz',
+      },
+    ],
   };
 
   it('should map status by default', () => {
@@ -108,57 +111,68 @@ describe('The map paths service', () => {
       .mockImplementationOnce(() => incident.array);
 
     expect(mapPaths({}, incident, wizard)).toMatchObject({
-      extra_properties: [{
-        id: 'description',
-        label: 'Omschr.',
-        answer: 'free text',
-        category_url,
-      },
-      {
-        id: 'value_0',
-        label: '',
-        answer: 0,
-        category_url,
-      },
-      {
-        id: 'checkbox_false',
-        label: 'Checkbox unchecked',
-        answer: {
-          label: 'Gebeurt het vaker?',
-          value: false,
+      extra_properties: [
+        {
+          id: 'description',
+          label: 'Omschr.',
+          answer: 'free text',
+          category_url:
+            '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
         },
-        category_url,
-      },
-      {
-        id: 'checkbox_true',
-        label: 'Checkbox checked',
-        answer: {
-          label: 'Heeft u het gezien?',
-          value: true,
+        {
+          id: 'value_0',
+          label: '',
+          answer: 0,
+          category_url:
+            '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
         },
-        category_url,
-      },
-      {
-        id: 'object',
-        label: 'Selectbox of Radio',
-        answer: {
-          id: 'foo',
-          label: 'Foo',
+        {
+          id: 'checkbox_false',
+          label: 'Checkbox unchecked',
+          answer: {
+            label: 'Gebeurt het vaker?',
+            value: false,
+          },
+          category_url:
+            '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
         },
-        category_url,
-      },
-      {
-        id: 'array',
-        label: 'Multi checkbox',
-        answer: [{
-          id: 'bar',
-          label: 'Bar',
-        }, {
-          id: 'baz',
-          label: 'Baz',
-        }],
-        category_url,
-      }],
+        {
+          id: 'checkbox_true',
+          label: 'Checkbox checked',
+          answer: {
+            label: 'Heeft u het gezien?',
+            value: true,
+          },
+          category_url:
+            '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        },
+        {
+          id: 'object',
+          label: 'Selectbox of Radio',
+          answer: {
+            id: 'foo',
+            label: 'Foo',
+          },
+          category_url:
+            '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        },
+        {
+          id: 'array',
+          label: 'Multi checkbox',
+          answer: [
+            {
+              id: 'bar',
+              label: 'Bar',
+            },
+            {
+              id: 'baz',
+              label: 'Baz',
+            },
+          ],
+          category_url:
+            '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        },
+      ],
     });
   });
 });
