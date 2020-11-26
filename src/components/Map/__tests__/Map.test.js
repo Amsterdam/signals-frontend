@@ -18,13 +18,13 @@ describe('components/Map', () => {
   });
 
   it('should render the map', () => {
-    const { getByTestId, queryByText } = render(withAppContext(<Map mapOptions={MAP_OPTIONS} />));
+    const { getByTestId, getByText } = render(withAppContext(<Map mapOptions={MAP_OPTIONS} />));
 
     // Map
     expect(getByTestId('map-base')).toBeInTheDocument();
 
     // Tile layer
-    expect(queryByText(/Kaartgegevens CC-BY-4.0 Gemeente Amsterdam/)).toBeInTheDocument();
+    expect(getByText(/Kaartgegevens . Kadaster/)).toBeInTheDocument();
   });
 
   it('should call setInstance', () => {
@@ -114,11 +114,13 @@ describe('components/Map', () => {
     });
 
     expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification(expect.objectContaining({
-        title: 'meldingen.amsterdam.nl heeft geen toestemming om uw locatie te gebruiken.',
-        type: TYPE_LOCAL,
-        variant: VARIANT_NOTICE,
-      }))
+      showGlobalNotification(
+        expect.objectContaining({
+          title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
+          type: TYPE_LOCAL,
+          variant: VARIANT_NOTICE,
+        })
+      )
     );
   });
 
@@ -149,11 +151,13 @@ describe('components/Map', () => {
     });
 
     expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification(expect.objectContaining({
-        title: 'Uw locatie valt buiten de kaart en is daardoor niet te zien',
-        type: TYPE_LOCAL,
-        variant: VARIANT_NOTICE,
-      }))
+      showGlobalNotification(
+        expect.objectContaining({
+          title: 'Uw locatie valt buiten de kaart en is daardoor niet te zien',
+          type: TYPE_LOCAL,
+          variant: VARIANT_NOTICE,
+        })
+      )
     );
   });
 
