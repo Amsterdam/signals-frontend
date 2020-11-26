@@ -39,13 +39,13 @@ sizes.forEach(size => {
     });
 
     it('Should cancel adding a note', () => {
-      cy.get(SIGNAL_DETAILS.inputNoteText).should('not.be.visible');
-      cy.get(SIGNAL_DETAILS.buttonSaveNote).should('not.be.visible');
-      cy.get(SIGNAL_DETAILS.buttonCancelNote).should('not.be.visible');
+      cy.get(SIGNAL_DETAILS.inputNoteText).should('not.exist');
+      cy.get(SIGNAL_DETAILS.buttonSaveNote).should('not.exist');
+      cy.get(SIGNAL_DETAILS.buttonCancelNote).should('not.exist');
 
       cy.get(SIGNAL_DETAILS.buttonAddNote).click();
 
-      cy.get(SIGNAL_DETAILS.buttonAddNote).should('not.be.visible');
+      cy.get(SIGNAL_DETAILS.buttonAddNote).should('not.exist');
       cy.get(SIGNAL_DETAILS.inputNoteText).should('be.visible');
       cy.get(SIGNAL_DETAILS.buttonSaveNote)
         .should('be.visible');
@@ -55,9 +55,9 @@ sizes.forEach(size => {
         .click();
 
       cy.get(SIGNAL_DETAILS.buttonAddNote).should('be.visible');
-      cy.get(SIGNAL_DETAILS.inputNoteText).should('not.be.visible');
-      cy.get(SIGNAL_DETAILS.buttonSaveNote).should('not.be.visible');
-      cy.get(SIGNAL_DETAILS.buttonCancelNote).should('not.be.visible');
+      cy.get(SIGNAL_DETAILS.inputNoteText).should('not.exist');
+      cy.get(SIGNAL_DETAILS.buttonSaveNote).should('not.exist');
+      cy.get(SIGNAL_DETAILS.buttonCancelNote).should('not.exist');
     });
     it('Should show an error message when saving a note without content', () => {
       cy.get(SIGNAL_DETAILS.buttonAddNote).click();

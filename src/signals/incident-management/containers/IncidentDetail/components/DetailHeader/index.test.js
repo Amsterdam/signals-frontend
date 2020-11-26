@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, screen } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 
 import { withAppContext } from 'test/utils';
@@ -100,20 +100,14 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
     expect(queryByTestId('detail-header-button-split')).toBeNull();
   });
 
-  it('should render no split button when state is o', () => {
-    const { queryByTestId } = render(
-      renderWithContext({ ...incidentFixture, status: { ...incidentFixture.status, state: 'o' } })
-    );
+  it('should render no split button when state is o, a or s', () => {
+    ['o', 'a', 's'].forEach(state => {
+      render(
+        renderWithContext({ ...incidentFixture, status: { ...incidentFixture.status, state } })
+      );
 
-    expect(queryByTestId('detail-header-button-split')).toBeNull();
-  });
-
-  it('should render no split button when state a', () => {
-    const { queryByTestId } = render(
-      renderWithContext({ ...incidentFixture, status: { ...incidentFixture.status, state: 'a' } })
-    );
-
-    expect(queryByTestId('detail-header-button-split')).toBeNull();
+      expect(screen.queryByTestId('detail-header-button-split')).toBeNull();
+    });
   });
 
   it('should render no thor button when state is not m, i, b, h, send failed or reopened', () => {
