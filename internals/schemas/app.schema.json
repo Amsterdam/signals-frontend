@@ -201,7 +201,7 @@
           "type": "string"
         },
         "logoDescription": {
-          "description": "ARIA description fof the site logo",
+          "description": "ARIA description for the site logo",
           "type": "string"
         }
       },
