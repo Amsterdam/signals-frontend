@@ -8,6 +8,9 @@ stats.json
 # Local config
 /app.json
 
+# Keycloak docker environment data
+./internals/keycloak/data
+
 # Cruft
 .DS_Store
 npm-debug.log
