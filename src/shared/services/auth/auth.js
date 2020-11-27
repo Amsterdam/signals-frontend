@@ -22,6 +22,8 @@ const ERROR_MESSAGES = {
 // The parameters the OAuth2 authorization service will return on success
 const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 
+const AUTH_REDIRECT_URI = `${global.location.protocol}//${global.location.host}/manage/incidents`;
+
 const domainList = ['datapunt', 'grip'];
 
 function getDomain(domain) {
@@ -71,29 +73,17 @@ function catchError() {
 /**
  * Gets the access token and return path, and clears the local storage.
  */
-function handleCallback() {
-  // Parse query string into object
-  const params = queryStringParser(global.location.hash);
-  if (!params) {
-    return;
-  }
-
-  // Make sure all required parameters are there
-  if (AUTH_PARAMS.some(param => params[param] === undefined)) {
-    return;
-  }
-
+function saveToken(state, accessToken) {
   // The state param must be exactly the same as the state token we
   // have saved in local storage (to prevent CSRF)
   const localStateToken = storage.getItem(STATE_TOKEN_KEY);
-  const paramStateToken = decodeURIComponent(params.state);
+  const paramStateToken = decodeURIComponent(state, accessToken);
+
   if (paramStateToken !== localStateToken) {
     throw new Error(
-      `Authenticator encountered an invalid state token (${params.state}). Local state token: ${localStateToken}.`
+      `Authenticator encountered an invalid state token (${state}). Local state token: ${localStateToken}.`
     );
   }
-
-  const accessToken = params.access_token;
 
   tokenData = accessTokenParser(accessToken);
   const localNonce = storage.getItem(NONCE_KEY);
@@ -111,6 +101,49 @@ function handleCallback() {
   // Clean up URL; remove query and hash
   // https://stackoverflow.com/questions/4508574/remove-hash-from-url
   global.history.replaceState('', document.title, global.location.pathname);
+}
+
+/**
+ * Fetch token with given authorization code.
+ */
+async function fetchTokenByCode(code) {
+  const searchParams = new URLSearchParams({
+    code,
+    grant_type: 'authorization_code',
+    client_id: 'sia-frontend',
+    redirect_uri: 'http://localhost:3001/manage/incidents',
+  });
+
+  const { authEndpoint, realm } = configuration.keycloak;
+  const tokenUrl = `${authEndpoint}/realms/${realm}/protocol/openid-connect/token`;
+
+  const response = await fetch(tokenUrl, {
+    body: searchParams.toString(),
+    method: 'POST',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+  });
+
+  return response.json();
+}
+
+/**
+ * Handle login callback.
+ */
+async function handleCallback() {
+  // Parse query string into object
+  const params = queryStringParser(global.location.hash);
+
+  if (!params || !params.state) return;
+
+  if (params.code) { // handling keycloak callback
+    const token = await fetchTokenByCode(params.code);
+    saveToken(params.state, token.access_token);
+    return;
+  }
+
+  // handling other callbacks
+  if (AUTH_PARAMS.some(param => params[param] === undefined)) return;
+  saveToken(params.state, params.access_token);
 }
 
 /**
@@ -137,6 +170,41 @@ function restoreAccessToken() {
 }
 
 /**
+ * Login token flow.
+ */
+function loginToken(domain, nonce, stateToken) {
+  const searchParams = new URLSearchParams({
+    client_id: configuration.oidc.clientId,
+    response_type: configuration.oidc.responseType,
+    state: stateToken,
+    scope: configuration.oidc.scope,
+    idp_id: getDomain(domain),
+    response_mode: 'fragment',
+    nonce,
+    redirect_uri: AUTH_REDIRECT_URI,
+  });
+
+  return `${configuration.oidc.authEndpoint}?${searchParams.toString()}`;
+}
+
+/**
+ * Login auth flow.
+ */
+function loginCode(nonce, stateToken) {
+  const searchParams = new URLSearchParams({
+    client_id: configuration.keycloak.clientId,
+    response_type: configuration.keycloak.responseType,
+    state: stateToken,
+    nonce,
+    response_mode: 'fragment',
+    redirect_uri: AUTH_REDIRECT_URI,
+  });
+
+  const { authEndpoint, realm } = configuration.keycloak;
+  return `${authEndpoint}/realms/${realm}/protocol/openid-connect/auth?${searchParams.toString()}`;
+}
+
+/**
  * Redirects to the OAuth2 authorization service.
  */
 export function login(domain) {
@@ -149,9 +217,8 @@ export function login(domain) {
   // Get a random string to prevent CSRF
   const stateToken = randomStringGenerator();
   const nonce = randomStringGenerator();
-  if (!stateToken || !nonce) {
-    throw new Error('crypto library is not available on the current browser');
-  }
+
+  if (!stateToken || !nonce) throw new Error('crypto library is not available on the current browser');
 
   storage.removeItem(ACCESS_TOKEN_KEY);
 
@@ -159,26 +226,8 @@ export function login(domain) {
   storage.setItem(NONCE_KEY, nonce);
   storage.setItem(OAUTH_DOMAIN_KEY, domain);
 
-  const encodedClientId = encodeURIComponent(configuration.oidc.clientId);
-  const encodedResponseType = encodeURIComponent(configuration.oidc.responseType);
-  const encodedScope = encodeURIComponent(configuration.oidc.scope);
-  const encodedStateToken = encodeURIComponent(stateToken);
-  const encodedNonce = encodeURIComponent(nonce);
-  const encodedRedirectUri = encodeURIComponent(
-    `${global.location.protocol}//${global.location.host}/manage/incidents`
-  );
-  const encodedDomain = encodeURIComponent(getDomain(domain));
-
-  global.location.assign(
-    `${configuration.oidc.authEndpoint}` +
-      `?client_id=${encodedClientId}` +
-      `&response_type=${encodedResponseType}` +
-      `&scope=${encodedScope}` +
-      `&state=${encodedStateToken}` +
-      `&nonce=${encodedNonce}` +
-      `&redirect_uri=${encodedRedirectUri}` +
-      `&idp_id=${encodedDomain}`
-  );
+  // temporary until Grip is phased out, code should be rewritten and determine flow by oidc.responseType
+  global.location.assign(domain === 'keycloak' ? loginCode(nonce, stateToken) : loginToken(domain, nonce, stateToken));
 }
 
 export function logout() {
