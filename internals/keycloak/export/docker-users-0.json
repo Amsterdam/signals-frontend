@@ -1,0 +1,29 @@
+{
+  "realm" : "docker",
+  "users" : [ {
+    "id" : "0af8a2a3-c1e1-4d1e-975d-f7ad2d3ea5d4",
+    "createdTimestamp" : 1606480116512,
+    "username" : "signals-admin",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "firstName" : "Signals",
+    "lastName" : "Administrator",
+    "email" : "signals.admin@example.com",
+    "credentials" : [ {
+      "id" : "46b3a1fd-4b79-44ee-b152-2d0c03aff3fc",
+      "type" : "password",
+      "createdDate" : 1606480174134,
+      "secretData" : "{\"value\":\"FJV1cEXVPAgg2WrayNHv04RzMSlwR2p6VLRITbIvmqqrpf5nPpxPEb9/UTvwXpf2CcFeSBI22HzAbV+nvk/zsQ==\",\"salt\":\"E8/ep9OLeJCGxm/+v/mSxA==\"}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\"}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "uma_authorization", "offline_access" ],
+    "clientRoles" : {
+      "account" : [ "manage-account", "view-profile" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}
