@@ -9,7 +9,7 @@ services:
     volumes:
       - ./e2e-tests/app.json:/app.json
     ports:
-      - "3001:80"
+      - 3001:80
 
   backend:
     image: signalen/backend:latest
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./scripts/initialize-backend.sh:/initialize-backend.sh
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - database
 
@@ -51,6 +51,33 @@ services:
     volumes:
       - ./dex.dev.yml:/config.yml
       - dex-data:/data
+
+  # this configuration mounts './internals/keycloak/data' to the Keycloak data directory
+  # so data will be persistent after the container is restarted and will dump the
+  # Keycloak realm/user `docker` configurations as JSON to './internals/keycloak/export'
+  #
+  # keycloak:
+  #   image: jboss/keycloak
+  #   command: -b 0.0.0.0 -Djboss.http.port=8080 -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=dir -Dkeycloak.migration.realmName=docker -Dkeycloak.migration.dir=/tmp/export
+  #   ports:
+  #     - 8080:8080
+  #   environment:
+  #     - KEYCLOAK_USER=admin
+  #     - KEYCLOAK_PASSWORD=admin
+  #   volumes:
+  #     - ./internals/keycloak/export:/tmp/export
+  #     - ./internals/keycloak/data:/opt/jboss/keycloak/standalone/data
+
+  keycloak:
+    image: jboss/keycloak
+    command: -b 0.0.0.0 -Djboss.http.port=8080 -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/tmp/export -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+    volumes:
+      - ./internals/keycloak/export:/tmp/export
 
 volumes:
   dex-data:
