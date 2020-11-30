@@ -1,9 +1,11 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
 
-import MapSelect from '.';
+jest.mock('shared/services/configuration/configuration');
 
 const jsonResponse = {
   type: 'FeatureCollection',
@@ -32,6 +34,7 @@ describe('signals/incident/components/form/MapSelect', () => {
 
   const meta = {
     name: 'my_question',
+    idField: 'idField',
     isVisible: true,
     endpoint: 'foo/bar?',
     legend_items: ['klok'],
@@ -39,44 +42,71 @@ describe('signals/incident/components/form/MapSelect', () => {
 
   const handler = () => ({ value: 'foo' });
 
+  afterEach(() => {
+    configuration.__reset();
+  });
+
   describe('rendering', () => {
     it('should render the map component', () => {
-      const { container, queryByTestId, rerender } = render(
-        withAppContext(<MapSelect parent={parent} meta={meta} handler={handler} />)
-      );
+      jest.isolateModules(() => {
+        const MapSelect = require('.').default;
 
-      expect(queryByTestId('mapSelect')).toBeInTheDocument();
-      expect(queryByTestId('gpsButton')).toBeInTheDocument();
-      expect(container.firstChild.classList.contains('mapSelect')).toBeTruthy();
+        const { container, queryByTestId, rerender } = render(
+          withAppContext(<MapSelect parent={parent} meta={meta} handler={handler} />)
+        );
 
-      rerender(withAppContext(<MapSelect parent={parent} meta={{ ...meta, isVisible: false }} handler={handler} />));
+        expect(queryByTestId('mapSelect')).toBeInTheDocument();
+        expect(queryByTestId('gpsButton')).toBeInTheDocument();
+        expect(container.firstChild.classList.contains('mapSelect')).toBeTruthy();
 
-      expect(queryByTestId('mapSelect')).not.toBeInTheDocument();
+        rerender(withAppContext(<MapSelect parent={parent} meta={{ ...meta, isVisible: false }} handler={handler} />));
+
+        expect(queryByTestId('mapSelect')).not.toBeInTheDocument();
+      });
+    });
+
+    it('should render the generic map component with featrue flag enabled', () => {
+      jest.isolateModules(() => {
+        configuration.featureFlags.useMapSelectGeneric = true;
+        const MapSelect = require('.').default;
+
+        render(withAppContext(<MapSelect parent={parent} meta={meta} handler={handler} />));
+
+        expect(screen.queryByTestId('mapSelectGeneric')).toBeInTheDocument();
+      });
     });
 
     it('should render selected item numbers', () => {
-      const { getByText } = render(
-        withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value: ['9673465', '808435'] })} />)
-      );
+      jest.isolateModules(() => {
+        const MapSelect = require('.').default;
 
-      expect(getByText('Het gaat om lamp of lantaarnpaal met nummer: 9673465; 808435')).toBeInTheDocument();
+        const { getByText } = render(
+          withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value: ['9673465', '808435'] })} />)
+        );
+
+        expect(getByText('Het gaat om lamp of lantaarnpaal met nummer: 9673465; 808435')).toBeInTheDocument();
+      });
     });
 
     it('should call parent.meta.updateIncident', async () => {
-      fetch.mockResponse(JSON.stringify(jsonResponse));
+      jest.isolateModules(async () => {
+        const MapSelect = require('.').default;
 
-      const value = ['002635', '147329'];
-      const { container, findByTestId } = render(
-        withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value })} />)
-      );
+        fetch.mockResponse(JSON.stringify(jsonResponse));
 
-      await findByTestId('mapSelect');
+        const value = ['002635', '147329'];
+        const { container, findByTestId } = render(
+          withAppContext(<MapSelect parent={parent} meta={meta} handler={() => ({ value })} />)
+        );
 
-      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
+        await findByTestId('mapSelect');
 
-      userEvent.click(container.querySelector(`img[alt="${value[0]}"]`));
+        expect(parent.meta.updateIncident).not.toHaveBeenCalled();
 
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({ [meta.name]: [value[1]] });
+        userEvent.click(container.querySelector(`img[alt="${value[0]}"]`));
+
+        expect(parent.meta.updateIncident).toHaveBeenCalledWith({ [meta.name]: [value[1]] });
+      });
     });
   });
 });

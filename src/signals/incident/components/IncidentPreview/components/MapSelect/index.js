@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing } from '@amsterdam/asc-ui';
 
+import configuration from 'shared/services/configuration/configuration';
 import { incidentType } from 'shared/types';
 
 import MapSelect from 'components/MapSelect';
+import MapSelectGenericPreview from '../MapSelectGeneric';
 import { getOVLIcon } from '../../../form/MapSelect/iconMapping';
 
 export const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
@@ -22,11 +24,11 @@ const Values = styled.div`
   margin-bottom: ${themeSpacing(4)};
 `;
 
-const MapSelectPreview = ({ value, endpoint, incident }) => (
+const MapSelectPreview = ({ value, meta, incident }) => (
   <Fragment>
     <Values>{value.join('; ')}</Values>
     <MapSelect
-      geojsonUrl={endpoint}
+      geojsonUrl={meta.endpoint}
       getIcon={getOVLIcon}
       iconField="type_name"
       idField="objectnummer"
@@ -39,8 +41,11 @@ const MapSelectPreview = ({ value, endpoint, incident }) => (
 
 MapSelectPreview.propTypes = {
   incident: incidentType,
-  endpoint: PropTypes.string.isRequired,
+  meta: PropTypes.shape({
+    endpoint: PropTypes.string.isRequired,
+    idField: PropTypes.string.isRequired,
+  }),
   value: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default MapSelectPreview;
+export default configuration.featureFlags.useMapSelectGeneric ? MapSelectGenericPreview : MapSelectPreview;

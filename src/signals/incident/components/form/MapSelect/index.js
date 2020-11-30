@@ -5,9 +5,11 @@ import styled from 'styled-components';
 import { themeSpacing } from '@amsterdam/asc-ui';
 
 import MapSelectComponent from 'components/MapSelect';
+import configuration from 'shared/services/configuration/configuration';
 
 import Header from '../Header';
 import { getOVLIcon, LEGEND_ITEMS } from './iconMapping';
+import MapSelectGeneric from '../MapSelectGeneric';
 
 const filter_legend = (items, types) => items.filter(element => types.includes(element.key));
 
@@ -94,4 +96,4 @@ MapSelect.propTypes = {
   validatorsOrOpts: PropTypes.object,
 };
 
-export default MapSelect;
+export default configuration.featureFlags.useMapSelectGeneric ? MapSelectGeneric : MapSelect;
