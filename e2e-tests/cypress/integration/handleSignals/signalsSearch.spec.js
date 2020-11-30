@@ -5,58 +5,45 @@ import { BOTEN } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 
+const fixturePath = '../fixtures/signals/signalForSearch.json';
+
 describe.skip('Search signals', () => {
   // Skipped because there is no elastic search in e2e environment
   describe('Create signal boten', () => {
     before(() => {
+      cy.server();
+      cy.getAddressRoute();
+      cy.postSignalRoutePublic();
+      cy.intercept('**/maps/topografie?bbox=**').as('map');
       cy.visitFetch('incident/beschrijf');
     });
 
-    it('Should search for an address', () => {
-      cy.server();
-      cy.getAddressRoute();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/waterSnelVaren.json').as('prediction');
-
-      createSignal.checkDescriptionPage();
-      createSignal.setAddress('1096AC 45A', 'Korte Ouderkerkerdijk 45A, 1096AC Amsterdam');
-      createSignal.setDescription(
-        'Een boot met de naam Pakjesboot 12 vaart de hele dag over de Amstel heen en weer met een ongekende snelheid',
-      );
-      createSignal.setDateTime('Nu');
-
+    it('Should create the signal', () => {
+      createSignal.setDescriptionPage(fixturePath);
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter specific information', () => {
-      createSignal.checkSpecificInformationPage();
-
-      cy.contains(Cypress.env('description')).should('be.visible');
+      createSignal.checkSpecificInformationPage(fixturePath);
 
       cy.get(BOTEN.radioButtonRondvaartbootNee).click({ force: true });
       cy.get(BOTEN.inputNaamBoot).type('Pakjesboot 12');
       cy.get(BOTEN.inputNogMeer).type('De boot vaart over de Amstel heen en weer');
 
       cy.contains('Volgende').click();
-    });
 
-    it('Should enter a phonenumber and email address', () => {
-      createSignal.setPhonenumber('1122211122');
+      createSignal.setPhonenumber(fixturePath);
       cy.contains('Volgende').click();
-      createSignal.setEmailAddress('ikgagevonden@worden.nl');
-      cy.contains('Volgende').click();
-    });
 
-    it('Should show a summary', () => {
-      cy.server();
-      cy.postSignalRoutePublic();
+      createSignal.setEmailAddress(fixturePath);
+      cy.contains('Volgende').click();
+
+      cy.wait('@map');
+      createSignal.checkSummaryPage(fixturePath);
+      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
-      cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
-    });
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-    it('Should show the last screen', () => {
       createSignal.checkThanksPage();
-      // Capture signal id to check details later
       createSignal.saveSignalId();
     });
   });
@@ -78,7 +65,7 @@ describe.skip('Search signals', () => {
       cy.get(MANAGE_SIGNALS.searchResultsTag).should('have.text', 'Zoekresultaten voor "Pakjesboot"').and('be.visible');
       cy.get(MANAGE_SIGNALS.clearSearchTerm).click();
       cy.wait('@getSignals');
-      cy.get(MANAGE_SIGNALS.searchResultsTag).should('not.be.visible');
+      cy.get(MANAGE_SIGNALS.searchResultsTag).should('not.exist');
     });
     it('Should filter on text in description', () => {
       createSignal.searchAndCheck('Pakjesboot', SIGNAL_DETAILS.descriptionText);

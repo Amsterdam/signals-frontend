@@ -1,0 +1,65 @@
+{
+  "category": {
+    "sub": "Onderhoud stoep, straat en fietspad",
+    "sub_slug": "onderhoud-stoep-straat-en-fietspad",
+    "main": "Wegen, verkeer, straatmeubilair",
+    "main_slug": "wegen-verkeer-straatmeubilair",
+    "category_url": "http://localhost:8000/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad",
+    "departments": "STW",
+    "created_by": null,
+    "text": null,
+    "handling_time": "3 werkdagen"
+  },
+  "id": null,
+  "has_attachments": true,
+  "address": {
+    "stadsdeel": "Zuidoost",
+    "postcode": "1105AT",
+    "huisletter": "",
+    "huisnummer": 50,
+    "woonplaats": "Amsterdam",
+    "openbare_ruimte": "Schepenbergweg",
+    "huisnummer_toevoeging": "",
+    "address_text": "Schepenbergweg 50 1105AT Amsterdam",
+    "geometrie": {"type": "Point", "coordinates": [4.9444727, 52.29242815]}
+  },
+  "status": {
+    "text": "",
+    "user": "",
+    "state": "m",
+    "state_display": "Gemeld",
+    "send_email": false,
+    "created_at": "2020-10-29T16:27:54.488819+01:00"
+  },
+  "reporter": {
+    "email": "",
+    "phone": "",
+    "sharing_allowed": "Nee"
+  },
+  "priority": "Normaal",
+  "notes": [],
+  "type": "Melding",
+  "source": "online",
+  "text": "Het wegdek van de oprit naar ons hotel is kapot. Kunnen jullie dit snel maken?",
+  "text_extra": "",
+  "extra_properties": [
+    {
+      "id": "extra_onderhoud_stoep_straat_en_fietspad",
+      "label": "Soort wegdek",
+      "answer": "Asfalt",
+      "category_url": ""
+    }
+  ],
+  "created_at": "2020-10-29T15:53:05.650429+01:00",
+  "updated_at": "2020-10-29T16:27:54.569883+01:00",
+  "incident_date_start": "2020-10-29T15:53:05+01:00",
+  "incident_date_end": null,
+  "time": "Nu",
+  "directing_departments": [
+    {"id": 4, "code": "STW", "name": "Stadswerken", "is_intern": true}
+  ],
+  "fixtures":  {
+    "prediction": "wegdek.json",
+    "attachments": null
+  }
+}
