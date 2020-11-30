@@ -59,7 +59,8 @@ export const checkAllDetails = fixturePath => {
     checkRedTextStatus(json.status.state_display);
     cy.get(SIGNAL_DETAILS.urgency).should('have.text', json.priority).and('be.visible');
     cy.get(SIGNAL_DETAILS.type).should('have.text', json.type).and('be.visible');
-    cy.get(SIGNAL_DETAILS.subCategory).should('have.text', `${json.category.sub} (${json.category.departments})`).and('be.visible');
+    cy.get(SIGNAL_DETAILS.subCategory).should('contain', `${json.category.sub}`).and('be.visible');
+    checkDepartments(fixturePath);
     cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', json.category.main).and('be.visible');
     checkSource(json.source);
     if (json.fixtures.attachments) {
@@ -89,6 +90,15 @@ export const checkDescriptionPage = () => {
     if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
       checkHeaderFooter();
     }
+  });
+};
+
+export const checkDepartments = fixturePath => {
+  cy.fixture(fixturePath).then(json => {
+    // eslint-disable-next-line no-unused-vars
+    Object.entries(json.directing_departments).forEach(([keyA, valueA]) => {
+      cy.contains(valueA.code).should('be.visible');
+    });
   });
 };
 
