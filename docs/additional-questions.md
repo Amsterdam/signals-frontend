@@ -41,7 +41,7 @@ Possible properties are listed below. The 'Field types' column lists the possibl
 | **values** | The possible options in key-value pairs. | CheckboxInput (list), RadioInput, SelectInput
 | **maxLength** | Displays, underneath the text area, the amount of characters typed into the text area versus the total amount of characters allowed (as specified with this property). | TextareaInput
 | **idField** | The name of the property field of an asset that shows the ID/number. | MapSelect
-| **endpoint** | The URL from which the assets can be retrieved to show on the map. Use `{{srsName}}` and `{{latlng}}` or `{{lnglat}}` to get these values inserted in the URL. (e.g.: `https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{latlng}},{{srsName}}`) | MapSelect
+| **endpoint** | The URL from which the assets can be retrieved to show on the map. Use `{{srsName}}` and `{{bboxLatLng}}` or `{{bboxLngLat}}` to get these values inserted in the URL. (e.g.: `https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{bboxLatLng}},{{srsName}}`) | MapSelect
 | **selectionLabel** | Label specifying the specific assets selected, shown below the map. | MapSelect
 
 ### Type

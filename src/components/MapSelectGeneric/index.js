@@ -70,12 +70,12 @@ const MapSelectGeneric = ({
   );
 
   const fetchRequest = useCallback(
-    lnglatString => {
-      const [longitude1, latitude1, longitude2, latitude2] = lnglatString.split(',');
-      const latlngString = [latitude1, longitude1, latitude2, longitude2].join(',');
+    bboxStringLngLat => {
+      const [longitude1, latitude1, longitude2, latitude2] = bboxStringLngLat.split(',');
+      const bboxStringLatLng = [latitude1, longitude1, latitude2, longitude2].join(',');
       const urlReplacements = {
-        latlng: latlngString,
-        lnglat: lnglatString,
+        bboxLatLng: bboxStringLatLng,
+        bboxLngLat: bboxStringLngLat,
         srsName: SRS_NAME,
       };
       const requestUrl = Object.entries(urlReplacements).reduce(
