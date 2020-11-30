@@ -1,3 +1,4 @@
+import { Validators } from 'react-reactive-form';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
@@ -14,10 +15,24 @@ const intro = {
 };
 
 export const controls = {
+  extra_afvalcontainer: {
+    meta: {
+      ifOneOf: {
+        subcategory: ['huisafval'],
+      },
+      label: 'Kies de container waar het om gaat',
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: [Validators.required],
+    },
+    render: FormComponents.ContainerSelectRenderer,
+  },
   extra_afval: {
     meta: {
       ifOneOf: {
-        subcategory: ['grofvuil', 'huisafval', 'puin-sloopafval'],
+        // Temporary exclusion of the huisafval for testing ContainerSelect component
+        subcategory: ['grofvuil', /* 'huisafval',*/ 'puin-sloopafval'],
       },
       label: 'Heeft u een vermoeden waar het afval vandaan komt?',
       shortLabel: 'Waar vandaan',
