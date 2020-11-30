@@ -35,9 +35,9 @@ fetch.mockResponse(JSON.stringify(fetchResponse));
 describe('<MapSelectGeneric />', () => {
   const onSelectionChange = jest.fn();
   const urlLatLng =
-    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{latlng}},{{srsName}}';
+    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{bboxLatLng}},{{srsName}}';
   const urlLngLat =
-    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{lnglat}},{{srsName}}';
+    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{bboxLngLat}},{{srsName}}';
   const coordsRegExpString = '(\\d{1,2}\\.\\d{1,16},){4}';
   const urlRegExpString = `^https://geoserver\\.test/\\?service=WFS&version=1\\.1\\.0&request=GetFeature&srsName=${SRS_NAME}&bbox=${coordsRegExpString}${SRS_NAME}$`;
 

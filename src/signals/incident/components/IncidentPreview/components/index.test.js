@@ -15,7 +15,6 @@ describe('Preview components', () => {
       Image,
       Map,
       MapSelectPreview,
-      MapSelectGenericPreview,
     });
   });
 });
