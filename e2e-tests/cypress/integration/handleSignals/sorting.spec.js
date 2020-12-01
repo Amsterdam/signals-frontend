@@ -103,6 +103,7 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.firstSignalDag).eq(0).should('not.have.text', '0');
   });
   it.skip('Should sort on column Datum en tijd', () => {
+    // This test is skipped because it is not possible to know which signal is created first or last with parallel runs
     cy.route('/signals/v1/private/signals/?page=1&ordering=created_at&page_size=50').as('getSortedASC');
     const todaysDate = Cypress.moment().format('DD-MM-YYYY');
 

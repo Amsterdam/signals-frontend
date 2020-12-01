@@ -105,7 +105,7 @@ export const createPrivateSignalForFilters = () => {
         {
           id: 'extra_onderhoud_stoep_straat_en_fietspad',
           label: 'Soort wegdek',
-          category_url: 'http://localhost:8000/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad',
+          category_url: '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad',
           answer: 'nee',
         },
       ],
