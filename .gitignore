@@ -9,6 +9,7 @@ stats.json
 /app.json
 /app.*.json
 !/app.base.json
+!/app.amsterdam.json
 
 # Cruft
 .DS_Store
