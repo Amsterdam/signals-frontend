@@ -12,6 +12,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import ThemeProvider from 'components/ThemeProvider';
 import SiteHeaderContainer from 'containers/SiteHeader';
 import IncidentContainer from 'signals/incident/containers/IncidentContainer';
+import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer';
 
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
 import useLocationReferrer from 'hooks/useLocationReferrer';
@@ -103,6 +104,7 @@ export const AppContainer = () => {
                 <Route path="/manage" component={IncidentManagementModule} />
                 <Route path="/instellingen" component={SettingsModule} />
                 <Route path="/incident" component={IncidentContainer} />
+                <Route path="/incident-overview" component={IncidentOverviewContainer} />
                 <Route path="/kto/:satisfactionIndication/:uuid" component={KtoContainer} />
                 <Route exact path="/categorie/:category/:subcategory" component={IncidentContainer} />
                 <Route component={NotFoundPage} />
