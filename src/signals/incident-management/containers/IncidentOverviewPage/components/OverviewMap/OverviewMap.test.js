@@ -66,8 +66,8 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
       expect(param).toMatch(expectedFilterParams[key]);
     });
 
-    expect(params.created_after).not.toEqual(createdAfter);
-    expect(params.created_before).not.toEqual(createdBefore);
+    expect(params.get('created_after')).toEqual(createdAfter);
+    expect(params.get('created_before')).toEqual(createdBefore);
 
     unmount();
 
@@ -78,8 +78,8 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
     expect(fetch.mock.calls).toHaveLength(2);
   });
 
-  it('should not overwrite date filter params when mapFilter24Hours is false', async () => {
-    configuration.featureFlags.mapFilter24Hours = false;
+  it('should overwrite date filter params with mapFilter24Hours enabled', async () => {
+    configuration.featureFlags.mapFilter24Hours = true;
     const { findByTestId } = render(withMapContext(<OverviewMap />));
 
     await findByTestId('overviewMap');
@@ -87,8 +87,8 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
     const requestUrl = new URL(fetch.mock.calls[0][0]);
     const params = new URLSearchParams(requestUrl.search);
 
-    expect(params.get('created_after')).toEqual(createdAfter);
-    expect(params.get('created_before')).toEqual(createdBefore);
+    expect(params.get('created_after')).not.toEqual(createdAfter);
+    expect(params.get('created_before')).not.toEqual(createdBefore);
   });
 
   it('should render detail panel', async () => {

@@ -27,6 +27,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
 
   describe('Hard coded questions', () => {
     it('should return questions based on category', () => {
+      configuration.featureFlags.showVulaanControls = true;
       const actual = formFactory({
         category: 'afval',
         subcategory: 'subcategory',
@@ -37,6 +38,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
     });
 
     it('should return no questions with non existing category', () => {
+      configuration.featureFlags.showVulaanControls = true;
       const actual = formFactory({
         category: 'category',
         subcategory: 'subcategory',
@@ -47,13 +49,13 @@ describe('Wizard step 2 vulaan, formFactory', () => {
     });
 
     it('should return empty controls when showVulaanControls is false', () => {
-      configuration.featureFlags.showVulaanControls = false;
       expect(formFactory({ category: 'afval' }).controls).toEqual({});
     });
   });
 
   describe('Fetch questions from backend', () => {
     beforeEach(() => {
+      configuration.featureFlags.showVulaanControls = true;
       configuration.featureFlags.fetchQuestionsFromBackend = true;
     });
 

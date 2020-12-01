@@ -288,14 +288,16 @@ describe('The auth service', () => {
     it('Redirects to the auth service', () => {
       configuration.oidc.authEndpoint = 'https://example.com/oauth2/authorize';
       configuration.oidc.clientId = 'test';
+      configuration.oidc.responseType = 'responseType';
+      configuration.oidc.scope = 'scope1 scope2';
 
       login();
 
       expect(window.location.assign).toHaveBeenCalledWith(
         'https://example.com/oauth2/authorize' +
           '?client_id=test' +
-          '&response_type=token' +
-          '&scope=SIG%2FALL' +
+          '&response_type=responseType' +
+          '&scope=scope1%20scope2' +
           '&state=random-string' +
           '&nonce=random-string' +
           '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +

@@ -28,14 +28,14 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   });
 
   it('should render last 24 hours header when showing the map', () => {
+    configuration.featureFlags.mapFilter24Hours = true;
+
     const { queryByText } = render(withAppContext(<SubNav showsMap />));
 
     expect(queryByText('Afgelopen 24 uur')).toBeInTheDocument();
   });
 
   it('should not render last 24 hours header when mapFilter24Hours feature flag is disabled', () => {
-    configuration.featureFlags.mapFilter24Hours = false;
-
     const { queryByText } = render(withAppContext(<SubNav showsMap />));
 
     expect(queryByText('Afgelopen 24 uur')).not.toBeInTheDocument();
