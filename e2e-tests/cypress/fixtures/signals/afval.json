@@ -79,7 +79,7 @@
   "incident_date_end": null,
   "time": "Nu",
   "directing_departments": [
-    {"id": 6, "code": "ASC", "name": "Actie Service Centrum", "is_intern": true}
+    {"id": 4, "code": "STW", "name": "Stadswerken", "is_intern": true}
   ],
   "fixtures":  {
     "prediction": "afval.json",
