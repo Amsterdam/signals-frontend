@@ -21,15 +21,12 @@ const ButtonBar = styled.div`
 const Intro = () => {
   const { edit } = useContext(ContainerSelectContext);
   return (
-    <Wrapper>
+    <Wrapper data-testid="containerSelectIntro">
       <ButtonBar>
         <Button onClick={edit}>Kies op kaart</Button>
       </ButtonBar>
     </Wrapper>
   );
-};
-
-Intro.propTypes = {
 };
 
 export default Intro;

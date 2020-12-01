@@ -38,7 +38,7 @@ const Selector = () => {
   );
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="containerSelectSelector">
       <ButtonBar>
         <Button onClick={addContainer}>Container toevoegen</Button>
         <Button onClick={removeContainer}>Container verwijderen</Button>
@@ -47,8 +47,5 @@ const Selector = () => {
     </Wrapper>
   );
 };
-
-Selector.propTypes = {};
-
 
 export default Selector;

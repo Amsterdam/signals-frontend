@@ -23,15 +23,12 @@ const Summary = () => {
   const { edit } = useContext(ContainerSelectContext);
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="containerSelectSummary">
       <ButtonBar>
         <Button onClick={edit}>Wijzigen</Button>
       </ButtonBar>
     </Wrapper>
   );
 };
-
-Summary.propTypes = {};
-
 
 export default Summary;
