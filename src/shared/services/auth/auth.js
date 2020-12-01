@@ -107,14 +107,15 @@ function saveToken(state, accessToken) {
  * Fetch token with given authorization code.
  */
 async function fetchTokenByCode(code) {
+  const { authEndpoint, realm, clientId } = configuration.keycloak;
+
   const searchParams = new URLSearchParams({
     code,
     grant_type: 'authorization_code',
-    client_id: 'sia-frontend',
-    redirect_uri: 'http://localhost:3001/manage/incidents',
+    client_id: clientId,
+    redirect_uri: AUTH_REDIRECT_URI,
   });
 
-  const { authEndpoint, realm } = configuration.keycloak;
   const tokenUrl = `${authEndpoint}/realms/${realm}/protocol/openid-connect/token`;
 
   const response = await fetch(tokenUrl, {
