@@ -177,12 +177,12 @@ function loginToken(domain, nonce, stateToken) {
   const searchParams = new URLSearchParams({
     client_id: configuration.oidc.clientId,
     response_type: configuration.oidc.responseType,
-    state: stateToken,
     scope: configuration.oidc.scope,
-    idp_id: getDomain(domain),
-    response_mode: 'fragment',
+    state: stateToken,
     nonce,
     redirect_uri: AUTH_REDIRECT_URI,
+    idp_id: getDomain(domain),
+    response_mode: 'fragment',
   });
 
   return `${configuration.oidc.authEndpoint}?${searchParams.toString()}`;

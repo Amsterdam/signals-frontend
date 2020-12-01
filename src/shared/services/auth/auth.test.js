@@ -114,12 +114,10 @@ describe('The auth service', () => {
           error_description: 'invalid request',
         };
 
-        expect(() => {
-          initAuth();
-        }).toThrow(
-          'Authorization service responded with error invalid_request [invalid request] ' +
-            '(The request is missing a required parameter, includes an invalid parameter value, ' +
-            'includes a parameter more than once, or is otherwise malformed.)'
+        expect(async () => {
+          await initAuth();
+        }).rejects.toThrow(
+          'Authorization service responded with error invalid_request [invalid request] (The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.)'
         );
         expect(queryStringParser).toHaveBeenCalledWith(queryString);
       });
@@ -129,9 +127,9 @@ describe('The auth service', () => {
           error: 'invalid_request',
         };
 
-        expect(() => {
-          initAuth();
-        }).toThrow();
+        expect(async () => {
+          await initAuth();
+        }).rejects.toThrow();
       });
 
       it('removes the state token from the local storage', () => {
@@ -139,9 +137,9 @@ describe('The auth service', () => {
           error: 'invalid_request',
         };
 
-        expect(() => {
-          initAuth();
-        }).toThrow();
+        expect(async () => {
+          await initAuth();
+        }).rejects.toThrow();
         expect(global.localStorage.removeItem).toHaveBeenCalledWith('stateToken');
       });
 
@@ -176,9 +174,9 @@ describe('The auth service', () => {
         };
         savedStateToken = 'state-token';
 
-        expect(() => {
-          initAuth();
-        }).toThrow('Authenticator encountered an invalid state token (invalid-state-token)');
+        expect(async () => {
+          await initAuth();
+        }).rejects.toThrow('Authenticator encountered an invalid state token (invalid-state-token)');
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
       });
 
@@ -199,9 +197,9 @@ describe('The auth service', () => {
         savedStateToken = 'state-token';
         savedNonce = 'random-nonce';
 
-        expect(() => {
-          initAuth();
-        }).toThrow('Authenticator encountered an invalid nonce (invalid-random-nonce)');
+        expect(async () => {
+          await initAuth();
+        }).rejects.toThrow('Authenticator encountered an invalid nonce (invalid-random-nonce)');
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`);
       });
 
@@ -299,7 +297,8 @@ describe('The auth service', () => {
           '&state=random-string' +
           '&nonce=random-string' +
           '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
-          '&idp_id=datapunt'
+          '&idp_id=datapunt' +
+          '&response_mode=fragment'
       );
     });
   });
@@ -333,9 +332,9 @@ describe('The auth service', () => {
         error: 'invalid_request',
       };
 
-      expect(() => {
-        initAuth();
-      }).toThrow();
+      expect(async () => {
+        await initAuth();
+      }).rejects.toThrow();
     });
   });
 
@@ -456,27 +455,27 @@ describe('The auth service', () => {
   });
 
   describe('authenticate', () => {
-    it('should authenticate with credentials with accessToken', () => {
+    it('should authenticate with credentials with accessToken', async () => {
       accessTokenParser.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL'],
       }));
       savedAccessToken = '123AccessToken';
 
-      expect(authenticate()).toEqual({
+      expect(await authenticate()).toEqual({
         userName: 'Jan Klaasen',
         userScopes: ['SIG/ALL'],
         accessToken: '123AccessToken',
       });
     });
 
-    it('should not authenticate without accessToken', () => {
+    it('should not authenticate without accessToken', async () => {
       accessTokenParser.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL'],
       }));
 
-      expect(authenticate()).toEqual(null);
+      expect(await authenticate()).toEqual(null);
     });
   });
 });
