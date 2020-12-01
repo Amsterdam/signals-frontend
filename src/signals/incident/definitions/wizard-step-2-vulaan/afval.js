@@ -41,6 +41,7 @@ export const controls = {
         ],
       },
       label: 'Kies de container waar het om gaat',
+      shortLabel: 'Containers',
       pathMerge: 'extra_properties',
     },
     options: {
