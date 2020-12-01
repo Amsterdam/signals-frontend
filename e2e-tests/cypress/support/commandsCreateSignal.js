@@ -55,7 +55,7 @@ export const checkAllDetails = fixturePath => {
     cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', json.reporter.phone).and('be.visible');
     cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', json.reporter.sharing_allowed).and('be.visible');
     checkCreationDate();
-    cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', json.category.handling_time).and('be.visible');
+    cy.get(SIGNAL_DETAILS.handlingTime).should('contain', json.category.handling_time).and('be.visible');
     checkRedTextStatus(json.status.state_display);
     cy.get(SIGNAL_DETAILS.urgency).should('have.text', json.priority).and('be.visible');
     cy.get(SIGNAL_DETAILS.type).should('have.text', json.type).and('be.visible');

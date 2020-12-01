@@ -100,5 +100,4 @@ Cypress.Commands.add('waitForPostNoteRoutes', () => {
 
 Cypress.Commands.add('stubCategoryPrediction', fixture => {
   cy.route('POST', '/signals/category/prediction', `fixture:predictions/${fixture}`).as('prediction');
-  // cy.intercept('/signals/category/prediction.json', { fixture: `predictions/${fixture}` });
 });
