@@ -5,6 +5,7 @@ import { Button, Link as AscLink, themeColor, themeSpacing } from '@amsterdam/as
 import { Close } from '@amsterdam/asc-assets';
 import { Link } from 'react-router-dom';
 
+import { isAuthenticated } from 'shared/services/auth/auth';
 import { string2date, string2time } from 'shared/services/string-parser';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
@@ -49,19 +50,25 @@ const PanelHeader = styled.div`
 const DetailPanel = ({ incident, onClose }) => (
   <Panel data-testid="mapDetailPanel">
     <PanelHeader>
-      <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incident.id}`}>
-        Melding {incident.id}
-      </AscLink>
+      {isAuthenticated() ? (
+        <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incident.id}`}>
+          Melding {incident.id}
+        </AscLink>
+      ) : (
+        `Melding ${incident.id}`
+      )}
       <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />
     </PanelHeader>
-    <StyledMetaList>
-      {incident.created_at && <dt data-testid="meta-list-date-definition">Gemeld op</dt>}
-      {incident.created_at && (
-        <dd data-testid="meta-list-date-value">
-          {string2date(incident.created_at)} {string2time(incident.created_at)}
-        </dd>
-      )}
-    </StyledMetaList>
+    {incident.created_at && (
+      <StyledMetaList>
+        {incident.created_at && <dt data-testid="meta-list-date-definition">Gemeld op</dt>}
+        {incident.created_at && (
+          <dd data-testid="meta-list-date-value">
+            {string2date(incident.created_at)} {string2time(incident.created_at)}
+          </dd>
+        )}
+      </StyledMetaList>
+    )}
   </Panel>
 );
 
