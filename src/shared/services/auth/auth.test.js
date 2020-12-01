@@ -103,7 +103,7 @@ describe('The auth service', () => {
     global.localStorage.setItem.mockReset();
   });
 
-  describe('init funtion', () => {
+  describe('init function', () => {
     describe('receiving response errors from the auth service', () => {
       it('throws an error', () => {
         const queryString = '?error=invalid_request&error_description=invalid%20request';
@@ -283,7 +283,7 @@ describe('The auth service', () => {
       expect(global.localStorage.setItem).toHaveBeenCalledWith('nonce', randomString);
     });
 
-    it('Redirects to the auth service', () => {
+    it('Redirects to the auth service with token flow', () => {
       configuration.oidc.authEndpoint = 'https://example.com/oauth2/authorize';
       configuration.oidc.clientId = 'test';
 
@@ -297,8 +297,21 @@ describe('The auth service', () => {
           '&state=random-string' +
           '&nonce=random-string' +
           '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
-          '&idp_id=datapunt' +
-          '&response_mode=fragment'
+          '&idp_id=datapunt'
+      );
+    });
+
+    it('Redirects to the auth service with code flow', () => {
+      login('keycloak');
+
+      expect(window.location.assign).toHaveBeenCalledWith(
+        'https://iam.amsterdam.nl/auth/realms/datapunt-ad-acc/protocol/openid-connect/auth' +
+          '?client_id=sia-frontend' +
+          '&response_type=code' +
+          '&state=random-string' +
+          '&nonce=random-string' +
+          '&response_mode=fragment' +
+          '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents'
       );
     });
   });

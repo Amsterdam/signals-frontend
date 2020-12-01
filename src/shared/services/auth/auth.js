@@ -182,14 +182,13 @@ function loginToken(domain, nonce, stateToken) {
     nonce,
     redirect_uri: AUTH_REDIRECT_URI,
     idp_id: getDomain(domain),
-    response_mode: 'fragment',
   });
 
   return `${configuration.oidc.authEndpoint}?${searchParams.toString()}`;
 }
 
 /**
- * Login auth flow.
+ * Login code flow.
  */
 function loginCode(nonce, stateToken) {
   const searchParams = new URLSearchParams({
