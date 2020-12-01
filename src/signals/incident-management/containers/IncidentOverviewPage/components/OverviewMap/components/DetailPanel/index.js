@@ -1,10 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button, Link as AscLink } from '@amsterdam/asc-ui';
+import { Button, Link as AscLink, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { Close } from '@amsterdam/asc-assets';
 import { Link } from 'react-router-dom';
+
+import { string2date, string2time } from 'shared/services/string-parser';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
+
+const StyledMetaList = styled.dl`
+  margin: 0;
+
+  dt {
+    color: ${themeColor('tint', 'level5')};
+    margin-bottom: ${themeSpacing(1)};
+    position: relative;
+    font-weight: 400;
+  }
+
+  dd {
+    &:not(:last-child) {
+      margin-bottom: ${themeSpacing(2)};
+    }
+  }
+`;
 
 const Panel = styled.div`
   padding: 12px;
@@ -12,23 +31,45 @@ const Panel = styled.div`
   outline: 2px solid rgba(0, 0, 0, 0.1);
   z-index: 401;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: left;
   width: 350px;
   max-width: calc(100% - 40px);
   justify-content: space-between;
 `;
 
-const DetailPanel = ({ incidentId, onClose }) => (
+const PanelHeader = styled.div`
+  padding-bottom: 12px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+`;
+
+const DetailPanel = ({ incident, onClose }) => (
   <Panel data-testid="mapDetailPanel">
-    <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incidentId}`}>
-      Melding {incidentId}
-    </AscLink>
-    <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />
+    <PanelHeader>
+      <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incident.id}`}>
+        Melding {incident.id}
+      </AscLink>
+      <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />
+    </PanelHeader>
+    <StyledMetaList>
+      {incident.created_at && <dt data-testid="meta-list-date-definition">Gemeld op</dt>}
+      {incident.created_at && (
+        <dd data-testid="meta-list-date-value">
+          {string2date(incident.created_at)} {string2time(incident.created_at)}
+        </dd>
+      )}
+    </StyledMetaList>
   </Panel>
 );
 
 DetailPanel.propTypes = {
-  incidentId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  incident: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    created_at: PropTypes.string,
+  }),
   onClose: PropTypes.func.isRequired,
 };
 

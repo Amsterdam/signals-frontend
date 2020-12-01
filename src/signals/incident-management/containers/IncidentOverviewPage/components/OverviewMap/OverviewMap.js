@@ -101,7 +101,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const filterParams = useSelector(makeSelectFilterParams);
   const { get, data, isLoading } = useFetch();
   const [layerInstance, setLayerInstance] = useState();
-  const [incidentId, setIncidentId] = useState(0);
+  const [incident, setIncident] = useState(0);
 
   const params = useMemo(
     () => ({
@@ -187,7 +187,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
 
         /* istanbul ignore else */
         if (feature.properties?.id) {
-          setIncidentId(feature.properties.id);
+          setIncident(feature.properties);
           setShowPanel(true);
         }
       });
@@ -207,7 +207,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
         hasZoomControls
         mapOptions={{
           ...MAP_OPTIONS,
-          ...configuration.map.optionsBackOffice || {},
+          ...(configuration.map.optionsBackOffice || {}),
         }}
         setInstance={setMap}
       >
@@ -222,7 +222,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
               placeholder="Zoom naar adres"
             />
           }
-          topRight={showPanel && <DetailPanel incidentId={incidentId} onClose={onClosePanel} />}
+          topRight={showPanel && <DetailPanel incident={incident} onClose={onClosePanel} />}
         />
       </StyledMap>
     </Wrapper>
