@@ -82,26 +82,28 @@ if (module.hot) {
   });
 }
 
-render();
-
 // Authenticate and start the authorization process
-const credentials = authenticate();
-store.dispatch(authenticateUser(credentials));
+authenticate()
+  .then(credentials => store.dispatch(authenticateUser(credentials)))
+  .finally(() => {
+    render();
 
-// Install ServiceWorker and AppCache in the end since
-// it's not most important operation and if main code fails,
-// we do not want it installed
-if ('serviceWorker' in navigator && process.env.ENABLE_SERVICEWORKER === '1') {
-  // eslint-disable-next-line global-require
-  const runtime = require('offline-plugin/runtime');
+    // Install ServiceWorker and AppCache in the end since
+    // it's not most important operation and if main code fails,
+    // we do not want it installed
+    if ('serviceWorker' in navigator && process.env.ENABLE_SERVICEWORKER === '1') {
+      // eslint-disable-next-line global-require
+      const runtime = require('offline-plugin/runtime');
 
-  runtime.install({
-    onUpdateReady: () => {
-      runtime.applyUpdate();
-    },
-  });
-}
+      runtime.install({
+        onUpdateReady: () => {
+          runtime.applyUpdate();
+        },
+      });
+    }
 
-if ('serviceWorker' in navigator && process.env.PROXY) {
-  navigator.serviceWorker.register('/sw-proxy.js');
-}
+    if ('serviceWorker' in navigator && process.env.PROXY) {
+      navigator.serviceWorker.register('/sw-proxy.js');
+    }
+  })
+  .catch(() => {});

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { authenticate, isAuthenticated } from 'shared/services/auth/auth';
+import { isAuthenticated } from 'shared/services/auth/auth';
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions';
@@ -57,8 +57,6 @@ export const AppContainer = () => {
   const location = useLocationReferrer();
   const isFrontOffice = useIsFrontOffice();
   const headerIsTall = isFrontOffice && !isAuthenticated();
-
-  authenticate();
 
   useEffect(() => {
     const { referrer } = location;

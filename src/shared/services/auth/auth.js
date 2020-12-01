@@ -244,10 +244,10 @@ export function logout() {
  * redirect the user to the OAuth2 authorization service.
  *
  */
-export function initAuth() {
+export async function initAuth() {
   restoreAccessToken(); // Restore acces token from local storage
   catchError(); // Catch any error from the OAuth2 authorization service
-  handleCallback(); // Handle a callback from the OAuth2 authorization service
+  await handleCallback(); // Handle a callback from the OAuth2 authorization service
 }
 
 export const isAuthenticated = () => {
@@ -279,8 +279,8 @@ export function getAuthHeaders() {
   return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
 }
 
-export const authenticate = () => {
-  initAuth();
+export const authenticate = async () => {
+  await initAuth();
 
   const accessToken = getAccessToken();
 
