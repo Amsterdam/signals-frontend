@@ -23,6 +23,11 @@ const StyledMetaList = styled.dl`
     &:not(:last-child) {
       margin-bottom: ${themeSpacing(2)};
     }
+
+    &.alert {
+      color: ${themeColor('secondary')};
+      font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+    }
   }
 `;
 
@@ -67,6 +72,12 @@ const DetailPanel = ({ incident, onClose }) => (
             {string2date(incident.created_at)} {string2time(incident.created_at)}
           </dd>
         )}
+        {incident.state_display && <dt data-testid="meta-list-status-definition">Status</dt>}
+        {incident.state_display && (
+          <dd className="alert" data-testid="meta-list-status-value">
+            {incident.state_display}
+          </dd>
+        )}
       </StyledMetaList>
     )}
   </Panel>
@@ -76,6 +87,7 @@ DetailPanel.propTypes = {
   incident: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     created_at: PropTypes.string,
+    state_display: PropTypes.string,
   }),
   onClose: PropTypes.func.isRequired,
 };
