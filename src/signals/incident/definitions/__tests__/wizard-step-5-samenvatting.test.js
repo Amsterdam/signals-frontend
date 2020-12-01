@@ -83,13 +83,8 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
             optional: true,
             render: Label,
           },
-          extra_container_kind: {
-            label: 'Soort container',
-            optional: true,
-            render: Label,
-          },
-          extra_container_number: {
-            label: 'Container nummer',
+          extra_container: {
+            label: 'Containers',
             optional: true,
             render: Label,
           },
