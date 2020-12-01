@@ -15,10 +15,30 @@ const intro = {
 };
 
 export const controls = {
-  extra_afvalcontainer: {
+  extra_afval: {
     meta: {
       ifOneOf: {
-        subcategory: ['huisafval'],
+        subcategory: ['grofvuil', 'huisafval', 'puin-sloopafval'],
+      },
+      label: 'Heeft u een vermoeden waar het afval vandaan komt?',
+      shortLabel: 'Waar vandaan',
+      pathMerge: 'extra_properties',
+    },
+    render: FormComponents.TextareaInput,
+  },
+  extra_container: {
+    meta: {
+      ifOneOf: {
+        subcategory: [
+          'container-glas-kapot',
+          'container-glas-vol',
+          'container-is-kapot',
+          'container-is-vol',
+          'container-voor-papier-is-stuk',
+          'container-voor-papier-is-vol',
+          'container-voor-plastic-afval-is-vol',
+          'container-voor-plastic-afval-is-kapot',
+        ],
       },
       label: 'Kies de container waar het om gaat',
       pathMerge: 'extra_properties',
@@ -27,46 +47,6 @@ export const controls = {
       validators: [Validators.required],
     },
     render: FormComponents.ContainerSelectRenderer,
-  },
-  extra_afval: {
-    meta: {
-      ifOneOf: {
-        // Temporary exclusion of the huisafval for testing ContainerSelect component
-        subcategory: ['grofvuil', /* 'huisafval',*/ 'puin-sloopafval'],
-      },
-      label: 'Heeft u een vermoeden waar het afval vandaan komt?',
-      shortLabel: 'Waar vandaan',
-      pathMerge: 'extra_properties',
-    },
-    render: FormComponents.TextareaInput,
-  },
-  extra_container_kind: {
-    meta: {
-      ifOneOf: {
-        subcategory: ['container-is-kapot', 'container-is-vol'],
-      },
-      label: 'Weet u om wat voor soort container (papier, plastic, glas, restafval) het gaat?',
-      shortLabel: 'Soort container',
-      subtitle: 'Bijvoorbeeld glas, papier, plastic of restafval',
-      pathMerge: 'extra_properties',
-    },
-    render: FormComponents.TextInput,
-  },
-  extra_container_number: {
-    meta: {
-      ifOneOf: {
-        subcategory: [
-          'container-voor-plastic-afval-is-kapot',
-          'container-voor-plastic-afval-is-vol',
-          'container-is-kapot',
-          'container-is-vol',
-        ],
-      },
-      label: 'Weet u het nummer van de container?',
-      shortLabel: 'Container nummer',
-      pathMerge: 'extra_properties',
-    },
-    render: FormComponents.TextInput,
   },
 };
 
