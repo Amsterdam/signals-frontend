@@ -52,6 +52,8 @@ const PanelHeader = styled.div`
   justify-content: space-between;
 `;
 
+const fields = ['created_at', 'state_display', 'category', 'subcategory'];
+
 const DetailPanel = ({ incident, onClose }) => (
   <Panel data-testid="mapDetailPanel">
     <PanelHeader>
@@ -64,7 +66,7 @@ const DetailPanel = ({ incident, onClose }) => (
       )}
       <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />
     </PanelHeader>
-    {incident.created_at && (
+    {fields.some(name => Boolean(incident[name])) && (
       <StyledMetaList>
         {incident.created_at && <dt data-testid="meta-list-date-definition">Gemeld op</dt>}
         {incident.created_at && (
@@ -78,6 +80,10 @@ const DetailPanel = ({ incident, onClose }) => (
             {incident.state_display}
           </dd>
         )}
+        {incident.subcategory && <dt data-testid="meta-list-subcategory-definition">Subcategorie</dt>}
+        {incident.subcategory && <dd data-testid="meta-list-subcategory-value">{incident.subcategory}</dd>}
+        {incident.category && <dt data-testid="meta-list-category-definition">Hoofdcategorie</dt>}
+        {incident.category && <dd data-testid="meta-list-category-value">{incident.category}</dd>}
       </StyledMetaList>
     )}
   </Panel>
@@ -88,6 +94,8 @@ DetailPanel.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     created_at: PropTypes.string,
     state_display: PropTypes.string,
+    category: PropTypes.string,
+    subcategory: PropTypes.string,
   }),
   onClose: PropTypes.func.isRequired,
 };
