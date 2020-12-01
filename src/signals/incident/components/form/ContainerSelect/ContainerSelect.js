@@ -13,7 +13,7 @@ const ContainerSelect = ({ handler, parent }) => {
 
   const update = useCallback(
     selectedValue => {
-      parent.meta.updateIncident({ extra_afvalcontainer: selectedValue });
+      parent.meta.updateIncident({ extra_container: selectedValue });
     },
     [parent]
   );
