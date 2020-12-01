@@ -2,7 +2,6 @@ import DateTime from './DateTime';
 import Image from './Image';
 import Map from './Map';
 import MapSelectPreview from './MapSelect';
-import MapSelectGenericPreview from './MapSelectGeneric';
 
 import components from '.';
 import ListObjectValue from './ListObjectValue';
