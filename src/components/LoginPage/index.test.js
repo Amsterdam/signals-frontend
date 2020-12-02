@@ -9,6 +9,10 @@ import LoginPage from '.';
 jest.mock('shared/services/auth/auth');
 
 describe('components/LoginPage', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render correctly', () => {
     const { getByText } = render(withAppContext(<LoginPage />));
 
@@ -38,6 +42,18 @@ describe('components/LoginPage', () => {
 
     fireEvent.click(button);
 
-    expect(loginSpy).toHaveBeenCalledWith('datapunt');
+    expect(loginSpy).toHaveBeenCalledWith('grip');
+  });
+
+  it('should login on keycloak when Inloggen Keycloak button is clicked', () => {
+    const loginSpy = jest.spyOn(auth, 'login');
+    const { getByText } = render(withAppContext(<LoginPage />));
+    const button = getByText('Inloggen Keycloak').parentNode;
+
+    expect(button.getAttribute('type')).toEqual('button');
+
+    fireEvent.click(button);
+
+    expect(loginSpy).toHaveBeenCalledWith('keycloak');
   });
 });

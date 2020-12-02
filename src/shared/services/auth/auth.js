@@ -38,6 +38,7 @@ function getDomain(domain) {
 const STATE_TOKEN_KEY = 'stateToken'; // OAuth2 state token (prevent CSRF)
 const NONCE_KEY = 'nonce'; // OpenID Connect nonce (prevent replay attacks)
 const ACCESS_TOKEN_KEY = 'accessToken'; // OAuth2 access token
+const REFRESH_TOKEN_KEY = 'refreshToken'; // OAuth2 refresh token
 const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
 
 let tokenData = {};
@@ -69,6 +70,67 @@ function catchError() {
     handleError(params.error, params.error_description);
   }
 }
+
+function saveRefreshToken(refreshToken) {
+  storage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+}
+
+/**
+ * Refresh access & refresh token
+ */
+async function refreshTokens() {
+  const { authEndpoint, realm, clientId } = configuration.keycloak;
+  const token = storage.getItem(REFRESH_TOKEN_KEY);
+
+  const searchParams = new URLSearchParams({
+    refresh_token: token,
+    grant_type: 'refresh_token',
+    client_id: clientId,
+    redirect_uri: AUTH_REDIRECT_URI,
+  });
+
+  const tokenUrl = `${authEndpoint}/realms/${realm}/protocol/openid-connect/token`;
+
+  try {
+    const response = await fetch(tokenUrl, {
+      body: searchParams.toString(),
+      method: 'POST',
+      headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      storage.setItem(ACCESS_TOKEN_KEY, data.access_token);
+      storage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
+    } else {
+      logout();
+    }
+  } catch {
+    logout();
+  }
+}
+
+const handleRefreshAccessToken = async () => {
+  const decoded = accessTokenParser(storage.getItem(ACCESS_TOKEN_KEY));
+
+  // Should refresh if access token expires within the next minute
+  const shouldRefresh = decoded.expiresAt * 1000 - 60000 < Date.now();
+
+  if (shouldRefresh) {
+    await refreshTokens();
+  }
+};
+
+const setRefreshAccessTokenInterval = () => {
+  const refreshToken = storage.getItem(REFRESH_TOKEN_KEY);
+  const decoded = accessTokenParser(refreshToken);
+
+  if (decoded.expiresAt < Date.now()) {
+    setInterval(() => {
+      handleRefreshAccessToken();
+    }, 30000);
+  }
+};
 
 /**
  * Gets the access token and return path, and clears the local storage.
@@ -136,9 +198,11 @@ async function handleCallback() {
 
   if (!params || !params.state) return;
 
-  if (params.code) { // handling keycloak callback
+  if (params.code) {
+    // handling keycloak callback
     const token = await fetchTokenByCode(params.code);
     saveToken(params.state, token.access_token);
+    saveRefreshToken(token.refresh_token);
     return;
   }
 
@@ -221,6 +285,7 @@ export function login(domain) {
   if (!stateToken || !nonce) throw new Error('crypto library is not available on the current browser');
 
   storage.removeItem(ACCESS_TOKEN_KEY);
+  storage.removeItem(REFRESH_TOKEN_KEY);
 
   storage.setItem(STATE_TOKEN_KEY, stateToken);
   storage.setItem(NONCE_KEY, nonce);
@@ -232,6 +297,7 @@ export function login(domain) {
 
 export function logout() {
   storage.removeItem(ACCESS_TOKEN_KEY);
+  storage.removeItem(REFRESH_TOKEN_KEY);
   storage.removeItem(OAUTH_DOMAIN_KEY);
 }
 
@@ -244,9 +310,14 @@ export function logout() {
  *
  */
 export async function initAuth() {
-  restoreAccessToken(); // Restore acces token from local storage
+  restoreAccessToken(); // Restore access token from local storage
   catchError(); // Catch any error from the OAuth2 authorization service
   await handleCallback(); // Handle a callback from the OAuth2 authorization service
+
+  if (getOauthDomain() === 'keycloak') {
+    await handleRefreshAccessToken(); // Refresh access token if expired
+    setRefreshAccessTokenInterval(); // Start periodic check for validity of access token, and refresh if expired
+  }
 }
 
 export const isAuthenticated = () => {
