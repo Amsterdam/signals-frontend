@@ -4,7 +4,6 @@
 .PHONY = help build clean
 dc = docker-compose
 BUILD_ENV?=development
-CONFIG?=app.amsterdam.json
 
 help:                               ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -13,7 +12,7 @@ build:                              ## Build docker image
 	BUILD_ENV=$(BUILD_ENV) $(dc) build --no-cache
 
 start:                              ## Run frontend
-	CONFIG=$(CONFIG) npm start
+	$(dc) run --service-ports frontend
 
 stop:                               ## Clean docker stuff
 	$(dc) down -v --remove-orphans
