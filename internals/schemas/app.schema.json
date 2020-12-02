@@ -53,8 +53,7 @@
         "language",
         "links",
         "map",
-        "oidc",
-        "theme"
+        "oidc"
       ],
       "title": "Config"
     },

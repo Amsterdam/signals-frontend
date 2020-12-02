@@ -8,6 +8,7 @@
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
     "showVulaanControls": true,
+    "useMapSelectGeneric": false,
     "useStaticMapServer": true
   },
   "head": {
@@ -38,13 +39,6 @@
     "help": "https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365",
     "home": "https://www.amsterdam.nl",
     "privacy": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/"
-  },
-  "logo": {
-    "url": null,
-    "width": 0,
-    "height": 0,
-    "smallWidth": 0,
-    "smallHeight": 0
   },
   "map": {
     "municipality": "amsterdam",
@@ -105,25 +99,5 @@
   },
   "sentry": {
     "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
-  },
-  "theme": {
-    "colors": {
-      "primary": {
-        "main": "#004699",
-        "dark": "#00387a"
-      },
-      "secondary": {
-        "main": "#ec0000",
-        "dark": "#bc0000"
-      },
-      "support": {
-        "valid": "#00A03C",
-        "invalid": "#EC0000",
-        "focus": "#FEC813"
-      },
-      "error": {
-        "main": "#ec0000"
-      }
-    }
   }
 }
