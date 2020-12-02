@@ -23,6 +23,8 @@ import MarkerCluster from './components/MarkerCluster';
 
 import DetailPanel from './components/DetailPanel';
 
+const POLLING_INTERVAL = 5000;
+
 const StyledViewerContainer = styled(ViewerContainer)`
   flex-direction: row;
 
@@ -102,6 +104,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   const { get, data, isLoading } = useFetch();
   const [layerInstance, setLayerInstance] = useState();
   const [incident, setIncident] = useState(0);
+  const [pollingCount, setPollingCount] = useState(0);
 
   const params = useMemo(
     () => ({
@@ -149,19 +152,25 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
     resetMarkerIcons();
   }, [resetMarkerIcons]);
 
+  const pollingFn = useCallback(() => {
+    setPollingCount(pollingCount + 1);
+  }, [pollingCount, setPollingCount]);
+
   useEffect(() => {
-    if (!options || isLoading || !initialMount) return;
+    const intervalId = setInterval(pollingFn, POLLING_INTERVAL);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [pollingFn]);
 
-    const { name, ...initialActive } = initialState.get('activeFilter').toJS();
-    const paramsAreInitial = isEqual(initialActive.options, options);
-
-    if (paramsAreInitial) return;
+  useEffect(() => {
+    if (isLoading || !initialMount) return;
 
     get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
 
     // Only execute when the value of filterParams changes; disabling linter
     // eslint-disable-next-line
-  }, [filterParams]);
+  }, [filterParams, pollingCount]);
 
   // request data on mount
   useEffect(() => {
