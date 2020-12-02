@@ -219,6 +219,25 @@ describe('The auth service', () => {
         expect(global.localStorage.removeItem).toHaveBeenCalledWith('stateToken');
       });
 
+      it('Fetches token when callback gets code as query param', async () => {
+        const queryString = '?token_type=code&state=random-string&code=123Code';
+        global.location.hash = queryString;
+        queryObject = {
+          token_type: 'code',
+          state: 'random-string',
+          code: '123Code',
+        };
+        savedStateToken = 'random-string';
+        fetch.mockResponseOnce(
+          JSON.stringify({
+            access_token: '123AccessToken',
+          })
+        );
+
+        await initAuth();
+        expect(global.localStorage.setItem).toHaveBeenCalledWith('accessToken', '123AccessToken');
+      });
+
       it('Works when receiving unexpected parameters', () => {
         const queryString =
           '?access_token=123AccessToken&token_type=token&expires_in=36000&state=random-string&extra=sauce';
