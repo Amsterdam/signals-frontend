@@ -3,35 +3,31 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing } from '@amsterdam/asc-ui';
 
+import MapSelectGeneric from 'components/MapSelectGeneric';
 import configuration from 'shared/services/configuration/configuration';
 import { incidentType } from 'shared/types';
 
-import MapSelect from 'components/MapSelect';
-import MapSelectGenericPreview from '../MapSelectGeneric';
-import { getOVLIcon } from '../../../form/MapSelect/iconMapping';
-
-export const DEFAULT_COORDS = [4.900312721729279, 52.37248465266875];
-
-export const getLatlng = location => {
-  const coords = location?.geometrie?.coordinates || DEFAULT_COORDS;
-  return {
-    latitude: coords[1],
-    longitude: coords[0],
-  };
-};
+export const getLatlng = location =>
+  location?.geometrie?.coordinates
+    ? {
+      latitude: location.geometrie.coordinates[1],
+      longitude: location.geometrie.coordinates[0],
+    }
+    : {
+      latitude: configuration.map.options.center[0],
+      longitude: configuration.map.options.center[1],
+    };
 
 const Values = styled.div`
   margin-bottom: ${themeSpacing(4)};
 `;
 
-const MapSelectPreview = ({ value, meta, incident }) => (
+const MapSelectGenericPreview = ({ value, meta, incident }) => (
   <Fragment>
     <Values>{value.join('; ')}</Values>
-    <MapSelect
+    <MapSelectGeneric
       geojsonUrl={meta.endpoint}
-      getIcon={getOVLIcon}
-      iconField="type_name"
-      idField="objectnummer"
+      idField={meta.idField}
       latlng={getLatlng(incident.location)}
       selectionOnly
       value={value}
@@ -39,7 +35,7 @@ const MapSelectPreview = ({ value, meta, incident }) => (
   </Fragment>
 );
 
-MapSelectPreview.propTypes = {
+MapSelectGenericPreview.propTypes = {
   incident: incidentType,
   meta: PropTypes.shape({
     endpoint: PropTypes.string.isRequired,
@@ -48,4 +44,4 @@ MapSelectPreview.propTypes = {
   value: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default configuration.featureFlags.useMapSelectGeneric ? MapSelectGenericPreview : MapSelectPreview;
+export default MapSelectGenericPreview;

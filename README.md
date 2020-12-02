@@ -107,3 +107,9 @@ and [the Apple developer documentation](https://developer.apple.com/library/arch
 ## Thanks to
 
 <a href="http://browserstack.com/"><img src="src/images/browserstack-logo-600x315.png" height="130" alt="BrowserStack Logo" /></a>
+
+The Dot icons ([icon-dot] and [icon-dot-selected]) made by [Pixel perfect](https://icon54.com/) from [www.flaticon.com].
+
+[www.flaticon.com]: https://www.flaticon.com/ "Flaticon"
+[icon-dot]: /src/shared/images/icon-dot-marker.svg
+[icon-dot-selected]: /src/shared/images/icon-dot-selected-marker.svg
