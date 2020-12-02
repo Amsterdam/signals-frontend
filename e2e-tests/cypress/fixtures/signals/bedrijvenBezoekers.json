@@ -1,0 +1,103 @@
+{
+  "category": {
+    "sub": "Overlast door bezoekers (niet op terras)",
+    "sub_slug": "overlast-door-bezoekers-niet-op-terras",
+    "main": "Overlast Bedrijven en Horeca",
+    "main_slug": "overlast-bedrijven-en-horeca",
+    "category_url": "http://localhost:8000/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-door-bezoekers-niet-op-terras",
+    "departments": "ASC, THO",
+    "created_by": null,
+    "text": null,
+    "handling_time": "5 werkdagen"
+  },
+  "id": null,
+  "has_attachments": true,
+  "address": {
+    "stadsdeel": "Centrum",
+    "postcode": "1012AN",
+    "huisletter": "A",
+    "huisnummer": 5,
+    "woonplaats": "Amsterdam",
+    "openbare_ruimte": "Zeedijk",
+    "huisnummer_toevoeging": "",
+    "address_text": "Zeedijk 5A 1012AN Amsterdam",
+    "geometrie": {"type": "Point", "coordinates": [4.90026442, 52.37619576]}
+  },
+  "status": {
+    "text": "",
+    "user": "",
+    "state": "m",
+    "state_display": "Gemeld",
+    "send_email": false,
+    "created_at": "2020-10-29T16:27:54.488819+01:00"
+  },
+  "reporter": {
+    "email": "",
+    "phone": "",
+    "sharing_allowed": "Nee"
+  },
+  "priority": "Normaal",
+  "notes": [],
+  "type": "Melding",
+  "source": "online",
+  "text": "Ik heb ontzettende overlast van cafe het 11e gebod, dronken mensen staan buiten te schreeuwen",
+  "text_extra": "",
+  "extra_properties": [
+    {
+      "id": "extra_bedrijven_horeca_wat",
+      "label": "Soort bedrijf",
+      "answer": {
+        "id": "horecabedrijf",
+        "info": "",
+        "label": "Horecabedrijf, zoals een café, restaurant, snackbar of kantine"
+      },
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_naam",
+      "label": "Mogelijke veroorzaker",
+      "answer": "Klanten van het cafe",
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_adres",
+      "label": "Adres overlast",
+      "answer": "Op Zeedijk nummer 3",
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_personen",
+      "label": "Oorzaak overlast",
+      "answer": [
+        {"id": "dronken_bezoekers", "label": "Dronken bezoekers"},
+        {"id": "schreeuwende_bezoekers", "label": "Schreeuwende bezoekers"},
+        {"id": "wildplassen", "label": "Wildplassen"}
+      ]
+    },
+    {
+      "id": "extra_bedrijven_horeca_vaker",
+      "label": "Vaker overlast",
+      "answer": {"id": "ja", "info": "", "label": "Ja, het gebeurt vaker"},
+      "category_url": ""
+    },
+    {
+      "id": "extra_bedrijven_horeca_tijdstippen",
+      "label": "Overlast momenten",
+      "answer": "Elke dag",
+      "category_url": ""
+    }
+  ],
+  "created_at": "2020-10-29T15:53:05.650429+01:00",
+  "updated_at": "2020-10-29T16:27:54.569883+01:00",
+  "incident_date_start": "2020-10-29T15:53:05+01:00",
+  "incident_date_end": null,
+  "time": "Nu",
+  "directing_departments": [
+    {"id": 6, "code": "ASC", "name": "Actie Service Centrum", "is_intern": true},
+    {"id": 2, "code": "THO", "name": "THOR", "is_intern": true}
+  ],
+  "fixtures":  {
+    "prediction": "bedrijvenBezoekersoverlast.json",
+    "attachments": null
+  }
+}

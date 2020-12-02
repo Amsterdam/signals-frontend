@@ -8,6 +8,8 @@ import { CHANGE_STATUS, DEELMELDING, SIGNAL_DETAILS } from '../../support/select
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 
+const fixturePath = '../fixtures/signals/deelmelding.json';
+
 describe('Deelmeldingen', () => {
   describe('Set up data in Django admin', () => {
     before(() => {
@@ -27,61 +29,41 @@ describe('Deelmeldingen', () => {
   describe('Create Deelmeldingen', () => {
     describe('Set up data', () => {
       beforeEach(() => {
+        cy.server();
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       });
       it('Initiate create signal from manage', () => {
-        cy.server();
         cy.getManageSignalsRoutes();
-
         cy.visitFetch('/manage/incidents/');
-
         cy.waitForManageSignalsRoutes();
         cy.openMenu();
         cy.contains('Melden').click();
         cy.checkHeaderText('Beschrijf uw melding');
       });
-      it('Should describe the signal', () => {
-        cy.server();
+      it('Should create the signal', () => {
         cy.route2('**/locatieserver/v3/suggest?fq=*').as('getAddress');
-        cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/waterSnelVaren.json').as('prediction');
-
-        createSignal.checkDescriptionPage();
-        createSignal.selectSource(4);
-
-        createSignal.setAddress('1097DS 159-1', 'Weesperzijde 159-1, 1097DS Amsterdam');
-        createSignal.setDescription('Wow, er vaart iemand te hard onder de Berlagebrug door, die BTW stuk is en er ligt ook nog eens een grote plas olie op het waterrr.');
-        cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Snel varen (ASC, WAT)');
-        createSignal.setDateTime('Nu');
-
-        createSignal.uploadFile('images/logo.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
-        createSignal.uploadFile('images/logo2.png', 'image/png', CREATE_SIGNAL.buttonUploadFile);
-
-        // wait is needed, otherwise test is faling
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000);
-        cy.contains('Volgende').click();
-      });
-      it('Should enter specific information', () => {
-        cy.contains('Volgende').click();
-      });
-      it('Should enter a phonenumber and email address', () => {
-        cy.contains('Volgende').click();
-        cy.contains('Volgende').click();
-      });
-
-      it('Should show a summary', () => {
         cy.route2('**/maps/topografie?bbox=**').as('map');
-        cy.route2('POST', '/signals/v1/private/signals/').as('postSignalPrivate');
+        cy.route2('POST', '**/signals/v1/private/signals/').as('postSignalPrivate');
 
-        cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
+        createSignal.setDescriptionPage(fixturePath);
+        cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Snel varen (ASC, WAT)');
 
+        cy.contains('Volgende').click();
+        cy.contains('Volgende').click();
+        createSignal.setPhonenumber(fixturePath);
+        cy.contains('Volgende').click();
+
+        createSignal.setEmailAddress(fixturePath);
+        cy.contains('Volgende').click();
+
+        cy.wait('@map');
+        createSignal.checkSummaryPage(fixturePath);
         cy.contains('Verstuur').click();
         cy.wait('@postSignalPrivate');
-      });
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      it('Should show the last screen', () => {
+        createSignal.checkThanksPage();
         createSignal.saveSignalId();
-        cy.get('[href*="/manage/incident/"]').click({ force: true });
       });
     });
     describe('Create Deelmeldingen', () => {
@@ -93,7 +75,7 @@ describe('Deelmeldingen', () => {
         cy.visitFetch('/manage/incidents/');
         cy.waitForManageSignalsRoutes();
       });
-      it.skip('Should cancel creating deelmeldingen', () => {
+      it('Should cancel creating deelmeldingen', () => {
         createSignal.openCreatedSignal();
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).click();
 
@@ -123,9 +105,9 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.buttonAdd).click();
         cy.get(DEELMELDING.buttonAdd).click();
 
-        deelmelding.setDeelmelding('1', '1', 'Snel varen (ASC, WAT)', 'Er vaart iemand te hard onder de Berlagebrug door.');
-        deelmelding.setDeelmelding('2', '2', 'Brug (STW, WAT)', 'De Berlagebrug is stuk.');
-        deelmelding.setDeelmelding('3', '3', 'Olie op het water (AEG, ASC, WAT)', 'In de buurt van de Berlagebrug ligt een plas olie op het water.');
+        deelmelding.setDeelmelding('1', '1', 'Snel varen', 'Er vaart iemand te hard onder de Berlagebrug door.');
+        deelmelding.setDeelmelding('2', '2', 'Brug', 'De Berlagebrug is stuk.');
+        deelmelding.setDeelmelding('3', '3', 'Olie op het water', 'In de buurt van de Berlagebrug ligt een plas olie op het water.');
 
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
@@ -146,9 +128,9 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.historyAction).eq(3).contains('Deelmelding toegevoegd').should('be.visible');
         cy.get(SIGNAL_DETAILS.historyAction).eq(4).contains('Deelmelding toegevoegd').should('be.visible');
 
-        deelmelding.checkDeelmelding('1', 'Snel varen (ASC, WAT)');
-        deelmelding.checkDeelmelding('2', 'Brug (STW, WAT)');
-        deelmelding.checkDeelmelding('3', 'Olie op het water (ASC, AEG, WAT)');
+        deelmelding.checkDeelmelding('1', 'Snel varen', 'Gemeld', '3 werkdagen');
+        deelmelding.checkDeelmelding('2', 'Brug', 'Gemeld', '21 dagen');
+        deelmelding.checkDeelmelding('3', 'Olie op het water', 'Gemeld', '3 dagen');
 
         // Check signal data deelmelding 01
         cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(0).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).click();
@@ -278,8 +260,8 @@ describe('Deelmeldingen', () => {
         });
         cy.get(DEELMELDING.buttonAdd).click();
 
-        deelmelding.setDeelmelding('1', '1', 'Stankoverlast (ASC, VTH)', 'Op dit adres stinkt het, vermoedelijk kruiden');
-        deelmelding.setDeelmelding('2', '2', 'Overig afval (AEG, STW)', 'Veel afval op straat voor de deur van Jacob Hooy');
+        deelmelding.setDeelmelding('1', '1', 'Stankoverlast', 'Op dit adres stinkt het, vermoedelijk kruiden');
+        deelmelding.setDeelmelding('2', '2', 'Overig afval', 'Veel afval op straat voor de deur van Jacob Hooy');
 
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
@@ -311,6 +293,8 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@getHistory');
         cy.wait('@getSignal');
+        // Wait for signals details to be visible, then check status
+        cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'In behandeling').and('be.visible');
 
         // Add another deelmelding
@@ -318,7 +302,7 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
-        deelmelding.setDeelmelding('1', '4', 'Drank- / drugsoverlast (ASC, THO)', 'Er wordt zowel binnen als buiten het pand veel drugs gebruikt');
+        deelmelding.setDeelmelding('1', '4', 'Drank- / drugsoverlast', 'Er wordt zowel binnen als buiten het pand veel drugs gebruikt');
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
@@ -338,6 +322,8 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@getHistory');
         cy.wait('@getSignal');
+        // Wait for signals details to be visible, then check status
+        cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'Ingepland').and('be.visible');
 
         // Add another deelmelding
@@ -345,7 +331,7 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
-        deelmelding.setDeelmelding('1', '5', 'Ratten (GGD)', 'Het hele pand zit vol met ratten');
+        deelmelding.setDeelmelding('1', '5', 'Ratten', 'Het hele pand zit vol met ratten');
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
@@ -369,11 +355,10 @@ describe('Deelmeldingen', () => {
         cy.wait('@getSignals');
         cy.wait('@getHistory');
         cy.wait('@getDeelmeldingen');
-        // wait because status update is not visible yet
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000);
+        // Wait for signals details to be visible, then check status
+        cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'Afgehandeld').and('be.visible');
-        cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).should('not.be.visible');
+        cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).should('not.exist');
         deelmelding.checkDeelmeldingStatuses('Geannuleerd');
       });
     });

@@ -14,7 +14,7 @@ export const FileInputPreviewBox = styled.div`
 
 export const FileInputEmptyBox = styled.div`
   width: ${themeSpacing(25)};
-  border: 1px dashed ${themeColor('tint', 'level4')};
+  border: 1px dashed ${themeColor('tint', 'level5')};
   margin-right: ${themeSpacing(3)};
 `;
 
@@ -23,11 +23,7 @@ export const FileInputError = styled.div`
   margin: ${themeSpacing(4, 0, 0)};
 `;
 
-export const FileInputUploadButton = styled.div`
-  width: ${themeSpacing(25)};
-  border: 1px dashed ${themeColor('tint', 'level4')};
-  margin-right: ${themeSpacing(3)};
-
+export const FileInputUploadButton = styled(FileInputEmptyBox)`
   input[type='file'] {
     opacity: 0;
     width: 0;

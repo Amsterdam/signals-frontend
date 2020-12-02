@@ -203,6 +203,10 @@
         "urgentContactInfo": {
           "description": "Extra information to show in case of an error",
           "type": "string"
+        },
+        "logoDescription": {
+          "description": "ARIA description for the site logo",
+          "type": "string"
         }
       },
       "required": [
@@ -218,7 +222,8 @@
         "siteTitle",
         "smallHeaderTitle",
         "title",
-        "urgentContactInfo"
+        "urgentContactInfo",
+        "logoDescription"
       ],
       "title": "Language"
     },

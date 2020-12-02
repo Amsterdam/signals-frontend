@@ -3,18 +3,22 @@ import { MANAGE_SIGNALS, FILTER } from './selectorsManageIncidents';
 
 export const setDeelmelding = (id, deelmeldingNumber, subcategory, description) => {
   cy.get(DEELMELDING.titleDeelmelding).eq(id - 1).should('contain', `Deelmelding ${deelmeldingNumber}`);
-  cy.get(`[data-testid="incidents[${id}].subcategory"]`).select(subcategory);
+  cy.get('select').eq(id - 1).find('option').contains(subcategory).then($element => {
+    const elementText = $element.text();
+    cy.get('select').eq(id - 1).select(elementText);
+  });
   cy.get(`[data-testid="incidentSplitFormIncidentDescriptionText-${id}"]`).clear().type(description);
 };
 
-export const checkDeelmelding = (deelmeldingNumber, subcategory) => {
+export const checkDeelmelding = (deelmeldingNumber, subcategory, status, handlingTime) => {
   cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
     const deelMeldingId = Number.parseInt(json.signalId, 10) + Number.parseInt(deelmeldingNumber, 10);
     cy.log(deelMeldingId);
 
     cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).should('have.text', deelMeldingId);
-    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('have.text', 'Gemeld').and('be.visible');
-    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', subcategory).and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('contain', subcategory).and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('contain', status).and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', handlingTime).and('be.visible');
   });
 };
 
@@ -25,7 +29,7 @@ export const filterSignalOnType = (type, selector) => {
   cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', type).and('be.visible');
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedASC');
-  cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
+  cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
   cy.wait('@getMap');
   cy.wait('@getTerms');
@@ -33,7 +37,7 @@ export const filterSignalOnType = (type, selector) => {
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedDESC');
-  cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
+  cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
   checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();

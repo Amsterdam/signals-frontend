@@ -174,7 +174,7 @@ describe('All status transitions of a signal', () => {
       cy.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.buttonTHOR).click();
       cy.get(SIGNAL_DETAILS.status)
-        .should('have.text', 'Verzending naar extern systeem mislukt')
+        .should('contain', 'naar extern systeem')
         .and('be.visible')
         .and($labels => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');

@@ -6,6 +6,8 @@ import { CHANGE_STATUS, SIGNAL_DETAILS } from '../../support/selectorsSignalDeta
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
 
+const fixturePath = '../fixtures/signals/signalForStandaardteksten.json';
+
 describe('Standaardteksten', () => {
   describe('Create standaardteksten', () => {
     beforeEach(() => {
@@ -85,49 +87,32 @@ describe('Standaardteksten', () => {
   });
   describe('Create signal duiven', () => {
     before(() => {
+      cy.server();
+      cy.getAddressRoute();
+      cy.postSignalRoutePublic();
+      cy.intercept('**/maps/topografie?bbox=**').as('map');
       cy.visitFetch('incident/beschrijf');
     });
 
-    it('Should describe the signal', () => {
-      cy.server();
-      cy.getAddressRoute();
-      cy.route('POST', '**/signals/category/prediction', 'fixture:predictions/duiven.json').as('prediction');
-
-      createSignal.checkDescriptionPage();
-      createSignal.setAddress('1017PR 1', 'Leidseplein 1, 1017PR Amsterdam');
-      createSignal.setDescription('Ik word lastig gevallen door Duiven');
-      createSignal.setDateTime('Nu');
-
+    it('Should create the signal', () => {
+      createSignal.setDescriptionPage(fixturePath);
       cy.contains('Volgende').click();
-      createSignal.checkSpecificInformationPage();
-      cy.contains('Volgende').click();
-    });
 
-    it('Should enter a phonenumber and email address', () => {
+      createSignal.checkSpecificInformationPage(fixturePath);
       cy.contains('Volgende').click();
-    });
-
-    it('Should show a summary', () => {
-      cy.server();
-      cy.route('/maps/topografie?bbox=**').as('map');
-      cy.postSignalRoutePublic();
-
+      createSignal.setPhonenumber(fixturePath);
       cy.contains('Volgende').click();
+
+      createSignal.setEmailAddress(fixturePath);
+      cy.contains('Volgende').click();
+
       cy.wait('@map');
-      createSignal.checkSummaryPage();
-
-      // Check information provided by user
-      cy.contains(Cypress.env('address')).should('be.visible');
-      cy.contains(Cypress.env('description')).should('be.visible');
-
+      createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
-      cy.get(MANAGE_SIGNALS.spinner).should('not.be.visible');
-    });
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-    it('Should show the last screen', () => {
       createSignal.checkThanksPage();
-      // Capture signal id to check details later
       createSignal.saveSignalId();
     });
   });
