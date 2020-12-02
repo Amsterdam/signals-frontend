@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Button from 'components/Button';
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import ContainerSelectContext from '../context';
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import Map from 'components/Map';
 
 const Wrapper = styled.div`
   position: relative;
@@ -16,12 +18,36 @@ const ButtonBar = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 401; // 400 is the minimum elevation were elements are shown above the map
+`;
+
+const StyledMap = styled(Map)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
 `;
 
 const Intro = () => {
-  const { edit } = useContext(ContainerSelectContext);
+  const { edit, location } = useContext(ContainerSelectContext);
+  const lat = location && location[1];
+  const lng = location && location[0];
+  const options = {
+    ...MAP_OPTIONS,
+    attributionControl: false,
+    center: [lat, lng],
+  };
+
   return (
     <Wrapper data-testid="containerSelectIntro">
+      {lat && lng && (
+        <StyledMap
+          data-testid="mapLocation"
+          mapOptions={options}
+          canBeDragged={false}
+          hasZoomControls={false}
+        ></StyledMap>
+      )}
+
       <ButtonBar>
         <Button onClick={edit}>Kies op kaart</Button>
       </ButtonBar>
