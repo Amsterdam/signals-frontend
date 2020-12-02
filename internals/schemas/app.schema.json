@@ -87,6 +87,10 @@
           "description": "When true, will show extra questions after the first page of questions in the incident submission form",
           "type": "boolean"
         },
+        "useMapSelectGeneric": {
+          "description": "When true, will use MapSelectGeneric instead of MapSelect input component for additional questions.",
+          "type": "boolean"
+        },
         "useStaticMapServer": {
           "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
@@ -99,6 +103,7 @@
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",
         "showVulaanControls",
+        "useMapSelectGeneric",
         "useStaticMapServer"
       ],
       "title": "FeatureFlags"

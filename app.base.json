@@ -8,6 +8,7 @@
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
     "showVulaanControls": false,
+    "useMapSelectGeneric": false,
     "useStaticMapServer": false
   },
   "head": {
