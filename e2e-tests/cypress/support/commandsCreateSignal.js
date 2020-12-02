@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable promise/no-nesting */
-import appConfig from '../../../app.base.json';
+import appConfig from '../../../app.amsterdam.json';
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
 import { CHANGE_STATUS, SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS } from './selectorsManageIncidents';
