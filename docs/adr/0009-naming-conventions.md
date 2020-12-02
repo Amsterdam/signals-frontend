@@ -11,13 +11,13 @@ Date: 2020-09-24
 ### Principles
 
 - Keep it simple, reduce nesting
-- 'container'-type components in their own folder directly under `src`.
+- 'container'-type components in their own folder in `src/App` (the `App` component).
 - Components needed only by one 'root' component go into that root component's folder, no extra nesting
 - Components needed by more than one 'root' component go into `src/components`
 - Component folders, files, and auxiliary files, camel cased, starting with upper case
 - Component names and file names will be unique
 - Unique `data-testid` names by prefixing them with component names
-- 'root' level components, hooks, interfaces, services, in their respective floders.
+- 'root' level components, hooks, interfaces, services, in their respective folders in `src`.
 
 ### Example tree
 
@@ -27,21 +27,21 @@ src
     App.tsx
     App.styles.ts
     App.test.ts
-  DefaultTexts
-  Filter
-  IncidentDetail
-  IncidentOverview
-  IncidentSplit
-    IncidentSplit.tsx
-    IncidentSplit.styles.ts
-    IncidentSplit.test.ts
-    IncidentSplitForm.tsx
-    IncidentSplitForm.styles.ts
-    IncidentSplitForm.test.ts
-    IncidentSplitFormIncident.tsx
-    IncidentSplitFormIncident.styles.ts
-    IncidentSplitFormIncident.test.ts
-  IncidentWizard
+    DefaultTexts
+    Filter
+    IncidentDetail
+    IncidentOverview
+    IncidentSplit
+      IncidentSplit.tsx
+      IncidentSplit.styles.ts
+      IncidentSplit.test.ts
+      IncidentSplitForm.tsx
+      IncidentSplitForm.styles.ts
+      IncidentSplitForm.test.ts
+      IncidentSplitFormIncident.tsx
+      IncidentSplitFormIncident.styles.ts
+      IncidentSplitFormIncident.test.ts
+    IncidentWizard
   components
     RadioInput
       RadioInput.tsx
