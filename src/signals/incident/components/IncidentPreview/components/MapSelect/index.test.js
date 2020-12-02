@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import configuration from 'shared/services/configuration/configuration';
+import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import { withAppContext } from 'test/utils';
 
 jest.mock('shared/services/configuration/configuration');
@@ -19,11 +19,7 @@ describe('signals/incident/components/IncidentPreview/components/MapSelect', () 
 
       render(
         withAppContext(
-          <MapSelect
-            value={value}
-            meta={{ endpoint: configuration.map.layers.verlichting, idField: '' }}
-            incident={incidentFixture}
-          />
+          <MapSelect value={value} meta={{ endpoint: 'https://endpoint', idField: '' }} incident={incidentFixture} />
         )
       );
 
@@ -40,11 +36,7 @@ describe('signals/incident/components/IncidentPreview/components/MapSelect', () 
 
       render(
         withAppContext(
-          <MapSelect
-            value={value}
-            meta={{ endpoint: configuration.map.layers.verlichting, idField: '' }}
-            incident={incidentFixture}
-          />
+          <MapSelect value={value} meta={{ endpoint: 'https://endpoint', idField: '' }} incident={incidentFixture} />
         )
       );
 

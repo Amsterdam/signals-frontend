@@ -85,6 +85,8 @@ describe('<Location />', () => {
 
     describe('location preview', () => {
       it('should render static map image with useStaticMapServer enabled', async () => {
+        configuration.featureFlags.useStaticMapServer = true;
+
         const { findByText, queryByTestId } = render(renderWithContext());
 
         await findByText('Locatie');
@@ -94,8 +96,6 @@ describe('<Location />', () => {
       });
 
       it('should render normal map with useStaticMapServer disabled', async () => {
-        configuration.featureFlags.useStaticMapServer = false;
-
         const { findByText, queryByTestId } = render(renderWithContext());
 
         await findByText('Locatie');

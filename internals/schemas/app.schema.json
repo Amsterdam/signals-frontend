@@ -52,10 +52,8 @@
         "head",
         "language",
         "links",
-        "logo",
         "map",
-        "oidc",
-        "theme"
+        "oidc"
       ],
       "title": "Config"
     },
@@ -350,8 +348,6 @@
       "required": [
         "municipality",
         "options",
-        "staticUrl",
-        "layers",
         "tiles"
       ],
       "title": "Map"

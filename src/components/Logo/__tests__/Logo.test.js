@@ -13,11 +13,13 @@ jest.mock('shared/services/configuration/configuration');
 
 describe('components/Logo', () => {
   beforeEach(() => {
-    configuration.logo.url = 'https://logoipsum.com/logo/logo-8.svg';
-    configuration.logo.width = '80px';
-    configuration.logo.height = '80px';
-    configuration.logo.smallWidth = '20%';
-    configuration.logo.smallHeight = '40%';
+    configuration.logo = {
+      url: 'https://logoipsum.com/logo/logo-8.svg',
+      width: '80px',
+      height: '80px',
+      smallWidth: '20%',
+      smallHeight: '40%',
+    };
   });
 
   afterEach(() => {
