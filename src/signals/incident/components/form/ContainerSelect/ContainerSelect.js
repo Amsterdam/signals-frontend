@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Paragraph } from '@amsterdam/asc-ui';
@@ -10,6 +10,8 @@ import Summary from './Summary';
 const ContainerSelect = ({ handler, parent }) => {
   const { value } = handler();
   const [showMap, setShowMap] = useState(false);
+
+  const location = parent.meta.incidentContainer.incident?.location.geometrie.coordinates;
 
   const update = useCallback(
     selectedValue => {
@@ -35,7 +37,7 @@ const ContainerSelect = ({ handler, parent }) => {
   );
 
   return (
-    <ContainerSelectProvider value={{ value, update, edit, close }}>
+    <ContainerSelectProvider value={{ value, location, update, edit, close }}>
       {!showMap && !value && <Intro />}
 
       {showMap && <Selector />}
