@@ -11,7 +11,7 @@ const ContainerSelect = ({ handler, parent }) => {
   const { value } = handler();
   const [showMap, setShowMap] = useState(false);
 
-  const location = parent.meta.incidentContainer.incident?.location.geometrie.coordinates;
+  const location = parent.meta?.incidentContainer?.incident?.location.geometrie.coordinates;
 
   const update = useCallback(
     selectedValue => {
