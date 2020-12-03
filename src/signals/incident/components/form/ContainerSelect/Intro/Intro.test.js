@@ -5,7 +5,7 @@ import Intro from './Intro';
 import { ContainerSelectProvider } from '../context';
 import { withAppContext } from 'test/utils';
 
-const contextValue = { value: null, update: jest.fn(), edit: jest.fn(), close: jest.fn() };
+const contextValue = { value: null, location: null, update: jest.fn(), edit: jest.fn(), close: jest.fn() };
 
 export const withContext = (Component, context = contextValue) =>
   withAppContext(<ContainerSelectProvider value={context}>{Component}</ContainerSelectProvider>);
@@ -18,10 +18,19 @@ describe('signals/incident/components/form/ContainerSelect/Intro', () => {
     jest.resetAllMocks();
   });
 
-  it('should render the component', () => {
-    render(withContext(<Intro />));
+  it('should render the component without the map', () => {
+    const { container, rerender } = render(withContext(<Intro />));
 
     expect(screen.queryByTestId('containerSelectIntro')).toBeInTheDocument();
+    expect(screen.queryByTestId('mapLocation')).not.toBeInTheDocument();
+    expect(screen.queryByText(/kies op kaart/i)).toBeInTheDocument();
+  });
+
+  it('should render the component with the map', () => {
+    const { container, rerender } = render(withContext(<Intro />, { ...contextValue, location: [1, 1] }));
+
+    expect(screen.queryByTestId('containerSelectIntro')).toBeInTheDocument();
+    expect(screen.queryByTestId('mapLocation')).toBeInTheDocument();
     expect(screen.queryByText(/kies op kaart/i)).toBeInTheDocument();
   });
 
