@@ -1,3 +1,4 @@
+import { Validators } from 'react-reactive-form';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
@@ -25,33 +26,28 @@ export const controls = {
     },
     render: FormComponents.TextareaInput,
   },
-  extra_container_kind: {
-    meta: {
-      ifOneOf: {
-        subcategory: ['container-is-kapot', 'container-is-vol'],
-      },
-      label: 'Weet u om wat voor soort container (papier, plastic, glas, restafval) het gaat?',
-      shortLabel: 'Soort container',
-      subtitle: 'Bijvoorbeeld glas, papier, plastic of restafval',
-      pathMerge: 'extra_properties',
-    },
-    render: FormComponents.TextInput,
-  },
-  extra_container_number: {
+  extra_container: {
     meta: {
       ifOneOf: {
         subcategory: [
-          'container-voor-plastic-afval-is-kapot',
-          'container-voor-plastic-afval-is-vol',
+          'container-glas-kapot',
+          'container-glas-vol',
           'container-is-kapot',
           'container-is-vol',
+          'container-voor-papier-is-stuk',
+          'container-voor-papier-is-vol',
+          'container-voor-plastic-afval-is-vol',
+          'container-voor-plastic-afval-is-kapot',
         ],
       },
-      label: 'Weet u het nummer van de container?',
-      shortLabel: 'Container nummer',
+      label: 'Kies de container waar het om gaat',
+      shortLabel: 'Containers',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    options: {
+      validators: [Validators.required],
+    },
+    render: FormComponents.ContainerSelectRenderer,
   },
 };
 
