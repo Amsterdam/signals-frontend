@@ -41,7 +41,7 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
 
     case 'TextInput':
     case 'TextareaInput':
-    case 'validators':
+    case 'ContainerSelectRenderer':
       return Label;
 
     default:
