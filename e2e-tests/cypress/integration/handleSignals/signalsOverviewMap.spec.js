@@ -101,7 +101,6 @@ describe('Signal overview Map', () => {
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Nieuwezijds Voorburgwal 147').and('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012RJ Amsterdam').and('be.visible');
 
-      createSignal.checkCreationDate();
       cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '21 dagen').and('be.visible');
       createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
