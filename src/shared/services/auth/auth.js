@@ -26,6 +26,9 @@ const AUTH_REDIRECT_URI = `${global.location.protocol}//${global.location.host}/
 
 const domainList = ['datapunt', 'grip'];
 
+const ACCESS_TOKEN_REFRESH_TIME = 60000; // If token expiry is less than 60000 ms in the future, it should be refreshed
+const ACCESS_TOKEN_REFRESH_INTERVAL = 20000; // Check expiry of access token every 20000 ms
+
 function getDomain(domain) {
   // TODO
   // Add business logic for the GRIP or datapunt indentity provider (for instance by mapping the domain from the url)
@@ -64,7 +67,7 @@ function handleError(code, description) {
  * Handles errors in case they were returned by the OAuth2 authorization
  * service.
  */
-function catchError() {
+function catchAuthorizationError() {
   const params = queryStringParser(global.location.search);
   if (params && params.error) {
     handleError(params.error, params.error_description);
@@ -80,10 +83,13 @@ function saveRefreshToken(refreshToken) {
  */
 async function refreshTokens() {
   const { authEndpoint, realm, clientId } = configuration.keycloak;
-  const token = storage.getItem(REFRESH_TOKEN_KEY);
+  const refreshToken = storage.getItem(REFRESH_TOKEN_KEY);
+  const decodedRefreshToken = accessTokenParser(refreshToken);
+
+  if (decodedRefreshToken.expiresAt * 1000 < Date.now()) return;
 
   const searchParams = new URLSearchParams({
-    refresh_token: token,
+    refresh_token: refreshToken,
     grant_type: 'refresh_token',
     client_id: clientId,
     redirect_uri: AUTH_REDIRECT_URI,
@@ -91,30 +97,23 @@ async function refreshTokens() {
 
   const tokenUrl = `${authEndpoint}/realms/${realm}/protocol/openid-connect/token`;
 
-  try {
-    const response = await fetch(tokenUrl, {
-      body: searchParams.toString(),
-      method: 'POST',
-      headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-    });
+  const response = await fetch(tokenUrl, {
+    body: searchParams.toString(),
+    method: 'POST',
+    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+  });
 
-    if (response.status === 200) {
-      const data = await response.json();
-      storage.setItem(ACCESS_TOKEN_KEY, data.access_token);
-      storage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
-    } else {
-      logout();
-    }
-  } catch {
-    logout();
+  if (response.status >= 200 && response.status < 300) {
+    const { access_token, refresh_token } = await response.json();
+    storage.setItem(ACCESS_TOKEN_KEY, access_token);
+    storage.setItem(REFRESH_TOKEN_KEY, refresh_token);
   }
 }
 
 const handleRefreshAccessToken = async () => {
   const decoded = accessTokenParser(storage.getItem(ACCESS_TOKEN_KEY));
 
-  // Should refresh if access token expires within the next minute
-  const shouldRefresh = decoded.expiresAt * 1000 - 60000 < Date.now();
+  const shouldRefresh = decoded.expiresAt * 1000 - ACCESS_TOKEN_REFRESH_TIME < Date.now();
 
   if (shouldRefresh) {
     await refreshTokens();
@@ -123,12 +122,13 @@ const handleRefreshAccessToken = async () => {
 
 const setRefreshAccessTokenInterval = () => {
   const refreshToken = storage.getItem(REFRESH_TOKEN_KEY);
-  const decoded = accessTokenParser(refreshToken);
+  const decodedRefreshToken = accessTokenParser(refreshToken);
 
-  if (decoded.expiresAt < Date.now()) {
+  // Only start interval if refresh token is not expired
+  if (decodedRefreshToken.expiresAt * 1000 > Date.now()) {
     setInterval(() => {
       handleRefreshAccessToken();
-    }, 30000);
+    }, ACCESS_TOKEN_REFRESH_INTERVAL);
   }
 };
 
@@ -166,9 +166,9 @@ function saveToken(state, accessToken) {
 }
 
 /**
- * Fetch token with given authorization code.
+ * Fetch tokens with given authorization code.
  */
-async function fetchTokenByCode(code) {
+async function fetchTokensByCode(code) {
   const { authEndpoint, realm, clientId } = configuration.keycloak;
 
   const searchParams = new URLSearchParams({
@@ -192,21 +192,21 @@ async function fetchTokenByCode(code) {
 /**
  * Handle login callback.
  */
-async function handleCallback() {
+async function handleAuthorizationCallback() {
   // Parse query string into object
   const params = queryStringParser(global.location.hash);
 
   if (!params || !params.state) return;
 
   if (params.code) {
-    // handling keycloak callback
-    const token = await fetchTokenByCode(params.code);
-    saveToken(params.state, token.access_token);
-    saveRefreshToken(token.refresh_token);
+    // Handle keycloak callback
+    const tokens = await fetchTokensByCode(params.code);
+    saveToken(params.state, tokens.access_token);
+    saveRefreshToken(tokens.refresh_token);
     return;
   }
 
-  // handling other callbacks
+  // Handle other callbacks
   if (AUTH_PARAMS.some(param => params[param] === undefined)) return;
   saveToken(params.state, params.access_token);
 }
@@ -311,8 +311,8 @@ export function logout() {
  */
 export async function initAuth() {
   restoreAccessToken(); // Restore access token from local storage
-  catchError(); // Catch any error from the OAuth2 authorization service
-  await handleCallback(); // Handle a callback from the OAuth2 authorization service
+  catchAuthorizationError(); // Catch any error from the OAuth2 authorization service
+  await handleAuthorizationCallback(); // Handle a callback from the OAuth2 authorization service
 
   if (getOauthDomain() === 'keycloak') {
     await handleRefreshAccessToken(); // Refresh access token if expired
