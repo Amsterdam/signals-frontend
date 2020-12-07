@@ -24,7 +24,9 @@ const DownloadButton = ({ label, url, filename }) => {
       global.URL.revokeObjectURL(href);
       document.body.removeChild(link);
     }
-  }, [data, filename]);
+    // Disabling linter; `filename` dependency triggers a download when changing the incident
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const handleDownload = useCallback(() => {
     get(url, {}, { responseType: 'blob' });
