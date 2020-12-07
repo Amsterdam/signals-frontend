@@ -42,7 +42,7 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
   left: 0;
   width: 40%;
   max-width: calc(100% - 40px);
-  z-index: 401; // 400 is the minimum elevation were elements are shown above the map
+  z-index: 401; // 400 is the minimum elevation where elements are shown above the map
 
   @media (max-width: ${({ theme }) => theme.layouts.large.max}px) {
     width: 60%;

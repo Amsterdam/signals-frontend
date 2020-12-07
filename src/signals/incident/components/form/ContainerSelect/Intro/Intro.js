@@ -18,7 +18,7 @@ const ButtonBar = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 401; // 400 is the minimum elevation were elements are shown above the map
+  z-index: 401; // 400 is the minimum elevation where elements are shown above the map
 `;
 
 const StyledMap = styled(Map)`
