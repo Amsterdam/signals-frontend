@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act, screen } from '@testing-library/react';
 
-import DownloadButton from '.';
+import DownloadButton from './DownloadButton';
 
 describe('<DownloadButton />', () => {
   let props;
