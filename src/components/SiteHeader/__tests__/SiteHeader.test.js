@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, screen } from '@testing-library/react';
 import MatchMediaMock from 'match-media-mock';
 import 'jest-styled-components';
 
@@ -104,7 +104,9 @@ describe('components/SiteHeader', () => {
 
     expect(container.querySelector('h1 img')).not.toBeInTheDocument();
 
-    configuration.logo.url = 'logoUrl';
+    configuration.logo = {
+      url: 'logoUrl',
+    };
 
     unmount();
 
@@ -114,13 +116,16 @@ describe('components/SiteHeader', () => {
   });
 
   it('should render the correct homeLink', () => {
+    const homeLink = 'https://home';
+    configuration.links.home = homeLink;
+
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
     const { container, rerender, unmount } = render(
       withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
     );
 
-    expect(container.querySelector('h1 a[href="https://www.amsterdam.nl"]')).toBeInTheDocument();
+    expect(container.querySelector(`h1 a[href="${homeLink}"]`)).toBeInTheDocument();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
@@ -138,18 +143,22 @@ describe('components/SiteHeader', () => {
   });
 
   it('should render a title', () => {
+    const title = 'Signals';
+    const authTitle = 'Signals Auth';
+    configuration.language.headerTitle = title;
+    configuration.language.smallHeaderTitle = authTitle;
+
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
 
     act(() => {
       history.push('/');
     });
 
-    const { queryByText, rerender, unmount } = render(withAppContext(<SiteHeader />));
+    const { rerender, unmount } = render(withAppContext(<SiteHeader />));
 
-    const title = 'SIA';
-
-    // don't show title in front office when not authenticated
-    expect(queryByText(title)).toBeNull();
+    // don't show auth title in front office when not authenticated
+    expect(screen.getByText(title)).toBeInTheDocument();
+    expect(screen.queryByText(authTitle)).not.toBeInTheDocument();
 
     unmount();
 
@@ -161,8 +170,9 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader />));
 
-    // do show title in front office when authenticated
-    expect(queryByText(title)).not.toBeNull();
+    // do show auth title in front office when authenticated
+    expect(screen.queryByText(title)).not.toBeInTheDocument();
+    expect(screen.getByText(authTitle)).toBeInTheDocument();
 
     unmount();
 
@@ -174,8 +184,9 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader />));
 
-    // don't show title in back office when not authenticated
-    expect(queryByText(title)).toBeNull();
+    // don't show auth title in back office when not authenticated
+    expect(screen.getByText(title)).toBeInTheDocument();
+    expect(screen.queryByText(authTitle)).not.toBeInTheDocument();
 
     unmount();
 
@@ -184,7 +195,8 @@ describe('components/SiteHeader', () => {
     rerender(withAppContext(<SiteHeader />));
 
     // do show title in back office when authenticated
-    expect(queryByText(title)).not.toBeNull();
+    expect(screen.queryByText(title)).not.toBeInTheDocument();
+    expect(screen.getByText(authTitle)).toBeInTheDocument();
   });
 
   it('should render a tall header', () => {
@@ -237,7 +249,12 @@ describe('components/SiteHeader', () => {
 
   it('should show settings buttons', () => {
     const { queryByText } = render(
-      withAppContext(<SiteHeader showItems={{ settings: true, users: true, groups: true, departments: true, categories: true }} location={{ pathname: '/incident/beschrijf' }} />)
+      withAppContext(
+        <SiteHeader
+          showItems={{ settings: true, users: true, groups: true, departments: true, categories: true }}
+          location={{ pathname: '/incident/beschrijf' }}
+        />
+      )
     );
 
     expect(queryByText('Gebruikers')).toBeInTheDocument();

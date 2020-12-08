@@ -7,6 +7,9 @@ stats.json
 
 # Local config
 /app.json
+/app.*.json
+!/app.base.json
+!/app.amsterdam.json
 
 # Cruft
 .DS_Store

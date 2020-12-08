@@ -105,9 +105,9 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.buttonAdd).click();
         cy.get(DEELMELDING.buttonAdd).click();
 
-        deelmelding.setDeelmelding('1', '1', 'Snel varen (ASC, WAT)', 'Er vaart iemand te hard onder de Berlagebrug door.');
-        deelmelding.setDeelmelding('2', '2', 'Brug (STW, WAT)', 'De Berlagebrug is stuk.');
-        deelmelding.setDeelmelding('3', '3', 'Olie op het water (ASC, WAT, AEG)', 'In de buurt van de Berlagebrug ligt een plas olie op het water.');
+        deelmelding.setDeelmelding('1', '1', 'Snel varen', 'Er vaart iemand te hard onder de Berlagebrug door.');
+        deelmelding.setDeelmelding('2', '2', 'Brug', 'De Berlagebrug is stuk.');
+        deelmelding.setDeelmelding('3', '3', 'Olie op het water', 'In de buurt van de Berlagebrug ligt een plas olie op het water.');
 
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
@@ -128,9 +128,9 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.historyAction).eq(3).contains('Deelmelding toegevoegd').should('be.visible');
         cy.get(SIGNAL_DETAILS.historyAction).eq(4).contains('Deelmelding toegevoegd').should('be.visible');
 
-        deelmelding.checkDeelmelding('1', 'Snel varen (ASC, WAT)Gemeld');
-        deelmelding.checkDeelmelding('2', 'Brug (STW, WAT)Gemeld');
-        deelmelding.checkDeelmelding('3', 'Olie op het water (ASC, AEG, WAT)Gemeld');
+        deelmelding.checkDeelmelding('1', 'Snel varen', 'Gemeld', '3 werkdagen');
+        deelmelding.checkDeelmelding('2', 'Brug', 'Gemeld', '21 dagen');
+        deelmelding.checkDeelmelding('3', 'Olie op het water', 'Gemeld', '3 dagen');
 
         // Check signal data deelmelding 01
         cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(0).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).click();
@@ -260,8 +260,8 @@ describe('Deelmeldingen', () => {
         });
         cy.get(DEELMELDING.buttonAdd).click();
 
-        deelmelding.setDeelmelding('1', '1', 'Stankoverlast (ASC, VTH)', 'Op dit adres stinkt het, vermoedelijk kruiden');
-        deelmelding.setDeelmelding('2', '2', 'Overig afval (AEG, STW)', 'Veel afval op straat voor de deur van Jacob Hooy');
+        deelmelding.setDeelmelding('1', '1', 'Stankoverlast', 'Op dit adres stinkt het, vermoedelijk kruiden');
+        deelmelding.setDeelmelding('2', '2', 'Overig afval', 'Veel afval op straat voor de deur van Jacob Hooy');
 
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
@@ -293,6 +293,8 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@getHistory');
         cy.wait('@getSignal');
+        // Wait for signals details to be visible, then check status
+        cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'In behandeling').and('be.visible');
 
         // Add another deelmelding
@@ -300,7 +302,7 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
-        deelmelding.setDeelmelding('1', '4', 'Drank- / drugsoverlast (ASC, THO)', 'Er wordt zowel binnen als buiten het pand veel drugs gebruikt');
+        deelmelding.setDeelmelding('1', '4', 'Drank- / drugsoverlast', 'Er wordt zowel binnen als buiten het pand veel drugs gebruikt');
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
@@ -320,6 +322,8 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@getHistory');
         cy.wait('@getSignal');
+        // Wait for signals details to be visible, then check status
+        cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'Ingepland').and('be.visible');
 
         // Add another deelmelding
@@ -327,7 +331,7 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
-        deelmelding.setDeelmelding('1', '5', 'Ratten (GGD)', 'Het hele pand zit vol met ratten');
+        deelmelding.setDeelmelding('1', '5', 'Ratten', 'Het hele pand zit vol met ratten');
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
@@ -351,9 +355,8 @@ describe('Deelmeldingen', () => {
         cy.wait('@getSignals');
         cy.wait('@getHistory');
         cy.wait('@getDeelmeldingen');
-        // wait because status update is not visible yet
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000);
+        // Wait for signals details to be visible, then check status
+        cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'Afgehandeld').and('be.visible');
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).should('not.exist');
         deelmelding.checkDeelmeldingStatuses('Geannuleerd');

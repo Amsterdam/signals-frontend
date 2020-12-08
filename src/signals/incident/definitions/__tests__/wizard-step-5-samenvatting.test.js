@@ -71,6 +71,7 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
 
   describe('Hard coded questions', () => {
     it('should return questions based on category', () => {
+      configuration.featureFlags.showVulaanControls = true;
       const actual = previewFactory({
         category: 'afval',
         subcategory: 'subcategory',
@@ -94,6 +95,7 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
     });
 
     it('should return no questions with non existing category', () => {
+      configuration.featureFlags.showVulaanControls = true;
       const actual = previewFactory({
         category: 'category',
         subcategory: 'subcategory',
@@ -106,13 +108,13 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
     });
 
     it('should return empty controls when showVulaanControls is false', () => {
-      configuration.featureFlags.showVulaanControls = false;
       expect(previewFactory({ category: 'afval' }).vulaan).toEqual({});
     });
   });
 
   describe('Fetch questions from backend', () => {
     beforeEach(() => {
+      configuration.featureFlags.showVulaanControls = true;
       configuration.featureFlags.fetchQuestionsFromBackend = true;
     });
 
