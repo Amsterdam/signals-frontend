@@ -56,7 +56,14 @@ describe('signals/incident/components/form/ContainerSelect', () => {
           {...{
             ...props,
             handler: () => ({
-              value: 'test',
+              value: [
+                {
+                  id: 'PL734',
+                  type: 'plastic',
+                  description: 'Plastic container',
+                  iconUrl: '',
+                },
+              ],
             }),
           }}
         />
