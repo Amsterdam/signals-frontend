@@ -1,32 +1,26 @@
-import React, { useCallback, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import Button from 'components/Button';
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import { Link } from '@amsterdam/asc-ui';
 import ContainerSelectContext from '../context';
+import ContainerList from '../ContainerList';
 
 const Wrapper = styled.div`
   position: relative;
-  border: 1px dotted ${themeColor('tint', 'level3')};
-  height: ${themeSpacing(40)};
 `;
 
-const ButtonBar = styled.div`
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const StyledLink = styled(Link)`
+  text-decoration: underline;
+  font-size: 16px;
+  cursor: pointer;
 `;
-
 
 const Summary = () => {
-  const { edit } = useContext(ContainerSelectContext);
+  const { selection, edit } = useContext(ContainerSelectContext);
 
   return (
     <Wrapper data-testid="containerSelectSummary">
-      <ButtonBar>
-        <Button onClick={edit}>Wijzigen</Button>
-      </ButtonBar>
+      <ContainerList selection={selection}></ContainerList>
+      <StyledLink onClick={edit} variant="inline" tabIndex={0}>Wijzigen</StyledLink>
     </Wrapper>
   );
 };

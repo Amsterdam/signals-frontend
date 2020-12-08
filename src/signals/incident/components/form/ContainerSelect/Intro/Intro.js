@@ -8,7 +8,6 @@ import Map from 'components/Map';
 
 const Wrapper = styled.div`
   position: relative;
-  border: 1px dotted ${themeColor('tint', 'level3')};
   height: ${themeSpacing(40)};
 `;
 
@@ -49,7 +48,7 @@ const Intro = () => {
       )}
 
       <ButtonBar>
-        <Button onClick={edit}>Kies op kaart</Button>
+        <Button data-testid="chooseOnMap" onClick={edit} variant="primary">Kies op kaart</Button>
       </ButtonBar>
     </Wrapper>
   );

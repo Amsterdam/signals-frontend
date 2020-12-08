@@ -1,13 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Paragraph } from '@amsterdam/asc-ui';
 import { ContainerSelectProvider } from './context';
 import Intro from './Intro';
 import Selector from './Selector';
 import Summary from './Summary';
 
-const ContainerSelect = ({ handler, parent }) => {
+const ContainerSelect = ({ handler, meta, parent }) => {
   const { value } = handler();
   const [showMap, setShowMap] = useState(false);
 
@@ -37,20 +35,20 @@ const ContainerSelect = ({ handler, parent }) => {
   );
 
   return (
-    <ContainerSelectProvider value={{ value, location, update, edit, close }}>
+    <ContainerSelectProvider value={{ selection: value, location, meta, update, edit, close }}>
       {!showMap && !value && <Intro />}
 
       {showMap && <Selector />}
 
       {!showMap && value && <Summary />}
 
-      <Paragraph as="h6">Geselecteerd: {value ? value : '<geen>'}</Paragraph>
     </ContainerSelectProvider>
   );
 };
 
 ContainerSelect.propTypes = {
   handler: PropTypes.func,
+  meta: PropTypes.object,
   parent: PropTypes.object,
 };
 
