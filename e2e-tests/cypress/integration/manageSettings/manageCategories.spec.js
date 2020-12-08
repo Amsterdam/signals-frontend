@@ -185,6 +185,7 @@ describe('Manage categories', () => {
       cy.wait('@getCategories');
 
       // Change category
+      cy.get(CATEGORIES.inputName).clear().type('Afwatering brug');
       cy.get(CATEGORIES.inputDays).clear().type('5');
       cy.get(CATEGORIES.dropdownTypeOfDays).select('Werkdagen');
       cy.get(CATEGORIES.inputMessage)
