@@ -102,7 +102,7 @@ describe('components/SiteHeader', () => {
       withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
     );
 
-    expect(container.querySelector('h1 img')).not.toBeInTheDocument();
+    expect(container.querySelector('div img')).not.toBeInTheDocument();
 
     configuration.logo = {
       url: 'logoUrl',
@@ -112,7 +112,7 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
-    expect(container.querySelector('h1 img[src="logoUrl"]')).toBeInTheDocument();
+    expect(container.querySelector('div img[src="logoUrl"]')).toBeInTheDocument();
   });
 
   it('should render the correct homeLink', () => {
@@ -125,7 +125,7 @@ describe('components/SiteHeader', () => {
       withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />)
     );
 
-    expect(container.querySelector(`h1 a[href="${homeLink}"]`)).toBeInTheDocument();
+    expect(container.querySelector(`div a[href="${homeLink}"]`)).toBeInTheDocument();
 
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
@@ -133,13 +133,13 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/' }} />));
 
-    expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
+    expect(container.querySelector('div a[href="/"]')).toBeInTheDocument();
 
     unmount();
 
     rerender(withAppContext(<SiteHeader permissions={[]} location={{ pathname: '/manage/incidents' }} />));
 
-    expect(container.querySelector('h1 a[href="/"]')).toBeInTheDocument();
+    expect(container.querySelector('div a[href="/"]')).toBeInTheDocument();
   });
 
   it('should render a title', () => {
