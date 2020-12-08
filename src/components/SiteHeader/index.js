@@ -26,7 +26,7 @@ import Logo from 'components/Logo';
 import configuration from 'shared/services/configuration/configuration';
 import AmsterdamLogo from 'components/AmsterdamLogo';
 
-export const menuBreakpoint = 1170;
+export const menuBreakpoint = 1200;
 
 const StyledHeader = styled(HeaderComponent)`
   ${styles.HeaderTitleStyle} {
