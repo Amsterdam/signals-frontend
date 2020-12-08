@@ -2,8 +2,10 @@ import queryStringParser from './services/query-string-parser/query-string-parse
 import randomStringGenerator from './services/random-string-generator/random-string-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
 import configuration from '../configuration/configuration';
+import Keycloak from 'keycloak-js';
 
 const storage = global.localStorage ? global.localStorage : global.sessionStorage;
+let keycloak;
 
 // A map of the error keys, that the OAuth2 authorization service can return, to a full description
 const ERROR_MESSAGES = {
@@ -26,8 +28,8 @@ const AUTH_REDIRECT_URI = `${global.location.protocol}//${global.location.host}/
 
 const domainList = ['datapunt', 'grip'];
 
-const ACCESS_TOKEN_REFRESH_TIME = 60000; // If token expiry is less than 60000 ms in the future, it should be refreshed
-const ACCESS_TOKEN_REFRESH_INTERVAL = 20000; // Check expiry of access token every 20000 ms
+// const ACCESS_TOKEN_REFRESH_TIME = 60000; // If token expiry is less than 60000 ms in the future, it should be refreshed
+// const ACCESS_TOKEN_REFRESH_INTERVAL = 20000; // Check expiry of access token every 20000 ms
 
 function getDomain(domain) {
   // TODO
@@ -41,7 +43,6 @@ function getDomain(domain) {
 const STATE_TOKEN_KEY = 'stateToken'; // OAuth2 state token (prevent CSRF)
 const NONCE_KEY = 'nonce'; // OpenID Connect nonce (prevent replay attacks)
 const ACCESS_TOKEN_KEY = 'accessToken'; // OAuth2 access token
-const REFRESH_TOKEN_KEY = 'refreshToken'; // OAuth2 refresh token
 const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
 
 let tokenData = {};
@@ -67,70 +68,12 @@ function handleError(code, description) {
  * Handles errors in case they were returned by the OAuth2 authorization
  * service.
  */
-function catchAuthorizationError() {
+function handleAuthorizationError() {
   const params = queryStringParser(global.location.search);
   if (params && params.error) {
     handleError(params.error, params.error_description);
   }
 }
-
-function saveRefreshToken(refreshToken) {
-  storage.setItem(REFRESH_TOKEN_KEY, refreshToken);
-}
-
-/**
- * Refresh access & refresh token
- */
-async function refreshTokens() {
-  const { authEndpoint, realm, clientId } = configuration.keycloak;
-  const refreshToken = storage.getItem(REFRESH_TOKEN_KEY);
-  const decodedRefreshToken = accessTokenParser(refreshToken);
-
-  if (decodedRefreshToken.expiresAt * 1000 < Date.now()) return;
-
-  const searchParams = new URLSearchParams({
-    refresh_token: refreshToken,
-    grant_type: 'refresh_token',
-    client_id: clientId,
-    redirect_uri: AUTH_REDIRECT_URI,
-  });
-
-  const tokenUrl = `${authEndpoint}/realms/${realm}/protocol/openid-connect/token`;
-
-  const response = await fetch(tokenUrl, {
-    body: searchParams.toString(),
-    method: 'POST',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-  });
-
-  if (response.status >= 200 && response.status < 300) {
-    const { access_token, refresh_token } = await response.json();
-    storage.setItem(ACCESS_TOKEN_KEY, access_token);
-    storage.setItem(REFRESH_TOKEN_KEY, refresh_token);
-  }
-}
-
-const handleRefreshAccessToken = async () => {
-  const decoded = accessTokenParser(storage.getItem(ACCESS_TOKEN_KEY));
-
-  const shouldRefresh = decoded.expiresAt * 1000 - ACCESS_TOKEN_REFRESH_TIME < Date.now();
-
-  if (shouldRefresh) {
-    await refreshTokens();
-  }
-};
-
-const setRefreshAccessTokenInterval = () => {
-  const refreshToken = storage.getItem(REFRESH_TOKEN_KEY);
-  const decodedRefreshToken = accessTokenParser(refreshToken);
-
-  // Only start interval if refresh token is not expired
-  if (decodedRefreshToken.expiresAt * 1000 > Date.now()) {
-    setInterval(() => {
-      handleRefreshAccessToken();
-    }, ACCESS_TOKEN_REFRESH_INTERVAL);
-  }
-};
 
 /**
  * Gets the access token and return path, and clears the local storage.
@@ -166,45 +109,13 @@ function saveToken(state, accessToken) {
 }
 
 /**
- * Fetch tokens with given authorization code.
- */
-async function fetchTokensByCode(code) {
-  const { authEndpoint, realm, clientId } = configuration.keycloak;
-
-  const searchParams = new URLSearchParams({
-    code,
-    grant_type: 'authorization_code',
-    client_id: clientId,
-    redirect_uri: AUTH_REDIRECT_URI,
-  });
-
-  const tokenUrl = `${authEndpoint}/realms/${realm}/protocol/openid-connect/token`;
-
-  const response = await fetch(tokenUrl, {
-    body: searchParams.toString(),
-    method: 'POST',
-    headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-  });
-
-  return response.json();
-}
-
-/**
  * Handle login callback.
  */
-async function handleAuthorizationCallback() {
+function handleAuthorizationCallback() {
   // Parse query string into object
   const params = queryStringParser(global.location.hash);
 
-  if (!params || !params.state) return;
-
-  if (params.code) {
-    // Handle keycloak callback
-    const tokens = await fetchTokensByCode(params.code);
-    saveToken(params.state, tokens.access_token);
-    saveRefreshToken(tokens.refresh_token);
-    return;
-  }
+  if (!params || !params.state || params.code) return;
 
   // Handle other callbacks
   if (AUTH_PARAMS.some(param => params[param] === undefined)) return;
@@ -217,7 +128,7 @@ async function handleAuthorizationCallback() {
  * @returns {string} The access token.
  */
 export function getAccessToken() {
-  return storage.getItem(ACCESS_TOKEN_KEY);
+  return storage.getItem(ACCESS_TOKEN_KEY) || keycloak?.idToken;
 }
 
 export function getOauthDomain() {
@@ -252,23 +163,6 @@ function loginToken(domain, nonce, stateToken) {
 }
 
 /**
- * Login code flow.
- */
-function loginCode(nonce, stateToken) {
-  const searchParams = new URLSearchParams({
-    client_id: configuration.keycloak.clientId,
-    response_type: configuration.keycloak.responseType,
-    state: stateToken,
-    nonce,
-    response_mode: 'fragment',
-    redirect_uri: AUTH_REDIRECT_URI,
-  });
-
-  const { authEndpoint, realm } = configuration.keycloak;
-  return `${authEndpoint}/realms/${realm}/protocol/openid-connect/auth?${searchParams.toString()}`;
-}
-
-/**
  * Redirects to the OAuth2 authorization service.
  */
 export function login(domain) {
@@ -276,29 +170,32 @@ export function login(domain) {
     throw new TypeError('Storage not available; cannot proceed with logging in');
   }
 
-  // Get the URI the OAuth2 authorization service needs to use as callback
-  // const callback = encodeURIComponent(`${location.protocol}//${location.host}${location.pathname}`);
-  // Get a random string to prevent CSRF
-  const stateToken = randomStringGenerator();
-  const nonce = randomStringGenerator();
-
-  if (!stateToken || !nonce) throw new Error('crypto library is not available on the current browser');
-
   storage.removeItem(ACCESS_TOKEN_KEY);
-  storage.removeItem(REFRESH_TOKEN_KEY);
-
-  storage.setItem(STATE_TOKEN_KEY, stateToken);
-  storage.setItem(NONCE_KEY, nonce);
   storage.setItem(OAUTH_DOMAIN_KEY, domain);
 
   // temporary until Grip is phased out, code should be rewritten and determine flow by oidc.responseType
-  global.location.assign(domain === 'keycloak' ? loginCode(nonce, stateToken) : loginToken(domain, nonce, stateToken));
+  if (domain === 'keycloak') {
+    keycloak.login();
+  } else {
+    // Get the URI the OAuth2 authorization service needs to use as callback
+    // const callback = encodeURIComponent(`${location.protocol}//${location.host}${location.pathname}`);
+    // Get a random string to prevent CSRF
+    const stateToken = randomStringGenerator();
+    const nonce = randomStringGenerator();
+
+    if (!stateToken || !nonce) throw new Error('crypto library is not available on the current browser');
+    storage.setItem(STATE_TOKEN_KEY, stateToken);
+    storage.setItem(NONCE_KEY, nonce);
+
+    global.location.assign(loginToken(domain, nonce, stateToken));
+  }
 }
 
 export function logout() {
   storage.removeItem(ACCESS_TOKEN_KEY);
-  storage.removeItem(REFRESH_TOKEN_KEY);
   storage.removeItem(OAUTH_DOMAIN_KEY);
+
+  keycloak?.logout();
 }
 
 /**
@@ -311,21 +208,39 @@ export function logout() {
  */
 export async function initAuth() {
   restoreAccessToken(); // Restore access token from local storage
-  catchAuthorizationError(); // Catch any error from the OAuth2 authorization service
-  await handleAuthorizationCallback(); // Handle a callback from the OAuth2 authorization service
+  handleAuthorizationError(); // Catch any error from the OAuth2 authorization service
+  handleAuthorizationCallback(); // Handle a callback from the OAuth2 authorization service
 
-  if (getOauthDomain() === 'keycloak') {
-    await handleRefreshAccessToken(); // Refresh access token if expired
-    setRefreshAccessTokenInterval(); // Start periodic check for validity of access token, and refresh if expired
+  if (configuration.keycloak) {
+    const { authEndpoint, realm, clientId } = configuration.keycloak;
+    keycloak = new Keycloak({
+      url: authEndpoint,
+      realm,
+      clientId,
+    });
+
+    keycloak.onAuthSuccess = function() {
+      // TODO set up refresh
+      // autoRefreshToken(true);
+    };
+
+    await keycloak.init({
+      promiseType: 'native', // To enable async/await
+      'check-sso': false, // To enable refresh token
+      checkLoginIframe: false, // To enable refresh token
+      onLoad: 'check-sso',
+      pkceMethod: 'S256',
+    });
+    // setRefreshAccessTokenInterval(); // Start periodic check for validity of access token, and refresh if expired
   }
 }
 
 export const isAuthenticated = () => {
-  const decoded = accessTokenParser(getAccessToken());
+  const expiresAt = accessTokenParser(getAccessToken())?.expiresAt || keycloak?.idTokenParsed?.exp;
 
-  if (!decoded?.expiresAt) return false;
+  if (!expiresAt) return false;
 
-  const hasExpired = decoded.expiresAt * 1000 < Date.now();
+  const hasExpired = expiresAt * 1000 < Date.now();
 
   return !hasExpired;
 };
