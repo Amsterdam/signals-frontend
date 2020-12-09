@@ -1,4 +1,5 @@
 import KeycloakJS from 'keycloak-js';
+import { call } from 'redux-saga/effects';
 
 import configuration from '../../configuration/configuration';
 import accessTokenParser from './access-token-parser/access-token-parser';
@@ -18,19 +19,12 @@ class Keycloak {
   }
 
   init() {
-    if (!this.isInitialized) {
-      this.isInitialized = true;
-
-      return this.keycloak.init({
-        promiseType: 'native', // To enable async/await
-        'check-sso': false, // To enable refresh token
-        onLoad: 'check-sso',
-        checkLoginIframe: false, // To enable refresh token
-        pkceMethod: 'S256',
-      });
-    }
-
-    return;
+    return this.keycloak.init({
+      promiseType: 'native', // To enable async/await
+      onLoad: 'login-required',
+      checkLoginIframe: false, // To enable refresh token
+      pkceMethod: 'S256',
+    });
   }
 
   async authenticate() {
