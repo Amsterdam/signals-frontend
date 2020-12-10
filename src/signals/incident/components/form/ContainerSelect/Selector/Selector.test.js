@@ -5,7 +5,20 @@ import Selector from './Selector';
 import { ContainerSelectProvider } from '../context';
 import { withAppContext } from 'test/utils';
 
-const contextValue = { value: null, update: jest.fn(), edit: jest.fn(), close: jest.fn() };
+const contextValue = {
+  selection: [
+    {
+      id: 'PL734',
+      type: 'plastic',
+      description: 'Plastic container',
+      iconUrl: '',
+    },
+  ],
+  meta: null,
+  update: jest.fn(),
+  edit: jest.fn(),
+  close: jest.fn(),
+};
 
 export const withContext = (Component, context = contextValue) =>
   withAppContext(<ContainerSelectProvider value={context}>{Component}</ContainerSelectProvider>);
@@ -30,7 +43,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
 
     const element = screen.queryByText(/container toevoegen/i);
     fireEvent.click(element);
-    expect(contextValue.update).toHaveBeenCalledWith(expect.any(String));
+    expect(contextValue.update).toHaveBeenCalledWith(expect.any(Array));
   });
 
   it('should call update when removing container', () => {
