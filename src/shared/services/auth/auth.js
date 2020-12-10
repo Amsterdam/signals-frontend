@@ -1,15 +1,28 @@
 import authz from './services/authz';
 import keycloak from './services/keycloak';
+import configuration from '../configuration/configuration';
 
 const storage = global.localStorage ? global.localStorage : global.sessionStorage;
 const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
 
+/**
+ * Returns OAuth domain .
+ * 
+ * @returns {string} domain
+ */
 export function getOauthDomain() {
   return storage.getItem(OAUTH_DOMAIN_KEY);
 }
 
+/**
+ * Returns auth implementation.
+ */
 function getAuth() {
-  return getOauthDomain() === 'keycloak' ? keycloak : authz;
+  if (configuration.keycloak && getOauthDomain() === 'keycloak') {
+    return keycloak;
+  }
+
+  return authz;
 }
 
 /**
@@ -22,7 +35,7 @@ export function getAccessToken() {
 }
 
 /**
- * Perform user login
+ * Perform user login.
  *
  * @param {string} domain
  */
@@ -30,15 +43,14 @@ export async function login(domain) {
   if (typeof global.Storage === 'undefined') {
     throw new TypeError('Storage not available; cannot proceed with logging in');
   }
-  storage.setItem(OAUTH_DOMAIN_KEY, domain);
 
-  if (domain === 'keycloak') {
-    await keycloak.login();
-  } else {
-    authz.login(domain);
-  }
+  storage.setItem(OAUTH_DOMAIN_KEY, domain);
+  domain === 'keycloak' ? keycloak.login() : authz.login(domain);
 }
 
+/**
+ * Performs user logout.
+ */
 export function logout() {
   const auth = getAuth();
 
@@ -47,7 +59,7 @@ export function logout() {
 }
 
 /**
- * Returns boolean indicating if user is authenticated with non-expired token.
+ * Returns boolean indicating if user is authenticated (with non-expired token).
  */
 export const isAuthenticated = () => getAuth().isAuthenticated();
 
@@ -60,4 +72,7 @@ export function getAuthHeaders() {
   return getAuth().getAuthHeaders();
 }
 
+/**
+ * Perform user authentication on app init.
+ */
 export const authenticate = async () => getAuth().authenticate();

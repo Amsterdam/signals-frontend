@@ -1,24 +1,31 @@
 import KeycloakJS from 'keycloak-js';
-import { call } from 'redux-saga/effects';
 
 import configuration from '../../configuration/configuration';
 import accessTokenParser from './access-token-parser/access-token-parser';
 
-let isInitialized = false;
-
 class Keycloak {
   constructor() {
     const { authEndpoint, realm, clientId } = configuration.keycloak;
+    this.keepAlive = null;
     this.keycloak = new KeycloakJS({
       url: authEndpoint,
       realm,
       clientId,
     });
 
-    // TODO Add listeners for login to set refresh token interval e.g. onAuthSuccess
+    this.keycloak.onAuthSuccess = () => this._startRefreshInterval();
+
+    this.keycloak.onAuthError = () => this._stopRefreshInterval();
+    this.keycloak.onAuthRefreshError = () => this._stopRefreshInterval();
+    this.keycloak.onAuthLogout = () => this._stopRefreshInterval();
+    this.keycloak.onTokenExpired = () => {
+      // This should never happen (auto refresh should keep token valid)
+      this._stopRefreshInterval();
+      this.logout();
+    };
   }
 
-  init() {
+  async init() {
     return this.keycloak.init({
       promiseType: 'native', // To enable async/await
       onLoad: 'login-required',
@@ -66,6 +73,24 @@ class Keycloak {
 
   logout() {
     this.keycloak.logout();
+  }
+
+  _startRefreshInterval() {
+    // Refresh the token automatically once the user has been authenticated
+    const minValidity = 30; // Token should be valid for at least the next 30 seconds
+    const updateInterval = minValidity * 0.75; // Keep token valid by checking regularly
+
+    // Start a token updater, if not yet running
+    if (!this.keepAlive) {
+      this.keepAlive = setInterval(() => {
+        this.keycloak.updateToken(minValidity);
+      }, updateInterval);
+    }
+  }
+
+  _stopRefreshInterval() {
+    clearInterval(this.keepAlive);
+    this.keepAlive = null;
   }
 }
 
