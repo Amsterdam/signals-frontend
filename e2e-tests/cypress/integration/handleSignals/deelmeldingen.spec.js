@@ -4,7 +4,7 @@ import * as requests from '../../support/commandsRequests';
 import * as deelmelding from '../../support/commandsDeelmeldingen';
 import * as createSignal from '../../support/commandsCreateSignal';
 import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
-import { CHANGE_STATUS, DEELMELDING, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
+import { CHANGE_STATUS, CHANGE_URGENCY, DEELMELDING, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 
@@ -41,7 +41,7 @@ describe('Deelmeldingen', () => {
         cy.checkHeaderText('Beschrijf uw melding');
       });
       it('Should create the signal', () => {
-        cy.route2('**/locatieserver/v3/suggest?fq=*').as('getAddress');
+        cy.getAddressRoute();
         cy.route2('**/maps/topografie?bbox=**').as('map');
         cy.route2('POST', '**/signals/v1/private/signals/').as('postSignalPrivate');
 
@@ -170,8 +170,111 @@ describe('Deelmeldingen', () => {
         createSignal.checkFlashingYellow();
         cy.get(SIGNAL_DETAILS.directingDepartment).should('have.text', 'Verantwoordelijke afdeling').and('be.visible');
       });
-      it.skip('Should change status hoofdmelding to geannuleerd', () => {
-        // Test fails, because there is a bug. Status from deelmeldingen should be genannuleerd.
+      it('Should filter on "Hoofdmelding zonder wijziging in deelmelding"', () => {
+        cy.getSortedRoutes();
+
+        // Filter on deelmelding not modified, signal is visible
+        cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+        cy.get(FILTER.checkboxHoofdmeldingGeenWijzigingDeelmelding).check().should('be.checked');
+        cy.get(FILTER.buttonSubmitFilter).click();
+        cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoofdmelding zonder wijziging in deelmelding').and('be.visible');
+        cy.get('th').contains('Id').click();
+        cy.wait('@getSortedASC');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+        cy.get('th').contains('Id').click();
+        cy.wait('@getSortedDESC');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+        cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+          cy.get(MANAGE_SIGNALS.firstSignalId).should('have.text', `${json.signalId}`);
+        });
+
+        // Filter on deelmelding modified, signal is not visible
+        cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+        cy.get(FILTER.checkboxHoofdmeldingGeenWijzigingDeelmelding).uncheck().should('not.be.checked');
+        cy.get(FILTER.checkboxHoofdmeldingWijzigingDeelmelding).check().should('be.checked');
+        cy.get(FILTER.buttonSubmitFilter).click();
+        cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoofdmelding met wijziging in deelmelding').and('be.visible');
+        cy.get('th').contains('Id').click();
+        cy.wait('@getSortedASC');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+        cy.get('th').contains('Id').click();
+        cy.wait('@getSortedDESC');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+        cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+          cy.get(MANAGE_SIGNALS.firstSignalId).should('not.have.text', `${json.signalId}`);
+        });
+      });
+      it('Should change a deelmelding', () => {
+        cy.getSignalDetailsRoutes();
+
+        createSignal.openCreatedSignal();
+        cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(0).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).click();
+
+        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getHistory');
+        cy.wait('@getTerms');
+        cy.wait('@getAttachments');
+
+        cy.get(CHANGE_URGENCY.buttonEdit).scrollIntoView().click();
+        cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
+        cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
+        cy.get(CHANGE_URGENCY.buttonSubmit).click();
+
+        cy.get(SIGNAL_DETAILS.linkParent).click();
+        cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(254, 200, 19)');
+      });
+      it.skip('Should filter on "Hoofdmelding met wijziging in deelmelding"', () => {
+        // Skipped, because there is a bug SIG-3415
+        cy.getSortedRoutes();
+
+        // Filter on deelmelding modified, signal is visible
+        cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+        cy.get(FILTER.checkboxHoofdmeldingWijzigingDeelmelding).check().should('be.checked');
+        cy.get(FILTER.buttonSubmitFilter).click();
+        cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoofdmelding met wijziging in deelmelding').and('be.visible');
+        cy.get('th').contains('Id').click();
+        cy.wait('@getSortedASC');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+        cy.get('th').contains('Id').click();
+        cy.wait('@getSortedDESC');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+        cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+          cy.get(MANAGE_SIGNALS.firstSignalId).should('have.text', `${json.signalId}`);
+        });
+
+        // Filter on deelmelding not modified, signal is not visible
+        cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+        cy.get(FILTER.checkboxHoofdmeldingWijzigingDeelmelding).uncheck().should('not.be.checked');
+        cy.get(FILTER.checkboxHoofdmeldingGeenWijzigingDeelmelding).check().should('be.checked');
+        cy.get(FILTER.buttonSubmitFilter).click();
+        cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoofdmelding zonder wijziging in deelmelding').and('be.visible');
+        cy.get('th').contains('Id').click();
+        cy.wait('@getSortedASC');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+        cy.get('th').contains('Id').click();
+        cy.wait('@getSortedDESC');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+        cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+          cy.get(MANAGE_SIGNALS.firstSignalId).should('not.have.text', `${json.signalId}`);
+        });
+      });
+      it('Should click "no action" after deelmelding change', () => {
+        cy.route('PATCH', '/signals/v1/private/signals/**').as('patchSignal');
+        cy.route('/signals/v1/private/signals/**/children/').as('getDeelmeldingen');
+        cy.getSignalDetailsRoutes();
+        createSignal.openCreatedSignal();
+        cy.get(DEELMELDING.buttonNoAction).should('be.visible').click();
+
+        cy.wait('@patchSignal');
+        cy.wait('@getSignal');
+        cy.wait('@getHistory');
+        cy.wait('@getDeelmeldingen');
+        cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 13);
+
+        cy.get(SIGNAL_DETAILS.historyAction).eq(0).should('have.text', 'Notitie toegevoegd:Geen actie nodig').and('be.visible');
+        cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(0, 0, 0)');
+      });
+      it('Should change status hoofdmelding to geannuleerd', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.route('PATCH', `/signals/v1/private/signals/${json.signalId}`).as('patchSignal');
           cy.route(`/signals/v1/private/signals/${json.signalId}/children/`).as('getDeelmeldingen');
@@ -195,7 +298,7 @@ describe('Deelmeldingen', () => {
           .and($labels => {
             expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
           });
-        cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).should('not.be.visible');
+        cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).should('not.exist');
         // wait because status update is not visible yet
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(1000);
@@ -359,6 +462,9 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'Afgehandeld').and('be.visible');
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).should('not.exist');
+        // wait because status update is not visible yet
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000);
         deelmelding.checkDeelmeldingStatuses('Geannuleerd');
       });
     });
