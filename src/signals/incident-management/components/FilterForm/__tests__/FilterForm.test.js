@@ -14,6 +14,7 @@ import { directingDepartments } from 'utils/__tests__/fixtures';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
+import users from 'utils/__tests__/fixtures/users.json';
 import * as departmentsSelectors from 'models/departments/selectors';
 import FilterForm from '..';
 import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
@@ -30,6 +31,8 @@ jest.mock('models/categories/selectors', () => ({
   makeSelectStructuredCategories: () => require('utils/__tests__/fixtures/categories_structured.json'),
 }));
 
+const usersFixture = users.results.slice(0, 5);
+
 const formProps = {
   onClearFilter: () => {},
   onSaveFilter: () => {},
@@ -37,10 +40,10 @@ const formProps = {
   onSubmit: () => {},
 };
 
-const withContext = (Component, actualDistricts = null) =>
+const withContext = (Component, actualDistricts = null, actualUsers = null) =>
   withAppContext(
     <AppContext.Provider value={{ sources }}>
-      <IncidentManagementContext.Provider value={{ districts: actualDistricts }}>
+      <IncidentManagementContext.Provider value={{ districts: actualDistricts, users: actualUsers }}>
         {Component}
       </IncidentManagementContext.Provider>
     </AppContext.Provider>
@@ -230,6 +233,33 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(document.getElementById('filter_created_before')).toBeInTheDocument();
     expect(document.getElementById('filter_created_after')).toBeInTheDocument();
+  });
+
+  describe('assigned_user_email', () => {
+    const selectUserRadioButtons = 'input[type="radio"][name="assigned_user_email"]';
+
+    it('should not render a list of options with assignSignalToEmployee disabled', () => {
+      const { container } = render(withContext(<FilterForm {...formProps} />, null, usersFixture));
+
+      expect(container.querySelectorAll(selectUserRadioButtons)).toHaveLength(0);
+    });
+
+    it('should not render a list of options without users', () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const { container } = render(withContext(<FilterForm {...formProps} />));
+
+      expect(container.querySelectorAll(selectUserRadioButtons)).toHaveLength(0);
+    });
+
+    it('should render a list of assigned_user_email options with assignSignalToEmployee enabled', () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const { container } = render(withContext(<FilterForm {...formProps} />, null, usersFixture));
+
+      // by default, a radio button with an empty value is rendered, and a radio
+      // button with a null value (for filtering on signals that have not been
+      // assigned
+      expect(container.querySelectorAll(selectUserRadioButtons)).toHaveLength(usersFixture.length + 2);
+    });
   });
 
   it('should update the state on created before date select', () => {

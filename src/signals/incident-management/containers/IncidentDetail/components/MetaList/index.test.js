@@ -277,7 +277,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userAscAegId,
+            assigned_user_email: userAscAegName,
             category: {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
@@ -300,7 +300,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userAscAegId,
+            assigned_user_email: userAscAegName,
             category: {
               ...incidentFixture.category,
               departments: departmentThoCode,
@@ -323,7 +323,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userEmptyId,
+            assigned_user_email: userEmptyName,
             category: {
               ...incidentFixture.category,
               departments: departmentThoCode,
@@ -346,7 +346,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userUndefinedId,
+            assigned_user_email: userUndefinedName,
             category: {
               ...incidentFixture.category,
               departments: departmentThoCode,
@@ -369,7 +369,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userAscAegId,
+            assigned_user_email: userAscAegName,
             category: {
               ...incidentFixture.category,
             },

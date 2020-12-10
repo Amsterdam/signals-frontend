@@ -6,15 +6,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
 import { Label as AscLabel } from '@amsterdam/asc-ui';
 
-import configuration from 'shared/services/configuration/configuration';
+import Checkbox from 'components/Checkbox';
+import Input from 'components/Input';
+import Label from 'components/Label';
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
+import configuration from 'shared/services/configuration/configuration';
+import { dateToISOString } from 'shared/services/date-utils';
+import { filterType } from 'shared/types';
 import dataLists from 'signals/incident-management/definitions';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
-import { filterType } from 'shared/types';
-import Label from 'components/Label';
-import Input from 'components/Input';
-import Checkbox from 'components/Checkbox';
-import { dateToISOString } from 'shared/services/date-utils';
 
 import { makeSelectDirectingDepartments } from 'models/departments/selectors';
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
@@ -46,7 +46,7 @@ import reducer, { init } from './reducer';
  */
 const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
   const { sources } = useContext(AppContext);
-  const { districts } = useContext(IncidentManagementContext);
+  const { districts, users } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
@@ -62,6 +62,22 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       directing_department: directingDepartments,
     }),
     [districts, sources, directingDepartments]
+  );
+
+  const userOptions = useMemo(
+    () =>
+      configuration.featureFlags.assignSignalToEmployee &&
+      users && [
+        {
+          key: 'null',
+          value: 'Niet toegewezen',
+        },
+        ...users.map(user => ({
+          key: user.username,
+          value: user.username,
+        })),
+      ],
+    [users]
   );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
@@ -441,6 +457,16 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             onToggle={onGroupToggle}
             options={sources}
           />
+
+          {configuration.featureFlags.assignSignalToEmployee && userOptions && (
+            <RadioGroup
+              defaultValue={state.options.assigned_user_email}
+              label="Toegewezen aan"
+              name="assigned_user_email"
+              onChange={onRadioChange}
+              options={userOptions}
+            />
+          )}
         </Fieldset>
       </ControlsWrapper>
 

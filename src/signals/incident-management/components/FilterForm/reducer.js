@@ -33,6 +33,7 @@ export const initialState = {
     status: [],
     directing_department: [],
     has_changed_children: [],
+    assigned_user_email: '',
   },
 };
 
