@@ -25,6 +25,7 @@ class Keycloak {
     };
   }
 
+  // eslint-disable-next-line require-await
   async init() {
     return this.keycloak.init({
       promiseType: 'native', // To enable async/await
@@ -84,7 +85,7 @@ class Keycloak {
     if (!this.keepAlive) {
       this.keepAlive = setInterval(() => {
         this.keycloak.updateToken(minValidity);
-      }, updateInterval);
+      }, updateInterval * 1000);
     }
   }
 

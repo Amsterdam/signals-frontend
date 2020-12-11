@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import accessTokenParser from './access-token-parser/access-token-parser';
 import randomStringGenerator from './random-string-generator/random-string-generator';
 import queryStringParser from './query-string-parser/query-string-parser';
@@ -32,10 +33,6 @@ const NONCE_KEY = 'nonce'; // OpenID Connect nonce (prevent replay attacks)
 const ACCESS_TOKEN_KEY = 'accessToken'; // OAuth2 access token
 
 class Authz {
-  constuctor() {
-    this.domains = ['datapunt', 'grip'];
-  }
-
   init() {
     this._restoreAccessToken(); // Restore access token from local storage
     this._handleAuthorizationError(); // Catch any error from the OAuth2 authorization service
@@ -166,18 +163,10 @@ class Authz {
     }
   }
 
-  _getDomain(domain) {
-    // TODO
-    // Add business logic for the GRIP or datapunt indentity provider (for instance by mapping the domain from the url)
-    // ex: parse https://waternet.data.amsterdam.nl, if(waternet) return grip
-    // default value is datapunt
-    return domain || this.domains[0];
-  }
-
   /**
    * Login token flow.
    */
-  _loginToken(domain, nonce, stateToken) {
+  _loginToken(domain = 'datapunt', nonce, stateToken) {
     const searchParams = new URLSearchParams({
       client_id: configuration.oidc.clientId,
       response_type: configuration.oidc.responseType,
@@ -185,7 +174,7 @@ class Authz {
       state: stateToken,
       nonce,
       redirect_uri: AUTH_REDIRECT_URI,
-      idp_id: this._getDomain(domain),
+      idp_id: domain,
     });
 
     return `${configuration.oidc.authEndpoint}?${searchParams.toString()}`;

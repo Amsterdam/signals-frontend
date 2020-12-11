@@ -6,8 +6,8 @@ const storage = global.localStorage ? global.localStorage : global.sessionStorag
 const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
 
 /**
- * Returns OAuth domain .
- * 
+ * Returns OAuth domain.
+ *
  * @returns {string} domain
  */
 export function getOauthDomain() {
@@ -17,7 +17,7 @@ export function getOauthDomain() {
 /**
  * Returns auth implementation.
  */
-function getAuth() {
+export function getAuth() {
   if (configuration.keycloak && getOauthDomain() === 'keycloak') {
     return keycloak;
   }
@@ -45,7 +45,11 @@ export async function login(domain) {
   }
 
   storage.setItem(OAUTH_DOMAIN_KEY, domain);
-  domain === 'keycloak' ? keycloak.login() : authz.login(domain);
+  if (domain === 'keycloak') {
+    await keycloak.login();
+  } else {
+    authz.login(domain);
+  }
 }
 
 /**
@@ -75,4 +79,5 @@ export function getAuthHeaders() {
 /**
  * Perform user authentication on app init.
  */
+// eslint-disable-next-line require-await
 export const authenticate = async () => getAuth().authenticate();
