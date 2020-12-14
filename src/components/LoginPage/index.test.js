@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
@@ -14,11 +14,11 @@ describe('components/LoginPage', () => {
   });
 
   it('should render correctly', () => {
-    const { getByText } = render(withAppContext(<LoginPage />));
+    render(withAppContext(<LoginPage />));
 
-    expect(getByText('Om deze pagina te zien dient u ingelogd te zijn.')).toBeInTheDocument();
-    expect(getByText('Inloggen')).toBeInTheDocument();
-    expect(getByText('Inloggen ADW')).toBeInTheDocument();
+    expect(screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')).toBeInTheDocument();
+    expect(screen.getByText('Inloggen')).toBeInTheDocument();
+    expect(screen.getByText('Inloggen ADW')).toBeInTheDocument();
   });
 
   it('should login on datapunt when Inloggen button is clicked', () => {
@@ -35,8 +35,8 @@ describe('components/LoginPage', () => {
 
   it('should login on datapunt when Inloggen ADW button is clicked', () => {
     const loginSpy = jest.spyOn(auth, 'login');
-    const { getByText } = render(withAppContext(<LoginPage />));
-    const button = getByText('Inloggen ADW').parentNode;
+    render(withAppContext(<LoginPage />));
+    const button = screen.getByText('Inloggen ADW').parentNode;
 
     expect(button.getAttribute('type')).toEqual('button');
 
@@ -47,8 +47,8 @@ describe('components/LoginPage', () => {
 
   it('should login on keycloak when Inloggen Keycloak button is clicked', () => {
     const loginSpy = jest.spyOn(auth, 'login');
-    const { getByText } = render(withAppContext(<LoginPage />));
-    const button = getByText('Inloggen Keycloak').parentNode;
+    render(withAppContext(<LoginPage />));
+    const button = screen.getByText('Inloggen Keycloak').parentNode;
 
     expect(button.getAttribute('type')).toEqual('button');
 

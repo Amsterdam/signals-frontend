@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import accessTokenParser from './access-token-parser/access-token-parser';
+import parseAccessToken from './parse-access-token/parse-access-token';
 import randomStringGenerator from './random-string-generator/random-string-generator';
 import queryStringParser from './query-string-parser/query-string-parser';
 
@@ -40,7 +40,7 @@ class Authz {
   }
 
   isAuthenticated() {
-    const expiresAt = accessTokenParser(this.getAccessToken())?.expiresAt;
+    const expiresAt = parseAccessToken(this.getAccessToken())?.expiresAt;
 
     if (!expiresAt) return false;
 
@@ -54,7 +54,7 @@ class Authz {
 
     if (this.isAuthenticated()) {
       const accessToken = this.getAccessToken();
-      const { name, scopes } = accessTokenParser(accessToken);
+      const { name, scopes } = parseAccessToken(accessToken);
 
       return {
         userName: name,
@@ -110,7 +110,7 @@ class Authz {
       );
     }
 
-    tokenData = accessTokenParser(accessToken);
+    tokenData = parseAccessToken(accessToken);
     const localNonce = storage.getItem(NONCE_KEY);
     if (tokenData.nonce && tokenData.nonce !== localNonce) {
       throw new Error(
@@ -131,7 +131,7 @@ class Authz {
   _restoreAccessToken() {
     const accessToken = this.getAccessToken();
     if (accessToken) {
-      tokenData = accessTokenParser(accessToken);
+      tokenData = parseAccessToken(accessToken);
     }
   }
 

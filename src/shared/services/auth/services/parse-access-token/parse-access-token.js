@@ -13,7 +13,7 @@ function decodeToken(token) {
   }
 }
 
-export default function accessTokenParser(token) {
+export default function parseAccessToken(token) {
   const content = decodeToken(token);
   return {
     issuer: content.iss, // the URL of the authorization endpoint

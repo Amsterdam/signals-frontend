@@ -1,5 +1,5 @@
 import keycloak from './keycloak';
-import accessTokenParser from './access-token-parser/access-token-parser';
+import parseAccessToken from './parse-access-token/parse-access-token';
 
 jest.mock('./access-token-parser/access-token-parser');
 
@@ -151,7 +151,7 @@ describe('Keycloak authorization', () => {
         keycloak.keycloak.authenticated = true;
         keycloak.keycloak.token = '123AccessToken';
 
-        accessTokenParser.mockImplementation(() => ({
+        parseAccessToken.mockImplementation(() => ({
           name: 'Jan Klaasen',
           scopes: 'openid profile email',
         }));

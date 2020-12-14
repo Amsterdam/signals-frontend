@@ -1,7 +1,7 @@
 import KeycloakJS from 'keycloak-js';
 
 import configuration from '../../configuration/configuration';
-import accessTokenParser from './access-token-parser/access-token-parser';
+import parseAccessToken from './parse-access-token/parse-access-token';
 
 class Keycloak {
   constructor() {
@@ -40,7 +40,7 @@ class Keycloak {
 
     if (this.isAuthenticated()) {
       const accessToken = this.getAccessToken();
-      const { name, scopes } = accessTokenParser(accessToken);
+      const { name, scopes } = parseAccessToken(accessToken);
 
       return {
         userName: name,

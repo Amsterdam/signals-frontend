@@ -1,7 +1,7 @@
 import authz from './authz';
 import queryStringParser from './query-string-parser/query-string-parser';
 import randomStringGenerator from './random-string-generator/random-string-generator';
-import accessTokenParser from './access-token-parser/access-token-parser';
+import parseAccessToken from './parse-access-token/parse-access-token';
 import configuration from '../../configuration/configuration';
 
 jest.mock('shared/services/configuration/configuration');
@@ -71,7 +71,7 @@ describe('Authz authorization', () => {
     global.location.search = '';
     global.location.hash = '';
 
-    accessTokenParser.mockImplementation(() => ({}));
+    parseAccessToken.mockImplementation(() => ({}));
     queryStringParser.mockImplementation(() => queryObject);
     randomStringGenerator.mockImplementation(() => randomString);
 
@@ -171,7 +171,7 @@ describe('Authz authorization', () => {
       });
 
       it('throws an error when the nonce received does not match the one saved', () => {
-        accessTokenParser.mockImplementation(() => ({
+        parseAccessToken.mockImplementation(() => ({
           nonce: 'invalid-random-nonce',
         }));
 
@@ -364,7 +364,7 @@ describe('Authz authorization', () => {
 
     it('returns true', () => {
       const actual = jest.requireActual('./access-token-parser/access-token-parser').default;
-      accessTokenParser.mockImplementation(actual);
+      parseAccessToken.mockImplementation(actual);
 
       global.localStorage.getItem.mockImplementation(key => {
         switch (key) {
@@ -381,7 +381,7 @@ describe('Authz authorization', () => {
 
   describe('authenticate', () => {
     it('should authenticate with credentials with accessToken', () => {
-      accessTokenParser.mockImplementation(() => ({
+      parseAccessToken.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL'],
         expiresAt: 999999999999,
@@ -396,7 +396,7 @@ describe('Authz authorization', () => {
     });
 
     it('should not authenticate without accessToken', () => {
-      accessTokenParser.mockImplementation(() => ({
+      parseAccessToken.mockImplementation(() => ({
         name: 'Jan Klaasen',
         scopes: ['SIG/ALL'],
       }));
