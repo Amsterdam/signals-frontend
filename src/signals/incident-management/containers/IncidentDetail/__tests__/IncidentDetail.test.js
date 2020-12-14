@@ -11,7 +11,6 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import childIncidentFixture from 'utils/__tests__/fixtures/childIncidents.json';
 import { subCategories } from 'utils/__tests__/fixtures';
 import historyFixture from 'utils/__tests__/fixtures/history.json';
-import { getHandlingTimesBySlugFromSubcategories } from 'shared/services/transform';
 import useEventEmitter from 'hooks/useEventEmitter';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
@@ -137,7 +136,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   });
 
   it('should get handling times from subcategories', () => {
-    const handlingTimes = getHandlingTimesBySlugFromSubcategories(subCategories);
+    const handlingTimes = categoriesSelectors.makeSelectHandlingTimesBySlug.resultFunc(subCategories);
 
     expect(handlingTimes['auto-scooter-bromfietswrak']).toBe('21 dagen');
     expect(handlingTimes.parkeerautomaten).toBe('5 werkdagen');

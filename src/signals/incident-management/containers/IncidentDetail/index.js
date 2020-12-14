@@ -13,8 +13,6 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
-import { getHandlingTimesBySlugFromSubcategories } from 'shared/services/transform';
-
 import ChildIncidents from './components/ChildIncidents';
 import DetailHeader from './components/DetailHeader';
 import MetaList from './components/MetaList';
@@ -78,7 +76,6 @@ const IncidentDetail = () => {
   const { get: getChildren, data: children } = useFetch();
 
   const subcategories = useSelector(makeSelectSubCategories);
-  const handlingTimesBySlug = useMemo(() => getHandlingTimesBySlugFromSubcategories(subcategories), [subcategories]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
@@ -210,9 +207,8 @@ const IncidentDetail = () => {
     dispatch({ type: CLOSE_ALL });
   }, []);
 
-  if (!Object.keys(handlingTimesBySlug).length) return null;
 
-  if (!state.incident) return null;
+  if (!state.incident || !subcategories) return null;
 
   return (
     <IncidentDetailContext.Provider
@@ -222,7 +218,6 @@ const IncidentDetail = () => {
         preview: previewDispatch,
         edit: editDispatch,
         close: closeDispatch,
-        handlingTimesBySlug,
       }}
     >
       <Row data-testid="incidentDetail">

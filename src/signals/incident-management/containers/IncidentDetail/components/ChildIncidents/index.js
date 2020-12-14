@@ -10,6 +10,8 @@ import { INCIDENT_URL } from 'signals/incident-management/routes';
 
 import IncidentDetailContext from '../../context';
 import { PATCH_TYPE_NOTES } from '../../constants';
+import { useSelector } from 'react-redux';
+import { makeSelectHandlingTimesBySlug } from 'models/categories/selectors';
 
 const isChildChanged = (childDatetime, parentDatetime) => new Date(childDatetime) > new Date(parentDatetime);
 
@@ -23,7 +25,8 @@ const Title = styled(Heading)`
 `;
 
 const ChildIncidents = ({ incidents, parent }) => {
-  const { handlingTimesBySlug, update } = useContext(IncidentDetailContext);
+  const { update } = useContext(IncidentDetailContext);
+  const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug);
 
   const children = useMemo(
     () =>

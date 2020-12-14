@@ -14,6 +14,7 @@ import {
   makeSelectAllSubCategories,
   makeSelectByMainCategory,
   makeSelectCategories,
+  makeSelectHandlingTimesBySlug,
   makeSelectMainCategories,
   makeSelectStructuredCategories,
   makeSelectSubCategories,
@@ -177,5 +178,12 @@ describe('models/categories/selectors', () => {
       expect(value).toEqual(extendedName);
       expect(group).toEqual(category_slug);
     });
+  });
+
+  test('handlingTimesBySlug', () => {
+    const handlingTimesBySlug = makeSelectHandlingTimesBySlug.resultFunc(subCategoriesFixture);
+
+    expect(handlingTimesBySlug['afwatering-brug']).toBe('5 werkdagen');
+    expect(handlingTimesBySlug['auto-scooter-bromfietswrak']).toBe('21 dagen');
   });
 });
