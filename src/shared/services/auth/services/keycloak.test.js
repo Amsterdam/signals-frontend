@@ -9,7 +9,7 @@ describe('Keycloak authorization', () => {
   });
   afterEach(() => {
     jest.useRealTimers();
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe('keycloak', () => {
@@ -76,8 +76,8 @@ describe('Keycloak authorization', () => {
 
     describe('login', () => {
       it('calls keycloak-js login function', async () => {
-        const initSpy = jest.spyOn(keycloak.keycloak, 'init');
-        const loginSpy = jest.spyOn(keycloak.keycloak, 'login').mockReturnValue();
+        const initSpy = jest.spyOn(keycloak.keycloak, 'init').mockResolvedValue();
+        const loginSpy = jest.spyOn(keycloak.keycloak, 'login');
 
         await keycloak.login();
 
