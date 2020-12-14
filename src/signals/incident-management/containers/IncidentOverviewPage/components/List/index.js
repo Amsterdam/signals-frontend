@@ -183,7 +183,9 @@ const List = ({
               Adres {renderChevron('address')}
             </Th>
             {configuration.featureFlags.assignSignalToEmployee && (
-              <Th data-testid="sortAssigedUserId">Toegewezen aan</Th>
+              <Th data-testid="sortAssigedUserEmail" onClick={onSort('assigned_user_email,-created_at')}>
+                Toegewezen aan {renderChevron('assigned_user_email')}
+              </Th>
             )}
           </tr>
         </thead>
