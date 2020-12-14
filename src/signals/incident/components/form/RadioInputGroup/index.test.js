@@ -31,13 +31,7 @@ describe('Form component <RadioInput />', () => {
     };
 
     wrapper = shallow(
-      <RadioInput
-        handler={handler}
-        parent={parent}
-        touched={touched}
-        hasError={hasError}
-        getError={getError}
-      />
+      <RadioInput handler={handler} parent={parent} touched={touched} hasError={hasError} getError={getError} />
     );
 
     handler.mockImplementation(() => ({
@@ -54,6 +48,32 @@ describe('Form component <RadioInput />', () => {
         meta: {
           ...metaFields,
           isVisible: true,
+        },
+      });
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render info from current selection correctly', () => {
+      wrapper.setProps({
+        meta: {
+          ...metaFields,
+          isVisible: true,
+          values: {
+            foo: {
+              value: 'foo',
+              info: 'info',
+            },
+          },
+        },
+        parent: {
+          meta: {
+            incident: {
+              [metaFields.name]: {
+                id: 'foo',
+              },
+            },
+          },
         },
       });
 

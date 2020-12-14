@@ -76,6 +76,7 @@ describe('Keycloak authorization', () => {
 
     describe('login', () => {
       it('calls keycloak-js login function', async () => {
+        keycloak.isInitialized = false;
         const initSpy = jest.spyOn(keycloak.keycloak, 'init').mockResolvedValue();
         const loginSpy = jest.spyOn(keycloak.keycloak, 'login');
 
@@ -146,6 +147,7 @@ describe('Keycloak authorization', () => {
 
     describe('authenticate', () => {
       it('returns data when authenticated', async () => {
+        keycloak.isInitialized = false;
         keycloak.keycloak.isTokenExpired = jest.fn().mockReturnValue(false);
         keycloak.keycloak.init = jest.fn();
         keycloak.keycloak.authenticated = true;

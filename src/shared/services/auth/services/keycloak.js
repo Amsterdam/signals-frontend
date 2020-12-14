@@ -12,6 +12,7 @@ class Keycloak {
       realm,
       clientId,
     });
+    this.isInitialized = false;
 
     this.keycloak.onAuthSuccess = () => this.startRefreshInterval();
 
@@ -26,17 +27,24 @@ class Keycloak {
   }
 
   // eslint-disable-next-line require-await
-  async init() {
+  async init(options) {
+    this.isInitialized = true;
+
     return this.keycloak.init({
       promiseType: 'native', // To enable async/await
-      onLoad: 'login-required',
+      'check-sso': false, // To enable refresh token
       checkLoginIframe: false, // To enable refresh token
       pkceMethod: 'S256',
+      ...options,
     });
   }
 
   async authenticate() {
-    await this.init();
+    if (!this.isInitialized) {
+      await this.init({
+        onLoad: 'check-sso',
+      });
+    }
 
     if (this.isAuthenticated()) {
       const accessToken = this.getAccessToken();
@@ -67,7 +75,9 @@ class Keycloak {
   }
 
   async login() {
-    await this.init();
+    if (!this.isInitialized) {
+      await this.init();
+    }
 
     this.keycloak.login();
   }

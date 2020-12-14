@@ -6,6 +6,7 @@ import configuration from '../../configuration/configuration';
 
 jest.mock('shared/services/configuration/configuration');
 jest.mock('./query-string-parser/query-string-parser');
+jest.mock('./parse-access-token/parse-access-token');
 jest.mock('./random-string-generator/random-string-generator');
 jest.mock('./random-string-generator/random-string-generator');
 
