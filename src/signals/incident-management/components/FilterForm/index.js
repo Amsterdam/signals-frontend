@@ -469,7 +469,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 Toegewezen aan
               </Label>
               <Select
-                defaultValue={userOptions.find(option => option.value === state.options?.assigned_user_email)}
+                value={userOptions.find(option => option.value === state.options?.assigned_user_email) || null}
                 inputId="filter_assigned_user_email"
                 isClearable
                 name="assigned_user_email"
