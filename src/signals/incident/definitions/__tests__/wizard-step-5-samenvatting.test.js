@@ -86,7 +86,7 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
           extra_container: {
             label: 'Containers',
             optional: true,
-            render: Label,
+            render: Null,
           },
         },
       });
