@@ -119,6 +119,13 @@ const IncidentDetail = () => {
   }, [attachments]);
 
   useEffect(() => {
+    if (!incident?.category) return;
+
+    const { main_slug, sub_slug } = incident.category;
+    getDefaultTexts(`${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`);
+  }, [incident?.category, getDefaultTexts]);
+
+  useEffect(() => {
     if (!defaultTexts) return;
 
     dispatch({ type: SET_DEFAULT_TEXTS, payload: defaultTexts });
@@ -153,16 +160,7 @@ const IncidentDetail = () => {
   }, [incident, retrieveUnderlyingData]);
 
   const retrieveUnderlyingData = useCallback(() => {
-    const { main_slug, sub_slug } = incident.category;
-
     getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`);
-
-    // retrieve default texts only once per page load
-    if (!state.defaultTexts) {
-      getDefaultTexts(
-        `${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`
-      );
-    }
 
     // retrieve attachments only once per page load
     if (!state.attachments) {
@@ -175,7 +173,7 @@ const IncidentDetail = () => {
     if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
     }
-  }, [getAttachments, getChildren, getDefaultTexts, getHistory, id, incident, state.attachments, state.defaultTexts]);
+  }, [getAttachments, getChildren, getHistory, id, incident, state.attachments]);
 
   const handleKeyUp = useCallback(
     event => {

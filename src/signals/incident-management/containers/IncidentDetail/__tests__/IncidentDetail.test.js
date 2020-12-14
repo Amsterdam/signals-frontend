@@ -409,9 +409,16 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect.objectContaining({ method: 'PATCH' })
     );
 
-    // after successful patch should request history
+    // after successful patch should request the defaults texts
     expect(fetch).toHaveBeenNthCalledWith(
       7,
+      `${configuration.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`,
+      expect.objectContaining({ method: 'GET' })
+    );
+
+    // after successful patch should request history
+    expect(fetch).toHaveBeenNthCalledWith(
+      8,
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`,
       expect.objectContaining({ method: 'GET' })
     );
