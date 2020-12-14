@@ -18,11 +18,7 @@ export function getOauthDomain() {
  * Returns auth implementation.
  */
 export function getAuth() {
-  if (configuration.keycloak && getOauthDomain() === 'keycloak') {
-    return keycloak;
-  }
-
-  return authz;
+  return configuration.keycloak && getOauthDomain() === 'keycloak' ? keycloak : authz;
 }
 
 /**
