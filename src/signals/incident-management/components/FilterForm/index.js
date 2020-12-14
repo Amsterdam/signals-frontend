@@ -4,6 +4,7 @@ import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
+import Select from 'react-select';
 import { Label as AscLabel } from '@amsterdam/asc-ui';
 
 import Checkbox from 'components/Checkbox';
@@ -69,12 +70,12 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       configuration.featureFlags.assignSignalToEmployee &&
       users && [
         {
-          key: 'null',
-          value: 'Niet toegewezen',
+          value: 'null',
+          label: 'Niet toegewezen',
         },
         ...users.map(user => ({
-          key: user.username,
           value: user.username,
+          label: user.username,
         })),
       ],
     [users]
@@ -242,6 +243,10 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     },
     [dispatch, dataListValues]
   );
+
+  const onSelectChange = useCallback((option, { action, name }) => {
+    dispatch(setGroupOptions({ [name]: option?.value }));
+  }, []);
 
   return (
     <Form action="" novalidate>
@@ -459,13 +464,20 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           />
 
           {configuration.featureFlags.assignSignalToEmployee && userOptions && (
-            <RadioGroup
-              defaultValue={state.options.assigned_user_email}
-              label="Toegewezen aan"
-              name="assigned_user_email"
-              onChange={onRadioChange}
-              options={userOptions}
-            />
+            <FilterGroup data-testid="filterAssignedUserEmail">
+              <Label htmlFor="filter_assigned_user_email" isGroupHeader>
+                Toegewezen aan
+              </Label>
+              <Select
+                defaultValue={userOptions.find(option => option.value === state.options?.assigned_user_email)}
+                inputId="filter_assigned_user_email"
+                isClearable
+                name="assigned_user_email"
+                onChange={onSelectChange}
+                options={userOptions}
+                placeholder="Alles"
+              />
+            </FilterGroup>
           )}
         </Fieldset>
       </ControlsWrapper>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { fireEvent, getByText, render, screen, act } from '@testing-library/react';
+import { store, withAppContext } from 'test/utils';
 
 import priorityList from 'signals/incident-management/definitions/priorityList';
 import statusList from 'signals/incident-management/definitions/statusList';
@@ -16,9 +16,9 @@ import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 import users from 'utils/__tests__/fixtures/users.json';
 import * as departmentsSelectors from 'models/departments/selectors';
-import FilterForm from '..';
-import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
 
+import FilterForm from '..';
+import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL, SET_GROUP_OPTIONS } from '../constants';
 import IncidentManagementContext from '../../../context';
 import AppContext from '../../../../../containers/App/context';
 
@@ -30,6 +30,8 @@ jest.mock('models/categories/selectors', () => ({
   // eslint-disable-next-line
   makeSelectStructuredCategories: () => require('utils/__tests__/fixtures/categories_structured.json'),
 }));
+
+jest.spyOn(store, 'dispatch');
 
 const usersFixture = users.results.slice(0, 5);
 
@@ -213,9 +215,9 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a list of directing_department options', () => {
     jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
-    const { container, getByText } = render(withContext(<FilterForm {...formProps} />));
+    const { container } = render(withContext(<FilterForm {...formProps} />));
 
-    expect(getByText('Regie hoofdmelding')).toBeInTheDocument();
+    expect(screen.getByText('Regie hoofdmelding')).toBeInTheDocument();
     expect(container.querySelectorAll('input[type="checkbox"][name="directing_department"]')).toHaveLength(
       directingDepartments.length
     );
@@ -236,29 +238,56 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   describe('assigned_user_email', () => {
-    const selectUserRadioButtons = 'input[type="radio"][name="assigned_user_email"]';
+    const testId = 'filterAssignedUserEmail';
+    const label = 'Toegewezen aan';
+    const placeholder = 'Alles';
+    const notAssignedLabel = 'Niet toegewezen';
 
     it('should not render a list of options with assignSignalToEmployee disabled', () => {
-      const { container } = render(withContext(<FilterForm {...formProps} />, null, usersFixture));
-
-      expect(container.querySelectorAll(selectUserRadioButtons)).toHaveLength(0);
+      render(withContext(<FilterForm {...formProps} />, null, usersFixture));
+      expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
     });
 
     it('should not render a list of options without users', () => {
       configuration.featureFlags.assignSignalToEmployee = true;
-      const { container } = render(withContext(<FilterForm {...formProps} />));
-
-      expect(container.querySelectorAll(selectUserRadioButtons)).toHaveLength(0);
+      render(withContext(<FilterForm {...formProps} />));
+      expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
     });
 
-    it('should render a list of assigned_user_email options with assignSignalToEmployee enabled', () => {
+    it('should render a list of options with assignSignalToEmployee enabled', () => {
       configuration.featureFlags.assignSignalToEmployee = true;
-      const { container } = render(withContext(<FilterForm {...formProps} />, null, usersFixture));
+      render(withContext(<FilterForm {...formProps} />, null, usersFixture));
+      expect(screen.getByLabelText(label)).toBeInTheDocument();
 
-      // by default, a radio button with an empty value is rendered, and a radio
-      // button with a null value (for filtering on signals that have not been
-      // assigned
-      expect(container.querySelectorAll(selectUserRadioButtons)).toHaveLength(usersFixture.length + 2);
+      const filterGroup = screen.getByTestId(testId);
+      fireEvent.keyDown(getByText(filterGroup, placeholder), {
+        key: 'ArrowDown',
+      });
+      expect(getByText(filterGroup, notAssignedLabel)).toBeInTheDocument();
+      usersFixture.forEach(user => {
+        expect(getByText(filterGroup, user.username)).toBeInTheDocument();
+      });
+    });
+
+    it('should change selection', () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const onSubmit = jest.fn();
+      const username = usersFixture[0].username;
+      const expected = { options: { assigned_user_email: username } };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />, null, usersFixture));
+
+      const filterGroup = screen.getByTestId(testId);
+      // Open select
+      fireEvent.keyDown(getByText(filterGroup, placeholder), {
+        key: 'ArrowDown',
+      });
+      // Select option
+      fireEvent.click(getByText(filterGroup, username));
+      // Submit form
+      fireEvent.click(screen.getByRole('button', { name: /filteren/i }));
+
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
     });
   });
 
