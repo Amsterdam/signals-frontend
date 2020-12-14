@@ -1,7 +1,7 @@
 import keycloak from './keycloak';
 import parseAccessToken from './parse-access-token/parse-access-token';
 
-jest.mock('./access-token-parser/access-token-parser');
+jest.mock('./parse-access-token/parse-access-token');
 
 describe('Keycloak authorization', () => {
   beforeEach(() => {
@@ -16,12 +16,12 @@ describe('Keycloak authorization', () => {
     describe('constructor', () => {
       it('should initialize keycloak-js', () => {
         expect(keycloak.keycloak).toBeDefined();
-        expect(keycloak.keepAlive).toBeNull();
+        expect(keycloak.refreshIntervalId).toBeNull();
       });
 
       it('instantiates listeners to start and stop refresh interval', () => {
-        const startRefreshIntervalSpy = jest.spyOn(keycloak, '_startRefreshInterval');
-        const stopRefreshIntervalSpy = jest.spyOn(keycloak, '_stopRefreshInterval');
+        const startRefreshIntervalSpy = jest.spyOn(keycloak, 'startRefreshInterval');
+        const stopRefreshIntervalSpy = jest.spyOn(keycloak, 'stopRefreshInterval');
 
         keycloak.keycloak.onAuthSuccess();
         expect(startRefreshIntervalSpy).toHaveBeenCalledTimes(1);
@@ -171,12 +171,12 @@ describe('Keycloak authorization', () => {
       });
     });
 
-    describe('_startRefreshInterval', () => {
+    describe('startRefreshInterval', () => {
       it('starts interval that calls keycloak-js updateToken function', () => {
         const updateTokenSpy = jest.spyOn(keycloak.keycloak, 'updateToken').mockImplementation(() => {});
         expect(updateTokenSpy).not.toHaveBeenCalled();
 
-        keycloak._startRefreshInterval();
+        keycloak.startRefreshInterval();
 
         expect(updateTokenSpy).not.toHaveBeenCalled();
 
@@ -188,13 +188,13 @@ describe('Keycloak authorization', () => {
       });
     });
 
-    describe('_stopRefreshInterval', () => {
+    describe('stopRefreshInterval', () => {
       it('removes refresh interval stored in keycloak instance', () => {
         // jest.spyOn(keycloak.keycloak, 'updateToken').mockImplementation(() => {});
         // clearInterval = jest.fn();
-        keycloak._startRefreshInterval();
+        keycloak.startRefreshInterval();
         // jest.advanceTimersToNextTimer();
-        keycloak._stopRefreshInterval();
+        keycloak.stopRefreshInterval();
 
         expect(clearInterval).toHaveBeenCalled();
       });

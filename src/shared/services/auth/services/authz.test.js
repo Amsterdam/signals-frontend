@@ -7,7 +7,7 @@ import configuration from '../../configuration/configuration';
 jest.mock('shared/services/configuration/configuration');
 jest.mock('./query-string-parser/query-string-parser');
 jest.mock('./random-string-generator/random-string-generator');
-jest.mock('./access-token-parser/access-token-parser');
+jest.mock('./random-string-generator/random-string-generator');
 
 /* tokens generated with https://www.jsonwebtoken.io/ */
 // token contains 'exp' prop with a date in the past
@@ -363,7 +363,7 @@ describe('Authz authorization', () => {
     });
 
     it('returns true', () => {
-      const actual = jest.requireActual('./access-token-parser/access-token-parser').default;
+      const actual = jest.requireActual('./parse-access-token/parse-access-token').default;
       parseAccessToken.mockImplementation(actual);
 
       global.localStorage.getItem.mockImplementation(key => {

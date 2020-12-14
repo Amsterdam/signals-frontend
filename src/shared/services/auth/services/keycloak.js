@@ -6,21 +6,21 @@ import parseAccessToken from './parse-access-token/parse-access-token';
 class Keycloak {
   constructor() {
     const { authEndpoint, realm, clientId } = configuration.keycloak;
-    this.keepAlive = null;
+    this.refreshIntervalId = null;
     this.keycloak = new KeycloakJS({
       url: authEndpoint,
       realm,
       clientId,
     });
 
-    this.keycloak.onAuthSuccess = () => this._startRefreshInterval();
+    this.keycloak.onAuthSuccess = () => this.startRefreshInterval();
 
-    this.keycloak.onAuthError = () => this._stopRefreshInterval();
-    this.keycloak.onAuthRefreshError = () => this._stopRefreshInterval();
-    this.keycloak.onAuthLogout = () => this._stopRefreshInterval();
+    this.keycloak.onAuthError = () => this.stopRefreshInterval();
+    this.keycloak.onAuthRefreshError = () => this.stopRefreshInterval();
+    this.keycloak.onAuthLogout = () => this.stopRefreshInterval();
     this.keycloak.onTokenExpired = () => {
       // This should never happen (auto refresh should keep token valid)
-      this._stopRefreshInterval();
+      this.stopRefreshInterval();
       this.logout();
     };
   }
@@ -76,22 +76,22 @@ class Keycloak {
     this.keycloak.logout();
   }
 
-  _startRefreshInterval() {
+  startRefreshInterval() {
     // Refresh the token automatically once the user has been authenticated
     const minValidity = 30; // Token should be valid for at least the next 30 seconds
     const updateInterval = minValidity * 0.75; // Keep token valid by checking regularly
 
     // Start a token updater, if not yet running
-    if (!this.keepAlive) {
-      this.keepAlive = setInterval(() => {
+    if (!this.refreshIntervalId) {
+      this.refreshIntervalId = setInterval(() => {
         this.keycloak.updateToken(minValidity);
       }, updateInterval * 1000);
     }
   }
 
-  _stopRefreshInterval() {
-    clearInterval(this.keepAlive);
-    this.keepAlive = null;
+  stopRefreshInterval() {
+    clearInterval(this.refreshIntervalId);
+    this.refreshIntervalId = null;
   }
 }
 

@@ -34,9 +34,9 @@ const ACCESS_TOKEN_KEY = 'accessToken'; // OAuth2 access token
 
 class Authz {
   init() {
-    this._restoreAccessToken(); // Restore access token from local storage
-    this._handleAuthorizationError(); // Catch any error from the OAuth2 authorization service
-    this._handleAuthorizationCallback(); // Handle a callback from the OAuth2 authorization service
+    this.restoreAccessToken(); // Restore access token from local storage
+    this.handleAuthorizationError(); // Catch any error from the OAuth2 authorization service
+    this.handleAuthorizationCallback(); // Handle a callback from the OAuth2 authorization service
   }
 
   isAuthenticated() {
@@ -84,7 +84,7 @@ class Authz {
   /**
    * Handle login callback.
    */
-  _handleAuthorizationCallback() {
+  handleAuthorizationCallback() {
     // Parse query string into object
     const params = queryStringParser(global.location.hash);
 
@@ -92,17 +92,17 @@ class Authz {
 
     // Handle other callbacks
     if (AUTH_PARAMS.some(param => params[param] === undefined)) return;
-    this._saveToken(params.state, params.access_token);
+    this.saveToken(params.state, params.access_token);
   }
 
   /**
    * Gets the access token and return path, and clears the localstorage
    */
-  _saveToken(state, accessToken) {
+  saveToken(state, accessToken) {
     // The state param must be exactly the same as the state token we
     // have saved in local storage (to prevent CSRF)
     const localStateToken = storage.getItem(STATE_TOKEN_KEY);
-    const paramStateToken = decodeURIComponent(state, accessToken);
+    const paramStateToken = decodeURIComponent(state);
 
     if (paramStateToken !== localStateToken) {
       throw new Error(
@@ -128,7 +128,7 @@ class Authz {
     global.history.replaceState('', document.title, global.location.pathname);
   }
 
-  _restoreAccessToken() {
+  restoreAccessToken() {
     const accessToken = this.getAccessToken();
     if (accessToken) {
       tokenData = parseAccessToken(accessToken);
@@ -142,7 +142,7 @@ class Authz {
    * @param description {string} Error description as returned from the
    * service.
    */
-  _handleError(code, description) {
+  handleError(code, description) {
     storage.removeItem(STATE_TOKEN_KEY);
 
     // Remove parameters from the URL, as set by the error callback from the
@@ -156,17 +156,17 @@ class Authz {
    * Handles errors in case they were returned by the OAuth2 authorization
    * service.
    */
-  _handleAuthorizationError() {
+  handleAuthorizationError() {
     const params = queryStringParser(global.location.search);
     if (params && params.error) {
-      this._handleError(params.error, params.error_description);
+      this.handleError(params.error, params.error_description);
     }
   }
 
   /**
    * Login token flow.
    */
-  _loginToken(domain = 'datapunt', nonce, stateToken) {
+  loginToken(domain = 'datapunt', nonce, stateToken) {
     const searchParams = new URLSearchParams({
       client_id: configuration.oidc.clientId,
       response_type: configuration.oidc.responseType,
@@ -190,7 +190,7 @@ class Authz {
     storage.setItem(STATE_TOKEN_KEY, stateToken);
     storage.setItem(NONCE_KEY, nonce);
 
-    global.location.assign(this._loginToken(domain, nonce, stateToken));
+    global.location.assign(this.loginToken(domain, nonce, stateToken));
   }
 
   logout() {
