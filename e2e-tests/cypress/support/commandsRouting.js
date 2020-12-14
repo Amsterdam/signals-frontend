@@ -100,5 +100,9 @@ Cypress.Commands.add('waitForPostNoteRoutes', () => {
 
 Cypress.Commands.add('stubCategoryPrediction', fixture => {
   cy.route('POST', '/signals/category/prediction', `fixture:predictions/${fixture}`).as('prediction');
-  // cy.intercept('/signals/category/prediction.json', { fixture: `predictions/${fixture}` });
+});
+
+Cypress.Commands.add('getSortedRoutes', () => {
+  cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
+  cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
 });

@@ -7,8 +7,14 @@ stats.json
 
 # Local config
 /app.json
+/app.*.json
+!/app.base.json
+!/app.amsterdam.json
 
 # Cruft
 .DS_Store
 npm-debug.log
 .idea
+
+# e2e-test-data
+e2e-tests/cypress/fixtures/temp*.json

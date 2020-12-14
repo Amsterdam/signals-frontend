@@ -36,7 +36,8 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
       return SCSVLabel;
 
     case 'MapSelect':
-      return props => PreviewComponents.MapSelectPreview({ ...props, endpoint: meta.endpoint });
+    case 'MapSelectGeneric':
+      return props => PreviewComponents.MapSelectPreview({ ...props, meta });
 
     case 'TextInput':
     case 'TextareaInput':

@@ -61,7 +61,7 @@ describe('Create signal "Bedrijven overlast installaties" and check signal detai
       createSignal.saveSignalId();
     });
   });
-  describe.skip('Check data created signal', () => {
+  describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       cy.server();

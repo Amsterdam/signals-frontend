@@ -28,6 +28,12 @@ The server listens on port 3001 by default. You can change the by setting the en
 
 Configuration for theming, map and API endpoint URLs is defined in `app.base.json`. Override the default configuration by creating the file `app.json`. This file is ignored by Git. Changes to the configuration file will only be picked up when the development server is restarted.
 
+You can use the environment variable `CONFIG` to specify a different filename instead of `app.json` to override the base configuration. Any `app.*.json` file will be ignored by Git (except for `app.base.json`). This is useful for having different configuration sets ready to go in development, when working for different municipalities for instance. Start the development server, with a specific configuration file to extend the base configuration, with the following command:
+
+```bash
+CONFIG=app.municipality.json npm start
+```
+
 ## Unit tests
 
 Run the unit tests and generate a coverage report with:
@@ -107,3 +113,9 @@ and [the Apple developer documentation](https://developer.apple.com/library/arch
 ## Thanks to
 
 <a href="http://browserstack.com/"><img src="src/images/browserstack-logo-600x315.png" height="130" alt="BrowserStack Logo" /></a>
+
+The Dot icons ([icon-dot] and [icon-dot-selected]) made by [Pixel perfect](https://icon54.com/) from [www.flaticon.com].
+
+[www.flaticon.com]: https://www.flaticon.com/ "Flaticon"
+[icon-dot]: /src/shared/images/icon-dot-marker.svg
+[icon-dot-selected]: /src/shared/images/icon-dot-selected-marker.svg

@@ -16,6 +16,7 @@ import {
   themeColor,
   themeSpacing,
   breakpoint,
+  styles,
 } from '@amsterdam/asc-ui';
 import SearchBar from 'containers/SearchBar';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -25,25 +26,27 @@ import Logo from 'components/Logo';
 import configuration from 'shared/services/configuration/configuration';
 import AmsterdamLogo from 'components/AmsterdamLogo';
 
-export const menuBreakpoint = 1170;
+export const menuBreakpoint = 1200;
 
 const StyledHeader = styled(HeaderComponent)`
-  a:link {
+  ${styles.HeaderTitleStyle} {
+    font-family: Avenir Next LT W01 Demi, arial, sans-serif;
     font-weight: 400;
-    text-decoration: none;
   }
+
   ${({ isFrontOffice, tall }) =>
     isFrontOffice &&
     tall &&
     css`
       & {
         max-width: 960px;
-        h1 {
+
+        & > div {
           margin-left: ${themeSpacing(-5)};
         }
 
         @media screen and ${breakpoint('min-width', 'tabletS')} {
-          h1 a {
+          & > div > a {
             &,
             span {
               width: 153px;
@@ -91,6 +94,12 @@ const SearchBarMenuItem = styled(MenuItem)`
 
 const StyledSearchBar = styled(SearchBar)`
   margin-top: 5px;
+
+  ${styles.TextFieldStyle} {
+    button {
+      top: 3px;
+    }
+  }
 `;
 
 const HeaderWrapper = styled.div`
@@ -101,7 +110,7 @@ const HeaderWrapper = styled.div`
     z-index: 2;
   }
 
-  [aria-hidden="true"] {
+  [aria-hidden='true'] {
     display: none;
   }
 
@@ -161,27 +170,27 @@ const HeaderWrapper = styled.div`
           margin: 0;
         }
 
-        > header {
+        & > header {
           flex-wrap: wrap;
-        }
 
-        h1 {
-          padding: 15px 0;
-          @media screen and (max-width: 990px) {
-            margin: 0;
-          }
-
-          a {
-            height: 68px;
-
-            span {
-              background-repeat: no-repeat;
-              background-size: auto 100%;
+          & > div {
+            padding: 15px 0;
+            @media screen and (max-width: 990px) {
+              margin: 0;
             }
 
-            @media screen and (max-width: 539px) {
-              margin-top: -3px;
-              height: 29px;
+            a {
+              height: 68px;
+
+              span {
+                background-repeat: no-repeat;
+                background-size: auto 100%;
+              }
+
+              @media screen and (max-width: 539px) {
+                margin-top: -3px;
+                height: 29px;
+              }
             }
           }
         }
@@ -310,6 +319,7 @@ export const SiteHeader = props => {
           fullWidth={false}
           navigation={tall ? null : navigation}
           logo={configuration.logo?.url ? Logo : AmsterdamLogo}
+          headerLogoTextAs="div"
         />
         {!tall && <Notification />}
       </HeaderWrapper>

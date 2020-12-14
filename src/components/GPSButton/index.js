@@ -82,6 +82,7 @@ const GPSButton = ({ className, onLocationChange, onLocationSuccess, onLocationE
       onClick={onClick}
       size={44}
       variant="blank"
+      type="button"
     />
   );
 };

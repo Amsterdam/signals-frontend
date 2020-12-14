@@ -19,12 +19,12 @@ describe('signals/incident/components/IncidentPreview/components/Map', () => {
   it('should show address fallback', async () => {
     const { getByText, findByTestId } = render(withAppContext(<MapPreview value={{ geometrie }} />));
 
-    await findByTestId('mapStatic');
-
     expect(getByText('Geen adres gevonden')).toBeInTheDocument();
   });
 
   it('should render static map with useStaticMapServer enabled', async () => {
+    configuration.featureFlags.useStaticMapServer = true;
+
     const { findByTestId, queryByTestId } = render(withAppContext(<MapPreview value={{ geometrie }} />));
 
     await findByTestId('mapStatic');
@@ -34,8 +34,6 @@ describe('signals/incident/components/IncidentPreview/components/Map', () => {
   });
 
   it('should render normal map with useStaticMapServer disabled', () => {
-    configuration.featureFlags.useStaticMapServer = false;
-
     const { queryByTestId } = render(withAppContext(<MapPreview value={{ geometrie }} />));
 
     expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
