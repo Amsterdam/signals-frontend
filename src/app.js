@@ -72,6 +72,28 @@ const render = () => {
   );
 };
 
+const installServiceWorker = () => {
+  // Install ServiceWorker and AppCache in the end since
+  // it's not most important operation and if main code fails,
+  // we do not want it installed
+  if ('serviceWorker' in navigator && process.env.ENABLE_SERVICEWORKER === '1') {
+    // eslint-disable-next-line global-require
+    const runtime = require('offline-plugin/runtime');
+
+    runtime.install({
+      onUpdateReady: () => {
+        runtime.applyUpdate();
+      },
+    });
+  }
+};
+
+const registerServiceWorkerProxy = () => {
+  if ('serviceWorker' in navigator && process.env.PROXY) {
+    navigator.serviceWorker.register('/sw-proxy.js');
+  }
+};
+
 if (module.hot) {
   // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
@@ -88,22 +110,7 @@ authenticate()
   .finally(() => {
     render();
 
-    // Install ServiceWorker and AppCache in the end since
-    // it's not most important operation and if main code fails,
-    // we do not want it installed
-    if ('serviceWorker' in navigator && process.env.ENABLE_SERVICEWORKER === '1') {
-      // eslint-disable-next-line global-require
-      const runtime = require('offline-plugin/runtime');
-
-      runtime.install({
-        onUpdateReady: () => {
-          runtime.applyUpdate();
-        },
-      });
-    }
-
-    if ('serviceWorker' in navigator && process.env.PROXY) {
-      navigator.serviceWorker.register('/sw-proxy.js');
-    }
+    installServiceWorker();
+    registerServiceWorkerProxy();
   })
   .catch(() => {});
