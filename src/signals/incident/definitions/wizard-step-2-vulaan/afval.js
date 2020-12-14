@@ -114,8 +114,8 @@ export const controls = {
           typeValue: 'textiel',
         },
         {
-          label: 'Groente- fruit- en tuinafvaal',
-          description: 'Groente- fruit- en tuinafvaal container',
+          label: 'Groente- fruit- en tuinafval',
+          description: 'Groente- fruit- en tuinafval container',
           icon: {
             options,
             iconSvg: afvalIcons.gft,
