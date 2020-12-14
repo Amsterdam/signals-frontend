@@ -89,7 +89,7 @@ const Map = ({
       <StyledViewerContainer
         bottomRight={
           <div data-testid="mapZoom">
-            {hasGPSControl && (
+            {hasGPSControl && global.navigator.geolocation && (
               <StyledGPSButton
                 onLocationSuccess={location => {
                   setGeolocation(location);
