@@ -6,7 +6,7 @@ import {
 
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 
-import { initialState } from '../reducer';
+import { initialState } from './reducer';
 import {
   filterForMain,
   filterForSub,
@@ -20,7 +20,7 @@ import {
   makeSelectSubCategories,
   makeSelectSubcategoriesGroupedByCategories,
   selectCategoriesDomain,
-} from '../selectors';
+} from './selectors';
 
 const state = fromJS({
   error: false,

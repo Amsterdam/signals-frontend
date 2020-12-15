@@ -7,9 +7,9 @@ import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 
-import { fetchCategoriesSuccess, fetchCategoriesFailed } from '../actions';
-import watchCategoriesSaga, { fetchCategories } from '../saga';
-import { FETCH_CATEGORIES } from '../constants';
+import { fetchCategoriesSuccess, fetchCategoriesFailed } from './actions';
+import watchCategoriesSaga, { fetchCategories } from './saga';
+import { FETCH_CATEGORIES } from './constants';
 
 jest.mock('@sentry/browser');
 

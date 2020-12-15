@@ -1,16 +1,16 @@
 import injectReducerModel from 'utils/injectReducerModel';
 import injectSagaModel from 'utils/injectSagaModel';
 
-import reducer from '../reducer';
-import saga from '../saga';
+import reducer from './reducer';
+import saga from './saga';
 
 import loadModel from '..';
 
 jest.mock('utils/injectReducerModel');
 jest.mock('utils/injectSagaModel');
 
-jest.mock('../reducer');
-jest.mock('../saga');
+jest.mock('./reducer');
+jest.mock('./saga');
 
 describe('models/categories', () => {
   const store = { foo: 'bar' };
