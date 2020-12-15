@@ -1,14 +1,15 @@
 {
-  "apiBaseUrl": "https://acc.api.data.amsterdam.nl",
-  "areaTypeCodeForDistrict": "stadsdeel",
+  "apiBaseUrl": "http://localhost:8000",
+  "areaTypeCodeForDistrict": "district",
   "featureFlags": {
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
-    "mapFilter24Hours": true,
-    "showVulaanControls": true,
-    "useStaticMapServer": true
+    "mapFilter24Hours": false,
+    "showVulaanControls": false,
+    "useMapSelectGeneric": false,
+    "useStaticMapServer": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
@@ -19,32 +20,25 @@
     "themeColor": "#ec0000"
   },
   "language": {
-    "avgDisclaimer": "De gemeente Amsterdam verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='##AVG_DISCLAIMER_URL##'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
-    "district": "Stadsdeel",
-    "consentToContactSharing": "Ja, ik geef gemeente Amsterdam en gemeente Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
-    "footer1": "Bel het Gemeentelijk informatienummer: <a href='tel:##GENERAL_PHONE_NUMBER_FORMATTED##'>##GENERAL_PHONE_NUMBER##</a>",
-    "footer2": "op werkdagen van 08.00 tot 18.00 uur.",
+    "avgDisclaimer": "Signalen verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='##AVG_DISCLAIMER_URL##'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
+    "district": "Wijk",
+    "consentToContactSharing": "Ja, ik geef Signalen toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
+    "footer1": "Bel ons dan",
+    "footer2": "op werkdagen van 9.00 tot 17.00 uur.",
     "headerTitle": "",
-    "phoneNumber": "14 020",
-    "shortTitle": "SIA",
-    "siteAddress": "meldingen.amsterdam.nl",
-    "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
-    "smallHeaderTitle": "SIA",
-    "title": "Signalen Informatievoorziening Amsterdam",
-    "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020.",
-    "logoDescription": "Logo gemeente Amsterdam, naar amsterdam.nl"
+    "phoneNumber": "070-373 8393",
+    "shortTitle": "Signalen",
+    "siteAddress": "signalen.org",
+    "siteTitle": "Signalen",
+    "smallHeaderTitle": "Signalen",
+    "title": "Signalen",
+    "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen.",
+    "logoDescription": "Logo gemeente "
   },
   "links": {
-    "help": "https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365",
-    "home": "https://www.amsterdam.nl",
-    "privacy": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/"
-  },
-  "logo": {
-    "url": null,
-    "width": 0,
-    "height": 0,
-    "smallWidth": 0,
-    "smallHeight": 0
+    "help": "https://signalen.org/",
+    "home": "https://signalen.org/",
+    "privacy": "https://vng.nl/privacyverklaring-vereniging-van-nederlandse-gemeenten"
   },
   "map": {
     "municipality": "amsterdam",
@@ -74,43 +68,19 @@
     },
     "tiles": {
       "args": [
-        "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
+        "https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:28992/{z}/{x}/{y}.png"
       ],
       "options": {
-        "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam",
-        "subdomains": [
-          "t1",
-          "t2",
-          "t3",
-          "t4"
-        ],
-        "tms": true
+        "attribution": "Kaartgegevens &copy; Kadaster",
+        "tms": false
       }
-    },
-    "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
-    "layers": {
-      "klokken": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Klokken&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326",
-      "verlichting": "https://map.data.amsterdam.nl/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=Verlichting&version=1.1.0&srsname=urn:ogc:def:crs:EPSG::4326"
     }
   },
-  "matomo": {
-    "urlBase": "https://analytics.data.amsterdam.nl/",
-    "siteId": 14
-  },
   "oidc": {
-    "authEndpoint": "https://acc.api.data.amsterdam.nl/oauth2/authorize",
-    "clientId": "sia",
-    "responseType": "token",
-    "scope": "SIG/ALL"
-  },
-  "keycloak": {
-    "authEndpoint": "https://iam.amsterdam.nl/auth",
-    "clientId": "sia-frontend",
-    "responseType": "code",
-    "realm": "datapunt-ad-acc"
-  },
-  "sentry": {
-    "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
+    "authEndpoint": "http://localhost:5556/auth",
+    "clientId": "signals",
+    "responseType": "id_token",
+    "scope": "openid email profile"
   },
   "theme": {
     "colors": {
@@ -123,9 +93,9 @@
         "dark": "#bc0000"
       },
       "support": {
-        "valid": "#00A03C",
-        "invalid": "#EC0000",
-        "focus": "#FEC813"
+        "valid": "#00a03c",
+        "invalid": "#ec0000",
+        "focus": "#fec813"
       },
       "error": {
         "main": "#ec0000"

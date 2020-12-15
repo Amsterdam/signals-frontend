@@ -3,7 +3,7 @@ import { fireEvent, render, act } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
-import IncidentDetail from '..';
+import IncidentDetail from '.';
 import * as categoriesSelectors from 'models/categories/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
@@ -11,15 +11,12 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import childIncidentFixture from 'utils/__tests__/fixtures/childIncidents.json';
 import { subCategories } from 'utils/__tests__/fixtures';
 import historyFixture from 'utils/__tests__/fixtures/history.json';
-import { getHandlingTimesBySlugFromSubcategories } from 'shared/services/transform';
 import useEventEmitter from 'hooks/useEventEmitter';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
-jest
-  .spyOn(categoriesSelectors, 'makeSelectSubCategories')
-  .mockImplementation(() => subCategories);
+jest.spyOn(categoriesSelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
 
 // prevent fetch requests that we don't need to verify
 jest.mock('components/MapStatic', () => () => <span data-testid="mapStatic" />);
@@ -139,7 +136,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   });
 
   it('should get handling times from subcategories', () => {
-    const handlingTimes = getHandlingTimesBySlugFromSubcategories(subCategories);
+    const handlingTimes = categoriesSelectors.makeSelectHandlingTimesBySlug.resultFunc(subCategories);
 
     expect(handlingTimes['auto-scooter-bromfietswrak']).toBe('21 dagen');
     expect(handlingTimes.parkeerautomaten).toBe('5 werkdagen');
@@ -218,6 +215,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(queryByTestId('attachmentsDefinition')).not.toBeInTheDocument();
     expect(queryByTestId('history')).not.toBeInTheDocument();
     expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
+    expect(queryByTestId('mapPreviewMap')).not.toBeInTheDocument();
     expect(queryByTestId('childIncidents')).not.toBeInTheDocument();
 
     await findByTestId('incidentDetail');
@@ -225,8 +223,22 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(queryByTestId('detail-location')).toBeInTheDocument();
     expect(getByTestId('attachmentsDefinition')).toBeInTheDocument();
     expect(getByTestId('history')).toBeInTheDocument();
-    expect(getByTestId('mapStatic')).toBeInTheDocument();
+    expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
+    expect(getByTestId('mapDetail')).toBeInTheDocument();
     expect(getByTestId('childIncidents')).toBeInTheDocument();
+  });
+
+  it('should render correctly with useStaticMapServer enabled', async () => {
+    configuration.featureFlags.useStaticMapServer = true;
+    const { queryByTestId, getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+
+    expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
+    expect(queryByTestId('mapDetail')).not.toBeInTheDocument();
+
+    await findByTestId('incidentDetail');
+
+    expect(getByTestId('mapStatic')).toBeInTheDocument();
+    expect(queryByTestId('mapDetail')).not.toBeInTheDocument();
   });
 
   it('should handle Escape key', async () => {
@@ -396,9 +408,16 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect.objectContaining({ method: 'PATCH' })
     );
 
-    // after successful patch should request history
+    // after successful patch should request the defaults texts
     expect(fetch).toHaveBeenNthCalledWith(
       7,
+      `${configuration.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`,
+      expect.objectContaining({ method: 'GET' })
+    );
+
+    // after successful patch should request history
+    expect(fetch).toHaveBeenNthCalledWith(
+      8,
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`,
       expect.objectContaining({ method: 'GET' })
     );

@@ -57,6 +57,7 @@ export const DEELMELDING = {
   buttonAdd: '[data-testid="incidentSplitFormIncidentSplitButton"]',
   buttonCancel: '[data-testid="incidentSplitFormCancelButton"]',
   buttonEditDirectingDepartment: '[data-testid="editDirecting_departmentsButton"]',
+  buttonNoAction: '[data-testid="noActionButton"]',
   buttonSubmit: '[data-testid="incidentSplitFormSubmitButton"]',
   buttonSubmitDirectingDepartment: '[data-testid="submitDirecting_departmentsButton"]',
   childIncident: '[class*="ChildIncidents__Li"]',

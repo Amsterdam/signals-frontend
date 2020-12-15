@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
-  font-family: "Avenir Next LT W01-Regular", arial, sans-serif;
+  font-family: 'Avenir Next LT W01-Regular', arial, sans-serif;
 `;
 
 const MapSelect = ({

@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable promise/no-nesting */
-import appConfig from '../../../app.base.json';
+import appConfig from '../../../app.amsterdam.json';
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
 import { CHANGE_STATUS, SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS } from './selectorsManageIncidents';
@@ -12,11 +12,8 @@ export const addNote = noteText => {
 };
 
 export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
-  cy.server();
-  cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignal');
-  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-    cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
-  });
+  cy.getSortedByTimeRoutes();
+  cy.getHistoryRoute();
   cy.get(CHANGE_STATUS.buttonEdit).click();
   cy.contains('Status wijzigen').should('be.visible');
   cy.get(CHANGE_STATUS.currentStatus).contains(initialStatus).should('be.visible');
@@ -25,7 +22,7 @@ export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.get(CHANGE_STATUS.buttonSubmit).click();
 
   cy.wait('@getHistory');
-  cy.wait('@getSignal');
+  cy.wait('@getSortedTimeDESC');
   cy.get(SIGNAL_DETAILS.status)
     .should('have.text', newStatus)
     .and('be.visible')
@@ -55,7 +52,7 @@ export const checkAllDetails = fixturePath => {
     cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', json.reporter.phone).and('be.visible');
     cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', json.reporter.sharing_allowed).and('be.visible');
     checkCreationDate();
-    cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', json.category.handling_time).and('be.visible');
+    cy.get(SIGNAL_DETAILS.handlingTime).should('contain', json.category.handling_time).and('be.visible');
     checkRedTextStatus(json.status.state_display);
     cy.get(SIGNAL_DETAILS.urgency).should('have.text', json.priority).and('be.visible');
     cy.get(SIGNAL_DETAILS.type).should('have.text', json.type).and('be.visible');
@@ -335,7 +332,7 @@ export const setDescription = description => {
 
 export const setDescriptionPage = fixturePath => {
   cy.fixture(fixturePath).then(json => {
-    cy.stubCategoryPrediction(json.fixtures.prediction);
+    cy.stubResponse('**/prediction', json.fixtures.prediction);
     checkDescriptionPage();
     setAddress(fixturePath);
     setDescription(json.text);

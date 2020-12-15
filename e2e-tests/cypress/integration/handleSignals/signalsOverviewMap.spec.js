@@ -23,10 +23,9 @@ describe('Signal overview Map', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Should open the signals overview map with signals', () => {
-      cy.server();
       cy.defineMapRoutes();
 
-      cy.visitFetch('manage/incidents/kaart');
+      cy.visit('manage/incidents/kaart');
 
       cy.wait('@getSignals');
       cy.wait('@getGeography');
@@ -42,7 +41,6 @@ describe('Signal overview Map', () => {
     });
 
     it('Should not show signals if filtered out', () => {
-      cy.server();
       cy.defineMapRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilteren).click();
@@ -53,7 +51,6 @@ describe('Signal overview Map', () => {
     });
 
     it('Should show signals again', () => {
-      cy.server();
       cy.defineMapRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilteren).click();
@@ -65,8 +62,7 @@ describe('Signal overview Map', () => {
     });
 
     it('Should search for an address', () => {
-      cy.server();
-      cy.route('/locatieserver/v3/suggest?fq=gemeentenaam:**').as('getAddress');
+      cy.getAddressRoute();
 
       cy.get(OVERVIEW_MAP.buttonZoomIn).click();
       createSignal.searchAddress('1012RJ 147');
@@ -101,7 +97,6 @@ describe('Signal overview Map', () => {
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Nieuwezijds Voorburgwal 147').and('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012RJ Amsterdam').and('be.visible');
 
-      createSignal.checkCreationDate();
       cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '21 dagen').and('be.visible');
       createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');

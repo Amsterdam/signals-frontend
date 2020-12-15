@@ -9,21 +9,20 @@ const fixturePath = '../fixtures/signals/wespen.json';
 describe('Create signal "Wespen" when logged in and check signal details', () => {
   describe('Create signal wespen', () => {
     beforeEach(() => {
-      cy.server();
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Should initiate create signal from manage', () => {
       cy.getManageSignalsRoutes();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
       cy.openMenu();
       cy.contains('Melden').click();
       cy.checkHeaderText('Beschrijf uw melding');
     });
     it('Should create the signal', () => {
-      cy.route2('**/locatieserver/v3/suggest?fq=*').as('getAddress');
-      cy.route2('**/maps/topografie?bbox=**').as('map');
-      cy.route2('POST', '**/signals/v1/private/signals/').as('postSignalPrivate');
+      cy.getAddressRoute();
+      cy.getMapRoute();
+      cy.postSignalRoutePrivate();
 
       createSignal.setDescriptionPage(fixturePath);
 
@@ -52,7 +51,7 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
+      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
@@ -65,10 +64,9 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 

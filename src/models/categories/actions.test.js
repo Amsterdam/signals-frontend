@@ -1,7 +1,7 @@
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 
-import * as actions from '../actions';
-import * as constants from '../constants';
+import * as actions from './actions';
+import * as constants from './constants';
 
 describe('models/categories/actions', () => {
   test('fetchCategories', () => {

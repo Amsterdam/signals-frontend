@@ -18,7 +18,11 @@ export const Form = styled.form`
     grid-column-start: 1;
   }
 
-  .incident-navigation, .mapSelect, .mapInput, .caution {
+  .incident-navigation,
+  .mapSelect,
+  .mapSelectGeneric,
+  .mapInput,
+  .caution {
     grid-column-end: 3;
   }
 
@@ -26,23 +30,28 @@ export const Form = styled.form`
     grid-template-columns: 8fr 4fr;
     grid-column-gap: ${themeSpacing(5)};
 
-    ${({ isSummary }) => isSummary && css`
-      grid-template-columns: 4fr 6fr;
+    ${({ isSummary }) =>
+    isSummary &&
+      css`
+        grid-template-columns: 4fr 6fr;
 
-      & > *:not(.incident-navigation) {
-        grid-column-start: 2;
-      }
-
-      ${() => isSummary && isAuthenticated() && css`
-        @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
-          grid-template-columns: 4fr 6fr 2fr;
-
-          & > .incident-navigation {
-            grid-column-end: 4;
-          }
+        & > *:not(.incident-navigation) {
+          grid-column-start: 2;
         }
+
+        ${() =>
+    isSummary &&
+          isAuthenticated() &&
+          css`
+            @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+              grid-template-columns: 4fr 6fr 2fr;
+
+              & > .incident-navigation {
+                grid-column-end: 4;
+              }
+            }
+          `}
       `}
-    `}
   }
 `;
 
@@ -133,7 +142,9 @@ class IncidentForm extends React.Component {
   }
 
   setIncident(formAction) {
-    switch (formAction) { // eslint-disable-line default-case
+    switch (
+      formAction // eslint-disable-line default-case
+    ) {
       case 'UPDATE_INCIDENT':
         this.props.updateIncident(this.form.value);
         break;
@@ -143,6 +154,9 @@ class IncidentForm extends React.Component {
           incident: this.props.incidentContainer.incident,
           wizard: this.props.wizard,
         });
+        break;
+
+      default:
     }
   }
 
