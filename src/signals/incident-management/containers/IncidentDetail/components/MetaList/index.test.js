@@ -7,8 +7,8 @@ import { store, withAppContext } from 'test/utils';
 import {
   departments,
   directingDepartments,
+  handlingTimesBySlug,
   subcategoriesGroupedByCategories,
-  subcategoriesHandlingTimesBySlug,
 } from 'utils/__tests__/fixtures';
 
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
@@ -18,7 +18,6 @@ import usersFixture from 'utils/__tests__/fixtures/users.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
 import * as categoriesSelectors from 'models/categories/selectors';
-
 
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
@@ -61,7 +60,7 @@ const renderWithContext = (incident = parentIncident, users = usersFixture.resul
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
       <IncidentDetailContext.Provider
-        value={{ handlingTimesBySlug: subcategoriesHandlingTimesBySlug, incident, update, edit }}
+        value={{ incident, update, edit }}
       >
         <MetaList />
       </IncidentDetailContext.Provider>
@@ -78,6 +77,9 @@ describe('MetaList', () => {
     jest
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
       .mockImplementation(() => subcategoriesGroupedByCategories);
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectHandlingTimesBySlug')
+      .mockImplementation(() => handlingTimesBySlug);
   });
 
   afterEach(() => {

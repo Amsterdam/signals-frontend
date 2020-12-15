@@ -1,5 +1,6 @@
 import { Seq } from 'immutable';
 import { createSelector } from 'reselect';
+import { getDaysString } from 'shared/services/date-utils';
 import { reCategory } from 'shared/services/resolveClassification';
 
 import { initialState } from './reducer';
@@ -164,3 +165,12 @@ export const makeSelectSubcategoriesGroupedByCategories = createSelector(
     return [subcategoryGroups, subcategoryOptions];
   }
 );
+
+export const makeSelectHandlingTimesBySlug = createSelector(makeSelectSubCategories, subcategories =>
+  (subcategories || []).reduce(
+    (acc, { slug, sla }) => ({
+      ...acc,
+      [slug]: getDaysString(sla.n_days, sla.use_calendar_days),
+    }),
+    {}
+  ));

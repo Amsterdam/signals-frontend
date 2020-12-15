@@ -6,7 +6,7 @@ import {
 
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 
-import { initialState } from '../reducer';
+import { initialState } from './reducer';
 import {
   filterForMain,
   filterForSub,
@@ -14,12 +14,13 @@ import {
   makeSelectAllSubCategories,
   makeSelectByMainCategory,
   makeSelectCategories,
+  makeSelectHandlingTimesBySlug,
   makeSelectMainCategories,
   makeSelectStructuredCategories,
   makeSelectSubCategories,
   makeSelectSubcategoriesGroupedByCategories,
   selectCategoriesDomain,
-} from '../selectors';
+} from './selectors';
 
 const state = fromJS({
   error: false,
@@ -177,5 +178,12 @@ describe('models/categories/selectors', () => {
       expect(value).toEqual(extendedName);
       expect(group).toEqual(category_slug);
     });
+  });
+
+  test('handlingTimesBySlug', () => {
+    const handlingTimesBySlug = makeSelectHandlingTimesBySlug.resultFunc(subCategoriesFixture);
+
+    expect(handlingTimesBySlug['afwatering-brug']).toBe('5 werkdagen');
+    expect(handlingTimesBySlug['auto-scooter-bromfietswrak']).toBe('21 dagen');
   });
 });
