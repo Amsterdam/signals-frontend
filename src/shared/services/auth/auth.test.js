@@ -8,16 +8,20 @@ import {
   login,
   logout,
 } from './auth';
-import keycloak from './services/keycloak';
-import authz from './services/authz';
-import configuration from '../configuration/configuration';
+import configuration from 'shared/services/configuration/configuration';
+import Keycloak from './services/keycloak';
+import Authz from './services/authz';
 
 jest.mock('shared/services/configuration/configuration');
 
 describe('auth', () => {
+  let keycloak;
+  let authz;
   let savedOauthDomain;
 
   beforeEach(() => {
+    keycloak = new Keycloak();
+    authz = new Authz();
     global.localStorage.getItem.mockImplementation(key => {
       switch (key) {
         case 'oauthDomain':
@@ -47,88 +51,100 @@ describe('auth', () => {
   describe('getAuth', () => {
     it('returns keycloak instance when keycloak is the current oAuth domain', () => {
       savedOauthDomain = 'keycloak';
+      configuration.keycloak = {};
 
-      expect(getAuth()).toEqual(keycloak);
+      expect(getAuth()).toBeInstanceOf(Keycloak);
     });
 
     it('returns authz instance when current oAuth domain is not keycloak', () => {
       savedOauthDomain = 'other';
 
-      expect(getAuth()).toEqual(authz);
+      expect(getAuth()).toBeInstanceOf(Authz);
     });
 
     it('returns authz instance when current oAuth domain is not set', () => {
       savedOauthDomain = null;
 
-      expect(getAuth()).toEqual(authz);
+      expect(getAuth()).toBeInstanceOf(Authz);
     });
 
     it('returns authz instance when keycloak is not configured', () => {
       delete configuration.keycloak;
       savedOauthDomain = 'keycloak';
 
-      expect(getAuth()).toEqual(authz);
+      expect(getAuth()).toBeInstanceOf(Authz);
     });
   });
 
   describe('getAccessToken', () => {
     it('calls getAccessToken function on auth instance', () => {
       savedOauthDomain = 'keycloak';
-      keycloak.getAccessToken = jest.fn();
+      const auth = getAuth();
+      jest.spyOn(auth, 'getAccessToken');
 
       getAccessToken();
 
-      expect(keycloak.getAccessToken).toHaveBeenCalled();
+      expect(auth.getAccessToken).toHaveBeenCalled();
     });
   });
 
   describe('getAccessToken', () => {
     it('calls getAccessToken function on auth instance', () => {
       savedOauthDomain = 'keycloak';
-      keycloak.isAuthenticated = jest.fn();
+      const auth = getAuth();
+      jest.spyOn(auth, 'isAuthenticated');
 
       isAuthenticated();
 
-      expect(keycloak.isAuthenticated).toHaveBeenCalled();
+      expect(auth.isAuthenticated).toHaveBeenCalled();
     });
   });
 
   describe('getAuthHeaders', () => {
     it('calls getAuthHeaders function on auth instance', () => {
       savedOauthDomain = 'keycloak';
-      keycloak.getAuthHeaders = jest.fn();
+      const auth = getAuth();
+      jest.spyOn(auth, 'getAuthHeaders');
 
       getAuthHeaders();
 
-      expect(keycloak.getAuthHeaders).toHaveBeenCalled();
+      expect(auth.getAuthHeaders).toHaveBeenCalled();
     });
   });
 
   describe('authenticate', () => {
     it('calls authenticate function on auth instance', () => {
       savedOauthDomain = 'keycloak';
-      keycloak.authenticate = jest.fn();
+      const auth = getAuth();
+      jest.spyOn(auth, 'authenticate');
 
       authenticate();
 
-      expect(keycloak.authenticate).toHaveBeenCalled();
+      expect(auth.authenticate).toHaveBeenCalled();
     });
   });
 
   describe('login', () => {
     it('calls login for keycloak instance', () => {
-      keycloak.login = jest.fn();
+      configuration.keycloak = {};
+      savedOauthDomain = 'keycloak';
+      const auth = getAuth();
+      jest.spyOn(auth, 'login');
+
       login('keycloak');
 
-      expect(keycloak.login).toHaveBeenCalled();
+      expect(auth.login).toHaveBeenCalled();
       expect(global.localStorage.setItem).toHaveBeenCalledWith('oauthDomain', 'keycloak');
     });
 
     it('calls login for authz instance', () => {
-      authz.login = jest.fn();
+      savedOauthDomain = '';
+      const auth = getAuth();
+      jest.spyOn(auth, 'login');
+
       login('datapunt');
 
-      expect(authz.login).toHaveBeenCalledWith('datapunt');
+      expect(auth.login).toHaveBeenCalledWith('datapunt');
       expect(global.localStorage.setItem).toHaveBeenCalledWith('oauthDomain', 'datapunt');
     });
 
@@ -144,12 +160,12 @@ describe('auth', () => {
 
   describe('logout', () => {
     it('calls logout function', () => {
-      savedOauthDomain = 'keycloak';
-      keycloak.logout = jest.fn();
+      const auth = getAuth();
+      jest.spyOn(auth, 'logout');
 
       logout();
 
-      expect(keycloak.logout).toHaveBeenCalled();
+      expect(auth.logout).toHaveBeenCalled();
       expect(global.localStorage.removeItem).toHaveBeenCalledWith('oauthDomain');
     });
   });
