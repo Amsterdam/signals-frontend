@@ -7,7 +7,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { showGlobalNotification } from 'containers/App/actions';
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants';
 import configuration from 'shared/services/configuration/configuration';
-import Map from '..';
+import Map from './Map';
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
