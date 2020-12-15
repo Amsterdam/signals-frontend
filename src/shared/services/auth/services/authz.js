@@ -198,4 +198,4 @@ class Authz {
   }
 }
 
-export default new Authz();
+export default Authz;

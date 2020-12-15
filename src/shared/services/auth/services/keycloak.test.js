@@ -1,10 +1,20 @@
-import keycloak from './keycloak';
 import parseAccessToken from './parse-access-token/parse-access-token';
+import configuration from 'shared/services/configuration/configuration';
+
+import Keycloak from './keycloak';
 
 jest.mock('./parse-access-token/parse-access-token');
+jest.mock('shared/services/configuration/configuration');
 
 describe('Keycloak authorization', () => {
+  const keycloak = new Keycloak();
   beforeEach(() => {
+    configuration.keycloak = {
+      authEndpoint: 'https://example.nl/auth',
+      clientId: 'frontend',
+      responseType: 'code',
+      realm: 'auth-realm',
+    };
     jest.useFakeTimers();
   });
   afterEach(() => {
@@ -78,7 +88,7 @@ describe('Keycloak authorization', () => {
       it('calls keycloak-js login function', async () => {
         keycloak.isInitialized = false;
         const initSpy = jest.spyOn(keycloak.keycloak, 'init').mockResolvedValue();
-        const loginSpy = jest.spyOn(keycloak.keycloak, 'login');
+        const loginSpy = jest.spyOn(keycloak.keycloak, 'login').mockImplementation(() => {});
 
         await keycloak.login();
 

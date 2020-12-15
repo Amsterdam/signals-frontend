@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Column, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import configuration from 'shared/services/configuration/configuration';
 
 import { login } from 'shared/services/auth/auth';
 
@@ -20,15 +21,35 @@ const LoginPage = () => (
         <Paragraph>Om deze pagina te zien dient u ingelogd te zijn.</Paragraph>
 
         <ButtonBar>
-          <Button variant="secondary" onClick={() => { login('datapunt'); }} type="button">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              login('datapunt');
+            }}
+            type="button"
+          >
             <span className="value">Inloggen</span>
           </Button>
 
-          <Button variant="secondary" onClick={() => { login('keycloak'); }} type="button">
-            <span className="value">Inloggen Keycloak</span>
-          </Button>
+          {configuration.keycloak && (
+            <Button
+              variant="secondary"
+              onClick={() => {
+                login('keycloak');
+              }}
+              type="button"
+            >
+              <span className="value">Inloggen Keycloak</span>
+            </Button>
+          )}
 
-          <Button variant="secondary" onClick={() => { login('grip'); }} type="button">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              login('grip');
+            }}
+            type="button"
+          >
             <span className="value">Inloggen ADW</span>
           </Button>
         </ButtonBar>

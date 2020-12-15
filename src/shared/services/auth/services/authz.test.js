@@ -1,4 +1,4 @@
-import authz from './authz';
+import Authz from './authz';
 import queryStringParser from './query-string-parser/query-string-parser';
 import randomStringGenerator from './random-string-generator/random-string-generator';
 import parseAccessToken from './parse-access-token/parse-access-token';
@@ -25,6 +25,7 @@ const validToken =
 
 describe('Authz authorization', () => {
   const noop = () => {};
+  const authz = new Authz();
 
   let queryObject;
   let savedAccessToken;
@@ -267,13 +268,15 @@ describe('Authz authorization', () => {
       configuration.oidc.authEndpoint = 'https://example.com/oauth2/authorize';
       configuration.oidc.clientId = 'test';
 
-      authz.login();
+      const authzWithTokenFlow = new Authz();
+
+      authzWithTokenFlow.login();
 
       expect(window.location.assign).toHaveBeenCalledWith(
         'https://example.com/oauth2/authorize' +
           '?client_id=test' +
-          '&response_type=token' +
-          '&scope=SIG%2FALL' +
+          '&response_type=id_token' +
+          '&scope=openid+email+profile' +
           '&state=random-string' +
           '&nonce=random-string' +
           '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +

@@ -5,7 +5,8 @@ import parseAccessToken from './parse-access-token/parse-access-token';
 
 class Keycloak {
   constructor() {
-    const { authEndpoint, realm, clientId } = configuration.keycloak;
+    const { authEndpoint, realm, clientId } = configuration.keycloak || {};
+
     this.refreshIntervalId = null;
     this.keycloak = new KeycloakJS({
       url: authEndpoint,
@@ -105,4 +106,4 @@ class Keycloak {
   }
 }
 
-export default new Keycloak();
+export default Keycloak;
