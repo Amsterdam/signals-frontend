@@ -32,12 +32,12 @@ describe('Form component <RadioInput />', () => {
 
     wrapper = shallow(
       <RadioInput
-      handler={handler}
-      parent={parent}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    />
+        handler={handler}
+        parent={parent}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      />
     );
 
     handler.mockImplementation(() => ({
