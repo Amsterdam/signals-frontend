@@ -1,5 +1,6 @@
 import { call } from 'redux-saga/effects';
 import request from 'utils/request';
+import { getAccessToken } from 'shared/services/auth/auth';
 
 import {
   authCall,
@@ -12,6 +13,8 @@ import {
   postCall,
   getErrorMessage,
 } from './api';
+
+jest.mock('shared/services/auth/auth');
 
 describe('api service', () => {
   let params;
@@ -40,7 +43,7 @@ describe('api service', () => {
 
   describe('authCall', () => {
     it('should generate the right call', () => {
-      localStorage.getItem.mockImplementationOnce(() => token);
+      getAccessToken.mockImplementation(() => token);
 
       const fullUrl = `${url}?${queryString}`;
       const options = {
@@ -56,7 +59,7 @@ describe('api service', () => {
     });
 
     it('should generate a call without token if it is not present', () => {
-      localStorage.getItem.mockImplementationOnce(() => undefined);
+      getAccessToken.mockImplementation(() => undefined);
 
       const fullUrl = `${url}?${queryString}`;
       const options = {
@@ -70,7 +73,7 @@ describe('api service', () => {
     });
 
     it('should generate the right call when params are not defined', () => {
-      localStorage.getItem.mockImplementationOnce(() => token);
+      getAccessToken.mockImplementation(() => token);
 
       const fullUrl = `${url}`;
       const options = {
@@ -100,7 +103,7 @@ describe('api service', () => {
 
   describe('authCallWithPayload', () => {
     it('should generate the right call', () => {
-      localStorage.getItem.mockImplementationOnce(() => token);
+      getAccessToken.mockImplementation(() => token);
       const options = {
         method: 'METHOD',
         headers: {
@@ -115,7 +118,7 @@ describe('api service', () => {
     });
 
     it('should generate a call without token if it is not present', () => {
-      localStorage.getItem.mockImplementationOnce(() => undefined);
+      getAccessToken.mockImplementation(() => undefined);
       const options = {
         method: 'METHOD',
         headers: {

@@ -63,6 +63,7 @@
     "hoist-non-react-statics": "^3.3.2",
     "immutable": "^4.0.0-rc.12",
     "invariant": "^2.2.4",
+    "keycloak-js": "^11.0.3",
     "leaflet": "^1.7.1",
     "leaflet.markercluster": "^1.4.1",
     "lodash.conformsto": "^4.15.0",
