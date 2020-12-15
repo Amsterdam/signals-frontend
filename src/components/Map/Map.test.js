@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { render, act, fireEvent, screen } from '@testing-library/react';
 import * as reactRedux from 'react-redux';
 
 import { withAppContext } from 'test/utils';
@@ -7,7 +7,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { showGlobalNotification } from 'containers/App/actions';
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants';
 import configuration from 'shared/services/configuration/configuration';
-import Map from '..';
+import Map from './Map';
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
@@ -54,10 +54,18 @@ describe('components/Map', () => {
     expect(queryByTestId('gpsButton')).not.toBeInTheDocument();
 
     unmount();
-
     rerender(withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />));
 
     expect(getByTestId('gpsButton')).toBeInTheDocument();
+  });
+
+  it('should NOT render the gps button when the functions is not present', () => {
+    const geolocation = global.navigator.geolocation;
+    global.navigator.geolocation = undefined;
+    render(withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />));
+
+    expect(screen.queryByTestId('gpsButton')).not.toBeInTheDocument();
+    global.navigator.geolocation = geolocation;
   });
 
   it('should render a location marker', () => {

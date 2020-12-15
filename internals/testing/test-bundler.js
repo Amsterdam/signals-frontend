@@ -21,6 +21,7 @@ Enzyme.configure({ adapter: new Adapter() });
 const { window } = new JSDOM('<!DOCTYPE html><p>Hello world</p>', { pretendToBeVisual: true, resources: 'usable' });
 global.window = window;
 global.document = window.document;
+global.navigator.geolocation = {};
 
 // Monkey patch Leaflet
 const originalInit = L.Map.prototype.initialize;
