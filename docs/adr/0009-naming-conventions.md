@@ -11,37 +11,69 @@ Date: 2020-09-24
 ### Principles
 
 - Keep it simple, reduce nesting
-- 'container'-type components in their own folder in `src/App` (the `App` component).
+- A `src/pages` folder will hold 'root' components and reflect the navigation structure (menu, routes) of the app
 - Components needed only by one 'root' component go into that root component's folder, no extra nesting
 - Components needed by more than one 'root' component go into `src/components`
 - Component folders, files, and auxiliary files, camel cased, starting with upper case
 - Component names and file names will be unique
-- Unique `data-testid` names by prefixing them with component names
-- 'root' level components, hooks, interfaces, services, in their respective folders in `src`.
+- Generic/shared components, hooks, interfaces, services, in their respective folders in `src`.
 
 ### Example tree
 
 ```
 src
-  App
+  pages
+    login
+      Login.tsx
+    manage
+      default-texts
+        DefaultTexts.tsx
+        TextsForm.tsx
+        SelectForm.tsx
+      incidents
+        incident
+          split
+            IncidentSplit.tsx
+            SplitForm.tsx
+            SplitFormIncident.tsx
+          Incident.tsx
+        Incidents.tsx
+        IncidentsList.tsx
+        IncidentsMap.tsx
+        Filter.tsx
+        FilterTagList.tsx
+    report
+      Incident.tsx
+      IncidentForm.tsx
+      IncidentNavigation.tsx
+      IncidentPreview.tsx
+      IncidentWizard.tsx
+    kto
+      Kto.tsx
+      KtoForm.tsx
+    settings
+      users
+        user
+          User.tsx
+        Users.tsx
+      roles
+        role
+          Role.tsx
+        Roles.tsx
+      departments
+        department
+          Department.tsx
+          CategoryGroups.tsx
+          CategoryLists.tsx
+        Departments.tsx
+      categories
+        category
+          Category.tsx
+          CategoryForm.tsx
+        Categories.tsx
     App.tsx
     App.styles.ts
     App.test.ts
-    DefaultTexts
-    Filter
-    IncidentDetail
-    IncidentOverview
-    IncidentSplit
-      IncidentSplit.tsx
-      IncidentSplit.styles.ts
-      IncidentSplit.test.ts
-      IncidentSplitForm.tsx
-      IncidentSplitForm.styles.ts
-      IncidentSplitForm.test.ts
-      IncidentSplitFormIncident.tsx
-      IncidentSplitFormIncident.styles.ts
-      IncidentSplitFormIncident.test.ts
-    IncidentWizard
   components
     RadioInput
       RadioInput.tsx
