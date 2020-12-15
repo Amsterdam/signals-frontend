@@ -192,10 +192,7 @@ describe('Keycloak authorization', () => {
 
     describe('stopRefreshInterval', () => {
       it('removes refresh interval stored in keycloak instance', () => {
-        // jest.spyOn(keycloak.keycloak, 'updateToken').mockImplementation(() => {});
-        // clearInterval = jest.fn();
         keycloak.startRefreshInterval();
-        // jest.advanceTimersToNextTimer();
         keycloak.stopRefreshInterval();
 
         expect(clearInterval).toHaveBeenCalled();
