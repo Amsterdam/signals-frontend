@@ -10,32 +10,26 @@ const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
  *
  * @returns {string} domain
  */
-export function getOauthDomain() {
-  return storage.getItem(OAUTH_DOMAIN_KEY);
-}
+export const getOauthDomain = () => storage.getItem(OAUTH_DOMAIN_KEY);
 
 /**
  * Returns auth implementation.
  */
-export function getAuth() {
-  return configuration.keycloak && getOauthDomain() === 'keycloak' ? keycloak : authz;
-}
+export const getAuth = () => (configuration.keycloak && getOauthDomain() === 'keycloak' ? keycloak : authz);
 
 /**
  * Returns the access token from local storage when available.
  *
  * @returns {string} The access token.
  */
-export function getAccessToken() {
-  return getAuth().getAccessToken();
-}
+export const getAccessToken = () => getAuth().getAccessToken();
 
 /**
  * Perform user login.
  *
  * @param {string} domain
  */
-export async function login(domain) {
+export const login = async domain => {
   if (typeof global.Storage === 'undefined') {
     throw new TypeError('Storage not available; cannot proceed with logging in');
   }
@@ -46,17 +40,17 @@ export async function login(domain) {
   } else {
     authz.login(domain);
   }
-}
+};
 
 /**
  * Performs user logout.
  */
-export function logout() {
+export const logout = () => {
   const auth = getAuth();
 
   storage.removeItem(OAUTH_DOMAIN_KEY);
   auth.logout();
-}
+};
 
 /**
  * Returns boolean indicating if user is authenticated (with non-expired token).
@@ -68,9 +62,7 @@ export const isAuthenticated = () => getAuth().isAuthenticated();
  *
  * @returns {Object<string, string>} The headers needed for an API call.
  */
-export function getAuthHeaders() {
-  return getAuth().getAuthHeaders();
-}
+export const getAuthHeaders = () => getAuth().getAuthHeaders();
 
 /**
  * Perform user authentication on app init.
