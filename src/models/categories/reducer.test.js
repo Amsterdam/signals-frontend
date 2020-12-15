@@ -1,8 +1,8 @@
 import { fromJS } from 'immutable';
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 
-import reducer, { initialState } from '../reducer';
-import * as constants from '../constants';
+import reducer, { initialState } from './reducer';
+import * as constants from './constants';
 
 const catCount = 9;
 

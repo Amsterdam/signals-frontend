@@ -7,7 +7,7 @@ import { withAppContext } from 'test/utils';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json';
 
-import ChildIncidents, { STATUS_RESPONSE_REQUIRED, STATUS_NONE } from '..';
+import ChildIncidents, { STATUS_RESPONSE_REQUIRED, STATUS_NONE } from './ChildIncidents';
 
 const getChildren = (opts = {}) => {
   const options = { ...{ numValues: 4, withHref: true, withStatus: true, withChanged: false }, ...opts };
