@@ -66,6 +66,7 @@ const CheckboxList = ({
   name,
   onChange,
   onToggle,
+  onSubmit,
   options,
   title,
   toggleAllLabel,
@@ -224,12 +225,38 @@ const CheckboxList = ({
     setToggled(!toggled);
   }, [groupValue, name, onToggle, options, toggled]);
 
+  const handleKeyDown = useCallback(
+    event => {
+      // preventing the page from scrolling when cycling through the list of options
+      switch (event.key) {
+        case ' ':
+          event.preventDefault();
+          handleToggle();
+          break;
+
+        case 'Enter':
+          onSubmit(event);
+          break;
+
+        default:
+          break;
+      }
+    },
+    [handleToggle, onSubmit]
+  );
+
   return (
     <FilterGroup className={className} data-testid="checkboxList">
       {title}
 
       {hasToggle && (
-        <Toggle indent={Boolean(title)} tabIndex={0} onClick={groupName ? null : handleToggle}>
+        <Toggle
+          indent={Boolean(title)}
+          tabIndex={0}
+          htmlFor={groupName}
+          onClick={groupName ? null : handleToggle}
+          onKeyDown={handleKeyDown}
+        >
           {toggled ? toggleNothingLabel : toggleAllLabel}
 
           {groupName && (
@@ -284,8 +311,9 @@ CheckboxList.defaultProps = {
   groupName: '',
   groupValue: '',
   hasToggle: false,
-  onChange: () => {},
+  onChange: /* istanbul ignore next*/() => { },
   onToggle: undefined,
+  onSubmit: /* istanbul ignore next*/ () => { },
   title: null,
   toggleAllLabel: 'Alles selecteren',
   toggleNothingLabel: 'Niets selecteren',
@@ -330,6 +358,8 @@ CheckboxList.propTypes = {
    * Note that either one of `id` or `key` values should be present in an options entry
    */
   options: types.dataListType.isRequired,
+  /** Adds onSubmit capabilities */
+  onSubmit: PropTypes.func,
   /** Group label contents */
   title: PropTypes.node,
   /** Text label for the group toggle in its untoggled state */

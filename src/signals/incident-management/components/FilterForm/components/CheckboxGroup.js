@@ -8,7 +8,7 @@ import { FilterGroup } from '../styled';
 
 const renderId = 0;
 
-const CheckboxGroup = ({ defaultValue, label, name, hasToggle, onChange, onToggle, options }) =>
+const CheckboxGroup = ({ defaultValue, label, name, hasToggle, onChange, onToggle, onSubmit, options }) =>
   Array.isArray(options) &&
   options.length > 0 && (
     <FilterGroup data-testid={`${name}CheckboxGroup`} data-render-id={renderId + 1}>
@@ -18,6 +18,7 @@ const CheckboxGroup = ({ defaultValue, label, name, hasToggle, onChange, onToggl
         name={name}
         onChange={onChange}
         onToggle={onToggle}
+        onSubmit={onSubmit}
         options={options}
         title={
           <Label as="span" isGroupHeader>
@@ -40,6 +41,7 @@ CheckboxGroup.propTypes = {
   hasToggle: PropTypes.bool,
   onChange: PropTypes.func,
   onToggle: PropTypes.func,
+  onSubmit: PropTypes.func,
   options: types.dataListType.isRequired,
 };
 

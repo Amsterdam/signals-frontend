@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import 'jest-styled-components';
 import cloneDeep from 'lodash.clonedeep';
 
@@ -12,17 +12,11 @@ import CheckboxList from '..';
 describe('signals/incident-management/components/CheckboxList', () => {
   it('should render a title ', () => {
     const title = 'This is my title';
-    const { queryByText, rerender } = render(
-      withAppContext(<CheckboxList name="status" options={statuses} />)
-    );
+    const { queryByText, rerender } = render(withAppContext(<CheckboxList name="status" options={statuses} />));
 
     expect(queryByText(title)).not.toBeInTheDocument();
 
-    rerender(
-      withAppContext(
-        <CheckboxList name="status" options={statuses} title={title} />
-      )
-    );
+    rerender(withAppContext(<CheckboxList name="status" options={statuses} title={title} />));
 
     expect(queryByText(title)).toBeInTheDocument();
 
@@ -48,26 +42,13 @@ describe('signals/incident-management/components/CheckboxList', () => {
   it('should render a toggle', () => {
     const toggleAllLabel = 'Toggle all';
     const { queryByText, rerender } = render(
-      withAppContext(
-        <CheckboxList
-          name="status"
-          options={statuses}
-          toggleAllLabel={toggleAllLabel}
-        />
-      )
+      withAppContext(<CheckboxList name="status" options={statuses} toggleAllLabel={toggleAllLabel} />)
     );
 
     expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
 
     rerender(
-      withAppContext(
-        <CheckboxList
-          hasToggle
-          name="status"
-          options={statuses}
-          toggleAllLabel={toggleAllLabel}
-        />
-      )
+      withAppContext(<CheckboxList hasToggle name="status" options={statuses} toggleAllLabel={toggleAllLabel} />)
     );
 
     expect(queryByText(toggleAllLabel)).toBeInTheDocument();
@@ -77,35 +58,18 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const groupName = 'fooBarBaz';
     const name = 'status';
     const { container, rerender } = render(
-      withAppContext(
-        <CheckboxList
-          hasToggle
-          name={name}
-          options={statuses}
-          toggleAllLabel="Toggle all"
-        />
-      )
+      withAppContext(<CheckboxList hasToggle name={name} options={statuses} toggleAllLabel="Toggle all" />)
     );
 
-    expect(
-      container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)
-    ).toHaveLength(0);
+    expect(container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)).toHaveLength(0);
 
     rerender(
       withAppContext(
-        <CheckboxList
-          groupName={groupName}
-          hasToggle
-          name={name}
-          options={statuses}
-          toggleAllLabel="Toggle all"
-        />
+        <CheckboxList groupName={groupName} hasToggle name={name} options={statuses} toggleAllLabel="Toggle all" />
       )
     );
 
-    expect(
-      container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)
-    ).toHaveLength(1);
+    expect(container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)).toHaveLength(1);
 
     // giving the group checkbox a name that is different from its children
     const groupValue = 'groupValue';
@@ -122,14 +86,8 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     );
 
-    expect(
-      container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)
-    ).toHaveLength(0);
-    expect(
-      container.querySelectorAll(
-        `input[name="${groupName}"][value="${groupValue}"]`
-      )
-    ).toHaveLength(1);
+    expect(container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)).toHaveLength(0);
+    expect(container.querySelectorAll(`input[name="${groupName}"][value="${groupValue}"]`)).toHaveLength(1);
   });
 
   it('should render a list of checkboxes ', () => {
@@ -137,9 +95,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const numOptions = 5;
     const truncated = statuses.slice(0, numOptions);
 
-    const { rerender } = render(
-      withAppContext(<CheckboxList name={name} options={truncated} />)
-    );
+    const { rerender } = render(withAppContext(<CheckboxList name={name} options={truncated} />));
 
     const allBoxes = document.querySelectorAll('input[type="checkbox"]');
 
@@ -164,15 +120,9 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     expect(global.console.error).not.toHaveBeenCalled();
 
-    rerender(
-      withAppContext(
-        <CheckboxList name={name} options={optionsWithoutRequiredProps} />
-      )
-    );
+    rerender(withAppContext(<CheckboxList name={name} options={optionsWithoutRequiredProps} />));
 
-    expect(document.querySelectorAll('input[type="checkbox"]')).toHaveLength(
-      statuses.length - invalidOptionsCount
-    );
+    expect(document.querySelectorAll('input[type="checkbox"]')).toHaveLength(statuses.length - invalidOptionsCount);
 
     expect(global.console.error).toHaveBeenCalled();
 
@@ -248,9 +198,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(onToggleMock).not.toHaveBeenCalled();
 
     // loop over all checkboxes but one and check them manually
-    const nodeListIterator = container
-      .querySelectorAll('input[type="checkbox"]:not(:last-of-type)')
-      .values();
+    const nodeListIterator = container.querySelectorAll('input[type="checkbox"]:not(:last-of-type)').values();
 
     for (const checkbox of nodeListIterator) {
       act(() => {
@@ -262,9 +210,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
 
     act(() => {
-      fireEvent.click(
-        container.querySelector('input[type="checkbox"]:last-of-type')
-      );
+      fireEvent.click(container.querySelector('input[type="checkbox"]:last-of-type'));
     });
 
     expect(onToggleMock).toHaveBeenCalledTimes(1);
@@ -333,18 +279,14 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     expect(getByText(toggleAllLabel)).toBeInTheDocument();
     expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
-    expect(
-      container.querySelectorAll('input[type="checkbox"]:checked')
-    ).toHaveLength(0);
+    expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(0);
 
     act(() => {
       fireEvent.click(getByText(toggleAllLabel));
     });
 
     // verify that the toggle has the correct label
-    expect(
-      container.querySelectorAll('input[type="checkbox"]:checked')
-    ).toHaveLength(statuses.length);
+    expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(statuses.length);
     expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
     expect(getByText(toggleNothingLabel)).toBeInTheDocument();
 
@@ -352,11 +294,87 @@ describe('signals/incident-management/components/CheckboxList', () => {
       fireEvent.click(getByText(toggleNothingLabel));
     });
 
-    expect(
-      container.querySelectorAll('input[type="checkbox"]:checked')
-    ).toHaveLength(0);
+    expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(0);
     expect(getByText(toggleAllLabel)).toBeInTheDocument();
     expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+  });
+
+  describe('toggle all from keyboard', () => {
+    const toggleAllLabel = 'Click here to select all';
+    const toggleNothingLabel = 'Click here to undo selection';
+    const onSubmitMock = jest.fn();
+    let container;
+
+    beforeEach(() => {
+      const checkboxList = render(
+        withAppContext(
+          <CheckboxList
+            hasToggle
+            name="status"
+            onToggle={() => {}}
+            onSubmit={onSubmitMock}
+            options={statuses}
+            toggleAllLabel={toggleAllLabel}
+            toggleNothingLabel={toggleNothingLabel}
+          />
+        )
+      );
+
+      container = checkboxList.container;
+      expect(screen.getByText(toggleAllLabel)).toBeInTheDocument();
+      expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+      expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(0);
+    });
+
+    afterEach(() => {
+      onSubmitMock.mockReset();
+    });
+
+    it('should ignore unknown keys', () => {
+      const element = screen.getByText(toggleAllLabel);
+      // The state of the checkboxes should not change
+      fireEvent.keyDown(element, { key: 'ArrowDown' });
+      expect(screen.getByText(toggleAllLabel)).toBeInTheDocument();
+      expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+      expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(0);
+    });
+
+    it('should select all checkboxes on space', () => {
+      const element = screen.getByText(toggleAllLabel);
+
+      // Space selects all checkboxes
+      fireEvent.keyDown(element, { key: ' ' });
+      expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(statuses.length);
+      expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument();
+      expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument();
+    });
+
+    it('should deselect all checkboxes on space', () => {
+      const element = screen.getByText(toggleAllLabel);
+
+      // Space selects all checkboxes
+      fireEvent.keyDown(element, { key: ' ' });
+      expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(statuses.length);
+      expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument();
+      expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument();
+
+      // Space unselects all checkboxes
+      fireEvent.keyDown(element, { key: ' ' });
+      expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(0);
+      expect(screen.getByText(toggleAllLabel)).toBeInTheDocument();
+      expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+    });
+
+    it('should submit on Enter', () => {
+      const element = screen.getByText(toggleAllLabel);
+
+      expect(onSubmitMock).not.toHaveBeenCalled();
+      fireEvent.keyDown(element, { key: 'Enter' });
+      expect(container.querySelectorAll('input[type="checkbox"]:checked')).toHaveLength(0);
+      expect(screen.getByText(toggleAllLabel)).toBeInTheDocument();
+      expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+      expect(onSubmitMock).toHaveBeenCalled();
+    });
   });
 
   it('should handle change', () => {
@@ -380,9 +398,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     });
 
     const randomOption = Math.floor(Math.random() * statuses.length);
-    const randomCheckbox = container.querySelectorAll(
-      'input[type="checkbox"]:checked'
-    )[randomOption];
+    const randomCheckbox = container.querySelectorAll('input[type="checkbox"]:checked')[randomOption];
 
     expect(randomCheckbox.checked).toEqual(true);
 
@@ -412,13 +428,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const options = categories.mainToSub.afval;
     const slugs = options.map(({ slug }) => slug);
     const { container, rerender } = render(
-      withAppContext(
-        <CheckboxList
-          defaultValue={options.slice(0, 2)}
-          name="afval"
-          options={options}
-        />
-      )
+      withAppContext(<CheckboxList defaultValue={options.slice(0, 2)} name="afval" options={options} />)
     );
 
     container.querySelectorAll('input[type="checkbox"]').forEach(element => {
@@ -427,15 +437,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     const keys = statuses.map(({ key }) => key);
 
-    rerender(
-      withAppContext(
-        <CheckboxList
-          defaultValue={statuses.slice(0, 2)}
-          name="status"
-          options={statuses}
-        />
-      )
-    );
+    rerender(withAppContext(<CheckboxList defaultValue={statuses.slice(0, 2)} name="status" options={statuses} />));
 
     container.querySelectorAll('input[type="checkbox"]').forEach(element => {
       expect(keys.includes(element.value));
@@ -524,7 +526,9 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(onToggleMock).not.toHaveBeenCalled();
 
     for (const checkbox of container.querySelectorAll('input[type="checkbox"]').values()) {
-      act(() => { fireEvent.click(checkbox); });
+      act(() => {
+        fireEvent.click(checkbox);
+      });
     }
 
     jest.runOnlyPendingTimers();
@@ -553,7 +557,9 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(onToggleMock).not.toHaveBeenCalled();
 
     for (const checkbox of container.querySelectorAll('input[type="checkbox"]').values()) {
-      act(() => { fireEvent.click(checkbox); });
+      act(() => {
+        fireEvent.click(checkbox);
+      });
     }
 
     jest.runAllTimers();
