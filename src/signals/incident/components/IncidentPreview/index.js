@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Heading, Link as AscLink, themeSpacing, themeColor } from '@amsterdam/asc-ui';
+import { Heading, Link as AscLink, themeSpacing, themeColor, Hidden } from '@amsterdam/asc-ui';
 
 import { incidentType } from 'shared/types';
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -30,7 +30,7 @@ const Header = styled.header`
   display: grid;
   position: relative;
   column-gap: ${themeSpacing(5)};
-  grid-template-columns: 8fr 4;
+  grid-template-columns: 8fr 4fr;
 
   ${() =>
     isAuthenticated() &&
@@ -42,7 +42,14 @@ const Header = styled.header`
 `;
 
 const LinkContainer = styled.div`
-  text-align: right;
+  padding-top: ${themeSpacing(5)};
+
+  ${({ positionTop }) =>
+    positionTop &&
+    css`
+      text-align: right;
+      padding-top: 0;
+    `}
 
   ${({ absolutePosLink }) =>
     absolutePosLink &&
@@ -151,11 +158,13 @@ const IncidentPreview = ({ incident, preview }) => (
           <Section hasHeading={hasHeading} key={section}>
             <Header>
               {sectionHeading || <div />}
-              <LinkContainer absolutePosLink={!hasHeading}>
-                <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                  {editLinkText}
-                </AscLink>
-              </LinkContainer>
+              <Hidden maxBreakpoint="laptop">
+                <LinkContainer absolutePosLink={!hasHeading} positionTop>
+                  <AscLink as={Link} to={`/incident/${section}`} variant="inline">
+                    {editLinkText}
+                  </AscLink>
+                </LinkContainer>
+              </Hidden>
             </Header>
 
             <Ul>
@@ -172,6 +181,13 @@ const IncidentPreview = ({ incident, preview }) => (
                 </Li>
               ))}
             </Ul>
+            <Hidden minBreakpoint="laptop">
+              <LinkContainer>
+                <AscLink as={Link} to={`/incident/${section}`} variant="inline">
+                  {editLinkText}
+                </AscLink>
+              </LinkContainer>
+            </Hidden>
           </Section>
         )
       );
