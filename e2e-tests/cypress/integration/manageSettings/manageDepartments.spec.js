@@ -9,10 +9,9 @@ describe('Manage departments', () => {
   describe('Visit department page', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getCategoriesRoutes();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
     it('Should visit the manage department page by menu', () => {
@@ -31,10 +30,8 @@ describe('Manage departments', () => {
   describe('Edit department', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
-      cy.route(/departments\/\d+/).as('getDepartment');
-      cy.route('PATCH', '/signals/v1/private/departments/*').as('patchDepartment');
-      cy.visitFetch('/instellingen/afdelingen');
+      cy.departmentRoutes();
+      cy.visit('/instellingen/afdelingen');
     });
 
     it('Should edit a department', () => {
@@ -58,7 +55,7 @@ describe('Manage departments', () => {
       cy.get(DEPARTMENTS.notification).should('have.text', "Afdeling 'Actie Service Centrum' bijgewerkt");
       cy.url().should('include', '/instellingen/afdelingen');
       // Because page doesn't refresh automatically, page is reloaded
-      cy.visitFetch('/instellingen/afdelingen');
+      cy.visit('/instellingen/afdelingen');
       cy.get('td').eq(1).should('contain', 'Asbest / accu');
       cy.get('tr').eq(1).click();
       cy.wait('@getDepartment');
@@ -75,7 +72,7 @@ describe('Manage departments', () => {
       cy.get(DEPARTMENTS.checkboxWildplassenPoepen).check().should('be.checked');
       cy.get(DEPARTMENTS.buttonAnnuleren).click();
       // Because page doesn't refresh automatically, page is reloaded
-      cy.visitFetch('/instellingen/afdelingen');
+      cy.visit('/instellingen/afdelingen');
       cy.get('td').eq(3).should('not.contain', 'Wildplassen / poepen / overgeven');
     });
   });
@@ -88,10 +85,9 @@ describe('Manage departments', () => {
     describe('Change signal category', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.server();
         cy.getManageSignalsRoutes();
         cy.getSignalDetailsRoutesById();
-        cy.visitFetch('/manage/incidents/');
+        cy.visit('/manage/incidents/');
         cy.waitForManageSignalsRoutes();
       });
       it('Should change signal category', () => {
@@ -105,10 +101,8 @@ describe('Manage departments', () => {
     describe('Change responsible department', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.server();
-        cy.route(/departments\/\d+/).as('getDepartment');
-        cy.route('PATCH', '/signals/v1/private/departments/*').as('patchDepartment');
-        cy.visitFetch('/instellingen/afdelingen');
+        cy.departmentRoutes();
+        cy.visit('/instellingen/afdelingen');
       });
       it('Should change the responsible department', () => {
         cy.get('tr').eq(3).click();
@@ -120,10 +114,9 @@ describe('Manage departments', () => {
     describe('Should change signal again and check responsible department', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.server();
         cy.getManageSignalsRoutes();
         cy.getSignalDetailsRoutesById();
-        cy.visitFetch('/manage/incidents/');
+        cy.visit('/manage/incidents/');
         cy.waitForManageSignalsRoutes();
       });
       it('Should change signal category and check responsible department', () => {
@@ -135,10 +128,8 @@ describe('Manage departments', () => {
     describe('Change responsible department to initial state', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.server();
-        cy.route(/departments\/\d+/).as('getDepartment');
-        cy.route('PATCH', '/signals/v1/private/departments/*').as('patchDepartment');
-        cy.visitFetch('/instellingen/afdelingen');
+        cy.departmentRoutes();
+        cy.visit('/instellingen/afdelingen');
       });
       it('Should change the responsible department to initial state', () => {
         cy.get('tr').eq(3).click();
