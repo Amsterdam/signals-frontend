@@ -1,47 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form component <RadioInput /> rendering should render info from current selection correctly 1`] = `
-<Header
-  className=""
-  getError={[MockFunction]}
-  hasError={[MockFunction]}
-  meta={
-    Object {
-      "isVisible": true,
-      "name": "input-field-name",
-      "placeholder": "type here",
-      "values": Object {
-        "foo": Object {
-          "info": "info",
-          "value": "foo",
-        },
-      },
-    }
-  }
-  touched={false}
->
-  <RadioGroup
-    name="input-field-name"
-  >
-    <RadioInput
-      checked={true}
-      id="foo"
-      idAttr="input-field-name-foo1"
-      info="info"
-      key="foo"
-      label="foo"
-      name="input-field-name"
-      resetsStateOnChange={false}
-    />
-  </RadioGroup>
-  <styled.p>
-    foo
-    : 
-    info
-  </styled.p>
-</Header>
-`;
-
 exports[`Form component <RadioInput /> rendering should render no radio field when not visible 1`] = `""`;
 
 exports[`Form component <RadioInput /> rendering should render radio fields correctly 1`] = `
