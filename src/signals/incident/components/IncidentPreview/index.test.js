@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import 'jest-styled-components';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -110,6 +110,11 @@ describe('<IncidentPreview />', () => {
     await findByTestId('incidentPreview');
 
     const sectionRe = new RegExp(Object.keys(props.preview).join('|'));
+
+    expect(screen.getByText('Wijzig melding')).toBeInTheDocument();
+    expect(screen.getByText('Wijzig aanvullende informatie')).toBeInTheDocument();
+    expect(screen.getByText('Wijzig bar baz qux')).toBeInTheDocument();
+
     container.querySelectorAll('a').forEach(element => {
       expect(element.href).toEqual(expect.stringMatching(sectionRe));
     });
@@ -123,7 +128,7 @@ describe('<IncidentPreview />', () => {
     await findByTestId('incidentPreview');
 
     container.querySelectorAll('header').forEach(element => {
-      expect(element).toHaveStyleRule('grid-template-columns', '10fr 2fr');
+      expect(element).toHaveStyleRule('grid-template-columns', '8fr 4fr');
     });
 
     isAuthenticated.mockImplementation(() => true);

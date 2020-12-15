@@ -119,16 +119,13 @@ const heading = previewKey => {
 };
 
 const getEditLinkText = (section, value) => {
-  switch (section) {
-    case 'beschrijf':
-      return 'Wijzig melding';
+  if (section === 'beschrijf') return 'Wijzig melding';
+  if (section === 'vulaan') return 'Wijzig aanvullende informatie';
 
-    case 'vulaan':
-      return 'Wijzig aanvullende informatie';
+  const entry = Object.entries(value)[0];
+  if (entry && entry[1].label) return `Wijzig ${entry[1].label.toLowerCase()}`;
 
-    default:
-      return `Wijzig ${Object.entries(value)[0][1]?.label.toLowerCase()}`;
-  }
+  return 'Wijzigen';
 };
 
 const IncidentPreview = ({ incident, preview }) => (
