@@ -30,7 +30,7 @@ const Header = styled.header`
   display: grid;
   position: relative;
   column-gap: ${themeSpacing(5)};
-  grid-template-columns: 10fr 2fr;
+  grid-template-columns: 8fr 4;
 
   ${() =>
     isAuthenticated() &&
@@ -111,11 +111,25 @@ const heading = previewKey => {
   }
 };
 
+const getEditLinkText = (section, value) => {
+  switch (section) {
+    case 'beschrijf':
+      return 'Wijzig melding';
+
+    case 'vulaan':
+      return 'Wijzig aanvullende informatie';
+
+    default:
+      return `Wijzig ${Object.entries(value)[0][1]?.label.toLowerCase()}`;
+  }
+};
+
 const IncidentPreview = ({ incident, preview }) => (
   <Wrapper data-testid="incidentPreview">
     {Object.entries(preview).map(([section, value]) => {
       const sectionHeading = heading(section);
       const hasHeading = Boolean(sectionHeading);
+      const editLinkText = getEditLinkText(section, value);
       const visibleEntries = Object.entries(value).filter(([entryKey, { optional, authenticated }]) => {
         if (authenticated && !isAuthenticated()) {
           return false;
@@ -139,7 +153,7 @@ const IncidentPreview = ({ incident, preview }) => (
               {sectionHeading || <div />}
               <LinkContainer absolutePosLink={!hasHeading}>
                 <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                  Wijzigen
+                  {editLinkText}
                 </AscLink>
               </LinkContainer>
             </Header>
