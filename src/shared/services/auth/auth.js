@@ -1,9 +1,12 @@
-import authz from './services/authz';
-import keycloak from './services/keycloak';
+import Authz from './services/authz';
+import Keycloak from './services/keycloak';
 import configuration from '../configuration/configuration';
 
 const storage = global.localStorage ? global.localStorage : global.sessionStorage;
 const OAUTH_DOMAIN_KEY = 'oauthDomain'; // Domain that is used for login
+
+const keycloak = new Keycloak();
+const authz = new Authz();
 
 /**
  * Returns OAuth domain.
