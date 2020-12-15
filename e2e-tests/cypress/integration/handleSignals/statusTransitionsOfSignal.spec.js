@@ -14,10 +14,9 @@ describe('All status transitions of a signal', () => {
   describe('Set 01 status transitions', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
@@ -73,10 +72,9 @@ describe('All status transitions of a signal', () => {
   describe('Set 02 status transitions', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
@@ -103,10 +101,9 @@ describe('All status transitions of a signal', () => {
   describe('Set 03 status transitions', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
@@ -136,10 +133,9 @@ describe('All status transitions of a signal', () => {
   describe('Set 04 status transitions', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
@@ -163,10 +159,9 @@ describe('All status transitions of a signal', () => {
   describe('Send signal to THOR', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {

@@ -12,11 +12,8 @@ export const addNote = noteText => {
 };
 
 export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
-  cy.server();
-  cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignal');
-  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-    cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
-  });
+  cy.getSortedByTimeRoutes();
+  cy.getHistoryRoute();
   cy.get(CHANGE_STATUS.buttonEdit).click();
   cy.contains('Status wijzigen').should('be.visible');
   cy.get(CHANGE_STATUS.currentStatus).contains(initialStatus).should('be.visible');
@@ -25,7 +22,7 @@ export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.get(CHANGE_STATUS.buttonSubmit).click();
 
   cy.wait('@getHistory');
-  cy.wait('@getSignal');
+  cy.wait('@getSortedTimeDESC');
   cy.get(SIGNAL_DETAILS.status)
     .should('have.text', newStatus)
     .and('be.visible')
@@ -335,7 +332,7 @@ export const setDescription = description => {
 
 export const setDescriptionPage = fixturePath => {
   cy.fixture(fixturePath).then(json => {
-    cy.stubCategoryPrediction(json.fixtures.prediction);
+    cy.stubResponse('**/prediction', json.fixtures.prediction);
     checkDescriptionPage();
     setAddress(fixturePath);
     setDescription(json.text);
