@@ -97,43 +97,12 @@ const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(8)};
 `;
 
-const heading = previewKey => {
-  switch (previewKey) {
-    case 'beschrijf':
-      return (
-        <Heading as="h2" styleAs="h3">
-          Melding
-        </Heading>
-      );
-
-    case 'vulaan':
-      return (
-        <Heading as="h2" styleAs="h3">
-          Aanvullende informatie
-        </Heading>
-      );
-
-    default:
-      return null;
-  }
-};
-
-const getEditLinkText = (section, value) => {
-  if (section === 'beschrijf') return 'Wijzig melding';
-  if (section === 'vulaan') return 'Wijzig aanvullende informatie';
-
-  const entry = Object.entries(value)[0];
-  if (entry && entry[1].label) return `Wijzig ${entry[1].label.toLowerCase()}`;
-
-  return 'Wijzigen';
-};
-
-const IncidentPreview = ({ incident, preview }) => (
+const IncidentPreview = ({ incident, preview, sectionLabels }) => (
   <Wrapper data-testid="incidentPreview">
     {Object.entries(preview).map(([section, value]) => {
-      const sectionHeading = heading(section);
-      const hasHeading = Boolean(sectionHeading);
-      const editLinkText = getEditLinkText(section, value);
+      const editLinkLabel = sectionLabels.edit[section];
+      const sectionHeadingLabel = sectionLabels.heading[section];
+      const hasHeading = Boolean(sectionHeadingLabel);
       const visibleEntries = Object.entries(value).filter(([entryKey, { optional, authenticated }]) => {
         if (authenticated && !isAuthenticated()) {
           return false;
@@ -154,11 +123,17 @@ const IncidentPreview = ({ incident, preview }) => (
         visibleEntries.length > 0 && (
           <Section hasHeading={hasHeading} key={section}>
             <Header>
-              {sectionHeading || <div />}
+              {sectionHeadingLabel ? (
+                <Heading as="h2" styleAs="h3">
+                  {sectionHeadingLabel}
+                </Heading>
+              ) : (
+                <div />
+              )}
               <Hidden maxBreakpoint="laptop">
                 <LinkContainer absolutePosLink={!hasHeading} positionTop>
                   <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                    {editLinkText}
+                    {editLinkLabel}
                   </AscLink>
                 </LinkContainer>
               </Hidden>
@@ -181,7 +156,7 @@ const IncidentPreview = ({ incident, preview }) => (
             <Hidden minBreakpoint="laptop">
               <LinkContainer>
                 <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                  {editLinkText}
+                  {editLinkLabel}
                 </AscLink>
               </LinkContainer>
             </Hidden>
@@ -195,6 +170,7 @@ const IncidentPreview = ({ incident, preview }) => (
 IncidentPreview.propTypes = {
   incident: incidentType.isRequired,
   preview: PropTypes.object,
+  sectionLabels: PropTypes.object,
 };
 
 export default IncidentPreview;
