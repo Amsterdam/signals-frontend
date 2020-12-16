@@ -62,6 +62,17 @@ describe('<IncidentPreview />', () => {
           },
         },
       },
+      sectionLabels: {
+        heading: {
+          vulaan: 'Vulaan heading',
+          beschrijf: 'Beschrijf heading',
+        },
+        edit: {
+          vulaan: 'Wijzig vulaan',
+          beschrijf: 'Wijzig beschrijf',
+          some_other_section: 'Wijzig bar baz qux',
+        },
+      },
     };
   });
 
@@ -111,8 +122,8 @@ describe('<IncidentPreview />', () => {
 
     const sectionRe = new RegExp(Object.keys(props.preview).join('|'));
 
-    expect(screen.getByText('Wijzig melding')).toBeInTheDocument();
-    expect(screen.getByText('Wijzig aanvullende informatie')).toBeInTheDocument();
+    expect(screen.getByText('Wijzig beschrijf')).toBeInTheDocument();
+    expect(screen.getByText('Wijzig vulaan')).toBeInTheDocument();
     expect(screen.getByText('Wijzig bar baz qux')).toBeInTheDocument();
 
     container.querySelectorAll('a').forEach(element => {
@@ -145,7 +156,15 @@ describe('<IncidentPreview />', () => {
   });
 
   describe('rendering of all value types', () => {
-    const alTypesProps = {
+    const allTypesProps = {
+      sectionLabels: {
+        heading: {
+          beschrijf: 'Beschrijf',
+        },
+        edit: {
+          beschrijf: 'Wijzig beschrijf',
+        },
+      },
       incident: {
         plain_text: 'Dit is een melding',
         objectValue: {
@@ -211,12 +230,12 @@ describe('<IncidentPreview />', () => {
     };
 
     it('expect to render correctly', async () => {
-      const { queryByText, findByTestId } = render(withAppContext(<IncidentPreview {...alTypesProps} />));
+      const { queryByText, findByTestId } = render(withAppContext(<IncidentPreview {...allTypesProps} />));
 
       await findByTestId('incidentPreview');
 
-      const { incident } = alTypesProps;
-      const step = alTypesProps.preview.beschrijf;
+      const { incident } = allTypesProps;
+      const step = allTypesProps.preview.beschrijf;
 
       expect(queryByText(step.plain_text.label)).toBeInTheDocument();
       expect(queryByText(incident.plain_text)).toBeInTheDocument();
