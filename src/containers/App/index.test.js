@@ -47,16 +47,6 @@ describe('<App />', () => {
     listenSpy.mockRestore();
   });
 
-  it('should call authenticate', () => {
-    jest.spyOn(auth, 'authenticate');
-
-    expect(auth.authenticate).not.toHaveBeenCalled();
-
-    render(withAppContext(<App />));
-
-    expect(auth.authenticate).toHaveBeenCalled();
-  });
-
   it('should scroll to top on history change', () => {
     render(withAppContext(<App />));
 

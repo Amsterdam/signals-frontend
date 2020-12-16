@@ -1,4 +1,4 @@
-import accessTokenParser from './access-token-parser';
+import parseAccessToken from './parse-access-token';
 
 /* eslint-disable max-len */
 const testAccessToken = 'abc.eyJuYmYiOjE0ODc4NDMxMjgsImV4cCI6MTQ4Nzg0MzMyOCwianRpIjoiand0SWQiLCJzY29wZXMiOlsiSFIvUiIsIkJSSy9SUyJdLCJpc3MiOiJpc3N1ZXIiLCJzdWIiOiJuYW1lIiwiaWF0IjoxNDg3ODQzMDI4fQ==.xyz';
@@ -7,7 +7,7 @@ const testAccessToken = 'abc.eyJuYmYiOjE0ODc4NDMxMjgsImV4cCI6MTQ4Nzg0MzMyOCwianR
 describe('The access token parser service', () => {
   it('turns an access token into an object', () => {
     expect(
-      accessTokenParser(testAccessToken)
+      parseAccessToken(testAccessToken)
     ).toEqual({
       issuer: 'issuer',
       name: 'name',
@@ -21,7 +21,7 @@ describe('The access token parser service', () => {
 
   it('turns empty object when token is incorrect', () => {
     expect(
-      accessTokenParser('incorrect-token')
+      parseAccessToken('incorrect-token')
     ).toEqual({});
   });
 });

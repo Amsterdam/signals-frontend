@@ -31,15 +31,6 @@ Cypress.Commands.add('setResolution', size => {
     cy.viewport(size);
   }
 });
-// Cypress cannot intercept the fetch protocol, this is a workaround to intercept it and fall back to the XmlHttpRequest protocol.
-Cypress.Commands.add('visitFetch', url => {
-  cy.visit(url, {
-    onBeforeLoad(win) {
-      // eslint-disable-next-line no-param-reassign
-      delete win.fetch;
-    },
-  });
-});
 
 Cypress.Commands.add('checkHeaderText', h1 => {
   cy.get('h1')

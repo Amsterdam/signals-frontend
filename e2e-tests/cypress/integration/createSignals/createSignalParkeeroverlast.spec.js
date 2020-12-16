@@ -9,11 +9,10 @@ const fixturePath = '../fixtures/signals/parkeren.json';
 describe('Create signal "Parkeeroverlast" and check signal details', () => {
   describe('Create signal parkeeroverlast', () => {
     before(() => {
-      cy.server();
       cy.getAddressRoute();
       cy.postSignalRoutePublic();
-      cy.intercept('**/maps/topografie?bbox=**').as('map');
-      cy.visitFetch('incident/beschrijf');
+      cy.getMapRoute();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
@@ -42,7 +41,7 @@ describe('Create signal "Parkeeroverlast" and check signal details', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
+      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
@@ -56,10 +55,9 @@ describe('Create signal "Parkeeroverlast" and check signal details', () => {
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 

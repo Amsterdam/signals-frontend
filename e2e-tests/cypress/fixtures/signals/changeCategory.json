@@ -65,7 +65,7 @@
     {"id": 6, "code": "AEG", "name": "Afval en Grondstoffen", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "bedrijvenBezoekersoverlast.json",
+    "prediction": "wespen.json",
     "attachments": null
   }
 }

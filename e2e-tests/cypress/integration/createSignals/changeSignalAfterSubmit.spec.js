@@ -16,11 +16,10 @@ const fixturePath = '../fixtures/signals/graffiti.json';
 describe('Change signal after submit', () => {
   describe('Create signal in category "Graffiti"', () => {
     before(() => {
-      cy.server();
       cy.getAddressRoute();
       cy.postSignalRoutePublic();
-      cy.route2('**/maps/topografie?bbox=**').as('map');
-      cy.visitFetch('incident/beschrijf');
+      cy.getMapRoute();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
@@ -33,7 +32,7 @@ describe('Change signal after submit', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
+      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
@@ -46,10 +45,9 @@ describe('Change signal after submit', () => {
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
@@ -63,11 +61,10 @@ describe('Change signal after submit', () => {
   describe('Change signal data', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.getAddressRoute();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 

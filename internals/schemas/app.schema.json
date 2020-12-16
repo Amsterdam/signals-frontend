@@ -39,6 +39,9 @@
         "oidc": {
           "$ref": "#/definitions/Oidc"
         },
+        "keycloak": {
+          "$ref": "#/definitions/Oidc"
+        },
         "sentry": {
           "$ref": "#/definitions/Sentry"
         },
@@ -401,6 +404,10 @@
         },
         "clientId": {
           "description": "oAuth2 `client_id` service parameter value",
+          "type": "string"
+        },
+        "realm": {
+          "description": "oAuth2 `realm` service parameter value",
           "type": "string"
         },
         "responseType": {

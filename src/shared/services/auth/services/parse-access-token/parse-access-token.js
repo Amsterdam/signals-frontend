@@ -1,19 +1,14 @@
-function decodeToken(token) {
+const decodeToken = token => {
   try {
-    return JSON.parse(
-      window.atob(token
-        .split('.')[1]
-        .replace('-', '+')
-        .replace('_', '/'))
-    );
-  // disabled eslint rule because fix breaks test
-  // eslint-disable-next-line unicorn/prefer-optional-catch-binding, no-unused-vars
+    return JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
+    // disabled eslint rule because fix breaks test
+    // eslint-disable-next-line unicorn/prefer-optional-catch-binding, no-unused-vars
   } catch (error) {
     return {};
   }
-}
+};
 
-export default function parseAccessToken(token) {
+const parseAccessToken = token => {
   const content = decodeToken(token);
   return {
     issuer: content.iss, // the URL of the authorization endpoint
@@ -25,4 +20,6 @@ export default function parseAccessToken(token) {
     nonce: content.nonce,
     scopes: content.scopes, // list of scopes that this token provides access to
   };
-}
+};
+
+export default parseAccessToken;
