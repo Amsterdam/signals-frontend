@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Heading, Link as AscLink, themeSpacing, themeColor, Hidden } from '@amsterdam/asc-ui';
+import { Heading, Link as AscLink, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui';
 
 import { incidentType } from 'shared/types';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
 const Section = styled.section`
+  position: relative;
   padding: ${themeSpacing(4, 0)};
   border-top: 2px solid ${themeColor('tint', 'level3')};
 
@@ -44,24 +45,15 @@ const Header = styled.header`
 const LinkContainer = styled.div`
   padding-top: ${themeSpacing(5)};
 
-  ${({ positionTop }) =>
-    positionTop &&
-    css`
-      text-align: right;
-      padding-top: 0;
-    `}
+  @media screen and (${breakpoint('min-width', 'laptop')}) {
+    padding-top: 0;
 
-  ${({ absolutePosLink }) =>
-    absolutePosLink &&
-    css`
-      position: relative;
-
-      a {
-        position: absolute;
-        top: 0;
-        right: 0;
-      }
-    `}
+    a {
+      position: absolute;
+      top: ${themeSpacing(4)};
+      right: 0;
+    }
+  }
 `;
 
 const Ul = styled.ul`
@@ -128,15 +120,8 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
                   {sectionHeadingLabel}
                 </Heading>
               ) : (
-                <div />
+                null
               )}
-              <Hidden maxBreakpoint="laptop">
-                <LinkContainer absolutePosLink={!hasHeading} positionTop>
-                  <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                    {editLinkLabel}
-                  </AscLink>
-                </LinkContainer>
-              </Hidden>
             </Header>
 
             <Ul>
@@ -153,13 +138,12 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
                 </Li>
               ))}
             </Ul>
-            <Hidden minBreakpoint="laptop">
-              <LinkContainer>
-                <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                  {editLinkLabel}
-                </AscLink>
-              </LinkContainer>
-            </Hidden>
+
+            <LinkContainer>
+              <AscLink as={Link} to={`/incident/${section}`} variant="inline">
+                {editLinkLabel}
+              </AscLink>
+            </LinkContainer>
           </Section>
         )
       );
