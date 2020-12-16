@@ -3,6 +3,8 @@ import KeycloakJS from 'keycloak-js';
 import configuration from '../../configuration/configuration';
 import parseAccessToken from './parse-access-token/parse-access-token';
 
+const AUTH_REDIRECT_URI = `${global.location.protocol}//${global.location.host}/manage/incidents`;
+
 class Keycloak {
   constructor() {
     const { authEndpoint, realm, clientId } = configuration.keycloak || {};
@@ -36,6 +38,7 @@ class Keycloak {
       'check-sso': false, // To enable refresh token
       checkLoginIframe: false, // To enable refresh token
       pkceMethod: 'S256',
+      redirectUri: AUTH_REDIRECT_URI,
       ...options,
     });
   }
