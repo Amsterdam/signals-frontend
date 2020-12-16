@@ -7,7 +7,7 @@ import { withAppContext } from 'test/utils';
 import statuses from 'signals/incident-management/definitions/statusList';
 import categories from 'utils/__tests__/fixtures/categories.json';
 
-import CheckboxList from '..';
+import CheckboxList from '.';
 
 describe('signals/incident-management/components/CheckboxList', () => {
   it('should render a title ', () => {
