@@ -38,7 +38,6 @@ class Keycloak {
       'check-sso': false, // To enable refresh token
       checkLoginIframe: false, // To enable refresh token
       pkceMethod: 'S256',
-      redirectUri: AUTH_REDIRECT_URI,
       ...options,
     });
   }
@@ -80,7 +79,7 @@ class Keycloak {
 
   async login() {
     if (!this.isInitialized) {
-      await this.init();
+      await this.init({ redirectUri: AUTH_REDIRECT_URI });
     }
 
     this.keycloak.login();
