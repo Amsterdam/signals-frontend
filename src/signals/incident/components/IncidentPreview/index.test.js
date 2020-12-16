@@ -122,9 +122,9 @@ describe('<IncidentPreview />', () => {
 
     const sectionRe = new RegExp(Object.keys(props.preview).join('|'));
 
-    expect(screen.getByText('Wijzig beschrijf')).toBeInTheDocument();
-    expect(screen.getByText('Wijzig vulaan')).toBeInTheDocument();
-    expect(screen.getByText('Wijzig bar baz qux')).toBeInTheDocument();
+    expect(screen.getByText(props.sectionLabels.edit.beschrijf)).toBeInTheDocument();
+    expect(screen.getByText(props.sectionLabels.edit.vulaan)).toBeInTheDocument();
+    expect(screen.getByText(props.sectionLabels.edit.some_other_section)).toBeInTheDocument();
 
     container.querySelectorAll('a').forEach(element => {
       expect(element.href).toEqual(expect.stringMatching(sectionRe));

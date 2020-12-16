@@ -114,15 +114,13 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
       return (
         visibleEntries.length > 0 && (
           <Section hasHeading={hasHeading} key={section}>
-            <Header>
-              {sectionHeadingLabel ? (
+            {sectionHeadingLabel && (
+              <Header>
                 <Heading as="h2" styleAs="h3">
                   {sectionHeadingLabel}
                 </Heading>
-              ) : (
-                null
-              )}
-            </Header>
+              </Header>
+            )}
 
             <Ul>
               {visibleEntries.map(([itemKey, itemValue]) => (
@@ -154,7 +152,10 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
 IncidentPreview.propTypes = {
   incident: incidentType.isRequired,
   preview: PropTypes.object,
-  sectionLabels: PropTypes.object,
+  sectionLabels: PropTypes.shape({
+    heading: PropTypes.object,
+    edit: PropTypes.object,
+  }),
 };
 
 export default IncidentPreview;
