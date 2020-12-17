@@ -71,7 +71,7 @@
         "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
       ],
       "options": {
-        "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam",
+        "attribution": "<span aria-hidden='true'>Kaartgegevens CC-BY-4.0 Gemeente Amsterdam</span>",
         "subdomains": [
           "t1",
           "t2",
