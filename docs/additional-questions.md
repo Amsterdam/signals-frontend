@@ -44,6 +44,7 @@ Possible properties are listed below. The 'Field types' column lists the possibl
 | **endpoint** | The URL from which the assets can be retrieved to show on the map. Use `{{srsName}}` and `{{bboxLatLng}}` or `{{bboxLngLat}}` to get these values inserted in the URL. (e.g.: `https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{bboxLatLng}},{{srsName}}`) | MapSelect
 | **selectionLabel** | Label specifying the specific assets selected, shown below the map. | MapSelect
 | **ifOneOf** | Conditionally shows this field if one of the specified conditions is met. Specify an object with key-value pairs for field names and values respectively. You can specify one value, or an array of values for a field. When one of the specified fields has one of it's values set, this field will be displayed. E.g.: `{"animal": ["cow", "chicken"], "severity": "high"}`. In this example, the field will be shown if *either* for the field 'animal' the value 'cow', or 'chicken' has been selected, *or* if for the field 'severity' the value 'high' has been selected.
+| **requiredErrorMessage** | Custom error message for the 'required' input validator.
 
 ### Type
 

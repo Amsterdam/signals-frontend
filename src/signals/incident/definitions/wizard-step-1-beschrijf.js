@@ -33,6 +33,7 @@ const getControls = memoize(
           label: 'Waar is het?',
           subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
           path: 'location',
+          requiredErrorMessage: 'Kies een locatie op de kaart of vul een adres in',
         },
         options: {
           validators: [Validators.required],

@@ -74,7 +74,7 @@ describe('signals/incident/components/form/Header', () => {
 
   it('should render email error', () => {
     const hasError = prop => prop === 'email';
-    const error = 'Het moet een geldig e-mailadres zijn';
+    const error = 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl';
 
     const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} touched />));
 
@@ -89,7 +89,7 @@ describe('signals/incident/components/form/Header', () => {
     const requiredLength = 300;
     const hasError = prop => prop === 'maxLength';
     const getError = () => ({ requiredLength });
-    const error = `U kunt maximaal ${requiredLength} tekens invoeren.`;
+    const error = `U heeft meer dan de maximale ${requiredLength} tekens ingevoerd`;
 
     const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
 

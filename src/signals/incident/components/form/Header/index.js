@@ -60,12 +60,16 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
 
       {touched && containsErrors && (
         <Fragment>
-          {hasError('required') && <ErrorItem>Dit is een verplicht veld</ErrorItem>}
+          {hasError('required') && <ErrorItem>{meta?.requiredErrorMessage || 'Dit is een verplicht veld'}</ErrorItem>}
 
-          {hasError('email') && <ErrorItem>Het moet een geldig e-mailadres zijn</ErrorItem>}
+          {hasError('email') && (
+            <ErrorItem>
+              Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl
+            </ErrorItem>
+          )}
 
           {hasError('maxLength') && (
-            <ErrorItem>U kunt maximaal {getError('maxLength').requiredLength} tekens invoeren.</ErrorItem>
+            <ErrorItem>U heeft meer dan de maximale {getError('maxLength').requiredLength} tekens ingevoerd</ErrorItem>
           )}
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
@@ -86,6 +90,7 @@ Header.propTypes = {
   meta: PropTypes.shape({
     label: PropTypes.string,
     subtitle: PropTypes.string,
+    requiredErrorMessage: PropTypes.string,
   }),
   options: PropTypes.shape({
     validators: PropTypes.arrayOf(PropTypes.any),
