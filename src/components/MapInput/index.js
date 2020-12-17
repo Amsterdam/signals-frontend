@@ -66,6 +66,13 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
    */
   const hasInitalViewRef = useRef(true);
 
+  useEffect(() => {
+    if (!map) return;
+
+    map.attributionControl._container.setAttribute('aria-hidden', 'true');
+    map.attributionControl.setPrefix('<a aria-hidden="true" tabindex=-1 href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
+  }, [map]);
+
   const clickFunc = useCallback(
     async event => {
       hasInitalViewRef.current = false;
