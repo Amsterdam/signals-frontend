@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/jongeren.json';
 describe('Create signal overlast "Jongeren" and check signal details', () => {
   describe('Create signal overlast jongeren', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

@@ -9,7 +9,6 @@ const fixturePath = '../fixtures/signals/parkeren.json';
 describe('Create signal "Parkeeroverlast" and check signal details', () => {
   describe('Create signal parkeeroverlast', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

@@ -1,0 +1,42 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 20.090694,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "39",
+        "weergavenaam": "Karperweg 39, 1075LB Amsterdam",
+        "id": "adr-bb7abe6ad45f529db5cd37ecf5b85ef6",
+        "postcode": "1075LB",
+        "centroide_ll": "POINT(4.85429033 52.34753357)",
+        "straatnaam": "Karperweg"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-bb7abe6ad45f529db5cd37ecf5b85ef6": {
+      "suggest": ["Karperweg <b>39</b>, <b>1075LB</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1075lb",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1015lb", "1072lb", "10753", "10754", "10755"]
+      }
+    ],
+    "collations": [
+      "collation",
+      {
+        "collationQuery": "1072lb 39",
+        "hits": 12,
+        "misspellingsAndCorrections": ["1075lb", "1072lb", "39", "39"]
+      }
+    ]
+  }
+}

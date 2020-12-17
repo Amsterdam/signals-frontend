@@ -1,0 +1,35 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 19.65136,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "35",
+        "weergavenaam": "Anfieldroad 35, 1098VZ Amsterdam",
+        "id": "adr-7d25e711313cda4808d43512f8111fed",
+        "postcode": "1098VZ",
+        "centroide_ll": "POINT(4.94785547 52.34407112)",
+        "straatnaam": "Anfieldroad"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-7d25e711313cda4808d43512f8111fed": {
+      "suggest": ["Anfieldroad <b>35</b>, <b>1098VZ</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1098vz",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1058vz", "1092vz", "10981", "10983", "10985"]
+      }
+    ],
+    "collations": []
+  }
+}

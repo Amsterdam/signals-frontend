@@ -116,7 +116,6 @@ describe('Manage categories', () => {
     });
 
     it('Should describe the signal', () => {
-      cy.getAddressRoute();
       cy.getMapRoute();
       cy.postSignalRoutePrivate();
 
@@ -181,6 +180,7 @@ describe('Manage categories', () => {
 
       // Change category
       cy.get(CATEGORIES.inputName).clear().type('Afwatering brug');
+      cy.get(CATEGORIES.inputDescription).clear().type('Dit is het verhaal van de brug die helemaal niet moest afwateren');
       cy.get(CATEGORIES.inputDays).clear().type('5');
       cy.get(CATEGORIES.dropdownTypeOfDays).select('Werkdagen');
       cy.get(CATEGORIES.inputMessage)

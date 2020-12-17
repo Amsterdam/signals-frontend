@@ -1,0 +1,108 @@
+{
+  "response": {
+    "numFound": 8,
+    "start": 0,
+    "maxScore": 18.991135,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "1",
+        "weergavenaam": "Leidseplein 1, 1017PR Amsterdam",
+        "id": "adr-dcef808c9a47bafcd44b170baed23740",
+        "postcode": "1017PR",
+        "centroide_ll": "POINT(4.8833345 52.36433305)",
+        "straatnaam": "Leidseplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "7-1",
+        "weergavenaam": "Leidseplein 7-1, 1017PR Amsterdam",
+        "id": "adr-59be0fb2a8a0e4d47bca7156018d76b6",
+        "postcode": "1017PR",
+        "centroide_ll": "POINT(4.88354167 52.36419013)",
+        "straatnaam": "Leidseplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "7-H",
+        "weergavenaam": "Leidseplein 7-H, 1017PR Amsterdam",
+        "id": "adr-8b4d503f79cbad47b4a5f6719cb591fb",
+        "postcode": "1017PR",
+        "centroide_ll": "POINT(4.88354167 52.36419013)",
+        "straatnaam": "Leidseplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "3",
+        "weergavenaam": "Leidseplein 3, 1017PR Amsterdam",
+        "id": "adr-bc65c7f851d83ed58cd92038a0aaf168",
+        "postcode": "1017PR",
+        "centroide_ll": "POINT(4.88337896 52.36429729)",
+        "straatnaam": "Leidseplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5-2",
+        "weergavenaam": "Leidseplein 5-2, 1017PR Amsterdam",
+        "id": "adr-e7d90c0f4edae2baa55cc8575c2e72cb",
+        "postcode": "1017PR",
+        "centroide_ll": "POINT(4.88348264 52.36421684)",
+        "straatnaam": "Leidseplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5-3",
+        "weergavenaam": "Leidseplein 5-3, 1017PR Amsterdam",
+        "id": "adr-27a2645d24765a873d9e8e62fb51a38e",
+        "postcode": "1017PR",
+        "centroide_ll": "POINT(4.88348264 52.36421684)",
+        "straatnaam": "Leidseplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5-4",
+        "weergavenaam": "Leidseplein 5-4, 1017PR Amsterdam",
+        "id": "adr-15581d7aee79546bfdd773b3296a0403",
+        "postcode": "1017PR",
+        "centroide_ll": "POINT(4.88348264 52.36421684)",
+        "straatnaam": "Leidseplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5-5",
+        "weergavenaam": "Leidseplein 5-5, 1017PR Amsterdam",
+        "id": "adr-fcf03dda49b7f98b25b9ce8c9842e12d",
+        "postcode": "1017PR",
+        "centroide_ll": "POINT(4.88348264 52.36421684)",
+        "straatnaam": "Leidseplein"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-dcef808c9a47bafcd44b170baed23740": {
+      "suggest": ["Leidseplein <b>1</b>, <b>1017PR</b> Amsterdam"]
+    },
+    "adr-59be0fb2a8a0e4d47bca7156018d76b6": {
+      "suggest": ["Leidseplein 7-<b>1</b>, <b>1017PR</b> Amsterdam"]
+    },
+    "adr-8b4d503f79cbad47b4a5f6719cb591fb": {
+      "suggest": ["Leidseplein 7-H, <b>1017PR</b> Amsterdam"]
+    },
+    "adr-bc65c7f851d83ed58cd92038a0aaf168": {
+      "suggest": ["Leidseplein 3, <b>1017PR</b> Amsterdam"]
+    },
+    "adr-e7d90c0f4edae2baa55cc8575c2e72cb": {
+      "suggest": ["Leidseplein 5-2, <b>1017PR</b> Amsterdam"]
+    },
+    "adr-27a2645d24765a873d9e8e62fb51a38e": {
+      "suggest": ["Leidseplein 5-3, <b>1017PR</b> Amsterdam"]
+    },
+    "adr-15581d7aee79546bfdd773b3296a0403": {
+      "suggest": ["Leidseplein 5-4, <b>1017PR</b> Amsterdam"]
+    },
+    "adr-fcf03dda49b7f98b25b9ce8c9842e12d": {
+      "suggest": ["Leidseplein 5-5, <b>1017PR</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

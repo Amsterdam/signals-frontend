@@ -1,0 +1,84 @@
+{
+  "response": {
+    "numFound": 6,
+    "start": 0,
+    "maxScore": 17.184292,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "3",
+        "weergavenaam": "Piet Heinkade 3, 1019BR Amsterdam",
+        "id": "adr-5ef657600bb9a77df1e32a2b0817b8c9",
+        "postcode": "1019BR",
+        "centroide_ll": "POINT(4.91322584 52.37812678)",
+        "straatnaam": "Piet Heinkade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "31",
+        "weergavenaam": "Piet Heinkade 31, 1019BR Amsterdam",
+        "id": "adr-a04ca6f8b7d76683f3178ea7832bf932",
+        "postcode": "1019BR",
+        "centroide_ll": "POINT(4.91535832 52.37784769)",
+        "straatnaam": "Piet Heinkade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "33",
+        "weergavenaam": "Piet Heinkade 33, 1019BR Amsterdam",
+        "id": "adr-d7004bdfec3b762323cca0461ebc935e",
+        "postcode": "1019BR",
+        "centroide_ll": "POINT(4.91537272 52.37787471)",
+        "straatnaam": "Piet Heinkade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "35",
+        "weergavenaam": "Piet Heinkade 35, 1019BR Amsterdam",
+        "id": "adr-41df63618afa6415fc1420c57c9d24d2",
+        "postcode": "1019BR",
+        "centroide_ll": "POINT(4.91538721 52.37789275)",
+        "straatnaam": "Piet Heinkade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "37",
+        "weergavenaam": "Piet Heinkade 37, 1019BR Amsterdam",
+        "id": "adr-42a4a588fa63b279d4b2286132570aee",
+        "postcode": "1019BR",
+        "centroide_ll": "POINT(4.91538702 52.37791072)",
+        "straatnaam": "Piet Heinkade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "39",
+        "weergavenaam": "Piet Heinkade 39, 1019BR Amsterdam",
+        "id": "adr-a021a0bb180eaee9b8576dbefa22a0d4",
+        "postcode": "1019BR",
+        "centroide_ll": "POINT(4.91540151 52.37792875)",
+        "straatnaam": "Piet Heinkade"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-5ef657600bb9a77df1e32a2b0817b8c9": {
+      "suggest": ["Piet Heinkade <b>3</b>, <b>1019BR</b> Amsterdam"]
+    },
+    "adr-a04ca6f8b7d76683f3178ea7832bf932": {
+      "suggest": ["Piet Heinkade <b>31</b>, <b>1019BR</b> Amsterdam"]
+    },
+    "adr-d7004bdfec3b762323cca0461ebc935e": {
+      "suggest": ["Piet Heinkade <b>33</b>, <b>1019BR</b> Amsterdam"]
+    },
+    "adr-41df63618afa6415fc1420c57c9d24d2": {
+      "suggest": ["Piet Heinkade <b>35</b>, <b>1019BR</b> Amsterdam"]
+    },
+    "adr-42a4a588fa63b279d4b2286132570aee": {
+      "suggest": ["Piet Heinkade <b>37</b>, <b>1019BR</b> Amsterdam"]
+    },
+    "adr-a021a0bb180eaee9b8576dbefa22a0d4": {
+      "suggest": ["Piet Heinkade <b>39</b>, <b>1019BR</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

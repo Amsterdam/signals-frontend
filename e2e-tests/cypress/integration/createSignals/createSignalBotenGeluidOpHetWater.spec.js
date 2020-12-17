@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/botenGeluid.json';
 describe('Create signal category boten "Geluid op het water"', () => {
   describe('Create signal boten', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

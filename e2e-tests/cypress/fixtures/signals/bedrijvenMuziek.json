@@ -126,7 +126,8 @@
     {"id": 15, "code": "VTH", "name": "VTH", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "bedrijvenMuziekoverlast.json",
-    "attachments": null
+    "address": "bedrijvenMuziekoverlast.json",
+    "attachments": null,
+    "prediction": "bedrijvenMuziekoverlast.json"
   }
 }

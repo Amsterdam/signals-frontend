@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/wonenLeegstand.json';
 describe('Create signal "Wonen leegstand" and check signal details', () => {
   describe('Create signal wonen leegstand', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/botenSnelVaren.json';
 describe('Create signal category "Boten snel varen"', () => {
   describe('Create signal boten', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

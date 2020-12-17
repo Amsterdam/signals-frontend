@@ -14,7 +14,6 @@ const fixturePath04 = '../fixtures/signals/signalForChangeBeforeSubmit04.json';
 describe('Change a signal before submit and check signal details', () => {
   describe('Change signal before submit', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getOpenbareVerlichtingRoute();
       cy.getMapRoute();
@@ -49,7 +48,6 @@ describe('Change a signal before submit and check signal details', () => {
     });
 
     it('Should change location, description, phonenumer and email address', () => {
-      cy.getAddressRoute();
       cy.getMapRoute();
 
       // Go to first step of signal creation and change signal information

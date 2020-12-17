@@ -82,7 +82,8 @@
     {"id": 4, "code": "STW", "name": "Stadswerken", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "afval.json",
-    "attachments": null
+    "address": "afval.json",
+    "attachments": null,
+    "prediction": "afval.json"
   }
 }

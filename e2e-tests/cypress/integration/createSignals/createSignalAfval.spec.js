@@ -8,7 +8,6 @@ const fixturePath = '../fixtures/signals/afval.json';
 describe('Create signal afval and check signal details', () => {
   describe('Create signal in category "Afval"', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

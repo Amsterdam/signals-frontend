@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/lantaarnpaal.json';
 describe('Create signal "Lantaarnpaal" and check signal details', () => {
   describe('Create signal lantaarnpaal', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getOpenbareVerlichtingRoute();
       cy.getMapRoute();

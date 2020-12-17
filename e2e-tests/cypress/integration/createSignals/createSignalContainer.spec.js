@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/container.json';
 describe('Create signal "Container" and check signal details', () => {
   describe('Create signal cointainer', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

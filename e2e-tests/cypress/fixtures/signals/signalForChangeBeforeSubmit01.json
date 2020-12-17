@@ -91,7 +91,8 @@
     {"id": 9, "code": "VOR", "name": "V&OR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "lantaarnpaal.json",
-    "attachments": null
+    "address": "changeBeforeSubmit01",
+    "attachments": null,
+    "prediction": "lantaarnpaal.json"
   }
 }

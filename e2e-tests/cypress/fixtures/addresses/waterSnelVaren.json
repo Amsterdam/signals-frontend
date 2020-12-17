@@ -1,0 +1,42 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 16.246782,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "7",
+        "weergavenaam": "Korte Ouderkerkerdijk 7, 1096AC Amsterdam",
+        "id": "adr-b31e7d9875fbbb53cd9f4110d9e2ee61",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91752075 52.34006293)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-b31e7d9875fbbb53cd9f4110d9e2ee61": {
+      "suggest": ["Korte Ouderkerkerdijk <b>7</b>, <b>1096AC</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1096ac",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1016ac", "1091ac", "10961", "10962", "10963"]
+      }
+    ],
+    "collations": [
+      "collation",
+      {
+        "collationQuery": "1091ac 7",
+        "hits": 3,
+        "misspellingsAndCorrections": ["1096ac", "1091ac"]
+      }
+    ]
+  }
+}

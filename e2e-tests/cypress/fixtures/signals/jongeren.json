@@ -73,7 +73,8 @@
     {"id": 2, "code": "THO", "name": "THOR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "jongeren.json",
-    "attachments": null
+    "address": "jongeren.json",
+    "attachments": null,
+    "prediction": "jongeren.json"
   }
 }

@@ -62,11 +62,9 @@ describe('Signal overview Map', () => {
     });
 
     it('Should search for an address', () => {
-      cy.getAddressRoute();
-
+      cy.stubAddress('signalForOverviewMap.json');
       cy.get(OVERVIEW_MAP.buttonZoomIn).click();
       createSignal.searchAddress('1012RJ 147');
-      cy.wait('@getAddress');
       createSignal.selectAddress('Nieuwezijds Voorburgwal 147, 1012RJ Amsterdam');
 
       // Wait is needed to finish zoom when selecting address, otherwise test is failing

@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/bedrijvenBezoekers.json';
 describe('Create signal "Bedrijven overlast bezoekers" and check signal details', () => {
   describe('Create signal overlast bezoekers', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

@@ -40,7 +40,6 @@ describe('Deelmeldingen', () => {
         cy.checkHeaderText('Beschrijf uw melding');
       });
       it('Should create the signal', () => {
-        cy.getAddressRoute();
         cy.getMapRoute();
         cy.postSignalRoutePrivate();
 
@@ -202,7 +201,7 @@ describe('Deelmeldingen', () => {
         cy.waitForSignalDetailsRoutes();
         cy.wait('@getTerms');
 
-        cy.get(CHANGE_URGENCY.buttonEdit).scrollIntoView().click();
+        cy.get(CHANGE_URGENCY.buttonEdit).click();
         cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
         cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
         cy.get(CHANGE_URGENCY.buttonSubmit).click();

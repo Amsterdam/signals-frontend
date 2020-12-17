@@ -9,7 +9,6 @@ const fixturePath = '../fixtures/signals/fietsWrak.json';
 describe('Create signal "Fietswrak" and check signal details', () => {
   describe('Create signal fietswrak', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');
