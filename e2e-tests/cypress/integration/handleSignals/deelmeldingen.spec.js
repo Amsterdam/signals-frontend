@@ -395,6 +395,8 @@ describe('Deelmeldingen', () => {
       });
       it('Should change status to \'Ingepland\' and create deelmelding', () => {
         createSignal.openCreatedSignal();
+        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getDeelmeldingen');
         cy.get(CHANGE_STATUS.buttonEdit).click();
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
@@ -424,6 +426,8 @@ describe('Deelmeldingen', () => {
       });
       it('Should change status to \'Afgehandeld\'', () => {
         createSignal.openCreatedSignal();
+        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getDeelmeldingen');
         cy.get(CHANGE_STATUS.buttonEdit).click();
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
@@ -435,7 +439,6 @@ describe('Deelmeldingen', () => {
         cy.wait('@getHistory');
         cy.wait('@getSignal');
         cy.wait('@getSignals');
-        cy.wait('@getHistory');
         cy.wait('@getDeelmeldingen');
         // Wait for signals details to be visible, then check status
         cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
