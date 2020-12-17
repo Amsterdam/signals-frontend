@@ -32,7 +32,7 @@ const Attachments = ({ attachments }) => {
   const { preview } = useContext(IncidentDetailContext);
 
   return (
-    attachments?.length > 0 && (
+    attachments.length > 0 && (
       <Fragment>
         <StyledDefinition data-testid="attachmentsDefinition">Foto</StyledDefinition>
         <StyledValue>
