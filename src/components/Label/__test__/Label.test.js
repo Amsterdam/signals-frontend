@@ -20,37 +20,6 @@ describe('signals/incident-management/components/Label', () => {
     expect(getByLabelText('This is my label text')).toBeTruthy();
   });
 
-  it('should not require the htmlFor prop when the element is not rendered as a label', () => {
-    global.console.error = jest.fn();
-
-    const { container, rerender } = render(
-      withAppContext(
-        <div>
-          <Label>This is my label text</Label>
-          <input type="text" id="someOtherElementId" />
-        </div>
-      )
-    );
-
-    expect(global.console.error).toHaveBeenCalled();
-
-    global.console.error.mockReset();
-
-    rerender(
-      withAppContext(
-        <div>
-          <Label as="span">This is my label text</Label>
-          <input type="text" id="someOtherElementId" />
-        </div>
-      )
-    );
-
-    expect(global.console.error).not.toHaveBeenCalled();
-    expect(container.querySelectorAll('span')).toHaveLength(1);
-
-    global.console.error.mockRestore();
-  });
-
   it('should show the correct color', () => {
     const { container, rerender } = render(
       withAppContext(
