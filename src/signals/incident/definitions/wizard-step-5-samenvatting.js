@@ -118,6 +118,18 @@ export default {
   nextButtonClass: 'action primary',
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
+  sectionLabels: {
+    heading: {
+      beschrijf: 'Melding',
+      vulaan: 'Aanvullende informatie',
+    },
+    edit: {
+      beschrijf: 'Wijzig melding',
+      vulaan: 'Wijzig aanvullende informatie',
+      telefoon: 'Wijzig uw telefoonnummer',
+      email: 'Wijzig uw e-mailadres',
+    },
+  },
   formAction: 'CREATE_INCIDENT',
   form: {
     controls: {
