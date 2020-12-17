@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const pkgDir = require('pkg-dir');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyPlugin = require('copy-webpack-plugin');
@@ -16,14 +17,11 @@ const esModules = [
 module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
-  // eslint-disable-next-line prefer-object-spread
-  output: Object.assign(
-    {
-      path: path.resolve(__rootdir, 'build'),
-      publicPath: '/',
-    },
-    options.output
-  ), // Merge with env dependent settings
+  output: {
+    path: path.resolve(__rootdir, 'build'),
+    publicPath: '/',
+    ...options.output,
+  }, // Merge with env dependent settings
   optimization: options.optimization,
   module: {
     rules: [
@@ -35,6 +33,11 @@ module.exports = options => ({
           loader: 'babel-loader',
           options: options.babelQuery,
         },
+      },
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: options.tsLoaders,
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -138,14 +141,19 @@ module.exports = options => ({
 
     new CopyPlugin({ patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }] }),
 
+    new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
+
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
   ]
     .concat(options.plugins)
     .filter(Boolean),
   resolve: {
     modules: [path.resolve(__rootdir, 'src'), 'node_modules'],
-    extensions: ['.js', '.jsx', '.react.js'],
+    extensions: ['.js', '.jsx', '.react.js', '.ts', '.tsx'],
     mainFields: ['browser', 'jsnext:main', 'main'],
+    alias: {
+      types: path.resolve(__rootdir, 'src/types/'),
+    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window

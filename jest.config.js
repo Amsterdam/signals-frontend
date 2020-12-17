@@ -2,18 +2,18 @@ const path = require('path');
 
 module.exports = {
   collectCoverageFrom: [
-    'src/*.js',
-    'src/**/*.{js,jsx}',
-    '!src/*.test.js',
-    '!src/**/*.test.{js,jsx}',
-    '!src/test/**/*.{js,jsx}',
-    '!src/*/RbGenerated*/*.{js,jsx}',
-    '!src/app.js',
-    '!src/polyfills.js',
-    '!src/global-styles.js',
+    'src/*.{js,jsx,ts,tsx}',
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/*.test.{js,jsx,ts,tsx}',
+    '!src/**/*.test.{js,jsx,ts,tsx}',
+    '!src/test/**/*.{js,jsx,ts,tsx}',
+    '!src/*/RbGenerated*/*.{js,jsx,ts,tsx}',
+    '!src/app.{js,jsx,ts,tsx}',
+    '!src/polyfills.{js,jsx,ts,tsx}',
+    '!src/global-styles.{js,jsx,ts,tsx}',
     '!src/**/definitions/*',
     '!src/**/.*',
-    '!src/sw-proxy*.js',
+    '!src/sw-proxy*.{js,jsx,ts,tsx}',
   ],
   coverageThreshold: {
     global: {
@@ -21,6 +21,12 @@ module.exports = {
       branches: 97.90,
       functions: 98.86,
       lines: 99.05,
+    },
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.json',
     },
   },
   moduleDirectories: ['node_modules', 'src'],
@@ -31,7 +37,7 @@ module.exports = {
       '<rootDir>/internals/mocks/image.js',
   },
   setupFilesAfterEnv: ['<rootDir>/internals/testing/test-bundler.js'],
-  transform: { '^.+\\.js$': ['babel-jest', { configFile: path.resolve(__dirname, 'babel.config.js') }] },
-  testRegex: '.*\\.test\\.js$',
+  transform: { '^.+\\.(js|ts(x?))$': ['ts-jest', { configFile: path.resolve(__dirname, 'babel.config.js') }] },
+  testRegex: '.*\\.test\\.(js|ts(x?))$',
   snapshotSerializers: ['enzyme-to-json/serializer'],
 };
