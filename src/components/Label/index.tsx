@@ -8,7 +8,7 @@ interface StyledLabelProps {
   isGroupHeader?: boolean;
 }
 
-const StyledLabel =
+const StyledLabel: React.FC =
   styled.label<StyledLabelProps>`
     font-family: Avenir Next LT W01${({ inline = false }) => inline ? '-Regular' : ' Demi'}, arial, sans-serif;
     font-size: 16px;
