@@ -179,6 +179,13 @@ Cypress.Commands.add('stubPrediction', fixture => {
 });
 
 Cypress.Commands.add('stubAddress', fixture => {
+  const staticResponse = {
+    headers: {
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, HEAD',
+      'Access-Control-Allow-Headers': 'SOAPAction,X-Requested-With,Content-Type,Origin,Authorization,Accept',
+    }
+  };
+  cy.intercept('OPTIONS', '/locatieserver/v3/', staticResponse);
   cy.intercept('GET', '/locatieserver/v3', { fixture: `addresses/${fixture}` }).as('getAddress');
 });
 
