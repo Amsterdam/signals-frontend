@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { Validators } from 'react-reactive-form';
 
 import { withAppContext } from 'test/utils';
+import { validateRequired } from '../../../services/custom-validators';
 
 import Header from '.';
 
@@ -16,9 +17,6 @@ describe('signals/incident/components/form/Header', () => {
 
   it('should render optional indicator', () => {
     const label = 'Zork';
-    const options = {
-      validators: [Validators.required],
-    };
     const { rerender } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{}} />));
 
     expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
@@ -35,7 +33,17 @@ describe('signals/incident/components/form/Header', () => {
 
     expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={options} />));
+    rerender(
+      withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: [Validators.required] }} />)
+    );
+
+    expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <Header hasError={() => {}} meta={{ label }} options={{ validators: [validateRequired('Verplicht')] }} />
+      )
+    );
 
     expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
   });
