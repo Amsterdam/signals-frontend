@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import L from 'leaflet';
 import 'core-js/stable';
 import 'regenerator-runtime';
