@@ -1,5 +1,5 @@
 export namespace NodeJS {
-// @ts-expect-error Suppress error: Global is not being used
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Global {
     document: Document;
     window: Window;

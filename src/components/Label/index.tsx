@@ -1,3 +1,4 @@
+import type React from 'react';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
