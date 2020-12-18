@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
+import { validateRequired } from '../../../services/custom-validators';
 import { Validators } from 'react-reactive-form';
+
+const customRequiredFnName = validateRequired().name;
 
 const Children = styled.div`
   display: flex;
@@ -44,7 +47,9 @@ const SubTitle = styled.div`
 const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
   const containsErrors =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
-  const isOptional = !options?.validators?.includes(Validators.required);
+  const isOptional =
+    !options?.validators?.includes(Validators.required) &&
+    Boolean(!options?.validators?.find(fn => fn.name === customRequiredFnName));
 
   return (
     <Wrapper className={className} invalid={containsErrors}>
@@ -60,7 +65,7 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
 
       {touched && containsErrors && (
         <Fragment>
-          {hasError('required') && <ErrorItem>{meta?.requiredErrorMessage || 'Dit is een verplicht veld'}</ErrorItem>}
+          {hasError('required') && <ErrorItem>Dit is een verplicht veld</ErrorItem>}
 
           {hasError('email') && (
             <ErrorItem>

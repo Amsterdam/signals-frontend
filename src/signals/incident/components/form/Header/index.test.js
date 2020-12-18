@@ -9,9 +9,9 @@ import Header from '.';
 describe('signals/incident/components/form/Header', () => {
   it('should render label', () => {
     const label = 'Foo barrrr';
-    const { getByText } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} />));
+    render(withAppContext(<Header hasError={() => {}} meta={{ label }} />));
 
-    expect(getByText(label)).toBeInTheDocument();
+    expect(screen.getByText(label)).toBeInTheDocument();
   });
 
   it('should render optional indicator', () => {
@@ -19,9 +19,7 @@ describe('signals/incident/components/form/Header', () => {
     const options = {
       validators: [Validators.required],
     };
-    const { rerender, queryByText } = render(
-      withAppContext(<Header hasError={() => {}} meta={{ label }} options={{}} />)
-    );
+    const { rerender } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{}} />));
 
     expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
 
@@ -93,9 +91,7 @@ describe('signals/incident/components/form/Header', () => {
     const getError = () => ({ requiredLength });
     const error = `U heeft meer dan de maximale ${requiredLength} tekens ingevoerd`;
 
-    const { rerender } = render(
-      withAppContext(<Header hasError={() => false} getError={getError} touched />)
-    );
+    const { rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
@@ -109,9 +105,7 @@ describe('signals/incident/components/form/Header', () => {
     const hasError = prop => prop === 'custom';
     const getError = () => error;
 
-    const { rerender } = render(
-      withAppContext(<Header hasError={() => false} getError={getError} touched />)
-    );
+    const { rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 

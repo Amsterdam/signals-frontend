@@ -6,6 +6,7 @@ import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/checkVisibility';
 import getStepControls from '../services/get-step-controls';
+import { validateRequired } from '../services/custom-validators';
 
 const priorityValuesList = priorityList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
 const typesValuesList = typesList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
@@ -33,10 +34,9 @@ const getControls = memoize(
           label: 'Waar is het?',
           subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
           path: 'location',
-          requiredErrorMessage: 'Kies een locatie op de kaart of vul een adres in',
         },
         options: {
-          validators: [Validators.required],
+          validators: [validateRequired('Kies een locatie op de kaart of vul een adres in')],
         },
         render: FormComponents.MapInput,
       },

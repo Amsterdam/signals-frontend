@@ -5,7 +5,9 @@ export const validateFileType = (file, meta) => {
     if (meta.allowedFileTypes.indexOf(file.type) === -1) {
       const allowedFileTypes = meta.allowedFileTypes.map(type => type.split('/')[1]);
       return {
-        custom: `Dit bestand heeft niet het juiste type (${file.type.split('/')[1]}). Toegestaan zijn: ${allowedFileTypes.join(', ')}.`,
+        custom: `Dit bestand heeft niet het juiste type (${
+          file.type.split('/')[1]
+        }). Toegestaan zijn: ${allowedFileTypes.join(', ')}.`,
       };
     }
   }
@@ -17,7 +19,9 @@ export const validateMaxFilesize = (file, meta) => {
   if (meta && meta.maxFileSize) {
     if (file.size >= meta.maxFileSize) {
       return {
-        custom: `Dit bestand is te groot (${fileSize(file.size)}). Maximale bestandgrootte is ${fileSize(meta.maxFileSize)}.`,
+        custom: `Dit bestand is te groot (${fileSize(file.size)}). Maximale bestandgrootte is ${fileSize(
+          meta.maxFileSize
+        )}.`,
       };
     }
   }
@@ -29,7 +33,9 @@ export const validateMinFilesize = (file, meta) => {
   if (meta && meta.minFileSize) {
     if (file.size < meta.minFileSize) {
       return {
-        custom: `Dit bestand is te klein (${fileSize(file.size)}). Minimale bestandgrootte is ${fileSize(meta.minFileSize)}.`,
+        custom: `Dit bestand is te klein (${fileSize(file.size)}). Minimale bestandgrootte is ${fileSize(
+          meta.minFileSize
+        )}.`,
       };
     }
   }
@@ -44,3 +50,8 @@ export const validatePhoneNumber = control => {
 
   return { custom: 'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.' };
 };
+
+export const validateRequired = message =>
+  function customRequired({ value }) {
+    return value === null || value === undefined || value.length === 0 ? { custom: message } : null;
+  };
