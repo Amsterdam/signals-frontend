@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Heading, Link as AscLink, themeSpacing, themeColor } from '@amsterdam/asc-ui';
+import { Heading, Link as AscLink, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui';
 
 import { incidentType } from 'shared/types';
 import { isAuthenticated } from 'shared/services/auth/auth';
 
 const Section = styled.section`
+  position: relative;
   padding: ${themeSpacing(4, 0)};
   border-top: 2px solid ${themeColor('tint', 'level3')};
 
@@ -30,7 +31,7 @@ const Header = styled.header`
   display: grid;
   position: relative;
   column-gap: ${themeSpacing(5)};
-  grid-template-columns: 10fr 2fr;
+  grid-template-columns: 8fr 4fr;
 
   ${() =>
     isAuthenticated() &&
@@ -42,19 +43,17 @@ const Header = styled.header`
 `;
 
 const LinkContainer = styled.div`
-  text-align: right;
+  padding-top: ${themeSpacing(5)};
 
-  ${({ absolutePosLink }) =>
-    absolutePosLink &&
-    css`
-      position: relative;
+  @media screen and (${breakpoint('min-width', 'laptop')}) {
+    padding-top: 0;
 
-      a {
-        position: absolute;
-        top: 0;
-        right: 0;
-      }
-    `}
+    a {
+      position: absolute;
+      top: ${themeSpacing(4)};
+      right: 0;
+    }
+  }
 `;
 
 const Ul = styled.ul`
@@ -90,32 +89,12 @@ const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(8)};
 `;
 
-const heading = previewKey => {
-  switch (previewKey) {
-    case 'beschrijf':
-      return (
-        <Heading as="h2" styleAs="h3">
-          Melding
-        </Heading>
-      );
-
-    case 'vulaan':
-      return (
-        <Heading as="h2" styleAs="h3">
-          Aanvullende informatie
-        </Heading>
-      );
-
-    default:
-      return null;
-  }
-};
-
-const IncidentPreview = ({ incident, preview }) => (
+const IncidentPreview = ({ incident, preview, sectionLabels }) => (
   <Wrapper data-testid="incidentPreview">
     {Object.entries(preview).map(([section, value]) => {
-      const sectionHeading = heading(section);
-      const hasHeading = Boolean(sectionHeading);
+      const editLinkLabel = sectionLabels.edit[section];
+      const sectionHeadingLabel = sectionLabels.heading[section];
+      const hasHeading = Boolean(sectionHeadingLabel);
       const visibleEntries = Object.entries(value).filter(([entryKey, { optional, authenticated }]) => {
         if (authenticated && !isAuthenticated()) {
           return false;
@@ -135,14 +114,13 @@ const IncidentPreview = ({ incident, preview }) => (
       return (
         visibleEntries.length > 0 && (
           <Section hasHeading={hasHeading} key={section}>
-            <Header>
-              {sectionHeading || <div />}
-              <LinkContainer absolutePosLink={!hasHeading}>
-                <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                  Wijzigen
-                </AscLink>
-              </LinkContainer>
-            </Header>
+            {sectionHeadingLabel && (
+              <Header>
+                <Heading as="h2" styleAs="h3">
+                  {sectionHeadingLabel}
+                </Heading>
+              </Header>
+            )}
 
             <Ul>
               {visibleEntries.map(([itemKey, itemValue]) => (
@@ -158,6 +136,12 @@ const IncidentPreview = ({ incident, preview }) => (
                 </Li>
               ))}
             </Ul>
+
+            <LinkContainer>
+              <AscLink as={Link} to={`/incident/${section}`} variant="inline">
+                {editLinkLabel}
+              </AscLink>
+            </LinkContainer>
           </Section>
         )
       );
@@ -168,6 +152,10 @@ const IncidentPreview = ({ incident, preview }) => (
 IncidentPreview.propTypes = {
   incident: incidentType.isRequired,
   preview: PropTypes.object,
+  sectionLabels: PropTypes.shape({
+    heading: PropTypes.object,
+    edit: PropTypes.object,
+  }),
 };
 
 export default IncidentPreview;
