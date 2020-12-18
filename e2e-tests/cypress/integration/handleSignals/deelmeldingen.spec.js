@@ -40,7 +40,6 @@ describe('Deelmeldingen', () => {
         cy.checkHeaderText('Beschrijf uw melding');
       });
       it('Should create the signal', () => {
-        cy.getAddressRoute();
         cy.getMapRoute();
         cy.postSignalRoutePrivate();
 
@@ -202,7 +201,7 @@ describe('Deelmeldingen', () => {
         cy.waitForSignalDetailsRoutes();
         cy.wait('@getTerms');
 
-        cy.get(CHANGE_URGENCY.buttonEdit).scrollIntoView().click();
+        cy.get(CHANGE_URGENCY.buttonEdit).click();
         cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
         cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
         cy.get(CHANGE_URGENCY.buttonSubmit).click();
@@ -396,6 +395,8 @@ describe('Deelmeldingen', () => {
       });
       it('Should change status to \'Ingepland\' and create deelmelding', () => {
         createSignal.openCreatedSignal();
+        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getDeelmeldingen');
         cy.get(CHANGE_STATUS.buttonEdit).click();
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
@@ -425,6 +426,8 @@ describe('Deelmeldingen', () => {
       });
       it('Should change status to \'Afgehandeld\'', () => {
         createSignal.openCreatedSignal();
+        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getDeelmeldingen');
         cy.get(CHANGE_STATUS.buttonEdit).click();
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
@@ -436,7 +439,6 @@ describe('Deelmeldingen', () => {
         cy.wait('@getHistory');
         cy.wait('@getSignal');
         cy.wait('@getSignals');
-        cy.wait('@getHistory');
         cy.wait('@getDeelmeldingen');
         // Wait for signals details to be visible, then check status
         cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');

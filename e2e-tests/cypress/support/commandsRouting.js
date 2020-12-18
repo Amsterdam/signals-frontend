@@ -14,10 +14,6 @@ Cypress.Commands.add('departmentRoutes', () => {
   cy.intercept('PATCH', '**/private/departments/*').as('patchDepartment');
 });
 
-Cypress.Commands.add('getAddressRoute', () => {
-  cy.intercept('/locatieserver/v3').as('getAddress');
-});
-
 Cypress.Commands.add('getCategoriesRoutes', () => {
   cy.intercept('**/private/departments/').as('getDepartments');
   cy.intercept('**/private/roles/').as('getRoles');
@@ -178,8 +174,19 @@ Cypress.Commands.add('standaardtekstenRoutes', () => {
   cy.intercept('POST', '**/overlast-van-dieren/sub_categories/duiven/**').as('PostDuiven');
 });
 
-Cypress.Commands.add('stubResponse', (url, fixture) => {
-  cy.intercept('POST', url, { fixture: `predictions/${fixture}` });
+Cypress.Commands.add('stubPrediction', fixture => {
+  cy.intercept('POST', '**/prediction', { fixture: `predictions/${fixture}` }).as('getPrediction');
+});
+
+Cypress.Commands.add('stubAddress', fixture => {
+  const staticResponse = {
+    headers: {
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, HEAD',
+      'Access-Control-Allow-Headers': 'SOAPAction,X-Requested-With,Content-Type,Origin,Authorization,Accept',
+    }
+  };
+  cy.intercept('OPTIONS', '/locatieserver/v3/', staticResponse);
+  cy.intercept('GET', '/locatieserver/v3', { fixture: `addresses/${fixture}` }).as('getAddress');
 });
 
 Cypress.Commands.add('waitForCategoriesRoutes', () => {

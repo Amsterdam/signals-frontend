@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/verkeerslicht.json';
 describe('Create signal "Verkeerslicht" and check signal details', () => {
   describe('Create signal Verkeerslicht', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

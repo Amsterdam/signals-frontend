@@ -52,7 +52,8 @@
     {"id": 8, "code": "GGD", "name": "GGD", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "duiven.json",
-    "attachments": null
+    "address": "signalForStandaardteksten.json",
+    "attachments": null,
+    "prediction": "duiven.json"
   }
 }

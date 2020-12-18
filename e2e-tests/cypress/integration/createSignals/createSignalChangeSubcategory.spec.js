@@ -55,7 +55,6 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.checkHeaderText('Beschrijf uw melding');
     });
     it('Should create the signal', () => {
-      cy.getAddressRoute();
       cy.getMapRoute();
       cy.postSignalRoutePrivate();
 

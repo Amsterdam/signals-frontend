@@ -75,7 +75,8 @@
     {"id": 9, "code": "VOR", "name": "V&OR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "lantaarnpaal.json",
-    "attachments": ["images/logo.png"]
+    "address": "lantaarnpaal.json",
+    "attachments": ["images/logo.png"],
+    "prediction": "lantaarnpaal.json"
   }
 }

@@ -88,7 +88,8 @@
     {"id": 9, "code": "VOR", "name": "V&OR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "klok.json",
-    "attachments": null
+    "address": "klokNotOnMap",
+    "attachments": null,
+    "prediction": "klok.json"
   }
 }

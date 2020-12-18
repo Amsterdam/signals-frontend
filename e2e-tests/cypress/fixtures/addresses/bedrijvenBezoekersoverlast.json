@@ -1,0 +1,60 @@
+{
+  "response": {
+    "numFound": 4,
+    "start": 0,
+    "maxScore": 17.935575,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5A",
+        "weergavenaam": "Zeedijk 5A, 1012AN Amsterdam",
+        "id": "adr-8487713ec108449ed915f1429413d935",
+        "postcode": "1012AN",
+        "centroide_ll": "POINT(4.90026442 52.37619576)",
+        "straatnaam": "Zeedijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5B",
+        "weergavenaam": "Zeedijk 5B, 1012AN Amsterdam",
+        "id": "adr-b6f6c0c1a5e013c6ec3c66d4f5a6a3de",
+        "postcode": "1012AN",
+        "centroide_ll": "POINT(4.90026432 52.37620475)",
+        "straatnaam": "Zeedijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5C",
+        "weergavenaam": "Zeedijk 5C, 1012AN Amsterdam",
+        "id": "adr-6a1c21f089c63df6e59d5fda0dcb5732",
+        "postcode": "1012AN",
+        "centroide_ll": "POINT(4.90026442 52.37619576)",
+        "straatnaam": "Zeedijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5D",
+        "weergavenaam": "Zeedijk 5D, 1012AN Amsterdam",
+        "id": "adr-cbeafe221a002d20b4d2babbb04450e8",
+        "postcode": "1012AN",
+        "centroide_ll": "POINT(4.90026442 52.37619576)",
+        "straatnaam": "Zeedijk"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-8487713ec108449ed915f1429413d935": {
+      "suggest": ["Zeedijk <b>5A</b>, <b>1012AN</b> Amsterdam"]
+    },
+    "adr-b6f6c0c1a5e013c6ec3c66d4f5a6a3de": {
+      "suggest": ["Zeedijk <b>5B</b>, <b>1012AN</b> Amsterdam"]
+    },
+    "adr-6a1c21f089c63df6e59d5fda0dcb5732": {
+      "suggest": ["Zeedijk <b>5C</b>, <b>1012AN</b> Amsterdam"]
+    },
+    "adr-cbeafe221a002d20b4d2babbb04450e8": {
+      "suggest": ["Zeedijk <b>5D</b>, <b>1012AN</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

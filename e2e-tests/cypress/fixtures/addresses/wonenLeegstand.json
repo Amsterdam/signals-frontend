@@ -1,0 +1,35 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 24.435867,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "600",
+        "weergavenaam": "Johan Cruijff Boulevard 600, 1101DS Amsterdam",
+        "id": "adr-9ef27ed0e484852d5be5c9d1555e3a9f",
+        "postcode": "1101DS",
+        "centroide_ll": "POINT(4.94570537 52.31236329)",
+        "straatnaam": "Johan Cruijff Boulevard"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-9ef27ed0e484852d5be5c9d1555e3a9f": {
+      "suggest": ["Johan Cruijff Boulevard <b>600</b>, <b>1101DS</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1101ds",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1101dj", "1103ds", "11011", "11013", "11014"]
+      }
+    ],
+    "collations": []
+  }
+}

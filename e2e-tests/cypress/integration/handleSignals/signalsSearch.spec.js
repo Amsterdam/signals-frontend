@@ -11,7 +11,6 @@ describe.skip('Search signals', () => {
   // Skipped because there is no elastic search in e2e environment
   describe('Create signal boten', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

@@ -1,0 +1,60 @@
+{
+  "response": {
+    "numFound": 4,
+    "start": 0,
+    "maxScore": 20.701128,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "159-1",
+        "weergavenaam": "Weesperzijde 159-1, 1097DS Amsterdam",
+        "id": "adr-40760178a74490ecc1b0f9f6ae4d104a",
+        "postcode": "1097DS",
+        "centroide_ll": "POINT(4.91404056 52.34718534)",
+        "straatnaam": "Weesperzijde"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "159-2",
+        "weergavenaam": "Weesperzijde 159-2, 1097DS Amsterdam",
+        "id": "adr-65e0a9b22ba824d9ff8a284494783e55",
+        "postcode": "1097DS",
+        "centroide_ll": "POINT(4.91404056 52.34718534)",
+        "straatnaam": "Weesperzijde"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "159-3",
+        "weergavenaam": "Weesperzijde 159-3, 1097DS Amsterdam",
+        "id": "adr-edb18b9cd89f150be3496dd901ad1040",
+        "postcode": "1097DS",
+        "centroide_ll": "POINT(4.91404056 52.34718534)",
+        "straatnaam": "Weesperzijde"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "159-H",
+        "weergavenaam": "Weesperzijde 159-H, 1097DS Amsterdam",
+        "id": "adr-19390de0d91d7d5694692c97118113a7",
+        "postcode": "1097DS",
+        "centroide_ll": "POINT(4.91404056 52.34718534)",
+        "straatnaam": "Weesperzijde"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-40760178a74490ecc1b0f9f6ae4d104a": {
+      "suggest": ["Weesperzijde <b>159</b>-1, <b>1097DS</b> Amsterdam"]
+    },
+    "adr-65e0a9b22ba824d9ff8a284494783e55": {
+      "suggest": ["Weesperzijde <b>159</b>-2, <b>1097DS</b> Amsterdam"]
+    },
+    "adr-edb18b9cd89f150be3496dd901ad1040": {
+      "suggest": ["Weesperzijde <b>159</b>-3, <b>1097DS</b> Amsterdam"]
+    },
+    "adr-19390de0d91d7d5694692c97118113a7": {
+      "suggest": ["Weesperzijde <b>159</b>-H, <b>1097DS</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

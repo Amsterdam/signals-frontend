@@ -1,0 +1,132 @@
+{
+  "response": {
+    "numFound": 25,
+    "start": 0,
+    "maxScore": 17.961765,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "1",
+        "weergavenaam": "Polonceau-kade 1, 1014DA Amsterdam",
+        "id": "adr-332923a80dbed9c15149ce44c69a47dc",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87461406 52.38589309)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "10",
+        "weergavenaam": "Polonceau-kade 10, 1014DA Amsterdam",
+        "id": "adr-459d05161ad81d907e40700dd93f1cd2",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87316066 52.38582388)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "11",
+        "weergavenaam": "Polonceau-kade 11, 1014DA Amsterdam",
+        "id": "adr-e71cef4acc68ba768be67d04f4391789",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87304316 52.38582337)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "12",
+        "weergavenaam": "Polonceau-kade 12, 1014DA Amsterdam",
+        "id": "adr-eca768cfb4106ccc12accb6c0333cbe4",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87295503 52.38582299)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "13",
+        "weergavenaam": "Polonceau-kade 13, 1014DA Amsterdam",
+        "id": "adr-a09e973b107405e6a6b9cd5af858ecbb",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87286244 52.38604544)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "14",
+        "weergavenaam": "Polonceau-kade 14, 1014DA Amsterdam",
+        "id": "adr-9817bcc5e5dbe12c0f4493a2e66fda9b",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87272002 52.38582196)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "15",
+        "weergavenaam": "Polonceau-kade 15, 1014DA Amsterdam",
+        "id": "adr-fb09c5f93fee694060d931ddfad23223",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87263189 52.38582158)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "16",
+        "weergavenaam": "Polonceau-kade 16, 1014DA Amsterdam",
+        "id": "adr-533d7c578db9c6f42ed619f63899513f",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87248512 52.38581196)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "17",
+        "weergavenaam": "Polonceau-kade 17, 1014DA Amsterdam",
+        "id": "adr-069ca27531802a80b098f5558f0b238d",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87227959 52.38580208)",
+        "straatnaam": "Polonceau-kade"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "18",
+        "weergavenaam": "Polonceau-kade 18, 1014DA Amsterdam",
+        "id": "adr-1aab85a28038af8ed0b91a1078fd7f81",
+        "postcode": "1014DA",
+        "centroide_ll": "POINT(4.87213271 52.38580144)",
+        "straatnaam": "Polonceau-kade"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-332923a80dbed9c15149ce44c69a47dc": {
+      "suggest": ["Polonceau-kade <b>1</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-459d05161ad81d907e40700dd93f1cd2": {
+      "suggest": ["Polonceau-kade <b>10</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-e71cef4acc68ba768be67d04f4391789": {
+      "suggest": ["Polonceau-kade <b>11</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-eca768cfb4106ccc12accb6c0333cbe4": {
+      "suggest": ["Polonceau-kade <b>12</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-a09e973b107405e6a6b9cd5af858ecbb": {
+      "suggest": ["Polonceau-kade <b>13</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-9817bcc5e5dbe12c0f4493a2e66fda9b": {
+      "suggest": ["Polonceau-kade <b>14</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-fb09c5f93fee694060d931ddfad23223": {
+      "suggest": ["Polonceau-kade <b>15</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-533d7c578db9c6f42ed619f63899513f": {
+      "suggest": ["Polonceau-kade <b>16</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-069ca27531802a80b098f5558f0b238d": {
+      "suggest": ["Polonceau-kade <b>17</b>, <b>1014DA</b> Amsterdam"]
+    },
+    "adr-1aab85a28038af8ed0b91a1078fd7f81": {
+      "suggest": ["Polonceau-kade <b>18</b>, <b>1014DA</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

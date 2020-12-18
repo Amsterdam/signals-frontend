@@ -293,9 +293,9 @@ export const selectSource = index => {
 
 export const setAddress = fixturePath => {
   cy.fixture(fixturePath).then(json => {
+    cy.stubAddress(json.fixtures.address);
     const address = json.address.huisnummer_toevoeging ? `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}-${json.address.huisnummer_toevoeging}, ${json.address.postcode} ${json.address.woonplaats}` : `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}, ${json.address.postcode} ${json.address.woonplaats}`;
     searchAddress(`${json.address.postcode} ${json.address.huisnummer}`);
-    cy.wait('@getAddress');
     selectAddress(address);
   });
 };
@@ -332,7 +332,7 @@ export const setDescription = description => {
 
 export const setDescriptionPage = fixturePath => {
   cy.fixture(fixturePath).then(json => {
-    cy.stubResponse('**/prediction', json.fixtures.prediction);
+    cy.stubPrediction(json.fixtures.prediction);
     checkDescriptionPage();
     setAddress(fixturePath);
     setDescription(json.text);

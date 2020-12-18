@@ -72,7 +72,8 @@
     {"id": 2, "code": "THO", "name": "THOR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "waterSnelVaren.json",
-    "attachments": null
+    "address": "signalForSearch.json",
+    "attachments": null,
+    "prediction": "waterSnelVaren.json"
   }
 }

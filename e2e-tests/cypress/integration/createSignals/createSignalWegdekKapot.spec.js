@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/wegdek.json';
 describe('Create signal "Wegdek kapot" and check signal details', () => {
   describe('Create signal wegdek kapot', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

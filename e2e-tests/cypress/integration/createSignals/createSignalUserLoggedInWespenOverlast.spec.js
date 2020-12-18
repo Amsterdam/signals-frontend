@@ -20,7 +20,6 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       cy.checkHeaderText('Beschrijf uw melding');
     });
     it('Should create the signal', () => {
-      cy.getAddressRoute();
       cy.getMapRoute();
       cy.postSignalRoutePrivate();
 

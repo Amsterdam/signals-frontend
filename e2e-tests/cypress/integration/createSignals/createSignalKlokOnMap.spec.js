@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/klokOnMap.json';
 describe('Create signal "Klok" which is on the map and check signal details', () => {
   describe('Create signal klok on the map', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

@@ -10,7 +10,6 @@ const fixturePath = '../fixtures/signals/botenWrak.json';
 describe('Create signal category boten "Wrak in het water"', () => {
   describe('Create signal boten', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');

@@ -1,0 +1,108 @@
+{
+  "response": {
+    "numFound": 8,
+    "start": 0,
+    "maxScore": 17.8845,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "1",
+        "weergavenaam": "Klönne plein 1, 1014DD Amsterdam",
+        "id": "adr-20111941b426cde724b1b4e460b02ecd",
+        "postcode": "1014DD",
+        "centroide_ll": "POINT(4.86933095 52.38673293)",
+        "straatnaam": "Klönne plein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "10",
+        "weergavenaam": "Klönne plein 10, 1014DD Amsterdam",
+        "id": "adr-6b38c150b62346c93f40123480705d06",
+        "postcode": "1014DD",
+        "centroide_ll": "POINT(4.87041182 52.38725893)",
+        "straatnaam": "Klönne plein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "12",
+        "weergavenaam": "Klönne plein 12, 1014DD Amsterdam",
+        "id": "adr-9d2308e5078626f378e9988f515f5d24",
+        "postcode": "1014DD",
+        "centroide_ll": "POINT(4.8705436 52.38729546)",
+        "straatnaam": "Klönne plein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "2",
+        "weergavenaam": "Klönne plein 2, 1014DD Amsterdam",
+        "id": "adr-58cecbd18211a4f28d761a689ec555bf",
+        "postcode": "1014DD",
+        "centroide_ll": "POINT(4.86978524 52.38682479)",
+        "straatnaam": "Klönne plein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "3",
+        "weergavenaam": "Klönne plein 3, 1014DD Amsterdam",
+        "id": "adr-fc0a9ae37dc879ffc50aef53cd889284",
+        "postcode": "1014DD",
+        "centroide_ll": "POINT(4.86934659 52.38665211)",
+        "straatnaam": "Klönne plein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "4",
+        "weergavenaam": "Klönne plein 4, 1014DD Amsterdam",
+        "id": "adr-7e00467fecb4fafc018303aece617322",
+        "postcode": "1014DD",
+        "centroide_ll": "POINT(4.86991524 52.3870141)",
+        "straatnaam": "Klönne plein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "6",
+        "weergavenaam": "Klönne plein 6, 1014DD Amsterdam",
+        "id": "adr-babbe416a05ff1815521eed085641eb1",
+        "postcode": "1014DD",
+        "centroide_ll": "POINT(4.87000075 52.38723916)",
+        "straatnaam": "Klönne plein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "8",
+        "weergavenaam": "Klönne plein 8, 1014DD Amsterdam",
+        "id": "adr-26c823c86c73eca6a4939a90d8fd57bf",
+        "postcode": "1014DD",
+        "centroide_ll": "POINT(4.87023576 52.38724019)",
+        "straatnaam": "Klönne plein"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-20111941b426cde724b1b4e460b02ecd": {
+      "suggest": ["Klönne plein <b>1</b>, <b>1014DD</b> Amsterdam"]
+    },
+    "adr-6b38c150b62346c93f40123480705d06": {
+      "suggest": ["Klönne plein <b>10</b>, <b>1014DD</b> Amsterdam"]
+    },
+    "adr-9d2308e5078626f378e9988f515f5d24": {
+      "suggest": ["Klönne plein <b>12</b>, <b>1014DD</b> Amsterdam"]
+    },
+    "adr-58cecbd18211a4f28d761a689ec555bf": {
+      "suggest": ["Klönne plein 2, <b>1014DD</b> Amsterdam"]
+    },
+    "adr-fc0a9ae37dc879ffc50aef53cd889284": {
+      "suggest": ["Klönne plein 3, <b>1014DD</b> Amsterdam"]
+    },
+    "adr-7e00467fecb4fafc018303aece617322": {
+      "suggest": ["Klönne plein 4, <b>1014DD</b> Amsterdam"]
+    },
+    "adr-babbe416a05ff1815521eed085641eb1": {
+      "suggest": ["Klönne plein 6, <b>1014DD</b> Amsterdam"]
+    },
+    "adr-26c823c86c73eca6a4939a90d8fd57bf": {
+      "suggest": ["Klönne plein 8, <b>1014DD</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

@@ -77,7 +77,6 @@ describe('Standaardteksten', () => {
   });
   describe('Create signal duiven', () => {
     before(() => {
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
       cy.getMapRoute();
       cy.visit('incident/beschrijf');
