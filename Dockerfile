@@ -20,6 +20,7 @@ COPY .gitignore \
   .gitattributes \
   .eslintrc.yaml \
   .prettierrc \
+  tsconfig.json \
   jest.config.js \
   babel.config.js \
   package.json \

@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import L from 'leaflet';
 import 'core-js/stable';
 import 'regenerator-runtime';
@@ -19,9 +19,12 @@ Enzyme.configure({ adapter: new Adapter() });
 
 // Custom JSDOM
 const { window } = new JSDOM('<!DOCTYPE html><p>Hello world</p>', { pretendToBeVisual: true, resources: 'usable' });
-global.window = window;
 global.document = window.document;
 global.navigator.geolocation = {};
+
+global.window = window;
+global.window.alert = msg => msg;
+global.window.CONFIG = baseConfig;
 
 // Monkey patch Leaflet
 const originalInit = L.Map.prototype.initialize;
@@ -36,9 +39,6 @@ L.Map.prototype.initialize = function initialize(id, options) {
   return originalInit.call(this, id, extendedOptions);
 };
 global.window.L = L;
-
-global.window.alert = msg => msg;
-global.window.CONFIG = baseConfig;
 
 if (process.env.CI) {
   // prevent pollution of the build log when running tests in CI
