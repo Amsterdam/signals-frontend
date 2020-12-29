@@ -1,13 +1,16 @@
 /* eslint-disable  react/prop-types */
 import React from 'react';
-import * as auth from 'shared/services/auth/auth';
-
 import { render, screen } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import PlainText from '.';
 import 'jest-styled-components';
 
+import * as auth from 'shared/services/auth/auth';
+import configuration from 'shared/services/configuration/configuration';
+import { withAppContext } from 'test/utils';
+
+import PlainText from '.';
+
 jest.mock('shared/services/auth/auth');
+jest.mock('shared/services/configuration/configuration');
 
 describe('Form component <PlainText />', () => {
   const MockComponent = ({ children }) => <div>{children}</div>;
@@ -17,7 +20,7 @@ describe('Form component <PlainText />', () => {
   };
 
   const getProps = (meta = metaProps) => ({
-    meta: { ...meta },
+    meta,
     parent: {
       meta: {
         incident: {
@@ -33,6 +36,7 @@ describe('Form component <PlainText />', () => {
 
   afterEach(() => {
     jest.resetAllMocks();
+    configuration.__reset();
   });
 
   describe('rendering', () => {
@@ -166,15 +170,35 @@ describe('Form component <PlainText />', () => {
       expect(element).toHaveStyleRule('padding', '20px');
     });
 
+    it('should render markdown when fetchQuestionsFromBackend enabled', () => {
+      configuration.featureFlags.fetchQuestionsFromBackend = true;
+      const props = getProps({
+        ...metaProps,
+        value: '# Header\n[this](https://example.com) link',
+      });
+
+      const { queryByTestId, queryByText } = render(withAppContext(<PlainText {...props} />));
+      expect(screen.getByRole('heading', { name: 'Header' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'this' })).toBeInTheDocument();
+      expect(screen.queryByText('# Header', { exact: false })).not.toBeInTheDocument();
+    });
+
     it('should render no plain text when not visible', () => {
       const props = getProps({
         ...metaProps,
         isVisible: false,
       });
 
-      const { queryByTestId, queryByText } = render(withAppContext(<PlainText {...props} />));
-      expect(queryByTestId('plainText')).not.toBeInTheDocument();
-      expect(queryByText(props.meta.value)).not.toBeInTheDocument();
+      render(withAppContext(<PlainText {...props} />));
+      expect(screen.queryByTestId('plainText')).not.toBeInTheDocument();
+      expect(screen.queryByText(props.meta.value)).not.toBeInTheDocument();
+    });
+
+    it('should render no plain text without meta', () => {
+      const props = getProps(null);
+
+      render(withAppContext(<PlainText {...props} />));
+      expect(screen.queryByTestId('plainText')).not.toBeInTheDocument();
     });
   });
 });

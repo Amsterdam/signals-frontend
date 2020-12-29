@@ -1,11 +1,13 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import isString from 'lodash.isstring';
 import get from 'lodash.get';
-import { isAuthenticated } from 'shared/services/auth/auth';
-
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
+
+import configuration from 'shared/services/configuration/configuration';
+import { isAuthenticated } from 'shared/services/auth/auth';
 import mapDynamicFields from 'signals/incident/services/map-dynamic-fields';
 
 // This control will disable all the links when the user is not authenticated.
@@ -102,19 +104,26 @@ const Value = styled.div`
 `;
 
 const PlainText = ({ className, meta, parent }) =>
-  meta?.isVisible && (
+  meta?.isVisible ? (
     <Wrapper className={className} type={meta.type} data-testid="plainText">
       {meta.label && <Label>{meta.label}</Label>}
 
-      {meta.value && isString(meta.value) && <Value>{renderText(meta.value, parent)}</Value>}
+      {configuration.featureFlags.fetchQuestionsFromBackend && meta.value && (
+        <ReactMarkdown linkTarget="_blank">{meta.value}</ReactMarkdown>
+      )}
 
-      {meta.value &&
+      {!configuration.featureFlags.fetchQuestionsFromBackend && meta.value && isString(meta.value) && (
+        <Value>{renderText(meta.value, parent)}</Value>
+      )}
+
+      {!configuration.featureFlags.fetchQuestionsFromBackend &&
+        meta.value &&
         Array.isArray(meta.value) &&
         meta.value.map((paragraph, key) => (
           <Value key={`${meta.name}-${key + 1}`}>{renderText(paragraph, parent)}</Value>
         ))}
     </Wrapper>
-  );
+  ) : null;
 
 PlainText.defaultProps = {
   className: '',

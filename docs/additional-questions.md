@@ -37,7 +37,7 @@ Possible properties are listed below. The 'Field types' column lists the possibl
 | **placeholder** | An example answer to help the visitor determine how to answer the question and how to write down that answer. | TextInput, TextareaInput
 | **type** | Allows to specify more specifically the type of message or form field. Detailed below. | PlainText, TextInput
 | **autoRemove** | Automatically removes the specified value from the answer. | TextInput, TextareaInput
-| **value** | The text to display to the visitor. | PlainText, CheckboxInput (single)
+| **value** | The text to display to the visitor. For `PlainText` you can use [markdown](https://commonmark.org/help/) ([try it out](https://remarkjs.github.io/react-markdown/)). HTML will be escaped and links will open in a new window. | PlainText, CheckboxInput (single)
 | **values** | The possible options in key-value pairs. | CheckboxInput (list), RadioInput, SelectInput
 | **maxLength** | Displays, underneath the text area, the amount of characters typed into the text area versus the total amount of characters allowed (as specified with this property). | TextareaInput
 | **idField** | The name of the property field of an asset that shows the ID/number. | MapSelect
