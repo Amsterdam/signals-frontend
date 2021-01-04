@@ -51,7 +51,7 @@ export const validatePhoneNumber = control => {
   return { custom: 'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.' };
 };
 
-export const validateRequired = message =>
-  function customRequired({ value }) {
-    return value === null || value === undefined || value.length === 0 ? { custom: message } : null;
+export const createRequired = message =>
+  function required({ value }) {
+    return value === null || value === undefined || value.length === 0 ? { required: message } : null;
   };

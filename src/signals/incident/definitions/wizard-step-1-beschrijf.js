@@ -6,7 +6,7 @@ import IncidentNavigation from '../components/IncidentNavigation';
 import FormComponents from '../components/form';
 import checkVisibility from '../services/checkVisibility';
 import getStepControls from '../services/get-step-controls';
-import { validateRequired } from '../services/custom-validators';
+import { createRequired } from '../services/custom-validators';
 
 const priorityValuesList = priorityList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
 const typesValuesList = typesList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
@@ -36,7 +36,7 @@ const getControls = memoize(
           path: 'location',
         },
         options: {
-          validators: [validateRequired('Kies een locatie op de kaart of vul een adres in')],
+          validators: [createRequired('Kies een locatie op de kaart of vul een adres in')],
         },
         render: FormComponents.MapInput,
       },

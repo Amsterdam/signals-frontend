@@ -1,4 +1,4 @@
-import { validateFileType, validateMaxFilesize, validateMinFilesize, validatePhoneNumber, validateRequired } from '.';
+import { validateFileType, validateMaxFilesize, validateMinFilesize, validatePhoneNumber, createRequired } from '.';
 
 describe('The custom validators service', () => {
   describe('should validate file type', () => {
@@ -139,22 +139,26 @@ describe('The custom validators service', () => {
       let input = {
         value: null,
       };
-      expect(validateRequired(error)(input)).toEqual({ custom: error });
+      expect(createRequired(error)(input)).toEqual({ required: error });
 
       input = {};
-      expect(validateRequired(error)(input)).toEqual({ custom: error });
+      expect(createRequired(error)(input)).toEqual({ required: error });
 
       input = {
         value: '',
       };
-      expect(validateRequired(error)(input)).toEqual({ custom: error });
+      expect(createRequired(error)(input)).toEqual({ required: error });
     });
 
     it('returns null if value is correct', () => {
       let input = {
         value: 'valid',
       };
-      expect(validateRequired(error)(input)).toEqual(null);
+      expect(createRequired(error)(input)).toEqual(null);
+    });
+
+    it('returns a function with name "required"', () => {
+      expect(createRequired().name).toBe('required');
     });
   });
 });
