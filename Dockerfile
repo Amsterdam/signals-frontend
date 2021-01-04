@@ -18,7 +18,7 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY .gitignore \
   .gitattributes \
-  .eslintrc.yaml \
+  .eslintrc.js \
   .prettierrc \
   tsconfig.json \
   jest.config.js \
