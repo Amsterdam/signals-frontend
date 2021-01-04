@@ -1,0 +1,57 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8000/signals/v1/private/users/?is_active=true&username=aeg"
+    },
+    "next": {
+      "href": null
+    },
+    "previous": {
+      "href": null
+    }
+  },
+  "count": 2,
+  "results": [
+    {
+      "_links": {
+        "self": {
+          "href": "http://localhost:8000/signals/v1/private/users/3"
+        }
+      },
+      "_display": "signals.aeg@example.com",
+      "id": 3,
+      "username": "signals.aeg@example.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "note": "",
+        "departments": [
+          "Afval en Grondstoffen"
+        ],
+        "created_at": "2020-10-13T13:29:28.179222+02:00",
+        "updated_at": "2020-10-13T13:29:28.179248+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "http://localhost:8000/signals/v1/private/users/4"
+        }
+      },
+      "_display": "signals.asc.aeg@example.com",
+      "id": 4,
+      "username": "signals.asc.aeg@example.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "note": "",
+        "departments": [
+          "Actie Service Centrum",
+          "Afval en Grondstoffen"
+        ],
+        "created_at": "2020-10-13T13:29:50.148732+02:00",
+        "updated_at": "2020-10-13T13:29:50.148755+02:00"
+      }
+    }
+  ]
+}

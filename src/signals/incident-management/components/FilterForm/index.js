@@ -1,12 +1,12 @@
-import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer } from 'react';
+import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
-import Select from 'react-select';
 import { Label as AscLabel } from '@amsterdam/asc-ui';
 
+import AutoSuggest from 'components/AutoSuggest';
 import Checkbox from 'components/Checkbox';
 import Input from 'components/Input';
 import Label from 'components/Label';
@@ -42,18 +42,29 @@ import {
 
 import reducer, { init } from './reducer';
 
+const USERS_AUTO_SUGGEST_URL = `${configuration.USERS_ENDPOINT}?is_active=true&username=`;
+const getUserOptions = data =>
+  data?.results?.map(user => ({
+    id: user.username,
+    value: user.username,
+  }));
+
+const getUserCount = data => data?.count;
+
 /**
  * Component that renders the incident filter form
  */
 const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
   const { sources } = useContext(AppContext);
-  const { districts, users } = useContext(IncidentManagementContext);
+  const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
 
   const [state, dispatch] = useReducer(reducer, filter, init);
 
   const isNewFilter = !filter.name;
+
+  const [assignedSelectValue, setAssignedSelectValue] = useState('');
 
   const dataListValues = useMemo(
     () => ({
@@ -63,22 +74,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       directing_department: directingDepartments,
     }),
     [districts, sources, directingDepartments]
-  );
-
-  const userOptions = useMemo(
-    () =>
-      configuration.featureFlags.assignSignalToEmployee &&
-      users && [
-        {
-          value: 'null',
-          label: 'Niet toegewezen',
-        },
-        ...users.map(user => ({
-          value: user.username,
-          label: user.username,
-        })),
-      ],
-    [users]
   );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
@@ -244,9 +239,28 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [dispatch, dataListValues]
   );
 
-  const onSelectChange = useCallback((option, { action, name }) => {
-    dispatch(setGroupOptions({ [name]: option?.value }));
-  }, []);
+  const onAssignedSelect = useCallback(
+    option => {
+      dispatch(setGroupOptions({ assigned_user_email: option?.id }));
+    },
+    [dispatch]
+  );
+
+  const onAssignedClear = useCallback(() => {
+    dispatch(setGroupOptions({ assigned_user_email: '' }));
+  }, [dispatch]);
+
+  const onNotAssignedChange = useCallback(
+    event => {
+      event.persist();
+      const { checked } = event.currentTarget;
+      const newAssignedSelectValue = checked ? state.options?.assigned_user_email : '';
+      const newAssignedFilterValue = checked ? 'null' : assignedSelectValue;
+      setAssignedSelectValue(newAssignedSelectValue);
+      dispatch(setGroupOptions({ assigned_user_email: newAssignedFilterValue }));
+    },
+    [dispatch, assignedSelectValue, setAssignedSelectValue, state]
+  );
 
   return (
     <Form action="" novalidate>
@@ -473,19 +487,32 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             options={sources}
           />
 
-          {configuration.featureFlags.assignSignalToEmployee && userOptions && (
+          {configuration.featureFlags.assignSignalToEmployee && (
             <FilterGroup data-testid="filterAssignedUserEmail">
               <Label htmlFor="filter_assigned_user_email" isGroupHeader>
                 Toegewezen aan
               </Label>
-              <Select
-                value={userOptions.find(option => option.value === state.options?.assigned_user_email) || null}
-                inputId="filter_assigned_user_email"
-                isClearable
+              <div>
+                <Checkbox
+                  data-testid="filterNotAssigned"
+                  checked={state.options?.assigned_user_email === 'null'}
+                  id="filter_not_assigned"
+                  name="notAssigned"
+                  onClick={onNotAssignedChange}
+                />
+                <AscLabel htmlFor="filter_not_assigned" label="Niet toegewezen" />
+              </div>
+              <AutoSuggest
+                value={state.options?.assigned_user_email === 'null' ? '' : state.options?.assigned_user_email}
+                id="filter_assigned_user_email"
                 name="assigned_user_email"
-                onChange={onSelectChange}
-                options={userOptions}
-                placeholder="Alles"
+                onSelect={onAssignedSelect}
+                onClear={onAssignedClear}
+                placeholder="medewerker@example.com"
+                url={USERS_AUTO_SUGGEST_URL}
+                formatResponse={getUserOptions}
+                numOptionsDeterminer={getUserCount}
+                disabled={state.options?.assigned_user_email === 'null'}
               />
             </FilterGroup>
           )}

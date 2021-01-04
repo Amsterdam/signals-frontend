@@ -1,24 +1,26 @@
 import React from 'react';
-import { fireEvent, getByText, render, screen, act } from '@testing-library/react';
+import { fireEvent, waitFor, render, screen, act } from '@testing-library/react';
+import userEvent, { specialChars } from '@testing-library/user-event';
 import { store, withAppContext } from 'test/utils';
 
+import { INPUT_DELAY } from 'components/AutoSuggest';
+import * as departmentsSelectors from 'models/departments/selectors';
+import configuration from 'shared/services/configuration/configuration';
 import priorityList from 'signals/incident-management/definitions/priorityList';
 import statusList from 'signals/incident-management/definitions/statusList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import typesList from 'signals/incident-management/definitions/typesList';
 import kindList from 'signals/incident-management/definitions/kindList';
 import dataLists from 'signals/incident-management/definitions';
-import configuration from 'shared/services/configuration/configuration';
 import { directingDepartments } from 'utils/__tests__/fixtures';
-
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 import users from 'utils/__tests__/fixtures/users.json';
-import * as departmentsSelectors from 'models/departments/selectors';
 
+import jsonResponse from './mockResponse.json';
 import FilterForm from '..';
-import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL, SET_GROUP_OPTIONS } from '../constants';
+import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
 import IncidentManagementContext from '../../../context';
 import AppContext from '../../../../../containers/App/context';
 
@@ -33,6 +35,7 @@ jest.mock('models/categories/selectors', () => ({
 
 jest.spyOn(store, 'dispatch');
 
+const mockResponse = JSON.stringify(jsonResponse);
 const usersFixture = users.results.slice(0, 5);
 
 const formProps = {
@@ -52,7 +55,15 @@ const withContext = (Component, actualDistricts = null, actualUsers = null) =>
   );
 
 describe('signals/incident-management/components/FilterForm', () => {
+  beforeEach(() => {
+    fetch.mockResponse(mockResponse);
+    jest.useFakeTimers();
+  });
+
   afterEach(() => {
+    fetch.resetMocks();
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
     configuration.__reset();
   });
 
@@ -238,55 +249,132 @@ describe('signals/incident-management/components/FilterForm', () => {
   });
 
   describe('assigned_user_email', () => {
-    const testId = 'filterAssignedUserEmail';
-    const label = 'Toegewezen aan';
-    const placeholder = 'Alles';
+    const label = /toegewezen aan/i;
     const notAssignedLabel = 'Niet toegewezen';
+    const submitLabel = /filteren/i;
+    const username = jsonResponse.results[0].username;
+
+    const selectUser = async input => {
+      userEvent.type(input, 'aeg');
+      expect(await screen.findByText(username)).toBeInTheDocument();
+      userEvent.type(input, `${specialChars.arrowDown}${specialChars.enter}`);
+    };
 
     it('should not render a list of options with assignSignalToEmployee disabled', () => {
-      render(withContext(<FilterForm {...formProps} />, null, usersFixture));
-      expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
-    });
-
-    it('should not render a list of options without users', () => {
-      configuration.featureFlags.assignSignalToEmployee = true;
       render(withContext(<FilterForm {...formProps} />));
       expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
     });
 
-    it('should render a list of options with assignSignalToEmployee enabled', () => {
-      configuration.featureFlags.assignSignalToEmployee = true;
-      render(withContext(<FilterForm {...formProps} />, null, usersFixture));
-      expect(screen.getByLabelText(label)).toBeInTheDocument();
-
-      const filterGroup = screen.getByTestId(testId);
-      fireEvent.keyDown(getByText(filterGroup, placeholder), {
-        key: 'ArrowDown',
-      });
-      expect(getByText(filterGroup, notAssignedLabel)).toBeInTheDocument();
-      usersFixture.forEach(user => {
-        expect(getByText(filterGroup, user.username)).toBeInTheDocument();
-      });
-    });
-
-    it('should change selection', () => {
+    it('should allow selection of user with assignSignalToEmployee enabled', async () => {
       configuration.featureFlags.assignSignalToEmployee = true;
       const onSubmit = jest.fn();
-      const username = usersFixture[0].username;
       const expected = { options: { assigned_user_email: username } };
 
-      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />, null, usersFixture));
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const input = screen.getByLabelText(label);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+      expect(input).toBeInTheDocument();
 
-      const filterGroup = screen.getByTestId(testId);
-      // Open select
-      fireEvent.keyDown(getByText(filterGroup, placeholder), {
-        key: 'ArrowDown',
+      await selectUser(input);
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+    });
+
+    it('should allow selection of not assigned', () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const onSubmit = jest.fn();
+      const expected = { options: { assigned_user_email: 'null' } };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const checkbox = screen.getByLabelText(notAssignedLabel);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+
+      userEvent.click(checkbox);
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+    });
+
+    it('should disable auto suggest when not assigned checkbox checked', () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      render(withContext(<FilterForm {...formProps} />));
+      const checkbox = screen.getByLabelText(notAssignedLabel);
+      const input = screen.getByLabelText(label);
+
+      expect(input).not.toBeDisabled();
+      expect(checkbox).not.toBeChecked();
+
+      userEvent.click(checkbox);
+
+      expect(input).toBeDisabled();
+      expect(checkbox).toBeChecked();
+
+      userEvent.click(checkbox);
+
+      expect(input).not.toBeDisabled();
+      expect(checkbox).not.toBeChecked();
+    });
+
+    it('should clear auto suggest value when not assigned checkbox checked', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      render(withContext(<FilterForm {...formProps} />));
+      const checkbox = screen.getByLabelText(notAssignedLabel);
+      const input = screen.getByLabelText(label);
+
+      expect(input).not.toHaveValue();
+
+      await selectUser(input);
+
+      expect(input).toHaveValue(username);
+      userEvent.click(checkbox);
+      expect(input).not.toHaveValue();
+      userEvent.click(checkbox);
+      expect(input).toHaveValue(username);
+    });
+
+    it('should clear correctly on form clear', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      render(withContext(<FilterForm {...formProps} />));
+      const checkbox = screen.getByLabelText(notAssignedLabel);
+      const input = screen.getByLabelText(label);
+      const clearButton = screen.getByRole('button', { name: /nieuw filter/i });
+
+      await selectUser(input);
+
+      expect(input).toHaveValue(username);
+      expect(checkbox).not.toBeChecked();
+
+      userEvent.click(clearButton);
+
+      expect(input).not.toHaveValue();
+      expect(checkbox).not.toBeChecked();
+
+      await selectUser(input);
+      userEvent.click(checkbox);
+
+      expect(input).not.toHaveValue();
+      expect(checkbox).toBeChecked();
+
+      userEvent.click(clearButton);
+
+      expect(input).not.toHaveValue();
+      expect(checkbox).not.toBeChecked();
+    });
+
+    it('should clear correctly when removing input value', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const onSubmit = jest.fn();
+      const expected = { options: {} };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const input = screen.getByLabelText(label);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+
+      await selectUser(input);
+      userEvent.clear(input);
+      act(() => {
+        jest.advanceTimersByTime(INPUT_DELAY);
       });
-      // Select option
-      fireEvent.click(getByText(filterGroup, username));
-      // Submit form
-      fireEvent.click(screen.getByRole('button', { name: /filteren/i }));
-
+      userEvent.click(submitButton);
       expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
     });
   });
