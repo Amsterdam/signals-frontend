@@ -24,6 +24,17 @@ module.exports = {
         '@typescript-eslint/strict-boolean-expressions': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
 
+        '@typescript-eslint/comma-dangle': [
+          'error',
+          {
+            functions: 'never',
+            arrays: 'always-multiline',
+            objects: 'always-multiline',
+            imports: 'always-multiline',
+            exports: 'always-multiline',
+          },
+        ],
+
         '@typescript-eslint/indent': ['error', 2],
         '@typescript-eslint/quotes': ['error', 'single', { avoidEscape: true }],
         // '@typescript-eslint/semi': ['error', 'never'],
@@ -42,6 +53,7 @@ module.exports = {
         // extensions (superseded by typescript rules)
         'init-declarations': 'off',
         'no-use-before-define': 'off',
+        'comma-dangle': 'off',
         // 'brace-style': 'off',
         // 'comma-spacing': 'off',
         // 'func-call-spacing': 'off',
