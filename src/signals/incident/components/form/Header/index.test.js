@@ -69,13 +69,14 @@ describe('signals/incident/components/form/Header', () => {
 
   it('should render required error with default message', () => {
     const hasError = prop => prop === 'required';
+    const getError = () => true;
     const error = 'Dit is een verplicht veld';
 
     const { rerender } = render(withAppContext(<Header hasError={() => false} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header getError={() => {}} hasError={hasError} touched />));
+    rerender(withAppContext(<Header getError={getError} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
@@ -138,6 +139,7 @@ describe('signals/incident/components/form/Header', () => {
 
   it('should not render error when not touched', () => {
     const hasError = prop => prop === 'required';
+    const getError = () => true;
     const touched = false;
     const error = 'Dit is een verplicht veld';
 
@@ -145,7 +147,7 @@ describe('signals/incident/components/form/Header', () => {
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header getError={() => {}} hasError={hasError} touched />));
+    rerender(withAppContext(<Header getError={getError} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });

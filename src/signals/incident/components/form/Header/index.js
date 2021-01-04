@@ -42,9 +42,7 @@ const SubTitle = styled.div`
 const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
   const containsErrors =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
-  const isOptional = !options?.validators
-    ?.map(validator => validator.name)
-    .includes('required');
+  const isOptional = !options?.validators?.some(validator => validator.name === 'required');
 
   return (
     <Wrapper className={className} invalid={containsErrors}>
@@ -60,7 +58,9 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
 
       {touched && containsErrors && (
         <Fragment>
-          {hasError('required') && <ErrorItem>{getError('required') || 'Dit is een verplicht veld'}</ErrorItem>}
+          {hasError('required') && (
+            <ErrorItem>{getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}</ErrorItem>
+          )}
 
           {hasError('email') && (
             <ErrorItem>
