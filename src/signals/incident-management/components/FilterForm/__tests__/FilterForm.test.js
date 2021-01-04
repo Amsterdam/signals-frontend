@@ -265,6 +265,26 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
     });
 
+    it('should fail silently when users request returns without results', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      fetch.mockResponse(JSON.stringify({}));
+      const onSubmit = jest.fn();
+      const expected = { options: {} };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const input = screen.getByLabelText(label);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+      expect(input).toBeInTheDocument();
+
+      userEvent.type(input, 'aeg');
+      act(() => {
+        jest.advanceTimersByTime(INPUT_DELAY);
+      });
+      expect(screen.queryByText(username)).not.toBeInTheDocument();
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+    });
+
     it('should allow selection of user with assignSignalToEmployee enabled', async () => {
       configuration.featureFlags.assignSignalToEmployee = true;
       const onSubmit = jest.fn();

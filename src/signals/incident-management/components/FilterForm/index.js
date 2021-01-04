@@ -44,7 +44,7 @@ import reducer, { init } from './reducer';
 
 const USERS_AUTO_SUGGEST_URL = `${configuration.USERS_ENDPOINT}?is_active=true&username=`;
 const getUserOptions = data =>
-  data?.results?.map(user => ({
+  data.results?.map(user => ({
     id: user.username,
     value: user.username,
   }));
@@ -241,7 +241,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
 
   const onAssignedSelect = useCallback(
     option => {
-      dispatch(setGroupOptions({ assigned_user_email: option?.id }));
+      dispatch(setGroupOptions({ assigned_user_email: option.id }));
     },
     [dispatch]
   );
@@ -254,7 +254,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     event => {
       event.persist();
       const { checked } = event.currentTarget;
-      const newAssignedSelectValue = checked ? state.options?.assigned_user_email : '';
+      const newAssignedSelectValue = checked ? state.options.assigned_user_email : '';
       const newAssignedFilterValue = checked ? 'null' : assignedSelectValue;
       setAssignedSelectValue(newAssignedSelectValue);
       dispatch(setGroupOptions({ assigned_user_email: newAssignedFilterValue }));
@@ -495,7 +495,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               <div>
                 <Checkbox
                   data-testid="filterNotAssigned"
-                  checked={state.options?.assigned_user_email === 'null'}
+                  checked={state.options.assigned_user_email === 'null'}
                   id="filter_not_assigned"
                   name="notAssigned"
                   onClick={onNotAssignedChange}
@@ -503,7 +503,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 <AscLabel htmlFor="filter_not_assigned" label="Niet toegewezen" />
               </div>
               <AutoSuggest
-                value={state.options?.assigned_user_email === 'null' ? '' : state.options?.assigned_user_email}
+                value={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
                 id="filter_assigned_user_email"
                 name="assigned_user_email"
                 onSelect={onAssignedSelect}
@@ -512,7 +512,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 url={USERS_AUTO_SUGGEST_URL}
                 formatResponse={getUserOptions}
                 numOptionsDeterminer={getUserCount}
-                disabled={state.options?.assigned_user_email === 'null'}
+                disabled={state.options.assigned_user_email === 'null'}
               />
             </FilterGroup>
           )}
