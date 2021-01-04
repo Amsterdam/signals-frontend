@@ -15,3 +15,6 @@ stats.json
 .DS_Store
 npm-debug.log
 .idea
+
+# e2e-test-data
+e2e-tests/cypress/fixtures/temp*.json

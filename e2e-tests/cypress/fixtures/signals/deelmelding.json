@@ -53,7 +53,8 @@
     {"id": 3, "code": "WAT", "name": "Waternet", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "waterSnelVaren.json",
-    "attachments": ["images/logo.png", "images/logo2.png"]
+    "address": "deelmelding.json",
+    "attachments": ["images/logo.png", "images/logo2.png"],
+    "prediction": "waterSnelVaren.json"
   }
 }

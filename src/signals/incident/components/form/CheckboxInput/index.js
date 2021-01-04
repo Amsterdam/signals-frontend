@@ -23,7 +23,7 @@ function updateIncidentCheckboxMulti(checked, value, key, oldValue, meta, parent
 }
 
 const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
-  meta?.isVisible && (
+  meta.isVisible && (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       {isObject(meta.values) ? (
         <Fragment>
@@ -70,7 +70,7 @@ CheckboxInput.propTypes = {
   touched: PropTypes.bool,
   getError: PropTypes.func,
   hasError: PropTypes.func,
-  meta: PropTypes.object,
+  meta: PropTypes.object.isRequired,
   parent: PropTypes.object,
   validatorsOrOpts: PropTypes.object,
 };

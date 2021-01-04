@@ -317,6 +317,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="status"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.status}
           />
 
@@ -327,6 +328,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="area"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
               options={districts}
             />
           )}
@@ -338,6 +340,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="stadsdeel"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
               options={dataLists.stadsdeel}
             />
           )}
@@ -349,6 +352,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="priority"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.priority}
           />
 
@@ -359,6 +363,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="type"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.type}
           />
 
@@ -369,6 +374,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="contact_details"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.contact_details}
           />
 
@@ -387,6 +393,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="kind"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.kind}
           />
 
@@ -398,6 +405,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="directing_department"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
               options={directingDepartments}
             />
 
@@ -408,6 +416,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="has_changed_children"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
               options={dataLists.has_changed_children}
             />
           </Fieldset>
@@ -460,6 +469,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="source"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={sources}
           />
 

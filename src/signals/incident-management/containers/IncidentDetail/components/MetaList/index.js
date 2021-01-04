@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
-import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
+import { makeSelectHandlingTimesBySlug, makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -47,10 +47,12 @@ const EditButton = styled(Button)`
 `;
 
 const MetaList = () => {
-  const { handlingTimesBySlug, incident, update, edit } = useContext(IncidentDetailContext);
+  const { incident, update, edit } = useContext(IncidentDetailContext);
   const { users } = useContext(IncidentManagementContext);
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
+  const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug);
+
 
   const routingDepartments = useMemo(
     () =>

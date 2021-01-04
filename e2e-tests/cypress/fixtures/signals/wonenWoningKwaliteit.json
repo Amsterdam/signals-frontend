@@ -93,7 +93,8 @@
     {"id": 19, "code": "WON", "name": "Wonen", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "wonenWoningkwaliteit.json",
-    "attachments": null
+    "address": "wonenWoningkwaliteit.json",
+    "attachments": null,
+    "prediction": "wonenWoningkwaliteit.json"
   }
 }

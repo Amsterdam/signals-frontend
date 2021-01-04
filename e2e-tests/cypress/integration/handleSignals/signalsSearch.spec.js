@@ -11,11 +11,9 @@ describe.skip('Search signals', () => {
   // Skipped because there is no elastic search in e2e environment
   describe('Create signal boten', () => {
     before(() => {
-      cy.server();
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
-      cy.intercept('**/maps/topografie?bbox=**').as('map');
-      cy.visitFetch('incident/beschrijf');
+      cy.getMapRoute();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
@@ -36,7 +34,7 @@ describe.skip('Search signals', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
+      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
@@ -51,11 +49,10 @@ describe.skip('Search signals', () => {
   describe('Find signals by search term', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.viewport('macbook-15');
       cy.getManageSignalsRoutes();
-      cy.route('/signals/v1/private/search?*').as('getSearchResults');
-      cy.visitFetch('/manage/incidents/');
+      cy.getSearchResultsRoute();
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 

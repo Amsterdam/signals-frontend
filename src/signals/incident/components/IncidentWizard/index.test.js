@@ -101,6 +101,14 @@ describe('<IncidentWizard />', () => {
       ...props,
       wizardDefinition: {
         samenvatting: {
+          sectionLabels: {
+            heading: {
+              samenvatting: 'Samenvatting',
+            },
+            edit: {
+              samenvatting: 'Samenvatting wijzigen',
+            },
+          },
           previewFactory: () => ({
             controls: {},
           }),

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import 'jest-styled-components';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
@@ -62,6 +62,17 @@ describe('<IncidentPreview />', () => {
           },
         },
       },
+      sectionLabels: {
+        heading: {
+          vulaan: 'Vulaan heading',
+          beschrijf: 'Beschrijf heading',
+        },
+        edit: {
+          vulaan: 'Wijzig vulaan',
+          beschrijf: 'Wijzig beschrijf',
+          some_other_section: 'Wijzig bar baz qux',
+        },
+      },
     };
   });
 
@@ -110,6 +121,11 @@ describe('<IncidentPreview />', () => {
     await findByTestId('incidentPreview');
 
     const sectionRe = new RegExp(Object.keys(props.preview).join('|'));
+
+    expect(screen.getByText(props.sectionLabels.edit.beschrijf)).toBeInTheDocument();
+    expect(screen.getByText(props.sectionLabels.edit.vulaan)).toBeInTheDocument();
+    expect(screen.getByText(props.sectionLabels.edit.some_other_section)).toBeInTheDocument();
+
     container.querySelectorAll('a').forEach(element => {
       expect(element.href).toEqual(expect.stringMatching(sectionRe));
     });
@@ -123,7 +139,7 @@ describe('<IncidentPreview />', () => {
     await findByTestId('incidentPreview');
 
     container.querySelectorAll('header').forEach(element => {
-      expect(element).toHaveStyleRule('grid-template-columns', '10fr 2fr');
+      expect(element).toHaveStyleRule('grid-template-columns', '8fr 4fr');
     });
 
     isAuthenticated.mockImplementation(() => true);
@@ -140,7 +156,15 @@ describe('<IncidentPreview />', () => {
   });
 
   describe('rendering of all value types', () => {
-    const alTypesProps = {
+    const allTypesProps = {
+      sectionLabels: {
+        heading: {
+          beschrijf: 'Beschrijf',
+        },
+        edit: {
+          beschrijf: 'Wijzig beschrijf',
+        },
+      },
       incident: {
         plain_text: 'Dit is een melding',
         objectValue: {
@@ -206,12 +230,12 @@ describe('<IncidentPreview />', () => {
     };
 
     it('expect to render correctly', async () => {
-      const { queryByText, findByTestId } = render(withAppContext(<IncidentPreview {...alTypesProps} />));
+      const { queryByText, findByTestId } = render(withAppContext(<IncidentPreview {...allTypesProps} />));
 
       await findByTestId('incidentPreview');
 
-      const { incident } = alTypesProps;
-      const step = alTypesProps.preview.beschrijf;
+      const { incident } = allTypesProps;
+      const step = allTypesProps.preview.beschrijf;
 
       expect(queryByText(step.plain_text.label)).toBeInTheDocument();
       expect(queryByText(incident.plain_text)).toBeInTheDocument();

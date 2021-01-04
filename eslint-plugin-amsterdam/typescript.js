@@ -11,6 +11,9 @@ module.exports = {
       rules: {
         // disabled
         '@typescript-eslint/typedef': 'off',
+        '@typescript-eslint/prefer-readonly-parameter-types': 'off',
+        '@typescript-eslint/no-magic-numbers': 'off',
+        '@typescript-eslint/explicit-function-return-type': 'off',
 
         // to tweak?
         '@typescript-eslint/brace-style': 'off',
@@ -26,6 +29,7 @@ module.exports = {
         // '@typescript-eslint/semi': ['error', 'never'],
         '@typescript-eslint/no-unnecessary-type-assertion': 'error',
         '@typescript-eslint/space-before-function-paren': ['error', 'never'],
+        '@typescript-eslint/naming-convention': 'off',
 
         // '@typescript-eslint/member-delimiter-style': [
         //   'error', { singleline: { delimiter: 'comma', requireLast: false }, multiline: { delimiter: 'none' } },
@@ -51,6 +55,5 @@ module.exports = {
       },
     },
   ],
-  rules: {
-  },
+  rules: {},
 };

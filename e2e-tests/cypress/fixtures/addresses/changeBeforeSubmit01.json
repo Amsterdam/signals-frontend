@@ -1,0 +1,48 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 20.330713,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "1",
+        "weergavenaam": "Museumstraat 1, 1071XX Amsterdam",
+        "id": "adr-05d9f079a1e8e66f30122d9ca3b0acd3",
+        "postcode": "1071XX",
+        "centroide_ll": "POINT(4.88538635 52.35994229)",
+        "straatnaam": "Museumstraat"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-05d9f079a1e8e66f30122d9ca3b0acd3": {
+      "suggest": ["Museumstraat <b>1</b>, <b>1071XX</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1071xx",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1017xx", "1071ax", "10710", "10711", "10713"]
+      }
+    ],
+    "collations": [
+      "collation",
+      {
+        "collationQuery": "1071ax 1",
+        "hits": 25,
+        "misspellingsAndCorrections": ["1071xx", "1071ax"]
+      },
+      "collation",
+      {
+        "collationQuery": "1017xx 1",
+        "hits": 21,
+        "misspellingsAndCorrections": ["1071xx", "1017xx"]
+      }
+    ]
+  }
+}

@@ -60,7 +60,8 @@
     {"id": 3, "code": "WAT", "name": "Waternet", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "waterWrak.json",
-    "attachments": null
+    "address": "waterWrak.json",
+    "attachments": null,
+    "prediction": "waterWrak.json"
   }
 }

@@ -21,6 +21,25 @@ export const checkDeelmelding = (deelmeldingNumber, subcategory, status, handlin
     cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', handlingTime).and('be.visible');
   });
 };
+export const checkSignalNotVisible = () => {
+  cy.get('body').then($body => {
+    if ($body.find('th').length > 0) {
+      cy.get('th').contains('Id').click();
+      cy.wait('@getSortedASC');
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+      cy.get('th').contains('Id').click();
+      cy.wait('@getSortedDESC');
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+      // eslint-disable-next-line promise/no-nesting
+      cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+        cy.get(MANAGE_SIGNALS.firstSignalId).should('not.have.text', `${json.signalId}`);
+      });
+    }
+    else {
+      cy.contains('Geen meldingen');
+    }
+  });
+};
 
 export const filterSignalOnType = (type, selector) => {
   cy.get(MANAGE_SIGNALS.buttonFilteren).click();
@@ -42,6 +61,7 @@ export const filterSignalOnType = (type, selector) => {
   checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
 };
+
 export const checkSignalType = type => {
   switch (type) {
     case 'melding':

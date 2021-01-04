@@ -71,7 +71,7 @@
         "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
       ],
       "options": {
-        "attribution": "Kaartgegevens CC-BY-4.0 Gemeente Amsterdam",
+        "attribution": "<span aria-hidden='true'>Kaartgegevens CC-BY-4.0 Gemeente Amsterdam</span>",
         "subdomains": [
           "t1",
           "t2",
@@ -96,6 +96,12 @@
     "clientId": "sia",
     "responseType": "token",
     "scope": "SIG/ALL"
+  },
+  "keycloak": {
+    "authEndpoint": "https://iam.amsterdam.nl/auth",
+    "clientId": "sia-frontend",
+    "responseType": "code",
+    "realm": "datapunt-ad-acc"
   },
   "sentry": {
     "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"

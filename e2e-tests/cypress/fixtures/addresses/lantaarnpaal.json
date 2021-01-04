@@ -1,0 +1,35 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 20.934002,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "59",
+        "weergavenaam": "Prinses Irenestraat 59, 1077WV Amsterdam",
+        "id": "adr-702d8cf92c761638bf2488b29eed3962",
+        "postcode": "1077WV",
+        "centroide_ll": "POINT(4.86971361 52.34135551)",
+        "straatnaam": "Prinses Irenestraat"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-702d8cf92c761638bf2488b29eed3962": {
+      "suggest": ["Prinses Irenestraat <b>59</b>, <b>1077WV</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1077wv",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1017wv", "1067wv", "10770", "10771", "10776"]
+      }
+    ],
+    "collations": []
+  }
+}

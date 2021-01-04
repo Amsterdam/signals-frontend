@@ -23,10 +23,9 @@ describe('Signal overview Map', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Should open the signals overview map with signals', () => {
-      cy.server();
       cy.defineMapRoutes();
 
-      cy.visitFetch('manage/incidents/kaart');
+      cy.visit('manage/incidents/kaart');
 
       cy.wait('@getSignals');
       cy.wait('@getGeography');
@@ -42,7 +41,6 @@ describe('Signal overview Map', () => {
     });
 
     it('Should not show signals if filtered out', () => {
-      cy.server();
       cy.defineMapRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilteren).click();
@@ -53,7 +51,6 @@ describe('Signal overview Map', () => {
     });
 
     it('Should show signals again', () => {
-      cy.server();
       cy.defineMapRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilteren).click();
@@ -65,12 +62,9 @@ describe('Signal overview Map', () => {
     });
 
     it('Should search for an address', () => {
-      cy.server();
-      cy.route('/locatieserver/v3/suggest?fq=gemeentenaam:**').as('getAddress');
-
+      cy.stubAddress('signalForOverviewMap.json');
       cy.get(OVERVIEW_MAP.buttonZoomIn).click();
       createSignal.searchAddress('1012RJ 147');
-      cy.wait('@getAddress');
       createSignal.selectAddress('Nieuwezijds Voorburgwal 147, 1012RJ Amsterdam');
 
       // Wait is needed to finish zoom when selecting address, otherwise test is failing

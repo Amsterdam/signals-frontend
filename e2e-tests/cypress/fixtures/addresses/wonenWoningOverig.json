@@ -1,0 +1,60 @@
+{
+  "response": {
+    "numFound": 4,
+    "start": 0,
+    "maxScore": 17.18542,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "38A",
+        "weergavenaam": "Singel 38A, 1015AB Amsterdam",
+        "id": "adr-8c25c3f03ca2a77e638760b08506a87b",
+        "postcode": "1015AB",
+        "centroide_ll": "POINT(4.89295821 52.37827634)",
+        "straatnaam": "Singel"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "38B",
+        "weergavenaam": "Singel 38B, 1015AB Amsterdam",
+        "id": "adr-d130a9c7234fa811580085cd06c0f201",
+        "postcode": "1015AB",
+        "centroide_ll": "POINT(4.89295716 52.3782776)",
+        "straatnaam": "Singel"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "38C",
+        "weergavenaam": "Singel 38C, 1015AB Amsterdam",
+        "id": "adr-08a2d628ce7a182c320d4ebdc116be3a",
+        "postcode": "1015AB",
+        "centroide_ll": "POINT(4.89295716 52.3782776)",
+        "straatnaam": "Singel"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "38G",
+        "weergavenaam": "Singel 38G, 1015AB Amsterdam",
+        "id": "adr-4c946b0637232dfeb8ce76d81a787a39",
+        "postcode": "1015AB",
+        "centroide_ll": "POINT(4.89310165 52.37813001)",
+        "straatnaam": "Singel"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-8c25c3f03ca2a77e638760b08506a87b": {
+      "suggest": ["Singel <b>38A</b>, <b>1015AB</b> Amsterdam"]
+    },
+    "adr-d130a9c7234fa811580085cd06c0f201": {
+      "suggest": ["Singel <b>38B</b>, <b>1015AB</b> Amsterdam"]
+    },
+    "adr-08a2d628ce7a182c320d4ebdc116be3a": {
+      "suggest": ["Singel <b>38C</b>, <b>1015AB</b> Amsterdam"]
+    },
+    "adr-4c946b0637232dfeb8ce76d81a787a39": {
+      "suggest": ["Singel <b>38G</b>, <b>1015AB</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

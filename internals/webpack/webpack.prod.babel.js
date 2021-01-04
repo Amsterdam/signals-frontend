@@ -23,6 +23,18 @@ module.exports = require('./webpack.base.babel')({
     chunkFilename: '[name].[chunkhash].chunk.js',
   },
 
+  tsLoaders: [
+    // Babel also has a typescript transpiler. Uncomment this if you prefer and comment-out ts-loader
+    // { loader: 'babel-loader' },
+    {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true, // fork-ts-checker-webpack-plugin is used for type checking
+        logLevel: 'info',
+      },
+    },
+  ],
+
   optimization: {
     minimize: true,
     minimizer: [

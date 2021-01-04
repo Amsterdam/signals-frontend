@@ -87,7 +87,8 @@
     {"id": 9, "code": "VOR", "name": "V&OR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "verkeerslicht.json",
-    "attachments": null
+    "address": "verkeerslicht.json",
+    "attachments": null,
+    "prediction": "verkeerslicht.json"
   }
 }
