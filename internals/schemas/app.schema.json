@@ -89,8 +89,8 @@
           "description": "When true, will show extra questions after the first page of questions in the incident submission form",
           "type": "boolean"
         },
-        "useDenBoschSignalType": {
-          "description": "When true, will make a textual change to the signal type 'Groot onderhoud', becoming 'Projecten'. This is for Den Bosch and is temporarily needed until the signal types have been moved to the database.",
+        "useProjectenSignalType": {
+          "description": "When true, will make a textual change to the signal type 'Groot onderhoud', becoming 'Projecten'. This is temporarily needed until the signal types have been moved to the database.",
           "type": "boolean"
         },
         "useMapSelectGeneric": {
@@ -109,7 +109,7 @@
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",
         "showVulaanControls",
-        "useDenBoschSignalType",
+        "useProjectenSignalType",
         "useMapSelectGeneric",
         "useStaticMapServer"
       ],

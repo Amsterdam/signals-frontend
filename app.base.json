@@ -8,7 +8,7 @@
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
     "showVulaanControls": false,
-    "useDenBoschSignalType": false,
+    "useProjectenSignalType": false,
     "useMapSelectGeneric": false,
     "useStaticMapServer": false
   },

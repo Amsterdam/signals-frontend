@@ -5,9 +5,9 @@ describe('Types list', () => {
     jest.resetModules();
   });
 
-  it("should contain 'Projecten' with useDenBoschSignalType enabled", () => {
+  it("should contain 'Projecten' with useProjectenSignalType enabled", () => {
     const configuration = require('shared/services/configuration/configuration').default;
-    configuration.featureFlags.useDenBoschSignalType = true;
+    configuration.featureFlags.useProjectenSignalType = true;
     const typesList = require('./typesList').default;
 
     expect(typesList.length).toBe(5);

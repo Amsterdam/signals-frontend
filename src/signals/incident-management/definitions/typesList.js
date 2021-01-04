@@ -20,8 +20,8 @@ export default [
   { key: 'COM', value: 'Klacht', info: 'Een uiting van ongenoegen over het handelen van de gemeente.' },
   {
     key: 'MAI',
-    value: configuration.featureFlags.useDenBoschSignalType ? 'Projecten' : 'Groot onderhoud',
-    info: configuration.featureFlags.useDenBoschSignalType
+    value: configuration.featureFlags.useProjectenSignalType ? 'Projecten' : 'Groot onderhoud',
+    info: configuration.featureFlags.useProjectenSignalType
       ? 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een project.'
       : 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
   },
