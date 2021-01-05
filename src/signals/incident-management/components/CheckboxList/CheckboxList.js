@@ -182,7 +182,11 @@ const CheckboxList = ({
    */
   const handleIndividualCheck = useCallback(
     ({ target }) => {
-      const { checked: targetIsChecked } = target;
+      const { checked: targetIsChecked, id } = target;
+
+      // Firefox & Safari on Mac do not hold focus for non-input elements when clicked
+      // Force focus so that 'Enter' will submit the checkbox selection
+      document.getElementById(id).focus();
 
       setChecked(state => {
         const modifiedState = new Set(state);
