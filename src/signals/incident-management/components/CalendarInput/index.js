@@ -8,11 +8,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 registerLocale('nl', nl);
 
+/** This input is focused after a date is selected to enable form submit functionality for this control*/
 const SelectedDateInput = styled.input`
   border: 0;
   margin: 0;
   padding: 0;
-  width: 0px;
+  width: 0;
   overflow: hidden;
 `;
 
@@ -26,12 +27,9 @@ const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => {
     [onSelect]
   );
 
-  const focus = useCallback(
-    () => {
-      inputRef.current?.focus();
-    },
-    [inputRef]
-  );
+  const focus = useCallback(() => {
+    inputRef.current.focus();
+  }, [inputRef]);
 
   return (
     <Fragment>
@@ -47,9 +45,13 @@ const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => {
         selected={selectedDate}
       />
 
-      {selectedDate && (
-        <SelectedDateInput value={dateToString(selectedDate)} name={name} readOnly ref={inputRef} tabIndex={-1} />
-      )}
+      <SelectedDateInput
+        data-testid="selectedDate"
+        defaultValue={dateToString(selectedDate)}
+        name={name}
+        ref={inputRef}
+        tabIndex={-1}
+      />
     </Fragment>
   );
 };
