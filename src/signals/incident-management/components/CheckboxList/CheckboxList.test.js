@@ -180,7 +180,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const groupId = 'barbazbaz';
     const toggleAllLabel = 'Select all';
     const toggleNothingLabel = 'Select none';
-    const { container, getByText, queryByText } = render(
+    const { container } = render(
       withAppContext(
         <CheckboxList
           groupId={groupId}
@@ -197,26 +197,26 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     expect(onToggleMock).not.toHaveBeenCalled();
 
-    // loop over all checkboxes but one and check them manually
-    const nodeListIterator = container.querySelectorAll('input[type="checkbox"]:not(:last-of-type)').values();
+    const checkboxes = screen.getAllByRole('checkbox');
 
-    for (const checkbox of nodeListIterator) {
+    // loop over all checkboxes but one and check them manually
+    checkboxes.slice(1).forEach(checkbox => {
       act(() => {
         fireEvent.click(checkbox);
       });
-    }
+    });
 
-    expect(getByText(toggleAllLabel)).toBeInTheDocument();
-    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
+    expect(screen.getByText(toggleAllLabel)).toBeInTheDocument();
+    expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument();
 
     act(() => {
-      fireEvent.click(container.querySelector('input[type="checkbox"]:last-of-type'));
+      fireEvent.click(checkboxes[0]);
     });
 
     expect(onToggleMock).toHaveBeenCalledTimes(1);
 
-    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument();
-    expect(getByText(toggleNothingLabel)).toBeInTheDocument();
+    expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument();
+    expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument();
   });
 
   it('should update correctly when defaultValue prop value changes', () => {
