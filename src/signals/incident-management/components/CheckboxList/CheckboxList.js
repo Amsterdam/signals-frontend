@@ -186,7 +186,7 @@ const CheckboxList = ({
 
       // Firefox & Safari on Mac do not hold focus for non-input elements when clicked
       // Force focus so that 'Enter' will submit the current selection
-      document.getElementById(id).focus();
+      target.focus();
 
       setChecked(state => {
         const modifiedState = new Set(state);

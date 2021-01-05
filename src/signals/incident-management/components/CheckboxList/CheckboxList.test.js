@@ -409,8 +409,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     expect(randomCheckbox.checked).toEqual(false);
 
-    const focusedCheckbox = container.querySelector('input[type="checkbox"]:focus');
-    expect(focusedCheckbox).toBeInTheDocument();
+    expect(document.activeElement).toBe(randomCheckbox);
 
     expect(getByText(toggleAllLabel)).toBeInTheDocument();
     expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument();
