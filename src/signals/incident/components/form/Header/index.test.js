@@ -1,50 +1,58 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Validators } from 'react-reactive-form';
 
 import { withAppContext } from 'test/utils';
+import { createRequired } from '../../../services/custom-validators';
 
 import Header from '.';
 
 describe('signals/incident/components/form/Header', () => {
   it('should render label', () => {
     const label = 'Foo barrrr';
-    const { getByText } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} />));
+    render(withAppContext(<Header hasError={() => {}} meta={{ label }} />));
 
-    expect(getByText(label)).toBeInTheDocument();
+    expect(screen.getByText(label)).toBeInTheDocument();
   });
 
   it('should render optional indicator', () => {
     const label = 'Zork';
-    const options = {
-      validators: [Validators.required],
-    };
-    const { rerender, queryByText } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{}} />));
+    const { rerender } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{}} />));
 
-    expect(queryByText('(optioneel)')).toBeInTheDocument();
+    expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: undefined }} />));
 
-    expect(queryByText('(optioneel)')).toBeInTheDocument();
+    expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: [] }} />));
 
-    expect(queryByText('(optioneel)')).toBeInTheDocument();
+    expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={() => {}} options={{}} />));
 
-    expect(queryByText('(optioneel)')).not.toBeInTheDocument();
+    expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={options} />));
+    rerender(
+      withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: [Validators.required] }} />)
+    );
 
-    expect(queryByText('(optioneel)')).not.toBeInTheDocument();
+    expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
+
+    rerender(
+      withAppContext(
+        <Header hasError={() => {}} meta={{ label }} options={{ validators: [createRequired('Verplicht')] }} />
+      )
+    );
+
+    expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
   });
 
   it('should render subtitle', () => {
     const subtitle = 'Bar bazzz';
-    const { getByText } = render(withAppContext(<Header hasError={() => {}} meta={{ subtitle }} />));
+    render(withAppContext(<Header hasError={() => {}} meta={{ subtitle }} />));
 
-    expect(getByText(subtitle)).toBeInTheDocument();
+    expect(screen.getByText(subtitle)).toBeInTheDocument();
   });
 
   it('should render children', () => {
@@ -59,45 +67,60 @@ describe('signals/incident/components/form/Header', () => {
     expect(container.querySelector('.child')).toBeInTheDocument();
   });
 
-  it('should render required error', () => {
+  it('should render required error with default message', () => {
     const hasError = prop => prop === 'required';
+    const getError = () => true;
     const error = 'Dit is een verplicht veld';
 
-    const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} touched />));
+    const { rerender } = render(withAppContext(<Header hasError={() => false} touched />));
 
-    expect(queryByText(error)).not.toBeInTheDocument();
+    expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={hasError} touched />));
+    rerender(withAppContext(<Header getError={getError} hasError={hasError} touched />));
 
-    expect(queryByText(error)).toBeInTheDocument();
+    expect(screen.queryByText(error)).toBeInTheDocument();
+  });
+
+  it('should render required error with custom message', () => {
+    const error = 'Dit is een custom verplicht veld';
+    const hasError = prop => prop === 'required';
+    const getError = () => error;
+
+    const { rerender } = render(withAppContext(<Header hasError={() => false} touched />));
+
+    expect(screen.queryByText(error)).not.toBeInTheDocument();
+
+    rerender(withAppContext(<Header getError={getError} hasError={hasError} touched />));
+
+    expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should render email error', () => {
     const hasError = prop => prop === 'email';
-    const error = 'Het moet een geldig e-mailadres zijn';
+    const error = 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl';
 
-    const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} touched />));
+    const { rerender } = render(withAppContext(<Header hasError={() => false} touched />));
 
-    expect(queryByText(error)).not.toBeInTheDocument();
+    expect(screen.queryByText(error)).not.toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={hasError} touched />));
 
-    expect(queryByText(error)).toBeInTheDocument();
+    expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should render maxLength error', () => {
     const requiredLength = 300;
     const hasError = prop => prop === 'maxLength';
     const getError = () => ({ requiredLength });
-    const error = `U kunt maximaal ${requiredLength} tekens invoeren.`;
+    const error = `U heeft meer dan de maximale ${requiredLength} tekens ingevoerd`;
 
-    const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
+    const { rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
 
-    expect(queryByText(error)).not.toBeInTheDocument();
+    expect(screen.queryByText(error)).not.toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={hasError} getError={getError} touched />));
 
-    expect(queryByText(error)).toBeInTheDocument();
+    expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should render custom error', () => {
@@ -105,26 +128,27 @@ describe('signals/incident/components/form/Header', () => {
     const hasError = prop => prop === 'custom';
     const getError = () => error;
 
-    const { queryByText, rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
+    const { rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
 
-    expect(queryByText(error)).not.toBeInTheDocument();
+    expect(screen.queryByText(error)).not.toBeInTheDocument();
 
     rerender(withAppContext(<Header hasError={hasError} getError={getError} touched />));
 
-    expect(queryByText(error)).toBeInTheDocument();
+    expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should not render error when not touched', () => {
     const hasError = prop => prop === 'required';
+    const getError = () => true;
     const touched = false;
     const error = 'Dit is een verplicht veld';
 
-    const { queryByText, rerender } = render(withAppContext(<Header hasError={hasError} touched={touched} />));
+    const { rerender } = render(withAppContext(<Header hasError={hasError} touched={touched} />));
 
-    expect(queryByText(error)).not.toBeInTheDocument();
+    expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={hasError} touched />));
+    rerender(withAppContext(<Header getError={getError} hasError={hasError} touched />));
 
-    expect(queryByText(error)).toBeInTheDocument();
+    expect(screen.queryByText(error)).toBeInTheDocument();
   });
 });
