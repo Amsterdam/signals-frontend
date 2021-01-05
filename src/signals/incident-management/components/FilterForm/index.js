@@ -468,6 +468,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               filterSlugs={filterSlugs}
               onChange={onChangeCategories}
               onToggle={onMainCategoryToggle}
+              onSubmit={onSubmitForm}
             />
           )}
         </Fieldset>
