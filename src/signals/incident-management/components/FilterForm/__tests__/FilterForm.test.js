@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, waitFor, render, screen, act } from '@testing-library/react';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import userEvent, { specialChars } from '@testing-library/user-event';
 import { store, withAppContext } from 'test/utils';
 
@@ -57,13 +57,10 @@ const withContext = (Component, actualDistricts = null, actualUsers = null) =>
 describe('signals/incident-management/components/FilterForm', () => {
   beforeEach(() => {
     fetch.mockResponse(mockResponse);
-    jest.useFakeTimers();
   });
 
   afterEach(() => {
     fetch.resetMocks();
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
     configuration.__reset();
   });
 
@@ -266,8 +263,9 @@ describe('signals/incident-management/components/FilterForm', () => {
     });
 
     it('should fail silently when users request returns without results', async () => {
-      configuration.featureFlags.assignSignalToEmployee = true;
+      jest.useFakeTimers();
       fetch.mockResponse(JSON.stringify({}));
+      configuration.featureFlags.assignSignalToEmployee = true;
       const onSubmit = jest.fn();
       const expected = { options: {} };
 
@@ -283,6 +281,9 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(screen.queryByText(username)).not.toBeInTheDocument();
       userEvent.click(submitButton);
       expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
     });
 
     it('should allow selection of user with assignSignalToEmployee enabled', async () => {
@@ -381,6 +382,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     });
 
     it('should clear correctly when removing input value', async () => {
+      jest.useFakeTimers();
       configuration.featureFlags.assignSignalToEmployee = true;
       const onSubmit = jest.fn();
       const expected = { options: {} };
@@ -396,6 +398,9 @@ describe('signals/incident-management/components/FilterForm', () => {
       });
       userEvent.click(submitButton);
       expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
     });
   });
 
