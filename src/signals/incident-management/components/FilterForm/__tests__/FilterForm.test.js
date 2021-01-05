@@ -253,7 +253,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     const selectUser = async input => {
       userEvent.type(input, 'aeg');
-      expect(await screen.findByText(username)).toBeInTheDocument();
+      await screen.findByText(username);
       userEvent.type(input, `${specialChars.arrowDown}${specialChars.enter}`);
     };
 
