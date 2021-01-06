@@ -1,12 +1,15 @@
-import React, { Fragment, useCallback, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import type { FunctionComponent, SyntheticEvent } from 'react';
+import React, { Fragment, useCallback, useRef } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { dateToString } from 'shared/services/date-utils';
 import nl from 'date-fns/locale/nl';
 import CustomInput from './CustomInput';
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 registerLocale('nl', nl);
+
 
 /** This input is focused after a date is selected to enable form submit functionality for this control*/
 const SelectedDateInput = styled.input`
@@ -17,11 +20,31 @@ const SelectedDateInput = styled.input`
   overflow: hidden;
 `;
 
-const CalendarInput = ({ id, label, name, onSelect: onChange, selectedDate }) => {
-  const inputRef = useRef(null);
+interface CalendarInputProps {
+  /** HTMLInputElement id attribute; used for referencing with an HTMLLabelElement */
+  id: string;
+  /** HTMLLabelElement text label */
+  label: string;
+  /** HTMLInputElement name attribute value */
+  name: string;
+  /**
+   * Date selection callback function
+   * @param {String} dateValue - Date value
+   * @param {Event} event - Object from the event that triggered the callback
+   */
+  onSelect: (date: Date | [Date, Date] | null, event: SyntheticEvent<HTMLInputElement> | undefined) => void;
+  /** Date value */
+  selectedDate?: Date;
+}
+
+const CalendarInput: FunctionComponent<CalendarInputProps> = ({ id, label, name, onSelect: onChange, selectedDate = null }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const focus = useCallback(() => {
-    inputRef.current.focus();
+    /* istanbul ignore else */
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [inputRef]);
 
   return (
@@ -40,34 +63,13 @@ const CalendarInput = ({ id, label, name, onSelect: onChange, selectedDate }) =>
 
       <SelectedDateInput
         data-testid="selectedDate"
-        defaultValue={dateToString(selectedDate)}
+        defaultValue={dateToString(selectedDate) as string}
         name={name}
         ref={inputRef}
         tabIndex={-1}
       />
     </Fragment>
   );
-};
-
-CalendarInput.defaultProps = {
-  selectedDate: null,
-};
-
-CalendarInput.propTypes = {
-  /** HTMLInputElement id attribute; used for referencing with an HTMLLabelElement */
-  id: PropTypes.string.isRequired,
-  /** HTMLLabelElement text label */
-  label: PropTypes.string.isRequired,
-  /** HTMLInputElement name attribute value */
-  name: PropTypes.string.isRequired,
-  /**
-   * Date selection callback function
-   * @param {String} dateValue - Date value
-   * @param {Event} event - Object from the event that triggered the callback
-   */
-  onSelect: PropTypes.func.isRequired,
-  /** Date value */
-  selectedDate: PropTypes.instanceOf(Date),
 };
 
 export default CalendarInput;

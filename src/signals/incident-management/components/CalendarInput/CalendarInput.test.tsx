@@ -7,13 +7,13 @@ import { withAppContext } from 'test/utils';
 import CalendarInput from '.';
 
 describe('signals/incident-management/components/CalendarInput', () => {
+  const id = 'bar';
   const calendarInputProps = {
     id: 'foo',
     label: 'Here be dragons',
     name: 'my_date_field',
-    onSelect: () => {},
+    onSelect: jest.fn(),
   };
-  const id = 'bar';
 
   it('renders a datepicker component', () => {
     render(withAppContext(<CalendarInput {...calendarInputProps} />));
@@ -31,14 +31,12 @@ describe('signals/incident-management/components/CalendarInput', () => {
     const { rerender } = render(withAppContext(<CalendarInput {...calendarInputProps} />));
 
     const element = screen.getByTestId('calendarCustomInputElement');
-    expect(element.querySelector('input').value).toEqual('');
+    expect(element.querySelector('input')?.value).toEqual('');
 
     const selectedDate = new Date();
 
     rerender(withAppContext(<CalendarInput {...calendarInputProps} selectedDate={selectedDate} />));
-
-    const elementWithDate = screen.getByTestId('calendarCustomInputElement');
-    expect(element.querySelector('input').value).toEqual(dateToString(selectedDate));
+    expect(element.querySelector('input')?.value).toEqual(dateToString(selectedDate));
   });
 
   it('should call onSelect', () => {
@@ -52,12 +50,11 @@ describe('signals/incident-management/components/CalendarInput', () => {
 
     fireEvent.change(inputElement, { target: { value: '18-12-2018' } });
 
-    expect(onSelect).toHaveBeenCalledWith(expect.any(Date));
+    expect(onSelect).toHaveBeenCalledWith(expect.any(Date), expect.any(Object));
   });
 
   it('should focus on the input when a value is selected', () => {
     const onSelect = jest.fn();
-    const selectedDate = new Date();
 
     render(withAppContext(<CalendarInput {...calendarInputProps} id={id} onSelect={onSelect} />));
 
@@ -70,7 +67,7 @@ describe('signals/incident-management/components/CalendarInput', () => {
     fireEvent.keyDown(inputElement, { key: 'Enter', code: 13, keyCode: 13 });
     fireEvent.keyDown(inputElement, { key: 'Enter', code: 13, keyCode: 13 });
 
-    expect(onSelect).toHaveBeenCalledWith(expect.any(Date));
+    expect(onSelect).toHaveBeenCalledWith(expect.any(Date), expect.any(Object));
 
     expect(screen.getByTestId('selectedDate')).toEqual(document.activeElement);
   });

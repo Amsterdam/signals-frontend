@@ -17,18 +17,21 @@ const InputWrapper = styled.div`
 `;
 
 interface CustomInputProps {
+  /** the rest props */
+  [restProp: string]: unknown;
+
   /** HTMLInputElement id attribute; used for referencing with an HTMLLabelElement */
   id: string;
   /** HTMLLabelElement text label */
   label: string;
 }
 
-const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({ id, label, ...props }, ref) =>
+const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({ id, label, ...rest }, ref) =>
   <Fragment>
     <Label htmlFor={id}>{label}</Label>
 
     <InputWrapper data-testid="calendarCustomInputElement">
-      <Input id={id} {...props} ref={ref} />
+      <Input id={id} {...rest} ref={ref} />
       <Calendar width={24} height={24} />
     </InputWrapper>
   </Fragment>
