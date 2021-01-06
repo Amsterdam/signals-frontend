@@ -127,5 +127,8 @@ module.exports = {
     'jest/require-to-throw-message': 'off',
     'jest/valid-expect': 'off',
     'jest/valid-title': 'off',
+
+    '@typescript-eslint/no-type-alias': ['error', { allowCallbacks: 'always', allowAliases: 'in-unions' }],
+    '@typescript-eslint/no-empty-function': ['warn'],
   },
 };
