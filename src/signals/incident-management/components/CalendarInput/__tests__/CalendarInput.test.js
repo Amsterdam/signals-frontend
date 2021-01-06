@@ -46,7 +46,7 @@ describe('signals/incident-management/components/CalendarInput', () => {
 
     render(withAppContext(<CalendarInput {...calendarInputProps} id={id} onSelect={onSelect} />));
 
-    const inputElement = document.getElementById(id);
+    const inputElement = screen.getByRole('textbox', { name: calendarInputProps.label });
 
     expect(onSelect).not.toHaveBeenCalled();
 
@@ -61,7 +61,7 @@ describe('signals/incident-management/components/CalendarInput', () => {
 
     render(withAppContext(<CalendarInput {...calendarInputProps} id={id} onSelect={onSelect} />));
 
-    const inputElement = document.getElementById(id);
+    const inputElement = screen.getByRole('textbox', { name: calendarInputProps.label });
     inputElement.focus();
 
     expect(onSelect).not.toHaveBeenCalled();
