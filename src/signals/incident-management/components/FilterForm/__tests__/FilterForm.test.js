@@ -275,8 +275,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(input).toBeInTheDocument();
 
       userEvent.type(input, 'aeg');
-      act(() => {
-        jest.advanceTimersByTime(INPUT_DELAY);
+      await act(async () => {
+        jest.advanceTimersByTime(INPUT_DELAY * 2);
       });
       expect(screen.queryByText(username)).not.toBeInTheDocument();
       userEvent.click(submitButton);
@@ -393,7 +393,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       await selectUser(input);
       userEvent.clear(input);
-      act(() => {
+      await act(async () => {
         jest.advanceTimersByTime(INPUT_DELAY);
       });
       userEvent.click(submitButton);
