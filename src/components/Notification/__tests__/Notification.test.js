@@ -12,7 +12,6 @@ import {
   TYPE_GLOBAL,
   VARIANT_ERROR,
   VARIANT_NOTICE,
-  VARIANT_DEFAULT,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants';
 import { SITE_HEADER_HEIGHT_SHORT, SITE_HEADER_HEIGHT_TALL } from 'containers/SiteHeader/constants';
@@ -75,14 +74,6 @@ describe('components/Notification', () => {
     expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.primary.main);
 
     rerender(withAppContext(<Notification title="Foo bar" variant={VARIANT_NOTICE} />));
-
-    act(() => {
-      jest.runAllTimers();
-    });
-
-    expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.primary.main);
-
-    rerender(withAppContext(<Notification title="Foo bar" variant={VARIANT_DEFAULT} />));
 
     act(() => {
       jest.runAllTimers();

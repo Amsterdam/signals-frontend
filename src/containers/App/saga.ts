@@ -1,20 +1,18 @@
-import { all, call, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, call, put, take, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router/immutable';
 
 import { authCall } from 'shared/services/api/api';
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
+import type endpointDefinitions from 'shared/services/configuration/endpoint-definitions';
 import {
   SET_SEARCH_QUERY,
   LOGOUT,
-  LOGIN,
   AUTHENTICATE_USER,
-  UPLOAD_REQUEST,
   GET_SOURCES,
 } from 'containers/App/constants';
 
 import {
-  loginFailed,
   logoutFailed,
   showGlobalNotification,
   authorizeUser,
@@ -24,36 +22,24 @@ import {
   getSourcesFailed,
   getSourcesSuccess,
 } from './actions';
-import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
+import { logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
+import type { Action, User, UserCredentials, DataResult, ApiError, UploadFile } from './types';
 
-export function* callLogin(action) {
-  try {
-    yield call(login, action.payload);
-  } catch (error) {
-    yield put(loginFailed(error.message));
-    yield put(
-      showGlobalNotification({
-        variant: VARIANT_ERROR,
-        title: 'Inloggen is niet gelukt',
-        type: TYPE_GLOBAL,
-      })
-    );
-  }
-}
+const CONFIGURATION = configuration as typeof endpointDefinitions;
 
 export function* callLogout() {
   try {
     // This forces the remove of the grip cookies.
     if (getOauthDomain() === 'grip') {
-      window.open('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank').close();
+      window.open('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank')?.close();
     }
 
     yield call(logout);
     yield put(push('/login'));
-  } catch (error) {
-    yield put(logoutFailed(error.message));
+  } catch (error: unknown) {
+    yield put(logoutFailed((error as Error)?.message));
     yield put(
       showGlobalNotification({
         variant: VARIANT_ERROR,
@@ -64,17 +50,17 @@ export function* callLogout() {
   }
 }
 
-export function* callAuthorize(action) {
+export function* callAuthorize(action: Action<Partial<UserCredentials>>) {
   try {
-    const accessToken = action.payload && action.payload.accessToken;
+    const accessToken = action.payload?.accessToken;
 
     if (accessToken) {
-      const user = yield call(authCall, CONFIGURATION.AUTH_ME_ENDPOINT, null, accessToken);
+      const user: unknown = yield call(authCall, CONFIGURATION.AUTH_ME_ENDPOINT, null, accessToken);
 
-      yield put(authorizeUser(user));
+      yield put(authorizeUser(user as User));
     }
-  } catch (error) {
-    const { response } = error;
+  } catch (error: unknown) {
+    const { response } = error as ApiError;
 
     if (response.status === 401) {
       yield call(logout);
@@ -91,20 +77,18 @@ export function* callAuthorize(action) {
   }
 }
 
-export function* uploadFileWrapper(action) {
-  yield call(uploadFile, action);
-}
-
-export function* uploadFile(action) {
-  const { id } = action.payload;
+export function* uploadFile(action: Action<UploadFile>) {
+  const id = action.payload?.id ?? '';
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel = yield call(
     fileUploadChannel,
     `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${id}/attachments/`,
-    action.payload.file,
+    action.payload?.file,
     id
   );
 
   while (true) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { progress = 0, error, success } = yield take(channel);
 
     if (error) {
@@ -120,7 +104,7 @@ export function* uploadFile(action) {
     }
 
     if (success) {
-      yield put(uploadSuccess(action.payload.file));
+      yield put(uploadSuccess());
       return;
     }
 
@@ -134,20 +118,19 @@ export function* callSearchIncidents() {
 
 export function* fetchSources() {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result = yield call(authCall, CONFIGURATION.SOURCES_ENDPOINT);
 
-    yield put(getSourcesSuccess(result.results));
-  } catch (error) {
-    yield put(getSourcesFailed(error.message));
+    yield put(getSourcesSuccess((result as DataResult<string>).results));
+  } catch (error: unknown) {
+    yield put(getSourcesFailed((error as Error).message));
   }
 }
 
 export default function* watchAppSaga() {
   yield all([
-    takeLatest(LOGIN, callLogin),
     takeLatest(LOGOUT, callLogout),
     takeLatest(AUTHENTICATE_USER, callAuthorize),
-    takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
     takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
     takeLatest(GET_SOURCES, fetchSources),
   ]);

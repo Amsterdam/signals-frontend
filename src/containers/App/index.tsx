@@ -28,7 +28,7 @@ const FooterContainer = styled.div`
   max-width: 1400px;
 `;
 
-const ContentContainer = styled.div`
+const ContentContainer = styled.div<{headerIsTall: boolean}>`
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
@@ -41,20 +41,20 @@ const ContentContainer = styled.div`
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
-const KtoContainer = lazy(() => import('signals/incident/containers/KtoContainer'));
+const KtoContainer = lazy(async () => import('signals/incident/containers/KtoContainer'));
 // istanbul ignore next
-const IncidentManagementModule = lazy(() => import('signals/incident-management'));
+const IncidentManagementModule = lazy(async () => import('signals/incident-management'));
 // istanbul ignore next
-const SettingsModule = lazy(() => import('signals/settings'));
+const SettingsModule = lazy(async () => import('signals/settings'));
 // istanbul ignore next
-const NotFoundPage = lazy(() => import('components/NotFoundPage'));
+const NotFoundPage = lazy(async () => import('components/NotFoundPage'));
 
 export const AppContainer = () => {
   const dispatch = useDispatch();
   const loading = useSelector(makeSelectLoading());
   const sources = useSelector(makeSelectSources);
   const history = useHistory();
-  const location = useLocationReferrer();
+  const location = useLocationReferrer() as {referrer: string};
   const isFrontOffice = useIsFrontOffice();
   const headerIsTall = isFrontOffice && !isAuthenticated();
 
@@ -108,11 +108,11 @@ export const AppContainer = () => {
             </Suspense>
           </ContentContainer>
 
-          {!isAuthenticated() && (
+          {!isAuthenticated() &&
             <FooterContainer>
               <Footer />
             </FooterContainer>
-          )}
+          }
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>

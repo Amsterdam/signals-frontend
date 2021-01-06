@@ -11,10 +11,8 @@ import {
 import {
   ONCLOSE_TIMEOUT,
   SLIDEUP_TIMEOUT,
-  TYPE_DEFAULT,
   TYPE_GLOBAL,
   TYPE_LOCAL,
-  VARIANT_DEFAULT,
   VARIANT_ERROR,
   VARIANT_NOTICE,
   VARIANT_SUCCESS,
@@ -154,8 +152,8 @@ Notification.defaultProps = {
   className: '',
   message: '',
   onClose: null,
-  type: TYPE_DEFAULT,
-  variant: VARIANT_DEFAULT,
+  type: TYPE_LOCAL,
+  variant: VARIANT_NOTICE,
 };
 
 Notification.propTypes = {

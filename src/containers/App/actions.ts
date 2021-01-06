@@ -3,11 +3,9 @@ import {
   AUTHORIZE_USER,
   SHOW_GLOBAL_NOTIFICATION,
   RESET_GLOBAL_NOTIFICATION,
-  LOGIN,
   LOGIN_FAILED,
   LOGOUT,
   LOGOUT_FAILED,
-  UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
@@ -17,28 +15,29 @@ import {
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
 } from './constants';
+import type { GlobalNotification, UserCredentials, User } from './types';
 
-export const loginFailed = payload => ({
+export const loginFailed = (payload: string) => ({
   type: LOGIN_FAILED,
   payload,
 });
 
-export const logoutFailed = payload => ({
+export const logoutFailed = (payload: string) => ({
   type: LOGOUT_FAILED,
   payload,
 });
 
-export const authenticateUser = credentials => ({
+export const authenticateUser = (credentials: UserCredentials) => ({
   type: AUTHENTICATE_USER,
   payload: credentials,
 });
 
-export const authorizeUser = payload => ({
+export const authorizeUser = (payload: User) => ({
   type: AUTHORIZE_USER,
   payload,
 });
 
-export const showGlobalNotification = payload => ({
+export const showGlobalNotification = (payload: Partial<GlobalNotification>) => ({
   type: SHOW_GLOBAL_NOTIFICATION,
   payload,
 });
@@ -47,22 +46,12 @@ export const resetGlobalNotification = () => ({
   type: RESET_GLOBAL_NOTIFICATION,
 });
 
-export const doLogin = domain => ({
-  type: LOGIN,
-  payload: domain,
-});
-
 export const doLogout = () => ({
   type: LOGOUT,
   payload: null,
 });
 
-export const uploadRequest = ({ file, id }) => ({
-  type: UPLOAD_REQUEST,
-  payload: { file, id },
-});
-
-export const uploadProgress = progress => ({
+export const uploadProgress = (progress: number) => ({
   type: UPLOAD_PROGRESS,
   payload: progress,
 });
@@ -75,7 +64,7 @@ export const uploadFailure = () => ({
   type: UPLOAD_FAILURE,
 });
 
-export const setSearchQuery = payload => ({
+export const setSearchQuery = (payload: string) => ({
   type: SET_SEARCH_QUERY,
   payload,
 });
@@ -88,12 +77,12 @@ export const getSources = () => ({
   type: GET_SOURCES,
 });
 
-export const getSourcesFailed = payload => ({
+export const getSourcesFailed = (payload: string) => ({
   type: GET_SOURCES_FAILED,
   payload,
 });
 
-export const getSourcesSuccess = payload => ({
+export const getSourcesSuccess = (payload: string[]) => ({
   type: GET_SOURCES_SUCCESS,
   payload,
 });

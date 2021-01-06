@@ -1,5 +1,5 @@
-import { fromJS } from 'immutable';
 import cloneDeep from 'lodash.clonedeep';
+import type { ApplicationRootState } from 'types';
 
 import userJson from 'utils/__tests__/fixtures/user.json';
 
@@ -16,6 +16,7 @@ import {
   makeSelectSearchQuery,
   makeSelectSources,
 } from './selectors';
+import type { AppState, Role } from './types';
 
 const sources = [
   {
@@ -39,17 +40,22 @@ const selectedSources = [
 ];
 
 describe('containers/App/selectors', () => {
+  const globalState: AppState = initialState;
+  let state: Partial<ApplicationRootState>;
+
+  beforeEach(() => {
+    state = {
+      global: globalState,
+    };
+  });
+
   describe('selectGlobal', () => {
     it('should return the initialState', () => {
       expect(selectGlobal()).toEqual(initialState);
     });
 
     it('should select the global state', () => {
-      const globalState = fromJS({});
-      const mockedState = fromJS({
-        global: globalState,
-      });
-      expect(selectGlobal(mockedState)).toEqual(globalState);
+      expect(selectGlobal(state)).toEqual(globalState);
     });
   });
 
@@ -57,11 +63,13 @@ describe('containers/App/selectors', () => {
     const loadingSelector = makeSelectLoading();
     it('should select the loading', () => {
       const loading = false;
-      const mockedState = fromJS({
+      const mockedState = {
+        ...state,
         global: {
+          ...globalState,
           loading,
         },
-      });
+      };
       expect(loadingSelector(mockedState)).toEqual(loading);
     });
   });
@@ -70,11 +78,13 @@ describe('containers/App/selectors', () => {
     const errorSelector = makeSelectError();
     it('should select the error', () => {
       const error = true;
-      const mockedState = fromJS({
+      const mockedState = {
+        ...state,
         global: {
+          ...globalState,
           error,
         },
-      });
+      };
       expect(errorSelector(mockedState)).toEqual(error);
     });
   });
@@ -90,52 +100,55 @@ describe('containers/App/selectors', () => {
         variant: 'global',
       };
 
-      const mockedState = fromJS({
+      const mockedState = {
+        ...state,
         global: {
+          ...globalState,
           notification,
         },
-      });
+      };
 
       expect(notificationSelector(mockedState)).toEqual(notification);
     });
   });
 
   describe('permissions', () => {
-    const state = fromJS({
+    const mockedState = {
+      ...state,
       global: {
-        ...initialState.toJS(),
+        ...globalState,
         user: userJson,
       },
-    });
+    };
 
-    const regularUserState = fromJS({
+    const regularUserState = {
+      ...state,
       global: {
-        ...initialState.toJS(),
+        ...globalState,
         user: {
           ...userJson,
           is_superuser: false,
         },
       },
-    });
+    };
 
     describe('makeSelectUserPermissions', () => {
       it('should return an empty list', () => {
-        expect(makeSelectUserPermissions(initialState)).toEqual([]);
+        expect(makeSelectUserPermissions(state)).toEqual([]);
       });
 
       it("should return a list of a user's permissions", () => {
-        expect(makeSelectUserPermissions(state)).toHaveLength(16);
+        expect(makeSelectUserPermissions(mockedState)).toHaveLength(16);
       });
     });
 
     describe('makeSelectUserPermissionCodeNames', () => {
       it('should return a list of strings', () => {
-        const codenames = makeSelectUserPermissionCodeNames(state);
+        const codenames = makeSelectUserPermissionCodeNames(mockedState);
 
-        userJson.roles
-          .flatMap(role => role.permissions)
-          .concat(userJson.permissions)
-          .forEach(({ codename }) => {
+        userJson.roles.flatMap<Role>(role => role.permissions)
+          .concat(userJson.permissions ?? [])
+          .forEach(({ codename }: Role) => {
             expect(codenames.includes(codename)).toEqual(true);
           });
       });
@@ -146,7 +159,7 @@ describe('containers/App/selectors', () => {
       const cannotDoSomething = `${userJson.permissions[0].codename}97ysadfysd87f`;
 
       it('should always allow for superuser', () => {
-        const superUserCan = makeSelectUserCan(state);
+        const superUserCan = makeSelectUserCan(mockedState);
 
         expect(superUserCan(doSomething)).toEqual(true);
         expect(superUserCan(cannotDoSomething)).toEqual(true);
@@ -168,7 +181,7 @@ describe('containers/App/selectors', () => {
       const userSectionPermissions = ['view_user', 'add_user', 'change_user'];
       const groupSectionPermissions = ['view_group', 'change_group', 'add_group'];
 
-      const superUserCanAccess = makeSelectUserCanAccess(state);
+      const superUserCanAccess = makeSelectUserCanAccess(mockedState);
       const regularUserCanAccess = makeSelectUserCanAccess(regularUserState);
 
       it('should always allow for superuser', () => {
@@ -185,15 +198,16 @@ describe('containers/App/selectors', () => {
 
       it('should require at least one permission per section', () => {
         const userWithLimitedPermissions = cloneDeep(userJson);
-        const limitedUserState = fromJS({
+        const limitedUserState = {
+          ...state,
           global: {
-            ...initialState.toJS(),
+            ...globalState,
             user: {
               ...userWithLimitedPermissions,
               is_superuser: false,
             },
           },
-        });
+        };
 
         expect(makeSelectUserCanAccess(limitedUserState)(users)).toEqual(true);
 
@@ -203,15 +217,16 @@ describe('containers/App/selectors', () => {
           1
         );
 
-        const limitedUserState2 = fromJS({
+        const limitedUserState2 = {
+          ...state,
           global: {
-            ...initialState.toJS(),
+            ...globalState,
             user: {
               ...userWithLimitedPermissions,
               is_superuser: false,
             },
           },
-        });
+        };
 
         expect(makeSelectUserCanAccess(limitedUserState2)(users)).toEqual(true);
 
@@ -221,15 +236,16 @@ describe('containers/App/selectors', () => {
           1
         );
 
-        const limitedUserState3 = fromJS({
+        const limitedUserState3 = {
+          ...state,
           global: {
-            ...initialState.toJS(),
+            ...globalState,
             user: {
               ...userWithLimitedPermissions,
               is_superuser: false,
             },
           },
-        });
+        };
 
         expect(makeSelectUserCanAccess(limitedUserState3)(users)).toEqual(true);
 
@@ -239,15 +255,16 @@ describe('containers/App/selectors', () => {
           1
         );
 
-        const limitedUserState4 = fromJS({
+        const limitedUserState4 = {
+          ...state,
           global: {
-            ...initialState.toJS(),
+            ...globalState,
             user: {
               ...userWithLimitedPermissions,
               is_superuser: false,
             },
           },
-        });
+        };
 
         expect(makeSelectUserCanAccess(limitedUserState4)(users)).toEqual(false);
       });
@@ -264,15 +281,16 @@ describe('containers/App/selectors', () => {
           ({ codename }) => codename === userSectionPermissions[0] || codename === groupSectionPermissions[0]
         );
 
-        const limitedUserState = fromJS({
+        const limitedUserState = {
+          ...state,
           global: {
-            ...initialState.toJS(),
+            ...globalState,
             user: {
               ...userWithLimitedPermissions,
               is_superuser: false,
             },
           },
-        });
+        };
 
         expect(makeSelectUserCanAccess(limitedUserState)(settings)).toEqual(true);
 
@@ -281,15 +299,16 @@ describe('containers/App/selectors', () => {
           ({ codename }) => codename === groupSectionPermissions[0]
         );
 
-        const limitedUserState2 = fromJS({
+        const limitedUserState2 = {
+          ...state,
           global: {
-            ...initialState.toJS(),
+            ...globalState,
             user: {
               ...userWithLimitedPermissions,
               is_superuser: false,
             },
           },
-        });
+        };
 
         expect(makeSelectUserCanAccess(limitedUserState2)(settings)).toEqual(false);
       });
@@ -300,18 +319,21 @@ describe('containers/App/selectors', () => {
     const selectSearchSelector = makeSelectSearchQuery;
     it('should select the searchQuery', () => {
       const searchQuery = '12345';
-      const mockedState = fromJS({
+      const mockedState = {
+        ...state,
         global: {
+          ...globalState,
           searchQuery,
         },
-      });
+      };
+
       expect(selectSearchSelector(mockedState)).toEqual(searchQuery);
     });
   });
 
   it('should select sources', () => {
-    const state = fromJS({ ...initialState.toJS(), sources });
-    const result = makeSelectSources.resultFunc(state);
+    const mockedState = { ...globalState, sources };
+    const result = makeSelectSources.resultFunc(mockedState) ?? [];
 
     expect(result.length).toEqual(sources.length);
     expect(result[0]).toMatchObject(selectedSources[0]);

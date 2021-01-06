@@ -1,24 +1,26 @@
 import { createSelector } from 'reselect';
+import type { ApplicationRootState } from 'types';
 
 import { initialState } from './reducer';
+import type { KeyValuePair, Role, User } from './types';
 
-export const selectGlobal = state => (state && state.get('global')) || initialState;
 
-export const makeSelectUser = createSelector(selectGlobal, globalState => globalState.get('user').toJS());
+export const selectGlobal = (state?: Partial<ApplicationRootState>) => state?.global ?? initialState;
+
+export const makeSelectUser = createSelector(selectGlobal, globalState => globalState.user);
 
 /**
  * Selector that returns the list of permissions for the current user
  *
  * @returns {Object[]} - All permissions from assigned roles combined with extra permissions
  */
-export const makeSelectUserPermissions = createSelector(makeSelectUser, user => {
-  const permissionMap = new Map();
+export const makeSelectUserPermissions = createSelector(makeSelectUser, (user: Partial<User>) => {
+  const permissionMap = new Map<number, Role>();
 
-  user.roles
-    .flatMap(role => role.permissions)
-    .concat(user.permissions)
-    .forEach(perm => {
-      permissionMap.set(perm.id, perm);
+  user?.roles?.flatMap<Role | undefined>((role: Role) => role.permissions)
+    .concat(user.permissions ?? [])
+    .forEach((permission: Role | undefined) => {
+      if (permission) { permissionMap.set(permission.id, permission); }
     });
 
   return [...permissionMap.values()];
@@ -30,7 +32,7 @@ export const makeSelectUserPermissions = createSelector(makeSelectUser, user => 
  * @returns {String[]} - All permissions from assigned roles combined with extra permissions
  */
 export const makeSelectUserPermissionCodeNames = createSelector(makeSelectUserPermissions, permissions =>
-  permissions.map(({ codename }) => codename)
+  permissions.map(({ codename }) => codename) ?? []
 );
 
 /**
@@ -46,7 +48,7 @@ export const makeSelectUserCan = createSelector(
      * @param   {String} capability - The permission to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
-    capability =>
+    (capability: string): (boolean | undefined) =>
       is_superuser !== false ? is_superuser : Boolean(permissions.find(codename => codename === capability))
 );
 
@@ -63,7 +65,7 @@ export const makeSelectUserCanAccess = createSelector(
      * @param   {String} section - The set of permissions to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
-    section => {
+    (section: string): (boolean | undefined) => {
       if (is_superuser !== false) {
         return is_superuser;
       }
@@ -93,31 +95,30 @@ export const makeSelectUserCanAccess = createSelector(
         return false;
       }
 
+      const sectionPermissions: string[][] = requiredPerms[section as keyof typeof requiredPerms];
+
       // require all sets of permissions
-      return requiredPerms[section].every(sectionPerms =>
+      return Boolean(sectionPermissions.every((sectionPerms: string[]) =>
         // from each set, require at least one permission
-        sectionPerms.some(perm => permissions.includes(perm))
-      );
+        sectionPerms.some((perm: string) => permissions.includes(perm))
+      ));
     }
 );
 
-export const makeSelectLoading = () => createSelector(selectGlobal, globalState => globalState.get('loading'));
+export const makeSelectLoading = () => createSelector(selectGlobal, globalState => globalState?.loading);
 
-export const makeSelectError = () => createSelector(selectGlobal, globalState => globalState.get('error'));
+export const makeSelectError = () => createSelector(selectGlobal, globalState => globalState?.error);
 
 export const makeSelectNotification = () =>
-  createSelector(selectGlobal, globalState => globalState.get('notification').toJS());
+  createSelector(selectGlobal, globalState => globalState?.notification);
 
-export const makeSelectSearchQuery = createSelector(selectGlobal, globalState => globalState.get('searchQuery'));
+export const makeSelectSearchQuery = createSelector(selectGlobal, globalState => globalState?.searchQuery);
 
 export const makeSelectSources = createSelector(selectGlobal, globalState =>
-  globalState.get('sources').size
-    ? globalState
-      .get('sources')
-      .toJS()
-      .map(({ name }) => ({
-        key: name,
-        value: name,
-      }))
+  globalState?.sources.length ? globalState
+    .sources.map(({ name }): KeyValuePair<string> => ({
+      key: name,
+      value: name,
+    }))
     : null
 );
