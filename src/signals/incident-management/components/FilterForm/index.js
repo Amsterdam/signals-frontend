@@ -252,7 +252,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
 
   const onNotAssignedChange = useCallback(
     event => {
-      event.persist();
       const { checked } = event.currentTarget;
       const newAssignedSelectValue = checked ? state.options.assigned_user_email : '';
       const newAssignedFilterValue = checked ? 'null' : assignedSelectValue;
@@ -493,14 +492,15 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 Toegewezen aan
               </Label>
               <div>
-                <Checkbox
-                  data-testid="filterNotAssigned"
-                  checked={state.options.assigned_user_email === 'null'}
-                  id="filter_not_assigned"
-                  name="notAssigned"
-                  onClick={onNotAssignedChange}
-                />
-                <AscLabel htmlFor="filter_not_assigned" label="Niet toegewezen" />
+                <AscLabel htmlFor="filter_not_assigned" label="Niet toegewezen">
+                  <Checkbox
+                    data-testid="filterNotAssigned"
+                    checked={state.options.assigned_user_email === 'null'}
+                    id="filter_not_assigned"
+                    name="notAssigned"
+                    onClick={onNotAssignedChange}
+                  />
+                </AscLabel>
               </div>
               <AutoSuggest
                 value={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
