@@ -238,14 +238,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     const value = '18-12-2018';
     const inputElement = document.getElementById('filter_created_before');
 
-    // selecting a date from the datepicker will render a hidden input
-    expect(document.querySelector('input[name=created_before]')).not.toBeInTheDocument();
+    expect(document.querySelector('input[name=created_before]').value).toEqual('');
 
     act(() => {
       fireEvent.change(inputElement, { target: { value } });
     });
 
-    expect(document.querySelector('input[name=created_before]')).toBeInTheDocument();
+    expect(document.querySelector('input[name=created_before]').value).toEqual(value);
   });
 
   it('should update the state on created after date select', () => {
@@ -254,14 +253,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     const value = '23-12-2018';
     const inputElement = document.getElementById('filter_created_after');
 
-    // selecting a date from the datepicker will render a hidden input
-    expect(document.querySelector('input[name=created_after]')).not.toBeInTheDocument();
+    expect(document.querySelector('input[name=created_after]').value).toEqual('');
 
     act(() => {
       fireEvent.change(inputElement, { target: { value } });
     });
 
-    expect(document.querySelector('input[name=created_after]')).toBeInTheDocument();
+    expect(document.querySelector('input[name=created_after]').value).toEqual(value);
   });
 
   // Note that jsdom has a bug where `submit` and `reset` handlers are not called when those handlers
