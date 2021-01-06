@@ -4,7 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { dateToString } from 'shared/services/date-utils';
 import { withAppContext } from 'test/utils';
 
-import CalendarInput from '..';
+import CalendarInput from '.';
 
 describe('signals/incident-management/components/CalendarInput', () => {
   const calendarInputProps = {

@@ -17,15 +17,8 @@ const SelectedDateInput = styled.input`
   overflow: hidden;
 `;
 
-const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => {
+const CalendarInput = ({ id, label, name, onSelect: onChange, selectedDate }) => {
   const inputRef = useRef(null);
-
-  const handleChange = useCallback(
-    event => {
-      onSelect(event);
-    },
-    [onSelect]
-  );
 
   const focus = useCallback(() => {
     inputRef.current.focus();
@@ -39,7 +32,7 @@ const CalendarInput = ({ id, label, name, onSelect, selectedDate }) => {
         dateFormat="dd-MM-yyyy"
         id={id}
         locale="nl"
-        onChange={handleChange}
+        onChange={onChange}
         onSelect={focus}
         onCalendarClose={focus}
         selected={selectedDate}
