@@ -34,7 +34,7 @@ export interface Meta {
 
 export interface ContainerSelectValue {
   selection: Item[];
-  location?: any;
+  location?: number[];
   meta?: Meta;
   update: (items: Item[] | null) => void;
   edit: () => void;
