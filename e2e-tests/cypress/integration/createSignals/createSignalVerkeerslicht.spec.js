@@ -11,7 +11,8 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
   describe('Create signal Verkeerslicht', () => {
     before(() => {
       cy.postSignalRoutePublic();
-      cy.getMapRoute();
+      cy.stubPreviewMap();
+      cy.stubMap();
       cy.visit('incident/beschrijf');
     });
 
@@ -201,7 +202,6 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
@@ -222,6 +222,7 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
     });
 
     it('Should show the signal details', () => {
+      cy.stubPreviewMap();
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
