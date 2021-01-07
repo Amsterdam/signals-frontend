@@ -1,5 +1,5 @@
 
-export type ClickEvent = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+export type ClickEvent = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
 export interface Item {
   id: string;
@@ -34,8 +34,8 @@ export interface Meta {
 
 export interface ContainerSelectValue {
   selection: Item[];
-  location: any;
-  meta: Meta;
+  location?: any;
+  meta?: Meta;
   update: (items: Item[] | null) => void;
   edit: () => void;
   close: () => void;

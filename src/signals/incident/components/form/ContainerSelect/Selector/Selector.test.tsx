@@ -1,11 +1,14 @@
+import type { ReactNode } from 'react';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Selector from './Selector';
 
 import { ContainerSelectProvider } from '../context';
 import { withAppContext } from 'test/utils';
+import type { ContainerSelectValue } from '../types';
 
-const contextValue = {
+
+const contextValue: ContainerSelectValue = {
   selection: [
     {
       id: 'PL734',
@@ -14,13 +17,12 @@ const contextValue = {
       iconUrl: '',
     },
   ],
-  meta: null,
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
 };
 
-export const withContext = (Component, context = contextValue) =>
+export const withContext = (Component: ReactNode, context = contextValue) =>
   withAppContext(<ContainerSelectProvider value={context}>{Component}</ContainerSelectProvider>);
 
 describe('signals/incident/components/form/ContainerSelect/Selector', () => {
@@ -42,7 +44,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     expect(contextValue.update).not.toHaveBeenCalled();
 
     const element = screen.queryByText(/container toevoegen/i);
-    fireEvent.click(element);
+    if (element) fireEvent.click(element);
     expect(contextValue.update).toHaveBeenCalledWith(expect.any(Array));
   });
 
@@ -51,7 +53,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     expect(contextValue.update).not.toHaveBeenCalled();
 
     const element = screen.queryByText(/container verwijderen/i);
-    fireEvent.click(element);
+    if (element) fireEvent.click(element);
     expect(contextValue.update).toHaveBeenCalledWith(null);
   });
 
@@ -60,7 +62,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     expect(contextValue.close).not.toHaveBeenCalled();
 
     const element = screen.queryByText(/meld deze container\/sluiten/i);
-    fireEvent.click(element);
+    if (element) fireEvent.click(element);
     expect(contextValue.close).toHaveBeenCalled();
   });
 });

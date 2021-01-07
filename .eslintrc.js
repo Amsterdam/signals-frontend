@@ -129,6 +129,6 @@ module.exports = {
     'jest/valid-title': 'off',
 
     '@typescript-eslint/no-type-alias': ['error', { allowCallbacks: 'always', allowAliases: 'in-unions' }],
-    '@typescript-eslint/no-empty-function': ['warn'],
+    '@typescript-eslint/no-empty-function': ['off'],
   },
 };

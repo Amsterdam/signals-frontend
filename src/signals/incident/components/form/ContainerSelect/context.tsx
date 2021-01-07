@@ -2,15 +2,17 @@ import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
 import type { ContainerSelectValue } from './types';
 
-const initialValue: Partial<ContainerSelectValue> = {
+const initialValue: ContainerSelectValue = {
   selection: [],
   update: () => { },
+  edit: () => { },
+  close: () => { },
 };
 
 const ContainerSelectContext = React.createContext(initialValue);
 
 interface ContainerSelectProviderProps {
-  value: Partial<ContainerSelectValue>;
+  value: ContainerSelectValue;
   children: ReactNode;
 }
 

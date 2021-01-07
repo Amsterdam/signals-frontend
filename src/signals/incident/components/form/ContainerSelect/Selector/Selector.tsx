@@ -1,9 +1,10 @@
-import React, { useCallback, useState, useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import Button from 'components/Button';
 import { Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import ContainerSelectContext from '../context';
+import type { Item, ClickEvent, FeatureType } from '../types';
 
 const Wrapper = styled.div`
   position: relative;
@@ -20,7 +21,7 @@ const ButtonBar = styled.div`
   display: flex;
 `;
 
-const unknownFeatureType = {
+const unknownFeatureType: FeatureType = {
   description: 'De container staat niet op de kaart',
   icon: {
     iconSvg: unknown,
@@ -28,16 +29,17 @@ const unknownFeatureType = {
   typeValue: 'not-on-map',
 };
 
+
 const Selector = () => {
   const { selection, meta, update, close } = useContext(ContainerSelectContext);
-  const featureTypes = useMemo(() => [...meta?.featureTypes || [], unknownFeatureType], [meta]);
+  const featureTypes = useMemo(() => meta && [...meta.featureTypes, unknownFeatureType] || [], [meta]);
 
-  const addContainer = useCallback(
+  const addContainer = useCallback<ClickEvent>(
     event => {
       event.preventDefault();
 
       // We use here a fixed list for now
-      const selectedItems = [
+      const selectedItems: Item[] = [
         { id: 'PL734', type: 'plastic' },
         { id: 'GLA00137', type: 'glas' },
         { id: 'BR0234', type: 'brood' },
@@ -47,14 +49,14 @@ const Selector = () => {
         { id: 'RES0234', type: 'restafval' },
         { id: 'RES0234', type: 'not-on-map' },
       ].map(({ id, type }) => {
-        const found = featureTypes.find(({ typeValue }) => typeValue === type) || {};
+        const found: Partial<FeatureType> = featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
         const { description, icon } = found;
 
         return {
           id,
           type,
           description,
-          iconUrl: `data:image/svg+xml;base64,${btoa(icon?.iconSvg)}`,
+          iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
         };
       });
 
@@ -63,7 +65,7 @@ const Selector = () => {
     [update, featureTypes]
   );
 
-  const removeContainer = useCallback(
+  const removeContainer = useCallback<ClickEvent>(
     event => {
       event.preventDefault();
       update(null);
@@ -78,7 +80,7 @@ const Selector = () => {
         <Button onClick={removeContainer}>Container verwijderen</Button>
         <Button onClick={close}>Meld deze container/Sluiten</Button>
       </ButtonBar>
-      <Paragraph as="h6">Geselecteerd: {selection ? `[${selection.map(({ id }) => `${id}`)}]` : '<geen>'}</Paragraph>
+      <Paragraph as="h6">Geselecteerd: {selection ? `[${selection.reduce((res, { id }) => `${res},${id}`, '')}]` : '<geen>'}</Paragraph>
     </Wrapper>
   );
 };
