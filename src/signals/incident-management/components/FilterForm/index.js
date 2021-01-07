@@ -2,7 +2,6 @@ import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, use
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
-import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
 import { Label as AscLabel } from '@amsterdam/asc-ui';
 
@@ -533,6 +532,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               filterSlugs={filterSlugs}
               onChange={onChangeCategories}
               onToggle={onMainCategoryToggle}
+              onSubmit={onSubmitForm}
             />
           )}
         </Fieldset>

@@ -182,7 +182,11 @@ const CheckboxList = ({
    */
   const handleIndividualCheck = useCallback(
     ({ target }) => {
-      const { checked: targetIsChecked } = target;
+      const { checked: targetIsChecked, id } = target;
+
+      // Firefox & Safari on Mac do not hold focus for non-input elements when clicked
+      // Force focus so that 'Enter' will submit the current selection
+      target.focus();
 
       setChecked(state => {
         const modifiedState = new Set(state);
@@ -253,7 +257,7 @@ const CheckboxList = ({
           indent={Boolean(title)}
           tabIndex={0}
           htmlFor={groupName}
-          onClick={groupName ? null : handleToggle}
+          onClick={handleToggle}
           onKeyDown={handleKeyDown}
         >
           {toggled ? toggleNothingLabel : toggleAllLabel}

@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 
-import CustomInput from '../CustomInput';
+import CustomInput from './CustomInput';
 
 const label = 'Here be dragons';
 const id = 'input_date_created_before';
