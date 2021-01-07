@@ -2,11 +2,11 @@ export interface Incident {
   priority: Priority;
   classification: Classification;
   incident_time_hours: number;
-  questions: any[];
+  // questions: any[];
   handling_message: string;
-  images_previews: any[];
+  // images_previews: any[];
   location: Location;
-  images: any[];
+  // images: any[];
   type: Priority;
   incident_time_minutes: number;
   incident_date: string;

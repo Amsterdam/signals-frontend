@@ -4,9 +4,9 @@ import type { ContainerSelectValue } from './types';
 
 const initialValue: ContainerSelectValue = {
   selection: [],
-  update: () => { },
-  edit: () => { },
-  close: () => { },
+  update: () => {},
+  edit: () => {},
+  close: () => {},
 };
 
 const ContainerSelectContext = React.createContext(initialValue);
