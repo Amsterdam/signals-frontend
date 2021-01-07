@@ -178,7 +178,6 @@ Cypress.Commands.add('stubMap', () => {
   cy.intercept('**/**.data.amsterdam.nl/topo_rd/**', { fixture: 'images/map.png' }).as('getMap');
 });
 
-
 Cypress.Commands.add('stubPreviewMap', () => {
   cy.intercept('**/maps/topografie?bbox=**', { fixture: 'images/PreviewMap.jpeg' }).as('getPreviewMap');
 });
