@@ -45,7 +45,7 @@ const Selector = () => {
         { id: 'TEX0234', type: 'textiel' },
         { id: 'GFT0234', type: 'gft' },
         { id: 'RES0234', type: 'restafval' },
-        { id: 'RES0234', type: 'not-on-map' },
+        { id: 'UNKNOWN', type: 'not-on-map' },
       ].map(({ id, type }) => {
         const found = featureTypes.find(({ typeValue }) => typeValue === type) || {};
         const { description, icon } = found;
