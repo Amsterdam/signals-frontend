@@ -33,6 +33,7 @@ const RadioButtonList = ({
   hasEmptySelectionButton,
   defaultValue,
   disabled,
+  error,
   groupName,
   onChange,
   options,
@@ -48,7 +49,7 @@ const RadioButtonList = ({
     <FilterGroup>
       {title && <Label data-testid="radioButtonListTitle" as="span" isGroupHeader={false} label={title} />}
 
-      <StyledRadioGroup name={groupName} disabled={disabled}>
+      <StyledRadioGroup name={groupName} disabled={disabled} error={error}>
         {radioOptions.map(option => (
           <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
             <RadioButton
@@ -72,6 +73,7 @@ RadioButtonList.defaultProps = {
   defaultValue: '',
   disabled: false,
   hasEmptySelectionButton: true,
+  error: false,
 };
 
 RadioButtonList.propTypes = {
@@ -79,6 +81,7 @@ RadioButtonList.propTypes = {
   defaultValue: PropTypes.string,
   /** When true, will disable all elements in the list */
   disabled: PropTypes.bool,
+  error: PropTypes.bool,
   /** Text label for the radio button with the empty value */
   emptySelectionLabel: PropTypes.string,
   /**
