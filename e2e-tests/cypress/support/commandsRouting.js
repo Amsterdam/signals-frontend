@@ -1,17 +1,200 @@
-// Search for an address
-Cypress.Commands.add('getAddressRoute', () => {
-  cy.intercept('/locatieserver/v3').as('getAddress');
+Cypress.Commands.add('defineMapRoutes', () => {
+  cy.intercept('**/geography?*').as('getGeography');
+  cy.intercept('**?page=1&ordering=-created_at&page_size=50').as('getSignals');
+  cy.intercept('**/me/filters/').as('getFilters');
+  cy.intercept('**/categories/*').as('getCategories');
 });
 
-// Routes for loading manage signals page
+Cypress.Commands.add('deleteFilterRoute', () => {
+  cy.intercept('DELETE', '**/private/me/filters/*').as('deleteFilter');
+});
+
+Cypress.Commands.add('departmentRoutes', () => {
+  cy.intercept(/departments\/\d+/).as('getDepartment');
+  cy.intercept('PATCH', '**/private/departments/*').as('patchDepartment');
+});
+
+Cypress.Commands.add('getCategoriesRoutes', () => {
+  cy.intercept('**/private/departments/').as('getDepartments');
+  cy.intercept('**/private/roles/').as('getRoles');
+  cy.intercept('**/private/permissions/').as('getPermissions');
+  cy.intercept('PATCH', '**/private/categories/*').as('patchCategory');
+});
+
+Cypress.Commands.add('getDeelmeldingenRoute', () => {
+  cy.intercept('**/private/signals/**/children/').as('getDeelmeldingen');
+});
+
+Cypress.Commands.add('getFilterByAddressRoute', () => {
+  cy.intercept('**?address_text=**').as('getAddressFilter');
+});
+
+Cypress.Commands.add('getFilterByNoteRoute', () => {
+  cy.intercept('**?note_keyword=*').as('submitNoteFilter');
+});
+
+Cypress.Commands.add('getFilterBySourceRoute', () => {
+  cy.intercept('**?source=*&page=1&ordering=-created_at&page_size=50').as('getBron');
+});
+
+Cypress.Commands.add('getFilterByTypeRoute', () => {
+  cy.intercept('**?type=*&page=1&ordering=-created_at&page_size=50').as('getType');
+});
+
+Cypress.Commands.add('getFilterByUrgencyRoute', () => {
+  cy.intercept('**?priority=*&page=1&ordering=-created_at&page_size=50').as('getUrgency');
+});
+
+Cypress.Commands.add('getFilteredSignalsRoute', () => {
+  cy.intercept('**?stadsdeel=B&status=m&page=1&ordering=-created_at&page_size=50').as(
+    'getFilteredSignals',
+  );
+});
+
+Cypress.Commands.add('getHistoryRoute', () => {
+  cy.intercept('**/history').as('getHistory');
+});
+
 Cypress.Commands.add('getManageSignalsRoutes', () => {
-  cy.route('/signals/v1/private/me/filters/').as('getFilters');
-  cy.route('/signals/v1/private/categories/*').as('getCategories');
-  cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignals');
-  cy.route('/signals/v1/private/me/').as('getUserInfo');
+  cy.intercept('**/me/filters/').as('getFilters');
+  cy.intercept('**/categories/*').as('getCategories');
+  cy.intercept('**/signals/?page=1&ordering=-created_at&page_size=50').as('getSignals');
+  cy.intercept('**/me/').as('getUserInfo');
 });
 
-// Wait for loading the Manage Signals page
+Cypress.Commands.add('getMapRoute', () => {
+  cy.intercept('**/maps/topografie?bbox=**').as('getMap');
+});
+
+Cypress.Commands.add('getOpenbareVerlichtingRoute', () => {
+  cy.intercept('**/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as('getOpenbareVerlichting');
+});
+
+Cypress.Commands.add('getSearchResultsRoute', () => {
+  cy.intercept('**/private/search?*').as('getSearchResults');
+});
+
+Cypress.Commands.add('getSignalDetailsRoutes', () => {
+  cy.intercept('**/private/signals/*').as('getSignal');
+  cy.intercept('**/private/signals/*/history').as('getHistory');
+  cy.intercept('**/private/signals/*/attachments').as('getAttachments');
+  cy.intercept('**/private/terms/categories/**').as('getTerms');
+});
+
+Cypress.Commands.add('getSignalDetailsRoutesById', () => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+    cy.intercept(`**/private/signals/${json.signalId}`).as('getSignal');
+    cy.intercept(`**/private/signals/${json.signalId}/history`).as('getHistory');
+    cy.intercept(`**/private/signals/${json.signalId}/attachments`).as('getAttachments');
+  });
+  cy.intercept('**/private/terms/categories/**').as('getTerms');
+});
+
+Cypress.Commands.add('getSortedByAddressRoutes', () => {
+  cy.intercept('**page=1&ordering=address**').as('getSortedASC');
+  cy.intercept('**page=1&ordering=-address**').as('getSortedDESC');
+});
+
+Cypress.Commands.add('getSortedByCityAreaRoutes', () => {
+  cy.intercept('**page=1&ordering=stadsdeel**').as('getSortedASC');
+  cy.intercept('**page=1&ordering=-stadsdeel**').as('getSortedDESC');
+});
+
+Cypress.Commands.add('getSortedByIdRoutes', () => {
+  cy.intercept('**page=1&ordering=id**').as('getSortedASC');
+  cy.intercept('**page=1&ordering=-id**').as('getSortedDESC');
+});
+
+Cypress.Commands.add('getSortedByStatusRoutes', () => {
+  cy.intercept('**page=1&ordering=status**').as('getSortedASC');
+  cy.intercept('**page=1&ordering=-status**').as('getSortedDESC');
+});
+
+Cypress.Commands.add('getSortedBySubcategoryRoutes', () => {
+  cy.intercept('**page=1&ordering=sub_category**').as('getSortedASC');
+  cy.intercept('**page=1&ordering=-sub_category**').as('getSortedDESC');
+});
+
+Cypress.Commands.add('getSortedByTimeRoutes', () => {
+  cy.intercept('**page=1&ordering=created_at&page_size=50').as('getSortedTimeASC');
+  cy.intercept('**page=1&ordering=-created_at&page_size=50').as('getSortedTimeDESC');
+});
+
+Cypress.Commands.add('getSortedByUrgencyRoutes', () => {
+  cy.intercept('**page=1&ordering=priority**').as('getSortedASC');
+  cy.intercept('**page=1&ordering=-priority**').as('getSortedDESC');
+});
+
+Cypress.Commands.add('getSortedRoutes', () => {
+  cy.intercept('**page=1&ordering=id&page_size=50').as('getSortedASC');
+  cy.intercept('**page=1&ordering=-id&page_size=50').as('getSortedDESC');
+});
+
+Cypress.Commands.add('getTermsRoute', () => {
+  cy.intercept('**/private/terms/categories/**').as('getTerms');
+});
+
+Cypress.Commands.add('getUserRoute', () => {
+  cy.intercept('**/private/users/*').as('getUser');
+});
+
+Cypress.Commands.add('noteRoutes', () => {
+  cy.intercept('PATCH', '**/private/signals/*').as('patchNote');
+  cy.intercept('**/private/signals/?page=*').as('getSignal');
+  cy.intercept('**/history').as('getHistory');
+});
+
+Cypress.Commands.add('patchSignalRoute', () => {
+  cy.intercept('PATCH', '**/private/signals/**').as('patchSignal');
+});
+
+Cypress.Commands.add('patchUserRoute', () => {
+  cy.intercept('PATCH', '**/private/users/*').as('patchUser');
+});
+
+Cypress.Commands.add('postDeelmeldingenRoute', () => {
+  cy.intercept('POST', '**/private/signals/').as('postDeelmeldingen');
+});
+
+Cypress.Commands.add('postFilterRoute', () => {
+  cy.intercept('POST', '**/me/filters/').as('postFilter');
+});
+
+Cypress.Commands.add('postSignalRoutePublic', () => {
+  cy.intercept('POST', '**/public/signals/').as('postSignalPublic');
+});
+
+Cypress.Commands.add('postSignalRoutePrivate', () => {
+  cy.intercept('POST', '**/private/signals/').as('postSignalPrivate');
+});
+
+Cypress.Commands.add('standaardtekstenRoutes', () => {
+  cy.intercept('**/civiele-constructies/sub_categories/afwatering-brug/*').as('getAfwateringBrug');
+  cy.intercept('**/overlast-van-dieren/sub_categories/duiven/*').as('getDuiven');
+  cy.intercept('POST', '**/overlast-van-dieren/sub_categories/duiven/**').as('PostDuiven');
+});
+
+Cypress.Commands.add('stubPrediction', fixture => {
+  cy.intercept('POST', '**/prediction', { fixture: `predictions/${fixture}` }).as('getPrediction');
+});
+
+Cypress.Commands.add('stubAddress', fixture => {
+  const staticResponse = {
+    headers: {
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, HEAD',
+      'Access-Control-Allow-Headers': 'SOAPAction,X-Requested-With,Content-Type,Origin,Authorization,Accept',
+    }
+  };
+  cy.intercept('OPTIONS', '/locatieserver/v3/', staticResponse);
+  cy.intercept('GET', '/locatieserver/v3', { fixture: `addresses/${fixture}` }).as('getAddress');
+});
+
+Cypress.Commands.add('waitForCategoriesRoutes', () => {
+  cy.wait('@getDepartments');
+  cy.wait('@getRoles');
+  cy.wait('@getPermissions');
+});
+
 Cypress.Commands.add('waitForManageSignalsRoutes', () => {
   cy.wait('@getFilters');
   cy.wait('@getCategories');
@@ -19,90 +202,15 @@ Cypress.Commands.add('waitForManageSignalsRoutes', () => {
   cy.wait('@getUserInfo');
 });
 
-// Loading the Categories page
-Cypress.Commands.add('getCategoriesRoutes', () => {
-  cy.route('/signals/v1/private/departments/').as('getDepartments');
-  cy.route('/signals/v1/private/roles/').as('getRoles');
-  cy.route('/signals/v1/private/permissions/').as('getPermissions');
-  cy.route('PATCH', '/signals/v1/private/categories/*').as('patchCategory');
-});
-
-// Wait for loading the Categories Signals page
-Cypress.Commands.add('waitForCategoriesRoutes', () => {
-  cy.wait('@getDepartments');
-  cy.wait('@getRoles');
-  cy.wait('@getPermissions');
-});
-
-// Submit signal public
-Cypress.Commands.add('postSignalRoutePublic', () => {
-  cy.route('POST', '/signals/v1/public/signals/').as('postSignalPublic');
-});
-
-// Submit signal private
-Cypress.Commands.add('postSignalRoutePrivate', () => {
-  cy.route('POST', '/signals/v1/private/signals/').as('postSignalPrivate');
-});
-
-// Submit image
-Cypress.Commands.add('postImageRoute', () => {
-  cy.route('POST', '/signals/signal/image/').as('postImage');
-});
-
-// Loading overview map for signals
-Cypress.Commands.add('defineMapRoutes', () => {
-  cy.route('/signals/v1/private/signals/geography?*').as('getGeography');
-  cy.route('signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignals');
-  cy.route('/signals/v1/private/me/filters/').as('getFilters');
-  cy.route('/signals/v1/private/categories/*').as('getCategories');
-});
-
-// Routes loading signal details
-Cypress.Commands.add('getSignalDetailsRoutesById', () => {
-  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-    cy.route(`/signals/v1/private/signals/${json.signalId}`).as('getSignal');
-    cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
-    cy.route(`/signals/v1/private/signals/${json.signalId}/attachments`).as('getAttachments');
-  });
-  cy.route('/maps/topografie?bbox=*').as('getMap');
-  cy.route('/signals/v1/private/terms/categories/**').as('getTerms');
-});
-
-// Routes loading signal details
-Cypress.Commands.add('getSignalDetailsRoutes', () => {
-  cy.route('/signals/v1/private/signals/*').as('getSignal');
-  cy.route('/signals/v1/private/signals/*/history').as('getHistory');
-  cy.route('/signals/v1/private/signals/*/attachments').as('getAttachments');
-  cy.route('/maps/topografie?bbox=*').as('getMap');
-  cy.route('/signals/v1/private/terms/categories/**').as('getTerms');
-});
-
-// Waits loading signal details
-Cypress.Commands.add('waitForSignalDetailsRoutes', () => {
-  cy.wait('@getSignal');
-  cy.wait('@getHistory');
-  cy.wait('@getAttachments');
-  cy.wait('@getMap');
-  cy.wait('@getTerms');
-});
-
-Cypress.Commands.add('postNoteRoutes', () => {
-  cy.route('PATCH', '/signals/v1/private/signals/*').as('patchNote');
-  cy.route('/signals/v1/private/signals/?page=*').as('getSignal');
-  cy.route('**/history').as('getHistory');
-});
-
-Cypress.Commands.add('waitForPostNoteRoutes', () => {
+Cypress.Commands.add('waitForNoteRoutes', () => {
   cy.wait('@patchNote');
   cy.wait('@getSignal');
   cy.wait('@getHistory');
 });
 
-Cypress.Commands.add('stubCategoryPrediction', fixture => {
-  cy.route('POST', '/signals/category/prediction', `fixture:predictions/${fixture}`).as('prediction');
-});
-
-Cypress.Commands.add('getSortedRoutes', () => {
-  cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
-  cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+Cypress.Commands.add('waitForSignalDetailsRoutes', () => {
+  cy.wait('@getSignal');
+  cy.wait('@getHistory');
+  cy.wait('@getAttachments');
+  cy.wait('@getTerms');
 });

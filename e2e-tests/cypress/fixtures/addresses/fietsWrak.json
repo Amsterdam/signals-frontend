@@ -1,0 +1,42 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 28.054352,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "1045",
+        "weergavenaam": "Sloterweg 1045, 1066CD Amsterdam",
+        "id": "adr-830e83ef70eef713cd41b5078213c4cd",
+        "postcode": "1066CD",
+        "centroide_ll": "POINT(4.80649086 52.33961512)",
+        "straatnaam": "Sloterweg"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-830e83ef70eef713cd41b5078213c4cd": {
+      "suggest": ["Sloterweg <b>1045</b>, <b>1066CD</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1066cd",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1056cd", "1065cd", "10662", "10663", "10664"]
+      },
+      "1045",
+      {
+        "numFound": 3,
+        "startOffset": 7,
+        "endOffset": 11,
+        "suggestion": ["1005", "1015", "1025"]
+      }
+    ],
+    "collations": []
+  }
+}

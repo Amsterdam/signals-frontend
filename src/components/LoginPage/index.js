@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Column, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import configuration from 'shared/services/configuration/configuration';
 
 import { login } from 'shared/services/auth/auth';
 
@@ -29,6 +30,18 @@ const LoginPage = () => (
           >
             <span className="value">Inloggen</span>
           </Button>
+
+          {configuration.keycloak && (
+            <Button
+              variant="secondary"
+              onClick={() => {
+                login('keycloak');
+              }}
+              type="button"
+            >
+              <span className="value">Inloggen Keycloak</span>
+            </Button>
+          )}
 
           <Button
             variant="secondary"

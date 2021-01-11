@@ -16,11 +16,9 @@ const fixturePath = '../fixtures/signals/graffiti.json';
 describe('Change signal after submit', () => {
   describe('Create signal in category "Graffiti"', () => {
     before(() => {
-      cy.server();
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
-      cy.route2('**/maps/topografie?bbox=**').as('map');
-      cy.visitFetch('incident/beschrijf');
+      cy.getMapRoute();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
@@ -33,7 +31,7 @@ describe('Change signal after submit', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
+      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
@@ -46,10 +44,9 @@ describe('Change signal after submit', () => {
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
@@ -63,49 +60,43 @@ describe('Change signal after submit', () => {
   describe('Change signal data', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.getAddressRoute();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
     it('Should change location using pencil button', () => {
-      // Open Signal
+      cy.stubAddress('changeAddressPencil');
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      // Edit signal location
       cy.get(CHANGE_LOCATION.buttonEdit).click();
 
-      // Check on map and cancel
       cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(CHANGE_LOCATION.buttonCancel).click();
       cy.fixture(fixturePath).then(json => {
         cy.contains(json.text).should('be.visible');
       });
-      // Edit signal location
+
       cy.get(CHANGE_LOCATION.buttonEdit).click();
       cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Bethaniënstraat 12', { delay: 60 });
-      cy.wait('@getAddress');
       createSignal.selectAddress('Bethaniënstraat 12, 1012CA Amsterdam');
       // Used a wait, because we have to wait until zoom to new adres is done.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
-      // Check if background colour of changed element is flashing orange
+
       createSignal.checkFlashingYellow();
 
-      // Check location data
       cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Bethaniënstraat 12').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012CA Amsterdam').should('be.visible');
 
-      // Check history
+
       cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 3);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
@@ -115,31 +106,28 @@ describe('Change signal after submit', () => {
         .and('be.visible');
     });
     it('Should change location by clicking on picture', () => {
-      // Open Signal
+      cy.stubAddress('changeAddressPicture');
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.imageLocation).click();
       cy.get(CHANGE_LOCATION.buttonLocationDetailEdit).click();
       cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Noordhollandschkanaaldijk 114', { delay: 60 });
-      cy.wait('@getAddress');
+
       createSignal.selectAddress('Noordhollandschkanaaldijk 114, 1034NW Amsterdam');
       // Used a wait, because we have to wait until zoom to new adres is done.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
 
-      // Check if background colour of changed element is flashing orange
       createSignal.checkFlashingYellow();
 
-      // Check location data
       cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Noord').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Noordhollandschkanaaldijk 114').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1034NW Amsterdam').should('be.visible');
 
-      // Check history
       cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 4);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
@@ -149,27 +137,21 @@ describe('Change signal after submit', () => {
         .and('be.visible');
     });
     it('Should change status', () => {
-      // Open Signal
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      // Edit signal status
       cy.get(CHANGE_STATUS.buttonEdit).click();
 
-      // Check on status information
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
       cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
 
-      // Cancel edit status
       cy.get(CHANGE_STATUS.buttonCancel).click();
       cy.contains(Cypress.env('description')).should('be.visible');
 
-      // Edit signal status
       cy.get(CHANGE_STATUS.buttonEdit).click();
       cy.contains('Status wijzigen').should('be.visible');
 
-      // Check all checkboxes and submit change
       const sendMailText = 'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.';
       cy.get(CHANGE_STATUS.radioButtonGemeld).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
@@ -204,10 +186,8 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben uw zinloze melding toch maar in behandeling genomen');
       cy.get(CHANGE_STATUS.buttonSubmit).click();
 
-      // Check if background colour of changed element is flashing orange
       createSignal.checkFlashingYellow();
 
-      // Check if status is 'In behandeling' with red coloured text
       cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.status)
@@ -217,7 +197,6 @@ describe('Change signal after submit', () => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
         });
 
-      // Check history
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 9);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
@@ -227,34 +206,27 @@ describe('Change signal after submit', () => {
     });
 
     it('Should change urgency', () => {
-      // Open Signal
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      // Edit signal urgency
       cy.get(CHANGE_URGENCY.buttonEdit).click();
 
-      // Check on urgency information
       cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
       cy.get(CHANGE_URGENCY.radioButtonLaag).click({ force: true });
       cy.contains('interne melding zonder servicebelofte').should('be.visible');
       cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
       cy.contains('Hoog: melding met spoed oppakken').should('be.visible');
 
-      // Cancel edit urgency
       cy.get(CHANGE_URGENCY.buttonCancel).click();
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
 
-      // Edit signal urgency and submit
       cy.get(CHANGE_URGENCY.buttonEdit).click();
       cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
       cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
       cy.get(CHANGE_URGENCY.buttonSubmit).click();
 
-      // Check if background colour of changed element is flashing orange
       createSignal.checkFlashingYellow();
 
-      // Check urgency change
       cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.urgency)
@@ -264,20 +236,16 @@ describe('Change signal after submit', () => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
         });
 
-      // Check history
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 10);
       cy.get(SIGNAL_DETAILS.historyAction).contains('Urgentie gewijzigd naar: Hoog').should('be.visible');
     });
 
     it('Should change type', () => {
-      // Open Signal
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      // Edit signal type
       cy.get(CHANGE_TYPE.buttonEdit).click();
 
-      // Check on type information
       cy.get(CHANGE_TYPE.radioButtonMelding).should('be.checked');
       cy.contains('Melding: Een verzoek tot herstel of handhaving om de normale situatie te herstellen');
       cy.get(CHANGE_TYPE.radioButtonAanvraag).click({ force: true }).should('be.checked');
@@ -291,56 +259,44 @@ describe('Change signal after submit', () => {
         'Groot onderhoud: Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
       );
 
-      // Cancel edit type
       cy.get(CHANGE_TYPE.buttonCancel).click();
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
 
-      // Edit signal type and submit
       cy.get(CHANGE_TYPE.buttonEdit).click();
       cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click({ force: true });
       cy.get(CHANGE_TYPE.buttonSubmit).click();
 
-      // Check if background colour of changed element is flashing orange
       createSignal.checkFlashingYellow();
 
-      // Check type change
       cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Groot onderhoud').and('be.visible');
 
-      // Check history
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 11);
       cy.get(SIGNAL_DETAILS.historyAction).contains('Type gewijzigd naar: Groot onderhoud').should('be.visible');
     });
 
     it('Should change category', () => {
-      // Open Signal
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      // Edit signal category
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(CHANGE_CATEGORY.inputCategory).select('Overig openbare ruimte (ASC)');
 
-      // Cancel edit category
       cy.get(CHANGE_CATEGORY.buttonCancel).click();
 
-      // Edit signal category and submit
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Graffiti / wildplak (STW)').and('be.visible');
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(CHANGE_CATEGORY.inputCategory).select('Overig openbare ruimte (ASC)');
       cy.get(CHANGE_CATEGORY.buttonSubmit).click();
 
-      // Check if background colour of changed element is flashing orange
       createSignal.checkFlashingYellow();
 
-      // Check change in subcategory, maincategory and department
       cy.wait('@getHistory');
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Overig openbare ruimte (ASC)').and('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast in de openbare ruimte').and('be.visible');
 
-      // Check history
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 13);
       cy.get(SIGNAL_DETAILS.historyAction)
         .contains('Categorie gewijzigd naar: Overig openbare ruimte')

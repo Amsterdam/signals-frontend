@@ -10,17 +10,14 @@ import { generateToken } from '../../support/jwt';
 
 describe('Filtering', () => {
   beforeEach(() => {
-    cy.server();
     cy.getManageSignalsRoutes();
-    cy.route('DELETE', '**/signals/v1/private/me/filters/*').as('deleteFilter');
-    cy.route('/signals/v1/private/signals/?stadsdeel=B&status=m&page=1&ordering=-created_at&page_size=50').as(
-      'getFilteredSignals',
-    );
-    cy.route('POST', '/signals/v1/private/me/filters/').as('postFilter');
+    cy.deleteFilterRoute();
+    cy.getFilteredSignalsRoute();
+    cy.postFilterRoute();
 
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
 
-    cy.visitFetch('/manage/incidents/');
+    cy.visit('/manage/incidents/');
 
     cy.waitForManageSignalsRoutes();
   });
@@ -58,8 +55,7 @@ describe('Filtering', () => {
   });
 
   it('Should create a filter and filter results', () => {
-    cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
-    cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+    cy.getSortedRoutes();
     cy.get(MANAGE_SIGNALS.buttonFilteren)
       .should('be.visible')
       .click();
@@ -152,7 +148,7 @@ describe('Filtering', () => {
     });
   });
   it('Should filter on address and date without saving the filter', () => {
-    cy.route('/signals/v1/private/signals/?address_text=**').as('getAddressFilter');
+    cy.getFilterByAddressRoute();
     const todaysDate = Cypress.moment().format('DD-MM-YYYY');
     cy.get(MANAGE_SIGNALS.buttonFilteren).click();
     cy.get(FILTER.inputFilterAddres).type('Ruigoord 36');
@@ -229,16 +225,15 @@ describe('Filtering', () => {
   it.skip('Should filter on Wonen', () => {
     filtering.filterOnCategorySlug('vakantieverhuur', 'Vakantieverhuur');
   });
-  it.skip('Should filter on urgentie hoog', () => {
-    cy.route('**?priority=high&page=1&ordering=-created_at&page_size=50').as('getUrgencyHigh');
-    cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
-    cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+  it('Should filter on urgentie hoog', () => {
+    cy.getFilterByUrgencyRoute();
+    cy.getSortedRoutes();
     cy.get(MANAGE_SIGNALS.buttonFilteren).click();
 
     cy.get(FILTER.checkboxUrgentieHoog).check();
 
     cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
-    cy.wait('@getUrgencyHigh');
+    cy.wait('@getUrgency');
 
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoog').and('be.visible');
     cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
@@ -253,15 +248,14 @@ describe('Filtering', () => {
   });
   it.skip('Should filter on type klacht', () => {
     cy.getSignalDetailsRoutes();
-    cy.route('**?type=COM&page=1&ordering=-created_at&page_size=50').as('getTypeKlacht');
-    cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
-    cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+    cy.getFilterByTypeRoute();
+    cy.getSortedRoutes();
     cy.get(MANAGE_SIGNALS.buttonFilteren).click();
 
     cy.get(FILTER.checkboxTypeKlacht).check();
 
     cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
-    cy.wait('@getTypeKlacht');
+    cy.wait('@getType');
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Klacht').and('be.visible');
 
     cy.get(MANAGE_SIGNALS.firstSignalId).click();
@@ -278,15 +272,14 @@ describe('Filtering', () => {
   });
   it.skip('Should filter on Bron Interswitch', () => {
     cy.getSignalDetailsRoutes();
-    cy.route('**?source=Telefoon – Interswitch&page=1&ordering=-created_at&page_size=50').as('getBronInterswitch');
-    cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
-    cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+    cy.getFilterBySourceRoute();
+    cy.getSortedRoutes();
     cy.get(MANAGE_SIGNALS.buttonFilteren).click();
 
     cy.get(FILTER.checkboxBronInterswitch).check();
 
     cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
-    cy.wait('@getBronInterswitch');
+    cy.wait('@getBron');
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Telefoon – Interswitch').and('be.visible');
 
     cy.get('th').contains('Id').click();

@@ -10,11 +10,9 @@ const fixturePath = '../fixtures/signals/botenWrak.json';
 describe('Create signal category boten "Wrak in het water"', () => {
   describe('Create signal boten', () => {
     before(() => {
-      cy.server();
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
-      cy.route2('**/maps/topografie?bbox=**').as('map');
-      cy.visitFetch('incident/beschrijf');
+      cy.getMapRoute();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
@@ -35,7 +33,7 @@ describe('Create signal category boten "Wrak in het water"', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
+      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
@@ -49,10 +47,9 @@ describe('Create signal category boten "Wrak in het water"', () => {
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 

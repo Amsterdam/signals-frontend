@@ -137,7 +137,13 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
           <HelpText>Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
         </header>
 
-        <RadioButtonList groupName="kto" hasEmptySelectionButton={false} onChange={onChangeOption} options={options} />
+        <RadioButtonList
+          error={Boolean(state.errors.text)}
+          groupName="kto"
+          hasEmptySelectionButton={false}
+          onChange={onChangeOption}
+          options={options}
+        />
         {state.areaVisibility && (
           <TextArea data-testid="ktoText" maxRows={5} name="text" onChange={onChangeText('SET_TEXT')} rows="2" />
         )}
@@ -163,13 +169,13 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
           Mogen wij contact met u opnemen naar aanleiding van uw feedback? <Optional>(optioneel)</Optional>
         </Label>
         <div />
-        <Checkbox
-          data-testid="ktoAllowsContact"
-          id="allows_contact"
-          name="allows_contact"
-          onChange={onChangeAllowsContact}
-        />
-        <Label inline forwardAs="span" htmlFor="allows_contact">
+        <Label inline htmlFor="allows_contact">
+          <Checkbox
+            data-testid="ktoAllowsContact"
+            id="allows_contact"
+            name="allows_contact"
+            onChange={onChangeAllowsContact}
+          />
           Ja
         </Label>
       </GridArea>

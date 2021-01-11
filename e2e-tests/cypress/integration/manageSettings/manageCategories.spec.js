@@ -12,10 +12,9 @@ describe('Manage categories', () => {
   describe('Change category ', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getCategoriesRoutes();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
@@ -109,19 +108,16 @@ describe('Manage categories', () => {
     });
 
     it('Should initiate create signal', () => {
-      cy.server();
       cy.getManageSignalsRoutes();
 
-      cy.visitFetch('/incident/beschrijf/');
+      cy.visit('/incident/beschrijf/');
 
       cy.checkHeaderText('Beschrijf uw melding');
     });
 
     it('Should describe the signal', () => {
-      cy.server();
-      cy.route2('**/locatieserver/v3/suggest?fq=*').as('getAddress');
-      cy.route2('**/maps/topografie?bbox=**').as('map');
-      cy.route2('POST', '**/signals/v1/private/signals/').as('postSignalPrivate');
+      cy.getMapRoute();
+      cy.postSignalRoutePrivate();
 
       createSignal.setDescriptionPage(fixturePath);
       cy.contains('Volgende').click();
@@ -132,7 +128,7 @@ describe('Manage categories', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
+      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
@@ -143,10 +139,9 @@ describe('Manage categories', () => {
     });
     it('Should show the change in category description', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
 
       // Open incident details
@@ -162,10 +157,9 @@ describe('Manage categories', () => {
   describe('Change back servicebelofte', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getCategoriesRoutes();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
@@ -186,6 +180,7 @@ describe('Manage categories', () => {
 
       // Change category
       cy.get(CATEGORIES.inputName).clear().type('Afwatering brug');
+      cy.get(CATEGORIES.inputDescription).clear().type('Dit is het verhaal van de brug die helemaal niet moest afwateren');
       cy.get(CATEGORIES.inputDays).clear().type('5');
       cy.get(CATEGORIES.dropdownTypeOfDays).select('Werkdagen');
       cy.get(CATEGORIES.inputMessage)

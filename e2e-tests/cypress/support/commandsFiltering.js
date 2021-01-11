@@ -12,15 +12,14 @@ export const filterCategory = (selector, category) => {
 };
 
 export const filterOnCategorySlug = (category_slug, category) => {
-  cy.route('**&page=1&ordering=-created_at&page_size=50').as('getCategory');
-  cy.route('**&page=1&ordering=id&page_size=50').as('getSortedASC');
-  cy.route('**&page=1&ordering=-id&page_size=50').as('getSortedDESC');
+  cy.getSortedByTimeRoutes();
+  cy.getSortedRoutes();
   cy.get(MANAGE_SIGNALS.buttonFilteren).click();
 
   cy.get(`[data-testid*="sub_categories/${category_slug}"]`).check();
 
   cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
-  cy.wait('@getCategory');
+  cy.wait('@getSortedTimeDESC');
 
   if (category_slug === 'vermoeden') {
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Ondermijning: Alles').and('be.visible');

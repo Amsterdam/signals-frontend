@@ -1,0 +1,47 @@
+{
+  "response": {
+    "numFound": 2,
+    "start": 0,
+    "maxScore": 15.859715,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "45A",
+        "weergavenaam": "Korte Ouderkerkerdijk 45A, 1096AC Amsterdam",
+        "id": "adr-9bcc51dcd5b36c4b0d25454cf1dfc9a9",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.9149527 52.33947783)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "45B",
+        "weergavenaam": "Korte Ouderkerkerdijk 45B, 1096AC Amsterdam",
+        "id": "adr-9b84004d46a896ba4c2c00ac15b091b2",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91495454 52.33947869)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-9bcc51dcd5b36c4b0d25454cf1dfc9a9": {
+      "suggest": ["Korte Ouderkerkerdijk <b>45A</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-9b84004d46a896ba4c2c00ac15b091b2": {
+      "suggest": ["Korte Ouderkerkerdijk <b>45B</b>, <b>1096AC</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1096ac",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1016ac", "1091ac", "10961", "10962", "10963"]
+      }
+    ],
+    "collations": []
+  }
+}

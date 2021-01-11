@@ -114,7 +114,8 @@
     {"id": 15, "code": "VTH", "name": "VTH", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "bedrijvenStankoverlast.json",
-    "attachments": null
+    "address": "bedrijvenStankoverlast.json",
+    "attachments": null,
+    "prediction": "bedrijvenStankoverlast.json"
   }
 }

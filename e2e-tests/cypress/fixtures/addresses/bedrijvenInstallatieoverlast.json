@@ -1,0 +1,48 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 19.293587,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5",
+        "weergavenaam": "NDSM-kade 5, 1033PG Amsterdam",
+        "id": "adr-f8acac0b70df67f2743a2378b6792741",
+        "postcode": "1033PG",
+        "centroide_ll": "POINT(4.89112631 52.40146714)",
+        "straatnaam": "NDSM-kade"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-f8acac0b70df67f2743a2378b6792741": {
+      "suggest": ["NDSM-kade <b>5</b>, <b>1033PG</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1033pg",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1033ag", "1033dg", "10331", "10333", "10337"]
+      }
+    ],
+    "collations": [
+      "collation",
+      {
+        "collationQuery": "1033ag 5",
+        "hits": 4,
+        "misspellingsAndCorrections": ["1033pg", "1033ag"]
+      },
+      "collation",
+      {
+        "collationQuery": "1033dg 5",
+        "hits": 1,
+        "misspellingsAndCorrections": ["1033pg", "1033dg"]
+      }
+    ]
+  }
+}
