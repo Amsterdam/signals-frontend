@@ -1,3 +1,4 @@
+import type { IconOptions } from 'leaflet';
 
 export type ClickEvent = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
@@ -12,13 +13,13 @@ export interface FeatureType {
   label?: string;
   description?: string;
   icon: FeatureIcon;
-  idField?: string;
-  typeField?: string;
+  idField: string;
+  typeField: string;
   typeValue: string;
 }
 
 export interface FeatureIcon {
-  options?: Options;
+  options?: IconOptions;
   iconSvg: string;
   selectedIconSvg?: string;
 }
@@ -29,6 +30,7 @@ export interface Options {
 }
 
 export interface Meta {
+  endpoint: string ;
   featureTypes: FeatureType[];
 }
 

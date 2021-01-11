@@ -1,6 +1,7 @@
 import { Paragraph, ViewerContainer } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 import Map from 'components/Map';
+import L, { DomEvent } from 'leaflet';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
@@ -9,6 +10,9 @@ import styled from 'styled-components';
 import ContainerSelectContext from '../context';
 import type { Item, ClickEvent, FeatureType } from '../types';
 import type { MapOptions } from 'leaflet';
+
+import type { WfsLayerProps } from './WfsLayer';
+import WfsLayer from './WfsLayer';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -36,6 +40,8 @@ const unknownFeatureType: FeatureType = {
   icon: {
     iconSvg: unknown,
   },
+  idField: 'id',
+  typeField: 'type',
   typeValue: 'not-on-map',
 };
 
@@ -101,9 +107,53 @@ const Selector = () => {
     [update]
   );
 
+  const getFeatureType = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    feature => meta?.featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
+    [meta]
+  );
+
+  const wfsLayerProps: WfsLayerProps = {
+    url: meta?.endpoint ?? '',
+    options: {
+      pointToLayer: (feature, latlong) => {
+        const featureType = getFeatureType(feature);
+        if (!featureType) return L.marker({ ...latlong, lat: 0, lng: 0 });
+
+        return L.marker(latlong, {
+          icon: L.icon({
+            ...featureType.icon.options,
+            className: featureType.label,
+            iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+          }),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          alt: feature.properties[featureType.idField] as string,
+        });
+      },
+
+      onEachFeature: (feature, layer) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const item = feature.properties;
+        const featureType = getFeatureType(feature);
+        if (!featureType) return;
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const id = item[featureType.idField];
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const typeValue = item[featureType.typeField];
+        layer.bindPopup(`<p>Id: ${id}</p><p>Display: ${typeValue}</p>`);
+        layer.on('click', event => {
+          if (DomEvent) DomEvent.stopPropagation(event);
+          layer.openPopup();
+        });
+      },
+    },
+    zoomLevel: { max: 7 },
+  };
+
   return ReactDOM.createPortal(
     <Wrapper>
-      <StyledMap data-testid="map" hasZoomControls mapOptions={mapOptions} setInstance={setMap}>
+      <StyledMap data-testid="map" hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
         <ViewerContainer
           topLeft={
             <ButtonBar>
@@ -118,6 +168,7 @@ const Selector = () => {
             </ButtonBar>
           }
         />
+        <WfsLayer {...wfsLayerProps}></WfsLayer>
       </StyledMap>
     </Wrapper>,
     appHtmlElement

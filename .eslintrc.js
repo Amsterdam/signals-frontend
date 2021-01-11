@@ -130,5 +130,6 @@ module.exports = {
 
     '@typescript-eslint/no-type-alias': ['error', { allowCallbacks: 'always', allowAliases: 'in-unions' }],
     '@typescript-eslint/no-empty-function': ['off'],
+    '@typescript-eslint/restrict-template-expressions': 'off',
   },
 };
