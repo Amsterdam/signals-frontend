@@ -1,10 +1,13 @@
-import { GeoJSON, useMapInstance } from '@amsterdam/react-maps';
+import { useMapInstance } from '@amsterdam/react-maps';
 import type { FeatureCollection } from 'geojson';
-import type { GeoJSON as GeoJSONLayer, GeoJSONOptions, Map } from 'leaflet';
+import type { GeoJSON as GeoJSONLayer, LatLng, Map } from 'leaflet';
 import React, { useEffect, useState } from 'react';
 import { fetchWithAbort } from '@amsterdam/arm-core';
 import L from 'leaflet';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
+import MarkerCluster from 'signals/incident-management/containers/IncidentOverviewPage/components/OverviewMap/components/MarkerCluster';
+import { featureTolocation } from 'shared/services/map-location';
+import type { Geometrie } from 'types/incident';
 
 export const MIN_ZOOM_LEVEL = 22;
 export const MAX_ZOOM_LEVEL = 0;
@@ -21,7 +24,9 @@ export interface ZoomLevel {
 
 export interface WfsLayerProps {
   url: string;
-  options?: GeoJSONOptions;
+  options: {
+    pointToLayer: (feature: any, latlng: LatLng) => L.Marker;
+  };
   zoomLevel: ZoomLevel;
 }
 
@@ -30,6 +35,24 @@ const isVisible = (mapInstance: Map, zoomLevel: ZoomLevel) => {
   const zoom = mapInstance.getZoom();
   return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
 };
+
+const clusterLayerOptions = {
+  showCoverageOnHover: false,
+  zoomToBoundsOnClick: true,
+  chunkedLoading: true,
+
+  iconCreateFunction: (cluster: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+    const childCount = cluster.getChildCount() as number;
+
+    return new L.DivIcon({
+      html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
+      className: 'marker-cluster',
+      iconSize: new L.Point(40, 40),
+    });
+  },
+};
+
 
 const getBBox = (mapInstance: Map): string => {
   const bounds = mapInstance.getBounds();
@@ -63,7 +86,7 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
   const mapInstance = useMapInstance();
   const [layerInstance, setLayerInstance] = useState<GeoJSONLayer>();
   const [bbox, setBbox] = useState('');
-  const [json, setJson] = useState<FeatureCollection>(NO_DATA);
+  const [data, setData] = useState<FeatureCollection>(NO_DATA);
 
   useEffect(() => {
     function onMoveEnd() {
@@ -79,7 +102,7 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
 
   useEffect(() => {
     if (!isVisible(mapInstance, zoomLevel)) {
-      setJson(NO_DATA);
+      setData(NO_DATA);
       return;
     }
 
@@ -88,7 +111,7 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
 
     request
       .then(async res => res.json())
-      .then(res => { setJson(res); return null; })
+      .then(res => { setData(res); return null; })
       .catch(async error => {
         // Ignore abort errors since they are expected to happen.
         if (error instanceof Error && error.name === 'AbortError') {
@@ -106,19 +129,25 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
   useEffect(() => {
     if (layerInstance) {
       layerInstance.clearLayers();
-      layerInstance.addData(json);
+      data.features.forEach(feature => {
+        const coordinates = (feature.geometry as Geometrie).coordinates;
+        const latlng = featureTolocation({ coordinates });
+
+        const clusteredMarker = options.pointToLayer(feature, latlng);
+
+        if (clusteredMarker) layerInstance.addLayer(clusteredMarker);
+      });
     }
 
     return () => {
       if (layerInstance) {
         // This ensures that for each refresh of the data, the click
         // events that are bound in the layer data are removed.
-        layerInstance.off('click');
       }
     };
-  }, [layerInstance, json]);
+  }, [layerInstance, data, options]);
 
-  return json ? <GeoJSON setInstance={setLayerInstance} args={[json]} options={options} /> : null;
+  return <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />;
 };
 
 export default WfsLayer;

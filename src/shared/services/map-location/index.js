@@ -1,3 +1,4 @@
+import { LatLng } from 'leaflet';
 import configuration from 'shared/services/configuration/configuration';
 
 export const locationTofeature = location => ({
@@ -5,10 +6,7 @@ export const locationTofeature = location => ({
   coordinates: [location.lng, location.lat],
 });
 
-export const featureTolocation = ({ coordinates }) => ({
-  lat: coordinates[1],
-  lng: coordinates[0],
-});
+export const featureTolocation = ({ coordinates }) => new LatLng(coordinates[1], coordinates[0]);
 
 export const wktPointToLocation = wktPoint => {
   if (!wktPoint.includes('POINT')) {

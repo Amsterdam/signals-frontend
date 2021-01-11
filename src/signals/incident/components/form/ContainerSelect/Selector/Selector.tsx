@@ -1,4 +1,4 @@
-import { Paragraph, ViewerContainer } from '@amsterdam/asc-ui';
+import { Paragraph, themeColor, ViewerContainer } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 import Map from 'components/Map';
 import L from 'leaflet';
@@ -9,7 +9,7 @@ import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval
 import styled from 'styled-components';
 import ContainerSelectContext from '../context';
 import type { Item, ClickEvent, FeatureType } from '../types';
-import type { MapOptions } from 'leaflet';
+import type { MapOptions, LatLng } from 'leaflet';
 
 import type { WfsLayerProps } from './WfsLayer';
 import WfsLayer from './WfsLayer';
@@ -33,6 +33,24 @@ const Wrapper = styled.div`
 const StyledMap = styled(Map)`
   height: 100%;
   width: 100%;
+
+  .marker-cluster {
+    color: ${themeColor('tint', 'level1')};
+    background-color: ${themeColor('tint', 'level1')};
+    box-shadow: 1px 1px 1px #666666;
+
+    div {
+      width: 32px;
+      height: 32px;
+      margin-top: 4px;
+      margin-left: 4px;
+      background-color: ${themeColor('primary')};
+    }
+
+    span {
+      line-height: 34px;
+    }
+  }
 `;
 
 const unknownFeatureType: FeatureType = {
@@ -116,11 +134,11 @@ const Selector = () => {
   const wfsLayerProps: WfsLayerProps = {
     url: meta?.endpoint ?? '',
     options: {
-      pointToLayer: (feature, latlong) => {
+      pointToLayer: (feature: any, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
-        if (!featureType) return L.marker({ ...latlong, lat: 0, lng: 0 });
+        if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
 
-        return L.marker(latlong, {
+        return L.marker(latlng, {
           icon: L.icon({
             ...featureType.icon.options,
             className: featureType.label,
