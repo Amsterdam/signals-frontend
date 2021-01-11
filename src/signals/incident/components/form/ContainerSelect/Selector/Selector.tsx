@@ -47,13 +47,13 @@ const unknownFeatureType: FeatureType = {
 
 // Temporary selction. Will be removes when selectionfunctionality will be implemented.
 const SELECTED_ITEMS = [
-  { id: 'PL734', type: 'plastic' },
-  { id: 'GLA00137', type: 'glas' },
-  { id: 'BR0234', type: 'brood' },
-  { id: 'PP0234', type: 'papier' },
-  { id: 'TEX0234', type: 'textiel' },
-  { id: 'GFT0234', type: 'gft' },
-  { id: 'RES0234', type: 'restafval' },
+  { id: 'PL734', type: 'Plastic' },
+  { id: 'GLA00137', type: 'Glas' },
+  { id: 'BR0234', type: 'Brood' },
+  { id: 'PP0234', type: 'Papier' },
+  { id: 'TEX0234', type: 'Textiel' },
+  { id: 'GFT0234', type: 'GFT' },
+  { id: 'RES0234', type: 'Rest' },
   { id: 'NOP0234', type: 'not-on-map' },
 ];
 
