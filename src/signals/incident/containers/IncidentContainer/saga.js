@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-react-router/immutable';
 
 import request from 'utils/request';
@@ -8,9 +8,18 @@ import { uploadFile } from 'containers/App/saga';
 import resolveClassification from 'shared/services/resolveClassification';
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params';
 import { isAuthenticated } from 'shared/services/auth/auth';
-import { getClassificationData } from 'signals/incident/containers/IncidentContainer/selectors';
-import { resolveQuestions } from './services';
-import { CREATE_INCIDENT, GET_CLASSIFICATION, GET_QUESTIONS } from './constants';
+import {
+  getClassificationData,
+  makeSelectIncidentContainer,
+} from 'signals/incident/containers/IncidentContainer/selectors';
+import { getIncidentClassification, resolveQuestions } from './services';
+import {
+  CREATE_INCIDENT,
+  GET_CLASSIFICATION,
+  GET_CLASSIFICATION_SUCCESS,
+  GET_QUESTIONS,
+  UPDATE_INCIDENT,
+} from './constants';
 import {
   createIncidentSuccess,
   createIncidentError,
@@ -35,10 +44,6 @@ export function* getClassification(action) {
     );
 
     yield put(getClassificationSuccess(getClassificationData(category, subcategory, categoryData)));
-
-    if (configuration.featureFlags.fetchQuestionsFromBackend) {
-      yield put(getQuestions(resolved));
-    }
   } catch {
     const { category, subcategory } = resolveClassification();
     const categoryData = yield call(
@@ -51,7 +56,12 @@ export function* getClassification(action) {
 }
 
 export function* getQuestionsSaga(action) {
-  const { category, subcategory } = action.payload;
+  const incident = yield select(makeSelectIncidentContainer);
+  const { category, subcategory } =
+    action.type === UPDATE_INCIDENT ? action.payload : getIncidentClassification(incident, action.payload);
+  if (!configuration.featureFlags.fetchQuestionsFromBackend || !category || !subcategory) {
+    return;
+  }
   const url = `${configuration.QUESTIONS_ENDPOINT}?main_slug=${category}&sub_slug=${subcategory}`;
 
   try {
@@ -172,7 +182,7 @@ export function* getPostData(action) {
 export default function* watchIncidentContainerSaga() {
   yield all([
     takeLatest(GET_CLASSIFICATION, getClassification),
-    takeLatest(GET_QUESTIONS, getQuestionsSaga),
+    takeLatest([GET_CLASSIFICATION_SUCCESS, UPDATE_INCIDENT], getQuestionsSaga),
     takeLatest(CREATE_INCIDENT, createIncident),
   ]);
 }
