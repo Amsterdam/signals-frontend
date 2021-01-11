@@ -36,12 +36,12 @@ const getBBox = (mapInstance: Map): string => {
   const southWest = bounds.getSouthWest();
   const northEast = bounds.getNorthEast();
   const wgs84SouthWest = {
-    longitude: southWest.lng,
-    latitude: southWest.lat,
+    lng: southWest.lng,
+    lat: southWest.lat,
   };
   const wgs84NorthEast = {
-    longitude: northEast.lng,
-    latitude: northEast.lat,
+    lng: northEast.lng,
+    lat: northEast.lat,
   };
   const southWestRd = wgs84ToRd(wgs84SouthWest);
   const northEastRd = wgs84ToRd(wgs84NorthEast);
