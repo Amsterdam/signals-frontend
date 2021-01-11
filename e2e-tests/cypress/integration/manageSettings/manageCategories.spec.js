@@ -116,7 +116,8 @@ describe('Manage categories', () => {
     });
 
     it('Should describe the signal', () => {
-      cy.getMapRoute();
+      cy.stubPreviewMap();
+      cy.stubMap();
       cy.postSignalRoutePrivate();
 
       createSignal.setDescriptionPage(fixturePath);
@@ -128,7 +129,6 @@ describe('Manage categories', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
@@ -139,6 +139,7 @@ describe('Manage categories', () => {
     });
     it('Should show the change in category description', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');

@@ -62,10 +62,6 @@ Cypress.Commands.add('getManageSignalsRoutes', () => {
   cy.intercept('**/me/').as('getUserInfo');
 });
 
-Cypress.Commands.add('getMapRoute', () => {
-  cy.intercept('**/maps/topografie?bbox=**').as('getMap');
-});
-
 Cypress.Commands.add('getOpenbareVerlichtingRoute', () => {
   cy.intercept('**/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as('getOpenbareVerlichting');
 });
@@ -174,19 +170,20 @@ Cypress.Commands.add('standaardtekstenRoutes', () => {
   cy.intercept('POST', '**/overlast-van-dieren/sub_categories/duiven/**').as('PostDuiven');
 });
 
-Cypress.Commands.add('stubPrediction', fixture => {
-  cy.intercept('POST', '**/prediction', { fixture: `predictions/${fixture}` }).as('getPrediction');
+Cypress.Commands.add('stubAddress', fixture => {
+  cy.intercept('GET', '/locatieserver/v3', { fixture: `addresses/${fixture}` }).as('getAddress');
 });
 
-Cypress.Commands.add('stubAddress', fixture => {
-  const staticResponse = {
-    headers: {
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, HEAD',
-      'Access-Control-Allow-Headers': 'SOAPAction,X-Requested-With,Content-Type,Origin,Authorization,Accept',
-    }
-  };
-  cy.intercept('OPTIONS', '/locatieserver/v3/', staticResponse);
-  cy.intercept('GET', '/locatieserver/v3', { fixture: `addresses/${fixture}` }).as('getAddress');
+Cypress.Commands.add('stubMap', () => {
+  cy.intercept('**/**.data.amsterdam.nl/topo_rd/**', { fixture: 'images/map.png' }).as('getMap');
+});
+
+Cypress.Commands.add('stubPreviewMap', () => {
+  cy.intercept('**/maps/topografie?bbox=**', { fixture: 'images/PreviewMap.jpeg' }).as('getPreviewMap');
+});
+
+Cypress.Commands.add('stubPrediction', fixture => {
+  cy.intercept('POST', '**/prediction', { fixture: `predictions/${fixture}` }).as('getPrediction');
 });
 
 Cypress.Commands.add('waitForCategoriesRoutes', () => {

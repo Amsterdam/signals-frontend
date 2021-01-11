@@ -16,7 +16,8 @@ describe('Change a signal before submit and check signal details', () => {
     before(() => {
       cy.postSignalRoutePublic();
       cy.getOpenbareVerlichtingRoute();
-      cy.getMapRoute();
+      cy.stubPreviewMap();
+      cy.stubMap();
       cy.visit('incident/beschrijf');
     });
 
@@ -41,14 +42,14 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.setEmailAddress(fixturePath01);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath01);
       createSignal.checkQuestions(fixturePath01);
       cy.get(CREATE_SIGNAL.imageFileUpload).should('not.exist');
     });
 
     it('Should change location, description, phonenumer and email address', () => {
-      cy.getMapRoute();
+      cy.stubPreviewMap();
+      cy.stubMap();
 
       // Go to first step of signal creation and change signal information
       cy.get(CREATE_SIGNAL.linkChangeSignalInfo).click();
@@ -63,11 +64,10 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.setEmailAddress(fixturePath02);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath02);
     });
     it('Should edit phonenumber and email address', () => {
-      cy.getMapRoute();
+      cy.stubPreviewMap();
       // Go to the phonenumber page and change phonenumber
       cy.get(CREATE_SIGNAL.linkChangePhoneNumber).click();
       createSignal.setPhonenumber(fixturePath03);
@@ -76,18 +76,16 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.setEmailAddress(fixturePath03);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath03);
     });
     it('Should edit email address', () => {
-      cy.getMapRoute();
+      cy.stubPreviewMap();
       cy.postSignalRoutePublic();
       // Go to the email address page and change emailaddress
       cy.get(CREATE_SIGNAL.linkChangeEmailAddress).click();
       createSignal.setEmailAddress(fixturePath04);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath04);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
