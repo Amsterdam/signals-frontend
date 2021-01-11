@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import type { Container } from 'shared/types/incident';
 
 import ContainerList from '../../../form/ContainerSelect/ContainerList';
 
@@ -9,8 +10,8 @@ jest.mock('../../../form/ContainerSelect/ContainerList', () => jest.fn().mockImp
 
 describe('ContainerListPreview', () => {
   it('should render ContainerList with props', () => {
-    const props = {
-      value: [{ id: 'id', description: 'description', iconUrl: 'iconUrl' }],
+    const props: {value: Container[]} = {
+      value: [{ id: 'id', type: 'type', description: 'description', iconUrl: 'iconUrl' }],
     };
 
     render(<ContainerListPreview value={props.value} />);
