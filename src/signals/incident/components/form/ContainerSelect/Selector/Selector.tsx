@@ -1,7 +1,7 @@
 import { Paragraph, ViewerContainer } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 import Map from 'components/Map';
-import L, { DomEvent } from 'leaflet';
+import L from 'leaflet';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
@@ -128,23 +128,6 @@ const Selector = () => {
           }),
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           alt: feature.properties[featureType.idField] as string,
-        });
-      },
-
-      onEachFeature: (feature, layer) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const item = feature.properties;
-        const featureType = getFeatureType(feature);
-        if (!featureType) return;
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        const id = item[featureType.idField];
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        const typeValue = item[featureType.typeField];
-        layer.bindPopup(`<p>Id: ${id}</p><p>Display: ${typeValue}</p>`);
-        layer.on('click', event => {
-          if (DomEvent) DomEvent.stopPropagation(event);
-          layer.openPopup();
         });
       },
     },
