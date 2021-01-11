@@ -18,13 +18,16 @@ describe('Form component <PlainText />', () => {
     value: 'Lorem Ipsum',
     isVisible: true,
   };
+  const incidentId = 666;
 
   const getProps = (meta = metaProps) => ({
     meta,
     parent: {
       meta: {
-        incident: {
-          id: 666,
+        incidentContainer: {
+          incident: {
+            id: incidentId,
+          },
         },
       },
     },
@@ -172,15 +175,18 @@ describe('Form component <PlainText />', () => {
 
     it('should render markdown when fetchQuestionsFromBackend enabled', () => {
       configuration.featureFlags.fetchQuestionsFromBackend = true;
+      const injection = '{incident.id}';
       const props = getProps({
         ...metaProps,
-        value: '# Header\n[this](https://example.com) link',
+        value: `# Header\n[this](https://example.com) link\nInjected: ${injection}`,
       });
 
       const { queryByTestId, queryByText } = render(withAppContext(<PlainText {...props} />));
       expect(screen.getByRole('heading', { name: 'Header' })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'this' })).toBeInTheDocument();
       expect(screen.queryByText('# Header', { exact: false })).not.toBeInTheDocument();
+      expect(screen.getByText(incidentId.toString(), { exact: false })).toBeInTheDocument();
+      expect(screen.queryByText(injection, { exact: false })).not.toBeInTheDocument();
     });
 
     it('should render no plain text when not visible', () => {

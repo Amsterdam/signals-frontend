@@ -30,6 +30,9 @@ const Span = styled.span`
         `}
 `;
 
+const injectParent = (value, parent) =>
+  mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
+
 const renderText = (value, parent) => {
   if (React.isValidElement(value)) {
     return value;
@@ -109,7 +112,7 @@ const PlainText = ({ className, meta, parent }) =>
       {meta.label && <Label>{meta.label}</Label>}
 
       {configuration.featureFlags.fetchQuestionsFromBackend && meta.value && (
-        <ReactMarkdown linkTarget="_blank">{meta.value}</ReactMarkdown>
+        <ReactMarkdown linkTarget="_blank">{injectParent(meta.value, parent)}</ReactMarkdown>
       )}
 
       {!configuration.featureFlags.fetchQuestionsFromBackend && meta.value && isString(meta.value) && (
