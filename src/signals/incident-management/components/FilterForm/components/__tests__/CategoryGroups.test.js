@@ -8,9 +8,7 @@ import CategoryGroups from '../CategoryGroups';
 
 describe('signals/incident-management/components/FilterForm/components/CategoryGroups', () => {
   const mainCatSlug = 'afval';
-  const mainCategory = mainCategories.filter(
-    ({ slug }) => slug === mainCatSlug
-  );
+  const mainCategory = mainCategories.filter(({ slug }) => slug === mainCatSlug);
   const subsByMain = subCategories.filter(({ _links }) =>
     _links['sia:parent'].public.endsWith('wegen-verkeer-straatmeubilair')
   );
@@ -19,15 +17,12 @@ describe('signals/incident-management/components/FilterForm/components/CategoryG
     const filterSlugs = subsByMain.concat(mainCategory);
     filterSlugs[0].id = filterSlugs[0].key;
     delete filterSlugs[0].key;
+    delete filterSlugs[1]._links.self.public;
 
     const { getAllByTestId } = render(
-      withAppContext(
-        <CategoryGroups categories={categories} filterSlugs={filterSlugs} />
-      )
+      withAppContext(<CategoryGroups categories={categories} filterSlugs={filterSlugs} />)
     );
 
-    expect(getAllByTestId('checkboxList')).toHaveLength(
-      Object.keys(categories).length
-    );
+    expect(getAllByTestId('checkboxList')).toHaveLength(Object.keys(categories).length);
   });
 });
