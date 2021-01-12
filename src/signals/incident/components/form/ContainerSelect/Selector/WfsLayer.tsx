@@ -1,78 +1,13 @@
 import { useMapInstance } from '@amsterdam/react-maps';
-import L from 'leaflet';
 import type { Point, FeatureCollection } from 'geojson';
-import type { GeoJSON as GeoJSONLayer, LatLng, Map } from 'leaflet';
-import React, { useEffect, useState } from 'react';
-import { fetchWithAbort } from '@amsterdam/arm-core';
-import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
-import MarkerCluster from 'signals/incident-management/containers/IncidentOverviewPage/components/OverviewMap/components/MarkerCluster';
+import type { GeoJSON as GeoJSONLayer } from 'leaflet';
+import React, { useCallback, useEffect, useState } from 'react';
 import { featureTolocation } from 'shared/services/map-location';
-
-export const MIN_ZOOM_LEVEL = 22;
-export const MAX_ZOOM_LEVEL = 0;
-
-const NO_DATA: FeatureCollection = {
-  type: 'FeatureCollection',
-  features: [],
-};
-
-export interface ZoomLevel {
-  min?: number;
-  max?: number;
-}
-
-export interface WfsLayerProps {
-  url: string;
-  options: {
-    pointToLayer: (feature: any, latlng: LatLng) => L.Marker;
-  };
-  zoomLevel: ZoomLevel;
-}
-
-const isVisible = (mapInstance: Map, zoomLevel: ZoomLevel) => {
-  const { min, max } = zoomLevel;
-  const zoom = mapInstance.getZoom();
-  return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
-};
-
-const clusterLayerOptions: L.MarkerClusterGroupOptions = {
-  showCoverageOnHover: false,
-  zoomToBoundsOnClick: true,
-  chunkedLoading: true,
-
-  iconCreateFunction: cluster => {
-    const childCount = cluster.getChildCount();
-
-    return new L.DivIcon({
-      html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-      className: 'marker-cluster',
-      iconSize: new L.Point(40, 40),
-    });
-  },
-};
-
-
-const getBBox = (mapInstance: Map): string => {
-  const bounds = mapInstance.getBounds();
-  const southWest = bounds.getSouthWest();
-  const northEast = bounds.getNorthEast();
-  const wgs84SouthWest = {
-    lng: southWest.lng,
-    lat: southWest.lat,
-  };
-  const wgs84NorthEast = {
-    lng: northEast.lng,
-    lat: northEast.lat,
-  };
-  const southWestRd = wgs84ToRd(wgs84SouthWest);
-  const northEastRd = wgs84ToRd(wgs84NorthEast);
-
-  const bbox = `${southWestRd.x},${southWestRd.y},${northEastRd.x},${northEastRd.y}`;
-
-  return `&${L.Util.getParamString({
-    bbox,
-  }).substring(1)}`;
-};
+import ContainerLayer from './MarkerCluster';
+import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@amsterdam/arm-core/lib/constants';
+import type { WfsLayerProps } from './types';
+import { NO_DATA } from './types';
+import { useFetch } from 'hooks';
 
 const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
   const mapInstance = useMapInstance();
@@ -80,9 +15,21 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
   const [bbox, setBbox] = useState('');
   const [data, setData] = useState<FeatureCollection>(NO_DATA);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const {
+    data: response,
+    error,
+    get,
+  }: { data: any; error: any; get: (url: string, params: any, options: any) => void } = useFetch();
+
+  const isVisible = useCallback((zoom: number) => {
+    const { min, max } = zoomLevel;
+    return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
+  }, [zoomLevel]);
+
   useEffect(() => {
     function onMoveEnd() {
-      setBbox(getBBox(mapInstance));
+      setBbox(options.getBBox(mapInstance));
     }
 
     mapInstance.on('moveend', onMoveEnd);
@@ -90,41 +37,36 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
     return () => {
       mapInstance.off('moveend', onMoveEnd);
     };
-  }, [mapInstance]);
+  }, [mapInstance, options]);
 
   useEffect(() => {
-    if (!isVisible(mapInstance, zoomLevel)) {
+    if (!isVisible(mapInstance.getZoom())) {
       setData(NO_DATA);
       return;
     }
 
-    const extent = bbox || getBBox(mapInstance);
-    const [request, controller] = fetchWithAbort(`${url}${extent}`);
+    const extent = bbox || options.getBBox(mapInstance);
 
-    request
-      .then(async res => res.json())
-      .then(res => { setData(res); return null; })
-      .catch(async error => {
-        // Ignore abort errors since they are expected to happen.
-        if (error instanceof Error && error.name === 'AbortError') {
-          // eslint-disable-next-line promise/no-return-wrap
-          return Promise.resolve(null);
-        }
-
-        // eslint-disable-next-line promise/no-return-wrap
-        return Promise.reject(error);
-      });
-
-    return () => { controller.abort(); };
-  }, [bbox, mapInstance, url, zoomLevel]);
+    // remove the authorization because we are requesting public json data
+    get(`${url}${extent}`, {}, { headers: { Authorization: '' } });
+  }, [bbox, get, isVisible, mapInstance, options, url]);
 
   useEffect(() => {
-    if (layerInstance) {
+    if (response === undefined || error) {
+      setData(NO_DATA);
+      return;
+    }
+
+    setData(response);
+  }, [response, error]);
+
+  useEffect(() => {
+    if (layerInstance && data) {
       layerInstance.clearLayers();
       data.features.forEach(feature => {
         const coordinates = (feature.geometry as Point).coordinates;
         const latlng = featureTolocation({ coordinates });
-        const clusteredMarker = options.pointToLayer(feature, latlng);
+        const clusteredMarker = options.getMarker(feature, latlng);
         if (clusteredMarker) layerInstance.addLayer(clusteredMarker);
       });
     }
@@ -137,7 +79,7 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
     };
   }, [layerInstance, data, options]);
 
-  return <MarkerCluster clusterOptions={clusterLayerOptions} setInstance={setLayerInstance} />;
+  return <ContainerLayer setLayerInstance={setLayerInstance} />;
 };
 
 export default WfsLayer;

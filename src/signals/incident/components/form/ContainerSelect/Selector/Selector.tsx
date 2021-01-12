@@ -9,10 +9,11 @@ import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval
 import styled from 'styled-components';
 import ContainerSelectContext from '../context';
 import type { Item, ClickEvent, FeatureType } from '../types';
-import type { MapOptions, LatLng } from 'leaflet';
+import type { MapOptions, LatLng, Map as MapType } from 'leaflet';
 
-import type { WfsLayerProps } from './WfsLayer';
 import WfsLayer from './WfsLayer';
+import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
+import type { WfsLayerProps } from './types';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -83,15 +84,19 @@ const Selector = () => {
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
   const featureTypes = useMemo(() => meta && [...meta.featureTypes, unknownFeatureType] || [], [meta]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const mapOptions: MapOptions = {
-    ...MAP_OPTIONS,
-    center: location?.reverse(),
-    zoomControl: false,
-    minZoom: 10,
-    maxZoom: 15,
-    zoom: 14,
-  };
+  const mapOptions = useMemo<MapOptions>(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    () => ({
+      ...MAP_OPTIONS,
+      center: location?.reverse(),
+      zoomControl: false,
+      minZoom: 10,
+      maxZoom: 15,
+      zoom: 14,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const [, setMap] = useState();
 
@@ -134,7 +139,7 @@ const Selector = () => {
   const wfsLayerProps: WfsLayerProps = {
     url: meta?.endpoint ?? '',
     options: {
-      pointToLayer: (feature: any, latlng: LatLng) => {
+      getMarker: (feature: any, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
 
@@ -147,6 +152,17 @@ const Selector = () => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           alt: feature.properties[featureType.idField] as string,
         });
+      },
+      getBBox: (mapInstance: MapType): string => {
+        const bounds = mapInstance.getBounds();
+        const southWestRd = wgs84ToRd(bounds.getSouthWest());
+        const northEastRd = wgs84ToRd(bounds.getNorthEast());
+
+        const bbox = `${southWestRd.x},${southWestRd.y},${northEastRd.x},${northEastRd.y}`;
+
+        return `&${L.Util.getParamString({
+          bbox,
+        }).substring(1)}`;
       },
     },
     zoomLevel: { max: 7 },
