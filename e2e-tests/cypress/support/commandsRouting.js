@@ -179,7 +179,7 @@ Cypress.Commands.add('stubMap', () => {
 });
 
 Cypress.Commands.add('stubPreviewMap', () => {
-  cy.intercept('**/maps/topografie?bbox=**', { fixture: 'images/PreviewMap.jpeg' }).as('getPreviewMap');
+  cy.intercept('**/maps/topografie?bbox=**', { fixture: 'images/mapPreview.jpeg' }).as('getPreviewMap');
 });
 
 Cypress.Commands.add('stubPrediction', fixture => {
