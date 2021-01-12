@@ -14,7 +14,17 @@ const contextValue = {
       iconUrl: '',
     },
   ],
-  meta: null,
+  meta: {
+    featureTypes: [
+      {
+        label: 'Plastic',
+        description: 'Plastic container',
+        idField: 'id',
+        typeField: 'type',
+        typeValue: 'plastic',
+      },
+    ],
+  },
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
