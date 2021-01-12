@@ -41,6 +41,25 @@ describe('src/components/AutoSuggest', () => {
     const input = container.querySelector('input');
     expect(input).toBeInTheDocument();
     expect(input.getAttribute('aria-autocomplete')).toEqual('list');
+    expect(input.getAttribute('id')).toBe('');
+    expect(input.hasAttribute('disabled')).toBe(false);
+  });
+
+  it('should set an id on the input field', () => {
+    const id = 'id';
+    const { container } = render(withAppContext(<AutoSuggest {...{ ...props, id }} />));
+
+    const input = container.querySelector('input');
+    expect(input).toBeInTheDocument();
+    expect(input.getAttribute('id')).toEqual(id);
+  });
+
+  it('should disable the input field', () => {
+    const { container } = render(withAppContext(<AutoSuggest {...{ ...props, disabled: true }} />));
+
+    const input = container.querySelector('input');
+    expect(input).toBeInTheDocument();
+    expect(input.hasAttribute('disabled')).toBe(true);
   });
 
   it('should request external service', async () => {
@@ -476,9 +495,7 @@ describe('src/components/AutoSuggest', () => {
 
   it('should call onClear', async () => {
     const onClear = jest.fn();
-    const { container, findByTestId } = render(
-      withAppContext(<AutoSuggest {...props} onClear={onClear} />)
-    );
+    const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} onClear={onClear} />));
     const input = container.querySelector('input');
 
     act(() => {

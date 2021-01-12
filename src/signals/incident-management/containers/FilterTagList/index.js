@@ -7,8 +7,9 @@ import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
-import dataLists from 'signals/incident-management/definitions';
+import configuration from 'shared/services/configuration/configuration';
 import { dataListType, filterType } from 'shared/types';
+import dataLists from 'signals/incident-management/definitions';
 
 import { makeSelectDirectingDepartments } from 'models/departments/selectors';
 import AppContext from '../../../../containers/App/context';
@@ -89,7 +90,23 @@ const renderTag = (key, mainCategories, list) => {
 export const FilterTagListComponent = props => {
   const { tags, mainCategories, subCategories, directingDepartments } = props;
   const { sources } = useContext(AppContext);
-  const { districts } = useContext(IncidentManagementContext);
+  const { districts, users } = useContext(IncidentManagementContext);
+
+  const userOptions = useMemo(
+    () =>
+      configuration.featureFlags.assignSignalToEmployee &&
+      users && [
+        {
+          key: 'null',
+          value: 'Niet toegewezen',
+        },
+        ...users.map(user => ({
+          key: user.username,
+          value: user.username,
+        })),
+      ],
+    [users]
+  );
 
   const map = {
     ...dataLists,
@@ -98,6 +115,7 @@ export const FilterTagListComponent = props => {
     category_slug: subCategories,
     source: sources,
     directing_department: directingDepartments,
+    assigned_user_email: userOptions,
   };
 
   const tagsList = { ...tags };
