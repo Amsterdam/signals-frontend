@@ -130,15 +130,13 @@ export const checkRedTextStatus = status => {
 
 export const checkQuestions = fixturePath => {
   cy.fixture(fixturePath).then(json => {
-    // eslint-disable-next-line no-unused-vars
-    Object.entries(json.extra_properties).forEach(([keyA, valueA]) => {
+    Object.entries(json.extra_properties).forEach(([, valueA]) => {
       cy.contains(valueA.label);
       if (valueA.answer.label) {
         cy.contains(valueA.answer.label);
       }
       else if (Array.isArray(valueA.answer)) {
-        // eslint-disable-next-line no-unused-vars
-        Object.entries(valueA.answer).forEach(([keyB, valueB]) => {
+        Object.entries(valueA.answer).forEach(([, valueB]) => {
           cy.contains(valueB.label);
         });
       }

@@ -85,6 +85,7 @@ describe('Manage departments', () => {
     describe('Change signal category', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+        cy.stubPreviewMap();
         cy.getManageSignalsRoutes();
         cy.getSignalDetailsRoutesById();
         cy.visit('/manage/incidents/');
@@ -114,6 +115,7 @@ describe('Manage departments', () => {
     describe('Should change signal again and check responsible department', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+        cy.stubPreviewMap();
         cy.getManageSignalsRoutes();
         cy.getSignalDetailsRoutesById();
         cy.visit('/manage/incidents/');

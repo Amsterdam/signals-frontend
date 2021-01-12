@@ -17,7 +17,8 @@ describe('Change signal after submit', () => {
   describe('Create signal in category "Graffiti"', () => {
     before(() => {
       cy.postSignalRoutePublic();
-      cy.getMapRoute();
+      cy.stubPreviewMap();
+      cy.stubMap();
       cy.visit('incident/beschrijf');
     });
 
@@ -31,7 +32,6 @@ describe('Change signal after submit', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
@@ -44,6 +44,7 @@ describe('Change signal after submit', () => {
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
@@ -60,6 +61,7 @@ describe('Change signal after submit', () => {
   describe('Change signal data', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');

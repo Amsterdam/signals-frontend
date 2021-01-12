@@ -510,13 +510,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect([...checkboxes].every(element => !element.checked)).toEqual(true);
 
     await act(async () => {
-      fireEvent.click(checkboxes[3]);
+      fireEvent.click(checkboxes[1]);
     });
 
     await findByTestId('sourceCheckboxGroup');
 
     expect([...checkboxes].every(element => !element.checked)).toEqual(false);
-    expect(checkboxes[3].checked).toEqual(true);
+    expect(checkboxes[1].checked).toEqual(true);
   });
 
   describe('submit', () => {
