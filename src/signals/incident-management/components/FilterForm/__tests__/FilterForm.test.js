@@ -18,7 +18,6 @@ import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 import users from 'utils/__tests__/fixtures/users.json';
 
-import jsonResponse from './mockResponse.json';
 import FilterForm from '..';
 import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
 import IncidentManagementContext from '../../../context';
@@ -35,8 +34,12 @@ jest.mock('models/categories/selectors', () => ({
 
 jest.spyOn(store, 'dispatch');
 
-const mockResponse = JSON.stringify(jsonResponse);
 const usersFixture = users.results.slice(0, 5);
+const jsonResponse = {
+  count: 2,
+  results: [usersFixture[3], usersFixture[1]],
+};
+const mockResponse = JSON.stringify(jsonResponse);
 
 const formProps = {
   onClearFilter: () => {},
