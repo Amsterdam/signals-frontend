@@ -17,6 +17,7 @@ const fixturePath = '../fixtures/signals/wonenOverig.json';
 describe('Create signal "Wonen woning overig" and check signal details', () => {
   describe('Create signal wonen overig', () => {
     before(() => {
+      cy.stubMap();
       cy.visit('incident/beschrijf');
     });
 
@@ -241,7 +242,7 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
     });
 
     it('Should show specific questions criminal', () => {
-      cy.getMapRoute();
+      cy.stubPreviewMap();
       cy.postSignalRoutePublic();
       // Criminal
       cy.get(WONEN_OVERIG.radioButtonCrimineleBewoning).check({ force: true }).should('be.checked');
@@ -292,7 +293,6 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
@@ -313,6 +313,7 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
     });
 
     it('Should show the signal details', () => {
+      cy.stubPreviewMap();
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
