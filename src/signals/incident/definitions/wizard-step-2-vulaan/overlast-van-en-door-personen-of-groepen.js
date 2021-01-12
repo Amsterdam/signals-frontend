@@ -24,17 +24,8 @@ export const controls = {
         subcategory: 'jongerenoverlast',
       },
       type: 'caution',
-      value: [
-        <DefinitionComponents.Concat
-          items={[
-            'Weet u de naam van de jongere(n)? Gebruik dan het formulier ',
-            <DefinitionComponents.Anchor href="https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/">
-              Melding zorg en woonoverlast
-            </DefinitionComponents.Anchor>,
-            '. Dan komt uw melding direct bij het juiste team terecht.',
-          ]}
-        />,
-      ],
+      value:
+        'Weet u de naam van de jongere(n)? Gebruik dan het formulier [Melding zorg en woonoverlast](https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/). Dan komt uw melding direct bij het juiste team terecht.',
     },
     render: FormComponents.PlainText,
   },

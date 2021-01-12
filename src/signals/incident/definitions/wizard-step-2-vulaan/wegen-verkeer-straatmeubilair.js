@@ -63,13 +63,10 @@ export const controls = {
         subcategory: 'gladheid',
       },
       type: 'caution',
-      value: [
-        'Let op:',
-        'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:',
-        <DefinitionComponents.Anchor href="http://gvb.nl/klantenservice" target="_blank" className="more-link">
-          gvb.nl/klantenservice
-        </DefinitionComponents.Anchor>,
-      ],
+      value: `
+Let op:
+
+Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB: [gvb.nl/klantenservice](https://gvb.nl/klantenservice)`,
       pathMerge: 'extra_properties',
     },
     render: FormComponents.PlainText,
