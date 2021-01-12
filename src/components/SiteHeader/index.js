@@ -217,7 +217,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
         </Fragment>
       )}
       <MenuItem element="span">
-        <StyledMenuButton forwardedAs={NavLink} to="/incident/beschrijf">
+        <StyledMenuButton forwardedAs="a" href="/incident/beschrijf">
           Melden
         </StyledMenuButton>
       </MenuItem>
