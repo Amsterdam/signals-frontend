@@ -1,13 +1,12 @@
 import { useMapInstance } from '@amsterdam/react-maps';
-import type { FeatureCollection } from 'geojson';
+import L from 'leaflet';
+import type { Point, FeatureCollection } from 'geojson';
 import type { GeoJSON as GeoJSONLayer, LatLng, Map } from 'leaflet';
 import React, { useEffect, useState } from 'react';
 import { fetchWithAbort } from '@amsterdam/arm-core';
-import L from 'leaflet';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 import MarkerCluster from 'signals/incident-management/containers/IncidentOverviewPage/components/OverviewMap/components/MarkerCluster';
 import { featureTolocation } from 'shared/services/map-location';
-import type { Geometrie } from 'types/incident';
 
 export const MIN_ZOOM_LEVEL = 22;
 export const MAX_ZOOM_LEVEL = 0;
@@ -36,14 +35,13 @@ const isVisible = (mapInstance: Map, zoomLevel: ZoomLevel) => {
   return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
 };
 
-const clusterLayerOptions = {
+const clusterLayerOptions: L.MarkerClusterGroupOptions = {
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
   chunkedLoading: true,
 
-  iconCreateFunction: (cluster: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    const childCount = cluster.getChildCount() as number;
+  iconCreateFunction: cluster => {
+    const childCount = cluster.getChildCount();
 
     return new L.DivIcon({
       html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
@@ -76,12 +74,6 @@ const getBBox = (mapInstance: Map): string => {
   }).substring(1)}`;
 };
 
-
-/**
- * WfsLayer component should be only used when the api provides wfs capabilities for spatial queries
- * The data is requested on each map action (pan, zoom)
- *
- */
 const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
   const mapInstance = useMapInstance();
   const [layerInstance, setLayerInstance] = useState<GeoJSONLayer>();
@@ -130,11 +122,9 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
     if (layerInstance) {
       layerInstance.clearLayers();
       data.features.forEach(feature => {
-        const coordinates = (feature.geometry as Geometrie).coordinates;
+        const coordinates = (feature.geometry as Point).coordinates;
         const latlng = featureTolocation({ coordinates });
-
         const clusteredMarker = options.pointToLayer(feature, latlng);
-
         if (clusteredMarker) layerInstance.addLayer(clusteredMarker);
       });
     }
