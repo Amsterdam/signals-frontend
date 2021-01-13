@@ -35,8 +35,8 @@ describe('isLayerVisible', () => {
 });
 
 describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer.tsx', () => {
-  let mockedGetBBox = jest.fn();
-  let mockedGetMarker = jest.fn();
+  const mockedGetBBox = jest.fn();
+  const mockedGetMarker = jest.fn();
   let wfsLayerProps: WfsLayerProps;
 
   beforeEach(() => {

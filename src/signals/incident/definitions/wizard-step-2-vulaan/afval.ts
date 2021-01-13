@@ -1,3 +1,4 @@
+import type { IconOptions } from 'leaflet';
 import { Validators } from 'react-reactive-form';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
@@ -5,7 +6,7 @@ import * as afvalIcons from './afval-icons';
 
 export const ICON_SIZE = 40;
 
-const options = {
+const options: Partial<IconOptions> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
 };
