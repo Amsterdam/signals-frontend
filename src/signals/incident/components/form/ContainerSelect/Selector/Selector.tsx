@@ -14,6 +14,17 @@ import type { MapOptions, LatLng, Map as MapType } from 'leaflet';
 import WfsLayer from './WfsLayer';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 import type { WfsLayerProps } from './types';
+import {
+  MapPanel,
+  MapPanelContent,
+  MapPanelContext,
+  MapPanelDrawer,
+  MapPanelLegendButton,
+  MapPanelProvider,
+} from '@amsterdam/arm-core';
+import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
+import Legend from '../Legend/Legend';
+import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -54,8 +65,23 @@ const StyledMap = styled(Map)`
   }
 `;
 
+const StyledViewerContainer = styled(ViewerContainer)<{ leftOffset: string }>`
+  left: ${({ leftOffset }) => leftOffset};
+`;
+
+const ViewerContainerWithMapDrawerOffset: React.FC = props => {
+  const { drawerPosition } = useContext(MapPanelContext);
+
+  return <StyledViewerContainer {...props} leftOffset={drawerPosition} />;
+};
+
+const LegendButtonWrapper = styled.div`
+  z-index: 400;
+`;
+
 const unknownFeatureType: FeatureType = {
   description: 'De container staat niet op de kaart',
+  label: 'Onbekend',
   icon: {
     iconSvg: unknown,
   },
@@ -83,6 +109,10 @@ const Selector = () => {
 
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
   const featureTypes = useMemo(() => meta && [...meta.featureTypes, unknownFeatureType] || [], [meta]);
+  const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
+  const panelVariant = showDesktopVariant ? 'drawer' : 'panel';
+
+  const Panel = showDesktopVariant ? MapPanel : MapPanelDrawer;
 
   const mapOptions = useMemo<MapOptions>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -98,6 +128,7 @@ const Selector = () => {
     []
   );
 
+  const [currentOverlay, setCurrentOverlay] = useState<Overlay>(Overlay.None);
   const [, setMap] = useState();
 
   const addContainer = useCallback<ClickEvent>(
@@ -171,20 +202,52 @@ const Selector = () => {
   return ReactDOM.createPortal(
     <Wrapper>
       <StyledMap data-testid="map" hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
-        <ViewerContainer
-          topLeft={
-            <ButtonBar>
-              <div>
-                <Button onClick={addContainer}>Container toevoegen</Button>
-                <Button onClick={removeContainer}>Container verwijderen</Button>
-                <Button onClick={close}>Meld deze container/Sluiten</Button>
-              </div>
-              <Paragraph as="h6">
-                Geselecteerd: {selection ? `[${selection.reduce((res, { id }) => `${res},${id}`, '')}]` : '<geen>'}
-              </Paragraph>
-            </ButtonBar>
-          }
-        />
+        <MapPanelProvider
+          mapPanelDrawerSnapPositions={{
+            [SnapPoint.Closed]: '30px',
+            [SnapPoint.Halfway]: '50%',
+            [SnapPoint.Full]: '100%',
+          }}
+          variant={panelVariant}
+          initialPosition={SnapPoint.Closed}
+        >
+          <ViewerContainerWithMapDrawerOffset
+            bottomLeft={
+              <LegendButtonWrapper>
+                <MapPanelLegendButton
+                  showDesktopVariant={showDesktopVariant}
+                  currentOverlay={currentOverlay}
+                  setCurrentOverlay={setCurrentOverlay}
+                />
+              </LegendButtonWrapper>
+            }
+            topLeft={
+              <ButtonBar>
+                <div>
+                  <Button onClick={addContainer}>Container toevoegen</Button>
+                  <Button onClick={removeContainer}>Container verwijderen</Button>
+                  <Button onClick={close}>Meld deze container/Sluiten</Button>
+                </div>
+                <Paragraph as="h6">
+                  Geselecteerd: {selection ? `[${selection.reduce((res, { id }) => `${res},${id}`, '')}]` : '<geen>'}
+                </Paragraph>
+              </ButtonBar>
+            }
+          />
+          <Panel>
+            <MapPanelContent variant={panelVariant} title="Legenda">
+              {meta &&
+                <Legend
+                  items={meta.featureTypes.map(featureType => ({
+                    label: featureType.label,
+                    iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+                    id: featureType.typeValue,
+                  }))}
+                />
+              }
+            </MapPanelContent>
+          </Panel>
+        </MapPanelProvider>
         <WfsLayer {...wfsLayerProps}></WfsLayer>
       </StyledMap>
     </Wrapper>,

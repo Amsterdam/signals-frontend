@@ -10,8 +10,8 @@ export interface Item {
 }
 
 export interface FeatureType {
-  label?: string;
-  description?: string;
+  label: string;
+  description: string;
   icon: FeatureIcon;
   idField: string;
   typeField: string;
