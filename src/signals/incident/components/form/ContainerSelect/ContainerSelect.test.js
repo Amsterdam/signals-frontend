@@ -1,8 +1,17 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
+import ReactDOM from 'react-dom';
+import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import { withAppContext } from 'test/utils';
-
+import WfsLayer from './Selector/WfsLayer';
 import ContainerSelect from './ContainerSelect';
+
+// prevent fetch requests that we don't need to verify
+jest.mock('./Selector/WfsLayer', () => () => <span data-testid="wfsLayer" />);
+
+ReactDOM.createPortal = node => node;
+
+
 describe('signals/incident/components/form/ContainerSelect', () => {
   let props;
   const updateIncident = jest.fn();
@@ -13,7 +22,10 @@ describe('signals/incident/components/form/ContainerSelect', () => {
         value: null,
       }),
       parent: {
-        meta: { updateIncident },
+        meta: {
+          incidentContainer: { incident: incidentJson },
+          updateIncident,
+        },
       },
     };
   });

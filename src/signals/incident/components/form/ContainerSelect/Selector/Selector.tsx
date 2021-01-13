@@ -168,8 +168,8 @@ const Selector = () => {
   };
 
   const mapWrapper =
-    <Wrapper>
-      <StyledMap data-testid="map" hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
+    <Wrapper data-testid="containerSelectSelector" >
+      <StyledMap hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
         <ViewerContainer
           topLeft={
             <ButtonBar>

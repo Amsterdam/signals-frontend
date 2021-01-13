@@ -47,7 +47,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
   it('should render the component', async() => {
     render(withContext(<Selector />));
 
-    expect(await screen.findByTestId('map')).toBeInTheDocument();
+    expect(await screen.findByTestId('containerSelectSelector')).toBeInTheDocument();
     expect(screen.queryByText(/container toevoegen/i)).toBeInTheDocument();
     expect(screen.queryByText(/container verwijderen/i)).toBeInTheDocument();
     expect(screen.queryByText(/meld deze container\/sluiten/i)).toBeInTheDocument();
