@@ -8,21 +8,24 @@ export interface Props {
 }
 
 const MarkerCluster: FunctionComponent<Props> = ({ setLayerInstance }) => {
-  const clusterOptions = useMemo<L.MarkerClusterGroupOptions>(() => ({
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: true,
-    chunkedLoading: true,
+  const clusterOptions = useMemo<L.MarkerClusterGroupOptions>(
+    () => ({
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      chunkedLoading: true,
 
-    iconCreateFunction: cluster => {
-      const childCount = cluster.getChildCount();
+      iconCreateFunction: /* istanbul ignore next */ cluster => {
+        const childCount = cluster.getChildCount();
 
-      return new L.DivIcon({
-        html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-        className: 'marker-cluster',
-        iconSize: new L.Point(40, 40),
-      });
-    },
-  }), []);
+        return new L.DivIcon({
+          html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
+          className: 'marker-cluster',
+          iconSize: new L.Point(40, 40),
+        });
+      },
+    }),
+    []
+  );
   return <MarkerClusterBase clusterOptions={clusterOptions} setInstance={setLayerInstance} />;
 };
 

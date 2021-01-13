@@ -80,7 +80,6 @@ const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
-
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
   const featureTypes = useMemo(() => meta && [...meta.featureTypes, unknownFeatureType] || [], [meta]);
 
@@ -88,14 +87,14 @@ const Selector = () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     () => ({
       ...MAP_OPTIONS,
-      center: location?.reverse(),
+      center: location,
       zoomControl: false,
       minZoom: 10,
       maxZoom: 15,
       zoom: 14,
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+
+    [location]
   );
 
   const [, setMap] = useState();
@@ -168,7 +167,7 @@ const Selector = () => {
     zoomLevel: { max: 7 },
   };
 
-  return ReactDOM.createPortal(
+  const mapWrapper =
     <Wrapper>
       <StyledMap data-testid="map" hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
         <ViewerContainer
@@ -187,9 +186,8 @@ const Selector = () => {
         />
         <WfsLayer {...wfsLayerProps}></WfsLayer>
       </StyledMap>
-    </Wrapper>,
-    appHtmlElement
-  );
+    </Wrapper>;
+  return ReactDOM.createPortal(mapWrapper, appHtmlElement);
 };
 
 export default Selector;

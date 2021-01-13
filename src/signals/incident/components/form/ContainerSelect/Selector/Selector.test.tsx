@@ -2,11 +2,16 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Selector from './Selector';
-
+import type { FetchMock } from 'jest-fetch-mock';
+import containersJson from 'utils/__tests__/fixtures/containers.json';
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval';
 import { ContainerSelectProvider } from '../context';
 import { withAppContext } from 'test/utils';
 import type { ContainerSelectValue } from '../types';
 
+const fetchMock = fetch as FetchMock;
+
+const { endpoint, featureTypes } = controls.extra_container.meta;
 
 const contextValue: ContainerSelectValue = {
   selection: [
@@ -17,23 +22,29 @@ const contextValue: ContainerSelectValue = {
       iconUrl: '',
     },
   ],
+  location: [0, 0],
+  meta: { endpoint, featureTypes },
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
 };
 
-export const withContext = (Component: ReactNode, context = contextValue) =>
-  withAppContext(<ContainerSelectProvider value={context}>{Component}</ContainerSelectProvider>);
+const withContext = (Component: ReactNode, context = contextValue) => withAppContext(<ContainerSelectProvider value={context}><div id="app">{Component}</div></ContainerSelectProvider>);
 
 describe('signals/incident/components/form/ContainerSelect/Selector', () => {
+  beforeEach(() => {
+    fetchMock.resetMocks();
+    fetchMock.mockResponseOnce(JSON.stringify(containersJson), { status: 200 });
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  it('should render the component', () => {
+  it('should render the component', async() => {
     render(withContext(<Selector />));
 
-    expect(screen.queryByTestId('containerSelectSelector')).toBeInTheDocument();
+    expect(await screen.findByTestId('map')).toBeInTheDocument();
     expect(screen.queryByText(/container toevoegen/i)).toBeInTheDocument();
     expect(screen.queryByText(/container verwijderen/i)).toBeInTheDocument();
     expect(screen.queryByText(/meld deze container\/sluiten/i)).toBeInTheDocument();

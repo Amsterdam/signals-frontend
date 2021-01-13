@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import L from 'leaflet';
+import ReactDOM from 'react-dom';
 import 'core-js/stable';
 import 'regenerator-runtime';
 import 'url-polyfill';
@@ -50,3 +51,6 @@ global.URL.revokeObjectURL = jest.fn();
 
 const noop = () => {};
 Object.defineProperty(global.window, 'scrollTo', { value: noop, writable: true });
+
+// Mock portals
+ReactDOM.createPortal = node => node;

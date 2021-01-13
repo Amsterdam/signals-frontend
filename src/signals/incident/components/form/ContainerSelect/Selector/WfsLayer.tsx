@@ -1,13 +1,19 @@
 import { useMapInstance } from '@amsterdam/react-maps';
 import type { Point, FeatureCollection } from 'geojson';
 import type { GeoJSON as GeoJSONLayer } from 'leaflet';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { featureTolocation } from 'shared/services/map-location';
 import ContainerLayer from './MarkerCluster';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@amsterdam/arm-core/lib/constants';
 import type { WfsLayerProps } from './types';
 import { NO_DATA } from './types';
-import { useFetch } from 'hooks';
+import { fetchWithAbort } from '@amsterdam/arm-core';
+import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
+
+export const isLayerVisible = (zoom: number, zoomLevel: ZoomLevel) => {
+  const { min, max } = zoomLevel;
+  return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
+};
 
 const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
   const mapInstance = useMapInstance();
@@ -15,18 +21,7 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
   const [bbox, setBbox] = useState('');
   const [data, setData] = useState<FeatureCollection>(NO_DATA);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const {
-    data: response,
-    error,
-    get,
-  }: { data: any; error: any; get: (url: string, params: any, options: any) => void } = useFetch();
-
-  const isVisible = useCallback((zoom: number) => {
-    const { min, max } = zoomLevel;
-    return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
-  }, [zoomLevel]);
-
+  /* istanbul ignore next */
   useEffect(() => {
     function onMoveEnd() {
       setBbox(options.getBBox(mapInstance));
@@ -40,33 +35,43 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
   }, [mapInstance, options]);
 
   useEffect(() => {
-    if (!isVisible(mapInstance.getZoom())) {
+    if (!isLayerVisible(mapInstance.getZoom(), zoomLevel)) {
       setData(NO_DATA);
       return;
     }
 
     const extent = bbox || options.getBBox(mapInstance);
+    const [request, controller] = fetchWithAbort(`${url}${extent}`);
 
-    // remove the authorization because we are requesting public json data
-    get(`${url}${extent}`, {}, { headers: { Authorization: '' } });
-  }, [bbox, get, isVisible, mapInstance, options, url]);
+    request
+      .then(async result => result.json()).then(result => {
+        setData(result);
+        return null;
+      })
+      .catch(error => {
+        // Ignore abort errors since they are expected to happen.
+        if (error instanceof Error && error.name === 'AbortError') {
+          // eslint-disable-next-line promise/no-return-wrap
+          return;
+        }
+
+        // eslint-disable-next-line no-console
+        console.error('Unhnadled Error in wfs call', JSON.stringify(error));
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, [bbox, mapInstance, options, url, zoomLevel]);
 
   useEffect(() => {
-    if (response === undefined || error) {
-      setData(NO_DATA);
-      return;
-    }
-
-    setData(response);
-  }, [response, error]);
-
-  useEffect(() => {
-    if (layerInstance && data) {
+    if (layerInstance) {
       layerInstance.clearLayers();
       data.features.forEach(feature => {
         const coordinates = (feature.geometry as Point).coordinates;
         const latlng = featureTolocation({ coordinates });
         const clusteredMarker = options.getMarker(feature, latlng);
+        /* istanbul ignore else */
         if (clusteredMarker) layerInstance.addLayer(clusteredMarker);
       });
     }
