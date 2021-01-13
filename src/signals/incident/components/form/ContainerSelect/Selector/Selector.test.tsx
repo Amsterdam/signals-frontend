@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, ReactPortal } from 'react';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Selector from './Selector';
 import type { FetchMock } from 'jest-fetch-mock';
@@ -10,6 +11,8 @@ import { withAppContext } from 'test/utils';
 import type { ContainerSelectValue } from '../types';
 
 const fetchMock = fetch as FetchMock;
+
+ReactDOM.createPortal = node => node as ReactPortal;
 
 const { endpoint, featureTypes } = controls.extra_container.meta;
 
