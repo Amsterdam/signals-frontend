@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DefinitionComponents from '../components';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
