@@ -78,7 +78,8 @@ describe('Standaardteksten', () => {
   describe('Create signal duiven', () => {
     before(() => {
       cy.postSignalRoutePublic();
-      cy.getMapRoute();
+      cy.stubPreviewMap();
+      cy.stubMap();
       cy.visit('incident/beschrijf');
     });
 
@@ -94,7 +95,6 @@ describe('Standaardteksten', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
@@ -107,6 +107,7 @@ describe('Standaardteksten', () => {
   describe('Change status of signal and check standaardtekst', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.patchSignalRoute();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
@@ -215,6 +216,7 @@ describe('Standaardteksten', () => {
     describe('Check message', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+        cy.stubPreviewMap();
         cy.getManageSignalsRoutes();
         cy.getSignalDetailsRoutesById();
         cy.visit('/manage/incidents/');

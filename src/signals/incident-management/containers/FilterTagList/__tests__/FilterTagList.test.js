@@ -9,6 +9,8 @@ import configuration from 'shared/services/configuration/configuration';
 import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 import category from 'utils/__tests__/fixtures/category.json';
+import userOptions from 'utils/__tests__/fixtures/userOptions.json';
+import users from 'utils/__tests__/fixtures/users.json';
 
 import IncidentManagementContext from '../../../context';
 import AppContext from '../../../../../containers/App/context';
@@ -17,10 +19,14 @@ import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '
 
 jest.mock('shared/services/configuration/configuration');
 
+const usersFixture = users.results.slice(0, 5);
+
 const withContext = Component =>
   withAppContext(
     <AppContext.Provider value={{ sources }}>
-      <IncidentManagementContext.Provider value={{ districts }}>{Component}</IncidentManagementContext.Provider>
+      <IncidentManagementContext.Provider value={{ districts, users: usersFixture }}>
+        {Component}
+      </IncidentManagementContext.Provider>
     </AppContext.Provider>
   );
 
@@ -122,20 +128,14 @@ describe('signals/incident-management/containers/FilterTagList', () => {
 
     it('shows an extra label when a tag is a main category', () => {
       const { rerender, queryByText } = render(
-        withContext(
-          <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={categories} />
-        )
+        withContext(<FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={categories} />)
       );
 
       expect(queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)).toBeFalsy();
       const tagsWithMainCat = { ...tags, maincategory_slug };
       rerender(
         withContext(
-          <FilterTagListComponent
-            tags={tagsWithMainCat}
-            subCategories={subCategories}
-            mainCategories={categories}
-          />
+          <FilterTagListComponent tags={tagsWithMainCat} subCategories={subCategories} mainCategories={categories} />
         )
       );
 
@@ -188,29 +188,98 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(queryAllByTestId('filterTagListTag')).toHaveLength(8);
     });
 
-    it('renders correctly with sources', () => {
-      const { queryAllByTestId, queryByText } = render(
-        withContext(
-          <FilterTagListComponent
-            tags={{
-              ...tags,
-              source: [sources[0]],
-            }}
-            subCategories={subCategories}
-            mainCategories={mainCategories}
-          />
-        )
-      );
+    describe('users', () => {
+      it('renders correctly', () => {
+        configuration.featureFlags.assignSignalToEmployee = true;
+        const { queryAllByTestId, queryByText } = render(
+          withContext(
+            <FilterTagListComponent
+              tags={{
+                ...tags,
+                assigned_user_email: userOptions[1].key,
+              }}
+              subCategories={subCategories}
+              mainCategories={mainCategories}
+            />
+          )
+        );
 
-      expect(queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
-      expect(queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-      expect(queryByText(tags.address_text)).toBeInTheDocument();
-      expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
-      expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
-      expect(queryByText(districts[0].value)).not.toBeInTheDocument();
-      expect(queryByText(sources[0].value)).toBeInTheDocument();
+        expect(queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
+        expect(queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+        expect(queryByText(tags.address_text)).toBeInTheDocument();
+        expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+        expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+        expect(queryByText(districts[0].value)).not.toBeInTheDocument();
+        expect(queryByText(sources[0].value)).toBeInTheDocument();
+        expect(queryByText(userOptions[1].value)).toBeInTheDocument();
 
-      expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
+        expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
+      });
+
+      it('renders null value', () => {
+        configuration.featureFlags.assignSignalToEmployee = true;
+        const { queryAllByTestId, queryByText } = render(
+          withContext(
+            <FilterTagListComponent
+              tags={{
+                ...tags,
+                assigned_user_email: userOptions[0].key,
+              }}
+              subCategories={subCategories}
+              mainCategories={mainCategories}
+            />
+          )
+        );
+
+        expect(queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
+        expect(queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+        expect(queryByText(tags.address_text)).toBeInTheDocument();
+        expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+        expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+        expect(queryByText(districts[0].value)).not.toBeInTheDocument();
+        expect(queryByText(sources[0].value)).toBeInTheDocument();
+        expect(queryByText(userOptions[0].value)).toBeInTheDocument();
+
+        expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
+      });
+
+      it('works without a tag', () => {
+        configuration.featureFlags.assignSignalToEmployee = true;
+        const { queryAllByTestId, queryByText } = render(
+          withContext(
+            <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={mainCategories} />
+          )
+        );
+
+        expect(queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
+        expect(queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+        expect(queryByText(tags.address_text)).toBeInTheDocument();
+        expect(queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+        expect(queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+        expect(queryByText(districts[0].value)).not.toBeInTheDocument();
+        expect(queryByText(sources[0].value)).toBeInTheDocument();
+        expect(queryByText(userOptions[0].value)).not.toBeInTheDocument();
+
+        expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
+      });
+
+      it('does not render a tag that does not match a user', () => {
+        configuration.featureFlags.assignSignalToEmployee = true;
+        const { queryAllByTestId } = render(
+          withContext(
+            <FilterTagListComponent
+              tags={{
+                ...tags,
+                assigned_user_email: '',
+              }}
+              subCategories={subCategories}
+              mainCategories={mainCategories}
+            />
+          )
+        );
+
+        expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
+      });
     });
 
     it('renders tags that have all items selected', () => {

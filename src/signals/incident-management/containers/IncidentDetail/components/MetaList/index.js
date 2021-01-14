@@ -107,11 +107,11 @@ const MetaList = () => {
         ...users
           .filter(
             user =>
-              user.id === incident.assigned_user_id ||
+              user.username === incident.assigned_user_email ||
               incidentDepartmentNames.some(name => user.profile?.departments?.includes(name))
           )
           .map(user => ({
-            key: user.id,
+            key: user.username,
             value: user.username,
           })),
       ],
@@ -132,7 +132,7 @@ const MetaList = () => {
   }, [categoryDepartments, routingDepartments]);
 
   const handlingTime = useMemo(
-    () => incident?.category ? handlingTimesBySlug[incident.category.sub_slug] : undefined,
+    () => (incident?.category ? handlingTimesBySlug[incident.category.sub_slug] : undefined),
     [handlingTimesBySlug, incident]
   );
 
@@ -141,10 +141,7 @@ const MetaList = () => {
     [departmentOptions, routingDepartments]
   );
 
-  const getDepartmentPostData = useCallback(
-    id => id ? [{ id: Number.parseInt(id, 10) }] : [],
-    []
-  );
+  const getDepartmentPostData = useCallback(id => (id ? [{ id: Number.parseInt(id, 10) }] : []), []);
 
   const subcatHighlightDisabled = ![
     'm',
@@ -216,14 +213,14 @@ const MetaList = () => {
       )}
 
       {configuration.featureFlags.assignSignalToEmployee && userOptions && (
-        <Highlight type="assigned_user_id">
+        <Highlight type="assigned_user_email">
           <ChangeValue
             component={SelectInput}
             display="Toegewezen aan"
             options={userOptions}
             onPatchIncident={update}
-            path="assigned_user_id"
-            type="assigned_user_id"
+            path="assigned_user_email"
+            type="assigned_user_email"
           />
         </Highlight>
       )}
