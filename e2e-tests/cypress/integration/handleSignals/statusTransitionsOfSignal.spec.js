@@ -14,6 +14,7 @@ describe('All status transitions of a signal', () => {
   describe('Set 01 status transitions', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
@@ -72,6 +73,7 @@ describe('All status transitions of a signal', () => {
   describe('Set 02 status transitions', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
@@ -101,6 +103,7 @@ describe('All status transitions of a signal', () => {
   describe('Set 03 status transitions', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
@@ -133,6 +136,7 @@ describe('All status transitions of a signal', () => {
   describe('Set 04 status transitions', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
@@ -159,6 +163,7 @@ describe('All status transitions of a signal', () => {
   describe('Send signal to THOR', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      cy.stubPreviewMap();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');

@@ -30,7 +30,7 @@ jest.mock('containers/App/constants', () => ({
 const scrollTo = jest.fn();
 global.window.scrollTo = scrollTo;
 
-constants.PAGE_SIZE = 50;
+constants.PAGE_SIZE = 2;
 
 const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub);
 const count = subCategories.length;
@@ -101,7 +101,7 @@ describe('signals/settings/categories/containers/Overview', () => {
 
     expect(queryByTestId('pagination')).not.toBeInTheDocument();
 
-    constants.PAGE_SIZE = 50;
+    constants.PAGE_SIZE = 2;
   });
 
   it('should push to the history stack and scroll to top on pagination item click', () => {
@@ -136,7 +136,7 @@ describe('signals/settings/categories/containers/Overview', () => {
     let row;
 
     await waitFor(() => {
-      row = container.querySelector('tbody tr:nth-child(42)');
+      row = container.querySelector('tbody tr:nth-child(2)');
     });
 
     // Explicitly set an 'itemId' so that we can easily test against its value.
@@ -179,7 +179,7 @@ describe('signals/settings/categories/containers/Overview', () => {
     let row;
 
     await waitFor(() => {
-      row = container.querySelector('tbody tr:nth-child(42)');
+      row = container.querySelector('tbody tr:nth-child(2)');
     });
 
     // Explicitly set an 'itemId' so that we can easily test against its value.

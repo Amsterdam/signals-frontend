@@ -12,6 +12,7 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Should initiate create signal from manage', () => {
+      cy.stubMap();
       cy.getManageSignalsRoutes();
       cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
@@ -20,7 +21,7 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       cy.checkHeaderText('Beschrijf uw melding');
     });
     it('Should create the signal', () => {
-      cy.getMapRoute();
+      cy.stubPreviewMap();
       cy.postSignalRoutePrivate();
 
       createSignal.setDescriptionPage(fixturePath);
@@ -50,7 +51,6 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
@@ -70,6 +70,7 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
     });
 
     it('Should show the signal details', () => {
+      cy.stubPreviewMap();
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
