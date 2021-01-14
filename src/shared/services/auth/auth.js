@@ -21,7 +21,7 @@ export const getOauthDomain = () => storage.getItem(OAUTH_DOMAIN_KEY);
 export const getAuth = () => (configuration.keycloak && getOauthDomain() === 'keycloak' ? keycloak : authz);
 
 /**
- * Returns the access token from local storage when available.
+ * Returns the access token when available.
  *
  * @returns {string} The access token.
  */
