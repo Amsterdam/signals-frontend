@@ -116,34 +116,35 @@ describe('signals/settings/departments/Detail/components', () => {
         },
       }) => publicUrl === departmentCategories[index].category._links.self.href
     );
+  const boomstob = getMatching(0);
+  const containerKapot = getMatching(1);
+  const containerVol = getMatching(2);
 
   const expectedIncoming = {
     can_view: {
-      'openbaar-groen-en-water': [{ ...getMatching(0), disabled: false }],
-      afval: [{ ...getMatching(2), disabled: true }],
+      'openbaar-groen-en-water': [{ ...boomstob, disabled: false }],
+      afval: [{ ...containerVol, disabled: true }],
     },
     is_responsible: {
       'openbaar-groen-en-water': [],
-      afval: [getMatching(1), getMatching(2)],
+      afval: [containerKapot, containerVol],
     },
   };
 
   it('should format incoming data', () => {
     expect(incoming([], subCategories)).toEqual(initialState);
 
-    expect(incoming(departmentCategories, subCategories)).toEqual(
-      expectedIncoming
-    );
+    expect(incoming(departmentCategories, subCategories)).toEqual(expectedIncoming);
 
     const departmentCategoriesWithMismatch = [...departmentCategories];
     departmentCategoriesWithMismatch[0].category._links.self.href = 'foo bar';
 
     expect(incoming(departmentCategoriesWithMismatch, subCategories)).toEqual({
       can_view: {
-        afval: [{ ...getMatching(2), disabled: true }],
+        afval: [{ ...containerVol, disabled: true }],
       },
       is_responsible: {
-        afval: [getMatching(1), getMatching(2)],
+        afval: [containerKapot, containerVol],
       },
     });
   });

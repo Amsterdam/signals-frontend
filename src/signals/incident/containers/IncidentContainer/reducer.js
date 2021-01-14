@@ -12,6 +12,7 @@ import {
   RESET_EXTRA_STATE,
   GET_QUESTIONS_SUCCESS,
 } from './constants';
+import { getIncidentClassification } from './services';
 
 export const initialState = fromJS({
   incident: {
@@ -56,13 +57,6 @@ const getIncidentWithoutExtraProps = (incident, { category, subcategory } = {}) 
   return seq.toMap();
 };
 
-const getIncidentClassification = (state, incidentPart) => {
-  const previousClassification = state.get('incident').get('classification')?.toJS();
-  const classificationPrediction = state.get('classificationPrediction')?.toJS();
-  const canChange = classificationPrediction === null || previousClassification === null || previousClassification?.slug === classificationPrediction?.slug;
-  return canChange ? incidentPart : {};
-};
-
 export default (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_INCIDENT:
@@ -78,10 +72,7 @@ export default (state = initialState, action) => {
       return initialState;
 
     case CREATE_INCIDENT:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .set('incident', state.get('incident').set('id', null));
+      return state.set('loading', true).set('error', false).set('incident', state.get('incident').set('id', null));
 
     case CREATE_INCIDENT_SUCCESS:
       return state.set('loading', false).set('incident', fromJS(action.payload));
@@ -94,39 +85,47 @@ export default (state = initialState, action) => {
 
     case GET_CLASSIFICATION_SUCCESS: {
       const { classification } = action.payload;
-      return state.set('loadingClassification', false).set(
-        'incident',
-        fromJS({
-          ...getIncidentWithoutExtraProps(state.get('incident'), action.payload).toJS(),
-          ...getIncidentClassification(state, action.payload),
-        })
-      ).set('classificationPrediction', fromJS(classification));
+      return state
+        .set('loadingClassification', false)
+        .set(
+          'incident',
+          fromJS({
+            ...getIncidentWithoutExtraProps(state.get('incident'), action.payload).toJS(),
+            ...getIncidentClassification(state.toJS(), action.payload),
+          })
+        )
+        .set('classificationPrediction', fromJS(classification));
     }
 
     case GET_CLASSIFICATION_ERROR: {
       const { category, subcategory, handling_message, classification } = action.payload;
-      return state.set('loadingClassification', false).set(
-        'incident',
-        state
-          .get('incident')
-          .set('category', category)
-          .set('subcategory', subcategory)
-          .set('classification', fromJS(getIncidentClassification(state, classification)))
-          .set('handling_message', handling_message)
-      ).set('classificationPrediction', fromJS(classification));
+      return state
+        .set('loadingClassification', false)
+        .set(
+          'incident',
+          state
+            .get('incident')
+            .set('category', category)
+            .set('subcategory', subcategory)
+            .set('classification', fromJS(getIncidentClassification(state.toJS(), classification)))
+            .set('handling_message', handling_message)
+        )
+        .set('classificationPrediction', fromJS(classification));
     }
 
     case SET_CLASSIFICATION: {
       const { category, subcategory, handling_message, classification } = action.payload;
-      return state.set(
-        'incident',
-        state
-          .get('incident')
-          .set('category', category)
-          .set('subcategory', subcategory)
-          .set('classification', fromJS(getIncidentClassification(state, classification)))
-          .set('handling_message', handling_message)
-      ).set('usePredictions', false);
+      return state
+        .set(
+          'incident',
+          state
+            .get('incident')
+            .set('category', category)
+            .set('subcategory', subcategory)
+            .set('classification', fromJS(getIncidentClassification(state.toJS(), classification)))
+            .set('handling_message', handling_message)
+        )
+        .set('usePredictions', false);
     }
 
     case RESET_EXTRA_STATE:

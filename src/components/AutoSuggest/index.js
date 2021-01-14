@@ -50,6 +50,8 @@ const AutoSuggest = ({
   placeholder,
   url,
   value,
+  disabled = false,
+  id = '',
 }) => {
   const { get, data } = useFetch();
   const [initialRender, setInitialRender] = useState(false);
@@ -237,6 +239,8 @@ const AutoSuggest = ({
           onChange={onChange}
           placeholder={placeholder}
           ref={inputRef}
+          disabled={disabled}
+          id={id}
         />
       </div>
       {showList && (
@@ -261,6 +265,7 @@ AutoSuggest.defaultProps = {
 AutoSuggest.propTypes = {
   /** @ignore */
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   /**
    * Request response formatter
    *
@@ -268,6 +273,7 @@ AutoSuggest.propTypes = {
    * @returns {Object[]} Array of objects where each object is required to have an `id` prop and a `value` prop
    */
   formatResponse: PropTypes.func.isRequired,
+  id: PropTypes.string,
   /**
    * Result count getter
    *

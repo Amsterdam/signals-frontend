@@ -7,6 +7,8 @@ export const Form = styled.form`
   column-count: 2;
   column-gap: 100px;
   width: 100%;
+  padding-bottom: 86px;
+
   column-fill: auto @media (max-width: 1020px) {
     column-gap: 60px;
   }
@@ -71,6 +73,8 @@ export const DatesWrapper = styled.div`
 `;
 
 export const FormFooterWrapper = styled(FormFooter)`
+  z-index: 2;
+
   button[type='reset'] {
     order: 1;
   }
