@@ -50,7 +50,7 @@ export const controls = {
         ],
       },
       label: 'Kies de container waar het om gaat',
-      shortLabel: 'Containers',
+      shortLabel: 'Container(s)',
       pathMerge: 'extra_properties',
       endpoint: 'https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&TYPENAME=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json;%20subtype=geojson;%20charset=utf-8',
       featureTypes: [
