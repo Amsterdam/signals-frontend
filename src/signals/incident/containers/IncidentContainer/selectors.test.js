@@ -13,10 +13,10 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
 
     it('should return incidentContainer', () => {
       const incidentContainer = { incident: { foo: 'bar' } };
-      const state = fromJS({ incidentContainer });
+      const state = { incidentContainer };
 
       expect(selectIncidentContainerDomain(state)).toEqual(
-        fromJS(incidentContainer)
+        incidentContainer
       );
     });
   });

@@ -5,7 +5,7 @@ import { reCategory } from 'shared/services/resolveClassification';
 
 import { initialState } from './reducer';
 
-export const selectCategoriesDomain = state => (state && state.get('categories')) || initialState;
+export const selectCategoriesDomain = state => state?.categories || initialState;
 
 const mappedSequence = results =>
   Seq(results)
@@ -173,4 +173,5 @@ export const makeSelectHandlingTimesBySlug = createSelector(makeSelectSubCategor
       [slug]: getDaysString(sla.n_days, sla.use_calendar_days),
     }),
     {}
-  ));
+  )
+);

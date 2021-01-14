@@ -14,7 +14,6 @@ export const LOGOUT = 'sia/App/LOGOUT';
 export const LOGOUT_FAILED = 'sia/App/LOGOUT_FAILED';
 export const LOGOUT_SUCCESS = 'sia/App/LOGOUT_SUCCESS';
 
-export const UPLOAD_REQUEST = 'sia/App/UPLOAD_REQUEST';
 export const UPLOAD_PROGRESS = 'sia/App/UPLOAD_PROGRESS';
 export const UPLOAD_SUCCESS = 'sia/App/UPLOAD_SUCCESS';
 export const UPLOAD_FAILURE = 'sia/App/UPLOAD_FAILURE';
