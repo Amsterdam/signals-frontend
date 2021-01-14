@@ -69,6 +69,11 @@ export const CONTAINERS = {
   inputContainerNummer: '[class*=Input__Styled]',
 };
 
+export const FIETSNIETJE = {
+  inputFietsnietje: '[class*=TextArea__StyledArea]',
+  radioButtonNieuwNietjeJa: '#extra_fietsrek_aanvragen-ja1',
+};
+
 export const JONGEREN = {
   checkBoxVaker: '#extra_personen_overig_vaker-ja1',
   inputMoment: '[class*=TextArea__StyledArea]',
