@@ -16,15 +16,14 @@ import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 import type { WfsLayerProps } from './types';
 import {
   MapPanel,
-  MapPanelContent,
   MapPanelContext,
   MapPanelDrawer,
   MapPanelLegendButton,
   MapPanelProvider,
 } from '@amsterdam/arm-core';
 import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
-import Legend from '../Legend/Legend';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
+import LegendPanel from '../LegendPanel/LegendPanel';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -65,14 +64,17 @@ const StyledMap = styled(Map)`
   }
 `;
 
-const StyledViewerContainer = styled(ViewerContainer)<{ leftOffset: string }>`
+const StyledViewerContainer = styled(ViewerContainer)<{ leftOffset: string; height: string }>`
   left: ${({ leftOffset }) => leftOffset};
+  /* height: ${({ height }) => height}; */
+  transition: height 0.3s ease-in-out;
 `;
 
 const ViewerContainerWithMapDrawerOffset: React.FC = props => {
   const { drawerPosition } = useContext(MapPanelContext);
+  const height = Number.parseInt(drawerPosition, 10) < window.innerHeight / 2 ? '50%' : drawerPosition;
 
-  return <StyledViewerContainer {...props} leftOffset={drawerPosition} />;
+  return <StyledViewerContainer {...props} height={height} leftOffset={drawerPosition} />;
 };
 
 const LegendButtonWrapper = styled.div`
@@ -108,7 +110,7 @@ const Selector = () => {
   const appHtmlElement = document.getElementById('app')!;
 
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
-  const featureTypes = useMemo(() => meta && [...meta.featureTypes, unknownFeatureType] || [], [meta]);
+  const featureTypes = useMemo(() => (meta && [...meta.featureTypes, unknownFeatureType]) || [], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
   const panelVariant = showDesktopVariant ? 'drawer' : 'panel';
 
@@ -203,6 +205,11 @@ const Selector = () => {
     <Wrapper>
       <StyledMap data-testid="map" hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
         <MapPanelProvider
+          mapPanelSnapPositions={{
+            [SnapPoint.Closed]: '90%',
+            [SnapPoint.Halfway]: '50%',
+            [SnapPoint.Full]: '0px',
+          }}
           mapPanelDrawerSnapPositions={{
             [SnapPoint.Closed]: '30px',
             [SnapPoint.Halfway]: '50%',
@@ -221,7 +228,7 @@ const Selector = () => {
                 />
               </LegendButtonWrapper>
             }
-            topLeft={
+            topRight={
               <ButtonBar>
                 <div>
                   <Button onClick={addContainer}>Container toevoegen</Button>
@@ -235,17 +242,17 @@ const Selector = () => {
             }
           />
           <Panel>
-            <MapPanelContent variant={panelVariant} title="Legenda">
-              {meta &&
-                <Legend
-                  items={meta.featureTypes.map(featureType => ({
-                    label: featureType.label,
-                    iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-                    id: featureType.typeValue,
-                  }))}
-                />
-              }
-            </MapPanelContent>
+            {meta && (
+              <LegendPanel
+                variant={panelVariant}
+                title="Legenda"
+                items={meta.featureTypes.map(featureType => ({
+                  label: featureType.label,
+                  iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+                  id: featureType.typeValue,
+                }))}
+              />
+            )}
           </Panel>
         </MapPanelProvider>
         <WfsLayer {...wfsLayerProps}></WfsLayer>
