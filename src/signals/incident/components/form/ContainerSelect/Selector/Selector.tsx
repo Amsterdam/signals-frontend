@@ -135,8 +135,8 @@ const Selector = () => {
     [meta]
   );
 
-  const wfsLayerProps: WfsLayerProps = {
-    url: meta?.endpoint ?? '',
+  const wfsLayerProps: WfsLayerProps = useMemo(() => ({
+    url: meta?.endpoint,
     options: {
       getMarker: (feature: any, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
@@ -165,7 +165,7 @@ const Selector = () => {
       },
     },
     zoomLevel: { max: 7 },
-  };
+  }), [getFeatureType, meta]);
 
   const mapWrapper =
     <Wrapper data-testid="containerSelectSelector" >

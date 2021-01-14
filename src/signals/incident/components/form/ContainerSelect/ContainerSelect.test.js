@@ -5,12 +5,9 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import { withAppContext } from 'test/utils';
 import WfsLayer from './Selector/WfsLayer';
 import ContainerSelect from './ContainerSelect';
-
+import { withContainerSelectContext } from './context.test';
 // prevent fetch requests that we don't need to verify
 jest.mock('./Selector/WfsLayer', () => () => <span data-testid="wfsLayer" />);
-
-ReactDOM.createPortal = node => node;
-
 
 describe('signals/incident/components/form/ContainerSelect', () => {
   let props;
@@ -43,7 +40,7 @@ describe('signals/incident/components/form/ContainerSelect', () => {
   });
 
   it('should render the Selector', () => {
-    render(withAppContext(<ContainerSelect {...props} />));
+    render(withContainerSelectContext(<ContainerSelect {...props} />));
 
     fireEvent.click(screen.queryByText(/kies op kaart/i));
     expect(screen.queryByTestId('containerSelectIntro')).not.toBeInTheDocument();
@@ -55,7 +52,7 @@ describe('signals/incident/components/form/ContainerSelect', () => {
   });
 
   it('should add container', () => {
-    render(withAppContext(<ContainerSelect {...props} />));
+    render(withContainerSelectContext(<ContainerSelect {...props} />));
     fireEvent.click(screen.queryByText(/kies op kaart/i));
     fireEvent.click(screen.queryByText(/container toevoegen/i));
     expect(updateIncident).toHaveBeenCalled();
