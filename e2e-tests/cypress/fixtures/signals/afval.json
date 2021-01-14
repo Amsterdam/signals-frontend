@@ -45,34 +45,7 @@
   "source": "Interne melding",
   "text": "Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?",
   "text_extra": "",
-  "extra_properties": [
-    {
-      "id": "extra_straatverlichting_probleem",
-      "label": "Probleem",
-      "answer": {
-        "id": "lamp_doet_het_niet",
-        "info": "",
-        "label": "Lamp doet het niet"
-      },
-      "category_url": ""
-    },
-    {
-      "id": "extra_straatverlichting",
-      "label": "Is de situatie gevaarlijk?",
-      "answer": {
-        "id": "niet_gevaarlijk",
-        "info": "",
-        "label": "Nee, niet gevaarlijk"
-      },
-      "category_url": ""
-    },
-    {
-      "id": "extra_straatverlichting_nummer",
-      "label": "Lichtpunt(en) op kaart",
-      "answer": ["090989"],
-      "category_url": ""
-    }
-  ],
+  "extra_properties": [],
   "created_at": "2020-10-29T15:53:05.650429+01:00",
   "updated_at": "2020-10-29T16:27:54.569883+01:00",
   "incident_date_start": "2020-10-29T15:53:05+01:00",
