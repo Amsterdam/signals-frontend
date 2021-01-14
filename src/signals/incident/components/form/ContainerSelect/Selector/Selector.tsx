@@ -131,7 +131,7 @@ const Selector = () => {
 
   const getFeatureType = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    feature => meta?.featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
+    feature => meta.featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
     [meta]
   );
 

@@ -5,6 +5,7 @@ import type { ContainerSelectValue } from './types';
 const initialValue: ContainerSelectValue = {
   selection: [],
   location: [0, 0],
+  meta: { endpoint: '', featureTypes: [] },
   update: () => {},
   edit: () => {},
   close: () => {},

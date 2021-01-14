@@ -37,7 +37,7 @@ export interface Meta extends Record<string, unknown>{
 export interface ContainerSelectValue {
   selection: Item[];
   location: LatLngExpression;
-  meta?: Meta;
+  meta: Meta;
   update: (items: Item[] | null) => void;
   edit: () => void;
   close: () => void;
