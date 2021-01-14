@@ -17,9 +17,9 @@ export const makeSelectUser = createSelector(selectGlobal, globalState => global
 export const makeSelectUserPermissions = createSelector(makeSelectUser, (user: Partial<User>) => {
   const permissionMap = new Map<number, Role>();
 
-  user?.roles?.flatMap<Role | undefined>((role: Role) => role.permissions)
-    .concat(user.permissions ?? [])
-    .forEach((permission: Role | undefined) => {
+  user?.roles?.flatMap<Role | undefined>(role => role.permissions)
+    .concat(user.permissions)
+    .forEach(permission => {
       if (permission) { permissionMap.set(permission.id, permission); }
     });
 
@@ -32,7 +32,7 @@ export const makeSelectUserPermissions = createSelector(makeSelectUser, (user: P
  * @returns {String[]} - All permissions from assigned roles combined with extra permissions
  */
 export const makeSelectUserPermissionCodeNames = createSelector(makeSelectUserPermissions, permissions =>
-  permissions.map(({ codename }) => codename) ?? []
+  permissions.map(({ codename }) => codename)
 );
 
 /**

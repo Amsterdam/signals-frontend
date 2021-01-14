@@ -16,3 +16,10 @@ export interface ApplicationRootState {
 
 // eslint-disable-next-line @typescript-eslint/no-type-alias
 export type SagaGeneratorType = Generator<CallEffect<EventChannel<unknown>> | TakeEffect | PutEffect<{ type: string }>, void, { progress?: number | undefined; error: boolean; success: boolean}>;
+
+export interface Action<T, ActionType> {
+  type: T;
+  payload?: ActionType;
+}
+
+

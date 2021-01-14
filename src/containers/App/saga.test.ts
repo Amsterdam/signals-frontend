@@ -23,6 +23,7 @@ import watchAppSaga, {
   fetchSources,
 } from './saga';
 import { LOGOUT, AUTHENTICATE_USER, SET_SEARCH_QUERY, GET_SOURCES } from './constants';
+import type { AuthenticateUserAction } from './actions';
 import {
   logoutFailed,
   authorizeUser,
@@ -153,7 +154,7 @@ describe('containers/App/saga', () => {
     };
 
     it('should dispatch success', async () => {
-      const action = { type: '', payload };
+      const action: AuthenticateUserAction = { type: AUTHENTICATE_USER, payload };
 
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), userJson]])
@@ -163,13 +164,13 @@ describe('containers/App/saga', () => {
     });
 
     it('should fail without message when accessToken is not available', async () => {
-      const action = { type: '', payload: {} };
+      const action: AuthenticateUserAction = { type: AUTHENTICATE_USER };
 
       return expectSaga(callAuthorize, action).not.call(authCall).run();
     });
 
     it('should dispatch error when authorization has failed', async () => {
-      const action = { type: '', payload };
+      const action: AuthenticateUserAction = { type: AUTHENTICATE_USER, payload };
       const errorObj = { ...new Error('Whoops'), response: {
         status: 403,
       } };
@@ -187,7 +188,7 @@ describe('containers/App/saga', () => {
     });
 
     it('should dispatch error when session has expired', async () => {
-      const action = { type: '', payload };
+      const action: AuthenticateUserAction = { type: AUTHENTICATE_USER, payload };
       const errorObj: ApiError = {
         name: 'error',
         message: 'Whoops',
@@ -214,7 +215,7 @@ describe('containers/App/saga', () => {
         file: { name: 'image.jpg' },
       };
       mockChannel = channel();
-      gen = uploadFile({ type: '', payload });
+      gen = uploadFile({ payload });
     });
 
     it('should success', () => {

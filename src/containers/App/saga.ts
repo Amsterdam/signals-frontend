@@ -12,6 +12,7 @@ import {
   GET_SOURCES,
 } from 'containers/App/constants';
 
+import type { AuthenticateUserAction } from './actions';
 import {
   logoutFailed,
   showGlobalNotification,
@@ -25,7 +26,7 @@ import {
 import { logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
-import type { Action, User, UserCredentials, DataResult, ApiError, UploadFile } from './types';
+import type { User, DataResult, ApiError, UploadFile } from './types';
 
 const CONFIGURATION = configuration as typeof endpointDefinitions;
 
@@ -50,7 +51,7 @@ export function* callLogout() {
   }
 }
 
-export function* callAuthorize(action: Action<Partial<UserCredentials>>) {
+export function* callAuthorize(action: AuthenticateUserAction) {
   try {
     const accessToken = action.payload?.accessToken;
 
@@ -77,7 +78,7 @@ export function* callAuthorize(action: Action<Partial<UserCredentials>>) {
   }
 }
 
-export function* uploadFile(action: Action<UploadFile>) {
+export function* uploadFile(action: {payload: UploadFile}) {
   const id = action.payload?.id ?? '';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel = yield call(

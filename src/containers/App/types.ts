@@ -77,14 +77,6 @@ export interface AppState {
   readonly sources: Source[];
 }
 
-export interface Action<ActionType> {
-  type: string;
-  payload?: ActionType;
-}
-
-export declare function action<P>(type: string, payload: P): Action<P>;
-
-
 export interface DataResult<ResultType> {
   results: ResultType[];
 }

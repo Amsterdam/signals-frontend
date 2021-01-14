@@ -1,5 +1,6 @@
 import userJson from 'utils/__tests__/fixtures/user.json';
 import { APPLY_FILTER } from 'signals/incident-management/constants';
+import type { ApplyFilterActionType } from './reducer';
 import appReducer, { initialState } from './reducer';
 import {
   AUTHORIZE_USER,
@@ -17,21 +18,18 @@ import {
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
 } from './constants';
-
-const sources = [
-  {
-    id: 1,
-    name: 'Source1',
-  },
-  {
-    id: 2,
-    name: 'Source2',
-  },
-];
+import type {
+  DoLogoutAction,
+  GetSourcesAction,
+  GetSourcesFailedAction,
+  GetSourcesSuccessAction,
+  ResetSearchQueryAction,
+  SetSearchQueryAction,
+} from './actions';
 
 describe('containers/App/reducer', () => {
   it('should return the initial state', () => {
-    expect(appReducer(undefined, { type: '', payload: undefined })).toEqual(initialState);
+    expect(appReducer(undefined, { type: null, payload: undefined })).toEqual(initialState);
   });
 
   describe('AUTHORIZE_USER', () => {
@@ -188,7 +186,7 @@ describe('containers/App/reducer', () => {
         },
       };
 
-      const action = {
+      const action: DoLogoutAction = {
         type: LOGOUT,
       };
 
@@ -201,7 +199,7 @@ describe('containers/App/reducer', () => {
   });
 
   it('should handle SET_SEARCH_QUERY', () => {
-    const searchQueryAction = {
+    const searchQueryAction: SetSearchQueryAction = {
       type: SET_SEARCH_QUERY,
       payload: 'stoeptegels',
     };
@@ -213,7 +211,7 @@ describe('containers/App/reducer', () => {
   });
 
   it('should handle RESET_SEARCH_QUERY', () => {
-    const resetSearchQueryAction = {
+    const resetSearchQueryAction: ResetSearchQueryAction = {
       type: RESET_SEARCH_QUERY,
     };
 
@@ -231,7 +229,7 @@ describe('containers/App/reducer', () => {
   });
 
   it('should handle APPLY_FILTER', () => {
-    const applyFilterAction = {
+    const applyFilterAction: ApplyFilterActionType = {
       type: APPLY_FILTER,
     };
 
@@ -249,7 +247,7 @@ describe('containers/App/reducer', () => {
   });
 
   it('should handle GET_SOURCES', () => {
-    const getSourcesAction = {
+    const getSourcesAction: GetSourcesAction = {
       type: GET_SOURCES,
     };
 
@@ -257,7 +255,8 @@ describe('containers/App/reducer', () => {
   });
 
   it('should handle GET_SOURCES_SUCCESS', () => {
-    const getSourcesSuccessAction = {
+    const sources = ['Source1', 'Source2'];
+    const getSourcesSuccessAction: GetSourcesSuccessAction = {
       type: GET_SOURCES_SUCCESS,
       payload: sources,
     };
@@ -266,7 +265,7 @@ describe('containers/App/reducer', () => {
   });
 
   it('should handle GET_SOURCES_FAILED', () => {
-    const getSourcesFailedAction = {
+    const getSourcesFailedAction: GetSourcesFailedAction = {
       type: GET_SOURCES_FAILED,
       payload: 'Could not retrieve!',
     };

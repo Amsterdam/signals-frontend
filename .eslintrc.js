@@ -127,5 +127,7 @@ module.exports = {
     'jest/require-to-throw-message': 'off',
     'jest/valid-expect': 'off',
     'jest/valid-title': 'off',
+
+    '@typescript-eslint/no-type-alias': 'off',
   },
 };

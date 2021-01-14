@@ -16,7 +16,7 @@ import {
   makeSelectSearchQuery,
   makeSelectSources,
 } from './selectors';
-import type { AppState, Role } from './types';
+import type { AppState, Role, User } from './types';
 
 const sources = [
   {
@@ -197,8 +197,9 @@ describe('containers/App/selectors', () => {
       });
 
       it('should require at least one permission per section', () => {
-        const userWithLimitedPermissions = cloneDeep(userJson);
-        const limitedUserState = {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        const userWithLimitedPermissions: User = cloneDeep(userJson);
+        const limitedUserState: ApplicationRootState = {
           ...state,
           global: {
             ...globalState,
@@ -274,7 +275,7 @@ describe('containers/App/selectors', () => {
         // permissions fromt both 'groups' and 'users'. To be able to access 'settings', a user
         // needs at least one permission in both 'groups' and 'users'.
 
-        const userWithLimitedPermissions = cloneDeep(userJson);
+        const userWithLimitedPermissions: User = cloneDeep(userJson);
 
         // remove all required permissions but one
         userWithLimitedPermissions.permissions = userWithLimitedPermissions.permissions.filter(

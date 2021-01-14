@@ -1,6 +1,7 @@
 import { VARIANT_NOTICE, TYPE_LOCAL } from 'containers/Notification/constants';
-
 import { APPLY_FILTER } from 'signals/incident-management/constants';
+import type { Action } from 'types';
+import type { AppActionTypes } from './actions';
 import {
   LOGIN_FAILED,
   LOGOUT_FAILED,
@@ -17,7 +18,9 @@ import {
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
 } from './constants';
-import type { Action, AppState } from './types';
+import type { AppState } from './types';
+
+export type ApplyFilterActionType = Action<typeof APPLY_FILTER, never>;
 
 // The initial state of the App
 export const initialState: AppState = {
@@ -38,8 +41,10 @@ export const initialState: AppState = {
   sources: [],
 };
 
+type ReducerActionTypes = AppActionTypes | ApplyFilterActionType | Action<null, never>;
+
 // eslint-disable-next-line @typescript-eslint/default-param-last
-function appReducer(state: AppState = initialState, action: Action<unknown>) {
+function appReducer(state: AppState = initialState, action: ReducerActionTypes) {
   switch (action.type) {
     case AUTHORIZE_USER:
       return {
@@ -77,7 +82,7 @@ function appReducer(state: AppState = initialState, action: Action<unknown>) {
     case UPLOAD_FAILURE:
       return {
         ...state,
-        upload: { },
+        upload: {},
       };
 
     case LOGOUT:
