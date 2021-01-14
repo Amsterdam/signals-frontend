@@ -44,7 +44,7 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
       return Label;
 
     case 'ContainerSelectRenderer':
-      return Null;
+      return PreviewComponents.ContainerListPreview;
 
     default:
       return Null;

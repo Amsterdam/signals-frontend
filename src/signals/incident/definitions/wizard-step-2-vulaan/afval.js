@@ -49,7 +49,7 @@ export const controls = {
         ],
       },
       label: 'Kies de container waar het om gaat',
-      shortLabel: 'Containers',
+      shortLabel: 'Container(s)',
       pathMerge: 'extra_properties',
       endpoint: '',
       featureTypes: [
