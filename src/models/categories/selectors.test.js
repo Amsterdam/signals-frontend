@@ -33,9 +33,9 @@ describe('models/categories/selectors', () => {
   test('selectCategoriesDomain', () => {
     expect(selectCategoriesDomain()).toEqual(initialState);
 
-    const categoriesDomain = fromJS({
-      categories: state.toJS(),
-    });
+    const categoriesDomain = {
+      categories: state,
+    };
 
     expect(selectCategoriesDomain(categoriesDomain)).toEqual(state);
   });

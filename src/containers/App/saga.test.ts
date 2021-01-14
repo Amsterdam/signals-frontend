@@ -1,30 +1,30 @@
-import { call, put, take, takeLatest, takeEvery } from 'redux-saga/effects';
+import { call, put, take, takeLatest } from 'redux-saga/effects';
 import { channel } from 'redux-saga';
+import { mocked } from 'ts-jest/utils';
 import { push } from 'connected-react-router/immutable';
 import { testSaga, expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration';
+import type endpointDefinitions from 'shared/services/configuration/endpoint-definitions';
 import { authCall } from 'shared/services/api/api';
-import { login, logout } from 'shared/services/auth/auth';
+import { logout } from 'shared/services/auth/auth';
 import fileUploadChannel from 'shared/services/file-upload-channel';
 import randomStringGenerator from 'shared/services/auth/services/random-string-generator/random-string-generator';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 import userJson from 'utils/__tests__/fixtures/user.json';
 
 import watchAppSaga, {
-  callLogin,
   callLogout,
   callAuthorize,
-  uploadFileWrapper,
   uploadFile,
   callSearchIncidents,
   fetchSources,
 } from './saga';
-import { LOGIN, LOGOUT, AUTHENTICATE_USER, UPLOAD_REQUEST, SET_SEARCH_QUERY, GET_SOURCES } from './constants';
+import { LOGOUT, AUTHENTICATE_USER, SET_SEARCH_QUERY, GET_SOURCES } from './constants';
+import type { AuthenticateUserAction } from './actions';
 import {
-  loginFailed,
   logoutFailed,
   authorizeUser,
   showGlobalNotification,
@@ -34,11 +34,15 @@ import {
   getSourcesFailed,
   getSourcesSuccess,
 } from './actions';
+import type { SagaGeneratorType } from 'types';
+import type { UploadFile, ApiError } from './types';
 
 jest.mock('shared/services/auth/services/random-string-generator/random-string-generator');
 jest.mock('shared/services/api/api');
 jest.mock('shared/services/map-categories');
 jest.mock('shared/services/file-upload-channel');
+
+const CONFIGURATION = configuration as typeof endpointDefinitions;
 
 Object.defineProperties(global, {
   location: {
@@ -51,10 +55,10 @@ Object.defineProperties(global, {
 });
 
 describe('containers/App/saga', () => {
-  let origLocalStorage;
+  let origLocalStorage: typeof global.localStorage;
 
   beforeEach(() => {
-    randomStringGenerator.mockImplementation(() => 'n8vd9fv528934n797cv342bj3h56');
+    mocked(randomStringGenerator).mockImplementation(() => 'n8vd9fv528934n797cv342bj3h56');
     global.window.open = jest.fn();
     origLocalStorage = global.localStorage;
     global.localStorage = {
@@ -70,6 +74,9 @@ describe('containers/App/saga', () => {
       },
       setItem: jest.fn(),
       removeItem: jest.fn(),
+      clear: jest.fn(),
+      key: jest.fn(),
+      length: 3,
     };
   });
 
@@ -82,43 +89,13 @@ describe('containers/App/saga', () => {
     testSaga(watchAppSaga)
       .next()
       .all([
-        takeLatest(LOGIN, callLogin),
         takeLatest(LOGOUT, callLogout),
         takeLatest(AUTHENTICATE_USER, callAuthorize),
-        takeEvery(UPLOAD_REQUEST, uploadFileWrapper),
         takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
         takeLatest(GET_SOURCES, fetchSources),
       ])
       .next()
       .isDone();
-  });
-
-  describe('login', () => {
-    const payload = 'datapunt';
-
-    it('should dispatch success', () => {
-      const action = { payload };
-
-      testSaga(callLogin, action).next().call(login, payload).next().isDone();
-    });
-
-    it('should dispatch error', () => {
-      randomStringGenerator.mockImplementationOnce(() => undefined);
-
-      const action = { payload };
-
-      return expectSaga(callLogin, action)
-        .call(login, payload)
-        .put(loginFailed('crypto library is not available on the current browser'))
-        .put(
-          showGlobalNotification({
-            variant: VARIANT_ERROR,
-            title: 'Inloggen is niet gelukt',
-            type: TYPE_GLOBAL,
-          })
-        )
-        .run();
-    });
   });
 
   describe('logout', () => {
@@ -140,7 +117,7 @@ describe('containers/App/saga', () => {
       expect(window.open).toHaveBeenCalledWith('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank');
     });
 
-    it('should dispatch error', () => {
+    it('should dispatch error', async () => {
       const message = 'no remove';
       jest.spyOn(global.localStorage, 'removeItem').mockImplementationOnce(() => {
         throw new Error(message);
@@ -163,19 +140,21 @@ describe('containers/App/saga', () => {
   describe('callAuthorize', () => {
     beforeEach(() => {
       // mocking reload function in global location object, since jsdom doesn't support reload and will throw an error
-      global.location.reload = jest.fn();
+      mocked(global.location).reload = jest.fn();
     });
 
     afterEach(() => {
-      global.location.reload.mockRestore();
+      mocked(global.location).reload.mockRestore();
     });
 
     const payload = {
+      userName: '',
       accessToken: 'akjgrff',
+      userScopes: [],
     };
 
-    it('should dispatch success', () => {
-      const action = { payload };
+    it('should dispatch success', async () => {
+      const action: AuthenticateUserAction = { type: AUTHENTICATE_USER, payload };
 
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), userJson]])
@@ -184,18 +163,17 @@ describe('containers/App/saga', () => {
         .run();
     });
 
-    it('should fail without message when accessToken is not available', () => {
-      const action = { payload: {} };
+    it('should fail without message when accessToken is not available', async () => {
+      const action: AuthenticateUserAction = { type: AUTHENTICATE_USER };
 
       return expectSaga(callAuthorize, action).not.call(authCall).run();
     });
 
     it('should dispatch error when authorization has failed', async () => {
-      const action = { payload };
-      const errorObj = new Error('Whoops');
-      errorObj.response = {
+      const action: AuthenticateUserAction = { type: AUTHENTICATE_USER, payload };
+      const errorObj = { ...new Error('Whoops'), response: {
         status: 403,
-      };
+      } };
 
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), throwError(errorObj)]])
@@ -210,10 +188,13 @@ describe('containers/App/saga', () => {
     });
 
     it('should dispatch error when session has expired', async () => {
-      const action = { payload };
-      const errorObj = new Error('Whoops');
-      errorObj.response = {
-        status: 401,
+      const action: AuthenticateUserAction = { type: AUTHENTICATE_USER, payload };
+      const errorObj: ApiError = {
+        name: 'error',
+        message: 'Whoops',
+        response: {
+          status: 401,
+        },
       };
 
       return expectSaga(callAuthorize, action)
@@ -223,21 +204,10 @@ describe('containers/App/saga', () => {
     });
   });
 
-  describe('uploadFileWrapper', () => {
-    it('should trigger uploadFile', () => {
-      const payload = {
-        id: 666,
-        file: {},
-      };
-      const gen = uploadFileWrapper({ payload });
-      expect(gen.next().value).toEqual(call(uploadFile, { payload })); // eslint-disable-line redux-saga/yield-effects
-    });
-  });
-
   describe('uploadFile', () => {
-    let payload;
-    let mockChannel;
-    let gen;
+    let payload: UploadFile;
+    let mockChannel: any;
+    let gen: SagaGeneratorType;
 
     beforeEach(() => {
       payload = {
@@ -250,6 +220,7 @@ describe('containers/App/saga', () => {
 
     it('should success', () => {
       expect(gen.next().value).toEqual(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         call(fileUploadChannel, `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${payload.id}/attachments/`, { name: 'image.jpg' }, payload.id)
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
@@ -269,13 +240,14 @@ describe('containers/App/saga', () => {
           error: false,
           success: true,
         }).value
-      ).toEqual(put(uploadSuccess({ name: 'image.jpg' }))); // eslint-disable-line redux-saga/yield-effects
+      ).toEqual(put(uploadSuccess())); // eslint-disable-line redux-saga/yield-effects
 
       expect(gen.next().value).toBeUndefined();
     });
 
     it('should fail', () => {
       expect(gen.next().value).toEqual(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         call(fileUploadChannel, `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${payload.id}/attachments/`, { name: 'image.jpg' }, payload.id)
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
@@ -318,7 +290,7 @@ describe('containers/App/saga', () => {
 
   describe('fetch sources', () => {
     it('should dispatch getSourcesSuccess', () => {
-      const sources = { results: [{ a: 1 }] };
+      const sources = { results: ['a'] };
 
       testSaga(fetchSources)
         .next()

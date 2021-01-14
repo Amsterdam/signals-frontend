@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the defaultTextsAdmin state domain
  */
-const selectDefaultTextsAdminDomain = state => state.get('defaultTextsAdmin');
+const selectDefaultTextsAdminDomain = state => state?.defaultTextsAdmin;
 
 /**
  * Other specific selectors

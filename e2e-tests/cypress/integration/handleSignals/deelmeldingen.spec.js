@@ -385,7 +385,7 @@ describe('Deelmeldingen', () => {
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
         cy.get(DEELMELDING.childIncident).should('have.length', 4);
       });

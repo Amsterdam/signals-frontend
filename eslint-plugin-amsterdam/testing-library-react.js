@@ -4,7 +4,7 @@ module.exports = {
   env: { jest: true, node: true },
   overrides: [
     {
-      files: ['**/*.test.js', 'src/test/utils.js'],
+      files: ['**/*.test.js', '**/*.test.jsx', '**/*.test.ts', '**/*.test.tsx'],
       rules: {
         // base overrides
         'max-nested-callbacks': 'off',

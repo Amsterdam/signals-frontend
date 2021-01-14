@@ -6,9 +6,7 @@ import {
   AUTHORIZE_USER,
   SHOW_GLOBAL_NOTIFICATION,
   RESET_GLOBAL_NOTIFICATION,
-  LOGIN,
   LOGOUT,
-  UPLOAD_REQUEST,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
@@ -24,9 +22,7 @@ import {
   authorizeUser,
   showGlobalNotification,
   resetGlobalNotification,
-  doLogin,
   doLogout,
-  uploadRequest,
   uploadProgress,
   uploadSuccess,
   uploadFailure,
@@ -61,24 +57,9 @@ describe('containers/App/actions', () => {
     testActionCreator(resetGlobalNotification, RESET_GLOBAL_NOTIFICATION);
   });
 
-  it('should dispatch login action', () => {
-    const payload = 'domain';
-    testActionCreator(doLogin, LOGIN, payload);
-  });
-
   it('should dispatch logout action', () => {
     const payload = null;
     testActionCreator(doLogout, LOGOUT, payload);
-  });
-
-  it('should dispatch upload request action', () => {
-    const payload = {
-      id: 666,
-      file: {
-        name: 'image.jpg',
-      },
-    };
-    testActionCreator(uploadRequest, UPLOAD_REQUEST, payload);
   });
 
   it('should dispatch upload progess action', () => {

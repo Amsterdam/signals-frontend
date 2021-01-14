@@ -12,7 +12,7 @@ export const getClassificationData = (category, subcategory, { _links, name, slu
   },
 });
 
-export const selectIncidentContainerDomain = state => (state && state.get('incidentContainer')) || initialState;
+export const selectIncidentContainerDomain = state => state?.incidentContainer || initialState;
 
 export const makeSelectIncidentContainer = createSelector(
   selectIncidentContainerDomain,
