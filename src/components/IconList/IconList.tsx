@@ -39,7 +39,7 @@ interface IconListProps {
 const IconList: React.FC<IconListProps> = ({ items, size = 40, id }) => (
   <List data-testid={id}>
     {items.map(({ iconUrl, label, id: itemId }) => (
-      <ListItem data-testid={`${id}-${itemId}`} key={label} tabIndex={-1}>
+      <ListItem data-testid={`${id}-item-${itemId}`} key={label} tabIndex={-1}>
         <React.Fragment>
           <StyledIcon url={iconUrl} size={size} />
           {label}

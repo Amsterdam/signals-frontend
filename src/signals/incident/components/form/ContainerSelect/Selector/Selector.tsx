@@ -1,4 +1,4 @@
-import { Paragraph, themeColor, ViewerContainer } from '@amsterdam/asc-ui';
+import { Paragraph, themeColor } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 import Map from 'components/Map';
 import L from 'leaflet';
@@ -14,10 +14,11 @@ import type { MapOptions, LatLng, Map as MapType } from 'leaflet';
 import WfsLayer from './WfsLayer';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 import type { WfsLayerProps } from './types';
-import { MapPanel, MapPanelContext, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
+import { MapPanel, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
 import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
 import LegendPanel from './LegendPanel';
+import ViewerContainer from './ViewerContainer';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -56,23 +57,6 @@ const StyledMap = styled(Map)`
       line-height: 34px;
     }
   }
-`;
-
-const StyledViewerContainer = styled(ViewerContainer) <{ leftOffset: string; height: string }>`
-  left: ${({ leftOffset }) => leftOffset};
-  /* height: ${({ height }) => height}; */
-  transition: height 0.3s ease-in-out;
-`;
-
-const ViewerContainerWithMapDrawerOffset: React.FC = props => {
-  const { drawerPosition } = useContext(MapPanelContext);
-  const height = Number.parseInt(drawerPosition, 10) < window.innerHeight / 2 ? '50%' : drawerPosition;
-
-  return <StyledViewerContainer {...props} height={height} leftOffset={drawerPosition} />;
-};
-
-const LegendButtonWrapper = styled.div`
-  z-index: 400;
 `;
 
 const unknownFeatureType: FeatureType = {
@@ -199,7 +183,13 @@ const Selector = () => {
 
   const mapWrapper = (
     <Wrapper data-testid="containerSelectSelector">
-      <StyledMap data-testid="map" hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
+      <StyledMap
+        data-testid="map"
+        hasZoomControls={showDesktopVariant}
+        mapOptions={mapOptions}
+        setInstance={setMap}
+        events={{}}
+      >
         <MapPanelProvider
           mapPanelSnapPositions={{
             [SnapPoint.Closed]: '90%',
@@ -214,22 +204,27 @@ const Selector = () => {
           variant={panelVariant}
           initialPosition={SnapPoint.Closed}
         >
-          <ViewerContainerWithMapDrawerOffset
-            bottomLeft={
-              <LegendButtonWrapper>
-                <MapPanelLegendButton
-                  showDesktopVariant={showDesktopVariant}
-                  currentOverlay={currentOverlay}
-                  setCurrentOverlay={setCurrentOverlay}
-                />
-              </LegendButtonWrapper>
+          <ViewerContainer
+            showDesktopVariant={showDesktopVariant}
+            legendButton={
+              <MapPanelLegendButton
+                showDesktopVariant={showDesktopVariant}
+                currentOverlay={currentOverlay}
+                setCurrentOverlay={setCurrentOverlay}
+              />
             }
-            topRight={
+            bottomRight={
               <ButtonBar>
                 <div>
-                  <Button onClick={addContainer}>Container toevoegen</Button>
-                  <Button onClick={removeContainer}>Container verwijderen</Button>
-                  <Button onClick={close}>Meld deze container/Sluiten</Button>
+                  <Button size={100} onClick={addContainer}>
+                    Container toevoegen
+                  </Button>
+                  <Button size={100} onClick={removeContainer}>
+                    Container verwijderen
+                  </Button>
+                  <Button size={100} onClick={close}>
+                    Meld deze container/Sluiten
+                  </Button>
                 </div>
                 <Paragraph as="h6">
                   Geselecteerd: {selection ? `[${selection.reduce((res, { id }) => `${res},${id}`, '')}]` : '<geen>'}
