@@ -1,8 +1,11 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import JSONresponse from 'utils/__tests__/fixtures/user.json';
 import { getErrorMessage } from 'shared/services/api/api';
+import { getAuthHeaders } from 'shared/services/auth/auth';
 
 import useFetch from '../useFetch';
+
+jest.mock('shared/services/auth/auth');
 
 const URL = 'https://here-is-my.api/someId/6';
 
@@ -37,6 +40,35 @@ describe('hooks/useFetch', () => {
 
       expect(result.current.isLoading).toEqual(false);
       expect(result.current.data).toEqual(JSONresponse);
+    });
+
+    it('should use correct request headers', () => {
+      const { result, waitForNextUpdate } = renderHook(() => useFetch());
+      const authHeader = { Authorization: 'Bearer token' };
+
+      act(() => {
+        result.current.get(URL);
+      });
+
+      expect(fetch).not.toHaveBeenCalledWith(
+        URL,
+        expect.objectContaining({
+          headers: expect.objectContaining(authHeader),
+        })
+      );
+
+      getAuthHeaders.mockImplementation(() => authHeader);
+
+      act(() => {
+        result.current.get(URL);
+      });
+
+      expect(fetch).toHaveBeenLastCalledWith(
+        URL,
+        expect.objectContaining({
+          headers: expect.objectContaining(authHeader),
+        })
+      );
     });
 
     it('should construct a URL with query params', async () => {
