@@ -22,7 +22,7 @@ sizes.forEach(size => {
       requests.createSignalOverviewMap();
       cy.getManageSignalsRoutes();
       cy.getHistoryRoute();
-      cy.getMapRoute();
+      cy.stubPreviewMap();
       cy.getTermsRoute();
       cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
@@ -32,7 +32,6 @@ sizes.forEach(size => {
       cy.get('[href*="/manage/incident/"]')
         .first()
         .click();
-      cy.wait('@getMap');
       cy.wait('@getTerms');
       cy.wait('@getHistory');
     });
@@ -100,7 +99,7 @@ sizes.forEach(size => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       cy.getManageSignalsRoutes();
       cy.getHistoryRoute();
-      cy.getMapRoute();
+      cy.stubPreviewMap();
       cy.getTermsRoute();
       cy.getFilterByNoteRoute();
       cy.visit('/manage/incidents/');
@@ -120,7 +119,6 @@ sizes.forEach(size => {
       cy.get('[href*="/manage/incident/"]')
         .first()
         .click();
-      cy.wait('@getMap');
       cy.wait('@getTerms');
       cy.wait('@getHistory');
 

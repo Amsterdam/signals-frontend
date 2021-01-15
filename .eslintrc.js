@@ -31,6 +31,26 @@ module.exports = {
         'promise/prefer-await-to-callbacks': 'off',
       },
     },
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      extends: ['plugin:amsterdam/typescript'],
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+      rules: {
+        '@typescript-eslint/space-before-function-paren': 'off',
+        '@typescript-eslint/no-type-alias': ['error', { allowCallbacks: 'always', allowAliases: 'in-unions' }],
+        '@typescript-eslint/no-empty-function': ['off'],
+        '@typescript-eslint/restrict-template-expressions': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/unbound-method': [
+          'error',
+          {
+            ignoreStatic: true,
+          },
+        ],
+      },
+    },
   ],
   rules: {
     'array-bracket-newline': 'off',
@@ -104,7 +124,6 @@ module.exports = {
     'unicorn/prefer-includes': 'off',
     'unicorn/prefer-text-content': 'off',
     'unicorn/prevent-abbreviations': 'off',
-    '@typescript-eslint/space-before-function-paren': 'off',
     'jest/consistent-test-it': 'off',
     'jest/expect-expect': 'off',
     'jest/lowercase-name': 'off',
@@ -127,10 +146,5 @@ module.exports = {
     'jest/require-to-throw-message': 'off',
     'jest/valid-expect': 'off',
     'jest/valid-title': 'off',
-
-    '@typescript-eslint/no-type-alias': ['error', { allowCallbacks: 'always', allowAliases: 'in-unions' }],
-    '@typescript-eslint/no-empty-function': ['off'],
-    '@typescript-eslint/restrict-template-expressions': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
   },
 };

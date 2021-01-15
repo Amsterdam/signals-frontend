@@ -14,13 +14,7 @@ import type { MapOptions, LatLng, Map as MapType } from 'leaflet';
 import WfsLayer from './WfsLayer';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 import type { WfsLayerProps } from './types';
-import {
-  MapPanel,
-  MapPanelContext,
-  MapPanelDrawer,
-  MapPanelLegendButton,
-  MapPanelProvider,
-} from '@amsterdam/arm-core';
+import { MapPanel, MapPanelContext, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
 import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
 import LegendPanel from '../LegendPanel/LegendPanel';
@@ -108,7 +102,6 @@ const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
-
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
   const featureTypes = useMemo(() => (meta && [...meta.featureTypes, unknownFeatureType]) || [], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
@@ -120,14 +113,14 @@ const Selector = () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     () => ({
       ...MAP_OPTIONS,
-      center: location?.reverse(),
+      center: location,
       zoomControl: false,
       minZoom: 10,
       maxZoom: 15,
       zoom: 14,
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+
+    [location]
   );
 
   const [currentOverlay, setCurrentOverlay] = useState<Overlay>(Overlay.None);
@@ -165,44 +158,47 @@ const Selector = () => {
 
   const getFeatureType = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    feature => meta?.featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
+    feature => meta.featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
     [meta]
   );
 
-  const wfsLayerProps: WfsLayerProps = {
-    url: meta?.endpoint ?? '',
-    options: {
-      getMarker: (feature: any, latlng: LatLng) => {
-        const featureType = getFeatureType(feature);
-        if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
+  const wfsLayerProps: WfsLayerProps = useMemo(
+    () => ({
+      url: meta?.endpoint,
+      options: {
+        getMarker: (feature: any, latlng: LatLng) => {
+          const featureType = getFeatureType(feature);
+          if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
 
-        return L.marker(latlng, {
-          icon: L.icon({
-            ...featureType.icon.options,
-            className: featureType.label,
-            iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-          }),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          alt: feature.properties[featureType.idField] as string,
-        });
+          return L.marker(latlng, {
+            icon: L.icon({
+              ...featureType.icon.options,
+              className: featureType.label,
+              iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+            }),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            alt: feature.properties[featureType.idField] as string,
+          });
+        },
+        getBBox: (mapInstance: MapType): string => {
+          const bounds = mapInstance.getBounds();
+          const southWestRd = wgs84ToRd(bounds.getSouthWest());
+          const northEastRd = wgs84ToRd(bounds.getNorthEast());
+
+          const bbox = `${southWestRd.x},${southWestRd.y},${northEastRd.x},${northEastRd.y}`;
+
+          return `&${L.Util.getParamString({
+            bbox,
+          }).substring(1)}`;
+        },
       },
-      getBBox: (mapInstance: MapType): string => {
-        const bounds = mapInstance.getBounds();
-        const southWestRd = wgs84ToRd(bounds.getSouthWest());
-        const northEastRd = wgs84ToRd(bounds.getNorthEast());
+      zoomLevel: { max: 7 },
+    }),
+    [getFeatureType, meta]
+  );
 
-        const bbox = `${southWestRd.x},${southWestRd.y},${northEastRd.x},${northEastRd.y}`;
-
-        return `&${L.Util.getParamString({
-          bbox,
-        }).substring(1)}`;
-      },
-    },
-    zoomLevel: { max: 7 },
-  };
-
-  return ReactDOM.createPortal(
-    <Wrapper>
+  const mapWrapper = (
+    <Wrapper data-testid="containerSelectSelector">
       <StyledMap data-testid="map" hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
         <MapPanelProvider
           mapPanelSnapPositions={{
@@ -257,9 +253,9 @@ const Selector = () => {
         </MapPanelProvider>
         <WfsLayer {...wfsLayerProps}></WfsLayer>
       </StyledMap>
-    </Wrapper>,
-    appHtmlElement
+    </Wrapper>
   );
+  return ReactDOM.createPortal(mapWrapper, appHtmlElement);
 };
 
 export default Selector;

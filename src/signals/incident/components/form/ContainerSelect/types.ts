@@ -1,4 +1,4 @@
-import type { IconOptions } from 'leaflet';
+import type { IconOptions, LatLngExpression } from 'leaflet';
 
 export type ClickEvent = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
@@ -19,7 +19,7 @@ export interface FeatureType {
 }
 
 export interface FeatureIcon {
-  options?: IconOptions;
+  options?: Partial<IconOptions>;
   iconSvg: string;
   selectedIconSvg?: string;
 }
@@ -29,15 +29,15 @@ export interface Options {
   iconSize: number[];
 }
 
-export interface Meta {
+export interface Meta extends Record<string, unknown>{
   endpoint: string ;
   featureTypes: FeatureType[];
 }
 
 export interface ContainerSelectValue {
   selection: Item[];
-  location?: number[];
-  meta?: Meta;
+  location: LatLngExpression;
+  meta: Meta;
   update: (items: Item[] | null) => void;
   edit: () => void;
   close: () => void;

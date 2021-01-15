@@ -50,3 +50,13 @@ export const resolveQuestions = questions =>
     }),
     {}
   );
+
+export const getIncidentClassification = (state, incidentPart) => {
+  const previousClassification = state.incident.classification;
+  const classificationPrediction = state.classificationPrediction;
+  const canChange =
+    classificationPrediction === null ||
+    previousClassification === null ||
+    previousClassification?.slug === classificationPrediction?.slug;
+  return canChange ? incidentPart : {};
+};

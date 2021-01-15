@@ -28,6 +28,13 @@ export const FileInputUploadButton = styled(FileInputEmptyBox)`
     opacity: 0;
     width: 0;
     height: 0;
+
+    &:focus + label {
+      outline-color: red;
+      outline-style: solid;
+      outline-width: 2px;
+      outline-offset: 4px;
+    }
   }
 
   & > label {

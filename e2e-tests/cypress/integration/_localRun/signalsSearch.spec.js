@@ -7,12 +7,13 @@ import { generateToken } from '../../support/jwt';
 
 const fixturePath = '../fixtures/signals/signalForSearch.json';
 
-describe.skip('Search signals', () => {
-  // Skipped because there is no elastic search in e2e environment
+// There is no elastic search in the e2e environment, you can run tests on a local machine with elastic search installed
+describe('Search signals', () => {
   describe('Create signal boten', () => {
     before(() => {
       cy.postSignalRoutePublic();
-      cy.getMapRoute();
+      cy.stubPreviewMap();
+      cy.stubMap();
       cy.visit('incident/beschrijf');
     });
 
@@ -34,7 +35,6 @@ describe.skip('Search signals', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();

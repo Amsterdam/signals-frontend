@@ -1,46 +1,33 @@
-import type { ReactNode } from 'react';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Selector from './Selector';
+import type { FetchMock } from 'jest-fetch-mock';
+import containersJson from 'utils/__tests__/fixtures/containers.json';
+import { contextValue, withContainerSelectContext } from '../context.test';
 
-import { ContainerSelectProvider } from '../context';
-import { withAppContext } from 'test/utils';
-import type { ContainerSelectValue } from '../types';
-
-
-const contextValue: ContainerSelectValue = {
-  selection: [
-    {
-      id: 'PL734',
-      type: 'plastic',
-      description: 'Plastic container',
-      iconUrl: '',
-    },
-  ],
-  update: jest.fn(),
-  edit: jest.fn(),
-  close: jest.fn(),
-};
-
-export const withContext = (Component: ReactNode, context = contextValue) =>
-  withAppContext(<ContainerSelectProvider value={context}>{Component}</ContainerSelectProvider>);
+const fetchMock = fetch as FetchMock;
 
 describe('signals/incident/components/form/ContainerSelect/Selector', () => {
+  beforeEach(() => {
+    fetchMock.resetMocks();
+    fetchMock.mockResponseOnce(JSON.stringify(containersJson), { status: 200 });
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  it('should render the component', () => {
-    render(withContext(<Selector />));
+  it('should render the component', async() => {
+    render(withContainerSelectContext(<Selector />));
 
-    expect(screen.queryByTestId('containerSelectSelector')).toBeInTheDocument();
+    expect(await screen.findByTestId('containerSelectSelector')).toBeInTheDocument();
     expect(screen.queryByText(/container toevoegen/i)).toBeInTheDocument();
     expect(screen.queryByText(/container verwijderen/i)).toBeInTheDocument();
     expect(screen.queryByText(/meld deze container\/sluiten/i)).toBeInTheDocument();
   });
 
   it('should call update when adding container', () => {
-    render(withContext(<Selector />));
+    render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
 
     const element = screen.queryByText(/container toevoegen/i);
@@ -49,7 +36,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
   });
 
   it('should call update when removing container', () => {
-    render(withContext(<Selector />));
+    render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
 
     const element = screen.queryByText(/container verwijderen/i);
@@ -58,7 +45,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
   });
 
   it('should call close when closing the selector', () => {
-    render(withContext(<Selector />));
+    render(withContainerSelectContext(<Selector />));
     expect(contextValue.close).not.toHaveBeenCalled();
 
     const element = screen.queryByText(/meld deze container\/sluiten/i);

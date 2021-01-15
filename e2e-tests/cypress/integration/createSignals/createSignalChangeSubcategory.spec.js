@@ -47,6 +47,7 @@ describe('Create signal and choose other subcategory than proposed', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Should initiate create signal from manage', () => {
+      cy.stubMap();
       cy.getManageSignalsRoutes();
       cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
@@ -55,7 +56,7 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.checkHeaderText('Beschrijf uw melding');
     });
     it('Should create the signal', () => {
-      cy.getMapRoute();
+      cy.stubPreviewMap();
       cy.postSignalRoutePrivate();
 
       createSignal.setDescriptionPage(fixturePath);
@@ -79,7 +80,6 @@ describe('Create signal and choose other subcategory than proposed', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@getMap');
       createSignal.checkSummaryPage(fixturePath);
       createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
@@ -100,6 +100,7 @@ describe('Create signal and choose other subcategory than proposed', () => {
     });
 
     it('Should show the signal details', () => {
+      cy.stubPreviewMap();
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
