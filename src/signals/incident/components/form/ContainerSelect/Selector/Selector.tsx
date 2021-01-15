@@ -17,7 +17,7 @@ import type { WfsLayerProps } from './types';
 import { MapPanel, MapPanelContext, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
 import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
-import LegendPanel from '../LegendPanel/LegendPanel';
+import LegendPanel from './LegendPanel';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -58,7 +58,7 @@ const StyledMap = styled(Map)`
   }
 `;
 
-const StyledViewerContainer = styled(ViewerContainer)<{ leftOffset: string; height: string }>`
+const StyledViewerContainer = styled(ViewerContainer) <{ leftOffset: string; height: string }>`
   left: ${({ leftOffset }) => leftOffset};
   /* height: ${({ height }) => height}; */
   transition: height 0.3s ease-in-out;
@@ -204,7 +204,7 @@ const Selector = () => {
           mapPanelSnapPositions={{
             [SnapPoint.Closed]: '90%',
             [SnapPoint.Halfway]: '50%',
-            [SnapPoint.Full]: '0px',
+            [SnapPoint.Full]: '0',
           }}
           mapPanelDrawerSnapPositions={{
             [SnapPoint.Closed]: '30px',
@@ -238,17 +238,15 @@ const Selector = () => {
             }
           />
           <Panel>
-            {meta && (
-              <LegendPanel
-                variant={panelVariant}
-                title="Legenda"
-                items={meta.featureTypes.map(featureType => ({
-                  label: featureType.label,
-                  iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-                  id: featureType.typeValue,
-                }))}
-              />
-            )}
+            <LegendPanel
+              variant={panelVariant}
+              title="Legenda"
+              items={meta.featureTypes.map(featureType => ({
+                label: featureType.label,
+                iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+                id: featureType.typeValue,
+              }))}
+            />
           </Panel>
         </MapPanelProvider>
         <WfsLayer {...wfsLayerProps}></WfsLayer>
