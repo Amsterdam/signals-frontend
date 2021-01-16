@@ -1,4 +1,4 @@
-import type { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent } from 'react';
 import React from 'react';
 import type { ContainerSelectValue } from './types';
 
@@ -15,7 +15,6 @@ const ContainerSelectContext = React.createContext(initialValue);
 
 interface ContainerSelectProviderProps {
   value: ContainerSelectValue;
-  children: ReactNode;
 }
 
 export const ContainerSelectProvider: FunctionComponent<ContainerSelectProviderProps> = ({ value, children }) =>

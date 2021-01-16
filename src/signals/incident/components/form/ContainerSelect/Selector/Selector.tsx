@@ -12,7 +12,6 @@ import type { Item, ClickEvent, FeatureType } from '../types';
 import type { MapOptions, LatLng, Map as MapType } from 'leaflet';
 
 import WfsLayer from './WfsLayer';
-import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 import type { WfsLayerProps } from './types';
 
 const ButtonBar = styled.div`
@@ -154,10 +153,7 @@ const Selector = () => {
       },
       getBBox: (mapInstance: MapType): string => {
         const bounds = mapInstance.getBounds();
-        const southWestRd = wgs84ToRd(bounds.getSouthWest());
-        const northEastRd = wgs84ToRd(bounds.getNorthEast());
-
-        const bbox = `${southWestRd.x},${southWestRd.y},${northEastRd.x},${northEastRd.y}`;
+        const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},urn:ogc:def:crs:EPSG::4326`;
 
         return `&${L.Util.getParamString({
           bbox,

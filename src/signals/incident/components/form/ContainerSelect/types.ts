@@ -29,8 +29,8 @@ export interface Options {
   iconSize: number[];
 }
 
-export interface Meta extends Record<string, unknown>{
-  endpoint: string ;
+export interface Meta extends Record<string, unknown> {
+  endpoint: string;
   featureTypes: FeatureType[];
 }
 

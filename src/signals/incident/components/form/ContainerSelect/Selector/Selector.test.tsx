@@ -17,38 +17,37 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     jest.resetAllMocks();
   });
 
-  it('should render the component', async() => {
+  it('should render the component', async () => {
     render(withContainerSelectContext(<Selector />));
 
-    expect(await screen.findByTestId('containerSelectSelector')).toBeInTheDocument();
-    expect(screen.queryByText(/container toevoegen/i)).toBeInTheDocument();
-    expect(screen.queryByText(/container verwijderen/i)).toBeInTheDocument();
-    expect(screen.queryByText(/meld deze container\/sluiten/i)).toBeInTheDocument();
+    expect(await screen.findByText(/container toevoegen/i)).toBeInTheDocument();
+    expect(screen.getByText(/container verwijderen/i)).toBeInTheDocument();
+    expect(screen.getByText(/meld deze container\/sluiten/i)).toBeInTheDocument();
   });
 
-  it('should call update when adding container', () => {
+  it('should call update when adding container', async () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
 
-    const element = screen.queryByText(/container toevoegen/i);
+    const element = await screen.findByText(/container toevoegen/i);
     if (element) fireEvent.click(element);
     expect(contextValue.update).toHaveBeenCalledWith(expect.any(Array));
   });
 
-  it('should call update when removing container', () => {
+  it('should call update when removing container', async () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
 
-    const element = screen.queryByText(/container verwijderen/i);
+    const element = await screen.findByText(/container verwijderen/i);
     if (element) fireEvent.click(element);
     expect(contextValue.update).toHaveBeenCalledWith(null);
   });
 
-  it('should call close when closing the selector', () => {
+  it('should call close when closing the selector', async () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.close).not.toHaveBeenCalled();
 
-    const element = screen.queryByText(/meld deze container\/sluiten/i);
+    const element = await screen.findByText(/meld deze container\/sluiten/i);
     if (element) fireEvent.click(element);
     expect(contextValue.close).toHaveBeenCalled();
   });
