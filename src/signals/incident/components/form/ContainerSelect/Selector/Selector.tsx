@@ -1,18 +1,20 @@
+import React, { useCallback, useContext, useMemo, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { Paragraph, themeColor, ViewerContainer } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 import Map from 'components/Map';
 import L from 'leaflet';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
-import ReactDOM from 'react-dom';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import styled from 'styled-components';
 import ContainerSelectContext from '../context';
 import type { Item, ClickEvent, FeatureType } from '../types';
-import type { MapOptions, LatLng, Map as MapType } from 'leaflet';
+import type { MapOptions, Map as MapType } from 'leaflet';
+
+import type { WfsLayerProps } from './types';
 
 import WfsLayer from './WfsLayer';
-import type { WfsLayerProps } from './types';
+import ContainerLayer from './MarkerCluster';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -128,43 +130,26 @@ const Selector = () => {
     [update]
   );
 
-  const getFeatureType = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    feature => meta.featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
+  const wfsLayerProps: WfsLayerProps = useMemo(
+    () => ({
+      url: meta?.endpoint,
+      options: {
+        getBBox: (mapInstance: MapType): string => {
+          const bounds = mapInstance.getBounds();
+          const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},urn:ogc:def:crs:EPSG::4326`;
+
+          return `&${L.Util.getParamString({
+            bbox,
+          }).substring(1)}`;
+        },
+      },
+      zoomLevel: { max: 7 },
+    }),
     [meta]
   );
 
-  const wfsLayerProps: WfsLayerProps = useMemo(() => ({
-    url: meta?.endpoint,
-    options: {
-      getMarker: (feature: any, latlng: LatLng) => {
-        const featureType = getFeatureType(feature);
-        if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
-
-        return L.marker(latlng, {
-          icon: L.icon({
-            ...featureType.icon.options,
-            className: featureType.label,
-            iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-          }),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          alt: feature.properties[featureType.idField] as string,
-        });
-      },
-      getBBox: (mapInstance: MapType): string => {
-        const bounds = mapInstance.getBounds();
-        const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},urn:ogc:def:crs:EPSG::4326`;
-
-        return `&${L.Util.getParamString({
-          bbox,
-        }).substring(1)}`;
-      },
-    },
-    zoomLevel: { max: 7 },
-  }), [getFeatureType, meta]);
-
   const mapWrapper =
-    <Wrapper data-testid="containerSelectSelector" >
+    <Wrapper data-testid="containerSelectSelector">
       <StyledMap hasZoomControls mapOptions={mapOptions} setInstance={setMap} events={{}}>
         <ViewerContainer
           topLeft={
@@ -180,7 +165,9 @@ const Selector = () => {
             </ButtonBar>
           }
         />
-        <WfsLayer {...wfsLayerProps}></WfsLayer>
+        <WfsLayer {...wfsLayerProps}>
+          <ContainerLayer featureTypes={meta.featureTypes} />
+        </WfsLayer>
       </StyledMap>
     </Wrapper>;
   return ReactDOM.createPortal(mapWrapper, appHtmlElement);

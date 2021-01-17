@@ -1,23 +1,30 @@
+import type { FunctionComponent } from 'react';
 import { useMapInstance } from '@amsterdam/react-maps';
-import type { Point, FeatureCollection } from 'geojson';
-import type { GeoJSON as GeoJSONLayer } from 'leaflet';
-import React, { useEffect, useState } from 'react';
-import { featureTolocation } from 'shared/services/map-location';
-import ContainerLayer from './MarkerCluster';
+import type { FeatureCollection } from 'geojson';
+import React, { useContext, useEffect, useState } from 'react';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@amsterdam/arm-core/lib/constants';
 import type { WfsLayerProps } from './types';
 import { NO_DATA } from './types';
+
 import { fetchWithAbort } from '@amsterdam/arm-core';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
+import ContainerSelectContext from '../context';
+import { WfsDataProvider } from './context';
+import type { DataLayerProps } from './Selector';
 
 export const isLayerVisible = (zoom: number, zoomLevel: ZoomLevel) => {
   const { min, max } = zoomLevel;
   return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
 };
 
-const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
+export interface Props extends WfsLayerProps {
+  children: React.ReactElement<DataLayerProps>;
+}
+
+const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children }) => {
   const mapInstance = useMapInstance();
-  const [layerInstance, setLayerInstance] = useState<GeoJSONLayer>();
+  const { meta } = useContext(ContainerSelectContext);
+
   const [bbox, setBbox] = useState('');
   const [data, setData] = useState<FeatureCollection>(NO_DATA);
 
@@ -44,7 +51,8 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
     const [request, controller] = fetchWithAbort(`${url}${extent}`);
 
     request
-      .then(async result => result.json()).then(result => {
+      .then(async result => result.json())
+      .then(result => {
         setData(result);
         return null;
       })
@@ -64,27 +72,12 @@ const WfsLayer: React.FC<WfsLayerProps> = ({ url, options, zoomLevel }) => {
     };
   }, [bbox, mapInstance, options, url, zoomLevel]);
 
-  useEffect(() => {
-    if (layerInstance) {
-      layerInstance.clearLayers();
-      data.features.forEach(feature => {
-        const coordinates = (feature.geometry as Point).coordinates;
-        const latlng = featureTolocation({ coordinates });
-        const clusteredMarker = options.getMarker(feature, latlng);
-        /* istanbul ignore else */
-        if (clusteredMarker) layerInstance.addLayer(clusteredMarker);
-      });
-    }
-
-    return () => {
-      if (layerInstance) {
-        // This ensures that for each refresh of the data, the click
-        // events that are bound in the layer data are removed.
-      }
-    };
-  }, [layerInstance, data, options]);
-
-  return <ContainerLayer setLayerInstance={setLayerInstance} />;
+  const layer = React.cloneElement(children ?? null, { featureTypes: meta.featureTypes });
+  return (
+    <WfsDataProvider value={data}>
+      {layer}
+    </WfsDataProvider>
+  );
 };
 
 export default WfsLayer;
