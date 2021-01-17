@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { FunctionComponent } from 'react';
-import L, { DomEvent } from 'leaflet';
+import L from 'leaflet';
 import MarkerCluster from 'components/MarkerCluster';
 import type { GeoJSON as GeoJSONLayer, LatLng } from 'leaflet';
 import type { Point, Feature, FeatureCollection } from 'geojson';
@@ -39,7 +39,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
 
   const options: L.GeoJSONOptions<Record<string, string | undefined>> = useMemo(
     () => ({
-      pointToLayer: (feature, latlng: LatLng) => {
+      pointToLayer: /* istanbul ignore next */ (feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
 
@@ -51,14 +51,6 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
           }),
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           alt: feature.properties[featureType.idField],
-        });
-      },
-      onEachFeature: (feature, layer: L.Marker) => {
-        const { properties } = feature;
-        layer.bindPopup(`<p>Id: ${properties?.id}</p><p>Display: ${JSON.stringify(feature.properties)}</p>`);
-        layer.on('click', event => {
-          DomEvent.stopPropagation(event);
-          layer.openPopup();
         });
       },
     }),
@@ -75,7 +67,6 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         const marker = options.pointToLayer?.(pointFeature, latlng);
         /* istanbul ignore else */
         if (marker) {
-          if (options.onEachFeature) options.onEachFeature(pointFeature, marker);
           layerInstance.addLayer(marker);
         }
       });
