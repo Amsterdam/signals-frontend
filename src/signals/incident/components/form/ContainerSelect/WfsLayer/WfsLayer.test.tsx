@@ -9,8 +9,8 @@ import type { MapOptions } from 'leaflet';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import WfsLayer, { isLayerVisible } from './WfsLayer';
-import type { WfsLayerProps } from './types';
 import { markerIcon } from 'shared/services/configuration/map-markers';
+import type { WfsLayerProps } from '../types';
 
 const fetchMock = fetch as FetchMock;
 
@@ -44,7 +44,6 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer
     wfsLayerProps = {
       url: 'https://wfs-url',
       options: {
-        getMarker: mockedGetMarker,
         getBBox: mockedGetBBox,
       },
       zoomLevel: { max: 10 },
@@ -58,7 +57,7 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer
   it('should not render when outside zoom level does not allow it', () => {
     fetchMock.mockResponseOnce(JSON.stringify(containersJson), { status: 200 });
     render(
-      withMapContainer(<WfsLayer {...wfsLayerProps} zoomLevel={{ max: 15 }} />)
+      withMapContainer(<WfsLayer {...wfsLayerProps} zoomLevel={{ max: 15 }} ><span></span></WfsLayer>)
     );
 
     expect(screen.getByTestId('map-test')).toBeInTheDocument();
@@ -72,7 +71,7 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer
     mockedGetMarker.mockImplementation((_, latlng) => new L.Marker(latlng, { icon: markerIcon }));
 
     render(
-      withMapContainer(<WfsLayer {...wfsLayerProps} />)
+      withMapContainer(<WfsLayer {...wfsLayerProps} ><span></span></WfsLayer>)
     );
 
     await screen.findByTestId('map-test');
@@ -86,7 +85,7 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer
     error.name = 'AbortError';
     fetchMock.mockRejectOnce(error);
     render(
-      withMapContainer(<WfsLayer {...wfsLayerProps} />)
+      withMapContainer(<WfsLayer {...wfsLayerProps} ><span></span></WfsLayer>)
     );
 
     expect(mockedGetBBox).toHaveBeenCalledTimes(1);
@@ -100,7 +99,7 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer
     error.name = 'OtherError';
     fetchMock.mockRejectOnce(error);
     render(
-      withMapContainer(<WfsLayer {...wfsLayerProps} />)
+      withMapContainer(<WfsLayer {...wfsLayerProps} ><span></span></WfsLayer>)
     );
 
     // global.console.error = jest.fn();

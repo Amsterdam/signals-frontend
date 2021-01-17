@@ -3,14 +3,12 @@ import { useMapInstance } from '@amsterdam/react-maps';
 import type { FeatureCollection } from 'geojson';
 import React, { useContext, useEffect, useState } from 'react';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@amsterdam/arm-core/lib/constants';
-import type { WfsLayerProps } from './types';
-import { NO_DATA } from './types';
+import type { DataLayerProps, WfsLayerProps } from '../types';
 
 import { fetchWithAbort } from '@amsterdam/arm-core';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 import ContainerSelectContext from '../context';
-import { WfsDataProvider } from './context';
-import type { DataLayerProps } from './Selector';
+import { NO_DATA, WfsDataProvider } from './context';
 
 export const isLayerVisible = (zoom: number, zoomLevel: ZoomLevel) => {
   const { min, max } = zoomLevel;
@@ -73,11 +71,7 @@ const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children 
   }, [bbox, mapInstance, options, url, zoomLevel]);
 
   const layer = React.cloneElement(children ?? null, { featureTypes: meta.featureTypes });
-  return (
-    <WfsDataProvider value={data}>
-      {layer}
-    </WfsDataProvider>
-  );
+  return <WfsDataProvider value={data}>{layer}</WfsDataProvider>;
 };
 
 export default WfsLayer;

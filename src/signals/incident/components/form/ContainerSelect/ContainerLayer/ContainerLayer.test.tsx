@@ -11,7 +11,7 @@ import { Map } from '@amsterdam/react-maps';
 
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import MarkerCluster from './MarkerCluster';
+import MarkerCluster from './ContainerLayer';
 import { featureTolocation } from 'shared/services/map-location';
 import { markerIcon } from 'shared/services/configuration/map-markers';
 

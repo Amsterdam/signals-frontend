@@ -8,13 +8,11 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import styled from 'styled-components';
 import ContainerSelectContext from '../context';
-import type { Item, ClickEvent, FeatureType } from '../types';
+import type { Item, ClickEvent, FeatureType, WfsLayerProps } from '../types';
 import type { MapOptions, Map as MapType } from 'leaflet';
 
-import type { WfsLayerProps } from './types';
-
-import WfsLayer from './WfsLayer';
-import ContainerLayer from './MarkerCluster';
+import ContainerLayer from '../ContainerLayer';
+import WfsLayer from '../WfsLayer';
 
 const ButtonBar = styled.div`
   width: 100%;

@@ -1,7 +1,12 @@
 import type { FunctionComponent } from 'react';
 import React from 'react';
 import type { FeatureCollection } from 'geojson';
-import { NO_DATA } from './types';
+
+export const NO_DATA: FeatureCollection = {
+  type: 'FeatureCollection',
+  features: [],
+};
+
 
 const initialValue: FeatureCollection = NO_DATA;
 
