@@ -29,7 +29,7 @@ describe('reducer injectors', () => {
 
   describe('getInjectors', () => {
     beforeEach(() => {
-      store = configureStore(Immutable.Map(), memoryHistory);
+      store = configureStore({}, memoryHistory);
     });
 
     it('should return injectors', () => {
@@ -49,7 +49,7 @@ describe('reducer injectors', () => {
 
   describe('injectReducer helper', () => {
     beforeEach(() => {
-      store = configureStore(Immutable.Map(), memoryHistory);
+      store = configureStore({}, memoryHistory);
       injectReducer = injectReducerFactory(store, true);
     });
 
