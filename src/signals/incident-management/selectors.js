@@ -13,7 +13,7 @@ import { FILTER_PAGE_SIZE } from './constants';
 /**
  * Direct selector to the overviewPage state domain
  */
-export const selectIncidentManagementDomain = state => (state && state.get('incidentManagement')) || fromJS(initialState);
+export const selectIncidentManagementDomain = state => state?.incidentManagement || fromJS(initialState);
 
 export const makeSelectDistricts = createSelector([selectIncidentManagementDomain], stateMap =>
   stateMap.get('districts').size

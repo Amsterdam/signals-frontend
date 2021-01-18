@@ -11,9 +11,9 @@ describe('makeSelectHistoryModel', () => {
       foo: 'bar',
     };
 
-    const mockedState = fromJS({
-      history,
-    });
+    const mockedState = {
+      history: fromJS(history),
+    };
 
     expect(selector(mockedState)).toEqual(history);
   });

@@ -11,22 +11,25 @@ import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/a
 
 import App, { AppContainer } from '.';
 import { getSources } from './actions';
+import type { UnregisterCallback, History } from 'history';
 
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 jest.mock('shared/services/configuration/configuration');
 jest.mock('signals/incident/components/IncidentWizard', () => () => <span />);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
-  ...jest.requireActual('shared/services/auth/auth'),
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  ...jest.requireActual('shared/services/auth/auth')!,
 }));
 
 jest.useFakeTimers();
 
 describe('<App />', () => {
-  let listenSpy;
-  let spyScrollTo;
-  let props;
+  let listenSpy: jest.SpyInstance<UnregisterCallback, [listener: History.LocationListener<unknown>]>;
+  let spyScrollTo: jest.Mock;
+  let props: JSX.IntrinsicAttributes & {resetIncidentAction: jest.Mock};
 
   afterAll(() => {
     jest.restoreAllMocks();
@@ -43,6 +46,7 @@ describe('<App />', () => {
   });
 
   afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     configuration.__reset();
     listenSpy.mockRestore();
   });
