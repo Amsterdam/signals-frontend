@@ -109,7 +109,7 @@ describe('Deelmeldingen', () => {
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
 
         createSignal.checkSignalDetailsPage();
@@ -206,7 +206,7 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
         cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
         cy.get(CHANGE_URGENCY.buttonSubmit).click();
-
+        cy.wait('@getSignals');
         cy.get(SIGNAL_DETAILS.linkParent).click();
         cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(254, 200, 19)');
       });
@@ -385,7 +385,7 @@ describe('Deelmeldingen', () => {
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
         cy.get(DEELMELDING.childIncident).should('have.length', 4);
       });

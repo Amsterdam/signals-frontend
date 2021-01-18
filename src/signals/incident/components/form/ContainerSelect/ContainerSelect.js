@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { ContainerSelectProvider } from './context';
+import { ContainerSelectProvider } from './ContainerSelectContext';
 import Intro from './Intro';
 import Selector from './Selector';
 import Summary from './Summary';

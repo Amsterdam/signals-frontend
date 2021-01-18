@@ -1,14 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import {
-  Button,
-  Row,
-  Column,
-  Modal as ASCModal,
-  Heading,
-  themeColor,
-} from '@amsterdam/asc-ui';
+import { Button, Row, Column, Modal as ASCModal, Heading, themeColor } from '@amsterdam/asc-ui';
 import { Close as CloseIcon } from '@amsterdam/asc-assets';
 
 const StyledModal = styled(ASCModal)`
@@ -20,7 +13,7 @@ const StyledModal = styled(ASCModal)`
 `;
 
 const ModalInner = styled.div`
-  height: calc(100vh - (50px + 66px));
+  height: calc(100vh - (60px + 40px));
   max-width: 1800px;
   padding-top: 20px;
   padding-bottom: 20px;

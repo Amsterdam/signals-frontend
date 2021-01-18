@@ -1,24 +1,25 @@
-import { Paragraph, themeColor } from '@amsterdam/asc-ui';
-import Button from 'components/Button';
-import Map from 'components/Map';
-import L from 'leaflet';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
-import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
-import styled from 'styled-components';
-import ContainerSelectContext from '../context';
-import type { Item, ClickEvent, FeatureType } from '../types';
-import type { MapOptions, LatLng, Map as MapType } from 'leaflet';
-
-import WfsLayer from './WfsLayer';
-import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
-import type { WfsLayerProps } from './types';
+import L from 'leaflet';
+import { Paragraph, themeColor } from '@amsterdam/asc-ui';
 import { MapPanel, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
 import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
+import Button from 'components/Button';
+import Map from 'components/Map';
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
+import styled from 'styled-components';
+import ContainerSelectContext from '../ContainerSelectContext';
+import type { Item, ClickEvent, FeatureType, WfsLayerProps } from '../types';
+import type { MapOptions, Map as MapType } from 'leaflet';
+
 import LegendPanel from './LegendPanel';
 import ViewerContainer from './ViewerContainer';
+import ContainerLayer from '../ContainerLayer';
+import WfsLayer from '../WfsLayer';
+
+const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -87,7 +88,7 @@ const Selector = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
-  const featureTypes = useMemo(() => meta && [...meta.featureTypes, unknownFeatureType] || [], [meta]);
+  const featureTypes = useMemo(() => [...meta.featureTypes, unknownFeatureType], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
   const panelVariant = showDesktopVariant ? 'drawer' : 'panel';
 
@@ -116,8 +117,7 @@ const Selector = () => {
 
       // We use here a fixed list for now
       const selectedItems: Item[] = SELECTED_ITEMS.map(({ id, type }) => {
-        const found: Partial<FeatureType> = featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
-        const { description, icon } = found;
+        const { description, icon }: Partial<FeatureType> = featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
 
         return {
           id,
@@ -140,37 +140,13 @@ const Selector = () => {
     [update]
   );
 
-  const getFeatureType = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    feature => meta.featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
-    [meta]
-  );
-
   const wfsLayerProps: WfsLayerProps = useMemo(
     () => ({
-      url: meta?.endpoint,
+      url: meta.endpoint,
       options: {
-        getMarker: (feature: any, latlng: LatLng) => {
-          const featureType = getFeatureType(feature);
-          if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
-
-          return L.marker(latlng, {
-            icon: L.icon({
-              ...featureType.icon.options,
-              className: featureType.label,
-              iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-            }),
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            alt: feature.properties[featureType.idField] as string,
-          });
-        },
-        getBBox: (mapInstance: MapType): string => {
+        getBbox: (mapInstance: MapType): string => {
           const bounds = mapInstance.getBounds();
-          const southWestRd = wgs84ToRd(bounds.getSouthWest());
-          const northEastRd = wgs84ToRd(bounds.getNorthEast());
-
-          const bbox = `${southWestRd.x},${southWestRd.y},${northEastRd.x},${northEastRd.y}`;
-
+          const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},${SRS_NAME}`;
           return `&${L.Util.getParamString({
             bbox,
           }).substring(1)}`;
@@ -178,7 +154,7 @@ const Selector = () => {
       },
       zoomLevel: { max: 7 },
     }),
-    [getFeatureType, meta]
+    [meta]
   );
 
   const mapWrapper =
@@ -244,7 +220,9 @@ const Selector = () => {
             />
           </Panel>
         </MapPanelProvider>
-        <WfsLayer {...wfsLayerProps}></WfsLayer>
+        <WfsLayer {...wfsLayerProps}>
+          <ContainerLayer featureTypes={meta.featureTypes} />
+        </WfsLayer>
       </StyledMap>
     </Wrapper>;
 

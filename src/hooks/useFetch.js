@@ -43,7 +43,7 @@ const useFetch = () => {
 
   const controller = useMemo(() => new AbortController(), []);
   const { signal } = controller;
-  const requestHeaders = useMemo(
+  const requestHeaders = useCallback(
     () => ({
       ...getAuthHeaders(),
       'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const useFetch = () => {
 
       try {
         const fetchResponse = await fetch(requestURL, {
-          headers: requestHeaders,
+          headers: requestHeaders(),
           method: 'GET',
           signal,
           ...requestOptions,
@@ -114,7 +114,7 @@ const useFetch = () => {
 
       try {
         const modifyResponse = await fetch(url, {
-          headers: requestHeaders,
+          headers: requestHeaders(),
           method,
           signal,
           body: JSON.stringify(modifiedData),

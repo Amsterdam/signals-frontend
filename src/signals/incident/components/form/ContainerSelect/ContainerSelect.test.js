@@ -3,11 +3,12 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import ReactDOM from 'react-dom';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import { withAppContext } from 'test/utils';
-import WfsLayer from './Selector/WfsLayer';
+import WfsLayer from './WfsLayer';
 import ContainerSelect from './ContainerSelect';
-import { withContainerSelectContext } from './context.test';
+import { initialValue } from './ContainerSelectContext';
+import { withContainerSelectContext } from './ContainerSelectContext.test';
 // prevent fetch requests that we don't need to verify
-jest.mock('./Selector/WfsLayer', () => () => <span data-testid="wfsLayer" />);
+jest.mock('./WfsLayer', () => () => <span data-testid="wfsLayer" />);
 
 describe('signals/incident/components/form/ContainerSelect', () => {
   let props;
@@ -18,6 +19,7 @@ describe('signals/incident/components/form/ContainerSelect', () => {
       handler: () => ({
         value: null,
       }),
+      meta: initialValue.meta,
       parent: {
         meta: {
           incidentContainer: { incident: incidentJson },

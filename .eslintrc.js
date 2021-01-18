@@ -39,7 +39,7 @@ module.exports = {
       },
       rules: {
         '@typescript-eslint/space-before-function-paren': 'off',
-        '@typescript-eslint/no-type-alias': ['error', { allowCallbacks: 'always', allowAliases: 'in-unions' }],
+        '@typescript-eslint/no-type-alias': ['off'],
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/restrict-template-expressions': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
@@ -49,6 +49,7 @@ module.exports = {
             ignoreStatic: true,
           },
         ],
+        '@typescript-eslint/no-extra-parens': 'off',
       },
     },
   ],

@@ -4,7 +4,7 @@ import { initialState } from './reducer';
 /**
  * Direct selector to the history state domain
  */
-const selectHistoryDomain = state => state.get('history') || initialState;
+const selectHistoryDomain = state => state.history || initialState;
 
 /**
  * Other specific selectors

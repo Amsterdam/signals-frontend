@@ -13,9 +13,9 @@ describe('rolesModelSelector', () => {
       list: [{ id: 42 }],
     };
 
-    const mockedState = fromJS({
-      roles,
-    });
+    const mockedState = {
+      roles: fromJS(roles),
+    };
     expect(rolesModelSelector(mockedState)).toEqual(roles);
   });
 
@@ -27,10 +27,9 @@ describe('rolesModelSelector', () => {
       ],
     };
 
-    const mockedState = fromJS({
-      roles,
-    });
-
+    const mockedState = {
+      roles: fromJS(roles),
+    };
     const result = [
       { key: 'all', name: 'Alles', value: '*' },
       { key: '42', name: 'Role 42', value: 'Role 42' },
@@ -48,9 +47,9 @@ describe('rolesModelSelector', () => {
       ],
     };
 
-    const mockedState = fromJS({
-      roles,
-    });
+    const mockedState = {
+      roles: fromJS(roles),
+    };
 
     const result = [
       { key: '42', name: 'Role 42', value: 'Role 42' },

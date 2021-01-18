@@ -475,16 +475,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </FilterGroup>
 
-          <CheckboxGroup
-            defaultValue={state.options.source}
-            label="Bron"
-            name="source"
-            onChange={onGroupChange}
-            onToggle={onGroupToggle}
-            onSubmit={onSubmitForm}
-            options={sources}
-          />
-
           {configuration.featureFlags.assignSignalToEmployee && (
             <FilterGroup data-testid="filterAssignedUserEmail">
               <Label htmlFor="filter_assigned_user_email" isGroupHeader>
@@ -515,6 +505,16 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               />
             </FilterGroup>
           )}
+
+          <CheckboxGroup
+            defaultValue={state.options.source}
+            label="Bron"
+            name="source"
+            onChange={onGroupChange}
+            onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
+            options={sources}
+          />
         </Fieldset>
       </ControlsWrapper>
 
