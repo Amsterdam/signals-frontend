@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
+import type { ReactNode } from 'react';
 import styled from 'styled-components';
+
+import { ViewerContainer as AscViewerContainer } from '@amsterdam/asc-ui';
 import { MapPanelContext } from '@amsterdam/arm-core';
-import { ViewerContainer } from '@amsterdam/asc-ui';
 
 // Should reflect ViewerContainer props from asc-ui (which are not exported)
-interface ViewerContainerProps {
-  topLeft?: React.ReactNode;
-  topRight?: React.ReactNode;
-  bottomLeft?: React.ReactNode;
-  bottomRight?: React.ReactNode;
+interface AscViewerContainerProps {
+  topLeft?: ReactNode;
+  topRight?: ReactNode;
+  bottomLeft?: ReactNode;
+  bottomRight?: ReactNode;
   metaData?: string[];
 }
 
@@ -17,21 +19,23 @@ interface StyledViewerContainerProps {
   height: string;
 }
 
-const StyledViewerContainer = styled(ViewerContainer)<StyledViewerContainerProps>`
+const StyledViewerContainer = styled(AscViewerContainer)<StyledViewerContainerProps>`
   left: ${({ leftOffset }) => leftOffset};
   height: ${({ height }) => height};
   z-index: 400;
   transition: height 0.3s ease-in-out;
 `;
 
-interface ViewerContainerWithMapDrawerOffsetProps extends ViewerContainerProps {
+interface ViewerContainerProps extends AscViewerContainerProps {
   showDesktopVariant: boolean;
-  legendButton: React.ReactNode;
+  legendButton: ReactNode;
+  id?: string;
 }
 
-const ViewerContainerWithMapDrawerOffset: React.FC<ViewerContainerWithMapDrawerOffsetProps> = ({
+const ViewerContainer: React.FC<ViewerContainerProps> = ({
   showDesktopVariant,
   legendButton,
+  id,
   ...restProps
 }) => {
   const { drawerPosition } = useContext(MapPanelContext);
@@ -41,6 +45,7 @@ const ViewerContainerWithMapDrawerOffset: React.FC<ViewerContainerWithMapDrawerO
   return (
     <StyledViewerContainer
       {...restProps}
+      data-testid={id}
       bottomLeft={!showDesktopVariant && legendButton}
       topLeft={showDesktopVariant && legendButton}
       height={height}
@@ -49,4 +54,4 @@ const ViewerContainerWithMapDrawerOffset: React.FC<ViewerContainerWithMapDrawerO
   );
 };
 
-export default ViewerContainerWithMapDrawerOffset;
+export default ViewerContainer;

@@ -19,7 +19,7 @@ describe('LegendPanel', () => {
     render(withAppContext(<LegendPanel {...props} />));
 
     expect(screen.getByRole('list')).toBeInTheDocument();
-    // props.items.forEach(({ id }) => expect(screen.getByTestId(`${props.id}-item-${id}`)));
-    expect(screen.getAllByRole('listitem').length).toBe(props.items.length);
+    props.items?.forEach(({ id }) => expect(screen.getByTestId(`legend-item-${id}`)));
+    expect(screen.getAllByRole('listitem').length).toBe(props.items?.length);
   });
 });

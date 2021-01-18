@@ -21,7 +21,7 @@ describe('IconList', () => {
   };
 
   it('should render', () => {
-    render(withAppContext(<IconList {...props} />));
+    render(withAppContext(<IconList {...props} size={30} />));
 
     expect(screen.getByRole('list')).toBeInTheDocument();
     props.items.forEach(({ id }) => expect(screen.getByTestId(`${props.id}-item-${id}`)));

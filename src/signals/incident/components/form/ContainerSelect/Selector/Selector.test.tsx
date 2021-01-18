@@ -5,6 +5,12 @@ import type { FetchMock } from 'jest-fetch-mock';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import { contextValue, withContainerSelectContext } from '../context.test';
 
+let showDesktopVariant = false;
+
+jest.mock('@amsterdam/asc-ui/lib/utils/hooks', () => ({
+  useMatchMedia: () => [showDesktopVariant],
+}));
+
 const fetchMock = fetch as FetchMock;
 
 describe('signals/incident/components/form/ContainerSelect/Selector', () => {
@@ -17,7 +23,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     jest.resetAllMocks();
   });
 
-  it('should render the component', async() => {
+  it('should render the component', async () => {
     render(withContainerSelectContext(<Selector />));
 
     expect(await screen.findByTestId('containerSelectSelector')).toBeInTheDocument();
@@ -51,5 +57,21 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     const element = screen.queryByText(/meld deze container\/sluiten/i);
     if (element) fireEvent.click(element);
     expect(contextValue.close).toHaveBeenCalled();
+  });
+
+  it('should show desktop version on desktop', () => {
+    showDesktopVariant = true;
+    render(withContainerSelectContext(<Selector />));
+
+    expect(screen.getByTestId('panel-desktop')).toBeInTheDocument();
+    expect(screen.queryByTestId('panel-mobile')).not.toBeInTheDocument();
+  });
+
+  it('should show mobile version on desktop', () => {
+    showDesktopVariant = false;
+    render(withContainerSelectContext(<Selector />));
+
+    expect(screen.queryByTestId('panel-desktop')).not.toBeInTheDocument();
+    expect(screen.getByTestId('panel-mobile')).toBeInTheDocument();
   });
 });

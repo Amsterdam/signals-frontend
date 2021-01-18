@@ -13,7 +13,7 @@ interface Item {
 export interface LegendPanelProps {
   variant: 'panel' | 'drawer';
   title: string;
-  items: Item[];
+  items?: Item[];
 }
 
 // Prevent scrollBar on iOS due to navigation bar
@@ -24,13 +24,12 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const LegendPanel: React.FC<LegendPanelProps> = ({ items, title, variant }) => (
+const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant }) =>
   <React.Fragment>
     <GlobalStyle />
     <MapPanelContent variant={variant} title={title}>
       <IconList id="legend" items={items} size={40} />
     </MapPanelContent>
-  </React.Fragment>
-);
+  </React.Fragment>;
 
 export default LegendPanel;

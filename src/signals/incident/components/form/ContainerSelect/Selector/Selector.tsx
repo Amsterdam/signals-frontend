@@ -87,7 +87,7 @@ const Selector = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
-  const featureTypes = useMemo(() => (meta && [...meta.featureTypes, unknownFeatureType]) || [], [meta]);
+  const featureTypes = useMemo(() => meta && [...meta.featureTypes, unknownFeatureType] || [], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
   const panelVariant = showDesktopVariant ? 'drawer' : 'panel';
 
@@ -181,7 +181,7 @@ const Selector = () => {
     [getFeatureType, meta]
   );
 
-  const mapWrapper = (
+  const mapWrapper =
     <Wrapper data-testid="containerSelectSelector">
       <StyledMap
         data-testid="map"
@@ -232,11 +232,11 @@ const Selector = () => {
               </ButtonBar>
             }
           />
-          <Panel>
+          <Panel data-testid={`panel-${showDesktopVariant ? 'desktop' : 'mobile'}`}>
             <LegendPanel
               variant={panelVariant}
               title="Legenda"
-              items={meta.featureTypes.map(featureType => ({
+              items={meta?.featureTypes.map(featureType => ({
                 label: featureType.label,
                 iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
                 id: featureType.typeValue,
@@ -246,8 +246,8 @@ const Selector = () => {
         </MapPanelProvider>
         <WfsLayer {...wfsLayerProps}></WfsLayer>
       </StyledMap>
-    </Wrapper>
-  );
+    </Wrapper>;
+
   return ReactDOM.createPortal(mapWrapper, appHtmlElement);
 };
 
