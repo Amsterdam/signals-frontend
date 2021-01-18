@@ -4,7 +4,7 @@ import L from 'leaflet';
 import MarkerCluster from 'components/MarkerCluster';
 import type { GeoJSON as GeoJSONLayer, LatLng } from 'leaflet';
 import type { Point, Feature, FeatureCollection } from 'geojson';
-import WfsDataContext from '../WfsLayer/context';
+import WfsDataContext from '../WfsLayer/WfsDataContext';
 import { featureTolocation } from 'shared/services/map-location';
 import type { DataLayerProps } from '../types';
 

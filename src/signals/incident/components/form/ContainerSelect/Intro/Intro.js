@@ -2,7 +2,7 @@ import React, { useCallback, useState, useContext } from 'react';
 import styled from 'styled-components';
 import Button from 'components/Button';
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import ContainerSelectContext from '../context';
+import ContainerSelectContext from '../ContainerSelectContext';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from 'components/Map';
 

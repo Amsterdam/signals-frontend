@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from '@amsterdam/asc-ui';
-import ContainerSelectContext from '../context';
+import ContainerSelectContext from '../ContainerSelectContext';
 import ContainerList from '../ContainerList';
 
 const Wrapper = styled.div`

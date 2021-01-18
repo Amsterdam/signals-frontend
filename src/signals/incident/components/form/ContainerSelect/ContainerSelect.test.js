@@ -5,8 +5,8 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import { withAppContext } from 'test/utils';
 import WfsLayer from './WfsLayer';
 import ContainerSelect from './ContainerSelect';
-import { initialValue } from './context';
-import { withContainerSelectContext } from './context.test';
+import { initialValue } from './ContainerSelectContext';
+import { withContainerSelectContext } from './ContainerSelectContext.test';
 // prevent fetch requests that we don't need to verify
 jest.mock('./WfsLayer', () => () => <span data-testid="wfsLayer" />);
 

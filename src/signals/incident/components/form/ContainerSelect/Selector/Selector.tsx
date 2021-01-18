@@ -7,12 +7,14 @@ import L from 'leaflet';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import styled from 'styled-components';
-import ContainerSelectContext from '../context';
+import ContainerSelectContext from '../ContainerSelectContext';
 import type { Item, ClickEvent, FeatureType, WfsLayerProps } from '../types';
 import type { MapOptions, Map as MapType } from 'leaflet';
 
 import ContainerLayer from '../ContainerLayer';
 import WfsLayer from '../WfsLayer';
+
+const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -132,9 +134,8 @@ const Selector = () => {
       url: meta.endpoint,
       options: {
         getBbox: (mapInstance: MapType): string => {
-          const wgs84Crs = 'urn:ogc:def:crs:EPSG::4326';
           const bounds = mapInstance.getBounds();
-          const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},${wgs84Crs}`;
+          const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},${SRS_NAME}`;
           return `&${L.Util.getParamString({
             bbox,
           }).substring(1)}`;

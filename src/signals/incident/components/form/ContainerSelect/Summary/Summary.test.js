@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Summary from './Summary';
 
-import { ContainerSelectProvider } from '../context';
+import { ContainerSelectProvider } from '../ContainerSelectContext';
 import { withAppContext } from 'test/utils';
 
 const contextValue = {

@@ -11,7 +11,7 @@ import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import WfsLayer, { isLayerVisible } from './WfsLayer';
 import type { DataLayerProps, WfsLayerProps } from '../types';
-import WfsDataContext from './context';
+import WfsDataContext from './WfsDataContext';
 
 const fetchMock = fetch as FetchMock;
 

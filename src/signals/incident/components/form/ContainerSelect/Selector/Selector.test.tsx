@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import Selector from './Selector';
 import fetchMock from 'jest-fetch-mock';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
-import { contextValue, withContainerSelectContext } from '../context.test';
+import { contextValue, withContainerSelectContext } from '../ContainerSelectContext.test';
 
 
 describe('signals/incident/components/form/ContainerSelect/Selector', () => {

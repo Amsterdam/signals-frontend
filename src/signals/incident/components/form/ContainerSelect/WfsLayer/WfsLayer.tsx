@@ -7,8 +7,8 @@ import type { DataLayerProps, WfsLayerProps } from '../types';
 
 import { fetchWithAbort } from '@amsterdam/arm-core';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
-import ContainerSelectContext from '../context';
-import { NO_DATA, WfsDataProvider } from './context';
+import ContainerSelectContext from '../ContainerSelectContext';
+import { NO_DATA, WfsDataProvider } from './WfsDataContext';
 
 export const isLayerVisible = (zoom: number, zoomLevel: ZoomLevel) => {
   const { min, max } = zoomLevel;
