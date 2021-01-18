@@ -40,7 +40,7 @@ if (dsn) {
 }
 
 // Create redux store with history
-const initialState = Immutable.Map();
+const initialState = {};
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
