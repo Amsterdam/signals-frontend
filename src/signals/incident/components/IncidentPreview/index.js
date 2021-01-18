@@ -56,14 +56,14 @@ const LinkContainer = styled.div`
   }
 `;
 
-const Ul = styled.ul`
+const Dl = styled.dl`
   display: grid;
   grid-row-gap: ${themeSpacing(4)};
   margin: 0;
   padding: 0;
 `;
 
-const Li = styled.li`
+const DefinitionsWrapper = styled.div`
   display: grid;
   column-gap: ${themeSpacing(5)};
   margin: 0;
@@ -122,9 +122,9 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
               </Header>
             )}
 
-            <Ul>
+            <Dl>
               {visibleEntries.map(([itemKey, itemValue]) => (
-                <Li key={itemKey}>
+                <DefinitionsWrapper key={itemKey}>
                   <dt>{itemValue.label}</dt>
                   <dd>
                     {itemValue.render({
@@ -133,9 +133,9 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
                       incident,
                     })}
                   </dd>
-                </Li>
+                </DefinitionsWrapper>
               ))}
-            </Ul>
+            </Dl>
 
             <LinkContainer>
               <AscLink as={Link} to={`/incident/${section}`} variant="inline">
