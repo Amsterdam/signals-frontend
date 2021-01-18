@@ -29,7 +29,7 @@ const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children 
   /* istanbul ignore next */
   useEffect(() => {
     function onMoveEnd() {
-      setBbox(options.getBBox(mapInstance));
+      setBbox(options.getBbox(mapInstance));
     }
 
     mapInstance.on('moveend', onMoveEnd);
@@ -45,7 +45,7 @@ const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children 
       return;
     }
 
-    const extent = bbox || options.getBBox(mapInstance);
+    const extent = bbox || options.getBbox(mapInstance);
     const [request, controller] = fetchWithAbort(`${url}${extent}`);
 
     request

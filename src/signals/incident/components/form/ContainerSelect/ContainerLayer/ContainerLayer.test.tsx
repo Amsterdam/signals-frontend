@@ -21,10 +21,12 @@ const options: MapOptions = {
   zoom: 14,
 };
 
-const withMapContainer = (Component: ReactNode) =>
+const withMapContainer = (Component: ReactNode) => (
   <Map data-testid="map-test" options={options}>
     {Component}
-  </Map>;
+  </Map>
+);
+
 describe('src/signals/incident/components/form/ContainerSelect/Selector/MarkerCluster', () => {
   const featureTypes: FeatureType[] = [
     {
@@ -54,10 +56,11 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/MarkerCl
   ];
 
   it('should render the cluster layer in the map', () => {
-    const ContainerLayerWrapper = () =>
+    const ContainerLayerWrapper = () => (
       <WfsDataProvider value={containersJson as FeatureCollection}>
         <ContainerLayer featureTypes={featureTypes} />;
-      </WfsDataProvider>;
+      </WfsDataProvider>
+    );
     render(withMapContainer(<ContainerLayerWrapper />));
 
     expect(screen.getByTestId('map-test')).toBeInTheDocument();

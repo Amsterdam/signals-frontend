@@ -54,7 +54,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     wfsLayerProps = {
       url: 'https://wfs-url',
       options: {
-        getBBox: mockedGetBBox,
+        getBbox: mockedGetBBox,
       },
       zoomLevel: { max: 10 },
     };
@@ -112,7 +112,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should conlole.error when other error occurs in the wfs call', async () => {
+  it('should console.error when other error occurs in the wfs call', async () => {
     const consoleErrorSpy = jest.spyOn(console, 'error');
     const error = new Error();
     error.name = 'OtherError';

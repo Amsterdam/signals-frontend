@@ -47,7 +47,7 @@ export interface ContainerSelectValue {
 export interface WfsLayerProps {
   url: string;
   options: {
-    getBBox: (mapInstance: Map) => string;
+    getBbox: (mapInstance: Map) => string;
   };
   zoomLevel: ZoomLevel;
 }

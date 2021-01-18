@@ -104,8 +104,7 @@ const Selector = () => {
 
       // We use here a fixed list for now
       const selectedItems: Item[] = SELECTED_ITEMS.map(({ id, type }) => {
-        const found: Partial<FeatureType> = featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
-        const { description, icon } = found;
+        const { description, icon }: Partial<FeatureType> = featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
 
         return {
           id,
@@ -132,9 +131,10 @@ const Selector = () => {
     () => ({
       url: meta.endpoint,
       options: {
-        getBBox: (mapInstance: MapType): string => {
+        getBbox: (mapInstance: MapType): string => {
+          const wgs84Crs = 'urn:ogc:def:crs:EPSG::4326;';
           const bounds = mapInstance.getBounds();
-          const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},urn:ogc:def:crs:EPSG::4326`;
+          const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},${wgs84Crs}`;
 
           return `&${L.Util.getParamString({
             bbox,

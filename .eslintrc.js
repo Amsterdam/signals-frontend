@@ -49,6 +49,7 @@ module.exports = {
             ignoreStatic: true,
           },
         ],
+        '@typescript-eslint/no-extra-parens': 'off',
       },
     },
   ],
