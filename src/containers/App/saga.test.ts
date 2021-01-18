@@ -206,6 +206,7 @@ describe('containers/App/saga', () => {
 
   describe('uploadFile', () => {
     let payload: UploadFile;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let mockChannel: any;
     let gen: SagaGeneratorType;
 
