@@ -132,10 +132,9 @@ const Selector = () => {
       url: meta.endpoint,
       options: {
         getBbox: (mapInstance: MapType): string => {
-          const wgs84Crs = 'urn:ogc:def:crs:EPSG::4326;';
+          const wgs84Crs = 'urn:ogc:def:crs:EPSG::4326';
           const bounds = mapInstance.getBounds();
           const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},${wgs84Crs}`;
-
           return `&${L.Util.getParamString({
             bbox,
           }).substring(1)}`;

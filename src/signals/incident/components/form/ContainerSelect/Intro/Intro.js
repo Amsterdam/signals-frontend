@@ -28,8 +28,8 @@ const StyledMap = styled(Map)`
 
 const Intro = () => {
   const { edit, location } = useContext(ContainerSelectContext);
-  const lat = location && location[1];
-  const lng = location && location[0];
+  const lat = location && location[0];
+  const lng = location && location[1];
   const options = {
     ...MAP_OPTIONS,
     attributionControl: false,
