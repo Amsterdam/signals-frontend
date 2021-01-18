@@ -4,7 +4,7 @@ import { ascDefaultTheme as theme } from '@amsterdam/asc-ui';
 import 'jest-styled-components';
 
 import { withAppContext } from 'test/utils';
-import { VARIANT_ERROR, VARIANT_SUCCESS, VARIANT_NOTICE, VARIANT_DEFAULT } from 'containers/Notification/constants';
+import { VARIANT_ERROR, VARIANT_SUCCESS, VARIANT_NOTICE } from 'containers/Notification/constants';
 
 import { SITE_HEADER_HEIGHT_TALL, SITE_HEADER_HEIGHT_SHORT } from 'containers/SiteHeader/constants';
 
@@ -18,10 +18,6 @@ describe('components/Notification/styled', () => {
       expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.primary.main);
 
       rerender(withAppContext(<Wrapper variant={VARIANT_NOTICE} />));
-
-      expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.primary.main);
-
-      rerender(withAppContext(<Wrapper variant={VARIANT_DEFAULT} />));
 
       expect(container.firstChild).toHaveStyleRule('background-color', theme.colors.primary.main);
 

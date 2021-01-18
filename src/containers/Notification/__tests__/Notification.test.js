@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import { TYPE_GLOBAL, VARIANT_DEFAULT } from '../constants';
+import { TYPE_GLOBAL, VARIANT_NOTICE } from '../constants';
 
 import NotificationContainer, { NotificationContainerComponent } from '..';
 
@@ -34,7 +34,7 @@ describe('containers/Notification', () => {
       title: 'Foo bar',
       message: 'hic sunt dracones',
       type: TYPE_GLOBAL,
-      variant: VARIANT_DEFAULT,
+      variant: VARIANT_NOTICE,
     };
 
     const { container } = render(
@@ -54,7 +54,7 @@ describe('containers/Notification', () => {
       title: '',
       message: 'hic sunt dracones',
       type: TYPE_GLOBAL,
-      variant: VARIANT_DEFAULT,
+      variant: VARIANT_NOTICE,
     };
 
     const { container } = render(

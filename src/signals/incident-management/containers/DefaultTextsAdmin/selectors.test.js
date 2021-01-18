@@ -7,9 +7,10 @@ describe('makeSelectDefaultTextsAdmin', () => {
     const defaultTextsAdmin = {
       defaultTexts: [],
     };
-    const mockedState = fromJS({
-      defaultTextsAdmin,
-    });
+
+    const mockedState = {
+      defaultTextsAdmin: fromJS(defaultTextsAdmin),
+    };
 
     expect(selector(mockedState)).toEqual(defaultTextsAdmin);
   });

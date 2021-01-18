@@ -4,7 +4,7 @@ import { initialState } from './reducer';
 /**
  * Direct selector to the roles state domain
  */
-const selectRolesDomain = state => state.get('roles') || initialState;
+const selectRolesDomain = state => state.roles || initialState;
 
 /**
  * Other specific selectors
