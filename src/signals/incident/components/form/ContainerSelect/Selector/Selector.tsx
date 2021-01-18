@@ -198,7 +198,7 @@ const Selector = () => {
           }}
           mapPanelDrawerSnapPositions={{
             [SnapPoint.Closed]: '30px',
-            [SnapPoint.Halfway]: '50%',
+            [SnapPoint.Halfway]: '300px',
             [SnapPoint.Full]: '100%',
           }}
           variant={panelVariant}

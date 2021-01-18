@@ -37,12 +37,12 @@ describe('signals/incident/components/form/ContainerSelect/ContainerList', () =>
     render(withAppContext(<ContainerList selection={selection}></ContainerList>));
 
     expect(screen.getByTestId('containerList')).toBeInTheDocument();
-    selection.forEach(({ id }) => expect(screen.getByTestId(id)).toBeInTheDocument());
+    selection.forEach(({ id }) => expect(screen.getByTestId(`containerList-item-${id}`)).toBeInTheDocument());
     expect(screen.getAllByRole('listitem').length).toBe(selection.length);
   });
 
   it('should render an empty list', () => {
-    render(withAppContext(<ContainerList ></ContainerList>));
+    render(withAppContext(<ContainerList selection={[]} ></ContainerList>));
 
     expect(screen.getByTestId('containerList')).toBeInTheDocument();
     expect(screen.queryAllByRole('listitem').length).toBe(0);
