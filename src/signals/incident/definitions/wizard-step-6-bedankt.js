@@ -11,8 +11,9 @@ export default {
       text_melding: {
         meta: {
           type: 'bedankt',
-          value:
-            'Uw melding is bij ons bekend onder nummer: <a href="/manage/incident/{incident.id}">{incident.id}</a>.',
+          value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.',
+          valueAuthenticated:
+            'Uw melding is bij ons bekend onder nummer: [{incident.id}](/manage/incident/{incident.id}).',
         },
         render: FormComponents.PlainText,
       },
