@@ -14,8 +14,8 @@ import ContainerSelectContext from '../ContainerSelectContext';
 import type { Item, ClickEvent, FeatureType, WfsLayerProps } from '../types';
 import type { MapOptions, Map as MapType } from 'leaflet';
 
-import LegendPanel from './LegendPanel';
-import ViewerContainer from './ViewerContainer';
+import LegendPanel from '../LegendPanel';
+import ViewerContainer from '../ViewerContainer';
 import ContainerLayer from '../ContainerLayer';
 import WfsLayer from '../WfsLayer';
 
