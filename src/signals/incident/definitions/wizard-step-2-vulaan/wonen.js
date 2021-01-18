@@ -478,9 +478,8 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_gemeld_bij_eigenaar: 'nee',
       },
       type: 'caution',
-      value: [
+      value:
         'Meld uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in.',
-      ],
     },
     render: FormComponents.PlainText,
   },
@@ -565,7 +564,7 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_direct_gevaar: 'nee',
       },
       type: 'caution',
-      value: ['Let op! Vul uw telefoonnummer in op de volgende pagina.'],
+      value: 'Let op! Vul uw telefoonnummer in op de volgende pagina.',
     },
     render: FormComponents.PlainText,
   },
@@ -737,9 +736,7 @@ const vakantieverhuur = {
         wonen_overig: 'vakantieverhuur',
       },
       type: 'caution',
-      value: [
-        `Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met ${configuration.language.phoneNumber} en vraag naar team Vakantieverhuur.`,
-      ],
+      value: `Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met ${configuration.language.phoneNumber} en vraag naar team Vakantieverhuur.`,
     },
     render: FormComponents.PlainText,
   },
@@ -758,7 +755,8 @@ const overig = {
         leegstand: 'Een woning of woonboot die opvallend lang leeg staat',
         crimineleBewoning: 'Criminele bewoning of activiteiten in een woning of woonboot',
         woningdelen: 'Woningdelen (de woning wordt door verschillende mensen gedeeld)',
-        woningkwaliteit: 'Achterstallig onderhoud of een gebrek aan een woning wordt niet verholpen door de eigenaar/beheerder',
+        woningkwaliteit:
+          'Achterstallig onderhoud of een gebrek aan een woning wordt niet verholpen door de eigenaar/beheerder',
       },
       resetsStateOnChange: true,
     },
