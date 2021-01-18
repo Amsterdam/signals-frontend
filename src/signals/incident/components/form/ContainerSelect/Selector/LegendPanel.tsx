@@ -10,7 +10,7 @@ interface Item {
   id: string;
 }
 
-interface LegendPanelProps {
+export interface LegendPanelProps {
   variant: 'panel' | 'drawer';
   title: string;
   items: Item[];

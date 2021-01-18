@@ -30,7 +30,7 @@ interface Item {
   id: string;
 }
 
-interface IconListProps {
+export interface IconListProps {
   items: Item[];
   id: string;
   size?: number;
