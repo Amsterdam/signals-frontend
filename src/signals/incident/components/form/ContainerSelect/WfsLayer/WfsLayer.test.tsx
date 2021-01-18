@@ -1,16 +1,17 @@
 import type { ReactNode } from 'react';
-import React from 'react';
+import React, { useContext } from 'react';
+
 import { render, screen } from '@testing-library/react';
 import type { FetchMock } from 'jest-fetch-mock';
+import type { FeatureCollection } from 'geojson';
 
 import { Map } from '@amsterdam/react-maps';
-import L from 'leaflet';
 import type { MapOptions } from 'leaflet';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import WfsLayer, { isLayerVisible } from './WfsLayer';
-import { markerIcon } from 'shared/services/configuration/map-markers';
 import type { WfsLayerProps } from '../types';
+import WfsDataContext from './context';
 
 const fetchMock = fetch as FetchMock;
 
@@ -20,6 +21,7 @@ const options: MapOptions = {
   center: [52.37309068742423, 4.879893985747362],
   zoom: 14,
 };
+
 const withMapContainer = (Component: ReactNode) => <Map data-testid="map-test" options={options}>{Component}</Map>;
 
 describe('isLayerVisible', () => {
@@ -34,9 +36,8 @@ describe('isLayerVisible', () => {
   });
 });
 
-describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer.tsx', () => {
+describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => {
   const mockedGetBBox = jest.fn();
-  const mockedGetMarker = jest.fn();
   let wfsLayerProps: WfsLayerProps;
 
   beforeEach(() => {
@@ -68,15 +69,21 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer
 
   it('should render the wfs layer in the map', async() => {
     fetchMock.mockResponseOnce(JSON.stringify(containersJson), { status: 200 });
-    mockedGetMarker.mockImplementation((_, latlng) => new L.Marker(latlng, { icon: markerIcon }));
+    const setContextData = jest.fn();
 
+    const TestLayer = () => {
+      const data = useContext<FeatureCollection>(WfsDataContext);
+      setContextData(data);
+
+      return <span data-testid="test-layer"></span>;
+    };
     render(
-      withMapContainer(<WfsLayer {...wfsLayerProps} ><span></span></WfsLayer>)
+      withMapContainer(<WfsLayer {...wfsLayerProps} ><TestLayer /></WfsLayer>)
     );
 
     await screen.findByTestId('map-test');
     expect(mockedGetBBox).toHaveBeenCalledTimes(1);
-    expect(mockedGetMarker).toHaveBeenCalledTimes(containersJson.features.length);
+    expect(setContextData).toHaveBeenCalledWith(containersJson);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
@@ -89,7 +96,6 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer
     );
 
     expect(mockedGetBBox).toHaveBeenCalledTimes(1);
-    expect(mockedGetMarker).toHaveBeenCalledTimes(0);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
@@ -102,12 +108,10 @@ describe('src/signals/incident/components/form/ContainerSelect/Selector/WfsLayer
       withMapContainer(<WfsLayer {...wfsLayerProps} ><span></span></WfsLayer>)
     );
 
-    // global.console.error = jest.fn();
     await screen.findByTestId('map-test');
     expect(consoleErrorSpy).toHaveBeenCalled();
     consoleErrorSpy.mockClear();
     expect(mockedGetBBox).toHaveBeenCalledTimes(1);
-    expect(mockedGetMarker).toHaveBeenCalledTimes(0);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

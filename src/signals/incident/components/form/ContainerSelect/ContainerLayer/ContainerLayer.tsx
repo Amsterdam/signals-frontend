@@ -39,7 +39,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
 
   const options: L.GeoJSONOptions<Record<string, string | undefined>> = useMemo(
     () => ({
-      pointToLayer: /* istanbul ignore next */ (feature, latlng: LatLng) => {
+      pointToLayer: (feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
 

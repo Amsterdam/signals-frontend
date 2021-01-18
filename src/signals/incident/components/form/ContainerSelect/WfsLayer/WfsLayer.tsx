@@ -70,7 +70,7 @@ const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children 
     };
   }, [bbox, mapInstance, options, url, zoomLevel]);
 
-  const layer = React.cloneElement(children ?? null, { featureTypes: meta.featureTypes });
+  const layer = React.cloneElement(children, { featureTypes: meta.featureTypes });
   return <WfsDataProvider value={data}>{layer}</WfsDataProvider>;
 };
 
