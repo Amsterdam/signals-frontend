@@ -80,7 +80,7 @@ const Selector = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
-  const featureTypes = useMemo(() => meta && [...meta.featureTypes, unknownFeatureType] || [], [meta]);
+  const featureTypes = useMemo(() => [...meta.featureTypes, unknownFeatureType], [meta]);
 
   const mapOptions = useMemo<MapOptions>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -130,7 +130,7 @@ const Selector = () => {
 
   const wfsLayerProps: WfsLayerProps = useMemo(
     () => ({
-      url: meta?.endpoint,
+      url: meta.endpoint,
       options: {
         getBBox: (mapInstance: MapType): string => {
           const bounds = mapInstance.getBounds();

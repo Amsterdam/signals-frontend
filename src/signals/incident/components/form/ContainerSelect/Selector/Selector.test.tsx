@@ -1,11 +1,10 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Selector from './Selector';
-import type { FetchMock } from 'jest-fetch-mock';
+import fetchMock from 'jest-fetch-mock';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import { contextValue, withContainerSelectContext } from '../context.test';
 
-const fetchMock = fetch as FetchMock;
 
 describe('signals/incident/components/form/ContainerSelect/Selector', () => {
   beforeEach(() => {

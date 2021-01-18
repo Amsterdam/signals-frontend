@@ -71,13 +71,6 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         }
       });
     }
-
-    return () => {
-      if (layerInstance) {
-        // This ensures that for each refresh of the data, the click
-        // events that are bound in the layer data are removed.
-      }
-    };
   }, [layerInstance, data, options]);
 
   return <MarkerCluster clusterOptions={clusterOptions} setInstance={setLayerInstance} />;
