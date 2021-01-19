@@ -12,10 +12,10 @@ import category from 'utils/__tests__/fixtures/category.json';
 import userOptions from 'utils/__tests__/fixtures/userOptions.json';
 import users from 'utils/__tests__/fixtures/users.json';
 
-import IncidentManagementContext from '../../../context';
-import AppContext from '../../../../../containers/App/context';
+import IncidentManagementContext from '../../context';
+import AppContext from '../../../../containers/App/context';
 
-import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '..';
+import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from './FilterTagList';
 
 jest.mock('shared/services/configuration/configuration');
 
