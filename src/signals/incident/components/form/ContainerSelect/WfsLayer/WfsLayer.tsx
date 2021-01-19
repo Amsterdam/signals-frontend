@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
 import { useMapInstance } from '@amsterdam/react-maps';
 import type { FeatureCollection } from 'geojson';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@amsterdam/arm-core/lib/constants';
@@ -26,7 +27,7 @@ export interface WfsLayerProps {
   zoomLevel?: ZoomLevel;
 }
 
-const WfsLayer: React.FC<WfsLayerProps> = ({ children, zoomLevel = DEFAULT_ZOOM_LEVEL }) => {
+const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = DEFAULT_ZOOM_LEVEL }) => {
   const mapInstance = useMapInstance();
   const { meta } = useContext(ContainerSelectContext);
   const url = meta.endpoint;
