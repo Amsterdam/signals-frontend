@@ -3,18 +3,15 @@ import ReactDOM from 'react-dom';
 import { Paragraph, themeColor, ViewerContainer } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 import Map from 'components/Map';
-import L from 'leaflet';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import styled from 'styled-components';
 import ContainerSelectContext from '../ContainerSelectContext';
-import type { Item, ClickEvent, FeatureType, WfsLayerProps } from '../types';
-import type { MapOptions, Map as MapType } from 'leaflet';
+import type { Item, ClickEvent, FeatureType } from '../types';
+import type { MapOptions } from 'leaflet';
 
 import ContainerLayer from '../ContainerLayer';
 import WfsLayer from '../WfsLayer';
-
-const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -129,22 +126,6 @@ const Selector = () => {
     [update]
   );
 
-  const wfsLayerProps: WfsLayerProps = useMemo(
-    () => ({
-      url: meta.endpoint,
-      options: {
-        getBbox: (mapInstance: MapType): string => {
-          const bounds = mapInstance.getBounds();
-          const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},${SRS_NAME}`;
-          return `&${L.Util.getParamString({
-            bbox,
-          }).substring(1)}`;
-        },
-      },
-      zoomLevel: { max: 7 },
-    }),
-    [meta]
-  );
 
   const mapWrapper =
     <Wrapper data-testid="containerSelectSelector">
@@ -163,7 +144,7 @@ const Selector = () => {
             </ButtonBar>
           }
         />
-        <WfsLayer {...wfsLayerProps}>
+        <WfsLayer>
           <ContainerLayer featureTypes={meta.featureTypes} />
         </WfsLayer>
       </StyledMap>
