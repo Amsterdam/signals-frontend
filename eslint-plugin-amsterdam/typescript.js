@@ -66,8 +66,6 @@ module.exports = {
         // 'semi': 'off'
         // 'semi-style': 'off',
         // 'space-before-function-paren': 'off',
-
-        '@typescript-eslint/no-explicit-any': 'warn',
       },
     },
   ],

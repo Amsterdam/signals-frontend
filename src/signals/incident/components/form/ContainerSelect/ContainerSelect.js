@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { ContainerSelectProvider } from './context';
+import { ContainerSelectProvider } from './ContainerSelectContext';
 import Intro from './Intro';
 import Selector from './Selector';
 import Summary from './Summary';
@@ -9,7 +9,8 @@ const ContainerSelect = ({ handler, meta, parent }) => {
   const { value } = handler();
   const [showMap, setShowMap] = useState(false);
 
-  const location = parent.meta?.incidentContainer?.incident?.location.geometrie.coordinates;
+  const { coordinates } = parent.meta?.incidentContainer?.incident?.location.geometrie;
+  const location = [coordinates[1], coordinates[0]];
 
   const update = useCallback(
     selectedValue => {

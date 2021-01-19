@@ -2,7 +2,7 @@ import React, { useCallback, useState, useContext } from 'react';
 import styled from 'styled-components';
 import Button from 'components/Button';
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import ContainerSelectContext from '../context';
+import ContainerSelectContext from '../ContainerSelectContext';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from 'components/Map';
 
@@ -28,8 +28,8 @@ const StyledMap = styled(Map)`
 
 const Intro = () => {
   const { edit, location } = useContext(ContainerSelectContext);
-  const lat = location && location[1];
-  const lng = location && location[0];
+  const lat = location && location[0];
+  const lng = location && location[1];
   const options = {
     ...MAP_OPTIONS,
     attributionControl: false,
