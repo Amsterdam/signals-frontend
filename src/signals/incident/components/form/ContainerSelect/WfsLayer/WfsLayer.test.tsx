@@ -1,26 +1,25 @@
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useContext } from 'react';
+import type { MapOptions } from 'leaflet';
 
 import { render, screen } from '@testing-library/react';
 import type { FetchMock } from 'jest-fetch-mock';
 import type { FeatureCollection } from 'geojson';
 
 import { Map } from '@amsterdam/react-maps';
-import type { MapOptions } from 'leaflet';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import type { DataLayerProps } from '../types';
+import WfsDataContext, { NO_DATA } from './WfsDataContext';
 import WfsLayer, { isLayerVisible } from './WfsLayer';
-import type { DataLayerProps, WfsLayerProps } from '../types';
-import WfsDataContext from './WfsDataContext';
 
 const fetchMock = fetch as FetchMock;
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const options: MapOptions = {
+const options = {
   ...MAP_OPTIONS,
   center: [52.37309068742423, 4.879893985747362],
   zoom: 14,
-};
+} as MapOptions;
 
 const withMapContainer = (Component: ReactNode) =>
   <Map data-testid="map-test" options={options}>
@@ -39,9 +38,7 @@ describe('isLayerVisible', () => {
 });
 
 describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => {
-  const mockedGetBBox = jest.fn();
   const setContextData = jest.fn();
-  let wfsLayerProps: WfsLayerProps;
   const TestLayer: FunctionComponent<DataLayerProps> = () => {
     const data = useContext<FeatureCollection>(WfsDataContext);
     setContextData(data);
@@ -51,13 +48,6 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
 
   beforeEach(() => {
     fetchMock.resetMocks();
-    wfsLayerProps = {
-      url: 'https://wfs-url',
-      options: {
-        getBbox: mockedGetBBox,
-      },
-      zoomLevel: { max: 10 },
-    };
   });
 
   afterEach(() => {
@@ -68,14 +58,13 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     fetchMock.mockResponseOnce(JSON.stringify(containersJson), { status: 200 });
     render(
       withMapContainer(
-        <WfsLayer {...wfsLayerProps} zoomLevel={{ max: 15 }}>
+        <WfsLayer zoomLevel={{ max: 15 }} >
           <TestLayer featureTypes={[]} />
         </WfsLayer>
       )
     );
 
     expect(screen.getByTestId('map-test')).toBeInTheDocument();
-    expect(mockedGetBBox).not.toHaveBeenCalled();
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
@@ -84,14 +73,13 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
 
     render(
       withMapContainer(
-        <WfsLayer {...wfsLayerProps}>
+        <WfsLayer>
           <TestLayer featureTypes={[]} />
         </WfsLayer>
       )
     );
 
     await screen.findByTestId('map-test');
-    expect(mockedGetBBox).toHaveBeenCalledTimes(1);
     expect(setContextData).toHaveBeenCalledWith(containersJson);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
@@ -102,13 +90,13 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     fetchMock.mockRejectOnce(error);
     render(
       withMapContainer(
-        <WfsLayer {...wfsLayerProps}>
+        <WfsLayer>
           <TestLayer featureTypes={[]} />
         </WfsLayer>
       )
     );
 
-    expect(mockedGetBBox).toHaveBeenCalledTimes(1);
+    expect(setContextData).toHaveBeenCalledWith(NO_DATA);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
@@ -119,7 +107,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     fetchMock.mockRejectOnce(error);
     render(
       withMapContainer(
-        <WfsLayer {...wfsLayerProps}>
+        <WfsLayer>
           <TestLayer featureTypes={[]} />
         </WfsLayer>
       )
@@ -128,7 +116,6 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     await screen.findByTestId('map-test');
     expect(consoleErrorSpy).toHaveBeenCalled();
     consoleErrorSpy.mockClear();
-    expect(mockedGetBBox).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

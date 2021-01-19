@@ -1,27 +1,44 @@
+import React, { useContext, useEffect, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import { useMapInstance } from '@amsterdam/react-maps';
 import type { FeatureCollection } from 'geojson';
-import React, { useContext, useEffect, useState } from 'react';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@amsterdam/arm-core/lib/constants';
-import type { DataLayerProps, WfsLayerProps } from '../types';
+import type { DataLayerProps } from '../types';
+import L from 'leaflet';
+import type { Map as MapType } from 'leaflet';
 
 import { fetchWithAbort } from '@amsterdam/arm-core';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 import ContainerSelectContext from '../ContainerSelectContext';
 import { NO_DATA, WfsDataProvider } from './WfsDataContext';
 
-export const isLayerVisible = (zoom: number, zoomLevel: ZoomLevel) => {
+const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
+const DEFAULT_ZOOM_LEVEL: ZoomLevel = {
+  max: 7,
+};
+
+export const isLayerVisible = (zoom: number, zoomLevel: ZoomLevel): boolean => {
   const { min, max } = zoomLevel;
   return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
 };
 
-export interface Props extends WfsLayerProps {
+export interface WfsLayerProps {
   children: React.ReactElement<DataLayerProps>;
+  zoomLevel?: ZoomLevel;
 }
 
-const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children }) => {
+const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = DEFAULT_ZOOM_LEVEL }) => {
   const mapInstance = useMapInstance();
   const { meta } = useContext(ContainerSelectContext);
+  const url = meta.endpoint;
+
+  const getBbox = (map: MapType): string => {
+    const bounds = map.getBounds();
+    const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},${SRS_NAME}`;
+    return `&${L.Util.getParamString({
+      bbox,
+    }).substring(1)}`;
+  };
 
   const [bbox, setBbox] = useState('');
   const [data, setData] = useState<FeatureCollection>(NO_DATA);
@@ -29,7 +46,7 @@ const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children 
   /* istanbul ignore next */
   useEffect(() => {
     function onMoveEnd() {
-      setBbox(options.getBbox(mapInstance));
+      setBbox(getBbox(mapInstance));
     }
 
     mapInstance.on('moveend', onMoveEnd);
@@ -37,7 +54,7 @@ const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children 
     return () => {
       mapInstance.off('moveend', onMoveEnd);
     };
-  }, [mapInstance, options]);
+  }, [mapInstance]);
 
   useEffect(() => {
     if (!isLayerVisible(mapInstance.getZoom(), zoomLevel)) {
@@ -45,7 +62,7 @@ const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children 
       return;
     }
 
-    const extent = bbox || options.getBbox(mapInstance);
+    const extent = bbox || getBbox(mapInstance);
     const [request, controller] = fetchWithAbort(`${url}${extent}`);
 
     request
@@ -68,7 +85,7 @@ const WfsLayer: FunctionComponent<Props> = ({ url, options, zoomLevel, children 
     return () => {
       controller.abort();
     };
-  }, [bbox, mapInstance, options, url, zoomLevel]);
+  }, [bbox, mapInstance, url, zoomLevel]);
 
   const layer = React.cloneElement(children, { featureTypes: meta.featureTypes });
   return <WfsDataProvider value={data}>{layer}</WfsDataProvider>;
