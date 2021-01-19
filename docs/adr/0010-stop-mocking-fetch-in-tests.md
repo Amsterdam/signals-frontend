@@ -13,6 +13,12 @@ For mocking unittests we are using at this moment the `jest-fetch-mock` package.
 # Technical description
 The `msw` server intercepts the fetch calls and returns the configured response. This is done outside the test file and only overrides of the standard responses from the default configuration need to be added to the respective test file. [Here is the documentation](https://github.com/mswjs/msw).
 
+## Consideratons
+Here are few advantages of introducing this library:
+- All the fetch/mocking can moved to one place (internals/testing)
+- The tests involving fetch will be simpler and easier to read/write
+- Enforces using the correct data/types, no half mock objects
+- E2e tests can also benefit from the msw setup and can use fixtures, the same way the unit tests can
 
 ## Decision
 The `jest-fetch-mock` will be removed and the mocking will be done by using the the `msw` package
