@@ -30,7 +30,7 @@ import { MAP_URL } from '../../routes';
 import List from './components/List';
 import OverviewMap from './components/OverviewMap';
 import SubNav from './components/SubNav';
-import FilterTagList from '../FilterTagList';
+import FilterTagList from '../FilterTagList/FilterTagList';
 import { MapWrapper, NoResults, StyledButton, StyledPagination } from './styled';
 
 let lastActiveElement = null;
