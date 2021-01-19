@@ -8,7 +8,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import styled from 'styled-components';
 import ContainerSelectContext from '../ContainerSelectContext';
-import type { Item, ClickEvent, FeatureType, WfsLayerProps } from '../types';
+import type { Item, ClickEventHandler, FeatureType, WfsLayerProps } from '../types';
 import type { MapOptions, Map as MapType } from 'leaflet';
 
 import ContainerLayer from '../ContainerLayer';
@@ -100,7 +100,7 @@ const Selector = () => {
 
   const [, setMap] = useState();
 
-  const addContainer = useCallback<ClickEvent>(
+  const addContainer = useCallback<ClickEventHandler>(
     event => {
       event.preventDefault();
 
@@ -121,7 +121,7 @@ const Selector = () => {
     [update, featureTypes]
   );
 
-  const removeContainer = useCallback<ClickEvent>(
+  const removeContainer = useCallback<ClickEventHandler>(
     event => {
       event.preventDefault();
       update(null);

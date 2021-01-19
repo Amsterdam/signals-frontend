@@ -1,7 +1,7 @@
 import type { IconOptions, LatLngExpression, Map } from 'leaflet';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 
-export type ClickEvent = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+export type ClickEventHandler = (event: React.SyntheticEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
 export interface Item {
   id: string;
@@ -36,12 +36,12 @@ export interface Meta extends Record<string, unknown> {
 }
 
 export interface ContainerSelectValue {
-  selection: Item[];
+  selection: Item[] | null;
   location: LatLngExpression;
   meta: Meta;
   update: (items: Item[] | null) => void;
-  edit: () => void;
-  close: () => void;
+  edit: (event: Event) => void;
+  close: ClickEventHandler;
 }
 
 export interface WfsLayerProps {

@@ -1,33 +1,47 @@
+import type { FunctionComponent } from 'react';
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import { ContainerSelectProvider } from './ContainerSelectContext';
 import Intro from './Intro';
 import Selector from './Selector';
 import Summary from './Summary';
+import type { ClickEventHandler, Item, Meta } from './types';
+import type { Incident } from 'types/incident';
+import type { LatLngExpression } from 'leaflet';
 
-const ContainerSelect = ({ handler, meta, parent }) => {
-  const { value } = handler();
+export interface ContainerSelectProps {
+  handler: () => { value: Item[] | null };
+  meta: Meta;
+  parent: {
+    meta: {
+      incidentContainer: { incident: Pick<Incident, 'location'> };
+      updateIncident: (data: { extra_container: Item[] | null }) => void;
+    };
+  };
+}
+
+const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({ handler, meta, parent }) => {
+  const value = handler().value;
   const [showMap, setShowMap] = useState(false);
 
   const { coordinates } = parent.meta?.incidentContainer?.incident?.location.geometrie;
-  const location = [coordinates[1], coordinates[0]];
+  const location: LatLngExpression = [coordinates[1], coordinates[0]];
 
   const update = useCallback(
-    selectedValue => {
+    (selectedValue: Item[] | null) => {
       parent.meta.updateIncident({ extra_container: selectedValue });
     },
     [parent]
   );
 
   const edit = useCallback(
-    event => {
+    (event: Event) => {
       event.preventDefault();
       setShowMap(true);
     },
     [setShowMap]
   );
 
-  const close = useCallback(
+  const close: ClickEventHandler = useCallback(
     event => {
       event.preventDefault();
       setShowMap(false);
@@ -42,15 +56,8 @@ const ContainerSelect = ({ handler, meta, parent }) => {
       {showMap && <Selector />}
 
       {!showMap && value && <Summary />}
-
     </ContainerSelectProvider>
   );
-};
-
-ContainerSelect.propTypes = {
-  handler: PropTypes.func,
-  meta: PropTypes.object,
-  parent: PropTypes.object,
 };
 
 export default ContainerSelect;
