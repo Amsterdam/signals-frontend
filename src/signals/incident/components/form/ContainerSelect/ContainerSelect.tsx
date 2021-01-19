@@ -9,12 +9,12 @@ import type { Incident } from 'types/incident';
 import type { LatLngExpression } from 'leaflet';
 
 export interface ContainerSelectProps {
-  handler: () => { value: Item[] | null };
+  handler: () => { value: Item[] };
   meta: Meta;
   parent: {
     meta: {
       incidentContainer: { incident: Pick<Incident, 'location'> };
-      updateIncident: (data: { extra_container: Item[] | null }) => void;
+      updateIncident: (data: { extra_container: Item[] }) => void;
     };
   };
 }
@@ -27,21 +27,21 @@ const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({ handler, met
   const location: LatLngExpression = [coordinates[1], coordinates[0]];
 
   const update = useCallback(
-    (selectedValue: Item[] | null) => {
+    (selectedValue: Item[]) => {
       parent.meta.updateIncident({ extra_container: selectedValue });
     },
     [parent]
   );
 
-  const edit = useCallback(
-    (event: Event) => {
+  const edit = useCallback<ClickEventHandler>(
+    event => {
       event.preventDefault();
       setShowMap(true);
     },
     [setShowMap]
   );
 
-  const close: ClickEventHandler = useCallback(
+  const close = useCallback<ClickEventHandler>(
     event => {
       event.preventDefault();
       setShowMap(false);

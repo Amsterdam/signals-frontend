@@ -124,12 +124,12 @@ const Selector = () => {
   const removeContainer = useCallback<ClickEventHandler>(
     event => {
       event.preventDefault();
-      update(null);
+      update([]);
     },
     [update]
   );
 
-  const wfsLayerProps: WfsLayerProps = useMemo(
+  const wfsLayerProps = useMemo<WfsLayerProps>(
     () => ({
       url: meta.endpoint,
       options: {

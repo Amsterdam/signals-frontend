@@ -18,7 +18,7 @@ describe('signals/incident/components/form/ContainerSelect', () => {
   beforeEach(() => {
     props = {
       handler: () => ({
-        value: null,
+        value: [],
       }),
       meta: initialValue.meta,
       parent: {
