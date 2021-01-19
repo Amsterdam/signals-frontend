@@ -4,6 +4,7 @@ import L from 'leaflet';
 import { Paragraph, themeColor } from '@amsterdam/asc-ui';
 import { MapPanel, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
 import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
+import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
 import Button from 'components/Button';
 import Map from 'components/Map';
@@ -20,6 +21,16 @@ import ContainerLayer from '../ContainerLayer';
 import WfsLayer from '../WfsLayer';
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
+const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
+  [SnapPoint.Closed]: '30px',
+  [SnapPoint.Halfway]: '300px',
+  [SnapPoint.Full]: '100%',
+};
+const MAP_PANEL_SNAP_POSITIONS = {
+  [SnapPoint.Closed]: '90%',
+  [SnapPoint.Halfway]: '50%',
+  [SnapPoint.Full]: '0',
+};
 
 const ButtonBar = styled.div`
   width: 100%;
@@ -90,9 +101,12 @@ const Selector = () => {
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
   const featureTypes = useMemo(() => [...meta.featureTypes, unknownFeatureType], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
-  const panelVariant = showDesktopVariant ? 'drawer' : 'panel';
-
-  const Panel = showDesktopVariant ? MapPanel : MapPanelDrawer;
+  const { Panel, panelVariant } = useMemo<{Panel: React.FC; panelVariant: Variant}>(
+    () => showDesktopVariant
+      ? { Panel: MapPanel, panelVariant: 'drawer' }
+      : { Panel: MapPanelDrawer, panelVariant: 'panel' }
+    , [showDesktopVariant]
+  );
 
   const mapOptions = useMemo<MapOptions>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -167,16 +181,8 @@ const Selector = () => {
         events={{}}
       >
         <MapPanelProvider
-          mapPanelSnapPositions={{
-            [SnapPoint.Closed]: '90%',
-            [SnapPoint.Halfway]: '50%',
-            [SnapPoint.Full]: '0',
-          }}
-          mapPanelDrawerSnapPositions={{
-            [SnapPoint.Closed]: '30px',
-            [SnapPoint.Halfway]: '300px',
-            [SnapPoint.Full]: '100%',
-          }}
+          mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
+          mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
           variant={panelVariant}
           initialPosition={SnapPoint.Closed}
         >
@@ -212,7 +218,7 @@ const Selector = () => {
             <LegendPanel
               variant={panelVariant}
               title="Legenda"
-              items={meta?.featureTypes.map(featureType => ({
+              items={meta.featureTypes.map(featureType => ({
                 label: featureType.label,
                 iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
                 id: featureType.typeValue,

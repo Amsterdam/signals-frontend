@@ -22,4 +22,10 @@ describe('LegendPanel', () => {
     props.items?.forEach(({ id }) => expect(screen.getByTestId(`legend-item-${id}`)));
     expect(screen.getAllByRole('listitem').length).toBe(props.items?.length);
   });
+
+  it('should render with empty items', () => {
+    render(withAppContext(<LegendPanel title={props.title} variant={props.variant} />));
+
+    expect(screen.queryAllByRole('listitem').length).toBe(0);
+  });
 });

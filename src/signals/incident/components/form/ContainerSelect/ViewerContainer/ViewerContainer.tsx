@@ -35,7 +35,6 @@ interface ViewerContainerProps extends AscViewerContainerProps {
 const ViewerContainer: React.FC<ViewerContainerProps> = ({
   showDesktopVariant,
   legendButton,
-  id,
   ...restProps
 }) => {
   const { drawerPosition } = useContext(MapPanelContext);
@@ -45,7 +44,7 @@ const ViewerContainer: React.FC<ViewerContainerProps> = ({
   return (
     <StyledViewerContainer
       {...restProps}
-      data-testid={id}
+      data-testid="viewer-container"
       bottomLeft={!showDesktopVariant && legendButton}
       topLeft={showDesktopVariant && legendButton}
       height={height}

@@ -15,7 +15,7 @@ describe('ViewerContainer', () => {
         variant="drawer"
         initialPosition={SnapPoint.Closed}
       >
-        <ViewerContainer id="viewer-container" legendButton={button} showDesktopVariant={false} />
+        <ViewerContainer legendButton={button} showDesktopVariant={false} />
       </MapPanelProvider>
     ));
 
@@ -31,7 +31,7 @@ describe('ViewerContainer', () => {
         variant="drawer"
         initialPosition={SnapPoint.Closed}
       >
-        <ViewerContainer id="viewer-container" legendButton={button} showDesktopVariant />
+        <ViewerContainer legendButton={button} showDesktopVariant />
       </MapPanelProvider>
     ));
 
