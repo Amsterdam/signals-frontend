@@ -47,7 +47,10 @@ export const mapKeys = key => {
       return 'verantwoordelijke afdeling';
 
     case 'has_changed_children':
-      return 'Wijziging in deelmeldingen';
+      return 'wijziging in deelmeldingen';
+
+    case 'kind':
+      return 'soort';
 
     default:
       return key;
