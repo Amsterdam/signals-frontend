@@ -23,7 +23,7 @@ const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({ handler, met
   const value = handler().value;
   const [showMap, setShowMap] = useState(false);
 
-  const { coordinates } = parent.meta?.incidentContainer?.incident?.location.geometrie;
+  const { coordinates } = parent.meta.incidentContainer.incident.location.geometrie;
   const location: LatLngExpression = [coordinates[1], coordinates[0]];
 
   const update = useCallback(
@@ -51,11 +51,11 @@ const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({ handler, met
 
   return (
     <ContainerSelectProvider value={{ selection: value, location, meta, update, edit, close }}>
-      {!showMap && !value && <Intro />}
+      {!showMap && value.length === 0 && <Intro />}
 
       {showMap && <Selector />}
 
-      {!showMap && value && <Summary />}
+      {!showMap && value.length > 0 && <Summary />}
     </ContainerSelectProvider>
   );
 };

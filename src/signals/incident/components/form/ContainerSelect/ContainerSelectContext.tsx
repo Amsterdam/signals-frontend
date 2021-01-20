@@ -6,9 +6,6 @@ export const initialValue: ContainerSelectValue = {
   selection: [],
   location: [0, 0],
   meta: { endpoint: '', featureTypes: [] },
-  update: () => {},
-  edit: () => {},
-  close: () => {},
 };
 
 const ContainerSelectContext = React.createContext(initialValue);

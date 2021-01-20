@@ -39,9 +39,9 @@ export interface ContainerSelectValue {
   selection: Item[];
   location: LatLngExpression;
   meta: Meta;
-  update: (items: Item[]) => void;
-  edit: ClickEventHandler;
-  close: ClickEventHandler;
+  update?: (items: Item[]) => void;
+  edit?: ClickEventHandler;
+  close?: ClickEventHandler;
 }
 
 export interface WfsLayerProps {
