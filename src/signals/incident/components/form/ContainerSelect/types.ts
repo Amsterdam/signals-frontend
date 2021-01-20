@@ -1,7 +1,6 @@
-import type { IconOptions, LatLngExpression, Map } from 'leaflet';
-import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
+import type { IconOptions, LatLngExpression } from 'leaflet';
 
-export type ClickEvent = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+export type ClickEventHandler = (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
 export interface Item {
   id: string;
@@ -39,17 +38,9 @@ export interface ContainerSelectValue {
   selection: Item[];
   location: LatLngExpression;
   meta: Meta;
-  update: (items: Item[] | null) => void;
-  edit: () => void;
-  close: () => void;
-}
-
-export interface WfsLayerProps {
-  url: string;
-  options: {
-    getBbox: (mapInstance: Map) => string;
-  };
-  zoomLevel: ZoomLevel;
+  update: (items: Item[]) => void;
+  edit: ClickEventHandler;
+  close: ClickEventHandler;
 }
 
 export interface DataLayerProps {

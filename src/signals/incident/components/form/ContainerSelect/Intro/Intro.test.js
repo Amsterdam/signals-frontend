@@ -5,7 +5,7 @@ import Intro from './Intro';
 import { ContainerSelectProvider } from '../ContainerSelectContext';
 import { withAppContext } from 'test/utils';
 
-const contextValue = { selection: null, location: null, update: jest.fn(), edit: jest.fn(), close: jest.fn() };
+const contextValue = { selection: [], location: null, update: jest.fn(), edit: jest.fn(), close: jest.fn() };
 
 export const withContext = (Component, context = contextValue) =>
   withAppContext(<ContainerSelectProvider value={context}>{Component}</ContainerSelectProvider>);

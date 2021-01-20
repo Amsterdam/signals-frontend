@@ -12,7 +12,10 @@ const ListItem = styled.li`
   padding: ${themeSpacing(1, 0)};
   display: flex;
   align-items:center;
-  pointer-events: none;
+
+  &:focus {
+    outline-style: none;
+  }
 `;
 
 const StyledIcon = styled.span<{ url: string; size: number }>`

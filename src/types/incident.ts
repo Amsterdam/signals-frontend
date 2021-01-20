@@ -1,3 +1,4 @@
+
 export interface Incident {
   priority: Priority;
   classification: Classification;
@@ -29,14 +30,14 @@ export interface Datetime {
   info: string;
 }
 
-export interface Location {
+export interface Location extends Record<string, any> {
   geometrie: Geometrie;
   address: Address;
 }
 
-export interface Address {
+export interface Address extends Record<string, any> {
   openbare_ruimte: string;
-  huisnummer: string;
+  huisnummer: string| number;
   postcode: string;
   woonplaats: string;
 }

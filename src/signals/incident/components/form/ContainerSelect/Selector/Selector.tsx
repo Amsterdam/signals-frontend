@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
-import L from 'leaflet';
 import { Paragraph, themeColor } from '@amsterdam/asc-ui';
 import { MapPanel, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
 import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
@@ -12,15 +11,14 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import styled from 'styled-components';
 import ContainerSelectContext from '../ContainerSelectContext';
-import type { Item, ClickEvent, FeatureType, WfsLayerProps } from '../types';
-import type { MapOptions, Map as MapType } from 'leaflet';
+import type { Item, ClickEventHandler, FeatureType } from '../types';
+import type { MapOptions } from 'leaflet';
 
 import LegendPanel from '../LegendPanel';
 import ViewerContainer from '../ViewerContainer';
 import ContainerLayer from '../ContainerLayer';
 import WfsLayer from '../WfsLayer';
 
-const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '30px',
   [SnapPoint.Halfway]: '300px',
@@ -101,7 +99,7 @@ const Selector = () => {
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
   const featureTypes = useMemo(() => [...meta.featureTypes, unknownFeatureType], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
-  const { Panel, panelVariant } = useMemo<{Panel: React.FC; panelVariant: Variant}>(
+  const { Panel, panelVariant } = useMemo<{ Panel: React.FC; panelVariant: Variant }>(
     () => showDesktopVariant
       ? { Panel: MapPanel, panelVariant: 'drawer' }
       : { Panel: MapPanelDrawer, panelVariant: 'panel' }
@@ -125,7 +123,7 @@ const Selector = () => {
   const [currentOverlay, setCurrentOverlay] = useState<Overlay>(Overlay.None);
   const [, setMap] = useState();
 
-  const addContainer = useCallback<ClickEvent>(
+  const addContainer = useCallback<ClickEventHandler>(
     event => {
       event.preventDefault();
 
@@ -146,35 +144,18 @@ const Selector = () => {
     [update, featureTypes]
   );
 
-  const removeContainer = useCallback<ClickEvent>(
+  const removeContainer = useCallback<ClickEventHandler>(
     event => {
       event.preventDefault();
-      update(null);
+      update([]);
     },
     [update]
   );
 
-  const wfsLayerProps: WfsLayerProps = useMemo(
-    () => ({
-      url: meta.endpoint,
-      options: {
-        getBbox: (mapInstance: MapType): string => {
-          const bounds = mapInstance.getBounds();
-          const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()},${SRS_NAME}`;
-          return `&${L.Util.getParamString({
-            bbox,
-          }).substring(1)}`;
-        },
-      },
-      zoomLevel: { max: 7 },
-    }),
-    [meta]
-  );
 
   const mapWrapper =
     <Wrapper data-testid="containerSelectSelector">
       <StyledMap
-        data-testid="map"
         hasZoomControls={showDesktopVariant}
         mapOptions={mapOptions}
         setInstance={setMap}
@@ -226,7 +207,7 @@ const Selector = () => {
             />
           </Panel>
         </MapPanelProvider>
-        <WfsLayer {...wfsLayerProps}>
+        <WfsLayer>
           <ContainerLayer featureTypes={meta.featureTypes} />
         </WfsLayer>
       </StyledMap>
