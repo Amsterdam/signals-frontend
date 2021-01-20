@@ -6,11 +6,19 @@ import type { GeoJSON as GeoJSONLayer, LatLng } from 'leaflet';
 import type { Point, Feature, FeatureCollection } from 'geojson';
 import WfsDataContext from '../WfsLayer/WfsDataContext';
 import { featureTolocation } from 'shared/services/map-location';
-import type { DataLayerProps } from '../types';
+import type { DataLayerProps, FeatureType, Item } from '../types';
+import ContainerSelectContext from '../ContainerSelectContext';
+
+type FeatureProps = Record<string, string | undefined>;
+
+interface GeoJSONOptions extends L.GeoJSONOptions<FeatureProps> {
+  pointToLayer: (geoJsonPoint: Feature<Point, FeatureProps>, latlng: LatLng) => L.Layer; // should import GeoJSON typings
+}
 
 export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes }) => {
   const [layerInstance, setLayerInstance] = useState<GeoJSONLayer>();
   const data = useContext<FeatureCollection>(WfsDataContext);
+  const { selection, update } = useContext(ContainerSelectContext);
 
   const clusterOptions = useMemo<L.MarkerClusterGroupOptions>(
     () => ({
@@ -37,24 +45,47 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
     [featureTypes]
   );
 
-  const options: L.GeoJSONOptions<Record<string, string | undefined>> = useMemo(
+  const options = useMemo<GeoJSONOptions>(
     () => ({
       pointToLayer: (feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
+        const selected = selection.some(({ id }) => id === feature.properties[featureType.idField]);
 
-        return L.marker(latlng, {
+        const iconUrl = `data:image/svg+xml;base64,${btoa(
+          selected ? featureType.icon.selectedIconSvg ?? '' : featureType.icon.iconSvg
+        )}`;
+
+        const marker = L.marker(latlng, {
           icon: L.icon({
             ...featureType.icon.options,
             className: featureType.label,
-            iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+            iconUrl,
           }),
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           alt: feature.properties[featureType.idField],
         });
+
+        marker.on(
+          'click',
+          /* istanbul ignore next */ () => {
+            const { description, typeValue, idField }: Partial<FeatureType> = featureType;
+            const item = {
+              id: feature.properties[idField],
+              type: typeValue,
+              description,
+              iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+            } as Item;
+
+            const updateSelection = selected ? selection.filter(({ id }) => id !== item.id) : [...selection, item];
+
+            update(updateSelection);
+          }
+        );
+        return marker;
       },
     }),
-    [getFeatureType]
+    [getFeatureType, selection, update]
   );
 
   useEffect(() => {
@@ -64,17 +95,24 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         const pointFeature: Feature<Point, any> = { ...feature, geometry: { ...(feature.geometry as Point) } };
         const { coordinates } = pointFeature.geometry;
         const latlng = featureTolocation({ coordinates });
-        const marker = options.pointToLayer?.(pointFeature, latlng);
+        const marker = options.pointToLayer(pointFeature, latlng);
         /* istanbul ignore else */
         if (marker) {
           layerInstance.addLayer(marker);
         }
       });
     }
+
+    return () => {
+      if (layerInstance) {
+        // This ensures that for each refresh of the data, the click
+        // events that are bound in the layer data are removed.
+        layerInstance.off('click');
+      }
+    };
   }, [layerInstance, data, options]);
 
   return <MarkerCluster clusterOptions={clusterOptions} setInstance={setLayerInstance} />;
 };
 
 export default ContainerLayer;
-
