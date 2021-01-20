@@ -35,7 +35,13 @@ const ButtonBar = styled.div`
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   z-index: 401;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+  };
 `;
 
 const Wrapper = styled.div`
@@ -179,13 +185,13 @@ const Selector = () => {
             bottomRight={
               <ButtonBar>
                 <div>
-                  <Button size={100} onClick={addContainer}>
+                  <Button onClick={addContainer}>
                     Container toevoegen
                   </Button>
-                  <Button size={100} onClick={removeContainer}>
+                  <Button onClick={removeContainer}>
                     Container verwijderen
                   </Button>
-                  <Button size={100} onClick={close}>
+                  <Button onClick={close}>
                     Meld deze container/Sluiten
                   </Button>
                 </div>

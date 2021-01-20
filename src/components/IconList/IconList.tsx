@@ -37,10 +37,11 @@ export interface IconListProps {
   items: Item[];
   id: string;
   size?: number;
+  className?: string;
 }
 
-const IconList: React.FC<IconListProps> = ({ items, size = 40, id }) => (
-  <List data-testid={id}>
+const IconList: React.FC<IconListProps> = ({ items, size = 40, id, className }) => (
+  <List className={className} data-testid={id}>
     {items.map(({ iconUrl, label, id: itemId }) => (
       <ListItem data-testid={`${id}-item-${itemId}`} key={label} tabIndex={-1}>
         <React.Fragment>

@@ -4,10 +4,12 @@ import type { Item } from '../types';
 
 interface ContainerListProps {
   selection: Item[];
+  className?: string;
 }
 
-const ContainerList: React.FC<ContainerListProps> = ({ selection }) =>
+const ContainerList: React.FC<ContainerListProps> = ({ selection, className }) =>
   <IconList
+    className={className}
     id="containerList"
     size={40}
     items={selection.map(({ id, description, iconUrl }) => ({ iconUrl, label: `${description} - ${id}`, id }))}
