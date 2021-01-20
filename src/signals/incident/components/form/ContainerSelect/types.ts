@@ -1,6 +1,6 @@
 import type { IconOptions, LatLngExpression } from 'leaflet';
 
-export type ClickEvent = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+export type ClickEventHandler = (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
 export interface Item {
   id: string;
@@ -38,9 +38,9 @@ export interface ContainerSelectValue {
   selection: Item[];
   location: LatLngExpression;
   meta: Meta;
-  update: (items: Item[] | null) => void;
-  edit: () => void;
-  close: () => void;
+  update: (items: Item[]) => void;
+  edit: ClickEventHandler;
+  close: ClickEventHandler;
 }
 
 export interface DataLayerProps {

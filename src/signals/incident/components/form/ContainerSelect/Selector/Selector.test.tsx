@@ -39,7 +39,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
 
     const element = await screen.findByText(/container verwijderen/i);
     if (element) fireEvent.click(element);
-    expect(contextValue.update).toHaveBeenCalledWith(null);
+    expect(contextValue.update).toHaveBeenCalledWith([]);
   });
 
   it('should call close when closing the selector', async () => {

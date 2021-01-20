@@ -7,7 +7,7 @@ import ContainerSelectRenderer from './ContainerSelectRenderer';
 describe('signals/incident/components/form/ContainerSelectRenderer', () => {
   const props = {
     handler: jest.fn(() => ({
-      value: null,
+      value: [],
     })),
     touched: false,
     getError: jest.fn(),
