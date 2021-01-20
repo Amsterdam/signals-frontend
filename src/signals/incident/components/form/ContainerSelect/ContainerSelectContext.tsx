@@ -6,6 +6,9 @@ export const initialValue: ContainerSelectValue = {
   selection: [],
   location: [0, 0],
   meta: { endpoint: '', featureTypes: [] },
+  update: /* istanbul ignore next */ () => {},
+  edit: /* istanbul ignore next */ () => {},
+  close: /* istanbul ignore next */ () => { },
 };
 
 const ContainerSelectContext = React.createContext(initialValue);
