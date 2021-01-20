@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import type { ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { ViewerContainer as AscViewerContainer } from '@amsterdam/asc-ui';
-import { MapPanelContext } from '@amsterdam/arm-core';
+import { MapPanelContext, ViewerContainer as AscViewerContainer } from '@amsterdam/arm-core';
 
 // Should reflect ViewerContainer props from asc-ui (which are not exported)
 interface AscViewerContainerProps {
