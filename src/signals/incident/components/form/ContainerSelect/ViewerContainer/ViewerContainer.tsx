@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { MapPanelContext, ViewerContainer as AscViewerContainer } from '@amsterdam/arm-core';
 
-// Should reflect ViewerContainer props from asc-ui (which are not exported)
+// Should reflect ViewerContainer props from arm-core (which are not exported)
 interface AscViewerContainerProps {
   topLeft?: ReactNode;
   topRight?: ReactNode;
