@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import type { MapOptions } from 'leaflet';
 
 import { Paragraph, themeColor } from '@amsterdam/asc-ui';
-import { MapPanel, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
-import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
+import { MapPanel, MapPanelContent, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core';
+import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
 import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext';
 
@@ -14,16 +14,18 @@ import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 
+import LegendPanelButton from '../LegendPanel/LegendPanelButton';
 import ContainerSelectContext from '../ContainerSelectContext';
 import LegendPanel from '../LegendPanel';
 import ViewerContainer from '../ViewerContainer';
 import ContainerLayer from '../ContainerLayer';
 import WfsLayer from '../WfsLayer';
 import type { Item, ClickEventHandler, FeatureType } from '../types';
+import { Close } from '@amsterdam/asc-assets';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '30px',
-  [SnapPoint.Halfway]: '300px',
+  [SnapPoint.Halfway]: '400px',
   [SnapPoint.Full]: '100%',
 };
 const MAP_PANEL_SNAP_POSITIONS = {
@@ -35,15 +37,11 @@ const MAP_PANEL_SNAP_POSITIONS = {
 const ButtonBar = styled.div`
   width: 100%;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
   z-index: 401;
+`;
 
-  & > div {
-    display: flex;
-    flex-direction: column;
-  };
+const StyledButton = styled(Button)`
+  box-sizing: border-box;
 `;
 
 const Wrapper = styled.div`
@@ -108,10 +106,11 @@ const Selector = () => {
   const featureTypes = useMemo(() => [...meta.featureTypes, unknownFeatureType], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
   const { Panel, panelVariant } = useMemo<{ Panel: React.FC; panelVariant: Variant }>(
-    () => showDesktopVariant
-      ? { Panel: MapPanel, panelVariant: 'drawer' }
-      : { Panel: MapPanelDrawer, panelVariant: 'panel' }
-    , [showDesktopVariant]
+    () =>
+      showDesktopVariant
+        ? { Panel: MapPanel, panelVariant: 'drawer' }
+        : { Panel: MapPanelDrawer, panelVariant: 'panel' },
+    [showDesktopVariant]
   );
 
   const mapOptions = useMemo<MapOptions>(
@@ -128,14 +127,17 @@ const Selector = () => {
     [location]
   );
 
-  const [currentOverlay, setCurrentOverlay] = useState<Overlay>(Overlay.None);
-  console.log(currentOverlay);
-  const bla = (x: any) => {
-    console.log(x)
-    setCurrentOverlay(x)
-
-  }
+  const [showLegendPanel, setShowLegendPanel] = useState(false);
+  const [showSelectionPanel, setShowSelectionPanel] = useState(true);
   const [, setMap] = useState();
+
+  const toggleLegend = () => {
+    setShowLegendPanel(() => !showLegendPanel);
+  };
+  const handleCloseLegendPanelButtonClick = () => {
+    setShowLegendPanel(false);
+    setShowSelectionPanel(true);
+  };
 
   const addContainer = useCallback<ClickEventHandler>(
     event => {
@@ -143,7 +145,8 @@ const Selector = () => {
 
       // We use here a fixed list for now
       const selectedItems: Item[] = SELECTED_ITEMS.map(({ id, type }) => {
-        const { description, icon }: Partial<FeatureType> = featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
+        const { description, icon }: Partial<FeatureType> =
+          featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
 
         return {
           id,
@@ -166,15 +169,9 @@ const Selector = () => {
     [update]
   );
 
-
-  const mapWrapper =
+  const mapWrapper = (
     <Wrapper data-testid="containerSelectSelector">
-      <StyledMap
-        hasZoomControls={showDesktopVariant}
-        mapOptions={mapOptions}
-        setInstance={setMap}
-        events={{}}
-      >
+      <StyledMap hasZoomControls={showDesktopVariant} mapOptions={mapOptions} setInstance={setMap} events={{}}>
         <MapPanelProvider
           mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
           mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
@@ -182,49 +179,45 @@ const Selector = () => {
           initialPosition={SnapPoint.Closed}
         >
           <ViewerContainer
-            legendButton={
-              <MapPanelLegendButton
-                showDesktopVariant={showDesktopVariant}
-                currentOverlay={currentOverlay}
-                setCurrentOverlay={setCurrentOverlay}
-              />
-            }
-            bottomRight={
-              <ButtonBar>
-                <div>
-                  <Button onClick={addContainer}>
-                    Container toevoegen
-                  </Button>
-                  <Button onClick={removeContainer}>
-                    Container verwijderen
-                  </Button>
-                  <Button onClick={close}>
-                    Meld deze container/Sluiten
-                  </Button>
-                </div>
-                <Paragraph as="h6">
-                  Geselecteerd: {selection ? `[${selection.reduce((res, { id }) => `${res},${id}`, '')}]` : '<geen>'}
-                </Paragraph>
-              </ButtonBar>
-            }
+            topLeft={<LegendPanelButton onClick={toggleLegend} showDesktopVariant={showDesktopVariant} renderLegendPanel={showLegendPanel} />}
+            topRight={<StyledButton onClick={close} icon={<Close />} />}
           />
           <Panel data-testid={`panel-${showDesktopVariant ? 'desktop' : 'mobile'}`}>
-            <LegendPanel
-              variant={panelVariant}
-              title="Legenda"
-              items={meta.featureTypes.map(featureType => ({
-                label: featureType.label,
-                iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-                id: featureType.typeValue,
-              }))}
-            />
+            {showSelectionPanel && (
+              <MapPanelContent variant={panelVariant} title="Kies de container" subTitle="U kunt meer dan 1 keuze maken">
+                <ButtonBar>
+                  <StyledButton onClick={addContainer}>Containers toevoegen</StyledButton>
+                  <StyledButton onClick={removeContainer}>Containers verwijderen</StyledButton>
+                  <Paragraph as="h6">
+                    Geselecteerd:
+                    {selection ? selection.map(({ id }) => <div>{id}</div>) : '<geen>'}
+                  </Paragraph>
+                </ButtonBar>
+                <ButtonBar>
+                  <StyledButton onClick={close} variant="primary" disabled={selection.length === 0}>Meld deze container{selection.length > 1 ? 's' : ''}</StyledButton>
+                </ButtonBar>
+              </MapPanelContent>
+            )}
+            {showLegendPanel && (
+              <LegendPanel
+                onClose={handleCloseLegendPanelButtonClick}
+                variant={panelVariant}
+                title="Legenda"
+                items={meta.featureTypes.map(featureType => ({
+                  label: featureType.label,
+                  iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+                  id: featureType.typeValue,
+                }))}
+              />
+            )}
           </Panel>
         </MapPanelProvider>
         <WfsLayer>
           <ContainerLayer featureTypes={meta.featureTypes} />
         </WfsLayer>
       </StyledMap>
-    </Wrapper>;
+    </Wrapper>
+  );
 
   return ReactDOM.createPortal(mapWrapper, appHtmlElement);
 };

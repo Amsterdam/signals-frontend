@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { MapPanelContext, ViewerContainer as AscViewerContainer } from '@amsterdam/arm-core';
 
 // Should reflect ViewerContainer props from arm-core (which are not exported)
-interface AscViewerContainerProps {
+interface ViewerContainerProps {
   topLeft?: ReactNode;
   topRight?: ReactNode;
   bottomLeft?: ReactNode;
@@ -25,14 +25,7 @@ const StyledViewerContainer = styled(AscViewerContainer) <StyledViewerContainerP
   transition: height 0.3s ease-in-out;
 `;
 
-interface ViewerContainerProps extends AscViewerContainerProps {
-  legendButton: ReactNode;
-}
-
-const ViewerContainer: React.FC<ViewerContainerProps> = ({
-  legendButton,
-  ...restProps
-}) => {
+const ViewerContainer: React.FC<ViewerContainerProps> = props => {
   const { drawerPosition, variant } = useContext(MapPanelContext);
   const isDrawerVariant = variant === 'drawer';
 
@@ -41,10 +34,8 @@ const ViewerContainer: React.FC<ViewerContainerProps> = ({
 
   return (
     <StyledViewerContainer
-      {...restProps}
+      {...props}
       data-testid="viewer-container"
-      bottomLeft={!isDrawerVariant && legendButton}
-      topLeft={isDrawerVariant && legendButton}
       height={height}
       leftOffset={leftOffset}
     />
