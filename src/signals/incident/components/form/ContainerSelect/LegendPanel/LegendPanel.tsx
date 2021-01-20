@@ -25,11 +25,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant }) =>
-  <React.Fragment>
+  <>
     <GlobalStyle />
     <MapPanelContent variant={variant} title={title}>
       <IconList id="legend" items={items} size={40} />
     </MapPanelContent>
-  </React.Fragment>;
+  </>;
 
 export default LegendPanel;

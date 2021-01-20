@@ -15,7 +15,7 @@ describe('ViewerContainer', () => {
         variant="drawer"
         initialPosition={SnapPoint.Closed}
       >
-        <ViewerContainer legendButton={button} showDesktopVariant={false} />
+        <ViewerContainer legendButton={button} />
       </MapPanelProvider>
     ));
 
@@ -28,10 +28,10 @@ describe('ViewerContainer', () => {
   it('should render desktop variant of viewer container', () => {
     render(withAppContext(
       <MapPanelProvider
-        variant="drawer"
+        variant="panel"
         initialPosition={SnapPoint.Closed}
       >
-        <ViewerContainer legendButton={button} showDesktopVariant />
+        <ViewerContainer legendButton={button} />
       </MapPanelProvider>
     ));
 

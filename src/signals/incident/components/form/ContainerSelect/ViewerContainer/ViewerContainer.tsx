@@ -18,7 +18,7 @@ interface StyledViewerContainerProps {
   height: string;
 }
 
-const StyledViewerContainer = styled(AscViewerContainer)<StyledViewerContainerProps>`
+const StyledViewerContainer = styled(AscViewerContainer) <StyledViewerContainerProps>`
   left: ${({ leftOffset }) => leftOffset};
   height: ${({ height }) => height};
   z-index: 400;
@@ -26,26 +26,25 @@ const StyledViewerContainer = styled(AscViewerContainer)<StyledViewerContainerPr
 `;
 
 interface ViewerContainerProps extends AscViewerContainerProps {
-  showDesktopVariant: boolean;
   legendButton: ReactNode;
-  id?: string;
 }
 
 const ViewerContainer: React.FC<ViewerContainerProps> = ({
-  showDesktopVariant,
   legendButton,
   ...restProps
 }) => {
-  const { drawerPosition } = useContext(MapPanelContext);
-  const height = showDesktopVariant ? '100%' : drawerPosition;
-  const leftOffset = showDesktopVariant ? drawerPosition : '0';
+  const { drawerPosition, variant } = useContext(MapPanelContext);
+  const isDrawerVariant = variant === 'drawer';
+
+  const height = isDrawerVariant ? '100%' : drawerPosition;
+  const leftOffset = isDrawerVariant ? drawerPosition : '0';
 
   return (
     <StyledViewerContainer
       {...restProps}
       data-testid="viewer-container"
-      bottomLeft={!showDesktopVariant && legendButton}
-      topLeft={showDesktopVariant && legendButton}
+      bottomLeft={!isDrawerVariant && legendButton}
+      topLeft={isDrawerVariant && legendButton}
       height={height}
       leftOffset={leftOffset}
     />

@@ -1,23 +1,25 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
+import styled from 'styled-components';
+import type { MapOptions } from 'leaflet';
+
 import { Paragraph, themeColor } from '@amsterdam/asc-ui';
 import { MapPanel, MapPanelDrawer, MapPanelLegendButton, MapPanelProvider } from '@amsterdam/arm-core';
 import { Overlay, SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
-import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
+import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext';
+
 import Button from 'components/Button';
 import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
-import styled from 'styled-components';
-import ContainerSelectContext from '../ContainerSelectContext';
-import type { Item, ClickEventHandler, FeatureType } from '../types';
-import type { MapOptions } from 'leaflet';
 
+import ContainerSelectContext from '../ContainerSelectContext';
 import LegendPanel from '../LegendPanel';
 import ViewerContainer from '../ViewerContainer';
 import ContainerLayer from '../ContainerLayer';
 import WfsLayer from '../WfsLayer';
+import type { Item, ClickEventHandler, FeatureType } from '../types';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '30px',
@@ -127,6 +129,12 @@ const Selector = () => {
   );
 
   const [currentOverlay, setCurrentOverlay] = useState<Overlay>(Overlay.None);
+  console.log(currentOverlay);
+  const bla = (x: any) => {
+    console.log(x)
+    setCurrentOverlay(x)
+
+  }
   const [, setMap] = useState();
 
   const addContainer = useCallback<ClickEventHandler>(
@@ -174,7 +182,6 @@ const Selector = () => {
           initialPosition={SnapPoint.Closed}
         >
           <ViewerContainer
-            showDesktopVariant={showDesktopVariant}
             legendButton={
               <MapPanelLegendButton
                 showDesktopVariant={showDesktopVariant}
