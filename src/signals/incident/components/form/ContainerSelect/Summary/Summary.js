@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Link } from '@amsterdam/asc-ui';
+import { Link, themeSpacing } from '@amsterdam/asc-ui';
 import ContainerSelectContext from '../ContainerSelectContext';
 import ContainerList from '../ContainerList';
 
@@ -14,12 +14,16 @@ const StyledLink = styled(Link)`
   cursor: pointer;
 `;
 
+const StyledContainerList = styled(ContainerList)`
+  margin-bottom: ${themeSpacing(1)};
+`;
+
 const Summary = () => {
   const { selection, edit } = useContext(ContainerSelectContext);
 
   return (
     <Wrapper data-testid="containerSelectSummary">
-      <ContainerList selection={selection}></ContainerList>
+      <StyledContainerList selection={selection}></StyledContainerList>
       <StyledLink onClick={edit} variant="inline" tabIndex={0}>Wijzigen</StyledLink>
     </Wrapper>
   );
