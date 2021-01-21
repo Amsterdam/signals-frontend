@@ -3,17 +3,11 @@ import type { FunctionComponent } from 'react';
 import L from 'leaflet';
 import MarkerCluster from 'components/MarkerCluster';
 import type { GeoJSON as GeoJSONLayer, LatLng } from 'leaflet';
-import type { Point, Feature, FeatureCollection } from 'geojson';
+import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson';
 import WfsDataContext from '../WfsLayer/WfsDataContext';
 import { featureTolocation } from 'shared/services/map-location';
-import type { DataLayerProps, FeatureType, Item } from '../types';
+import type { DataLayerProps, FeatureType, Item, Feature } from '../types';
 import ContainerSelectContext from '../ContainerSelectContext';
-
-type FeatureProps = Record<string, string | undefined>;
-
-interface GeoJSONOptions extends L.GeoJSONOptions<FeatureProps> {
-  pointToLayer: (geoJsonPoint: Feature<Point, FeatureProps>, latlng: LatLng) => L.Layer; // should import GeoJSON typings
-}
 
 export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes }) => {
   const [layerInstance, setLayerInstance] = useState<GeoJSONLayer>();
@@ -40,11 +34,13 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
   );
 
   const getFeatureType = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    feature => featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
+    (feature: Feature) => featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue),
     [featureTypes]
   );
 
+  type GeoJSONOptions = {
+    pointToLayer: (feature: Feature, latlng: LatLng) => L.Layer;
+  };
   const options = useMemo<GeoJSONOptions>(
     () => ({
       pointToLayer: (feature, latlng: LatLng) => {
@@ -82,6 +78,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
             update(updateSelection);
           }
         );
+
         return marker;
       },
     }),
@@ -92,7 +89,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
     if (layerInstance) {
       layerInstance.clearLayers();
       data.features.forEach(feature => {
-        const pointFeature: Feature<Point, any> = { ...feature, geometry: { ...(feature.geometry as Point) } };
+        const pointFeature: GeoJSONFeature<Point, any> = { ...feature, geometry: { ...(feature.geometry as Point) } };
         const { coordinates } = pointFeature.geometry;
         const latlng = featureTolocation({ coordinates });
         const marker = options.pointToLayer(pointFeature, latlng);

@@ -50,6 +50,7 @@ module.exports = {
           },
         ],
         '@typescript-eslint/no-extra-parens': 'off',
+        '@typescript-eslint/consistent-type-definitions': 'off',
       },
     },
   ],
