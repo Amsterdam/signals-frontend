@@ -14,7 +14,7 @@ import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 
-import LegendPanelButton from '../LegendPanel/LegendPanelButton';
+import LegendToggleButton from '../LegendToggleButton/LegendToggleButton';
 import ContainerSelectContext from '../ContainerSelectContext';
 import LegendPanel from '../LegendPanel';
 import ViewerContainer from '../ViewerContainer';
@@ -135,7 +135,8 @@ const Selector = () => {
   const toggleLegend = () => {
     setShowLegendPanel(() => !showLegendPanel);
   };
-  const handleCloseLegendPanelButtonClick = () => {
+
+  const handleLegendCloseButton = () => {
     setShowLegendPanel(false);
     setShowSelectionPanel(true);
   };
@@ -180,27 +181,38 @@ const Selector = () => {
           initialPosition={SnapPoint.Closed}
         >
           <ViewerContainer
-            topLeft={<LegendPanelButton onClick={toggleLegend} showDesktopVariant={showDesktopVariant} renderLegendPanel={showLegendPanel} />}
-            topRight={<StyledButton variant="blank" onClick={close} size={44} icon={<Close />} />}
+            topLeft={<LegendToggleButton onClick={toggleLegend} isRenderingLegendPanel={showLegendPanel} />}
+            topRight={
+              <StyledButton data-testid="selector-close" variant="blank" onClick={close} size={44} icon={<Close />} />
+            }
           />
           <Panel data-testid={`panel-${showDesktopVariant ? 'desktop' : 'mobile'}`}>
             {showSelectionPanel && (
-              <MapPanelContent variant={panelVariant} title="Kies de container" subTitle="U kunt meer dan 1 keuze maken">
+              <MapPanelContent
+                variant={panelVariant}
+                title="Kies de container"
+                subTitle="U kunt meer dan 1 keuze maken"
+                data-testid="selection-panel"
+              >
                 <ButtonBar>
                   <StyledButton onClick={addContainer}>Containers toevoegen</StyledButton>
                   <StyledButton onClick={removeContainer}>Containers verwijderen</StyledButton>
-                  <Paragraph as="h6">
-                    {selection.length ? <ContainerList selection={selection} size={40} /> : 'Maak een keuze op de kaart'}
-                  </Paragraph>
+                  {selection.length ? (
+                    <ContainerList selection={selection} size={40} />
+                  ) : (
+                    <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
+                  )}
                 </ButtonBar>
                 <ButtonBar>
-                  <StyledButton onClick={close} variant="primary" disabled={selection.length === 0}>Meld deze container{selection.length > 1 ? 's' : ''}</StyledButton>
+                  <StyledButton onClick={close} variant="primary" disabled={selection.length === 0}>
+                    Meld deze container{selection.length > 1 ? 's' : ''}
+                  </StyledButton>
                 </ButtonBar>
               </MapPanelContent>
             )}
             {showLegendPanel && (
               <LegendPanel
-                onClose={handleCloseLegendPanelButtonClick}
+                onClose={handleLegendCloseButton}
                 variant={panelVariant}
                 title="Legenda"
                 items={meta.featureTypes.map(featureType => ({

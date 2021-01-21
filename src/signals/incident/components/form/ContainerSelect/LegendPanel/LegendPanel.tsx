@@ -20,12 +20,13 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant, onClose }) =>
+const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant, onClose }) => (
   <>
     <GlobalStyle />
-    <MapPanelContent stackOrder={1} onClose={onClose} variant={variant} title={title}>
-      <IconList id="legend" items={items} />
+    <MapPanelContent data-testid="legend-panel" stackOrder={1} onClose={onClose} variant={variant} title={title}>
+      <IconList id="legend-icons" items={items} />
     </MapPanelContent>
-  </>;
+  </>
+);
 
 export default LegendPanel;
