@@ -26,7 +26,7 @@ describe('The convert value service', () => {
     expect(convertValue(array)).toBe(array);
   });
 
-  it('should pass through an array', () => {
+  it('should pass through an object', () => {
     const object = {
       foo: 1,
       bar: {
@@ -35,5 +35,21 @@ describe('The convert value service', () => {
       },
     };
     expect(convertValue(object)).toBe(object);
+  });
+
+  it('should convert the array when props are specified', () => {
+    const array = [
+      {
+        foo: 1,
+        bar: 1,
+      },
+      {
+        foo: 2,
+        bar: 2,
+      },
+    ];
+
+    const propertyNames = ['bar'];
+    expect(convertValue(array, propertyNames)).toEqual([{ bar: 1 }, { bar: 2 }]);
   });
 });

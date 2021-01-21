@@ -19,7 +19,7 @@ const mapPaths = (params, incident, wizard) => {
       const meta = control.meta;
 
       if (meta && meta.isVisible && meta.pathMerge) {
-        const answer = convertValue(value);
+        const answer = convertValue(value, meta.postPropertyNames);
         if (answer || answer === 0) {
           mapMerge = {
             ...mapMerge,
