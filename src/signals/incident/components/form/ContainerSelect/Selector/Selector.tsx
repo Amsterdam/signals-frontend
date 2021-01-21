@@ -22,6 +22,7 @@ import ContainerLayer from '../ContainerLayer';
 import WfsLayer from '../WfsLayer';
 import type { Item, ClickEventHandler, FeatureType } from '../types';
 import { Close } from '@amsterdam/asc-assets';
+import ContainerList from '../ContainerList';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '30px',
@@ -180,7 +181,7 @@ const Selector = () => {
         >
           <ViewerContainer
             topLeft={<LegendPanelButton onClick={toggleLegend} showDesktopVariant={showDesktopVariant} renderLegendPanel={showLegendPanel} />}
-            topRight={<StyledButton onClick={close} icon={<Close />} />}
+            topRight={<StyledButton variant="blank" onClick={close} size={44} icon={<Close />} />}
           />
           <Panel data-testid={`panel-${showDesktopVariant ? 'desktop' : 'mobile'}`}>
             {showSelectionPanel && (
@@ -189,8 +190,7 @@ const Selector = () => {
                   <StyledButton onClick={addContainer}>Containers toevoegen</StyledButton>
                   <StyledButton onClick={removeContainer}>Containers verwijderen</StyledButton>
                   <Paragraph as="h6">
-                    Geselecteerd:
-                    {selection ? selection.map(({ id }) => <div>{id}</div>) : '<geen>'}
+                    {selection.length ? <ContainerList selection={selection} size={40} /> : 'Maak een keuze op de kaart'}
                   </Paragraph>
                 </ButtonBar>
                 <ButtonBar>

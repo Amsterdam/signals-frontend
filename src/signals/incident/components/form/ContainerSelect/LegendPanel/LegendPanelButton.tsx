@@ -19,7 +19,7 @@ const StyledButton = styled(Button)`
 
 const LegendPanelButton: React.FC<LegendPanelButtonProps> = ({ showDesktopVariant, onClick, renderLegendPanel }) => {
   const { matchPositionWithSnapPoint, setPositionFromSnapPoint } = useContext(MapPanelContext);
-  const icon = showDesktopVariant ? { iconLeft: <MapLayers /> } : { icon: <MapLayers /> };
+  const icon = { [showDesktopVariant ? 'iconLeft' : 'icon']: <MapLayers /> };
   const isLegendPanelOpen = renderLegendPanel && !matchPositionWithSnapPoint(SnapPoint.Closed);
 
   const handleClick = () => {

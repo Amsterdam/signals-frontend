@@ -14,6 +14,7 @@ const ListItem = styled.li`
   padding: ${themeSpacing(1, 0)};
   display: flex;
   align-items:center;
+  font-size: initial;
 
   &:focus {
     outline-style: none;
