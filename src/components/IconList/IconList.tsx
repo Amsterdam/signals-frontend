@@ -2,6 +2,8 @@ import { themeSpacing } from '@amsterdam/asc-ui';
 import React from 'react';
 import styled from 'styled-components';
 
+const DEFAULT_ICON_SIZE = 40;
+
 const List = styled.ul`
   padding: 0;
   margin: 0;
@@ -27,20 +29,20 @@ const StyledIcon = styled.span<{ url: string; size: number }>`
   height:${({ size }) => size}px;
 `;
 
-interface Item {
+export interface IconListItem {
   iconUrl: string;
   label: string;
   id: string;
 }
 
 export interface IconListProps {
-  items: Item[];
+  items: IconListItem[];
   id: string;
   size?: number;
   className?: string;
 }
 
-const IconList: React.FC<IconListProps> = ({ items, size = 40, id, className }) => (
+const IconList: React.FC<IconListProps> = ({ items, size = DEFAULT_ICON_SIZE, id, className }) => (
   <List className={className} data-testid={id}>
     {items.map(({ iconUrl, label, id: itemId }) => (
       <ListItem data-testid={`${id}-item-${itemId}`} key={label} tabIndex={-1}>

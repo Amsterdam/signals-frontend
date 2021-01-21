@@ -3,17 +3,12 @@ import { createGlobalStyle } from 'styled-components';
 import { MapPanelContent } from '@amsterdam/arm-core';
 
 import IconList from 'components/IconList/IconList';
-
-interface Item {
-  iconUrl: string;
-  label: string;
-  id: string;
-}
+import type { IconListItem } from 'components/IconList/IconList';
 
 export interface LegendPanelProps {
   variant: 'panel' | 'drawer';
   title: string;
-  items?: Item[];
+  items?: IconListItem[];
   onClose: () => void;
 }
 
@@ -29,7 +24,7 @@ const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant, o
   <>
     <GlobalStyle />
     <MapPanelContent stackOrder={1} onClose={onClose} variant={variant} title={title}>
-      <IconList id="legend" items={items} size={40} />
+      <IconList id="legend" items={items} />
     </MapPanelContent>
   </>;
 
