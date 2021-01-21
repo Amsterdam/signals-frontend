@@ -64,9 +64,13 @@ describe('Standaardteksten', () => {
       cy.wait('@PostDuiven');
 
       // Status Heropend
+      cy.visit('manage/standaard/teksten');
+      cy.get(STANDAARDTEKSTEN.dropDownSubcategory).select('Duiven (GGD)');
+      cy.wait('@getDuiven');
       cy.get(STANDAARDTEKSTEN.radioButtonHeropend).check({ force: true }).should('be.checked');
       cy.wait('@getDuiven');
       cy.get(STANDAARDTEKSTEN.inputTitle01)
+        .clear()
         .type(`{selectall}{del}${STANDAARDTEKSTEN.textTitleHeropenen}`);
       cy.get(STANDAARDTEKSTEN.inputText01)
         .clear()
@@ -119,8 +123,10 @@ describe('Standaardteksten', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.get(CHANGE_STATUS.buttonEdit).click();
-
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
+      cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
       cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
@@ -150,7 +156,10 @@ describe('Standaardteksten', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.get(CHANGE_STATUS.buttonEdit).click();
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
+      cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
       cy.get(CHANGE_STATUS.currentStatus).contains('Ingepland').should('be.visible');
@@ -181,7 +190,10 @@ describe('Standaardteksten', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.get(CHANGE_STATUS.buttonEdit).click();
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
+      cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
 
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
@@ -224,7 +236,10 @@ describe('Standaardteksten', () => {
       });
       it('Should show no message when there is no standaardtekst', () => {
         createSignal.openCreatedSignal();
-        cy.get(CHANGE_STATUS.buttonEdit).click();
+        // Used a wait because sometimes the edit button is not clicked
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+        cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('be.visible').and('have.text', 'Standaard teksten');
         // eslint-disable-next-line max-nested-callbacks
         cy.contains('Er is geen standaard tekst voor deze subcategorie en status combinatie.').should('be.visible').and($labels => {

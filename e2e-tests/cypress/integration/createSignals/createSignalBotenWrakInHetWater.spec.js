@@ -35,7 +35,6 @@ describe('Create signal category boten "Wrak in het water"', () => {
       cy.contains('Volgende').click();
 
       createSignal.checkSummaryPage(fixturePath);
-      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
