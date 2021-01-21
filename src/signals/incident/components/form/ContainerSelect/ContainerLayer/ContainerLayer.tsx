@@ -46,9 +46,13 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
       pointToLayer: (feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
-        const selected = selection.some(({ id }) => id === feature.properties[featureType.idField]);
+        const selected = selection.some(
+          // Exclude from coverage; with the curent leaflet mock this can't be tested
+          /* istanbul ignore next*/({ id }) => id === feature.properties[featureType.idField]
+        );
 
         const iconUrl = `data:image/svg+xml;base64,${btoa(
+          /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
           selected ? featureType.icon.selectedIconSvg ?? '' : featureType.icon.iconSvg
         )}`;
 
