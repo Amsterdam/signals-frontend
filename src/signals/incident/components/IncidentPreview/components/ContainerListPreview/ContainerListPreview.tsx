@@ -1,9 +1,9 @@
 import React from 'react';
-import type { Container } from 'shared/types/incident';
-import ContainerList from '../../../form/ContainerSelect/ContainerList';
+import type { Item } from 'signals/incident/components/form/ContainerSelect/types';
+import ContainerList from '../../../form/ContainerSelect/components/ContainerList';
 
 interface ContainerListPreviewProps {
-  value: Container[];
+  value: Item[];
 }
 
 const ContainerListPreview: React.FC<ContainerListPreviewProps> = ({ value }) => <ContainerList selection={value} />;

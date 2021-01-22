@@ -1,9 +1,9 @@
 import type { FunctionComponent } from 'react';
 import React, { useCallback, useState } from 'react';
 import { ContainerSelectProvider } from './context';
-import Intro from './Intro';
-import Selector from './Selector';
-import Summary from './Summary';
+import Intro from './components/Intro';
+import Selector from './components/Selector';
+import Summary from './components/Summary';
 import type { ClickEventHandler, Item, Meta } from './types';
 import type { Incident } from 'types/incident';
 import type { LatLngExpression } from 'leaflet';
