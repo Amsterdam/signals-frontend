@@ -6,7 +6,7 @@ import type { GeoJSON as GeoJSONLayer, LatLng } from 'leaflet';
 import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson';
 import WfsDataContext from '../WfsLayer/WfsDataContext';
 import { featureTolocation } from 'shared/services/map-location';
-import type { DataLayerProps, FeatureType, Item, Feature } from '../types';
+import type { DataLayerProps, Item, Feature } from '../types';
 import ContainerSelectContext from '../ContainerSelectContext';
 
 export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes }) => {
@@ -43,10 +43,10 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
   };
   const options = useMemo<GeoJSONOptions>(
     () => ({
-      pointToLayer: (feature, latlng: LatLng) => {
+      pointToLayer: (feature: Feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
-        const selected = selection.some(
+        const selected = Array.isArray(selection) && selection.some(
           // Exclude from coverage; with the curent leaflet mock this can't be tested
           /* istanbul ignore next*/({ id }) => id === feature.properties[featureType.idField]
         );
@@ -69,13 +69,14 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         marker.on(
           'click',
           /* istanbul ignore next */ () => {
-            const { description, typeValue, idField }: Partial<FeatureType> = featureType;
-            const item = {
-              id: feature.properties[idField],
+            const { description, typeValue, idField } = featureType;
+            const item: Item = {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-non-null-assertion
+              id: feature.properties[idField]!,
               type: typeValue,
               description,
               iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-            } as Item;
+            };
 
             const updateSelection = selected ? selection.filter(({ id }) => id !== item.id) : [...selection, item];
 
