@@ -106,7 +106,9 @@ const ChildIncidents = ({ className, incidents }) => (
     {incidents.map(incident => {
       const valueEntries = (
         <Fragment>
-          <DisplayValue key="id" title={incident.values.id}>{incident.values.id}</DisplayValue>
+          <DisplayValue key="id" title={incident.values.id}>
+            {incident.values.id}
+          </DisplayValue>
 
           <DisplayValue key="category-and-status" title={`${incident.values.category} - ${incident.values.status}`}>
             {incident.values.category}

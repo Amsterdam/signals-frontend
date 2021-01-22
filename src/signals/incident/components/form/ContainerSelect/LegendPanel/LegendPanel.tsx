@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { MapPanelContent } from '@amsterdam/arm-core';
 
@@ -21,12 +21,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant, onClose }) => (
-  <>
+  <Fragment>
     <GlobalStyle />
     <MapPanelContent data-testid="legend-panel" stackOrder={1} onClose={onClose} variant={variant} title={title}>
       <IconList id="legend-icons" items={items} />
     </MapPanelContent>
-  </>
+  </Fragment>
 );
 
 export default LegendPanel;
