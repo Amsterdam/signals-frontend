@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ContainerList from './ContainerList';
-import type { ContainerListProps } from './ContainerList';
 
 import { withAppContext } from 'test/utils';
+import type { Item } from '../types';
 
 describe('signals/incident/components/form/ContainerSelect/ContainerList', () => {
-  const selection: ContainerListProps['selection'] = [
+  const selection: Item[] = [
     {
       id: 'PL734',
       type: 'plastic',

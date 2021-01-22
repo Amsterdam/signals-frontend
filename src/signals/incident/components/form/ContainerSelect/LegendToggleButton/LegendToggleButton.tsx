@@ -14,7 +14,7 @@ export interface LegendToggleButtonProps {
 }
 
 const StyledButton = styled(Button)`
-  box-sizing: border-box;
+  box-sizing: border-box; // Override box-sizing: content-box set by Leaflet
   min-width: 0;
 `;
 
