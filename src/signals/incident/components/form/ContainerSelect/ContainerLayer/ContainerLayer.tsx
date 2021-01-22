@@ -38,10 +38,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
     [featureTypes]
   );
 
-  type GeoJSONOptions = {
-    pointToLayer: (feature: Feature, latlng: LatLng) => L.Layer;
-  };
-  const options = useMemo<GeoJSONOptions>(
+  const options = useMemo(
     () => ({
       pointToLayer: (feature: Feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
@@ -62,7 +59,6 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
             className: featureType.label,
             iconUrl,
           }),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           alt: feature.properties[featureType.idField],
         });
 
@@ -71,8 +67,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
           /* istanbul ignore next */ () => {
             const { description, typeValue, idField } = featureType;
             const item: Item = {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-non-null-assertion
-              id: feature.properties[idField]!,
+              id: feature.properties[idField] as string,
               type: typeValue,
               description,
               iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
