@@ -88,10 +88,7 @@ module.exports = {
     'react/button-has-type': 'error',
     'react/display-name': 'error',
     'react/forbid-foreign-prop-types': ['error', { allowInPropTypes: true }],
-    'react/function-component-definition': [
-      'error',
-      { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
-    ],
+    'react/function-component-definition': ['error', { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' }],
     'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
     'react/jsx-curly-spacing': 'error',
     'react/jsx-first-prop-new-line': ['error', 'multiline-multiprop'],
