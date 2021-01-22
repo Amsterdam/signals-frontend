@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Selector from './Selector';
+import Selector from '.';
 import fetchMock from 'jest-fetch-mock';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
-import { contextValue, withContainerSelectContext } from '../ContainerSelectContext.test';
+import { contextValue, withContainerSelectContext } from '../context.test';
 import userEvent from '@testing-library/user-event';
 
 let showDesktopVariant: boolean;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import Intro from './Intro';
+import Intro from '.';
 
-import { ContainerSelectProvider } from '../ContainerSelectContext';
+import { ContainerSelectProvider } from '../context';
 import { withAppContext } from 'test/utils';
 
 const contextValue = { selection: [], location: null, update: jest.fn(), edit: jest.fn(), close: jest.fn() };

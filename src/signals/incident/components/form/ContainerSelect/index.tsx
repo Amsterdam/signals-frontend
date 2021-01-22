@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react';
 import React, { useCallback, useState } from 'react';
-import { ContainerSelectProvider } from './ContainerSelectContext';
+import { ContainerSelectProvider } from './context';
 import Intro from './Intro';
 import Selector from './Selector';
 import Summary from './Summary';

@@ -12,7 +12,7 @@ import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import ContainerLayer from '.';
 import type { FeatureType } from '../types';
-import { WfsDataProvider } from '../WfsLayer/WfsDataContext';
+import { WfsDataProvider } from '../WfsLayer/context';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const options: MapOptions = {

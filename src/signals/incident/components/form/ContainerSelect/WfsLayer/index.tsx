@@ -9,8 +9,8 @@ import type { Map as MapType } from 'leaflet';
 
 import { fetchWithAbort } from '@amsterdam/arm-core';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
-import ContainerSelectContext from '../ContainerSelectContext';
-import { NO_DATA, WfsDataProvider } from './WfsDataContext';
+import ContainerSelectContext from '../context';
+import { NO_DATA, WfsDataProvider } from './context';
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
 const DEFAULT_ZOOM_LEVEL: ZoomLevel = {

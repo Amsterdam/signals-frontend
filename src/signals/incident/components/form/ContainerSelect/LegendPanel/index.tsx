@@ -14,9 +14,9 @@ export interface LegendPanelProps {
 
 // Prevent scrollBar on iOS due to navigation bar
 const GlobalStyle = createGlobalStyle`
-  body { 
+  body {
     touch-action: none;
-    overflow: hidden; 
+    overflow: hidden;
   }
 `;
 

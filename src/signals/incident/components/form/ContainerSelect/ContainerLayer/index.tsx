@@ -4,10 +4,10 @@ import L from 'leaflet';
 import MarkerCluster from 'components/MarkerCluster';
 import type { GeoJSON as GeoJSONLayer, LatLng } from 'leaflet';
 import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson';
-import WfsDataContext from '../WfsLayer/WfsDataContext';
+import WfsDataContext from '../WfsLayer/context';
 import { featureTolocation } from 'shared/services/map-location';
 import type { DataLayerProps, Item, Feature } from '../types';
-import ContainerSelectContext from '../ContainerSelectContext';
+import ContainerSelectContext from '../context';
 
 export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes }) => {
   const [layerInstance, setLayerInstance] = useState<GeoJSONLayer>();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ContainerList from './ContainerList';
+import ContainerList from '.';
 
 import { withAppContext } from 'test/utils';
 import type { Item } from '../types';

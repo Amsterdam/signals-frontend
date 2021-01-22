@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import { MapPanelProvider } from '@amsterdam/arm-core';
 
-import ViewerContainer from './ViewerContainer';
+import ViewerContainer from '.';
 
 describe('ViewerContainer', () => {
   const button = <button type="button">Legend</button>;

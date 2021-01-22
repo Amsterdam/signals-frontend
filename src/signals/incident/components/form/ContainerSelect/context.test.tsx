@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval';
 import { withAppContext } from 'test/utils';
 import type { ContainerSelectValue } from './types';
-import ContainerSelectContext, { ContainerSelectProvider } from './ContainerSelectContext';
+import ContainerSelectContext, { ContainerSelectProvider } from './context';
 import { render, screen } from '@testing-library/react';
 
 ReactDOM.createPortal = node => node as ReactPortal;

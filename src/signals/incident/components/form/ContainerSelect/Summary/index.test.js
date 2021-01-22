@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import Summary from './Summary';
+import Summary from '.';
 
-import { ContainerSelectProvider } from '../ContainerSelectContext';
+import { ContainerSelectProvider } from '../context';
 import { withAppContext } from 'test/utils';
 
 const contextValue = {

@@ -14,8 +14,8 @@ import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 
-import LegendToggleButton from '../LegendToggleButton/LegendToggleButton';
-import ContainerSelectContext from '../ContainerSelectContext';
+import LegendToggleButton from '../LegendToggleButton';
+import ContainerSelectContext from '../context';
 import LegendPanel from '../LegendPanel';
 import ViewerContainer from '../ViewerContainer';
 import ContainerLayer from '../ContainerLayer';
