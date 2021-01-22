@@ -1,19 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { MapPanelContent } from '@amsterdam/arm-core';
 
 import IconList from 'components/IconList/IconList';
-
-interface Item {
-  iconUrl: string;
-  label: string;
-  id: string;
-}
+import type { IconListItem } from 'components/IconList/IconList';
 
 export interface LegendPanelProps {
   variant: 'panel' | 'drawer';
   title: string;
-  items?: Item[];
+  items?: IconListItem[];
+  onClose: () => void;
 }
 
 // Prevent scrollBar on iOS due to navigation bar
@@ -24,12 +20,13 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant }) =>
-  <React.Fragment>
+const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant, onClose }) => (
+  <Fragment>
     <GlobalStyle />
-    <MapPanelContent variant={variant} title={title}>
-      <IconList id="legend" items={items} size={40} />
+    <MapPanelContent data-testid="legend-panel" stackOrder={1} onClose={onClose} variant={variant} title={title}>
+      <IconList id="legend-icons" items={items} />
     </MapPanelContent>
-  </React.Fragment>;
+  </Fragment>
+);
 
 export default LegendPanel;

@@ -1,12 +1,12 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ContainerList from './ContainerList';
 
-import { ContainerSelectProvider } from '../ContainerSelectContext';
 import { withAppContext } from 'test/utils';
+import type { Item } from '../types';
 
 describe('signals/incident/components/form/ContainerSelect/ContainerList', () => {
-  const selection = [
+  const selection: Item[] = [
     {
       id: 'PL734',
       type: 'plastic',
@@ -37,12 +37,14 @@ describe('signals/incident/components/form/ContainerSelect/ContainerList', () =>
     render(withAppContext(<ContainerList selection={selection}></ContainerList>));
 
     expect(screen.getByTestId('containerList')).toBeInTheDocument();
-    selection.forEach(({ id }) => expect(screen.getByTestId(`containerList-item-${id}`)).toBeInTheDocument());
+    selection.forEach(({ id }) => {
+      expect(screen.getByTestId(`containerList-item-${id}`)).toBeInTheDocument();
+    });
     expect(screen.getAllByRole('listitem').length).toBe(selection.length);
   });
 
   it('should render an empty list', () => {
-    render(withAppContext(<ContainerList selection={[]} ></ContainerList>));
+    render(withAppContext(<ContainerList selection={[]}></ContainerList>));
 
     expect(screen.getByTestId('containerList')).toBeInTheDocument();
     expect(screen.queryAllByRole('listitem').length).toBe(0);

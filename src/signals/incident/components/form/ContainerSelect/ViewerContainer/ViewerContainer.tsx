@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { MapPanelContext, ViewerContainer as AscViewerContainer } from '@amsterdam/arm-core';
 
 // Should reflect ViewerContainer props from arm-core (which are not exported)
-interface AscViewerContainerProps {
+interface ViewerContainerProps {
   topLeft?: ReactNode;
   topRight?: ReactNode;
   bottomLeft?: ReactNode;
@@ -18,34 +18,24 @@ interface StyledViewerContainerProps {
   height: string;
 }
 
-const StyledViewerContainer = styled(AscViewerContainer)<StyledViewerContainerProps>`
+const StyledViewerContainer = styled(AscViewerContainer) <StyledViewerContainerProps>`
   left: ${({ leftOffset }) => leftOffset};
   height: ${({ height }) => height};
   z-index: 400;
   transition: height 0.3s ease-in-out;
 `;
 
-interface ViewerContainerProps extends AscViewerContainerProps {
-  showDesktopVariant: boolean;
-  legendButton: ReactNode;
-  id?: string;
-}
+const ViewerContainer: React.FC<ViewerContainerProps> = props => {
+  const { drawerPosition, variant } = useContext(MapPanelContext);
+  const isDrawerVariant = variant === 'drawer';
 
-const ViewerContainer: React.FC<ViewerContainerProps> = ({
-  showDesktopVariant,
-  legendButton,
-  ...restProps
-}) => {
-  const { drawerPosition } = useContext(MapPanelContext);
-  const height = showDesktopVariant ? '100%' : drawerPosition;
-  const leftOffset = showDesktopVariant ? drawerPosition : '0';
+  const height = isDrawerVariant ? '100%' : drawerPosition;
+  const leftOffset = isDrawerVariant ? drawerPosition : '0';
 
   return (
     <StyledViewerContainer
-      {...restProps}
+      {...props}
       data-testid="viewer-container"
-      bottomLeft={!showDesktopVariant && legendButton}
-      topLeft={showDesktopVariant && legendButton}
       height={height}
       leftOffset={leftOffset}
     />

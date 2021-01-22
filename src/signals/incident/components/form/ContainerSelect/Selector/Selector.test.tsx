@@ -1,12 +1,12 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Selector from './Selector';
 import fetchMock from 'jest-fetch-mock';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import { contextValue, withContainerSelectContext } from '../ContainerSelectContext.test';
+import userEvent from '@testing-library/user-event';
 
-let showDesktopVariant = false;
-
+let showDesktopVariant: boolean;
 jest.mock('@amsterdam/asc-ui/lib/utils/hooks', () => ({
   useMatchMedia: () => [showDesktopVariant],
 }));
@@ -15,6 +15,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
   beforeEach(() => {
     fetchMock.resetMocks();
     fetchMock.mockResponseOnce(JSON.stringify(containersJson), { status: 200 });
+    showDesktopVariant = false;
   });
 
   afterEach(() => {
@@ -24,17 +25,15 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
   it('should render the component', async () => {
     render(withContainerSelectContext(<Selector />));
 
-    expect(await screen.findByText(/container toevoegen/i)).toBeInTheDocument();
-    expect(screen.getByText(/container verwijderen/i)).toBeInTheDocument();
-    expect(screen.getByText(/meld deze container\/sluiten/i)).toBeInTheDocument();
+    expect(await screen.findByTestId('containerSelectSelector')).toBeInTheDocument();
   });
 
   it('should call update when adding container', async () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
 
-    const element = await screen.findByText(/container toevoegen/i);
-    if (element) fireEvent.click(element);
+    const addContainerButton = await screen.findByText(/containers toevoegen/i);
+    userEvent.click(addContainerButton);
     expect(contextValue.update).toHaveBeenCalledWith(expect.any(Array));
   });
 
@@ -42,8 +41,8 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
 
-    const element = await screen.findByText(/container verwijderen/i);
-    if (element) fireEvent.click(element);
+    const removeContainersButton = await screen.findByText(/containers verwijderen/i);
+    userEvent.click(removeContainersButton);
     expect(contextValue.update).toHaveBeenCalledWith([]);
   });
 
@@ -51,24 +50,51 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.close).not.toHaveBeenCalled();
 
-    const element = await screen.findByText(/meld deze container\/sluiten/i);
-    if (element) fireEvent.click(element);
+    const button = await screen.findByText('Meld deze container');
+    userEvent.click(button);
     expect(contextValue.close).toHaveBeenCalled();
   });
 
-  it('should show desktop version on desktop', () => {
+  it('should handle close button on legend panel', async () => {
     showDesktopVariant = true;
     render(withContainerSelectContext(<Selector />));
 
-    expect(screen.getByTestId('panel-desktop')).toBeInTheDocument();
+    userEvent.click(await screen.findByText('Legenda'));
+    expect(screen.getByTestId('legend-panel')).toBeInTheDocument();
+
+    userEvent.click(screen.getByTitle('Sluit'));
+    expect(screen.queryByTestId('legend-panel')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('selection-panel')).toBeInTheDocument();
+  });
+
+  it('should render legend panel', async () => {
+    showDesktopVariant = true;
+    render(withContainerSelectContext(<Selector />));
+
+    userEvent.click(await screen.findByText('Legenda'));
+
+    expect(screen.getByTestId('legend-panel')).toBeInTheDocument();
+  });
+
+  it('should render selection panel', async () => {
+    showDesktopVariant = true;
+    render(withContainerSelectContext(<Selector />));
+
+    expect(await screen.findByTestId('selection-panel')).toBeInTheDocument();
+  });
+
+  it('should show desktop version on desktop', async () => {
+    showDesktopVariant = true;
+    render(withContainerSelectContext(<Selector />));
+
+    expect(await screen.findByTestId('panel-desktop')).toBeInTheDocument();
     expect(screen.queryByTestId('panel-mobile')).not.toBeInTheDocument();
   });
 
-  it('should show mobile version on desktop', () => {
-    showDesktopVariant = false;
+  it('should show mobile version on desktop', async () => {
     render(withContainerSelectContext(<Selector />));
 
+    expect(await screen.findByTestId('panel-mobile')).toBeInTheDocument();
     expect(screen.queryByTestId('panel-desktop')).not.toBeInTheDocument();
-    expect(screen.getByTestId('panel-mobile')).toBeInTheDocument();
   });
 });
