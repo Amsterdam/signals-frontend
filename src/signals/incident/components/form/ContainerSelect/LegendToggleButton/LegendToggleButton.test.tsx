@@ -13,7 +13,7 @@ import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants
 describe('LegendToggleButton', () => {
   const props: LegendToggleButtonProps = {
     onClick: jest.fn(),
-    isOpen: true,
+    isRenderingLegendPanel: true,
   };
 
   afterEach(() => {
