@@ -16,7 +16,7 @@ import { uploadFile } from 'containers/App/saga';
 
 import { subCategories } from 'utils/__tests__/fixtures';
 
-import mapControlsToParams from '../../services/map-controls-to-params';
+import * as mapControlsToParams from '../../services/map-controls-to-params';
 
 import * as constants from './constants';
 import watchIncidentContainerSaga, {
@@ -347,27 +347,13 @@ describe('IncidentContainer saga', () => {
         },
       };
 
-      const mapControlsToParamsResponse = {
-        text: payloadIncident.text,
-        category: payloadIncident.category,
-        subcategory: payloadIncident.subcategory,
-      };
-
       return expectSaga(getPostData, invalidAction)
-        .provide([[matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse]])
-        .call(mapControlsToParams, invalidAction.payload.incident, invalidAction.payload.wizard)
         .returns(postData)
         .run(false);
     });
 
     it('returns data for unauthenticated users', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
-
-      const mapControlsToParamsResponse = {
-        text: payloadIncident.text,
-        category: payloadIncident.category,
-        subcategory: payloadIncident.subcategory,
-      };
 
       const postData = {
         text: payloadIncident.text,
@@ -379,21 +365,12 @@ describe('IncidentContainer saga', () => {
       };
 
       return expectSaga(getPostData, action)
-        .provide([[matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse]])
-        .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
     });
 
     it('returns data for authenticated users', () => {
       jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
-
-      const mapControlsToParamsResponse = {
-        text: payloadIncident.text,
-        priority: payloadIncident.priority.id,
-        category: payloadIncident.category,
-        subcategory: payloadIncident.subcategory,
-      };
 
       const postData = {
         text: payloadIncident.text,
@@ -411,8 +388,6 @@ describe('IncidentContainer saga', () => {
       };
 
       return expectSaga(getPostData, action)
-        .provide([[matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse]])
-        .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
     });
@@ -428,6 +403,8 @@ describe('IncidentContainer saga', () => {
           },
         },
       };
+      jest.spyOn(mapControlsToParams, 'default').mockImplementation(() => mapControlsToParamsResponse);
+      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
 
       const postData = {
         text: payloadIncident.text,
@@ -446,8 +423,6 @@ describe('IncidentContainer saga', () => {
       };
 
       return expectSaga(getPostData, action)
-        .provide([[matchers.call.fn(mapControlsToParams), mapControlsToParamsResponse]])
-        .call(mapControlsToParams, action.payload.incident, action.payload.wizard)
         .returns(postData)
         .run();
     });

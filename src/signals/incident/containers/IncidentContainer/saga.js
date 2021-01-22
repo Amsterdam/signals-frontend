@@ -128,7 +128,7 @@ export function* postIncident(postData) {
  */
 export function* getPostData(action) {
   const { incident, wizard } = action.payload;
-  const controlsToParams = yield call(mapControlsToParams, incident, wizard);
+  const controlsToParams = mapControlsToParams(incident, wizard);
 
   const primedPostData = {
     ...incident,
