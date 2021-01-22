@@ -27,31 +27,29 @@ const withMapContainer = (Component: ReactNode) => (
   </Map>
 );
 
-describe('src/signals/incident/components/form/ContainerSelect/Selector/MarkerCluster', () => {
+describe('ContainerLayer', () => {
   const featureTypes: FeatureType[] = [
-    {
-      label: 'Restafval',
-      description: 'Restafval container',
-      icon: {
-        options: {},
-        iconSvg: 'iconSvg',
-        selectedIconSvg: 'selectedIconSvg',
-      },
-      idField: 'id_nummer',
-      typeField: 'fractie_omschrijving',
-      typeValue: 'Rest',
-    },
     {
       label: 'Papier',
       description: 'Papier container',
       icon: {
         options: {},
         iconSvg: 'iconSvg',
-        selectedIconSvg: 'selectedIconSvg',
       },
       idField: 'id_nummer',
       typeField: 'fractie_omschrijving',
       typeValue: 'Papier',
+    },
+    {
+      label: 'Glas',
+      description: 'Glas container',
+      icon: {
+        options: {},
+        iconSvg: 'svgIcon',
+      },
+      idField: 'id_nummer',
+      typeField: 'fractie_omschrijving',
+      typeValue: 'Glas',
     },
   ];
 

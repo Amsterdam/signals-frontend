@@ -1,4 +1,5 @@
 import type { IconOptions, LatLngExpression } from 'leaflet';
+import type { Point, Feature as GeoJSONFeature } from 'geojson';
 
 export type ClickEventHandler = (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 
@@ -46,3 +47,6 @@ export interface ContainerSelectValue {
 export interface DataLayerProps {
   featureTypes: FeatureType[];
 }
+
+export type FeatureProps = Record<string, string | undefined>;
+export type Feature = GeoJSONFeature<Point, FeatureProps>;
