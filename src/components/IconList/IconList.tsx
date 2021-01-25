@@ -23,7 +23,7 @@ const ListItem = styled.li`
 
 const StyledIcon = styled.span<{ url: string; size: number }>`
   margin-right: ${themeSpacing(2)};
-  display: inline-block;
+  flex-shrink: 0;
   background-image: url(${({ url }) => url});
   background-size: cover;
   width: ${({ size }) => size}px;
