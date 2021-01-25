@@ -20,6 +20,7 @@ export const Null = () => null;
 const mapFieldNameToComponent = key => FormComponents[key];
 
 export const renderPreview = ({ render: renderFunc, meta }) => {
+  const Preview = props => PreviewComponents.ContainerListPreview({ ...props, featureTypes: meta.featureTypes });
   switch (renderFunc.name) {
     case 'RadioInputGroup':
     case 'SelectInput':
@@ -44,7 +45,8 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
       return Label;
 
     case 'ContainerSelectRenderer':
-      return props => PreviewComponents.ContainerListPreview({ ...props, featureTypes: meta.featureTypes });
+      return Preview;
+      // return props => PreviewComponents.ContainerListPreview({ ...props, featureTypes: meta.featureTypes });
 
     default:
       return Null;
