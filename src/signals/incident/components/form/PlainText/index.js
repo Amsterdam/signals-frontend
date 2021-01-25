@@ -1,49 +1,17 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import isString from 'lodash.isstring';
 import get from 'lodash.get';
-import { isAuthenticated } from 'shared/services/auth/auth';
-
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
+
+import configuration from 'shared/services/configuration/configuration';
+import { isAuthenticated } from 'shared/services/auth/auth';
 import mapDynamicFields from 'signals/incident/services/map-dynamic-fields';
 
-// This control will disable all the links when the user is not authenticated.
-const Span = styled.span`
-  ${({ authenticated }) =>
-    authenticated
-      ? css`
-          a {
-            color: ${themeColor('primary')};
-            font-weight: bold;
-          }
-        `
-      : css`
-          a {
-            pointer-events: none;
-            cursor: default;
-            text-decoration: none;
-            color: inherit;
-          }
-        `}
-`;
-
-const renderText = (value, parent) => {
-  if (React.isValidElement(value)) {
-    return value;
-  }
-
-  const text = mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
-  return (
-    <Span
-      authenticated={isAuthenticated()}
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{
-        __html: text,
-      }}
-    />
-  );
-};
+const injectParent = (value, parent) =>
+  mapDynamicFields(value, { incident: get(parent, 'meta.incidentContainer.incident') });
 
 const Label = styled.div`
   font-family: Avenir Next LT W01 Demi;
@@ -90,31 +58,29 @@ const Wrapper = styled.div`
     }
   }
 
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
   ${({ type }) => getStyle(type)}
 `;
 
-const Value = styled.div`
-  margin-bottom: ${themeSpacing(4)};
+const PlainText = ({ className, meta, parent }) => {
+  const valueAuthenticated = isAuthenticated() && meta?.valueAuthenticated;
+  const value = !valueAuthenticated && meta?.value;
 
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-const PlainText = ({ className, meta, parent }) =>
-  meta?.isVisible && (
+  return meta?.isVisible ? (
     <Wrapper className={className} type={meta.type} data-testid="plainText">
       {meta.label && <Label>{meta.label}</Label>}
-
-      {meta.value && isString(meta.value) && <Value>{renderText(meta.value, parent)}</Value>}
-
-      {meta.value &&
-        Array.isArray(meta.value) &&
-        meta.value.map((paragraph, key) => (
-          <Value key={`${meta.name}-${key + 1}`}>{renderText(paragraph, parent)}</Value>
-        ))}
+      {valueAuthenticated && <ReactMarkdown>{injectParent(valueAuthenticated, parent)}</ReactMarkdown>}
+      {value && <ReactMarkdown linkTarget="_blank">{injectParent(value, parent)}</ReactMarkdown>}
     </Wrapper>
-  );
+  ) : null;
+};
 
 PlainText.defaultProps = {
   className: '',

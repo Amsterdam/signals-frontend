@@ -47,7 +47,7 @@ export const getContext = state => {
   return { store };
 };
 
-export const store = configureStore(Immutable.Map(), history);
+export const store = configureStore({ }, history);
 
 loadModels(store);
 

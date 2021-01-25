@@ -7,6 +7,8 @@ export const Form = styled.form`
   column-count: 2;
   column-gap: 100px;
   width: 100%;
+  padding-bottom: 86px;
+
   column-fill: auto @media (max-width: 1020px) {
     column-gap: 60px;
   }
@@ -55,28 +57,32 @@ export const Fieldset = styled.fieldset`
     vertical-align: top;
   }
 
-  ${({ isSection }) => isSection && css`
-    background-color: ${themeColor('tint', 'level2')};
-    padding: 15px 21px;
-  `}
+  ${({ isSection }) =>
+    isSection &&
+    css`
+      background-color: ${themeColor('tint', 'level2')};
+      padding: 15px 21px;
+    `}
 `;
 
 export const DatesWrapper = styled.div`
   display: flex;
-  & > * + * {
-    margin-left: ${themeSpacing(5)};
+  & > :first-child {
+    margin-right: ${themeSpacing(5)};
   }
 `;
 
 export const FormFooterWrapper = styled(FormFooter)`
-  button[type="reset"] {
+  z-index: 2;
+
+  button[type='reset'] {
     order: 1;
   }
-  button[type="submit"] {
+  button[type='submit'] {
     margin-left: ${themeSpacing(4)};
     order: 3;
   }
-  button[type="button"] {
+  button[type='button'] {
     order: 2;
   }
 `;

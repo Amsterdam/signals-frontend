@@ -10,11 +10,10 @@ const fixturePath = '../fixtures/signals/bedrijvenStank.json';
 describe('Create signal "Bedrijven overlast stank" and check signal details', () => {
   describe('Create signal overlast stank', () => {
     before(() => {
-      cy.server();
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
-      cy.route2('**/maps/topografie?bbox=**').as('map');
-      cy.visitFetch('incident/beschrijf');
+      cy.stubPreviewMap();
+      cy.stubMap();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
@@ -54,9 +53,7 @@ describe('Create signal "Bedrijven overlast stank" and check signal details', ()
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
       createSignal.checkSummaryPage(fixturePath);
-      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
@@ -68,14 +65,14 @@ describe('Create signal "Bedrijven overlast stank" and check signal details', ()
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
     it('Should show the signal details', () => {
+      cy.stubPreviewMap();
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 

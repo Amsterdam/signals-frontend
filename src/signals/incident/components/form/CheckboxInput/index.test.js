@@ -180,6 +180,16 @@ describe('Form component <CheckboxInput />', () => {
           { id: 'red', label: 'Rood' },
         ],
       });
+
+      act(() => {
+        fireEvent.click(unchecked);
+      });
+
+      expect(updateIncident).toHaveBeenCalledWith({
+        [props.meta.name]: [
+          { id: 'blue', label: 'Blauw' },
+        ],
+      });
     });
   });
 });

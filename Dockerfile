@@ -18,8 +18,9 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
 COPY .gitignore \
   .gitattributes \
-  .eslintrc.yaml \
+  .eslintrc.js \
   .prettierrc \
+  tsconfig.json \
   jest.config.js \
   babel.config.js \
   package.json \
@@ -63,6 +64,7 @@ COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 COPY app.base.json /app.base.json
+COPY app.amsterdam.json /app.amsterdam.json
 COPY internals/schemas/app.schema.json /internals/schemas/app.schema.json
 COPY internals/scripts/validate-config.js /internals/scripts/validate-config.js
 COPY internals/scripts/inject-config.js /internals/scripts/inject-config.js

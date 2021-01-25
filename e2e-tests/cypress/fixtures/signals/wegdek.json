@@ -59,7 +59,8 @@
     {"id": 4, "code": "STW", "name": "Stadswerken", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "wegdek.json",
-    "attachments": null
+    "address": "wegdek.json",
+    "attachments": null,
+    "prediction": "wegdek.json"
   }
 }

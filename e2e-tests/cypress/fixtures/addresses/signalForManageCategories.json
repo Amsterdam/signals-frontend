@@ -1,0 +1,42 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 22.928234,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "224",
+        "weergavenaam": "Lederambachtstraat 224, 1069HM Amsterdam",
+        "id": "adr-2a84fb5438abcd94499ea8d7ce01f577",
+        "postcode": "1069HM",
+        "centroide_ll": "POINT(4.79596168 52.35455466)",
+        "straatnaam": "Lederambachtstraat"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-2a84fb5438abcd94499ea8d7ce01f577": {
+      "suggest": ["Lederambachtstraat <b>224</b>, <b>1069HM</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "1069hm",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 6,
+        "suggestion": ["1019hm", "1062hm", "10690", "10691", "10692"]
+      }
+    ],
+    "collations": [
+      "collation",
+      {
+        "collationQuery": "1062hm 224",
+        "hits": 1,
+        "misspellingsAndCorrections": ["1069hm", "1062hm", "224", "224"]
+      }
+    ]
+  }
+}

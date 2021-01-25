@@ -1,0 +1,132 @@
+{
+  "response": {
+    "numFound": 18,
+    "start": 0,
+    "maxScore": 14.683605,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5A",
+        "weergavenaam": "Korte Ouderkerkerdijk 5A, 1096AC Amsterdam",
+        "id": "adr-d97b5459f6e5bc319e8ce06c1b535bb1",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91808994 52.34050185)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5B",
+        "weergavenaam": "Korte Ouderkerkerdijk 5B, 1096AC Amsterdam",
+        "id": "adr-e2083586543758da85c523269b6f9386",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91803456 52.34041745)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5C",
+        "weergavenaam": "Korte Ouderkerkerdijk 5C, 1096AC Amsterdam",
+        "id": "adr-e269d6be81614fb00de6c5861673e5fa",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91799075 52.34037321)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5D",
+        "weergavenaam": "Korte Ouderkerkerdijk 5D, 1096AC Amsterdam",
+        "id": "adr-dccf6dd341008a2f6c2d326524a04b81",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91805211 52.34041413)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5E",
+        "weergavenaam": "Korte Ouderkerkerdijk 5E, 1096AC Amsterdam",
+        "id": "adr-695c7bb18a54c1e626bed28b296603c3",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91801109 52.34036933)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5F",
+        "weergavenaam": "Korte Ouderkerkerdijk 5F, 1096AC Amsterdam",
+        "id": "adr-cc673bbfa6fdaac63091310dbadfad2b",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91803143 52.34036489)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5G",
+        "weergavenaam": "Korte Ouderkerkerdijk 5G, 1096AC Amsterdam",
+        "id": "adr-d11e9f7bd8b78655f36f016c75f074d0",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91809906 52.34042279)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5H",
+        "weergavenaam": "Korte Ouderkerkerdijk 5H, 1096AC Amsterdam",
+        "id": "adr-bb35c62247ed65faca6c50ebcbb7df07",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91804807 52.340361)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5K",
+        "weergavenaam": "Korte Ouderkerkerdijk 5K, 1096AC Amsterdam",
+        "id": "adr-cc58e7c7eee63d5d55886d643d077ae4",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91807743 52.34037582)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "5L",
+        "weergavenaam": "Korte Ouderkerkerdijk 5L, 1096AC Amsterdam",
+        "id": "adr-f7818d6c2afc71575ce0fc228a8a1013",
+        "postcode": "1096AC",
+        "centroide_ll": "POINT(4.91798149 52.34037599)",
+        "straatnaam": "Korte Ouderkerkerdijk"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-d97b5459f6e5bc319e8ce06c1b535bb1": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5A</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-e2083586543758da85c523269b6f9386": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5B</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-e269d6be81614fb00de6c5861673e5fa": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5C</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-dccf6dd341008a2f6c2d326524a04b81": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5D</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-695c7bb18a54c1e626bed28b296603c3": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5E</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-cc673bbfa6fdaac63091310dbadfad2b": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5F</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-d11e9f7bd8b78655f36f016c75f074d0": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5G</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-bb35c62247ed65faca6c50ebcbb7df07": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5H</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-cc58e7c7eee63d5d55886d643d077ae4": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5K</b>, <b>1096AC</b> Amsterdam"]
+    },
+    "adr-f7818d6c2afc71575ce0fc228a8a1013": {
+      "suggest": ["Korte Ouderkerkerdijk <b>5L</b>, <b>1096AC</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

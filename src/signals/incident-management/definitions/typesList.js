@@ -1,3 +1,5 @@
+import configuration from 'shared/services/configuration/configuration';
+
 export default [
   {
     key: 'SIG',
@@ -18,7 +20,9 @@ export default [
   { key: 'COM', value: 'Klacht', info: 'Een uiting van ongenoegen over het handelen van de gemeente.' },
   {
     key: 'MAI',
-    value: 'Groot onderhoud',
-    info: 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
+    value: configuration.featureFlags.useProjectenSignalType ? 'Projecten' : 'Groot onderhoud',
+    info: configuration.featureFlags.useProjectenSignalType
+      ? 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een project.'
+      : 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
   },
 ];

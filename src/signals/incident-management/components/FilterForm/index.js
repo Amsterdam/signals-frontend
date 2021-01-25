@@ -1,20 +1,20 @@
-import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer } from 'react';
+import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
-import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
 import { Label as AscLabel } from '@amsterdam/asc-ui';
 
-import configuration from 'shared/services/configuration/configuration';
+import AutoSuggest from 'components/AutoSuggest';
+import Checkbox from 'components/Checkbox';
+import Input from 'components/Input';
+import Label from 'components/Label';
 import { makeSelectStructuredCategories } from 'models/categories/selectors';
+import configuration from 'shared/services/configuration/configuration';
+import { dateToISOString } from 'shared/services/date-utils';
+import { filterType } from 'shared/types';
 import dataLists from 'signals/incident-management/definitions';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
-import { filterType } from 'shared/types';
-import Label from 'components/Label';
-import Input from 'components/Input';
-import Checkbox from 'components/Checkbox';
-import { dateToISOString } from 'shared/services/date-utils';
 
 import { makeSelectDirectingDepartments } from 'models/departments/selectors';
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
@@ -41,6 +41,15 @@ import {
 
 import reducer, { init } from './reducer';
 
+const USERS_AUTO_SUGGEST_URL = `${configuration.USERS_ENDPOINT}?is_active=true&username=`;
+const getUserOptions = data =>
+  data.results?.map(user => ({
+    id: user.username,
+    value: user.username,
+  }));
+
+const getUserCount = data => data?.count;
+
 /**
  * Component that renders the incident filter form
  */
@@ -53,6 +62,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const [state, dispatch] = useReducer(reducer, filter, init);
 
   const isNewFilter = !filter.name;
+
+  const [assignedSelectValue, setAssignedSelectValue] = useState('');
 
   const dataListValues = useMemo(
     () => ({
@@ -227,6 +238,28 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [dispatch, dataListValues]
   );
 
+  const onAssignedSelect = useCallback(
+    option => {
+      dispatch(setGroupOptions({ assigned_user_email: option.id }));
+    },
+    [dispatch]
+  );
+
+  const onAssignedClear = useCallback(() => {
+    dispatch(setGroupOptions({ assigned_user_email: '' }));
+  }, [dispatch]);
+
+  const onNotAssignedChange = useCallback(
+    event => {
+      const { checked } = event.currentTarget;
+      const newAssignedSelectValue = checked ? state.options.assigned_user_email : '';
+      const newAssignedFilterValue = checked ? 'null' : assignedSelectValue;
+      setAssignedSelectValue(newAssignedSelectValue);
+      dispatch(setGroupOptions({ assigned_user_email: newAssignedFilterValue }));
+    },
+    [dispatch, assignedSelectValue, setAssignedSelectValue, state]
+  );
+
   return (
     <Form action="" novalidate>
       <ControlsWrapper>
@@ -296,6 +329,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="status"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.status}
           />
 
@@ -306,6 +340,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="area"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
               options={districts}
             />
           )}
@@ -317,6 +352,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="stadsdeel"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
               options={dataLists.stadsdeel}
             />
           )}
@@ -328,6 +364,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="priority"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.priority}
           />
 
@@ -338,6 +375,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="type"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.type}
           />
 
@@ -348,6 +386,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="contact_details"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.contact_details}
           />
 
@@ -366,6 +405,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             name="kind"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={dataLists.kind}
           />
 
@@ -377,6 +417,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="directing_department"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
               options={directingDepartments}
             />
 
@@ -387,6 +428,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               name="has_changed_children"
               onChange={onGroupChange}
               onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
               options={dataLists.has_changed_children}
             />
           </Fieldset>
@@ -433,12 +475,44 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </FilterGroup>
 
+          {configuration.featureFlags.assignSignalToEmployee && (
+            <FilterGroup data-testid="filterAssignedUserEmail">
+              <Label htmlFor="filter_assigned_user_email" isGroupHeader>
+                Toegewezen aan
+              </Label>
+              <div>
+                <AscLabel htmlFor="filter_not_assigned" label="Niet toegewezen">
+                  <Checkbox
+                    data-testid="filterNotAssigned"
+                    checked={state.options.assigned_user_email === 'null'}
+                    id="filter_not_assigned"
+                    name="notAssigned"
+                    onClick={onNotAssignedChange}
+                  />
+                </AscLabel>
+              </div>
+              <AutoSuggest
+                value={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
+                id="filter_assigned_user_email"
+                name="assigned_user_email"
+                onSelect={onAssignedSelect}
+                onClear={onAssignedClear}
+                placeholder="medewerker@example.com"
+                url={USERS_AUTO_SUGGEST_URL}
+                formatResponse={getUserOptions}
+                numOptionsDeterminer={getUserCount}
+                disabled={state.options.assigned_user_email === 'null'}
+              />
+            </FilterGroup>
+          )}
+
           <CheckboxGroup
             defaultValue={state.options.source}
             label="Bron"
             name="source"
             onChange={onGroupChange}
             onToggle={onGroupToggle}
+            onSubmit={onSubmitForm}
             options={sources}
           />
         </Fieldset>
@@ -458,6 +532,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               filterSlugs={filterSlugs}
               onChange={onChangeCategories}
               onToggle={onMainCategoryToggle}
+              onSubmit={onSubmitForm}
             />
           )}
         </Fieldset>

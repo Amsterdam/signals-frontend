@@ -8,10 +8,9 @@ describe('Manage users', () => {
   });
 
   it('Should open the manage users screen', () => {
-    cy.server();
     cy.getManageSignalsRoutes();
-    cy.route('/signals/v1/private/users/*').as('getUser');
-    cy.visitFetch('/manage/incidents/');
+    cy.getUserRoute();
+    cy.visit('/manage/incidents/');
     cy.waitForManageSignalsRoutes();
 
     cy.openMenu();
@@ -36,9 +35,8 @@ describe('Manage users', () => {
   });
   it('Should change a user and show history', () => {
     const randomNumber = Math.random();
-    cy.server();
-    cy.route('/signals/v1/private/users/*').as('getUser');
-    cy.route('PATCH', '/signals/v1/private/users/*').as('patchUser');
+    cy.getUserRoute();
+    cy.patchUserRoute();
     cy.get(USERS.userRow)
       .eq(0)
       .click();
@@ -57,9 +55,8 @@ describe('Manage users', () => {
     cy.get(USERS.buttonAnnuleren).click();
   });
   it('Should add a department to a user', () => {
-    cy.server();
-    cy.route('/signals/v1/private/users/*').as('getUser');
-    cy.route('PATCH', '/signals/v1/private/users/*').as('patchUser');
+    cy.getUserRoute();
+    cy.patchUserRoute();
     cy.get(USERS.userRow)
       .eq(0)
       .click();
@@ -86,11 +83,10 @@ describe('Manage users', () => {
   });
 
   it('Should add multiple departments to a user', () => {
-    cy.server();
     cy.getManageSignalsRoutes();
-    cy.route('/signals/v1/private/users/*').as('getUser');
-    cy.route('PATCH', '/signals/v1/private/users/*').as('patchUser');
-    cy.visitFetch('/manage/incidents/');
+    cy.getUserRoute();
+    cy.patchUserRoute();
+    cy.visit('/manage/incidents/');
     cy.waitForManageSignalsRoutes();
 
     cy.openMenu();

@@ -151,13 +151,6 @@ const FileInput = ({ handler, parent, meta }) => {
 
         {previews.length < maxNumberOfFiles && (
           <FileInputUploadButton data-testid="fileInputUploadButton">
-            <label htmlFor="formUpload">
-              <AddButton aria-label="Toevoegen foto">
-                <AddIcon size={22}>
-                  <Enlarge />
-                </AddIcon>
-              </AddButton>
-            </label>
             <input
               type="file"
               id="formUpload"
@@ -166,6 +159,13 @@ const FileInput = ({ handler, parent, meta }) => {
               onChange={handleChange}
               multiple
             />
+            <label htmlFor="formUpload">
+              <AddButton aria-label="Toevoegen foto">
+                <AddIcon size={22}>
+                  <Enlarge />
+                </AddIcon>
+              </AddButton>
+            </label>
           </FileInputUploadButton>
         )}
 

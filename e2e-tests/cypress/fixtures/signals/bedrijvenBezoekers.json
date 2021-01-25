@@ -97,7 +97,8 @@
     {"id": 2, "code": "THO", "name": "THOR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "bedrijvenBezoekersoverlast.json",
-    "attachments": null
+    "address": "bedrijvenBezoekersoverlast.json",
+    "attachments": null,
+    "prediction": "bedrijvenBezoekersoverlast.json"
   }
 }

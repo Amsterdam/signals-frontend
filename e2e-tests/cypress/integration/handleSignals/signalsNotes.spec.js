@@ -19,13 +19,12 @@ sizes.forEach(size => {
 
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       requests.createSignalOverviewMap();
       cy.getManageSignalsRoutes();
-      cy.route('**/history').as('getHistory');
-      cy.route('/maps/topografie?bbox=*').as('getMap');
-      cy.route('/signals/v1/private/terms/categories/**').as('getTerms');
-      cy.visitFetch('/manage/incidents/');
+      cy.getHistoryRoute();
+      cy.stubPreviewMap();
+      cy.getTermsRoute();
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
@@ -33,7 +32,6 @@ sizes.forEach(size => {
       cy.get('[href*="/manage/incident/"]')
         .first()
         .click();
-      cy.wait('@getMap');
       cy.wait('@getTerms');
       cy.wait('@getHistory');
     });
@@ -68,13 +66,12 @@ sizes.forEach(size => {
     });
 
     it('Should add a note', () => {
-      cy.server();
-      cy.postNoteRoutes();
+      cy.noteRoutes();
       const note1 = 'Ik hou van noteren, \nlekker noteletities maken. \nNou dat bevalt me wel.';
       const note2 = 'Ik voeg gewoon nog een noteletitie toe, omdat het zo leuk is!';
 
       createSignal.addNote(note1);
-      cy.waitForPostNoteRoutes();
+      cy.waitForNoteRoutes();
 
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 7);
       cy.get(SIGNAL_DETAILS.historyAction)
@@ -87,7 +84,7 @@ sizes.forEach(size => {
         .and('be.visible');
 
       createSignal.addNote(note2);
-      cy.waitForPostNoteRoutes();
+      cy.waitForNoteRoutes();
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 8);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
@@ -99,14 +96,13 @@ sizes.forEach(size => {
         .and('be.visible');
     });
     it('Should filter notes', () => {
-      cy.server();
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       cy.getManageSignalsRoutes();
-      cy.route('**/history').as('getHistory');
-      cy.route('/maps/topografie?bbox=*').as('getMap');
-      cy.route('/signals/v1/private/terms/categories/**').as('getTerms');
-      cy.route('/signals/v1/private/signals/?note_keyword=*').as('submitNoteFilter');
-      cy.visitFetch('/manage/incidents/');
+      cy.getHistoryRoute();
+      cy.stubPreviewMap();
+      cy.getTermsRoute();
+      cy.getFilterByNoteRoute();
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilteren)
@@ -123,7 +119,6 @@ sizes.forEach(size => {
       cy.get('[href*="/manage/incident/"]')
         .first()
         .click();
-      cy.wait('@getMap');
       cy.wait('@getTerms');
       cy.wait('@getHistory');
 

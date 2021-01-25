@@ -7,8 +7,8 @@ import { store, withAppContext } from 'test/utils';
 import {
   departments,
   directingDepartments,
+  handlingTimesBySlug,
   subcategoriesGroupedByCategories,
-  subcategoriesHandlingTimesBySlug,
 } from 'utils/__tests__/fixtures';
 
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
@@ -18,7 +18,6 @@ import usersFixture from 'utils/__tests__/fixtures/users.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
 import * as categoriesSelectors from 'models/categories/selectors';
-
 
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
@@ -61,7 +60,7 @@ const renderWithContext = (incident = parentIncident, users = usersFixture.resul
   withAppContext(
     <IncidentManagementContext.Provider value={{ users }}>
       <IncidentDetailContext.Provider
-        value={{ handlingTimesBySlug: subcategoriesHandlingTimesBySlug, incident, update, edit }}
+        value={{ incident, update, edit }}
       >
         <MetaList />
       </IncidentDetailContext.Provider>
@@ -78,6 +77,9 @@ describe('MetaList', () => {
     jest
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
       .mockImplementation(() => subcategoriesGroupedByCategories);
+    jest
+      .spyOn(categoriesSelectors, 'makeSelectHandlingTimesBySlug')
+      .mockImplementation(() => handlingTimesBySlug);
   });
 
   afterEach(() => {
@@ -248,8 +250,8 @@ describe('MetaList', () => {
     it('should not show assigned user by default', () => {
       const { queryByTestId } = render(renderWithContext());
 
-      expect(queryByTestId('meta-list-assigned_user_id-definition')).not.toBeInTheDocument();
-      expect(queryByTestId('meta-list-assigned_user_id-value')).not.toBeInTheDocument();
+      expect(queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
+      expect(queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
     });
 
     it('should show assigned user with assignSignalToEmployee enabled', () => {
@@ -257,8 +259,8 @@ describe('MetaList', () => {
 
       const { queryByText, queryByTestId } = render(renderWithContext());
 
-      expect(queryByTestId('meta-list-assigned_user_id-definition')).toBeInTheDocument();
-      expect(queryByTestId('meta-list-assigned_user_id-value')).toBeInTheDocument();
+      expect(queryByTestId('meta-list-assigned_user_email-definition')).toBeInTheDocument();
+      expect(queryByTestId('meta-list-assigned_user_email-value')).toBeInTheDocument();
       expect(queryByText('Niet toegewezen')).toBeInTheDocument();
     });
 
@@ -267,8 +269,8 @@ describe('MetaList', () => {
 
       const { queryByTestId } = render(renderWithContext(incidentFixture, null));
 
-      expect(queryByTestId('meta-list-assigned_user_id-definition')).not.toBeInTheDocument();
-      expect(queryByTestId('meta-list-assigned_user_id-value')).not.toBeInTheDocument();
+      expect(queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
+      expect(queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
     });
 
     describe('username', () => {
@@ -278,7 +280,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_id: userAscAegId,
+            assigned_user_email: userAscAegName,
             category: {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
@@ -301,7 +303,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_id: userAscAegId,
+            assigned_user_email: userAscAegName,
             category: {
               ...incidentFixture.category,
               departments: departmentThoCode,
@@ -324,7 +326,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_id: userEmptyId,
+            assigned_user_email: userEmptyName,
             category: {
               ...incidentFixture.category,
               departments: departmentThoCode,
@@ -347,7 +349,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_id: userUndefinedId,
+            assigned_user_email: userUndefinedName,
             category: {
               ...incidentFixture.category,
               departments: departmentThoCode,
@@ -370,7 +372,7 @@ describe('MetaList', () => {
         const { queryByText } = render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_id: userAscAegId,
+            assigned_user_email: userAscAegName,
             category: {
               ...incidentFixture.category,
             },
@@ -402,7 +404,7 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_idButton');
+        const editButton = getByTestId('editAssigned_user_emailButton');
 
         fireEvent.click(editButton);
 
@@ -425,7 +427,7 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_idButton');
+        const editButton = getByTestId('editAssigned_user_emailButton');
 
         fireEvent.click(editButton);
 
@@ -448,7 +450,7 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_idButton');
+        const editButton = getByTestId('editAssigned_user_emailButton');
 
         fireEvent.click(editButton);
 
@@ -471,7 +473,7 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_idButton');
+        const editButton = getByTestId('editAssigned_user_emailButton');
 
         fireEvent.click(editButton);
 
@@ -495,7 +497,7 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_idButton');
+        const editButton = getByTestId('editAssigned_user_emailButton');
 
         fireEvent.click(editButton);
 
@@ -519,7 +521,7 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_idButton');
+        const editButton = getByTestId('editAssigned_user_emailButton');
 
         fireEvent.click(editButton);
 
@@ -548,7 +550,7 @@ describe('MetaList', () => {
             ],
           })
         );
-        const editButton = getByTestId('editAssigned_user_idButton');
+        const editButton = getByTestId('editAssigned_user_emailButton');
 
         fireEvent.click(editButton);
 
@@ -572,7 +574,7 @@ describe('MetaList', () => {
             routing_departments: [],
           })
         );
-        const editButton = getByTestId('editAssigned_user_idButton');
+        const editButton = getByTestId('editAssigned_user_emailButton');
 
         fireEvent.click(editButton);
 

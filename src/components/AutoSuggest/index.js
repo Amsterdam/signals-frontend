@@ -50,6 +50,8 @@ const AutoSuggest = ({
   placeholder,
   url,
   value,
+  disabled = false,
+  id = '',
 }) => {
   const { get, data } = useFetch();
   const [initialRender, setInitialRender] = useState(false);
@@ -59,6 +61,18 @@ const AutoSuggest = ({
   const inputRef = useRef(null);
   const options = data && formatResponse(data);
   const activeId = options && options[activeIndex]?.id;
+
+  const handleInputKeyDown = useCallback(event => {
+    switch (event.key) {
+      case 'Enter':
+        event.preventDefault();
+        break;
+
+      default:
+        break;
+    }
+  }, []);
+
   const handleKeyDown = useCallback(
     event => {
       if (!showList) return;
@@ -150,12 +164,14 @@ const AutoSuggest = ({
 
     wrapper.addEventListener('keydown', handleKeyDown);
     input.addEventListener('focusout', handleFocusOut);
+    input.addEventListener('keydown', handleInputKeyDown);
 
     return () => {
       wrapper.removeEventListener('keydown', handleKeyDown);
       input.removeEventListener('focusout', handleFocusOut);
+      input.removeEventListener('keydown', handleInputKeyDown);
     };
-  }, [handleKeyDown, handleFocusOut]);
+  }, [handleKeyDown, handleFocusOut, handleInputKeyDown]);
 
   /**
    * Subscribe to changes in fetched data
@@ -223,6 +239,8 @@ const AutoSuggest = ({
           onChange={onChange}
           placeholder={placeholder}
           ref={inputRef}
+          disabled={disabled}
+          id={id}
         />
       </div>
       {showList && (
@@ -247,6 +265,7 @@ AutoSuggest.defaultProps = {
 AutoSuggest.propTypes = {
   /** @ignore */
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   /**
    * Request response formatter
    *
@@ -254,6 +273,7 @@ AutoSuggest.propTypes = {
    * @returns {Object[]} Array of objects where each object is required to have an `id` prop and a `value` prop
    */
   formatResponse: PropTypes.func.isRequired,
+  id: PropTypes.string,
   /**
    * Result count getter
    *

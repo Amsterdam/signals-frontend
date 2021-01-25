@@ -14,14 +14,11 @@ const fixturePath04 = '../fixtures/signals/signalForChangeBeforeSubmit04.json';
 describe('Change a signal before submit and check signal details', () => {
   describe('Change signal before submit', () => {
     before(() => {
-      cy.server();
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
-      cy.route('/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as(
-        'getOpenbareVerlichting',
-      );
-      cy.intercept('**/maps/topografie?bbox=**').as('map');
-      cy.visitFetch('incident/beschrijf');
+      cy.getOpenbareVerlichtingRoute();
+      cy.stubPreviewMap();
+      cy.stubMap();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
@@ -45,16 +42,14 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.setEmailAddress(fixturePath01);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
       createSignal.checkSummaryPage(fixturePath01);
       createSignal.checkQuestions(fixturePath01);
       cy.get(CREATE_SIGNAL.imageFileUpload).should('not.exist');
     });
 
     it('Should change location, description, phonenumer and email address', () => {
-      cy.server();
-      cy.getAddressRoute();
-      cy.route2('**/maps/topografie?bbox=**').as('map');
+      cy.stubPreviewMap();
+      cy.stubMap();
 
       // Go to first step of signal creation and change signal information
       cy.get(CREATE_SIGNAL.linkChangeSignalInfo).click();
@@ -69,11 +64,10 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.setEmailAddress(fixturePath02);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
       createSignal.checkSummaryPage(fixturePath02);
     });
     it('Should edit phonenumber and email address', () => {
-      cy.route2('**/maps/topografie?bbox=**').as('map');
+      cy.stubPreviewMap();
       // Go to the phonenumber page and change phonenumber
       cy.get(CREATE_SIGNAL.linkChangePhoneNumber).click();
       createSignal.setPhonenumber(fixturePath03);
@@ -82,19 +76,16 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.setEmailAddress(fixturePath03);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
       createSignal.checkSummaryPage(fixturePath03);
     });
     it('Should edit email address', () => {
-      cy.server();
-      cy.route2('**/maps/topografie?bbox=**').as('map');
+      cy.stubPreviewMap();
       cy.postSignalRoutePublic();
       // Go to the email address page and change emailaddress
       cy.get(CREATE_SIGNAL.linkChangeEmailAddress).click();
       createSignal.setEmailAddress(fixturePath04);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
       createSignal.checkSummaryPage(fixturePath04);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
@@ -107,10 +98,9 @@ describe('Change a signal before submit and check signal details', () => {
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 

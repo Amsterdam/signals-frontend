@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 
-import { Validators } from 'react-reactive-form';
-
 const Children = styled.div`
   display: flex;
   flex-flow: column;
@@ -44,7 +42,7 @@ const SubTitle = styled.div`
 const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
   const containsErrors =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
-  const isOptional = !options?.validators?.includes(Validators.required);
+  const isOptional = !options?.validators?.some(validator => validator.name === 'required');
 
   return (
     <Wrapper className={className} invalid={containsErrors}>
@@ -60,12 +58,18 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
 
       {touched && containsErrors && (
         <Fragment>
-          {hasError('required') && <ErrorItem>Dit is een verplicht veld</ErrorItem>}
+          {hasError('required') && (
+            <ErrorItem>{getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}</ErrorItem>
+          )}
 
-          {hasError('email') && <ErrorItem>Het moet een geldig e-mailadres zijn</ErrorItem>}
+          {hasError('email') && (
+            <ErrorItem>
+              Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl
+            </ErrorItem>
+          )}
 
           {hasError('maxLength') && (
-            <ErrorItem>U kunt maximaal {getError('maxLength').requiredLength} tekens invoeren.</ErrorItem>
+            <ErrorItem>U heeft meer dan de maximale {getError('maxLength').requiredLength} tekens ingevoerd</ErrorItem>
           )}
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}

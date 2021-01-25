@@ -524,27 +524,27 @@ describe('signals/incident-management/selectors', () => {
   });
 
   it('should select page', () => {
-    const emptState = fromJS({
-      incidentManagement: { ...initialState.toJS() },
-    });
+    const emptState = {
+      incidentManagement: fromJS({ ...initialState.toJS() }),
+    };
     expect(makeSelectPage(emptState)).toEqual(initialState.toJS().page);
 
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), page: 100 },
-    });
+    const state = {
+      incidentManagement: fromJS({ ...initialState.toJS(), page: 100 }),
+    };
 
     expect(makeSelectPage(state)).toEqual(100);
   });
 
   it('should select ordering', () => {
-    const emptState = fromJS({
-      incidentManagement: { ...initialState.toJS() },
-    });
+    const emptState = {
+      incidentManagement: fromJS({ ...initialState.toJS() }),
+    };
     expect(makeSelectOrdering(emptState)).toEqual(initialState.toJS().ordering);
 
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), ordering: 'some-ordering-type' },
-    });
+    const state = {
+      incidentManagement: fromJS({ ...initialState.toJS(), ordering: 'some-ordering-type' }),
+    };
 
     expect(makeSelectOrdering(state)).toEqual('some-ordering-type');
   });
@@ -556,39 +556,39 @@ describe('signals/incident-management/selectors', () => {
 
     const incidents = { count: 100, results };
 
-    const stateLoading = fromJS({
-      incidentManagement: { ...initialState.toJS(), loadingIncidents: true, incidents },
-    });
+    const stateLoading = {
+      incidentManagement: fromJS({ ...initialState.toJS(), loadingIncidents: true, incidents }),
+    };
 
     expect(makeSelectIncidents(stateLoading)).toEqual({ ...incidents, loadingIncidents: true });
 
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), incidents },
-    });
+    const state = {
+      incidentManagement: fromJS({ ...initialState.toJS(), incidents }),
+    };
 
     expect(makeSelectIncidents(state)).toEqual({ ...incidents, loadingIncidents: false });
   });
 
   it('should select incidents count', () => {
-    const emptState = fromJS({
-      incidentManagement: { ...initialState.toJS() },
-    });
+    const emptState = {
+      incidentManagement: fromJS({ ...initialState.toJS() }),
+    };
 
     expect(makeSelectIncidentsCount(emptState)).toEqual(initialState.toJS().incidents.count);
 
     const count = 909;
-    const state = fromJS({
-      incidentManagement: { ...initialState.toJS(), incidents: { count } },
-    });
+    const state = {
+      incidentManagement: fromJS({ ...initialState.toJS(), incidents: { count } }),
+    };
 
     expect(makeSelectIncidentsCount(state)).toEqual(count);
   });
 
   describe('makeSelectFilterParams', () => {
     it('should select filter params', () => {
-      const emptyState = fromJS({
-        incidentManagement: { ...initialState.toJS(), editFilter: stadsdeelFilter, searchQuery: '' },
-      });
+      const emptyState = {
+        incidentManagement: fromJS({ ...initialState.toJS(), editFilter: stadsdeelFilter, searchQuery: '' }),
+      };
 
       expect(makeSelectFilterParams(emptyState)).toEqual({
         ordering: '-created_at',
@@ -596,9 +596,9 @@ describe('signals/incident-management/selectors', () => {
         page_size: FILTER_PAGE_SIZE,
       });
 
-      const state = fromJS({
-        incidentManagement: { ...initialState.toJS(), activeFilter: stadsdeelFilter },
-      });
+      const state = {
+        incidentManagement: fromJS({ ...initialState.toJS(), activeFilter: stadsdeelFilter }),
+      };
 
       expect(makeSelectFilterParams(state)).toEqual({
         ordering: '-created_at',
@@ -610,9 +610,9 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select filter params for area', () => {
       configuration.areaTypeCodeForDistrict = 'district';
-      const state = fromJS({
-        incidentManagement: { ...initialState.toJS(), activeFilter: areaFilter },
-      });
+      const state = {
+        incidentManagement: fromJS({ ...initialState.toJS(), activeFilter: areaFilter }),
+      };
 
       expect(makeSelectFilterParams(state)).toEqual({
         ordering: '-created_at',
@@ -624,9 +624,9 @@ describe('signals/incident-management/selectors', () => {
     });
 
     it('should reformat days_open', () => {
-      const state1 = fromJS({
-        incidentManagement: { ...initialState.toJS(), ordering: 'days_open' },
-      });
+      const state1 = {
+        incidentManagement: fromJS({ ...initialState.toJS(), ordering: 'days_open' }),
+      };
 
       expect(makeSelectFilterParams(state1)).toEqual({
         ordering: '-created_at',
@@ -634,9 +634,9 @@ describe('signals/incident-management/selectors', () => {
         page_size: FILTER_PAGE_SIZE,
       });
 
-      const state2 = fromJS({
-        incidentManagement: { ...initialState.toJS(), ordering: '-days_open' },
-      });
+      const state2 = {
+        incidentManagement: fromJS({ ...initialState.toJS(), ordering: '-days_open' }),
+      };
 
       expect(makeSelectFilterParams(state2)).toEqual({
         ordering: 'created_at',

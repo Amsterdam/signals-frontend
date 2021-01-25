@@ -1,0 +1,132 @@
+{
+  "response": {
+    "numFound": 12,
+    "start": 0,
+    "maxScore": 17.5543,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "1",
+        "weergavenaam": "Prof. Tulpplein 1, 1018GX Amsterdam",
+        "id": "adr-10f3d9617f29748d4304900f12ec03eb",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.90524276 52.35998433)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "10",
+        "weergavenaam": "Prof. Tulpplein 10, 1018GX Amsterdam",
+        "id": "adr-8bf15cd66b680850380af898101d9c9b",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.9060933 52.36006868)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "12",
+        "weergavenaam": "Prof. Tulpplein 12, 1018GX Amsterdam",
+        "id": "adr-cb919bf572edcfa1537462fb8f8ad0cf",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.9061665 52.36008695)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "14",
+        "weergavenaam": "Prof. Tulpplein 14, 1018GX Amsterdam",
+        "id": "adr-b232f1ffc56dd7c889a72874fa26fc5e",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.90640099 52.36012385)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "16",
+        "weergavenaam": "Prof. Tulpplein 16, 1018GX Amsterdam",
+        "id": "adr-789760e2a43dfb829d120aa2794a96b7",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.90640099 52.36012385)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "18",
+        "weergavenaam": "Prof. Tulpplein 18, 1018GX Amsterdam",
+        "id": "adr-33d6c9bee6c511790d392c4859236d6e",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.90640108 52.36011487)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "2",
+        "weergavenaam": "Prof. Tulpplein 2, 1018GX Amsterdam",
+        "id": "adr-6714b54b3b4440559034fa3cbc217623",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.90575372 52.36024705)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "4",
+        "weergavenaam": "Prof. Tulpplein 4, 1018GX Amsterdam",
+        "id": "adr-b133abc1cf23529d040ce4e20c89b7f6",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.90596177 52.36001422)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "8",
+        "weergavenaam": "Prof. Tulpplein 8, 1018GX Amsterdam",
+        "id": "adr-0bb1e1966400e4d194bea46ba79baa7a",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.90607862 52.36006862)",
+        "straatnaam": "Prof. Tulpplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "20",
+        "weergavenaam": "Prof. Tulpplein 20, 1018GX Amsterdam",
+        "id": "adr-133ed12d980c8824744dace230fb3931",
+        "postcode": "1018GX",
+        "centroide_ll": "POINT(4.90619878 52.35981745)",
+        "straatnaam": "Prof. Tulpplein"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-10f3d9617f29748d4304900f12ec03eb": {
+      "suggest": ["Prof. Tulpplein <b>1</b>, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-8bf15cd66b680850380af898101d9c9b": {
+      "suggest": ["Prof. Tulpplein <b>10</b>, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-cb919bf572edcfa1537462fb8f8ad0cf": {
+      "suggest": ["Prof. Tulpplein <b>12</b>, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-b232f1ffc56dd7c889a72874fa26fc5e": {
+      "suggest": ["Prof. Tulpplein <b>14</b>, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-789760e2a43dfb829d120aa2794a96b7": {
+      "suggest": ["Prof. Tulpplein <b>16</b>, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-33d6c9bee6c511790d392c4859236d6e": {
+      "suggest": ["Prof. Tulpplein <b>18</b>, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-6714b54b3b4440559034fa3cbc217623": {
+      "suggest": ["Prof. Tulpplein 2, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-b133abc1cf23529d040ce4e20c89b7f6": {
+      "suggest": ["Prof. Tulpplein 4, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-0bb1e1966400e4d194bea46ba79baa7a": {
+      "suggest": ["Prof. Tulpplein 8, <b>1018GX</b> Amsterdam"]
+    },
+    "adr-133ed12d980c8824744dace230fb3931": {
+      "suggest": ["Prof. Tulpplein 20, <b>1018GX</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

@@ -42,7 +42,7 @@
   "source": "1",
   "text": "Voor mijn deur ligt allemaal afval op de stoep, zouden jullie ervoor kunnen zorgen dat dit wordt opgeruimd?",
   "text_extra": "",
-  "extra_properties": null,
+  "extra_properties": [],
   "created_at": "2020-10-29T15:53:05.650429+01:00",
   "updated_at": "2020-10-29T16:27:54.569883+01:00",
   "incident_date_start": "2020-10-29T15:53:05+01:00",
@@ -53,7 +53,8 @@
     {"id": 9, "code": "VOR", "name": "V&OR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "afwateringBrug.json",
-    "attachments": null
+    "address": "signalForManageCategories.json",
+    "attachments": null,
+    "prediction": "afwateringBrug.json"
   }
 }

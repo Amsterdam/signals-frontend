@@ -2,7 +2,7 @@
   "name": "@signalen/e2e-tests",
   "private": true,
   "dependencies": {
-    "cypress": "^6.0.1",
+    "cypress": "^6.3.0",
     "jsonwebtoken": "^8.5.1"
   },
   "scripts": {
@@ -11,7 +11,7 @@
     "start": "npm run open",
     "test": "npm run run",
     "lint": "eslint cypress",
-    "lint:find-rules": "eslint-find-rules -dun .eslintrc.yaml",
+    "lint:find-rules": "eslint-find-rules -dun .eslintrc.js",
     "lint:nibble": "NODE_ENV=production eslint-nibble --cache --ext js cypress"
   },
   "devDependencies": {

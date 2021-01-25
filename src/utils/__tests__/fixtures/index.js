@@ -5,10 +5,9 @@ import {
   makeSelectCategories,
   makeSelectMainCategories,
   makeSelectSubcategoriesGroupedByCategories,
+  makeSelectHandlingTimesBySlug,
 } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
-
-import { getHandlingTimesBySlugFromSubcategories } from 'shared/services/transform';
 
 import categoriesFixture from './categories_private.json';
 import departmentsFixture from './departments.json';
@@ -45,10 +44,8 @@ export const subcategoriesGroupedByCategories = makeSelectSubcategoriesGroupedBy
   subCategories
 );
 
-const updateHandlingTimes = handlingTimes => {
-  handlingTimes.beplanting = '1 werkdag';
-  handlingTimes.bewegwijzering = '1 dag';
-  return handlingTimes;
+export const handlingTimesBySlug = {
+  ...makeSelectHandlingTimesBySlug.resultFunc(subCategories),
+  beplanting: '1 werkdag',
+  bewegwijzering: '1 dag',
 };
-
-export const subcategoriesHandlingTimesBySlug = updateHandlingTimes(getHandlingTimesBySlugFromSubcategories(subCategories));

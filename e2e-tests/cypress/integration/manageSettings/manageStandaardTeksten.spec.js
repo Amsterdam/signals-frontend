@@ -11,20 +11,10 @@ const fixturePath = '../fixtures/signals/signalForStandaardteksten.json';
 describe('Standaardteksten', () => {
   describe('Create standaardteksten', () => {
     beforeEach(() => {
-      cy.server();
       cy.getManageSignalsRoutes();
-      cy.route('/signals/v1/private/terms/categories/civiele-constructies/sub_categories/afwatering-brug/status-message-templates').as(
-        'getAfwateringBrug',
-      );
-      cy.route(
-        '/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/duiven/status-message-templates',
-      ).as('getDuiven');
-      cy.route(
-        'POST',
-        '/signals/v1/private/terms/categories/overlast-van-dieren/sub_categories/duiven/status-message-templates',
-      ).as('PostDuiven');
+      cy.standaardtekstenRoutes();
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
@@ -74,9 +64,13 @@ describe('Standaardteksten', () => {
       cy.wait('@PostDuiven');
 
       // Status Heropend
+      cy.visit('manage/standaard/teksten');
+      cy.get(STANDAARDTEKSTEN.dropDownSubcategory).select('Duiven (GGD)');
+      cy.wait('@getDuiven');
       cy.get(STANDAARDTEKSTEN.radioButtonHeropend).check({ force: true }).should('be.checked');
       cy.wait('@getDuiven');
       cy.get(STANDAARDTEKSTEN.inputTitle01)
+        .clear()
         .type(`{selectall}{del}${STANDAARDTEKSTEN.textTitleHeropenen}`);
       cy.get(STANDAARDTEKSTEN.inputText01)
         .clear()
@@ -87,11 +81,10 @@ describe('Standaardteksten', () => {
   });
   describe('Create signal duiven', () => {
     before(() => {
-      cy.server();
-      cy.getAddressRoute();
       cy.postSignalRoutePublic();
-      cy.intercept('**/maps/topografie?bbox=**').as('map');
-      cy.visitFetch('incident/beschrijf');
+      cy.stubPreviewMap();
+      cy.stubMap();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
@@ -106,7 +99,6 @@ describe('Standaardteksten', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
       createSignal.checkSummaryPage(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
@@ -119,11 +111,11 @@ describe('Standaardteksten', () => {
   describe('Change status of signal and check standaardtekst', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
-      cy.route('PATCH', '/signals/v1/private/signals/*').as('patchSignal');
+      cy.stubPreviewMap();
+      cy.patchSignalRoute();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
@@ -131,8 +123,10 @@ describe('Standaardteksten', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.get(CHANGE_STATUS.buttonEdit).click();
-
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
+      cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
       cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
@@ -158,12 +152,14 @@ describe('Standaardteksten', () => {
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven INPLANNEN. De overlastgevende duif is geïdentificeerd als Cher Ami');
     });
     it('Should change the status of the signal to Afgehandeld and show standaardtekst', () => {
-      cy.server();
-      cy.route('PATCH', '/signals/v1/private/signals/*').as('patchSignal');
+      cy.patchSignalRoute();
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.get(CHANGE_STATUS.buttonEdit).click();
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
+      cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
       cy.get(CHANGE_STATUS.currentStatus).contains('Ingepland').should('be.visible');
@@ -194,7 +190,10 @@ describe('Standaardteksten', () => {
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.get(CHANGE_STATUS.buttonEdit).click();
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
+      cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
 
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
@@ -229,15 +228,18 @@ describe('Standaardteksten', () => {
     describe('Check message', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.server();
+        cy.stubPreviewMap();
         cy.getManageSignalsRoutes();
         cy.getSignalDetailsRoutesById();
-        cy.visitFetch('/manage/incidents/');
+        cy.visit('/manage/incidents/');
         cy.waitForManageSignalsRoutes();
       });
       it('Should show no message when there is no standaardtekst', () => {
         createSignal.openCreatedSignal();
-        cy.get(CHANGE_STATUS.buttonEdit).click();
+        // Used a wait because sometimes the edit button is not clicked
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+        cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('be.visible').and('have.text', 'Standaard teksten');
         // eslint-disable-next-line max-nested-callbacks
         cy.contains('Er is geen standaard tekst voor deze subcategorie en status combinatie.').should('be.visible').and($labels => {

@@ -39,6 +39,9 @@
         "oidc": {
           "$ref": "#/definitions/Oidc"
         },
+        "keycloak": {
+          "$ref": "#/definitions/Oidc"
+        },
         "sentry": {
           "$ref": "#/definitions/Sentry"
         },
@@ -86,6 +89,10 @@
           "description": "When true, will show extra questions after the first page of questions in the incident submission form",
           "type": "boolean"
         },
+        "useProjectenSignalType": {
+          "description": "When true, will make a textual change to the signal type 'Groot onderhoud', becoming 'Projecten'. This is temporarily needed until the signal types have been moved to the database.",
+          "type": "boolean"
+        },
         "useMapSelectGeneric": {
           "description": "When true, will use MapSelectGeneric instead of MapSelect input component for additional questions.",
           "type": "boolean"
@@ -102,6 +109,7 @@
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",
         "showVulaanControls",
+        "useProjectenSignalType",
         "useMapSelectGeneric",
         "useStaticMapServer"
       ],
@@ -401,6 +409,10 @@
         },
         "clientId": {
           "description": "oAuth2 `client_id` service parameter value",
+          "type": "string"
+        },
+        "realm": {
+          "description": "oAuth2 `realm` service parameter value",
           "type": "string"
         },
         "responseType": {

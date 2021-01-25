@@ -8,8 +8,9 @@ services:
         - ENABLE_SERVICEWORKER=0
     volumes:
       - ./e2e-tests/app.json:/app.json
+      - ./app.amsterdam.json:/app.base.json
     ports:
-      - "3001:80"
+      - 3001:80
 
   backend:
     image: signalen/backend:latest
@@ -32,7 +33,7 @@ services:
     volumes:
       - ./scripts/initialize-backend.sh:/initialize-backend.sh
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - database
 

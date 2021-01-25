@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable promise/no-nesting */
-import appConfig from '../../../app.base.json';
+import appConfig from '../../../app.amsterdam.json';
 import { CREATE_SIGNAL } from './selectorsCreateSignal';
 import { CHANGE_STATUS, SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS } from './selectorsManageIncidents';
@@ -12,12 +12,12 @@ export const addNote = noteText => {
 };
 
 export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
-  cy.server();
-  cy.route('/signals/v1/private/signals/?page=1&ordering=-created_at&page_size=50').as('getSignal');
-  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-    cy.route(`/signals/v1/private/signals/${json.signalId}/history`).as('getHistory');
-  });
-  cy.get(CHANGE_STATUS.buttonEdit).click();
+  cy.getSortedByTimeRoutes();
+  cy.getHistoryRoute();
+  // Used a wait because sometimes the edit button is not clicked
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(500);
+  cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
   cy.contains('Status wijzigen').should('be.visible');
   cy.get(CHANGE_STATUS.currentStatus).contains(initialStatus).should('be.visible');
   cy.get(radioButton).click({ force: true }).should('be.checked');
@@ -25,7 +25,7 @@ export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.get(CHANGE_STATUS.buttonSubmit).click();
 
   cy.wait('@getHistory');
-  cy.wait('@getSignal');
+  cy.wait('@getSortedTimeDESC');
   cy.get(SIGNAL_DETAILS.status)
     .should('have.text', newStatus)
     .and('be.visible')
@@ -68,6 +68,7 @@ export const checkAllDetails = fixturePath => {
       cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
       cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
     }
+    checkQuestions(fixturePath);
   });
 };
 
@@ -133,20 +134,18 @@ export const checkRedTextStatus = status => {
 
 export const checkQuestions = fixturePath => {
   cy.fixture(fixturePath).then(json => {
-    // eslint-disable-next-line no-unused-vars
-    Object.entries(json.extra_properties).forEach(([keyA, valueA]) => {
-      cy.contains(valueA.label);
+    Object.entries(json.extra_properties).forEach(([, valueA]) => {
+      cy.contains(valueA.label).should('be.visible');
       if (valueA.answer.label) {
-        cy.contains(valueA.answer.label);
+        cy.contains(valueA.answer.label).should('be.visible');
       }
       else if (Array.isArray(valueA.answer)) {
-        // eslint-disable-next-line no-unused-vars
-        Object.entries(valueA.answer).forEach(([keyB, valueB]) => {
-          cy.contains(valueB.label);
+        Object.entries(valueA.answer).forEach(([, valueB]) => {
+          cy.contains(valueB.label).should('be.visible');
         });
       }
       else {
-        cy.contains(valueA.answer);
+        cy.contains(valueA.answer).should('be.visible');
       }
     });
   });
@@ -227,6 +226,7 @@ export const checkSummaryPage = fixturePath => {
     if (json.fixtures.attachments) {
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
     }
+    checkQuestions(fixturePath);
   });
 };
 
@@ -296,9 +296,9 @@ export const selectSource = index => {
 
 export const setAddress = fixturePath => {
   cy.fixture(fixturePath).then(json => {
+    cy.stubAddress(json.fixtures.address);
     const address = json.address.huisnummer_toevoeging ? `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}-${json.address.huisnummer_toevoeging}, ${json.address.postcode} ${json.address.woonplaats}` : `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}, ${json.address.postcode} ${json.address.woonplaats}`;
     searchAddress(`${json.address.postcode} ${json.address.huisnummer}`);
-    cy.wait('@getAddress');
     selectAddress(address);
   });
 };
@@ -335,7 +335,7 @@ export const setDescription = description => {
 
 export const setDescriptionPage = fixturePath => {
   cy.fixture(fixturePath).then(json => {
-    cy.stubCategoryPrediction(json.fixtures.prediction);
+    cy.stubPrediction(json.fixtures.prediction);
     checkDescriptionPage();
     setAddress(fixturePath);
     setDescription(json.text);

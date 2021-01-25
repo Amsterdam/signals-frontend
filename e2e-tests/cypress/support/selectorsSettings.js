@@ -1,9 +1,14 @@
 export const CATEGORIES = {
+  buttonAnnuleren: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid=submitBtn]',
+  categoryValue: '[data-testid=dataViewBody] > [data-testid=dataViewBodyRow] > [data-testid="dataViewBodyRowValue"]',
   dropdownTypeOfDays: '#use_calendar_days',
+  historyAction: '[class*="History__Action"]',
   inputDays: '#n_days',
   inputDescription: '#description',
   inputMessage: '#handling_message',
+  inputName: '#name',
+  radioButtonNietActief: '[data-testid="is_active-false"]'
 };
 
 export const DEPARTMENTS = {

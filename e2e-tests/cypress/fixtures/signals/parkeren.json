@@ -60,7 +60,8 @@
     {"id": 2, "code": "THO", "name": "THOR", "is_intern": true}
   ],
   "fixtures":  {
-    "prediction": "parkeeroverlast.json",
-    "attachments": null
+    "address": "parkeeroverlast.json",
+    "attachments": null,
+    "prediction": "parkeeroverlast.json"
   }
 }

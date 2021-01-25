@@ -17,9 +17,8 @@ const fixturePath = '../fixtures/signals/wonenOverig.json';
 describe('Create signal "Wonen woning overig" and check signal details', () => {
   describe('Create signal wonen overig', () => {
     before(() => {
-      cy.server();
-      cy.getAddressRoute();
-      cy.visitFetch('incident/beschrijf');
+      cy.stubMap();
+      cy.visit('incident/beschrijf');
     });
 
     it('Should show specific questions illegal holiday rental', () => {
@@ -243,8 +242,7 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
     });
 
     it('Should show specific questions criminal', () => {
-      cy.server();
-      cy.intercept('**/maps/topografie?bbox=**').as('map');
+      cy.stubPreviewMap();
       cy.postSignalRoutePublic();
       // Criminal
       cy.get(WONEN_OVERIG.radioButtonCrimineleBewoning).check({ force: true }).should('be.checked');
@@ -295,9 +293,7 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       createSignal.setEmailAddress(fixturePath);
       cy.contains('Volgende').click();
 
-      cy.wait('@map');
       createSignal.checkSummaryPage(fixturePath);
-      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
@@ -309,14 +305,14 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.server();
       cy.getManageSignalsRoutes();
       cy.getSignalDetailsRoutesById();
-      cy.visitFetch('/manage/incidents/');
+      cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
 
     it('Should show the signal details', () => {
+      cy.stubPreviewMap();
       createSignal.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
