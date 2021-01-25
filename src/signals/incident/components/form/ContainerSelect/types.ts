@@ -7,7 +7,6 @@ export interface Item {
   id: string;
   type: string;
   description?: string;
-  iconUrl: string;
 }
 
 export interface FeatureType {

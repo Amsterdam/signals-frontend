@@ -44,7 +44,7 @@ export const renderPreview = ({ render: renderFunc, meta }) => {
       return Label;
 
     case 'ContainerSelectRenderer':
-      return PreviewComponents.ContainerListPreview;
+      return props => PreviewComponents.ContainerListPreview({ ...props, featureTypes: meta.featureTypes });
 
     default:
       return Null;

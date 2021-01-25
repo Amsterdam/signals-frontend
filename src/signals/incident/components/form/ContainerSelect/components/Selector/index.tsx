@@ -147,14 +147,13 @@ const Selector = () => {
 
       // We use here a fixed list for now
       const selectedItems: Item[] = SELECTED_ITEMS.map(({ id, type }) => {
-        const { description, icon }: Partial<FeatureType> =
+        const { description }: Partial<FeatureType> =
           featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
 
         return {
           id,
           type,
           description,
-          iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
         };
       });
 
@@ -198,7 +197,7 @@ const Selector = () => {
                   <StyledButton onClick={addContainer}>Containers toevoegen</StyledButton>
                   <StyledButton onClick={removeContainer}>Containers verwijderen</StyledButton>
                   {selection.length ? (
-                    <ContainerList selection={selection} size={40} />
+                    <ContainerList selection={selection} featureTypes={meta.featureTypes} />
                   ) : (
                     <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
                   )}
@@ -215,7 +214,7 @@ const Selector = () => {
                 onClose={handleLegendCloseButton}
                 variant={panelVariant}
                 title="Legenda"
-                items={meta.featureTypes.map(featureType => ({
+                items={meta.featureTypes.filter(({ label }) => label !== 'Onbekend').map(featureType => ({
                   label: featureType.label,
                   iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
                   id: featureType.typeValue,
