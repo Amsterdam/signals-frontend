@@ -56,8 +56,8 @@ describe('Create signal "Bedrijven overlast muziek" and check signal details', (
 
         createSignal.setEmailAddress(fixturePath);
         cy.contains('Volgende').click();
+
         createSignal.checkSummaryPage(fixturePath);
-        createSignal.checkQuestions(fixturePath);
         cy.contains('Verstuur').click();
         cy.wait('@postSignalPublic');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
