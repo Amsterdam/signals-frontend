@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import usersJSON from 'utils/__tests__/fixtures/users.json';
 import configuration from 'shared/services/configuration/configuration';
-import { rest, server, mockGet } from '../../../../../../../internals/testing/msw-server';
+import { rest, server, mockGet, fetchMock } from '../../../../../../../internals/testing/msw-server';
 import useFetchUsers from '../useFetchUsers';
 import { getErrorMessage } from 'shared/services/api/api';
 import * as constants from 'containers/App/constants';
@@ -13,6 +13,7 @@ jest.mock('containers/App/constants', () => ({
 
 constants.PAGE_SIZE = 5;
 
+fetchMock.disableMocks();
 
 describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
   it('should request users from API on mount', async () => {

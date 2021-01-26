@@ -1,5 +1,6 @@
 import { rest, MockedRequest } from 'msw'
 import { setupServer } from 'msw/node'
+import fetchMock from 'jest-fetch-mock';
 
 export const mockGet = <T>({ status, body }: {status: number, body: T}) => {
   server.use(
@@ -28,4 +29,4 @@ const handlers = [
 
 const server = setupServer(...handlers)
 
-export { server, rest, MockedRequest }
+export { server, rest, MockedRequest, fetchMock }
