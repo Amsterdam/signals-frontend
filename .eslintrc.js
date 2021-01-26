@@ -49,6 +49,8 @@ module.exports = {
             ignoreStatic: true,
           },
         ],
+        '@typescript-eslint/object-curly-spacing': 'off',
+        '@typescript-eslint/sort-type-union-intersection-members': 'off',
       },
     },
   ],
@@ -146,5 +148,7 @@ module.exports = {
     'jest/require-to-throw-message': 'off',
     'jest/valid-expect': 'off',
     'jest/valid-title': 'off',
+    'react/jsx-newline': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
   },
 };
