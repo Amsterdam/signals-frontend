@@ -8,7 +8,7 @@ Date: 2021-01-14
 
 ## Context
 
-For mocking unittests we are using at this moment the `jest-fetch-mock` package. This works but there are new develoments on the market. As the creator of the [Testing Library](https://testing-library.com/) suggests in this [article](https://kentcdodds.com/blog/stop-mocking-fetch), there is a new strategy available that would simplify testing of components that are making fetch calls.
+For mocking unittests we are using at this moment the `jest-fetch-mock` package. This works but there are new develoments on the market. As the creator of the [Testing Library](https://testing-library.com/) suggests in this [article](https://kentcdodds.com/blog/stop-mocking-fetch), there is a new strategy available that would simplify testing of components that are making fetch calls. In this [article](https://testing-library.com/docs/react-testing-library/example-intro/) is recomanded to use `msw` for fetch mocking.
 
 ## Technical description
 The `msw` server intercepts the fetch calls and returns the configured response. This is done outside the test file and only overrides of the standard responses from the default configuration need to be added to the respective test file. [Here is the documentation](https://github.com/mswjs/msw).
