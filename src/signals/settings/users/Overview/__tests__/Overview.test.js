@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, within, act } from '@testing-library/react';
+import { render, within, act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
@@ -13,8 +13,10 @@ import * as appSelectors from 'containers/App/selectors';
 import { setUserFilters } from 'signals/settings/actions';
 import SettingsContext from 'signals/settings/context';
 import * as rolesSelectors from 'models/roles/selectors';
+import { rest, server, mockGet, fetchMock } from '../../../../../../internals/testing/msw-server';
 
 import UsersOverview from '..';
+fetchMock.disableMocks();
 
 jest.mock('containers/App/constants', () => ({
   __esModule: true,
@@ -69,9 +71,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const history = { ...memoryHistory, push };
 
-    fetch.resetMocks();
-
-    fetch.mockResponse(JSON.stringify(usersJSON));
     global.window.scrollTo = scrollTo;
 
     testContext = {
@@ -120,9 +119,9 @@ describe('signals/settings/users/containers/Overview', () => {
     );
   });
 
-  it('should render title, data view with headers only and loading indicator when loading', async () => {
-    fetch.mockResponse(JSON.stringify(usersJSON));
-
+  // eslint-disable-next-line jest/no-focused-tests
+  it.only('should render title, data view with headers only and loading indicator when loading', async () => {
+    mockGet({ status: 200, body: usersJSON });
     const { getByText, findByTestId, queryByTestId } = render(usersOverviewWithAppContext());
 
     expect(getByText('Gebruikers')).toBeInTheDocument();
