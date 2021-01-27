@@ -138,6 +138,17 @@ export const controls = {
           typeField: 'fractie_omschrijving',
           typeValue: 'Brood',
         },
+        {
+          description: 'De container staat niet op de kaart',
+          label: 'Onbekend',
+          icon: {
+            iconSvg: afvalIcons.unknown,
+            selectedIconSvg: afvalIcons.select,
+          },
+          idField: 'id',
+          typeField: 'type',
+          typeValue: 'not-on-map',
+        },
       ],
     },
     options: {

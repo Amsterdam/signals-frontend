@@ -76,6 +76,7 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
         category: 'afval',
         subcategory: 'subcategory',
       });
+
       const expected = expect.objectContaining({
         vulaan: {
           extra_afval: {
@@ -86,7 +87,7 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
           extra_container: {
             label: 'Container(s)',
             optional: true,
-            render: PreviewComponents.ContainerListPreview,
+            render: expect.any(Function),
           },
         },
       });

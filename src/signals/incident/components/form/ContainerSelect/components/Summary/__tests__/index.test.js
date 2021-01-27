@@ -11,9 +11,22 @@ const contextValue = {
       id: 'PL734',
       type: 'plastic',
       description: 'Plastic container',
-      iconUrl: '',
     },
   ],
+  meta: {
+    featureTypes: [
+      {
+        label: 'Plastic',
+        description: 'Plastic container',
+        icon: {
+          iconSvg: 'svg',
+        },
+        idField: 'id_nummer',
+        typeField: 'fractie_omschrijving',
+        typeValue: 'Plastic',
+      },
+    ],
+  },
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),

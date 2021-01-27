@@ -1,19 +1,33 @@
 import React from 'react';
 import IconList from 'components/IconList/IconList';
-import type { Item } from 'signals/incident/components/form/ContainerSelect/types';
+import type { FeatureType, Item } from 'signals/incident/components/form/ContainerSelect/types';
 
 export interface ContainerListProps {
   selection: Item[];
-  size?: number;
   className?: string;
+  featureTypes: FeatureType[];
 }
 
-const ContainerList: React.FC<ContainerListProps> = ({ selection, size, className }) =>
-  <IconList
-    className={className}
-    id="containerList"
-    size={size}
-    items={selection.map(({ id, description, iconUrl }) => ({ iconUrl, label: `${description} - ${id}`, id }))}
-  />;
+const ContainerList: React.FC<ContainerListProps> = ({ selection, className, featureTypes }) => {
+  const selectedItems = selection.map(({ id, type }) => {
+    const { description, icon }: Partial<FeatureType> =
+      featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
+
+    return {
+      id,
+      label: `${description} - ${id}`,
+      iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
+    };
+  });
+
+
+  return (
+    <IconList
+      className={className}
+      id="containerList"
+      items={selectedItems}
+    />
+  );
+};
 
 export default ContainerList;

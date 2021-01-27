@@ -70,7 +70,6 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
               id: feature.properties[idField] as string,
               type: typeValue,
               description,
-              iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
             };
 
             const updateSelection = selected ? selection.filter(({ id }) => id !== item.id) : [...selection, item];
