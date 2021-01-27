@@ -9,7 +9,7 @@ import ViewerContainer from '..';
 describe('ViewerContainer', () => {
   const button = <button type="button">Legend</button>;
 
-  it('should render drawer (desktop) variant of viewer container', () => {
+  it('should render drawer (mobile) variant of viewer container', () => {
     render(
       withAppContext(
         <MapPanelProvider variant="drawer" initialPosition={SnapPoint.Closed}>
@@ -19,12 +19,12 @@ describe('ViewerContainer', () => {
     );
 
     const viewerContainer = screen.getByTestId('viewer-container');
-    expect(viewerContainer).toHaveStyle('left: calc(100% - 70px)');
-    expect(viewerContainer).toHaveStyle('height: 100%');
+    expect(viewerContainer).toHaveStyle('left: 0');
+    expect(viewerContainer).toHaveStyle('height: calc(100% - 70px)');
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it('should render panel (mobile) variant of viewer container', () => {
+  it('should render panel (desktop) variant of viewer container', () => {
     render(
       withAppContext(
         <MapPanelProvider variant="panel" initialPosition={SnapPoint.Closed}>
@@ -34,8 +34,8 @@ describe('ViewerContainer', () => {
     );
 
     const viewerContainer = screen.getByTestId('viewer-container');
-    expect(viewerContainer).toHaveStyle('left: 0');
-    expect(viewerContainer).toHaveStyle('height: 30px');
+    expect(viewerContainer).toHaveStyle('left: 30px');
+    expect(viewerContainer).toHaveStyle('height: 100%');
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });

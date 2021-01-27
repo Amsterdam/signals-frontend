@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import type { MapOptions } from 'leaflet';
 
-import { Paragraph, themeColor } from '@amsterdam/asc-ui';
+import { Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { MapPanel, MapPanelContent, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core';
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
@@ -24,14 +24,14 @@ import { Close } from '@amsterdam/asc-assets';
 import ContainerList from '../ContainerList';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
-  [SnapPoint.Closed]: '30px',
-  [SnapPoint.Halfway]: '400px',
-  [SnapPoint.Full]: '100%',
-};
-const MAP_PANEL_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
   [SnapPoint.Halfway]: '50%',
   [SnapPoint.Full]: '0',
+};
+const MAP_PANEL_SNAP_POSITIONS = {
+  [SnapPoint.Closed]: '30px',
+  [SnapPoint.Halfway]: '400px',
+  [SnapPoint.Full]: '100%',
 };
 
 const ButtonBar = styled.div`
@@ -42,6 +42,11 @@ const ButtonBar = styled.div`
 
 const StyledButton = styled(Button)`
   box-sizing: border-box;
+`;
+
+const MapButton = styled(Button)`
+  box-sizing: border-box;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 `;
 
 const Wrapper = styled.div`
@@ -75,6 +80,10 @@ const StyledMap = styled(Map)`
   }
 `;
 
+const StyledContainerList = styled(ContainerList)`
+  margin-bottom: ${themeSpacing(8)};
+`;
+
 // Temporary selction. Will be removes when selectionfunctionality will be implemented.
 const SELECTED_ITEMS = [
   { id: 'PL734', type: 'Plastic' },
@@ -96,8 +105,8 @@ const Selector = () => {
   const { Panel, panelVariant } = useMemo<{ Panel: React.FC; panelVariant: Variant }>(
     () =>
       showDesktopVariant
-        ? { Panel: MapPanel, panelVariant: 'drawer' }
-        : { Panel: MapPanelDrawer, panelVariant: 'panel' },
+        ? { Panel: MapPanel, panelVariant: 'panel' }
+        : { Panel: MapPanelDrawer, panelVariant: 'drawer' },
     [showDesktopVariant]
   );
 
@@ -164,37 +173,34 @@ const Selector = () => {
           mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
           mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
           variant={panelVariant}
-          initialPosition={SnapPoint.Closed}
+          initialPosition={SnapPoint.Halfway}
         >
           <ViewerContainer
             topLeft={<LegendToggleButton onClick={toggleLegend} isRenderingLegendPanel={showLegendPanel} />}
             topRight={
-              <StyledButton data-testid="selector-close" variant="blank" onClick={close} size={44} icon={<Close />} />
+              <MapButton data-testid="selector-close" variant="blank" onClick={close} size={44} icon={<Close />} />
             }
           />
 
           <Panel data-testid={`panel-${showDesktopVariant ? 'desktop' : 'mobile'}`}>
             {showSelectionPanel && (
-              <MapPanelContent
-                variant={panelVariant}
-                title="Kies de container"
-                subTitle="U kunt meer dan 1 keuze maken"
-                data-testid="selection-panel"
-              >
+              <MapPanelContent variant={panelVariant} title="Kies de container" data-testid="selection-panel">
+                <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
+
                 <ButtonBar>
                   <StyledButton onClick={addContainer}>Containers toevoegen</StyledButton>
 
                   <StyledButton onClick={removeContainer}>Containers verwijderen</StyledButton>
 
                   {selection.length ? (
-                    <ContainerList selection={selection} featureTypes={meta.featureTypes} />
+                    <StyledContainerList selection={selection} featureTypes={meta.featureTypes} />
                   ) : (
                     <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
                   )}
                 </ButtonBar>
 
                 <ButtonBar>
-                  <StyledButton onClick={close} variant="primary" disabled={selection.length === 0}>
+                  <StyledButton onClick={close} variant="primary">
                     Meld deze container{selection.length > 1 ? 's' : ''}
                   </StyledButton>
                 </ButtonBar>
