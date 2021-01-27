@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import type { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import { MapPanelContext, ViewerContainer as AscViewerContainer } from '@amsterdam/arm-core';
 
@@ -18,7 +18,15 @@ interface StyledViewerContainerProps {
   height: string;
 }
 
-const StyledViewerContainer = styled(AscViewerContainer) <StyledViewerContainerProps>`
+// Prevent scrollBar on iOS due to navigation bar
+const GlobalPanelStyle = createGlobalStyle`
+  body {
+    touch-action: none;
+    overflow: hidden;
+  }
+`;
+
+const StyledViewerContainer = styled(AscViewerContainer)<StyledViewerContainerProps>`
   left: ${({ leftOffset }) => leftOffset};
   height: ${({ height }) => height};
   z-index: 400;
@@ -27,18 +35,16 @@ const StyledViewerContainer = styled(AscViewerContainer) <StyledViewerContainerP
 
 const ViewerContainer: React.FC<ViewerContainerProps> = props => {
   const { drawerPosition, variant } = useContext(MapPanelContext);
-  const isDrawerVariant = variant === 'drawer';
+  const isDrawerVariant = variant === 'panel';
 
   const height = isDrawerVariant ? '100%' : drawerPosition;
   const leftOffset = isDrawerVariant ? drawerPosition : '0';
 
   return (
-    <StyledViewerContainer
-      {...props}
-      data-testid="viewer-container"
-      height={height}
-      leftOffset={leftOffset}
-    />
+    <Fragment>
+      <GlobalPanelStyle />
+      <StyledViewerContainer {...props} data-testid="viewer-container" height={height} leftOffset={leftOffset} />
+    </Fragment>
   );
 };
 
