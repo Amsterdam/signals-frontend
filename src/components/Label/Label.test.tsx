@@ -11,6 +11,7 @@ describe('signals/incident-management/components/Label', () => {
       withAppContext(
         <div>
           <Label htmlFor="someOtherElementId">This is my label text</Label>
+
           <input type="text" id="someOtherElementId" />
         </div>
       )
@@ -24,6 +25,7 @@ describe('signals/incident-management/components/Label', () => {
     render(
       <Fragment>
         <Label inline>Label 1</Label>
+
         <Label>Label 2</Label>
       </Fragment>
     );
@@ -37,6 +39,7 @@ describe('signals/incident-management/components/Label', () => {
       withAppContext(
         <Fragment>
           <Label isGroupHeader>Label 1</Label>
+
           <Label>Label 2</Label>
         </Fragment>
       )

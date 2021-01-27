@@ -85,8 +85,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }],
       [JSON.stringify(childIncidentFixture), { status: 200 }]
     );
@@ -166,8 +166,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     fetch.mockResponses(
       [JSON.stringify(incidentWithoutChildren), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }]
     );
 
@@ -189,8 +189,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }],
       [JSON.stringify(childIncidentFixture), { status: 200 }]
     );

@@ -142,6 +142,7 @@ describe('<AttachmentViewer />', () => {
       const { queryByTestId } = render(
         <div>
           <input data-testid="input" />
+
           <AttachmentViewer {...props} href={props.attachments[1].location} />
         </div>
       );

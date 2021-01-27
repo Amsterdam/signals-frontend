@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, lazy, Suspense, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';
 import { Route, Switch } from 'react-router-dom';
@@ -38,6 +38,10 @@ const IncidentManagement = () => {
   const searchQuery = useSelector(makeSelectSearchQuery);
   const dispatch = useDispatch();
   const users = useFetch();
+  const contextValue = useMemo(() => ({ districts, users: users.data?.results }), [
+    districts,
+    users.data?.results,
+  ]);
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -68,7 +72,7 @@ const IncidentManagement = () => {
   }
 
   return (
-    <IncidentManagementContext.Provider value={{ districts, users: users.data?.results }}>
+    <IncidentManagementContext.Provider value={contextValue}>
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
           <Route exact path={routes.incidents} component={IncidentOverviewPage} />
