@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -64,19 +64,19 @@ const ContainerEditList: FunctionComponent<ContainerEditListProps> = ({
   className,
   featureTypes,
 }) => {
-  const getIconUrl = (type: string, types: FeatureType[]) => {
-    const icon = types.find(feature => feature.typeValue === type)?.icon.iconSvg;
+  const getIconUrl = useCallback((type: string) => {
+    const icon = featureTypes.find(feature => feature.typeValue === type)?.icon.iconSvg;
 
     if (!icon) return '';
     return `data:image/svg+xml;base64,${btoa(icon)}`;
-  };
+  }, [featureTypes]);
 
   return (
     <List className={className} data-testid={NAME}>
       {selection.map(({ id, description, type }) => (
         <ListItem data-testid={`${NAME}Item-${id}`} key={id} tabIndex={-1}>
           <StyledItemSpan>
-            <StyledIcon url={getIconUrl(type, featureTypes)} />
+            <StyledIcon url={getIconUrl(type)} />
             {description} - {id}
           </StyledItemSpan>
 

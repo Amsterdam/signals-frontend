@@ -12,7 +12,7 @@ describe('ContainerEditList', () => {
   const props: ContainerEditListProps = {
     onRemove: jest.fn(),
     featureTypes: controls.extra_container.meta.featureTypes,
-    selection: [{ description: 'Description', id: 'id', type: 'type' }],
+    selection: [{ description: 'Description', id: 'id', type: 'Rest' }],
   };
 
   it('should render an empty selection', () => {
