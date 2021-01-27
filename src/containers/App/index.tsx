@@ -29,7 +29,7 @@ const FooterContainer = styled.div`
   max-width: 1400px;
 `;
 
-const ContentContainer = styled.div<{headerIsTall: boolean}>`
+const ContentContainer = styled.div<{ headerIsTall: boolean }>`
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
@@ -55,7 +55,7 @@ export const AppContainer = () => {
   const loading = useSelector(makeSelectLoading());
   const sources = useSelector(makeSelectSources);
   const history = useHistory();
-  const location = useLocationReferrer() as {referrer: string};
+  const location = useLocationReferrer() as { referrer: string };
   const isFrontOffice = useIsFrontOffice();
   const headerIsTall = isFrontOffice && !isAuthenticated();
 
@@ -102,7 +102,7 @@ export const AppContainer = () => {
                 <Route path="/manage" component={IncidentManagementModule} />
                 <Route path="/instellingen" component={SettingsModule} />
                 <Route path="/incident" component={IncidentContainer} />
-                <Route path="/incident-overview" component={IncidentOverviewContainer} />
+                <Route path="/kaart" component={IncidentOverviewContainer} />
                 <Route path="/kto/:satisfactionIndication/:uuid" component={KtoContainer} />
                 <Route exact path="/categorie/:category/:subcategory" component={IncidentContainer} />
                 <Route component={NotFoundPage} />

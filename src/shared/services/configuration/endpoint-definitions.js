@@ -46,6 +46,10 @@ export default {
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/post_signals_v1_public_signals
   // for reference.
   INCIDENT_PUBLIC_ENDPOINT: '/signals/v1/public/signals/',
+  // Public. Used to retrieve a list of current signals.
+  // Only available when the feature flag `ENABLE_PUBLIC_GEO_SIGNAL_ENDPOINT`
+  // is turned on in the backend.
+  MAP_SIGNALS_ENDPOINT: '/signals/v1/public/map-signals/',
   // Private. Used by the settings module to `GET` the full set of permissions.
   // No Swagger documentation available.
   PERMISSIONS_ENDPOINT: '/signals/v1/private/permissions/',

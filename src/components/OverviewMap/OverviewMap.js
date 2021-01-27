@@ -94,7 +94,8 @@ const clusterLayerOptions = {
   },
 };
 
-const OverviewMap = ({ showPanelOnInit, ...rest }) => {
+const OverviewMap = ({ showPanelOnInit = false, isPublic = false, ...rest }) => {
+  const endpoint = isPublic ? configuration.MAP_SIGNALS_ENDPOINT : configuration.GEOGRAPHY_ENDPOINT;
   const { dispatch } = useContext(MapContext);
   const [initialMount, setInitialMount] = useState(false);
   const [showPanel, setShowPanel] = useState(showPanelOnInit);
@@ -129,7 +130,9 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
    */
   const onSelect = useCallback(
     /* istanbul ignore next */ option => {
-      dispatch(setAddressAction(option.value));
+      if (dispatch) {
+        dispatch(setAddressAction(option.value));
+      }
 
       if (map) {
         const currentZoom = map.getZoom();
@@ -166,7 +169,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   useEffect(() => {
     if (isLoading || !initialMount) return;
 
-    get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
+    get(`${endpoint}`, params);
 
     // Only execute when the value of filterParams changes; disabling linter
     // eslint-disable-next-line
@@ -174,7 +177,7 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
 
   // request data on mount
   useEffect(() => {
-    get(`${configuration.GEOGRAPHY_ENDPOINT}`, params);
+    get(`${endpoint}`, params);
     setInitialMount(true);
     // eslint-disable-next-line
   }, [get]);
@@ -238,11 +241,8 @@ const OverviewMap = ({ showPanelOnInit, ...rest }) => {
   );
 };
 
-OverviewMap.defaultProps = {
-  showPanelOnInit: false,
-};
-
 OverviewMap.propTypes = {
+  isPublic: PropTypes.bool,
   showPanelOnInit: PropTypes.bool,
 };
 

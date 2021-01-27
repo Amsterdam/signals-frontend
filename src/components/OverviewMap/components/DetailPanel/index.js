@@ -8,6 +8,15 @@ import { Link } from 'react-router-dom';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import { string2date, string2time } from 'shared/services/string-parser';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
+import { statusList } from 'signals/incident-management/definitions';
+
+const statuses = statusList.reduce(
+  (acc, status) => ({
+    ...acc,
+    [status.key]: status.value,
+  }),
+  {}
+);
 
 const StyledMetaList = styled.dl`
   margin: 0;
@@ -74,16 +83,16 @@ const DetailPanel = ({ incident, onClose }) => (
             {string2date(incident.created_at)} {string2time(incident.created_at)}
           </dd>
         )}
-        {incident.state_display && <dt data-testid="meta-list-status-definition">Status</dt>}
-        {incident.state_display && (
+        {incident.status && statuses[incident.status] && <dt data-testid="meta-list-status-definition">Status</dt>}
+        {incident.status && statuses[incident.status] && (
           <dd className="alert" data-testid="meta-list-status-value">
-            {incident.state_display}
+            {statuses[incident.status]}
           </dd>
         )}
-        {incident.subcategory && <dt data-testid="meta-list-subcategory-definition">Subcategorie</dt>}
-        {incident.subcategory && <dd data-testid="meta-list-subcategory-value">{incident.subcategory}</dd>}
-        {incident.category && <dt data-testid="meta-list-category-definition">Hoofdcategorie</dt>}
-        {incident.category && <dd data-testid="meta-list-category-value">{incident.category}</dd>}
+        {incident.category?.sub && <dt data-testid="meta-list-subcategory-definition">Subcategorie</dt>}
+        {incident.category?.sub && <dd data-testid="meta-list-subcategory-value">{incident.category.sub}</dd>}
+        {incident.category?.main && <dt data-testid="meta-list-category-definition">Hoofdcategorie</dt>}
+        {incident.category?.main && <dd data-testid="meta-list-category-value">{incident.category.main}</dd>}
       </StyledMetaList>
     )}
   </Panel>
@@ -93,8 +102,8 @@ DetailPanel.propTypes = {
   incident: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     created_at: PropTypes.string,
-    state_display: PropTypes.string,
-    category: PropTypes.string,
+    status: PropTypes.string,
+    category: PropTypes.shape({ sub: PropTypes.string, main: PropTypes.string }),
     subcategory: PropTypes.string,
   }),
   onClose: PropTypes.func.isRequired,
