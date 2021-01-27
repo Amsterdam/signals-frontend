@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "ES2017",
+      "dom",
+    ],
+    "types": [
+      "cypress",
+      "./cypress/support"
+    ],
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "./cypress/**/*.ts",
+    "./cypress/**/*.d.ts",
+    "./cypress/plugins/index.js"
+  ]
+}
