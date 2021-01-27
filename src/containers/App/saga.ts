@@ -23,7 +23,7 @@ import {
   getSourcesFailed,
   getSourcesSuccess,
 } from './actions';
-import { logout, getOauthDomain } from '../../shared/services/auth/auth';
+import { logout } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 import type { User, DataResult, ApiError, UploadFile } from './types';
@@ -32,11 +32,6 @@ const CONFIGURATION = configuration as typeof endpointDefinitions;
 
 export function* callLogout() {
   try {
-    // This forces the remove of the grip cookies.
-    if (getOauthDomain() === 'grip') {
-      window.open('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank')?.close();
-    }
-
     yield call(logout);
     yield put(push('/login'));
   } catch (error: unknown) {
