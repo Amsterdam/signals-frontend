@@ -14,10 +14,9 @@ import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPan
 import Button from 'components/Button';
 import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
-import type { Item, ClickEventHandler, FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
+import type { ClickEventHandler, FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
 import LegendToggleButton from './components/LegendToggleButton';
 import LegendPanel from './components/LegendPanel';
 import ViewerContainer from './components/ViewerContainer';
@@ -76,17 +75,6 @@ const StyledContainerEditList = styled(ContainerEditList)`
   margin-bottom: ${themeSpacing(8)};
 `;
 
-const unknownFeatureType: FeatureType = {
-  description: 'De container staat niet op de kaart',
-  label: 'Onbekend',
-  icon: {
-    iconSvg: unknown,
-  },
-  idField: 'id',
-  typeField: 'type',
-  typeValue: 'not-on-map',
-};
-
 // Temporary selction. Will be removes when selectionfunctionality will be implemented.
 const SELECTED_ITEMS = [
   { id: 'PL734', type: 'Plastic' },
@@ -104,7 +92,6 @@ const Selector = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
-  const featureTypes = useMemo(() => [...meta.featureTypes, unknownFeatureType], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
   const { Panel, panelVariant } = useMemo<{ Panel: FunctionComponent; panelVariant: Variant }>(
     () =>
@@ -146,21 +133,20 @@ const Selector = () => {
       event.preventDefault();
 
       // We use here a fixed list for now
-      const selectedItems: Item[] = SELECTED_ITEMS.map(({ id, type }) => {
-        const { description, icon }: Partial<FeatureType> =
-          featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
+      const selectedItems = SELECTED_ITEMS.map(({ id, type }) => {
+        const { description }: Partial<FeatureType> =
+          meta.featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
 
         return {
           id,
           type,
           description,
-          iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
         };
       });
 
       update(selectedItems);
     },
-    [update, featureTypes]
+    [update, meta.featureTypes]
   );
 
   const removeContainer = useCallback<(itemId: string) => void>(
@@ -190,7 +176,7 @@ const Selector = () => {
                 <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
                 <Button onClick={addContainer}>Containers toevoegen</Button>
                 {selection.length ? (
-                  <StyledContainerEditList selection={selection} onRemove={removeContainer} />
+                  <StyledContainerEditList selection={selection} onRemove={removeContainer} featureTypes={meta.featureTypes} />
                 ) : (
                   <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
                 )}
@@ -199,20 +185,24 @@ const Selector = () => {
                 </Button>
               </MapPanelContent>
             )}
+
             {showLegendPanel && (
               <LegendPanel
                 onClose={handleLegendCloseButton}
                 variant={panelVariant}
                 title="Legenda"
-                items={meta.featureTypes.map(featureType => ({
-                  label: featureType.label,
-                  iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-                  id: featureType.typeValue,
-                }))}
+                items={meta.featureTypes
+                  .filter(({ label }) => label !== 'Onbekend') // Filter the unknown icon from the legend
+                  .map(featureType => ({
+                    label: featureType.label,
+                    iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+                    id: featureType.typeValue,
+                  }))}
               />
             )}
           </Panel>
         </MapPanelProvider>
+
         <WfsLayer>
           <ContainerLayer featureTypes={meta.featureTypes} />
         </WfsLayer>

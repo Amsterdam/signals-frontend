@@ -1,14 +1,18 @@
 import React from 'react';
 import { withAppContext } from 'test/utils';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval';
+
 import type { ContainerEditListProps } from '..';
 import ContainerEditList from '..';
-import userEvent from '@testing-library/user-event';
 
 describe('ContainerEditList', () => {
   const props: ContainerEditListProps = {
     onRemove: jest.fn(),
-    selection: [{ iconUrl: 'iconUrl', description: 'Description', id: 'id', type: 'type' }],
+    featureTypes: controls.extra_container.meta.featureTypes,
+    selection: [{ description: 'Description', id: 'id', type: 'type' }],
   };
 
   it('should render an empty selection', () => {

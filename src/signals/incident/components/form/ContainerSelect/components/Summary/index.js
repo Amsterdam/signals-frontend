@@ -19,12 +19,14 @@ const StyledContainerList = styled(ContainerList)`
 `;
 
 const Summary = () => {
-  const { selection, edit } = useContext(ContainerSelectContext);
+  const { selection, meta, edit } = useContext(ContainerSelectContext);
 
   return (
     <Wrapper data-testid="containerSelectSummary">
-      <StyledContainerList selection={selection}></StyledContainerList>
-      <StyledLink onClick={edit} variant="inline" tabIndex={0}>Wijzigen</StyledLink>
+      <StyledContainerList selection={selection} featureTypes={meta.featureTypes}></StyledContainerList>
+      <StyledLink onClick={edit} variant="inline" tabIndex={0}>
+        Wijzigen
+      </StyledLink>
     </Wrapper>
   );
 };

@@ -6,7 +6,7 @@ import { themeSpacing } from '@amsterdam/asc-ui';
 import { Close } from '@amsterdam/asc-assets';
 
 import Button from 'components/Button';
-import type { Item } from '../../types';
+import type { FeatureType, Item } from '../../types';
 
 const DEFAULT_ICON_SIZE = 40;
 const REMOVE_BUTTON_SIZE = 32;
@@ -54,32 +54,47 @@ const StyledItemSpan = styled.span`
 export interface ContainerEditListProps {
   selection: Item[];
   onRemove: (id: string) => void;
+  featureTypes: FeatureType[];
   className?: string;
 }
 
-const ContainerEditList: FunctionComponent<ContainerEditListProps> = ({ onRemove, selection, className }) => (
-  <List className={className} data-testid={NAME}>
-    {selection.map(({ iconUrl, id, description }) => (
-      <ListItem data-testid={`${NAME}Item-${id}`} key={id} tabIndex={-1}>
-        <StyledItemSpan>
-          <StyledIcon url={iconUrl} />
-          {description} - {id}
-        </StyledItemSpan>
+const ContainerEditList: FunctionComponent<ContainerEditListProps> = ({
+  onRemove,
+  selection,
+  className,
+  featureTypes,
+}) => {
+  const getIconUrl = (type: string, types: FeatureType[]) => {
+    const icon = types.find(feature => feature.typeValue === type)?.icon.iconSvg;
 
-        <StyledButton
-          data-testid={`${NAME}Remove-${id}`}
-          type="button"
-          variant="blank"
-          size={REMOVE_BUTTON_SIZE}
-          iconSize={REMOVE_ICON_SIZE}
-          icon={<Close />}
-          onClick={() => {
-            onRemove(id);
-          }}
-        />
-      </ListItem>
-    ))}
-  </List>
-);
+    if (!icon) return '';
+    return `data:image/svg+xml;base64,${btoa(icon)}`;
+  };
+
+  return (
+    <List className={className} data-testid={NAME}>
+      {selection.map(({ id, description, type }) => (
+        <ListItem data-testid={`${NAME}Item-${id}`} key={id} tabIndex={-1}>
+          <StyledItemSpan>
+            <StyledIcon url={getIconUrl(type, featureTypes)} />
+            {description} - {id}
+          </StyledItemSpan>
+
+          <StyledButton
+            data-testid={`${NAME}Remove-${id}`}
+            type="button"
+            variant="blank"
+            size={REMOVE_BUTTON_SIZE}
+            iconSize={REMOVE_ICON_SIZE}
+            icon={<Close />}
+            onClick={() => {
+              onRemove(id);
+            }}
+          />
+        </ListItem>
+      ))}
+    </List>
+  );
+};
 
 export default ContainerEditList;

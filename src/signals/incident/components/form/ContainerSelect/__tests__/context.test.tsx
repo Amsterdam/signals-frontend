@@ -17,7 +17,6 @@ export const contextValue: ContainerSelectValue = {
       id: 'PL734',
       type: 'plastic',
       description: 'Plastic container',
-      iconUrl: '',
     },
   ],
   location: [0, 0],
