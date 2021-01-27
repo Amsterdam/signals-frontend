@@ -29,7 +29,7 @@ jest.useFakeTimers();
 describe('<App />', () => {
   let listenSpy: jest.SpyInstance<UnregisterCallback, [listener: History.LocationListener<unknown>]>;
   let spyScrollTo: jest.Mock;
-  let props: JSX.IntrinsicAttributes & {resetIncidentAction: jest.Mock};
+  let props: JSX.IntrinsicAttributes & { resetIncidentAction: jest.Mock };
 
   afterAll(() => {
     jest.restoreAllMocks();

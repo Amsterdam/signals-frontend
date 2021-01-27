@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, lazy, Suspense } from 'react';
+import React, { Fragment, useEffect, lazy, Suspense, useMemo } from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +28,7 @@ const FooterContainer = styled.div`
   max-width: 1400px;
 `;
 
-const ContentContainer = styled.div<{headerIsTall: boolean}>`
+const ContentContainer = styled.div<{ headerIsTall: boolean }>`
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
@@ -54,9 +54,10 @@ export const AppContainer = () => {
   const loading = useSelector(makeSelectLoading());
   const sources = useSelector(makeSelectSources);
   const history = useHistory();
-  const location = useLocationReferrer() as {referrer: string};
+  const location = useLocationReferrer() as { referrer: string };
   const isFrontOffice = useIsFrontOffice();
   const headerIsTall = isFrontOffice && !isAuthenticated();
+  const contextValue = useMemo(() => ({ loading, sources }), [loading, sources]);
 
   useEffect(() => {
     const { referrer } = location;
@@ -88,7 +89,7 @@ export const AppContainer = () => {
 
   return (
     <ThemeProvider>
-      <AppContext.Provider value={{ loading, sources }}>
+      <AppContext.Provider value={contextValue}>
         <Fragment>
           <SiteHeaderContainer />
 
