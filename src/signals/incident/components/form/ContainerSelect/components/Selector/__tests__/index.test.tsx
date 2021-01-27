@@ -3,7 +3,10 @@ import { render, screen } from '@testing-library/react';
 import Selector from '..';
 import fetchMock from 'jest-fetch-mock';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
-import { contextValue, withContainerSelectContext } from 'signals/incident/components/form/ContainerSelect/__tests__/context.test';
+import {
+  contextValue,
+  withContainerSelectContext,
+} from 'signals/incident/components/form/ContainerSelect/__tests__/context.test';
 import userEvent from '@testing-library/user-event';
 
 let showDesktopVariant: boolean;
@@ -41,9 +44,9 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
 
-    const removeContainersButton = await screen.findByText(/containers verwijderen/i);
-    userEvent.click(removeContainersButton);
-    expect(contextValue.update).toHaveBeenCalledWith([]);
+    const removeContainersButton = await screen.findAllByTestId(/containerEditListRemove/);
+    userEvent.click(removeContainersButton[0]);
+    expect(contextValue.update).toHaveBeenCalled();
   });
 
   it('should call close when closing the selector', async () => {
@@ -60,11 +63,11 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     render(withContainerSelectContext(<Selector />));
 
     userEvent.click(await screen.findByText('Legenda'));
-    expect(screen.getByTestId('legend-panel')).toBeInTheDocument();
+    expect(screen.getByTestId('legendPanel')).toBeInTheDocument();
 
     userEvent.click(screen.getByTitle('Sluit'));
-    expect(screen.queryByTestId('legend-panel')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('selection-panel')).toBeInTheDocument();
+    expect(screen.queryByTestId('legendPanel')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('selectionPanel')).toBeInTheDocument();
   });
 
   it('should render legend panel', async () => {
@@ -73,28 +76,28 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
 
     userEvent.click(await screen.findByText('Legenda'));
 
-    expect(screen.getByTestId('legend-panel')).toBeInTheDocument();
+    expect(screen.getByTestId('legendPanel')).toBeInTheDocument();
   });
 
   it('should render selection panel', async () => {
     showDesktopVariant = true;
     render(withContainerSelectContext(<Selector />));
 
-    expect(await screen.findByTestId('selection-panel')).toBeInTheDocument();
+    expect(await screen.findByTestId('selectionPanel')).toBeInTheDocument();
   });
 
   it('should show desktop version on desktop', async () => {
     showDesktopVariant = true;
     render(withContainerSelectContext(<Selector />));
 
-    expect(await screen.findByTestId('panel-desktop')).toBeInTheDocument();
-    expect(screen.queryByTestId('panel-mobile')).not.toBeInTheDocument();
+    expect(await screen.findByTestId('panelDesktop')).toBeInTheDocument();
+    expect(screen.queryByTestId('panelMobile')).not.toBeInTheDocument();
   });
 
   it('should show mobile version on desktop', async () => {
     render(withContainerSelectContext(<Selector />));
 
-    expect(await screen.findByTestId('panel-mobile')).toBeInTheDocument();
-    expect(screen.queryByTestId('panel-desktop')).not.toBeInTheDocument();
+    expect(await screen.findByTestId('panelMobile')).toBeInTheDocument();
+    expect(screen.queryByTestId('panelDesktop')).not.toBeInTheDocument();
   });
 });
