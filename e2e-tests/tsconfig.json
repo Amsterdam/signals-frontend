@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "./cypress",
     "lib": [
       "ES2017",
-      "dom",
+      "dom"
     ],
     "types": [
       "cypress",
@@ -14,6 +16,5 @@
   "include": [
     "./cypress/**/*.ts",
     "./cypress/**/*.d.ts",
-    "./cypress/plugins/index.js"
   ]
 }
