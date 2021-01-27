@@ -64,7 +64,7 @@ describe('signals/incident/components/form/ContainerSelect', () => {
     userEvent.click(screen.getByText(/kies op kaart/i));
     expect(screen.queryByTestId('containerSelectSelector')).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId('selector-close'));
+    userEvent.click(screen.getByTestId('selectorClose'));
     expect(screen.queryByTestId('containerSelectSelector')).not.toBeInTheDocument();
   });
 
