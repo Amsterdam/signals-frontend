@@ -12,10 +12,9 @@ import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPan
 import Button from 'components/Button';
 import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import { unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
-import type { Item, ClickEventHandler, FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
+import type { ClickEventHandler, FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
 import LegendToggleButton from './components/LegendToggleButton';
 import LegendPanel from './components/LegendPanel';
 import ViewerContainer from './components/ViewerContainer';
@@ -76,17 +75,6 @@ const StyledMap = styled(Map)`
   }
 `;
 
-const unknownFeatureType: FeatureType = {
-  description: 'De container staat niet op de kaart',
-  label: 'Onbekend',
-  icon: {
-    iconSvg: unknown,
-  },
-  idField: 'id',
-  typeField: 'type',
-  typeValue: 'not-on-map',
-};
-
 // Temporary selction. Will be removes when selectionfunctionality will be implemented.
 const SELECTED_ITEMS = [
   { id: 'PL734', type: 'Plastic' },
@@ -104,7 +92,6 @@ const Selector = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
-  const featureTypes = useMemo(() => [...meta.featureTypes, unknownFeatureType], [meta]);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
   const { Panel, panelVariant } = useMemo<{ Panel: React.FC; panelVariant: Variant }>(
     () =>
@@ -146,9 +133,9 @@ const Selector = () => {
       event.preventDefault();
 
       // We use here a fixed list for now
-      const selectedItems: Item[] = SELECTED_ITEMS.map(({ id, type }) => {
+      const selectedItems = SELECTED_ITEMS.map(({ id, type }) => {
         const { description }: Partial<FeatureType> =
-          featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
+          meta.featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
 
         return {
           id,
@@ -159,7 +146,7 @@ const Selector = () => {
 
       update(selectedItems);
     },
-    [update, featureTypes]
+    [update, meta.featureTypes]
   );
 
   const removeContainer = useCallback<ClickEventHandler>(
@@ -185,6 +172,7 @@ const Selector = () => {
               <StyledButton data-testid="selector-close" variant="blank" onClick={close} size={44} icon={<Close />} />
             }
           />
+
           <Panel data-testid={`panel-${showDesktopVariant ? 'desktop' : 'mobile'}`}>
             {showSelectionPanel && (
               <MapPanelContent
@@ -195,13 +183,16 @@ const Selector = () => {
               >
                 <ButtonBar>
                   <StyledButton onClick={addContainer}>Containers toevoegen</StyledButton>
+
                   <StyledButton onClick={removeContainer}>Containers verwijderen</StyledButton>
+
                   {selection.length ? (
                     <ContainerList selection={selection} featureTypes={meta.featureTypes} />
                   ) : (
                     <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
                   )}
                 </ButtonBar>
+
                 <ButtonBar>
                   <StyledButton onClick={close} variant="primary" disabled={selection.length === 0}>
                     Meld deze container{selection.length > 1 ? 's' : ''}
@@ -209,20 +200,24 @@ const Selector = () => {
                 </ButtonBar>
               </MapPanelContent>
             )}
+
             {showLegendPanel && (
               <LegendPanel
                 onClose={handleLegendCloseButton}
                 variant={panelVariant}
                 title="Legenda"
-                items={meta.featureTypes.filter(({ label }) => label !== 'Onbekend').map(featureType => ({
-                  label: featureType.label,
-                  iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
-                  id: featureType.typeValue,
-                }))}
+                items={meta.featureTypes
+                  .filter(({ label }) => label !== 'Onbekend') // Filter the unknown icon from the legend
+                  .map(featureType => ({
+                    label: featureType.label,
+                    iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,
+                    id: featureType.typeValue,
+                  }))}
               />
             )}
           </Panel>
         </MapPanelProvider>
+
         <WfsLayer>
           <ContainerLayer featureTypes={meta.featureTypes} />
         </WfsLayer>
