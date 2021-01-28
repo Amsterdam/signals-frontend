@@ -11,143 +11,126 @@ Date: 2020-09-24
 ### Principles
 
 - Keep it simple, reduce nesting
+- The aim is to create consitency at all levels in the application
 - A `src/pages` folder will hold 'root' components and reflect the navigation structure (menu, routes) of the app
-- Components needed only by one 'root' component go into that root component's folder, no extra nesting
-- Components needed by more than one 'root' component go into `src/components`
-- Component folders, files, and auxiliary files, camel cased, starting with upper case
-- Component names and file names will be unique
 - Generic/shared components, hooks, interfaces, services, in their respective folders in `src`.
+- Tests will be placed in a __tests__ folder at te same level as the the 'root' component
 
-### Example tree
+- Components needed only by one 'root' component go into that root component's folder in a separate folder with the name of the component, no extra nesting.
+- Components needed by more than one 'root' component go into `src/components` 
+- Component folders will be written in `PascalCase`, non component folders will be written in `kebab-case`. This includes 'pages', 'services', etc.
+- The nested components will prevent as much as possible prefixing with the parent component name. 
+  A child component of `IncidentSplit` will be `ChangeValue` and **Not** `IncidentSplitChangeValue`
+- Component that have more than one file (containers) will keep the convention that the additional files (like context, reducer, actions, constants, styles ...) will **NOT be prefixed** with the component name:
+
+### Example of a `container` component
+```
+...
+IncidentDetail
+  __tests__
+    actions.test.ts
+    IncidentDetail.test.tsx
+    reducer.test.ts
+  AddNote
+  ChangeValue
+  DetailHeader
+  constants.ts
+  context.ts
+  actions.ts
+  IncidentDetail.tsx
+  index.tsx
+  reducer.ts
+```
+
+### Example main tree
 
 ```
 src
   pages
     login
+      __tests__
+        Login.test.tsx
       Login.tsx
+      index.tsx
     manage
       default-texts
-        DefaultTexts.tsx
-        TextsForm.tsx
-        SelectForm.tsx
+        DefaultTexts
+          __tests__
+          TextsForm
+            __tests__
+              TextsForm.test.tsx
+            TextsForm.tsx
+            index.tsx
+          SelectForm
+            __tests__
+              SelectForm.test.tsx
+            SelectForm.tsx
+            index.tsx
+          DefaultTexts.tsx
+          index.tsx
       incidents
         incident
           split
-            IncidentSplit.tsx
-            SplitForm.tsx
-            SplitFormIncident.tsx
+            IncidentSplit
+            ...
           Incident.tsx
-        Incidents.tsx
-        IncidentsList.tsx
-        IncidentsMap.tsx
-        Filter.tsx
-        FilterTagList.tsx
+        Incidents
+        ...
     report
-      Incident.tsx
-      IncidentForm.tsx
-      IncidentNavigation.tsx
-      IncidentPreview.tsx
-      IncidentWizard.tsx
+      Incident
+        __tests__
+        IncidentForm
+        IncidentNavigation
+        IncidentPreview
+        IncidentWizard
+        Incident.tsx
+        index.tsx
     kto
+      __tests__
+        Kto.tests.tsx
+      Form
+        __tests__
+        Form.tsx
       Kto.tsx
-      KtoForm.tsx
+      index.tsx
     settings
       users
-        user
-          User.tsx
-        Users.tsx
+      ...
       roles
-        role
-          Role.tsx
-        Roles.tsx
+      ...
       departments
-        department
-          Department.tsx
-          CategoryGroups.tsx
-          CategoryLists.tsx
-        Departments.tsx
+      ...
       categories
-        category
-          Category.tsx
-          CategoryForm.tsx
-        Categories.tsx
+      ...
     App.tsx
-    App.styles.ts
-    App.test.ts
+    styles.ts
   components
     RadioInput
+      __tests__
+        RadioInput.test.ts
       RadioInput.tsx
-      RadioInput.styles.ts
-      RadioInput.test.ts
+      index.tsx
+      styles.ts
     SelectInput
+      __tests__
+        SelectInput.test.ts
       SelectInput.tsx
-      SelectInput.styles.ts
-      SelectInput.test.ts
-    List
-      List.tsx
-      List.styles.ts
-      List.test.ts
+      index.tsx
+      styles.ts
+    ...  
   hooks
+    __tests__
+      useFetch.test.ts
+      useDebounce.test.ts
     useFetch.ts
-    useFetch.test.ts
+    useDebounce.test.ts
   interfaces
   services
+  types
 ```
 
 This gives a clear hierarchy without much nesting.
 
-## Styling
-
-Define styled components in a separate file named `<Component>.styles.ts`.
-
-Naming styled components is based on [this article](https://medium.com/inturn-eng/naming-styled-components-d7097950a245).
-
-Import the styles into the component file with
-
-```JavaScript
-import * as Styled from './<Component>.styles';
-```
-
-Use the styled components in your component as
-
-```JSX
-<Styled.Component ...>
-```
-
-When you use a styled component as a root for your component, name it the same as the component.
-So, for instance, you have a `List` component, this could look as follows
-
-`List.tsx`
-
-```JSX
-import * as Styled from './List.styles';
-
-const List = ({ items }) => {
-  return (
-    <Styled.List>
-      {items.map(item => (
-        <Styled.Li value={item.name} />
-      ))}
-    </Styled.List>
-  );
-};
-
-export default List;
-```
-
-`List.styles.ts`
-
-```JavaScript
-import styled from 'styled-components';
-
-export const List = styled.ul`
-  list-style: none;
-`;
-
-export const Li = styled.li`
-  margin: 0;
-`;
-```
 
 ## Action plan
 
