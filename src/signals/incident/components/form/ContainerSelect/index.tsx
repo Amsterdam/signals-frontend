@@ -26,6 +26,7 @@ const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({ handler, met
   const { coordinates } = parent.meta.incidentContainer.incident.location.geometrie;
   const location: LatLngExpression = [coordinates[1], coordinates[0]];
 
+  /* istanbul ignore next */
   const update = useCallback(
     (selectedValue: Item[]) => {
       parent.meta.updateIncident({ extra_container: selectedValue });

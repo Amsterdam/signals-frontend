@@ -16,7 +16,6 @@ import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
-import type { ClickEventHandler, FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
 import LegendToggleButton from './components/LegendToggleButton';
 import LegendPanel from './components/LegendPanel';
 import ViewerContainer from './components/ViewerContainer';
@@ -72,20 +71,23 @@ const StyledMap = styled(Map)`
 `;
 
 const StyledContainerList = styled(ContainerList)`
-  margin: ${themeSpacing(2)} 0 ${themeSpacing(8)} 0;
+  margin: ${themeSpacing(2)} 0 ${themeSpacing(4)} 0;
 `;
 
-// Temporary selction. Will be removes when selectionfunctionality will be implemented.
-const SELECTED_ITEMS = [
-  { id: 'PL734', type: 'Plastic' },
-  { id: 'GLA00137', type: 'Glas' },
-  { id: 'BR0234', type: 'Brood' },
-  { id: 'PP0234', type: 'Papier' },
-  { id: 'TEX0234', type: 'Textiel' },
-  { id: 'GFT0234', type: 'GFT' },
-  { id: 'RES0234', type: 'Rest' },
-  { id: 'NOP0234', type: 'not-on-map' },
-];
+const StyledParagraph = styled(Paragraph)`
+  margin-bottom: 0;
+  font-size: 16px;
+  opacity: 0.6;
+`;
+
+const EmptySelectionWrapper = styled.div`
+  background-color: ${themeColor('tint', 'level2')};
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: ${themeSpacing(4)} 0;
+`;
 
 const Selector = () => {
   // to be replaced with MOUNT_NODE
@@ -128,27 +130,6 @@ const Selector = () => {
     setShowSelectionPanel(true);
   };
 
-  const addContainer = useCallback<ClickEventHandler>(
-    event => {
-      event.preventDefault();
-
-      // We use here a fixed list for now
-      const selectedItems = SELECTED_ITEMS.map(({ id, type }) => {
-        const { description }: Partial<FeatureType> =
-          meta.featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
-
-        return {
-          id,
-          type,
-          description,
-        };
-      });
-
-      update(selectedItems);
-    },
-    [update, meta.featureTypes]
-  );
-
   const removeContainer = useCallback<(itemId: string) => void>(
     itemId => {
       update(selection.filter(({ id }) => id !== itemId));
@@ -174,11 +155,16 @@ const Selector = () => {
             {showSelectionPanel && (
               <MapPanelContent variant={panelVariant} title="Kies de container" data-testid="selectionPanel">
                 <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
-                <Button onClick={addContainer}>Containers toevoegen</Button>
                 {selection.length ? (
-                  <StyledContainerList selection={selection} onRemove={removeContainer} featureTypes={meta.featureTypes} />
+                  <StyledContainerList
+                    selection={selection}
+                    onRemove={removeContainer}
+                    featureTypes={meta.featureTypes}
+                  />
                 ) : (
-                  <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
+                  <EmptySelectionWrapper>
+                    <StyledParagraph>Maak een keuze op de kaart</StyledParagraph>
+                  </EmptySelectionWrapper>
                 )}
                 <Button onClick={close} variant="primary">
                   Meld deze container{selection.length > 1 ? 's' : ''}

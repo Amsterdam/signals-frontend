@@ -10,7 +10,7 @@ export interface LegendPanelProps {
   onClose: () => void;
 }
 
-const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant, onClose }) => (
+const LegendPanel: React.FC<LegendPanelProps> = ({ items, title, variant, onClose }) => (
   <MapPanelContent animate data-testid="legendPanel" stackOrder={1} onClose={onClose} variant={variant} title={title}>
     <IconList data-testid="legendPanelList">
       {items.map(item => (

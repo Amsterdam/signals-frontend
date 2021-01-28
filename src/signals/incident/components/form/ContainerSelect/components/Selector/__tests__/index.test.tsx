@@ -31,15 +31,6 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     expect(await screen.findByTestId('containerSelectSelector')).toBeInTheDocument();
   });
 
-  it('should call update when adding container', async () => {
-    render(withContainerSelectContext(<Selector />));
-    expect(contextValue.update).not.toHaveBeenCalled();
-
-    const addContainerButton = await screen.findByText(/containers toevoegen/i);
-    userEvent.click(addContainerButton);
-    expect(contextValue.update).toHaveBeenCalledWith(expect.any(Array));
-  });
-
   it('should call update when removing container', async () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
