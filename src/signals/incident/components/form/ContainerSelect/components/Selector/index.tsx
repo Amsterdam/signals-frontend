@@ -75,6 +75,21 @@ const StyledContainerList = styled(ContainerList)`
   margin: ${themeSpacing(2)} 0 ${themeSpacing(8)} 0;
 `;
 
+const StyledParagraph = styled(Paragraph)`
+  margin-bottom: 0;
+  font-size: 16px;
+  opacity: 0.6;
+`;
+
+const EmptySelectionWrapper = styled.div`
+  background-color: ${themeColor('tint', 'level2')};
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: ${themeSpacing(4)} 0;
+`;
+
 // Temporary selction. Will be removes when selectionfunctionality will be implemented.
 const SELECTED_ITEMS = [
   { id: 'PL734', type: 'Plastic' },
@@ -176,9 +191,15 @@ const Selector = () => {
                 <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
                 <Button onClick={addContainer}>Containers toevoegen</Button>
                 {selection.length ? (
-                  <StyledContainerList selection={selection} onRemove={removeContainer} featureTypes={meta.featureTypes} />
+                  <StyledContainerList
+                    selection={selection}
+                    onRemove={removeContainer}
+                    featureTypes={meta.featureTypes}
+                  />
                 ) : (
-                  <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
+                  <EmptySelectionWrapper>
+                    <StyledParagraph>Maak een keuze op de kaart</StyledParagraph>
+                  </EmptySelectionWrapper>
                 )}
                 <Button onClick={close} variant="primary">
                   Meld deze container{selection.length > 1 ? 's' : ''}
