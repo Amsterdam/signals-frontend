@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import {
-  Label as FieldLabel,
+  Label,
   styles,
   themeColor,
   Typography,
@@ -47,7 +47,7 @@ const Error = styled(Typography).attrs({
   margin: ${themeSpacing(2)} 0;
 `;
 
-export const Label = styled(FieldLabel)`
+export const StyledLabel = styled(Label)`
   display: block;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   ${({ hasHint }) =>
@@ -66,7 +66,7 @@ const Wrapper = styled.div`
 
 const Input = forwardRef(({ className, hint, label, id, error, ...rest }, ref) => (
   <Wrapper className={className} showError={Boolean(error)}>
-    {label && <Label hasHint={Boolean(hint)} htmlFor={id} label={label} />}
+    {label && <StyledLabel hasHint={Boolean(hint)} htmlFor={id} label={label} />}
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
     <StyledInput id={id} showError={Boolean(error)} ref={ref} {...rest} />
