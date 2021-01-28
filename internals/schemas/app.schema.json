@@ -188,7 +188,7 @@
           "type": "string"
         },
         "shortTitle": {
-          "description": "PWA `short_name` property value. Should not exceed 12 characters. See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/short_name for reference",
+          "description": "PWA `short_name` property value. Should not exceed 12 characters. See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/short_name for reference. This is also being used in the filname of a downloadable PDF of an incident.",
           "type": "string"
         },
         "siteAddress": {
