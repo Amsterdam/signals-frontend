@@ -1,5 +1,4 @@
 import type { IconOptions } from 'leaflet';
-import { Validators } from 'react-reactive-form';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 import * as afvalIcons from './afval-icons';
@@ -150,9 +149,6 @@ export const controls = {
           typeValue: 'not-on-map',
         },
       ],
-    },
-    options: {
-      validators: [Validators.required],
     },
     render: FormComponents.ContainerSelectRenderer,
   },
