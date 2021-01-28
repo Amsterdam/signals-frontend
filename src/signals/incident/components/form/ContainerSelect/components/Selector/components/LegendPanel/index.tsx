@@ -1,8 +1,7 @@
 import React from 'react';
 import { MapPanelContent } from '@amsterdam/arm-core';
 
-import IconList from 'components/IconList/IconList';
-import IconListItem from 'components/IconList/IconListItem';
+import IconList, { IconListItem } from 'components/IconList/IconList';
 
 export interface LegendPanelProps {
   variant: 'panel' | 'drawer';
@@ -15,7 +14,7 @@ const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant, o
   <MapPanelContent animate data-testid="legendPanel" stackOrder={1} onClose={onClose} variant={variant} title={title}>
     <IconList data-testid="legendPanelList">
       {items.map(item => (
-        <IconListItem key={item.id} iconUrl={item.iconUrl}>
+        <IconListItem id={`legendPanelListItem-${item.id}`} key={item.id} iconUrl={item.iconUrl}>
           {item.label}
         </IconListItem>
       ))}

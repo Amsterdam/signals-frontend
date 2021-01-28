@@ -22,7 +22,7 @@ import LegendPanel from './components/LegendPanel';
 import ViewerContainer from './components/ViewerContainer';
 import ContainerLayer from './components/WfsLayer/components/ContainerLayer';
 import WfsLayer from './components/WfsLayer';
-import ContainerEditList from '../ContainerEditList';
+import ContainerList from '../ContainerList';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
@@ -71,8 +71,8 @@ const StyledMap = styled(Map)`
   }
 `;
 
-const StyledContainerEditList = styled(ContainerEditList)`
-  margin-bottom: ${themeSpacing(8)};
+const StyledContainerList = styled(ContainerList)`
+  margin: ${themeSpacing(2)} 0 ${themeSpacing(8)} 0;
 `;
 
 // Temporary selction. Will be removes when selectionfunctionality will be implemented.
@@ -176,7 +176,7 @@ const Selector = () => {
                 <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
                 <Button onClick={addContainer}>Containers toevoegen</Button>
                 {selection.length ? (
-                  <StyledContainerEditList selection={selection} onRemove={removeContainer} featureTypes={meta.featureTypes} />
+                  <StyledContainerList selection={selection} onRemove={removeContainer} featureTypes={meta.featureTypes} />
                 ) : (
                   <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
                 )}

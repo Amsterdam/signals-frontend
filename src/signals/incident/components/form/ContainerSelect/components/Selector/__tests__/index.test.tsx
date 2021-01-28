@@ -44,7 +44,7 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     render(withContainerSelectContext(<Selector />));
     expect(contextValue.update).not.toHaveBeenCalled();
 
-    const removeContainersButton = await screen.findAllByTestId(/containerEditListRemove/);
+    const removeContainersButton = await screen.findAllByTestId(/containerListRemove/);
     userEvent.click(removeContainersButton[0]);
     expect(contextValue.update).toHaveBeenCalled();
   });
