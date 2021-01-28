@@ -123,7 +123,7 @@ src
       useFetch.test.ts
       useDebounce.test.ts
     useFetch.ts
-    useDebounce.test.ts
+    useDebounce.ts
   interfaces
   services
   types
