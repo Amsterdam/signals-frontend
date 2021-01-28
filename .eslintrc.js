@@ -49,6 +49,14 @@ module.exports = {
             ignoreStatic: true,
           },
         ],
+        '@typescript-eslint/sort-type-union-intersection-members': 'off',
+      },
+    },
+    {
+      files: ['**/*.test.js', '**/*.test.ts', '**/*.test.tsx'],
+      extends: ['plugin:amsterdam/react'],
+      rules: {
+        'react/jsx-no-constructed-context-values': 'off',
       },
     },
   ],
@@ -67,10 +75,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'prefer-const': 'off',
     'promise/prefer-await-to-then': 'off',
-    'react/display-name': 'off',
-    'react/forbid-component-props': 'off',
     'react/jsx-key': 'off',
-    'react/jsx-no-bind': 'off',
     'react/no-did-mount-set-state': 'off',
     'react/no-unused-prop-types': 'off',
     'react/require-optimization': 'off',
@@ -146,5 +151,6 @@ module.exports = {
     'jest/require-to-throw-message': 'off',
     'jest/valid-expect': 'off',
     'jest/valid-title': 'off',
+    'react/jsx-newline': 'off',
   },
 };

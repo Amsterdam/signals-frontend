@@ -5,12 +5,7 @@ import { authCall } from 'shared/services/api/api';
 import configuration from 'shared/services/configuration/configuration';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 import type endpointDefinitions from 'shared/services/configuration/endpoint-definitions';
-import {
-  SET_SEARCH_QUERY,
-  LOGOUT,
-  AUTHENTICATE_USER,
-  GET_SOURCES,
-} from 'containers/App/constants';
+import { SET_SEARCH_QUERY, LOGOUT, AUTHENTICATE_USER, GET_SOURCES } from 'containers/App/constants';
 
 import type { AuthenticateUserAction } from './actions';
 import {
@@ -73,7 +68,7 @@ export function* callAuthorize(action: AuthenticateUserAction) {
   }
 }
 
-export function* uploadFile(action: {payload: UploadFile}) {
+export function* uploadFile(action: { payload: UploadFile }) {
   const id = action.payload?.id ?? '';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel = yield call(
