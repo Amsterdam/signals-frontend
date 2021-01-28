@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ContainerList from '../../../form/ContainerSelect/components/ContainerList';
 
-import type { ContainerListPreviewProps } from './ContainerListPreview';
+import type { ContainerList../../../form/ContainerSelect/components/List/ContainerList
 import ContainerListPreview from './ContainerListPreview';
 import type { FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
 
