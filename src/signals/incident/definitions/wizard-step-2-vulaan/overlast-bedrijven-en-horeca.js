@@ -461,10 +461,8 @@ export const controls = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
-      value: [
-        'Uw gegevens worden vertrouwelijk behandeld en worden niet aan de (horeca)ondernemer of organisator bekend gemaakt.',
-        'Anonieme meldingen krijgen een lage prioriteit.',
-      ],
+      value:
+        'Uw gegevens worden vertrouwelijk behandeld en worden niet aan de (horeca)ondernemer of organisator bekend gemaakt.\n\nAnonieme meldingen krijgen een lage prioriteit.',
       type: 'caution',
     },
     render: FormComponents.PlainText,

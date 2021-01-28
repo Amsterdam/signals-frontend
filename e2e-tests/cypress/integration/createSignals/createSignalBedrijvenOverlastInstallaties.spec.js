@@ -50,10 +50,8 @@ describe('Create signal "Bedrijven overlast installaties" and check signal detai
 
         createSignal.setEmailAddress(fixturePath);
         cy.contains('Volgende').click();
+
         createSignal.checkSummaryPage(fixturePath);
-
-        createSignal.checkQuestions(fixturePath);
-
         cy.contains('Verstuur').click();
         cy.wait('@postSignalPublic');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');

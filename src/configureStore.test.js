@@ -9,7 +9,7 @@ describe('configureStore', () => {
   let store;
 
   beforeAll(() => {
-    store = configureStore(Immutable.Map(), browserHistory);
+    store = configureStore({}, browserHistory);
   });
 
   describe('injectedReducers', () => {

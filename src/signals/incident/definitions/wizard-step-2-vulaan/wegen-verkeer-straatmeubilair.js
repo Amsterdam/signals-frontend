@@ -3,7 +3,6 @@ import React from 'react';
 import { Validators } from 'react-reactive-form';
 
 import configuration from 'shared/services/configuration/configuration';
-import DefinitionComponents from '../components';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
@@ -22,17 +21,17 @@ const intro = {
 export const controls = {
   // This element will be enabled each year near the christmass.
   // Comment/Uncomment next block to show/hide it.
-  extra_kerstverlichting: {
-    meta: {
-      type: 'alert-inverted',
-      value:
-        'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
-      ifAllOf: {
-        subcategory: 'lantaarnpaal-straatverlichting',
-      },
-    },
-    render: FormComponents.PlainText,
-  },
+  // extra_kerstverlichting: {
+  //   meta: {
+  //     type: 'alert-inverted',
+  //     value:
+  //       'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
+  //     ifAllOf: {
+  //       subcategory: 'lantaarnpaal-straatverlichting',
+  //     },
+  //   },
+  //   render: FormComponents.PlainText,
+  // },
 
   extra_brug: {
     meta: {
@@ -63,13 +62,10 @@ export const controls = {
         subcategory: 'gladheid',
       },
       type: 'caution',
-      value: [
-        'Let op:',
-        'Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB:',
-        <DefinitionComponents.Anchor href="http://gvb.nl/klantenservice" target="_blank" className="more-link">
-          gvb.nl/klantenservice
-        </DefinitionComponents.Anchor>,
-      ],
+      value: `
+Let op:
+
+Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB: [gvb.nl/klantenservice](https://gvb.nl/klantenservice)`,
       pathMerge: 'extra_properties',
     },
     render: FormComponents.PlainText,

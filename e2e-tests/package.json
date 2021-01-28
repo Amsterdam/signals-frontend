@@ -2,7 +2,7 @@
   "name": "@signalen/e2e-tests",
   "private": true,
   "dependencies": {
-    "cypress": "^6.2.1",
+    "cypress": "^6.3.0",
     "jsonwebtoken": "^8.5.1"
   },
   "scripts": {

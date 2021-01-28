@@ -17,9 +17,9 @@ describe('models/departments/selectors', () => {
   test('selectDepartmentsDomain', () => {
     expect(selectDepartmentsDomain()).toEqual(initialState);
 
-    const departmentsDomain = fromJS({
-      departments: intermediateState.toJS(),
-    });
+    const departmentsDomain = {
+      departments: intermediateState,
+    };
     expect(selectDepartmentsDomain(departmentsDomain)).toEqual(intermediateState);
   });
 

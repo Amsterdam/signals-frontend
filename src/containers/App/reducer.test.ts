@@ -1,7 +1,6 @@
-import { fromJS } from 'immutable';
-
 import userJson from 'utils/__tests__/fixtures/user.json';
 import { APPLY_FILTER } from 'signals/incident-management/constants';
+import type { ApplyFilterActionType } from './reducer';
 import appReducer, { initialState } from './reducer';
 import {
   AUTHORIZE_USER,
@@ -12,7 +11,6 @@ import {
   SHOW_GLOBAL_NOTIFICATION,
   UPLOAD_FAILURE,
   UPLOAD_PROGRESS,
-  UPLOAD_REQUEST,
   UPLOAD_SUCCESS,
   SET_SEARCH_QUERY,
   RESET_SEARCH_QUERY,
@@ -20,38 +18,35 @@ import {
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
 } from './constants';
-
-const sources = [
-  {
-    id: 1,
-    name: 'Source1',
-  },
-  {
-    id: 2,
-    name: 'Source2',
-  },
-];
+import type {
+  DoLogoutAction,
+  GetSourcesAction,
+  GetSourcesFailedAction,
+  GetSourcesSuccessAction,
+  ResetSearchQueryAction,
+  SetSearchQueryAction,
+} from './actions';
 
 describe('containers/App/reducer', () => {
   it('should return the initial state', () => {
-    expect(appReducer(undefined, {})).toEqual(fromJS(initialState));
+    expect(appReducer(undefined, { type: null, payload: undefined })).toEqual(initialState);
   });
 
   describe('AUTHORIZE_USER', () => {
     it('sets user name, scopes and access token', () => {
       expect(
-        appReducer(fromJS({}), {
+        appReducer(initialState, {
           type: AUTHORIZE_USER,
           payload: userJson,
-        }).toJS()
-      ).toEqual({ user: userJson });
+        })
+      ).toEqual({ ...initialState, user: userJson });
     });
   });
 
   describe('SHOW_GLOBAL_NOTIFICATION', () => {
     it('sets global notification', () => {
       expect(
-        appReducer(fromJS({}), {
+        appReducer(initialState, {
           type: SHOW_GLOBAL_NOTIFICATION,
           payload: {
             title: 'title',
@@ -59,8 +54,9 @@ describe('containers/App/reducer', () => {
             variant: 'error',
             type: 'global',
           },
-        }).toJS()
+        })
       ).toEqual({
+        ...initialState,
         notification: {
           title: 'title',
           message: 'message',
@@ -74,32 +70,12 @@ describe('containers/App/reducer', () => {
   describe('RESET_GLOBAL_NOTIFICATION', () => {
     it('resets global notification', () => {
       expect(
-        appReducer(fromJS({}), {
+        appReducer(initialState, {
           type: RESET_GLOBAL_NOTIFICATION,
-        }).toJS()
+        })
       ).toEqual({
-        notification: initialState.get('notification').toJS(),
-      });
-    });
-  });
-
-  describe('UPLOAD_REQUEST', () => {
-    it('starts file upload', () => {
-      expect(
-        appReducer(fromJS({}), {
-          type: UPLOAD_REQUEST,
-          payload: {
-            id: 666,
-            file: {
-              name: 'image.jpg',
-            },
-          },
-        }).toJS()
-      ).toEqual({
-        upload: {
-          id: 666,
-          file: 'image.jpg',
-        },
+        ...initialState,
+        notification: initialState.notification,
       });
     });
   });
@@ -108,21 +84,17 @@ describe('containers/App/reducer', () => {
     it('file upload progress', () => {
       expect(
         appReducer(
-          fromJS({
-            upload: {
-              id: 666,
-              file: 'image.jpg',
-            },
-          }),
+          {
+            ...initialState,
+          },
           {
             type: UPLOAD_PROGRESS,
             payload: 0.345,
           }
-        ).toJS()
+        )
       ).toEqual({
+        ...initialState,
         upload: {
-          id: 666,
-          file: 'image.jpg',
           progress: 0.345,
         },
       });
@@ -133,39 +105,39 @@ describe('containers/App/reducer', () => {
     it('file upload success', () => {
       expect(
         appReducer(
-          fromJS({
+          {
+            ...initialState,
             upload: {
-              id: 666,
-              file: 'image.jpg',
               progress: 0.678,
             },
-          }),
+          },
           {
             type: UPLOAD_SUCCESS,
           }
-        ).toJS()
+        )
       ).toEqual({
+        ...initialState,
         upload: {},
       });
     });
   });
 
   describe('UPLOAD_FAILURE', () => {
-    it('file upload success', () => {
+    it('file upload failure', () => {
       expect(
         appReducer(
-          fromJS({
+          {
+            ...initialState,
             upload: {
-              id: 666,
-              file: 'image.jpg',
               progress: 0.678,
             },
-          }),
+          },
           {
             type: UPLOAD_FAILURE,
           }
-        ).toJS()
+        )
       ).toEqual({
+        ...initialState,
         upload: {},
       });
     });
@@ -174,12 +146,13 @@ describe('containers/App/reducer', () => {
   describe('LOGIN_FAILED', () => {
     it('should handle failed login', () => {
       expect(
-        appReducer(fromJS({}), {
+        appReducer(initialState, {
           type: LOGIN_FAILED,
           payload: 'ERROR_MESSAGE',
-        }).toJS()
+        })
       ).toEqual({
-        error: true,
+        ...initialState,
+        error: 'ERROR_MESSAGE',
         loading: false,
       });
     });
@@ -188,12 +161,13 @@ describe('containers/App/reducer', () => {
   describe('LOGOUT_FAILED', () => {
     it('should handle failed logout', () => {
       expect(
-        appReducer(fromJS({}), {
+        appReducer(initialState, {
           type: LOGOUT_FAILED,
           payload: 'ERROR_MESSAGE',
-        }).toJS()
+        })
       ).toEqual({
-        error: true,
+        ...initialState,
+        error: 'ERROR_MESSAGE',
         loading: false,
       });
     });
@@ -201,94 +175,109 @@ describe('containers/App/reducer', () => {
 
   describe('LOGOUT', () => {
     it('should handle logout', () => {
-      const state = fromJS({
+      const mockedState = {
+        ...initialState,
         user: {
-          permissions: ['a', 'b', 'c'],
-          roles: ['c', 'd', 'e'],
+          ...userJson,
         },
         notification: {
+          ...initialState.notification,
           message: 'This is a notifictation',
         },
-      });
+      };
 
-      const action = {
+      const action: DoLogoutAction = {
         type: LOGOUT,
       };
 
-      expect(appReducer(state, action)).toEqual(
-        state.set('user', initialState.get('user')).set('upload', initialState.get('upload'))
-      );
+      expect(appReducer(mockedState, action)).toEqual({
+        ...mockedState,
+        user: { ...initialState.user },
+        upload: { ...initialState.upload },
+      });
     });
   });
 
   it('should handle SET_SEARCH_QUERY', () => {
-    const setSearchQuery = {
+    const searchQueryAction: SetSearchQueryAction = {
       type: SET_SEARCH_QUERY,
       payload: 'stoeptegels',
     };
 
-    expect(initialState.get('searchQuery')).toBe('');
-    const applied = state => state.set('searchQuery', setSearchQuery.payload);
-
-    expect(appReducer(initialState, setSearchQuery)).toEqual(applied(initialState));
+    expect(appReducer(initialState, searchQueryAction)).toEqual({
+      ...initialState,
+      searchQuery: searchQueryAction.payload,
+    });
   });
 
   it('should handle RESET_SEARCH_QUERY', () => {
-    const resetSearchQuery = {
+    const resetSearchQueryAction: ResetSearchQueryAction = {
       type: RESET_SEARCH_QUERY,
     };
 
-    const otherState = initialState.set('searchQuery', 'search-term');
-    expect(otherState.get('searchQuery')).toBe('search-term');
-
-    const applied = state => state.set('searchQuery', initialState.get('searchQuery'));
-
-    expect(appReducer(otherState, resetSearchQuery)).toEqual(applied(initialState));
+    expect(
+      appReducer(
+        {
+          ...initialState,
+          searchQuery: 'search-term',
+        },
+        resetSearchQueryAction
+      )
+    ).toEqual({
+      ...initialState,
+    });
   });
 
   it('should handle APPLY_FILTER', () => {
-    const applyFilter = {
+    const applyFilterAction: ApplyFilterActionType = {
       type: APPLY_FILTER,
     };
 
-    const otherState = initialState.set('searchQuery', 'search-term');
-    expect(otherState.get('searchQuery')).toBe('search-term');
-
-    const applied = state => state.set('searchQuery', initialState.get('searchQuery'));
-
-    expect(appReducer(otherState, applyFilter)).toEqual(applied(initialState));
+    expect(
+      appReducer(
+        {
+          ...initialState,
+          searchQuery: 'search-term',
+        },
+        applyFilterAction
+      )
+    ).toEqual({
+      ...initialState,
+    });
   });
 
   it('should handle GET_SOURCES', () => {
-    const getSources = {
+    const getSourcesAction: GetSourcesAction = {
       type: GET_SOURCES,
     };
 
-    const applied = state => state.set('loading', true);
-
-    expect(appReducer(initialState, getSources)).toEqual(applied(initialState));
+    expect(appReducer(initialState, getSourcesAction)).toEqual({ ...initialState, loading: true });
   });
 
   it('should handle GET_SOURCES_SUCCESS', () => {
-    const getSourcesSuccess = {
+    const sources = ['Source1', 'Source2'];
+    const getSourcesSuccessAction: GetSourcesSuccessAction = {
       type: GET_SOURCES_SUCCESS,
       payload: sources,
     };
 
-    const applied = state => state.set('loading', false).set('sources', fromJS(sources));
-
-    expect(appReducer(initialState, getSourcesSuccess)).toEqual(applied(initialState));
+    expect(appReducer(initialState, getSourcesSuccessAction)).toEqual({ ...initialState, loading: false, sources });
   });
 
   it('should handle GET_SOURCES_FAILED', () => {
-    const message = 'Could not retrieve!';
-    const getSourcesFailed = {
+    const getSourcesFailedAction: GetSourcesFailedAction = {
       type: GET_SOURCES_FAILED,
-      payload: message,
+      payload: 'Could not retrieve!',
     };
 
-    const applied = state => state.set('loading', false).set('error', true).set('errorMessage', message);
-
-    expect(appReducer(initialState, getSourcesFailed)).toEqual(applied(initialState));
+    expect(appReducer(initialState, getSourcesFailedAction)).toEqual({
+      ...initialState,
+      loading: false,
+      error: true,
+      notification: {
+        ...initialState.notification,
+        message: getSourcesFailedAction.payload,
+      },
+    });
   });
 });

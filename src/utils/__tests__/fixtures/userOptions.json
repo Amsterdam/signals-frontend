@@ -1,0 +1,26 @@
+[
+  {
+    "key": "null",
+    "value": "Niet toegewezen"
+  },
+  {
+    "key": "user1@example.com",
+    "value": "user1@example.com"
+  },
+  {
+    "key": "asc-aeg@example.com",
+    "value": "asc-aeg@example.com"
+  },
+  {
+    "key": "asc@example.com",
+    "value": "asc@example.com"
+  },
+  {
+    "key": "aeg@example.com",
+    "value": "aeg@example.com"
+  },
+  {
+    "key": "tho@domain.com",
+    "value": "tho@domain.com"
+  }
+]

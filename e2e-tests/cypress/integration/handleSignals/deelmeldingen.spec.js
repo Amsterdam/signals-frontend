@@ -109,7 +109,7 @@ describe('Deelmeldingen', () => {
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
 
         createSignal.checkSignalDetailsPage();
@@ -206,7 +206,7 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
         cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
         cy.get(CHANGE_URGENCY.buttonSubmit).click();
-
+        cy.wait('@getSignals');
         cy.get(SIGNAL_DETAILS.linkParent).click();
         cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(254, 200, 19)');
       });
@@ -258,7 +258,10 @@ describe('Deelmeldingen', () => {
         cy.patchSignalRoute();
         cy.getDeelmeldingenRoute();
         createSignal.openCreatedSignal();
-        cy.get(CHANGE_STATUS.buttonEdit).click();
+        // Used a wait because sometimes the edit button is not clicked
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+        cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonGeannuleerd).click({ force: true }).should('be.checked');
@@ -294,8 +297,8 @@ describe('Deelmeldingen', () => {
       cy.visit('/manage/incidents/');
       cy.waitForManageSignalsRoutes();
     });
-    it('Should filter on melding', () => {
-      deelmelding.filterSignalOnType('Melding', FILTER.checkboxMelding);
+    it('Should filter on standaardmelding', () => {
+      deelmelding.filterSignalOnType('Standaardmelding ', FILTER.checkboxMelding);
     });
     it('Should filter on hoofdmelding', () => {
       deelmelding.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
@@ -362,7 +365,10 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.get(`[href="/manage/incident/${json.signalId}"]`).first().click();
         });
-        cy.get(CHANGE_STATUS.buttonEdit).click();
+        // Used a wait because sometimes the edit button is not clicked
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+        cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
         // Test sometimes failes on next statement, only in github action not on a local machine. For testing purposes it is commented out.
@@ -385,7 +391,7 @@ describe('Deelmeldingen', () => {
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        cy.waitForSignalDetailsRoutes();
+        cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
         cy.get(DEELMELDING.childIncident).should('have.length', 4);
       });
@@ -393,7 +399,10 @@ describe('Deelmeldingen', () => {
         createSignal.openCreatedSignal();
         cy.waitForSignalDetailsRoutes();
         cy.wait('@getDeelmeldingen');
-        cy.get(CHANGE_STATUS.buttonEdit).click();
+        // Used a wait because sometimes the edit button is not clicked
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+        cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
         cy.get(CHANGE_STATUS.currentStatus).contains('In behandeling').should('be.visible');
@@ -424,7 +433,10 @@ describe('Deelmeldingen', () => {
         createSignal.openCreatedSignal();
         cy.waitForSignalDetailsRoutes();
         cy.wait('@getDeelmeldingen');
-        cy.get(CHANGE_STATUS.buttonEdit).click();
+        // Used a wait because sometimes the edit button is not clicked
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+        cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
         cy.get(CHANGE_STATUS.currentStatus).contains('Ingepland').should('be.visible');

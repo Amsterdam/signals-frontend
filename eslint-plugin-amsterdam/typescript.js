@@ -50,6 +50,8 @@ module.exports = {
         '@typescript-eslint/init-declarations': 'off',
         '@typescript-eslint/semi': ['error', 'always'],
 
+        '@typescript-eslint/no-type-alias': ['error', { allowAliases: 'in-unions-and-intersections' }],
+
         // extensions (superseded by typescript rules)
         'init-declarations': 'off',
         'no-use-before-define': 'off',

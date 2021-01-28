@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import parseISO from 'date-fns/parseISO';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import { FastForward, ChevronUp, ChevronDown, Play } from '@amsterdam/asc-assets';
+import { ChevronUp, ChevronDown, Play } from '@amsterdam/asc-assets';
 import { Icon, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
@@ -121,7 +121,7 @@ const List = ({
   stadsdeel,
   status,
 }) => {
-  const { districts, users } = useContext(IncidentManagementContext);
+  const { districts } = useContext(IncidentManagementContext);
 
   const onSort = useCallback(
     newSort => () => {
@@ -145,8 +145,6 @@ const List = ({
     },
     [sort]
   );
-
-  const getAssignedUserName = useCallback(userId => users?.find(user => user.id === userId)?.username, [users]);
 
   return (
     <StyledList isLoading={isLoading} className={className} data-testid="incidentOverviewListComponent">
@@ -184,8 +182,10 @@ const List = ({
             <Th data-testid="sortAddress" onClick={onSort('address,-created_at')}>
               Adres {renderChevron('address')}
             </Th>
-            {configuration.featureFlags.assignSignalToEmployee && users && (
-              <Th data-testid="sortAssigedUserId">Toegewezen aan</Th>
+            {configuration.featureFlags.assignSignalToEmployee && (
+              <Th data-testid="sortAssigedUserEmail" onClick={onSort('assigned_user_email,-created_at')}>
+                Toegewezen aan {renderChevron('assigned_user_email')}
+              </Th>
             )}
           </tr>
         </thead>
@@ -216,8 +216,8 @@ const List = ({
                   {getListValueByKey(priority, incident.priority && incident.priority.priority)}
                 </Td>
                 <Td detailLink={detailLink}>{incident.location && incident.location.address_text}</Td>
-                {configuration.featureFlags.assignSignalToEmployee && users && (
-                  <Td detailLink={detailLink}>{getAssignedUserName(incident.assigned_user_id)}</Td>
+                {configuration.featureFlags.assignSignalToEmployee && (
+                  <Td detailLink={detailLink}>{incident.assigned_user_email}</Td>
                 )}
               </tr>
             );

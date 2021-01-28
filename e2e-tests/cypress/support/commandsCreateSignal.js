@@ -14,7 +14,10 @@ export const addNote = noteText => {
 export const changeSignalStatus = (initialStatus, newStatus, radioButton) => {
   cy.getSortedByTimeRoutes();
   cy.getHistoryRoute();
-  cy.get(CHANGE_STATUS.buttonEdit).click();
+  // Used a wait because sometimes the edit button is not clicked
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(500);
+  cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
   cy.contains('Status wijzigen').should('be.visible');
   cy.get(CHANGE_STATUS.currentStatus).contains(initialStatus).should('be.visible');
   cy.get(radioButton).click({ force: true }).should('be.checked');
@@ -65,6 +68,7 @@ export const checkAllDetails = fixturePath => {
       cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
       cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
     }
+    checkQuestions(fixturePath);
   });
 };
 
@@ -131,17 +135,17 @@ export const checkRedTextStatus = status => {
 export const checkQuestions = fixturePath => {
   cy.fixture(fixturePath).then(json => {
     Object.entries(json.extra_properties).forEach(([, valueA]) => {
-      cy.contains(valueA.label);
+      cy.contains(valueA.label).should('be.visible');
       if (valueA.answer.label) {
-        cy.contains(valueA.answer.label);
+        cy.contains(valueA.answer.label).should('be.visible');
       }
       else if (Array.isArray(valueA.answer)) {
         Object.entries(valueA.answer).forEach(([, valueB]) => {
-          cy.contains(valueB.label);
+          cy.contains(valueB.label).should('be.visible');
         });
       }
       else {
-        cy.contains(valueA.answer);
+        cy.contains(valueA.answer).should('be.visible');
       }
     });
   });
@@ -222,6 +226,7 @@ export const checkSummaryPage = fixturePath => {
     if (json.fixtures.attachments) {
       cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
     }
+    checkQuestions(fixturePath);
   });
 };
 

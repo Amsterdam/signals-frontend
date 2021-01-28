@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { Heading, Link, themeSpacing, themeColor } from '@amsterdam/asc-ui';
 import * as types from 'shared/types';
 import { parseToAPIData } from 'signals/shared/filter/parse';
+import FilterTagList from 'signals/incident-management/containers/FilterTagList';
 
 import Refresh from '../../../../../../shared/images/icon-refresh.svg';
-import FilterTagList from '../../../FilterTagList';
 
 const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(7)};
