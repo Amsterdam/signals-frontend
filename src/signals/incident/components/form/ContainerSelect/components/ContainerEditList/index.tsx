@@ -2,16 +2,11 @@ import React, { useCallback } from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { themeSpacing } from '@amsterdam/asc-ui';
+import { Icon, themeSpacing } from '@amsterdam/asc-ui';
 import { Close } from '@amsterdam/asc-assets';
 
 import Button from 'components/Button';
 import type { FeatureType, Item } from '../../types';
-
-const DEFAULT_ICON_SIZE = 40;
-const REMOVE_BUTTON_SIZE = 32;
-const REMOVE_ICON_SIZE = 12;
-const NAME = 'containerEditList';
 
 const StyledButton = styled(Button)`
   flex-shrink: 0;
@@ -35,17 +30,12 @@ const ListItem = styled.li`
   }
 `;
 
-const StyledIcon = styled.span<{ url: string }>`
-  display: inline-block;
+const StyledIcon = styled(Icon)`
   margin-right: ${themeSpacing(2)};
   flex-shrink: 0;
-  width: ${DEFAULT_ICON_SIZE}px;
-  height: ${DEFAULT_ICON_SIZE}px;
-  background-image: url(${({ url }) => url});
-  background-size: cover;
 `;
 
-const StyledItemSpan = styled.span`
+const StyledItemSpan = styled.div`
   display: flex;
   align-items: center;
   margin-right: ${themeSpacing(2)};
@@ -72,20 +62,20 @@ const ContainerEditList: FunctionComponent<ContainerEditListProps> = ({
   }, [featureTypes]);
 
   return (
-    <List className={className} data-testid={NAME}>
+    <List className={className} data-testid="containerEditList">
       {selection.map(({ id, description, type }) => (
-        <ListItem data-testid={`${NAME}Item-${id}`} key={id} tabIndex={-1}>
+        <ListItem data-testid={`containerEditListItem-${id}`} key={id} tabIndex={-1}>
           <StyledItemSpan>
-            <StyledIcon url={getIconUrl(type)} />
-            {description} - {id}
+            <StyledIcon size={40} iconUrl={getIconUrl(type)} />
+            {`${description} - ${id}`}
           </StyledItemSpan>
 
           <StyledButton
-            data-testid={`${NAME}Remove-${id}`}
+            data-testid={`containerEditListRemove-${id}`}
             type="button"
             variant="blank"
-            size={REMOVE_BUTTON_SIZE}
-            iconSize={REMOVE_ICON_SIZE}
+            size={32}
+            iconSize={12}
             icon={<Close />}
             onClick={() => {
               onRemove(id);
