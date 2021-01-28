@@ -1,11 +1,12 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 
 import configuration from 'shared/services/configuration/configuration';
 import { withMapContext } from 'test/utils';
 import geographyJSON from 'utils/__tests__/fixtures/geography.json';
 
-import OverviewMap from '.';
+import OverviewMap, { POLLING_INTERVAL } from './OverviewMap';
+import MarkerCluster from './components/MarkerCluster';
 
 let mockFilterParams;
 
@@ -42,11 +43,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
     expect(getByTestId('autoSuggest')).toBeInTheDocument();
   });
 
-  it('should request locations', async () => {
-    const { findByTestId, rerender, unmount } = render(withMapContext(<OverviewMap />));
-
-    await findByTestId('overviewMap');
-
+  describe('request', () => {
     const reDateTime = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/;
     const expectedFilterParams = {
       created_after: reDateTime,
@@ -54,28 +51,89 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
       page_size: /4000/,
     };
 
-    expect(fetch.mock.calls).toHaveLength(1);
+    it('should fetch locations from private endpoint', async () => {
+      const { findByTestId, rerender, unmount } = render(withMapContext(<OverviewMap />));
 
-    const requestUrl = new URL(fetch.mock.calls[0][0]);
-    const params = new URLSearchParams(requestUrl.search);
+      await findByTestId('overviewMap');
 
-    Object.keys(expectedFilterParams).forEach(key => {
-      expect([...params.keys()].includes(key)).toBeTruthy();
+      expect(fetch.mock.calls).toHaveLength(1);
 
-      const [, param] = [...params.entries()].find(([k]) => k === key);
-      expect(param).toMatch(expectedFilterParams[key]);
+      const requestUrl = new URL(fetch.mock.calls[0][0]);
+      const params = new URLSearchParams(requestUrl.search);
+      const endpoint = `${configuration.apiBaseUrl}${requestUrl.pathname}`;
+
+      expect(endpoint).toBe(configuration.GEOGRAPHY_ENDPOINT);
+
+      Object.keys(expectedFilterParams).forEach(key => {
+        expect([...params.keys()].includes(key)).toBeTruthy();
+
+        const [, param] = [...params.entries()].find(([k]) => k === key);
+        expect(param).toMatch(expectedFilterParams[key]);
+      });
+
+      expect(params.get('created_after')).toEqual(createdAfter);
+      expect(params.get('created_before')).toEqual(createdBefore);
+
+      unmount();
+
+      rerender(withMapContext(<OverviewMap />));
+
+      await findByTestId('overviewMap');
+
+      expect(fetch.mock.calls).toHaveLength(2);
     });
 
-    expect(params.get('created_after')).toEqual(createdAfter);
-    expect(params.get('created_before')).toEqual(createdBefore);
+    it('should fetch locations from public endpoint', async () => {
+      const { findByTestId, rerender, unmount } = render(withMapContext(<OverviewMap isPublic />));
 
-    unmount();
+      await findByTestId('overviewMap');
 
-    rerender(withMapContext(<OverviewMap />));
+      expect(fetch.mock.calls).toHaveLength(1);
 
-    await findByTestId('overviewMap');
+      const requestUrl = new URL(fetch.mock.calls[0][0]);
+      const params = new URLSearchParams(requestUrl.search);
+      const endpoint = `${configuration.apiBaseUrl}${requestUrl.pathname}`;
 
-    expect(fetch.mock.calls).toHaveLength(2);
+      expect(endpoint).toBe(configuration.MAP_SIGNALS_ENDPOINT);
+
+      Object.keys(expectedFilterParams).forEach(key => {
+        expect([...params.keys()].includes(key)).toBeTruthy();
+
+        const [, param] = [...params.entries()].find(([k]) => k === key);
+        expect(param).toMatch(expectedFilterParams[key]);
+      });
+
+      expect(params.get('created_after')).toEqual(createdAfter);
+      expect(params.get('created_before')).toEqual(createdBefore);
+
+      unmount();
+
+      rerender(withMapContext(<OverviewMap />));
+
+      await findByTestId('overviewMap');
+
+      expect(fetch.mock.calls).toHaveLength(2);
+    });
+
+    it('should poll the endpoint', async () => {
+      jest.useFakeTimers();
+
+      const { findByTestId, rerender, unmount } = render(withMapContext(<OverviewMap />));
+
+      await findByTestId('overviewMap');
+
+      expect(fetch.mock.calls).toHaveLength(1);
+
+      act(() => {
+        jest.advanceTimersByTime(POLLING_INTERVAL);
+      });
+
+      await findByTestId('overviewMap');
+
+      expect(fetch.mock.calls).toHaveLength(2);
+
+      jest.useRealTimers();
+    });
   });
 
   it('should overwrite date filter params with mapFilter24Hours enabled', async () => {
@@ -89,25 +147,5 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
 
     expect(params.get('created_after')).not.toEqual(createdAfter);
     expect(params.get('created_before')).not.toEqual(createdBefore);
-  });
-
-  it('should render detail panel', async () => {
-    const { getByTestId, findByTestId } = render(withMapContext(<OverviewMap showPanelOnInit />));
-
-    await findByTestId('overviewMap');
-
-    expect(getByTestId('mapDetailPanel')).toBeInTheDocument();
-  });
-
-  it('should close detail panel', async () => {
-    const { queryByTestId, findByTestId } = render(withMapContext(<OverviewMap showPanelOnInit />));
-
-    const detailPanel = await findByTestId('mapDetailPanel');
-
-    act(() => {
-      fireEvent.click(detailPanel.querySelector('button'));
-    });
-
-    expect(queryByTestId('mapDetailPanel')).not.toBeInTheDocument();
   });
 });

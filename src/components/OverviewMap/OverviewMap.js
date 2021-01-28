@@ -23,7 +23,7 @@ import MarkerCluster from './components/MarkerCluster';
 
 import DetailPanel from './components/DetailPanel';
 
-const POLLING_INTERVAL = 5000;
+export const POLLING_INTERVAL = 5000;
 
 const StyledViewerContainer = styled(ViewerContainer)`
   flex-direction: row;
@@ -70,6 +70,7 @@ const Autosuggest = styled(PDOKAutoSuggest)`
   position: absolute;
 `;
 
+/* istanbul ignore next */
 const clusterLayerOptions = {
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
@@ -94,17 +95,17 @@ const clusterLayerOptions = {
   },
 };
 
-const OverviewMap = ({ showPanelOnInit = false, isPublic = false, ...rest }) => {
+const OverviewMap = ({ isPublic = false, ...rest }) => {
   const endpoint = isPublic ? configuration.MAP_SIGNALS_ENDPOINT : configuration.GEOGRAPHY_ENDPOINT;
   const { dispatch } = useContext(MapContext);
   const [initialMount, setInitialMount] = useState(false);
-  const [showPanel, setShowPanel] = useState(showPanelOnInit);
+  const [showPanel, setShowPanel] = useState(false);
   const [map, setMap] = useState();
   const { options } = useSelector(makeSelectActiveFilter);
   const filterParams = useSelector(makeSelectFilterParams);
   const { get, data, isLoading } = useFetch();
   const [layerInstance, setLayerInstance] = useState();
-  const [incident, setIncident] = useState(0);
+  const [incident, setIncident] = useState();
   const [pollingCount, setPollingCount] = useState(0);
 
   const params = useMemo(
@@ -142,6 +143,7 @@ const OverviewMap = ({ showPanelOnInit = false, isPublic = false, ...rest }) => 
     [map, dispatch]
   );
 
+  /* istanbul ignore next */
   const resetMarkerIcons = useCallback(() => {
     map.eachLayer(layer => {
       if (layer.getIcon && !layer.getAllChildMarkers) {
@@ -150,21 +152,24 @@ const OverviewMap = ({ showPanelOnInit = false, isPublic = false, ...rest }) => 
     });
   }, [map]);
 
+  /* istanbul ignore next */
   const onClosePanel = useCallback(() => {
     setShowPanel(false);
     resetMarkerIcons();
   }, [resetMarkerIcons]);
 
-  const pollingFn = useCallback(() => {
-    setPollingCount(pollingCount + 1);
-  }, [pollingCount, setPollingCount]);
-
   useEffect(() => {
+    let active = true;
+    const pollingFn = () => {
+      /* istanbul ignore else */
+      if (active) setPollingCount(pollingCount + 1);
+    };
     const intervalId = setInterval(pollingFn, POLLING_INTERVAL);
     return () => {
+      active = false;
       clearInterval(intervalId);
     };
-  }, [pollingFn]);
+  }, [pollingCount, setPollingCount]);
 
   useEffect(() => {
     if (isLoading || !initialMount) return;
@@ -192,12 +197,12 @@ const OverviewMap = ({ showPanelOnInit = false, isPublic = false, ...rest }) => 
         icon: incidentIcon,
       });
 
+      /* istanbul ignore next */
       clusteredMarker.on('click', event => {
         resetMarkerIcons();
 
         event.target.setIcon(markerIcon);
 
-        /* istanbul ignore else */
         if (feature.properties?.id) {
           setIncident(feature.properties);
           setShowPanel(true);
@@ -243,7 +248,6 @@ const OverviewMap = ({ showPanelOnInit = false, isPublic = false, ...rest }) => 
 
 OverviewMap.propTypes = {
   isPublic: PropTypes.bool,
-  showPanelOnInit: PropTypes.bool,
 };
 
 export default memo(OverviewMap);

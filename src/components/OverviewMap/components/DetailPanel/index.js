@@ -104,8 +104,7 @@ DetailPanel.propTypes = {
     created_at: PropTypes.string,
     status: PropTypes.string,
     category: PropTypes.shape({ sub: PropTypes.string, main: PropTypes.string }),
-    subcategory: PropTypes.string,
-  }),
+  }).isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
