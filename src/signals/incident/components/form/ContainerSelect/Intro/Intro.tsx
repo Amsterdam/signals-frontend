@@ -1,10 +1,11 @@
-import React, { useCallback, useState, useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import Button from 'components/Button';
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import { themeSpacing } from '@amsterdam/asc-ui';
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import Map from 'components/Map';
+import type { LatLngTuple, MapOptions } from 'leaflet';
 
 const Wrapper = styled.div`
   position: relative;
@@ -28,28 +29,41 @@ const StyledMap = styled(Map)`
 
 const Intro = () => {
   const { edit, location } = useContext(ContainerSelectContext);
-  const lat = location && location[0];
-  const lng = location && location[1];
-  const options = {
-    ...MAP_OPTIONS,
-    attributionControl: false,
-    center: [lat, lng],
-  };
+  const latlng = location as LatLngTuple;
+  const lat = latlng?.[0];
+  const lng = latlng?.[1];
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const mapOptions = useMemo<MapOptions>(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    () => ({
+      ...MAP_OPTIONS,
+      attributionControl: false,
+      center: [lat, lng],
+    }),
+    [lat, lng]
+  );
 
   return (
     <Wrapper data-testid="containerSelectIntro">
-      {lat && lng && (
+      {lat && lng &&
         <StyledMap
           data-testid="mapLocation"
-          mapOptions={options}
+          mapOptions={mapOptions}
           canBeDragged={false}
           hasZoomControls={false}
-        ></StyledMap>
-      )}
+          events={{}}
+          setInstance={() => {}}
+        >
+        </StyledMap>
+      }
 
       <ButtonBar>
-        <Button data-testid="chooseOnMap" onClick={edit} variant="primary">Kies op kaart</Button>
+        <Button data-testid="chooseOnMap" onClick={edit} variant="primary">
+          Kies op kaart
+        </Button>
       </ButtonBar>
+
     </Wrapper>
   );
 };
