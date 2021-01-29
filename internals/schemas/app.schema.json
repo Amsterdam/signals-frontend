@@ -73,6 +73,10 @@
           "description": "Feature switch to enable assigning an incident to an individual employee.",
           "type": "boolean"
         },
+        "enablePublicSignalMap": {
+          "description": "Feature switch to enable the publicly accessable page which shows a map with all incidents. This makes use of the 'MAP_SIGNALS_ENDPOINT' endpoint and needs to have the feature flag 'ENABLE_PUBLIC_GEO_SIGNAL_ENDPOINT' enabled in the backend.",
+          "type": "boolean"
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -105,6 +109,7 @@
       "required": [
         "assignSignalToDepartment",
         "assignSignalToEmployee",
+        "enablePublicSignalMap",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",

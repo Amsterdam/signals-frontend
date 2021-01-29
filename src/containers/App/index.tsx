@@ -11,6 +11,7 @@ import Footer from 'components/Footer';
 import LoadingIndicator from 'components/LoadingIndicator';
 import ThemeProvider from 'components/ThemeProvider';
 import SiteHeaderContainer from 'containers/SiteHeader';
+import configuration from 'shared/services/configuration/configuration';
 import IncidentContainer from 'signals/incident/containers/IncidentContainer';
 import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer';
 
@@ -102,7 +103,9 @@ export const AppContainer = () => {
                 <Route path="/manage" component={IncidentManagementModule} />
                 <Route path="/instellingen" component={SettingsModule} />
                 <Route path="/incident" component={IncidentContainer} />
-                <Route path="/kaart" component={IncidentOverviewContainer} />
+                {configuration.featureFlags.enablePublicSignalMap &&
+                  <Route path="/kaart" component={IncidentOverviewContainer} />
+                }
                 <Route path="/kto/:satisfactionIndication/:uuid" component={KtoContainer} />
                 <Route exact path="/categorie/:category/:subcategory" component={IncidentContainer} />
                 <Route component={NotFoundPage} />
