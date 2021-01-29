@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { Label as FieldLabel, themeSpacing } from '@amsterdam/asc-ui';
+import { Label, themeSpacing } from '@amsterdam/asc-ui';
 import useFormValidation from 'hooks/useFormValidation';
 
 import Checkbox from 'components/Checkbox';
@@ -15,7 +15,7 @@ const StyledForm = styled.form`
   margin-bottom: ${themeSpacing(15)};
 `;
 
-const Label = styled(FieldLabel)`
+const GroupLabel = styled(Label)`
   display: block;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   margin-bottom: ${themeSpacing(3)};
@@ -97,17 +97,17 @@ export const RoleForm = ({ role, permissions, onPatchRole, onSaveRole, readOnly 
           type="text"
         />
 
-        <Label label="Rechten" />
+        <GroupLabel label="Rechten" />
         {permissions.map(permission => (
           <div key={permission.id}>
-            <FieldLabel disabled={readOnly} htmlFor={`permission${permission.id}`} label={permission.name}>
+            <Label disabled={readOnly} htmlFor={`permission${permission.id}`} label={permission.name} noActiveState>
               <Checkbox
                 data-testid={`checkbox-permissions_${permission.id}`}
                 id={`permission${permission.id}`}
                 checked={rolePermissions.find(item => item.id === permission.id)}
                 onChange={handleChange(permission.id)}
               />
-            </FieldLabel>
+            </Label>
           </div>
         ))}
 

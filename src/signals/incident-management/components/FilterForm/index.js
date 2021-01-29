@@ -481,7 +481,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 Toegewezen aan
               </Label>
               <div>
-                <AscLabel htmlFor="filter_not_assigned" label="Niet toegewezen">
+                <AscLabel htmlFor="filter_not_assigned" label="Niet toegewezen" noActiveState>
                   <Checkbox
                     data-testid="filterNotAssigned"
                     checked={state.options.assigned_user_email === 'null'}

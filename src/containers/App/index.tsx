@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, lazy, Suspense } from 'react';
+import React, { Fragment, useEffect, lazy, Suspense, useMemo } from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,6 +59,7 @@ export const AppContainer = () => {
   const location = useLocationReferrer() as { referrer: string };
   const isFrontOffice = useIsFrontOffice();
   const headerIsTall = isFrontOffice && !isAuthenticated();
+  const contextValue = useMemo(() => ({ loading, sources }), [loading, sources]);
 
   useEffect(() => {
     const { referrer } = location;
@@ -90,7 +91,7 @@ export const AppContainer = () => {
 
   return (
     <ThemeProvider>
-      <AppContext.Provider value={{ loading, sources }}>
+      <AppContext.Provider value={contextValue}>
         <Fragment>
           <SiteHeaderContainer />
 
