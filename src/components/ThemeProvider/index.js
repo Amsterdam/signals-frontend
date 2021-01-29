@@ -5,8 +5,8 @@ import { ThemeProvider as ASCThemeProvider } from '@amsterdam/asc-ui';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
 
-export const getConfig = defaultConfig => {
-  const config = defaultConfig || {};
+export const getConfig = (defaultConfig = {}) => {
+  const config = { ...defaultConfig };
   if (!isAuthenticated()) {
     config.maxGridWidth = 960;
     config.layouts = {

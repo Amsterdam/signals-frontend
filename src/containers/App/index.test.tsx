@@ -1,9 +1,11 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import * as reactRedux from 'react-redux';
 
 import { withAppContext, history } from 'test/utils';
 import * as auth from 'shared/services/auth/auth';
+// eslint-disable-next-line jest/no-mocks-import
+import type configurationType from 'shared/services/configuration/__mocks__/configuration';
 import configuration from 'shared/services/configuration/configuration';
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions';
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions';
@@ -13,6 +15,7 @@ import App, { AppContainer } from '.';
 import { getSources } from './actions';
 import type { UnregisterCallback, History } from 'history';
 
+const mockConfiguration = configuration as typeof configurationType;
 const dispatch = jest.fn();
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
 jest.mock('shared/services/configuration/configuration');
@@ -29,7 +32,7 @@ jest.useFakeTimers();
 describe('<App />', () => {
   let listenSpy: jest.SpyInstance<UnregisterCallback, [listener: History.LocationListener<unknown>]>;
   let spyScrollTo: jest.Mock;
-  let props: JSX.IntrinsicAttributes & {resetIncidentAction: jest.Mock};
+  let props: JSX.IntrinsicAttributes & { resetIncidentAction: jest.Mock };
 
   afterAll(() => {
     jest.restoreAllMocks();
@@ -47,7 +50,7 @@ describe('<App />', () => {
 
   afterEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    configuration.__reset();
+    mockConfiguration.__reset();
     listenSpy.mockRestore();
   });
 
@@ -167,6 +170,27 @@ describe('<App />', () => {
       });
 
       expect(history.location.pathname).toEqual('/manage/incidents');
+    });
+
+    it('should not route to public map page', async () => {
+      render(withAppContext(<App />));
+
+      act(() => {
+        history.push('/kaart');
+      });
+
+      expect(await screen.findByText(/niet gevonden/i, { exact: false })).toBeInTheDocument();
+    });
+
+    it('should route to public map page with enablePublicSignalMap enabled', async () => {
+      configuration.featureFlags.enablePublicSignalMap = true;
+      render(withAppContext(<App />));
+
+      act(() => {
+        history.push('/kaart');
+      });
+
+      expect(await screen.findByTestId('overviewMap')).toBeInTheDocument();
     });
   });
 

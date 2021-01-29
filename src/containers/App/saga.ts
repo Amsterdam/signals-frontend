@@ -4,13 +4,7 @@ import { push } from 'connected-react-router/immutable';
 import { authCall } from 'shared/services/api/api';
 import configuration from 'shared/services/configuration/configuration';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
-import type endpointDefinitions from 'shared/services/configuration/endpoint-definitions';
-import {
-  SET_SEARCH_QUERY,
-  LOGOUT,
-  AUTHENTICATE_USER,
-  GET_SOURCES,
-} from 'containers/App/constants';
+import { SET_SEARCH_QUERY, LOGOUT, AUTHENTICATE_USER, GET_SOURCES } from 'containers/App/constants';
 
 import type { AuthenticateUserAction } from './actions';
 import {
@@ -28,7 +22,7 @@ import { logout, getOauthDomain } from '../../shared/services/auth/auth';
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 import type { User, DataResult, ApiError, UploadFile } from './types';
 
-const CONFIGURATION = configuration as typeof endpointDefinitions;
+const CONFIGURATION = configuration;
 
 export function* callLogout() {
   try {
@@ -78,8 +72,9 @@ export function* callAuthorize(action: AuthenticateUserAction) {
   }
 }
 
-export function* uploadFile(action: {payload: UploadFile}) {
+export function* uploadFile(action: { payload: UploadFile }) {
   const id = action.payload?.id ?? '';
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel = yield call(
     fileUploadChannel,
