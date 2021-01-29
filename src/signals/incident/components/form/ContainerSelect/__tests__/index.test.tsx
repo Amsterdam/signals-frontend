@@ -51,20 +51,13 @@ describe('signals/incident/components/form/ContainerSelect', () => {
     expect(screen.queryByTestId('containerSelectSelector')).toBeInTheDocument();
   });
 
-  it('should add container', () => {
-    render(withContainerSelectContext(<ContainerSelect {...props} />));
-    userEvent.click(screen.getByText(/kies op kaart/i));
-    userEvent.click(screen.getByText(/containers toevoegen/i));
-    expect(updateIncident).toHaveBeenCalled();
-  });
-
   it('should close the selector component', () => {
     render(withContainerSelectContext(<ContainerSelect {...props} />));
 
     userEvent.click(screen.getByText(/kies op kaart/i));
     expect(screen.queryByTestId('containerSelectSelector')).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId('selector-close'));
+    userEvent.click(screen.getByTestId('selectorClose'));
     expect(screen.queryByTestId('containerSelectSelector')).not.toBeInTheDocument();
   });
 
