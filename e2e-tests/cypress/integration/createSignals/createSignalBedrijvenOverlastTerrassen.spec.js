@@ -45,7 +45,6 @@ describe('Create signal "Bedrijven overlast terrassen" and check signal details'
       cy.contains('Volgende').click();
 
       createSignal.checkSummaryPage(fixturePath);
-      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');

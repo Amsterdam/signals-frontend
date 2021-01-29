@@ -103,20 +103,6 @@ describe('containers/App/saga', () => {
       testSaga(callLogout).next().call(logout).next().put(push('/login')).next().isDone();
     });
 
-    it('should grip success', () => {
-      jest.spyOn(global.localStorage, 'getItem').mockImplementationOnce(key => {
-        switch (key) {
-          case 'oauthDomain':
-            return 'grip';
-          default:
-            return '';
-        }
-      });
-
-      testSaga(callLogout).next();
-      expect(window.open).toHaveBeenCalledWith('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank');
-    });
-
     it('should dispatch error', async () => {
       const message = 'no remove';
       jest.spyOn(global.localStorage, 'removeItem').mockImplementationOnce(() => {
@@ -206,6 +192,7 @@ describe('containers/App/saga', () => {
 
   describe('uploadFile', () => {
     let payload: UploadFile;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let mockChannel: any;
     let gen: SagaGeneratorType;
 

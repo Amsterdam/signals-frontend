@@ -66,6 +66,10 @@ module.exports = {
         // 'semi': 'off'
         // 'semi-style': 'off',
         // 'space-before-function-paren': 'off',
+
+        '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/object-curly-spacing': ['error', 'always'],
+        '@typescript-eslint/sort-type-union-intersection-members': 'off',
       },
     },
   ],

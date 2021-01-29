@@ -5,12 +5,7 @@ import { authCall } from 'shared/services/api/api';
 import configuration from 'shared/services/configuration/configuration';
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 import type endpointDefinitions from 'shared/services/configuration/endpoint-definitions';
-import {
-  SET_SEARCH_QUERY,
-  LOGOUT,
-  AUTHENTICATE_USER,
-  GET_SOURCES,
-} from 'containers/App/constants';
+import { SET_SEARCH_QUERY, LOGOUT, AUTHENTICATE_USER, GET_SOURCES } from 'containers/App/constants';
 
 import type { AuthenticateUserAction } from './actions';
 import {
@@ -23,7 +18,7 @@ import {
   getSourcesFailed,
   getSourcesSuccess,
 } from './actions';
-import { logout, getOauthDomain } from '../../shared/services/auth/auth';
+import { logout } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 import type { User, DataResult, ApiError, UploadFile } from './types';
@@ -32,11 +27,6 @@ const CONFIGURATION = configuration as typeof endpointDefinitions;
 
 export function* callLogout() {
   try {
-    // This forces the remove of the grip cookies.
-    if (getOauthDomain() === 'grip') {
-      window.open('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank')?.close();
-    }
-
     yield call(logout);
     yield put(push('/login'));
   } catch (error: unknown) {
@@ -78,7 +68,7 @@ export function* callAuthorize(action: AuthenticateUserAction) {
   }
 }
 
-export function* uploadFile(action: {payload: UploadFile}) {
+export function* uploadFile(action: { payload: UploadFile }) {
   const id = action.payload?.id ?? '';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel = yield call(

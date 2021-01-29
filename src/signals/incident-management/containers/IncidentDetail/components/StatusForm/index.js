@@ -165,6 +165,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 disabled={state.check.disabled}
                 htmlFor="send_email"
                 label={constants.MELDING_CHECKBOX_DESCRIPTION}
+                noActiveState
               >
                 <Checkbox
                   checked={state.check.checked}

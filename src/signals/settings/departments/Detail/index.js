@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, Fragment } from 'react';
+import React, { useEffect, useCallback, Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -54,6 +54,13 @@ export const DepartmentDetailContainer = ({ categories, findByMain, subCategorie
     get(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`);
   }, [get, departmentId]);
 
+  const contextValue = useMemo(() => ({ categories, department: data, subCategories, findByMain }), [
+    categories,
+    data,
+    findByMain,
+    subCategories,
+  ]);
+
   return (
     <Fragment>
       <PageHeader title={title} BackLink={<BackLink to={routes.departments}>Terug naar overzicht</BackLink>} />
@@ -74,7 +81,7 @@ export const DepartmentDetailContainer = ({ categories, findByMain, subCategorie
           </Row>
 
           {categories && (
-            <DepartmentDetailContext.Provider value={{ categories, department: data, subCategories, findByMain }}>
+            <DepartmentDetailContext.Provider value={contextValue}>
               <CategoryLists onCancel={confirmedCancel} onSubmit={onSubmit} />
             </DepartmentDetailContext.Provider>
           )}

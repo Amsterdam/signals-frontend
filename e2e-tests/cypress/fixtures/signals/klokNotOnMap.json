@@ -66,7 +66,7 @@
     {
       "id": "extra_klok_niet_op_kaart",
       "label": "Staat niet op kaart",
-      "answer": {"label": "Ja", "value": true},
+      "answer": {"label": "op", "value": true},
       "category_url": ""
     },
     {

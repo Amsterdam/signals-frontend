@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, lazy, Suspense } from 'react';
+import React, { useEffect, useReducer, lazy, Suspense, useMemo } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -41,6 +41,7 @@ const SettingsModule = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const userCan = useSelector(makeSelectUserCan);
   const userCanAccess = useSelector(makeSelectUserCanAccess);
+  const contextValue = useMemo(() => ({ state, dispatch }), [state]);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -59,8 +60,9 @@ const SettingsModule = () => {
     return <Redirect to="/manage/incidents" />;
   }
 
+
   return (
-    <SettingsContext.Provider value={{ state, dispatch }}>
+    <SettingsContext.Provider value={contextValue}>
       <Suspense fallback={<LoadingIndicator />}>
         {userCanAccess('groups') && (
           <Switch location={location}>

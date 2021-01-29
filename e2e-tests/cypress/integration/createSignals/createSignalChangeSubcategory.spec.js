@@ -81,7 +81,6 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.contains('Volgende').click();
 
       createSignal.checkSummaryPage(fixturePath);
-      createSignal.checkQuestions(fixturePath);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
