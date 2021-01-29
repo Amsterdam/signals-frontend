@@ -114,7 +114,7 @@ src
       __tests__
         SelectInput.test.ts
       SelectInput.tsx
-      index.tsx
+      index.ts
       styles.ts
     ...  
   hooks
