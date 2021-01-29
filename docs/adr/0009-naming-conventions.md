@@ -51,7 +51,7 @@ src
       __tests__
         Login.test.tsx
       Login.tsx
-      index.tsx
+      index.ts
     manage
       default-texts
         __tests__
