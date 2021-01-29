@@ -1,32 +1,25 @@
 import React from 'react';
 import { MapPanelContent } from '@amsterdam/arm-core';
-import styled from 'styled-components';
 
-import IconList from 'components/IconList/IconList';
-import type { IconListItem } from 'components/IconList/IconList';
-
-const StyledMapPanelContent = styled(MapPanelContent)`
-  width: initial; // Prevents content from overlapping the panel shadow
-`;
+import IconList, { IconListItem } from 'components/IconList/IconList';
 
 export interface LegendPanelProps {
   variant: 'panel' | 'drawer';
   title: string;
-  items?: IconListItem[];
+  items: { id: string; iconUrl: string; label: string }[];
   onClose: () => void;
 }
 
-const LegendPanel: React.FC<LegendPanelProps> = ({ items = [], title, variant, onClose }) => (
-  <StyledMapPanelContent
-    animate
-    data-testid="legend-panel"
-    stackOrder={1}
-    onClose={onClose}
-    variant={variant}
-    title={title}
-  >
-    <IconList id="legend-icons" items={items} />
-  </StyledMapPanelContent>
+const LegendPanel: React.FC<LegendPanelProps> = ({ items, title, variant, onClose }) => (
+  <MapPanelContent animate data-testid="legendPanel" stackOrder={1} onClose={onClose} variant={variant} title={title}>
+    <IconList data-testid="legendPanelList">
+      {items.map(item => (
+        <IconListItem id={`legendPanelListItem-${item.id}`} key={item.id} iconUrl={item.iconUrl}>
+          {item.label}
+        </IconListItem>
+      ))}
+    </IconList>
+  </MapPanelContent>
 );
 
 export default LegendPanel;

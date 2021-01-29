@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
+import type { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import type { MapOptions } from 'leaflet';
@@ -7,6 +8,7 @@ import { Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { MapPanel, MapPanelContent, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core';
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
+import { Close } from '@amsterdam/asc-assets';
 import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext';
 
 import Button from 'components/Button';
@@ -14,13 +16,11 @@ import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
-import type { ClickEventHandler, FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
 import LegendToggleButton from './components/LegendToggleButton';
 import LegendPanel from './components/LegendPanel';
 import ViewerContainer from './components/ViewerContainer';
 import ContainerLayer from './components/WfsLayer/components/ContainerLayer';
 import WfsLayer from './components/WfsLayer';
-import { Close } from '@amsterdam/asc-assets';
 import ContainerList from '../ContainerList';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
@@ -34,18 +34,7 @@ const MAP_PANEL_SNAP_POSITIONS = {
   [SnapPoint.Full]: '100%',
 };
 
-const ButtonBar = styled.div`
-  width: 100%;
-  margin: 0;
-  z-index: 401;
-`;
-
-const StyledButton = styled(Button)`
-  box-sizing: border-box;
-`;
-
 const MapButton = styled(Button)`
-  box-sizing: border-box;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 `;
 
@@ -55,6 +44,7 @@ const Wrapper = styled.div`
   left: 0;
   height: 100%;
   width: 100%;
+  box-sizing: border-box; // Override box-sizing: content-box set by Leaflet
 `;
 
 const StyledMap = styled(Map)`
@@ -81,20 +71,23 @@ const StyledMap = styled(Map)`
 `;
 
 const StyledContainerList = styled(ContainerList)`
-  margin-bottom: ${themeSpacing(8)};
+  margin: ${themeSpacing(2)} 0 ${themeSpacing(4)} 0;
 `;
 
-// Temporary selction. Will be removes when selectionfunctionality will be implemented.
-const SELECTED_ITEMS = [
-  { id: 'PL734', type: 'Plastic' },
-  { id: 'GLA00137', type: 'Glas' },
-  { id: 'BR0234', type: 'Brood' },
-  { id: 'PP0234', type: 'Papier' },
-  { id: 'TEX0234', type: 'Textiel' },
-  { id: 'GFT0234', type: 'GFT' },
-  { id: 'RES0234', type: 'Rest' },
-  { id: 'NOP0234', type: 'not-on-map' },
-];
+const StyledParagraph = styled(Paragraph)`
+  margin-bottom: 0;
+  font-size: 16px;
+  opacity: 0.6;
+`;
+
+const EmptySelectionWrapper = styled.div`
+  background-color: ${themeColor('tint', 'level2')};
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: ${themeSpacing(4)} 0;
+`;
 
 const Selector = () => {
   // to be replaced with MOUNT_NODE
@@ -102,7 +95,7 @@ const Selector = () => {
   const appHtmlElement = document.getElementById('app')!;
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
   const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
-  const { Panel, panelVariant } = useMemo<{ Panel: React.FC; panelVariant: Variant }>(
+  const { Panel, panelVariant } = useMemo<{ Panel: FunctionComponent; panelVariant: Variant }>(
     () =>
       showDesktopVariant
         ? { Panel: MapPanel, panelVariant: 'panel' }
@@ -137,33 +130,10 @@ const Selector = () => {
     setShowSelectionPanel(true);
   };
 
-  const addContainer = useCallback<ClickEventHandler>(
-    event => {
-      event.preventDefault();
-
-      // We use here a fixed list for now
-      const selectedItems = SELECTED_ITEMS.map(({ id, type }) => {
-        const { description }: Partial<FeatureType> =
-          meta.featureTypes.find(({ typeValue }) => typeValue === type) ?? {};
-
-        return {
-          id,
-          type,
-          description,
-        };
-      });
-
-      update(selectedItems);
-    },
-    [update, meta.featureTypes]
-  );
-
-  const removeContainer = useCallback<ClickEventHandler>(
-    event => {
-      event.preventDefault();
-      update([]);
-    },
-    [update]
+  const removeContainer = useCallback<(itemId: string) => void>(
+    itemId => {
+      update(selection.filter(({ id }) => id !== itemId));
+    }, [update, selection]
   );
 
   const mapWrapper = (
@@ -178,32 +148,27 @@ const Selector = () => {
           <ViewerContainer
             topLeft={<LegendToggleButton onClick={toggleLegend} isRenderingLegendPanel={showLegendPanel} />}
             topRight={
-              <MapButton data-testid="selector-close" variant="blank" onClick={close} size={44} icon={<Close />} />
+              <MapButton data-testid="selectorClose" variant="blank" onClick={close} size={44} icon={<Close />} />
             }
           />
-
-          <Panel data-testid={`panel-${showDesktopVariant ? 'desktop' : 'mobile'}`}>
+          <Panel data-testid={`panel${showDesktopVariant ? 'Desktop' : 'Mobile'}`}>
             {showSelectionPanel && (
-              <MapPanelContent variant={panelVariant} title="Kies de container" data-testid="selection-panel">
+              <MapPanelContent variant={panelVariant} title="Kies de container" data-testid="selectionPanel">
                 <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
-
-                <ButtonBar>
-                  <StyledButton onClick={addContainer}>Containers toevoegen</StyledButton>
-
-                  <StyledButton onClick={removeContainer}>Containers verwijderen</StyledButton>
-
-                  {selection.length ? (
-                    <StyledContainerList selection={selection} featureTypes={meta.featureTypes} />
-                  ) : (
-                    <Paragraph as="h6">Maak een keuze op de kaart</Paragraph>
-                  )}
-                </ButtonBar>
-
-                <ButtonBar>
-                  <StyledButton onClick={close} variant="primary">
-                    Meld deze container{selection.length > 1 ? 's' : ''}
-                  </StyledButton>
-                </ButtonBar>
+                {selection.length ? (
+                  <StyledContainerList
+                    selection={selection}
+                    onRemove={removeContainer}
+                    featureTypes={meta.featureTypes}
+                  />
+                ) : (
+                  <EmptySelectionWrapper>
+                    <StyledParagraph>Maak een keuze op de kaart</StyledParagraph>
+                  </EmptySelectionWrapper>
+                )}
+                <Button onClick={close} variant="primary">
+                  Meld deze container{selection.length > 1 ? 's' : ''}
+                </Button>
               </MapPanelContent>
             )}
 
