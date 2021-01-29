@@ -29,6 +29,7 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }));
 
+jest.mock('shared/services/configuration/configuration');
 jest.mock('hooks/useEventEmitter');
 
 const emit = jest.fn();
@@ -90,6 +91,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       [JSON.stringify(attachments), { status: 200 }],
       [JSON.stringify(childIncidentFixture), { status: 200 }]
     );
+  });
+
+  afterEach(() => {
+    configuration.__reset();
   });
 
   it('should retrieve incident data', async () => {
