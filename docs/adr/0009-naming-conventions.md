@@ -54,20 +54,19 @@ src
       index.tsx
     manage
       default-texts
-        DefaultTexts
+        __tests__
+        TextsForm
           __tests__
-          TextsForm
-            __tests__
-              TextsForm.test.tsx
-            TextsForm.tsx
-            index.tsx
-          SelectForm
-            __tests__
-              SelectForm.test.tsx
-            SelectForm.tsx
-            index.tsx
-          DefaultTexts.tsx
-          index.tsx
+            TextsForm.test.tsx
+          TextsForm.tsx
+          index.ts
+        SelectForm
+          __tests__
+            SelectForm.test.tsx
+          SelectForm.tsx
+          index.ts
+        DefaultTexts.tsx
+        index.ts
       incidents
         incident
           split
