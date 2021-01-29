@@ -21,7 +21,7 @@ Date: 2020-09-24
 - Component folders will be written in `PascalCase`, non component folders will be written in `kebab-case`. This includes 'pages', 'services', etc.
 - The nested components will prevent as much as possible prefixing with the parent component name. 
   A child component of `IncidentSplit` will be `IncidentSplit/ChangeValue` and **not** `IncidentSplitChangeValue`
-- Component that have more than one file (containers) will keep the convention that the additional files (like context, reducer, actions, constants, styles ...) will **NOT be prefixed** with the component name:
+- Components that have more than one file (containers) will keep the convention that the additional files (like context, reducer, actions, constants, styles, ...) will **not be prefixed** with the component name:
 
 ### Example of a `container` component
 ```
