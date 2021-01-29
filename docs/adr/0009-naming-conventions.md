@@ -108,7 +108,7 @@ src
       __tests__
         RadioInput.test.ts
       RadioInput.tsx
-      index.tsx
+      index.ts
       styles.ts
     SelectInput
       __tests__
