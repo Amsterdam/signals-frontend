@@ -9,7 +9,7 @@ import type { FeatureCollection } from 'geojson';
 import { Map } from '@amsterdam/react-maps';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import type { DataLayerProps } from '../../../../../types';
+import type { DataLayerProps } from '../../../types';
 import WfsDataContext, { NO_DATA } from '../context';
 import WfsLayer, { isLayerVisible } from '../WfsLayer';
 

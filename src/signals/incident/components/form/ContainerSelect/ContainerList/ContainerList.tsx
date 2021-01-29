@@ -6,7 +6,7 @@ import { Close } from '@amsterdam/asc-assets';
 import IconList, { IconListItem } from 'components/IconList/IconList';
 import Button from 'components/Button';
 
-import type { FeatureType, Item } from '../../types';
+import type { FeatureType, Item } from '../types';
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -51,11 +51,11 @@ const ContainerList: FunctionComponent<ContainerListProps> = ({
 
   return (
     <IconList data-testid="containerList" className={className}>
-      {items.map(item => (
+      {items.map(item =>
         <IconListItem key={item.id} id={`containerListItem-${item.id}`} iconUrl={item.iconUrl}>
           <ItemWrapper>
             {item.label}
-            {onRemove && (
+            {onRemove &&
               <StyledButton
                 data-testid={`containerListRemove-${item.id}`}
                 aria-label="Verwijder"
@@ -64,10 +64,10 @@ const ContainerList: FunctionComponent<ContainerListProps> = ({
                   onRemove(item.id);
                 }}
               />
-            )}
+            }
           </ItemWrapper>
         </IconListItem>
-      ))}
+      )}
     </IconList>
   );
 };

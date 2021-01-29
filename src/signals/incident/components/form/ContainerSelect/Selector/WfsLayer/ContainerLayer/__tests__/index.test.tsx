@@ -11,7 +11,7 @@ import { Map } from '@amsterdam/react-maps';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import type { FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
-import { WfsDataProvider } from '../../../context';
+import { WfsDataProvider } from '../../context';
 import ContainerLayer from '..';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

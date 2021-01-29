@@ -10,9 +10,9 @@ import ContainerSelect from '..';
 import { initialValue } from '../context';
 
 // prevent fetch requests that we don't need to verify
-jest.mock('../components/Selector/components/WfsLayer', () => () => <span data-testid="wfsLayer" />);
+jest.mock('../Selector/WfsLayer', () => () => <span data-testid="wfsLayer" />);
 
-describe('signals/incident/components/form/ContainerSelect', () => {
+describe('ContainerSelect', () => {
   let props: ContainerSelectProps;
   const updateIncident = jest.fn();
   const location = incidentJson.location as Location;

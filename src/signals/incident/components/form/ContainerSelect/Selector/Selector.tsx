@@ -16,11 +16,11 @@ import Map from 'components/Map';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
-import LegendToggleButton from './components/LegendToggleButton';
-import LegendPanel from '.';
-import ViewerContainer from './components/ViewerContainer';
-import ContainerLayer from './components/WfsLayer/components/ContainerLayer';
-import WfsLayer from './components/WfsLayer';
+import LegendToggleButton from './LegendToggleButton';
+import LegendPanel from './LegendPanel';
+import ViewerContainer from './ViewerContainer';
+import ContainerLayer from './WfsLayer/ContainerLayer';
+import WfsLayer from './WfsLayer';
 import ContainerList from '../ContainerList/ContainerList';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {

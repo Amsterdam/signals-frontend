@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ContainerList from '../../../form/ContainerSelect/components/ContainerList';
-import type { FeatureType } from '../../../form/ContainerSelect/types';
+import ContainerList from 'signals/incident/components/form/ContainerSelect/ContainerList';
+import type { FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
 
 import ContainerListPreview from './ContainerListPreview';
 import type { ContainerListPreviewProps } from './ContainerListPreview';
 
-jest.mock('signals/incident/components/form/ContainerSelect/components/ContainerList', () =>
+jest.mock('signals/incident/components/form/ContainerSelect/ContainerList', () =>
   jest.fn().mockImplementation(() => null)
 );
 
@@ -17,6 +17,7 @@ describe('ContainerListPreview', () => {
       featureTypes: [
         {
           typeField: 'type',
+          typeValue: 'type',
           icon: {
             iconSvg: 'svg',
           },
@@ -25,7 +26,6 @@ describe('ContainerListPreview', () => {
     };
 
     render(<ContainerListPreview value={props.value} featureTypes={props.featureTypes} />);
-
     expect(ContainerList).toHaveBeenCalledWith({ selection: props.value, featureTypes: props.featureTypes }, {});
   });
 });

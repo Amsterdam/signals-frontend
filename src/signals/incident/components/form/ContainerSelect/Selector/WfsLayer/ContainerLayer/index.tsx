@@ -4,7 +4,7 @@ import L from 'leaflet';
 import MarkerCluster from 'components/MarkerCluster';
 import type { GeoJSON as GeoJSONLayer, LatLng } from 'leaflet';
 import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson';
-import WfsDataContext from '../../context';
+import WfsDataContext from '../context';
 import { featureTolocation } from 'shared/services/map-location';
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
 import type { DataLayerProps, Item, Feature } from 'signals/incident/components/form/ContainerSelect/types';

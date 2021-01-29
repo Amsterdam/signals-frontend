@@ -1,6 +1,6 @@
 import React from 'react';
 import type { FeatureType, Item } from 'signals/incident/components/form/ContainerSelect/types';
-import ContainerList from '../../../form/ContainerSelect/components/ContainerList/ContainerList';
+import ContainerList from 'signals/incident/components/form/ContainerSelect/ContainerList';
 
 export interface ContainerListPreviewProps {
   value: Item[];
