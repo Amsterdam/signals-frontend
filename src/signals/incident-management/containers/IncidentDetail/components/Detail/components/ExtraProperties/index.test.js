@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import ExtraProperties from '.';
 
@@ -70,7 +70,8 @@ describe('<ExtraProperties />', () => {
     expect(queryAllByTestId('extra-properties-definition')[1]).toHaveTextContent(
       /^Wat is er aan de hand met de lamp\(en\)\?$/
     );
-    expect(queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/^Brandt niet, Brandt overdag$/);
+    expect(queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/^Brandt niet/);
+    expect(queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/Brandt overdag$/);
     expect(queryAllByTestId('extra-properties-definition')[2]).toHaveTextContent(
       /^Hebt u een nummer van \(één van\) de lamp\(en\)\?$/
     );
@@ -80,7 +81,8 @@ describe('<ExtraProperties />', () => {
     expect(queryAllByTestId('extra-properties-definition')[4]).toHaveTextContent(/^Heeft u het gezien\?$/);
     expect(queryAllByTestId('extra-properties-value')[4]).toHaveTextContent(/^Ja, het gebeurt vaker$/);
     expect(queryAllByTestId('extra-properties-definition')[5]).toHaveTextContent(/^Welke lampen\?$/);
-    expect(queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/^126543, 87654$/);
+    expect(queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/^126543/);
+    expect(queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/87654$/);
   });
 
   it('should render correctly without items', () => {
@@ -88,6 +90,48 @@ describe('<ExtraProperties />', () => {
 
     expect(queryAllByTestId('extra-properties-definition')).toHaveLength(0);
     expect(queryAllByTestId('extra-properties-value')).toHaveLength(0);
+  });
+
+  it('should handle container data format', () => {
+    const items = [{
+      id: 'extra_container',
+      label: 'Container(s)',
+      answer: [
+        {
+          id: 'PAA00069',
+          type: 'Papier',
+          description: 'Papier container',
+        },
+        {
+          id: 'GLA00121',
+          type: 'Glas',
+          description: 'Glas container',
+        },
+        {
+          id: 'PLA00004',
+          type: 'Plastic',
+          description: 'Plastic container',
+        },
+        {
+          id: 'GLA00106',
+          type: 'Glas',
+          description: 'Glas container',
+        },
+        {
+          id: 'PAA00114',
+          type: 'Papier',
+          description: 'Papier container',
+        },
+      ],
+      category_url: '/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
+    }];
+    const { queryAllByTestId } = render(<ExtraProperties items={items} />);
+
+    expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(Object.values(items).length);
+    expect(screen.queryAllByTestId('extra-properties-value')).toHaveLength(Object.values(items).length);
+
+    expect(screen.getByTestId('extra-properties-definition')).toHaveTextContent(/Container\(s\)/);
+    expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/Papier container - PAA00069/);
   });
 
   it('should be able to deal with legacy format', () => {

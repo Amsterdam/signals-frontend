@@ -6,7 +6,12 @@ import { extraPropertiesType } from 'shared/types';
 
 const getValue = answer => {
   if (Array.isArray(answer)) {
-    return answer.map(item => (isObject(item) ? item.label : item)).join(', ');
+    return answer.map((item, index) => {
+      const id = isObject(item) ? item.label || item.id : item;
+      const label = isObject(item) ? item.label || `${item.description} - ${item.id}` : item;
+
+      return <div key={id}>{label}</div>;
+    });
   }
 
   if (isObject(answer)) {
