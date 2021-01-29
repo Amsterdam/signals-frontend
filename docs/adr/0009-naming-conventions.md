@@ -91,7 +91,7 @@ src
         __tests__
         Form.tsx
       Kto.tsx
-      index.tsx
+      index.ts
     settings
       users
       ...
