@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { withAppContext } from 'test/utils';
 
-import LegendPanel from '..';
-import type { LegendPanelProps } from '..';
+import LegendPanel from '../../..';
+import type { LegendPanelProps } from '../LegendPanel';
 
 describe('LegendPanel', () => {
   const props: LegendPanelProps = {

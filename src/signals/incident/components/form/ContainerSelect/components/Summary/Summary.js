@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link, themeSpacing } from '@amsterdam/asc-ui';
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
-import ContainerList from '../ContainerList';
+import ContainerList from '../ContainerList/ContainerList';
 
 const Wrapper = styled.div`
   position: relative;

@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import { ContainerSelectProvider } from 'signals/incident/components/form/ContainerSelect/context';
-import Intro from '..';
+import Intro from '../Intro';
 
 const contextValue = { selection: [], location: null, update: jest.fn(), edit: jest.fn(), close: jest.fn() };
 

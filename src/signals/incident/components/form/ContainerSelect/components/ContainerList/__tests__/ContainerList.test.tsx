@@ -4,9 +4,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval';
-
-import type { ContainerListProps } from '..';
-import ContainerList from '..';
+import type { ContainerListProps } from '../ContainerList';
+import ContainerList from '../ContainerList';
 
 describe('ContainerList', () => {
   const props: ContainerListProps = {

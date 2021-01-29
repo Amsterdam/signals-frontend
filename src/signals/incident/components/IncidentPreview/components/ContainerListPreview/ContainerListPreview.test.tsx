@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-
 import ContainerList from '../../../form/ContainerSelect/components/ContainerList';
 import type { FeatureType } from '../../../form/ContainerSelect/types';
 

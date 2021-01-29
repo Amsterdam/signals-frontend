@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import incidentJson from 'utils/__tests__/fixtures/incident.json';
 import { withAppContext } from 'test/utils';
-import type { ContainerSelectProps } from '..';
-import ContainerSelect from '..';
-import { initialValue } from '../context';
 import { withContainerSelectContext } from './context.test';
 import type { Location } from 'types/incident';
-import userEvent from '@testing-library/user-event';
+import type { ContainerSelectProps } from '../ContainerSelect';
+import ContainerSelect from '..';
+import { initialValue } from '../context';
 
 // prevent fetch requests that we don't need to verify
 jest.mock('../components/Selector/components/WfsLayer', () => () => <span data-testid="wfsLayer" />);

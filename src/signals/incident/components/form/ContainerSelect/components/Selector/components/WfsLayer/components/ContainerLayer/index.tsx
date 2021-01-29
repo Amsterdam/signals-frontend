@@ -67,7 +67,8 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
           /* istanbul ignore next */ () => {
             const { description, typeValue, idField } = featureType;
             const item: Item = {
-              id: feature.properties[idField] as string,
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              id: feature.properties[idField]!,
               type: typeValue,
               description,
             };
