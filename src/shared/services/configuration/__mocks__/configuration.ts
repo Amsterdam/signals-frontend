@@ -9,10 +9,12 @@ const reset = () => {
   const windowConfig =
     (window as Window & typeof globalThis & { CONFIG?: Record<string, unknown> }).CONFIG ??
     ({} as Record<string, unknown>);
-  const newConfig: Record<string, unknown> = {
-    ...windowConfig,
-    ...(prefixEndpoints(windowConfig.apiBaseUrl as string) as typeof endpointType),
-  };
+  const newConfig: Record<string, unknown> = JSON.parse(
+    JSON.stringify({
+      ...windowConfig,
+      ...(prefixEndpoints(windowConfig.apiBaseUrl as string) as typeof endpointType),
+    })
+  ) as Record<string, unknown>;
   Object.keys(config).forEach(key => {
     // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete config[key];

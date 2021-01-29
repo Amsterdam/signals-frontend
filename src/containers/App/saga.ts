@@ -22,8 +22,6 @@ import { logout } from '../../shared/services/auth/auth';
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 import type { User, DataResult, ApiError, UploadFile } from './types';
 
-const CONFIGURATION = configuration;
-
 export function* callLogout() {
   try {
     yield call(logout);
@@ -45,7 +43,7 @@ export function* callAuthorize(action: AuthenticateUserAction) {
     const accessToken = action.payload?.accessToken;
 
     if (accessToken) {
-      const user: unknown = yield call(authCall, CONFIGURATION.AUTH_ME_ENDPOINT, null, accessToken);
+      const user: unknown = yield call(authCall, configuration.AUTH_ME_ENDPOINT, null, accessToken);
 
       yield put(authorizeUser(user as User));
     }
@@ -73,7 +71,7 @@ export function* uploadFile(action: { payload: UploadFile }) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel = yield call(
     fileUploadChannel,
-    `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${id}/attachments/`,
+    `${configuration.INCIDENT_PUBLIC_ENDPOINT}${id}/attachments/`,
     action.payload?.file,
     id
   );
@@ -110,7 +108,7 @@ export function* callSearchIncidents() {
 export function* fetchSources() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result = yield call(authCall, CONFIGURATION.SOURCES_ENDPOINT);
+    const result = yield call(authCall, configuration.SOURCES_ENDPOINT);
 
     yield put(getSourcesSuccess((result as DataResult<string>).results));
   } catch (error: unknown) {
