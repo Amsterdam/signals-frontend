@@ -1,9 +1,10 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { ContainerSelectProvider } from 'signals/incident/components/form/ContainerSelect/context';
+import type { LatLngExpression } from 'leaflet';
 import { withAppContext } from 'test/utils';
 
-import Summary from '..';
+import Summary from '../Summary';
 
 const contextValue = {
   selection: [
@@ -14,6 +15,7 @@ const contextValue = {
     },
   ],
   meta: {
+    endpoint: '',
     featureTypes: [
       {
         label: 'Plastic',
@@ -27,12 +29,13 @@ const contextValue = {
       },
     ],
   },
+  location: [1, 1] as LatLngExpression,
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
 };
 
-export const withContext = (Component, context = contextValue) =>
+export const withContext = (Component: JSX.Element, context = contextValue) =>
   withAppContext(<ContainerSelectProvider value={context}>{Component}</ContainerSelectProvider>);
 
 describe('signals/incident/components/form/ContainerSelect/Summary', () => {
@@ -43,16 +46,16 @@ describe('signals/incident/components/form/ContainerSelect/Summary', () => {
   it('should render ', () => {
     render(withContext(<Summary />));
 
-    expect(screen.queryByTestId('containerSelectSummary')).toBeInTheDocument();
-    expect(screen.queryByTestId('containerList')).toBeInTheDocument();
-    expect(screen.queryByText(/wijzigen/i)).toBeInTheDocument();
+    expect(screen.getByTestId('containerSelectSummary')).toBeInTheDocument();
+    expect(screen.getByTestId('containerList')).toBeInTheDocument();
+    expect(screen.getByText(/wijzigen/i)).toBeInTheDocument();
   });
 
   it('should call edit', () => {
     render(withContext(<Summary />));
     expect(contextValue.edit).not.toHaveBeenCalled();
 
-    const element = screen.queryByText(/wijzigen/i);
+    const element = screen.getByText(/wijzigen/i);
     fireEvent.click(element);
     expect(contextValue.edit).toHaveBeenCalled();
   });
