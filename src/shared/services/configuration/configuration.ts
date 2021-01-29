@@ -29,17 +29,3 @@ const deepFreeze = (object: Record<string, unknown>) => {
 };
 
 export default deepFreeze(applicationConfig) as typeof configurationType & typeof endpointType;
-
-/*
-const configProxy = new Proxy(applicationConfig, {
-  get: (target, name, receiver) => Reflect.has(target, name) ? Reflect.get(target, name, receiver) : undefined,
-
-  deleteProperty: () => {
-    throw new Error('Props cannot be deleted');
-  },
-});
-
-Object.preventExtensions(configProxy);
-
-export default configProxy as typeof configurationType;
-*/
