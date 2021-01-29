@@ -70,7 +70,7 @@ src
       incidents
         incident
           split
-            IncidentSplit
+            Split.tsx
             ...
           Incident.tsx
         Incidents
