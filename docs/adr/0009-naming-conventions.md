@@ -76,14 +76,13 @@ src
         Incidents
         ...
     report
-      Incident
-        __tests__
-        IncidentForm
-        IncidentNavigation
-        IncidentPreview
-        IncidentWizard
-        Incident.tsx
-        index.tsx
+      __tests__
+      Form
+      Navigation
+      Preview
+      Wizard
+      Report.tsx
+      index.ts
     kto
       __tests__
         Kto.tests.tsx
