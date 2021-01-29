@@ -14,7 +14,7 @@ Date: 2020-09-24
 - The aim is to create consitency at all levels in the application
 - A `src/pages` folder will hold 'root' components and reflect the navigation structure (menu, routes) of the app
 - Generic/shared components, hooks, interfaces, services, in their respective folders in `src`.
-- Tests will be placed in a __tests__ folder at te same level as the the 'root' component
+- Tests will be placed in a __tests__ folder at the same level as the file under test.
 
 - Components needed only by one 'root' component go into that root component's folder in a separate folder with the name of the component, no extra nesting.
 - Components needed by more than one 'root' component go into `src/components` 
