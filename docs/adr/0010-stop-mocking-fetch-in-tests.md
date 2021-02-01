@@ -29,7 +29,6 @@ The mocking will be done as much as possible by using the the `msw` package.
 - Start small, replace the `jest-fetch-mock` only in the changed files.
 
 ## Consequences
-
 - This change will increase the readability and simplify the unittests.
 - Both `jest-fetch-mock` and `msw` will coexist.
 - The default mocking library will be `msw`.
