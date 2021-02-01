@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../Header';
-import ContainerSelect from '../ContainerSelect';
+import ContainerSelect from '../ContainerSelect/ContainerSelect';
 
 const ContainerSelectRenderer = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
   meta?.isVisible && (
