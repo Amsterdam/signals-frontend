@@ -11,7 +11,6 @@ export const INPUT_DELAY = 350;
 
 const Wrapper = styled.div`
   position: relative;
-  z-index: 1;
 `;
 
 const StyledInput = styled(Input)`
@@ -26,6 +25,7 @@ const AbsoluteList = styled(SuggestList)`
   position: absolute;
   width: 100%;
   background-color: white;
+  z-index: 1;
 `;
 
 /**
