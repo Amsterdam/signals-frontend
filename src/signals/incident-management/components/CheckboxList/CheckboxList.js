@@ -287,7 +287,7 @@ const CheckboxList = ({
 
         return (
           <Wrapper disabled={defaultOption.disabled} key={optionId}>
-            <Label htmlFor={optionId} label={label} disabled={defaultOption.disabled}>
+            <Label htmlFor={optionId} label={label} disabled={defaultOption.disabled} noActiveState>
               <Checkbox
                 checked={isChecked(groupId) || isChecked(uid)}
                 data-testid={`checkbox-${optionId}`}

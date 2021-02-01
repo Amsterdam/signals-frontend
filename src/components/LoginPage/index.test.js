@@ -22,13 +22,12 @@ describe('components/LoginPage', () => {
     expect(screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')).toBeInTheDocument();
     expect(screen.getByText('Inloggen')).toBeInTheDocument();
     expect(screen.getByText('Inloggen ADW')).toBeInTheDocument();
-    expect(screen.getByText('Inloggen Keycloak')).toBeInTheDocument();
   });
 
   it('should render correctly without Keycloak', () => {
     render(withAppContext(<LoginPage />));
 
-    expect(screen.queryByText('Inloggen Keycloak')).not.toBeInTheDocument();
+    expect(screen.queryByText('Inloggen ADW')).not.toBeInTheDocument();
   });
 
   it('should login on datapunt when Inloggen button is clicked', () => {
@@ -43,23 +42,11 @@ describe('components/LoginPage', () => {
     expect(loginSpy).toHaveBeenCalledWith('datapunt');
   });
 
-  it('should login on datapunt when Inloggen ADW button is clicked', () => {
-    const loginSpy = jest.spyOn(auth, 'login');
-    render(withAppContext(<LoginPage />));
-    const button = screen.getByText('Inloggen ADW').parentNode;
-
-    expect(button.getAttribute('type')).toEqual('button');
-
-    fireEvent.click(button);
-
-    expect(loginSpy).toHaveBeenCalledWith('grip');
-  });
-
-  it('should login on keycloak when Inloggen Keycloak button is clicked', () => {
+  it('should login on keycloak when Inloggen ADW button is clicked', () => {
     configuration.keycloak = {};
     const loginSpy = jest.spyOn(auth, 'login');
     render(withAppContext(<LoginPage />));
-    const button = screen.getByText('Inloggen Keycloak').parentNode;
+    const button = screen.getByText('Inloggen ADW').parentNode;
 
     expect(button.getAttribute('type')).toEqual('button');
 

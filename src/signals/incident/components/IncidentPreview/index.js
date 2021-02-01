@@ -45,7 +45,7 @@ const Header = styled.header`
 const LinkContainer = styled.div`
   padding-top: ${themeSpacing(5)};
 
-  @media screen and (${breakpoint('min-width', 'laptop')}) {
+  @media screen and ${breakpoint('min-width', 'laptopM')} {
     padding-top: 0;
 
     a {

@@ -5,6 +5,7 @@ import { themeColor, themeSpacing, Heading, styles } from '@amsterdam/asc-ui';
 
 import BackLink from 'components/BackLink';
 import Button from 'components/Button';
+import configuration from 'shared/services/configuration/configuration';
 import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
 
 import DownloadButton from './components/DownloadButton';
@@ -161,7 +162,7 @@ const DetailHeader = () => {
         <DownloadButton
           label="PDF"
           url={downloadLink}
-          filename={`SIA melding ${incident.id}.pdf`}
+          filename={`${configuration.language.shortTitle}-${incident.id}.pdf`}
           data-testid="detail-header-button-download"
         />
       </ButtonContainer>

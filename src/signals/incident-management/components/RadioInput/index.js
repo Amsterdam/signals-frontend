@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { RadioGroup, Label as AscLabel, themeSpacing } from '@amsterdam/asc-ui';
+import { RadioGroup, Label, themeSpacing } from '@amsterdam/asc-ui';
 
 import InfoText from 'components/InfoText';
 import Radio from 'components/RadioButton';
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(6)};
 `;
 
-const StyledLabel = styled(AscLabel)`
+const StyledLabel = styled(Label)`
   align-self: baseline;
 
   * {
@@ -32,7 +32,7 @@ const RadioInput = ({ name, display, values }) => {
     return (
       <Wrapper>
         <div className="mode_input text rij_verplicht">
-          {display && <AscLabel htmlFor={`form${name}`} label={<strong>{display}</strong>} />}
+          {display && <Label htmlFor={`form${name}`} label={<strong>{display}</strong>} />}
 
           <RadioGroup name={name}>
             {values?.map(({ key, value }) => (

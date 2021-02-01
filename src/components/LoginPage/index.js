@@ -39,19 +39,9 @@ const LoginPage = () => (
               }}
               type="button"
             >
-              <span className="value">Inloggen Keycloak</span>
+              <span className="value">Inloggen ADW</span>
             </Button>
           )}
-
-          <Button
-            variant="secondary"
-            onClick={() => {
-              login('grip');
-            }}
-            type="button"
-          >
-            <span className="value">Inloggen ADW</span>
-          </Button>
         </ButtonBar>
       </Notification>
     </Column>

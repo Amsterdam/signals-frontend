@@ -379,6 +379,7 @@ describe('src/components/AutoSuggest', () => {
         withAppContext(
           <Fragment>
             <AutoSuggest {...props} />
+
             <input type="text" name="foo" />
           </Fragment>
         )
@@ -415,6 +416,7 @@ describe('src/components/AutoSuggest', () => {
         withAppContext(
           <form onSubmit={mockedOnSubmit}>
             <AutoSuggest {...props} />
+
             <input type="text" name="foo" />
           </form>
         )

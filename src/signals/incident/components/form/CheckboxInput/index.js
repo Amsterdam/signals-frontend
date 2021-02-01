@@ -30,7 +30,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
           <input type="hidden" {...handler()} />
 
           {map(meta.values, (value, key) => (
-            <Label htmlFor={`${meta.name}-${key + 1}`} label={value}>
+            <Label htmlFor={`${meta.name}-${key + 1}`} label={value} noActiveState>
               <Checkbox
                 id={`${meta.name}-${key + 1}`}
                 name={`${meta.name}-${key + 1}`}
@@ -42,7 +42,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
           ))}
         </Fragment>
       ) : (
-        <Label htmlFor={meta.name} label={meta.value}>
+        <Label htmlFor={meta.name} label={meta.value} noActiveState>
           <Checkbox
             id={meta.name}
             name={meta.name}
