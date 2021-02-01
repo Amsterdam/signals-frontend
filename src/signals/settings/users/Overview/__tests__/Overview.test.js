@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, within, act, screen, waitFor } from '@testing-library/react';
+import { render, within, act, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { history as memoryHistory, withCustomAppContext } from 'test/utils';
 
@@ -13,7 +13,8 @@ import * as appSelectors from 'containers/App/selectors';
 import { setUserFilters } from 'signals/settings/actions';
 import SettingsContext from 'signals/settings/context';
 import * as rolesSelectors from 'models/roles/selectors';
-import { rest, server, mockGet, fetchMock } from '../../../../../../internals/testing/msw-server';
+
+import { fetchMock } from '../../../../../../internals/testing/msw-server';
 
 import UsersOverview from '..';
 fetchMock.disableMocks();
@@ -33,7 +34,7 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }));
 
-constants.PAGE_SIZE = 50;
+constants.PAGE_SIZE = 5;
 
 const state = {
   users: {
@@ -121,16 +122,15 @@ describe('signals/settings/users/containers/Overview', () => {
 
   // eslint-disable-next-line jest/no-focused-tests
   it.only('should render title, data view with headers only and loading indicator when loading', async () => {
-    mockGet({ status: 200, body: usersJSON });
     const { getByText, findByTestId, queryByTestId } = render(usersOverviewWithAppContext());
 
     expect(getByText('Gebruikers')).toBeInTheDocument();
     expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
     expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
 
-    await findByTestId('loadingIndicator');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    expect(getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
+    expect(getByText(`Gebruikers (${constants.PAGE_SIZE})`)).toBeInTheDocument();
     expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
     expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
