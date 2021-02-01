@@ -111,7 +111,7 @@ const AutoSuggest = ({
           inputRef.current.value = '';
           setActiveIndex(-1);
           setShowList(false);
-          onClear();
+          if (onClear) onClear();
           break;
 
         case 'Home':
@@ -196,7 +196,7 @@ const AutoSuggest = ({
       } else {
         setShowList(false);
 
-        if (inputValue.length === 0) {
+        if (inputValue.length === 0 && onClear) {
           onClear();
         }
       }

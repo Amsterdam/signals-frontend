@@ -302,6 +302,48 @@ describe('src/components/AutoSuggest', () => {
       expect(queryByTestId('suggestList')).not.toBeInTheDocument();
     });
 
+    test('Esc without onClear defined', async () => {
+      const { container, findByTestId, queryByTestId } = render(withAppContext(<AutoSuggest {...props} />));
+      const input = container.querySelector('input');
+
+      input.focus();
+
+      act(() => {
+        fireEvent.change(input, { target: { value: 'Boom' } });
+      });
+
+      const suggestList = await findByTestId('suggestList');
+      const firstElement = suggestList.querySelector('li:nth-of-type(1)');
+
+      act(() => {
+        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 });
+      });
+
+      expect(document.activeElement).toEqual(firstElement);
+
+      act(() => {
+        fireEvent.keyDown(input, { key: 'Escape', code: 13, keyCode: 13 });
+      });
+
+      expect(input.value).toEqual('');
+      expect(document.activeElement).toEqual(input);
+      expect(queryByTestId('suggestList')).not.toBeInTheDocument();
+
+      act(() => {
+        fireEvent.change(input, { target: { value: 'Boomsloot' } });
+      });
+
+      await findByTestId('suggestList');
+
+      act(() => {
+        fireEvent.keyDown(input, { key: 'Esc', code: 13, keyCode: 13 });
+      });
+
+      expect(input.value).toEqual('');
+      expect(document.activeElement).toEqual(input);
+      expect(queryByTestId('suggestList')).not.toBeInTheDocument();
+    });
+
     test('Home', async () => {
       const { container, findByTestId, getByTestId } = render(withAppContext(<AutoSuggest {...props} />));
       const input = container.querySelector('input');
@@ -523,5 +565,32 @@ describe('src/components/AutoSuggest', () => {
     });
 
     expect(onClear).toHaveBeenCalled();
+  });
+
+  it('should work without onClear defined', async () => {
+    const { container, findByTestId } = render(withAppContext(<AutoSuggest {...props} />));
+    const input = container.querySelector('input');
+
+    act(() => {
+      fireEvent.change(input, { target: { value: 'Rembrandt' } });
+    });
+
+    await findByTestId('autoSuggest');
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
+
+    act(() => {
+      fireEvent.change(input, { target: { value: '' } });
+    });
+
+    await findByTestId('autoSuggest');
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY);
+    });
+
+    await findByTestId('autoSuggest');
   });
 });
