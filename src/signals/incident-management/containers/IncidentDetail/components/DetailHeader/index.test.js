@@ -34,29 +34,47 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
     update.mockReset();
   });
 
-  it('should render parent link', () => {
-    const { queryByTestId, rerender } = render(renderWithContext());
-
-    expect(queryByTestId('parentLink')).not.toBeInTheDocument();
-
-    rerender(
+  it('should render all buttons when state is gemeld and no parent or children are present', () => {
+    const { queryByTestId, queryAllByTestId, unmount } = render(
       renderWithContext({
         ...incidentFixture,
-        _links: { ...incidentFixture._links, 'sia:parent': { href: '//href-to-parent/5678' } },
+        _links: {
+          ...incidentFixture._links,
+          'sia:children': undefined,
+        },
       })
     );
 
-    expect(queryByTestId('parentLink')).toBeInTheDocument();
-    expect(queryByTestId('parentLink').href).toEqual(expect.stringContaining('5678'));
-  });
-
-  it('should render all buttons when state is gemeld and no parent or children are present', () => {
-    const { queryByTestId, queryAllByTestId, unmount } = render(renderWithContext());
-
     expect(queryByTestId('backlink')).toHaveTextContent(/^Terug naar overzicht$/);
-    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Melding ${incidentFixture.id}`);
+    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Standaardmelding ${incidentFixture.id}`);
     expect(queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
     expect(queryAllByTestId('detail-header-button-download')).toHaveLength(1);
+
+    unmount();
+  });
+
+  it('should render correct title when parent is present', () => {
+    const { queryByTestId, queryAllByTestId, unmount } = render(
+      renderWithContext({
+        ...incidentFixture,
+        _links: { 'sia:children': undefined, 'sia:parent': { href: '//href-to-parent/5678' } },
+      })
+    );
+
+    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Deelmelding ${incidentFixture.id}`);
+
+    unmount();
+  });
+
+  it('should render correct title when children are present', () => {
+    const { queryByTestId, queryAllByTestId, unmount } = render(
+      renderWithContext({
+        ...incidentFixture,
+        _links: { 'sia:parent': undefined, 'sia:children': [...Array(8)] },
+      })
+    );
+
+    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Hoofdmelding ${incidentFixture.id}`);
 
     unmount();
   });
@@ -102,9 +120,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
 
   it('should render no split button when state is o, a or s', () => {
     ['o', 'a', 's'].forEach(state => {
-      render(
-        renderWithContext({ ...incidentFixture, status: { ...incidentFixture.status, state } })
-      );
+      render(renderWithContext({ ...incidentFixture, status: { ...incidentFixture.status, state } }));
 
       expect(screen.queryByTestId('detail-header-button-split')).toBeNull();
     });
