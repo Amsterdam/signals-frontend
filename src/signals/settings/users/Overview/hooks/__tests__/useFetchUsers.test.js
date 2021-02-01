@@ -27,7 +27,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
     await waitForNextUpdate();
 
     expect(result.current.isLoading).toEqual(false);
-    expect(result.current.users.count).toEqual(constants.PAGE_SIZE);
+    expect(result.current.users.count).toEqual(usersJSON.count);
     expect(result.current.users.list).toHaveLength(constants.PAGE_SIZE);
     expect(result.current.users.list[0].id).toEqual(usersJSON.results[0].id);
   });
@@ -38,7 +38,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate();
 
-    expect(result.current.users.count).toEqual(constants.PAGE_SIZE);
+    expect(result.current.users.count).toEqual(usersJSON.count);
     expect(result.current.users.list).toHaveLength(constants.PAGE_SIZE);
     expect(result.current.users.list[0].id).toEqual(usersJSON.results[constants.PAGE_SIZE].id);
   });
@@ -46,7 +46,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
   it('should return errors that are thrown during fetch', async () => {
     const message = 'Network request failed';
     const error = new Error();
-    mockGet({ status: 404, body: { message } });
+    mockGet(404, { message });
 
     const { result, waitForNextUpdate } = renderHook(() => useFetchUsers({ page: 1 }));
 

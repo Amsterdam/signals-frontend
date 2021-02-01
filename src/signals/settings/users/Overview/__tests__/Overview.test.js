@@ -14,7 +14,7 @@ import { setUserFilters } from 'signals/settings/actions';
 import SettingsContext from 'signals/settings/context';
 import * as rolesSelectors from 'models/roles/selectors';
 
-import { fetchMock } from '../../../../../../internals/testing/msw-server';
+import { fetchMock, mockGet } from '../../../../../../internals/testing/msw-server';
 
 import UsersOverview from '..';
 fetchMock.disableMocks();
@@ -33,8 +33,6 @@ jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
 }));
-
-constants.PAGE_SIZE = 5;
 
 const state = {
   users: {
@@ -63,6 +61,7 @@ const usersOverviewWithAppContext = (overrideProps = {}, overrideCfg = {}, state
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
+    constants.PAGE_SIZE = 5;
     jest.useFakeTimers();
 
     jest.spyOn(reactRouter, 'useParams').mockImplementation(() => ({ pageNum: 1 }));
@@ -91,11 +90,11 @@ describe('signals/settings/users/containers/Overview', () => {
   it('should render "add user" button', async () => {
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
 
-    const { queryByText, rerender, findByTestId, unmount } = render(usersOverviewWithAppContext());
+    const { rerender, unmount } = render(usersOverviewWithAppContext());
 
-    await findByTestId('usersOverview');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    expect(queryByText('Gebruiker toevoegen')).toBeInTheDocument();
+    expect(screen.queryByText('Gebruiker toevoegen')).toBeInTheDocument();
 
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
 
@@ -103,80 +102,73 @@ describe('signals/settings/users/containers/Overview', () => {
 
     rerender(usersOverviewWithAppContext());
 
-    await findByTestId('usersOverview');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    expect(queryByText('Gebruiker toevoegen')).not.toBeInTheDocument();
+    expect(screen.queryByText('Gebruiker toevoegen')).not.toBeInTheDocument();
   });
 
   it('should request users from API on mount', async () => {
-    const { findByTestId } = render(usersOverviewWithAppContext());
-
-    await findByTestId('usersOverview');
-
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining(configuration.USERS_ENDPOINT),
-      expect.objectContaining({ method: 'GET' })
-    );
-  });
-
-  // eslint-disable-next-line jest/no-focused-tests
-  it.only('should render title, data view with headers only and loading indicator when loading', async () => {
-    const { getByText, findByTestId, queryByTestId } = render(usersOverviewWithAppContext());
-
-    expect(getByText('Gebruikers')).toBeInTheDocument();
-    expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
+    render(usersOverviewWithAppContext());
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    expect(getByText(`Gebruikers (${constants.PAGE_SIZE})`)).toBeInTheDocument();
-    expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
+    expect(screen.getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
+    expect(screen.queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
+    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(constants.PAGE_SIZE);
+  });
+
+  it('should render title, data view with headers only and loading indicator when loading', async () => {
+    render(usersOverviewWithAppContext());
+
+    expect(screen.getByText('Gebruikers')).toBeInTheDocument();
+    expect(screen.queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
+    expect(screen.queryByTestId('loadingIndicator')).toBeInTheDocument();
+
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+
+    expect(screen.getByText(`Gebruikers (${usersJSON.count})`)).toBeInTheDocument();
+    expect(screen.queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
+    expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument();
   });
 
   it('should render title and data view with headers only when no data', async () => {
-    fetch.mockResponse(JSON.stringify({}));
+    mockGet(200, {});
+    render(usersOverviewWithAppContext());
 
-    const { getByText, findByTestId, queryByTestId, queryAllByTestId } = render(usersOverviewWithAppContext());
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    await findByTestId('dataViewHeadersRow');
-
-    expect(getByText('Gebruikers')).toBeInTheDocument();
-    expect(queryByTestId('dataViewHeadersRow')).toBeInTheDocument();
-    expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
+    expect(screen.getByText('Gebruikers')).toBeInTheDocument();
+    expect(screen.getByTestId('dataViewHeadersRow')).toBeInTheDocument();
+    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
   });
 
   it('should render data view with no data when loading', async () => {
-    fetch.mockResponse(JSON.stringify(usersJSON));
+    render(usersOverviewWithAppContext());
 
-    const { queryByTestId, findByTestId, queryAllByTestId } = render(usersOverviewWithAppContext());
+    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
 
-    expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(0);
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    await findByTestId('dataViewHeadersRow');
-
-    expect(queryByTestId('loadingIndicator')).toBeNull();
-    expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(usersJSON.count);
+    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(constants.PAGE_SIZE);
   });
 
   it('should data view when data', async () => {
-    const { queryAllByTestId, findAllByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    await findAllByTestId('dataViewBodyRow');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(usersJSON.count);
+    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(constants.PAGE_SIZE);
   });
 
   it('should render pagination controls', async () => {
-    const { rerender, queryByTestId, findByTestId, unmount } = render(usersOverviewWithAppContext());
+    const { rerender, unmount } = render(usersOverviewWithAppContext());
 
-    await findByTestId('pagination');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    expect(queryByTestId('pagination')).toBeInTheDocument();
-    expect(within(queryByTestId('pagination')).queryByText('2')).toBeInTheDocument();
+    expect(screen.queryByTestId('pagination')).toBeInTheDocument();
+    expect(within(screen.queryByTestId('pagination')).queryByText('2')).toBeInTheDocument();
 
-    expect(within(queryByTestId('pagination')).queryByText('2').nodeName).toEqual('BUTTON');
+    expect(within(screen.queryByTestId('pagination')).queryByText('2').nodeName).toEqual('BUTTON');
 
     jest.spyOn(reactRouter, 'useParams').mockImplementation(() => ({ pageNum: 2 }));
 
@@ -184,27 +176,27 @@ describe('signals/settings/users/containers/Overview', () => {
 
     rerender(usersOverviewWithAppContext());
 
-    await findByTestId('pagination');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    expect(within(queryByTestId('pagination')).queryByText('2').nodeName).not.toEqual('BUTTON');
+    expect(within(screen.queryByTestId('pagination')).queryByText('2').nodeName).not.toEqual('BUTTON');
 
     constants.PAGE_SIZE = usersJSON.count;
 
     unmount();
 
-    rerender(usersOverviewWithAppContext({ pageSize: usersJSON.count }));
+    rerender(usersOverviewWithAppContext({ pageSize: constants.PAGE_SIZE }));
 
-    await findByTestId('usersOverview');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    expect(queryByTestId('pagination')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
   });
 
   it('should push to the history stack and scroll to top on pagination item click', async () => {
-    constants.PAGE_SIZE = 50;
     const { push, scrollTo } = testContext;
-    const { findByText } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const page2 = await findByText('2');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+    const page2 = await screen.findByText('2');
 
     userEvent.click(page2);
 
@@ -215,12 +207,12 @@ describe('signals/settings/users/containers/Overview', () => {
   it('should push on list item with an itemId click', async () => {
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
     const { push } = testContext;
-    const { container, findByTestId } = render(usersOverviewWithAppContext());
+    const { container } = render(usersOverviewWithAppContext());
     const itemId = 666;
 
-    await findByTestId('usersOverview');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    const row = container.querySelector('tbody tr:nth-child(42)');
+    const row = container.querySelector('tbody tr:nth-child(3)');
 
     const username = row.querySelector('td:first-of-type');
 
@@ -253,34 +245,35 @@ describe('signals/settings/users/containers/Overview', () => {
     jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
 
     const { push } = testContext;
-    const { container, findByTestId } = render(usersOverviewWithAppContext());
+    const { container } = render(usersOverviewWithAppContext());
 
-    await findByTestId('usersOverview');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
-    const row = container.querySelector('tbody tr:nth-child(42)');
+    const row = container.querySelector('tbody tr:nth-child(2)');
 
     // Explicitly set an 'itemId'.
     row.dataset.itemId = 666;
 
     userEvent.click(row.querySelector('td:first-of-type'));
 
-    await findByTestId('usersOverview');
+    await screen.findByTestId('usersOverview');
 
     expect(push).not.toHaveBeenCalled();
   });
 
   it('should render a username filter', async () => {
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const filterUsersByUsername = await findByTestId('filterUsersByUsername');
-
-    expect(filterUsersByUsername).toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+    expect(screen.getByTestId('filterUsersByUsername')).toBeInTheDocument();
   });
 
   it('should dispatch filter values only after 250ms since last input change', async () => {
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const filterByUserName = await findByTestId('filterUsersByUsername');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+
+    const filterByUserName = screen.getByTestId('filterUsersByUsername');
     const filterByUserNameInput = filterByUserName.querySelector('input');
     const filterValue = 'test1';
 
@@ -299,13 +292,15 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ username: filterValue }));
 
-    await findByTestId('filterUsersByUsername');
+    await screen.findByTestId('filterUsersByUsername');
   });
 
   it('should remove reset the filter when the search box is cleared ', async () => {
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const filterByUserName = await findByTestId('filterUsersByUsername');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+
+    const filterByUserName = screen.getByTestId('filterUsersByUsername');
     const filterByUserNameInput = filterByUserName.querySelector('input');
     const filterValue = 'test1';
 
@@ -321,7 +316,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const clearButton = filterByUserName.querySelector('button[aria-label="Close"]');
     userEvent.click(clearButton);
 
-    await findByTestId('filterUsersByUsername');
+    await screen.findByTestId('filterUsersByUsername');
     expect(dispatch).toHaveBeenCalledTimes(2);
     expect(dispatch).toHaveBeenLastCalledWith(setUserFilters({ username: '' }));
   });
@@ -330,16 +325,18 @@ describe('signals/settings/users/containers/Overview', () => {
     const username = 'foo bar baz';
     const stateCfg = { users: { filters: { username } } };
 
-    const { rerender, findByTestId, unmount } = render(usersOverviewWithAppContext());
+    const { rerender, unmount } = render(usersOverviewWithAppContext());
 
     expect(dispatch).not.toHaveBeenCalled();
 
-    const filterByUserName = await findByTestId('filterUsersByUsername');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+
+    const filterByUserName = screen.getByTestId('filterUsersByUsername');
     const filterByUserNameInput = filterByUserName.querySelector('input');
 
     userEvent.type(filterByUserNameInput, username);
 
-    await findByTestId('filterUsersByUsername');
+    await screen.findByTestId('filterUsersByUsername');
 
     act(() => {
       jest.advanceTimersByTime(250);
@@ -350,12 +347,11 @@ describe('signals/settings/users/containers/Overview', () => {
     unmount();
 
     rerender(usersOverviewWithAppContext({}, {}, stateCfg));
-
-    await findByTestId('filterUsersByUsername');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
 
     userEvent.type(filterByUserNameInput, username);
 
-    await findByTestId('filterUsersByUsername');
+    await screen.findByTestId('filterUsersByUsername');
 
     act(() => {
       jest.advanceTimersByTime(250);
@@ -363,15 +359,14 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(dispatch).toHaveBeenCalledTimes(1);
 
-    await findByTestId('filterUsersByUsername');
+    await screen.findByTestId('filterUsersByUsername');
   });
 
   it('should render a role filter', async () => {
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const roleSelect = await findByTestId('roleSelect');
-
-    expect(roleSelect).toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+    expect(screen.getByTestId('roleSelect')).toBeInTheDocument();
   });
 
   it('should select the right option when role filter changes', async () => {
@@ -379,9 +374,11 @@ describe('signals/settings/users/containers/Overview', () => {
 
     jest.spyOn(rolesSelectors, 'inputSelectRolesSelector').mockImplementation(() => inputSelectRolesSelectorJSON);
 
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const filterByRoleSelect = await findByTestId('roleSelect');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+
+    const filterByRoleSelect = screen.getByTestId('roleSelect');
 
     // check if the default value has been set
     expect(filterByRoleSelect.value).toBe('*');
@@ -392,7 +389,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     userEvent.selectOptions(filterByRoleSelect, filterValue);
 
-    await findByTestId('roleSelect');
+    await screen.findByTestId('roleSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ role: filterValue }));
@@ -405,17 +402,18 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should render a user active (status) filter', async () => {
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const userActiveSelect = await findByTestId('userActiveSelect');
-
-    expect(userActiveSelect).toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+    expect(screen.getByTestId('userActiveSelect')).toBeInTheDocument();
   });
 
   it('should select the right option when user active (status) filter changes', async () => {
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const filterByUserActiveSelect = await findByTestId('userActiveSelect');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+
+    const filterByUserActiveSelect = screen.getByTestId('userActiveSelect');
 
     // check if the default value has been set
     expect(filterByUserActiveSelect.value).toBe('*');
@@ -424,7 +422,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     userEvent.selectOptions(filterByUserActiveSelect, filterValue);
 
-    await findByTestId('userActiveSelect');
+    await screen.findByTestId('userActiveSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(setUserFilters({ is_active: filterValue }));
@@ -433,10 +431,13 @@ describe('signals/settings/users/containers/Overview', () => {
   });
 
   it('should keep the state of all filters in context', async () => {
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    jest.spyOn(rolesSelectors, 'inputSelectRolesSelector').mockImplementation(() => inputSelectRolesSelectorJSON);
+    render(usersOverviewWithAppContext());
 
-    const filterByUserActiveSelect = await findByTestId('userActiveSelect');
-    const filterByRoleSelect = await findByTestId('roleSelect');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+
+    const filterByUserActiveSelect = screen.getByTestId('userActiveSelect');
+    const filterByRoleSelect = screen.getByTestId('roleSelect');
 
     // check if the default values have been set
     expect(filterByUserActiveSelect.value).toBe('*');
@@ -446,10 +447,9 @@ describe('signals/settings/users/containers/Overview', () => {
     const roleFilterValue = 'Regievoerder';
 
     userEvent.selectOptions(filterByUserActiveSelect, userActiveFilterValue);
-
     userEvent.selectOptions(filterByRoleSelect, roleFilterValue);
 
-    await findByTestId('userActiveSelect');
+    await screen.findByTestId('userActiveSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(2);
 
@@ -463,10 +463,12 @@ describe('signals/settings/users/containers/Overview', () => {
   it('should check if default filter values have been set', async () => {
     jest.spyOn(rolesSelectors, 'inputSelectRolesSelector').mockImplementation(() => inputSelectRolesSelectorJSON);
 
-    const { findByTestId } = render(usersOverviewWithAppContext());
+    render(usersOverviewWithAppContext());
 
-    const filterByRoleSelect = await findByTestId('roleSelect');
-    const filterByUserActiveSelect = await findByTestId('userActiveSelect');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+
+    const filterByRoleSelect = screen.getByTestId('roleSelect');
+    const filterByUserActiveSelect = await screen.findByTestId('userActiveSelect');
 
     expect(filterByRoleSelect.value).toBe('*');
     expect(filterByUserActiveSelect.value).toBe('*');
@@ -476,48 +478,38 @@ describe('signals/settings/users/containers/Overview', () => {
     jest.spyOn(rolesSelectors, 'inputSelectRolesSelector').mockImplementation(() => inputSelectRolesSelectorJSON);
 
     const mockedState = { users: { filters: { role: 'Behandelaar' } } };
-    const { findByTestId } = render(usersOverviewWithAppContext({}, {}, mockedState));
+    render(usersOverviewWithAppContext({}, {}, mockedState));
 
-    const filterByRoleSelect = await findByTestId('roleSelect');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+    const filterByRoleSelect = screen.getByTestId('roleSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(0);
 
     userEvent.selectOptions(filterByRoleSelect, 'Behandelaar');
 
-    await findByTestId('roleSelect');
+    await screen.findByTestId('roleSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(1);
 
     expect(filterByRoleSelect.value).toBe('Behandelaar');
-
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('role=Behandelaar'),
-      expect.objectContaining({ method: 'GET' })
-    );
   });
 
   it('should select "Actief" as filter and dispatch a fetch action', async () => {
     const mockedState = { users: { filters: { is_active: true } } };
-    const { findByTestId } = render(usersOverviewWithAppContext({}, {}, mockedState));
+    render(usersOverviewWithAppContext({}, {}, mockedState));
 
-    const filterByUserActiveSelect = await findByTestId('userActiveSelect');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+    const filterByUserActiveSelect = screen.getByTestId('userActiveSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(0);
 
     userEvent.selectOptions(filterByUserActiveSelect, 'true');
 
-    await findByTestId('userActiveSelect');
+    await screen.findByTestId('userActiveSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(1);
 
     expect(filterByUserActiveSelect.value).toBe('true');
-
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('is_active=true'),
-      expect.objectContaining({ method: 'GET' })
-    );
   });
 
   it('should select a value in the select filters and dispatch a fetch action', async () => {
@@ -525,10 +517,11 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const mockedState = { users: { filters: { is_active: true, role: 'Behandelaar' } } };
 
-    const { findByTestId } = render(usersOverviewWithAppContext({}, {}, mockedState));
+    render(usersOverviewWithAppContext({}, {}, mockedState));
 
-    const filterByRoleSelect = await findByTestId('roleSelect');
-    const filterByUserActiveSelect = await findByTestId('userActiveSelect');
+    await waitForElementToBeRemoved(() => screen.queryByTestId('loadingIndicator'));
+    const filterByRoleSelect = screen.getByTestId('roleSelect');
+    const filterByUserActiveSelect = await screen.findByTestId('userActiveSelect');
 
     expect(dispatch).toHaveBeenCalledTimes(0);
 
@@ -539,11 +532,5 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(filterByRoleSelect.value).toBe('Behandelaar');
     expect(filterByUserActiveSelect.value).toBe('true');
-
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringMatching(/is_active=true|role=Behandelaar/),
-      expect.objectContaining({ method: 'GET' })
-    );
   });
 });

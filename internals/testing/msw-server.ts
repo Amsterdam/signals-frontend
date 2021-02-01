@@ -4,7 +4,7 @@ import fetchMock from 'jest-fetch-mock';
 
 import usersJSON from '../mocks/fixtures/users.json';
 
-export const mockGet = <T>({ status, body }: { status: number; body: T }) => {
+export const mockGet = <T>(status: number, body: T ) => {
   server.use(rest.get(/localhost/, async (_req, res, ctx) => res(ctx.status(status), ctx.json(body))));
 };
 
@@ -19,7 +19,7 @@ const handlers = [
     const results = usersJSON.results.slice(start, end);
     const response = {
       ...usersJSON,
-      count: results.length,
+      count: usersJSON.count,
       results,
     };
 

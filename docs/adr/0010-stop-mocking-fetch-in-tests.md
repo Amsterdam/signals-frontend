@@ -21,16 +21,16 @@ Here are few advantages of introducing this library:
 - E2e tests can also benefit from the msw setup and can use fixtures, the same way the unit tests can
 
 ## Decision
-The `jest-fetch-mock` will be removed and the mocking will be done by using the the `msw` package
-
+The mocking will be done as much as possible by using the the `msw` package.
 
 ## Refactoring plan
 - Add the `msw` package and create the configuration in the `internals folder`
 - Use for the configuration the existing features that are already present in `utils/__tests__/fixtures`
 - Start small, replace the `jest-fetch-mock` only in the changed files.
 
-
 ## Consequences
 
-- There will be a transition period where both `jest-fetch-mock` and `msw` will coexist.
 - This change will increase the readability and simplify the unittests.
+- Both `jest-fetch-mock` and `msw` will coexist.
+- The default mocking library will be `msw`.
+- There are use cases when it is important to check the `fetch` mock calls. In this situation there is not option than to use the `jest-fetch-mock` package.
