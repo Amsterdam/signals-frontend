@@ -173,7 +173,14 @@ describe('signals/incident-management/selectors', () => {
 
   it('should select all filters', () => {
     const state = fromJS({ ...initialState.toJS(), filters });
-    const allFilters = makeSelectAllFilters.resultFunc(state, maincategory_slug, category_slug, directing_department);
+    const allFilters = makeSelectAllFilters.resultFunc(
+      state,
+      districts,
+      sources,
+      maincategory_slug,
+      category_slug,
+      directing_department
+    );
 
     expect(allFilters.length).toEqual(filters.length);
     expect(allFilters[0].options.maincategory_slug[0].slug).toEqual(filters[0].options.maincategory_slug[0]);

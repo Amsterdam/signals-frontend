@@ -29,8 +29,15 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
 );
 
 export const makeSelectAllFilters = createSelector(
-  [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories, makeSelectDirectingDepartments],
-  (stateMap, maincategory_slug, category_slug, directing_department) => {
+  [
+    selectIncidentManagementDomain,
+    makeSelectDistricts,
+    makeSelectSources,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+    makeSelectDirectingDepartments,
+  ],
+  (stateMap, area, source, maincategory_slug, category_slug, directing_department) => {
     const filters = stateMap.get('filters').toJS();
     return filters.map(filter => {
       const { priority } = filter.options;
@@ -46,7 +53,9 @@ export const makeSelectAllFilters = createSelector(
       return parseInputFormData(fltr, {
         maincategory_slug,
         category_slug,
+        area,
         directing_department,
+        source,
       });
     });
   }
