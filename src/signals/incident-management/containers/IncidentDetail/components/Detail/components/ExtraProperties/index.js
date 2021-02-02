@@ -8,9 +8,9 @@ const getValue = answer => {
   if (Array.isArray(answer)) {
     return answer.map((item, index) => {
       const id = isObject(item) ? item.label || item.id : item;
-      const label = isObject(item) ? item.label || `${item.description} - ${item.id}` : item;
+      const label = isObject(item) ? item.label || `${item.description}${item.id && ` - ${item.id}`}` : item;
 
-      return <div key={id}>{label}</div>;
+      return <div key={id || index}>{label}</div>;
     });
   }
 

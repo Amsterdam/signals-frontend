@@ -123,6 +123,11 @@ describe('<ExtraProperties />', () => {
             type: 'Papier',
             description: 'Papier container',
           },
+          {
+            id: '',
+            type: 'Onbekend',
+            description: 'De container staat niet op de kaart',
+          },
         ],
         category_url: '/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
       },
