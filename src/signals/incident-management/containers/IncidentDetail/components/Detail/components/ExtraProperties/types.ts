@@ -8,18 +8,17 @@ export interface Checkbox {
 export interface Radio {
   id: string;
   label: string;
-  info: string;
 }
 
-export interface Container {
+export interface ContainerMapValue {
   description: string;
   type: string;
   id: string;
 }
 
-export type StreetLightId = string;
+export type MapValue = string;
 
-export type Answer = Text | Checkbox | Radio | (Container | StreetLightId)[];
+export type Answer = Text | Checkbox | Radio | (ContainerMapValue | MapValue)[];
 
 export interface Item {
   id: string;
@@ -28,8 +27,10 @@ export interface Item {
   category_url: string;
 }
 
+/**
+ * Legacy data format unsupported by the current API.
+ */
 type LegacyAnswer = Text | Checkbox | Radio;
-
 export type LegacyItem = Record<string, LegacyAnswer>;
 
 export interface MappedLegacyItem extends Pick<Item, 'id' | 'label'> {

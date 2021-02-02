@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 
 import ExtraProperties from '.';
+import type { Item } from './types';
 
 describe('<ExtraProperties />', () => {
   const props = {
@@ -54,42 +55,42 @@ describe('<ExtraProperties />', () => {
           '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
         answer: ['126543', '87654'],
       },
-    ],
+    ] as Item[],
   };
 
   it('should render correctly', () => {
-    const { queryAllByTestId } = render(<ExtraProperties {...props} />);
+    render(<ExtraProperties {...props} />);
 
-    expect(queryAllByTestId('extra-properties-definition')).toHaveLength(props.items.length);
-    expect(queryAllByTestId('extra-properties-value')).toHaveLength(props.items.length);
+    expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(props.items.length);
+    expect(screen.queryAllByTestId('extra-properties-value')).toHaveLength(props.items.length);
 
-    expect(queryAllByTestId('extra-properties-definition')[0]).toHaveTextContent(
+    expect(screen.queryAllByTestId('extra-properties-definition')[0]).toHaveTextContent(
       /^Gaat uw melding over één of over meer lampen\?$/
     );
-    expect(queryAllByTestId('extra-properties-value')[0]).toHaveTextContent(/^Meer lampen$/);
-    expect(queryAllByTestId('extra-properties-definition')[1]).toHaveTextContent(
+    expect(screen.queryAllByTestId('extra-properties-value')[0]).toHaveTextContent(/^Meer lampen$/);
+    expect(screen.queryAllByTestId('extra-properties-definition')[1]).toHaveTextContent(
       /^Wat is er aan de hand met de lamp\(en\)\?$/
     );
-    expect(queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/^Brandt niet/);
-    expect(queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/Brandt overdag$/);
-    expect(queryAllByTestId('extra-properties-definition')[2]).toHaveTextContent(
+    expect(screen.queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/^Brandt niet/);
+    expect(screen.queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/Brandt overdag$/);
+    expect(screen.queryAllByTestId('extra-properties-definition')[2]).toHaveTextContent(
       /^Hebt u een nummer van \(één van\) de lamp\(en\)\?$/
     );
-    expect(queryAllByTestId('extra-properties-value')[2]).toHaveTextContent(/^42$/);
-    expect(queryAllByTestId('extra-properties-definition')[3]).toHaveTextContent(/^Gebeurt het vaker\?$/);
-    expect(queryAllByTestId('extra-properties-value')[3]).toHaveTextContent(/^Nee$/);
-    expect(queryAllByTestId('extra-properties-definition')[4]).toHaveTextContent(/^Heeft u het gezien\?$/);
-    expect(queryAllByTestId('extra-properties-value')[4]).toHaveTextContent(/^Ja, het gebeurt vaker$/);
-    expect(queryAllByTestId('extra-properties-definition')[5]).toHaveTextContent(/^Welke lampen\?$/);
-    expect(queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/^126543/);
-    expect(queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/87654$/);
+    expect(screen.queryAllByTestId('extra-properties-value')[2]).toHaveTextContent(/^42$/);
+    expect(screen.queryAllByTestId('extra-properties-definition')[3]).toHaveTextContent(/^Gebeurt het vaker\?$/);
+    expect(screen.queryAllByTestId('extra-properties-value')[3]).toHaveTextContent(/^Nee$/);
+    expect(screen.queryAllByTestId('extra-properties-definition')[4]).toHaveTextContent(/^Heeft u het gezien\?$/);
+    expect(screen.queryAllByTestId('extra-properties-value')[4]).toHaveTextContent(/^Ja, het gebeurt vaker$/);
+    expect(screen.queryAllByTestId('extra-properties-definition')[5]).toHaveTextContent(/^Welke lampen\?$/);
+    expect(screen.queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/^126543/);
+    expect(screen.queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/87654$/);
   });
 
   it('should render correctly without items', () => {
-    const { queryAllByTestId } = render(<ExtraProperties />);
+    render(<ExtraProperties items={[]} />);
 
-    expect(queryAllByTestId('extra-properties-definition')).toHaveLength(0);
-    expect(queryAllByTestId('extra-properties-value')).toHaveLength(0);
+    expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(0);
+    expect(screen.queryAllByTestId('extra-properties-value')).toHaveLength(0);
   });
 
   it('should handle container data format', () => {
@@ -132,7 +133,8 @@ describe('<ExtraProperties />', () => {
         category_url: '/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
       },
     ];
-    const { queryAllByTestId } = render(<ExtraProperties items={items} />);
+
+    render(<ExtraProperties items={items} />);
 
     expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(Object.values(items).length);
     expect(screen.queryAllByTestId('extra-properties-value')).toHaveLength(Object.values(items).length);
@@ -143,22 +145,18 @@ describe('<ExtraProperties />', () => {
   });
 
   it('should be able to deal with legacy format', () => {
-    global.console.error = jest.fn();
-
     const items = {
       'Op welke locatie ervaart u de overlast': 'In huis',
     };
 
-    const { queryAllByTestId } = render(<ExtraProperties items={items} />);
+    render(<ExtraProperties items={items} />);
 
-    expect(queryAllByTestId('extra-properties-definition')).toHaveLength(Object.values(items).length);
-    expect(queryAllByTestId('extra-properties-value')).toHaveLength(Object.values(items).length);
+    expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(Object.values(items).length);
+    expect(screen.queryAllByTestId('extra-properties-value')).toHaveLength(Object.values(items).length);
 
     expect(screen.getByTestId('extra-properties-definition')).toHaveTextContent(
       /^Op welke locatie ervaart u de overlast$/
     );
     expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/^In huis$/);
-
-    global.console.error.mockRestore();
   });
 });

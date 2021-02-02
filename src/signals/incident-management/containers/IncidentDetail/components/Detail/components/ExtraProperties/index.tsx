@@ -27,11 +27,11 @@ const getValue = (answer: Answer): string | JSX.Element[] => {
   return answer;
 };
 
-interface Props {
+interface ExtraPropertiesProps {
   items: LegacyItem | Item[];
 }
 
-const ExtraProperties: FunctionComponent<Props> = ({ items = [] }) => {
+const ExtraProperties: FunctionComponent<ExtraPropertiesProps> = ({ items = [] }) => {
   // Some incidents have been stored with values for their extra properties that is incompatible with the current API
   // We therefore need to check if we're getting an array or an object
   const itemList = Array.isArray(items)
@@ -49,7 +49,7 @@ const ExtraProperties: FunctionComponent<Props> = ({ items = [] }) => {
     );
   });
 
-  // TypeScript does not understand returning arrays in function components - therefore return a fragment.
+  // TypeScript does not support arrays as a return type in function components - return a fragment as a workaround.
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return <Fragment>{extraProperties}</Fragment>;
 };
