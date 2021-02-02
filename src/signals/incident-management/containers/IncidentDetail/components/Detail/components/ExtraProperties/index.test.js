@@ -123,6 +123,11 @@ describe('<ExtraProperties />', () => {
             type: 'Papier',
             description: 'Papier container',
           },
+          {
+            id: '',
+            type: 'Onbekend',
+            description: 'De container staat niet op de kaart',
+          },
         ],
         category_url: '/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
       },
@@ -134,6 +139,7 @@ describe('<ExtraProperties />', () => {
 
     expect(screen.getByTestId('extra-properties-definition')).toHaveTextContent(/Container\(s\)/);
     expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/Papier container - PAA00069/);
+    expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/De container staat niet op de kaart/);
   });
 
   it('should be able to deal with legacy format', () => {
@@ -148,7 +154,9 @@ describe('<ExtraProperties />', () => {
     expect(queryAllByTestId('extra-properties-definition')).toHaveLength(Object.values(items).length);
     expect(queryAllByTestId('extra-properties-value')).toHaveLength(Object.values(items).length);
 
-    expect(screen.getByTestId('extra-properties-definition')).toHaveTextContent(/^Op welke locatie ervaart u de overlast$/);
+    expect(screen.getByTestId('extra-properties-definition')).toHaveTextContent(
+      /^Op welke locatie ervaart u de overlast$/
+    );
     expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/^In huis$/);
 
     global.console.error.mockRestore();

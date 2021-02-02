@@ -14,7 +14,7 @@ const getValue = (answer: (Standard | Container | string)[] | string) => {
 
         if ((item as Container).description) {
           const container = item as Container;
-          return <div key={container.id}>{container.description + container.id && ` - ${container.id}`}</div>;
+          return <div key={container.id}>{`${container.description}${container.id && ` - ${container.id}`}`}</div>;
         }
       }
 
