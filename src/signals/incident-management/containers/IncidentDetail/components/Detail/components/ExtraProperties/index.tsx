@@ -1,20 +1,13 @@
-import type { FunctionComponent } from 'react';
 import React, { Fragment } from 'react';
-// import isObject from 'lodash.isobject';
-// import isBoolean from 'lodash.isboolean';
+import type { FunctionComponent } from 'react';
+import type { Answer, LegacyItem, MappedLegacyItem, Item, Checkbox } from './types';
 
-const getValue = (answer: (Standard | Container | string)[] | string) => {
+const getValue = (answer: Answer): string | JSX.Element[] => {
   if (Array.isArray(answer)) {
-    return answer.map((item: Standard | Container | string, index: number) => {
+    return answer.map((item, index) => {
       if (typeof item !== 'string') {
-        if ((item as Standard).label) {
-          const standard = item as Standard;
-          return <div key={standard.id}>{standard.label}</div>;
-        }
-
-        if ((item as Container).description) {
-          const container = item as Container;
-          return <div key={container.id}>{`${container.description}${container.id && ` - ${container.id}`}`}</div>;
+        if (item.description) {
+          return <div key={item.id}>{`${item.description}${item.id && ` - ${item.id}`}`}</div>;
         }
       }
 
@@ -23,55 +16,27 @@ const getValue = (answer: (Standard | Container | string)[] | string) => {
     });
   }
 
-  // if (isObject(answer)) {
-  //   if (isBoolean((answer as any).value)) {
-  //     return (answer as any).value ? (answer as any).label : 'Nee';
-  //   }
+  if (typeof answer !== 'string') {
+    if (typeof (answer as Checkbox).value === 'boolean') {
+      return (answer as Checkbox).value ? answer.label : 'Nee';
+    }
 
-  //   return (answer as any).label;
-  // }
+    return answer.label;
+  }
 
   return answer;
 };
-
-type LegacyItem = Record<string, string>;
-interface MappedLegacyItem {
-  label: string;
-  answer: string;
-  id: number;
-}
-
-interface Standard {
-  id: string;
-  label: string;
-  info: string;
-}
-interface Container {
-  description: string;
-  type: string;
-  id: string;
-}
-type Light = string; // string of id's
-
-type Answer = Standard[] | Container[] | Light[];
-
-interface Item {
-  id: string;
-  label: string;
-  answer: Answer;
-  category_url: string;
-}
 
 interface Props {
   items: LegacyItem | Item[];
 }
 
-const ExtraProperties: FunctionComponent<Props> = ({ items }) => {
+const ExtraProperties: FunctionComponent<Props> = ({ items = [] }) => {
   // Some incidents have been stored with values for their extra properties that is incompatible with the current API
   // We therefore need to check if we're getting an array or an object
   const itemList = Array.isArray(items)
     ? items
-    : Object.entries(items).map(([label, answer], index) => ({ label, answer, id: index }));
+    : Object.entries(items).map(([question, answer], index) => ({ label: question, answer, id: index.toString() }));
 
   const extraProperties: JSX.Element[] = [];
 
