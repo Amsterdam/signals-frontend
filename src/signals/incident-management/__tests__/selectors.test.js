@@ -10,6 +10,7 @@ import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 import {
   makeSelectDistricts,
+  selectFixtures,
   makeSelectFilterParams,
   makeSelectAllFilters,
   makeSelectActiveFilter,
@@ -134,6 +135,8 @@ const areaFilter = filters[4];
 const sourceFilter = filters[5];
 const directingDepartmentFilter = filters[6];
 const priorityFilter = filters[7];
+const area = districts;
+const source = sources;
 
 const rawDistricts = [
   {
@@ -171,16 +174,27 @@ describe('signals/incident-management/selectors', () => {
     expect(result).toBeNull();
   });
 
-  it('should select all filters', () => {
-    const state = fromJS({ ...initialState.toJS(), filters });
-    const allFilters = makeSelectAllFilters.resultFunc(
-      state,
-      districts,
-      sources,
+  it('should select fixtures', () => {
+    const result = selectFixtures.resultFunc(area, source, maincategory_slug, category_slug, directing_department);
+
+    expect(result).toMatchObject({
+      area,
+      source,
       maincategory_slug,
       category_slug,
-      directing_department
-    );
+      directing_department,
+    });
+  });
+
+  it('should select all filters', () => {
+    const state = fromJS({ ...initialState.toJS(), filters });
+    const allFilters = makeSelectAllFilters.resultFunc(state, {
+      area,
+      source,
+      maincategory_slug,
+      category_slug,
+      directing_department,
+    });
 
     expect(allFilters.length).toEqual(filters.length);
     expect(allFilters[0].options.maincategory_slug[0].slug).toEqual(filters[0].options.maincategory_slug[0]);
@@ -193,14 +207,13 @@ describe('signals/incident-management/selectors', () => {
       activeFilter.options.priority = [];
 
       expect(
-        makeSelectActiveFilter.resultFunc(
-          initialState,
-          districts,
-          sources,
+        makeSelectActiveFilter.resultFunc(initialState, {
+          area,
+          source,
           maincategory_slug,
           category_slug,
-          directing_department
-        )
+          directing_department,
+        })
       ).toEqual(activeFilter);
     });
 
@@ -208,19 +221,18 @@ describe('signals/incident-management/selectors', () => {
       const activeFilter = initialState.toJS().activeFilter;
       activeFilter.options.priority = [];
 
-      expect(makeSelectActiveFilter.resultFunc(initialState, districts, sources)).toEqual({});
+      expect(makeSelectActiveFilter.resultFunc(initialState, { area, source })).toEqual({});
     });
 
     it('should select active category filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: mainCategoryFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(mainCategoryFilter.id);
       expect(actual.options).toEqual({
@@ -231,14 +243,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select active sub category filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: subCategoryFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(subCategoryFilter.id);
       expect(actual.options).toEqual({
@@ -249,14 +260,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select active stadsdeel filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: stadsdeelFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(stadsdeelFilter.id);
       expect(actual.options).toEqual({
@@ -267,14 +277,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select active status filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: statusFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(statusFilter.id);
       expect(actual.options).toEqual({
@@ -285,14 +294,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select active area filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: areaFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(areaFilter.id);
       expect(actual.options).toEqual({
@@ -303,14 +311,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should not select active source filter when sources are empty', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        null,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source: null,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(sourceFilter.id);
       expect(actual.options).toEqual({
@@ -321,14 +328,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select active source filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: sourceFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(sourceFilter.id);
       expect(actual.options).toEqual({
@@ -339,14 +345,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select active directing department filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: directingDepartmentFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(directingDepartmentFilter.id);
       expect(actual.options).toEqual({
@@ -357,14 +362,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select active priority filter', () => {
       const state = fromJS({ ...initialState.toJS(), activeFilter: priorityFilter });
-      const actual = makeSelectActiveFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectActiveFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(priorityFilter.id);
       expect(actual.options.priority[0].key).toEqual(priorityFilter.options.priority[0]);
@@ -376,33 +380,31 @@ describe('signals/incident-management/selectors', () => {
       const editFilter = initialState.toJS().editFilter;
 
       expect(
-        makeSelectEditFilter.resultFunc(
-          initialState,
-          districts,
-          sources,
+        makeSelectEditFilter.resultFunc(initialState, {
+          area,
+          source,
           maincategory_slug,
           category_slug,
-          directing_department
-        )
+          directing_department,
+        })
       ).toEqual(editFilter);
     });
 
     it('should return an empty object when the backend data is not present', () => {
       const editFilter = initialState.toJS().editFilter;
 
-      expect(makeSelectEditFilter.resultFunc(initialState, districts, sources)).toEqual({});
+      expect(makeSelectEditFilter.resultFunc(initialState, { area, source })).toEqual({});
     });
 
     it('should select edit category filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: mainCategoryFilter });
-      const actual = makeSelectEditFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectEditFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(mainCategoryFilter.id);
       expect(actual.options).toEqual({
@@ -412,14 +414,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select edit sub category filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: subCategoryFilter });
-      const actual = makeSelectEditFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectEditFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(subCategoryFilter.id);
       expect(actual.options).toEqual({
@@ -429,14 +430,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select edit stadsdeel filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: stadsdeelFilter });
-      const actual = makeSelectEditFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectEditFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(stadsdeelFilter.id);
       expect(actual.options).toEqual({
@@ -446,14 +446,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select edit status filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: statusFilter });
-      const actual = makeSelectEditFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectEditFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(statusFilter.id);
       expect(actual.options).toEqual({
@@ -463,14 +462,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select edit area filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: areaFilter });
-      const actual = makeSelectEditFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectEditFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(areaFilter.id);
       expect(actual.options).toEqual({
@@ -480,14 +478,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select edit source filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
-      const actual = makeSelectEditFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectEditFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(sourceFilter.id);
       expect(actual.options).toEqual({
@@ -497,14 +494,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should select directing department filter', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: directingDepartmentFilter });
-      const actual = makeSelectEditFilter.resultFunc(
-        state,
-        districts,
-        sources,
+      const actual = makeSelectEditFilter.resultFunc(state, {
+        area,
+        source,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(directingDepartmentFilter.id);
       expect(actual.options).toEqual({
@@ -514,14 +510,13 @@ describe('signals/incident-management/selectors', () => {
 
     it('should not work without sources', () => {
       const state = fromJS({ ...initialState.toJS(), editFilter: sourceFilter });
-      const actual = makeSelectEditFilter.resultFunc(
-        state,
-        districts,
-        null,
+      const actual = makeSelectEditFilter.resultFunc(state, {
+        area,
+        source: null,
         maincategory_slug,
         category_slug,
-        directing_department
-      );
+        directing_department,
+      });
 
       expect(actual.id).toEqual(sourceFilter.id);
       expect(actual.options).toEqual({
