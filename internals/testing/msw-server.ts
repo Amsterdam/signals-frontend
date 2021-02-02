@@ -2,7 +2,7 @@ import { rest, MockedRequest } from 'msw';
 import { setupServer } from 'msw/node';
 import fetchMock from 'jest-fetch-mock';
 
-import usersJSON from '../mocks/fixtures/users.json';
+import usersFixture from '../mocks/fixtures/users.json';
 
 export const mockGet = <T>(status: number, body: T ) => {
   server.use(rest.get(/localhost/, async (_req, res, ctx) => res(ctx.status(status), ctx.json(body))));
@@ -16,10 +16,10 @@ const handlers = [
     const pageSize = parseInt(req.url.searchParams.get('page_size') ?? '5');
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
-    const results = usersJSON.results.slice(start, end);
+    const results = usersFixture.results.slice(start, end);
     const response = {
-      ...usersJSON,
-      count: usersJSON.count,
+      ...usersFixture,
+      count: usersFixture.count,
       results,
     };
 
