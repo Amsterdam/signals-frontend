@@ -28,7 +28,9 @@ const getValue = answer => {
 const ExtraProperties = ({ items }) => {
   // Some incidents have been stored with values for their extra properties that is incompatible with the current API
   // We therefore need to check if we're getting an array or an object
-  const itemList = Array.isArray(items) ? items : Object.entries(items);
+  const itemList = Array.isArray(items)
+    ? items
+    : Object.entries(items).map(([label, answer], index) => ({ label, answer, id: index }));
 
   return itemList.map(item => (
     <Fragment key={item.id}>

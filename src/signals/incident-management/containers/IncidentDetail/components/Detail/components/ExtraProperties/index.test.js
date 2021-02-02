@@ -93,38 +93,40 @@ describe('<ExtraProperties />', () => {
   });
 
   it('should handle container data format', () => {
-    const items = [{
-      id: 'extra_container',
-      label: 'Container(s)',
-      answer: [
-        {
-          id: 'PAA00069',
-          type: 'Papier',
-          description: 'Papier container',
-        },
-        {
-          id: 'GLA00121',
-          type: 'Glas',
-          description: 'Glas container',
-        },
-        {
-          id: 'PLA00004',
-          type: 'Plastic',
-          description: 'Plastic container',
-        },
-        {
-          id: 'GLA00106',
-          type: 'Glas',
-          description: 'Glas container',
-        },
-        {
-          id: 'PAA00114',
-          type: 'Papier',
-          description: 'Papier container',
-        },
-      ],
-      category_url: '/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
-    }];
+    const items = [
+      {
+        id: 'extra_container',
+        label: 'Container(s)',
+        answer: [
+          {
+            id: 'PAA00069',
+            type: 'Papier',
+            description: 'Papier container',
+          },
+          {
+            id: 'GLA00121',
+            type: 'Glas',
+            description: 'Glas container',
+          },
+          {
+            id: 'PLA00004',
+            type: 'Plastic',
+            description: 'Plastic container',
+          },
+          {
+            id: 'GLA00106',
+            type: 'Glas',
+            description: 'Glas container',
+          },
+          {
+            id: 'PAA00114',
+            type: 'Papier',
+            description: 'Papier container',
+          },
+        ],
+        category_url: '/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
+      },
+    ];
     const { queryAllByTestId } = render(<ExtraProperties items={items} />);
 
     expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(Object.values(items).length);
@@ -138,19 +140,17 @@ describe('<ExtraProperties />', () => {
     global.console.error = jest.fn();
 
     const items = {
-      'Gaat uw melding over één of over meer lampen?': {
-        id: 'meer_lampen',
-        label: 'Meer lampen',
-      },
-      'Wat is er aan de hand met de lamp(en)?': [
-        { id: 'brandt_niet', label: 'Brandt niet' },
-        { id: 'brandt_overdag', label: 'Brandt overdag' },
-      ],
+      'Op welke locatie ervaart u de overlast': 'In huis',
     };
     const { queryAllByTestId } = render(<ExtraProperties items={items} />);
 
     expect(queryAllByTestId('extra-properties-definition')).toHaveLength(Object.values(items).length);
     expect(queryAllByTestId('extra-properties-value')).toHaveLength(Object.values(items).length);
+
+    expect(screen.getByTestId('extra-properties-definition')).toHaveTextContent(
+      /^Op welke locatie ervaart u de overlast$/
+    );
+    expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/^In huis$/);
 
     global.console.error.mockRestore();
   });
