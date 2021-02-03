@@ -1,3 +1,4 @@
+
 export interface Incident {
   priority: Priority;
   classification: Classification;
