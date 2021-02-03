@@ -18,16 +18,6 @@ describe('<ExtraProperties />', () => {
         },
       },
       {
-        id: 'extra_straatverlichting_wat',
-        label: 'Wat is er aan de hand met de lamp(en)?',
-        category_url:
-          '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
-        answer: [
-          { id: 'brandt_niet', label: 'Brandt niet' },
-          { id: 'brandt_overdag', label: 'Brandt overdag' },
-        ],
-      },
-      {
         id: 'extra_straatverlichting_nummer',
         label: 'Hebt u een nummer van (één van) de lamp(en)?',
         category_url:
@@ -69,21 +59,16 @@ describe('<ExtraProperties />', () => {
     );
     expect(screen.queryAllByTestId('extra-properties-value')[0]).toHaveTextContent(/^Meer lampen$/);
     expect(screen.queryAllByTestId('extra-properties-definition')[1]).toHaveTextContent(
-      /^Wat is er aan de hand met de lamp\(en\)\?$/
-    );
-    expect(screen.queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/^Brandt niet/);
-    expect(screen.queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/Brandt overdag$/);
-    expect(screen.queryAllByTestId('extra-properties-definition')[2]).toHaveTextContent(
       /^Hebt u een nummer van \(één van\) de lamp\(en\)\?$/
     );
-    expect(screen.queryAllByTestId('extra-properties-value')[2]).toHaveTextContent(/^42$/);
-    expect(screen.queryAllByTestId('extra-properties-definition')[3]).toHaveTextContent(/^Gebeurt het vaker\?$/);
-    expect(screen.queryAllByTestId('extra-properties-value')[3]).toHaveTextContent(/^Nee$/);
-    expect(screen.queryAllByTestId('extra-properties-definition')[4]).toHaveTextContent(/^Heeft u het gezien\?$/);
-    expect(screen.queryAllByTestId('extra-properties-value')[4]).toHaveTextContent(/^Ja, het gebeurt vaker$/);
-    expect(screen.queryAllByTestId('extra-properties-definition')[5]).toHaveTextContent(/^Welke lampen\?$/);
-    expect(screen.queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/^126543/);
-    expect(screen.queryAllByTestId('extra-properties-value')[5]).toHaveTextContent(/87654$/);
+    expect(screen.queryAllByTestId('extra-properties-value')[1]).toHaveTextContent(/^42$/);
+    expect(screen.queryAllByTestId('extra-properties-definition')[2]).toHaveTextContent(/^Gebeurt het vaker\?$/);
+    expect(screen.queryAllByTestId('extra-properties-value')[2]).toHaveTextContent(/^Nee$/);
+    expect(screen.queryAllByTestId('extra-properties-definition')[3]).toHaveTextContent(/^Heeft u het gezien\?$/);
+    expect(screen.queryAllByTestId('extra-properties-value')[3]).toHaveTextContent(/^Ja, het gebeurt vaker$/);
+    expect(screen.queryAllByTestId('extra-properties-definition')[4]).toHaveTextContent(/^Welke lampen\?$/);
+    expect(screen.queryAllByTestId('extra-properties-value')[4]).toHaveTextContent(/^126543/);
+    expect(screen.queryAllByTestId('extra-properties-value')[4]).toHaveTextContent(/87654$/);
   });
 
   it('should render correctly without items', () => {
