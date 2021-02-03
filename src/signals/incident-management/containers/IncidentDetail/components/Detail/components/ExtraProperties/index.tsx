@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import type { FunctionComponent } from 'react';
-import type { Answer, LegacyItem, MappedLegacyItem, Item, Checkbox } from './types';
+import type { Answer, MappedLegacyItem, Item, CheckboxInput, ExtraPropertiesTypes, LegacyAnswer } from './types';
 
-const getValue = (answer: Answer): string | JSX.Element[] => {
+const getValue = (answer: Answer | LegacyAnswer): string | JSX.Element[] => {
   if (Array.isArray(answer)) {
     return answer.map((item, index) => {
       if (typeof item !== 'string') {
@@ -17,8 +17,8 @@ const getValue = (answer: Answer): string | JSX.Element[] => {
   }
 
   if (typeof answer !== 'string') {
-    if (typeof (answer as Checkbox).value === 'boolean') {
-      return (answer as Checkbox).value ? answer.label : 'Nee';
+    if (typeof (answer as CheckboxInput).value === 'boolean') {
+      return (answer as CheckboxInput).value ? answer.label : 'Nee';
     }
 
     return answer.label;
@@ -28,7 +28,7 @@ const getValue = (answer: Answer): string | JSX.Element[] => {
 };
 
 interface ExtraPropertiesProps {
-  items: LegacyItem | Item[];
+  items?: ExtraPropertiesTypes;
 }
 
 const ExtraProperties: FunctionComponent<ExtraPropertiesProps> = ({ items = [] }) => {

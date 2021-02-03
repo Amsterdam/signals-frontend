@@ -1,24 +1,24 @@
-export type Text = string;
+export type TextInput = string;
 
-export interface Checkbox {
+export interface CheckboxInput {
   label: string;
   value: boolean;
 }
 
-export interface Radio {
+export interface RadioInput {
   id: string;
   label: string;
 }
 
-export interface ContainerMapValue {
+export interface ContainerMapInput {
   description: string;
   type: string;
   id: string;
 }
 
-export type MapValue = string;
+export type MapInput = string;
 
-export type Answer = Text | Checkbox | Radio | (ContainerMapValue | MapValue)[];
+export type Answer = TextInput | CheckboxInput | RadioInput | (MapInput | ContainerMapInput)[];
 
 export interface Item {
   id: string;
@@ -30,10 +30,11 @@ export interface Item {
 /**
  * Legacy data format unsupported by the current API.
  */
-type LegacyAnswer = Text | Checkbox | Radio;
-export type LegacyItem = Record<string, LegacyAnswer>;
+export type LegacyAnswer = TextInput | CheckboxInput | RadioInput;
+export type LegacyItems = Record<string, LegacyAnswer>;
 
 export interface MappedLegacyItem extends Pick<Item, 'id' | 'label'> {
   answer: LegacyAnswer;
 }
 
+export type ExtraPropertiesTypes = Item[] | LegacyItems;

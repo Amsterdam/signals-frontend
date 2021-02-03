@@ -72,7 +72,7 @@ describe('<ExtraProperties />', () => {
   });
 
   it('should render correctly without items', () => {
-    render(<ExtraProperties items={[]} />);
+    render(<ExtraProperties />);
 
     expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(0);
     expect(screen.queryAllByTestId('extra-properties-value')).toHaveLength(0);
