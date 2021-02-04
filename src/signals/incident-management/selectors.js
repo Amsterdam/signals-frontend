@@ -28,9 +28,26 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
     : null
 );
 
+export const makeSelectFixtures = createSelector(
+  [
+    makeSelectDistricts,
+    makeSelectSources,
+    makeSelectMainCategories,
+    makeSelectSubCategories,
+    makeSelectDirectingDepartments,
+  ],
+  (area, source, maincategory_slug, category_slug, directing_department) => ({
+    maincategory_slug,
+    category_slug,
+    area,
+    directing_department,
+    source,
+  })
+);
+
 export const makeSelectAllFilters = createSelector(
-  [selectIncidentManagementDomain, makeSelectMainCategories, makeSelectSubCategories, makeSelectDirectingDepartments],
-  (stateMap, maincategory_slug, category_slug, directing_department) => {
+  [selectIncidentManagementDomain, makeSelectFixtures],
+  (stateMap, fixtures) => {
     const filters = stateMap.get('filters').toJS();
     return filters.map(filter => {
       const { priority } = filter.options;
@@ -43,26 +60,15 @@ export const makeSelectAllFilters = createSelector(
         },
       };
 
-      return parseInputFormData(fltr, {
-        maincategory_slug,
-        category_slug,
-        directing_department,
-      });
+      return parseInputFormData(fltr, fixtures);
     });
   }
 );
 
 export const makeSelectActiveFilter = createSelector(
-  [
-    selectIncidentManagementDomain,
-    makeSelectDistricts,
-    makeSelectSources,
-    makeSelectMainCategories,
-    makeSelectSubCategories,
-    makeSelectDirectingDepartments,
-  ],
-  (stateMap, area, source, maincategory_slug, category_slug, directing_department) => {
-    if (!(maincategory_slug && category_slug && directing_department)) {
+  [selectIncidentManagementDomain, makeSelectFixtures],
+  (stateMap, fixtures) => {
+    if (!(fixtures.maincategory_slug && fixtures.category_slug && fixtures.directing_department)) {
       return {};
     }
 
@@ -77,43 +83,17 @@ export const makeSelectActiveFilter = createSelector(
         priority: converted,
       },
     };
-    const fixtures = {
-      maincategory_slug,
-      category_slug,
-      area,
-      directing_department,
-      source,
-    };
 
     return parseInputFormData(filter, fixtures);
   }
 );
 
 export const makeSelectEditFilter = createSelector(
-  [
-    selectIncidentManagementDomain,
-    makeSelectDistricts,
-    makeSelectSources,
-    makeSelectMainCategories,
-    makeSelectSubCategories,
-    makeSelectDirectingDepartments,
-  ],
-  (stateMap, area, source, maincategory_slug, category_slug, directing_department) => {
-    if (!(maincategory_slug && category_slug && directing_department)) {
-      return {};
-    }
-
-    const state = stateMap.toJS();
-    const fixtures = {
-      maincategory_slug,
-      category_slug,
-      area,
-      directing_department,
-      source,
-    };
-
-    return parseInputFormData(state.editFilter, fixtures);
-  }
+  [selectIncidentManagementDomain, makeSelectFixtures],
+  (stateMap, fixtures) =>
+    fixtures.maincategory_slug && fixtures.category_slug && fixtures.directing_department
+      ? parseInputFormData(stateMap.toJS().editFilter, fixtures)
+      : {}
 );
 
 const filterParamsMap = {
