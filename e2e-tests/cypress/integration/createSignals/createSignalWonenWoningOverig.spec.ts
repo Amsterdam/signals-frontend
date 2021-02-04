@@ -1,5 +1,3 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import {
   WONEN_WONINGKWALITEIT,
   WONEN_LEEGSTAND,
@@ -11,8 +9,7 @@ import {
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/wonenOverig.json';
+import signal from '../../fixtures/signals/wonenOverig.json';
 
 describe('Create signal "Wonen woning overig" and check signal details', () => {
   describe('Create signal wonen overig', () => {
@@ -22,10 +19,10 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
     });
 
     it('Should show specific questions illegal holiday rental', () => {
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
       const warningPhone = questions.wonen.extra_wonen_vakantieverhuur_bellen_of_formulier.label;
       cy.contains(questions.wonen.wonen_overig.label).should('be.visible');
 
@@ -287,19 +284,19 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_WONINGDELEN.inputTijdstip).eq(2).type('Elke dag is er wel iemand anders');
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -313,10 +310,10 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

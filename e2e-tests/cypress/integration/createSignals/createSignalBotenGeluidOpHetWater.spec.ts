@@ -1,11 +1,8 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { BOTEN } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/botenGeluid.json';
+import signal from '../../fixtures/signals/botenGeluid.json';
 
 describe('Create signal category boten "Geluid op het water"', () => {
   describe('Create signal boten', () => {
@@ -17,29 +14,29 @@ describe('Create signal category boten "Geluid op het water"', () => {
     });
 
     it('Should create the signal', () => {
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
 
       cy.contains(questions.overlastOpHetWater.extra_boten_geluid_meer.label).should('be.visible');
       cy.contains(questions.overlastOpHetWater.extra_boten_geluid_meer.subtitle).should('be.visible');
       cy.get(BOTEN.inputNogMeer).type('Ik zie allemaal aangeklede dieren op de boot staan, erg verdacht.');
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -53,10 +50,10 @@ describe('Create signal category boten "Geluid op het water"', () => {
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

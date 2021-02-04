@@ -1,4 +1,3 @@
-// Selectors for Manage Signals page
 export const MANAGE_SIGNALS = {
   buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
   buttonCloseMijnFilters: '[data-testid=closeBtn]',
@@ -24,7 +23,6 @@ export const MANAGE_SIGNALS = {
   stadsdeelFromSignal: 'tr td:nth-child(4)',
 };
 
-// Selectors for Filteren page
 export const FILTER = {
   buttonSubmitFilter: '[data-testid=submitBtn]',
   buttonNieuwFilter: '[data-testid=resetBtn]',
@@ -48,7 +46,6 @@ export const FILTER = {
   inputSearchInNote: '#filter_notes',
 };
 
-// Selectors on filter page for selection of all elements per category
 export const FILTER_ALL_ITEMS = {
   selectAllStatus: '[data-testid=statusCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
   selectAllStadsdelen:
@@ -70,12 +67,10 @@ export const FILTER_ALL_ITEMS = {
   selectAllLiving: '[class*=CheckboxList__Toggle] > [data-id*=wonen]',
 };
 
-// Selectors for Mijn Filters page
 export const MY_FILTERS = {
   buttonDeleteFilter: '[data-testid=handleRemoveFilterButton]',
 };
 
-// Selectors for signals overview map
 export const OVERVIEW_MAP = {
   autoSuggest: '[data-testid=autoSuggest]',
   buttonBack: '[data-testid=backlink]',

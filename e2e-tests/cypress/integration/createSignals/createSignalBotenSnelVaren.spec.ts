@@ -1,11 +1,8 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { BOTEN } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/botenSnelVaren.json';
+import signal from '../../fixtures/signals/botenSnelVaren.json';
 
 describe('Create signal category "Boten snel varen"', () => {
   describe('Create signal boten', () => {
@@ -17,10 +14,10 @@ describe('Create signal category "Boten snel varen"', () => {
     });
 
     it('Should create the signal', () => {
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_rondvaartboot.label).should('be.visible');
       cy.get(BOTEN.radioButtonRondvaartbootJa).click({ force: true });
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_rederij.label).should('be.visible');
@@ -33,19 +30,19 @@ describe('Create signal category "Boten snel varen"', () => {
       cy.get(BOTEN.inputNogMeer).type('De boot voer richting Ouderkerk aan de Amstel');
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -59,10 +56,10 @@ describe('Create signal category "Boten snel varen"', () => {
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

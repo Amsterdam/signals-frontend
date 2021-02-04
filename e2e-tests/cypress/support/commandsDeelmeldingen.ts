@@ -1,7 +1,7 @@
 import { DEELMELDING, SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS, FILTER } from './selectorsManageIncidents';
 
-export const checkDeelmelding = (deelmeldingNumber, subcategory, status, handlingTime) => {
+Cypress.Commands.add('checkDeelmelding', (deelmeldingNumber, subcategory, status, handlingTime) => {
   cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
     const deelMeldingId = Number.parseInt(json.signalId, 10) + Number.parseInt(deelmeldingNumber, 10);
     cy.log(deelMeldingId.toString());
@@ -11,16 +11,16 @@ export const checkDeelmelding = (deelmeldingNumber, subcategory, status, handlin
     cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('contain', status).and('be.visible');
     cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', handlingTime).and('be.visible');
   });
-};
+});
 
-export const checkDeelmeldingStatuses = status => {
+Cypress.Commands.add('checkDeelmeldingStatus', status => {
   cy.get(DEELMELDING.childIncident)
-    .each((element: any) => {
+    .each((element: string) => {
       cy.get(element).should('contain', status);
     });
-};
+});
 
-export const checkSignalNotVisible = () => {
+Cypress.Commands.add('checkSignalNotVisible', () => {
   cy.get('body').then($body => {
     if ($body.find('th').length > 0) {
       cy.get('th').contains('Id').click();
@@ -38,9 +38,9 @@ export const checkSignalNotVisible = () => {
       cy.contains('Geen meldingen').should('be.visible');
     }
   });
-};
+});
 
-export const checkSignalType = type => {
+Cypress.Commands.add('checkSignalType', type => {
   switch (type) {
     case 'melding':
       cy.get(MANAGE_SIGNALS.firstSignalId).click();
@@ -56,9 +56,9 @@ export const checkSignalType = type => {
       break;
     default:
   }
-};
+});
 
-export const filterSignalOnType = (type, selector) => {
+Cypress.Commands.add('filterSignalOnType', (type, selector) => {
   cy.get(MANAGE_SIGNALS.buttonFilteren).click();
   cy.get(selector).check().should('be.checked');
   cy.get(FILTER.buttonSubmitFilter).click();
@@ -68,21 +68,22 @@ export const filterSignalOnType = (type, selector) => {
   cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
   cy.wait('@getTerms');
-  checkSignalType(type);
+  cy.checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedDESC');
   cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
-  checkSignalType(type);
+  cy.checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
-};
+});
 
-export const setDeelmelding = (id, deelmeldingNumber, subcategory, description) => {
+Cypress.Commands.add('setDeelmelding', (id, deelmeldingNumber, subcategory, description) => {
   cy.get(DEELMELDING.titleDeelmelding).eq(id - 1).should('contain', `Deelmelding ${deelmeldingNumber}`);
   cy.get('select').eq(id - 1).find('option').contains(subcategory).then($element => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const elementText = $element.text();
     cy.get('select').eq(id - 1).select(elementText);
   });
   cy.get(`[data-testid="incidentSplitFormIncidentDescriptionText-${id}"]`).clear().type(description);
-};
+});

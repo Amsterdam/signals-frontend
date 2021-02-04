@@ -1,4 +1,3 @@
-// General selectors for signal details
 export const CHANGE_CATEGORY = {
   buttonCancel: '[data-testid=cancelSubcategoryButton]',
   buttonEdit: '[data-testid=editSubcategoryButton]',

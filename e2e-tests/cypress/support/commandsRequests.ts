@@ -192,7 +192,7 @@ export const createSignalDeelmelding = () => {
       text: 'Het stinkt hier naar eigenaardige kruiden en er ligt allemaal afval op stoep',
     },
   }).its('body').then(body => {
-    const id = body.id;
+    const id = body.id as string;
     cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${id}` }, { flag: 'w' });
     cy.log(id);
   });

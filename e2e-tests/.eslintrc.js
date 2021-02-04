@@ -4,9 +4,10 @@ module.exports = {
   extends: ['plugin:amsterdam/base', 'plugin:amsterdam/cypress', 'plugin:amsterdam/typescript'],
   overrides: [
     {
-      files: ['./eslint-plugin-amsterdam/**/*', 'jest.config.*', './internals/**/*', './server/**/*'],
+      files: ['./cypress/**/*.ts'],
       extends: ['plugin:amsterdam/typescript'],
       parserOptions: {
+        createDefaultProgram: true,
         project: './tsconfig.json',
       },
       rules: {
@@ -21,6 +22,8 @@ module.exports = {
             ignoreStatic: true,
           },
         ],
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-call': 'off'
       },
     },
   ],

@@ -1,4 +1,3 @@
-// <reference types="Cypress" />
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
@@ -99,6 +98,7 @@ describe('Sorting', () => {
   it.skip('Should sort on column Datum en tijd', () => {
     // This test is skipped because it is not possible to know which signal is created first or last with parallel runs
     cy.getSortedByTimeRoutes();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const todaysDate = Cypress.moment().format('DD-MM-YYYY');
 
     cy.get('th').contains('Datum en tijd').click();

@@ -1,4 +1,3 @@
-// <reference types="Cypress" />
 import * as requests from '../../support/commandsRequests';
 import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { MANAGE_SIGNALS, FILTER } from '../../support/selectorsManageIncidents';
@@ -9,11 +8,6 @@ const sizes = ['iphone-6', 'macbook-15'];
 sizes.forEach(size => {
   describe(`Adding notes to signal, resolution is: ${size}`, () => {
     beforeEach(() => {
-      // if (Cypress._.isArray(size)) {
-      //   cy.viewport(size[0], size[1]);
-      // } else {
-      //   cy.viewport(size);
-      // }
       cy.setResolution(size);
     });
 

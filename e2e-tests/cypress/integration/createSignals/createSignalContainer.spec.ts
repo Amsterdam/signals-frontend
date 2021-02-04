@@ -1,11 +1,8 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { CONTAINERS } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/container.json';
+import signal from '../../fixtures/signals/container.json';
 
 describe('Create signal "Container" and check signal details', () => {
   describe('Create signal cointainer', () => {
@@ -17,10 +14,10 @@ describe('Create signal "Container" and check signal details', () => {
     });
 
     it('Should create the signal', () => {
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
 
       cy.contains(questions.afval.extra_container_kind.label).should('be.visible');
       cy.get(CONTAINERS.inputContainerSoort).eq(0).type('Een restafval container');
@@ -29,19 +26,19 @@ describe('Create signal "Container" and check signal details', () => {
 
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -55,10 +52,10 @@ describe('Create signal "Container" and check signal details', () => {
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

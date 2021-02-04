@@ -1,6 +1,4 @@
-// <reference types="Cypress" />
 import * as requests from '../../support/commandsRequests';
-import * as createSignal from '../../support/commandsCreateSignal';
 import { DEPARTMENTS, MENU } from '../../support/selectorsSettings';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { generateToken } from '../../support/jwt';
@@ -92,7 +90,7 @@ describe('Manage departments', () => {
         cy.waitForManageSignalsRoutes();
       });
       it('Should change signal category', () => {
-        createSignal.openCreatedSignal();
+        cy.openCreatedSignal();
         cy.waitForSignalDetailsRoutes();
         cy.get(CHANGE_CATEGORY.buttonEdit).click();
         cy.get(CHANGE_CATEGORY.inputCategory).select('Drank- / drugsoverlast (ASC, THO)');
@@ -122,7 +120,7 @@ describe('Manage departments', () => {
         cy.waitForManageSignalsRoutes();
       });
       it('Should change signal category and check responsible department', () => {
-        createSignal.openCreatedSignal();
+        cy.openCreatedSignal();
         cy.waitForSignalDetailsRoutes();
         cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Drank- / drugsoverlast (CCA, ASC, THO)').and('be.visible');
       });

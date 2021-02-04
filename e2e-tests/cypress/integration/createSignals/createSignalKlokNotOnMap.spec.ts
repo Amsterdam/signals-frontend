@@ -1,11 +1,8 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { KLOK } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/klokNotOnMap.json';
+import signal from '../../fixtures/signals/klokNotOnMap.json';
 
 describe('Create signal "Klok" which is NOT on the map and check signal details', () => {
   describe('Create signal klok not on the map', () => {
@@ -17,10 +14,10 @@ describe('Create signal "Klok" which is NOT on the map and check signal details'
     });
 
     it('Should create the signal', () => {
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
 
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.label).should('be.visible');
       cy.get(KLOK.radioButtonGevaarlijkOpGrondOfScheef).check({ force: true }).should('be.checked');
@@ -38,19 +35,19 @@ describe('Create signal "Klok" which is NOT on the map and check signal details'
 
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -64,10 +61,10 @@ describe('Create signal "Klok" which is NOT on the map and check signal details'
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

@@ -1,6 +1,4 @@
-// <reference types="Cypress" />
 import * as requests from '../../support/commandsRequests';
-import * as createSignal from '../../support/commandsCreateSignal';
 import { FILTER, MANAGE_SIGNALS, OVERVIEW_MAP } from '../../support/selectorsManageIncidents';
 import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { generateToken } from '../../support/jwt';
@@ -64,8 +62,8 @@ describe('Signal overview Map', () => {
     it('Should search for an address', () => {
       cy.stubAddress('signalForOverviewMap.json');
       cy.get(OVERVIEW_MAP.buttonZoomIn).click();
-      createSignal.searchAddress('1012RJ 147');
-      createSignal.selectAddress('Nieuwezijds Voorburgwal 147, 1012RJ Amsterdam');
+      cy.searchAddress('1012RJ 147');
+      cy.selectAddress('Nieuwezijds Voorburgwal 147, 1012RJ Amsterdam');
 
       // Wait is needed to finish zoom when selecting address, otherwise test is failing
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -79,7 +77,11 @@ describe('Signal overview Map', () => {
 
       cy.get(OVERVIEW_MAP.openSignalDetails).then($signalLink => {
         // Get the signal number
-        const signalId = $signalLink.text().match(/\d+/)[0];
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const text = $signalLink.text();
+        const expression = (/\d+/);
+        const signalId = expression.exec(text)[0];
+
         cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${signalId}` }, { flag: 'w' });
         cy.get(OVERVIEW_MAP.openSignalDetails).click();
         // Url contains signal number
@@ -88,7 +90,7 @@ describe('Signal overview Map', () => {
     });
 
     it('Should show the correct details of the signal', () => {
-      createSignal.checkSignalDetailsPage();
+      cy.checkSignalDetailsPage();
       cy.contains('Er staat een paard in de gang, ja ja een paard in de gang.');
 
       cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
@@ -96,7 +98,7 @@ describe('Signal overview Map', () => {
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012RJ Amsterdam').and('be.visible');
 
       cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '21 dagen').and('be.visible');
-      createSignal.checkRedTextStatus('Gemeld');
+      cy.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Overig openbare ruimte (ASC)').and('be.visible');

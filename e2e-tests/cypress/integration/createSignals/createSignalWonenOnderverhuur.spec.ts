@@ -1,11 +1,8 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { WONEN_ONDERVERHUUR } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/wonenOnderverhuur.json';
+import signal from '../../fixtures/signals/wonenOnderverhuur.json';
 
 describe('Create signal "Wonen onderverhuur" and check signal details', () => {
   describe('Create signal wonen onderverhuur', () => {
@@ -17,10 +14,10 @@ describe('Create signal "Wonen onderverhuur" and check signal details', () => {
     });
 
     it('Should create the signal', () => {
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
       cy.contains(questions.wonen.extra_wonen_onderhuur_aantal_personen.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.radioButtonAantalPersonen1).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_onderhuur_bewoners_familie.label).should('not.exist');
@@ -66,19 +63,19 @@ describe('Create signal "Wonen onderverhuur" and check signal details', () => {
 
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -92,10 +89,10 @@ describe('Create signal "Wonen onderverhuur" and check signal details', () => {
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

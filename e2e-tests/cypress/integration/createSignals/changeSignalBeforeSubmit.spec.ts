@@ -1,15 +1,11 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { CREATE_SIGNAL, LANTAARNPAAL } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath01 = '../fixtures/signals/signalForChangeBeforeSubmit01.json';
-const fixturePath02 = '../fixtures/signals/signalForChangeBeforeSubmit02.json';
-const fixturePath03 = '../fixtures/signals/signalForChangeBeforeSubmit03.json';
-const fixturePath04 = '../fixtures/signals/signalForChangeBeforeSubmit04.json';
-
+import signal01 from '../../fixtures/signals/signalForChangeBeforeSubmit01.json';
+import signal02 from '../../fixtures/signals/signalForChangeBeforeSubmit02.json';
+import signal03 from '../../fixtures/signals/signalForChangeBeforeSubmit03.json';
+import signal04 from '../../fixtures/signals/signalForChangeBeforeSubmit04.json';
 
 describe('Change a signal before submit and check signal details', () => {
   describe('Change signal before submit', () => {
@@ -22,10 +18,10 @@ describe('Change a signal before submit and check signal details', () => {
     });
 
     it('Should create the signal', () => {
-      createSignal.setDescriptionPage(fixturePath01);
+      cy.setDescriptionPage(signal01);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath01);
+      cy.checkSpecificInformationPage(signal01);
 
       cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked').and('be.visible');
       cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check({ force: true }).should('be.checked');
@@ -36,14 +32,14 @@ describe('Change a signal before submit and check signal details', () => {
       cy.get(LANTAARNPAAL.inputLampNummer1).type('11.11');
       cy.get(LANTAARNPAAL.inputLampNummer2).type('100.199');
       cy.contains('Volgende').click();
-      createSignal.setPhonenumber(fixturePath01);
+      cy.setPhonenumber(signal01);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath01);
+      cy.setEmailAddress(signal01);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath01);
-      createSignal.checkQuestions(fixturePath01);
+      cy.checkSummaryPage(signal01);
+      cy.checkQuestions(signal01);
       cy.get(CREATE_SIGNAL.imageFileUpload).should('not.exist');
     });
 
@@ -55,44 +51,44 @@ describe('Change a signal before submit and check signal details', () => {
       cy.get(CREATE_SIGNAL.linkChangeSignalInfo).click();
       cy.get(CREATE_SIGNAL.autoSuggest).find('input').clear();
 
-      createSignal.setDescriptionPage(fixturePath02);
+      cy.setDescriptionPage(signal02);
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath02);
+      cy.setPhonenumber(signal02);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath02);
+      cy.setEmailAddress(signal02);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath02);
+      cy.checkSummaryPage(signal02);
     });
     it('Should edit phonenumber and email address', () => {
       cy.stubPreviewMap();
       // Go to the phonenumber page and change phonenumber
       cy.get(CREATE_SIGNAL.linkChangePhoneNumber).click();
-      createSignal.setPhonenumber(fixturePath03);
+      cy.setPhonenumber(signal03);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath03);
+      cy.setEmailAddress(signal03);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath03);
+      cy.checkSummaryPage(signal03);
     });
     it('Should edit email address', () => {
       cy.stubPreviewMap();
       cy.postSignalRoutePublic();
       // Go to the email address page and change emailaddress
       cy.get(CREATE_SIGNAL.linkChangeEmailAddress).click();
-      createSignal.setEmailAddress(fixturePath04);
+      cy.setEmailAddress(signal04);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath04);
+      cy.checkSummaryPage(signal04);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -105,10 +101,10 @@ describe('Change a signal before submit and check signal details', () => {
     });
 
     it('Should show the signal details', () => {
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath04);
+      cy.checkAllDetails(signal04);
     });
   });
 });

@@ -68,6 +68,7 @@ module.exports = {
         // 'space-before-function-paren': 'off',
 
         '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/object-curly-spacing': ['error', 'always'],
       },
     },
   ],

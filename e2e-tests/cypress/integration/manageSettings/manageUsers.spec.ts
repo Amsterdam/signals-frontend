@@ -1,4 +1,3 @@
-// <reference types="Cypress" />
 import { USERS } from '../../support/selectorsSettings';
 import { generateToken } from '../../support/jwt';
 

@@ -1,7 +1,4 @@
-// <reference types="Cypress" />
-
 import * as requests from '../../support/commandsRequests';
-import * as filtering from '../../support/commandsFiltering';
 import {
   MANAGE_SIGNALS, FILTER, FILTER_ALL_ITEMS, MY_FILTERS,
 } from '../../support/selectorsManageIncidents';
@@ -16,7 +13,6 @@ describe('Filtering', () => {
     cy.postFilterRoute();
 
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-
     cy.visit('/manage/incidents/');
 
     cy.waitForManageSignalsRoutes();
@@ -101,7 +97,7 @@ describe('Filtering', () => {
       .click();
 
     // Delete all filters. This is needed when the filter test fails, then there are some filters left to delete.
-    cy.get(MY_FILTERS.buttonDeleteFilter).each((buttonDeleteFilter: any) => {
+    cy.get(MY_FILTERS.buttonDeleteFilter).each((buttonDeleteFilter: string) => {
       cy.get(buttonDeleteFilter).click();
       cy.wait('@deleteFilter');
     });
@@ -149,6 +145,7 @@ describe('Filtering', () => {
   });
   it('Should filter on address and date without saving the filter', () => {
     cy.getFilterByAddressRoute();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const todaysDate = Cypress.moment().format('DD-MM-YYYY');
     cy.get(MANAGE_SIGNALS.buttonFilteren).click();
     cy.get(FILTER.inputFilterAddres).type('Ruigoord 36');
@@ -168,62 +165,62 @@ describe('Filtering', () => {
   it.skip('Should check checkboxes per category', () => {
     // Skipped because this test takes too much time
     cy.get(MANAGE_SIGNALS.buttonFilteren).click();
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllStatus, 'status');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllStadsdelen, 'stadsdeel');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllSource, 'source');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllGarbage, 'afval');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllCivilConstructs, 'civiele-constructies');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllSubversion, 'ondermijning');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllPublicParksWater, 'openbaar-groen-en-water');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllOther, 'overig');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceCompanies, 'overlast-bedrijven-en-horeca');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbancePublicSpace, 'overlast-in-de-openbare-ruimte');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceWater, 'overlast-op-het-water');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceAnimals, 'overlast-van-dieren');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbancePersonsGroups, 'overlast-van-en-door-personen-of-groepen');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllClean, 'schoon');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllRoadsTraffic, 'wegen-verkeer-straatmeubilair');
-    filtering.filterCategory(FILTER_ALL_ITEMS.selectAllLiving, 'wonen');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllStatus, 'status');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllStadsdelen, 'stadsdeel');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllSource, 'source');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllGarbage, 'afval');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllCivilConstructs, 'civiele-constructies');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllSubversion, 'ondermijning');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllPublicParksWater, 'openbaar-groen-en-water');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllOther, 'overig');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceCompanies, 'overlast-bedrijven-en-horeca');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbancePublicSpace, 'overlast-in-de-openbare-ruimte');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceWater, 'overlast-op-het-water');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbanceAnimals, 'overlast-van-dieren');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllDisturbancePersonsGroups, 'overlast-van-en-door-personen-of-groepen');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllClean, 'schoon');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllRoadsTraffic, 'wegen-verkeer-straatmeubilair');
+    cy.filterCategory(FILTER_ALL_ITEMS.selectAllLiving, 'wonen');
   });
 
   it('Should filter on Afval', () => {
-    filtering.filterOnCategorySlug('overig-afval', 'Overig afval');
+    cy.filterByCategorySlug('overig-afval', 'Overig afval');
   });
   it.skip('Should filter on Civiele constructies', () => {
-    filtering.filterOnCategorySlug('afwatering-brug', 'Afwatering brug');
+    cy.filterByCategorySlug('afwatering-brug', 'Afwatering brug');
   });
   it.skip('Should filter on Ondermijning', () => {
-    filtering.filterOnCategorySlug('vermoeden', 'Vermoeden');
+    cy.filterByCategorySlug('vermoeden', 'Vermoeden');
   });
   it.skip('Should filter on Openbaar groen en water', () => {
-    filtering.filterOnCategorySlug('eikenprocessierups', 'Eikenprocessierups');
+    cy.filterByCategorySlug('eikenprocessierups', 'Eikenprocessierups');
   });
   it.skip('Should filter on Overig', () => {
-    filtering.filterOnCategorySlug('overige-dienstverlening', 'Overige dienstverlening');
+    cy.filterByCategorySlug('overige-dienstverlening', 'Overige dienstverlening');
   });
   it.skip('Should filter on Overlast bedrijven en horeca', () => {
-    filtering.filterOnCategorySlug('overlast-terrassen', 'Overlast terrassen');
+    cy.filterByCategorySlug('overlast-terrassen', 'Overlast terrassen');
   });
   it('Should filter on Overlast in de openbare ruimte', () => {
-    filtering.filterOnCategorySlug('markten', 'Markten');
+    cy.filterByCategorySlug('markten', 'Markten');
   });
   it.skip('Should filter on Overlast op het water', () => {
-    filtering.filterOnCategorySlug('olie-op-het-water', 'Olie op het water');
+    cy.filterByCategorySlug('olie-op-het-water', 'Olie op het water');
   });
   it.skip('Should filter on Overlast van dieren', () => {
-    filtering.filterOnCategorySlug('ganzen', 'Ganzen');
+    cy.filterByCategorySlug('ganzen', 'Ganzen');
   });
   it.skip('Should filter on Overlast van en door personen of groepen', () => {
-    filtering.filterOnCategorySlug('overlast-door-afsteken-vuurwerk', 'Overlast door afsteken vuurwerk');
+    cy.filterByCategorySlug('overlast-door-afsteken-vuurwerk', 'Overlast door afsteken vuurwerk');
   });
   it.skip('Should filter on Schoon', () => {
-    filtering.filterOnCategorySlug('uitwerpselen', 'Uitwerpselen');
+    cy.filterByCategorySlug('uitwerpselen', 'Uitwerpselen');
   });
   it.skip('Should filter on Wegen verkeer straatmeubilair', () => {
-    filtering.filterOnCategorySlug('parkeerautomaten', 'Parkeerautomaten');
+    cy.filterByCategorySlug('parkeerautomaten', 'Parkeerautomaten');
   });
   it.skip('Should filter on Wonen', () => {
-    filtering.filterOnCategorySlug('vakantieverhuur', 'Vakantieverhuur');
+    cy.filterByCategorySlug('vakantieverhuur', 'Vakantieverhuur');
   });
   it('Should filter on urgentie hoog', () => {
     cy.getFilterByUrgencyRoute();

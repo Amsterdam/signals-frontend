@@ -1,12 +1,9 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { STANDAARDTEKSTEN } from '../../support/selectorsSettings';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { CHANGE_STATUS, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/signalForStandaardteksten.json';
+import signal from '../../fixtures/signals/signalForStandaardteksten.json';
 
 describe('Standaardteksten', () => {
   describe('Create standaardteksten', () => {
@@ -88,24 +85,24 @@ describe('Standaardteksten', () => {
     });
 
     it('Should create the signal', () => {
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
       cy.contains('Volgende').click();
-      createSignal.setPhonenumber(fixturePath);
-      cy.contains('Volgende').click();
-
-      createSignal.setEmailAddress(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.setEmailAddress(signal);
+      cy.contains('Volgende').click();
+
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Change status of signal and check standaardtekst', () => {
@@ -120,7 +117,7 @@ describe('Standaardteksten', () => {
     });
 
     it('Should change the status of the signal to Ingepland and show standaardtekst', () => {
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
       // Used a wait because sometimes the edit button is not clicked
@@ -153,7 +150,7 @@ describe('Standaardteksten', () => {
     });
     it('Should change the status of the signal to Afgehandeld and show standaardtekst', () => {
       cy.patchSignalRoute();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
       // Used a wait because sometimes the edit button is not clicked
@@ -187,7 +184,7 @@ describe('Standaardteksten', () => {
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven AFHANDELEN. De overlastgevende duif is geïdentificeerd als Valiant');
     });
     it('Should change the status of the signal to Heropend and show standaardtekst', () => {
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
       // Used a wait because sometimes the edit button is not clicked
@@ -235,7 +232,7 @@ describe('Standaardteksten', () => {
         cy.waitForManageSignalsRoutes();
       });
       it('Should show no message when there is no standaardtekst', () => {
-        createSignal.openCreatedSignal();
+        cy.openCreatedSignal();
         // Used a wait because sometimes the edit button is not clicked
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(500);

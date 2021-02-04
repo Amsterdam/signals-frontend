@@ -1,9 +1,7 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/wespen.json';
+import signal from '../../fixtures/signals/wespen.json';
+import questions from '../../fixtures/questions/questions.json';
 
 describe('Create signal "Wespen" when logged in and check signal details', () => {
   describe('Create signal wespen', () => {
@@ -23,7 +21,7 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       cy.stubPreviewMap();
       cy.postSignalRoutePrivate();
 
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
 
       // Check Urgency texts
       cy.contains('Wat is de urgentie?').should('be.visible');
@@ -34,31 +32,28 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       cy.contains('Normaal').should('be.visible').click();
 
       cy.contains('Volgende').click();
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
 
-      cy.fixture('../fixtures/questions/questions.json').then((json: any) => {
-        // eslint-disable-next-line max-nested-callbacks
-        Object.values(json.overlastVanDieren.extra_dieren_text.answers).forEach((elementValue: any) => {
-          cy.contains(elementValue).should('be.visible');
-        });
+      Object.values(questions.overlastVanDieren.extra_dieren_text.answers).forEach((elementValue: string) => {
+        cy.contains(elementValue).should('be.visible');
       });
       cy.contains('Dierenambulance Amsterdam').should('have.attr', 'href').and('include', 'dierenambulance-amsterdam');
       cy.contains('overlast van dieren').should('have.attr', 'href').and('include', 'veelgevraagd');
 
       cy.contains('Volgende').click();
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -72,10 +67,10 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

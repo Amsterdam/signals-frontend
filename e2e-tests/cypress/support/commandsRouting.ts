@@ -1,3 +1,8 @@
+Cypress.Commands.add('defineDepartmentRoutes', () => {
+  cy.intercept(/departments\/\d+/).as('getDepartment');
+  cy.intercept('PATCH', '**/private/departments/*').as('patchDepartment');
+});
+
 Cypress.Commands.add('defineMapRoutes', () => {
   cy.intercept('**/geography?*').as('getGeography');
   cy.intercept('**?page=1&ordering=-created_at&page_size=50').as('getSignals');
@@ -5,13 +10,14 @@ Cypress.Commands.add('defineMapRoutes', () => {
   cy.intercept('**/categories/*').as('getCategories');
 });
 
-Cypress.Commands.add('deleteFilterRoute', () => {
-  cy.intercept('DELETE', '**/private/me/filters/*').as('deleteFilter');
+Cypress.Commands.add('defineNoteRoutes', () => {
+  cy.intercept('PATCH', '**/private/signals/*').as('patchNote');
+  cy.intercept('**/private/signals/?page=*').as('getSignal');
+  cy.intercept('**/history').as('getHistory');
 });
 
-Cypress.Commands.add('defineDepartmentRoutes', () => {
-  cy.intercept(/departments\/\d+/).as('getDepartment');
-  cy.intercept('PATCH', '**/private/departments/*').as('patchDepartment');
+Cypress.Commands.add('deleteFilterRoute', () => {
+  cy.intercept('DELETE', '**/private/me/filters/*').as('deleteFilter');
 });
 
 Cypress.Commands.add('getCategoriesRoutes', () => {
@@ -47,7 +53,7 @@ Cypress.Commands.add('getFilterByUrgencyRoute', () => {
 
 Cypress.Commands.add('getFilteredSignalsRoute', () => {
   cy.intercept('**?stadsdeel=B&status=m&page=1&ordering=-created_at&page_size=50').as(
-    'getFilteredSignals',
+    'getFilteredSignals'
   );
 });
 
@@ -132,12 +138,6 @@ Cypress.Commands.add('getTermsRoute', () => {
 
 Cypress.Commands.add('getUserRoute', () => {
   cy.intercept('**/private/users/*').as('getUser');
-});
-
-Cypress.Commands.add('defineNoteRoutes', () => {
-  cy.intercept('PATCH', '**/private/signals/*').as('patchNote');
-  cy.intercept('**/private/signals/?page=*').as('getSignal');
-  cy.intercept('**/history').as('getHistory');
 });
 
 Cypress.Commands.add('patchSignalRoute', () => {

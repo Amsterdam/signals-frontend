@@ -1,11 +1,8 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { CREATE_SIGNAL, LANTAARNPAAL } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/lantaarnpaal.json';
+import signal from '../../fixtures/signals/lantaarnpaal.json';
 
 describe('Create signal "Lantaarnpaal" and check signal details', () => {
   describe('Create signal lantaarnpaal', () => {
@@ -18,10 +15,10 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
     });
 
     it('Should create the signal', () => {
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
 
       cy.contains('Volgende').click();
       cy.get(CREATE_SIGNAL.labelQuestion)
@@ -61,7 +58,7 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.label).should('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.subtitle).should('be.visible');
       // Click on lamp based on coordinate
-      createSignal.selectLampOnCoordinate(414, 135);
+      cy.selectLampOnCoordinate(414, 135);
       cy.contains('Het gaat om lamp of lantaarnpaal met nummer: 034575').should('be.visible');
 
       // Check options in legend
@@ -77,19 +74,19 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
 
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -103,10 +100,10 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

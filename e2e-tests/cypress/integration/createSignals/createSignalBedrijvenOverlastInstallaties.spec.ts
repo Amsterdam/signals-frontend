@@ -1,11 +1,9 @@
-// <reference types="Cypress" />
-import * as createSignal from '../../support/commandsCreateSignal';
 import { BEDRIJVEN_HORECA } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
+import signal from '../../fixtures/signals/bedrijvenInstallaties.json';
 
-const fixturePath = '../fixtures/signals/bedrijvenInstallaties.json';
 const sizes = [[375, 667], [1920, 1080]];
 
 describe('Create signal "Bedrijven overlast installaties" and check signal details', () => {
@@ -20,10 +18,10 @@ describe('Create signal "Bedrijven overlast installaties" and check signal detai
       });
 
       it('Should create the signal', () => {
-        createSignal.setDescriptionPage(fixturePath);
+        cy.setDescriptionPage(signal);
         cy.contains('Volgende').click();
 
-        createSignal.checkSpecificInformationPage(fixturePath);
+        cy.checkSpecificInformationPage(signal);
 
         cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_wat.label).should('be.visible');
         cy.get(BEDRIJVEN_HORECA.radioButtonIetsAnders).click({ force: true });
@@ -45,19 +43,19 @@ describe('Create signal "Bedrijven overlast installaties" and check signal detai
         cy.get(BEDRIJVEN_HORECA.inputWaaromGeenContact).eq(3).type('Ik heb contacteer-angst');
         cy.contains('Volgende').click();
 
-        createSignal.setPhonenumber(fixturePath);
+        cy.setPhonenumber(signal);
         cy.contains('Volgende').click();
 
-        createSignal.setEmailAddress(fixturePath);
+        cy.setEmailAddress(signal);
         cy.contains('Volgende').click();
 
-        createSignal.checkSummaryPage(fixturePath);
+        cy.checkSummaryPage(signal);
         cy.contains('Verstuur').click();
         cy.wait('@postSignalPublic');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-        createSignal.checkThanksPage();
-        createSignal.saveSignalId();
+        cy.checkThanksPage();
+        cy.saveSignalId();
       });
     });
     describe('Check data created signal', () => {
@@ -71,10 +69,10 @@ describe('Create signal "Bedrijven overlast installaties" and check signal detai
 
       it('Should show the signal details', () => {
         cy.stubPreviewMap();
-        createSignal.openCreatedSignal();
+        cy.openCreatedSignal();
         cy.waitForSignalDetailsRoutes();
 
-        cy.checkAllDetails(fixturePath);
+        cy.checkAllDetails(signal);
       });
     });
   });

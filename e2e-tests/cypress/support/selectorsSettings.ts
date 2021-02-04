@@ -8,7 +8,7 @@ export const CATEGORIES = {
   inputDescription: '#description',
   inputMessage: '#handling_message',
   inputName: '#name',
-  radioButtonNietActief: '[data-testid="is_active-false"]'
+  radioButtonNietActief: '[data-testid="is_active-false"]',
 };
 
 export const DEPARTMENTS = {

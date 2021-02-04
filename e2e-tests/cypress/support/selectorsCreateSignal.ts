@@ -122,7 +122,6 @@ export const LANTAARNPAAL = {
   radioButtonNietGevaarlijk: '#extra_straatverlichting-niet_gevaarlijk1',
 };
 
-// Selectors for stankoverlast
 export const STANK_OVERLAST = {
   inputGeur: '[class*=Input__StyledInput]',
   inputOorzaakGeur: '[class*=Input__StyledInput]',

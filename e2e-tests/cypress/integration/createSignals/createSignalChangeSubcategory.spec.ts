@@ -1,12 +1,9 @@
-// <reference types="Cypress" />
 import { CATEGORIES } from '../../support/selectorsSettings';
-import * as createSignal from '../../support/commandsCreateSignal';
 import { CONTAINERS, CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-
-const fixturePath = '../fixtures/signals/changeCategory.json';
+import signal from '../../fixtures/signals/changeCategory.json';
 
 describe('Create signal and choose other subcategory than proposed', () => {
   describe('Set up testdata', () => {
@@ -59,13 +56,13 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.stubPreviewMap();
       cy.postSignalRoutePrivate();
 
-      createSignal.setDescriptionPage(fixturePath);
+      cy.setDescriptionPage(signal);
       cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Container is kapot (AEG)');
       cy.get(CREATE_SIGNAL.descriptionInfo).should('contain', 'Subcategorie voorstel: Wespen').and('be.visible');
       cy.get(CREATE_SIGNAL.infoText).should('contain', 'Een verhaal over een kapotte container').and('be.visible');
       cy.contains('Volgende').click();
 
-      createSignal.checkSpecificInformationPage(fixturePath);
+      cy.checkSpecificInformationPage(signal);
 
       // Select container soort and number
       cy.contains(questions.afval.extra_container_kind.label).should('be.visible');
@@ -74,19 +71,19 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.get(CONTAINERS.inputContainerNummer).eq(1).type('Nummertje 911');
       cy.contains('Volgende').click();
 
-      createSignal.setPhonenumber(fixturePath);
+      cy.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      createSignal.setEmailAddress(fixturePath);
+      cy.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      createSignal.checkSummaryPage(fixturePath);
+      cy.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      createSignal.checkThanksPage();
-      createSignal.saveSignalId();
+      cy.checkThanksPage();
+      cy.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
@@ -100,10 +97,10 @@ describe('Create signal and choose other subcategory than proposed', () => {
 
     it('Should show the signal details', () => {
       cy.stubPreviewMap();
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(fixturePath);
+      cy.checkAllDetails(signal);
     });
   });
 });

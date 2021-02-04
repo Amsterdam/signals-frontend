@@ -1,6 +1,4 @@
-// <reference types="Cypress" />
 import * as requests from '../../support/commandsRequests';
-import * as createSignal from '../../support/commandsCreateSignal';
 import { CHANGE_STATUS, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { generateToken } from '../../support/jwt';
 
@@ -21,7 +19,7 @@ describe('All status transitions of a signal', () => {
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
     });
     it("Should change status from 'Gemeld' to 'In afwachting van behandeling'", () => {
@@ -80,7 +78,7 @@ describe('All status transitions of a signal', () => {
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
     });
 
@@ -110,7 +108,7 @@ describe('All status transitions of a signal', () => {
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
     });
 
@@ -143,7 +141,7 @@ describe('All status transitions of a signal', () => {
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
     });
 
@@ -170,7 +168,7 @@ describe('All status transitions of a signal', () => {
       cy.waitForManageSignalsRoutes();
     });
     it('Should open the signal', () => {
-      createSignal.openCreatedSignal();
+      cy.openCreatedSignal();
       cy.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.buttonTHOR).click();
       cy.get(SIGNAL_DETAILS.status)
