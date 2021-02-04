@@ -20,7 +20,8 @@ import {
   AFGEHANDELD_EXPLANATION,
   GEANNULEERD_EXPLANATION,
   DEELMELDING_EXPLANATION,
-  DEELMELDINGEN_STILL_OPEN,
+  DEELMELDINGEN_STILL_OPEN_HEADING,
+  DEELMELDINGEN_STILL_OPEN_CONTENT,
 } from '../constants';
 
 const defaultTexts = [
@@ -412,14 +413,16 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     fireEvent.click(container.querySelector(`input[value="${AFGEHANDELD.key}"]`));
 
-    expect(getByTestId('statusHasChildrenOpen').textContent).toEqual(DEELMELDINGEN_STILL_OPEN);
+    expect(getByTestId('statusHasChildrenOpen').textContent).toContain(DEELMELDINGEN_STILL_OPEN_HEADING);
+    expect(getByTestId('statusHasChildrenOpen').textContent).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT);
 
     fireEvent.click(container.querySelector(`input[value="${INGEPLAND.key}"]`));
 
     expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument();
 
     fireEvent.click(container.querySelector(`input[value="${GEANNULEERD.key}"]`));
-    expect(getByTestId('statusHasChildrenOpen').textContent).toEqual(DEELMELDINGEN_STILL_OPEN);
+    expect(getByTestId('statusHasChildrenOpen').textContent).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT);
+    expect(getByTestId('statusHasChildrenOpen').textContent).toContain(DEELMELDINGEN_STILL_OPEN_HEADING);
   });
 
   it('shows NO warning when the child incidents are closed', async () => {
