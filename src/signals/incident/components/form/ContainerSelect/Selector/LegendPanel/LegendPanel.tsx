@@ -5,13 +5,12 @@ import IconList, { IconListItem } from 'components/IconList/IconList';
 
 export interface LegendPanelProps {
   variant: 'panel' | 'drawer';
-  title: string;
   items: { id: string; iconUrl: string; label: string }[];
   onClose: () => void;
 }
 
-const LegendPanel: React.FC<LegendPanelProps> = ({ items, title, variant, onClose }) => (
-  <MapPanelContent animate data-testid="legendPanel" stackOrder={1} onClose={onClose} variant={variant} title={title}>
+const LegendPanel: React.FC<LegendPanelProps> = ({ items, variant, onClose }) => (
+  <MapPanelContent animate data-testid="legendPanel" title="Legenda" stackOrder={1} onClose={onClose} variant={variant}>
     <IconList data-testid="legendPanelList">
       {items.map(item => (
         <IconListItem id={`legendPanelListItem-${item.id}`} key={item.id} iconUrl={item.iconUrl}>
