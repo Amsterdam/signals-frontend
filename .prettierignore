@@ -1,0 +1,8 @@
+build
+coverage
+e2e-tests
+internals/generators
+node_modules
+
+package-lock.json
+stats.json
