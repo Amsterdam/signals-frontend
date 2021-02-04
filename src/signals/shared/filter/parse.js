@@ -116,3 +116,28 @@ export const parseToAPIData = filterData => {
 
   return { ...filterData, options };
 };
+
+const map = (key, mapping) => mapping[key] || key;
+const mapObject = (original, mapping) =>
+  Object.entries(original).reduce((acc, [key, value]) => ({ ...acc, [map(key, mapping)]: value }), {});
+
+const filterParamsMapping = {
+  area: 'area_code',
+  areaType: 'area_type_code',
+};
+export const mapFilterParams = params => mapObject(params, filterParamsMapping);
+
+const filterParamsUnmapping = Object.entries(filterParamsMapping).reduce(
+  (acc, [key, value]) => ({
+    ...acc,
+    [value]: key,
+  }),
+  {}
+);
+export const unmapFilterParams = params => mapObject(params, filterParamsUnmapping);
+
+const orderingsMapping = {
+  days_open: '-created_at',
+  '-days_open': 'created_at',
+};
+export const mapOrdering = ordering => map(ordering, orderingsMapping);
