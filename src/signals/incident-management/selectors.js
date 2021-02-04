@@ -28,7 +28,7 @@ export const makeSelectDistricts = createSelector([selectIncidentManagementDomai
     : null
 );
 
-export const selectFixtures = createSelector(
+export const makeSelectFixtures = createSelector(
   [
     makeSelectDistricts,
     makeSelectSources,
@@ -46,7 +46,7 @@ export const selectFixtures = createSelector(
 );
 
 export const makeSelectAllFilters = createSelector(
-  [selectIncidentManagementDomain, selectFixtures],
+  [selectIncidentManagementDomain, makeSelectFixtures],
   (stateMap, fixtures) => {
     const filters = stateMap.get('filters').toJS();
     return filters.map(filter => {
@@ -66,7 +66,7 @@ export const makeSelectAllFilters = createSelector(
 );
 
 export const makeSelectActiveFilter = createSelector(
-  [selectIncidentManagementDomain, selectFixtures],
+  [selectIncidentManagementDomain, makeSelectFixtures],
   (stateMap, fixtures) => {
     if (!(fixtures.maincategory_slug && fixtures.category_slug && fixtures.directing_department)) {
       return {};
@@ -89,7 +89,7 @@ export const makeSelectActiveFilter = createSelector(
 );
 
 export const makeSelectEditFilter = createSelector(
-  [selectIncidentManagementDomain, selectFixtures],
+  [selectIncidentManagementDomain, makeSelectFixtures],
   (stateMap, fixtures) =>
     fixtures.maincategory_slug && fixtures.category_slug && fixtures.directing_department
       ? parseInputFormData(stateMap.toJS().editFilter, fixtures)

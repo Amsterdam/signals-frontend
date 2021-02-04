@@ -10,7 +10,7 @@ import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 import {
   makeSelectDistricts,
-  selectFixtures,
+  makeSelectFixtures,
   makeSelectFilterParams,
   makeSelectAllFilters,
   makeSelectActiveFilter,
@@ -175,7 +175,7 @@ describe('signals/incident-management/selectors', () => {
   });
 
   it('should select fixtures', () => {
-    const result = selectFixtures.resultFunc(area, source, maincategory_slug, category_slug, directing_department);
+    const result = makeSelectFixtures.resultFunc(area, source, maincategory_slug, category_slug, directing_department);
 
     expect(result).toMatchObject({
       area,
