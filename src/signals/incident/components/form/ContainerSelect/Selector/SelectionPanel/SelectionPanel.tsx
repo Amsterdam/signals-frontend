@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useMemo } from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -34,7 +34,7 @@ const StyledButton = styled(Button)`
   margin-top: ${themeSpacing(6)};
 `;
 
-interface SelectionPanelProps {
+export interface SelectionPanelProps {
   onChange: (items: Item[]) => void;
   onClose: () => void;
   variant: Variant;
@@ -49,54 +49,57 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
   selection,
   featureTypes,
 }) => {
-  const selectionOnMap = selection.filter(container => container.type !== CONTAINER_NOT_ON_MAP_TYPE_NAME);
-  const notOnMapContainer = selection.find(container => container.type === CONTAINER_NOT_ON_MAP_TYPE_NAME);
-  const hasNotOnMapContainer = Boolean(notOnMapContainer);
+  const selectionOnMap = useMemo(
+    () => selection.filter(container => container.type !== CONTAINER_NOT_ON_MAP_TYPE_NAME),
+    [selection]
+  );
+  const notOnMapContainer = useMemo(
+    () => selection.find(container => container.type === CONTAINER_NOT_ON_MAP_TYPE_NAME),
+    [selection]
+  );
+  const hasNotOnMapContainer = useMemo(() => Boolean(notOnMapContainer), [notOnMapContainer]);
 
-  const removeContainer = (itemId: string) => {
+  const notOnMapFeature = useMemo(
+    () => featureTypes.find(feature => feature.typeValue === CONTAINER_NOT_ON_MAP_TYPE_NAME),
+    [featureTypes]
+  );
+
+  const removeContainer = useCallback((itemId: string) => {
     onChange(selection.filter(({ id }) => id !== itemId));
-  };
+  }, [selection, onChange]);
 
-  const removeContainerNotOnMap = () => {
-    onChange(selection.filter(container => container.type !== CONTAINER_NOT_ON_MAP_TYPE_NAME));
-  };
+  const removeContainerNotOnMap = useCallback(() => {
+    onChange(selectionOnMap);
+  }, [selectionOnMap, onChange]);
 
-  const updateNotOnMapContainer = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(
-      selection.map(container =>
-        container.type === CONTAINER_NOT_ON_MAP_TYPE_NAME
-          ? {
-            ...container,
-            id: event.currentTarget.value,
-          }
-          : container
-      )
-    );
-  };
+  const updateNotOnMapContainer = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    /* istanbul ignore next */
+    if (notOnMapContainer) {
+      onChange([...selectionOnMap, { ...notOnMapContainer, id: event.currentTarget.value }]);
+    }
+  }, [notOnMapContainer, onChange, selectionOnMap]);
 
-  const addContainerNotOnMap = () => {
-    const { description } =
-      featureTypes.find(feature => feature.typeValue === CONTAINER_NOT_ON_MAP_TYPE_NAME) ?? ({} as FeatureType);
+  const addContainerNotOnMap = useCallback(() => {
+    /* istanbul ignore next */
+    if (notOnMapFeature) {
+      onChange([
+        ...selectionOnMap,
+        {
+          id: '',
+          type: notOnMapFeature.typeValue,
+          description: notOnMapFeature.description,
+        },
+      ]);
+    }
+  }, [notOnMapFeature, onChange, selectionOnMap]);
 
-    onChange([
-      ...selection,
-      {
-        id: '',
-        type: CONTAINER_NOT_ON_MAP_TYPE_NAME,
-        description,
-      },
-    ]);
-  };
-
-  const toggleNotOnMapContainer = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = event.target.checked;
-
+  const toggleNotOnMapContainer = useCallback(({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
     if (checked) {
       addContainerNotOnMap();
     } else {
       removeContainerNotOnMap();
     }
-  };
+  }, [addContainerNotOnMap, removeContainerNotOnMap]);
 
   return (
     <MapPanelContent variant={variant} title="Kies de container" data-testid="selectionPanel">
@@ -111,20 +114,24 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
       )}
 
       <form>
-        <Checkbox id="notOnMapCheckbox" checked={hasNotOnMapContainer} onChange={toggleNotOnMapContainer} />
-        <Label htmlFor="notOnMapCheckbox" label="De container staat niet op de kaart" />
-
-        {hasNotOnMapContainer && (
+        {notOnMapFeature && (
           <Fragment>
-            <Label
-              htmlFor="notOnMapInput"
-              label={
-                <Fragment>
-                  <strong>Wat is het nummer van de container?</strong> (Optioneel)
-                </Fragment>
-              }
-            />
-            <Input id="notOnMapInput" onChange={updateNotOnMapContainer} value={notOnMapContainer?.id} />
+            <Checkbox id="notOnMapCheckbox" checked={hasNotOnMapContainer} onChange={toggleNotOnMapContainer} />
+            <Label htmlFor="notOnMapCheckbox" label="De container staat niet op de kaart" />
+
+            {notOnMapContainer && (
+              <Fragment>
+                <Label
+                  htmlFor="notOnMapInput"
+                  label={
+                    <Fragment>
+                      <strong>Wat is het nummer van de container?</strong> (Optioneel)
+                    </Fragment>
+                  }
+                />
+                <Input id="notOnMapInput" onChange={updateNotOnMapContainer} value={notOnMapContainer.id} />
+              </Fragment>
+            )}
           </Fragment>
         )}
 
