@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
@@ -111,13 +111,6 @@ const Selector = () => {
     setShowSelectionPanel(true);
   };
 
-  const removeContainer = useCallback<(itemId: string) => void>(
-    itemId => {
-      update(selection.filter(({ id }) => id !== itemId));
-    },
-  [update, selection]
-  );
-
   const mapWrapper = (
     <Wrapper data-testid="containerSelectSelector">
       <StyledMap hasZoomControls={showDesktopVariant} mapOptions={mapOptions} setInstance={setMap} events={{}}>
@@ -137,9 +130,9 @@ const Selector = () => {
             {showSelectionPanel && (
               <SelectionPanel
                 featureTypes={meta.featureTypes}
-                selection={selection}
+                selection={selection || []}
                 variant={panelVariant}
-                onRemove={removeContainer}
+                onChange={update}
                 onClose={close}
               />
             )}

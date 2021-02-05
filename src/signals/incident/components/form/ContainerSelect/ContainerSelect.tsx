@@ -42,13 +42,9 @@ const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({ handler, met
     [setShowMap]
   );
 
-  const close = useCallback<ClickEventHandler>(
-    event => {
-      event.preventDefault();
-      setShowMap(false);
-    },
-    [setShowMap]
-  );
+  const close = useCallback<() => void>(() => {
+    setShowMap(false);
+  }, [setShowMap]);
 
   return (
     <ContainerSelectProvider value={{ selection: value, location, meta, update, edit, close }}>

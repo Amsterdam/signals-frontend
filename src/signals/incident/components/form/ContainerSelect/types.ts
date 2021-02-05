@@ -40,7 +40,7 @@ export interface ContainerSelectValue {
   meta: Meta;
   update: (items: Item[]) => void;
   edit: ClickEventHandler;
-  close: ClickEventHandler;
+  close: () => void;
 }
 
 export interface DataLayerProps {
