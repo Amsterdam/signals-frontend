@@ -4,9 +4,10 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import type { MapOptions } from 'leaflet';
 
-import { Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import { breakpoint, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { MapPanel, MapPanelContent, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core';
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
+import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
 import { Close } from '@amsterdam/asc-assets';
 import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext';
@@ -21,7 +22,8 @@ import LegendPanel from './LegendPanel';
 import ViewerContainer from './ViewerContainer';
 import ContainerLayer from './WfsLayer/ContainerLayer';
 import WfsLayer from './WfsLayer';
-import ContainerList from '../ContainerList/ContainerList';
+import ContainerList from '../ContainerList';
+import ZoomMessage from './ZoomMessage';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
@@ -32,6 +34,10 @@ const MAP_PANEL_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '30px',
   [SnapPoint.Halfway]: '400px',
   [SnapPoint.Full]: '100%',
+};
+
+const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
+  max: 12,
 };
 
 const MapButton = styled(Button)`
@@ -89,6 +95,12 @@ const EmptySelectionWrapper = styled.div`
   margin: ${themeSpacing(4)} 0;
 `;
 
+const ButtonBar = styled.div<{ showMessage: boolean }>`
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    margin-top: ${({ showMessage }) => showMessage && themeSpacing(11)};
+  }
+`;
+
 const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -117,9 +129,9 @@ const Selector = () => {
     [location]
   );
 
+  const [showZoomMessage, setShowZoomMessage] = useState(false);
   const [showLegendPanel, setShowLegendPanel] = useState(false);
   const [showSelectionPanel, setShowSelectionPanel] = useState(true);
-  const [, setMap] = useState();
 
   const toggleLegend = () => {
     setShowLegendPanel(() => !showLegendPanel);
@@ -133,12 +145,13 @@ const Selector = () => {
   const removeContainer = useCallback<(itemId: string) => void>(
     itemId => {
       update(selection.filter(({ id }) => id !== itemId));
-    }, [update, selection]
+    },
+  [update, selection]
   );
 
-  const mapWrapper =
+  const mapWrapper = (
     <Wrapper data-testid="containerSelectSelector">
-      <StyledMap hasZoomControls={showDesktopVariant} mapOptions={mapOptions} setInstance={setMap} events={{}}>
+      <StyledMap hasZoomControls={showDesktopVariant} mapOptions={mapOptions}>
         <MapPanelProvider
           mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
           mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
@@ -146,33 +159,40 @@ const Selector = () => {
           initialPosition={SnapPoint.Halfway}
         >
           <ViewerContainer
-            topLeft={<LegendToggleButton onClick={toggleLegend} isRenderingLegendPanel={showLegendPanel} />}
+            topLeft={
+              <ButtonBar showMessage={showZoomMessage}>
+                <LegendToggleButton onClick={toggleLegend} isRenderingLegendPanel={showLegendPanel} />
+              </ButtonBar>
+            }
             topRight={
-              <MapButton data-testid="selectorClose" variant="blank" onClick={close} size={44} icon={<Close />} />
+              <ButtonBar showMessage={showZoomMessage}>
+                <MapButton data-testid="selectorClose" variant="blank" onClick={close} size={44} icon={<Close />} />
+              </ButtonBar>
             }
           />
+
           <Panel data-testid={`panel${showDesktopVariant ? 'Desktop' : 'Mobile'}`}>
-            {showSelectionPanel &&
+            {showSelectionPanel && (
               <MapPanelContent variant={panelVariant} title="Kies de container" data-testid="selectionPanel">
                 <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
-                {selection.length ?
+                {selection.length ? (
                   <StyledContainerList
                     selection={selection}
                     onRemove={removeContainer}
                     featureTypes={meta.featureTypes}
                   />
-                  :
+                ) : (
                   <EmptySelectionWrapper>
                     <StyledParagraph>Maak een keuze op de kaart</StyledParagraph>
                   </EmptySelectionWrapper>
-                }
+                )}
                 <Button onClick={close} variant="primary">
                   Meld deze container{selection.length > 1 ? 's' : ''}
                 </Button>
               </MapPanelContent>
-            }
+            )}
 
-            {showLegendPanel &&
+            {showLegendPanel && (
               <LegendPanel
                 onClose={handleLegendCloseButton}
                 variant={panelVariant}
@@ -185,15 +205,22 @@ const Selector = () => {
                     id: featureType.typeValue,
                   }))}
               />
-            }
+            )}
           </Panel>
         </MapPanelProvider>
 
-        <WfsLayer>
+        <ZoomMessage
+          showZoomMessage={showZoomMessage}
+          setShowZoomMessage={setShowZoomMessage}
+          zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}
+        />
+
+        <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
           <ContainerLayer featureTypes={meta.featureTypes} />
         </WfsLayer>
       </StyledMap>
-    </Wrapper>;
+    </Wrapper>
+  );
   return ReactDOM.createPortal(mapWrapper, appHtmlElement);
 };
 
