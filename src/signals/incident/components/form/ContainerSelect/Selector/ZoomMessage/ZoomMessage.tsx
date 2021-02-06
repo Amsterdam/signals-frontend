@@ -33,6 +33,7 @@ export interface ZoomMessageProps {
 const ZoomMessage: FunctionComponent<ZoomMessageProps> = ({ showZoomMessage, setShowZoomMessage, zoomLevel }) => {
   const mapInstance = useMapInstance();
 
+  /* istanbul ignore next */
   useEffect(() => {
     if (!mapInstance) return;
 
@@ -47,7 +48,7 @@ const ZoomMessage: FunctionComponent<ZoomMessageProps> = ({ showZoomMessage, set
     };
   }, [mapInstance, setShowZoomMessage, zoomLevel]);
 
-  return showZoomMessage ? <ZoomMessageStyle>Zoom in om de objecten te zien</ZoomMessageStyle> : null;
+  return showZoomMessage ? <ZoomMessageStyle data-testid="zoomMessage">Zoom in om de objecten te zien</ZoomMessageStyle> : null;
 };
 
 export default ZoomMessage;

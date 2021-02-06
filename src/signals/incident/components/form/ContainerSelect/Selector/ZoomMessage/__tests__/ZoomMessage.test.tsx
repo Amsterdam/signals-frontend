@@ -1,0 +1,40 @@
+import type { ReactNode } from 'react';
+import React from 'react';
+
+import type { MapOptions } from 'leaflet';
+
+import { render, screen } from '@testing-library/react';
+
+import { Map } from '@amsterdam/react-maps';
+
+import MAP_OPTIONS from 'shared/services/configuration/map-options';
+import ZoomMessage from '..';
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const options: MapOptions = {
+  ...MAP_OPTIONS,
+  center: [52.37309068742423, 4.879893985747362],
+  zoom: 14,
+};
+
+const withMapContainer = (Component: ReactNode) => (
+  <Map data-testid="map-test" options={options}>
+    {Component}
+  </Map>
+);
+
+describe('ZoomMessage', () => {
+  const props = { showZoomMessage: true, setShowZoomMessage: () => {}, zoomLevel: {} };
+
+  it('should render the meassage in the map', () => {
+    render(withMapContainer(<ZoomMessage {...props} />));
+
+    expect(screen.getByTestId('zoomMessage')).toBeInTheDocument();
+  });
+
+  it('should NOT render the meassage in the map', () => {
+    render(withMapContainer(<ZoomMessage {...props} showZoomMessage={false} />));
+
+    expect(screen.queryByTestId('zoomMessage')).not.toBeInTheDocument();
+  });
+});

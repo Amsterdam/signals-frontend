@@ -145,8 +145,7 @@ const Selector = () => {
   const removeContainer = useCallback<(itemId: string) => void>(
     itemId => {
       update(selection.filter(({ id }) => id !== itemId));
-    },
-  [update, selection]
+    }, [update, selection]
   );
 
   const mapWrapper = (
