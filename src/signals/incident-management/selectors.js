@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import { parseInputFormData } from 'signals/shared/filter/parse';
+import { mapFilterParams, mapOrdering, parseInputFormData } from 'signals/shared/filter/parse';
 import { makeSelectMainCategories, makeSelectSubCategories } from 'models/categories/selectors';
 import configuration from 'shared/services/configuration/configuration';
 
@@ -96,30 +96,19 @@ export const makeSelectEditFilter = createSelector(
       : {}
 );
 
-const filterParamsMap = {
-  area: 'area_code',
-  areaType: 'area_type_code',
-};
-const mapFilterParam = param => (filterParamsMap[param] ? filterParamsMap[param] : param);
-const orderingMap = {
-  days_open: '-created_at',
-  '-days_open': 'created_at',
-};
-
 export const makeSelectFilterParams = createSelector(selectIncidentManagementDomain, incidentManagementState => {
   const { activeFilter: filter, ordering, page } = incidentManagementState.toJS();
   const pagingOptions = {
     page,
-    ordering: orderingMap[ordering] || ordering,
+    ordering: mapOrdering(ordering),
     page_size: FILTER_PAGE_SIZE,
   };
-  const options = filter.options.area
+  const filterOptions = filter.options.area
     ? { ...filter.options, areaType: configuration.areaTypeCodeForDistrict }
     : filter.options;
-  const optionParams = Object.keys(options).reduce((acc, key) => ({ ...acc, [mapFilterParam(key)]: options[key] }), {});
 
   return {
-    ...optionParams,
+    ...mapFilterParams(filterOptions),
     ...pagingOptions,
   };
 });
