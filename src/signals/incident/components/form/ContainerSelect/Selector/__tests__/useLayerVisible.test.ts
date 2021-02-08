@@ -1,7 +1,22 @@
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 import { renderHook } from '@testing-library/react-hooks';
+import '@amsterdam/react-maps';
 import useLayerVisible, { isLayerVisible } from '../useLayerVisible';
 
+
+const getZoomMock = jest.fn();
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+jest.mock('@amsterdam/react-maps', () => ({
+  __esModule: true,
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  ...(jest.requireActual('@amsterdam/react-maps'))!,
+  useMapInstance: () => ({
+    getZoom: getZoomMock,
+    off: jest.fn(),
+    on: jest.fn(),
+  }),
+}));
 
 describe('isLayerVisible', () => {
   it('should return the layer visibility', () => {
@@ -16,6 +31,10 @@ describe('isLayerVisible', () => {
 });
 
 describe('useLayerVisible', () => {
+  beforeEach(() => {
+    getZoomMock.mockReset();
+  });
+
   it('should return a boolean', () => {
     const zoomLevel: ZoomLevel = { max: 12 };
     const { result } = renderHook(() => useLayerVisible(zoomLevel));
@@ -23,4 +42,3 @@ describe('useLayerVisible', () => {
     expect(result.current).toEqual(true);
   });
 });
-

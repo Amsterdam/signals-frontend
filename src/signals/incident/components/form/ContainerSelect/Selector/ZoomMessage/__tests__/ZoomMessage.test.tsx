@@ -1,13 +1,12 @@
 import type { ReactNode } from 'react';
 import React from 'react';
-
+import { Map } from '@amsterdam/react-maps';
 import type { MapOptions } from 'leaflet';
 
 import { render, screen } from '@testing-library/react';
-
-import { Map } from '@amsterdam/react-maps';
-
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
+
+import * as useLayerVisible from '../../useLayerVisible';
 import ZoomMessage from '..';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -24,16 +23,19 @@ const withMapContainer = (Component: ReactNode) => (
 );
 
 describe('ZoomMessage', () => {
-  const props = { showZoomMessage: true, setShowZoomMessage: () => {}, zoomLevel: {} };
+  const props = { zoomLevel: { max: 12 } };
 
-  it('should render the meassage in the map', () => {
+  it('should render the message in the map', () => {
+    jest.spyOn(useLayerVisible, 'default').mockImplementation(() => false);
     render(withMapContainer(<ZoomMessage {...props} />));
+
 
     expect(screen.getByTestId('zoomMessage')).toBeInTheDocument();
   });
 
-  it('should NOT render the meassage in the map', () => {
-    render(withMapContainer(<ZoomMessage {...props} showZoomMessage={false} />));
+  it('should NOT render the message in the map', () => {
+    jest.spyOn(useLayerVisible, 'default').mockImplementation(() => true);
+    render(withMapContainer(<ZoomMessage {...props} />));
 
     expect(screen.queryByTestId('zoomMessage')).not.toBeInTheDocument();
   });
