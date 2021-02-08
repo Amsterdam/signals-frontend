@@ -44,7 +44,7 @@ const ContainerList: FunctionComponent<ContainerListProps> = ({
 
     return {
       id,
-      label: `${description} - ${id}`,
+      label: `${description}${id ? ` - ${id}` : ''}`,
       iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
     };
   });
