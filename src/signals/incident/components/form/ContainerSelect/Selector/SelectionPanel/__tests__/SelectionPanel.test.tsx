@@ -6,7 +6,7 @@ import SelectionPanel from '../SelectionPanel';
 import type { SelectionPanelProps } from '../SelectionPanel';
 import { glas, select, unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import userEvent from '@testing-library/user-event';
-import { CONTAINER_NOT_ON_MAP_TYPE_NAME } from 'signals/incident/definitions/wizard-step-2-vulaan/afval.constants';
+import { CONTAINER_NOT_ON_MAP_TYPE_NAME } from '../../../constants';
 
 describe('SelectionPanel', () => {
   const GLAS_FEATURE = {
@@ -104,6 +104,14 @@ describe('SelectionPanel', () => {
     render(withAppContext(<SelectionPanel {...props} />));
 
     userEvent.click(screen.getByRole('button', { name: 'Meld deze container' }));
+
+    expect(props.onClose).toHaveBeenCalled();
+  });
+
+  it('handles Enter key on input', () => {
+    render(withAppContext(<SelectionPanel {...props} selection={[NOT_ON_MAP_CONTAINER]} />));
+
+    userEvent.type(screen.getByLabelText('Wat is het nummer van de container? (Optioneel)'), '{enter}');
 
     expect(props.onClose).toHaveBeenCalled();
   });

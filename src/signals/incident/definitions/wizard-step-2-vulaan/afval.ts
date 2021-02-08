@@ -2,7 +2,6 @@ import type { IconOptions } from 'leaflet';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 import * as afvalIcons from './afval-icons';
-import { CONTAINER_NOT_ON_MAP_TYPE_NAME } from './afval.constants';
 
 export const ICON_SIZE = 40;
 
@@ -148,7 +147,7 @@ export const controls = {
           },
           idField: 'id',
           typeField: 'type',
-          typeValue: CONTAINER_NOT_ON_MAP_TYPE_NAME,
+          typeValue: 'not-on-map',
         },
       ],
     },
