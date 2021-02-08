@@ -9,7 +9,7 @@ import ContainerList from '../../ContainerList';
 
 import type { FeatureType, Item } from '../../types';
 import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext';
-import { CONTAINER_NOT_ON_MAP_TYPE_NAME } from '../../constants';
+import { UNREGISTERED_CONTAINER_TYPE } from '../../constants';
 
 const StyledContainerList = styled(ContainerList)`
   margin: ${themeSpacing(2)} 0 ${themeSpacing(4)} 0;
@@ -50,17 +50,17 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
   featureTypes,
 }) => {
   const selectionOnMap = useMemo(
-    () => selection.filter(container => container.type !== CONTAINER_NOT_ON_MAP_TYPE_NAME),
+    () => selection.filter(container => container.type !== UNREGISTERED_CONTAINER_TYPE),
     [selection]
   );
-  const notOnMapContainer = useMemo(
-    () => selection.find(container => container.type === CONTAINER_NOT_ON_MAP_TYPE_NAME),
+  const unregisteredContainer = useMemo(
+    () => selection.find(container => container.type === UNREGISTERED_CONTAINER_TYPE),
     [selection]
   );
-  const hasNotOnMapContainer = useMemo(() => Boolean(notOnMapContainer), [notOnMapContainer]);
+  const hasUnregisteredContainer = useMemo(() => Boolean(unregisteredContainer), [unregisteredContainer]);
 
-  const notOnMapFeature = useMemo(
-    () => featureTypes.find(feature => feature.typeValue === CONTAINER_NOT_ON_MAP_TYPE_NAME),
+  const unregisteredFeature = useMemo(
+    () => featureTypes.find(feature => feature.typeValue === UNREGISTERED_CONTAINER_TYPE),
     [featureTypes]
   );
 
@@ -80,43 +80,43 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
     [selection, onChange]
   );
 
-  const removeContainerNotOnMap = useCallback(() => {
+  const removeContainerUnregistered = useCallback(() => {
     onChange(selectionOnMap);
   }, [selectionOnMap, onChange]);
 
-  const updateNotOnMapContainer = useCallback(
+  const updateUnregisteredContainer = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       /* istanbul ignore next */
-      if (notOnMapContainer) {
-        onChange([...selectionOnMap, { ...notOnMapContainer, id: event.currentTarget.value }]);
+      if (unregisteredContainer) {
+        onChange([...selectionOnMap, { ...unregisteredContainer, id: event.currentTarget.value }]);
       }
     },
-    [notOnMapContainer, onChange, selectionOnMap]
+    [unregisteredContainer, onChange, selectionOnMap]
   );
 
-  const addContainerNotOnMap = useCallback(() => {
+  const addContainerUnregistered = useCallback(() => {
     /* istanbul ignore next */
-    if (notOnMapFeature) {
+    if (unregisteredFeature) {
       onChange([
         ...selectionOnMap,
         {
           id: '',
-          type: notOnMapFeature.typeValue,
-          description: notOnMapFeature.description,
+          type: unregisteredFeature.typeValue,
+          description: unregisteredFeature.description,
         },
       ]);
     }
-  }, [notOnMapFeature, onChange, selectionOnMap]);
+  }, [unregisteredFeature, onChange, selectionOnMap]);
 
-  const toggleNotOnMapContainer = useCallback(
+  const toggleUnregisteredContainer = useCallback(
     ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
       if (checked) {
-        addContainerNotOnMap();
+        addContainerUnregistered();
       } else {
-        removeContainerNotOnMap();
+        removeContainerUnregistered();
       }
     },
-    [addContainerNotOnMap, removeContainerNotOnMap]
+    [addContainerUnregistered, removeContainerUnregistered]
   );
 
   return (
@@ -131,22 +131,22 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
         </EmptySelectionWrapper>
       )}
 
-      {notOnMapFeature && (
+      {unregisteredFeature && (
         <Fragment>
-          <Checkbox id="notOnMapCheckbox" checked={hasNotOnMapContainer} onChange={toggleNotOnMapContainer} />
-          <Label htmlFor="notOnMapCheckbox" label="De container staat niet op de kaart" />
+          <Checkbox id="unregisteredContainerCheckbox" checked={hasUnregisteredContainer} onChange={toggleUnregisteredContainer} />
+          <Label htmlFor="unregisteredContainerCheckbox" label="De container staat niet op de kaart" />
 
-          {notOnMapContainer && (
+          {unregisteredContainer && (
             <Fragment>
               <Label
-                htmlFor="notOnMapInput"
+                htmlFor="unregisteredContainerInput"
                 label={
                   <Fragment>
                     <strong>Wat is het nummer van de container?</strong> (Optioneel)
                   </Fragment>
                 }
               />
-              <Input id="notOnMapInput" onSubmit={onClose} onKeyDown={handleKeyDown} onChange={updateNotOnMapContainer} value={notOnMapContainer.id} />
+              <Input id="unregisteredContainerInput" onSubmit={onClose} onKeyDown={handleKeyDown} onChange={updateUnregisteredContainer} value={unregisteredContainer.id} />
             </Fragment>
           )}
         </Fragment>

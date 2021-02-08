@@ -6,7 +6,7 @@ import SelectionPanel from '../SelectionPanel';
 import type { SelectionPanelProps } from '../SelectionPanel';
 import { glas, select, unknown } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons';
 import userEvent from '@testing-library/user-event';
-import { CONTAINER_NOT_ON_MAP_TYPE_NAME } from '../../../constants';
+import { UNREGISTERED_CONTAINER_TYPE } from '../../../constants';
 
 describe('SelectionPanel', () => {
   const GLAS_FEATURE = {
@@ -21,7 +21,7 @@ describe('SelectionPanel', () => {
     typeField: 'fractie_omschrijving',
     typeValue: 'Glas',
   };
-  const NOT_ON_MAP_FEATURE = {
+  const UNREGISTERED_FEATURE = {
     description: 'De container staat niet op de kaart',
     label: 'Onbekend',
     icon: {
@@ -30,18 +30,22 @@ describe('SelectionPanel', () => {
     },
     idField: 'id',
     typeField: 'type',
-    typeValue: CONTAINER_NOT_ON_MAP_TYPE_NAME,
+    typeValue: UNREGISTERED_CONTAINER_TYPE,
   };
-  const NOT_ON_MAP_CONTAINER = { description: 'De container staat niet op de kaart', id: '', type: 'not-on-map' };
+  const UNREGISTERED_CONTAINER = { description: 'De container staat niet op de kaart', id: '', type: 'not-on-map' };
   const GLAS_CONTAINER = { id: 'GLAS123', description: 'Glas container', type: 'Glas' };
 
   const props: SelectionPanelProps = {
-    featureTypes: [GLAS_FEATURE, NOT_ON_MAP_FEATURE],
+    featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
     onChange: jest.fn(),
     onClose: jest.fn(),
     selection: [],
     variant: 'drawer',
   };
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   it('renders the panel', () => {
     render(withAppContext(<SelectionPanel {...props} />));
@@ -81,19 +85,19 @@ describe('SelectionPanel', () => {
 
     userEvent.click(screen.getByRole('checkbox', { name: 'De container staat niet op de kaart' }));
 
-    expect(props.onChange).toHaveBeenCalledWith([NOT_ON_MAP_CONTAINER]);
+    expect(props.onChange).toHaveBeenCalledWith([UNREGISTERED_CONTAINER]);
   });
 
   it('updates container not on map', () => {
-    render(withAppContext(<SelectionPanel {...props} selection={[NOT_ON_MAP_CONTAINER]} />));
+    render(withAppContext(<SelectionPanel {...props} selection={[UNREGISTERED_CONTAINER]} />));
 
     userEvent.paste(screen.getByLabelText('Wat is het nummer van de container? (Optioneel)'), 'GLAS987');
 
-    expect(props.onChange).toHaveBeenLastCalledWith([{ ...NOT_ON_MAP_CONTAINER, id: 'GLAS987' }]);
+    expect(props.onChange).toHaveBeenCalledWith([{ ...UNREGISTERED_CONTAINER, id: 'GLAS987' }]);
   });
 
   it('removes container not on map', () => {
-    render(withAppContext(<SelectionPanel {...props} selection={[NOT_ON_MAP_CONTAINER]} />));
+    render(withAppContext(<SelectionPanel {...props} selection={[UNREGISTERED_CONTAINER]} />));
 
     userEvent.click(screen.getByRole('checkbox', { name: 'De container staat niet op de kaart' }));
 
@@ -109,7 +113,11 @@ describe('SelectionPanel', () => {
   });
 
   it('handles Enter key on input', () => {
-    render(withAppContext(<SelectionPanel {...props} selection={[NOT_ON_MAP_CONTAINER]} />));
+    render(withAppContext(<SelectionPanel {...props} selection={[UNREGISTERED_CONTAINER]} />));
+
+    userEvent.type(screen.getByLabelText('Wat is het nummer van de container? (Optioneel)'), '5');
+
+    expect(props.onChange).toHaveBeenLastCalledWith([{ ...UNREGISTERED_CONTAINER, id: '5' }]);
 
     userEvent.type(screen.getByLabelText('Wat is het nummer van de container? (Optioneel)'), '{enter}');
 
