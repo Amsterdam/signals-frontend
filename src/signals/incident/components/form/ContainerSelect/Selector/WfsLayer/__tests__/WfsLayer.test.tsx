@@ -62,7 +62,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
 
     render(
       withMapContainer(
-        <WfsLayer>
+        <WfsLayer zoomLevel={{ max: 12 }}>
           <TestLayer featureTypes={[]} />
         </WfsLayer>
       )
