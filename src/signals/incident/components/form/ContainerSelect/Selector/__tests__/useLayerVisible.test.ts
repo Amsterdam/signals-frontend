@@ -1,4 +1,7 @@
-import { isLayerVisible } from '../services';
+import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
+import { renderHook } from '@testing-library/react-hooks';
+import useLayerVisible, { isLayerVisible } from '../useLayerVisible';
+
 
 describe('isLayerVisible', () => {
   it('should return the layer visibility', () => {
@@ -11,3 +14,13 @@ describe('isLayerVisible', () => {
     expect(isLayerVisible(9, { max: 10 })).toBe(false);
   });
 });
+
+describe('useLayerVisible', () => {
+  it('should return a boolean', () => {
+    const zoomLevel: ZoomLevel = { max: 12 };
+    const { result } = renderHook(() => useLayerVisible(zoomLevel));
+
+    expect(result.current).toEqual(true);
+  });
+});
+

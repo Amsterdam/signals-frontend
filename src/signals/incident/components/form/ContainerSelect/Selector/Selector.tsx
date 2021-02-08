@@ -24,6 +24,7 @@ import ContainerLayer from './WfsLayer/ContainerLayer';
 import WfsLayer from './WfsLayer';
 import ContainerList from '../ContainerList';
 import ZoomMessage from './ZoomMessage';
+import useLayerVisible from './useLayerVisible';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
@@ -95,11 +96,27 @@ const EmptySelectionWrapper = styled.div`
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ButtonBar = styled.div<{ showMessage: boolean }>`
+const ButtonBarStyle = styled.div<{ layerVisible: boolean }>`
   @media screen and ${breakpoint('max-width', 'tabletM')} {
-    margin-top: ${({ showMessage }) => showMessage && themeSpacing(11)};
+    margin-top: ${({ layerVisible }) => layerVisible && themeSpacing(11)};
   }
 `;
+
+const ButtonBar: FunctionComponent<{ zoomLevel: ZoomLevel }> = ({ children, zoomLevel }) => {
+  const layerVisible = useLayerVisible(zoomLevel);
+
+  return (
+    (
+      <ButtonBarStyle data-testid="zoomMessage" layerVisible={layerVisible}>
+        {children}
+      </ButtonBarStyle>
+    ) || null
+  );
+};
+
+export interface ButtonBarProps {
+  zoomLevel: ZoomLevel;
+}
 
 const Selector = () => {
   // to be replaced with MOUNT_NODE
@@ -129,7 +146,6 @@ const Selector = () => {
     [location]
   );
 
-  const [showZoomMessage, setShowZoomMessage] = useState(false);
   const [showLegendPanel, setShowLegendPanel] = useState(false);
   const [showSelectionPanel, setShowSelectionPanel] = useState(true);
 
@@ -145,7 +161,8 @@ const Selector = () => {
   const removeContainer = useCallback<(itemId: string) => void>(
     itemId => {
       update(selection.filter(({ id }) => id !== itemId));
-    }, [update, selection]
+    },
+  [update, selection]
   );
 
   const mapWrapper = (
@@ -159,12 +176,12 @@ const Selector = () => {
         >
           <ViewerContainer
             topLeft={
-              <ButtonBar showMessage={showZoomMessage}>
+              <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
                 <LegendToggleButton onClick={toggleLegend} isRenderingLegendPanel={showLegendPanel} />
               </ButtonBar>
             }
             topRight={
-              <ButtonBar showMessage={showZoomMessage}>
+              <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
                 <MapButton data-testid="selectorClose" variant="blank" onClick={close} size={44} icon={<Close />} />
               </ButtonBar>
             }
@@ -208,11 +225,7 @@ const Selector = () => {
           </Panel>
         </MapPanelProvider>
 
-        <ZoomMessage
-          showZoomMessage={showZoomMessage}
-          setShowZoomMessage={setShowZoomMessage}
-          zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}
-        />
+        <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>Zoom in om de objecten te zien</ZoomMessage>
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
           <ContainerLayer featureTypes={meta.featureTypes} />

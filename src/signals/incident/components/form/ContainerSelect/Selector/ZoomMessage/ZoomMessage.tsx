@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
-import { isLayerVisible } from '../services';
-import { useMapInstance } from '@amsterdam/react-maps';
+import useLayerVisible from '../useLayerVisible';
 
-const ZoomMessageStyle = styled.div`
+export const ZoomMessageStyle = styled.div`
   margin: ${themeSpacing(4, 19)};
   height: ${themeSpacing(11)};
   background-color: white;
@@ -25,30 +24,13 @@ const ZoomMessageStyle = styled.div`
 `;
 
 export interface ZoomMessageProps {
-  showZoomMessage: boolean;
-  setShowZoomMessage: (show: boolean) => void;
   zoomLevel: ZoomLevel;
 }
 
-const ZoomMessage: FunctionComponent<ZoomMessageProps> = ({ showZoomMessage, setShowZoomMessage, zoomLevel }) => {
-  const mapInstance = useMapInstance();
+const ZoomMessage: FunctionComponent<ZoomMessageProps> = ({ children, zoomLevel }) => {
+  const layerVisible = useLayerVisible(zoomLevel);
 
-  /* istanbul ignore next */
-  useEffect(() => {
-    if (!mapInstance) return;
-
-    function onZoomEnd() {
-      setShowZoomMessage(!isLayerVisible(mapInstance.getZoom(), zoomLevel));
-    }
-
-    mapInstance.on('zoomend', onZoomEnd);
-
-    return () => {
-      mapInstance.off('zoomend', onZoomEnd);
-    };
-  }, [mapInstance, setShowZoomMessage, zoomLevel]);
-
-  return showZoomMessage ? <ZoomMessageStyle data-testid="zoomMessage">Zoom in om de objecten te zien</ZoomMessageStyle> : null;
+  return !layerVisible && <ZoomMessageStyle data-testid="zoomMessage">{children}</ZoomMessageStyle> || null;
 };
 
 export default ZoomMessage;

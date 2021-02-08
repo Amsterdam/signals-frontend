@@ -10,7 +10,7 @@ import type { Map as MapType } from 'leaflet';
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
 import { NO_DATA, WfsDataProvider } from './context';
-import { isLayerVisible } from '../services';
+import useLayerVisible from '../useLayerVisible';
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
 
@@ -23,6 +23,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = {} }
   const mapInstance = useMapInstance();
   const { meta } = useContext(ContainerSelectContext);
   const url = meta.endpoint;
+  const layerVisible = useLayerVisible(zoomLevel);
 
   const getBbox = (map: MapType): string => {
     const bounds = map.getBounds();
@@ -49,7 +50,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = {} }
   }, [mapInstance]);
 
   useEffect(() => {
-    if (!isLayerVisible(mapInstance.getZoom(), zoomLevel)) {
+    if (!layerVisible) {
       setData(NO_DATA);
       return;
     }
@@ -77,7 +78,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = {} }
     return () => {
       controller.abort();
     };
-  }, [bbox, mapInstance, url, zoomLevel]);
+  }, [bbox, mapInstance, url, layerVisible]);
 
   const layer = React.cloneElement(children, { featureTypes: meta.featureTypes });
   return <WfsDataProvider value={data}>{layer}</WfsDataProvider>;
