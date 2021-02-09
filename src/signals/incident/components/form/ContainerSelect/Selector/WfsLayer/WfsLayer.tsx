@@ -4,33 +4,26 @@ import { useMapInstance } from '@amsterdam/react-maps';
 import { fetchWithAbort } from '@amsterdam/arm-core';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 import type { FeatureCollection } from 'geojson';
-import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from '@amsterdam/arm-core/lib/constants';
 import type { DataLayerProps } from 'signals/incident/components/form/ContainerSelect/types';
 import L from 'leaflet';
 import type { Map as MapType } from 'leaflet';
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
 import { NO_DATA, WfsDataProvider } from './context';
+import useLayerVisible from '../useLayerVisible';
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326';
-const DEFAULT_ZOOM_LEVEL: ZoomLevel = {
-  max: 7,
-};
-
-export const isLayerVisible = (zoom: number, zoomLevel: ZoomLevel): boolean => {
-  const { min, max } = zoomLevel;
-  return zoom <= (min ?? MIN_ZOOM_LEVEL) && zoom >= (max ?? MAX_ZOOM_LEVEL);
-};
 
 export interface WfsLayerProps {
   children: React.ReactElement<DataLayerProps>;
   zoomLevel?: ZoomLevel;
 }
 
-const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = DEFAULT_ZOOM_LEVEL }) => {
+const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = {} }) => {
   const mapInstance = useMapInstance();
   const { meta } = useContext(ContainerSelectContext);
   const url = meta.endpoint;
+  const layerVisible = useLayerVisible(zoomLevel);
 
   const getBbox = (map: MapType): string => {
     const bounds = map.getBounds();
@@ -57,7 +50,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = DEFA
   }, [mapInstance]);
 
   useEffect(() => {
-    if (!isLayerVisible(mapInstance.getZoom(), zoomLevel)) {
+    if (!layerVisible) {
       setData(NO_DATA);
       return;
     }
@@ -85,7 +78,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = DEFA
     return () => {
       controller.abort();
     };
-  }, [bbox, mapInstance, url, zoomLevel]);
+  }, [bbox, mapInstance, url, layerVisible]);
 
   const layer = React.cloneElement(children, { featureTypes: meta.featureTypes });
   return <WfsDataProvider value={data}>{layer}</WfsDataProvider>;

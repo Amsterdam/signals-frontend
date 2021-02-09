@@ -135,6 +135,8 @@ Map.defaultProps = {
   'data-testid': 'map-base',
   hasGPSControl: false,
   hasZoomControls: false,
+  events: undefined,
+  setInstance: undefined,
 };
 
 Map.propTypes = {

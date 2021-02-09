@@ -11,7 +11,9 @@ import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import type { DataLayerProps } from '../../../types';
 import WfsDataContext, { NO_DATA } from '../context';
-import WfsLayer, { isLayerVisible } from '../WfsLayer';
+import WfsLayer from '../WfsLayer';
+import * as useLayerVisible from '../../useLayerVisible';
+
 
 const fetchMock = fetch as FetchMock;
 
@@ -21,21 +23,11 @@ const options = {
   zoom: 14,
 } as MapOptions;
 
-const withMapContainer = (Component: ReactNode) =>
+const withMapContainer = (Component: ReactNode) => (
   <Map data-testid="map-test" options={options}>
     {Component}
-  </Map>;
-describe('isLayerVisible', () => {
-  it('should return the layer visibility', () => {
-    expect(isLayerVisible(11, { max: 10, min: 12 })).toBe(true);
-    expect(isLayerVisible(9, { max: 10, min: 12 })).toBe(false);
-    expect(isLayerVisible(9, { min: 12 })).toBe(true);
-    expect(isLayerVisible(13, { min: 12 })).toBe(false);
-    expect(isLayerVisible(13, { max: 10, min: 12 })).toBe(false);
-    expect(isLayerVisible(13, { max: 10 })).toBe(true);
-    expect(isLayerVisible(9, { max: 10 })).toBe(false);
-  });
-});
+  </Map>
+);
 
 describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => {
   const setContextData = jest.fn();
@@ -47,6 +39,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
   };
 
   beforeEach(() => {
+    jest.spyOn(useLayerVisible, 'default').mockImplementation(() => true);
     fetchMock.resetMocks();
   });
 
@@ -56,9 +49,10 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
 
   it('should not render when outside zoom level does not allow it', () => {
     fetchMock.mockResponseOnce(JSON.stringify(containersJson), { status: 200 });
+    jest.spyOn(useLayerVisible, 'default').mockImplementation(() => false);
     render(
       withMapContainer(
-        <WfsLayer zoomLevel={{ max: 15 }} >
+        <WfsLayer zoomLevel={{ max: 15 }}>
           <TestLayer featureTypes={[]} />
         </WfsLayer>
       )
@@ -73,7 +67,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
 
     render(
       withMapContainer(
-        <WfsLayer>
+        <WfsLayer zoomLevel={{ max: 12 }}>
           <TestLayer featureTypes={[]} />
         </WfsLayer>
       )

@@ -1,12 +1,13 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo, useContext, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import type { MapOptions } from 'leaflet';
 
-import { themeColor } from '@amsterdam/asc-ui';
+import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { MapPanel, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core';
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
+import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks';
 import { Close } from '@amsterdam/asc-assets';
 import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext';
@@ -21,6 +22,8 @@ import LegendPanel from './LegendPanel';
 import ViewerContainer from './ViewerContainer';
 import ContainerLayer from './WfsLayer/ContainerLayer';
 import WfsLayer from './WfsLayer';
+import ZoomMessage from './ZoomMessage';
+import useLayerVisible from './useLayerVisible';
 import SelectionPanel from './SelectionPanel';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
@@ -32,6 +35,10 @@ const MAP_PANEL_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '30px',
   [SnapPoint.Halfway]: '400px',
   [SnapPoint.Full]: '100%',
+};
+
+const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
+  max: 12,
 };
 
 const MapButton = styled(Button)`
@@ -70,6 +77,28 @@ const StyledMap = styled(Map)`
   }
 `;
 
+const ButtonBarStyle = styled.div<{ layerVisible: boolean }>`
+  @media screen and (${breakpoint('max-width', 'tabletM')}) {
+    margin-top: ${({ layerVisible }) => layerVisible && themeSpacing(11)};
+  }
+`;
+
+const ButtonBar: FunctionComponent<{ zoomLevel: ZoomLevel }> = ({ children, zoomLevel }) => {
+  const layerVisible = useLayerVisible(zoomLevel);
+
+  return (
+    (
+      <ButtonBarStyle data-testid="zoomMessage" layerVisible={layerVisible}>
+        {children}
+      </ButtonBarStyle>
+    ) || null
+  );
+};
+
+export interface ButtonBarProps {
+  zoomLevel: ZoomLevel;
+}
+
 const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -100,7 +129,6 @@ const Selector = () => {
 
   const [showLegendPanel, setShowLegendPanel] = useState(false);
   const [showSelectionPanel, setShowSelectionPanel] = useState(true);
-  const [, setMap] = useState();
 
   const toggleLegend = () => {
     setShowLegendPanel(() => !showLegendPanel);
@@ -113,7 +141,7 @@ const Selector = () => {
 
   const mapWrapper = (
     <Wrapper data-testid="containerSelectSelector">
-      <StyledMap hasZoomControls={showDesktopVariant} mapOptions={mapOptions} setInstance={setMap} events={{}}>
+      <StyledMap hasZoomControls={showDesktopVariant} mapOptions={mapOptions}>
         <MapPanelProvider
           mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
           mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
@@ -121,11 +149,18 @@ const Selector = () => {
           initialPosition={SnapPoint.Halfway}
         >
           <ViewerContainer
-            topLeft={<LegendToggleButton onClick={toggleLegend} isRenderingLegendPanel={showLegendPanel} />}
+            topLeft={
+              <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+                <LegendToggleButton onClick={toggleLegend} isRenderingLegendPanel={showLegendPanel} />
+              </ButtonBar>
+            }
             topRight={
-              <MapButton data-testid="selectorClose" variant="blank" onClick={close} size={44} icon={<Close />} />
+              <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+                <MapButton data-testid="selectorClose" variant="blank" onClick={close} size={44} icon={<Close />} />
+              </ButtonBar>
             }
           />
+
           <Panel data-testid={`panel${showDesktopVariant ? 'Desktop' : 'Mobile'}`}>
             {showSelectionPanel && (
               <SelectionPanel
@@ -153,7 +188,9 @@ const Selector = () => {
           </Panel>
         </MapPanelProvider>
 
-        <WfsLayer>
+        <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>Zoom in om de objecten te zien</ZoomMessage>
+
+        <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
           <ContainerLayer featureTypes={meta.featureTypes} />
         </WfsLayer>
       </StyledMap>
