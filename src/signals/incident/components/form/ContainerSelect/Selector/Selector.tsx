@@ -78,8 +78,8 @@ const StyledMap = styled(Map)`
 `;
 
 const ButtonBarStyle = styled.div<{ layerVisible: boolean }>`
-  @media screen and (${breakpoint('max-width', 'tabletM')}) {
-    margin-top: ${({ layerVisible }) => layerVisible && themeSpacing(11)};
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    margin-top: ${({ layerVisible }) => !layerVisible && themeSpacing(11)};
   }
 `;
 
