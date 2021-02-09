@@ -5,7 +5,15 @@ import { filterForSub, filterForMain } from 'models/categories/selectors';
 import dataLists from 'signals/incident-management/definitions';
 import category from 'utils/__tests__/fixtures/category.json';
 
-import { parseDate, parseOutputFormData, parseInputFormData, parseToAPIData } from '../parse';
+import {
+  parseDate,
+  parseOutputFormData,
+  parseInputFormData,
+  parseToAPIData,
+  mapFilterParams,
+  unmapFilterParams,
+  mapOrdering,
+} from '../parse';
 import { subCategories, mainCategories } from 'utils/__tests__/fixtures';
 
 const filteredSubCategories = categories.results.filter(filterForSub);
@@ -39,6 +47,7 @@ describe('signals/shared/filter/parse', () => {
 
   describe('parseOutputFormData', () => {
     it('should parse output FormData', () => {
+      const area = { key: 'area' };
       const maincategory_slug = [...mainCategories, category];
       const category_slug = subCategories.filter(
         ({ slug }) => slug === 'bedrijfsafval' || slug === 'autom-verzinkbare-palen'
@@ -49,7 +58,7 @@ describe('signals/shared/filter/parse', () => {
         maincategory_slug,
         category_slug,
         stadsdeel,
-        contact_details: [dataLists.contact_details[0]],
+        area: [area],
       };
 
       const expected = {
@@ -57,7 +66,7 @@ describe('signals/shared/filter/parse', () => {
         maincategory_slug: maincategory_slug.map(({ slug }) => slug),
         category_slug: category_slug.map(({ slug }) => slug),
         stadsdeel: stadsdeel.map(({ key }) => key),
-        contact_details: [dataLists.contact_details[0].key],
+        area: [area.key],
       };
 
       const parsedOutput = parseOutputFormData(formState);
@@ -196,6 +205,44 @@ describe('signals/shared/filter/parse', () => {
           name: 'foo',
         });
       });
+    });
+  });
+
+  describe('mapObject', () => {
+    it('should mapFilterParams', () => {
+      const data = {
+        area: ['123', '456'],
+        areaType: 'district',
+        other: 'value',
+      };
+      const expected = {
+        area_code: data.area,
+        area_type_code: data.areaType,
+        other: data.other,
+      };
+
+      expect(mapFilterParams(data)).toEqual(expected);
+    });
+
+    it('should unmapFilterParams', () => {
+      const data = {
+        area_code: ['123', '456'],
+        area_type_code: 'district',
+        other: 'value',
+      };
+      const expected = {
+        area: data.area_code,
+        areaType: data.area_type_code,
+        other: data.other,
+      };
+
+      expect(unmapFilterParams(data)).toEqual(expected);
+    });
+
+    it('should mapOrdering', () => {
+      expect(mapOrdering('days_open')).toBe('-created_at');
+      expect(mapOrdering('-days_open')).toBe('created_at');
+      expect(mapOrdering('other')).toBe('other');
     });
   });
 });

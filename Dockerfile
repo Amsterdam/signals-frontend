@@ -25,6 +25,7 @@ COPY .gitignore \
   babel.config.js \
   package.json \
   package-lock.json \
+  app.base.json \
   /app/
 
 RUN npm install

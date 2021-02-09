@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useReducer, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Label } from '@amsterdam/asc-ui';
+import { Label, Alert, Heading, Paragraph } from '@amsterdam/asc-ui';
 
 import { defaultTextsType } from 'shared/types';
 import statusList, { changeStatusOptionList, isStatusClosed } from 'signals/incident-management/definitions/statusList';
@@ -117,9 +117,14 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
             </div>
 
             {isStatusClosed(state.status.key) && hasOpenChildren && (
-              <Notification warning data-testid="statusHasChildrenOpen">
-                {constants.DEELMELDINGEN_STILL_OPEN}
-              </Notification>
+              <Alert level="info" data-testid="statusHasChildrenOpen">
+                <Heading forwardedAs="h3">{constants.DEELMELDINGEN_STILL_OPEN_HEADING}</Heading>
+                <Paragraph>{constants.DEELMELDINGEN_STILL_OPEN_CONTENT}</Paragraph>
+              </Alert>
+            )}
+
+            {isDeelmelding && (
+              <Alert data-testid="statusExplanation" level="info">{constants.DEELMELDING_EXPLANATION}</Alert>
             )}
           </OptionsArea>
 
@@ -151,12 +156,6 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
             {state.warning && (
               <Notification warning data-testid="statusWarning">
                 {state.warning}
-              </Notification>
-            )}
-
-            {isDeelmelding && (
-              <Notification warning data-testid="statusExplanation">
-                {constants.DEELMELDING_EXPLANATION}
               </Notification>
             )}
 

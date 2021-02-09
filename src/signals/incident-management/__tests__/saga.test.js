@@ -305,13 +305,14 @@ describe('signals/incident-management/saga', () => {
 
   describe('fetch filters', () => {
     it('should dispatch getFiltersSuccess', () => {
-      const filters = { results: [{ a: 1 }] };
+      const response = { results: [{ a: 1, options: { option: 'option', area_code: ['123', '456'] } }] };
+      const filters = [{ a: 1, options: { option: 'option', area: ['123', '456'] } }];
 
       testSaga(fetchFilters)
         .next()
         .call(authCall, CONFIGURATION.FILTERS_ENDPOINT)
-        .next(filters)
-        .put(getFiltersSuccess(filters.results))
+        .next(response)
+        .put(getFiltersSuccess(filters))
         .next()
         .isDone();
     });
@@ -529,8 +530,10 @@ describe('signals/incident-management/saga', () => {
     it('should spawn doSaveFilter', () => {
       const payload = {
         name: 'Name of my filter',
-        maincategory_slug: ['i', 'a', 'o', 'u'],
-        address_text: 'Weesperstraat 113-117',
+        options: {
+          maincategory_slug: ['i', 'a', 'o', 'u'],
+          address_text: 'Weesperstraat 113-117',
+        },
       };
       const action = {
         type: SAVE_FILTER,

@@ -2,15 +2,18 @@ import { call } from 'redux-saga/effects';
 import request from 'utils/request';
 import { getAccessToken } from 'shared/services/auth/auth';
 
-export const generateParams = data => Object.entries(data)
-  .filter(pair => pair[1])
-  .map(pair => Array.isArray(pair[1]) === true ?
-    pair[1]
-      .filter(val => val)
-      .map(val => `${pair[0]}=${val}`)
-      .join('&') :
-    pair.map(encodeURIComponent).join('='))
-  .join('&');
+export const generateParams = data =>
+  Object.entries(data)
+    .filter(pair => pair[1])
+    .map(pair =>
+      Array.isArray(pair[1]) === true
+        ? pair[1]
+          .filter(val => val)
+          .map(val => `${pair[0]}=${val}`)
+          .join('&')
+        : pair.map(encodeURIComponent).join('=')
+    )
+    .join('&');
 
 export function* authCall(url, params, authorizationToken) {
   const headers = {
@@ -96,14 +99,13 @@ export const errorMessageDictionary = {
 /**
  * Get an error message based on an error's status code
  *
- * @param {Error} error
  * @returns {String}
  */
-export const getErrorMessage = (error, defaultErrorMessage) => {
-  const status = error?.response?.status || error.status;
+export const getErrorMessage = (error, defaultErrorMessage = '') => {
+  const status = error?.response?.status || error?.status;
 
   if (!status) {
-    return defaultErrorMessage || errorMessageDictionary.default;
+    return error.message || defaultErrorMessage || errorMessageDictionary.default;
   }
 
   return errorMessageDictionary[status] || defaultErrorMessage || errorMessageDictionary.default;
