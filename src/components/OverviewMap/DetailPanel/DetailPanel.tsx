@@ -1,5 +1,5 @@
+import type { FC } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button, Link as AscLink, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { Close } from '@amsterdam/asc-assets';
@@ -9,6 +9,8 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import { string2date, string2time } from 'shared/services/string-parser';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 import { statusList } from 'signals/incident-management/definitions';
+import type { StatusCode } from 'signals/incident-management/definitions/statusList';
+import type { IncidentSummary } from 'types/incident';
 
 const statuses = statusList.reduce(
   (acc, status) => ({
@@ -16,7 +18,7 @@ const statuses = statusList.reduce(
     [status.key]: status.value,
   }),
   {}
-);
+) as Record<StatusCode, string>;
 
 const StyledMetaList = styled.dl`
   margin: 0;
@@ -61,51 +63,45 @@ const PanelHeader = styled.div`
   justify-content: space-between;
 `;
 
-const fields = ['created_at', 'state_display', 'category', 'subcategory'];
+interface DetailPanelProps {
+  incident: IncidentSummary;
+  onClose: () => void;
+}
 
-const DetailPanel = ({ incident, onClose }) => (
+const DetailPanel: FC<DetailPanelProps> = ({ incident, onClose }) =>
   <Panel data-testid="mapDetailPanel">
     <PanelHeader>
-      {isAuthenticated() ? (
+      {isAuthenticated() ?
         <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${incident.id}`}>
           Melding {incident.id}
         </AscLink>
-      ) : (
+        :
         `Melding ${incident.id}`
-      )}
+      }
       <Button size={36} variant="blank" iconSize={14} icon={<Close />} onClick={onClose} />
     </PanelHeader>
-    {fields.some(name => Boolean(incident[name])) && (
+    {(incident.created_at ||
+      incident.status && statuses[incident.status] ||
+      incident.category?.sub ||
+      incident.category?.main) &&
       <StyledMetaList>
         {incident.created_at && <dt data-testid="meta-list-date-definition">Gemeld op</dt>}
-        {incident.created_at && (
+        {incident.created_at &&
           <dd data-testid="meta-list-date-value">
             {string2date(incident.created_at)} {string2time(incident.created_at)}
           </dd>
-        )}
+        }
         {incident.status && statuses[incident.status] && <dt data-testid="meta-list-status-definition">Status</dt>}
-        {incident.status && statuses[incident.status] && (
+        {incident.status && statuses[incident.status] &&
           <dd className="alert" data-testid="meta-list-status-value">
             {statuses[incident.status]}
           </dd>
-        )}
+        }
         {incident.category?.sub && <dt data-testid="meta-list-subcategory-definition">Subcategorie</dt>}
         {incident.category?.sub && <dd data-testid="meta-list-subcategory-value">{incident.category.sub}</dd>}
         {incident.category?.main && <dt data-testid="meta-list-category-definition">Hoofdcategorie</dt>}
         {incident.category?.main && <dd data-testid="meta-list-category-value">{incident.category.main}</dd>}
       </StyledMetaList>
-    )}
-  </Panel>
-);
-
-DetailPanel.propTypes = {
-  incident: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    created_at: PropTypes.string,
-    status: PropTypes.string,
-    category: PropTypes.shape({ sub: PropTypes.string, main: PropTypes.string }),
-  }).isRequired,
-  onClose: PropTypes.func.isRequired,
-};
-
+    }
+  </Panel>;
 export default DetailPanel;

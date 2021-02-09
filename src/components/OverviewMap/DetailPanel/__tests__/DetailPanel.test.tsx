@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { isAuthenticated } from 'shared/services/auth/auth';
 import { statusList } from 'signals/incident-management/definitions';
@@ -9,19 +9,21 @@ import DetailPanel from '..';
 
 jest.mock('shared/services/auth/auth');
 
+const mockIsAuthenticated = isAuthenticated as jest.MockedFunction<typeof isAuthenticated>;
+
 describe('signals/incident-management/containes/IncidentOverviewPage/components/DetailPanel', () => {
   it('should render UI element', () => {
     const incident = { id: 1234 };
-    const { container } = render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
+    render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
 
     expect(screen.getByText(/1234/i)).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /1234/i })).not.toBeInTheDocument();
   });
 
   it('should render link when authenticated', () => {
-    isAuthenticated.mockImplementation(() => true);
+    mockIsAuthenticated.mockImplementation(() => true);
     const incident = { id: 1234 };
-    const { container } = render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
+    render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
     expect(screen.getByRole('link', { name: /1234/i })).toBeInTheDocument();
   });
 
@@ -29,7 +31,7 @@ describe('signals/incident-management/containes/IncidentOverviewPage/components/
     const incident = {
       id: 1234,
     };
-    const { container } = render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
+    render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
     expect(screen.queryByText(/gemeld op/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/status/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/hoofdcategorie/i)).not.toBeInTheDocument();
@@ -46,7 +48,7 @@ describe('signals/incident-management/containes/IncidentOverviewPage/components/
         sub: 'Sub Category',
       },
     };
-    const { container } = render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
+    render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
     expect(screen.getByText(/gemeld op/i)).toBeInTheDocument();
     expect(screen.getByText(/04-03-2020 05:06/i)).toBeInTheDocument();
     expect(screen.getByText(/status/i)).toBeInTheDocument();
@@ -63,7 +65,7 @@ describe('signals/incident-management/containes/IncidentOverviewPage/components/
       created_at: '2020-03-04T05:06:07',
       status: statusList[1].key,
     };
-    const { container } = render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
+    render(withAppContext(<DetailPanel incident={incident} onClose={() => {}} />));
     expect(screen.getByText(/gemeld op/i)).toBeInTheDocument();
     expect(screen.getByText(/04-03-2020 05:06/i)).toBeInTheDocument();
     expect(screen.getByText(/status/i)).toBeInTheDocument();
@@ -75,7 +77,7 @@ describe('signals/incident-management/containes/IncidentOverviewPage/components/
   it('should call onClose', () => {
     const onClose = jest.fn();
     const incident = { id: 1234 };
-    const { container } = render(withAppContext(<DetailPanel incident={incident} onClose={onClose} />));
+    render(withAppContext(<DetailPanel incident={incident} onClose={onClose} />));
 
     expect(onClose).not.toHaveBeenCalled();
 
