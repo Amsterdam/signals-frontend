@@ -13,7 +13,7 @@ const StyledLogo = styled.img`
   ${({ tall }) =>
     tall &&
     css`
-      @media screen and (${breakpoint('max-width', 'tabletS')}) {
+      @media screen and ${breakpoint('max-width', 'tabletS')} {
         width: ${configuration.logo.smallWidth};
         height: ${configuration.logo.smallHeight};
       }
@@ -36,11 +36,11 @@ const StyledA = styled.a`
   ${({ tall }) =>
     tall &&
     css`
-      @media screen and (${breakpoint('max-width', 'tabletS')}) {
+      @media screen and ${breakpoint('max-width', 'tabletS')} {
         width: ${configuration.logo.smallWidth};
         height: ${configuration.logo.smallHeight};
       }
-      @media screen and (${breakpoint('min-width', 'laptopM')}) {
+      @media screen and ${breakpoint('min-width', 'laptopM')} {
         margin-right: ${themeSpacing(10)};
       }
     `};

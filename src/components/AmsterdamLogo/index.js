@@ -26,7 +26,7 @@ const AmsterdamLogoStyle = styled.a`
   ${({ tall }) =>
     tall &&
     css`
-      @media screen and (${breakpoint('min-width', 'laptopM')}) {
+      @media screen and ${breakpoint('min-width', 'laptopM')} {
         margin-right: ${themeSpacing(10)};
       }
     `};

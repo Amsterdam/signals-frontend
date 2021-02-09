@@ -16,7 +16,7 @@ export const ZoomMessageStyle = styled.div`
   right: 0;
   z-index: 400;
 
-  @media screen and (${breakpoint('max-width', 'tabletM')}) {
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
     left: 0;
     width: 100%;
     margin: 0;

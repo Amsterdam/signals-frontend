@@ -65,7 +65,7 @@ const Li = styled(ListItem)`
     color: black;
     align-items: stretch;
 
-    @media screen and (${breakpoint('max-width', 'laptop')}) {
+    @media screen and ${breakpoint('max-width', 'laptop')} {
       flex-wrap: wrap;
     }
 

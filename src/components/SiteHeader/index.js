@@ -45,7 +45,7 @@ const StyledHeader = styled(HeaderComponent)`
           margin-left: ${themeSpacing(-5)};
         }
 
-        @media screen and (${breakpoint('min-width', 'tabletS')}) {
+        @media screen and ${breakpoint('min-width', 'tabletS')} {
           & > div > a {
             &,
             span {
