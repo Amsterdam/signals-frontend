@@ -11,7 +11,7 @@ const DescriptionInfoWrapper = styled.div`
   flex-wrap: nowrap;
   justify-content: space-between;
 
-  @media screen and ${breakpoint('max-width', 'laptopM')} {
+  @media screen and (${breakpoint('max-width', 'laptopM')}) {
     flex-direction: column;
   }
 
