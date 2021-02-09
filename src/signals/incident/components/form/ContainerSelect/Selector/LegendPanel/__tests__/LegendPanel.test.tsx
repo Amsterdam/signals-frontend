@@ -8,7 +8,6 @@ import type { LegendPanelProps } from '../LegendPanel';
 describe('LegendPanel', () => {
   const props: LegendPanelProps = {
     onClose: () => {},
-    title: 'Title',
     variant: 'drawer',
     items: [
       {
@@ -28,7 +27,7 @@ describe('LegendPanel', () => {
 
   it('should render with empty items', () => {
     render(
-      withAppContext(<LegendPanel items={[]} onClose={props.onClose} title={props.title} variant={props.variant} />)
+      withAppContext(<LegendPanel items={[]} onClose={props.onClose} variant={props.variant} />)
     );
 
     expect(screen.queryAllByRole('listitem').length).toBe(0);
