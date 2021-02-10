@@ -117,6 +117,7 @@ const Selector = () => {
     () => ({
       ...MAP_OPTIONS,
       center: location,
+      dragging: true,
       zoomControl: false,
       minZoom: 10,
       maxZoom: 15,

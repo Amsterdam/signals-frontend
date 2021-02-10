@@ -53,11 +53,10 @@ const Map = ({
       ...{ ...mapOptions, center },
       maxZoom,
       minZoom,
-      dragging: canBeDragged && !hasTouchCapabilities,
       tap: false,
       scrollWheelZoom: false,
     };
-  }, [canBeDragged, hasTouchCapabilities, mapOptions, geolocation, maxZoom, minZoom]);
+  }, [mapOptions, geolocation, maxZoom, minZoom]);
 
   useLayoutEffect(() => {
     if (!mapInstance || !geolocation || !geolocation.toggled) return;
