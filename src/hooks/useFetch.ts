@@ -4,11 +4,11 @@ import { getAuthHeaders } from 'shared/services/auth/auth';
 import { getErrorMessage } from 'shared/services/api/api';
 
 type Data = Record<string, unknown>;
-export type Error = Response & { message: string };
+export type FetchError = (Response | Error) & { message: string };
 
 interface State<T> {
   data?: T;
-  error?: boolean | Error;
+  error?: boolean | FetchError;
   isLoading: boolean;
   isSuccess?: boolean;
 }
@@ -30,7 +30,7 @@ interface FetchResponse<T> extends State<T> {
  */
 const useFetch = <T>(): FetchResponse<T> => {
   interface Action {
-    payload: boolean | Data | Error;
+    payload: boolean | Data | FetchError;
     type: string;
   }
 
@@ -53,7 +53,7 @@ const useFetch = <T>(): FetchResponse<T> => {
         return { ...state, data: action.payload as T, isLoading: false, error: false, isSuccess: true };
 
       case 'SET_ERROR':
-        return { ...state, isLoading: false, isSuccess: false, error: action.payload as Error };
+        return { ...state, isLoading: false, isSuccess: false, error: action.payload as FetchError };
 
       /* istanbul ignore next */
       default:
@@ -116,7 +116,7 @@ const useFetch = <T>(): FetchResponse<T> => {
             writable: false,
           });
 
-          dispatch({ type: 'SET_ERROR', payload: fetchResponse as Error });
+          dispatch({ type: 'SET_ERROR', payload: fetchResponse as FetchError });
         }
       } catch (exception: unknown) {
         Object.defineProperty(exception, 'message', {
@@ -124,7 +124,7 @@ const useFetch = <T>(): FetchResponse<T> => {
           writable: false,
         });
 
-        dispatch({ type: 'SET_ERROR', payload: exception as Error });
+        dispatch({ type: 'SET_ERROR', payload: exception as FetchError });
       }
     },
     [requestHeaders, signal]
@@ -154,7 +154,7 @@ const useFetch = <T>(): FetchResponse<T> => {
           writable: false,
         });
 
-        dispatch({ type: 'SET_ERROR', payload: modifyResponse as Error });
+        dispatch({ type: 'SET_ERROR', payload: modifyResponse as FetchError });
       }
     },
     [requestHeaders, signal]
