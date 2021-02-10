@@ -1,0 +1,409 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/"
+    },
+    "next": {
+      "href": null
+    },
+    "previous": {
+      "href": null
+    }
+  },
+  "count": 18,
+  "results": [
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750400"
+        }
+      },
+      "_display": "ASC (Actie Service Centrum)",
+      "id": 1550750400,
+      "name": "Actie Service Centrum",
+      "code": "ASC",
+      "is_intern": true,
+      "category_names": [
+        "Asbest / accu",
+        "Auto- / scooter- / bromfiets(wrak)",
+        "Bedrijfsafval",
+        "Boom - illegale kap",
+        "Daklozen / bedelen",
+        "Deelfiets",
+        "Drank- / drugsoverlast",
+        "Geluid op het water",
+        "Handhaving op afval",
+        "Hinderlijk geplaatst object",
+        "Jongerenoverlast",
+        "Lozing / dumping / bodemverontreiniging",
+        "Nautisch toezicht / vaargedrag",
+        "Overig",
+        "Overig openbare ruimte",
+        "Overige boten",
+        "Overige dienstverlening",
+        "Overige overlast door personen",
+        "Overlast door afsteken vuurwerk",
+        "Overlast door bezoekers (niet op terras)",
+        "Overlast op het water - Vaargedrag",
+        "Overlast van taxi's, bussen en fietstaxi's",
+        "Overlast vanaf het water",
+        "Parkeeroverlast",
+        "Personen op het water",
+        "Snel varen",
+        "Stank horeca/bedrijven",
+        "Straatverlichting / openbare klok",
+        "Uitwerpselen",
+        "Verkeersoverlast",
+        "Verkeersoverlast / Verkeerssituaties",
+        "Vuurwerkoverlast",
+        "Wildplassen / poepen / overgeven",
+        "Wrak in het water"
+      ],
+      "can_direct": true
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750410"
+        }
+      },
+      "_display": "AEG (Afval en Grondstoffen)",
+      "id": 1550750410,
+      "name": "Afval en Grondstoffen",
+      "code": "AEG",
+      "is_intern": true,
+      "category_names": [
+        "Bedrijfsafval",
+        "Container is kapot",
+        "Container is vol",
+        "Container papier kapot",
+        "Container papier vol",
+        "Container plastic afval vol",
+        "Container plastic kapot",
+        "Grofvuil",
+        "Huisafval",
+        "Overig afval",
+        "Puin- / sloopafval"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750420"
+        }
+      },
+      "_display": "CCA (CCA)",
+      "id": 1550750420,
+      "name": "CCA",
+      "code": "CCA",
+      "is_intern": true,
+      "category_names": []
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750430"
+        }
+      },
+      "_display": "FB (FB)",
+      "id": 1550750430,
+      "name": "FB",
+      "code": "FB",
+      "is_intern": true,
+      "category_names": []
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750440"
+        }
+      },
+      "_display": "GGD (GGD)",
+      "id": 1550750440,
+      "name": "GGD",
+      "code": "GGD",
+      "is_intern": false,
+      "category_names": [
+        "Dode dieren",
+        "Duiven",
+        "Ganzen",
+        "Meeuwen",
+        "Overig dieren",
+        "Ratten",
+        "Wespen"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750450"
+        }
+      },
+      "_display": "OMG (Omgevingsdienst)",
+      "id": 1550750450,
+      "name": "Omgevingsdienst",
+      "code": "OMG",
+      "is_intern": true,
+      "category_names": []
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750460"
+        }
+      },
+      "_display": "OOV (Openbare Orde & Veiligheid)",
+      "id": 1550750460,
+      "name": "Openbare Orde & Veiligheid",
+      "code": "OOV",
+      "is_intern": true,
+      "category_names": [
+        "Ondermijning",
+        "Vermoeden"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750470"
+        }
+      },
+      "_display": "POL (Politie)",
+      "id": 1550750470,
+      "name": "Politie",
+      "code": "POL",
+      "is_intern": false,
+      "category_names": []
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750480"
+        }
+      },
+      "_display": "POA (Port of Amsterdam)",
+      "id": 1550750480,
+      "name": "Port of Amsterdam",
+      "code": "POA",
+      "is_intern": false,
+      "category_names": []
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750490"
+        }
+      },
+      "_display": "STL (Stadsloket)",
+      "id": 1550750490,
+      "name": "Stadsloket",
+      "code": "STL",
+      "is_intern": true,
+      "category_names": []
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750500"
+        }
+      },
+      "_display": "STW (Stadswerken)",
+      "id": 1550750500,
+      "name": "Stadswerken",
+      "code": "STW",
+      "is_intern": true,
+      "category_names": [
+        "Boom - dood",
+        "Boom - noodkap",
+        "Boom - overig",
+        "Boom - plastic en overig afval",
+        "Boom - spiegel",
+        "Brug",
+        "Deelfiets",
+        "Drijfvuil niet-bevaarbaar water",
+        "Fietsrek / nietje",
+        "Gladheid door blad",
+        "Gladheid door olie op de weg",
+        "Gladheid winterdienst",
+        "Graffiti / wildplak",
+        "Kades",
+        "Lozing / dumping / bodemverontreiniging",
+        "Maaien",
+        "Oever",
+        "Omleiding / belijning verkeer",
+        "Onderhoud stoep, straat en fietspad",
+        "Onkruid in het groen",
+        "Onkruid op verharding",
+        "Overig Wegen, verkeer, straatmeubilair",
+        "Overig afval",
+        "Overig groen en water",
+        "Prullenbak is kapot",
+        "Prullenbak is vol",
+        "Put / riolering verstopt",
+        "Snoeien",
+        "Speelplaats",
+        "Sportvoorziening",
+        "Steiger",
+        "Straatmeubilair",
+        "Uitwerpselen",
+        "Veeg- / zwerfvuil",
+        "Verkeersbord / verkeersafzetting",
+        "Verkeerssituaties",
+        "Verzakking van kades"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750510"
+        }
+      },
+      "_display": "THO (THOR)",
+      "id": 1550750510,
+      "name": "THOR",
+      "code": "THO",
+      "is_intern": true,
+      "category_names": [
+        "Asbest / accu",
+        "Auto- / scooter- / bromfiets(wrak)",
+        "Boom - illegale kap",
+        "Daklozen / bedelen",
+        "Drank- / drugsoverlast",
+        "Fietswrak",
+        "Handhaving op afval",
+        "Hinderlijk geplaatst object",
+        "Jongerenoverlast",
+        "Lozing / dumping / bodemverontreiniging",
+        "Overige overlast door personen",
+        "Overlast door afsteken vuurwerk",
+        "Overlast door bezoekers (niet op terras)",
+        "Overlast van taxi's, bussen en fietstaxi's",
+        "Parkeeroverlast",
+        "Personen op het water",
+        "Stank- / geluidsoverlast",
+        "Uitwerpselen",
+        "Verkeersoverlast",
+        "Verkeersoverlast / Verkeerssituaties",
+        "Vuurwerkoverlast",
+        "Wegsleep",
+        "Wildplassen / poepen / overgeven"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750520"
+        }
+      },
+      "_display": "VOR (V&OR)",
+      "id": 1550750520,
+      "name": "V&OR",
+      "code": "VOR",
+      "is_intern": true,
+      "category_names": [
+        "Autom. Verzinkbare palen",
+        "Bewegwijzering",
+        "Boom - aanvraag plaatsing",
+        "Camerasystemen",
+        "Klok",
+        "Parkeer verwijssysteem",
+        "Parkeerautomaten",
+        "Stadsplattegronden",
+        "Straatverlichting",
+        "Verkeerslicht",
+        "Verkeerssituaties"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750530"
+        }
+      },
+      "_display": "VIS (V&OR - VIS)",
+      "id": 1550750530,
+      "name": "V&OR - VIS",
+      "code": "VIS",
+      "is_intern": true,
+      "category_names": [
+        "Verdeelkasten / bekabeling"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750540"
+        }
+      },
+      "_display": "OVL (V&OR OVL)",
+      "id": 1550750540,
+      "name": "V&OR OVL",
+      "code": "OVL",
+      "is_intern": true,
+      "category_names": [
+        "Lichthinder",
+        "Verlichting netstoring"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/155075050"
+        }
+      },
+      "_display": "VRI (V&OR VRI)",
+      "id": 1550750550,
+      "name": "V&OR VRI",
+      "code": "VRI",
+      "is_intern": true,
+      "category_names": []
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750560"
+        }
+      },
+      "_display": "VTH (VTH)",
+      "id": 1550750560,
+      "name": "VTH",
+      "code": "VTH",
+      "is_intern": true,
+      "category_names": [
+        "Bouw- / sloopoverlast",
+        "Geluidsoverlast installaties",
+        "Geluidsoverlast muziek",
+        "Overig bedrijven / horeca",
+        "Overlast terrassen",
+        "Stank horeca/bedrijven",
+        "Stank- / geluidsoverlast",
+        "Stankoverlast"
+      ]
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/departments/1550750570"
+        }
+      },
+      "_display": "WAT (Waternet)",
+      "id": 1550750570,
+      "name": "Waternet",
+      "code": "WAT",
+      "is_intern": false,
+      "category_names": [
+        "Brug",
+        "Brug bediening",
+        "Drijfvuil bevaarbaar water",
+        "Geluid op het water",
+        "Nautisch toezicht / vaargedrag",
+        "Overige boten",
+        "Overlast op het water - Vaargedrag",
+        "Overlast vanaf het water",
+        "Riolering - verstopte kolk",
+        "Snel varen",
+        "Wrak in het water"
+      ]
+    }
+  ]
+}
