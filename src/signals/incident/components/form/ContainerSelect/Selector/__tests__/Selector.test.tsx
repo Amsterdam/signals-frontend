@@ -1,4 +1,5 @@
 import React from 'react';
+import 'jest-styled-components';
 import { render, screen } from '@testing-library/react';
 import Selector from '..';
 import fetchMock from 'jest-fetch-mock';
@@ -8,6 +9,12 @@ import {
   withContainerSelectContext,
 } from 'signals/incident/components/form/ContainerSelect/__tests__/context.test';
 import userEvent from '@testing-library/user-event';
+import { ascDefaultTheme } from '@amsterdam/asc-ui';
+
+jest.mock('../useLayerVisible', () => ({
+  __esModule: true,
+  default: () => false,
+}));
 
 let showDesktopVariant: boolean;
 jest.mock('@amsterdam/asc-ui/lib/utils/hooks', () => ({
@@ -85,10 +92,19 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     expect(screen.queryByTestId('panelMobile')).not.toBeInTheDocument();
   });
 
-  it('should show mobile version on desktop', async () => {
+  it('should show mobile version on mobile', async () => {
     render(withContainerSelectContext(<Selector />));
 
     expect(await screen.findByTestId('panelMobile')).toBeInTheDocument();
     expect(screen.queryByTestId('panelDesktop')).not.toBeInTheDocument();
+  });
+
+  it('handles button bar style when zoom level is low', async () => {
+    const media = `screen and ${ascDefaultTheme.breakpoints.tabletM('max-width')}`;
+
+    render(withContainerSelectContext(<Selector />));
+
+    const bar = await screen.findAllByTestId('buttonBar');
+    expect(bar[0]).toHaveStyleRule('margin-top', '44px', { media });
   });
 });
