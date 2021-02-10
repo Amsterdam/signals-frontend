@@ -25,6 +25,7 @@ import WfsLayer from './WfsLayer';
 import ZoomMessage from './ZoomMessage';
 import useLayerVisible from './useLayerVisible';
 import SelectionPanel from './SelectionPanel';
+import { UNREGISTERED_CONTAINER_TYPE } from '../constants';
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
@@ -78,8 +79,8 @@ const StyledMap = styled(Map)`
 `;
 
 const ButtonBarStyle = styled.div<{ layerVisible: boolean }>`
-  @media screen and (${breakpoint('max-width', 'tabletM')}) {
-    margin-top: ${({ layerVisible }) => layerVisible && themeSpacing(11)};
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    margin-top: ${({ layerVisible }) => !layerVisible && themeSpacing(11)};
   }
 `;
 
@@ -87,11 +88,9 @@ const ButtonBar: FunctionComponent<{ zoomLevel: ZoomLevel }> = ({ children, zoom
   const layerVisible = useLayerVisible(zoomLevel);
 
   return (
-    (
-      <ButtonBarStyle data-testid="zoomMessage" layerVisible={layerVisible}>
-        {children}
-      </ButtonBarStyle>
-    ) || null
+    <ButtonBarStyle data-testid="buttonBar" layerVisible={layerVisible}>
+      {children}
+    </ButtonBarStyle>
   );
 };
 
@@ -123,7 +122,6 @@ const Selector = () => {
       maxZoom: 15,
       zoom: 14,
     }),
-
     [location]
   );
 
@@ -177,7 +175,7 @@ const Selector = () => {
                 onClose={handleLegendCloseButton}
                 variant={panelVariant}
                 items={meta.featureTypes
-                  .filter(({ label }) => label !== 'Onbekend') // Filter the unknown icon from the legend
+                  .filter(({ typeValue }) => typeValue !== UNREGISTERED_CONTAINER_TYPE) // Filter the unknown icon from the legend
                   .map(featureType => ({
                     label: featureType.label,
                     iconUrl: `data:image/svg+xml;base64,${btoa(featureType.icon.iconSvg)}`,

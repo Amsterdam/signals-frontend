@@ -132,7 +132,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
       )}
 
       {unregisteredFeature && (
-        <Fragment>
+        <div>
           <Checkbox id="unregisteredContainerCheckbox" checked={hasUnregisteredContainer} onChange={toggleUnregisteredContainer} />
           <Label htmlFor="unregisteredContainerCheckbox" label="De container staat niet op de kaart" />
 
@@ -149,7 +149,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
               <Input id="unregisteredContainerInput" onSubmit={onClose} onKeyDown={handleKeyDown} onChange={updateUnregisteredContainer} value={unregisteredContainer.id} />
             </Fragment>
           )}
-        </Fragment>
+        </div>
       )}
 
       <StyledButton onClick={onClose} variant="primary">
