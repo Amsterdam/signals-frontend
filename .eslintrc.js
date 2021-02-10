@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  ignorePatterns: ['e2e-tests'],
+  ignorePatterns: ['e2e-tests', 'internals/testing'],
   extends: [
     'plugin:amsterdam/base',
     'plugin:amsterdam/import',

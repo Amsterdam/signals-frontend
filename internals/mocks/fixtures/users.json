@@ -1,0 +1,1238 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/"
+    },
+    "next": {
+      "href": null
+    },
+    "previous": {
+      "href": null
+    }
+  },
+  "count": 69,
+  "results": [
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/1"
+        }
+      },
+      "_display": "user1@example.com",
+      "id": 1,
+      "username": "user1@example.com",
+      "is_active": true,
+      "roles": [
+        "monitors"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.849670+02:00",
+        "updated_at": "2019-10-24T10:25:48.849700+02:00",
+        "departments": []
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/2"
+        }
+      },
+      "_display": "asc-aeg@example.com",
+      "id": 2,
+      "username": "asc-aeg@example.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.850733+02:00",
+        "updated_at": "2019-10-24T10:25:48.850764+02:00",
+        "departments": [
+          "Actie Service Centrum",
+          "Afval en Grondstoffen"
+        ]
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/3"
+        }
+      },
+      "_display": "asc@example.com",
+      "id": 3,
+      "username": "asc@example.com",
+      "is_active": true,
+      "roles": [
+        "coordinatoren"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.851878+02:00",
+        "updated_at": "2019-10-24T10:25:48.851908+02:00",
+        "departments": [
+          "Actie Service Centrum"
+        ]
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/4"
+        }
+      },
+      "_display": "aeg@example.com",
+      "id": 4,
+      "username": "aeg@example.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.854049+02:00",
+        "updated_at": "2019-10-24T10:25:48.854079+02:00",
+        "departments": [
+          "Afval en Grondstoffen"
+        ]
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/5"
+        }
+      },
+      "_display": "tho@domain.com",
+      "id": 5,
+      "username": "tho@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.853071+02:00",
+        "updated_at": "2019-10-24T10:25:48.853101+02:00",
+        "departments": [
+          "THOR"
+        ]
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/6"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 6,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.840906+02:00",
+        "updated_at": "2019-10-24T10:25:48.840962+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/33"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 33,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.866998+02:00",
+        "updated_at": "2019-10-24T10:25:48.867013+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/38"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 38,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.864596+02:00",
+        "updated_at": "2019-10-24T10:25:48.864613+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/61"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 61,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.879224+02:00",
+        "updated_at": "2019-10-24T10:25:48.879239+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/34"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 34,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "monitors",
+        "dep_cca"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.856030+02:00",
+        "updated_at": "2019-10-24T10:25:48.856062+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/44"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 44,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_fb",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.873260+02:00",
+        "updated_at": "2019-10-24T10:25:48.873274+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/36"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 36,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "monitors",
+        "dep_cca"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.859248+02:00",
+        "updated_at": "2019-10-24T10:25:48.859277+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/105"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 105,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": null
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/26"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 26,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars",
+        "coordinatoren"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.875509+02:00",
+        "updated_at": "2019-10-24T10:25:48.875523+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/99"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 99,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.886168+02:00",
+        "updated_at": "2019-10-24T10:25:48.886182+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/29"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 29,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_fb",
+        "behandelaars",
+        "coordinatoren"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.869423+02:00",
+        "updated_at": "2019-10-24T10:25:48.869437+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/45"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 45,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.873796+02:00",
+        "updated_at": "2019-10-24T10:25:48.873809+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/46"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 46,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.898336+02:00",
+        "updated_at": "2019-10-24T10:25:48.898350+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/92"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 92,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.881789+02:00",
+        "updated_at": "2019-10-24T10:25:48.881810+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/53"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 53,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.884904+02:00",
+        "updated_at": "2019-10-24T10:25:48.884923+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/31"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 31,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.867573+02:00",
+        "updated_at": "2019-10-24T10:25:48.867587+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/96"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 96,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.895188+02:00",
+        "updated_at": "2019-10-24T10:25:48.895202+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/104"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 104,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.897721+02:00",
+        "updated_at": "2019-10-24T10:25:48.897741+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/37"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 37,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "monitors",
+        "behandelaars",
+        "coordinatoren",
+        "dep_fb",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.865605+02:00",
+        "updated_at": "2019-10-24T10:25:48.865636+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/8"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 8,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.842594+02:00",
+        "updated_at": "2019-10-24T10:25:48.842634+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/102"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 102,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.896386+02:00",
+        "updated_at": "2019-10-24T10:25:48.896400+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/40"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 40,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.868180+02:00",
+        "updated_at": "2019-10-24T10:25:48.868194+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/25"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 25,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars",
+        "coordinatoren"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.871083+02:00",
+        "updated_at": "2019-10-24T10:25:48.871132+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/47"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 47,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.874301+02:00",
+        "updated_at": "2019-10-24T10:25:48.874315+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/10"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 10,
+      "username": "undefined@domain.com",
+      "is_active": false,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.863323+02:00",
+        "updated_at": "2019-10-24T10:25:48.863339+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/9"
+        }
+      },
+      "_display": "jasper.g.swart@gmail.com",
+      "id": 9,
+      "username": "jasper.g.swart@gmail.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.855057+02:00",
+        "updated_at": "2019-10-24T10:25:48.855088+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/11"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 11,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.843772+02:00",
+        "updated_at": "2019-10-24T10:25:48.843810+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/60"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 60,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.878574+02:00",
+        "updated_at": "2019-10-24T10:25:48.878595+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/28"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 28,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_fb"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.879907+02:00",
+        "updated_at": "2019-10-24T10:25:48.879924+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/55"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 55,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.888949+02:00",
+        "updated_at": "2019-10-24T10:25:48.888963+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/100"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 100,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.888086+02:00",
+        "updated_at": "2019-10-24T10:25:48.888100+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/97"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 97,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.895802+02:00",
+        "updated_at": "2019-10-24T10:25:48.895817+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/54"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 54,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.887477+02:00",
+        "updated_at": "2019-10-24T10:25:48.887497+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/59"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 59,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.893156+02:00",
+        "updated_at": "2019-10-24T10:25:48.893188+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/103"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 103,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.897117+02:00",
+        "updated_at": "2019-10-24T10:25:48.897132+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/32"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 32,
+      "username": "undefined@domain.com",
+      "is_active": false,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.869986+02:00",
+        "updated_at": "2019-10-24T10:25:48.870000+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/51"
+        }
+      },
+      "_display": "niels@we-riot.com",
+      "id": 51,
+      "username": "niels@we-riot.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.877688+02:00",
+        "updated_at": "2019-10-24T10:25:48.877703+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/93"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 93,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "Extern Systeem"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.883816+02:00",
+        "updated_at": "2019-10-24T10:25:48.883835+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/20"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 20,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "monitors"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.863917+02:00",
+        "updated_at": "2019-10-24T10:25:48.863930+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/21"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 21,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.862556+02:00",
+        "updated_at": "2019-10-24T10:25:48.862588+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/22"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 22,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "coordinatoren"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.860252+02:00",
+        "updated_at": "2019-10-24T10:25:48.860285+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/23"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 23,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.868862+02:00",
+        "updated_at": "2019-10-24T10:25:48.868877+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/24"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 24,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.857297+02:00",
+        "updated_at": "2019-10-24T10:25:48.857338+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/101"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 101,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.890660+02:00",
+        "updated_at": "2019-10-24T10:25:48.890674+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/13"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 13,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.845112+02:00",
+        "updated_at": "2019-10-24T10:25:48.845196+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/95"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 95,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.894539+02:00",
+        "updated_at": "2019-10-24T10:25:48.894561+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/94"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 94,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.885609+02:00",
+        "updated_at": "2019-10-24T10:25:48.885625+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/27"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 27,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.866368+02:00",
+        "updated_at": "2019-10-24T10:25:48.866384+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/49"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 49,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "coordinatoren"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.876165+02:00",
+        "updated_at": "2019-10-24T10:25:48.876183+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/98"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 98,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_asc",
+        "regievoerder"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.882732+02:00",
+        "updated_at": "2019-10-24T10:25:48.882751+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/39"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 39,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "Extern Systeem"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.861509+02:00",
+        "updated_at": "2019-10-24T10:25:48.861545+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/35"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 35,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "monitors",
+        "dep_cca"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.858262+02:00",
+        "updated_at": "2019-10-24T10:25:48.858292+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/43"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 43,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "coordinatoren"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.870511+02:00",
+        "updated_at": "2019-10-24T10:25:48.870525+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/56"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 56,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.889569+02:00",
+        "updated_at": "2019-10-24T10:25:48.889597+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/50"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 50,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.876885+02:00",
+        "updated_at": "2019-10-24T10:25:48.876901+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/30"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 30,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "dep_fb"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.893886+02:00",
+        "updated_at": "2019-10-24T10:25:48.893902+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/58"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 58,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [
+        "behandelaars"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.890118+02:00",
+        "updated_at": "2019-10-24T10:25:48.890132+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/16"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 16,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.847120+02:00",
+        "updated_at": "2019-10-24T10:25:48.847155+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/17"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 17,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.848311+02:00",
+        "updated_at": "2019-10-24T10:25:48.848348+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/52"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 52,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.846172+02:00",
+        "updated_at": "2019-10-24T10:25:48.846204+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/48"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 48,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.874952+02:00",
+        "updated_at": "2019-10-24T10:25:48.874967+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/41"
+        }
+      },
+      "_display": "sia@techtek.eu",
+      "id": 41,
+      "username": "sia@techtek.eu",
+      "is_active": true,
+      "roles": [
+        "Extern Systeem"
+      ],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.871854+02:00",
+        "updated_at": "2019-10-24T10:25:48.871872+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/15"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 15,
+      "username": "undefined@domain.com",
+      "is_active": false,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.872448+02:00",
+        "updated_at": "2019-10-24T10:25:48.872660+02:00"
+      }
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/users/18"
+        }
+      },
+      "_display": "undefined@domain.com",
+      "id": 18,
+      "username": "undefined@domain.com",
+      "is_active": true,
+      "roles": [],
+      "profile": {
+        "created_at": "2019-10-24T10:25:48.886828+02:00",
+        "updated_at": "2019-10-24T10:25:48.886843+02:00"
+      }
+    }
+  ]
+}
