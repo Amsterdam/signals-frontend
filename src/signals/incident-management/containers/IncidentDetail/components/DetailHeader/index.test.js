@@ -35,7 +35,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
   });
 
   it('should render all buttons when state is gemeld and no parent or children are present', () => {
-    const { queryByTestId, queryAllByTestId, unmount } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
         _links: {
@@ -45,46 +45,38 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
       })
     );
 
-    expect(queryByTestId('backlink')).toHaveTextContent(/^Terug naar overzicht$/);
-    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Standaardmelding ${incidentFixture.id}`);
-    expect(queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
-    expect(queryAllByTestId('detail-header-button-download')).toHaveLength(1);
-
-    unmount();
+    expect(screen.queryByTestId('backlink')).toHaveTextContent(/^Terug naar overzicht$/);
+    expect(screen.queryByTestId('detail-header-title')).toHaveTextContent(`Standaardmelding ${incidentFixture.id}`);
+    expect(screen.queryByTestId('detail-header-button-thor')).toHaveTextContent(/^THOR$/);
+    expect(screen.queryAllByTestId('detail-header-button-download')).toHaveLength(1);
   });
 
   it('should render correct title when parent is present', () => {
-    const { queryByTestId, queryAllByTestId, unmount } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
         _links: { 'sia:children': undefined, 'sia:parent': { href: '//href-to-parent/5678' } },
       })
     );
 
-    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Deelmelding ${incidentFixture.id}`);
-
-    unmount();
+    expect(screen.queryByTestId('detail-header-title')).toHaveTextContent(`Deelmelding ${incidentFixture.id}`);
   });
 
   it('should render correct title when children are present', () => {
-    const { queryByTestId, queryAllByTestId, unmount } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
         _links: { 'sia:parent': undefined, 'sia:children': [...Array(8)] },
       })
     );
 
-    expect(queryByTestId('detail-header-title')).toHaveTextContent(`Hoofdmelding ${incidentFixture.id}`);
-
-    unmount();
+    expect(screen.queryByTestId('detail-header-title')).toHaveTextContent(`Hoofdmelding ${incidentFixture.id}`);
   });
 
   it('should render no split button when 10 or more children are present', () => {
-    const { queryByTestId, rerender, unmount } = render(renderWithContext());
+    const { rerender } = render(renderWithContext());
 
-    expect(queryByTestId('detail-header-button-split')).toBeInTheDocument();
-
-    unmount();
+    expect(screen.queryByTestId('detail-header-button-split')).toBeInTheDocument();
 
     rerender(
       renderWithContext({
@@ -93,29 +85,25 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
       })
     );
 
-    expect(queryByTestId('detail-header-button-split')).toBeInTheDocument();
+    expect(screen.queryByTestId('detail-header-button-split')).toBeInTheDocument();
 
-    unmount();
+    rerender(renderWithContext({
+      ...incidentFixture,
+      _links: { ...incidentFixture._links, 'sia:parent': undefined, 'sia:children': [...Array(10)] },
+    }));
 
-    rerender(
-      renderWithContext({
-        ...incidentFixture,
-        _links: { ...incidentFixture._links, 'sia:parent': undefined, 'sia:children': [...Array(10)] },
-      })
-    );
-
-    expect(queryByTestId('detail-header-button-split')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('detail-header-button-split')).not.toBeInTheDocument();
   });
 
   it('should render no split button when parent is present', () => {
-    const { queryByTestId } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
         _links: { ...incidentFixture._links, 'sia:parent': { href: '//href-to-parent/5678' } },
       })
     );
 
-    expect(queryByTestId('detail-header-button-split')).toBeNull();
+    expect(screen.queryByTestId('detail-header-button-split')).toBeNull();
   });
 
   it('should render no split button when state is o, a or s', () => {
@@ -127,23 +115,23 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
   });
 
   it('should render no thor button when state is not m, i, b, h, send failed or reopened', () => {
-    const { queryByTestId } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
         status: { ...incidentFixture.status, state: 'o' },
       })
     );
 
-    expect(queryByTestId('detail-header-button-thor')).toBeNull();
+    expect(screen.queryByTestId('detail-header-button-thor')).toBeNull();
   });
 
   it('test clicking the thor button', () => {
-    const { queryByTestId } = render(renderWithContext());
+    render(renderWithContext());
 
     expect(update).not.toHaveBeenCalled();
 
     act(() => {
-      fireEvent.click(queryByTestId('detail-header-button-thor'));
+      fireEvent.click(screen.queryByTestId('detail-header-button-thor'));
     });
 
     expect(update).toHaveBeenCalledWith({
@@ -159,9 +147,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
   });
 
   it('should render a link with the correct referrer', () => {
-    const { getByTestId, rerender } = render(renderWithContext());
+    const { rerender } = render(renderWithContext());
 
-    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(INCIDENTS_URL));
+    expect(screen.getByTestId('backlink').href).toEqual(expect.stringContaining(INCIDENTS_URL));
 
     const referrer = '/some-url';
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
@@ -170,7 +158,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
 
     rerender(renderWithContext());
 
-    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(INCIDENTS_URL));
+    expect(screen.getByTestId('backlink').href).toEqual(expect.stringContaining(INCIDENTS_URL));
 
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
       referrer: MAP_URL,
@@ -178,6 +166,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
 
     rerender(renderWithContext());
 
-    expect(getByTestId('backlink').href).toEqual(expect.stringContaining(MAP_URL));
+    expect(screen.getByTestId('backlink').href).toEqual(expect.stringContaining(MAP_URL));
   });
 });

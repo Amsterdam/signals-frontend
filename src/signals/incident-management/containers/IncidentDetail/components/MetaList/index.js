@@ -88,7 +88,7 @@ const MetaList = () => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const hasChildren = useMemo(() => incident._links['sia:children']?.length > 0, [incident]);
-  const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop();
+  const parentId = incident._links?.['sia:parent']?.href?.split('/').pop();
 
   const getDirectingDepartmentCode = useCallback(
     value => {
