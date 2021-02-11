@@ -1,7 +1,33 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  extends: ['plugin:amsterdam/base', 'plugin:amsterdam/cypress'],
+  extends: ['plugin:amsterdam/base', 'plugin:amsterdam/cypress', 'plugin:amsterdam/typescript'],
+  overrides: [
+    {
+      files: ['./cypress/**/*.ts'],
+      extends: ['plugin:amsterdam/typescript'],
+      parserOptions: {
+        createDefaultProgram: true,
+        project: './tsconfig.json',
+      },
+      rules: {
+        '@typescript-eslint/space-before-function-paren': 'off',
+        '@typescript-eslint/no-type-alias': ['off'],
+        '@typescript-eslint/no-empty-function': ['off'],
+        '@typescript-eslint/restrict-template-expressions': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/unbound-method': [
+          'error',
+          {
+            ignoreStatic: true,
+          },
+        ],
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-call': 'off',
+        '@typescript-eslint/object-curly-spacing': 'off',
+      },
+    },
+  ],
   rules: {
     // # overrides
     camelcase: 'off',

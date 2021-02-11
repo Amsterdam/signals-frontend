@@ -146,7 +146,8 @@ describe('containers/App/selectors', () => {
       it('should return a list of strings', () => {
         const codenames = makeSelectUserPermissionCodeNames(mockedState);
 
-        userJson.roles.flatMap<Role>(role => role.permissions)
+        userJson.roles
+          .flatMap<Role>(role => role.permissions)
           .concat(userJson.permissions ?? [])
           .forEach(({ codename }: Role) => {
             expect(codenames.includes(codename)).toEqual(true);
@@ -275,6 +276,7 @@ describe('containers/App/selectors', () => {
         // permissions fromt both 'groups' and 'users'. To be able to access 'settings', a user
         // needs at least one permission in both 'groups' and 'users'.
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
         const userWithLimitedPermissions: User = cloneDeep(userJson);
 
         // remove all required permissions but one

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "./cypress",
+    "lib": [
+      "ES2017",
+      "dom"
+    ],
+    "types": [
+      "cypress",
+      "cypress-file-upload",
+      "./cypress/support"
+    ],
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "./cypress/**/*.ts",
+    "./cypress/**/*.d.ts",
+  ]
+}

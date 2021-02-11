@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useContext, useMemo } from 'react';
+import React, { Fragment, useCallback, useContext, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -17,7 +17,8 @@ import ChangeValue from '../ChangeValue';
 import Highlight from '../Highlight';
 import IconEdit from '../../../../../../shared/images/icon-edit.svg';
 import IncidentDetailContext from '../../context';
-import IncidentManagementContext from '../../../../context';
+import { useFetch } from 'hooks';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 const StyledMetaList = styled.dl`
   dt {
@@ -50,7 +51,7 @@ const EditButton = styled(Button)`
 
 const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext);
-  const { users } = useContext(IncidentManagementContext);
+  const { data: usersData, get: getUsers, isLoading, error: usersError } = useFetch();
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
   const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug);
@@ -74,14 +75,14 @@ const MetaList = () => {
     [departments, incident]
   );
 
-  const incidentDepartmentNames = useMemo(() => {
+  const incidentDepartmentCodes = useMemo(() => {
     if (!configuration.featureFlags.assignSignalToEmployee) return [];
 
-    const routingDepartmentNames = routingDepartments?.length && routingDepartments.map(department => department.name);
+    const routingDepartmentCodes = routingDepartments?.length && routingDepartments.map(department => department.code);
 
-    const categoryDepartmentNames = !routingDepartmentNames && categoryDepartments?.map(department => department.name);
+    const categoryDepartmentCodes = !routingDepartmentCodes && categoryDepartments?.map(department => department.code);
 
-    return routingDepartmentNames || categoryDepartmentNames || [];
+    return routingDepartmentCodes || categoryDepartmentCodes || [];
   }, [routingDepartments, categoryDepartments]);
 
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
@@ -101,23 +102,26 @@ const MetaList = () => {
   const userOptions = useMemo(
     () =>
       configuration.featureFlags.assignSignalToEmployee &&
-      users && [
+      usersData?.results && [
         {
           key: null,
           value: 'Niet toegewezen',
         },
-        ...users
-          .filter(
-            user =>
-              user.username === incident.assigned_user_email ||
-              incidentDepartmentNames.some(name => user.profile?.departments?.includes(name))
-          )
-          .map(user => ({
-            key: user.username,
-            value: user.username,
-          })),
+        ...(incident.assigned_user_email &&
+        !usersData.results.find(user => user.username === incident.assigned_user_email)
+          ? [
+            {
+              key: incident.assigned_user_email,
+              value: incident.assigned_user_email,
+            },
+          ]
+          : []),
+        ...usersData.results.map(user => ({
+          key: user.username,
+          value: user.username,
+        })),
       ],
-    [incident, incidentDepartmentNames, users]
+    [usersData, incident]
   );
 
   const departmentOptions = useMemo(() => {
@@ -164,7 +168,15 @@ const MetaList = () => {
     [departments]
   );
 
-  return (
+  useEffect(() => {
+    if (incidentDepartmentCodes.length) {
+      getUsers(configuration.USERS_ENDPOINT, { profile_department_code: incidentDepartmentCodes });
+    }
+  }, [getUsers, incidentDepartmentCodes]);
+
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : (
     <StyledMetaList>
       <dt data-testid="meta-list-date-definition">Gemeld op</dt>
       <dd data-testid="meta-list-date-value">
