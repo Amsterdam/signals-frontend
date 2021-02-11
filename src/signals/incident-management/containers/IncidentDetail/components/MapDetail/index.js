@@ -20,7 +20,7 @@ const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
   };
 
   return lat && lng ? (
-    <Map data-testid="mapDetail" mapOptions={options} canBeDragged={false} className={className} hasZoomControls={hasZoomControls}>
+    <Map data-testid="mapDetail" mapOptions={options} className={className} hasZoomControls={hasZoomControls}>
       <Marker args={[{ lat, lng }]} options={{ icon }} />
     </Map>
   ) : null;

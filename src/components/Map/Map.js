@@ -29,7 +29,6 @@ const StyledGPSButton = styled(GPSButton)`
 `;
 
 const Map = ({
-  canBeDragged,
   children,
   className,
   'data-testid': dataTestId,
@@ -129,7 +128,6 @@ const Map = ({
 };
 
 Map.defaultProps = {
-  canBeDragged: true,
   className: '',
   'data-testid': 'map-base',
   hasGPSControl: false,
@@ -139,8 +137,6 @@ Map.defaultProps = {
 };
 
 Map.propTypes = {
-  /** When false, the map cannot be dragged by mouse or touch */
-  canBeDragged: PropTypes.bool,
   children: PropTypes.node,
   /** @ignore */
   className: PropTypes.string,

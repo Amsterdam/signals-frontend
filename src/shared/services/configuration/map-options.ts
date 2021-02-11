@@ -8,7 +8,7 @@ const MAP_OPTIONS: MapOptions = {
   attributionControl: true,
   crs: getCrsRd(),
   zoomControl: false,
-  dragging: !('ontouchstart' in window),
+  dragging: !('ontouchstart' in window), // Touch users should not drag by default. Set to true if the map is full-screen.
 };
 
 export default MAP_OPTIONS;
