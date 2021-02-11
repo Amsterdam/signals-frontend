@@ -1,5 +1,3 @@
-
-
 /**
  * Custom command to set the resolution for the test.
  * @example cy.setResolution([375, 812]);
