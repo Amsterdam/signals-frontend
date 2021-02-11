@@ -10,3 +10,4 @@
  7. [TypeScript](./0007-typescript.md)
  8. [Testing Library conventions](./0008-testing-library.md)
  9. [Add MSW for mocking fetch calls](./0009-stop-mocking-fetch-in-tests.md)
+10. [Naming conventions](./0010-naming-conventions.md)
