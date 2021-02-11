@@ -60,7 +60,7 @@ const MapPreview = ({ value }) => {
           (configuration.featureFlags.useStaticMapServer ? (
             <MapStatic height={mapHeight} width={mapWidth} {...geometry} />
           ) : (
-            <StyledMap mapOptions={options} canBeDragged={false}>
+            <StyledMap mapOptions={options}>
               <StyledMarker args={[{ lat: latitude, lng: longitude }]} options={{ icon: markerIcon }} />
             </StyledMap>
           ))}

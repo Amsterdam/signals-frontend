@@ -50,7 +50,6 @@ const Intro = () => {
         <StyledMap
           data-testid="mapLocation"
           mapOptions={mapOptions}
-          canBeDragged={false}
           hasZoomControls={false}
           events={{}}
           setInstance={() => {}}
