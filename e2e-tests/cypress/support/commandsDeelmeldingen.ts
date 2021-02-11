@@ -1,9 +1,13 @@
 import { DEELMELDING, SIGNAL_DETAILS } from './selectorsSignalDetails';
 import { MANAGE_SIGNALS, FILTER } from './selectorsManageIncidents';
 
-Cypress.Commands.add('checkDeelmelding', (deelmeldingNumber, subcategory, status, handlingTime) => {
+/**
+ * Custom command to check if all general information of a deelmelding is visible.
+ * @example cy.checkDeelmelding('1', 'Snel varen', 'Gemeld', '3 werkdagen');
+*/
+export const checkDeelmelding = (deelmeldingNumber: number, subcategory: string, status: string, handlingTime: string) => {
   cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-    const deelMeldingId = Number.parseInt(json.signalId, 10) + Number.parseInt(deelmeldingNumber, 10);
+    const deelMeldingId = Number.parseInt(json.signalId, 10) + deelmeldingNumber;
     cy.log(deelMeldingId.toString());
 
     cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).should('have.text', deelMeldingId);
@@ -11,16 +15,24 @@ Cypress.Commands.add('checkDeelmelding', (deelmeldingNumber, subcategory, status
     cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('contain', status).and('be.visible');
     cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('have.text', handlingTime).and('be.visible');
   });
-});
+};
 
-Cypress.Commands.add('checkDeelmeldingStatus', status => {
+/**
+  * Custom command to check if a specific status of the deelmelding is visible.
+  * @example cy.checkDeelmeldingStatus('Gemeld');
+ */
+export const checkDeelmeldingStatus = (status: string) => {
   cy.get(DEELMELDING.childIncident)
     .each((element: string) => {
       cy.get(element).should('contain', status);
     });
-});
+};
 
-Cypress.Commands.add('checkSignalNotVisible', () => {
+/**
+ * Custom command to check if a signal is not visible in the list of signals.
+ * @example cy.checkSignalNotVisible();
+*/
+export const checkSignalNotVisible = () => {
   cy.get('body').then($body => {
     if ($body.find('th').length > 0) {
       cy.get('th').contains('Id').click();
@@ -38,9 +50,15 @@ Cypress.Commands.add('checkSignalNotVisible', () => {
       cy.contains('Geen meldingen').should('be.visible');
     }
   });
-});
+};
 
-Cypress.Commands.add('checkSignalType', type => {
+/**
+ * Custom command to check if the specific elements of the signaltype are visible.
+ * @example cy.checkSignalType('melding');
+ * @example cy.checkSignalType('hoofdmelding');
+ * @example cy.checkSignalType('deelmelding');
+*/
+export const checkSignalType = (type: string) => {
   switch (type) {
     case 'melding':
       cy.get(MANAGE_SIGNALS.firstSignalId).click();
@@ -56,9 +74,13 @@ Cypress.Commands.add('checkSignalType', type => {
       break;
     default:
   }
-});
+};
 
-Cypress.Commands.add('filterSignalOnType', (type, selector) => {
+/**
+ * Custom command to filter signals by a specific signaltype.
+ * @example cy.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
+*/
+export const filterSignalOnType = (type: string, selector: string) => {
   cy.get(MANAGE_SIGNALS.buttonFilteren).click();
   cy.get(selector).check().should('be.checked');
   cy.get(FILTER.buttonSubmitFilter).click();
@@ -68,17 +90,21 @@ Cypress.Commands.add('filterSignalOnType', (type, selector) => {
   cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
   cy.wait('@getTerms');
-  cy.checkSignalType(type);
+  checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedDESC');
   cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
   cy.get(MANAGE_SIGNALS.firstSignalId).click();
-  cy.checkSignalType(type);
+  checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
-});
+};
 
-Cypress.Commands.add('setDeelmelding', (id, deelmeldingNumber, subcategory, description) => {
+/**
+ * Custom command to fill in the deelmelding.
+ * @example cy.setDeelmelding('2', '2', 'Brug', 'De Berlagebrug is stuk.');
+*/
+export const setDeelmelding = (id: number, deelmeldingNumber: string, subcategory: string, description: string) => {
   cy.get(DEELMELDING.titleDeelmelding).eq(id - 1).should('contain', `Deelmelding ${deelmeldingNumber}`);
   cy.get('select').eq(id - 1).find('option').contains(subcategory).then($element => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -86,4 +112,4 @@ Cypress.Commands.add('setDeelmelding', (id, deelmeldingNumber, subcategory, desc
     cy.get('select').eq(id - 1).select(elementText);
   });
   cy.get(`[data-testid="incidentSplitFormIncidentDescriptionText-${id}"]`).clear().type(description);
-});
+};

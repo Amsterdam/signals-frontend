@@ -3,6 +3,9 @@ import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/bedrijvenMuziek.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
+import * as general from '../../support/commandsGeneral';
 
 const sizes = [[414, 896], [1280, 720]];
 
@@ -10,18 +13,18 @@ describe('Create signal "Bedrijven overlast muziek" and check signal details', (
   sizes.forEach(size => {
     describe(`Create signal overlast muziek, resolution is: ${size}`, () => {
       before(() => {
-        cy.setResolution(size);
-        cy.postSignalRoutePublic();
-        cy.stubPreviewMap();
-        cy.stubMap();
+        general.setResolution(size);
+        routes.postSignalRoutePublic();
+        routes.stubPreviewMap();
+        routes.stubMap();
         cy.visit('incident/beschrijf');
       });
 
       it('Should search for an address', () => {
-        cy.setDescriptionPage(signal);
+        createSignal.setDescriptionPage(signal);
         cy.contains('Volgende').click();
 
-        cy.checkSpecificInformationPage(signal);
+        createSignal.checkSpecificInformationPage(signal);
 
         cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_wat.label).should('be.visible');
         cy.get(BEDRIJVEN_HORECA.radioButtonEvenement).click({ force: true });
@@ -49,36 +52,36 @@ describe('Create signal "Bedrijven overlast muziek" and check signal details', (
         cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_caution.answers).should('be.visible');
         cy.contains('Volgende').click();
 
-        cy.setPhonenumber(signal);
+        createSignal.setPhonenumber(signal);
         cy.contains('Volgende').click();
 
-        cy.setEmailAddress(signal);
+        createSignal.setEmailAddress(signal);
         cy.contains('Volgende').click();
 
-        cy.checkSummaryPage(signal);
+        createSignal.checkSummaryPage(signal);
         cy.contains('Verstuur').click();
         cy.wait('@postSignalPublic');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-        cy.checkThanksPage();
-        cy.saveSignalId();
+        createSignal.checkThanksPage();
+        createSignal.saveSignalId();
       });
     });
     describe('Check data created signal', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.getManageSignalsRoutes();
-        cy.getSignalDetailsRoutesById();
+        routes.getManageSignalsRoutes();
+        routes.getSignalDetailsRoutesById();
         cy.visit('/manage/incidents/');
-        cy.waitForManageSignalsRoutes();
+        routes.waitForManageSignalsRoutes();
       });
 
       it('Should show the signal details', () => {
-        cy.stubPreviewMap();
-        cy.openCreatedSignal();
-        cy.waitForSignalDetailsRoutes();
+        routes.stubPreviewMap();
+        createSignal.openCreatedSignal();
+        routes.waitForSignalDetailsRoutes();
 
-        cy.checkAllDetails(signal);
+        createSignal.checkAllDetails(signal);
       });
     });
   });
