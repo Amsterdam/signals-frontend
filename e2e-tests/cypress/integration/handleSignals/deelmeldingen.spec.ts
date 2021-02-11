@@ -5,6 +5,10 @@ import { CHANGE_STATUS, CHANGE_URGENCY, DEELMELDING, SIGNAL_DETAILS } from '../.
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/deelmelding.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
+import * as deelmeldingen from '../../support/commandsDeelmeldingen';
+import * as general from '../../support/commandsGeneral';
 
 describe('Deelmeldingen', () => {
   describe('Set up data in Django admin', () => {
@@ -28,49 +32,49 @@ describe('Deelmeldingen', () => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       });
       it('Initiate create signal from manage', () => {
-        cy.stubMap();
-        cy.getManageSignalsRoutes();
+        routes.stubMap();
+        routes.getManageSignalsRoutes();
         cy.visit('/manage/incidents/');
-        cy.waitForManageSignalsRoutes();
-        cy.openMenu();
+        routes.waitForManageSignalsRoutes();
+        general.openMenu();
         cy.contains('Melden').click();
-        cy.checkHeaderText('Beschrijf uw melding');
+        general.checkHeaderText('Beschrijf uw melding');
       });
       it('Should create the signal', () => {
-        cy.stubPreviewMap();
-        cy.postSignalRoutePrivate();
+        routes.stubPreviewMap();
+        routes.postSignalRoutePrivate();
 
-        cy.setDescriptionPage(signal);
+        createSignal.setDescriptionPage(signal);
         cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Snel varen (ASC, WAT)');
 
         cy.contains('Volgende').click();
         cy.contains('Volgende').click();
-        cy.setPhonenumber(signal);
+        createSignal.setPhonenumber(signal);
         cy.contains('Volgende').click();
 
-        cy.setEmailAddress(signal);
+        createSignal.setEmailAddress(signal);
         cy.contains('Volgende').click();
 
-        cy.checkSummaryPage(signal);
+        createSignal.checkSummaryPage(signal);
         cy.contains('Verstuur').click();
         cy.wait('@postSignalPrivate');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-        cy.checkThanksPage();
-        cy.saveSignalId();
+        createSignal.checkThanksPage();
+        createSignal.saveSignalId();
       });
     });
     describe('Create Deelmeldingen', () => {
       beforeEach(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.stubPreviewMap();
-        cy.getManageSignalsRoutes();
-        cy.getSignalDetailsRoutesById();
+        routes.stubPreviewMap();
+        routes.getManageSignalsRoutes();
+        routes.getSignalDetailsRoutesById();
         cy.visit('/manage/incidents/');
-        cy.waitForManageSignalsRoutes();
+        routes.waitForManageSignalsRoutes();
       });
       it('Should cancel creating deelmeldingen', () => {
-        cy.openCreatedSignal();
+        createSignal.openCreatedSignal();
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).click();
 
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
@@ -83,10 +87,10 @@ describe('Deelmeldingen', () => {
         });
       });
       it('Should create 3 deelmeldingen from signal', () => {
-        cy.postDeelmeldingenRoute();
-        cy.patchSignalRoute();
-        cy.getDeelmeldingenRoute();
-        cy.openCreatedSignal();
+        routes.postDeelmeldingenRoute();
+        routes.patchSignalRoute();
+        routes.getDeelmeldingenRoute();
+        createSignal.openCreatedSignal();
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).click();
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
@@ -97,9 +101,9 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.buttonAdd).click();
         cy.get(DEELMELDING.buttonAdd).click();
 
-        cy.setDeelmelding('1', '1', 'Snel varen', 'Er vaart iemand te hard onder de Berlagebrug door.');
-        cy.setDeelmelding('2', '2', 'Brug', 'De Berlagebrug is stuk.');
-        cy.setDeelmelding('3', '3', 'Olie op het water', 'In de buurt van de Berlagebrug ligt een plas olie op het water.');
+        deelmeldingen.setDeelmelding(1, '1', 'Snel varen', 'Er vaart iemand te hard onder de Berlagebrug door.');
+        deelmeldingen.setDeelmelding(2, '2', 'Brug', 'De Berlagebrug is stuk.');
+        deelmeldingen.setDeelmelding(3, '3', 'Olie op het water', 'In de buurt van de Berlagebrug ligt een plas olie op het water.');
 
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
@@ -108,8 +112,8 @@ describe('Deelmeldingen', () => {
         cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
 
-        cy.checkSignalDetailsPage();
-        cy.checkRedTextStatus('Gemeld');
+        createSignal.checkSignalDetailsPage();
+        createSignal.checkRedTextStatus('Gemeld');
         cy.get(SIGNAL_DETAILS.titleDeelmelding).should('have.text', 'Deelmelding').and('be.visible');
         cy.get(SIGNAL_DETAILS.deelmeldingen).find('li').should('have.length', 3).and('have.css', 'background-color', 'rgb(230, 230, 230)');
 
@@ -120,9 +124,9 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.historyAction).eq(3).contains('Deelmelding toegevoegd').should('be.visible');
         cy.get(SIGNAL_DETAILS.historyAction).eq(4).contains('Deelmelding toegevoegd').should('be.visible');
 
-        cy.checkDeelmelding('1', 'Snel varen', 'Gemeld', '3 werkdagen');
-        cy.checkDeelmelding('2', 'Brug', 'Gemeld', '21 dagen');
-        cy.checkDeelmelding('3', 'Olie op het water', 'Gemeld', '3 dagen');
+        deelmeldingen.checkDeelmelding(1, 'Snel varen', 'Gemeld', '3 werkdagen');
+        deelmeldingen.checkDeelmelding(2, 'Brug', 'Gemeld', '21 dagen');
+        deelmeldingen.checkDeelmelding(3, 'Olie op het water', 'Gemeld', '3 dagen');
 
         // Check signal data deelmelding 01
         cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(0).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).click();
@@ -144,9 +148,9 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
         cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
 
-        cy.checkCreationDate();
+        createSignal.checkCreationDate();
         cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '3 werkdagen').and('be.visible');
-        cy.checkRedTextStatus('Gemeld');
+        createSignal.checkRedTextStatus('Gemeld');
         cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
         cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').should('be.visible');
         cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Snel varen (ASC, WAT)').and('be.visible');
@@ -154,16 +158,16 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.source).should('have.text', 'Interne melding').should('be.visible');
       });
       it('Should change directing department', () => {
-        cy.openCreatedSignal();
+        createSignal.openCreatedSignal();
         cy.get(DEELMELDING.buttonEditDirectingDepartment).click();
         cy.get(DEELMELDING.radioButtonEditASC).should('be.checked');
         cy.get(DEELMELDING.radioButtonEditVerantwoordelijkeAfdeling).check({ force: true }).should('be.checked');
         cy.get(DEELMELDING.buttonSubmitDirectingDepartment).click();
-        cy.checkFlashingYellow();
+        createSignal.checkFlashingYellow();
         cy.get(SIGNAL_DETAILS.directingDepartment).should('have.text', 'Verantwoordelijke afdeling').and('be.visible');
       });
       it('Should filter on "Hoofdmelding zonder wijziging in deelmelding"', () => {
-        cy.getSortedRoutes();
+        routes.getSortedRoutes();
 
         // Filter on deelmelding not modified, signal is visible
         cy.get(MANAGE_SIGNALS.buttonFilteren).click();
@@ -187,15 +191,15 @@ describe('Deelmeldingen', () => {
         cy.get(FILTER.buttonSubmitFilter).click();
         cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoofdmelding met wijziging in deelmelding').and('be.visible');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-        cy.checkSignalNotVisible();
+        deelmeldingen.checkSignalNotVisible();
       });
       it('Should change a deelmelding', () => {
-        cy.getSignalDetailsRoutes();
+        routes.getSignalDetailsRoutes();
 
-        cy.openCreatedSignal();
+        createSignal.openCreatedSignal();
         cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(0).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).click();
 
-        cy.waitForSignalDetailsRoutes();
+        routes.waitForSignalDetailsRoutes();
         cy.wait('@getTerms');
 
         cy.get(CHANGE_URGENCY.buttonEdit).click();
@@ -207,7 +211,7 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(254, 200, 19)');
       });
       it('Should filter on "Hoofdmelding met wijziging in deelmelding"', () => {
-        cy.getSortedRoutes();
+        routes.getSortedRoutes();
 
         // Filter on deelmelding modified, signal is visible
         cy.get(MANAGE_SIGNALS.buttonFilteren).click();
@@ -232,13 +236,13 @@ describe('Deelmeldingen', () => {
         cy.get(FILTER.buttonSubmitFilter).click();
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
         cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoofdmelding zonder wijziging in deelmelding').and('be.visible');
-        cy.checkSignalNotVisible();
+        deelmeldingen.checkSignalNotVisible();
       });
       it('Should click "no action" after deelmelding change', () => {
-        cy.patchSignalRoute();
-        cy.getDeelmeldingenRoute();
-        cy.getSignalDetailsRoutes();
-        cy.openCreatedSignal();
+        routes.patchSignalRoute();
+        routes.getDeelmeldingenRoute();
+        routes.getSignalDetailsRoutes();
+        createSignal.openCreatedSignal();
         cy.get(DEELMELDING.buttonNoAction).should('be.visible').click();
 
         cy.wait('@patchSignal');
@@ -251,9 +255,9 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(0, 0, 0)');
       });
       it('Should change status hoofdmelding to geannuleerd', () => {
-        cy.patchSignalRoute();
-        cy.getDeelmeldingenRoute();
-        cy.openCreatedSignal();
+        routes.patchSignalRoute();
+        routes.getDeelmeldingenRoute();
+        createSignal.openCreatedSignal();
         // Used a wait because sometimes the edit button is not clicked
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(500);
@@ -262,7 +266,7 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonGeannuleerd).click({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.inputToelichting).type('Toeterlichting');
-        cy.get(CHANGE_STATUS.warningDeelmeldingenOpen).should('have.text', 'Let op! Er zijn deelmeldingen nog niet afgehandeld.').and('be.visible');
+        cy.get(CHANGE_STATUS.warningDeelmeldingenOpen).should('contain', 'Let op, er staan nog deelmeldingen open!Als je de hoofdmelding nu afhandelt, worden de openstaande deelmeldingen geannuleerd. ').and('be.visible');
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@patchSignal');
         cy.wait('@getDeelmeldingen');
@@ -279,29 +283,29 @@ describe('Deelmeldingen', () => {
         // wait because status update is not visible yet
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(1000);
-        cy.checkDeelmeldingStatus('Geannuleerd');
+        deelmeldingen.checkDeelmeldingStatus('Geannuleerd');
       });
     });
   });
   describe('Filter Deelmeldingen', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.stubPreviewMap();
-      cy.getTermsRoute();
-      cy.getSortedRoutes();
+      routes.getManageSignalsRoutes();
+      routes.stubPreviewMap();
+      routes.getTermsRoute();
+      routes.getSortedRoutes();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
     it('Should filter on standaardmelding', () => {
-      cy.filterSignalOnType('Standaardmelding ', FILTER.checkboxMelding);
+      deelmeldingen.filterSignalOnType('Standaardmelding ', FILTER.checkboxMelding);
     });
     it('Should filter on hoofdmelding', () => {
-      cy.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
+      deelmeldingen.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
       cy.get(MANAGE_SIGNALS.firstSignalIcon).should('have.attr', 'aria-label', 'Hoofdmelding');
     });
     it('Should filter on deelmelding', () => {
-      cy.filterSignalOnType('Deelmelding', FILTER.checkboxDeelmelding);
+      deelmeldingen.filterSignalOnType('Deelmelding', FILTER.checkboxDeelmelding);
     });
     it.skip('Should filter on verantwoordelijke afdeling', () => {
       // Make tests when possible
@@ -319,30 +323,30 @@ describe('Deelmeldingen', () => {
     describe('Change status and add multiple times deelmeldingen', () => {
       beforeEach(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.stubPreviewMap();
-        cy.getManageSignalsRoutes();
-        cy.getSignalDetailsRoutesById();
-        cy.postDeelmeldingenRoute();
-        cy.patchSignalRoute();
-        cy.getDeelmeldingenRoute();
+        routes.stubPreviewMap();
+        routes.getManageSignalsRoutes();
+        routes.getSignalDetailsRoutesById();
+        routes.postDeelmeldingenRoute();
+        routes.patchSignalRoute();
+        routes.getDeelmeldingenRoute();
         cy.visit('/manage/incidents/');
-        cy.waitForManageSignalsRoutes();
+        routes.waitForManageSignalsRoutes();
       });
       it('Should create deelmeldingen', () => {
-        cy.openCreatedSignal();
+        createSignal.openCreatedSignal();
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).click();
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
         cy.get(DEELMELDING.buttonAdd).click();
 
-        cy.setDeelmelding('1', '1', 'Stankoverlast', 'Op dit adres stinkt het, vermoedelijk kruiden');
-        cy.setDeelmelding('2', '2', 'Overig afval', 'Veel afval op straat voor de deur van Jacob Hooy');
+        deelmeldingen.setDeelmelding(1, '1', 'Stankoverlast', 'Op dit adres stinkt het, vermoedelijk kruiden');
+        deelmeldingen.setDeelmelding(2, '2', 'Overig afval', 'Veel afval op straat voor de deur van Jacob Hooy');
 
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        cy.waitForSignalDetailsRoutes();
+        routes.waitForSignalDetailsRoutes();
         cy.wait('@getDeelmeldingen');
 
         // Add another deelmelding
@@ -350,11 +354,11 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
-        cy.setDeelmelding('1', '3', 'Straatverlichting (VOR)', 'Door de stank is ook alle straatverlichting kapot gegaan');
+        deelmeldingen.setDeelmelding(1, '3', 'Straatverlichting (VOR)', 'Door de stank is ook alle straatverlichting kapot gegaan');
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        cy.waitForSignalDetailsRoutes();
+        routes.waitForSignalDetailsRoutes();
         cy.wait('@getDeelmeldingen');
       });
       it('Should change status to \'In Behandeling\' and create deelmelding', () => {
@@ -382,7 +386,7 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
-        cy.setDeelmelding('1', '4', 'Drank- / drugsoverlast', 'Er wordt zowel binnen als buiten het pand veel drugs gebruikt');
+        deelmeldingen.setDeelmelding(1, '4', 'Drank- / drugsoverlast', 'Er wordt zowel binnen als buiten het pand veel drugs gebruikt');
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
@@ -392,8 +396,8 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.childIncident).should('have.length', 4);
       });
       it('Should change status to \'Ingepland\' and create deelmelding', () => {
-        cy.openCreatedSignal();
-        cy.waitForSignalDetailsRoutes();
+        createSignal.openCreatedSignal();
+        routes.waitForSignalDetailsRoutes();
         cy.wait('@getDeelmeldingen');
         // Used a wait because sometimes the edit button is not clicked
         // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -416,18 +420,18 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
-        cy.setDeelmelding('1', '5', 'Ratten', 'Het hele pand zit vol met ratten');
+        deelmeldingen.setDeelmelding(1, '5', 'Ratten', 'Het hele pand zit vol met ratten');
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        cy.waitForSignalDetailsRoutes();
+        routes.waitForSignalDetailsRoutes();
         cy.wait('@getDeelmeldingen');
         cy.get(DEELMELDING.childIncident).should('have.length', 5);
       });
       it('Should change status to \'Afgehandeld\'', () => {
-        cy.openCreatedSignal();
-        cy.waitForSignalDetailsRoutes();
+        createSignal.openCreatedSignal();
+        routes.waitForSignalDetailsRoutes();
         cy.wait('@getDeelmeldingen');
         // Used a wait because sometimes the edit button is not clicked
         // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -451,7 +455,7 @@ describe('Deelmeldingen', () => {
         // wait because status update is not visible yet
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(1000);
-        cy.checkDeelmeldingStatus('Geannuleerd');
+        deelmeldingen.checkDeelmeldingStatus('Geannuleerd');
       });
     });
   });

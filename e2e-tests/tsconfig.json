@@ -9,7 +9,6 @@
     "types": [
       "cypress",
       "cypress-file-upload",
-      "./cypress/support"
     ],
     "esModuleInterop": true,
     "resolveJsonModule": true

@@ -2,25 +2,28 @@ import * as requests from '../../support/commandsRequests';
 import { DEPARTMENTS, MENU } from '../../support/selectorsSettings';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { generateToken } from '../../support/jwt';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
+import * as general from '../../support/commandsGeneral';
 
 describe('Manage departments', () => {
   describe('Visit department page', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.getCategoriesRoutes();
+      routes.getManageSignalsRoutes();
+      routes.getCategoriesRoutes();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
     it('Should visit the manage department page by menu', () => {
-      cy.openMenu();
+      general.openMenu();
       cy.contains('Instellingen').click();
       cy.contains('Afdelingen').click();
 
-      cy.waitForCategoriesRoutes();
+      routes.waitForCategoriesRoutes();
       cy.get(MENU.buttonMenu).click();
       cy.url().should('include', '/instellingen/afdelingen');
-      cy.checkHeaderText('Afdelingen');
+      general.checkHeaderText('Afdelingen');
       cy.get('th').eq(0).should('have.text', 'Naam').and('be.visible');
       cy.get('th').eq(1).should('have.text', 'Categorie').and('be.visible');
     });
@@ -28,7 +31,7 @@ describe('Manage departments', () => {
   describe('Edit department', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.defineDepartmentRoutes();
+      routes.defineDepartmentRoutes();
       cy.visit('/instellingen/afdelingen');
     });
 
@@ -83,15 +86,15 @@ describe('Manage departments', () => {
     describe('Change signal category', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.stubPreviewMap();
-        cy.getManageSignalsRoutes();
-        cy.getSignalDetailsRoutesById();
+        routes.stubPreviewMap();
+        routes.getManageSignalsRoutes();
+        routes.getSignalDetailsRoutesById();
         cy.visit('/manage/incidents/');
-        cy.waitForManageSignalsRoutes();
+        routes.waitForManageSignalsRoutes();
       });
       it('Should change signal category', () => {
-        cy.openCreatedSignal();
-        cy.waitForSignalDetailsRoutes();
+        createSignal.openCreatedSignal();
+        routes.waitForSignalDetailsRoutes();
         cy.get(CHANGE_CATEGORY.buttonEdit).click();
         cy.get(CHANGE_CATEGORY.inputCategory).select('Drank- / drugsoverlast (ASC, THO)');
         cy.get(CHANGE_CATEGORY.buttonSubmit).click();
@@ -100,7 +103,7 @@ describe('Manage departments', () => {
     describe('Change responsible department', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.defineDepartmentRoutes();
+        routes.defineDepartmentRoutes();
         cy.visit('/instellingen/afdelingen');
       });
       it('Should change the responsible department', () => {
@@ -113,22 +116,22 @@ describe('Manage departments', () => {
     describe('Should change signal again and check responsible department', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.stubPreviewMap();
-        cy.getManageSignalsRoutes();
-        cy.getSignalDetailsRoutesById();
+        routes.stubPreviewMap();
+        routes.getManageSignalsRoutes();
+        routes.getSignalDetailsRoutesById();
         cy.visit('/manage/incidents/');
-        cy.waitForManageSignalsRoutes();
+        routes.waitForManageSignalsRoutes();
       });
       it('Should change signal category and check responsible department', () => {
-        cy.openCreatedSignal();
-        cy.waitForSignalDetailsRoutes();
+        createSignal.openCreatedSignal();
+        routes.waitForSignalDetailsRoutes();
         cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Drank- / drugsoverlast (CCA, ASC, THO)').and('be.visible');
       });
     });
     describe('Change responsible department to initial state', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.defineDepartmentRoutes();
+        routes.defineDepartmentRoutes();
         cy.visit('/instellingen/afdelingen');
       });
       it('Should change the responsible department to initial state', () => {

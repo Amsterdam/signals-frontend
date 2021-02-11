@@ -4,6 +4,9 @@ import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/changeCategory.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
+import * as general from '../../support/commandsGeneral';
 
 describe('Create signal and choose other subcategory than proposed', () => {
   describe('Set up testdata', () => {
@@ -11,16 +14,16 @@ describe('Create signal and choose other subcategory than proposed', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Set description for category', () => {
-      cy.getManageSignalsRoutes();
-      cy.getCategoriesRoutes();
+      routes.getManageSignalsRoutes();
+      routes.getCategoriesRoutes();
 
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
-      cy.openMenu();
+      routes.waitForManageSignalsRoutes();
+      general.openMenu();
       cy.contains('Instellingen').click();
       cy.contains('Categorieën').click();
 
-      cy.waitForCategoriesRoutes();
+      routes.waitForCategoriesRoutes();
       cy.url().should('include', '/instellingen/categorieen/');
 
       cy.contains('Container is kapot').click();
@@ -44,25 +47,25 @@ describe('Create signal and choose other subcategory than proposed', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Should initiate create signal from manage', () => {
-      cy.stubMap();
-      cy.getManageSignalsRoutes();
+      routes.stubMap();
+      routes.getManageSignalsRoutes();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
-      cy.openMenu();
+      routes.waitForManageSignalsRoutes();
+      general.openMenu();
       cy.contains('Melden').click();
-      cy.checkHeaderText('Beschrijf uw melding');
+      general.checkHeaderText('Beschrijf uw melding');
     });
     it('Should create the signal', () => {
-      cy.stubPreviewMap();
-      cy.postSignalRoutePrivate();
+      routes.stubPreviewMap();
+      routes.postSignalRoutePrivate();
 
-      cy.setDescriptionPage(signal);
+      createSignal.setDescriptionPage(signal);
       cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Container is kapot (AEG)');
       cy.get(CREATE_SIGNAL.descriptionInfo).should('contain', 'Subcategorie voorstel: Wespen').and('be.visible');
       cy.get(CREATE_SIGNAL.infoText).should('contain', 'Een verhaal over een kapotte container').and('be.visible');
       cy.contains('Volgende').click();
 
-      cy.checkSpecificInformationPage(signal);
+      createSignal.checkSpecificInformationPage(signal);
 
       // Select container soort and number
       cy.contains(questions.afval.extra_container_kind.label).should('be.visible');
@@ -71,36 +74,36 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.get(CONTAINERS.inputContainerNummer).eq(1).type('Nummertje 911');
       cy.contains('Volgende').click();
 
-      cy.setPhonenumber(signal);
+      createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      cy.setEmailAddress(signal);
+      createSignal.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal);
+      createSignal.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      cy.checkThanksPage();
-      cy.saveSignalId();
+      createSignal.checkThanksPage();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutesById();
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should show the signal details', () => {
-      cy.stubPreviewMap();
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      routes.stubPreviewMap();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal);
     });
   });
 });
