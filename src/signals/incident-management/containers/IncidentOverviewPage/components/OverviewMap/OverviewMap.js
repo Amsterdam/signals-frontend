@@ -19,7 +19,7 @@ import useFetch from 'hooks/useFetch';
 import { incidentIcon, markerIcon } from 'shared/services/configuration/map-markers';
 import Map from 'components/Map';
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest';
-import MarkerCluster from './components/MarkerCluster';
+import MarkerCluster from 'components/MarkerCluster';
 
 import DetailPanel from './components/DetailPanel';
 
@@ -62,7 +62,7 @@ const StyledMap = styled(Map)`
 
 const Autosuggest = styled(PDOKAutoSuggest)`
   max-width: calc(100% - 40px);
-  z-index: 401; // 400 is the minimum elevation were elements are shown above the map
+  z-index: 401; // 400 is the minimum elevation where elements are shown above the map
   width: 350px;
   left: 0;
   position: absolute;
