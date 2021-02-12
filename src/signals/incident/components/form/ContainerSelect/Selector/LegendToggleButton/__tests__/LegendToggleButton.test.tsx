@@ -42,7 +42,7 @@ describe('LegendToggleButton', () => {
     );
 
     expect(screen.getByRole('button')).toBeInTheDocument();
-    expect(screen.getByRole('button').textContent).not.toBe('Legenda');
+    expect(screen.getByRole('button').textContent).toBe('Legenda');
   });
 
   it('should handle click when panel is closed', () => {
@@ -54,7 +54,7 @@ describe('LegendToggleButton', () => {
       )
     );
 
-    userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByText('Legenda'));
 
     expect(props.onClick).toHaveBeenCalled();
   });
@@ -68,7 +68,7 @@ describe('LegendToggleButton', () => {
       )
     );
 
-    userEvent.click(screen.getByRole('button'));
+    userEvent.click(screen.getByText('Legenda'));
 
     expect(props.onClick).toHaveBeenCalled();
   });
