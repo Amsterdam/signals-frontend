@@ -6,22 +6,24 @@ import signal01 from '../../fixtures/signals/signalForChangeBeforeSubmit01.json'
 import signal02 from '../../fixtures/signals/signalForChangeBeforeSubmit02.json';
 import signal03 from '../../fixtures/signals/signalForChangeBeforeSubmit03.json';
 import signal04 from '../../fixtures/signals/signalForChangeBeforeSubmit04.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
 
 describe('Change a signal before submit and check signal details', () => {
   describe('Change signal before submit', () => {
     before(() => {
-      cy.postSignalRoutePublic();
-      cy.getOpenbareVerlichtingRoute();
-      cy.stubPreviewMap();
-      cy.stubMap();
+      routes.postSignalRoutePublic();
+      routes.getOpenbareVerlichtingRoute();
+      routes.stubPreviewMap();
+      routes.stubMap();
       cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
-      cy.setDescriptionPage(signal01);
+      createSignal.setDescriptionPage(signal01);
       cy.contains('Volgende').click();
 
-      cy.checkSpecificInformationPage(signal01);
+      createSignal.checkSpecificInformationPage(signal01);
 
       cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked').and('be.visible');
       cy.get(LANTAARNPAAL.radioButtonNietGevaarlijk).check({ force: true }).should('be.checked');
@@ -32,79 +34,79 @@ describe('Change a signal before submit and check signal details', () => {
       cy.get(LANTAARNPAAL.inputLampNummer1).type('11.11');
       cy.get(LANTAARNPAAL.inputLampNummer2).type('100.199');
       cy.contains('Volgende').click();
-      cy.setPhonenumber(signal01);
+      createSignal.setPhonenumber(signal01);
       cy.contains('Volgende').click();
 
-      cy.setEmailAddress(signal01);
+      createSignal.setEmailAddress(signal01);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal01);
-      cy.checkQuestions(signal01);
+      createSignal.checkSummaryPage(signal01);
+      createSignal.checkQuestions(signal01);
       cy.get(CREATE_SIGNAL.imageFileUpload).should('not.exist');
     });
 
     it('Should change location, description, phonenumer and email address', () => {
-      cy.stubPreviewMap();
-      cy.stubMap();
+      routes.stubPreviewMap();
+      routes.stubMap();
 
       // Go to first step of signal creation and change signal information
       cy.get(CREATE_SIGNAL.linkChangeSignalInfo).click();
       cy.get(CREATE_SIGNAL.autoSuggest).find('input').clear();
 
-      cy.setDescriptionPage(signal02);
+      createSignal.setDescriptionPage(signal02);
       cy.contains('Volgende').click();
 
-      cy.setPhonenumber(signal02);
+      createSignal.setPhonenumber(signal02);
       cy.contains('Volgende').click();
 
-      cy.setEmailAddress(signal02);
+      createSignal.setEmailAddress(signal02);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal02);
+      createSignal.checkSummaryPage(signal02);
     });
     it('Should edit phonenumber and email address', () => {
-      cy.stubPreviewMap();
+      routes.stubPreviewMap();
       // Go to the phonenumber page and change phonenumber
       cy.get(CREATE_SIGNAL.linkChangePhoneNumber).click();
-      cy.setPhonenumber(signal03);
+      createSignal.setPhonenumber(signal03);
       cy.contains('Volgende').click();
 
-      cy.setEmailAddress(signal03);
+      createSignal.setEmailAddress(signal03);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal03);
+      createSignal.checkSummaryPage(signal03);
     });
     it('Should edit email address', () => {
-      cy.stubPreviewMap();
-      cy.postSignalRoutePublic();
+      routes.stubPreviewMap();
+      routes.postSignalRoutePublic();
       // Go to the email address page and change emailaddress
       cy.get(CREATE_SIGNAL.linkChangeEmailAddress).click();
-      cy.setEmailAddress(signal04);
+      createSignal.setEmailAddress(signal04);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal04);
+      createSignal.checkSummaryPage(signal04);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      cy.checkThanksPage();
-      cy.saveSignalId();
+      createSignal.checkThanksPage();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutesById();
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should show the signal details', () => {
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(signal04);
+      createSignal.checkAllDetails(signal04);
     });
   });
 });

@@ -2,6 +2,8 @@ import * as requests from '../../support/commandsRequests';
 import { FILTER, MANAGE_SIGNALS, OVERVIEW_MAP } from '../../support/selectorsManageIncidents';
 import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { generateToken } from '../../support/jwt';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
 
 describe('Signal overview Map', () => {
   describe('Setup testdata', () => {
@@ -21,7 +23,7 @@ describe('Signal overview Map', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Should open the signals overview map with signals', () => {
-      cy.defineMapRoutes();
+      routes.defineMapRoutes();
 
       cy.visit('manage/incidents/kaart');
 
@@ -39,7 +41,7 @@ describe('Signal overview Map', () => {
     });
 
     it('Should not show signals if filtered out', () => {
-      cy.defineMapRoutes();
+      routes.defineMapRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilteren).click();
       cy.get('[value=japanse-duizendknoop]').click();
@@ -49,7 +51,7 @@ describe('Signal overview Map', () => {
     });
 
     it('Should show signals again', () => {
-      cy.defineMapRoutes();
+      routes.defineMapRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilteren).click();
       cy.get(FILTER.buttonNieuwFilter).click();
@@ -60,10 +62,10 @@ describe('Signal overview Map', () => {
     });
 
     it('Should search for an address', () => {
-      cy.stubAddress('signalForOverviewMap.json');
+      routes.stubAddress('signalForOverviewMap.json');
       cy.get(OVERVIEW_MAP.buttonZoomIn).click();
-      cy.searchAddress('1012RJ 147');
-      cy.selectAddress('Nieuwezijds Voorburgwal 147, 1012RJ Amsterdam');
+      createSignal.searchAddress('1012RJ 147');
+      createSignal.selectAddress('Nieuwezijds Voorburgwal 147, 1012RJ Amsterdam');
 
       // Wait is needed to finish zoom when selecting address, otherwise test is failing
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -90,7 +92,7 @@ describe('Signal overview Map', () => {
     });
 
     it('Should show the correct details of the signal', () => {
-      cy.checkSignalDetailsPage();
+      createSignal.checkSignalDetailsPage();
       cy.contains('Er staat een paard in de gang, ja ja een paard in de gang.');
 
       cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Centrum').and('be.visible');
@@ -98,7 +100,7 @@ describe('Signal overview Map', () => {
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012RJ Amsterdam').and('be.visible');
 
       cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '21 dagen').and('be.visible');
-      cy.checkRedTextStatus('Gemeld');
+      createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Overig openbare ruimte (ASC)').and('be.visible');

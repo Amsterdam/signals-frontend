@@ -4,24 +4,27 @@ import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/signalForManageCategories.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
+import * as general from '../../support/commandsGeneral';
 
 describe('Manage categories', () => {
   describe('Change category ', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.getCategoriesRoutes();
+      routes.getManageSignalsRoutes();
+      routes.getCategoriesRoutes();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should change the attributes of the category and shows changes in history', () => {
-      cy.openMenu();
+      general.openMenu();
       cy.contains('Instellingen').click();
       cy.contains('Categorieën').click();
 
-      cy.waitForCategoriesRoutes();
-      cy.checkHeaderText('Categorieën');
+      routes.waitForCategoriesRoutes();
+      general.checkHeaderText('Categorieën');
       cy.url().should('include', '/instellingen/categorieen/');
 
       // Open category Afwatering brug
@@ -47,7 +50,7 @@ describe('Manage categories', () => {
       cy.url().should('include', '/instellingen/categorieen/page/1');
       // Load page again, because page refresh is very slow and test fails
       cy.visit('/instellingen/categorieen/page/1');
-      cy.checkHeaderText('Categorieën');
+      general.checkHeaderText('Categorieën');
       cy.get(CATEGORIES.categoryValue, { timeout: 10000 }).eq(0).should('contain', 'Afgewaterde brug');
       cy.get(CATEGORIES.categoryValue, { timeout: 10000 }).eq(1).should('contain', '4 dagen');
 
@@ -59,12 +62,12 @@ describe('Manage categories', () => {
       cy.get(CATEGORIES.historyAction).eq(0).should('contain', 'Omschrijving gewijzigd naar:').and('contain', 'Dit is het verhaal van de brug die moest afwateren');
     });
     it('Should change the status of a category to inactive', () => {
-      cy.openMenu();
+      general.openMenu();
       cy.contains('Instellingen').click();
       cy.contains('Categorieën').click();
 
-      cy.waitForCategoriesRoutes();
-      cy.checkHeaderText('Categorieën');
+      routes.waitForCategoriesRoutes();
+      general.checkHeaderText('Categorieën');
       cy.url().should('include', '/instellingen/categorieen/');
 
       cy.contains('Beplanting').click();
@@ -90,7 +93,7 @@ describe('Manage categories', () => {
 
       // Load page again, because page refresh is very slow and test fails
       cy.visit('/instellingen/categorieen/page/1');
-      cy.openMenu();
+      general.openMenu();
       cy.contains('Melden').click();
       cy.url().should('include', '/incident/beschrijf');
       cy.get(CREATE_SIGNAL.dropdownSubcategory).then($selectlist => {
@@ -105,46 +108,46 @@ describe('Manage categories', () => {
     });
 
     it('Should initiate create signal', () => {
-      cy.getManageSignalsRoutes();
+      routes.getManageSignalsRoutes();
 
       cy.visit('/incident/beschrijf/');
 
-      cy.checkHeaderText('Beschrijf uw melding');
+      general.checkHeaderText('Beschrijf uw melding');
     });
 
     it('Should describe the signal', () => {
-      cy.stubPreviewMap();
-      cy.stubMap();
-      cy.postSignalRoutePrivate();
+      routes.stubPreviewMap();
+      routes.stubMap();
+      routes.postSignalRoutePrivate();
 
-      cy.setDescriptionPage(signal);
+      createSignal.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      cy.setPhonenumber(signal);
+      createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      cy.setEmailAddress(signal);
+      createSignal.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal);
+      createSignal.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      cy.checkThanksPage();
-      cy.saveSignalId();
+      createSignal.checkThanksPage();
+      createSignal.saveSignalId();
     });
     it('Should show the change in category description', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.stubPreviewMap();
-      cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutesById();
+      routes.stubPreviewMap();
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
 
       // Open incident details
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       // Edit signal category
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
@@ -155,21 +158,21 @@ describe('Manage categories', () => {
   describe('Change back servicebelofte', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.getCategoriesRoutes();
+      routes.getManageSignalsRoutes();
+      routes.getCategoriesRoutes();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Change back servicebelofte of category', () => {
-      cy.openMenu();
+      general.openMenu();
       cy.contains('Instellingen').click();
       cy.contains('Categorieën').click();
 
-      cy.waitForCategoriesRoutes();
+      routes.waitForCategoriesRoutes();
 
       cy.url().should('include', '/instellingen/categorieen/');
-      cy.checkHeaderText('Categorieën');
+      general.checkHeaderText('Categorieën');
 
       cy.contains('Afgewaterde brug').click();
       cy.url().should('include', 'instellingen/categorie/');
@@ -195,7 +198,7 @@ describe('Manage categories', () => {
       cy.url().should('include', '/instellingen/categorieen/page/1');
       // Load page again, because page refresh is very slow and test fails
       cy.visit('/instellingen/categorieen/page/1');
-      cy.checkHeaderText('Categorieën');
+      general.checkHeaderText('Categorieën');
       cy.get('[data-testid=dataViewBody] > [data-testid=dataViewBodyRow]', { timeout: 10000 })
         .first()
         .contains('5 werkdagen');

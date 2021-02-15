@@ -8,7 +8,7 @@ import 'leaflet.markercluster';
 
 const MarkerClusterGroup = createLeafletComponent('markerClusterGroup');
 
-const MarkerCluster = ({ clusterOptions, setInstance }) => <MarkerClusterGroup setInstance={setInstance} options={clusterOptions} /> || null;
+const MarkerCluster = ({ clusterOptions, setInstance }) => <MarkerClusterGroup setInstance={setInstance} options={clusterOptions} />;
 
 MarkerCluster.propTypes = {
   /**

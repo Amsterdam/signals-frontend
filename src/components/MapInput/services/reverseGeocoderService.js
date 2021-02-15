@@ -11,8 +11,8 @@ export const formatRequest = (baseUrl, wgs84point, distance = 50) => {
 
 const reverseGeocoderService = async location => {
   const wgs84point = {
-    longitude: location.lng,
-    latitude: location.lat,
+    lng: location.lng,
+    lat: location.lat,
   };
   const url = formatRequest(serviceURL, wgs84point);
 
