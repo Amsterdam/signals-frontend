@@ -1,36 +1,72 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import L from 'leaflet';
 import MarkerCluster from 'components/MarkerCluster';
-import type { GeoJSON as GeoJSONLayer, LatLng } from 'leaflet';
+import type { GeoJSON as GeoJSONLayer, LatLng, MarkerCluster as LeafletMarkerCluster } from 'leaflet';
 import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson';
 import WfsDataContext from '../context';
 import { featureTolocation } from 'shared/services/map-location';
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
 import type { DataLayerProps, Item, Feature } from 'signals/incident/components/form/ContainerSelect/types';
+import { useMapInstance } from '@amsterdam/react-maps';
+import { isEqual } from 'lodash';
+
+interface ClusterMarker extends L.Layer {
+  __parent: ClusterMarker;
+  _zoom: number;
+  getLatLng: () => LatLng;
+  spiderfy: () => void;
+  unspiderfy: () => void;
+}
+
+const getMarker = (parent: ClusterMarker | undefined, zoom: number): ClusterMarker | undefined => {
+  if (!parent) return undefined;
+  if (parent?._zoom === zoom) return parent;
+  return getMarker(parent?.__parent, zoom);
+};
 
 export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes }) => {
+  const mapInstance = useMapInstance();
   const [layerInstance, setLayerInstance] = useState<GeoJSONLayer>();
+  const selectedCluster = useRef<ClusterMarker | undefined>();
   const data = useContext<FeatureCollection>(WfsDataContext);
   const { selection, update } = useContext(ContainerSelectContext);
 
-  const clusterOptions = useMemo<L.MarkerClusterGroupOptions>(
+  /* istanbul ignore next */
+  useEffect(() => {
+    function onMoveEnd() {
+      selectedCluster.current = undefined;
+    }
+
+    mapInstance.on('moveend', onMoveEnd);
+
+    return () => {
+      mapInstance.off('moveend', onMoveEnd);
+    };
+  }, [mapInstance]);
+
+  const iconCreateFuntion = useCallback(
+    /* istanbul ignore next */ (cluster: LeafletMarkerCluster) => {
+      const selectionClass = /* found ? 'marker-cluster__selection' :*/ '';
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+      const childCount = cluster.getChildCount();
+      return new L.DivIcon({
+        html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
+        className: `marker-cluster ${selectionClass}`,
+        iconSize: new L.Point(40, 40),
+      });
+    },
+    []
+  );
+
+  const clusterOptions = useMemo(
     () => ({
       showCoverageOnHover: false,
       zoomToBoundsOnClick: true,
-      chunkedLoading: true,
-
-      iconCreateFunction: /* istanbul ignore next */ cluster => {
-        const childCount = cluster.getChildCount();
-
-        return new L.DivIcon({
-          html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-          className: 'marker-cluster',
-          iconSize: new L.Point(40, 40),
-        });
-      },
+      iconCreateFunction: iconCreateFuntion,
     }),
-    []
+    [iconCreateFuntion]
   );
 
   const getFeatureType = useCallback(
@@ -43,10 +79,12 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
       pointToLayer: (feature: Feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature);
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 });
-        const selected = Array.isArray(selection) && selection.some(
-          // Exclude from coverage; with the curent leaflet mock this can't be tested
-          /* istanbul ignore next*/({ id }) => id === feature.properties[featureType.idField]
-        );
+        const selected =
+          Array.isArray(selection) &&
+          selection.some(
+            // Exclude from coverage; with the curent leaflet mock this can't be tested
+            /* istanbul ignore next*/ ({ id }) => id === feature.properties[featureType.idField]
+          );
 
         const iconUrl = `data:image/svg+xml;base64,${btoa(
           /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
@@ -93,21 +131,46 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         const { coordinates } = pointFeature.geometry;
         const latlng = featureTolocation({ coordinates });
         const marker = options.pointToLayer(pointFeature, latlng);
-        /* istanbul ignore else */
         if (marker) {
           layerInstance.addLayer(marker);
         }
       });
+
+      layerInstance.on('clusterclick', (event: { layer: ClusterMarker }) => {
+        if (selectedCluster.current) {
+          event.layer.spiderfy();
+          const latlng = event.layer.getLatLng();
+          const selectedLatLng = selectedCluster.current.getLatLng();
+          if (isEqual(latlng, selectedLatLng)) selectedCluster.current = undefined;
+          else selectedCluster.current = event.layer;
+        } else {
+          selectedCluster.current = event.layer;
+          selectedCluster.current.spiderfy();
+        }
+      });
+
+      if (selectedCluster.current) {
+        const selectedLatLng = selectedCluster.current.getLatLng();
+        const cluster = layerInstance.getLayers().find(layer => {
+          const latlng = (layer as ClusterMarker).__parent.getLatLng();
+          return isEqual(latlng, selectedLatLng);
+        });
+
+        const parent = getMarker(cluster as any, mapInstance.getZoom());
+        if (parent) {
+          selectedCluster.current = parent;
+          selectedCluster.current.spiderfy();
+        }
+      }
     }
 
     return () => {
       if (layerInstance) {
-        // This ensures that for each refresh of the data, the click
-        // events that are bound in the layer data are removed.
-        layerInstance.off('click');
+        // Remove the bound events.
+        layerInstance.off('clusterclick');
       }
     };
-  }, [layerInstance, data, options]);
+  }, [layerInstance, data, options, selectedCluster, mapInstance]);
 
   return <MarkerCluster clusterOptions={clusterOptions} setInstance={setLayerInstance} />;
 };
