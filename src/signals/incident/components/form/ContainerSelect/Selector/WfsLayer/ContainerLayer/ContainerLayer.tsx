@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } 
 import type { FunctionComponent } from 'react';
 import L from 'leaflet';
 import MarkerCluster from 'components/MarkerCluster';
-import type { GeoJSON as GeoJSONLayer, LatLng, MarkerCluster as LeafletMarkerCluster } from 'leaflet';
+import type { LatLng, MarkerCluster as LeafletMarkerCluster } from 'leaflet';
 import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson';
 import WfsDataContext from '../context';
 import { featureTolocation } from 'shared/services/map-location';
@@ -11,12 +11,19 @@ import type { DataLayerProps, Item, Feature } from 'signals/incident/components/
 import { useMapInstance } from '@amsterdam/react-maps';
 import { isEqual } from 'lodash';
 
+interface ClusterLayer extends L.GeoJSON<Point> {
+  _maxZoom: number;
+}
+
 interface ClusterMarker extends L.Layer {
   __parent: ClusterMarker;
   _zoom: number;
+  _childCount: number;
+  _childClusters: ClusterMarker[];
   getLatLng: () => LatLng;
   spiderfy: () => void;
   unspiderfy: () => void;
+  zoomToBounds: (options: any) => void;
 }
 
 const getMarker = (parent: ClusterMarker | undefined, zoom: number): ClusterMarker | undefined => {
@@ -25,9 +32,20 @@ const getMarker = (parent: ClusterMarker | undefined, zoom: number): ClusterMark
   return getMarker(parent?.__parent, zoom);
 };
 
+const shouldSpiderfy = (layer: ClusterMarker, maxZoom: number) => {
+  const cluster = layer;
+  let bottomCluster = cluster;
+
+  while (bottomCluster._childClusters.length === 1) {
+    bottomCluster = bottomCluster._childClusters[0];
+  }
+
+  return bottomCluster._zoom === maxZoom && bottomCluster._childCount === cluster._childCount;
+};
+
 export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes }) => {
   const mapInstance = useMapInstance();
-  const [layerInstance, setLayerInstance] = useState<GeoJSONLayer>();
+  const [layerInstance, setLayerInstance] = useState<ClusterLayer>();
   const selectedCluster = useRef<ClusterMarker | undefined>();
   const data = useContext<FeatureCollection>(WfsDataContext);
   const { selection, update } = useContext(ContainerSelectContext);
@@ -47,13 +65,11 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
 
   const iconCreateFuntion = useCallback(
     /* istanbul ignore next */ (cluster: LeafletMarkerCluster) => {
-      const selectionClass = /* found ? 'marker-cluster__selection' :*/ '';
-
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
       const childCount = cluster.getChildCount();
       return new L.DivIcon({
         html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-        className: `marker-cluster ${selectionClass}`,
+        className: 'marker-cluster',
         iconSize: new L.Point(40, 40),
       });
     },
@@ -137,15 +153,21 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
       });
 
       layerInstance.on('clusterclick', (event: { layer: ClusterMarker }) => {
-        if (selectedCluster.current) {
-          event.layer.spiderfy();
-          const latlng = event.layer.getLatLng();
-          const selectedLatLng = selectedCluster.current.getLatLng();
-          if (isEqual(latlng, selectedLatLng)) selectedCluster.current = undefined;
-          else selectedCluster.current = event.layer;
+        const { _maxZoom: maxZoom } = layerInstance;
+        if (shouldSpiderfy(event.layer, maxZoom)) {
+          if (selectedCluster.current) {
+            event.layer.spiderfy();
+            const latlng = event.layer.getLatLng();
+            const selectedLatLng = selectedCluster.current.getLatLng();
+            if (isEqual(latlng, selectedLatLng)) selectedCluster.current = undefined;
+            else selectedCluster.current = event.layer;
+          } else {
+            selectedCluster.current = event.layer;
+            selectedCluster.current.spiderfy();
+          }
         } else {
-          selectedCluster.current = event.layer;
-          selectedCluster.current.spiderfy();
+          // use this offset when zoomToBounds to keep the markers above the panel in mobile view
+          event.layer.zoomToBounds({ paddingTopLeft: [0, -300] });
         }
       });
 
