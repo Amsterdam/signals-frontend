@@ -169,7 +169,7 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
           Mogen wij contact met u opnemen naar aanleiding van uw feedback? <Optional>(optioneel)</Optional>
         </Label>
         <div />
-        <Label inline htmlFor="allows_contact">
+        <Label inline htmlFor="allows_contact" >
           <Checkbox
             data-testid="ktoAllowsContact"
             id="allows_contact"

@@ -207,13 +207,13 @@ const IncidentDetail = () => {
     dispatch({ type: CLOSE_ALL });
   }, []);
 
-
   if (!state.incident || !subcategories) return null;
 
   return (
     <IncidentDetailContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
-        incident: state.incident,
+        incident: state?.incident,
         update: updateDispatch,
         preview: previewDispatch,
         edit: editDispatch,

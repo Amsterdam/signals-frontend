@@ -29,6 +29,7 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }));
 
+jest.mock('shared/services/configuration/configuration');
 jest.mock('hooks/useEventEmitter');
 
 const emit = jest.fn();
@@ -85,11 +86,15 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }],
       [JSON.stringify(childIncidentFixture), { status: 200 }]
     );
+  });
+
+  afterEach(() => {
+    configuration.__reset();
   });
 
   it('should retrieve incident data', async () => {
@@ -166,8 +171,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     fetch.mockResponses(
       [JSON.stringify(incidentWithoutChildren), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }]
     );
 
@@ -189,8 +194,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
+      [JSON.stringify(historyFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }],
       [JSON.stringify(childIncidentFixture), { status: 200 }]
     );

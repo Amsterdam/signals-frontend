@@ -44,6 +44,10 @@ module.exports = {
     'react/self-closing-comp': 'off',
     'react/sort-comp': 'off',
     'react/sort-prop-types': 'off',
+    'react/jsx-no-bind': 'off',
+    'react/forbid-component-props': 'off',
+    'react/display-name': 'off',
+
 
     // jsx-a11y
     'jsx-a11y/alt-text': 'error',
@@ -86,7 +90,6 @@ module.exports = {
     // rules
     'react/boolean-prop-naming': 'error',
     'react/button-has-type': 'error',
-    'react/display-name': 'error',
     'react/forbid-foreign-prop-types': ['error', { allowInPropTypes: true }],
     'react/function-component-definition': ['error', { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' }],
     'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],

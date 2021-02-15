@@ -1,0 +1,85 @@
+export const MANAGE_SIGNALS = {
+  buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
+  buttonCloseMijnFilters: '[data-testid=closeBtn]',
+  buttonFilteren: '[data-testid=filterModalBtn]',
+  clearSearchTerm: '[aria-label="Close"]',
+  firstSignalAdres: 'tbody > :nth-child(1) > :nth-child(9) > span > a',
+  firstSignalDag: '[data-testid="incidentDaysOpen"] > span > a',
+  firstSignalDatumTijd: 'tbody > :nth-child(1) > :nth-child(4) > span > a',
+  firstSignalIcon: 'tbody > :nth-child(1) > :nth-child(1) > span > a > span',
+  firstSignalId: 'tbody > :nth-child(1) > :nth-child(2) > span > a',
+  firstSignalStadsdeelName: 'tbody > :nth-child(1) > :nth-child(5) > span > a',
+  firstSignalStatus: 'tbody > :nth-child(1) > :nth-child(7) > span > a',
+  firstSignalSubcategorie: 'tbody > :nth-child(1) > :nth-child(6) > span > a',
+  firstSignalUrgentie: 'tbody > :nth-child(1) > :nth-child(8) > span > a',
+  filterTagList: '[data-testid=filterTagListTag]',
+  labelHoofmelding: '[aria-label="Hoofdmelding"]',
+  linkSignal: '[href*="/manage/incident/"]',
+  paginationPages: '[data-testid="pagination"] > ul > li',
+  refreshIcon: '[class*=PageHeader__RefreshIcon]',
+  searchBar: '[data-testid="searchBar"]',
+  searchResultsTag: '[class*=PageHeader__SubTitle]',
+  spinner: '[data-testid="loadingIndicator"]',
+  stadsdeelFromSignal: 'tr td:nth-child(4)',
+};
+
+export const FILTER = {
+  buttonSubmitFilter: '[data-testid=submitBtn]',
+  buttonNieuwFilter: '[data-testid=resetBtn]',
+  buttonCancel: '[data-testid=cancelBtn]',
+  checkboxASC: '[data-testid="checkbox-directing_department_ASC"]',
+  checkboxBronInterswitch: '[data-testid="checkbox-source_Telefoon – Interswitch"]',
+  checkboxDeelmelding: '[data-testid="checkbox-kind_child_signal"]',
+  checkboxGemeld: '#status_m',
+  checkboxHoofdmelding: '[data-testid="checkbox-kind_parent_signal"]',
+  checkboxHoofdmeldingWijzigingDeelmelding: '[data-testid="checkbox-has_changed_children_true"]',
+  checkboxHoofdmeldingGeenWijzigingDeelmelding: '[data-testid="checkbox-has_changed_children_false"]',
+  checkboxMelding: '[data-testid="checkbox-kind_signal"]',
+  checkboxRefresh: '#filter_refresh',
+  checkboxTypeKlacht: '[data-testid="checkbox-type_COM"]',
+  checkboxUrgentieHoog: '[data-testid="checkbox-priority_high"]',
+  checkboxVerantwoordelijkeAfdeling: '[data-testid="checkbox-directing_department_null"]',
+  inputFilterAddres: '[data-testid="filterAddress"]',
+  inputFilterDayBefore: '#filter_created_before',
+  inputFilterDayFrom: '#filter_created_after',
+  inputFilterName: '#filter_name',
+  inputSearchInNote: '#filter_notes',
+};
+
+export const FILTER_ALL_ITEMS = {
+  selectAllStatus: '[data-testid=statusCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
+  selectAllStadsdelen:
+    '[data-testid=stadsdeelCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
+  selectAllSource: '[data-testid=sourceCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
+  selectAllGarbage: '[class*=CheckboxList__Toggle] > [data-id*=afval]',
+  selectAllCivilConstructs: '[class*=CheckboxList__Toggle] > [data-id*=civiele-constructies]',
+  selectAllSubversion: '[class*=CheckboxList__Toggle] > [data-id*=ondermijning]',
+  selectAllPublicParksWater: '[class*=CheckboxList__Toggle] > [data-id*=openbaar-groen-en-water]',
+  selectAllOther: '[class*=CheckboxList__Toggle] > [data-id*=overig]',
+  selectAllDisturbanceCompanies: '[class*=CheckboxList__Toggle] > [data-id*=overlast-bedrijven-en-horeca]',
+  selectAllDisturbancePublicSpace: '[class*=CheckboxList__Toggle] > [data-id*=overlast-in-de-openbare-ruimte]',
+  selectAllDisturbanceWater: '[class*=CheckboxList__Toggle] > [data-id*=overlast-op-het-water]',
+  selectAllDisturbanceAnimals: '[class*=CheckboxList__Toggle] > [data-id*=overlast-van-dieren]',
+  selectAllDisturbancePersonsGroups:
+    '[class*=CheckboxList__Toggle] > [data-id*=overlast-van-en-door-personen-of-groepen]',
+  selectAllClean: '[class*=CheckboxList__Toggle] > [data-id*=schoon]',
+  selectAllRoadsTraffic: '[class*=CheckboxList__Toggle] > [data-id*=wegen-verkeer-straatmeubilair]',
+  selectAllLiving: '[class*=CheckboxList__Toggle] > [data-id*=wonen]',
+};
+
+export const MY_FILTERS = {
+  buttonDeleteFilter: '[data-testid=handleRemoveFilterButton]',
+};
+
+export const OVERVIEW_MAP = {
+  autoSuggest: '[data-testid=autoSuggest]',
+  buttonBack: '[data-testid=backlink]',
+  buttonZoomOut: '[title="Uitzoomen"]',
+  buttonZoomIn: '[title="Inzoomen"]',
+  clusterIcon: '[data-testid=markerClusterIcon]',
+  detailPane: '[data-testid=mapDetailPanel]',
+  openSignalDetails: '[data-testid=mapDetailPanel] > [href*="/manage"]',
+  markerCluster: '.leaflet-marker-icon',
+  markerSignal: '.map-marker-incident',
+  overViewMap: '[data-testid="overviewMap"]',
+};

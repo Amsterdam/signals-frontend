@@ -2,6 +2,7 @@ import { all, call, delay, put, race, select, spawn, take, takeLatest } from 're
 import { push } from 'connected-react-router/immutable';
 
 import { authCall, authDeleteCall, authPatchCall, authPostCall } from 'shared/services/api/api';
+import { mapFilterParams, unmapFilterParams } from 'signals/shared/filter/parse';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
 
@@ -137,9 +138,16 @@ export function* fetchDistricts() {
 
 export function* fetchFilters() {
   try {
-    const result = yield call(authCall, CONFIGURATION.FILTERS_ENDPOINT);
+    const { results } = yield call(authCall, CONFIGURATION.FILTERS_ENDPOINT);
 
-    yield put(getFiltersSuccess(result.results));
+    yield put(
+      getFiltersSuccess(
+        results.map(filter => ({
+          ...filter,
+          options: unmapFilterParams(filter.options),
+        }))
+      )
+    );
   } catch (error) {
     yield put(getFiltersFailed(error.message));
   }
@@ -156,14 +164,22 @@ export function* removeFilter(action) {
   }
 }
 
-export function* doSaveFilter(action) {
-  const filterData = action.payload;
+export function* doSaveFilter({ payload }) {
+  const filterData = {
+    ...payload,
+    options: mapFilterParams(payload.options),
+  };
 
   try {
     if (filterData.name) {
       const result = yield call(authPostCall, CONFIGURATION.FILTERS_ENDPOINT, filterData);
 
-      yield put(filterSaveSuccess(result));
+      yield put(
+        filterSaveSuccess({
+          ...result,
+          options: unmapFilterParams(result.options),
+        })
+      );
       yield put(getFilters());
     } else {
       yield put(filterSaveFailed('No name supplied'));
