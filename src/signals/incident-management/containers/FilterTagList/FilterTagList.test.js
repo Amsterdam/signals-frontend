@@ -1,11 +1,12 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import * as definitions from 'signals/incident-management/definitions';
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
 import configuration from 'shared/services/configuration/configuration';
 
+import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 import category from 'utils/__tests__/fixtures/category.json';
@@ -124,7 +125,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       },
     ];
 
-    const categories = [...mainCategories, category];
+    const categories = [...mainCategories, { ...category, value: category.name }];
 
     it('shows an extra label when a tag is a main category', () => {
       const { rerender, queryByText } = render(
@@ -282,6 +283,95 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       });
     });
 
+    describe('routing departments', () => {
+      it('renders correctly', () => {
+        configuration.featureFlags.assignSignalToDepartment = true;
+        const { queryAllByTestId } = render(
+          withContext(
+            <FilterTagListComponent
+              tags={{
+                ...tags,
+                routing_department: [departmentOptions[1]],
+              }}
+              subCategories={subCategories}
+              mainCategories={mainCategories}
+              routingDepartments={departmentOptions}
+            />
+          )
+        );
+
+        expect(screen.getByText(definitions.priorityList[1].value)).toBeInTheDocument();
+        expect(screen.getByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+        expect(screen.getByText(tags.address_text)).toBeInTheDocument();
+        expect(screen.getByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+        expect(screen.getByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
+        expect(screen.getByText(sources[0].value)).toBeInTheDocument();
+        expect(screen.queryByText(departmentOptions[0].value)).not.toBeInTheDocument();
+        expect(screen.getByText(departmentOptions[1].value)).toBeInTheDocument();
+        expect(screen.queryByText(departmentOptions[2].value)).not.toBeInTheDocument();
+
+        expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
+      });
+
+      it('renders null value', () => {
+        configuration.featureFlags.assignSignalToDepartment = true;
+        const { queryAllByTestId, queryByText } = render(
+          withContext(
+            <FilterTagListComponent
+              tags={{
+                ...tags,
+                routing_department: [departmentOptions[0]],
+              }}
+              subCategories={subCategories}
+              mainCategories={mainCategories}
+              routingDepartments={departmentOptions}
+            />
+          )
+        );
+
+        expect(screen.getByText(definitions.priorityList[1].value)).toBeInTheDocument();
+        expect(screen.getByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+        expect(screen.getByText(tags.address_text)).toBeInTheDocument();
+        expect(screen.getByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+        expect(screen.getByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
+        expect(screen.getByText(sources[0].value)).toBeInTheDocument();
+        expect(screen.getByText(departmentOptions[0].value)).toBeInTheDocument();
+        expect(screen.queryByText(departmentOptions[1].value)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentOptions[2].value)).not.toBeInTheDocument();
+
+        expect(queryAllByTestId('filterTagListTag')).toHaveLength(10);
+      });
+
+      it('works without a tag', () => {
+        configuration.featureFlags.assignSignalToDepartment = true;
+        const { queryAllByTestId, queryByText } = render(
+          withContext(
+            <FilterTagListComponent
+              tags={tags}
+              subCategories={subCategories}
+              mainCategories={mainCategories}
+              routingDepartments={departmentOptions}
+            />
+          )
+        );
+
+        expect(screen.getByText(definitions.priorityList[1].value)).toBeInTheDocument();
+        expect(screen.getByText(definitions.feedbackList[0].value)).toBeInTheDocument();
+        expect(screen.getByText(tags.address_text)).toBeInTheDocument();
+        expect(screen.getByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
+        expect(screen.getByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
+        expect(screen.getByText(sources[0].value)).toBeInTheDocument();
+        expect(screen.queryByText(departmentOptions[0].value)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentOptions[1].value)).not.toBeInTheDocument();
+        expect(screen.queryByText(departmentOptions[2].value)).not.toBeInTheDocument();
+
+        expect(queryAllByTestId('filterTagListTag')).toHaveLength(9);
+      });
+    });
+
     it('renders tags that have all items selected', () => {
       const groupedTags = {
         status: definitions.statusList,
@@ -317,6 +407,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     expect(mapKeys('priority')).toEqual('urgentie');
     expect(mapKeys('contact_details')).toEqual('contact');
     expect(mapKeys('directing_department')).toEqual('verantwoordelijke afdeling');
+    expect(mapKeys('routing_department')).toEqual('gekoppelde afdeling');
     expect(mapKeys('has_changed_children')).toEqual('wijziging in deelmeldingen');
     expect(mapKeys('kind')).toEqual('soort');
   });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import { fireEvent, render, screen, act, waitFor } from '@testing-library/react';
 import userEvent, { specialChars } from '@testing-library/user-event';
 import { store, withAppContext } from 'test/utils';
 
@@ -12,8 +12,9 @@ import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList
 import typesList from 'signals/incident-management/definitions/typesList';
 import kindList from 'signals/incident-management/definitions/kindList';
 import dataLists from 'signals/incident-management/definitions';
-import { directingDepartments } from 'utils/__tests__/fixtures';
+import directingDepartments from 'utils/__tests__/fixtures/directingDepartments.json';
 import categories from 'utils/__tests__/fixtures/categories_structured.json';
+import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
 import users from 'utils/__tests__/fixtures/users.json';
@@ -29,7 +30,7 @@ jest.mock('models/categories/selectors', () => ({
   __esModule: true,
   ...jest.requireActual('models/categories/selectors'),
   // eslint-disable-next-line
-  makeSelectStructuredCategories: () => require('utils/__tests__/fixtures/categories_structured.json'),
+  makeSelectStructuredCategories: () => categories,
 }));
 
 jest.spyOn(store, 'dispatch');
@@ -246,6 +247,113 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect(document.getElementById('filter_created_before')).toBeInTheDocument();
     expect(document.getElementById('filter_created_after')).toBeInTheDocument();
+  });
+
+  describe('routing_department', () => {
+    const label = 'Afdeling';
+    const notRoutedLabel = 'Niet gekoppeld';
+    const submitLabel = /filteren/i;
+    const notName = departmentOptions[0].value;
+    const ascName = departmentOptions[1].value;
+    const aegName = departmentOptions[2].value;
+
+    beforeEach(() => {
+      jest.spyOn(departmentsSelectors, 'makeSelectRoutingDepartments').mockImplementation(() => departmentOptions);
+    });
+
+    it('should not render a list of departments with assignSignalToDepartment disabled', () => {
+      render(withContext(<FilterForm {...formProps} />));
+      expect(screen.queryByText(label)).not.toBeInTheDocument();
+    });
+
+    it('should allow selection of routing department with assignSignalToDepartment enabled', async () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      const onSubmit = jest.fn();
+      const expected = { options: { routing_department: [departmentOptions[1].key] } };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      expect(screen.getByText(label)).toBeInTheDocument();
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+      const checkbox = screen.getByText(ascName);
+
+      expect(checkbox).toBeInTheDocument();
+      userEvent.click(checkbox);
+      await screen.findByRole('checkbox', { name: ascName, checked: true });
+      // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
+      // eslint-disable-next-line testing-library/no-wait-for-empty-callback
+      await waitFor(() => {});
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+    });
+
+    it('should allow selection of not routed', async () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      const onSubmit = jest.fn();
+      const expected = { options: { routing_department: [departmentOptions[0].key] } };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const checkbox = screen.getByText(notName);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+
+      userEvent.click(checkbox);
+      await screen.findByRole('checkbox', { name: notName, checked: true });
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+    });
+
+    it('should clear other options when not routed checkbox checked', async () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+
+      render(withContext(<FilterForm {...formProps} />));
+      const not = screen.getByLabelText(notName);
+      const asc = screen.getByLabelText(ascName);
+      const aeg = screen.getByLabelText(aegName);
+
+      userEvent.click(asc);
+      expect(asc).toBeChecked();
+      expect(not).not.toBeChecked();
+      expect(aeg).not.toBeChecked();
+
+      userEvent.click(not);
+      expect(not).toBeChecked();
+      expect(asc).not.toBeChecked();
+      expect(aeg).not.toBeChecked();
+
+      userEvent.click(not);
+      expect(not).not.toBeChecked();
+      await waitFor(() => {
+        expect(asc).toBeChecked();
+      });
+      expect(aeg).not.toBeChecked();
+    });
+
+    it('should clear correctly on form clear', async () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+
+      render(withContext(<FilterForm {...formProps} />));
+      const clearButton = screen.getByRole('button', { name: /nieuw filter/i });
+      const not = screen.getByLabelText(notName);
+      const asc = screen.getByLabelText(ascName);
+      const aeg = screen.getByLabelText(aegName);
+
+      userEvent.click(asc);
+      expect(asc).toBeChecked();
+      userEvent.click(aeg);
+      expect(aeg).toBeChecked();
+
+      userEvent.click(clearButton);
+      // expect(asc).not.toBeChecked();
+      // expect(aeg).not.toBeChecked();
+      expect(not).not.toBeChecked();
+
+      userEvent.click(not);
+      expect(not).toBeChecked();
+
+      userEvent.click(clearButton);
+      expect(not).not.toBeChecked();
+      expect(asc).not.toBeChecked();
+      expect(aeg).not.toBeChecked();
+    });
   });
 
   describe('assigned_user_email', () => {
@@ -550,21 +658,6 @@ describe('signals/incident-management/components/FilterForm', () => {
     await findByTestId('filterAddress');
 
     expect(container.querySelector('input[type="text"][name="address_text"]').value).toEqual('Weesperstraat 113/117');
-  });
-
-  it('should watch for changes in radio button lists', async () => {
-    const { container, findByTestId } = render(withContext(<FilterForm {...formProps} />));
-
-    const priorityRadioButtons = container.querySelectorAll('input[type="radio"][name="feedback"]');
-    const buttonInList = priorityRadioButtons[1];
-
-    act(() => {
-      fireEvent.click(buttonInList);
-    });
-
-    await findByTestId('feedbackRadioGroup');
-
-    expect(buttonInList.checked).toEqual(true);
   });
 
   it('should watch for changes in note_keyword field value', () => {

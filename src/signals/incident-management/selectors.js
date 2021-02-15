@@ -5,7 +5,7 @@ import { makeSelectMainCategories, makeSelectSubCategories } from 'models/catego
 import configuration from 'shared/services/configuration/configuration';
 
 import { createSelector } from 'reselect';
-import { makeSelectDirectingDepartments } from 'models/departments/selectors';
+import { makeSelectDirectingDepartments, makeSelectRoutingDepartments } from 'models/departments/selectors';
 import { makeSelectSources } from '../../containers/App/selectors';
 import { initialState } from './reducer';
 import { FILTER_PAGE_SIZE } from './constants';
@@ -35,12 +35,14 @@ export const makeSelectFixtures = createSelector(
     makeSelectMainCategories,
     makeSelectSubCategories,
     makeSelectDirectingDepartments,
+    makeSelectRoutingDepartments,
   ],
-  (area, source, maincategory_slug, category_slug, directing_department) => ({
+  (area, source, maincategory_slug, category_slug, directing_department, routing_department) => ({
     maincategory_slug,
     category_slug,
     area,
     directing_department,
+    routing_department,
     source,
   })
 );

@@ -213,11 +213,13 @@ describe('signals/shared/filter/parse', () => {
       const data = {
         area: ['123', '456'],
         areaType: 'district',
+        routing_department: ['DEP', 'ART'],
         other: 'value',
       };
       const expected = {
         area_code: data.area,
         area_type_code: data.areaType,
+        routing_department_code: data.routing_department,
         other: data.other,
       };
 
@@ -228,11 +230,13 @@ describe('signals/shared/filter/parse', () => {
       const data = {
         area_code: ['123', '456'],
         area_type_code: 'district',
+        routing_department_code: ['DEP', 'ART'],
         other: 'value',
       };
       const expected = {
         area: data.area_code,
         areaType: data.area_type_code,
+        routing_department: data.routing_department_code,
         other: data.other,
       };
 
