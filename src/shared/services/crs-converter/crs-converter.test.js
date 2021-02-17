@@ -12,8 +12,8 @@ describe('The CRS converter service', () => {
     proj4.mockImplementation(() => [3, 4]);
 
     const wgs84Coordinates = {
-      latitude: 1,
-      longitude: 0,
+      lat: 1,
+      lng: 0,
     };
     const actual = wgs84ToRd(wgs84Coordinates);
 
@@ -29,8 +29,8 @@ describe('The CRS converter service', () => {
 
     expect(proj4.mock.calls[0][2]).toEqual([1, 0]);
     expect(actual).toEqual({
-      latitude: 4,
-      longitude: 3,
+      lat: 4,
+      lng: 3,
     });
   });
 });

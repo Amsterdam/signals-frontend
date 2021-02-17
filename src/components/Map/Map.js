@@ -29,7 +29,6 @@ const StyledGPSButton = styled(GPSButton)`
 `;
 
 const Map = ({
-  canBeDragged,
   children,
   className,
   'data-testid': dataTestId,
@@ -53,11 +52,10 @@ const Map = ({
       ...{ ...mapOptions, center },
       maxZoom,
       minZoom,
-      dragging: canBeDragged && !hasTouchCapabilities,
       tap: false,
       scrollWheelZoom: false,
     };
-  }, [canBeDragged, hasTouchCapabilities, mapOptions, geolocation, maxZoom, minZoom]);
+  }, [mapOptions, geolocation, maxZoom, minZoom]);
 
   useLayoutEffect(() => {
     if (!mapInstance || !geolocation || !geolocation.toggled) return;
@@ -130,16 +128,15 @@ const Map = ({
 };
 
 Map.defaultProps = {
-  canBeDragged: true,
   className: '',
   'data-testid': 'map-base',
   hasGPSControl: false,
   hasZoomControls: false,
+  events: undefined,
+  setInstance: undefined,
 };
 
 Map.propTypes = {
-  /** When false, the map cannot be dragged by mouse or touch */
-  canBeDragged: PropTypes.bool,
   children: PropTypes.node,
   /** @ignore */
   className: PropTypes.string,
