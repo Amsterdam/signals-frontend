@@ -1,7 +1,6 @@
 import { CATEGORIES } from '../../support/selectorsSettings';
-import { CONTAINERS, CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
+import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
-import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/changeCategory.json';
 import * as routes from '../../support/commandsRouting';
@@ -67,11 +66,6 @@ describe('Create signal and choose other subcategory than proposed', () => {
 
       createSignal.checkSpecificInformationPage(signal);
 
-      // Select container soort and number
-      cy.contains(questions.afval.extra_container_kind.label).should('be.visible');
-      cy.get(CONTAINERS.inputContainerSoort).eq(0).type('Een papiercontainer');
-      cy.contains(questions.afval.extra_container_number.label).should('be.visible');
-      cy.get(CONTAINERS.inputContainerNummer).eq(1).type('Nummertje 911');
       cy.contains('Volgende').click();
 
       createSignal.setPhonenumber(signal);

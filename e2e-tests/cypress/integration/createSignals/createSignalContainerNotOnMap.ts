@@ -1,13 +1,12 @@
 import { CONTAINERS } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
-import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
-import signal from '../../fixtures/signals/container.json';
+import signal from '../../fixtures/signals/containerNotOnMap.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 
-describe('Create signal "Container" and check signal details', () => {
-  describe('Create signal cointainer', () => {
+describe('Create signal "Container" and check signal details, container is not on the map', () => {
+  describe('Create signal container', () => {
     before(() => {
       routes.postSignalRoutePublic();
       routes.stubPreviewMap();
@@ -20,11 +19,11 @@ describe('Create signal "Container" and check signal details', () => {
       cy.contains('Volgende').click();
 
       createSignal.checkSpecificInformationPage(signal);
-
-      cy.contains(questions.afval.extra_container_kind.label).should('be.visible');
-      cy.get(CONTAINERS.inputContainerSoort).eq(0).type('Een restafval container');
-      cy.contains(questions.afval.extra_container_number.label).should('be.visible');
-      cy.get(CONTAINERS.inputContainerNummer).eq(1).type('Nummertje 666');
+      cy.get(CONTAINERS.buttonKiesOpKaart).click();
+      cy.get(CONTAINERS.checkBoxContainerNietopKaart).click();
+      cy.get(CONTAINERS.inputContainerNummer).type('666');
+      cy.get(CONTAINERS.buttonMeldDezeContainer).click();
+      cy.contains('De container staat niet op de kaart - 666').should('be.visible');
 
       cy.contains('Volgende').click();
 
@@ -35,6 +34,7 @@ describe('Create signal "Container" and check signal details', () => {
       cy.contains('Volgende').click();
 
       createSignal.checkSummaryPage(signal);
+
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');

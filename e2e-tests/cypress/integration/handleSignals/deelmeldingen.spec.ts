@@ -346,7 +346,7 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        routes.waitForSignalDetailsRoutes();
+        cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
 
         // Add another deelmelding
@@ -358,7 +358,7 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
-        routes.waitForSignalDetailsRoutes();
+        cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
       });
       it('Should change status to \'In Behandeling\' and create deelmelding', () => {

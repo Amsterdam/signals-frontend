@@ -65,8 +65,29 @@ export const BOTEN = {
 };
 
 export const CONTAINERS = {
-  inputContainerSoort: '[class*=Input__Styled]',
-  inputContainerNummer: '[class*=Input__Styled]',
+  buttonCloseLegenda: '[class*="CloseButton"]',
+  buttonCollapsePanel: '[title="Open legenda"]',
+  buttonInzoomen: '[title=Inzoomen]',
+  buttonKiesOpKaart: '[data-testid=chooseOnMap]',
+  buttonLegenda: 'button:contains("Legenda")',
+  buttonMeldDezeContainer: 'button:contains("Meld deze container")',
+  buttonRemoveContainer: '[data-testid*="containerListRemove"]',
+  buttonUitzoomen: '[title=Uitzoomen]',
+  checkBoxContainerNietopKaart: '#unregisteredContainerCheckbox',
+  clusterIcon: '[data-testid=markerClusterIcon]',
+  containerListItem: '[data-testid*="containerListItem"]',
+  icon: '.leaflet-marker-icon',
+  inputContainerNummer: '#unregisteredContainerInput',
+  legendaItemBrood: '[data-testid=legendPanelListItem-Brood]',
+  legendaItemGlas: '[data-testid=legendPanelListItem-Glas]',
+  legendaItemGFT: '[data-testid=legendPanelListItem-GFT]',
+  legendaItemPapier: '[data-testid=legendPanelListItem-Papier]',
+  legendaItemPlastic: '[data-testid=legendPanelListItem-Plastic]',
+  legendaItemRestafval: '[data-testid=legendPanelListItem-Rest]',
+  legendaItemTextiel: '[data-testid=legendPanelListItem-Textiel]',
+  map: '[data-testid=mapLocation]',
+  panelContainerInfo: '[data-testid=panelDesktop]',
+  panelLegend: '[data-testid=legendPanel]',
 };
 
 export const FIETSNIETJE = {
