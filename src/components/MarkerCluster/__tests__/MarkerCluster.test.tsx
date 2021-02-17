@@ -1,4 +1,4 @@
-import type { MapOptions } from 'leaflet';
+import type L, { MapOptions } from 'leaflet';
 import React from 'react';
 import { render } from '@testing-library/react';
 
@@ -10,16 +10,19 @@ const options = {
   ...MAP_OPTIONS,
   maxZoom: 18,
 } as MapOptions;
-const withMapContainer = (Component: JSX.Element) =>
+const withMapContainer = (Component: JSX.Element) => (
   <Map data-testid="map-test" options={options}>
     {Component}
-  </Map>;
+  </Map>
+);
 
 describe('signals/incident-management/containes/IncidentOverviewPage/components/MarkerCluster', () => {
   it('should render the cluster layer in the map', () => {
     const setInstanceMock = jest.fn();
     const { getByTestId } = render(
-      withMapContainer(<MarkerCluster clusterOptions={{ test: 1 }} setInstance={setInstanceMock} />)
+      withMapContainer(
+        <MarkerCluster clusterOptions={{ test: 1 } as L.MarkerClusterGroupOptions} setInstance={setInstanceMock} />
+      )
     );
 
     expect(getByTestId('map-test')).toBeInTheDocument();
