@@ -38,11 +38,18 @@ module.exports = {
         project: './tsconfig.json',
       },
       rules: {
+        'no-void': ['error', { allowAsStatement: true }],
         '@typescript-eslint/space-before-function-paren': 'off',
         '@typescript-eslint/no-type-alias': ['off'],
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/restrict-template-expressions': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-floating-promises': [
+          'error',
+          {
+            ignoreVoid: true,
+          },
+        ],
         '@typescript-eslint/unbound-method': [
           'error',
           {

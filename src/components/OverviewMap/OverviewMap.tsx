@@ -18,7 +18,7 @@ import { featureTolocation, formatPDOKResponse } from 'shared/services/map-locat
 import { makeSelectFilterParams } from 'signals/incident-management/selectors';
 import useFetch from 'hooks/useFetch';
 import { incidentIcon, markerIcon } from 'shared/services/configuration/map-markers';
-import type { IncidentSummary } from 'types/incident';
+import type { IncidentSummary } from './types';
 
 import DetailPanel from './DetailPanel';
 import MarkerCluster from '../MarkerCluster';
@@ -196,8 +196,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
   useEffect(() => {
     if (isLoading || !initialMount) return;
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    get(`${endpoint}`, params);
+    void get(`${endpoint}`, params);
 
     // Only execute when the value of filterParams changes; disabling linter
     // eslint-disable-next-line
@@ -205,8 +204,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
 
   // request data on mount
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    get(`${endpoint}`, params);
+    void get(`${endpoint}`, params);
     setInitialMount(true);
     // eslint-disable-next-line
   }, [get]);

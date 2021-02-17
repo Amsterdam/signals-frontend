@@ -11,6 +11,8 @@ import { INCIDENT_URL } from 'signals/incident-management/routes';
 import { statusList } from 'signals/incident-management/definitions';
 import type { StatusCode } from 'signals/incident-management/definitions/statusList';
 
+import type { IncidentSummary } from '../types';
+
 const statuses = statusList.reduce(
   (acc, status) => ({
     ...acc,
@@ -61,16 +63,6 @@ const PanelHeader = styled.div`
   width: 100%;
   justify-content: space-between;
 `;
-
-export interface IncidentSummary {
-  id: string | number;
-  created_at?: string;
-  status?: StatusCode;
-  category?: {
-    main?: string;
-    sub?: string;
-  };
-}
 
 interface DetailPanelProps {
   incident: IncidentSummary;
