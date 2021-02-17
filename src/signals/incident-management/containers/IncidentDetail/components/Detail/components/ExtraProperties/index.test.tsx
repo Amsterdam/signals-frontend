@@ -129,6 +129,45 @@ describe('<ExtraProperties />', () => {
     expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/De container staat niet op de kaart/);
   });
 
+  it('should handle data with multiple answers', () => {
+    const items = [
+      {
+        id: 'extra_bedrijven_horeca_terrassen',
+        label: 'Oorzaak overlast',
+        answer: [
+          {
+            id: 'uitgewaaierd_terras',
+            label: 'Uitgewaaierd terras (buiten de toegestane grens)',
+          },
+          {
+            id: 'doorloop',
+            label: 'Het terras belemmert de doorloop',
+          },
+          {
+            id: 'stoep_in_beslag',
+            label: 'Terras / terrasbezoekers nemen hele stoep in zodat u via de weg erlangs moet',
+          },
+          {
+            id: 'bezoekers_op_straat',
+            label: 'Bezoekers staan op straat',
+          },
+        ],
+        category_url: '/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen',
+      },
+    ];
+
+    render(<ExtraProperties items={items} />);
+
+    expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(Object.values(items).length);
+    expect(screen.queryAllByTestId('extra-properties-value')).toHaveLength(Object.values(items).length);
+
+    expect(screen.getByTestId('extra-properties-definition')).toHaveTextContent(
+      /^Oorzaak overlast$/
+    );
+    expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/Uitgewaaierd terras \(buiten de toegestane grens\)/);
+    expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(/Het terras belemmert de doorloop/);
+  });
+
   it('should be able to deal with legacy format', () => {
     const items = {
       'Op welke locatie ervaart u de overlast': 'In huis',

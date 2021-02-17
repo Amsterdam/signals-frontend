@@ -1,15 +1,35 @@
 import React, { Fragment } from 'react';
 import type { FunctionComponent } from 'react';
-import type { Answer, MappedLegacyItem, Item, CheckboxInput, ExtraPropertiesTypes, LegacyAnswer } from './types';
+import type {
+  Answer,
+  MappedLegacyItem,
+  Item,
+  CheckboxInput,
+  ExtraPropertiesTypes,
+  LegacyAnswer,
+  ContainerMapInput,
+  MultiCheckboxInput,
+} from './types';
 
 const getValue = (answer: Answer | LegacyAnswer): string | JSX.Element[] => {
   if (Array.isArray(answer)) {
     return answer.map(item => {
-      if (typeof item !== 'string') {
-        return <div key={item.id}>{`${item.description}${item.id && ` - ${item.id}`}`}</div>;
+      if (typeof item === 'string') {
+        return <div key={item}>{item}</div>;
       }
 
-      return <div key={item}>{item}</div>;
+      if ((item as ContainerMapInput)?.type) {
+        const containerAnswer = item as ContainerMapInput;
+        return (
+          <div key={containerAnswer.id}>{`${containerAnswer.description}${
+            containerAnswer.id && ` - ${containerAnswer.id}`
+          }`}</div>
+        );
+      }
+
+      const multiCheckboxAnswer = item as MultiCheckboxInput;
+
+      return <div key={multiCheckboxAnswer.id}>{multiCheckboxAnswer.label}</div>;
     });
   }
 
