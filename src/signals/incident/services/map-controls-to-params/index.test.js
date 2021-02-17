@@ -1,7 +1,7 @@
 import mapValues from '../map-values';
 import mapPaths from '../map-paths';
 
-import mapControlsToParams, { defaultParams } from '.';
+import mapControlsToParams from '.';
 
 jest.mock('../map-values');
 jest.mock('../map-paths');
@@ -13,7 +13,7 @@ describe('The map controls to params service', () => {
   });
 
   it('should map status by default', () => {
-    expect(mapControlsToParams({}, {})).toEqual(defaultParams);
+    expect(mapControlsToParams({}, {})).toEqual({ reporter: {} });
   });
 
   it('should map date: Nu', () => {
@@ -34,7 +34,7 @@ describe('The map controls to params service', () => {
         {}
       )
     ).toEqual({
-      ...defaultParams,
+      reporter: {},
       incident_date_start: isodate,
     });
 
@@ -57,7 +57,7 @@ describe('The map controls to params service', () => {
         {}
       )
     ).toEqual({
-      ...defaultParams,
+      reporter: {},
       incident_date_start: isodate,
     });
     spy.mockRestore();
@@ -80,7 +80,7 @@ describe('The map controls to params service', () => {
         {}
       )
     ).toEqual({
-      ...defaultParams,
+      reporter: {},
       incident_date_start: testDate,
     });
     spy.mockRestore();
@@ -91,7 +91,7 @@ describe('The map controls to params service', () => {
     mapPaths.mockImplementation(params => ({ ...params, varFromMapPaths: 'bar' }));
 
     expect(mapControlsToParams({}, {})).toEqual({
-      ...defaultParams,
+      reporter: {},
       varFromMapValues: 'foo',
       varFromMapPaths: 'bar',
     });
