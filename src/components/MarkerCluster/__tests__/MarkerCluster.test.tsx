@@ -1,4 +1,7 @@
-import type L, { MapOptions } from 'leaflet';
+// eslint-disable-next-line import/no-duplicates
+import type L from 'leaflet';
+// eslint-disable-next-line import/no-duplicates
+import type { MapOptions } from 'leaflet';
 import React from 'react';
 import { render } from '@testing-library/react';
 
