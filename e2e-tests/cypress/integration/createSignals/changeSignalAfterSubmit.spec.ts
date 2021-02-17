@@ -9,66 +9,68 @@ import {
 import { MANAGE_SIGNALS, OVERVIEW_MAP } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/graffiti.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
 
 describe('Change signal after submit', () => {
   describe('Create signal in category "Graffiti"', () => {
     before(() => {
-      cy.postSignalRoutePublic();
-      cy.stubPreviewMap();
-      cy.stubMap();
+      routes.postSignalRoutePublic();
+      routes.stubPreviewMap();
+      routes.stubMap();
       cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
-      cy.setDescriptionPage(signal);
+      createSignal.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      cy.setPhonenumber(signal);
+      createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      cy.setEmailAddress(signal);
+      createSignal.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal);
+      createSignal.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      cy.checkThanksPage();
-      cy.saveSignalId();
+      createSignal.checkThanksPage();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.stubPreviewMap();
-      cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutesById();
+      routes.stubPreviewMap();
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should show the signal details', () => {
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal);
     });
   });
   describe('Change signal data', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.stubPreviewMap();
-      cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutesById();
+      routes.stubPreviewMap();
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should change location using pencil button', () => {
-      cy.stubAddress('changeAddressPencil');
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      routes.stubAddress('changeAddressPencil');
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       cy.get(CHANGE_LOCATION.buttonEdit).click();
 
@@ -80,13 +82,13 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_LOCATION.buttonEdit).click();
       cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Bethaniënstraat 12', { delay: 60 });
-      cy.selectAddress('Bethaniënstraat 12, 1012CA Amsterdam');
+      createSignal.selectAddress('Bethaniënstraat 12, 1012CA Amsterdam');
       // Used a wait, because we have to wait until zoom to new adres is done.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
 
-      cy.checkFlashingYellow();
+      createSignal.checkFlashingYellow();
 
       cy.wait('@getHistory');
       cy.wait('@getSignals');
@@ -104,21 +106,21 @@ describe('Change signal after submit', () => {
         .and('be.visible');
     });
     it('Should change location by clicking on picture', () => {
-      cy.stubAddress('changeAddressPicture');
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      routes.stubAddress('changeAddressPicture');
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.imageLocation).click();
       cy.get(CHANGE_LOCATION.buttonLocationDetailEdit).click();
       cy.get(CHANGE_LOCATION.map).should('be.visible');
       cy.get(OVERVIEW_MAP.autoSuggest).type('{selectall}{backspace}Noordhollandschkanaaldijk 114', { delay: 60 });
 
-      cy.selectAddress('Noordhollandschkanaaldijk 114, 1034NW Amsterdam');
+      createSignal.selectAddress('Noordhollandschkanaaldijk 114, 1034NW Amsterdam');
       // Used a wait, because we have to wait until zoom to new adres is done.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);
       cy.get(CHANGE_LOCATION.buttonSubmit).click();
 
-      cy.checkFlashingYellow();
+      createSignal.checkFlashingYellow();
 
       cy.wait('@getHistory');
       cy.wait('@getSignals');
@@ -135,8 +137,8 @@ describe('Change signal after submit', () => {
         .and('be.visible');
     });
     it('Should change status', () => {
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       cy.get(CHANGE_STATUS.buttonEdit).click();
 
@@ -184,7 +186,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben uw zinloze melding toch maar in behandeling genomen');
       cy.get(CHANGE_STATUS.buttonSubmit).click();
 
-      cy.checkFlashingYellow();
+      createSignal.checkFlashingYellow();
 
       cy.wait('@getHistory');
       cy.wait('@getSignals');
@@ -204,8 +206,8 @@ describe('Change signal after submit', () => {
     });
 
     it('Should change urgency', () => {
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       // Used a wait because sometimes the edit button is not clicked
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -226,7 +228,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
       cy.get(CHANGE_URGENCY.buttonSubmit).click();
 
-      cy.checkFlashingYellow();
+      createSignal.checkFlashingYellow();
 
       cy.wait('@getHistory');
       cy.wait('@getSignals');
@@ -242,8 +244,8 @@ describe('Change signal after submit', () => {
     });
 
     it('Should change type', () => {
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       cy.get(CHANGE_TYPE.buttonEdit).click();
 
@@ -267,7 +269,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_TYPE.radioButtonGrootOnderhoud).click({ force: true });
       cy.get(CHANGE_TYPE.buttonSubmit).click();
 
-      cy.checkFlashingYellow();
+      createSignal.checkFlashingYellow();
 
       cy.wait('@getHistory');
       cy.wait('@getSignals');
@@ -278,8 +280,8 @@ describe('Change signal after submit', () => {
     });
 
     it('Should change category', () => {
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(CHANGE_CATEGORY.inputCategory).select('Overig openbare ruimte (ASC)');
@@ -291,7 +293,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_CATEGORY.inputCategory).select('Overig openbare ruimte (ASC)');
       cy.get(CHANGE_CATEGORY.buttonSubmit).click();
 
-      cy.checkFlashingYellow();
+      createSignal.checkFlashingYellow();
 
       cy.wait('@getHistory');
       cy.wait('@getSignals');

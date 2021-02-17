@@ -1,7 +1,8 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { withAppContext } from 'test/utils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import * as reactRouterDom from 'react-router-dom';
 
 import configuration from 'shared/services/configuration/configuration';
@@ -185,23 +186,15 @@ describe('signals/settings/users/containers/Detail', () => {
       expect.objectContaining({ method: 'PATCH' })
     );
 
-    act(() => {
-      const lastNameInput = getByTestId('detailUserForm').querySelector('#last_name');
-      fireEvent.change(lastNameInput, { target: { value: 'Foo Bar Baz' } });
+    userEvent.type(screen.getByRole('textbox', { name: /achternaam/i }), 'Foo Bar Baz');
+    userEvent.click(screen.getByRole('button', { name: /opslaan/i }));
+
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith(
+        `${configuration.USERS_ENDPOINT}${userId}`,
+        expect.objectContaining({ method: 'PATCH' })
+      );
     });
-
-    await findByTestId('userDetailFormContainer');
-
-    act(() => {
-      fireEvent.click(getByTestId('detailUserForm').querySelector('[type="submit"]'));
-    });
-
-    await findByTestId('userDetailFormContainer');
-
-    expect(fetch).toHaveBeenCalledWith(
-      `${configuration.USERS_ENDPOINT}${userId}`,
-      expect.objectContaining({ method: 'PATCH' })
-    );
   });
 
   it('should NOT patch user data on submit when user does not have permissions', async () => {

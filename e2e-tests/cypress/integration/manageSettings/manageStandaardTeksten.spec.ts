@@ -4,24 +4,27 @@ import { CHANGE_STATUS, SIGNAL_DETAILS } from '../../support/selectorsSignalDeta
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/signalForStandaardteksten.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
+import * as general from '../../support/commandsGeneral';
 
 describe('Standaardteksten', () => {
   describe('Create standaardteksten', () => {
     beforeEach(() => {
-      cy.getManageSignalsRoutes();
-      cy.defineStandaardtekstenRoutes();
+      routes.getManageSignalsRoutes();
+      routes.defineStandaardtekstenRoutes();
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should create standaardteksten for duiven', () => {
-      cy.openMenu();
+      general.openMenu();
       cy.contains('Standaard teksten').click();
       cy.wait('@getAfwateringBrug');
 
       cy.url().should('include', '/manage/standaard/teksten');
-      cy.checkHeaderText('Beheer standaard teksten');
+      general.checkHeaderText('Beheer standaard teksten');
 
       cy.get(STANDAARDTEKSTEN.dropDownSubcategory).select('Duiven (GGD)');
       cy.wait('@getDuiven');
@@ -78,47 +81,47 @@ describe('Standaardteksten', () => {
   });
   describe('Create signal duiven', () => {
     before(() => {
-      cy.postSignalRoutePublic();
-      cy.stubPreviewMap();
-      cy.stubMap();
+      routes.postSignalRoutePublic();
+      routes.stubPreviewMap();
+      routes.stubMap();
       cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
-      cy.setDescriptionPage(signal);
+      createSignal.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      cy.checkSpecificInformationPage(signal);
+      createSignal.checkSpecificInformationPage(signal);
       cy.contains('Volgende').click();
-      cy.setPhonenumber(signal);
-      cy.contains('Volgende').click();
-
-      cy.setEmailAddress(signal);
+      createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal);
+      createSignal.setEmailAddress(signal);
+      cy.contains('Volgende').click();
+
+      createSignal.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      cy.checkThanksPage();
-      cy.saveSignalId();
+      createSignal.checkThanksPage();
+      createSignal.saveSignalId();
     });
   });
   describe('Change status of signal and check standaardtekst', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.stubPreviewMap();
-      cy.patchSignalRoute();
-      cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutesById();
+      routes.stubPreviewMap();
+      routes.patchSignalRoute();
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should change the status of the signal to Ingepland and show standaardtekst', () => {
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       // Used a wait because sometimes the edit button is not clicked
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -149,9 +152,9 @@ describe('Standaardteksten', () => {
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven INPLANNEN. De overlastgevende duif is geïdentificeerd als Cher Ami');
     });
     it('Should change the status of the signal to Afgehandeld and show standaardtekst', () => {
-      cy.patchSignalRoute();
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      routes.patchSignalRoute();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       // Used a wait because sometimes the edit button is not clicked
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -184,8 +187,8 @@ describe('Standaardteksten', () => {
       cy.get(SIGNAL_DETAILS.historyListItem).first().should('have.text', 'Beschrijving standaardtekst 1 melding duiven AFHANDELEN. De overlastgevende duif is geïdentificeerd als Valiant');
     });
     it('Should change the status of the signal to Heropend and show standaardtekst', () => {
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
       // Used a wait because sometimes the edit button is not clicked
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -225,14 +228,14 @@ describe('Standaardteksten', () => {
     describe('Check message', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-        cy.stubPreviewMap();
-        cy.getManageSignalsRoutes();
-        cy.getSignalDetailsRoutesById();
+        routes.stubPreviewMap();
+        routes.getManageSignalsRoutes();
+        routes.getSignalDetailsRoutesById();
         cy.visit('/manage/incidents/');
-        cy.waitForManageSignalsRoutes();
+        routes.waitForManageSignalsRoutes();
       });
       it('Should show no message when there is no standaardtekst', () => {
-        cy.openCreatedSignal();
+        createSignal.openCreatedSignal();
         // Used a wait because sometimes the edit button is not clicked
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(500);

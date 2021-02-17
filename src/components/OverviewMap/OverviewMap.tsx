@@ -21,7 +21,7 @@ import { incidentIcon, markerIcon } from 'shared/services/configuration/map-mark
 import type { IncidentSummary } from 'types/incident';
 
 import DetailPanel from './DetailPanel';
-import MarkerCluster from './MarkerCluster';
+import MarkerCluster from '../MarkerCluster';
 
 interface MapInstance {
   getZoom: () => number;
@@ -85,7 +85,7 @@ const StyledMap = styled(Map)`
 
 const Autosuggest = styled(PDOKAutoSuggest)`
   max-width: calc(100% - 40px);
-  z-index: 401; // 400 is the minimum elevation were elements are shown above the map
+  z-index: 401; // 400 is the minimum elevation where elements are shown above the map
   width: 350px;
   left: 0;
   position: absolute;
@@ -248,7 +248,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
         hasZoomControls
         mapOptions={{
           ...MAP_OPTIONS,
-          ...configuration.map.optionsBackOffice || {},
+          ...(configuration.map.optionsBackOffice || {}),
         }}
         setInstance={setMap}
       >

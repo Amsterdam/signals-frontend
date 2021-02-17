@@ -42,7 +42,7 @@ module.exports = {
         '@typescript-eslint/no-type-alias': ['off'],
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/restrict-template-expressions': 'off',
-        '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/unbound-method': [
           'error',
           {

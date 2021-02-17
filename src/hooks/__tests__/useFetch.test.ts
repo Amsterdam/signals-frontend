@@ -4,7 +4,8 @@ import JSONresponse from 'utils/__tests__/fixtures/user.json';
 import { getErrorMessage } from 'shared/services/api/api';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 
-import useFetch, { Error } from '../useFetch';
+import type { FetchError } from '../useFetch';
+import useFetch from '../useFetch';
 
 jest.mock('shared/services/auth/auth');
 
@@ -141,7 +142,7 @@ describe('hooks/useFetch', () => {
       await waitForNextUpdate();
 
       expect(result.current.error).toEqual(error);
-      expect((result.current.error as Error).message).toEqual(message);
+      expect((result.current.error as FetchError).message).toEqual(message);
       expect(result.current.isLoading).toEqual(false);
     });
 
@@ -179,7 +180,7 @@ describe('hooks/useFetch', () => {
       await waitForNextUpdate();
 
       expect(result.current.error).toEqual(expect.objectContaining(response));
-      expect((result.current.error as Error).message).toEqual(message);
+      expect((result.current.error as FetchError).message).toEqual(message);
       expect(result.current.isLoading).toEqual(false);
     });
 
@@ -259,7 +260,7 @@ describe('hooks/useFetch', () => {
       await waitForNextUpdate();
 
       expect(result.current.error).toEqual(expect.objectContaining(response));
-      expect((result.current.error as Error).message).toEqual(message);
+      expect((result.current.error as FetchError).message).toEqual(message);
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
     });
@@ -340,7 +341,7 @@ describe('hooks/useFetch', () => {
       await waitForNextUpdate();
 
       expect(result.current.error).toEqual(expect.objectContaining(response));
-      expect((result.current.error as Error).message).toEqual(message);
+      expect((result.current.error as FetchError).message).toEqual(message);
       expect(result.current.isSuccess).toEqual(false);
       expect(result.current.isLoading).toEqual(false);
     });

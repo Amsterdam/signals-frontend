@@ -3,6 +3,7 @@ import Image from './Image';
 import Map from './Map';
 import MapSelectPreview from './MapSelect';
 import ListObjectValue from './ListObjectValue';
+import ContainerListPreview from './ContainerListPreview';
 
 export default {
   DateTime,
@@ -10,4 +11,5 @@ export default {
   Image,
   Map,
   MapSelectPreview,
+  ContainerListPreview,
 };

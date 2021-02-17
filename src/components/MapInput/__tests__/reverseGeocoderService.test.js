@@ -2,8 +2,8 @@ import reverseGeocoderService, { formatRequest, serviceURL } from '../services/r
 
 describe('formatRequest', () => {
   const testLocation = {
-    latitude: 42,
-    longitude: 4,
+    lat: 42,
+    lng: 4,
   };
   const result = 'https://base-url&X=39180.476027290264&Y=-667797.6751788945&distance=';
 
