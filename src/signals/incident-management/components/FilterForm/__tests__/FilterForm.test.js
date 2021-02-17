@@ -358,13 +358,19 @@ describe('signals/incident-management/components/FilterForm', () => {
       const aeg = screen.getByLabelText(aegName);
 
       userEvent.click(asc);
-      expect(asc).toBeChecked();
+      await waitFor(() => {
+        expect(asc).toBeChecked();
+      });
       userEvent.click(aeg);
-      expect(aeg).toBeChecked();
+      await waitFor(() => {
+        expect(aeg).toBeChecked();
+      });
 
       userEvent.click(clearButton);
-      // expect(asc).not.toBeChecked();
-      // expect(aeg).not.toBeChecked();
+      await waitFor(() => {
+        expect(asc).not.toBeChecked();
+      });
+      expect(aeg).not.toBeChecked();
       expect(not).not.toBeChecked();
 
       userEvent.click(not);
