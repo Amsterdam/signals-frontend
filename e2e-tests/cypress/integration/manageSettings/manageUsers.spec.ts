@@ -1,5 +1,7 @@
 import { USERS } from '../../support/selectorsSettings';
 import { generateToken } from '../../support/jwt';
+import * as routes from '../../support/commandsRouting';
+import * as general from '../../support/commandsGeneral';
 
 describe('Manage users', () => {
   beforeEach(() => {
@@ -7,12 +9,12 @@ describe('Manage users', () => {
   });
 
   it('Should open the manage users screen', () => {
-    cy.getManageSignalsRoutes();
-    cy.getUserRoute();
+    routes.getManageSignalsRoutes();
+    routes.getUserRoute();
     cy.visit('/manage/incidents/');
-    cy.waitForManageSignalsRoutes();
+    routes.waitForManageSignalsRoutes();
 
-    cy.openMenu();
+    general.openMenu();
     cy.contains('Instellingen').click();
     cy.contains('Gebruikers').click();
     cy.wait('@getUser');
@@ -34,8 +36,8 @@ describe('Manage users', () => {
   });
   it('Should change a user and show history', () => {
     const randomNumber = Math.random();
-    cy.getUserRoute();
-    cy.patchUserRoute();
+    routes.getUserRoute();
+    routes.patchUserRoute();
     cy.get(USERS.userRow)
       .eq(0)
       .click();
@@ -54,8 +56,8 @@ describe('Manage users', () => {
     cy.get(USERS.buttonAnnuleren).click();
   });
   it('Should add a department to a user', () => {
-    cy.getUserRoute();
-    cy.patchUserRoute();
+    routes.getUserRoute();
+    routes.patchUserRoute();
     cy.get(USERS.userRow)
       .eq(0)
       .click();
@@ -82,13 +84,13 @@ describe('Manage users', () => {
   });
 
   it('Should add multiple departments to a user', () => {
-    cy.getManageSignalsRoutes();
-    cy.getUserRoute();
-    cy.patchUserRoute();
+    routes.getManageSignalsRoutes();
+    routes.getUserRoute();
+    routes.patchUserRoute();
     cy.visit('/manage/incidents/');
-    cy.waitForManageSignalsRoutes();
+    routes.waitForManageSignalsRoutes();
 
-    cy.openMenu();
+    general.openMenu();
     cy.contains('Instellingen').click();
     cy.contains('Gebruikers').click();
     cy.get('[aria-label="Menu"]').click();

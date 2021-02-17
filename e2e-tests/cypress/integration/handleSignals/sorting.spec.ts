@@ -1,13 +1,14 @@
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
+import * as routes from '../../support/commandsRouting';
 
 describe('Sorting', () => {
   beforeEach(() => {
-    cy.getManageSignalsRoutes();
+    routes.getManageSignalsRoutes();
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     cy.visit('/manage/incidents/');
-    cy.waitForManageSignalsRoutes();
+    routes.waitForManageSignalsRoutes();
   });
   it('Should set-up testdata', () => {
     requests.createSignalOverviewMap();
@@ -16,7 +17,7 @@ describe('Sorting', () => {
     requests.createPrivateSignalForFilters();
   });
   it('Should sort on column Id', () => {
-    cy.getSortedByIdRoutes();
+    routes.getSortedByIdRoutes();
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedASC');
@@ -29,7 +30,7 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.firstSignalId).should('not.have.text', '1');
   });
   it('Should sort on column Subcategorie', () => {
-    cy.getSortedBySubcategoryRoutes();
+    routes.getSortedBySubcategoryRoutes();
 
     cy.get('th').contains('Subcategorie').click();
     cy.wait('@getSortedASC');
@@ -42,7 +43,7 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', 'Woningkwaliteit');
   });
   it('Should sort on column Urgentie', () => {
-    cy.getSortedByUrgencyRoutes();
+    routes.getSortedByUrgencyRoutes();
 
     cy.get('th').contains('Urgentie').click();
     cy.wait('@getSortedASC');
@@ -55,7 +56,7 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Normaal');
   });
   it('Should sort on column Adres', () => {
-    cy.getSortedByAddressRoutes();
+    routes.getSortedByAddressRoutes();
 
     cy.get('th').contains('Adres').click();
     cy.wait('@getSortedASC');
@@ -69,7 +70,7 @@ describe('Sorting', () => {
   });
   it.skip('Should sort on column Status', () => {
     // This test is skipped because there is a bug in the sorting mechanism. The bug will not be fixed soon.
-    cy.getSortedByStatusRoutes();
+    routes.getSortedByStatusRoutes();
 
     cy.get('th').contains('Status').click();
     cy.wait('@getSortedASC');
@@ -82,7 +83,7 @@ describe('Sorting', () => {
   });
   it.skip('Should sort on column Dag', () => {
     // This test is skipped because there is only testdata for day 0. Sorting has no impact.
-    cy.getSortedByTimeRoutes();
+    routes.getSortedByTimeRoutes();
 
     cy.get('th').contains('Dag').click();
     // getSignals is the same as the ASC request for day
@@ -97,7 +98,7 @@ describe('Sorting', () => {
   });
   it.skip('Should sort on column Datum en tijd', () => {
     // This test is skipped because it is not possible to know which signal is created first or last with parallel runs
-    cy.getSortedByTimeRoutes();
+    routes.getSortedByTimeRoutes();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const todaysDate = Cypress.moment().format('DD-MM-YYYY');
 
@@ -114,7 +115,7 @@ describe('Sorting', () => {
   });
   it.skip('Should sort on column Stadsdeel', () => {
     // This test is skipped because there is a bug in the sorting mechanism. The bug will not be fixed soon.
-    cy.getSortedByCityAreaRoutes();
+    routes.getSortedByCityAreaRoutes();
 
     cy.get('th').contains('Stadsdeel').click();
     cy.wait('@getSortedASC');

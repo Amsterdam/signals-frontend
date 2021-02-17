@@ -2,6 +2,9 @@ import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/wespen.json';
 import questions from '../../fixtures/questions/questions.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
+import * as general from '../../support/commandsGeneral';
 
 describe('Create signal "Wespen" when logged in and check signal details', () => {
   describe('Create signal wespen', () => {
@@ -9,19 +12,19 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
     it('Should initiate create signal from manage', () => {
-      cy.stubMap();
-      cy.getManageSignalsRoutes();
+      routes.stubMap();
+      routes.getManageSignalsRoutes();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
-      cy.openMenu();
+      routes.waitForManageSignalsRoutes();
+      general.openMenu();
       cy.contains('Melden').click();
-      cy.checkHeaderText('Beschrijf uw melding');
+      general.checkHeaderText('Beschrijf uw melding');
     });
     it('Should create the signal', () => {
-      cy.stubPreviewMap();
-      cy.postSignalRoutePrivate();
+      routes.stubPreviewMap();
+      routes.postSignalRoutePrivate();
 
-      cy.setDescriptionPage(signal);
+      createSignal.setDescriptionPage(signal);
 
       // Check Urgency texts
       cy.contains('Wat is de urgentie?').should('be.visible');
@@ -32,7 +35,7 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       cy.contains('Normaal').should('be.visible').click();
 
       cy.contains('Volgende').click();
-      cy.checkSpecificInformationPage(signal);
+      createSignal.checkSpecificInformationPage(signal);
 
       Object.values(questions.overlastVanDieren.extra_dieren_text.answers).forEach((elementValue: string) => {
         cy.contains(elementValue).should('be.visible');
@@ -41,36 +44,36 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       cy.contains('overlast van dieren').should('have.attr', 'href').and('include', 'veelgevraagd');
 
       cy.contains('Volgende').click();
-      cy.setPhonenumber(signal);
+      createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      cy.setEmailAddress(signal);
+      createSignal.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal);
+      createSignal.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPrivate');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      cy.checkThanksPage();
-      cy.saveSignalId();
+      createSignal.checkThanksPage();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutesById();
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should show the signal details', () => {
-      cy.stubPreviewMap();
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      routes.stubPreviewMap();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal);
     });
   });
 });

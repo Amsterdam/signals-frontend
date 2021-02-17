@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
@@ -21,8 +22,10 @@ import * as categoriesSelectors from 'models/categories/selectors';
 
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
+import { rest, server, mockGet, fetchMock } from '../../../../../../../internals/testing/msw-server';
 import MetaList from '.';
 
+fetchMock.disableMocks();
 jest.mock('shared/services/configuration/configuration');
 jest.mock('shared/services/string-parser');
 
@@ -56,15 +59,11 @@ const plainIncident = { ...incidentFixture, _links: { ...plainLinks } };
 const parentIncident = { ...incidentFixture };
 const childIncident = { ...plainIncident, _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } } };
 
-const renderWithContext = (incident = parentIncident, users = usersFixture.results) =>
+const renderWithContext = (incident = parentIncident) =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ users }}>
-      <IncidentDetailContext.Provider
-        value={{ incident, update, edit }}
-      >
-        <MetaList />
-      </IncidentDetailContext.Provider>
-    </IncidentManagementContext.Provider>
+    <IncidentDetailContext.Provider value={{ incident, update, edit }}>
+      <MetaList />
+    </IncidentDetailContext.Provider>
   );
 
 describe('MetaList', () => {
@@ -77,9 +76,7 @@ describe('MetaList', () => {
     jest
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
       .mockImplementation(() => subcategoriesGroupedByCategories);
-    jest
-      .spyOn(categoriesSelectors, 'makeSelectHandlingTimesBySlug')
-      .mockImplementation(() => handlingTimesBySlug);
+    jest.spyOn(categoriesSelectors, 'makeSelectHandlingTimesBySlug').mockImplementation(() => handlingTimesBySlug);
   });
 
   afterEach(() => {
@@ -247,37 +244,39 @@ describe('MetaList', () => {
   });
 
   describe('assign user', () => {
-    it('should not show assigned user by default', () => {
-      const { queryByTestId } = render(renderWithContext());
+    it('should not show assigned user by default', async () => {
+      render(renderWithContext());
+      await screen.findByTestId('meta-list-date-definition');
 
-      expect(queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
-      expect(queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
     });
 
-    it('should show assigned user with assignSignalToEmployee enabled', () => {
+    it('should show assigned user with assignSignalToEmployee enabled', async () => {
       configuration.featureFlags.assignSignalToEmployee = true;
+      render(renderWithContext());
+      await screen.findByTestId('meta-list-date-definition');
 
-      const { queryByText, queryByTestId } = render(renderWithContext());
-
-      expect(queryByTestId('meta-list-assigned_user_email-definition')).toBeInTheDocument();
-      expect(queryByTestId('meta-list-assigned_user_email-value')).toBeInTheDocument();
-      expect(queryByText('Niet toegewezen')).toBeInTheDocument();
+      expect(screen.getByTestId('meta-list-assigned_user_email-definition')).toBeInTheDocument();
+      expect(screen.getByTestId('meta-list-assigned_user_email-value')).toBeInTheDocument();
+      expect(screen.getByText('Niet toegewezen')).toBeInTheDocument();
     });
 
-    it('should not show assigned user when users not defined', () => {
+    it('should not show assigned user when users not defined', async () => {
       configuration.featureFlags.assignSignalToEmployee = true;
+      mockGet(404, { message: 'No users defined' });
+      render(renderWithContext(incidentFixture));
+      await screen.findByTestId('meta-list-date-definition');
 
-      const { queryByTestId } = render(renderWithContext(incidentFixture, null));
-
-      expect(queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
-      expect(queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
     });
 
     describe('username', () => {
-      it('should be visible', () => {
+      it('should be visible', async () => {
         configuration.featureFlags.assignSignalToEmployee = true;
 
-        const { queryByText } = render(
+        render(
           renderWithContext({
             ...incidentFixture,
             assigned_user_email: userAscAegName,
@@ -288,19 +287,21 @@ describe('MetaList', () => {
           })
         );
 
-        expect(queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        await screen.findByTestId('meta-list-date-definition');
+
+        expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument();
+        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
+        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
+        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
 
-      it('should be visible even if in another department', () => {
+      it('should be visible even if in another department', async () => {
         configuration.featureFlags.assignSignalToEmployee = true;
 
-        const { queryByText } = render(
+        render(
           renderWithContext({
             ...incidentFixture,
             assigned_user_email: userAscAegName,
@@ -311,19 +312,21 @@ describe('MetaList', () => {
           })
         );
 
-        expect(queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        await screen.findByTestId('meta-list-date-definition');
+
+        expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument();
+        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
+        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
+        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
 
-      it('should be visible even if not in a department', () => {
+      it('should be visible even if not in a department', async () => {
         configuration.featureFlags.assignSignalToEmployee = true;
 
-        const { queryByText } = render(
+        render(
           renderWithContext({
             ...incidentFixture,
             assigned_user_email: userEmptyName,
@@ -334,42 +337,21 @@ describe('MetaList', () => {
           })
         );
 
-        expect(queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(queryByText(userEmptyName)).toBeInTheDocument();
-        expect(queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        await screen.findByTestId('meta-list-date-definition');
+
+        expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument();
+        expect(screen.getByText(userEmptyName)).toBeInTheDocument();
+        expect(screen.queryByText(userAscAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
 
-      it('should be visible even if it has no departments defined', () => {
+      it('should be visible even if the category has no departments defined', async () => {
         configuration.featureFlags.assignSignalToEmployee = true;
 
-        const { queryByText } = render(
-          renderWithContext({
-            ...incidentFixture,
-            assigned_user_email: userUndefinedName,
-            category: {
-              ...incidentFixture.category,
-              departments: departmentThoCode,
-            },
-          })
-        );
-
-        expect(queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).toBeInTheDocument();
-      });
-
-      it('should be visible even if the category has no departments defined', () => {
-        configuration.featureFlags.assignSignalToEmployee = true;
-
-        const { queryByText } = render(
+        render(
           renderWithContext({
             ...incidentFixture,
             assigned_user_email: userAscAegName,
@@ -379,13 +361,15 @@ describe('MetaList', () => {
           })
         );
 
-        expect(queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        await screen.findByTestId('meta-list-date-definition');
+
+        expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument();
+        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
+        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
+        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
     });
 
@@ -394,8 +378,8 @@ describe('MetaList', () => {
         configuration.featureFlags.assignSignalToEmployee = true;
       });
 
-      it('should be based on departments related to category', () => {
-        const { container, getByTestId, queryByText } = render(
+      it('should be based on departments related to category', async () => {
+        const { container, getByTestId } = render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -404,21 +388,23 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_emailButton');
 
-        fireEvent.click(editButton);
+        await screen.findByTestId('meta-list-date-definition');
+
+        const editButton = screen.getByTestId('editAssigned_user_emailButton');
+        userEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(4);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).toBeInTheDocument();
-        expect(queryByText(userAscName)).toBeInTheDocument();
-        expect(queryByText(userAegName)).toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
+        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
+        expect(screen.getByText(userAscName)).toBeInTheDocument();
+        expect(screen.getByText(userAegName)).toBeInTheDocument();
+        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
 
-      it('should work with only one department related to category', () => {
-        const { container, getByTestId, queryByText } = render(
+      it('should work with only one department related to category', async () => {
+        const { container } = render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -427,44 +413,23 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_emailButton');
 
-        fireEvent.click(editButton);
+        await screen.findByTestId('meta-list-date-definition');
 
-        expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(3);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).toBeInTheDocument();
-        expect(queryByText(userAscName)).toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
-      });
-
-      it('should work with users related to more than one department', () => {
-        const { container, getByTestId, queryByText } = render(
-          renderWithContext({
-            ...incidentFixture,
-            category: {
-              ...incidentFixture.category,
-              departments: departmentAscCode,
-            },
-          })
-        );
-        const editButton = getByTestId('editAssigned_user_emailButton');
-
-        fireEvent.click(editButton);
+        const editButton = screen.getByTestId('editAssigned_user_emailButton');
+        userEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(3);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).toBeInTheDocument();
-        expect(queryByText(userAscName)).toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
+        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
+        expect(screen.getByText(userAscName)).toBeInTheDocument();
+        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
 
-      it('should work without any departments related to category', () => {
-        const { container, getByTestId, queryByText } = render(
+      it('should not work without any departments related to category', async () => {
+        const { container } = render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -473,22 +438,16 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_emailButton');
 
-        fireEvent.click(editButton);
+        await screen.findByTestId('meta-list-date-definition');
 
-        expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(1);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
       });
 
-      it('should work without any departments defined', () => {
+      it('should not work without any departments defined', async () => {
         jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ count: 0, list: [] }));
-        const { container, getByTestId, queryByText } = render(
+        const { container } = render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -497,22 +456,16 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_emailButton');
 
-        fireEvent.click(editButton);
+        await screen.findByTestId('meta-list-date-definition');
 
-        expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(1);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
       });
 
-      it('should work without a departments result set', () => {
+      it('should not work without a departments result set', async () => {
         jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => null);
-        const { container, getByTestId, queryByText } = render(
+        const { container } = render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -521,21 +474,15 @@ describe('MetaList', () => {
             },
           })
         );
-        const editButton = getByTestId('editAssigned_user_emailButton');
 
-        fireEvent.click(editButton);
+        await screen.findByTestId('meta-list-date-definition');
 
-        expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(1);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByTestId('meta-list-assigned_user_email-definition')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('meta-list-assigned_user_email-value')).not.toBeInTheDocument();
       });
 
-      it('should use departments related to by routing, if present, instead', () => {
-        const { container, getByTestId, queryByText } = render(
+      it('should use departments related to by routing, if present, instead', async () => {
+        const { container } = render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -550,21 +497,23 @@ describe('MetaList', () => {
             ],
           })
         );
-        const editButton = getByTestId('editAssigned_user_emailButton');
 
-        fireEvent.click(editButton);
+        await screen.findByTestId('meta-list-date-definition');
+
+        const editButton = screen.getByTestId('editAssigned_user_emailButton');
+        userEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(queryByText(userAscName)).not.toBeInTheDocument();
-        expect(queryByText(userAegName)).not.toBeInTheDocument();
-        expect(queryByText(userThoName)).toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userAscAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
+        expect(screen.getByText(userThoName)).toBeInTheDocument();
+        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
 
-      it('should fallback to departments related to category when no routing departments present', () => {
-        const { container, getByTestId, queryByText } = render(
+      it('should fallback to departments related to category when no routing departments present', async () => {
+        const { container } = render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -574,17 +523,19 @@ describe('MetaList', () => {
             routing_departments: [],
           })
         );
-        const editButton = getByTestId('editAssigned_user_emailButton');
 
-        fireEvent.click(editButton);
+        await screen.findByTestId('meta-list-date-definition');
+
+        const editButton = screen.getByTestId('editAssigned_user_emailButton');
+        userEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(4);
-        expect(queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(queryByText(userAscAegName)).toBeInTheDocument();
-        expect(queryByText(userAscName)).toBeInTheDocument();
-        expect(queryByText(userAegName)).toBeInTheDocument();
-        expect(queryByText(userThoName)).not.toBeInTheDocument();
-        expect(queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
+        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
+        expect(screen.getByText(userAscName)).toBeInTheDocument();
+        expect(screen.getByText(userAegName)).toBeInTheDocument();
+        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
+        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
       });
     });
   });

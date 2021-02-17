@@ -2,24 +2,27 @@ import * as requests from '../../support/commandsRequests';
 import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { MANAGE_SIGNALS, FILTER } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
+import * as general from '../../support/commandsGeneral';
 
-const sizes = ['iphone-6', 'macbook-15'];
+const sizes = ['iphone-6', 'macbook-15'] as Cypress.ViewportPreset[];
 
 sizes.forEach(size => {
   describe(`Adding notes to signal, resolution is: ${size}`, () => {
     beforeEach(() => {
-      cy.setResolution(size);
+      general.setResolution(size);
     });
 
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       requests.createSignalOverviewMap();
-      cy.getManageSignalsRoutes();
-      cy.getHistoryRoute();
-      cy.stubPreviewMap();
-      cy.getTermsRoute();
+      routes.getManageSignalsRoutes();
+      routes.getHistoryRoute();
+      routes.stubPreviewMap();
+      routes.getTermsRoute();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should show the signal details', () => {
@@ -60,12 +63,12 @@ sizes.forEach(size => {
     });
 
     it('Should add a note', () => {
-      cy.defineNoteRoutes();
+      routes.defineNoteRoutes();
       const note1 = 'Ik hou van noteren, \nlekker noteletities maken. \nNou dat bevalt me wel.';
       const note2 = 'Ik voeg gewoon nog een noteletitie toe, omdat het zo leuk is!';
 
-      cy.addNote(note1);
-      cy.waitForNoteRoutes();
+      createSignal.addNote(note1);
+      routes.waitForNoteRoutes();
 
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 7);
       cy.get(SIGNAL_DETAILS.historyAction)
@@ -77,8 +80,8 @@ sizes.forEach(size => {
         .should('contain', note1)
         .and('be.visible');
 
-      cy.addNote(note2);
-      cy.waitForNoteRoutes();
+      createSignal.addNote(note2);
+      routes.waitForNoteRoutes();
       cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 8);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
@@ -91,13 +94,13 @@ sizes.forEach(size => {
     });
     it('Should filter notes', () => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.getHistoryRoute();
-      cy.stubPreviewMap();
-      cy.getTermsRoute();
-      cy.getFilterByNoteRoute();
+      routes.getManageSignalsRoutes();
+      routes.getHistoryRoute();
+      routes.stubPreviewMap();
+      routes.getTermsRoute();
+      routes.getFilterByNoteRoute();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilteren)
         .should('be.visible')

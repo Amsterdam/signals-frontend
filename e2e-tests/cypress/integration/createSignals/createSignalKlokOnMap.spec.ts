@@ -3,24 +3,26 @@ import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/klokOnMap.json';
+import * as routes from '../../support/commandsRouting';
+import * as createSignal from '../../support/commandsCreateSignal';
 
 describe('Create signal "Klok" which is on the map and check signal details', () => {
   describe('Create signal klok on the map', () => {
     before(() => {
-      cy.postSignalRoutePublic();
-      cy.stubPreviewMap();
-      cy.stubMap();
+      routes.postSignalRoutePublic();
+      routes.stubPreviewMap();
+      routes.stubMap();
       cy.visit('incident/beschrijf');
     });
 
     it('Should create the signal', () => {
-      cy.setDescriptionPage(signal);
+      createSignal.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
-      cy.checkSpecificInformationPage(signal);
+      createSignal.checkSpecificInformationPage(signal);
 
       const warning = questions.wegenVerkeerStraatmeubilair.extra_klok_gevaar.answers;
-      cy.checkSpecificInformationPage(signal);
+      createSignal.checkSpecificInformationPage(signal);
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
@@ -64,36 +66,36 @@ describe('Create signal "Klok" which is on the map and check signal details', ()
 
       cy.contains('Volgende').click();
 
-      cy.setPhonenumber(signal);
+      createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();
 
-      cy.setEmailAddress(signal);
+      createSignal.setEmailAddress(signal);
       cy.contains('Volgende').click();
 
-      cy.checkSummaryPage(signal);
+      createSignal.checkSummaryPage(signal);
       cy.contains('Verstuur').click();
       cy.wait('@postSignalPublic');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
-      cy.checkThanksPage();
-      cy.saveSignalId();
+      createSignal.checkThanksPage();
+      createSignal.saveSignalId();
     });
   });
   describe('Check data created signal', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      cy.getManageSignalsRoutes();
-      cy.getSignalDetailsRoutesById();
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
-      cy.waitForManageSignalsRoutes();
+      routes.waitForManageSignalsRoutes();
     });
 
     it('Should show the signal details', () => {
-      cy.stubPreviewMap();
-      cy.openCreatedSignal();
-      cy.waitForSignalDetailsRoutes();
+      routes.stubPreviewMap();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
 
-      cy.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal);
     });
   });
 });
