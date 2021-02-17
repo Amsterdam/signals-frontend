@@ -1,5 +1,5 @@
 import React from 'react';
-import { render as reactRender, fireEvent, screen } from '@testing-library/react';
+import { render as reactRender, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
@@ -187,30 +187,31 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
   });
 
   it('should POST the form data', async () => {
-    const { container, findByTestId } = await renderAwait(
-      <IncidentSplitContainer FormComponent={formComponentMock.render} />
+    fetch.resetMocks();
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }], // post
+      [JSON.stringify({}), { status: 200 }] // patch
     );
+    // fetch.mockResponseOnce(JSON.stringify(incidentFixture), { status: 200 });
+
+    reactRender(withAppContext(<IncidentSplitContainer FormComponent={Form()} />));
 
     expect(fetch).toHaveBeenCalledTimes(1);
 
-    // mocking global error handler, because jsdom will complain about unimplemented submit listener
-    global.console.error = jest.fn();
+    const submitButton = await screen.findByRole('button', { name: 'Submit' });
+    userEvent.click(submitButton);
 
-    fireEvent.click(container.querySelector('input[type="submit"]'));
+    await screen.findByTestId('incidentSplitForm');
 
-    global.console.error.mockRestore();
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledTimes(3);
+    });
 
-    await findByTestId('incidentSplitForm');
-
-    expect(fetch).toHaveBeenCalledTimes(2);
-
-    expect(fetch).toHaveBeenLastCalledWith(
+    expect(fetch).toHaveBeenCalledWith(
       configuration.INCIDENT_PRIVATE_ENDPOINT,
       expect.objectContaining({ method: 'POST' })
     );
-
-    const lastCall = fetch.mock.calls.pop();
-    const lastCallBody = JSON.parse(lastCall.pop().body);
 
     const { stadsdeel, buurt_code, address, geometrie } = incidentFixture.location;
 
@@ -235,7 +236,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       })
     );
 
-    lastCallBody.forEach((partialIncidentData, index) => {
+    JSON.parse(fetch.mock.calls[1][1].body).forEach((partialIncidentData, index) => {
       expect(partialIncidentData).toEqual(
         expect.objectContaining(expectedTransformedBecauseOfReasonsUnknownToManValues[index])
       );
@@ -258,18 +259,22 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     // trigger extra render where PATCH effect is triggered
     await screen.findByTestId('incidentSplitContainer');
 
-    expect(fetch).toHaveBeenLastCalledWith(
-      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
-      expect.objectContaining({
-        method: 'PATCH',
-        body: JSON.stringify({
-          directing_departments: [
-            { id: departmentsFixture.results.find(department => department.code === submittedFormData.department).id },
-          ],
-          notes: [{ text: submittedFormData.noteText }],
-        }),
-      })
-    );
+    await waitFor(() => {
+      expect(fetch).toHaveBeenLastCalledWith(
+        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
+        expect.objectContaining({
+          method: 'PATCH',
+          body: JSON.stringify({
+            directing_departments: [
+              {
+                id: departmentsFixture.results.find(department => department.code === submittedFormData.department).id,
+              },
+            ],
+            notes: [{ text: submittedFormData.noteText }],
+          }),
+        })
+      );
+    });
   });
 
   it('should not PATCH the parent incident data when this data has not been updated', async () => {
@@ -313,24 +318,30 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    fireEvent.click(container.querySelector('input[type="submit"]'));
+    const submitButton = await screen.findByRole('button', { name: 'Submit' });
+    userEvent.click(submitButton);
 
     await findByTestId('incidentSplitContainer');
 
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification({
-        title: 'Deelmelding gemaakt',
-        variant: VARIANT_SUCCESS,
-        type: TYPE_LOCAL,
-      })
-    );
+    await waitFor(() => {
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification({
+          title: 'Deelmelding gemaakt',
+          variant: VARIANT_SUCCESS,
+          type: TYPE_LOCAL,
+        })
+      );
+    });
 
     expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
   });
 
   it('should display a global notification on POST fail', async () => {
     fetch.resetMocks();
-    fetch.once(JSON.stringify(incidentFixture)).mockReject(new Error('Whoops!!1!'));
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      ['', { status: 400, ok: false, statusText: 'Bad Request' }] // post
+    );
 
     const { container, findByTestId } = await renderAwait(
       <IncidentSplitContainer FormComponent={formComponentMock.render} />
@@ -339,29 +350,31 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    fireEvent.click(container.querySelector('input[type="submit"]'));
+    const submitButton = await screen.findByRole('button', { name: 'Submit' });
+    userEvent.click(submitButton);
 
     await findByTestId('incidentSplitForm');
 
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification({
-        title: 'De deelmelding kon niet gemaakt worden',
-        variant: VARIANT_ERROR,
-        type: TYPE_LOCAL,
-      })
-    );
+    await waitFor(() => {
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification({
+          title: 'De deelmelding kon niet gemaakt worden',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      );
+    });
 
     expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
   });
 
   it('should display a global notification on PATCH fail', async () => {
     fetch.resetMocks();
-    fetch
-      .mockResponses(
-        [JSON.stringify(incidentFixture), { status: 200 }], // get
-        [JSON.stringify({}), { status: 201 }] // post
-      )
-      .mockReject(new Error('Whoops!!1!'));
+    fetch.mockResponses(
+      [JSON.stringify(incidentFixture), { status: 200 }], // get
+      [JSON.stringify({}), { status: 201 }], // post
+      ['', { status: 400, ok: false, statusText: 'Bad Request' }] // patch
+    );
 
     const { container, findByTestId } = await renderAwait(
       <IncidentSplitContainer FormComponent={formComponentMock.render} />
@@ -370,17 +383,20 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     expect(dispatch).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
 
-    fireEvent.click(container.querySelector('input[type="submit"]'));
+    const submitButton = await screen.findByRole('button', { name: 'Submit' });
+    userEvent.click(submitButton);
 
     await findByTestId('incidentSplitForm');
 
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification({
-        title: 'Deelmelding gemaakt',
-        variant: VARIANT_SUCCESS,
-        type: TYPE_LOCAL,
-      })
-    );
+    await waitFor(() => {
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification({
+          title: 'Deelmelding gemaakt',
+          variant: VARIANT_SUCCESS,
+          type: TYPE_LOCAL,
+        })
+      );
+    });
 
     expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`);
   });
