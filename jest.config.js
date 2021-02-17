@@ -20,7 +20,7 @@ module.exports = {
       statements: 99.37,
       branches: 95.99,
       functions: 98.62,
-      lines: 99.41,
+      lines: 99.4,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
