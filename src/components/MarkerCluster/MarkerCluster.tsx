@@ -1,4 +1,4 @@
-import type { Dispatch, FC, SetStateAction } from 'react';
+import type { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import React from 'react';
 import { createLeafletComponent } from '@amsterdam/react-maps';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
@@ -13,7 +13,7 @@ interface MarkerClusterProps {
   setInstance: Dispatch<SetStateAction<unknown>>;
 }
 
-const MarkerCluster: FC<MarkerClusterProps> = ({ clusterOptions, setInstance }) =>
+const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({ clusterOptions, setInstance }) =>
   <MarkerClusterGroup setInstance={setInstance} options={clusterOptions} /> || null;
 
 export default MarkerCluster;

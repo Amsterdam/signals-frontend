@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FunctionComponent } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Link as AscLink, themeColor, themeSpacing } from '@amsterdam/asc-ui';
@@ -77,7 +77,7 @@ interface DetailPanelProps {
   onClose: () => void;
 }
 
-const DetailPanel: FC<DetailPanelProps> = ({ incident, onClose }) => (
+const DetailPanel: FunctionComponent<DetailPanelProps> = ({ incident, onClose }) => (
   <Panel data-testid="mapDetailPanel">
     <PanelHeader>
       {isAuthenticated() ? (
