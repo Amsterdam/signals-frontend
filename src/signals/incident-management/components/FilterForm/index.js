@@ -68,7 +68,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const isNewFilter = !filter.name;
 
   const [assignedSelectValue, setAssignedSelectValue] = useState('');
-  const [routedFilterValue, setRoutedFilterValue] = useState('');
+  const [routedFilterValue, setRoutedFilterValue] = useState([]);
 
   const dataListValues = useMemo(
     () => ({

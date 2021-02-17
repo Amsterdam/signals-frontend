@@ -301,6 +301,27 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
     });
 
+    it('should allow deselection of not routed', async () => {
+      configuration.featureFlags.assignSignalToDepartment = true;
+      const onSubmit = jest.fn();
+      const filter = { options: { routing_department: [departmentOptions[0]] } };
+      const expected = expect.not.objectContaining({ options: { routing_department: [departmentOptions[0].key] } });
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} filter={filter} />));
+      const checkbox = screen.getByLabelText(notName);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+
+      await waitFor(() => {
+        expect(checkbox).toBeChecked();
+      });
+      userEvent.click(checkbox);
+      await waitFor(() => {
+        expect(checkbox).not.toBeChecked();
+      });
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expected);
+    });
+
     it('should clear other options when not routed checkbox checked', async () => {
       configuration.featureFlags.assignSignalToDepartment = true;
 
