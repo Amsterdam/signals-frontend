@@ -193,7 +193,6 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       [JSON.stringify({}), { status: 201 }], // post
       [JSON.stringify({}), { status: 200 }] // patch
     );
-    // fetch.mockResponseOnce(JSON.stringify(incidentFixture), { status: 200 });
 
     reactRender(withAppContext(<IncidentSplitContainer FormComponent={Form()} />));
 
