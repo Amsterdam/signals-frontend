@@ -1,0 +1,71 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 43.675602,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "810",
+        "weergavenaam": "KNSM-laan 810, 1019LT Amsterdam",
+        "id": "adr-ca6520024ac4b6fadffea1bebf73d2b6",
+        "postcode": "1019LT",
+        "centroide_ll": "POINT(4.94641537 52.37678099)",
+        "straatnaam": "KNSM-laan"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-ca6520024ac4b6fadffea1bebf73d2b6": {
+      "suggest": [
+        "<b>KNSM</b>-<b>laan</b> <b>810</b>, <b>1019LT</b> <b>Amsterdam</b>"
+      ]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "knsm",
+      {
+        "numFound": 5,
+        "startOffset": 0,
+        "endOffset": 4,
+        "suggestion": ["kosm", "kns", "kess", "kng0", "knij"]
+      },
+      "laan",
+      {
+        "numFound": 5,
+        "startOffset": 5,
+        "endOffset": 9,
+        "suggestion": ["laag", "laak", "laa", "lan", "lang"]
+      },
+      "1019lt",
+      {
+        "numFound": 5,
+        "startOffset": 15,
+        "endOffset": 21,
+        "suggestion": ["1018lt", "1019at", "10191", "10193", "10194"]
+      }
+    ],
+    "collations": [
+      "collation",
+      {
+        "collationQuery": "knsm-ln 810, 1019lt amsterdam",
+        "hits": 2,
+        "misspellingsAndCorrections": [
+          "knsm",
+          "knsm",
+          "ln",
+          "ln",
+          "laan",
+          "laak",
+          "810",
+          "810",
+          "1019lt",
+          "1019lt",
+          "amsterdam",
+          "amsterdam"
+        ]
+      }
+    ]
+  }
+}
