@@ -11,8 +11,8 @@ import {
   SET_ERROR,
   SET_HISTORY,
   SET_INCIDENT,
-} from './constants';
-import reducer, { initialState, closedState } from './reducer';
+} from '../constants';
+import reducer, { initialState, closedState } from '../reducer';
 
 describe('signals/incident-management/containers/IncidentDetail/reducer', () => {
   const state = {

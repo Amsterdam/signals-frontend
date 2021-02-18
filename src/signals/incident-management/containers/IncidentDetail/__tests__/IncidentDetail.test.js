@@ -1,9 +1,9 @@
 import React from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render, act, waitForElementToBeRemoved, screen, waitFor } from '@testing-library/react';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
-import IncidentDetail from '.';
+import IncidentDetail from '..';
 import * as categoriesSelectors from 'models/categories/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
@@ -449,6 +449,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     });
 
     it('should handle generic', async () => {
+      const response = { status: 400, ok: false, statusText: 'Bad Request' };
+      fetch.mockResponseOnce('', response);
       fetch.mockRejectOnce(new Error('Could not store for some reason'));
 
       expect(emit).not.toHaveBeenCalled();
@@ -460,21 +462,22 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
       await findByTestId('incidentDetail');
 
+      await waitFor(() => {
+        expect(dispatch).toHaveBeenCalledWith(
+          showGlobalNotification(
+            expect.objectContaining({
+              type: TYPE_LOCAL,
+              variant: VARIANT_ERROR,
+            })
+          )
+        );
+      });
       expect(emit).not.toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledWith(
-        showGlobalNotification(
-          expect.objectContaining({
-            type: TYPE_LOCAL,
-            variant: VARIANT_ERROR,
-          })
-        )
-      );
     });
 
     it('should handle 401', async () => {
-      const error = new Error('Could not store for some reason');
-      error.status = 401;
-      fetch.mockRejectOnce(error);
+      const response = { status: 401, ok: false, statusText: 'Unauthorized' };
+      fetch.mockResponseOnce('', response);
 
       expect(emit).not.toHaveBeenCalled();
       expect(dispatch).not.toHaveBeenCalled();
@@ -485,20 +488,21 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
       await findByTestId('incidentDetail');
 
+      await waitFor(() => {
+        expect(dispatch).toHaveBeenCalledWith(
+          showGlobalNotification(
+            expect.objectContaining({
+              title: 'Geen bevoegdheid',
+            })
+          )
+        );
+      });
       expect(emit).not.toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledWith(
-        showGlobalNotification(
-          expect.objectContaining({
-            title: 'Geen bevoegdheid',
-          })
-        )
-      );
     });
 
     it('should handle 403', async () => {
-      const error = new Error('Could not store for some reason');
-      error.status = 403;
-      fetch.mockRejectOnce(error);
+      const response = { status: 403, ok: false, statusText: 'Forbidden' };
+      fetch.mockResponseOnce('', response);
 
       expect(emit).not.toHaveBeenCalled();
       expect(dispatch).not.toHaveBeenCalled();
@@ -509,14 +513,16 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
       await findByTestId('incidentDetail');
 
+      await waitFor(() => {
+        expect(dispatch).toHaveBeenCalledWith(
+          showGlobalNotification(
+            expect.objectContaining({
+              title: 'Geen bevoegdheid',
+            })
+          )
+        );
+      });
       expect(emit).not.toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledWith(
-        showGlobalNotification(
-          expect.objectContaining({
-            title: 'Geen bevoegdheid',
-          })
-        )
-      );
     });
   });
 });
