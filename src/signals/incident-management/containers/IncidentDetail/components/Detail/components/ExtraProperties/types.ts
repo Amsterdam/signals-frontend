@@ -5,6 +5,11 @@ export interface CheckboxInput {
   value: boolean;
 }
 
+export interface MultiCheckboxInput {
+  id: string;
+  label: string;
+}
+
 export interface RadioInput {
   id: string;
   label: string;
@@ -18,7 +23,7 @@ export interface ContainerMapInput {
 
 export type MapInput = string;
 
-export type Answer = TextInput | CheckboxInput | RadioInput | (MapInput | ContainerMapInput)[];
+export type Answer = TextInput | CheckboxInput | RadioInput | (MapInput | ContainerMapInput | MultiCheckboxInput)[];
 
 export interface Item {
   id: string;

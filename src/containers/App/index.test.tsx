@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import * as reactRedux from 'react-redux';
 
 import { withAppContext, history } from 'test/utils';
@@ -170,6 +170,27 @@ describe('<App />', () => {
       });
 
       expect(history.location.pathname).toEqual('/manage/incidents');
+    });
+
+    it('should not route to public map page', async () => {
+      render(withAppContext(<App />));
+
+      act(() => {
+        history.push('/kaart');
+      });
+
+      expect(await screen.findByText(/niet gevonden/i, { exact: false })).toBeInTheDocument();
+    });
+
+    it('should route to public map page with enablePublicSignalMap enabled', async () => {
+      configuration.featureFlags.enablePublicSignalMap = true;
+      render(withAppContext(<App />));
+
+      act(() => {
+        history.push('/kaart');
+      });
+
+      expect(await screen.findByTestId('overviewMap')).toBeInTheDocument();
     });
   });
 

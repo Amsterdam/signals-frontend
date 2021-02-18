@@ -1,6 +1,7 @@
 import React, { Fragment, useCallback, useContext, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import { makeSelectHandlingTimesBySlug, makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
@@ -10,6 +11,7 @@ import { string2date, string2time } from 'shared/services/string-parser';
 import RadioInput from 'signals/incident-management/components/RadioInput';
 import SelectInput from 'signals/incident-management/components/SelectInput';
 import { typesList, priorityList } from 'signals/incident-management/definitions';
+import { INCIDENT_URL } from 'signals/incident-management/routes';
 
 import ChangeValue from '../ChangeValue';
 import Highlight from '../Highlight';
@@ -86,6 +88,7 @@ const MetaList = () => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
 
   const hasChildren = useMemo(() => incident._links['sia:children']?.length > 0, [incident]);
+  const parentId = incident._links?.['sia:parent']?.href?.split('/').pop();
 
   const getDirectingDepartmentCode = useCallback(
     value => {
@@ -286,6 +289,17 @@ const MetaList = () => {
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">{incident.category?.main}</dd>
       </Highlight>
+
+      {parentId && (
+        <Fragment>
+          <dt data-testid="meta-list-parent-definition">Hoofdmelding</dt>
+          <dd data-testid="meta-list-parent-value">
+            <Link data-testid="meta-list-parent-link" to={`${INCIDENT_URL}/${parentId}`}>
+              {parentId}
+            </Link>
+          </dd>
+        </Fragment>
+      )}
 
       <dt data-testid="meta-list-source-definition">Bron</dt>
       <dd data-testid="meta-list-source-value">{incident.source}</dd>

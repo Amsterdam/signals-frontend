@@ -276,7 +276,6 @@ describe('containers/App/selectors', () => {
         // permissions fromt both 'groups' and 'users'. To be able to access 'settings', a user
         // needs at least one permission in both 'groups' and 'users'.
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
         const userWithLimitedPermissions: User = cloneDeep(userJson);
 
         // remove all required permissions but one

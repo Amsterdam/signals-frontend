@@ -13,6 +13,7 @@ import { orderingChanged, pageChanged } from 'signals/incident-management/action
 import Filter from 'signals/incident-management/containers/Filter';
 import Modal from 'components/Modal';
 import LoadingIndicator from 'components/LoadingIndicator';
+import OverviewMap from 'components/OverviewMap';
 import * as types from 'shared/types';
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants';
 import MapContext from 'containers/MapContext';
@@ -28,7 +29,6 @@ import {
 import { MAP_URL } from '../../routes';
 
 import List from './components/List';
-import OverviewMap from './components/OverviewMap';
 import SubNav from './components/SubNav';
 import FilterTagList from '../FilterTagList/FilterTagList';
 import { MapWrapper, NoResults, StyledButton, StyledPagination } from './styled';

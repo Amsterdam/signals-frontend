@@ -1,4 +1,3 @@
-
 export interface Incident {
   priority: Priority;
   classification: Classification;
@@ -37,7 +36,7 @@ export interface Location extends Record<string, any> {
 
 export interface Address extends Record<string, any> {
   openbare_ruimte: string;
-  huisnummer: string| number;
+  huisnummer: string | number;
   postcode: string;
   woonplaats: string;
 }

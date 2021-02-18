@@ -41,7 +41,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const DEFAULT_TEXT_FIELDS = 15;
+const DEFAULT_TEXT_FIELDS = 20;
 
 const fields = [...new Array(DEFAULT_TEXT_FIELDS).keys()].reduce(
   (acc, key) => ({

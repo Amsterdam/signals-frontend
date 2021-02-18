@@ -4,10 +4,6 @@ import parse from 'date-fns/parse';
 import mapValues from '../map-values';
 import mapPaths from '../map-paths';
 
-export const defaultParams = {
-  reporter: {},
-};
-
 const mapControlsToParams = (incident, wizard) => {
   let datetime;
   if (incident.datetime && incident.datetime.id === 'Nu') {
@@ -24,7 +20,9 @@ const mapControlsToParams = (incident, wizard) => {
     datetime = parse(datetimeString, 'yyyy-MM-dd HH:mm', new Date());
   }
 
-  let params = defaultParams;
+  let params = {
+    reporter: {},
+  };
 
   if (datetime) {
     params.incident_date_start = formatISO(datetime);
