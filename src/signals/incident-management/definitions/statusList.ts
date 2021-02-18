@@ -1,5 +1,22 @@
+export enum StatusCode {
+  Gemeld = 'm',
+  Afwachting = 'i',
+  Behandeling = 'b',
+  Afgehandeld = 'o',
+  Ingepland = 'ingepland',
+  Geannuleerd = 'a',
+  Gesplitst = 's',
+  VerzoekTotHeropenen = 'reopen requested',
+  Heropend = 'reopened',
+  TeVerzenden = 'ready to send',
+  Verzonden = 'sent',
+  VerzendenMislukt = 'send failed',
+  VerzoekTotAfhandeling = 'closure requested',
+  AfgehandeldExtern = 'done external'
+}
+
 export const GEMELD = {
-  key: 'm',
+  key: StatusCode.Gemeld,
   value: 'Gemeld',
   color: 'red',
   email_sent_when_set: false,
@@ -7,7 +24,7 @@ export const GEMELD = {
 };
 
 export const AFWACHTING = {
-  key: 'i',
+  key: StatusCode.Afwachting,
   value: 'In afwachting van behandeling',
   color: 'purple',
   email_sent_when_set: false,
@@ -15,7 +32,7 @@ export const AFWACHTING = {
 };
 
 export const BEHANDELING = {
-  key: 'b',
+  key: StatusCode.Behandeling,
   value: 'In behandeling',
   color: 'blue',
   email_sent_when_set: false,
@@ -23,7 +40,7 @@ export const BEHANDELING = {
 };
 
 export const AFGEHANDELD = {
-  key: 'o',
+  key: StatusCode.Afgehandeld,
   value: 'Afgehandeld',
   color: 'lightgreen',
   email_sent_when_set: true,
@@ -31,7 +48,7 @@ export const AFGEHANDELD = {
 };
 
 export const GESPLITST = {
-  key: 's',
+  key: StatusCode.Gesplitst,
   value: 'Gesplitst',
   color: 'lightgreen',
   email_sent_when_set: false,
@@ -39,7 +56,7 @@ export const GESPLITST = {
 };
 
 export const INGEPLAND = {
-  key: 'ingepland',
+  key: StatusCode.Ingepland,
   value: 'Ingepland',
   color: 'grey',
   email_sent_when_set: true,
@@ -47,7 +64,7 @@ export const INGEPLAND = {
 };
 
 export const GEANNULEERD = {
-  key: 'a',
+  key: StatusCode.Geannuleerd,
   value: 'Geannuleerd',
   color: 'darkgrey',
   email_sent_when_set: false,
@@ -55,7 +72,7 @@ export const GEANNULEERD = {
 };
 
 export const VERZOEK_TOT_HEROPENEN = {
-  key: 'reopen requested',
+  key: StatusCode.VerzoekTotHeropenen,
   value: 'Verzoek tot heropenen',
   color: 'orange',
   email_sent_when_set: false,
@@ -63,7 +80,7 @@ export const VERZOEK_TOT_HEROPENEN = {
 };
 
 export const HEROPEND = {
-  key: 'reopened',
+  key: StatusCode.Heropend,
   value: 'Heropend',
   color: 'orange',
   email_sent_when_set: true,
@@ -71,35 +88,35 @@ export const HEROPEND = {
 };
 
 export const TE_VERZENDEN = {
-  key: 'ready to send',
+  key: StatusCode.TeVerzenden,
   value: 'Extern: te verzenden',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 };
 
 export const VERZONDEN = {
-  key: 'sent',
+  key: StatusCode.Verzonden,
   value: 'Extern: verzonden',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 };
 
 export const VERZENDEN_MISLUKT = {
-  key: 'send failed',
+  key: StatusCode.VerzendenMislukt,
   value: 'Extern: mislukt',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 };
 
 export const VERZOEK_TOT_AFHANDELING = {
-  key: 'closure requested',
+  key: StatusCode.VerzoekTotAfhandeling,
   value: 'Extern: verzoek tot afhandeling',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 };
 
 export const AFGEHANDELD_EXTERN = {
-  key: 'done external',
+  key: StatusCode.AfgehandeldExtern,
   value: 'Extern: afgehandeld',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
@@ -135,6 +152,7 @@ export const changeStatusOptionList = [
   GEANNULEERD,
 ];
 
-export const isStatusClosed = status => [AFGEHANDELD, GEANNULEERD].map(({ key }) => key).some(value => value === status);
+export const isStatusClosed = (status: StatusCode) =>
+  status === StatusCode.Afgehandeld || status === StatusCode.Geannuleerd;
 
 export const defaultTextsOptionList = [...changeStatusOptionList];
