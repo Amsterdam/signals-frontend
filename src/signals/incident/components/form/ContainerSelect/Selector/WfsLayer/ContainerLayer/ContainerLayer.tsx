@@ -11,11 +11,11 @@ import type { DataLayerProps, Item, Feature } from 'signals/incident/components/
 import { useMapInstance } from '@amsterdam/react-maps';
 import { isEqual } from 'lodash';
 
-interface ClusterLayer extends L.GeoJSON<Point> {
-  _maxZoom: number;
+export interface ClusterLayer extends L.GeoJSON<Point> {
+  _maxZoom?: number;
 }
 
-interface ClusterMarker extends L.Layer {
+export interface ClusterMarker extends L.Layer {
   __parent: ClusterMarker;
   _zoom: number;
   _childCount: number;
@@ -26,16 +26,15 @@ interface ClusterMarker extends L.Layer {
   zoomToBounds: (options: any) => void;
 }
 
-const getMarker = (parent: ClusterMarker | undefined, zoom: number): ClusterMarker | undefined => {
+export const getMarker = (parent: ClusterMarker | undefined, zoom: number): ClusterMarker | undefined => {
   if (!parent) return undefined;
-  if (parent?._zoom === zoom) return parent;
-  return getMarker(parent?.__parent, zoom);
+  if (parent._zoom === zoom) return parent;
+  return getMarker(parent.__parent, zoom);
 };
 
-const shouldSpiderfy = (layer: ClusterMarker, maxZoom: number) => {
+export const shouldSpiderfy = (layer: ClusterMarker, maxZoom?: number) => {
   const cluster = layer;
   let bottomCluster = cluster;
-
   while (bottomCluster._childClusters.length === 1) {
     bottomCluster = bottomCluster._childClusters[0];
   }
@@ -147,12 +146,13 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         const { coordinates } = pointFeature.geometry;
         const latlng = featureTolocation({ coordinates });
         const marker = options.pointToLayer(pointFeature, latlng);
+        /* istanbul ignore else */
         if (marker) {
           layerInstance.addLayer(marker);
         }
       });
 
-      layerInstance.on('clusterclick', (event: { layer: ClusterMarker }) => {
+      layerInstance.on('clusterclick', /* istanbul ignore next */(event: { layer: ClusterMarker }) => {
         const { _maxZoom: maxZoom } = layerInstance;
         if (shouldSpiderfy(event.layer, maxZoom)) {
           if (selectedCluster.current) {
@@ -171,6 +171,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         }
       });
 
+      /* istanbul ignore next */
       if (selectedCluster.current) {
         const selectedLatLng = selectedCluster.current.getLatLng();
         const cluster = layerInstance.getLayers().find(layer => {
@@ -188,7 +189,6 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
 
     return () => {
       if (layerInstance) {
-        // Remove the bound events.
         layerInstance.off('clusterclick');
       }
     };

@@ -13,6 +13,9 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import type { FeatureType } from 'signals/incident/components/form/ContainerSelect/types';
 import { WfsDataProvider } from '../../context';
 import ContainerLayer from '..';
+import type { ClusterMarker } from '../ContainerLayer';
+import { shouldSpiderfy, getMarker } from '../ContainerLayer';
+
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const options: MapOptions = {
@@ -21,11 +24,61 @@ const options: MapOptions = {
   zoom: 14,
 };
 
-const withMapContainer = (Component: ReactNode) =>
-  <Map data-testid="map-test" options={options}>
-    {Component}
-  </Map>;
+describe('getMarker', () => {
+  const cluster = { __parent: { _zoom: 15, __parent: { _zoom: 14, __parent: { _zoom: 13 } } } } as ClusterMarker;
+  it('should return the right parent depending on the zoom level', () => {
+    expect(getMarker(cluster, 14)).toEqual(cluster.__parent.__parent);
+  });
+
+  it('should return undefined when no parent found on the zoom level', () => {
+    expect(getMarker(cluster, 12)).toBeUndefined();
+  });
+});
+
+describe('shouldSpiderfy', () => {
+  it('should spiderfy when maxZoom', () => {
+    const cluster = {
+      _zoom: 14,
+      _childCount: 3,
+      _childClusters: [
+        {
+          _zoom: 15,
+          _childCount: 3,
+          _childClusters: [],
+        },
+      ],
+    } as unknown as ClusterMarker;
+    expect(shouldSpiderfy(cluster, 15)).toBeTruthy();
+  });
+
+  it('should not spiderfy when can zoomed', () => {
+    const cluster = {
+      _zoom: 13,
+      _childCount: 4,
+      _childClusters: [
+        {
+          _zoom: 14,
+          _childCount: 3,
+          _childClusters: [
+            {
+              __zoom: 15,
+              _childCount: 3,
+              _childClusters: [],
+            },
+          ],
+        },
+      ],
+    } as unknown as ClusterMarker;
+    expect(shouldSpiderfy(cluster, 14)).toBeFalsy();
+  });
+});
+
 describe('ContainerLayer', () => {
+  const withMapContainer = (Component: ReactNode) => (
+    <Map data-testid="map-test" options={options}>
+      {Component}
+    </Map>
+  );
   const featureTypes: FeatureType[] = [
     {
       label: 'Papier',
@@ -52,10 +105,11 @@ describe('ContainerLayer', () => {
   ];
 
   it('should render the cluster layer in the map', () => {
-    const ContainerLayerWrapper = () =>
+    const ContainerLayerWrapper = () => (
       <WfsDataProvider value={containersJson as FeatureCollection}>
         <ContainerLayer featureTypes={featureTypes} />;
-      </WfsDataProvider>;
+      </WfsDataProvider>
+    );
     render(withMapContainer(<ContainerLayerWrapper />));
 
     expect(screen.getByTestId('map-test')).toBeInTheDocument();
