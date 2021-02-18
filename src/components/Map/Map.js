@@ -30,13 +30,13 @@ const StyledGPSButton = styled(GPSButton)`
 
 const Map = ({
   children,
-  className,
-  'data-testid': dataTestId,
-  events,
-  hasGPSControl,
-  hasZoomControls,
+  className = '',
+  'data-testid': dataTestId = 'map-base',
+  events = null,
+  hasGPSControl = false,
+  hasZoomControls = false,
   mapOptions,
-  setInstance,
+  setInstance = null,
 }) => {
   const dispatch = useDispatch();
   const [mapInstance, setMapInstance] = useState();
@@ -127,24 +127,15 @@ const Map = ({
   );
 };
 
-Map.defaultProps = {
-  className: '',
-  'data-testid': 'map-base',
-  hasGPSControl: false,
-  hasZoomControls: false,
-  events: undefined,
-  setInstance: undefined,
-};
-
 Map.propTypes = {
   children: PropTypes.node,
   /** @ignore */
   className: PropTypes.string,
+  'data-testid': PropTypes.string,
   /**
    * Map events
    * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
    */
-  'data-testid': PropTypes.string,
   events: PropTypes.shape({}),
   hasGPSControl: PropTypes.bool,
   hasZoomControls: PropTypes.bool,
