@@ -3,7 +3,7 @@ import { fireEvent, render, act, waitForElementToBeRemoved, screen, waitFor } fr
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
-import IncidentDetail from '.';
+import IncidentDetail from '..';
 import * as categoriesSelectors from 'models/categories/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { withAppContext } from 'test/utils';
