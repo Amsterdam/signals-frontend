@@ -454,7 +454,9 @@ describe('signals/incident-management/saga', () => {
     const { name, id, refresh, options } = updatePayload;
     const payload = {
       name: 'New name of my filter',
-      maincategory_slug: ['i', 'a'],
+      options: {
+        maincategory_slug: ['i', 'a'],
+      },
     };
     const action = {
       type: UPDATE_FILTER,
@@ -549,7 +551,9 @@ describe('signals/incident-management/saga', () => {
       const payload = {
         id: 1234,
         name: 'New name of my filter',
-        maincategory_slug: ['i', 'a'],
+        options: {
+          maincategory_slug: ['i', 'a'],
+        },
       };
       const action = {
         type: UPDATE_FILTER,
