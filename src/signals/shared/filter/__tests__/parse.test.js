@@ -125,6 +125,7 @@ describe('signals/shared/filter/parse', () => {
       name: 'Afval in Westpoort',
       options: {
         stadsdeel: ['B'],
+        status: 'status',
         address_text: '',
         maincategory_slug: ['afval'],
         category_slug: subSlugs,
@@ -144,6 +145,7 @@ describe('signals/shared/filter/parse', () => {
             value: 'Westpoort',
           },
         ],
+        status: 'status',
         address_text: '',
         maincategory_slug,
         category_slug,
@@ -152,15 +154,9 @@ describe('signals/shared/filter/parse', () => {
 
     it('should parse input FormData', () => {
       expect(parseInputFormData(input)).toEqual({
-        name: 'Afval in Westpoort',
+        ...output,
         options: {
-          stadsdeel: [
-            {
-              key: 'B',
-              value: 'Westpoort',
-            },
-          ],
-          address_text: '',
+          ...output.options,
           maincategory_slug: [],
           category_slug: [],
         },

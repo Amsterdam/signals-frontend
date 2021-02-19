@@ -93,7 +93,7 @@ export const parseInputFormData = (filterData, fixtureData = {}) => {
   if (Object.keys(options).length) {
     // replace string entries in filter data with objects from dataLists
     Object.keys(options)
-      .filter(fieldName => arrayFields.includes(fieldName))
+      .filter(fieldName => arrayFields.includes(fieldName) && Array.isArray(options[fieldName]))
       .forEach(fieldName => {
         options[fieldName] = options[fieldName]
           .map(value => fields[fieldName] && fields[fieldName].find(({ key, slug }) => key === value || slug === value))
@@ -111,7 +111,7 @@ export const parseToAPIData = filterData => {
   const options = clonedeep(filterData.options || {});
 
   Object.keys(options)
-    .filter(fieldName => arrayFields.includes(fieldName))
+    .filter(fieldName => arrayFields.includes(fieldName) && Array.isArray(options[fieldName]))
     .forEach(fieldName => {
       options[fieldName] = options[fieldName].map(({ slug, key }) => slug || key);
     });
