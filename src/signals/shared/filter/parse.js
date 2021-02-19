@@ -10,6 +10,7 @@ const arrayFields = [
   'category_slug',
   'contact_details',
   'directing_department',
+  'routing_department',
   'has_changed_children',
   'kind',
   'maincategory_slug',
@@ -51,6 +52,7 @@ export const parseOutputFormData = options =>
       case 'area':
       case 'contact_details':
       case 'directing_department':
+      case 'routing_department':
       case 'has_changed_children':
       case 'kind':
       case 'priority':
@@ -124,6 +126,7 @@ const mapObject = (original, mapping) =>
 const filterParamsMapping = {
   area: 'area_code',
   areaType: 'area_type_code',
+  routing_department: 'routing_department_code',
 };
 export const mapFilterParams = params => mapObject(params, filterParamsMapping);
 

@@ -1,0 +1,78 @@
+[
+  {
+    "key": "null",
+    "value": "Niet toegewezen"
+  },
+  {
+    "key": "ASC",
+    "value": "Actie Service Centrum"
+  },
+  {
+    "key": "AEG",
+    "value": "Afval en Grondstoffen"
+  },
+  {
+    "key": "CCA",
+    "value": "CCA"
+  },
+  {
+    "key": "FB",
+    "value": "FB"
+  },
+  {
+    "key": "GGD",
+    "value": "GGD"
+  },
+  {
+    "key": "OMG",
+    "value": "Omgevingsdienst"
+  },
+  {
+    "key": "OOV",
+    "value": "Openbare Orde & Veiligheid"
+  },
+  {
+    "key": "POL",
+    "value": "Politie"
+  },
+  {
+    "key": "POA",
+    "value": "Port of Amsterdam"
+  },
+  {
+    "key": "STL",
+    "value": "Stadsloket"
+  },
+  {
+    "key": "STW",
+    "value": "Stadswerken"
+  },
+  {
+    "key": "THO",
+    "value": "THOR"
+  },
+  {
+    "key": "VOR",
+    "value": "V&OR"
+  },
+  {
+    "key": "VIS",
+    "value": "V&OR - VIS"
+  },
+  {
+    "key": "OVL",
+    "value": "V&OR OVL"
+  },
+  {
+    "key": "VRI",
+    "value": "V&OR VRI"
+  },
+  {
+    "key": "VTH",
+    "value": "VTH"
+  },
+  {
+    "key": "WAT",
+    "value": "Waternet"
+  }
+]

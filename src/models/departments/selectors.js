@@ -12,3 +12,11 @@ export const makeSelectDirectingDepartments = createSelector(makeSelectDepartmen
     ...directingDepartments.map(({ code }) => ({ key: code, value: code })),
   ];
 });
+
+export const makeSelectRoutingDepartments = createSelector(makeSelectDepartments, state => {
+  const routingDepartments = state?.list;
+  return [
+    { key: 'null', value: 'Niet gekoppeld' },
+    ...routingDepartments.map(({ code, name }) => ({ key: code, value: name })),
+  ];
+});
