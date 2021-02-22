@@ -44,19 +44,6 @@ export const changeSignalStatus = (initialStatus: string, newStatus: string, rad
 };
 
 /**
-  * Custom command to check if the creation date on the signal details page is today's date.
-  * @example cy.checkCreationDate();
- */
-export const checkCreationDate = () => {
-  const today = new Date();
-  const dd = String(today.getDate()).padStart(2, '0');
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const yyyy = today.getFullYear();
-  const todaysDate = `${dd}-${mm}-${yyyy}`;
-  cy.get(SIGNAL_DETAILS.creationDate).should('contain', todaysDate);
-};
-
-/**
  * Custom command to check if all directing departments of a signal are visible in the signal details.
  * @example cy.checkDepartments('../fixtures/signals/fietsNietje.json');
 */
@@ -204,7 +191,7 @@ export const checkAllDetails = (json: signal.RootObject) => {
   cy.get(SIGNAL_DETAILS.email).should('have.text', json.reporter.email).and('be.visible');
   cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', json.reporter.phone).and('be.visible');
   cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', json.reporter.sharing_allowed).and('be.visible');
-  checkCreationDate();
+  cy.get(SIGNAL_DETAILS.creationDate).should('contain', commandsGeneral.getTodaysDate());
   cy.get(SIGNAL_DETAILS.handlingTime).should('contain', json.category.handling_time).and('be.visible');
   checkRedTextStatus(json.status.state_display);
   cy.get(SIGNAL_DETAILS.urgency).should('have.text', json.priority).and('be.visible');

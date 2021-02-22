@@ -1,0 +1,59 @@
+{
+  "category": {
+    "sub": "Asbest / accu",
+    "sub_slug": "asbest-accu",
+    "main": "Afval",
+    "main_slug": "afval",
+    "category_url": "http://localhost:8080/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
+    "departments": "ASC, FB, THO",
+    "created_by": "signals.admin@example.com",
+    "text": null,
+    "handling_time": "3 werkdagen"
+  },
+  "id": null,
+  "has_attachments": true,
+  "address": {
+    "stadsdeel": "Centrum",
+    "postcode": "1012XA",
+    "huisletter": "",
+    "huisnummer": 12,
+    "woonplaats": "Amsterdam",
+    "openbare_ruimte": "Spui",
+    "huisnummer_toevoeging": "",
+    "address_text": "Spui 2 1012XA Amsterdam",
+    "geometrie": {"type": "Point", "coordinates": [4.88953709, 52.36895201]}
+  },
+  "status": {
+    "text": "",
+    "user": "",
+    "state": "m",
+    "state_display": "Gemeld",
+    "send_email": false,
+    "created_at": "2020-10-29T16:27:54.488819+01:00"
+  },
+  "reporter": {
+    "email": "",
+    "phone": "",
+    "sharing_allowed": "Nee"
+  },
+  "priority": "Normaal",
+  "notes": [],
+  "type": "Melding",
+  "source": "online",
+  "text": "Er zit asbest in deze kroeg.",
+  "text_extra": "",
+  "extra_properties": [],
+  "created_at": "2020-10-29T15:53:05.650429+01:00",
+  "updated_at": "2020-10-29T16:27:54.569883+01:00",
+  "incident_date_start": "2020-10-29T15:53:05+01:00",
+  "incident_date_end": null,
+  "time": "Nu",
+  "directing_departments": [
+    {"id": 2, "code": "THO", "name": "THOR", "is_intern": true}
+  ],
+  "fixtures":  {
+    "address": "asbest.json",
+    "attachments": null,
+    "prediction": "asbest.json"
+  }
+}
