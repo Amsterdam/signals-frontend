@@ -14,7 +14,7 @@ import type { FeatureType } from 'signals/incident/components/form/ContainerSele
 import { WfsDataProvider } from '../../context';
 import ContainerLayer from '..';
 import type { ClusterMarker } from '../ContainerLayer';
-import { shouldSpiderfy, getMarker } from '../ContainerLayer';
+import { shouldSpiderfy, getMarkerByZoomLevel } from '../ContainerLayer';
 
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -24,14 +24,14 @@ const options: MapOptions = {
   zoom: 14,
 };
 
-describe('getMarker', () => {
+describe('getMarkerByZoomLevel', () => {
   const cluster = { __parent: { _zoom: 15, __parent: { _zoom: 14, __parent: { _zoom: 13 } } } } as ClusterMarker;
   it('should return the right parent depending on the zoom level', () => {
-    expect(getMarker(cluster, 14)).toEqual(cluster.__parent.__parent);
+    expect(getMarkerByZoomLevel(cluster, 14)).toEqual(cluster.__parent.__parent);
   });
 
   it('should return undefined when no parent found on the zoom level', () => {
-    expect(getMarker(cluster, 12)).toBeUndefined();
+    expect(getMarkerByZoomLevel(cluster, 12)).toBeUndefined();
   });
 });
 

@@ -26,14 +26,20 @@ export interface ClusterMarker extends L.Layer {
   zoomToBounds: (options: any) => void;
 }
 
-export const getMarker = (parent: ClusterMarker | undefined, zoom: number): ClusterMarker | undefined => {
-  if (!parent) return undefined;
+/**
+ * @description Recursive function that searches for the correct marker for a zoom level inside the cluster
+ */
+export const getMarkerByZoomLevel = (parent: ClusterMarker, zoom: number): ClusterMarker | undefined => {
   if (parent._zoom === zoom) return parent;
-  return getMarker(parent.__parent, zoom);
+  if (!parent.__parent) return undefined;
+  return getMarkerByZoomLevel(parent.__parent, zoom);
 };
-
-export const shouldSpiderfy = (layer: ClusterMarker, maxZoom?: number) => {
-  const cluster = layer;
+/**
+ * @description Depending on the zoomlevel, a cluster should be:
+ *              - spyderfied when the current zoom level is the max zoom level
+ *              - zoomed to when the zoom level is not max zoom level.
+ */
+export const shouldSpiderfy = (cluster: ClusterMarker, maxZoom?: number): boolean => {
   let bottomCluster = cluster;
   while (bottomCluster._childClusters.length === 1) {
     bottomCluster = bottomCluster._childClusters[0];
@@ -45,7 +51,7 @@ export const shouldSpiderfy = (layer: ClusterMarker, maxZoom?: number) => {
 export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes }) => {
   const mapInstance = useMapInstance();
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>();
-  const selectedCluster = useRef<ClusterMarker | undefined>();
+  const selectedCluster = useRef<ClusterMarker>();
   const data = useContext<FeatureCollection>(WfsDataContext);
   const { selection, update } = useContext(ContainerSelectContext);
 
@@ -62,9 +68,8 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
     };
   }, [mapInstance]);
 
-  const iconCreateFuntion = useCallback(
+  const iconCreateFunction = useCallback(
     /* istanbul ignore next */ (cluster: LeafletMarkerCluster) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
       const childCount = cluster.getChildCount();
       return new L.DivIcon({
         html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
@@ -79,9 +84,9 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
     () => ({
       showCoverageOnHover: false,
       zoomToBoundsOnClick: true,
-      iconCreateFunction: iconCreateFuntion,
+      iconCreateFunction,
     }),
-    [iconCreateFuntion]
+    [iconCreateFunction]
   );
 
   const getFeatureType = useCallback(
@@ -174,12 +179,12 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
       /* istanbul ignore next */
       if (selectedCluster.current) {
         const selectedLatLng = selectedCluster.current.getLatLng();
-        const cluster = layerInstance.getLayers().find(layer => {
-          const latlng = (layer as ClusterMarker).__parent.getLatLng();
+        const cluster = (layerInstance.getLayers() as ClusterMarker[]).find(layer => {
+          const latlng = layer.__parent.getLatLng();
           return isEqual(latlng, selectedLatLng);
         });
 
-        const parent = getMarker(cluster as any, mapInstance.getZoom());
+        const parent = getMarkerByZoomLevel(cluster as any, mapInstance.getZoom());
         if (parent) {
           selectedCluster.current = parent;
           selectedCluster.current.spiderfy();
