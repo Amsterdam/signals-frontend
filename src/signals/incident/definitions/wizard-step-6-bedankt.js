@@ -10,31 +10,26 @@ export default {
     controls: {
       text_melding: {
         meta: {
-          type: 'bedankt',
           value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.',
           valueAuthenticated:
             'Uw melding is bij ons bekend onder nummer: [{incident.id}](/manage/incident/{incident.id}).',
         },
         render: FormComponents.PlainText,
       },
-      text: {
+      handling_message: {
         meta: {
-          label: 'Wat doen we met uw melding?',
-          type: 'bedankt',
-        },
-        // eslint-disable-next-line
-        render: ({ meta: { label } }) => (
-          <Heading as="h2" styleAs="h3">
-            {label}
-          </Heading>
-        ),
-      },
-      text_melding_extra: {
-        meta: {
-          type: 'bedankt',
           key: 'incident.handling_message',
+          title: 'Wat doen we met uw melding?',
         },
         render: FormComponents.HandlingMessage,
+      },
+      next_incident: {
+        meta: {
+          title: 'Wilt u nog een andere melding doen?',
+          label: 'Doe een melding',
+          href: '/',
+        },
+        render: FormComponents.LinkButton,
       },
       $field_0: {
         isStatic: false,

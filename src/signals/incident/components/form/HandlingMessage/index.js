@@ -1,4 +1,5 @@
 import React from 'react';
+import { Heading } from '@amsterdam/asc-ui';
 import PropTypes from 'prop-types';
 import isString from 'lodash.isstring';
 import get from 'lodash.get';
@@ -22,7 +23,9 @@ const HandlingMessage = ({ meta, parent }) =>
   meta?.isVisible && (
     <div className={`${meta.className || 'col-12'} mode_input`}>
       <div className="handling-message__box">
-        <div className="label">{meta.label}</div>
+        <Heading as="h2" styleAs="h3">
+          {meta.title}
+        </Heading>
         {meta.key && isString(meta.key) && renderText(meta.key, meta.name, parent)}
       </div>
     </div>
