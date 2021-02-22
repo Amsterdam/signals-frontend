@@ -48,7 +48,7 @@ export const shouldSpiderfy = (cluster: ClusterMarker, maxZoom?: number): boolea
   return bottomCluster._zoom === maxZoom && bottomCluster._childCount === cluster._childCount;
 };
 
-export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes }) => {
+export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes, desktopView }) => {
   const mapInstance = useMapInstance();
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>();
   const selectedCluster = useRef<ClusterMarker>();
@@ -171,8 +171,10 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
             selectedCluster.current.spiderfy();
           }
         } else {
-          // use this offset when zoomToBounds to keep the markers above the panel in mobile view
-          event.layer.zoomToBounds({ paddingTopLeft: [0, -300] });
+          // use this offset (x, y form the bottom right corner of the map)
+          // when zooming to bounds to keep the markers above the panel in mobile view
+          const zoomOffset = desktopView ? [0, 0] : [0, 300];
+          event.layer.zoomToBounds({ paddingBottomRight: zoomOffset });
         }
       });
 
@@ -197,7 +199,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         layerInstance.off('clusterclick');
       }
     };
-  }, [layerInstance, data, options, selectedCluster, mapInstance]);
+  }, [layerInstance, data, options, selectedCluster, mapInstance, desktopView]);
 
   return <MarkerCluster clusterOptions={clusterOptions} setInstance={setLayerInstance} />;
 };

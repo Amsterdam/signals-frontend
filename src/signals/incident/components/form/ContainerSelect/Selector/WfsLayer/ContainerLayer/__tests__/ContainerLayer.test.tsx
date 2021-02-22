@@ -107,7 +107,7 @@ describe('ContainerLayer', () => {
   it('should render the cluster layer in the map', () => {
     const ContainerLayerWrapper = () => (
       <WfsDataProvider value={containersJson as FeatureCollection}>
-        <ContainerLayer featureTypes={featureTypes} />;
+        <ContainerLayer featureTypes={featureTypes} desktopView />;
       </WfsDataProvider>
     );
     render(withMapContainer(<ContainerLayerWrapper />));
