@@ -8,7 +8,7 @@ export default {
   label: 'Bedankt!',
   form: {
     controls: {
-      text_melding: {
+      confirmation_message: {
         meta: {
           value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.',
           valueAuthenticated:
@@ -18,12 +18,12 @@ export default {
       },
       handling_message: {
         meta: {
-          key: 'incident.handling_message',
           title: 'Wat doen we met uw melding?',
+          key: 'incident.handling_message',
         },
         render: FormComponents.HandlingMessage,
       },
-      next_incident: {
+      next_incident_action: {
         meta: {
           title: 'Wilt u nog een andere melding doen?',
           label: 'Doe een melding',
