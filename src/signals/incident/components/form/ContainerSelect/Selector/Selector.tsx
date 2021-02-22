@@ -80,7 +80,7 @@ const StyledMap = styled(Map)`
 
 const StyledMapPanelDrawer = styled(MapPanelDrawer)`
   & > :first-child {
-    box-shadow: 0 0 0 3px rgb(0 0 0 / 10%);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
   }
 `;
 
