@@ -3,10 +3,10 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import { ContainerSelectProvider } from 'signals/incident/components/form/ContainerSelect/context';
 import type { LatLngExpression } from 'leaflet';
-import type { Meta } from '../../types';
+import type { ContainerSelectValue, Meta } from '../../types';
 import Intro from '../Intro';
 
-const contextValue = {
+const contextValue: ContainerSelectValue = {
   selection: [],
   meta: {} as Meta,
   location: [0, 0] as LatLngExpression,
