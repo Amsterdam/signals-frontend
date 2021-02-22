@@ -2,43 +2,35 @@
 
 exports[`Form component <HandlingMessage /> rendering should render empty correctly with no handling message 1`] = `
 <div
-  className="col-12 mode_input"
+  className="col-12"
 >
-  <div
-    className="handling-message__box"
-  >
-    <div
-      className="label"
-    />
-    <div>
-      We gaan zo snel mogelijk aan de slag.
-    </div>
+  <Heading
+    as="h2"
+    styleAs="h3"
+  />
+  <div>
+    We gaan zo snel mogelijk aan de slag.
   </div>
 </div>
 `;
 
 exports[`Form component <HandlingMessage /> rendering should render handling message correctly 1`] = `
 <div
-  className="col-12 mode_input"
+  className="col-12"
 >
+  <Heading
+    as="h2"
+    styleAs="h3"
+  />
   <div
-    className="handling-message__box"
+    key="undefined-1"
   >
-    <div
-      className="label"
-    />
-    <div
-      className="plain-text__box-p"
-      key="undefined-1"
-    >
-      Jaaaaa!
-    </div>
-    <div
-      className="plain-text__box-p"
-      key="undefined-2"
-    >
-      Neee!
-    </div>
+    Jaaaaa!
+  </div>
+  <div
+    key="undefined-2"
+  >
+    Neee!
   </div>
 </div>
 `;
