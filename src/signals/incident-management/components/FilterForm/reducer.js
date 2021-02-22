@@ -32,6 +32,7 @@ export const initialState = {
     stadsdeel: [],
     status: [],
     directing_department: [],
+    routing_department: [],
     has_changed_children: [],
     assigned_user_email: '',
   },

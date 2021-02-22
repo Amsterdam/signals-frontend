@@ -16,12 +16,13 @@ import { filterType } from 'shared/types';
 import dataLists from 'signals/incident-management/definitions';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 
-import { makeSelectDirectingDepartments } from 'models/departments/selectors';
+import { makeSelectDirectingDepartments, makeSelectRoutingDepartments } from 'models/departments/selectors';
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
 import CheckboxGroup from './components/CheckboxGroup';
 import RadioGroup from './components/RadioGroup';
+import CheckboxList from '../CheckboxList';
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
 import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
@@ -58,12 +59,16 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const { districts } = useContext(IncidentManagementContext);
   const categories = useSelector(makeSelectStructuredCategories);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
+  const routingDepartments = useSelector(makeSelectRoutingDepartments);
+  const [, ...otherRoutingDepartments] = routingDepartments;
+  const notRoutedOption = routingDepartments[0];
 
   const [state, dispatch] = useReducer(reducer, filter, init);
 
   const isNewFilter = !filter.name;
 
   const [assignedSelectValue, setAssignedSelectValue] = useState('');
+  const [routedFilterValue, setRoutedFilterValue] = useState([]);
 
   const dataListValues = useMemo(
     () => ({
@@ -71,8 +76,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       area: districts,
       source: sources,
       directing_department: directingDepartments,
+      routing_department: routingDepartments,
     }),
-    [districts, sources, directingDepartments]
+    [districts, sources, directingDepartments, routingDepartments]
   );
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
@@ -117,7 +123,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     event => {
       event.preventDefault();
       const options = parseOutputFormData(state.options);
-
       const formData = { ...state.filter, options };
       const hasName = formData.name.trim() !== '';
 
@@ -258,6 +263,24 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       dispatch(setGroupOptions({ assigned_user_email: newAssignedFilterValue }));
     },
     [dispatch, assignedSelectValue, setAssignedSelectValue, state]
+  );
+
+  const onNotRoutedChange = useCallback(
+    event => {
+      const { checked } = event.currentTarget;
+      const newRoutedFilterValue = checked ? [notRoutedOption] : routedFilterValue;
+      if (checked) {
+        setRoutedFilterValue(state.options.routing_department);
+      }
+      dispatch(setGroupOptions({ routing_department: newRoutedFilterValue }));
+    },
+    [notRoutedOption, routedFilterValue, state.options.routing_department]
+  );
+
+  const isNotRoutedChecked = useCallback(
+    () =>
+      state.options.routing_department.length === 1 && state.options.routing_department[0].key === notRoutedOption.key,
+    [notRoutedOption.key, state.options.routing_department]
   );
 
   return (
@@ -515,6 +538,33 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             onSubmit={onSubmitForm}
             options={sources}
           />
+
+          {configuration.featureFlags.assignSignalToDepartment && (
+            <FilterGroup data-testid="filterRoutingDepartment">
+              <Label htmlFor="filter_routing_department" isGroupHeader>
+                Afdeling
+              </Label>
+              <div>
+                <AscLabel htmlFor="filter_not_routed" label={notRoutedOption.value} noActiveState>
+                  <Checkbox
+                    data-testid="filterNotRouted"
+                    checked={isNotRoutedChecked()}
+                    id="filter_not_routed"
+                    name="notRouted"
+                    onClick={onNotRoutedChange}
+                  />
+                </AscLabel>
+              </div>
+              <CheckboxList
+                defaultValue={isNotRoutedChecked() ? [] : state.options.routing_department}
+                id="filter_routing_department"
+                name="routing_department"
+                onChange={onGroupChange}
+                onSubmit={onSubmitForm}
+                options={otherRoutingDepartments}
+              />
+            </FilterGroup>
+          )}
         </Fieldset>
       </ControlsWrapper>
 

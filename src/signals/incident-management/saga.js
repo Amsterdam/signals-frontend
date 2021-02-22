@@ -195,8 +195,9 @@ export function* doSaveFilter({ payload }) {
   }
 }
 
-export function* doUpdateFilter(action) {
-  const { name, refresh, id, options } = action.payload;
+export function* doUpdateFilter({ payload }) {
+  const { name, refresh, id } = payload;
+  const options = mapFilterParams(payload.options);
 
   try {
     const result = yield call(authPatchCall, `${CONFIGURATION.FILTERS_ENDPOINT}${id}`, {
@@ -205,7 +206,12 @@ export function* doUpdateFilter(action) {
       options,
     });
 
-    yield put(filterUpdatedSuccess(result));
+    yield put(
+      filterUpdatedSuccess({
+        ...result,
+        options: unmapFilterParams(result.options),
+      })
+    );
     yield put(getFilters());
   } catch (error) {
     if (error.response && error.response.status >= 400 && error.response.status < 500) {

@@ -11,7 +11,7 @@ import configuration from 'shared/services/configuration/configuration';
 import { dataListType, filterType } from 'shared/types';
 import dataLists from 'signals/incident-management/definitions';
 
-import { makeSelectDirectingDepartments } from 'models/departments/selectors';
+import { makeSelectDirectingDepartments, makeSelectRoutingDepartments } from 'models/departments/selectors';
 import AppContext from '../../../../containers/App/context';
 import IncidentManagementContext from '../../context';
 
@@ -45,6 +45,9 @@ export const mapKeys = key => {
 
     case 'directing_department':
       return 'verantwoordelijke afdeling';
+
+    case 'routing_department':
+      return 'gekoppelde afdeling';
 
     case 'has_changed_children':
       return 'wijziging in deelmeldingen';
@@ -91,7 +94,7 @@ const renderTag = (key, mainCategories, list) => {
 };
 
 export const FilterTagListComponent = props => {
-  const { tags, mainCategories, subCategories, directingDepartments } = props;
+  const { tags, mainCategories, subCategories, directingDepartments, routingDepartments } = props;
   const { sources } = useContext(AppContext);
   const { districts, users } = useContext(IncidentManagementContext);
 
@@ -118,6 +121,7 @@ export const FilterTagListComponent = props => {
     category_slug: subCategories,
     source: sources,
     directing_department: directingDepartments,
+    routing_department: routingDepartments,
     assigned_user_email: userOptions,
   };
 
@@ -160,6 +164,7 @@ FilterTagListComponent.propTypes = {
   mainCategories: dataListType,
   subCategories: dataListType,
   directingDepartments: dataListType,
+  routingDepartments: dataListType,
 };
 
 FilterTagListComponent.defaultProps = {
@@ -170,6 +175,7 @@ const mapStateToProps = createStructuredSelector({
   mainCategories: makeSelectMainCategories,
   subCategories: makeSelectSubCategories,
   directingDepartments: makeSelectDirectingDepartments,
+  routingDepartments: makeSelectRoutingDepartments,
 });
 
 const withConnect = connect(mapStateToProps);

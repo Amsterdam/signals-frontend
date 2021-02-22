@@ -10,6 +10,7 @@ const arrayFields = [
   'category_slug',
   'contact_details',
   'directing_department',
+  'routing_department',
   'has_changed_children',
   'kind',
   'maincategory_slug',
@@ -51,6 +52,7 @@ export const parseOutputFormData = options =>
       case 'area':
       case 'contact_details':
       case 'directing_department':
+      case 'routing_department':
       case 'has_changed_children':
       case 'kind':
       case 'priority':
@@ -91,7 +93,7 @@ export const parseInputFormData = (filterData, fixtureData = {}) => {
   if (Object.keys(options).length) {
     // replace string entries in filter data with objects from dataLists
     Object.keys(options)
-      .filter(fieldName => arrayFields.includes(fieldName))
+      .filter(fieldName => arrayFields.includes(fieldName) && Array.isArray(options[fieldName]))
       .forEach(fieldName => {
         options[fieldName] = options[fieldName]
           .map(value => fields[fieldName] && fields[fieldName].find(({ key, slug }) => key === value || slug === value))
@@ -109,7 +111,7 @@ export const parseToAPIData = filterData => {
   const options = clonedeep(filterData.options || {});
 
   Object.keys(options)
-    .filter(fieldName => arrayFields.includes(fieldName))
+    .filter(fieldName => arrayFields.includes(fieldName) && Array.isArray(options[fieldName]))
     .forEach(fieldName => {
       options[fieldName] = options[fieldName].map(({ slug, key }) => slug || key);
     });
@@ -124,6 +126,7 @@ const mapObject = (original, mapping) =>
 const filterParamsMapping = {
   area: 'area_code',
   areaType: 'area_type_code',
+  routing_department: 'routing_department_code',
 };
 export const mapFilterParams = params => mapObject(params, filterParamsMapping);
 
