@@ -8,6 +8,8 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options';
 
 import * as useLayerVisible from '../../useLayerVisible';
 import { ZoomMessage } from '..';
+import { MapMessage } from '../Message';
+import { contextValue, withContainerSelectContext } from '../../../__tests__/context.test';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const options = {
@@ -29,7 +31,6 @@ describe('ZoomMessage', () => {
     jest.spyOn(useLayerVisible, 'default').mockImplementation(() => false);
     render(withMapContainer(<ZoomMessage {...props} />));
 
-
     expect(screen.getByTestId('zoomMessage')).toBeInTheDocument();
   });
 
@@ -38,5 +39,20 @@ describe('ZoomMessage', () => {
     render(withMapContainer(<ZoomMessage {...props} />));
 
     expect(screen.queryByTestId('zoomMessage')).not.toBeInTheDocument();
+  });
+});
+
+describe('MapMessage', () => {
+  it('should render the message in the map', () => {
+    render(withContainerSelectContext(<MapMessage />, { ...contextValue, message: 'the-message' }));
+
+    expect(screen.getByTestId('mapMessage')).toBeInTheDocument();
+    expect(screen.getByText('the-message')).toBeInTheDocument();
+  });
+
+  it('should NOT render the message in the map', () => {
+    render(withContainerSelectContext(<MapMessage />));
+
+    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument();
   });
 });
