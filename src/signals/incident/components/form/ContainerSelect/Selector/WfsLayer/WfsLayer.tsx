@@ -21,7 +21,7 @@ export interface WfsLayerProps {
 
 const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = {} }) => {
   const mapInstance = useMapInstance();
-  const { meta } = useContext(ContainerSelectContext);
+  const { meta, setMessage } = useContext(ContainerSelectContext);
   const url = meta.endpoint;
   const layerVisible = useLayerVisible(zoomLevel);
 
@@ -50,6 +50,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = {} }
   }, [mapInstance]);
 
   useEffect(() => {
+    setMessage(undefined);
     if (!layerVisible) {
       setData(NO_DATA);
       return;
@@ -73,12 +74,13 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = {} }
 
         // eslint-disable-next-line no-console
         console.error('Unhnadled Error in wfs call', JSON.stringify(error));
+        setMessage('Kaart informatie kon niet worden opgehaald.');
       });
 
     return () => {
       controller.abort();
     };
-  }, [bbox, mapInstance, url, layerVisible]);
+  }, [bbox, mapInstance, url, layerVisible, setMessage]);
 
   const layer = React.cloneElement(children, { featureTypes: meta.featureTypes });
   return <WfsDataProvider value={data}>{layer}</WfsDataProvider>;

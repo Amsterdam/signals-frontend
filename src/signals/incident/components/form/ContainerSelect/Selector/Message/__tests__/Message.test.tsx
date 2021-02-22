@@ -7,7 +7,7 @@ import { render, screen } from '@testing-library/react';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 
 import * as useLayerVisible from '../../useLayerVisible';
-import ZoomMessage from '..';
+import { ZoomMessage } from '..';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const options = {

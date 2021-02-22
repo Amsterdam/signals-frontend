@@ -22,7 +22,7 @@ import LegendPanel from './LegendPanel';
 import ViewerContainer from './ViewerContainer';
 import ContainerLayer from './WfsLayer/ContainerLayer';
 import WfsLayer from './WfsLayer';
-import ZoomMessage from './ZoomMessage';
+import { ZoomMessage, MapMessage } from './Message';
 import useLayerVisible from './useLayerVisible';
 import SelectionPanel from './SelectionPanel';
 import { UNREGISTERED_CONTAINER_TYPE } from '../constants';
@@ -78,17 +78,25 @@ const StyledMap = styled(Map)`
   }
 `;
 
-const ButtonBarStyle = styled.div<{ layerVisible: boolean }>`
+const StyledMapPanelDrawer = styled(MapPanelDrawer)`
+  & > :first-child {
+    box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
+  }
+`;
+
+const ButtonBarStyle = styled.div<{ messageVisible: boolean }>`
   @media screen and ${breakpoint('max-width', 'tabletM')} {
-    margin-top: ${({ layerVisible }) => !layerVisible && themeSpacing(11)};
+    margin-top: ${({ messageVisible }) => messageVisible && themeSpacing(11)};
   }
 `;
 
 const ButtonBar: FunctionComponent<{ zoomLevel: ZoomLevel }> = ({ children, zoomLevel }) => {
   const layerVisible = useLayerVisible(zoomLevel);
+  const { message } = useContext(ContainerSelectContext);
+  const messageVisible = !layerVisible || !!message;
 
   return (
-    <ButtonBarStyle data-testid="buttonBar" layerVisible={layerVisible}>
+    <ButtonBarStyle data-testid="buttonBar" messageVisible={messageVisible}>
       {children}
     </ButtonBarStyle>
   );
@@ -108,7 +116,7 @@ const Selector = () => {
     () =>
       showDesktopVariant
         ? { Panel: MapPanel, panelVariant: 'panel' }
-        : { Panel: MapPanelDrawer, panelVariant: 'drawer' },
+        : { Panel: StyledMapPanelDrawer, panelVariant: 'drawer' },
     [showDesktopVariant]
   );
 
@@ -187,6 +195,7 @@ const Selector = () => {
           </Panel>
         </MapPanelProvider>
 
+        <MapMessage />
         <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>Zoom in om de objecten te zien</ZoomMessage>
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>

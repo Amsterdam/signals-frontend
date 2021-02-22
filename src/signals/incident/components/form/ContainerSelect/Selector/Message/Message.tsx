@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 import useLayerVisible from '../useLayerVisible';
+import ContainerSelectContext from '../../context';
 
-export const ZoomMessageStyle = styled.div`
+export const MessageStyle = styled.div`
   margin: ${themeSpacing(4, 19)};
   height: ${themeSpacing(11)};
   background-color: white;
@@ -27,10 +28,14 @@ export interface ZoomMessageProps {
   zoomLevel: ZoomLevel;
 }
 
-const ZoomMessage: FunctionComponent<ZoomMessageProps> = ({ children, zoomLevel }) => {
+export const ZoomMessage: FunctionComponent<ZoomMessageProps> = ({ children, zoomLevel }) => {
   const layerVisible = useLayerVisible(zoomLevel);
 
-  return !layerVisible && <ZoomMessageStyle data-testid="zoomMessage">{children}</ZoomMessageStyle> || null;
+  return !layerVisible && <MessageStyle data-testid="zoomMessage">{children}</MessageStyle> || null;
 };
 
-export default ZoomMessage;
+export const MapMessage: FunctionComponent = () => {
+  const { message } = useContext(ContainerSelectContext);
+
+  return (message && <MessageStyle data-testid="mapMessage">{message}</MessageStyle>) || null;
+};
