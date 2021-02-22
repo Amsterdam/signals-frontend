@@ -78,6 +78,12 @@ const StyledMap = styled(Map)`
   }
 `;
 
+const StyledMapPanelDrawer = styled(MapPanelDrawer)`
+  & > :first-child {
+    box-shadow: 0 0 0 3px rgb(0 0 0 / 10%);
+  }
+`;
+
 const ButtonBarStyle = styled.div<{ layerVisible: boolean }>`
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     margin-top: ${({ layerVisible }) => !layerVisible && themeSpacing(11)};
@@ -108,7 +114,7 @@ const Selector = () => {
     () =>
       showDesktopVariant
         ? { Panel: MapPanel, panelVariant: 'panel' }
-        : { Panel: MapPanelDrawer, panelVariant: 'drawer' },
+        : { Panel: StyledMapPanelDrawer, panelVariant: 'drawer' },
     [showDesktopVariant]
   );
 
