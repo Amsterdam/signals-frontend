@@ -13,6 +13,7 @@ const contextValue = {
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
+  setMessage: jest.fn(),
 };
 
 export const withContext = (Component: JSX.Element, context = contextValue) =>
