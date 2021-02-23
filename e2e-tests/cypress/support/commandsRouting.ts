@@ -82,6 +82,14 @@ export const getFilterByNoteRoute = () => {
 };
 
 /**
+ * Custom command to define routes for filter by directing department.
+ * @example cy.getFilterByDirectingDepartmentRoute();
+*/
+export const getFilterByDirectingDepartmentRoute = () => {
+  cy.intercept('**?directing_department=*').as('submitDirectingDepartmentFilter');
+};
+
+/**
  * Custom command to define routes for filter by signal source.
  * @example cy.getFilterBySourceRoute();
 */
