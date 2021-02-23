@@ -38,9 +38,11 @@ export interface ContainerSelectValue {
   selection: Item[];
   location: LatLngExpression;
   meta: Meta;
+  message?: string;
   update: (items: Item[]) => void;
   edit: ClickEventHandler;
   close: () => void;
+  setMessage: (message?: string) => void;
 }
 
 export interface DataLayerProps {
