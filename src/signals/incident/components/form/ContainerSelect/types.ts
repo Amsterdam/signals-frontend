@@ -42,7 +42,7 @@ export interface ContainerSelectValue {
   update: (items: Item[]) => void;
   edit: ClickEventHandler;
   close: () => void;
-  setMessage: (message: string | undefined) => void;
+  setMessage: (message?: string) => void;
 }
 
 export interface DataLayerProps {
