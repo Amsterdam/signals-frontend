@@ -45,6 +45,7 @@ export interface ContainerSelectValue {
 
 export interface DataLayerProps {
   featureTypes: FeatureType[];
+  desktopView: boolean;
 }
 
 export type FeatureProps = Record<string, string | undefined>;

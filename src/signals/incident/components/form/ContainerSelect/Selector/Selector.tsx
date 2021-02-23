@@ -110,13 +110,13 @@ const Selector = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
-  const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
+  const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' });
   const { Panel, panelVariant } = useMemo<{ Panel: FunctionComponent; panelVariant: Variant }>(
     () =>
-      showDesktopVariant
+      desktopView
         ? { Panel: MapPanel, panelVariant: 'panel' }
         : { Panel: StyledMapPanelDrawer, panelVariant: 'drawer' },
-    [showDesktopVariant]
+    [desktopView]
   );
 
   const mapOptions = useMemo<MapOptions>(
@@ -147,7 +147,7 @@ const Selector = () => {
 
   const mapWrapper = (
     <Wrapper data-testid="containerSelectSelector">
-      <StyledMap hasZoomControls={showDesktopVariant} mapOptions={mapOptions}>
+      <StyledMap hasZoomControls={desktopView} mapOptions={mapOptions}>
         <MapPanelProvider
           mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
           mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
@@ -167,7 +167,7 @@ const Selector = () => {
             }
           />
 
-          <Panel data-testid={`panel${showDesktopVariant ? 'Desktop' : 'Mobile'}`}>
+          <Panel data-testid={`panel${desktopView ? 'Desktop' : 'Mobile'}`}>
             {showSelectionPanel && (
               <SelectionPanel
                 featureTypes={meta.featureTypes}
@@ -197,7 +197,7 @@ const Selector = () => {
         <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>Zoom in om de objecten te zien</ZoomMessage>
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <ContainerLayer featureTypes={meta.featureTypes} />
+          <ContainerLayer featureTypes={meta.featureTypes} desktopView={desktopView} />
         </WfsLayer>
       </StyledMap>
     </Wrapper>
