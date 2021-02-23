@@ -78,8 +78,8 @@ export const OVERVIEW_MAP = {
   buttonZoomIn: '[title="Inzoomen"]',
   clusterIcon: '[data-testid=markerClusterIcon]',
   detailPane: '[data-testid=mapDetailPanel]',
-  openSignalDetails: '[data-testid=mapDetailPanel] > [href*="/manage"]',
   markerCluster: '.leaflet-marker-icon',
   markerSignal: '.map-marker-incident',
   overViewMap: '[data-testid="overviewMap"]',
+  signalDetails: '[data-testid=mapDetailPanel]',
 };

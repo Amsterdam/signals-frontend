@@ -77,7 +77,7 @@ describe('Signal overview Map', () => {
       cy.get(OVERVIEW_MAP.overViewMap).click(440, 338);
       cy.get(OVERVIEW_MAP.detailPane).should('be.visible');
 
-      cy.get(OVERVIEW_MAP.openSignalDetails).then($signalLink => {
+      cy.get(OVERVIEW_MAP.signalDetails).find('[href*="/manage"]').then($signalLink => {
         // Get the signal number
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const text = $signalLink.text();
@@ -85,7 +85,7 @@ describe('Signal overview Map', () => {
         const signalId = expression.exec(text)[0];
 
         cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${signalId}` }, { flag: 'w' });
-        cy.get(OVERVIEW_MAP.openSignalDetails).click();
+        cy.get(OVERVIEW_MAP.signalDetails).find('[href*="/manage"]').click();
         // Url contains signal number
         cy.url().should('include', signalId);
       });
