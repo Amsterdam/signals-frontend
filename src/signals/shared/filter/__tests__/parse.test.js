@@ -125,6 +125,7 @@ describe('signals/shared/filter/parse', () => {
       name: 'Afval in Westpoort',
       options: {
         stadsdeel: ['B'],
+        status: 'status',
         address_text: '',
         maincategory_slug: ['afval'],
         category_slug: subSlugs,
@@ -144,6 +145,7 @@ describe('signals/shared/filter/parse', () => {
             value: 'Westpoort',
           },
         ],
+        status: 'status',
         address_text: '',
         maincategory_slug,
         category_slug,
@@ -152,15 +154,9 @@ describe('signals/shared/filter/parse', () => {
 
     it('should parse input FormData', () => {
       expect(parseInputFormData(input)).toEqual({
-        name: 'Afval in Westpoort',
+        ...output,
         options: {
-          stadsdeel: [
-            {
-              key: 'B',
-              value: 'Westpoort',
-            },
-          ],
-          address_text: '',
+          ...output.options,
           maincategory_slug: [],
           category_slug: [],
         },
@@ -213,11 +209,13 @@ describe('signals/shared/filter/parse', () => {
       const data = {
         area: ['123', '456'],
         areaType: 'district',
+        routing_department: ['DEP', 'ART'],
         other: 'value',
       };
       const expected = {
         area_code: data.area,
         area_type_code: data.areaType,
+        routing_department_code: data.routing_department,
         other: data.other,
       };
 
@@ -228,11 +226,13 @@ describe('signals/shared/filter/parse', () => {
       const data = {
         area_code: ['123', '456'],
         area_type_code: 'district',
+        routing_department_code: ['DEP', 'ART'],
         other: 'value',
       };
       const expected = {
         area: data.area_code,
         areaType: data.area_type_code,
+        routing_department: data.routing_department_code,
         other: data.other,
       };
 

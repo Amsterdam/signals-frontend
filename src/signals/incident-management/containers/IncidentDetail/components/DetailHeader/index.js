@@ -107,6 +107,14 @@ const DetailHeader = () => {
   const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : INCIDENTS_URL;
   const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop();
 
+  const hasChildren = incident?._links?.['sia:children']?.length > 0;
+  let headingText = 'Standaardmelding';
+  if (hasChildren) {
+    headingText = 'Hoofdmelding';
+  } else if (parentId) {
+    headingText = 'Deelmelding';
+  }
+
   const patchIncident = useCallback(() => {
     const patch = {
       type: PATCH_TYPE_THOR,
@@ -130,12 +138,7 @@ const DetailHeader = () => {
 
       <HeadingContainer>
         <StyledHeading data-testid="detail-header-title">
-          Melding&nbsp;
-          {parentId && (
-            <ParentLink data-testid="parentLink" to={`${INCIDENT_URL}/${parentId}`}>
-              {parentId}
-            </ParentLink>
-          )}
+          {headingText}&nbsp;
           <span>{incident.id}</span>
         </StyledHeading>
       </HeadingContainer>

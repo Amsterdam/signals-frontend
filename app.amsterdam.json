@@ -4,6 +4,7 @@
   "featureFlags": {
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
+    "enablePublicSignalMap": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,

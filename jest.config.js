@@ -17,10 +17,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 99.39,
-      branches: 95.99,
-      functions: 98.66,
-      lines: 99.41,
+      statements: 99.37,
+      branches: 95.97,
+      functions: 98.62,
+      lines: 99.4,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
@@ -36,10 +36,7 @@ module.exports = {
     '.*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/internals/mocks/image.js',
   },
-  setupFilesAfterEnv: [
-    '<rootDir>/internals/testing/test-bundler.ts',
-    '<rootDir>/internals/testing/jest-setup-msw.ts',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/internals/testing/test-bundler.ts', '<rootDir>/internals/testing/jest-setup-msw.ts'],
   transform: { '^.+\\.(js|ts(x?))$': ['ts-jest', { configFile: path.resolve(__dirname, 'babel.config.js') }] },
   testRegex: '.*\\.test\\.(js|ts(x?))$',
   snapshotSerializers: ['enzyme-to-json/serializer'],

@@ -11,6 +11,7 @@ import {
   handlingTimesBySlug,
   subcategoriesGroupedByCategories,
 } from 'utils/__tests__/fixtures';
+import { INCIDENT_URL } from 'signals/incident-management/routes';
 
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
@@ -85,129 +86,140 @@ describe('MetaList', () => {
 
   describe('rendering', () => {
     it('should render correctly a plain incident', () => {
-      const { queryByTestId, queryByText } = render(renderWithContext(plainIncident));
+      render(renderWithContext(plainIncident));
 
-      expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
-      expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
+      expect(screen.queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
+      expect(screen.queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
-      expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
+      expect(screen.queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+      expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
-      expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
-      expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
+      expect(screen.queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
+      expect(screen.queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
 
-      expect(queryByText('Urgentie')).toBeInTheDocument();
-      expect(queryByText('Normaal')).toBeInTheDocument();
+      expect(screen.queryByText('Urgentie')).toBeInTheDocument();
+      expect(screen.queryByText('Normaal')).toBeInTheDocument();
 
-      expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
-      expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
+      expect(screen.queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
+      expect(screen.queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 
-      expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
-      expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
+      expect(screen.queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
+      expect(screen.queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
 
-      expect(queryByTestId('meta-list-directing_departments-definition')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-parent-definition')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-parent-value')).not.toBeInTheDocument();
+
+      expect(screen.queryByTestId('meta-list-directing_departments-definition')).not.toBeInTheDocument();
     });
 
     it('should render correctly a parent incident', () => {
-      const { queryByTestId, queryByText } = render(renderWithContext(parentIncident));
+      render(renderWithContext(parentIncident));
 
-      expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
-      expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
+      expect(screen.queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
+      expect(screen.queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
-      expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-      expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
+      expect(screen.queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+      expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
-      expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
-      expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
+      expect(screen.queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
+      expect(screen.queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
 
-      expect(queryByText('Urgentie')).toBeInTheDocument();
-      expect(queryByText('Normaal')).toBeInTheDocument();
+      expect(screen.queryByText('Urgentie')).toBeInTheDocument();
+      expect(screen.queryByText('Normaal')).toBeInTheDocument();
 
-      expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
-      expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
+      expect(screen.queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
+      expect(screen.queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 
-      expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
-      expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
+      expect(screen.queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
+      expect(screen.queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
 
-      expect(queryByTestId('meta-list-directing_departments-definition')).toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-parent-definition')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-parent-value')).not.toBeInTheDocument();
+
+      expect(screen.queryByTestId('meta-list-directing_departments-definition')).toBeInTheDocument();
     });
 
     it('should render correctly a child incident', () => {
-      const { queryByTestId, queryByText } = render(renderWithContext(childIncident));
+      render(renderWithContext(childIncident));
 
-      expect(queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
-      expect(queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
+      expect(screen.queryByTestId('meta-list-date-definition')).toHaveTextContent(/^Gemeld op$/);
+      expect(screen.queryByTestId('meta-list-date-value')).toHaveTextContent(/^21-07-1970 11:56$/);
 
-      expect(queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
-      expect(queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
+      expect(screen.queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
+      expect(screen.queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
 
-      expect(queryByText('Urgentie')).toBeInTheDocument();
-      expect(queryByText('Normaal')).toBeInTheDocument();
+      expect(screen.queryByText('Urgentie')).toBeInTheDocument();
+      expect(screen.queryByText('Normaal')).toBeInTheDocument();
 
-      expect(queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
-      expect(queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
+      expect(screen.queryByTestId('meta-list-main-category-definition')).toHaveTextContent(/^Hoofdcategorie$/);
+      expect(screen.queryByTestId('meta-list-main-category-value')).toHaveTextContent(incidentFixture.category.main);
 
-      expect(queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
-      expect(queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
+      expect(screen.queryByTestId('meta-list-source-definition')).toHaveTextContent(/^Bron$/);
+      expect(screen.queryByTestId('meta-list-source-value')).toHaveTextContent(incidentFixture.source);
 
-      expect(queryByTestId('meta-list-directing_departments-definition')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('meta-list-parent-definition')).toHaveTextContent(/^Hoofdmelding$/);
+      expect(screen.queryByTestId('meta-list-parent-value')).toHaveTextContent(/^parent-link$/);
+      // expect(screen.queryByTestId('meta-list-parent-link')).toHaveAttribute('href', /^\/manage\/incident\/parent-link$/);
+      expect(screen.queryByTestId('meta-list-parent-link')).toHaveAttribute('href', `${INCIDENT_URL}/parent-link`);
+
+      expect(screen.queryByTestId('meta-list-directing_departments-definition')).not.toBeInTheDocument();
     });
   });
 
   it('should render correctly with high priority', () => {
-    const { queryByText, container, rerender } = render(renderWithContext());
+    const { container, rerender } = render(renderWithContext());
 
-    expect(queryByText('Hoog')).not.toBeInTheDocument();
+    expect(screen.queryByText('Hoog')).not.toBeInTheDocument();
     expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(1);
 
     rerender(renderWithContext({ ...incidentFixture, priority: { ...incidentFixture.priority, priority: 'high' } }));
 
-    expect(queryByText('Hoog')).toBeInTheDocument();
+    expect(screen.queryByText('Hoog')).toBeInTheDocument();
     expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
   });
 
   it('should render days and workdays in single and plural form', () => {
-    const { queryByTestId, rerender } = render(renderWithContext(plainIncident));
+    const { rerender } = render(renderWithContext(plainIncident));
 
-    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
+    expect(screen.queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'beplanting' } }));
-    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 werkdag$/);
+    expect(screen.queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 werkdag$/);
 
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'bewegwijzering' } }));
-    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
+    expect(screen.queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^1 dag$/);
 
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'autom-verzinkbare-palen' } }));
-    expect(queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
-    expect(queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 dagen$/);
+    expect(screen.queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
+    expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 dagen$/);
   });
 
   it('should call edit', () => {
-    const { queryByTestId } = render(renderWithContext());
+    render(renderWithContext());
 
     expect(edit).not.toHaveBeenCalled();
 
-    fireEvent.click(queryByTestId('editStatusButton'));
+    fireEvent.click(screen.queryByTestId('editStatusButton'));
 
     expect(edit).toHaveBeenCalled();
   });
 
   it('should call update', () => {
-    const { getAllByTestId } = render(
+    render(
       renderWithContext({ ...incidentFixture, priority: { ...incidentFixture.priority, priority: 'high' } })
     );
 
     // priority button data-testid attribute is dynamically generated in the ChangeValue component:
     const editTestId = 'editPriorityButton';
     const submitTestId = 'submitPriorityButton';
-    const editButtons = getAllByTestId(editTestId);
+    const editButtons = screen.getAllByTestId(editTestId);
 
     fireEvent.click(editButtons[0]);
 
-    const submitButtons = getAllByTestId(submitTestId);
+    const submitButtons = screen.getAllByTestId(submitTestId);
 
     expect(update).not.toHaveBeenCalled();
 
@@ -379,7 +391,7 @@ describe('MetaList', () => {
       });
 
       it('should be based on departments related to category', async () => {
-        const { container, getByTestId } = render(
+        const { container } = render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -878,20 +890,20 @@ describe('MetaList', () => {
     it('should update for directing department to ASC', async () => {
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
       jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
-      const { getAllByTestId, getByTestId } = render(renderWithContext(parentIncident));
+      render(renderWithContext(parentIncident));
 
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:
       const editTestId = 'editDirecting_departmentsButton';
       const submitTestId = 'submitDirecting_departmentsButton';
-      const editButtons = getAllByTestId(editTestId);
+      const editButtons = screen.getAllByTestId(editTestId);
 
       const { id } = departments.list.find(department => department.code === 'ASC');
 
       fireEvent.click(editButtons[0]);
 
-      fireEvent.click(getByTestId('input-ASC'));
+      fireEvent.click(screen.getByTestId('input-ASC'));
 
-      const submitButtons = getAllByTestId(submitTestId);
+      const submitButtons = screen.getAllByTestId(submitTestId);
 
       expect(update).not.toHaveBeenCalled();
 
@@ -908,7 +920,7 @@ describe('MetaList', () => {
     it('should update for directing department to directing department', async () => {
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => ({ ...departments }));
       jest.spyOn(departmentsSelectors, 'makeSelectDirectingDepartments').mockImplementation(() => directingDepartments);
-      const { getAllByTestId, getByTestId } = render(
+      render(
         renderWithContext({
           ...parentIncident,
           directing_departments: [{ id: departments.list[0].id, code: departments.list[0].code }],
@@ -918,12 +930,12 @@ describe('MetaList', () => {
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:
       const editTestId = 'editDirecting_departmentsButton';
       const submitTestId = 'submitDirecting_departmentsButton';
-      const editButtons = getAllByTestId(editTestId);
+      const editButtons = screen.getAllByTestId(editTestId);
 
       fireEvent.click(editButtons[0]);
-      fireEvent.click(getByTestId('input-null'));
+      fireEvent.click(screen.getByTestId('input-null'));
 
-      const submitButtons = getAllByTestId(submitTestId);
+      const submitButtons = screen.getAllByTestId(submitTestId);
 
       expect(update).not.toHaveBeenCalled();
 
@@ -939,7 +951,7 @@ describe('MetaList', () => {
 
     it('should update for directing department to empty if code unknown', async () => {
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => null);
-      const { getAllByTestId } = render(
+      render(
         renderWithContext({
           ...parentIncident,
           directing_departments: [{ id: departments.list[0].id, code: 'unknown' }],
@@ -949,11 +961,11 @@ describe('MetaList', () => {
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:
       const editTestId = 'editDirecting_departmentsButton';
       const submitTestId = 'submitDirecting_departmentsButton';
-      const editButtons = getAllByTestId(editTestId);
+      const editButtons = screen.getAllByTestId(editTestId);
 
       fireEvent.click(editButtons[0]);
 
-      const submitButtons = getAllByTestId(submitTestId);
+      const submitButtons = screen.getAllByTestId(submitTestId);
 
       expect(update).not.toHaveBeenCalled();
 
@@ -969,18 +981,18 @@ describe('MetaList', () => {
 
     it('should update for directing department to empty if no departments defined', async () => {
       jest.spyOn(departmentsSelectors, 'makeSelectDepartments').mockImplementation(() => null);
-      const { getAllByTestId, getByTestId } = render(renderWithContext(parentIncident));
+      render(renderWithContext(parentIncident));
 
       // priority button data-testid attribute is dynamically generated in the ChangeValue component:
       const editTestId = 'editDirecting_departmentsButton';
       const submitTestId = 'submitDirecting_departmentsButton';
-      const editButtons = getAllByTestId(editTestId);
+      const editButtons = screen.getAllByTestId(editTestId);
 
       fireEvent.click(editButtons[0]);
 
-      fireEvent.click(getByTestId('input-ASC'));
+      fireEvent.click(screen.getByTestId('input-ASC'));
 
-      const submitButtons = getAllByTestId(submitTestId);
+      const submitButtons = screen.getAllByTestId(submitTestId);
 
       expect(update).not.toHaveBeenCalled();
 

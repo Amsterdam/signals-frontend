@@ -42,20 +42,7 @@
   "source": "random",
   "text": "Er vliegen allemaal wespen in de kerk.",
   "text_extra": "",
-  "extra_properties": [
-    {
-      "id": "extra_container_kind",
-      "label": "Soort container",
-      "answer": "Een papiercontainer",
-      "category_url": ""
-    },
-    {
-      "id": "extra_container_number",
-      "label": "Container nummer",
-      "answer": "Nummertje 911",
-      "category_url": ""
-    }
-  ],
+  "extra_properties": [],
   "created_at": "2020-10-29T15:53:05.650429+01:00",
   "updated_at": "2020-10-29T16:27:54.569883+01:00",
   "incident_date_start": "2020-10-29T15:53:05+01:00",
