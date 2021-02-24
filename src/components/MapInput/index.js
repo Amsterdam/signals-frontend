@@ -33,7 +33,7 @@ const StyledMap = styled(Map)`
 
 const StyledViewerContainer = styled(ViewerContainer)`
   & > * {
-    width: 100%;
+    width: calc(100% - 8px); // Subtract 8px to prevent horizontal scroll bar on MacOS (Firefox/Safari).
   }
 `;
 
@@ -41,7 +41,7 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
   position: absolute;
   left: 0;
   width: 40%;
-  max-width: calc(100% - 40px);
+  max-width: calc(100% - 32px);
   z-index: 401; // 400 is the minimum elevation where elements are shown above the map
 
   @media (max-width: ${({ theme }) => theme.layouts.large.max}px) {
