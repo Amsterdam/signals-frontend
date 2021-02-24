@@ -21,6 +21,7 @@ export const Form = styled.form`
 export const ControlsWrapper = styled.div`
   break-inside: avoid;
   margin-bottom: 50px;
+  padding-bottom: 1px; // Prevents flickering on Safari when hovering checkbox element in filter modal.
 `;
 
 export const FilterGroup = styled.div`
