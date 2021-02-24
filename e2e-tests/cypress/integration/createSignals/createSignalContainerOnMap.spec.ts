@@ -83,12 +83,13 @@ describe('Create signal "Container" and check signal details, container is on th
       cy.get('.Glas').should('have.length', 1).and('be.visible');
 
       cy.get('.Papier').click();
+      cy.wait(500);
       cy.get(CONTAINERS.containerListItem).should('contain', 'Papier container');
-      cy.get(CONTAINERS.clusterIcon).click();
       cy.get('.Plastic').click();
+      cy.wait(500);
       cy.get(CONTAINERS.containerListItem).should('contain', 'Plastic container');
-      cy.get(CONTAINERS.clusterIcon).click();
       cy.get('.Restafval').first().click();
+      cy.wait(500);
       cy.get(CONTAINERS.containerListItem).should('contain', 'Restafval container');
       cy.get(CONTAINERS.buttonRemoveContainer).eq(1).click();
       cy.get(CONTAINERS.containerListItem).should('not.contain', 'Plastic container');
@@ -101,9 +102,8 @@ describe('Create signal "Container" and check signal details, container is on th
       cy.contains('Wijzigen').click();
 
       cy.get(CONTAINERS.clusterIcon).click();
-      cy.get('.Glas').click();
       cy.wait(500);
-      cy.get(CONTAINERS.clusterIcon).click();
+      cy.get('.Glas').click();
       cy.wait(500);
       cy.get('.Papier').click();
 
