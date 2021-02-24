@@ -1,0 +1,14 @@
+{
+  "hoofdrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+    ],
+    [0.687539850510098]
+  ],
+  "subrubriek": [
+    [
+      "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu"
+    ],
+    [0.7028610045541032]
+  ]
+}

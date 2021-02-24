@@ -1,5 +1,5 @@
 module.exports = (on, config) => {
-  config.ignoreTestFiles = '**/_localRun/*.spec.js';
+  config.ignoreTestFiles = '**/_localRun/*.spec.ts';
   return config;
 };
 

@@ -91,7 +91,10 @@ describe('Deelmeldingen', () => {
         routes.patchSignalRoute();
         routes.getDeelmeldingenRoute();
         createSignal.openCreatedSignal();
+        cy.wait('@getSignal');
+        cy.get(SIGNAL_DETAILS.signalHeaderTitle).contains('Standaardmelding');
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).click();
+
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
@@ -128,11 +131,14 @@ describe('Deelmeldingen', () => {
         deelmeldingen.checkDeelmelding(2, 'Brug', 'Gemeld', '21 dagen');
         deelmeldingen.checkDeelmelding(3, 'Olie op het water', 'Gemeld', '3 dagen');
 
+        cy.get(SIGNAL_DETAILS.signalHeaderTitle).contains('Hoofdmelding');
+
         // Check signal data deelmelding 01
         cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(0).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).click();
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.get(SIGNAL_DETAILS.linkParent).should('have.text', json.signalId).and('be.visible');
         });
+        cy.get(SIGNAL_DETAILS.signalHeaderTitle).contains('Deelmelding');
         cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', 'Stadsdeel: Oost').should('be.visible');
         cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Weesperzijde 159-1').should('be.visible');
         cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1097DS Amsterdam').should('be.visible');
@@ -148,7 +154,7 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
         cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
 
-        createSignal.checkCreationDate();
+        cy.get(SIGNAL_DETAILS.creationDate).should('contain', general.getTodaysDate());
         cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '3 werkdagen').and('be.visible');
         createSignal.checkRedTextStatus('Gemeld');
         cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
@@ -287,33 +293,6 @@ describe('Deelmeldingen', () => {
       });
     });
   });
-  describe('Filter Deelmeldingen', () => {
-    beforeEach(() => {
-      localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
-      routes.getManageSignalsRoutes();
-      routes.stubPreviewMap();
-      routes.getTermsRoute();
-      routes.getSortedRoutes();
-      cy.visit('/manage/incidents/');
-      routes.waitForManageSignalsRoutes();
-    });
-    it('Should filter on standaardmelding', () => {
-      deelmeldingen.filterSignalOnType('Standaardmelding ', FILTER.checkboxMelding);
-    });
-    it('Should filter on hoofdmelding', () => {
-      deelmeldingen.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
-      cy.get(MANAGE_SIGNALS.firstSignalIcon).should('have.attr', 'aria-label', 'Hoofdmelding');
-    });
-    it('Should filter on deelmelding', () => {
-      deelmeldingen.filterSignalOnType('Deelmelding', FILTER.checkboxDeelmelding);
-    });
-    it.skip('Should filter on verantwoordelijke afdeling', () => {
-      // Make tests when possible
-    });
-    it.skip('Should filter on ASC', () => {
-      // Make tests when possible
-    });
-  });
   describe('Change status and add multiple times deelmeldingen', () => {
     describe('Set up testdata', () => {
       it('Should create a signal', () => {
@@ -338,6 +317,7 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
+        cy.get(DEELMELDING.radioButtonASC).check({ force: true });
         cy.get(DEELMELDING.buttonAdd).click();
 
         deelmeldingen.setDeelmelding(1, '1', 'Stankoverlast', 'Op dit adres stinkt het, vermoedelijk kruiden');
@@ -371,8 +351,6 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
-        // Test sometimes failes on next statement, only in github action not on a local machine. For testing purposes it is commented out.
-        // cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonInBehandeling).check({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@getHistory');
@@ -411,7 +389,6 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@getHistory');
         cy.wait('@getSignal');
-        // Wait for signals details to be visible, then check status
         cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'Ingepland').and('be.visible');
 
@@ -448,7 +425,6 @@ describe('Deelmeldingen', () => {
         cy.wait('@getSignal');
         cy.wait('@getSignals');
         cy.wait('@getDeelmeldingen');
-        // Wait for signals details to be visible, then check status
         cy.get(SIGNAL_DETAILS.historyAction).should('be.visible');
         cy.get(SIGNAL_DETAILS.status).should('have.text', 'Afgehandeld').and('be.visible');
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).should('not.exist');
@@ -457,6 +433,65 @@ describe('Deelmeldingen', () => {
         cy.wait(1000);
         deelmeldingen.checkDeelmeldingStatus('Geannuleerd');
       });
+    });
+  });
+  describe('Filter Deelmeldingen', () => {
+    beforeEach(() => {
+      localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      routes.getManageSignalsRoutes();
+      routes.stubPreviewMap();
+      routes.getTermsRoute();
+      routes.getSortedRoutes();
+      cy.visit('/manage/incidents/');
+      routes.waitForManageSignalsRoutes();
+      routes.getSignalDetailsRoutes();
+      routes.getFilterByDirectingDepartmentRoute();
+    });
+    it('Should filter on standaardmelding', () => {
+      deelmeldingen.filterSignalOnType('Standaardmelding ', FILTER.checkboxMelding);
+    });
+    it('Should filter on hoofdmelding', () => {
+      deelmeldingen.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
+      cy.get(MANAGE_SIGNALS.firstSignalIcon).should('have.attr', 'aria-label', 'Hoofdmelding');
+    });
+    it('Should filter on deelmelding', () => {
+      deelmeldingen.filterSignalOnType('Deelmelding', FILTER.checkboxDeelmelding);
+    });
+    it('Should filter on verantwoordelijke afdeling', () => {
+      cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+      cy.get(FILTER.checkboxVerantwoordelijkeAfdeling).click();
+      cy.get(FILTER.buttonSubmitFilter).click();
+      cy.wait('@submitDirectingDepartmentFilter');
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+      cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Verantwoordelijke afdeling').and('be.visible');
+      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      routes.waitForSignalDetailsRoutes();
+      cy.get(SIGNAL_DETAILS.regie).should('have.text', 'Verantwoordelijke afdeling');
+      cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
+      cy.get('th').contains('Id').click();
+      cy.wait('@getSortedASC');
+      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      routes.waitForSignalDetailsRoutes();
+      cy.get(SIGNAL_DETAILS.regie).should('have.text', 'Verantwoordelijke afdeling');
+      cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
+    });
+    it('Should filter on ASC', () => {
+      cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+      cy.get(FILTER.checkboxASC).click();
+      cy.get(FILTER.buttonSubmitFilter).click();
+      cy.wait('@submitDirectingDepartmentFilter');
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+      cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'ASC').and('be.visible');
+      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      routes.waitForSignalDetailsRoutes();
+      cy.get(SIGNAL_DETAILS.regie).should('have.text', 'ASC');
+      cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
+      cy.get('th').contains('Id').click();
+      cy.wait('@getSortedASC');
+      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      routes.waitForSignalDetailsRoutes();
+      cy.get(SIGNAL_DETAILS.regie).should('have.text', 'ASC');
+      cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
     });
   });
 });

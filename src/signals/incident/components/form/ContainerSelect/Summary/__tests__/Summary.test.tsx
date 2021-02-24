@@ -3,10 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { ContainerSelectProvider } from 'signals/incident/components/form/ContainerSelect/context';
 import type { LatLngExpression } from 'leaflet';
 import { withAppContext } from 'test/utils';
+import type { ContainerSelectValue } from '../../types';
 
 import Summary from '../Summary';
 
-const contextValue = {
+const contextValue: ContainerSelectValue = {
   selection: [
     {
       id: 'PL734',
@@ -33,6 +34,7 @@ const contextValue = {
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
+  setMessage: jest.fn(),
 };
 
 export const withContext = (Component: JSX.Element, context = contextValue) =>

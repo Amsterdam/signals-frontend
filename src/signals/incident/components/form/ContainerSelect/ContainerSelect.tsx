@@ -22,6 +22,7 @@ export interface ContainerSelectProps {
 const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({ handler, meta, parent }) => {
   const value = handler().value;
   const [showMap, setShowMap] = useState(false);
+  const [message, setMessage] = useState<string>();
 
   const { coordinates } = parent.meta.incidentContainer.incident.location.geometrie;
   const location: LatLngExpression = [coordinates[1], coordinates[0]];
@@ -47,7 +48,7 @@ const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({ handler, met
   }, [setShowMap]);
 
   return (
-    <ContainerSelectProvider value={{ selection: value, location, meta, update, edit, close }}>
+    <ContainerSelectProvider value={{ selection: value, location, meta, message, update, edit, close, setMessage }}>
       {!showMap && value.length === 0 && <Intro />}
 
       {showMap && <Selector />}
