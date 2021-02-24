@@ -1,5 +1,5 @@
 import React from 'react';
-import HandlingMessage from '../HandlingMessage';
+import HandlingMessage from '..';
 import { screen, render } from '@testing-library/react';
 
 describe('Form component <HandlingMessage />', () => {

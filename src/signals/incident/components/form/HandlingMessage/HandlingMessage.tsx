@@ -10,8 +10,7 @@ const Paragraph = styled.p`
 `;
 
 const renderText = (key: string, name: string, parent: Record<string, any>): React.ReactElement => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const replacedValue = get(parent.meta?.incidentContainer, key) as string;
+  const replacedValue = get(parent, `meta.incidentContainer.${key}`) as string;
   if (replacedValue) {
     return (
       <Fragment>
