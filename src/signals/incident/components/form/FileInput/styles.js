@@ -4,18 +4,22 @@ import Button from 'components/Button';
 
 const FileInputStyle = styled.div`
   display: flex;
-  height: ${themeSpacing(25)};
+  flex-wrap: wrap;
 `;
 
 export const FileInputPreviewBox = styled.div`
   width: ${themeSpacing(25)};
+  height: ${themeSpacing(25)};
   margin-right: ${themeSpacing(3)};
+  margin-bottom: ${themeSpacing(3)};
 `;
 
 export const FileInputEmptyBox = styled.div`
   width: ${themeSpacing(25)};
+  height: ${themeSpacing(25)};
   border: 1px dashed ${themeColor('tint', 'level5')};
   margin-right: ${themeSpacing(3)};
+  margin-bottom: ${themeSpacing(3)};
 `;
 
 export const FileInputError = styled.div`
