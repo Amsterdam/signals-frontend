@@ -4,9 +4,11 @@ import styled, { css } from 'styled-components';
 import { Row, Column, themeColor } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 
+export const FORM_FOOTER_HEIGHT = 66;
+
 export const FooterWrapper = styled.footer`
   background: ${themeColor('tint', 'level1')};
-  height: 66px;
+  height: ${FORM_FOOTER_HEIGHT}px;
   padding: 10px 0;
   max-width: 1400px;
 
@@ -19,6 +21,7 @@ export const FooterWrapper = styled.footer`
       width: 100%;
       left: 50%;
       transform: translate(-50%);
+      z-index: 1;
     `}
 `;
 
