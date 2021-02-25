@@ -87,6 +87,7 @@ const DefinitionsWrapper = styled.div`
 
 const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(8)};
+  word-break: break-word;
 `;
 
 const IncidentPreview = ({ incident, preview, sectionLabels }) => (
