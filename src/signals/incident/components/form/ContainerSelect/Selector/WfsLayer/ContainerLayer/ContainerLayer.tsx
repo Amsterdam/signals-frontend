@@ -151,6 +151,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         const { coordinates } = pointFeature.geometry;
         const latlng = featureTolocation({ coordinates });
         const marker = options.pointToLayer(pointFeature, latlng);
+
         /* istanbul ignore else */
         if (marker) {
           layerInstance.addLayer(marker);
@@ -164,8 +165,8 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
             event.layer.spiderfy();
             const latlng = event.layer.getLatLng();
             const selectedLatLng = selectedCluster.current.getLatLng();
-            if (isEqual(latlng, selectedLatLng)) selectedCluster.current = undefined;
-            else selectedCluster.current = event.layer;
+
+            if (!isEqual(latlng, selectedLatLng)) selectedCluster.current = event.layer;
           } else {
             selectedCluster.current = event.layer;
             selectedCluster.current.spiderfy();
@@ -187,6 +188,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         });
 
         const parent = getMarkerByZoomLevel(cluster as any, mapInstance.getZoom());
+
         if (parent) {
           selectedCluster.current = parent;
           selectedCluster.current.spiderfy();
