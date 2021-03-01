@@ -45,7 +45,7 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
         </Label>
       )}
 
-      {meta?.subtitle && <SubTitle aria-describedby={meta.id}>{meta.subtitle}</SubTitle>}
+      {meta?.subtitle && <SubTitle id={`subtitle-${meta.id}`}>{meta.subtitle}</SubTitle>}
 
       {touched && containsErrors && (
         <Fragment>
