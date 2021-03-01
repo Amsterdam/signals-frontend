@@ -30,12 +30,13 @@ const DescriptionInput = ({
 
   return (
     <TextArea
+      id={meta.id}
       data-testid="descriptionInput"
-      rows={meta.rows || 6}
+      rows={meta.rows}
       placeholder={meta.placeholder}
       {...handler()}
       onBlur={handleBlur}
-      helpText={<DescriptionInfo info={getCharactersInfo()} />}
+      infoText={<DescriptionInfo info={getCharactersInfo()} />}
     />
   );
 };

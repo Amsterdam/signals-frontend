@@ -2,11 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
-
-const Children = styled.div`
-  display: flex;
-  flex-flow: column;
-`;
+import Label from 'components/Label';
 
 const Wrapper = styled.div`
   ${({ invalid }) =>
@@ -15,11 +11,6 @@ const Wrapper = styled.div`
       border-left: ${themeColor('support', 'invalid')} 2px solid;
       padding-left: ${themeSpacing(3)};
     `}
-`;
-
-const Label = styled.div`
-  font-family: Avenir Next LT W01 Demi;
-  margin-bottom: ${themeSpacing(2)};
 `;
 
 const Optional = styled.span`
@@ -33,7 +24,7 @@ const ErrorItem = styled.div`
   margin-bottom: ${themeSpacing(1)};
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
   margin-top: ${themeSpacing(-1)};
   margin-bottom: ${themeSpacing(2)};
@@ -47,14 +38,14 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
   return (
     <Wrapper className={className} invalid={containsErrors}>
       {meta?.label && (
-        <Label>
+        <Label htmlFor={meta.id}>
           {meta.label}
 
           {isOptional && <Optional>(optioneel)</Optional>}
         </Label>
       )}
 
-      {meta?.subtitle && <SubTitle>{meta.subtitle}</SubTitle>}
+      {meta?.subtitle && <SubTitle aria-describedby={meta.id}>{meta.subtitle}</SubTitle>}
 
       {touched && containsErrors && (
         <Fragment>
@@ -76,7 +67,7 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
         </Fragment>
       )}
 
-      <Children>{children}</Children>
+      {children}
     </Wrapper>
   );
 };
@@ -88,6 +79,7 @@ Header.defaultProps = {
 Header.propTypes = {
   className: PropTypes.string,
   meta: PropTypes.shape({
+    id: PropTypes.string,
     label: PropTypes.string,
     subtitle: PropTypes.string,
   }),

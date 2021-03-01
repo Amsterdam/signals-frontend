@@ -121,6 +121,7 @@ export const controls = {
   },
   extra_boten_snelheid_meer: {
     meta: {
+      id: 'extra_boten_snelheid_meer',
       label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?',
       shortLabel: 'Extra informatie',
       subtitle:
@@ -134,10 +135,11 @@ export const controls = {
   },
   extra_boten_geluid_meer: {
     meta: {
+      id: 'extra_boten_geluid_meer',
       label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie',
       shortLabel: 'Extra informatie',
       subtitle:
-        'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
+      'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
       pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-geluid',
@@ -147,6 +149,7 @@ export const controls = {
   },
   extra_boten_gezonken_meer: {
     meta: {
+      id: 'extra_boten_gezonken_meer',
       label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?',
       shortLabel: 'Extra informatie',
       subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',

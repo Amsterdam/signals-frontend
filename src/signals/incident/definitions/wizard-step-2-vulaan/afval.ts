@@ -25,6 +25,7 @@ const intro = {
 export const controls = {
   extra_afval: {
     meta: {
+      id: 'extra_afval',
       ifOneOf: {
         subcategory: ['grofvuil', 'huisafval', 'puin-sloopafval'],
       },
