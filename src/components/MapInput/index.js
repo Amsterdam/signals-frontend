@@ -168,6 +168,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
             args={[location]}
             options={{
               icon: markerIcon,
+              keyboard: false,
             }}
           />
         )}
