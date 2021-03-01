@@ -22,7 +22,7 @@ const TextAreaInput = props => {
             {...handler()}
             placeholder={placeholder}
             rows={rows}
-            helpText={maxLength > 0 && `${value ? value.length : '0'}/${maxLength} tekens`}
+            infoText={maxLength > 0 && `${value ? value.length : '0'}/${maxLength} tekens`}
           />
         </div>
       </div>

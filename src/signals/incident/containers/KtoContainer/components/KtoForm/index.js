@@ -156,7 +156,7 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
         </Label>
         <TextArea
           data-testid="ktoTextExtra"
-          helpText={`${state.numChars}/${extraTextMaxLength} tekens`}
+          infoText={`${state.numChars}/${extraTextMaxLength} tekens`}
           id="text_extra"
           maxLength={extraTextMaxLength}
           name="text_extra"

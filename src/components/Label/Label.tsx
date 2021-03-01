@@ -12,7 +12,7 @@ const Label =
   styled.label<LabelProps>`
     font-family: Avenir Next LT W01${({ inline = false }) => inline ? '-Regular' : ' Demi'}, arial, sans-serif;
     font-size: 16px;
-    margin-bottom: ${themeSpacing(2)};
+    margin-bottom: ${themeSpacing(1)};
     display: inline-block;
     vertical-align: text-top;
     color: inherit;

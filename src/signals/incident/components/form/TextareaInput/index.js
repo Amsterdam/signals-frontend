@@ -14,8 +14,9 @@ const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getErr
         onBlur={event =>
           parent.meta.updateIncident({
             [meta.name]: meta.autoRemove ? event.target.value.replace(meta.autoRemove, '') : event.target.value,
-          })}
-        helpText={meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
+          })
+        }
+        infoText={meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
       />
     </Header>
   );

@@ -24,7 +24,7 @@ const InfoText = styled.div`
   margin-top: ${themeSpacing(2)};
 `;
 
-const TextArea = forwardRef(({ helpText: infoText, errorMessage, label, id, ...props }, ref) => (
+const TextArea = forwardRef(({ infoText, errorMessage, label, id, ...props }, ref) => (
   <Fragment>
     {label && (
       <Label inline htmlFor={id}>
@@ -43,7 +43,7 @@ TextArea.defaultProps = {
 
 TextArea.propTypes = {
   id: PropTypes.string,
-  helpText: PropTypes.node,
+  infoText: PropTypes.node,
   label: PropTypes.node,
   errorMessage: PropTypes.string,
   maxRows: PropTypes.number,

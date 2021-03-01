@@ -26,8 +26,8 @@ const ErrorItem = styled.div`
 
 const SubTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
-  margin-top: ${themeSpacing(-1)};
-  margin-bottom: ${themeSpacing(2)};
+  margin-top: 0;
+  margin-bottom: ${themeSpacing(3)};
 `;
 
 const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
