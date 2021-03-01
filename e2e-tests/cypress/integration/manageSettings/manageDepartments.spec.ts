@@ -70,7 +70,7 @@ describe('Manage departments', () => {
       cy.get('td').eq(3).should('not.contain', 'Wildplassen / poepen / overgeven');
       cy.get('tr').eq(2).click();
       cy.wait('@getDepartment');
-      cy.get(DEPARTMENTS.checkboxWildplassenPoepen).check().should('be.checked');
+      cy.get(DEPARTMENTS.checkboxWildplassenPoepen).check({ force: true }).should('be.checked');
       cy.get(DEPARTMENTS.buttonAnnuleren).click();
       // Because page doesn't refresh automatically, page is reloaded
       cy.visit('/instellingen/afdelingen');
@@ -109,7 +109,7 @@ describe('Manage departments', () => {
       it('Should change the responsible department', () => {
         cy.get('tr').eq(3).click();
         cy.wait('@getDepartment');
-        cy.get(DEPARTMENTS.checkboxDrankDrugsOverlast).check().should('be.checked');
+        cy.get(DEPARTMENTS.checkboxDrankDrugsOverlast).check({ force: true }).should('be.checked');
         cy.get(DEPARTMENTS.buttonOpslaan).click();
       });
     });

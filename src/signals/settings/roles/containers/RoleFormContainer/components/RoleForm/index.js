@@ -7,12 +7,12 @@ import useFormValidation from 'hooks/useFormValidation';
 
 import Checkbox from 'components/Checkbox';
 import Input from 'components/Input';
-import FormFooter from 'components/FormFooter';
+import FormFooter, { FORM_FOOTER_HEIGHT } from 'components/FormFooter';
 
 import { ROLES_URL } from 'signals/settings/routes';
 
 const StyledForm = styled.form`
-  margin-bottom: ${themeSpacing(15)};
+  margin-bottom: ${FORM_FOOTER_HEIGHT}px;
 `;
 
 const GroupLabel = styled(Label)`

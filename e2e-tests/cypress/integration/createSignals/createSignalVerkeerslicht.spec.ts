@@ -54,30 +54,25 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_voetganger.label).should('be.visible');
       cy.get(VERKEERSLICHT.checkBoxVoetgangerRoodLicht)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Rood licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxVoetgangerGroenLicht)
-        .parent()
         .parent()
         .siblings()
         .should('have.text', 'Groen licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxVoetgangerBlindentikker)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Blindentikker werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxVoetgangerDuurtLang)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Duurt (te) lang voordat het groen wordt')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxVoetgangerAnders)
-        .parent()
         .parent()
         .siblings()
         .should('have.text', 'Anders')
@@ -88,30 +83,25 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_fiets_auto.label).should('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoRoodLicht)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Rood licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoOranjeLicht)
-        .parent()
         .parent()
         .siblings()
         .should('have.text', 'Oranje/geel licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoGroenLicht)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Groen licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoDuurtLang)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Duurt (te) lang voordat het groen wordt')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoAnders)
-        .parent()
         .parent()
         .siblings()
         .should('have.text', 'Anders')
@@ -122,30 +112,25 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_fiets_auto.label).should('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoRoodLicht)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Rood licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoOranjeLicht)
-        .parent()
         .parent()
         .siblings()
         .should('have.text', 'Oranje/geel licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoGroenLicht)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Groen licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoDuurtLang)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Duurt (te) lang voordat het groen wordt')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxFietsAutoAnders)
-        .parent()
         .parent()
         .siblings()
         .should('have.text', 'Anders')
@@ -156,30 +141,25 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_bus_tram.label).should('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramRoodLicht)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Rood licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramOranjeLicht)
-        .parent()
         .parent()
         .siblings()
         .should('have.text', 'Oranje/geel licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramWitLicht)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Wit licht werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramWaarschuwingslicht)
         .parent()
-        .parent()
         .siblings()
         .should('have.text', 'Waarschuwingslicht tram werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramAnders)
-        .parent()
         .parent()
         .siblings()
         .should('have.text', 'Anders')

@@ -1,8 +1,3 @@
-module.exports = (on, config) => {
-  config.ignoreTestFiles = '**/_localRun/*.spec.js';
-  return config;
-};
-
 const webpack = require('@cypress/webpack-preprocessor');
 module.exports = on => {
   const options = {

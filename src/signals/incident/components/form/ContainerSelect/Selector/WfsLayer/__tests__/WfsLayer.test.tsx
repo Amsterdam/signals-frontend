@@ -53,7 +53,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     render(
       withMapContainer(
         <WfsLayer zoomLevel={{ max: 15 }}>
-          <TestLayer featureTypes={[]} />
+          <TestLayer featureTypes={[]} desktopView />
         </WfsLayer>
       )
     );
@@ -68,7 +68,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     render(
       withMapContainer(
         <WfsLayer zoomLevel={{ max: 12 }}>
-          <TestLayer featureTypes={[]} />
+          <TestLayer featureTypes={[]} desktopView />
         </WfsLayer>
       )
     );
@@ -85,7 +85,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     render(
       withMapContainer(
         <WfsLayer>
-          <TestLayer featureTypes={[]} />
+          <TestLayer featureTypes={[]} desktopView />
         </WfsLayer>
       )
     );
@@ -102,7 +102,7 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     render(
       withMapContainer(
         <WfsLayer>
-          <TestLayer featureTypes={[]} />
+          <TestLayer featureTypes={[]} desktopView />
         </WfsLayer>
       )
     );

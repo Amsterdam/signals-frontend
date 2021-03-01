@@ -13,6 +13,7 @@ export const Form = styled.form`
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: ${themeSpacing(8)};
+  word-break: break-word;
 
   & > * {
     grid-column-start: 1;

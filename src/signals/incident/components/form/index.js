@@ -1,9 +1,10 @@
+import LinkButton from './LinkButton';
 import CheckboxInput from './CheckboxInput';
 import EmphasisCheckboxInput from './EmphasisCheckboxInput';
 import DescriptionInputRenderer from './DescriptionInputRenderer';
 import DateTimeInput from './DateTimeInput';
 import FileInputRenderer from './FileInputRenderer';
-import HandlingMessage from './HandlingMessage';
+import HandlingMessage from './HandlingMessage/HandlingMessage';
 import HiddenInput from './HiddenInput';
 import MultiTextInput from './MultiTextInput';
 import PlainText from './PlainText';
@@ -17,13 +18,14 @@ import CategorySelectRenderer from './CategorySelectRenderer';
 import ContainerSelectRenderer from './ContainerSelectRenderer';
 
 export default {
-  EmphasisCheckboxInput,
   CheckboxInput,
   DateTimeInput,
   DescriptionInputRenderer,
+  EmphasisCheckboxInput,
   FileInputRenderer,
   HandlingMessage,
   HiddenInput,
+  LinkButton,
   MapInput,
   MapSelect,
   MultiTextInput,

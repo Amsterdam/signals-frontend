@@ -23,9 +23,10 @@ describe('Manage users', () => {
     cy.url().should('include', '/instellingen/gebruikers/page/1');
   });
 
-  // This test case can be executed when we start every test with a clean database
-  it.skip('Should add a user', () => {
-    cy.get(USERS.inputMail).type('sia@fakemail.nl');
+  it('Should add a user', () => {
+    const randomNumber = Math.random();
+    cy.contains('Gebruiker toevoegen').click();
+    cy.get(USERS.inputMail).type(`z${randomNumber}@fakemail.nl`);
     cy.get(USERS.inputVoornaam).type('Simon');
     cy.get(USERS.inputAchternaam).type('Ia');
     cy.contains('div', 'GGD')
@@ -33,7 +34,9 @@ describe('Manage users', () => {
       .check();
     cy.get(USERS.inputNotitie).type('Dit is de belangrijkste gebruiker van SIA, let op!');
     cy.get(USERS.buttonOpslaan).click();
+    cy.contains(`z${randomNumber}@fakemail.nl`).should('be.visible');
   });
+
   it('Should change a user and show history', () => {
     const randomNumber = Math.random();
     routes.getUserRoute();
@@ -55,6 +58,7 @@ describe('Manage users', () => {
     cy.get(USERS.historyAction).first().should('have.text', 'Voornaam gewijzigd:\n Test\nAchternaam gewijzigd:\n Cees');
     cy.get(USERS.buttonAnnuleren).click();
   });
+
   it('Should add a department to a user', () => {
     routes.getUserRoute();
     routes.patchUserRoute();

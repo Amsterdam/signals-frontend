@@ -22,7 +22,7 @@ const Address = styled.address`
 `;
 
 const StyledMap = styled(Map)`
-  width: ${mapWidth}px;
+  max-width: ${mapWidth}px;
   height: ${mapHeight}px;
 `;
 

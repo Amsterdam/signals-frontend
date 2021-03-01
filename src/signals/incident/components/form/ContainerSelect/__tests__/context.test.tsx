@@ -24,6 +24,7 @@ export const contextValue: ContainerSelectValue = {
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
+  setMessage: jest.fn(),
 };
 
 export const withContainerSelectContext = (Component: ReactNode, context = contextValue) =>

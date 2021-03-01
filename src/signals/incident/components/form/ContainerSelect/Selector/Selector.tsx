@@ -22,7 +22,7 @@ import LegendPanel from './LegendPanel';
 import ViewerContainer from './ViewerContainer';
 import ContainerLayer from './WfsLayer/ContainerLayer';
 import WfsLayer from './WfsLayer';
-import ZoomMessage from './ZoomMessage';
+import { ZoomMessage, MapMessage } from './Message';
 import useLayerVisible from './useLayerVisible';
 import SelectionPanel from './SelectionPanel';
 import { UNREGISTERED_CONTAINER_TYPE } from '../constants';
@@ -85,17 +85,19 @@ const StyledMapPanelDrawer = styled(MapPanelDrawer)`
   }
 `;
 
-const ButtonBarStyle = styled.div<{ layerVisible: boolean }>`
+const ButtonBarStyle = styled.div<{ messageVisible: boolean }>`
   @media screen and ${breakpoint('max-width', 'tabletM')} {
-    margin-top: ${({ layerVisible }) => !layerVisible && themeSpacing(11)};
+    margin-top: ${({ messageVisible }) => messageVisible && themeSpacing(11)};
   }
 `;
 
 const ButtonBar: FunctionComponent<{ zoomLevel: ZoomLevel }> = ({ children, zoomLevel }) => {
   const layerVisible = useLayerVisible(zoomLevel);
+  const { message } = useContext(ContainerSelectContext);
+  const messageVisible = !layerVisible || !!message;
 
   return (
-    <ButtonBarStyle data-testid="buttonBar" layerVisible={layerVisible}>
+    <ButtonBarStyle data-testid="buttonBar" messageVisible={messageVisible}>
       {children}
     </ButtonBarStyle>
   );
@@ -110,13 +112,13 @@ const Selector = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!;
   const { selection, location, meta, update, close } = useContext(ContainerSelectContext);
-  const [showDesktopVariant] = useMatchMedia({ minBreakpoint: 'tabletM' });
+  const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' });
   const { Panel, panelVariant } = useMemo<{ Panel: FunctionComponent; panelVariant: Variant }>(
     () =>
-      showDesktopVariant
+      desktopView
         ? { Panel: MapPanel, panelVariant: 'panel' }
         : { Panel: StyledMapPanelDrawer, panelVariant: 'drawer' },
-    [showDesktopVariant]
+    [desktopView]
   );
 
   const mapOptions = useMemo<MapOptions>(
@@ -147,7 +149,7 @@ const Selector = () => {
 
   const mapWrapper = (
     <Wrapper data-testid="containerSelectSelector">
-      <StyledMap hasZoomControls={showDesktopVariant} mapOptions={mapOptions}>
+      <StyledMap hasZoomControls={desktopView} mapOptions={mapOptions}>
         <MapPanelProvider
           mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
           mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
@@ -167,7 +169,7 @@ const Selector = () => {
             }
           />
 
-          <Panel data-testid={`panel${showDesktopVariant ? 'Desktop' : 'Mobile'}`}>
+          <Panel data-testid={`panel${desktopView ? 'Desktop' : 'Mobile'}`}>
             {showSelectionPanel && (
               <SelectionPanel
                 featureTypes={meta.featureTypes}
@@ -194,10 +196,11 @@ const Selector = () => {
           </Panel>
         </MapPanelProvider>
 
+        <MapMessage />
         <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>Zoom in om de objecten te zien</ZoomMessage>
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <ContainerLayer featureTypes={meta.featureTypes} />
+          <ContainerLayer featureTypes={meta.featureTypes} desktopView={desktopView} />
         </WfsLayer>
       </StyledMap>
     </Wrapper>

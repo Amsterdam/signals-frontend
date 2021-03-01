@@ -4,18 +4,22 @@ import Button from 'components/Button';
 
 const FileInputStyle = styled.div`
   display: flex;
-  height: ${themeSpacing(25)};
+  flex-wrap: wrap;
 `;
 
 export const FileInputPreviewBox = styled.div`
-  width: ${themeSpacing(25)};
-  margin-right: ${themeSpacing(3)};
+  width: ${themeSpacing(23)};
+  height: ${themeSpacing(23)};
+  margin-right: ${themeSpacing(2)};
+  margin-bottom: ${themeSpacing(2)};
 `;
 
 export const FileInputEmptyBox = styled.div`
-  width: ${themeSpacing(25)};
+  width: ${themeSpacing(23)};
+  height: ${themeSpacing(23)};
   border: 1px dashed ${themeColor('tint', 'level5')};
-  margin-right: ${themeSpacing(3)};
+  margin-right: ${themeSpacing(2)};
+  margin-bottom: ${themeSpacing(2)};
 `;
 
 export const FileInputError = styled.div`
@@ -70,8 +74,8 @@ export const AddButton = styled.div`
   align-items: center;
   width: ${themeSpacing(11)};
   height: ${themeSpacing(11)};
-  top: ${themeSpacing(7)};
-  left: ${themeSpacing(7)};
+  top: ${themeSpacing(6)};
+  left: ${themeSpacing(6)};
   border-radius: 50%;
   border: 1px solid ${themeColor('primary')};
 
