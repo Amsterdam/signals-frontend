@@ -1,5 +1,6 @@
 export const CREATE_SIGNAL = {
   autoSuggest: '[data-testid="autoSuggest"]',
+  buttonDoeEenMelding: 'a:contains("Doe een melding")',
   buttonGPS: '[data-testid=gpsButton]',
   buttonUploadFile: '#formUpload',
   buttonVolgende: '[data-testid="nextButton"]',

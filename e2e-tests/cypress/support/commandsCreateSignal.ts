@@ -274,6 +274,8 @@ export const checkSummaryPage = (json: signal.RootObject) => {
 export const checkThanksPage = () => {
   cy.url().should('include', '/incident/bedankt');
   commandsGeneral.checkHeaderText('Bedankt!');
+  cy.contains('Wat doen we met uw melding?').should('be.visible');
+  cy.contains('Wilt u nog een andere melding doen?').should('be.visible');
   cy.get('body').then($body => {
     if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
       checkHeaderFooter();

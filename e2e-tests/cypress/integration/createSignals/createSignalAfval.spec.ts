@@ -1,4 +1,5 @@
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/afval.json';
 import * as routes from '../../support/commandsRouting';
@@ -14,6 +15,24 @@ describe('Create signal afval and check signal details', () => {
     });
 
     it('Should create the signal', () => {
+      createSignal.setDescriptionPage(signal);
+      cy.contains('Volgende').click();
+
+      createSignal.setPhonenumber(signal);
+      cy.contains('Volgende').click();
+
+      createSignal.setEmailAddress(signal);
+      cy.contains('Volgende').click();
+
+      createSignal.checkSummaryPage(signal);
+      cy.contains('Verstuur').click();
+      cy.wait('@postSignalPublic');
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+
+      createSignal.checkThanksPage();
+
+      // Create a second singal
+      cy.get(CREATE_SIGNAL.buttonDoeEenMelding).click();
       createSignal.setDescriptionPage(signal);
       cy.contains('Volgende').click();
 
