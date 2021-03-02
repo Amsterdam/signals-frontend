@@ -56,7 +56,7 @@ export const summary = controls =>
     (acc, [key, val]) => ({
       ...acc,
       [key]: {
-        label: val.meta.shortLabel,
+        label: val.meta.label,
         optional: true,
         render: renderPreview(val),
       },
@@ -70,7 +70,7 @@ const expandQuestions = memoize(
       (acc, [key, question]) => ({
         ...acc,
         [key]: {
-          label: question.meta.shortLabel || question.meta.label,
+          label: question.meta.label || question.meta.shortLabel,
           optional: !question.required,
           render: renderPreview({ render: mapFieldNameToComponent(question.render), meta: question.meta }),
         },
@@ -144,7 +144,7 @@ export default {
       },
       sharing_allowed: {
         meta: {
-          shortLabel: 'Toestemming contactgegevens delen',
+          label: 'Toestemming contactgegevens delen',
           value: configuration.language?.consentToContactSharing,
           path: 'reporter.sharing_allowed',
         },
@@ -169,11 +169,11 @@ export default {
         authenticated: true,
       },
       location: {
-        label: 'Locatie',
+        label: 'Waar is het?',
         render: PreviewComponents.Map,
       },
       description: {
-        label: 'Beschrijving',
+        label: 'Waar gaat het om?',
         render: ({ value }) => value,
       },
       classification: {
@@ -182,11 +182,11 @@ export default {
         authenticated: true,
       },
       datetime: {
-        label: 'Tijdstip',
+        label: 'Geef het tijdstip aan',
         render: PreviewComponents.DateTime,
       },
       images_previews: {
-        label: 'Foto',
+        label: 'Foto\'s toevoegen',
         render: PreviewComponents.Image,
         optional: true,
       },
@@ -196,7 +196,7 @@ export default {
 
     telefoon: {
       phone: {
-        label: 'Uw telefoonnummer',
+        label: 'Wat is uw telefoonnummer?',
         optional: true,
         render: ({ value }) => value,
       },
@@ -204,7 +204,7 @@ export default {
 
     email: {
       email: {
-        label: 'Uw e-mailadres',
+        label: 'Wat is uw e-mailadres?',
         optional: true,
         render: ({ value }) => value,
       },
