@@ -19,6 +19,11 @@ const StyledViewerContainer = styled(ViewerContainer)`
 const StyledMap = styled(MapComponent)`
   cursor: default;
 
+  &:focus {
+    outline: 5px auto Highlight !important; // Firefox outline
+    outline: 5px auto -webkit-focus-ring-color !important; // Safari / Chrome outline
+  }
+
   &.leaflet-drag-target {
     cursor: all-scroll;
   }
@@ -84,6 +89,9 @@ const Map = ({
       options={options}
       setInstance={captureInstance}
     >
+      {children}
+
+      {/* Render GPS and zoom buttons after children to maintain correct focus order */}
       <StyledViewerContainer
         bottomRight={
           <div data-testid="mapZoom">
@@ -119,8 +127,6 @@ const Map = ({
       />
 
       {geolocation?.toggled && <LocationMarker geolocation={geolocation} />}
-
-      {children}
 
       <TileLayer args={configuration.map.tiles.args} options={configuration.map.tiles.options} />
     </StyledMap>
