@@ -17,6 +17,7 @@ import dataLists from 'signals/incident-management/definitions';
 import { parseOutputFormData } from 'signals/shared/filter/parse';
 
 import { makeSelectDirectingDepartments, makeSelectRoutingDepartments } from 'models/departments/selectors';
+import { makeSelectUserCan } from 'containers/App/selectors';
 import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
 import CalendarInput from '../CalendarInput';
 import CategoryGroups from './components/CategoryGroups';
@@ -60,6 +61,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const categories = useSelector(makeSelectStructuredCategories);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
   const routingDepartments = useSelector(makeSelectRoutingDepartments);
+  const userCan = useSelector(makeSelectUserCan);
   const [, ...otherRoutingDepartments] = routingDepartments;
   const notRoutedOption = routingDepartments[0];
 
@@ -246,6 +248,13 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const onAssignedSelect = useCallback(
     option => {
       dispatch(setGroupOptions({ assigned_user_email: option.id }));
+    },
+    [dispatch]
+  );
+
+  const onAssignedTextBlur = useCallback(
+    event => {
+      dispatch(setGroupOptions({ assigned_user_email: event.target.value }));
     },
     [dispatch]
   );
@@ -514,18 +523,31 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                   />
                 </AscLabel>
               </div>
-              <AutoSuggest
-                value={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
-                id="filter_assigned_user_email"
-                name="assigned_user_email"
-                onSelect={onAssignedSelect}
-                onClear={onAssignedClear}
-                placeholder="medewerker@example.com"
-                url={USERS_AUTO_SUGGEST_URL}
-                formatResponse={getUserOptions}
-                numOptionsDeterminer={getUserCount}
-                disabled={state.options.assigned_user_email === 'null'}
-              />
+
+              {userCan('view_user') ? (
+                <AutoSuggest
+                  value={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
+                  id="filter_assigned_user_email"
+                  name="assigned_user_email"
+                  onSelect={onAssignedSelect}
+                  onClear={onAssignedClear}
+                  placeholder="medewerker@example.com"
+                  url={USERS_AUTO_SUGGEST_URL}
+                  formatResponse={getUserOptions}
+                  numOptionsDeterminer={getUserCount}
+                  disabled={state.options.assigned_user_email === 'null'}
+                />
+              ) : (
+                <Input
+                  id="filter_assigned_user_email"
+                  name="assigned_user_email"
+                  placeholder="medewerker@example.com"
+                  type="text"
+                  disabled={state.options.assigned_user_email === 'null'}
+                  defaultValue={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
+                  onBlur={onAssignedTextBlur}
+                />
+              )}
             </FilterGroup>
           )}
 
