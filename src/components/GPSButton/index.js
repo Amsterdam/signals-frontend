@@ -9,7 +9,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import GPS from '../../shared/images/icon-gps.svg';
 
 const StyledButton = styled(Button)`
-  box-shadow: 0 0 0 2px rgb(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 `;
 
 const GPSIcon = styled(GPS)`
