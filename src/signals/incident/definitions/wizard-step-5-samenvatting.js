@@ -144,7 +144,7 @@ export default {
       },
       sharing_allowed: {
         meta: {
-          label: 'Toestemming contactgegevens delen',
+          shortLabel: 'Toestemming contactgegevens delen',
           value: configuration.language?.consentToContactSharing,
           path: 'reporter.sharing_allowed',
         },
