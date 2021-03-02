@@ -20,6 +20,7 @@ export default {
           placeholder: 'Telefoonnummer',
           type: 'tel',
           autoRemove: /[^\d ()+-]/g,
+          autoComplete: 'tel',
           autoFocus: true,
         },
         render: FormComponents.TextInput,
