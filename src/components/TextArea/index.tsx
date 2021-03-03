@@ -15,7 +15,7 @@ const StyledArea = styled(AscTextArea)<{ rows?: number; maxRows?: number }>`
   vertical-align: top; /* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
   min-height: ${({ rows }) => (rows ?? 5) * lineHeight}px;
   resize: vertical;
-  max-height: ${({ maxRows = 15 }) => maxRows * lineHeight}px;
+  max-height: ${({ maxRows }) => (maxRows ?? 15) * lineHeight}px;
   line-height: ${lineHeight}px;
 `;
 
@@ -25,12 +25,12 @@ const InfoText = styled.div`
 `;
 
 interface TextAreaProps extends AscTextAreaProps {
-  id?: string;
+  id: string;
   label?: ReactNode;
   infoText?: ReactNode;
   errorMessage?: string;
   rows?: number;
-  maxRows?: number;
+  maxRows: number;
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(

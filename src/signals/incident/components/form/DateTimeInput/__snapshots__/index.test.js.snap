@@ -2,7 +2,6 @@
 
 exports[`Form component <DateTimeInput /> rendering should render date time field correctly 1`] = `
 <Header
-  className=""
   hasError={[Function]}
   meta={
     Object {

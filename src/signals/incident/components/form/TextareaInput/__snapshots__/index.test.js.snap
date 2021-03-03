@@ -2,7 +2,6 @@
 
 exports[`Form component <TextareaInput /> rendering should render character counter correctly 1`] = `
 <Header
-  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -18,7 +17,6 @@ exports[`Form component <TextareaInput /> rendering should render character coun
   <ForwardRef
     aria-describedby="subtitle-input-field-name"
     infoText="0/300 tekens"
-    maxRows={15}
     onBlur={[Function]}
     placeholder="type here"
   />
@@ -27,7 +25,6 @@ exports[`Form component <TextareaInput /> rendering should render character coun
 
 exports[`Form component <TextareaInput /> rendering should render character counter with value correctly 1`] = `
 <Header
-  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -43,7 +40,6 @@ exports[`Form component <TextareaInput /> rendering should render character coun
   <ForwardRef
     aria-describedby="subtitle-input-field-name"
     infoText="4/300 tekens"
-    maxRows={15}
     onBlur={[Function]}
     placeholder="type here"
   />
@@ -54,7 +50,6 @@ exports[`Form component <TextareaInput /> rendering should render no text area f
 
 exports[`Form component <TextareaInput /> rendering should render text area field correctly 1`] = `
 <Header
-  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -69,7 +64,6 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
   <ForwardRef
     aria-describedby="subtitle-input-field-name"
     infoText={false}
-    maxRows={15}
     onBlur={[Function]}
     placeholder="type here"
   />
