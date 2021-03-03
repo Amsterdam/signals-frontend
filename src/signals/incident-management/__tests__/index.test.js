@@ -30,6 +30,7 @@ describe('signals/incident-management', () => {
     jest.spyOn(actions, 'getFilters').mockImplementation(payload => ({ type: 'BAR', payload }));
     jest.spyOn(actions, 'searchIncidents').mockImplementation(payload => ({ type: 'BAZ', payload }));
     jest.spyOn(actions, 'requestIncidents').mockImplementation(payload => ({ type: 'QUX', payload }));
+    jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
     fetch.mockResponses([JSON.stringify({}), { status: 200 }]);
   });
 
