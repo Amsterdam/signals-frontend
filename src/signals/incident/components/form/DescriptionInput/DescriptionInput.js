@@ -29,16 +29,19 @@ const DescriptionInput = ({
   }, [meta, parent]);
 
   return (
-    <TextArea
-      id={meta.name}
-      aria-describedby={`subtitle-${meta.name}`}
-      data-testid="descriptionInput"
-      rows={meta.rows}
-      placeholder={meta.placeholder}
-      {...handler()}
-      onBlur={handleBlur}
-      infoText={<DescriptionInfo info={getCharactersInfo()} />}
-    />
+    <div>
+
+      <TextArea
+        id={meta.name}
+        aria-describedby={`subtitle-${meta.name}`}
+        data-testid="descriptionInput"
+        rows={meta.rows}
+        placeholder={meta.placeholder}
+        {...handler()}
+        onBlur={handleBlur}
+        infoText={<DescriptionInfo info={getCharactersInfo()} />}
+      />
+    </div>
   );
 };
 
