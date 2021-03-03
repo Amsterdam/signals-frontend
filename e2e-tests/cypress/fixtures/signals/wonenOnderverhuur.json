@@ -45,7 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_wonen_onderhuur_aantal_personen",
-      "label": "Aantal personen",
+      "label": "Hoeveel personen wonen op dit adres?",
+      "shortLabel": "Aantal personen",
       "answer": {
         "id": "vijf_of_meer_personen",
         "info": "",
@@ -55,19 +56,22 @@
     },
     {
       "id": "extra_wonen_onderhuur_bewoners_familie",
-      "label": "Bewoners familie",
+      "label": "Zijn de mensen die op dit adres wonen familie van elkaar?",
+      "shortLabel": "Bewoners familie",
       "answer": {"id": "weet_ik_niet", "info": "", "label": "Weet ik niet"},
       "category_url": ""
     },
     {
       "id": "extra_wonen_onderhuur_naam_bewoners",
-      "label": "Naam bewoners",
+      "label": "Wat zijn de namen van de mensen die op dit adres wonen?",
+      "shortLabel": "Naam bewoners",
       "answer": "Yennefer en Geralt of Rivia",
       "category_url": ""
     },
     {
       "id": "extra_wonen_onderhuur_woon_periode",
-      "label": "Woon periode",
+      "label": "Hoe lang wonen deze mensen al op dit adres?",
+      "shortLabel": "Woon periode",
       "answer": {
         "id": "langer_dan_zes_maanden",
         "info": "",
@@ -77,19 +81,22 @@
     },
     {
       "id": "extra_wonen_onderhuur_iemand_aanwezig",
-      "label": "Iemand aanwezig",
+      "label": "Op welke dag/tijd is er iemand op het adres?",
+      "shortLabel": "Iemand aanwezig",
       "answer": "Elke avond en nacht zijn deze personen aanwezig.",
       "category_url": ""
     },
     {
       "id": "extra_wonen_onderhuur_naam_huurder",
-      "label": "Naam huurder",
+      "label": "Weet u wie de officiële huurder is van de woning?",
+      "shortLabel": "Naam huurder",
       "answer": "Ja, dat is Vesemir",
       "category_url": ""
     },
     {
       "id": "extra_wonen_onderhuur_huurder_woont",
-      "label": "Huurder woont",
+      "label": "Weet u waar de officiële huurder woont?",
+      "shortLabel": "Huurder woont",
       "answer": {
         "id": "ander_adres",
         "info": "",
@@ -99,7 +106,8 @@
     },
     {
       "id": "extra_wonen_onderhuur_adres_huurder",
-      "label": "Adres huurder",
+      "label": "Wat is het adres waar de officiële huurder woont?",
+      "shortLabel": "Adres huurder",
       "answer": "Kaer Morhen",
       "category_url": ""
     }

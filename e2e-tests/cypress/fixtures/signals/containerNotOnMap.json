@@ -40,7 +40,8 @@
   "text_extra": "",
   "extra_properties": [
     {
-      "label": "Container(s)",
+      "label": "Kies de container waar het om gaat",
+      "shortLabel": "Container(s)",
       "answer": [
         {"label": "De container staat niet op de kaart - 666"}
       ]

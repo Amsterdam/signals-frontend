@@ -46,6 +46,7 @@
     {
       "id": "extra_klok",
       "label": "Is de situatie gevaarlijk?",
+      "shortLabel": "Is de situatie gevaarlijk?",
       "answer": {
         "id": "niet_gevaarlijk",
         "info": "",
@@ -55,13 +56,15 @@
     },
     {
       "id": "extra_klok_probleem",
-      "label": "Probleem",
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
       "answer": {"id": "overig", "info": "", "label": "Overig"},
       "category_url": ""
     },
     {
       "id": "extra_klok_nummer",
-      "label": "Klok(ken) op kaart",
+      "label": "Selecteer de klok waar het om gaat",
+      "shortLabel": "Klok(ken) op kaart",
       "answer": "140425",
       "category_url": ""
     }

@@ -45,7 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_bedrijven_horeca_wat",
-      "label": "Soort bedrijf",
+      "label": "Uw melding gaat over:",
+      "shortLabel": "Soort bedrijf",
       "answer": {
         "id": "horecabedrijf",
         "info": "",
@@ -55,19 +56,22 @@
     },
     {
       "id": "extra_bedrijven_horeca_naam",
-      "label": "Mogelijke veroorzaker",
+      "label": "Wie of wat zorgt voor deze overlast, denkt u?",
+      "shortLabel": "Mogelijke veroorzaker",
       "answer": "George en Frits Schiller zingen dronken op het terras lelijke liedjes",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_adres",
-      "label": "Adres overlast",
+      "label": "Op welk adres ervaart u de overlast?",
+      "shortLabel": "Adres overlast",
       "answer": "Bij hotel Schiller op het Rembrandtplein",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_terrassen",
-      "label": "Oorzaak overlast",
+      "label": "Wat is de oorzaak van de overlast?",
+      "shortLabel": "Oorzaak overlast",
       "answer": [
         {"id": "bezoekers_op_terras", "label": "Bezoekers op terras"},
         {"id": "opruimen_meubels", "label": "Geluid van opruimen meubels"}
@@ -76,13 +80,15 @@
     },
     {
       "id": "extra_bedrijven_horeca_vaker",
-      "label": "Vaker overlast",
+      "label": "Gebeurt het vaker?",
+      "shortLabel": "Vaker overlast",
       "answer": {"id": "ja", "info": "", "label": "Ja, het gebeurt vaker"},
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_tijdstippen",
-      "label": "Overlast momenten",
+      "label": "Op welk(e) tijdstip(pen) ervaart u de overlast?",
+      "shortLabel": "Overlast momenten",
       "answer": "Bijna elke avond",
       "category_url": ""
     }

@@ -45,13 +45,15 @@
   "extra_properties": [
     {
       "id": "extra_straatverlichting_probleem",
-      "label": "Probleem",
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
       "answer": {"id": "overig", "info": "", "label": "Overig"},
       "category_url": ""
     },
     {
       "id": "extra_straatverlichting",
       "label": "Is de situatie gevaarlijk?",
+      "shortLabel": "Is de situatie gevaarlijk?",
       "answer": {
         "id": "niet_gevaarlijk",
         "info": "",
@@ -61,7 +63,8 @@
     },
     {
       "id": "extra_straatverlichting_nummer",
-      "label": "Lichtpunt(en) op kaart",
+      "label": "Kies de lamp of lantaarnpaal waar het om gaat",
+      "shortLabel": "Lichtpunt(en) op kaart",
       "answer": "034575",
       "category_url": ""
     }
