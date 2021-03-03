@@ -16,6 +16,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
 >
   <ForwardRef
     aria-describedby="subtitle-input-field-name"
+    id="input-field-name"
     infoText="0/300 tekens"
     onBlur={[Function]}
     placeholder="type here"
@@ -39,6 +40,7 @@ exports[`Form component <TextareaInput /> rendering should render character coun
 >
   <ForwardRef
     aria-describedby="subtitle-input-field-name"
+    id="input-field-name"
     infoText="4/300 tekens"
     onBlur={[Function]}
     placeholder="type here"
@@ -63,7 +65,7 @@ exports[`Form component <TextareaInput /> rendering should render text area fiel
 >
   <ForwardRef
     aria-describedby="subtitle-input-field-name"
-    infoText={false}
+    id="input-field-name"
     onBlur={[Function]}
     placeholder="type here"
   />

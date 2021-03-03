@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 import Label from 'components/Label';
+import type { ReactiveFormMeta, FormMeta, FormOptions } from 'types/reactive-form';
 
 const Wrapper = styled.div<{ invalid: boolean }>`
   display: flex;
@@ -45,22 +46,22 @@ const SubTitle = styled.p`
   line-height: ${themeSpacing(6)};
 `;
 
-export interface HeaderProps {
-  className: string;
-  meta: {
-    name: string;
-    label?: string;
-    subtitle?: string;
-  };
-  options?: {
-    validators?: { name: string }[];
-  };
-  touched: boolean;
-  hasError: (name: string) => boolean;
-  getError: (name: string) => string | boolean | { requiredLength: number };
+type PickedProps = 'touched' | 'hasError' | 'getError';
+export interface HeaderProps extends Pick<ReactiveFormMeta, PickedProps> {
+  className?: string;
+  meta: FormMeta;
+  options?: FormOptions;
 }
 
-const Header: FunctionComponent<HeaderProps> = ({ className = '', meta, options, touched, hasError, getError, children }) => {
+const Header: FunctionComponent<HeaderProps> = ({
+  className = '',
+  meta,
+  options,
+  touched,
+  hasError,
+  getError,
+  children,
+}) => {
   const containsErrors: boolean =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
   const isOptional = !options?.validators?.some(validator => validator.name === 'required');

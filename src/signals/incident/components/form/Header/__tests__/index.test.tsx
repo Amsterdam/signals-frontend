@@ -7,6 +7,7 @@ import { createRequired } from '../../../../services/custom-validators';
 
 import type { HeaderProps } from '..';
 import Header from '..';
+import type { FormMeta } from 'types/reactive-form';
 
 describe('signals/incident/components/form/Header', () => {
   const label = 'Foo barrrr';
@@ -14,7 +15,8 @@ describe('signals/incident/components/form/Header', () => {
     meta: {
       label,
       name: label,
-    },
+      updateIncident: () => {},
+    } as FormMeta,
     touched: false,
     hasError: () => false,
     getError: () => '',
@@ -39,7 +41,7 @@ describe('signals/incident/components/form/Header', () => {
 
     expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} meta={{ name: label }} options={{}} />));
+    rerender(withAppContext(<Header {...props} meta={{ ...props.meta, label: undefined }} options={{}} />));
 
     expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
 

@@ -25,12 +25,12 @@ const InfoText = styled.div`
 `;
 
 interface TextAreaProps extends AscTextAreaProps {
-  id: string;
+  id?: string;
   label?: ReactNode;
   infoText?: ReactNode;
   errorMessage?: string;
   rows?: number;
-  maxRows: number;
+  maxRows?: number;
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
