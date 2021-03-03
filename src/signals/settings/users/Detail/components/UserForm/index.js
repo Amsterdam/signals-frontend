@@ -224,7 +224,7 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
         <StyledColumn push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}>
           <div>
             <FieldGroup>
-              <Label as="span">Notitie</Label>
+              <Label as="span" htmlFor="note">Notitie</Label>
               <TextArea
                 disabled={readOnly}
                 value={state.note}

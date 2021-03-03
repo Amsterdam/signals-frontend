@@ -121,7 +121,6 @@ export const controls = {
   },
   extra_boten_snelheid_meer: {
     meta: {
-      id: 'extra_boten_snelheid_meer',
       label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?',
       shortLabel: 'Extra informatie',
       subtitle:
@@ -135,7 +134,6 @@ export const controls = {
   },
   extra_boten_geluid_meer: {
     meta: {
-      id: 'extra_boten_geluid_meer',
       label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie',
       shortLabel: 'Extra informatie',
       subtitle:
@@ -149,7 +147,6 @@ export const controls = {
   },
   extra_boten_gezonken_meer: {
     meta: {
-      id: 'extra_boten_gezonken_meer',
       label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?',
       shortLabel: 'Extra informatie',
       subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',

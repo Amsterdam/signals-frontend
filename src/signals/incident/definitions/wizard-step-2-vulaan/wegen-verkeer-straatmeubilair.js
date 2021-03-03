@@ -536,7 +536,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   },
   extra_fietsrek_aanvraag: {
     meta: {
-      id: 'extra_fietsrek_aanvraag',
       ifAllOf: {
         subcategory: 'fietsrek-nietje',
         extra_fietsrek_aanvragen: 'ja',

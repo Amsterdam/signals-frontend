@@ -38,14 +38,14 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
   return (
     <Wrapper className={className} invalid={containsErrors}>
       {meta?.label && (
-        <Label htmlFor={meta.id}>
+        <Label htmlFor={meta.name}>
           {meta.label}
 
           {isOptional && <Optional>(optioneel)</Optional>}
         </Label>
       )}
 
-      {meta?.subtitle && <SubTitle id={`subtitle-${meta.id}`}>{meta.subtitle}</SubTitle>}
+      {meta?.subtitle && <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>}
 
       {touched && containsErrors && (
         <Fragment>
@@ -79,7 +79,7 @@ Header.defaultProps = {
 Header.propTypes = {
   className: PropTypes.string,
   meta: PropTypes.shape({
-    id: PropTypes.string,
+    name: PropTypes.string,
     label: PropTypes.string,
     subtitle: PropTypes.string,
   }),

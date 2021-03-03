@@ -62,7 +62,6 @@ export const controls = {
   },
   extra_personen_overig_vaker_momenten: {
     meta: {
-      id: 'extra_personen_overig_vaker_momenten',
       label: 'Geef aan op welke momenten het gebeurt',
       shortLabel: 'Momenten',
       pathMerge: 'extra_properties',

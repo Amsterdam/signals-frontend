@@ -30,8 +30,8 @@ const DescriptionInput = ({
 
   return (
     <TextArea
-      id={meta.id}
-      aria-describedby={`subtitle-${meta.id}`}
+      id={meta.name}
+      aria-describedby={`subtitle-${meta.name}`}
       data-testid="descriptionInput"
       rows={meta.rows}
       placeholder={meta.placeholder}

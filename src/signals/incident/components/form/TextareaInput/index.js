@@ -9,7 +9,7 @@ const TextareaInput = ({ handler, touched, value, hasError, meta, parent, getErr
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <TextArea
         id={meta.id}
-        aria-describedby={`subtitle-${meta.id}`}
+        aria-describedby={`subtitle-${meta.name}`}
         placeholder={meta.placeholder}
         {...handler()}
         onBlur={event =>

@@ -212,7 +212,6 @@ const onderhuur = {
   },
   extra_wonen_onderhuur_naam_bewoners: {
     meta: {
-      id: 'extra_wonen_onderhuur_naam_bewoners',
       ifOneOf: {
         subcategory: 'onderhuur-en-adreskwaliteit',
         wonen_overig: 'onderhuur',
