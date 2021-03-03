@@ -1,10 +1,10 @@
+import type { FunctionComponent } from 'react';
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 import Label from 'components/Label';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ invalid: boolean }>`
   display: flex;
   flex-direction: column;
 
@@ -46,13 +46,27 @@ const SubTitle = styled.p`
   line-height: ${themeSpacing(6)};
 `;
 
-const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
-  const containsErrors =
+export interface HeaderProps {
+  meta: {
+    name: string;
+    label?: string;
+    subtitle?: string;
+  };
+  options?: {
+    validators?: { name: string }[];
+  };
+  touched: boolean;
+  hasError: (name: string) => boolean;
+  getError: (name: string) => string | boolean | { requiredLength: number };
+}
+
+const Header: FunctionComponent<HeaderProps> = ({ meta, options, touched, hasError, getError, children }) => {
+  const containsErrors: boolean =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
   const isOptional = !options?.validators?.some(validator => validator.name === 'required');
 
   return (
-    <Wrapper className={className} invalid={containsErrors}>
+    <Wrapper invalid={containsErrors}>
       {meta?.label && (
         <StyledLabel htmlFor={meta.name}>
           {meta.label}
@@ -76,7 +90,7 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
           )}
 
           {hasError('maxLength') && (
-            <ErrorItem>U heeft meer dan de maximale {getError('maxLength').requiredLength} tekens ingevoerd</ErrorItem>
+            <ErrorItem>U heeft meer dan de maximale {String(getError('maxLength').requiredLength)} tekens ingevoerd</ErrorItem>
           )}
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
@@ -86,26 +100,6 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
       {children}
     </Wrapper>
   );
-};
-
-Header.defaultProps = {
-  className: '',
-};
-
-Header.propTypes = {
-  className: PropTypes.string,
-  meta: PropTypes.shape({
-    name: PropTypes.string,
-    label: PropTypes.string,
-    subtitle: PropTypes.string,
-  }),
-  options: PropTypes.shape({
-    validators: PropTypes.arrayOf(PropTypes.any),
-  }),
-  touched: PropTypes.bool,
-  hasError: PropTypes.func.isRequired,
-  getError: PropTypes.func,
-  children: PropTypes.node,
 };
 
 export default Header;
