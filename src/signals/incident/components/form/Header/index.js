@@ -6,7 +6,7 @@ import Label from 'components/Label';
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
 
   ${({ invalid }) =>
     invalid &&
