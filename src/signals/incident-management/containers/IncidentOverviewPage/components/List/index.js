@@ -95,7 +95,7 @@ const ParentIconStyle = styled.span`
 `;
 
 const StyledIcon = styled(Icon)`
-  & > * {
+  & svg {
     fill: ${themeColor('tint', 'level4')};
   }
 `;
