@@ -22,7 +22,6 @@ import {
   StyledColumn,
   StyledErrorMessage,
   StyledH4,
-  StyledLabel,
   TextsArea,
   Wrapper,
 } from './styled';
@@ -160,7 +159,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
             )}
 
             {!isDeelmelding && (
-              <StyledLabel
+              <Label
                 disabled={state.check.disabled}
                 htmlFor="send_email"
                 label={constants.MELDING_CHECKBOX_DESCRIPTION}
@@ -174,7 +173,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                   name="send_email"
                   onClick={onCheck}
                 />
-              </StyledLabel>
+              </Label>
             )}
 
             <div>
