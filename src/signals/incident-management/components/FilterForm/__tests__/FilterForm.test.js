@@ -44,10 +44,10 @@ const jsonResponse = {
 const mockResponse = JSON.stringify(jsonResponse);
 
 const formProps = {
-  onClearFilter: () => { },
-  onSaveFilter: () => { },
+  onClearFilter: () => {},
+  onSaveFilter: () => {},
   categories,
-  onSubmit: () => { },
+  onSubmit: () => {},
 };
 
 const withContext = (Component, actualDistricts = null, actualUsers = null) =>
@@ -282,7 +282,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       await screen.findByRole('checkbox', { name: ascName, checked: true });
       // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
       // eslint-disable-next-line testing-library/no-wait-for-empty-callback
-      await waitFor(() => { });
+      await waitFor(() => {});
       userEvent.click(submitButton);
       expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
     });
@@ -939,7 +939,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     });
 
     it('should handle submit for existing filter', () => {
-      jest.spyOn(window, 'alert').mockImplementation(() => { });
+      jest.spyOn(window, 'alert').mockImplementation(() => {});
       const handlers = {
         onUpdateFilter: jest.fn(),
         onSubmit: jest.fn(),
