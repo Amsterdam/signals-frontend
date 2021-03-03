@@ -56,7 +56,7 @@ export const summary = controls =>
     (acc, [key, val]) => ({
       ...acc,
       [key]: {
-        label: val.meta.label,
+        label: val.meta.label || val.meta.shortLabel,
         optional: true,
         render: renderPreview(val),
       },
