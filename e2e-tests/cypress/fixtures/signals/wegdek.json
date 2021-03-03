@@ -45,7 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_onderhoud_stoep_straat_en_fietspad",
-      "label": "Soort wegdek",
+      "label": "Hebt u verteld om wat voor soort wegdek het gaat?",
+      "shortLabel": "Soort wegdek",
       "answer": "Asfalt",
       "category_url": ""
     }

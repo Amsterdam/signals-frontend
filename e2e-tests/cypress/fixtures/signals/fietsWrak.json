@@ -45,7 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_fietswrak",
-      "label": "Extra informatie",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?",
+      "shortLabel": "Extra informatie",
       "answer": "Het is een Cervélo P5, rood met wit het voorwiel ontbreekt.",
       "category_url": ""
     }

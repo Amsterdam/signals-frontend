@@ -41,7 +41,7 @@ describe('Change a signal before submit and check signal details', () => {
       cy.contains('Volgende').click();
 
       createSignal.checkSummaryPage(signal01);
-      createSignal.checkQuestions(signal01);
+      createSignal.checkQuestions(signal01, 'full');
       cy.get(CREATE_SIGNAL.imageFileUpload).should('not.exist');
     });
 

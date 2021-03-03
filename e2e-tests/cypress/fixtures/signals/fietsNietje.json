@@ -45,13 +45,15 @@
   "extra_properties": [
     {
       "id": "extra_fietsrek_aanvragen",
-      "label": "Fietsenrek aanvragen",
+      "label": "Wilt u misschien een nieuw fietsenrek of 'nietje' aanvragen?",
+      "shortLabel": "Fietsenrek aanvragen",
       "answer": {"id": "ja", "info": "", "label": "Ja, dat ik wil ik"},
       "category_url": "/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/fietsrek-nietje"
     },
     {
       "id": "extra_fietsrek_aanvraag",
-      "label": "Aanvraag fietsenrek of 'nietje'",
+      "label": "Fietsenrek of 'nietje' aanvragen",
+      "shortLabel": "Aanvraag fietsenrek of 'nietje'",
       "answer": "Ik wil graag een extra groot nietje aanvragen voor mijn grote fiets.",
       "category_url": "/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/fietsrek-nietje"
     }
