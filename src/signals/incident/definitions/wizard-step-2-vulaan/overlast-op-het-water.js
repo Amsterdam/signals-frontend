@@ -137,7 +137,7 @@ export const controls = {
       label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie',
       shortLabel: 'Extra informatie',
       subtitle:
-        'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
+      'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
       pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-geluid',

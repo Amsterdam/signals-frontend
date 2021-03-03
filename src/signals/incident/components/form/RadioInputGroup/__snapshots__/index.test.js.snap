@@ -20,30 +20,32 @@ exports[`Form component <RadioInput /> rendering should render radio fields corr
   }
   touched={false}
 >
-  <RadioGroup
-    name="input-field-name"
-  >
-    <RadioInput
-      checked={true}
-      id="foo"
-      idAttr="input-field-name-foo1"
-      info=""
-      key="foo"
-      label="Foo"
+  <div>
+    <RadioGroup
       name="input-field-name"
-      resetsStateOnChange={false}
-    />
-    <RadioInput
-      checked={false}
-      id="bar"
-      idAttr="input-field-name-bar1"
-      info=""
-      key="bar"
-      label="Bar"
-      name="input-field-name"
-      resetsStateOnChange={false}
-    />
-  </RadioGroup>
+    >
+      <RadioInput
+        checked={true}
+        id="foo"
+        idAttr="input-field-name-foo1"
+        info=""
+        key="foo"
+        label="Foo"
+        name="input-field-name"
+        resetsStateOnChange={false}
+      />
+      <RadioInput
+        checked={false}
+        id="bar"
+        idAttr="input-field-name-bar1"
+        info=""
+        key="bar"
+        label="Bar"
+        name="input-field-name"
+        resetsStateOnChange={false}
+      />
+    </RadioGroup>
+  </div>
 </Header>
 `;
 

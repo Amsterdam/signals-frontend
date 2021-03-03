@@ -155,9 +155,9 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
           Wilt u verder nog iets vermelden of toelichten? <Optional>(optioneel)</Optional>
         </Label>
         <TextArea
-          data-testid="ktoTextExtra"
-          helpText={`${state.numChars}/${extraTextMaxLength} tekens`}
           id="text_extra"
+          data-testid="ktoTextExtra"
+          infoText={`${state.numChars}/${extraTextMaxLength} tekens`}
           maxLength={extraTextMaxLength}
           name="text_extra"
           onChange={onChangeText('SET_TEXT_EXTRA')}

@@ -2,41 +2,48 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
-
-const Children = styled.div`
-  display: flex;
-  flex-flow: column;
-`;
+import Label from 'components/Label';
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
   ${({ invalid }) =>
     invalid &&
     css`
       border-left: ${themeColor('support', 'invalid')} 2px solid;
       padding-left: ${themeSpacing(3)};
     `}
+
+  /* keep a 3 units margin above the last element/control  */
+  & > :last-child :not(& > :first-child) {
+    margin-top: ${themeSpacing(3)};
+  }
 `;
 
-const Label = styled.div`
-  font-family: Avenir Next LT W01 Demi;
-  margin-bottom: ${themeSpacing(2)};
+const StyledLabel = styled(Label)`
+  margin-bottom: 0;
+  line-height: ${themeSpacing(6)};
 `;
 
 const Optional = styled.span`
-  font-family: Avenir Next LT W01-Regular;
+  font-family: Avenir Next LT W01-Regular, arial, sans-serif;
   margin-left: ${themeSpacing(2)};
 `;
 
-const ErrorItem = styled.div`
+const ErrorItem = styled.p`
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  margin-top: 0;
+  margin-bottom: 0;
   color: ${themeColor('support', 'invalid')};
-  font-size: 14px;
-  margin-bottom: ${themeSpacing(1)};
+  line-height: ${themeSpacing(6)};
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
-  margin-top: ${themeSpacing(-1)};
-  margin-bottom: ${themeSpacing(2)};
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: ${themeSpacing(6)};
 `;
 
 const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
@@ -47,14 +54,14 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
   return (
     <Wrapper className={className} invalid={containsErrors}>
       {meta?.label && (
-        <Label>
+        <StyledLabel htmlFor={meta.name}>
           {meta.label}
 
           {isOptional && <Optional>(optioneel)</Optional>}
-        </Label>
+        </StyledLabel>
       )}
 
-      {meta?.subtitle && <SubTitle>{meta.subtitle}</SubTitle>}
+      {meta?.subtitle && <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>}
 
       {touched && containsErrors && (
         <Fragment>
@@ -76,7 +83,7 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
         </Fragment>
       )}
 
-      <Children>{children}</Children>
+      {children}
     </Wrapper>
   );
 };
@@ -88,6 +95,7 @@ Header.defaultProps = {
 Header.propTypes = {
   className: PropTypes.string,
   meta: PropTypes.shape({
+    name: PropTypes.string,
     label: PropTypes.string,
     subtitle: PropTypes.string,
   }),

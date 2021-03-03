@@ -15,14 +15,14 @@ const TextAreaInput = props => {
 
         <div className="text-area-input__control">
           <TextArea
+            id={`form${name}`}
             name={name}
             data-testid={name}
-            id={`form${name}`}
             value=""
             {...handler()}
             placeholder={placeholder}
             rows={rows}
-            helpText={maxLength > 0 && `${value ? value.length : '0'}/${maxLength} tekens`}
+            infoText={maxLength > 0 && `${value ? value.length : '0'}/${maxLength} tekens`}
           />
         </div>
       </div>

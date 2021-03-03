@@ -25,7 +25,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
   return (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       {meta.values && isObject(meta.values) && (
-        <Fragment>
+        <div>
           <RadioGroup name={meta.name}>
             {Object.entries(meta.values).map(([key, value]) => (
               <RadioInput
@@ -45,7 +45,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
               {label}: {info}
             </Info>
           )}
-        </Fragment>
+        </div>
       )}
     </Header>
   );

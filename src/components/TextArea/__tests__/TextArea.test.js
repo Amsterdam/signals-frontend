@@ -11,12 +11,12 @@ describe('components/TextArea', () => {
     expect(container.querySelector('textarea[cols="40"][rows="5"].txtArea')).toBeTruthy();
   });
 
-  it('renders help text', () => {
-    const { getByText } = render(
-      withAppContext(<TextArea cols="40" rows="5" className="txtArea" helpText="You have entered 0/10 characters" />)
+  it('renders the info text', () => {
+    render(
+      withAppContext(<TextArea cols="40" rows="5" className="txtArea" infoText="You have entered 0/10 characters" />)
     );
 
-    expect(getByText('You have entered 0/10 characters')).toBeInTheDocument();
+    expect(screen.getByText('You have entered 0/10 characters')).toBeInTheDocument();
   });
 
   it('renders label', () => {

@@ -18,7 +18,6 @@ const getControls = memoize(
     controls: {
       source: {
         meta: {
-          className: 'col-sm-12 col-md-6',
           label: 'Hoe komt de melding binnen?',
           path: 'source',
           values: sources ? reduceSources(sources) : [],
@@ -42,9 +41,11 @@ const getControls = memoize(
       },
       description: {
         meta: {
+          id: 'description',
           label: 'Waar gaat het om?',
           subtitle: 'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
           path: 'text',
+          rows: 7,
           maxLength: 1000,
         },
         options: {
@@ -64,7 +65,6 @@ const getControls = memoize(
       },
       datetime: {
         meta: {
-          className: 'col-sm-12 col-md-6',
           label: 'Geef het tijdstip aan',
           values: {
             Nu: 'Nu',
@@ -101,7 +101,6 @@ const getControls = memoize(
       },
       priority: {
         meta: {
-          className: 'col-sm-12 col-md-6',
           label: 'Wat is de urgentie?',
           path: 'priority',
           values: priorityValuesList,
@@ -114,7 +113,6 @@ const getControls = memoize(
       },
       type: {
         meta: {
-          className: 'col-sm-12 col-md-6',
           label: 'Type',
           path: 'type',
           values: typesValuesList,
