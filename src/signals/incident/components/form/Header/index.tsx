@@ -15,8 +15,7 @@ const Wrapper = styled.div<{ invalid: boolean }>`
       padding-left: ${themeSpacing(3)};
     `}
 
-  /* keep a 3 units margin above the last element/control  */
-  & > :last-child :not(& > :first-child) {
+  & > :last-child:not(& > :first-child) {
     margin-top: ${themeSpacing(3)};
   }
 `;
@@ -47,6 +46,7 @@ const SubTitle = styled.p`
 `;
 
 export interface HeaderProps {
+  className: string;
   meta: {
     name: string;
     label?: string;
@@ -60,13 +60,13 @@ export interface HeaderProps {
   getError: (name: string) => string | boolean | { requiredLength: number };
 }
 
-const Header: FunctionComponent<HeaderProps> = ({ meta, options, touched, hasError, getError, children }) => {
+const Header: FunctionComponent<HeaderProps> = ({ className = '', meta, options, touched, hasError, getError, children }) => {
   const containsErrors: boolean =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
   const isOptional = !options?.validators?.some(validator => validator.name === 'required');
 
   return (
-    <Wrapper invalid={containsErrors}>
+    <Wrapper className={className} invalid={containsErrors}>
       {meta?.label && (
         <StyledLabel htmlFor={meta.name}>
           {meta.label}
@@ -90,7 +90,10 @@ const Header: FunctionComponent<HeaderProps> = ({ meta, options, touched, hasErr
           )}
 
           {hasError('maxLength') && (
-            <ErrorItem>U heeft meer dan de maximale {String(getError('maxLength').requiredLength)} tekens ingevoerd</ErrorItem>
+            <ErrorItem>
+              U heeft meer dan de maximale{' '}
+              {String((getError('maxLength') as { requiredLength: number }).requiredLength)} tekens ingevoerd
+            </ErrorItem>
           )}
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
