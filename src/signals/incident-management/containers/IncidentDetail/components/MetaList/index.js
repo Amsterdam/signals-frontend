@@ -6,6 +6,7 @@ import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import { makeSelectHandlingTimesBySlug, makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
 import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
+import { makeSelectUserCan } from 'containers/App/selectors';
 import configuration from 'shared/services/configuration/configuration';
 import { string2date, string2time } from 'shared/services/string-parser';
 import RadioInput from 'signals/incident-management/components/RadioInput';
@@ -55,6 +56,7 @@ const MetaList = () => {
   const departments = useSelector(makeSelectDepartments);
   const directingDepartments = useSelector(makeSelectDirectingDepartments);
   const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug);
+  const userCan = useSelector(makeSelectUserCan);
 
   const routingDepartments = useMemo(
     () =>
@@ -169,10 +171,10 @@ const MetaList = () => {
   );
 
   useEffect(() => {
-    if (incidentDepartmentCodes.length) {
+    if (incidentDepartmentCodes.length && userCan('view_user')) {
       getUsers(configuration.USERS_ENDPOINT, { profile_department_code: incidentDepartmentCodes });
     }
-  }, [getUsers, incidentDepartmentCodes]);
+  }, [getUsers, incidentDepartmentCodes, userCan]);
 
   return isLoading ? (
     <LoadingIndicator />

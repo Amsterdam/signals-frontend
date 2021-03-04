@@ -20,6 +20,7 @@ import usersFixture from 'utils/__tests__/fixtures/users.json';
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
 import * as categoriesSelectors from 'models/categories/selectors';
+import * as appSelectors from 'containers/App/selectors';
 
 import IncidentDetailContext from '../../context';
 import IncidentManagementContext from '../../../../context';
@@ -78,6 +79,7 @@ describe('MetaList', () => {
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
       .mockImplementation(() => subcategoriesGroupedByCategories);
     jest.spyOn(categoriesSelectors, 'makeSelectHandlingTimesBySlug').mockImplementation(() => handlingTimesBySlug);
+    jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
   });
 
   afterEach(() => {
