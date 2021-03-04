@@ -57,11 +57,11 @@ describe('signals/incident-management/components/CheckboxList', () => {
   it('should render a toggle checkbox', () => {
     const groupName = 'fooBarBaz';
     const name = 'status';
-    const { container, rerender } = render(
+    const { rerender } = render(
       withAppContext(<CheckboxList hasToggle name={name} options={statuses} toggleAllLabel="Toggle all" />)
     );
 
-    expect(container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)).toHaveLength(0);
+    expect(screen.queryByLabelText('Toggle all')).not.toBeInTheDocument();
 
     rerender(
       withAppContext(
@@ -69,7 +69,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     );
 
-    expect(container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)).toHaveLength(1);
+    expect(screen.queryByLabelText('Toggle all')).toBeInTheDocument();
 
     // giving the group checkbox a name that is different from its children
     const groupValue = 'groupValue';
@@ -86,8 +86,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     );
 
-    expect(container.querySelectorAll(`input[name="${groupName}"][value="${name}"]`)).toHaveLength(0);
-    expect(container.querySelectorAll(`input[name="${groupName}"][value="${groupValue}"]`)).toHaveLength(1);
+    expect(screen.getByLabelText('Toggle all')).toHaveAttribute('value', groupValue);
   });
 
   it('should render a list of checkboxes ', () => {
