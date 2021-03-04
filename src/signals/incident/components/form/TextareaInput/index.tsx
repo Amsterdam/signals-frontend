@@ -32,7 +32,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <TextArea
         id={meta.name}
-        aria-describedby={`subtitle-${meta.name}`}
+        aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
         placeholder={meta.placeholder}
         {...handler()}
         onBlur={event => {

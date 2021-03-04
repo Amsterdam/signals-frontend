@@ -56,6 +56,7 @@ const MultiTextInput = ({ handler, touched, hasError, meta, parent, getError, va
         <div key={`${meta.name}-${index + 1}`}>
           <StyledInput
             id={index === 0 ? meta.name : `${meta.name}-${index + 1}`}
+            aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
             name={`${meta.name}-${index + 1}`}
             type="text"
             placeholder={meta.placeholder}

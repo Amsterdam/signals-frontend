@@ -9,6 +9,7 @@ const TextInput = ({ handler, touched, hasError, meta, parent, getError, validat
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <Input
         id={meta.name}
+        aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
         autoFocus={meta.autoFocus}
         autoComplete={meta.autoComplete}
         type={meta.type}
