@@ -1,10 +1,11 @@
+import type { FunctionComponent } from 'react';
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 import Label from 'components/Label';
+import type { ReactiveFormMeta, FormMeta, FormOptions } from 'types/reactive-form';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ invalid: boolean }>`
   display: flex;
   flex-direction: column;
 
@@ -15,8 +16,7 @@ const Wrapper = styled.div`
       padding-left: ${themeSpacing(3)};
     `}
 
-  /* keep a 3 units margin above the last element/control  */
-  & > :last-child :not(& > :first-child) {
+  & > :last-child:not(& > :first-child) {
     margin-top: ${themeSpacing(3)};
   }
 `;
@@ -46,8 +46,23 @@ const SubTitle = styled.p`
   line-height: ${themeSpacing(6)};
 `;
 
-const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
-  const containsErrors =
+type PickedProps = 'touched' | 'hasError' | 'getError';
+export interface HeaderProps extends Pick<ReactiveFormMeta, PickedProps> {
+  className?: string;
+  meta: FormMeta;
+  options?: FormOptions;
+}
+
+const Header: FunctionComponent<HeaderProps> = ({
+  className,
+  meta,
+  options,
+  touched,
+  hasError,
+  getError,
+  children,
+}) => {
+  const containsErrors: boolean =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
   const isOptional = !options?.validators?.some(validator => validator.name === 'required');
 
@@ -76,7 +91,10 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
           )}
 
           {hasError('maxLength') && (
-            <ErrorItem>U heeft meer dan de maximale {getError('maxLength').requiredLength} tekens ingevoerd</ErrorItem>
+            <ErrorItem>
+              U heeft meer dan de maximale{' '}
+              {String((getError('maxLength') as { requiredLength: number }).requiredLength)} tekens ingevoerd
+            </ErrorItem>
           )}
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
@@ -86,26 +104,6 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
       {children}
     </Wrapper>
   );
-};
-
-Header.defaultProps = {
-  className: '',
-};
-
-Header.propTypes = {
-  className: PropTypes.string,
-  meta: PropTypes.shape({
-    name: PropTypes.string,
-    label: PropTypes.string,
-    subtitle: PropTypes.string,
-  }),
-  options: PropTypes.shape({
-    validators: PropTypes.arrayOf(PropTypes.any),
-  }),
-  touched: PropTypes.bool,
-  hasError: PropTypes.func.isRequired,
-  getError: PropTypes.func,
-  children: PropTypes.node,
 };
 
 export default Header;

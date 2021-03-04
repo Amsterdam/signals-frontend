@@ -6,14 +6,13 @@ import TextArea from '..';
 
 describe('components/TextArea', () => {
   it('renders correctly', () => {
-    const { container } = render(withAppContext(<TextArea cols="40" rows="5" className="txtArea" />));
-
+    const { container } = render(withAppContext(<TextArea cols={40} rows={5} className="txtArea" />));
     expect(container.querySelector('textarea[cols="40"][rows="5"].txtArea')).toBeTruthy();
   });
 
   it('renders the info text', () => {
     render(
-      withAppContext(<TextArea cols="40" rows="5" className="txtArea" infoText="You have entered 0/10 characters" />)
+      withAppContext(<TextArea cols={40} rows={5} infoText="You have entered 0/10 characters" />)
     );
 
     expect(screen.getByText('You have entered 0/10 characters')).toBeInTheDocument();

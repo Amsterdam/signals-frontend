@@ -2,7 +2,6 @@
 
 exports[`Form component <MultiTextInput /> rendering should render multi text correctly 1`] = `
 <Header
-  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -47,7 +46,6 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
 
 exports[`Form component <MultiTextInput /> rendering should render multi text without value correctly 1`] = `
 <Header
-  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
