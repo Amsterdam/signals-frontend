@@ -132,12 +132,11 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
       <GridArea>
-        <header>
-          <strong>Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?</strong>
-          <HelpText>Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
-        </header>
+        <Label htmlFor="kto">Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?</Label>
+        <HelpText>Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
 
         <RadioButtonList
+          id="kto"
           error={Boolean(state.errors.text)}
           groupName="kto"
           hasEmptySelectionButton={false}
