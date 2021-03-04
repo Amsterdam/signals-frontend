@@ -472,7 +472,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
 
             <DatesWrapper>
               <CalendarInput
-                id="filter_created_after"
+                id="filter_date"
                 onSelect={dateValue => {
                   updateFilterDate('created_after', dateValue && dateToISOString(dateValue));
                 }}
