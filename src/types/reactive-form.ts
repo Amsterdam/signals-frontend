@@ -31,7 +31,6 @@ export interface FormMeta extends Record<string, unknown> {
   maxLength?: number;
   autoRemove?: RegExp;
   isVisible?: boolean;
-  updateIncident: (data: any) => void;
 }
 
 export interface FormOptions {

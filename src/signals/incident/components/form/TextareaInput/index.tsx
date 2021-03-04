@@ -7,16 +7,18 @@ import Header from '../Header';
 
 
 type PickedProps = 'handler' | 'touched' | 'hasError' | 'getError';
-export interface TextAreaProps<T> extends Pick<ReactiveFormMeta, PickedProps> {
+export interface TextAreaInputProps<T=string> extends Pick<ReactiveFormMeta, PickedProps> {
   meta?: FormMeta;
-  validatorsOrOpts: FormOptions;
+  validatorsOrOpts?: FormOptions;
   parent: {
-    meta: FormMeta;
+    meta: {
+      updateIncident: (data: any) => void;
+    };
   };
   value: T;
 }
 
-const TextareaInput: FunctionComponent<TextAreaProps<string>> = ({
+const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
   handler,
   touched,
   value,
