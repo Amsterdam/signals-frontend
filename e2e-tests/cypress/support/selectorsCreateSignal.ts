@@ -19,7 +19,7 @@ export const CREATE_SIGNAL = {
   inputPhoneNumber: '[type=tel]',
   inputEmail: '[type=email]',
   imageFileUpload: '[class*=Image__ImageContainer]',
-  labelQuestion: '[class*=Header__Label]',
+  labelQuestion: '[class*=Header__StyledLabel]',
   logoAmsterdam: '[class*=AmsterdamLogo__AmsterdamLogoStyle]',
   linkChangeEmailAddress: '[class*=IncidentPreview__LinkContainer] > [href="/incident/email"]',
   linkChangePhoneNumber: '[class*=IncidentPreview__LinkContainer] > [href="/incident/telefoon"]',
