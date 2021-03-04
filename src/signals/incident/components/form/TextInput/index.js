@@ -8,7 +8,8 @@ const TextInput = ({ handler, touched, hasError, meta, parent, getError, validat
   meta?.isVisible && (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <Input
-        autoFocus={meta?.autoFocus}
+        autoFocus={meta.autoFocus}
+        autoComplete={meta.autoComplete}
         type={meta.type}
         placeholder={meta.placeholder}
         {...handler()}

@@ -44,31 +44,36 @@
   "text_extra": "",
   "extra_properties": [{
     "id": "extra_bedrijven_horeca_wat",
-    "label": "Soort bedrijf",
+    "label": "Uw melding gaat over:",
+    "shortLabel": "Soort bedrijf",
     "answer": {"id": "iets_anders", "info": "", "label": "Iets anders"},
     "category_url": ""
   },
   {
     "id": "extra_bedrijven_horeca_naam",
-    "label": "Mogelijke veroorzaker",
+    "label": "Wie of wat zorgt voor deze overlast, denkt u?",
+    "shortLabel": "Mogelijke veroorzaker",
     "answer": "Het geluid van de afzuigkap is tot in Oostzaan te horen.",
     "category_url": ""
   },
   {
     "id": "extra_bedrijven_horeca_adres",
-    "label": "Adres overlast",
+    "label": "Op welk adres ervaart u de overlast?",
+    "shortLabel": "Adres overlast",
     "answer": "1033PG 5",
     "category_url": ""
   },
   {
     "id": "extra_bedrijven_horeca_installaties",
-    "label": "Soort installatie",
+    "label": "Van wat voor een soort installatie heeft u last?",
+    "shortLabel": "Soort installatie",
     "answer": "Afzuiginstallatie",
     "category_url": ""
   },
   {
     "id": "extra_bedrijven_horeca_vaker",
-    "label": "Vaker overlast",
+    "label": "Gebeurt het vaker?",
+    "shortLabel": "Vaker overlast",
     "answer": {
       "id": "nee",
       "info": "",
@@ -78,13 +83,15 @@
   },
   {
     "id": "extra_bedrijven_horeca_muziek_geluidmeting_installaties",
-    "label": "Toestemming contact opnemen",
+    "label": "Mogen we contact met u opnemen over de melding?",
+    "shortLabel": "Toestemming contact opnemen",
     "answer": {"id": "nee", "info": "", "label": "Nee, liever geen contact"},
     "category_url": ""
   },
   {
     "id": "extra_bedrijven_horeca_muziek_geluidmeting_nee",
-    "label": "Liever geen contact",
+    "label": "Waarom heeft u liever geen contact?",
+    "shortLabel": "Liever geen contact",
     "answer": "Ik heb contacteer-angst",
     "category_url": ""
   }],

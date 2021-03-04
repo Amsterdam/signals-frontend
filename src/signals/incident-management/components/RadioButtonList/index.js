@@ -38,6 +38,7 @@ const RadioButtonList = ({
   onChange,
   options,
   title,
+  id,
 }) => {
   const radioOptions = [...options];
 
@@ -46,7 +47,7 @@ const RadioButtonList = ({
   }
 
   return (
-    <FilterGroup>
+    <FilterGroup id={id}>
       {title && <Label data-testid="radioButtonListTitle" as="span" isGroupHeader={false} label={title} />}
 
       <StyledRadioGroup name={groupName} disabled={disabled} error={error}>
@@ -91,6 +92,7 @@ RadioButtonList.propTypes = {
   groupName: PropTypes.string.isRequired,
   /** When false, will only render the passed in options instead of having an extra radio button with an empty value */
   hasEmptySelectionButton: PropTypes.bool,
+  id: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   /** Values to be rendered as checkbox elements */
   options: PropTypes.arrayOf(

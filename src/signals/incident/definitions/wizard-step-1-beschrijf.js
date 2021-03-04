@@ -41,7 +41,6 @@ const getControls = memoize(
       },
       description: {
         meta: {
-          id: 'description',
           label: 'Waar gaat het om?',
           subtitle: 'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
           path: 'text',

@@ -116,12 +116,17 @@ export const checkRedTextStatus = (status: string) => {
 };
 
 /**
- * Custom command to check if all questions and answers of a signal are visible.
- * @example cy.checkQuestions('../fixtures/signals/fietsNietje.json');
+ * Custom command to check if all questions and answers of a signal are visible, option for short or full lable.
+ * @example cy.checkQuestions('../fixtures/signals/fietsNietje.json', short);
 */
-export const checkQuestions = (json: signal.RootObject) => {
+export const checkQuestions = (json: signal.RootObject, labelType) => {
   Object.values(json.extra_properties).forEach((elementAValue: signal.ExtraProperties) => {
-    cy.contains(elementAValue.label).should('be.visible');
+    if (labelType === 'short') {
+      cy.contains(elementAValue.shortLabel).should('be.visible');
+    }
+    else if (labelType === 'full') {
+      cy.contains(elementAValue.label).should('be.visible');
+    }
     if (elementAValue.answer.label) {
       cy.contains(elementAValue.answer.label).should('be.visible');
     }
@@ -205,7 +210,7 @@ export const checkAllDetails = (json: signal.RootObject) => {
     cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
     cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
   }
-  checkQuestions(json);
+  checkQuestions(json, 'short');
 };
 
 /**
@@ -264,7 +269,7 @@ export const checkSummaryPage = (json: signal.RootObject) => {
   if (json.fixtures.attachments) {
     cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
   }
-  checkQuestions(json);
+  checkQuestions(json, 'full');
 };
 
 /**
@@ -301,6 +306,7 @@ export const saveSignalId = () => {
   cy.get('[data-testid="plainText"')
     .then($signalLabel => {
       // Get the signal id
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const text = $signalLabel.text();
       const expression = (/\d+/);
       const signalNumber = expression.exec(text)[0];

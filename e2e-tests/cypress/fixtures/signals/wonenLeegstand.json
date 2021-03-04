@@ -45,19 +45,22 @@
   "extra_properties": [
     {
       "id": "extra_wonen_leegstand_naam_eigenaar",
-      "label": "Naam eigenaar",
+      "label": "Weet u wie de eigenaar is van de woning?",
+      "shortLabel": "Naam eigenaar",
       "answer": "A. Hitchcock",
       "category_url": ""
     },
     {
       "id": "extra_wonen_leegstand_periode",
-      "label": "Periode leegstand",
+      "label": "Hoe lang staat de woning al leeg?",
+      "shortLabel": "Periode leegstand",
       "answer": {"id": "weet_ik_niet", "info": "", "label": "Weet ik niet"},
       "category_url": ""
     },
     {
       "id": "extra_wonen_leegstand_woning_gebruik",
-      "label": "Woning gebruik",
+      "label": "Wordt de woning af en toe nog gebruikt?",
+      "shortLabel": "Woning gebruik",
       "answer": {
         "id": "ja",
         "info": "",
@@ -67,19 +70,22 @@
     },
     {
       "id": "extra_wonen_leegstand_naam_persoon",
-      "label": "Naam persoon",
+      "label": "Wat is de naam van de persoon die soms in de woning is?",
+      "shortLabel": "Naam persoon",
       "answer": "J. Aniston",
       "category_url": ""
     },
     {
       "id": "extra_wonen_leegstand_activiteit_in_woning",
-      "label": "Activiteit in de woning",
+      "label": "Wat doet deze persoon in de woning?",
+      "shortLabel": "Activiteit in de woning",
       "answer": "Deze persoon zit de hele dag te acteren",
       "category_url": ""
     },
     {
       "id": "extra_wonen_leegstand_iemand_aanwezig",
-      "label": "Iemand aanwezig",
+      "label": "Op welke dag/tijd is deze persoon op het adres?",
+      "shortLabel": "Iemand aanwezig",
       "answer": "Vooral in de avond",
       "category_url": ""
     }

@@ -34,10 +34,8 @@ export const FileInputUploadButton = styled(FileInputEmptyBox)`
     height: 0;
 
     &:focus + label {
-      outline-color: red;
-      outline-style: solid;
-      outline-width: 2px;
-      outline-offset: 4px;
+      outline: 5px auto Highlight; // Firefox outline
+      outline: 5px auto -webkit-focus-ring-color; // Safari / Chrome outline
     }
   }
 

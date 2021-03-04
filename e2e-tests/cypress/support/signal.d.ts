@@ -49,6 +49,7 @@ declare namespace signal {
     created_by?: string;
   }
   export interface ExtraProperties {
+    shortLabel: string;
     label: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     answer: any;

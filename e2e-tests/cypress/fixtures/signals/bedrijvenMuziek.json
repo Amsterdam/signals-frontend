@@ -45,7 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_bedrijven_horeca_wat",
-      "label": "Soort bedrijf",
+      "label": "Uw melding gaat over:",
+      "shortLabel": "Soort bedrijf",
       "answer": {
         "id": "evenement_festival_markt",
         "info": "",
@@ -55,19 +56,22 @@
     },
     {
       "id": "extra_bedrijven_horeca_naam",
-      "label": "Mogelijke veroorzaker",
+      "label": "Wie of wat zorgt voor deze overlast, denkt u?",
+      "shortLabel": "Mogelijke veroorzaker",
       "answer": "Violisten in het Bimhuis",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_adres",
-      "label": "Adres overlast",
+      "label": "Op welk adres ervaart u de overlast?",
+      "shortLabel": "Adres overlast",
       "answer": "Piet Heinkade 3, maar dat had ik toch al gezegd?",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_muziek_evenement",
-      "label": "Geïnformeerd door organisator",
+      "label": "Bent u geïnformeerd door de organisator van het evenement?",
+      "shortLabel": "Geïnformeerd door organisator",
       "answer": {
         "id": "ja",
         "info": "",
@@ -77,25 +81,29 @@
     },
     {
       "id": "extra_bedrijven_horeca_muziek_evenement_einde",
-      "label": "Evenement eindigt om",
+      "label": "Weet u hoe laat het evenement eindigt?",
+      "shortLabel": "Evenement eindigt om",
       "answer": "Rond middernacht",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_vaker",
-      "label": "Vaker overlast",
+      "label": "Gebeurt het vaker?",
+      "shortLabel": "Vaker overlast",
       "answer": {"id": "ja", "info": "", "label": "Ja, het gebeurt vaker"},
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_tijdstippen",
-      "label": "Overlast momenten",
+      "label": "Op welk(e) tijdstip(pen) ervaart u de overlast?",
+      "shortLabel": "Overlast momenten",
       "answer": "Meestal op 31 december rond middernacht",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_muziek_geluidmeting_muziek",
-      "label": "Toestemming contact opnemen",
+      "label": "Mogen we contact met u opnemen over de melding?",
+      "shortLabel": "Toestemming contact opnemen",
       "answer": {
         "id": "ja",
         "info": "",
@@ -105,13 +113,15 @@
     },
     {
       "id": "extra_bedrijven_horeca_muziek_geluidmeting_ja",
-      "label": "Bel moment",
+      "label": "Mogen we u nu bellen?",
+      "shortLabel": "Bel moment",
       "answer": {"id": "not_now", "info": "", "label": "Niet nu"},
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu",
-      "label": "Ander bel moment",
+      "label": "Wanneer mogen we u bellen?",
+      "shortLabel": "Ander bel moment",
       "answer": "Wanneer ik er zin in heb.",
       "category_url": ""
     }

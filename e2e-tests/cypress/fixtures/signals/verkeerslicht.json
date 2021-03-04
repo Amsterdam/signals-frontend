@@ -46,6 +46,7 @@
     {
       "id": "extra_verkeerslicht",
       "label": "Is de situatie gevaarlijk?",
+      "shortLabel": "Is de situatie gevaarlijk?",
       "answer": {
         "id": "niet_gevaarlijk",
         "info": "",
@@ -55,25 +56,29 @@
     },
     {
       "id": "extra_verkeerslicht_welk",
-      "label": "Type verkeerslicht",
+      "label": "Welk verkeerslicht werkt niet juist?",
+      "shortLabel": "Type verkeerslicht",
       "answer": {"id": "tram_bus", "info": "", "label": "Tram of bus"},
       "category_url": ""
     },
     {
       "id": "extra_verkeerslicht_probleem_bus_tram",
-      "label": "Probleem",
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
       "answer": [{"id": "rood_werkt_niet", "label": "Rood licht werkt niet"}],
       "category_url": ""
     },
     {
       "id": "extra_verkeerslicht_rijrichting",
-      "label": "Rijrichting",
+      "label": "Wat is de rijrichting?",
+      "shortLabel": "Rijrichting",
       "answer": "Richting centrum",
       "category_url": ""
     },
     {
       "id": "extra_verkeerslicht_nummer",
-      "label": "Verkeerslicht nummer",
+      "label": "Weet u het nummer van het verkeerslicht?",
+      "shortLabel": "Verkeerslicht nummer",
       "answer": "365",
       "category_url": ""
     }

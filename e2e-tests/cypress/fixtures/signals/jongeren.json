@@ -46,19 +46,22 @@
   [
   {
     "id": "extra_personen_overig",
-    "label": "Aantal personen",
+    "label": "Om hoe veel personen gaat het (ongeveer)?",
+    "shortLabel": "Aantal personen",
     "answer": {"id": "4-6", "info": "", "label": "4 - 6"},
     "category_url": ""
   },
   {
     "id": "extra_personen_overig_vaker",
-    "label": "Vaker",
+    "label": "Gebeurt het vaker?",
+    "shortLabel": "Vaker",
     "answer": {"id": "ja", "info": "", "label": "Ja, het gebeurt vaker:"},
     "category_url": ""
   },
   {
     "id": "extra_personen_overig_vaker_momenten",
-    "label": "Momenten",
+    "label": "Geef aan op welke momenten het gebeurt",
+    "shortLabel": "Momenten",
     "answer": "Bijna iedere dag",
     "category_url": ""
   }

@@ -45,19 +45,22 @@
   "extra_properties": [
     {
       "id": "extra_wonen_woonkwaliteit_direct_gevaar",
-      "label": "Direct gevaar",
+      "label": "Denkt u dat er direct gevaar is?",
+      "shortLabel": "Direct gevaar",
       "answer": {"id": "nee", "info": "", "label": "Nee"},
       "category_url": ""
     },
     {
       "id": "extra_wonen_woonkwaliteit_gemeld_bij_eigenaar",
-      "label": "Gemeld bij eigenaar",
+      "label": "Hebt u de klacht al bij uw verhuurder, eigenaar of VvE gemeld?",
+      "shortLabel": "Gemeld bij eigenaar",
       "answer": {"id": "ja", "info": "", "label": "Ja"},
       "category_url": ""
     },
     {
       "id": "extra_wonen_woonkwaliteit_bewoner",
-      "label": "Bewoner",
+      "label": "Bent u zelf bewoner van het adres?",
+      "shortLabel": "Bewoner",
       "answer": {
         "id": "nee",
         "info": "",
@@ -67,19 +70,22 @@
     },
     {
       "id": "extra_wonen_woonkwaliteit_namens_bewoner",
-      "label": "Namens bewoner",
+      "label": "Doet u de melding namens de bewoner van het adres?",
+      "shortLabel": "Namens bewoner",
       "answer": {"id": "nee", "info": "", "label": "Nee"},
       "category_url": ""
     },
     {
       "id": "extra_wonen_woonkwaliteit_toestemming_contact",
-      "label": "Toestemming contact opnemen",
+      "label": "Mogen we contact met u opnemen om een afspraak te maken?",
+      "shortLabel": "Toestemming contact opnemen",
       "answer": {"id": "nee", "info": "", "label": "Nee, liever geen contact"},
       "category_url": ""
     },
     {
       "id": "extra_wonen_woonkwaliteit_geen_contact",
-      "label": "Liever geen contact",
+      "label": "Waarom heeft u liever geen contact?",
+      "shortLabel": "Liever geen contact",
       "answer": "Vertel ik liever niet",
       "category_url": ""
     }
