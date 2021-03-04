@@ -5,7 +5,7 @@ import { Validators } from 'react-reactive-form';
 import { withAppContext } from 'test/utils';
 import { createRequired } from '../../../../services/custom-validators';
 
-import type { HeaderProps } from '..';
+import type { HeaderProps } from '../Header';
 import Header from '..';
 import type { FormMeta } from 'types/reactive-form';
 

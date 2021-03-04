@@ -54,7 +54,7 @@ export interface HeaderProps extends Pick<ReactiveFormMeta, PickedProps> {
 }
 
 const Header: FunctionComponent<HeaderProps> = ({
-  className = '',
+  className,
   meta,
   options,
   touched,

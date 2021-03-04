@@ -306,7 +306,6 @@ export const saveSignalId = () => {
   cy.get('[data-testid="plainText"')
     .then($signalLabel => {
       // Get the signal id
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const text = $signalLabel.text();
       const expression = (/\d+/);
       const signalNumber = expression.exec(text)[0];

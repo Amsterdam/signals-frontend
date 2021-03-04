@@ -13,9 +13,9 @@ const lineHeight = 22;
 const StyledArea = styled(AscTextArea)<{ rows?: number; maxRows?: number }>`
   font-family: inherit;
   vertical-align: top; /* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
-  min-height: ${({ rows }) => (rows ?? 5) * lineHeight}px;
+  min-height: ${({ rows = 5 }) => rows * lineHeight}px;
   resize: vertical;
-  max-height: ${({ maxRows }) => (maxRows ?? 15) * lineHeight}px;
+  max-height: ${({ maxRows = 15 }) => maxRows * lineHeight}px;
   line-height: ${lineHeight}px;
 `;
 
@@ -34,7 +34,7 @@ interface TextAreaProps extends AscTextAreaProps {
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ infoText, errorMessage, label, id = '', className = '', ...props }, ref) => (
+  ({ infoText, errorMessage, label, id, className, ...props }, ref) => (
     <Fragment>
       {label && (
         <Label inline htmlFor={id}>
