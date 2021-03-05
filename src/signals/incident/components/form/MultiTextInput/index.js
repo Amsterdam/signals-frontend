@@ -49,27 +49,30 @@ export const StyledInput = styled(Input)`
  */
 const MultiTextInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => meta?.isVisible && (
   <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-    <input type="hidden" {...handler()} />
+    <div>
+      <input type="hidden" {...handler()} />
 
-    {map(handler().value || [''], (input, index) => (
-      <div key={`${meta.name}-${index + 1}`}>
-        <StyledInput
-          id={`${meta.name}-${index + 1}`}
-          name={`${meta.name}-${index + 1}`}
-          type="text"
-          placeholder={meta.placeholder}
-          value={input}
-          onChange={e => updateIncident(e.target.value, index, handler().value, meta, parent)}
-          onKeyPress={e => filterInvalidKeys(e)}
-          pattern="[0-9.,;]+"
-          maxLength="15"
-        />
-      </div>
-    ))}
+      {map(handler().value || [''], (input, index) => (
+        <div key={`${meta.name}-${index + 1}`}>
+          <StyledInput
+            id={index === 0 ? meta.name : `${meta.name}-${index + 1}`}
+            aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
+            name={`${meta.name}-${index + 1}`}
+            type="text"
+            placeholder={meta.placeholder}
+            value={input}
+            onChange={e => updateIncident(e.target.value, index, handler().value, meta, parent)}
+            onKeyPress={e => filterInvalidKeys(e)}
+            pattern="[0-9.,;]+"
+            maxLength="15"
+          />
+        </div>
+      ))}
 
-    <Button onClick={() => addItem(handler().value, meta, parent)} variant="textButton">
-      {meta.newItemText}
-    </Button>
+      <Button onClick={() => addItem(handler().value, meta, parent)} variant="textButton">
+        {meta.newItemText}
+      </Button>
+    </div>
   </Header>
 );
 

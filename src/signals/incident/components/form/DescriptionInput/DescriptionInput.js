@@ -30,7 +30,7 @@ const DescriptionInput = ({ handler, value, meta, parent }) => {
     <div>
       <TextArea
         id={meta.name}
-        aria-describedby={`subtitle-${meta.name}`}
+        aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
         data-testid="descriptionInput"
         rows={meta.rows}
         placeholder={meta.placeholder}
