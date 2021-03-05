@@ -14,33 +14,35 @@ exports[`Form component <MultiTextInput /> rendering should render multi text co
   }
   touched={false}
 >
-  <input
-    type="hidden"
-    value={
-      Array [
-        "Lorem",
-      ]
-    }
-  />
-  <div
-    key="input-field-name-1"
-  >
+  <div>
+    <input
+      type="hidden"
+      value={
+        Array [
+          "Lorem",
+        ]
+      }
+    />
+    <div
+      key="input-field-name-1"
+    >
+      <Styled(Component)
+        id="input-field-name"
+        maxLength="15"
+        name="input-field-name-1"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        pattern="[0-9.,;]+"
+        placeholder="type here"
+        type="text"
+        value="Lorem"
+      />
+    </div>
     <Styled(Component)
-      id="input-field-name-1"
-      maxLength="15"
-      name="input-field-name-1"
-      onChange={[Function]}
-      onKeyPress={[Function]}
-      pattern="[0-9.,;]+"
-      placeholder="type here"
-      type="text"
-      value="Lorem"
+      onClick={[Function]}
+      variant="textButton"
     />
   </div>
-  <Styled(Component)
-    onClick={[Function]}
-    variant="textButton"
-  />
 </Header>
 `;
 
@@ -57,28 +59,30 @@ exports[`Form component <MultiTextInput /> rendering should render multi text wi
   }
   touched={false}
 >
-  <input
-    type="hidden"
-  />
-  <div
-    key="input-field-name-1"
-  >
+  <div>
+    <input
+      type="hidden"
+    />
+    <div
+      key="input-field-name-1"
+    >
+      <Styled(Component)
+        id="input-field-name"
+        maxLength="15"
+        name="input-field-name-1"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        pattern="[0-9.,;]+"
+        placeholder="type here"
+        type="text"
+        value=""
+      />
+    </div>
     <Styled(Component)
-      id="input-field-name-1"
-      maxLength="15"
-      name="input-field-name-1"
-      onChange={[Function]}
-      onKeyPress={[Function]}
-      pattern="[0-9.,;]+"
-      placeholder="type here"
-      type="text"
-      value=""
+      onClick={[Function]}
+      variant="textButton"
     />
   </div>
-  <Styled(Component)
-    onClick={[Function]}
-    variant="textButton"
-  />
 </Header>
 `;
 
