@@ -63,8 +63,8 @@ const IncidentManagement = () => {
   }, [dispatch, searchQuery]);
 
   useEffect(() => {
-    if (isAuthenticated() && userCan('view_user') && !users.isLoading && !users.data && !users.error) {
-      users.get(configuration.USERS_ENDPOINT);
+    if (isAuthenticated() && !users.isLoading && !users.data && !users.error) {
+      users.get(configuration.AUTOCOMPLETE_USERNAME_ENDPOINT);
     }
   }, [users, userCan]);
 
