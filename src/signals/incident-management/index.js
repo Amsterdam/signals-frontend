@@ -9,7 +9,7 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import useLocationReferrer from 'hooks/useLocationReferrer';
-import { makeSelectSearchQuery, makeSelectUserCan } from 'containers/App/selectors';
+import { makeSelectSearchQuery } from 'containers/App/selectors';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { getDistricts, getFilters, searchIncidents, requestIncidents } from './actions';
@@ -37,11 +37,9 @@ const IncidentManagement = () => {
   const districts = useSelector(makeSelectDistricts);
   const searchQuery = useSelector(makeSelectSearchQuery);
   const dispatch = useDispatch();
-  const userCan = useSelector(makeSelectUserCan);
   const users = useFetch();
-  const contextValue = useMemo(() => ({ districts, users: users.data?.results }), [
+  const contextValue = useMemo(() => ({ districts }), [
     districts,
-    users.data?.results,
   ]);
 
   useEffect(() => {
@@ -61,12 +59,6 @@ const IncidentManagement = () => {
 
     dispatch(getFilters());
   }, [dispatch, searchQuery]);
-
-  useEffect(() => {
-    if (isAuthenticated() && !users.isLoading && !users.data && !users.error) {
-      users.get(configuration.AUTOCOMPLETE_USERNAME_ENDPOINT);
-    }
-  }, [users, userCan]);
 
   if (!isAuthenticated()) {
     return <Route component={LoginPage} />;
