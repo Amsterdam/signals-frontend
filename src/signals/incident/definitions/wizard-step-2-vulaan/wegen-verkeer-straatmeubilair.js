@@ -192,7 +192,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
       placeholder: 'Nummer lichtpunt',
       newItemText: '+ Voeg een extra nummer toe',
-      itemClassName: 'col-3',
       ifAllOf: {
         extra_straatverlichting_niet_op_kaart: true,
         subcategory: 'lantaarnpaal-straatverlichting',
@@ -330,7 +329,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         extra_klok_niet_op_kaart: true,
         subcategory: 'klok',
       },
-      itemClassName: 'col-3',
       newItemText: '+ Voeg een extra nummer toe',
       ifOneOf: {
         extra_klok_probleem: [

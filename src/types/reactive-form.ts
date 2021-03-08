@@ -34,20 +34,19 @@ export interface FormMeta extends Record<string, unknown> {
   autoFocus?: boolean;
   autoComplete?: string;
   type?: string;
+  newItemText?: string;
 }
 
 export interface FormOptions {
   validators?: { name: string }[];
 }
 
+export interface ParentType { meta: { updateIncident: (data: any) => void }}
+
 type ReactiveFormPickedProps = 'handler' | 'touched' | 'hasError' | 'getError';
 export interface FormInputProps<T = string> extends Pick<ReactiveFormMeta, ReactiveFormPickedProps> {
   meta?: FormMeta;
   validatorsOrOpts?: FormOptions;
-  parent: {
-    meta: {
-      updateIncident: (data: any) => void;
-    };
-  };
+  parent: ParentType;
   value: T;
 }
