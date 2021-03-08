@@ -16,6 +16,7 @@ import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { patchIncidentSuccess } from 'signals/incident-management/actions';
 
+jest.spyOn(window, 'scrollTo');
 jest.spyOn(categoriesSelectors, 'makeSelectSubCategories').mockImplementation(() => subCategories);
 
 // prevent fetch requests that we don't need to verify
@@ -330,12 +331,25 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     const editStatusButton = await findByTestId('editStatusButton');
 
     expect(queryByTestId('statusForm')).not.toBeInTheDocument();
+    expect(window.scrollTo).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(editStatusButton);
     });
 
     expect(queryByTestId('statusForm')).toBeInTheDocument();
+    expect(window.scrollTo).toHaveBeenCalledTimes(1);
+
+    const cancelButton = await findByTestId('statusFormCancelButton');
+
+    act(() => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(queryByTestId('statusForm')).not.toBeInTheDocument();
+    expect(window.scrollTo).toHaveBeenCalledTimes(2);
+
+    await findByTestId('editStatusButton');
   });
 
   it('renders attachment viewer', async () => {

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
+import React, { useReducer, useEffect, useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Column } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
@@ -74,8 +74,23 @@ const IncidentDetail = () => {
   const { get: getAttachments, data: attachments } = useFetch();
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
   const { get: getChildren, data: children } = useFetch();
+  const [editingStatus, setEditingStatus] = useState(false);
 
   const subcategories = useSelector(makeSelectSubCategories);
+
+  useEffect(() => {
+    if (state.edit === 'status') {
+      setEditingStatus(true);
+      window.scrollTo(0, 0);
+    }
+  }, [state.edit]);
+
+  useEffect(() => {
+    if (editingStatus && state.edit !== 'status') {
+      setEditingStatus(false);
+      window.scrollTo(0, 0);
+    }
+  }, [editingStatus, state.edit]);
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
