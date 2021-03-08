@@ -34,6 +34,7 @@ export interface FormMeta extends Record<string, unknown> {
   autoFocus?: boolean;
   autoComplete?: string;
   type?: string;
+  newItemText?: string;
 }
 
 export interface FormOptions {
