@@ -6,10 +6,9 @@ import map from 'lodash.map';
 import Input from 'components/Input';
 import Button from 'components/Button';
 
-import './style.scss';
-
 import Header from '../Header';
-import type { FormInputProps, FormMeta } from 'types/reactive-form';
+import type { FormInputProps, FormMeta, ParentType } from 'types/reactive-form';
+import { themeSpacing } from '@amsterdam/asc-ui';
 
 const allowedChars = /[\d,.;]+/;
 
@@ -20,15 +19,7 @@ const filterInvalidKeys = (event: React.KeyboardEvent<HTMLInputElement>) => {
   }
 };
 
-interface ParentType { meta: { updateIncident: (data: any) => void }}
-
-const updateIncident = (
-  value: string,
-  index: number,
-  oldFields: string[],
-  meta: FormMeta,
-  parent: ParentType
-) => {
+const updateIncident = (value: string, index: number, oldFields: string[], meta: FormMeta, parent: ParentType) => {
   const fields = [...oldFields];
   fields[index] = value;
 
@@ -47,7 +38,7 @@ function addItem(oldFields: string[], meta: FormMeta, parent: ParentType) {
 }
 
 export const StyledInput = styled(Input)`
-  margin-bottom: 8px;
+  margin-bottom: ${themeSpacing(2)};
   width: 25%;
   min-width: 175px;
 `;
@@ -93,7 +84,8 @@ const MultiTextInput: FunctionComponent<MultiTextInputProps> = ({
                 maxLength={15}
               />
             </div>
-          ))}
+          ))
+        }
 
         <Button
           onClick={() => {
