@@ -39,3 +39,15 @@ export interface FormMeta extends Record<string, unknown> {
 export interface FormOptions {
   validators?: { name: string }[];
 }
+
+type ReactiveFormPickedProps = 'handler' | 'touched' | 'hasError' | 'getError';
+export interface FormInputProps<T = string> extends Pick<ReactiveFormMeta, ReactiveFormPickedProps> {
+  meta?: FormMeta;
+  validatorsOrOpts?: FormOptions;
+  parent: {
+    meta: {
+      updateIncident: (data: any) => void;
+    };
+  };
+  value: T;
+}

@@ -1,14 +1,14 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 
-import type { TextAreaInputProps } from '..';
+import type { TextAreaInputProps } from '../TextareaInput';
 import TextareaInput from '..';
 import { withAppContext } from 'test/utils';
 import userEvent from '@testing-library/user-event';
 import type { FormMeta } from 'types/reactive-form';
 
 describe('Form component <TextareaInput />', () => {
-  const metaFields: FormMeta = {
+  const meta: FormMeta = {
     name: 'input-field-name',
     placeholder: 'type here',
     isVisible: true,
@@ -28,23 +28,19 @@ describe('Form component <TextareaInput />', () => {
     value: '',
   } as TextAreaInputProps;
 
-
-  beforeEach(() => {
-  });
-
   afterEach(() => {
     jest.resetAllMocks();
   });
 
   describe('rendering', () => {
     it('should render text area field correctly', () => {
-      render(withAppContext(<TextareaInput {...props} meta={{ ...metaFields }} />));
+      render(withAppContext(<TextareaInput {...props} meta={{ ...meta }} />));
       expect(screen.getByRole('textbox')).toBeInTheDocument();
       expect(props.handler).toHaveBeenCalledWith();
     });
 
     it('should render no text area field when not visible', () => {
-      render(withAppContext(<TextareaInput {...props} meta={{ ...metaFields, isVisible: false }} />));
+      render(withAppContext(<TextareaInput {...props} meta={{ ...meta, isVisible: false }} />));
       expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
       expect(props.handler).not.toHaveBeenCalledWith();
     });
@@ -56,13 +52,13 @@ describe('Form component <TextareaInput />', () => {
     });
 
     it('should render character counter correctly', () => {
-      render(withAppContext(<TextareaInput {...props} meta={{ ...metaFields, maxLength: 300 }} />));
+      render(withAppContext(<TextareaInput {...props} meta={{ ...meta, maxLength: 300 }} />));
       expect(screen.getByRole('textbox')).toBeInTheDocument();
       expect(screen.getByText('0/300 tekens')).toBeInTheDocument();
     });
 
     it('should render character counter with value correctly', () => {
-      render(withAppContext(<TextareaInput {...props} meta={{ ...metaFields, maxLength: 300 }} value="test" />));
+      render(withAppContext(<TextareaInput {...props} meta={{ ...meta, maxLength: 300 }} value="test" />));
       const input = screen.getByRole('textbox');
       expect(input).toBeInTheDocument();
       expect(screen.getByText('4/300 tekens')).toBeInTheDocument();
@@ -71,7 +67,7 @@ describe('Form component <TextareaInput />', () => {
 
   describe('events', () => {
     it('sets incident when value changes', async () => {
-      render(withAppContext(<TextareaInput {...props} meta={{ ...metaFields, maxLength: 300 }} />));
+      render(withAppContext(<TextareaInput {...props} meta={{ ...meta, maxLength: 300 }} />));
       const input = screen.getByRole('textbox');
       expect(input).toBeInTheDocument();
       userEvent.type(input, 'diabolo');
@@ -85,7 +81,7 @@ describe('Form component <TextareaInput />', () => {
     });
 
     it('sets incident when value changes and removed unwanted characters', async () => {
-      render(withAppContext(<TextareaInput {...props} meta={{ ...metaFields, autoRemove: /[aio]*/g }} />));
+      render(withAppContext(<TextareaInput {...props} meta={{ ...meta, autoRemove: /[aio]*/g }} />));
       const input = screen.getByRole('textbox');
       expect(input).toBeInTheDocument();
       userEvent.type(input, 'diabolo');

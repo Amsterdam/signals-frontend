@@ -2,21 +2,10 @@ import type { FunctionComponent } from 'react';
 import React from 'react';
 import TextArea from 'components/TextArea';
 
-import type { FormMeta, FormOptions, ReactiveFormMeta } from 'types/reactive-form';
+import type { FormInputProps } from 'types/reactive-form';
 import Header from '../Header';
 
-
-type PickedProps = 'handler' | 'touched' | 'hasError' | 'getError';
-export interface TextAreaInputProps<T=string> extends Pick<ReactiveFormMeta, PickedProps> {
-  meta?: FormMeta;
-  validatorsOrOpts?: FormOptions;
-  parent: {
-    meta: {
-      updateIncident: (data: any) => void;
-    };
-  };
-  value: T;
-}
+export type TextAreaInputProps = FormInputProps;
 
 const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
   handler,

@@ -4,16 +4,20 @@ import { withAppContext } from 'test/utils';
 
 import TextInput from '..';
 import userEvent from '@testing-library/user-event';
+import type { TextInputProps } from '../TextInput';
+import type { FormMeta } from 'types/reactive-form';
 
 describe('Form component <TextInput />', () => {
+  const meta: FormMeta = {
+    name: 'input-field-name',
+    type: 'text',
+    label: 'field label',
+    placeholder: 'type here',
+    subtitle: 'subtitle',
+    isVisible: true,
+  };
+
   const props = {
-    meta: {
-      name: 'input-field-name',
-      type: 'text',
-      label: 'field label',
-      placeholder: 'type here',
-      subtitle: 'subtitle',
-    },
     handler: jest.fn(),
     parent: {
       meta: {
@@ -24,7 +28,7 @@ describe('Form component <TextInput />', () => {
     hasError: jest.fn(),
     getError: jest.fn(),
     value: '',
-  };
+  } as TextInputProps;
 
   describe('rendering', () => {
     it('should not render when no metadata', () => {
@@ -35,27 +39,12 @@ describe('Form component <TextInput />', () => {
     });
 
     it('should render text field correctly', () => {
-      const propsIsNotVisible = {
-        ...props,
-        meta: {
-          ...props.meta,
-          isVisible: false,
-        },
-      };
-      const { rerender } = render(withAppContext(<TextInput {...propsIsNotVisible} />));
+      const { rerender } = render(withAppContext(<TextInput {...props} meta={{ ...meta, isVisible: false }} />));
 
       expect(screen.queryByText('field label')).not.toBeInTheDocument();
       expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
 
-      const propsIsVisible = {
-        ...props,
-        meta: {
-          ...props.meta,
-          isVisible: true,
-        },
-      };
-
-      rerender(withAppContext(<TextInput {...propsIsVisible} />));
+      rerender(withAppContext(<TextInput {...props} meta={{ ...meta, isVisible: true }} />));
 
       expect(screen.getByText('field label')).toBeInTheDocument();
       expect(screen.getByRole('textbox')).toBeInTheDocument();
@@ -64,42 +53,26 @@ describe('Form component <TextInput />', () => {
 
   describe('events', () => {
     it('sets incident when value changes', () => {
-      const propsIsVisible = {
-        ...props,
-        meta: {
-          ...props.meta,
-          isVisible: true,
-        },
-      };
-
-      render(withAppContext(<TextInput {...propsIsVisible} />));
+      render(withAppContext(<TextInput {...props} meta={{ ...meta, isVisible: true }} />));
 
       const input = screen.getByRole('textbox');
       userEvent.type(input, 'diabolo');
       userEvent.tab();
 
       expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
-        [props.meta.name]: 'diabolo',
+        [meta.name]: 'diabolo',
       });
     });
 
     it('sets incident when value changes and removed unwanted characters', () => {
-      const propsWithAutoRemove = {
-        ...props,
-        meta: {
-          ...props.meta,
-          autoRemove: /[bdl]*/g,
-          isVisible: true,
-        },
-      };
-      render(withAppContext(<TextInput {...propsWithAutoRemove} />));
+      render(withAppContext(<TextInput {...props} meta={{ ...meta, autoRemove: /[bdl]*/g, isVisible: true }} />));
 
       const input = screen.getByRole('textbox');
       userEvent.type(input, 'diabolo');
       userEvent.tab();
 
       expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
-        [props.meta.name]: 'iaoo',
+        [meta.name]: 'iaoo',
       });
     });
   });

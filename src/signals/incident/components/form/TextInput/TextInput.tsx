@@ -3,19 +3,9 @@ import React from 'react';
 import Input from 'components/Input';
 
 import Header from '../Header';
-import type { FormMeta, FormOptions, ReactiveFormMeta } from 'types/reactive-form';
+import type { FormInputProps } from 'types/reactive-form';
 
-type PickedProps = 'handler' | 'touched' | 'hasError' | 'getError';
-export interface TextInputProps<T = string> extends Pick<ReactiveFormMeta, PickedProps> {
-  meta?: FormMeta;
-  validatorsOrOpts?: FormOptions;
-  parent: {
-    meta: {
-      updateIncident: (data: any) => void;
-    };
-  };
-  value: T;
-}
+export type TextInputProps = FormInputProps;
 
 const TextInput: FunctionComponent<TextInputProps> = ({
   handler,
@@ -26,7 +16,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({
   getError,
   validatorsOrOpts,
 }) =>
-  meta?.isVisible && (
+  (meta?.isVisible && (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <Input
         id={meta.name}
@@ -43,7 +33,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({
         }}
       />
     </Header>
-  ) ||
+  )) ||
   null;
 
 export default TextInput;
