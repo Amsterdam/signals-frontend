@@ -43,14 +43,14 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
             <input type="hidden" {...handler()} />
 
             {map(meta.values, (value, key) => (
-              <Label htmlFor={`${meta.name}-${key + 1}`} label={value} noActiveState>
+              <Label htmlFor={`${meta.name}-${key + 1}`} label={value} key={`${meta.name}-${key + 1}`} noActiveState>
                 <Checkbox
                   id={`${meta.name}-${key + 1}`}
                   name={`${meta.name}-${key + 1}`}
                   value={key}
                   checked={(handler().value || []).find(item => item.id === key)}
-                  onClick={e =>
-                    updateIncidentCheckboxMulti(e.target.checked, value, key, handler().value, meta, parent)
+                  onClick={event =>
+                    updateIncidentCheckboxMulti(event.target.checked, value, key, handler().value, meta, parent)
                   }
                 />
               </Label>
