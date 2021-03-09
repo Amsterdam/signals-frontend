@@ -6,7 +6,7 @@ on:
       - master
       - release/*
   pull_request:
-    types: [opened, edited]
+    types: [opened, synchronize]
 
 env:
   TZ: "Europe/Amsterdam"
