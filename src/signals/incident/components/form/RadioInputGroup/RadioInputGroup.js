@@ -12,7 +12,7 @@ const Info = styled.p`
 `;
 
 const StyledRadioGroup = styled(RadioGroup)`
-  margin-top: -${themeSpacing(3)}; // Offset spacing introduced by asc-ui RadioGroup
+  margin-top: -6px; // Offset spacing introduced by asc-ui RadioGroup
 `;
 
 const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
