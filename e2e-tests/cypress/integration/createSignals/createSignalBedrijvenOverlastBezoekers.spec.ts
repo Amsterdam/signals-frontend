@@ -30,10 +30,10 @@ describe('Create signal "Bedrijven overlast bezoekers" and check signal details'
         cy.get(BEDRIJVEN_HORECA.radioButtonHoreca).click({ force: true });
 
         cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_naam.label).should('be.visible');
-        cy.get(BEDRIJVEN_HORECA.inputWieWat).eq(0).type('Klanten van het cafe');
+        cy.get(BEDRIJVEN_HORECA.inputWieWat).type('Klanten van het cafe');
 
         cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_adres.label).should('be.visible');
-        cy.get(BEDRIJVEN_HORECA.inputAdres).eq(1).type('Op Zeedijk nummer 3');
+        cy.get(BEDRIJVEN_HORECA.inputAdres).type('Op Zeedijk nummer 3');
 
         cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_personen.label).should('be.visible');
         cy.get(BEDRIJVEN_HORECA.checkBoxDronken).check();
@@ -45,7 +45,7 @@ describe('Create signal "Bedrijven overlast bezoekers" and check signal details'
         cy.get(BEDRIJVEN_HORECA.radioButtonVakerJa).click({ force: true });
 
         cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_tijdstippen.label).should('be.visible');
-        cy.get(BEDRIJVEN_HORECA.inputDatum).eq(2).type('Elke dag');
+        cy.get(BEDRIJVEN_HORECA.inputDatum).type('Elke dag');
 
         cy.contains('Volgende').click();
 

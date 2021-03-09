@@ -772,8 +772,8 @@ export const controls = {
 };
 
 const wonen = {
-  ...controls,
   ...overig,
+  ...controls,
 };
 
 export default wonen;

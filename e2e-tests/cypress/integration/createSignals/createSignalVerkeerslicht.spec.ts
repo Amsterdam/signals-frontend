@@ -168,10 +168,10 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
 
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_rijrichting.label).should('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_rijrichting.subtitle).should('be.visible');
-      cy.get(VERKEERSLICHT.inputRijrichting).eq(0).type('Richting centrum');
+      cy.get(VERKEERSLICHT.inputRijrichting).type('Richting centrum');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_nummer.label).should('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_nummer.subtitle).should('be.visible');
-      cy.get(VERKEERSLICHT.inputNummerVerkeerslicht).eq(1).type('365');
+      cy.get(VERKEERSLICHT.inputNummerVerkeerslicht).type('365');
 
       cy.contains('Volgende').click();
 

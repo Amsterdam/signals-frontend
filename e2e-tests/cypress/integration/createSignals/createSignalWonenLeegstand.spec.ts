@@ -25,7 +25,7 @@ describe('Create signal "Wonen leegstand" and check signal details', () => {
 
       // Input specific information
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.label).should('be.visible');
-      cy.get(WONEN_LEEGSTAND.inputEigenaar).eq(0).type('A. Hitchcock');
+      cy.get(WONEN_LEEGSTAND.inputEigenaar).type('A. Hitchcock');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_periode.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.radioButtonLeegZesMaandenOfLanger).check({ force: true }).should('be.checked');
@@ -51,9 +51,9 @@ describe('Create signal "Wonen leegstand" and check signal details', () => {
       cy.contains('Vorige').click();
       cy.url().should('include', '/incident/vulaan');
 
-      cy.get(WONEN_LEEGSTAND.inputNaam).eq(1).type('J. Aniston');
-      cy.get(WONEN_LEEGSTAND.inputWatDoetPersoon).eq(2).type('Deze persoon zit de hele dag te acteren');
-      cy.get(WONEN_LEEGSTAND.inputTijdstip).eq(3).type('Vooral in de avond');
+      cy.get(WONEN_LEEGSTAND.inputNaam).type('J. Aniston');
+      cy.get(WONEN_LEEGSTAND.inputWatDoetPersoon).type('Deze persoon zit de hele dag te acteren');
+      cy.get(WONEN_LEEGSTAND.inputTijdstip).type('Vooral in de avond');
 
       cy.contains('Volgende').click();
 
