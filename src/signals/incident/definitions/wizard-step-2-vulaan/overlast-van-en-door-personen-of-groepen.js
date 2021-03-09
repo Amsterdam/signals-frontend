@@ -3,19 +3,7 @@ import React from 'react';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
-const intro = {
-  custom_text: {
-    meta: {
-      label: 'Dit hebt u net ingevuld:',
-      type: 'citation',
-      value: '{incident.description}',
-      ignoreVisibility: true,
-    },
-    render: FormComponents.PlainText,
-  },
-};
-
-export const controls = {
+export const overlastPersonenEnGroepen = {
   extra_jongeren_text: {
     meta: {
       ifAllOf: {
@@ -26,7 +14,7 @@ export const controls = {
       value:
         'Weet u de naam van de jongere(n)? Gebruik dan het formulier [Melding zorg en woonoverlast](https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/). Dan komt uw melding direct bij het juiste team terecht.',
     },
-    render: FormComponents.PlainText,
+    render: 'PlainText',
   },
   extra_personen_overig: {
     meta: {
@@ -43,7 +31,7 @@ export const controls = {
         onbekend: 'Onbekend',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_personen_overig_vaker: {
     meta: {
@@ -58,7 +46,7 @@ export const controls = {
         ja: 'Ja, het gebeurt vaker:',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_personen_overig_vaker_momenten: {
     meta: {
@@ -70,23 +58,8 @@ export const controls = {
         category: 'overlast-van-en-door-personen-of-groepen',
       },
     },
-    render: FormComponents.TextareaInput,
+    render: 'TextareaInput',
   },
 };
 
-const navigation = {
-  $field_0: {
-    isStatic: false,
-    render: IncidentNavigation,
-  },
-};
-
-export default {
-  controls: {
-    ...intro,
-
-    ...controls,
-
-    ...navigation,
-  },
-};
+export default overlastPersonenEnGroepen;

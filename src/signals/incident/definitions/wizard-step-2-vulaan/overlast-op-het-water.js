@@ -1,19 +1,7 @@
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
-const intro = {
-  custom_text: {
-    meta: {
-      label: 'Dit hebt u net ingevuld:',
-      type: 'citation',
-      value: '{incident.description}',
-      ignoreVisibility: true,
-    },
-    render: FormComponents.PlainText,
-  },
-};
-
-export const controls = {
+export const overlastOpHetWater = {
   extra_boten_snelheid_rondvaartboot: {
     meta: {
       ifAllOf: {
@@ -27,7 +15,7 @@ export const controls = {
         nee: 'Nee',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_boten_snelheid_rederij: {
     meta: {
@@ -106,7 +94,7 @@ export const controls = {
         extra_boten_snelheid_rondvaartboot: 'ja',
       },
     },
-    render: FormComponents.SelectInput,
+    render: 'SelectInput',
   },
   extra_boten_snelheid_naamboot: {
     meta: {
@@ -117,7 +105,7 @@ export const controls = {
         subcategory: 'overlast-op-het-water-snel-varen',
       },
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
   extra_boten_snelheid_meer: {
     meta: {
@@ -130,7 +118,7 @@ export const controls = {
         subcategory: 'overlast-op-het-water-snel-varen',
       },
     },
-    render: FormComponents.TextareaInput,
+    render: 'TextareaInput',
   },
   extra_boten_geluid_meer: {
     meta: {
@@ -143,7 +131,7 @@ export const controls = {
         subcategory: 'overlast-op-het-water-geluid',
       },
     },
-    render: FormComponents.TextareaInput,
+    render: 'TextareaInput',
   },
   extra_boten_gezonken_meer: {
     meta: {
@@ -155,23 +143,8 @@ export const controls = {
         subcategory: 'overlast-op-het-water-gezonken-boot',
       },
     },
-    render: FormComponents.TextareaInput,
+    render: 'TextareaInput',
   },
 };
 
-const navigation = {
-  $field_0: {
-    isStatic: false,
-    render: IncidentNavigation,
-  },
-};
-
-export default {
-  controls: {
-    ...intro,
-
-    ...controls,
-
-    ...navigation,
-  },
-};
+export default overlastOpHetWater;

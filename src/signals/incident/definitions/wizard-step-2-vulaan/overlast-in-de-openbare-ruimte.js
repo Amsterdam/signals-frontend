@@ -1,19 +1,7 @@
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
-const intro = {
-  custom_text: {
-    meta: {
-      label: 'Dit hebt u net ingevuld:',
-      type: 'citation',
-      value: '{incident.description}',
-      ignoreVisibility: true,
-    },
-    render: FormComponents.PlainText,
-  },
-};
-
-export const controls = {
+export const overlastInDeOpenbareRuimte = {
   extra_auto_scooter_bromfietswrak: {
     meta: {
       ifAllOf: {
@@ -26,7 +14,7 @@ export const controls = {
       pathMerge: 'extra_properties',
       autoFocus: true,
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
   extra_fietswrak: {
     meta: {
@@ -40,7 +28,7 @@ export const controls = {
       pathMerge: 'extra_properties',
       autoFocus: true,
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
   extra_parkeeroverlast: {
     meta: {
@@ -54,23 +42,8 @@ export const controls = {
       pathMerge: 'extra_properties',
       autoFocus: true,
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
 };
 
-const navigation = {
-  $field_0: {
-    isStatic: false,
-    render: IncidentNavigation,
-  },
-};
-
-export default {
-  controls: {
-    ...intro,
-
-    ...controls,
-
-    ...navigation,
-  },
-};
+export default overlastInDeOpenbareRuimte;

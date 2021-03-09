@@ -3,19 +3,7 @@ import { Validators } from 'react-reactive-form';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
-const intro = {
-  custom_text: {
-    meta: {
-      label: 'Dit hebt u net ingevuld:',
-      type: 'citation',
-      value: '{incident.description}',
-      ignoreVisibility: true,
-    },
-    render: FormComponents.PlainText,
-  },
-};
-
-export const controls = {
+export const overlastBedrijvenEnHoreca = {
   extra_bedrijven_horeca_wat: {
     meta: {
       ifAllOf: {
@@ -31,8 +19,8 @@ export const controls = {
         iets_anders: 'Iets anders',
       },
     },
-    options: { validators: [Validators.required] },
-    render: FormComponents.RadioInputGroup,
+    options: { validators: ['required'] },
+    render: 'RadioInputGroup',
   },
   extra_bedrijven_horeca_naam: {
     meta: {
@@ -46,7 +34,7 @@ export const controls = {
       shortLabel: 'Mogelijke veroorzaker',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
   extra_bedrijven_horeca_adres: {
     meta: {
@@ -60,8 +48,8 @@ export const controls = {
       shortLabel: 'Adres overlast',
       pathMerge: 'extra_properties',
     },
-    options: { validators: [Validators.required] },
-    render: FormComponents.TextInput,
+    options: { validators: ['required'] },
+    render: 'TextInput',
   },
 
   extra_bedrijven_horeca_muziek_direct_naast: {
@@ -82,7 +70,7 @@ export const controls = {
         nee: 'Nee, ik woon er niet direct naast',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
 
   extra_bedrijven_horeca_muziek_ramen_dicht: {
@@ -101,7 +89,7 @@ export const controls = {
         nee: 'Nee, geen last met ramen en deuren gesloten',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_bedrijven_horeca_muziek_ramen_dicht_onderneming: {
     meta: {
@@ -119,7 +107,7 @@ export const controls = {
         nee: 'Nee, ramen en deuren zijn gesloten',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang: {
     meta: {
@@ -138,7 +126,7 @@ export const controls = {
         lang: 'Lang open',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
 
   extra_bedrijven_horeca_muziek_evenement: {
@@ -155,8 +143,8 @@ export const controls = {
         nee: 'Nee, ik ben niet geïnformeerd door de organisator',
       },
     },
-    options: { validators: [Validators.required] },
-    render: FormComponents.RadioInputGroup,
+    options: { validators: ['required'] },
+    render: 'RadioInputGroup',
   },
 
   extra_bedrijven_horeca_muziek_evenement_einde: {
@@ -170,8 +158,8 @@ export const controls = {
       shortLabel: 'Evenement eindigt om',
       pathMerge: 'extra_properties',
     },
-    options: { validators: [Validators.required] },
-    render: FormComponents.TextInput,
+    options: { validators: ['required'] },
+    render: 'TextInput',
   },
 
   extra_bedrijven_horeca_installaties: {
@@ -187,8 +175,8 @@ export const controls = {
       subtitle: 'Bijvoorbeeld een afzuiger of airconditioning',
       pathMerge: 'extra_properties',
     },
-    options: { validators: [Validators.required] },
-    render: FormComponents.TextInput,
+    options: { validators: ['required'] },
+    render: 'TextInput',
   },
 
   extra_bedrijven_horeca_personen: {
@@ -211,7 +199,7 @@ export const controls = {
       },
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.CheckboxInput,
+    render: 'CheckboxInput',
   },
 
   extra_bedrijven_horeca_terrassen: {
@@ -234,7 +222,7 @@ export const controls = {
       },
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.CheckboxInput,
+    render: 'CheckboxInput',
   },
 
   extra_bedrijven_horeca_stank: {
@@ -250,7 +238,7 @@ export const controls = {
       subtitle: 'Beschrijf wat voor geur het is',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
 
   extra_bedrijven_horeca_stank_oorzaak: {
@@ -266,7 +254,7 @@ export const controls = {
       subtitle: 'Bijvoorbeeld afvoerpijp of schoorsteen',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
 
   extra_bedrijven_horeca_stank_weer: {
@@ -281,7 +269,7 @@ export const controls = {
       shortLabel: 'Weersomstandigheden',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
 
   extra_bedrijven_horeca_stank_ramen: {
@@ -300,7 +288,7 @@ export const controls = {
         nee: 'Nee, ramen en deuren zijn gesloten',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
 
   extra_bedrijven_horeca_vaker: {
@@ -320,7 +308,7 @@ export const controls = {
         nee: 'Nee, dit is de eerste keer',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_bedrijven_horeca_tijdstippen: {
     meta: {
@@ -335,7 +323,7 @@ export const controls = {
       shortLabel: 'Overlast momenten',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
 
   extra_bedrijven_horeca_muziek_geluidmeting_muziek: {
@@ -355,8 +343,8 @@ export const controls = {
         nee: 'Nee, liever geen contact',
       },
     },
-    options: { validators: [Validators.required] },
-    render: FormComponents.RadioInputGroup,
+    options: { validators: ['required'] },
+    render: 'RadioInputGroup',
   },
   extra_bedrijven_horeca_muziek_geluidmeting_installaties: {
     meta: {
@@ -375,8 +363,8 @@ export const controls = {
         nee: 'Nee, liever geen contact',
       },
     },
-    options: { validators: [Validators.required] },
-    render: FormComponents.RadioInputGroup,
+    options: { validators: ['required'] },
+    render: 'RadioInputGroup',
   },
   extra_bedrijven_horeca_muziek_geluidmeting_overige: {
     meta: {
@@ -395,8 +383,8 @@ export const controls = {
         nee: 'Nee, liever geen contact',
       },
     },
-    options: { validators: [Validators.required] },
-    render: FormComponents.RadioInputGroup,
+    options: { validators: ['required'] },
+    render: 'RadioInputGroup',
   },
   extra_bedrijven_horeca_muziek_geluidmeting_caution: {
     meta: {
@@ -408,7 +396,7 @@ export const controls = {
       value: 'Let op! Vul uw telefoonnummer in op de volgende pagina',
       type: 'caution',
     },
-    render: FormComponents.PlainText,
+    render: 'PlainText',
   },
   extra_bedrijven_horeca_muziek_geluidmeting_ja: {
     meta: {
@@ -426,7 +414,7 @@ export const controls = {
         not_now: 'Niet nu',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu: {
     meta: {
@@ -437,7 +425,7 @@ export const controls = {
       shortLabel: 'Ander bel moment',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
   extra_bedrijven_horeca_muziek_geluidmeting_nee: {
     meta: {
@@ -450,7 +438,7 @@ export const controls = {
       shortLabel: 'Liever geen contact',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
 
   extra_bedrijven_horeca_caution: {
@@ -465,23 +453,8 @@ export const controls = {
         'Uw gegevens worden vertrouwelijk behandeld en worden niet aan de (horeca)ondernemer of organisator bekend gemaakt.\n\nAnonieme meldingen krijgen een lage prioriteit.',
       type: 'caution',
     },
-    render: FormComponents.PlainText,
+    render: 'PlainText',
   },
 };
 
-const navigation = {
-  $field_0: {
-    isStatic: false,
-    render: IncidentNavigation,
-  },
-};
-
-export default {
-  controls: {
-    ...intro,
-
-    ...controls,
-
-    ...navigation,
-  },
-};
+export default overlastBedrijvenEnHoreca;

@@ -6,19 +6,7 @@ import configuration from 'shared/services/configuration/configuration';
 import FormComponents from '../../components/form';
 import IncidentNavigation from '../../components/IncidentNavigation';
 
-const intro = {
-  custom_text: {
-    meta: {
-      label: 'Dit hebt u net ingevuld:',
-      type: 'citation',
-      value: '{incident.description}',
-      ignoreVisibility: true,
-    },
-    render: FormComponents.PlainText,
-  },
-};
-
-export const controls = {
+export const wegenVerkeerStraatmeubilair = {
   // This element will be enabled each year near the christmass.
   // Comment/Uncomment next block to show/hide it.
   // extra_kerstverlichting: {
@@ -30,7 +18,7 @@ export const controls = {
   //       subcategory: 'lantaarnpaal-straatverlichting',
   //     },
   //   },
-  //   render: FormComponents.PlainText,
+  //   render: 'PlainText',
   // },
 
   extra_brug: {
@@ -42,7 +30,7 @@ export const controls = {
       shortLabel: 'Naam brug',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
   extra_onderhoud_stoep_straat_en_fietspad: {
     meta: {
@@ -54,7 +42,7 @@ export const controls = {
       subtitle: 'Bijvoorbeeld: asfalt, klinkers of stoeptegels',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
   extra_wegen_gladheid: {
     meta: {
@@ -68,7 +56,7 @@ Let op:
 Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB: [gvb.nl/klantenservice](https://gvb.nl/klantenservice)`,
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.PlainText,
+    render: 'PlainText',
   },
   extra_straatverlichting_probleem: {
     meta: {
@@ -88,9 +76,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_straatverlichting: {
     meta: {
@@ -113,9 +101,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_straatverlichting_gevaar: {
     meta: {
@@ -137,7 +125,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       type: 'alert',
       value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
     },
-    render: FormComponents.PlainText,
+    render: 'PlainText',
   },
   extra_straatverlichting_nummer: {
     meta: {
@@ -162,7 +150,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       legend_items: ['lichtmast', 'grachtmast', 'overspanning', 'gevel_armatuur', 'schijnwerper', 'overig_lichtpunt'],
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.MapSelect,
+    render: 'MapSelect',
   },
   extra_straatverlichting_niet_op_kaart: {
     meta: {
@@ -183,7 +171,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.CheckboxInput,
+    render: 'CheckboxInput',
   },
   extra_straatverlichting_niet_op_kaart_nummer: {
     meta: {
@@ -207,7 +195,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         ],
       },
     },
-    render: FormComponents.MultiTextInput,
+    render: 'MultiTextInput',
   },
 
   extra_klok: {
@@ -227,9 +215,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_klok_gevaar: {
     meta: {
@@ -247,7 +235,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       type: 'alert',
       value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
     },
-    render: FormComponents.PlainText,
+    render: 'PlainText',
   },
   extra_klok_probleem: {
     meta: {
@@ -274,9 +262,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_klok_nummer: {
     meta: {
@@ -298,7 +286,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       zoomMin: 14,
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.MapSelect,
+    render: 'MapSelect',
   },
   extra_klok_niet_op_kaart: {
     meta: {
@@ -317,7 +305,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
       value: 'De klok staat niet op de kaart',
     },
-    render: FormComponents.CheckboxInput,
+    render: 'CheckboxInput',
   },
   extra_klok_niet_op_kaart_nummer: {
     meta: {
@@ -339,7 +327,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         ],
       },
     },
-    render: FormComponents.MultiTextInput,
+    render: 'MultiTextInput',
   },
 
   extra_verkeerslicht: {
@@ -359,9 +347,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_verkeerslicht_gevaar: {
     meta: {
@@ -379,7 +367,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       type: 'alert',
       value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
     },
-    render: FormComponents.PlainText,
+    render: 'PlainText',
   },
   extra_verkeerslicht_welk: {
     meta: {
@@ -406,9 +394,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_verkeerslicht_probleem_voetganger: {
     meta: {
@@ -431,9 +419,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.CheckboxInput,
+    render: 'CheckboxInput',
   },
   extra_verkeerslicht_probleem_fiets_auto: {
     meta: {
@@ -455,9 +443,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.CheckboxInput,
+    render: 'CheckboxInput',
   },
   extra_verkeerslicht_probleem_bus_tram: {
     meta: {
@@ -477,9 +465,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.CheckboxInput,
+    render: 'CheckboxInput',
   },
   extra_verkeerslicht_rijrichting: {
     meta: {
@@ -495,7 +483,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         extra_verkeerslicht_welk: ['voetganger', 'fiets', 'auto', 'tram_bus'],
       },
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
   extra_verkeerslicht_nummer: {
     meta: {
@@ -511,7 +499,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         extra_verkeerslicht_welk: ['voetganger', 'fiets', 'auto', 'tram_bus'],
       },
     },
-    render: FormComponents.TextInput,
+    render: 'TextInput',
   },
 
   extra_fietsrek_aanvragen: {
@@ -528,9 +516,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
     },
     options: {
-      validators: [Validators.required],
+      validators: ['required'],
     },
-    render: FormComponents.RadioInputGroup,
+    render: 'RadioInputGroup',
   },
   extra_fietsrek_aanvraag: {
     meta: {
@@ -542,23 +530,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       shortLabel: "Aanvraag fietsenrek of 'nietje'",
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextareaInput,
+    render: 'TextareaInput',
   },
 };
 
-const navigation = {
-  $field_0: {
-    isStatic: false,
-    render: IncidentNavigation,
-  },
-};
-
-export default {
-  controls: {
-    ...intro,
-
-    ...controls,
-
-    ...navigation,
-  },
-};
+export default wegenVerkeerStraatmeubilair;

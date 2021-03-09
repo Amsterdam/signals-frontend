@@ -1,6 +1,4 @@
 import type { IconOptions } from 'leaflet';
-import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
 import * as afvalIcons from './afval-icons';
 
 export const ICON_SIZE = 40;
@@ -8,18 +6,6 @@ export const ICON_SIZE = 40;
 const options: Partial<IconOptions> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
-};
-
-const intro = {
-  custom_text: {
-    meta: {
-      label: 'Dit hebt u net ingevuld:',
-      type: 'citation',
-      value: '{incident.description}',
-      ignoreVisibility: true,
-    },
-    render: FormComponents.PlainText,
-  },
 };
 
 export const controls = {
@@ -32,7 +18,7 @@ export const controls = {
       shortLabel: 'Waar vandaan',
       pathMerge: 'extra_properties',
     },
-    render: FormComponents.TextareaInput,
+    render: 'TextareaInput',
   },
   extra_container: {
     meta: {
@@ -151,23 +137,8 @@ export const controls = {
         },
       ],
     },
-    render: FormComponents.ContainerSelectRenderer,
+    render: 'ContainerSelectRenderer',
   },
 };
 
-const navigation = {
-  $field_0: {
-    isStatic: false,
-    render: IncidentNavigation,
-  },
-};
-
-export default {
-  controls: {
-    ...intro,
-
-    ...controls,
-
-    ...navigation,
-  },
-};
+export default controls;

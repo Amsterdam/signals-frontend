@@ -5,12 +5,12 @@ import configuration from 'shared/services/configuration/configuration';
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components';
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen';
-import { controls as overlastBedrijvenEnHorecaControls } from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
-import { controls as overlastInDeOpenbareRuimteControls } from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
-import { controls as overlastOpHetWaterControls } from './wizard-step-2-vulaan/overlast-op-het-water';
-import { controls as wegenVerkeerStraatmeubilairControls } from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
-import { controls as afvalControls } from './wizard-step-2-vulaan/afval';
-import { controls as overlastPersonenEnGroepenControls } from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
+import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
+import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
+import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water';
+import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
+import afvalControls from './wizard-step-2-vulaan/afval';
+import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
 import FormComponents from '../components/form';
 
 export const ObjectLabel = ({ value }) => value?.label;
@@ -19,8 +19,8 @@ export const SCSVLabel = ({ value }) => value.filter(Boolean).join('; ');
 export const Null = () => null;
 const mapFieldNameToComponent = key => FormComponents[key];
 
-export const renderPreview = ({ render: renderFunc, meta }) => {
-  switch (renderFunc.name) {
+export const renderPreview = ({ render, meta, ...rest }) => {
+  switch (render) {
     case 'RadioInputGroup':
     case 'SelectInput':
       return ObjectLabel;
@@ -72,7 +72,7 @@ const expandQuestions = memoize(
         [key]: {
           label: question.meta.label || question.meta.shortLabel,
           optional: !question.required,
-          render: renderPreview({ render: mapFieldNameToComponent(question.render), meta: question.meta }),
+          render: renderPreview({ render: question.render, meta: question.meta }),
         },
       }),
       {}

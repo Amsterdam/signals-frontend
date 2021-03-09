@@ -68,7 +68,7 @@ const MultiTextInput: FunctionComponent<MultiTextInputProps> = ({
           map((handler().value as string[]) || [''], (input: string, index: number) => (
             <div key={`${meta.name}-${index + 1}`}>
               <StyledInput
-                id={index === 0 ? meta.name : `${meta.name}-${index + 1}`}
+                id={`${meta.name}-${index + 1}`}
                 aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
                 name={`${meta.name}-${index + 1}`}
                 type="text"
