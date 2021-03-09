@@ -5,6 +5,8 @@ on:
       - develop
       - master
       - release/*
+  pull_request:
+    types: [opened, edited]
 
 env:
   TZ: "Europe/Amsterdam"
