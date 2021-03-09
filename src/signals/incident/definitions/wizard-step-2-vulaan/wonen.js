@@ -1,8 +1,4 @@
-import { Validators } from 'react-reactive-form';
-
 import configuration from 'shared/services/configuration/configuration';
-import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
 
 const woningdelen = {
   extra_wonen_woningdelen_vermoeden: {

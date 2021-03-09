@@ -1,6 +1,3 @@
-import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
-
 export const overlastInDeOpenbareRuimte = {
   extra_auto_scooter_bromfietswrak: {
     meta: {

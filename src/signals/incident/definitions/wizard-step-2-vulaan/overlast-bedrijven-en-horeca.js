@@ -1,8 +1,3 @@
-import { Validators } from 'react-reactive-form';
-
-import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
-
 export const overlastBedrijvenEnHoreca = {
   extra_bedrijven_horeca_wat: {
     meta: {

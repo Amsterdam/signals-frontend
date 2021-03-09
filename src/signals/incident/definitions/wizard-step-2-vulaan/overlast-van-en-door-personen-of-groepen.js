@@ -1,8 +1,3 @@
-import React from 'react';
-
-import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
-
 export const overlastPersonenEnGroepen = {
   extra_jongeren_text: {
     meta: {

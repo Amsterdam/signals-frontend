@@ -1,8 +1,3 @@
-import React from 'react';
-
-import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
-
 const overlastVanDieren = {
   extra_dieren_text: {
     meta: {

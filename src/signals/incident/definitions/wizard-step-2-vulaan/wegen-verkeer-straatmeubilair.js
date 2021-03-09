@@ -1,10 +1,4 @@
-import React from 'react';
-
-import { Validators } from 'react-reactive-form';
-
 import configuration from 'shared/services/configuration/configuration';
-import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
 
 export const wegenVerkeerStraatmeubilair = {
   // This element will be enabled each year near the christmass.
