@@ -21,7 +21,18 @@ describe('Create signal "Wonen leegstand" and check signal details', () => {
 
       createSignal.checkSpecificInformationPage(signal);
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.errorItem).should('contain', 'Dit is een verplicht veld').and('have.length', 3);
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Weet u wie de eigenaar is van de woning?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Hoe lang staat de woning al leeg?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
+      cy.get(CREATE_SIGNAL.labelQuestion)
+        .contains('Wordt de woning af en toe nog gebruikt?')
+        .siblings(CREATE_SIGNAL.errorItem)
+        .contains('Dit is een verplicht veld');
 
       // Input specific information
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.label).should('be.visible');
