@@ -34,6 +34,7 @@ const StyledLabel = styled(Label)`
 
 const CheckboxWrapper = styled(Label)`
   ${customCssTopMargin()};
+  display: block;
 `;
 
 const Optional = styled.span`
