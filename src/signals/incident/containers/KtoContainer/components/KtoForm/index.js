@@ -1,7 +1,7 @@
 import React, { useCallback, useReducer } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { themeColor } from '@amsterdam/asc-ui';
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
 import TextArea from 'components/TextArea';
@@ -12,21 +12,48 @@ import ErrorMessage from 'components/ErrorMessage';
 
 export const andersOptionText = 'Anders, namelijk...';
 
+const customCssTopMargin = () => css`
+  margin-top:${themeSpacing(3)};
+  & > :first-child {
+    margin-top: -6px; /* ensures the designed distance (12px) to the label above */
+  }
+`;
+
 const Form = styled.form`
   display: grid;
   grid-row-gap: 32px;
-  margin-top: 32px;
+  margin-top: ${themeSpacing(8)};
 `;
 
 const GridArea = styled.div``;
+
+const StyledLabel = styled(Label)`
+  margin-bottom: 0;
+  line-height: ${themeSpacing(6)};
+`;
+
+const CheckboxWrapper = styled(Label)`
+  ${customCssTopMargin()};
+  display: block;
+`;
 
 const Optional = styled.span`
   font-family: Avenir Next LT W01-Regular;
 `;
 
-const HelpText = styled.div`
+const HelpText = styled.p`
   color: ${themeColor('tint', 'level5')};
-  margin-bottom: 8px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: ${themeSpacing(6)};
+`;
+
+const StyledTextArea = styled(TextArea)`
+  margin-top: ${themeSpacing(3)};
+`;
+
+const StyledRadioButtonList = styled(RadioButtonList)`
+  ${customCssTopMargin()};
 `;
 
 const initialState = {
@@ -132,11 +159,12 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
       <GridArea>
-        <Label htmlFor="kto">Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?</Label>
-        <HelpText>Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
+        <StyledLabel htmlFor="kto">Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?</StyledLabel>
+        <HelpText id="subtitle-kto">Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
 
-        <RadioButtonList
+        <StyledRadioButtonList
           id="kto"
+          aria-describedby="subtitle-kto"
           error={Boolean(state.errors.text)}
           groupName="kto"
           hasEmptySelectionButton={false}
@@ -144,16 +172,16 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
           options={options}
         />
         {state.areaVisibility && (
-          <TextArea data-testid="ktoText" maxRows={5} name="text" onChange={onChangeText('SET_TEXT')} rows="2" />
+          <StyledTextArea data-testid="ktoText" maxRows={5} name="text" onChange={onChangeText('SET_TEXT')} rows="2" />
         )}
         {state.errors.text && <ErrorMessage message={state.errors.text} />}
       </GridArea>
 
       <GridArea>
-        <Label htmlFor="text_extra">
+        <StyledLabel htmlFor="text_extra">
           Wilt u verder nog iets vermelden of toelichten? <Optional>(optioneel)</Optional>
-        </Label>
-        <TextArea
+        </StyledLabel>
+        <StyledTextArea
           id="text_extra"
           data-testid="ktoTextExtra"
           infoText={`${state.numChars}/${extraTextMaxLength} tekens`}
@@ -164,19 +192,20 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
       </GridArea>
 
       <GridArea>
-        <Label as="span">
+        <StyledLabel id="subtitle-allows-contact">
           Mogen wij contact met u opnemen naar aanleiding van uw feedback? <Optional>(optioneel)</Optional>
-        </Label>
-        <div />
-        <Label inline htmlFor="allows_contact" >
+        </StyledLabel>
+
+        <CheckboxWrapper inline htmlFor="allows-contact" >
           <Checkbox
             data-testid="ktoAllowsContact"
-            id="allows_contact"
-            name="allows_contact"
+            id="allows-contact"
+            aria-describedby="subtitle-allows-contact"
+            name="allows-contact"
             onChange={onChangeAllowsContact}
           />
           Ja
-        </Label>
+        </CheckboxWrapper>
       </GridArea>
 
       <GridArea>
