@@ -1,4 +1,4 @@
-import { rest, MockedRequest } from 'msw';
+import { rest, MockedRequest, ResponseResolver } from 'msw';
 import { setupServer } from 'msw/node';
 import fetchMock from 'jest-fetch-mock';
 
@@ -32,8 +32,7 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
   return usersFixture.results;
 };
 
-const handlers = [
-  rest.get(`${apiBaseUrl}/signals/v1/private/users`, (req, res, ctx) => {
+const handleUsersRequest: ResponseResolver = (req, res, ctx) => {
     const departmentCodes = req.url.searchParams.getAll('profile_department_code');
     const filtered = getUsersFilteredByDepartmentCodes(departmentCodes);
     const page = parseInt(req.url.searchParams.get('page') ?? '1');
@@ -47,8 +46,12 @@ const handlers = [
       results,
     };
 
-    return res(ctx.status(200), ctx.json(response));
-  }),
+    return res(ctx.status(200), (ctx as any).json(response));
+  };
+
+const handlers = [
+  rest.get(`${apiBaseUrl}/signals/v1/private/autocomplete/usernames`, handleUsersRequest),
+  rest.get(`${apiBaseUrl}/signals/v1/private/users`, handleUsersRequest),
 ];
 
 const server = setupServer(...handlers);

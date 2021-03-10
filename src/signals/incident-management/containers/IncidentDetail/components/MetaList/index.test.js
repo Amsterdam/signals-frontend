@@ -42,14 +42,11 @@ const departmentAegName = departments.list[1].name;
 const departmentThoId = departments.list[11].id;
 const departmentThoCode = departments.list[11].code;
 const departmentThoName = departments.list[11].name;
-const userEmptyId = usersFixture.results[0].id;
 const userEmptyName = usersFixture.results[0].username;
-const userAscAegId = usersFixture.results[1].id;
 const userAscAegName = usersFixture.results[1].username;
 const userAscName = usersFixture.results[2].username;
 const userAegName = usersFixture.results[3].username;
 const userThoName = usersFixture.results[4].username;
-const userUndefinedId = usersFixture.results[5].id;
 const userUndefinedName = usersFixture.results[5].username;
 
 const plainLinks = Object.keys(incidentFixture._links)

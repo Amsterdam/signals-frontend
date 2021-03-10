@@ -6,6 +6,7 @@ import priorityList from './priorityList';
 import stadsdeelList from './stadsdeelList';
 import statusList from './statusList';
 import typesList from './typesList';
+import assignedUserEmailList from './assignedUserEmailList';
 
 export {
   feedbackList,
@@ -25,4 +26,5 @@ export default {
   stadsdeel: stadsdeelList,
   status: statusList,
   type: typesList,
+  assigned_user_email: assignedUserEmailList,
 };
