@@ -39,6 +39,7 @@ const RadioButtonList = ({
   options,
   title,
   id,
+  ...rest
 }) => {
   const radioOptions = [...options];
 
@@ -47,10 +48,10 @@ const RadioButtonList = ({
   }
 
   return (
-    <FilterGroup id={id}>
+    <FilterGroup id={id} {...rest} >
       {title && <Label data-testid="radioButtonListTitle" as="span" isGroupHeader={false} label={title} />}
 
-      <StyledRadioGroup name={groupName} disabled={disabled} error={error}>
+      <StyledRadioGroup name={groupName} disabled={disabled} error={error} role="radiogroup">
         {radioOptions.map(option => (
           <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
             <RadioButton

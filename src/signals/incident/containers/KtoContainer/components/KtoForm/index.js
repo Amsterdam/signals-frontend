@@ -133,10 +133,11 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
       <GridArea>
         <Label htmlFor="kto">Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?</Label>
-        <HelpText>Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
+        <HelpText id="subtitle-kto">Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
 
         <RadioButtonList
           id="kto"
+          aria-describedby="subtitle-kto"
           error={Boolean(state.errors.text)}
           groupName="kto"
           hasEmptySelectionButton={false}
@@ -164,15 +165,16 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
       </GridArea>
 
       <GridArea>
-        <Label as="span">
+        <Label id="subtitle-allows-contact">
           Mogen wij contact met u opnemen naar aanleiding van uw feedback? <Optional>(optioneel)</Optional>
         </Label>
         <div />
-        <Label inline htmlFor="allows_contact" >
+        <Label inline htmlFor="allows-contact" >
           <Checkbox
             data-testid="ktoAllowsContact"
-            id="allows_contact"
-            name="allows_contact"
+            id="allows-contact"
+            aria-describedby="subtitle-allows-contact"
+            name="allows-contact"
             onChange={onChangeAllowsContact}
           />
           Ja
