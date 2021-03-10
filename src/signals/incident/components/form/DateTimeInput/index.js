@@ -6,8 +6,45 @@ import nl from 'date-fns/locale/nl';
 import Select from 'components/Select';
 import { capitalize } from 'shared/services/date-utils';
 import Header from '../Header';
+import styled from 'styled-components';
+import Label from 'components/Label';
+import { themeSpacing } from '@amsterdam/asc-ui';
 
-import './style.scss';
+const StyledLabel = styled(Label)`
+  margin-bottom: 0;
+  line-height: ${themeSpacing(6)};
+`;
+
+const Info = styled.span`
+  margin: ${themeSpacing(0, 4, 0, 2)};
+`;
+
+const DateTimeInputStyle = styled.div`
+  margin-top: -12px;
+`;
+
+const FieldWrapper = styled.div`
+  width: 240px; /* fixed value from design */
+
+  & > div:last-child {
+    margin-top: ${themeSpacing(3)};
+  }
+`;
+
+const TimeWrapper = styled.div`
+  margin-top: ${themeSpacing(7)};
+  display: flex;
+  align-items: flex-end;
+
+  & > div:first-child > div:last-child {
+    margin-top: ${themeSpacing(3)};
+  }
+
+  select {
+    width: 80px; /* fixed value from design */
+  }
+`;
+const StyledSelect = styled(Select)``;
 
 const formatDate = (offset, type = 'value') => {
   const dateFormat = type === 'label' ? 'EEEE d MMMM' : 'yyyy-MM-dd';
@@ -34,32 +71,35 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
 
   return (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-      <div className="datetime-input__earlier">
-        <div className="datetime-input__earlier-date">
-          <Select
+      <DateTimeInputStyle>
+        <FieldWrapper>
+          <StyledLabel htmlFor="day">Dag</StyledLabel>
+          <StyledSelect
+            id="day"
             name="day"
             data-testid="selectDay"
-            label={<strong>Dag</strong>}
             value={`${parent.value.incident_date}`}
             onChange={e => parent.meta.updateIncident({ incident_date: e.target.value })}
             options={options}
           />
-        </div>
+        </FieldWrapper>
 
-        <div className="datetime-input__earlier-time">
+        <TimeWrapper>
           <div>
-            <Select
+            <StyledLabel htmlFor="hours">Tijd</StyledLabel>
+            <StyledSelect
+              id="hours"
               name="hours"
               data-testid="selectHours"
-              label={<strong>Tijd</strong>}
               value={`${parent.value.incident_time_hours}`}
               onChange={e => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
               options={[...Array(24).keys()].map(value => ({ value, key: value, name: value }))}
             />
           </div>
-          <span className="datetime-input__earlier-time-label">uur</span>
+          <Info>uur</Info>
           <div>
-            <Select
+            <StyledSelect
+              id="minutes"
               name="minutes"
               data-testid="selectMinutes"
               value={`${parent.value.incident_time_minutes}`}
@@ -71,9 +111,9 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
               }))}
             />
           </div>
-          <span className="datetime-input__earlier-time-label">min</span>
-        </div>
-      </div>
+          <Info>min</Info>
+        </TimeWrapper>
+      </DateTimeInputStyle>
     </Header>
   );
 };

@@ -10,19 +10,16 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
     }
   }
 >
-  <div
-    className="datetime-input__earlier"
-  >
-    <div
-      className="datetime-input__earlier-date"
-    >
-      <ForwardRef
+  <styled.div>
+    <styled.div>
+      <Styled(styled.label)
+        htmlFor="day"
+      >
+        Dag
+      </Styled(styled.label)>
+      <Styled(Component)
         data-testid="selectDay"
-        label={
-          <strong>
-            Dag
-          </strong>
-        }
+        id="day"
         name="day"
         onChange={[Function]}
         options={
@@ -66,18 +63,17 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
         }
         value="undefined"
       />
-    </div>
-    <div
-      className="datetime-input__earlier-time"
-    >
+    </styled.div>
+    <styled.div>
       <div>
-        <ForwardRef
+        <Styled(styled.label)
+          htmlFor="hours"
+        >
+          Tijd
+        </Styled(styled.label)>
+        <Styled(Component)
           data-testid="selectHours"
-          label={
-            <strong>
-              Tijd
-            </strong>
-          }
+          id="hours"
           name="hours"
           onChange={[Function]}
           options={
@@ -207,14 +203,13 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
           value="9"
         />
       </div>
-      <span
-        className="datetime-input__earlier-time-label"
-      >
+      <styled.span>
         uur
-      </span>
+      </styled.span>
       <div>
-        <ForwardRef
+        <Styled(Component)
           data-testid="selectMinutes"
+          id="minutes"
           name="minutes"
           onChange={[Function]}
           options={
@@ -284,13 +279,11 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
           value="0"
         />
       </div>
-      <span
-        className="datetime-input__earlier-time-label"
-      >
+      <styled.span>
         min
-      </span>
-    </div>
-  </div>
+      </styled.span>
+    </styled.div>
+  </styled.div>
 </Header>
 `;
 
