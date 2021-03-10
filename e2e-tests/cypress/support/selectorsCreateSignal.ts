@@ -105,7 +105,7 @@ export const JONGEREN = {
 export const KLOK = {
   checkBoxNietOpKaart: '#extra_klok_niet_op_kaart',
   iconKlok: '.leaflet-marker-icon',
-  inputKlokNummer1: '#extra_klok_niet_op_kaart_nummer-1',
+  inputKlokNummer1: '#extra_klok_niet_op_kaart_nummer',
   inputKlokNummer2: '#extra_klok_niet_op_kaart_nummer-2',
   legendContentText: '.legend-content-text',
   legendHeader: '.legend-header',
