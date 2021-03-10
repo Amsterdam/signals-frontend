@@ -39,7 +39,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <CheckboxWrapper>
         {isObject(meta.values) ? (
-          <CheckboxGroup role="group">
+          <CheckboxGroup role="group" id={meta.name}>
             <input type="hidden" {...handler()} />
 
             {map(meta.values, (value, key) => (
