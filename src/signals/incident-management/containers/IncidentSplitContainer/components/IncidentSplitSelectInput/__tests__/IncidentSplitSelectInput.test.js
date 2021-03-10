@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import priorityList from 'signals/incident-management/definitions/priorityList';
 
