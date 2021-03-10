@@ -1,49 +1,48 @@
 import memoize from 'lodash/memoize';
 
 import configuration from 'shared/services/configuration/configuration';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components';
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen';
-import { controls as overlastBedrijvenEnHorecaControls } from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
-import { controls as overlastInDeOpenbareRuimteControls } from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
-import { controls as overlastOpHetWaterControls } from './wizard-step-2-vulaan/overlast-op-het-water';
-import { controls as wegenVerkeerStraatmeubilairControls } from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
-import { controls as afvalControls } from './wizard-step-2-vulaan/afval';
-import { controls as overlastPersonenEnGroepenControls } from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
+import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
+import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
+import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water';
+import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
+import afvalControls from './wizard-step-2-vulaan/afval';
+import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
 import FormComponents from '../components/form';
 
 export const ObjectLabel = ({ value }) => value?.label;
 export const Label = ({ value }) => value;
 export const SCSVLabel = ({ value }) => value.filter(Boolean).join('; ');
 export const Null = () => null;
-const mapFieldNameToComponent = key => FormComponents[key];
 
-export const renderPreview = ({ render: renderFunc, meta }) => {
-  switch (renderFunc.name) {
-    case 'RadioInputGroup':
-    case 'SelectInput':
+export const renderPreview = ({ render, meta }) => {
+  switch (render) {
+    case FIELD_TYPE_MAP.radio_input:
+    case FIELD_TYPE_MAP.select_input:
       return ObjectLabel;
 
-    case 'CheckboxInput':
+    case FIELD_TYPE_MAP.checkbox_input:
       if (meta?.values) {
         return PreviewComponents.ListObjectValue;
       }
 
       return () => 'Ja';
 
-    case 'MultiTextInput':
+    case FIELD_TYPE_MAP.multi_text_input:
       return SCSVLabel;
 
-    case 'MapSelect':
-    case 'MapSelectGeneric':
+    case FIELD_TYPE_MAP.map_select:
       return props => PreviewComponents.MapSelectPreview({ ...props, meta });
 
-    case 'TextInput':
-    case 'TextareaInput':
+    case FIELD_TYPE_MAP.text_input:
+    case FIELD_TYPE_MAP.textarea_input:
       return Label;
 
-    case 'ContainerSelectRenderer':
+    case FIELD_TYPE_MAP.container_select:
       return props => PreviewComponents.ContainerListPreview({ ...props, featureTypes: meta.featureTypes });
 
     default:
@@ -72,7 +71,7 @@ const expandQuestions = memoize(
         [key]: {
           label: question.meta.label || question.meta.shortLabel,
           optional: !question.required,
-          render: renderPreview({ render: mapFieldNameToComponent(question.render), meta: question.meta }),
+          render: renderPreview({ render: question.render, meta: question.meta }),
         },
       }),
       {}

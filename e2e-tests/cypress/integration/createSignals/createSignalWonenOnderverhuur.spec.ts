@@ -47,11 +47,11 @@ describe('Create signal "Wonen onderverhuur" and check signal details', () => {
       cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangLangerZesMaanden).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_iemand_aanwezig.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.inputTijdstip).eq(0).type('Elke avond en nacht zijn deze personen aanwezig.');
+      cy.get(WONEN_ONDERVERHUUR.inputTijdstip).type('Elke avond en nacht zijn deze personen aanwezig.');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_naam_huurder.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_onderhuur_naam_huurder.subtitle).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.inputHuurder).eq(1).type('Ja, dat is Vesemir');
+      cy.get(WONEN_ONDERVERHUUR.inputHuurder).type('Ja, dat is Vesemir');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_huurder_woont.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaZelfde).check({ force: true }).should('be.checked');
@@ -61,7 +61,7 @@ describe('Create signal "Wonen onderverhuur" and check signal details', () => {
       cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaAnder).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.inputAdresHuurder).eq(2).type('Kaer Morhen');
+      cy.get(WONEN_ONDERVERHUUR.inputAdresHuurder).type('Kaer Morhen');
 
       cy.contains('Volgende').click();
 

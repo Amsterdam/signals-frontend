@@ -63,14 +63,14 @@ describe('Create signal "Wonen vakantie verhuur" and check signal details', () =
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningJa).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.inputBewoner).eq(0).type('Gijsbrecht van Aemstel');
+      cy.get(WONEN_VAKANTIEVERHUUR.inputBewoner).type('Gijsbrecht van Aemstel');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_online_aangeboden.label).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_link_advertentie.label).should('not.exist');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_link_advertentie.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.inputLink).eq(1).type('https://amsterdam.intercontinental.com/nl/');
+      cy.get(WONEN_VAKANTIEVERHUUR.inputLink).type('https://amsterdam.intercontinental.com/nl/');
 
       cy.contains('Volgende').click();
 

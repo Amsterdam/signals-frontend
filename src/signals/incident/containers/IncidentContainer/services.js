@@ -1,35 +1,7 @@
-const fieldTypeMap = {
-  checkbox_input: 'CheckboxInput',
-  date_time_input: 'DateTimeInput',
-  description_with_classification_input: 'DescriptionInputRenderer',
-  emphasis_checkbox_input: 'EmphasisCheckboxInput',
-  file_input: 'FileInputRenderer',
-  handling_message: 'HandlingMessage',
-  header: 'Header',
-  hidden_input: 'HiddenInput',
-  map_input: 'MapInput',
-  map_select: 'MapSelect',
-  multi_text_input: 'MultiTextInput',
-  plain_text: 'PlainText',
-  radio_input: 'RadioInputGroup',
-  select_input: 'SelectInput',
-  text_input: 'TextInput',
-  textarea_input: 'TextareaInput',
-};
+import { FIELD_TYPE_MAP, INPUT_VALIDATOR_MAP } from './constants';
 
-const validatorMap = {
-  email: 'email',
-  max: 'max',
-  max_length: 'maxLength',
-  min: 'min',
-  min_length: 'minLength',
-  pattern: 'pattern',
-  required: 'required',
-  required_true: 'requiredTrue',
-};
-
-const mapValidatorWithArgs = ([key, ...args]) => [validatorMap[key], ...args];
-const mapValidator = key => (Array.isArray(key) ? mapValidatorWithArgs(key) : validatorMap[key]);
+const mapValidatorWithArgs = ([key, ...args]) => [INPUT_VALIDATOR_MAP[key], ...args];
+const mapValidator = key => (Array.isArray(key) ? mapValidatorWithArgs(key) : INPUT_VALIDATOR_MAP[key]);
 
 export const resolveQuestions = questions =>
   questions.reduce(
@@ -45,7 +17,7 @@ export const resolveQuestions = questions =>
             ...new Set([...(question.meta?.validators || []), ...(question.required ? ['required'] : [])]),
           ].map(mapValidator),
         },
-        render: fieldTypeMap[question.field_type],
+        render: FIELD_TYPE_MAP[question.field_type],
       },
     }),
     {}
