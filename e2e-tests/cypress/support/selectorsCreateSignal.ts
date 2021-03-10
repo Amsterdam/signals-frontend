@@ -12,14 +12,14 @@ export const CREATE_SIGNAL = {
   dropdownMinuten: '[data-testid=minutes]',
   dropdownSource: '[data-testid="source"]',
   dropdownSubcategory: '[data-testid="subcategory"]',
-  errorItem: '[class*=Header__ErrorItem]',
+  errorItem: 'p',
   footerPrivacyLink: '[class*=Footer__StyledLink]',
   imageAddressMarker: 'div[class="leaflet-pane leaflet-marker-pane"]',
   infoText: '[data-testid="infoText"]',
-  inputPhoneNumber: '[type=tel]',
-  inputEmail: '[type=email]',
+  inputPhoneNumber: '#phone',
+  inputEmail: '#email',
   imageFileUpload: '[class*=Image__ImageContainer]',
-  labelQuestion: '[class*=Header__StyledLabel]',
+  labelQuestion: 'label',
   logoAmsterdam: '[class*=AmsterdamLogo__AmsterdamLogoStyle]',
   linkChangeEmailAddress: '[class*=IncidentPreview__LinkContainer] > [href="/incident/email"]',
   linkChangePhoneNumber: '[class*=IncidentPreview__LinkContainer] > [href="/incident/telefoon"]',
@@ -38,14 +38,14 @@ export const BEDRIJVEN_HORECA = {
   checkBoxGeluidOpruimen: '#extra_bedrijven_horeca_terrassen-opruimen_meubels1',
   checkBoxSchreeuwen: '#extra_bedrijven_horeca_personen-schreeuwende_bezoekers1',
   checkBoxWildplassen: '#extra_bedrijven_horeca_personen-wildplassen1',
-  inputWieWat: '[class*=Input__StyledInput]',
-  inputAdres: '[class*=Input__StyledInput]',
-  inputDatum: '[class*=Input__StyledInput]',
-  inputHoeLaatEinde: '[class*=Input__StyledInput]',
-  inputSoortInstallatie: '[class*=Input__StyledInput]',
-  inputTijdstippen: '[class*=Input__StyledInput]',
-  inputWanneerBellen: '[class*=Input__StyledInput]',
-  inputWaaromGeenContact: '[class*=Input__StyledInput]',
+  inputWieWat: '#extra_bedrijven_horeca_naam',
+  inputAdres: '#extra_bedrijven_horeca_adres',
+  inputDatum: '#extra_bedrijven_horeca_tijdstippen',
+  inputHoeLaatEinde: '#extra_bedrijven_horeca_muziek_evenement_einde',
+  inputSoortInstallatie: '#extra_bedrijven_horeca_installaties',
+  inputTijdstippen: '#extra_bedrijven_horeca_tijdstippen',
+  inputWanneerBellen: '#extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu',
+  inputWaaromGeenContact: '#extra_bedrijven_horeca_muziek_geluidmeting_nee',
   radioButtonBellenNietNu: '#extra_bedrijven_horeca_muziek_geluidmeting_ja-not_now1',
   radioButtonContactJa: '#extra_bedrijven_horeca_muziek_geluidmeting_muziek-ja1',
   radioButtonContactNee: '#extra_bedrijven_horeca_muziek_geluidmeting_installaties-nee1',
@@ -59,8 +59,8 @@ export const BEDRIJVEN_HORECA = {
 };
 
 export const BOTEN = {
-  inputNaamBoot: '[class*=Input__StyledInput]',
-  inputNogMeer: '[class*=TextArea__StyledArea]',
+  inputNaamBoot: '#extra_boten_snelheid_naamboot',
+  inputNogMeer: '[id^="extra_boten_"][id$="_meer"]',
   radioButtonRondvaartbootNee: '#extra_boten_snelheid_rondvaartboot-nee1',
   radioButtonRondvaartbootJa: '#extra_boten_snelheid_rondvaartboot-ja1',
 };
@@ -92,13 +92,13 @@ export const CONTAINERS = {
 };
 
 export const FIETSNIETJE = {
-  inputFietsnietje: '[class*=TextArea__StyledArea]',
+  inputFietsnietje: '[id*=extra_fietsrek_aanvraag]',
   radioButtonNieuwNietjeJa: '#extra_fietsrek_aanvragen-ja1',
 };
 
 export const JONGEREN = {
   checkBoxVaker: '#extra_personen_overig_vaker-ja1',
-  inputMoment: '[class*=TextArea__StyledArea]',
+  inputMoment: '#extra_personen_overig_vaker_momenten',
   radioButtonAantalPersonen: '#extra_personen_overig-4-61',
 };
 
@@ -123,7 +123,7 @@ export const KLOK = {
 
 export const LANTAARNPAAL = {
   checkBoxNietOpKaart: '#extra_straatverlichting_niet_op_kaart',
-  inputLampNummer1: '#extra_straatverlichting_niet_op_kaart_nummer-1',
+  inputLampNummer1: '#extra_straatverlichting_niet_op_kaart_nummer',
   inputLampNummer2: '#extra_straatverlichting_niet_op_kaart_nummer-2',
   legendContentText: '.legend-content-text',
   legendHeader: '.legend-header',
@@ -145,9 +145,9 @@ export const LANTAARNPAAL = {
 };
 
 export const STANK_OVERLAST = {
-  inputGeur: '[class*=Input__StyledInput]',
-  inputOorzaakGeur: '[class*=Input__StyledInput]',
-  inputWeersomstandigheden: '[class*=Input__StyledInput]',
+  inputGeur: '#extra_bedrijven_horeca_stank',
+  inputOorzaakGeur: '#extra_bedrijven_horeca_stank_oorzaak',
+  inputWeersomstandigheden: '#extra_bedrijven_horeca_stank_weer',
   radioButtonRaamOpen: '#extra_bedrijven_horeca_stank_ramen-ja1',
   radioButtonRaamGesloten: '#extra_bedrijven_horeca_stank_ramen-nee1',
 };
@@ -168,8 +168,8 @@ export const VERKEERSLICHT = {
   checkBoxVoetgangerDuurtLang: '#extra_verkeerslicht_probleem_voetganger-groen_duurt_te_lang1',
   checkBoxVoetgangerGroenLicht: '#extra_verkeerslicht_probleem_voetganger-groen_werkt_niet1',
   checkBoxVoetgangerRoodLicht: '#extra_verkeerslicht_probleem_voetganger-rood_werkt_niet1',
-  inputNummerVerkeerslicht: '[class*=Input__StyledInput]',
-  inputRijrichting: '[class*=Input__StyledInput]',
+  inputNummerVerkeerslicht: '#extra_verkeerslicht_nummer',
+  inputRijrichting: '#extra_verkeerslicht_rijrichting',
   radioButtonAanrijding: '#extra_verkeerslicht-is_gevolg_van_aanrijding1',
   radioButtonOpGrond: '#extra_verkeerslicht-verkeerslicht_op_grond_of_scheef1',
   radioButtonDeur: '#extra_verkeerslicht-deurtje_weg_of_open1',
@@ -183,16 +183,14 @@ export const VERKEERSLICHT = {
 };
 
 export const WEGDEK = {
-  inputSoortWegdek: '[class*=Input__Styled]',
+  inputSoortWegdek: '#extra_onderhoud_stoep_straat_en_fietspad',
 };
 
 export const WONEN_LEEGSTAND = {
-  inputEigenaar: '[class*=Input__StyledInput]',
-  inputGeenContact: '[class*=Input__StyledInput]',
-  inputLink: '[class*=Input__StyledInput]',
-  inputNaam: '[class*=Input__StyledInput]',
-  inputTijdstip: '[class*=Input__StyledInput]',
-  inputWatDoetPersoon: '[class*=Input__StyledInput]',
+  inputEigenaar: '#extra_wonen_leegstand_naam_eigenaar',
+  inputNaam: '#extra_wonen_leegstand_naam_persoon',
+  inputTijdstip: '#extra_wonen_leegstand_iemand_aanwezig',
+  inputWatDoetPersoon: '#extra_wonen_leegstand_activiteit_in_woning',
   radioButtonBewonerJa: '#extra_wonen_woonkwaliteit_bewoner-ja1',
   radioButtonBewonerNee: '#extra_wonen_woonkwaliteit_bewoner-nee1',
   radioButtonBewoningJa: '#extra_wonen_vakantieverhuur_bewoning-ja1',
@@ -209,10 +207,10 @@ export const WONEN_LEEGSTAND = {
 };
 
 export const WONEN_ONDERVERHUUR = {
-  inputAdresHuurder: '[class*=Input__StyledInput]',
-  inputHuurder: '[class*=Input__StyledInput]',
-  inputNamen: '[class*=TextArea__StyledArea]',
-  inputTijdstip: '[class*=Input__StyledInput]',
+  inputAdresHuurder: '#extra_wonen_onderhuur_adres_huurder',
+  inputHuurder: '#extra_wonen_onderhuur_naam_huurder',
+  inputNamen: '#extra_wonen_onderhuur_naam_bewoners',
+  inputTijdstip: '#extra_wonen_onderhuur_iemand_aanwezig',
   radioButtonAantalPersonen1: '#extra_wonen_onderhuur_aantal_personen-een_persoon1',
   radioButtonAantalPersonen2: '#extra_wonen_onderhuur_aantal_personen-twee_personen1',
   radioButtonAantalPersonen3: '#extra_wonen_onderhuur_aantal_personen-drie_personen1',
@@ -240,8 +238,8 @@ export const WONEN_OVERIG = {
 };
 
 export const WONEN_VAKANTIEVERHUUR = {
-  inputBewoner: '[class*=Input__StyledInput]',
-  inputLink: '[class*=Input__StyledInput]',
+  inputBewoner: '#extra_wonen_vakantieverhuur_naam_bewoner',
+  inputLink: '#extra_wonen_vakantieverhuur_link_advertentie',
   radioButtonBewoningJa: '#extra_wonen_vakantieverhuur_bewoning-ja1',
   radioButtonBewoningNee: '#extra_wonen_vakantieverhuur_bewoning-nee1',
   radioButtonBewoningWeetIkNiet: '#extra_wonen_vakantieverhuur_bewoning-weet_ik_niet1',
@@ -269,9 +267,9 @@ export const WONEN_VAKANTIEVERHUUR = {
 };
 
 export const WONEN_WONINGDELEN = {
-  inputEigenaar: '[class*=Input__StyledInput]',
-  inputTijdstip: '[class*=Input__StyledInput]',
-  inputWatSpeeltZichAf: '[class*=Input__StyledInput]',
+  inputEigenaar: '#extra_wonen_woningdelen_eigenaar',
+  inputTijdstip: '#extra_wonen_woningdelen_iemand_aanwezig',
+  inputWatSpeeltZichAf: '#extra_wonen_woningdelen_vermoeden',
   radioButtonAantalPersonen1: '#extra_wonen_woningdelen_aantal_personen-een_persoon1',
   radioButtonAantalPersonen2: '#extra_wonen_woningdelen_aantal_personen-twee_personen1',
   radioButtonAantalPersonen3: '#extra_wonen_woningdelen_aantal_personen-drie_personen1',
@@ -293,7 +291,7 @@ export const WONEN_WONINGDELEN = {
 };
 
 export const WONEN_WONINGKWALITEIT = {
-  inputGeenContact: '[class*=Input__StyledInput]',
+  inputGeenContact: '#extra_wonen_woonkwaliteit_geen_contact',
   radioButtonBewonerJa: '#extra_wonen_woonkwaliteit_bewoner-ja1',
   radioButtonBewonerNee: '#extra_wonen_woonkwaliteit_bewoner-nee1',
   radioButtonContactJa: '#extra_wonen_woonkwaliteit_toestemming_contact-ja1',

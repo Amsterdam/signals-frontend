@@ -26,13 +26,27 @@ describe('Wizard step 2 vulaan, formFactory', () => {
   });
 
   describe('Hard coded questions', () => {
-    it('should return questions based on category', () => {
+    it('should return expanded questions based on category', () => {
       configuration.featureFlags.showVulaanControls = true;
       const actual = formFactory({
         category: 'afval',
         subcategory: 'subcategory',
       });
-      const expected = afval;
+      const expected = {
+        controls: {
+          ...defaultControls,
+          extra_afval: {
+            options: { validators: [] },
+            ...afval.extra_afval,
+            render: FormComponents.TextareaInput,
+          },
+          extra_container: {
+            options: { validators: [] },
+            ...afval.extra_container,
+            render: FormComponents.ContainerSelectRenderer,
+          },
+        },
+      };
 
       expect(actual).toEqual(expected);
     });
