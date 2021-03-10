@@ -10,6 +10,8 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
   meta?.isVisible && (
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <Select
+        id={meta.name}
+        aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
         name={meta.name}
         value={`${handler().value.id}`}
         onChange={e =>

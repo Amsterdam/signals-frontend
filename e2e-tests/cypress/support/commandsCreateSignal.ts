@@ -402,11 +402,11 @@ export const setDateTime = (dateTime: string) => {
       break;
     case 'Eerder':
       cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click({ force: true });
-      cy.get('[data-testid=day] > option')
+      cy.get('[data-testid=selectDay] > option')
         .eq(2)
         .then((element: JQuery) => {
           const date = element.val() as string;
-          cy.get('[data-testid=day]').select(date);
+          cy.get('[data-testid=selectDay]').select(date);
           cy.writeFile('./cypress/fixtures/tempDateTime.json', { dateTime: `${Cypress.$(element).text()}` }, { flag: 'w' });
         });
       break;

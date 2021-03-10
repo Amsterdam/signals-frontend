@@ -30,7 +30,12 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       {meta.values && isObject(meta.values) && (
         <div>
-          <StyledRadioGroup role="radiogroup" id={meta.name} name={meta.name}>
+          <StyledRadioGroup
+            role="radiogroup"
+            id={meta.name}
+            name={meta.name}
+            aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
+          >
             {Object.entries(meta.values).map(([key, value]) => (
               <RadioInput
                 checked={handler().value.id === key}

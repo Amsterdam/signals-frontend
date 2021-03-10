@@ -127,7 +127,12 @@ const FileInput = ({ handler, parent, meta }) => {
 
   return (
     <Fragment>
-      <FileInputStyle className="file-input" data-testid="fileInput">
+      <FileInputStyle
+        className="file-input"
+        data-testid="fileInput"
+        id={meta.name}
+        aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
+      >
         {previews.length > 0 &&
           previews.map((preview, index) => (
             <FileInputPreviewBox key={preview} data-testid="fileInputPreviewBox">

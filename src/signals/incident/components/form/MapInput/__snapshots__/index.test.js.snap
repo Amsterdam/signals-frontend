@@ -19,6 +19,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
     <Memo(MapContext)>
       <MapInput
         hasGPSControl={true}
+        id="input-field-name"
         mapOptions={
           Object {
             "attributionControl": true,

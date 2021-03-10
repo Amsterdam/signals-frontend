@@ -21,10 +21,11 @@ const IncidentSplitSelectInput = ({ id, name, display, options, groups = null, i
   return (
     <StyledSelect>
       <Select
+        id={name}
         label={<strong>{display}</strong>}
         name={name}
         ref={register}
-        data-testid={`incidentSelectInput-${id}`}
+        data-testid={`${id}`}
         onChange={onChange}
         value={selected?.key}
         optionValue="key"
