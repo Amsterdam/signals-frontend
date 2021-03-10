@@ -1,13 +1,7 @@
 import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import {
-  Label,
-  styles,
-  themeColor,
-  Typography,
-  themeSpacing,
-} from '@amsterdam/asc-ui';
+import { Input as AscInput, Label, themeColor, Typography, themeSpacing } from '@amsterdam/asc-ui';
+import type { InputProps as AscInputProps } from '@amsterdam/asc-ui/es/components/Input/Input';
 
 const Hint = styled(Typography).attrs({
   forwardedAs: 'span',
@@ -19,8 +13,7 @@ const Hint = styled(Typography).attrs({
   line-height: 22px;
 `;
 
-const StyledInput = styled.input`
-  ${styles.InputStyle.componentStyle.rules}
+const StyledInput = styled(AscInput)<{ showError: boolean }>`
   font-family: inherit;
   font-size: 16px;
   line-height: 22px;
@@ -31,11 +24,13 @@ const StyledInput = styled.input`
     color: ${themeColor('tint', 'level4')};
   }
 
-  ${({ showError }) => showError && css`
-    & {
-      border: 2px solid ${themeColor('secondary')};
-    }
-  `}
+  ${({ showError }) =>
+    showError &&
+    css`
+      & {
+        border: 2px solid ${themeColor('secondary')};
+      }
+    `}
 `;
 
 const Error = styled(Typography).attrs({
@@ -47,7 +42,7 @@ const Error = styled(Typography).attrs({
   margin: ${themeSpacing(2)} 0;
 `;
 
-export const StyledLabel = styled(Label)`
+export const StyledLabel = styled(Label)<{ hasHint: boolean }>`
   display: block;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   ${({ hasHint }) =>
@@ -57,14 +52,24 @@ export const StyledLabel = styled(Label)`
     `}
 `;
 
-const Wrapper = styled.div`
-  ${({ showError }) => showError && css`
-    border-left: 2px solid ${themeColor('secondary')};
-    padding-left: ${themeSpacing(4)};
-  `}
+const Wrapper = styled.div<{ showError: boolean }>`
+  ${({ showError }) =>
+    showError &&
+    css`
+      border-left: 2px solid ${themeColor('secondary')};
+      padding-left: ${themeSpacing(4)};
+    `}
 `;
 
-const Input = forwardRef(({ className, hint, label, id, error, ...rest }, ref) => (
+interface InputProps extends Omit<AscInputProps, 'error'> {
+  id?: string;
+  label?: React.ReactNode;
+  error?: string;
+  hint?: string;
+}
+
+
+const Input = forwardRef<HTMLInputElement, InputProps>(({ className, hint, label, id, error, ...rest }, ref) => (
   <Wrapper className={className} showError={Boolean(error)}>
     {label && <StyledLabel hasHint={Boolean(hint)} htmlFor={id} label={label} />}
     {hint && <Hint>{hint}</Hint>}
@@ -73,20 +78,5 @@ const Input = forwardRef(({ className, hint, label, id, error, ...rest }, ref) =
   </Wrapper>
 ));
 
-Input.defaultProps = {
-  className: '',
-  error: '',
-  hint: '',
-  id: '',
-  label: '',
-};
-
-Input.propTypes = {
-  className: PropTypes.string,
-  error: PropTypes.string,
-  hint: PropTypes.string,
-  id: PropTypes.string,
-  label: PropTypes.string,
-};
 
 export default Input;

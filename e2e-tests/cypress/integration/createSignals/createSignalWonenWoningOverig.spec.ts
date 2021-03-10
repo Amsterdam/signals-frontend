@@ -65,14 +65,14 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonBewoningJa).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_naam_bewoner.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.inputBewoner).eq(0).type('Gijsbrecht van Aemstel');
+      cy.get(WONEN_VAKANTIEVERHUUR.inputBewoner).type('Gijsbrecht van Aemstel');
 
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_online_aangeboden.label).should('be.visible');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_link_advertentie.label).should('not.exist');
       cy.get(WONEN_VAKANTIEVERHUUR.radioButtonOnlineJa).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_link_advertentie.label).should('be.visible');
-      cy.get(WONEN_VAKANTIEVERHUUR.inputLink).eq(1).type('https://amsterdam.intercontinental.com/nl/');
+      cy.get(WONEN_VAKANTIEVERHUUR.inputLink).type('https://amsterdam.intercontinental.com/nl/');
     });
 
     it('Should show specific questions illegal rental', () => {
@@ -106,11 +106,11 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_ONDERVERHUUR.radioButtonHoeLangLangerZesMaanden).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_iemand_aanwezig.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.inputTijdstip).eq(0).type('Elke avond en nacht zijn deze personen aanwezig.');
+      cy.get(WONEN_ONDERVERHUUR.inputTijdstip).type('Elke avond en nacht zijn deze personen aanwezig.');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_naam_huurder.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_onderhuur_naam_huurder.subtitle).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.inputHuurder).eq(1).type('Ja, dat is Vesemir');
+      cy.get(WONEN_ONDERVERHUUR.inputHuurder).type('Ja, dat is Vesemir');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_huurder_woont.label).should('be.visible');
       cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaZelfde).check({ force: true }).should('be.checked');
@@ -120,7 +120,7 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_ONDERVERHUUR.radioButtonAdresHuurderJaAnder).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_onderhuur_adres_huurder.label).should('be.visible');
-      cy.get(WONEN_ONDERVERHUUR.inputAdresHuurder).eq(2).type('Kaer Morhen');
+      cy.get(WONEN_ONDERVERHUUR.inputAdresHuurder).type('Kaer Morhen');
     });
 
     it('Should show specific questions vacancy', () => {
@@ -128,7 +128,7 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_OVERIG.radioButtonLeegstand).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.label).should('be.visible');
-      cy.get(WONEN_LEEGSTAND.inputEigenaar).eq(0).type('A. Hitchcock');
+      cy.get(WONEN_LEEGSTAND.inputEigenaar).type('A. Hitchcock');
 
       cy.contains(questions.wonen.extra_wonen_leegstand_periode.label).should('be.visible');
       cy.get(WONEN_LEEGSTAND.radioButtonLeegZesMaandenOfLanger).check({ force: true }).should('be.checked');
@@ -146,9 +146,9 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
 
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_persoon.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_leegstand_activiteit_in_woning.label).should('be.visible');
-      cy.get(WONEN_LEEGSTAND.inputNaam).eq(1).type('J. Aniston');
-      cy.get(WONEN_LEEGSTAND.inputWatDoetPersoon).eq(2).type('Deze persoon zit de hele dag te acteren');
-      cy.get(WONEN_LEEGSTAND.inputTijdstip).eq(3).type('Vooral in de avond');
+      cy.get(WONEN_LEEGSTAND.inputNaam).type('J. Aniston');
+      cy.get(WONEN_LEEGSTAND.inputWatDoetPersoon).type('Deze persoon zit de hele dag te acteren');
+      cy.get(WONEN_LEEGSTAND.inputTijdstip).type('Vooral in de avond');
     });
 
     it('Should show specific questions house sharing', () => {
@@ -156,10 +156,10 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_OVERIG.radioButtonWoningdelen).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_vermoeden.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woningdelen_vermoeden.subtitle).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.inputWatSpeeltZichAf).eq(0).type('Ik vermoed tovenarij');
+      cy.get(WONEN_WONINGDELEN.inputWatSpeeltZichAf).type('Ik vermoed tovenarij');
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_eigenaar.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.inputEigenaar).eq(1).type('Ja, dat weet ik.');
+      cy.get(WONEN_WONINGDELEN.inputEigenaar).type('Ja, dat weet ik.');
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_adres_huurder.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woningdelen_adres_huurder.subtitle).should('be.visible');
@@ -198,7 +198,7 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersJa).check({ force: true }).should('be.checked');
 
       cy.contains(questions.wonen.extra_wonen_woningdelen_iemand_aanwezig.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.inputTijdstip).eq(2).type('Voornamelijk op de dinsdagen om 23:23:05');
+      cy.get(WONEN_WONINGDELEN.inputTijdstip).type('Voornamelijk op de dinsdagen om 23:23:05');
     });
 
     it('Should show specific questions house quality', () => {
@@ -248,9 +248,9 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_OVERIG.radioButtonWoningdelen).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_vermoeden.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woningdelen_vermoeden.subtitle).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.inputWatSpeeltZichAf).eq(0).type('Ik vermoed iets met katten');
+      cy.get(WONEN_WONINGDELEN.inputWatSpeeltZichAf).type('Ik vermoed iets met katten');
       cy.contains(questions.wonen.extra_wonen_woningdelen_eigenaar.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.inputEigenaar).eq(1).type('Ja, dat weet ik wel.');
+      cy.get(WONEN_WONINGDELEN.inputEigenaar).type('Ja, dat weet ik wel.');
       cy.contains(questions.wonen.extra_wonen_woningdelen_adres_huurder.label).should('be.visible');
       cy.contains(questions.wonen.extra_wonen_woningdelen_adres_huurder.subtitle).should('be.visible');
       cy.get(WONEN_WONINGDELEN.radioButtonAdresHuurderJaZelfde).check({ force: true }).should('be.checked');
@@ -283,7 +283,7 @@ describe('Create signal "Wonen woning overig" and check signal details', () => {
       cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersJa).check({ force: true }).should('be.checked');
       cy.get(WONEN_WONINGDELEN.radioButtonAndereBewonersNee).check({ force: true }).should('be.checked');
       cy.contains(questions.wonen.extra_wonen_woningdelen_iemand_aanwezig.label).should('be.visible');
-      cy.get(WONEN_WONINGDELEN.inputTijdstip).eq(2).type('Elke dag is er wel iemand anders');
+      cy.get(WONEN_WONINGDELEN.inputTijdstip).type('Elke dag is er wel iemand anders');
       cy.contains('Volgende').click();
 
       createSignal.setPhonenumber(signal);

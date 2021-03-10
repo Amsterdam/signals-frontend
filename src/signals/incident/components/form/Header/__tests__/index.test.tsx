@@ -3,54 +3,60 @@ import { render, screen } from '@testing-library/react';
 import { Validators } from 'react-reactive-form';
 
 import { withAppContext } from 'test/utils';
-import { createRequired } from '../../../services/custom-validators';
+import { createRequired } from '../../../../services/custom-validators';
 
-import Header from '.';
+import type { HeaderProps } from '../Header';
+import Header from '..';
+import type { FormMeta } from 'types/reactive-form';
 
 describe('signals/incident/components/form/Header', () => {
+  const label = 'Foo barrrr';
+  const props = {
+    meta: {
+      label,
+      name: label,
+      updateIncident: () => {},
+    } as FormMeta,
+    touched: false,
+    hasError: () => false,
+    getError: () => '',
+  } as HeaderProps;
+
   it('should render label', () => {
-    const label = 'Foo barrrr';
-    render(withAppContext(<Header hasError={() => {}} meta={{ label }} />));
+    render(withAppContext(<Header {...props} />));
 
     expect(screen.getByText(label)).toBeInTheDocument();
   });
 
   it('should render optional indicator', () => {
-    const label = 'Zork';
-    const { rerender } = render(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{}} />));
+    const { rerender } = render(withAppContext(<Header {...props} options={{}} />));
 
     expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: undefined }} />));
+    rerender(withAppContext(<Header {...props} options={{ validators: undefined }} />));
 
     expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: [] }} />));
+    rerender(withAppContext(<Header {...props} options={{ validators: [] }} />));
 
     expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={() => {}} options={{}} />));
+    rerender(withAppContext(<Header {...props} meta={{ ...props.meta, label: undefined }} options={{}} />));
 
     expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
 
-    rerender(
-      withAppContext(<Header hasError={() => {}} meta={{ label }} options={{ validators: [Validators.required] }} />)
-    );
+    rerender(withAppContext(<Header {...props} options={{ validators: [Validators.required] }} />));
 
     expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
 
-    rerender(
-      withAppContext(
-        <Header hasError={() => {}} meta={{ label }} options={{ validators: [createRequired('Verplicht')] }} />
-      )
-    );
+    rerender(withAppContext(<Header {...props} options={{ validators: [createRequired('Verplicht')] }} />));
 
     expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
   });
 
   it('should render subtitle', () => {
     const subtitle = 'Bar bazzz';
-    render(withAppContext(<Header hasError={() => {}} meta={{ subtitle }} />));
+    render(withAppContext(<Header {...props} meta={{ ...props.meta, subtitle }} />));
 
     expect(screen.getByText(subtitle)).toBeInTheDocument();
   });
@@ -58,7 +64,7 @@ describe('signals/incident/components/form/Header', () => {
   it('should render children', () => {
     const { container } = render(
       withAppContext(
-        <Header hasError={() => {}}>
+        <Header {...props}>
           <span className="child" />
         </Header>
       )
@@ -68,86 +74,86 @@ describe('signals/incident/components/form/Header', () => {
   });
 
   it('should render required error with default message', () => {
-    const hasError = prop => prop === 'required';
+    const hasError = (prop: string) => prop === 'required';
     const getError = () => true;
     const error = 'Dit is een verplicht veld';
 
-    const { rerender } = render(withAppContext(<Header hasError={() => false} touched />));
+    const { rerender } = render(withAppContext(<Header {...props} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header getError={getError} hasError={hasError} touched />));
+    rerender(withAppContext(<Header {...props} getError={getError} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should render required error with custom message', () => {
     const error = 'Dit is een custom verplicht veld';
-    const hasError = prop => prop === 'required';
+    const hasError = (prop: string) => prop === 'required';
     const getError = () => error;
 
-    const { rerender } = render(withAppContext(<Header hasError={() => false} touched />));
+    const { rerender } = render(withAppContext(<Header {...props} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header getError={getError} hasError={hasError} touched />));
+    rerender(withAppContext(<Header {...props} getError={getError} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should render email error', () => {
-    const hasError = prop => prop === 'email';
+    const hasError = (prop: string) => prop === 'email';
     const error = 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl';
 
-    const { rerender } = render(withAppContext(<Header hasError={() => false} touched />));
+    const { rerender } = render(withAppContext(<Header {...props} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={hasError} touched />));
+    rerender(withAppContext(<Header {...props} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should render maxLength error', () => {
     const requiredLength = 300;
-    const hasError = prop => prop === 'maxLength';
+    const hasError = (prop: string) => prop === 'maxLength';
     const getError = () => ({ requiredLength });
     const error = `U heeft meer dan de maximale ${requiredLength} tekens ingevoerd`;
 
-    const { rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
+    const { rerender } = render(withAppContext(<Header {...props} getError={getError} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={hasError} getError={getError} touched />));
+    rerender(withAppContext(<Header {...props} hasError={hasError} getError={getError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should render custom error', () => {
     const error = 'Hic sunt dracones';
-    const hasError = prop => prop === 'custom';
+    const hasError = (prop: string) => prop === 'custom';
     const getError = () => error;
 
-    const { rerender } = render(withAppContext(<Header hasError={() => false} getError={getError} touched />));
+    const { rerender } = render(withAppContext(<Header {...props} getError={getError} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header hasError={hasError} getError={getError} touched />));
+    rerender(withAppContext(<Header {...props} hasError={hasError} getError={getError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
 
   it('should not render error when not touched', () => {
-    const hasError = prop => prop === 'required';
+    const hasError = (prop: string) => prop === 'required';
     const getError = () => true;
     const touched = false;
     const error = 'Dit is een verplicht veld';
 
-    const { rerender } = render(withAppContext(<Header hasError={hasError} touched={touched} />));
+    const { rerender } = render(withAppContext(<Header {...props} hasError={hasError} touched={touched} />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header getError={getError} hasError={hasError} touched />));
+    rerender(withAppContext(<Header {...props} getError={getError} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });

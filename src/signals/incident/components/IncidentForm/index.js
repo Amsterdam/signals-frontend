@@ -10,6 +10,14 @@ import { isAuthenticated } from 'shared/services/auth/auth';
 import formatConditionalForm from '../../services/format-conditional-form';
 
 export const Form = styled.form`
+  width: 100%;
+  `;
+
+export const Fieldset = styled.fieldset`
+  border: 0;
+  padding: 0;
+  margin: 0;
+
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: ${themeSpacing(8)};
@@ -192,11 +200,13 @@ class IncidentForm extends React.Component {
 
     return (
       <div className="incident-form" data-testid="incidentForm">
-        <Form onSubmit={this.handleSubmit} isSummary={isSummary}>
-          <FormGenerator
-            onMount={this.setForm}
-            fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}
-          />
+        <Form onSubmit={this.handleSubmit}>
+          <Fieldset isSummary={isSummary}>
+            <FormGenerator
+              onMount={this.setForm}
+              fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}
+            />
+          </Fieldset>
         </Form>
       </div>
     );

@@ -45,7 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_boten_gezonken_meer",
-      "label": "Extra informatie",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?",
+      "shortLabel": "Extra informatie",
       "answer": "De gezonken boot steekt 4 meter boven het wateroppervlak uit, wellicht gevaarlijk.",
       "category_url": ""
     }

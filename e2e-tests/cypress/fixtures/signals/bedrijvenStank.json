@@ -45,7 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_bedrijven_horeca_wat",
-      "label": "Soort bedrijf",
+      "label": "Uw melding gaat over:",
+      "shortLabel": "Soort bedrijf",
       "answer": {
         "id": "ander_soort_bedrijf",
         "info": "",
@@ -55,37 +56,43 @@
     },
     {
       "id": "extra_bedrijven_horeca_naam",
-      "label": "Mogelijke veroorzaker",
+      "label": "Wie of wat zorgt voor deze overlast, denkt u?",
+      "shortLabel": "Mogelijke veroorzaker",
       "answer": "Klanten van de sportsschool",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_adres",
-      "label": "Adres overlast",
+      "label": "Op welk adres ervaart u de overlast?",
+      "shortLabel": "Adres overlast",
       "answer": "Op de Klapperweg nummer 39",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_stank",
-      "label": "Soort geur",
+      "label": "Welke geur ruikt u?",
+      "shortLabel": "Soort geur",
       "answer": "Een zeer indringende zweetgeur",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_stank_oorzaak",
-      "label": "Vermoedelijke oorzaak",
+      "label": "Wat is de vermoedelijke oorzaak van de geuroverlast?",
+      "shortLabel": "Vermoedelijke oorzaak",
       "answer": "Klanten van de sportschool die voor de deur staan te sporten, maar ook binnen voor een open raam",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_stank_weer",
-      "label": "Weersomstandigheden",
+      "label": "Wat zijn de weersomstandigheden tijdens de overlast?",
+      "shortLabel": "Weersomstandigheden",
       "answer": "Het is erg warm buiten, de zon schijnt volop",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_stank_ramen",
-      "label": "Ramen/deuren open",
+      "label": "Staan de ramen of deuren open van de vermoedelijke veroorzaker?",
+      "shortLabel": "Ramen/deuren open",
       "answer": {
         "id": "ja",
         "info": "",
@@ -95,7 +102,8 @@
     },
     {
       "id": "extra_bedrijven_horeca_vaker",
-      "label": "Vaker overlast",
+      "label": "Gebeurt het vaker?",
+      "shortLabel": "Vaker overlast",
       "answer": {
         "id": "nee",
         "info": "",

@@ -17,9 +17,8 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
     >
       <ForwardRef
         data-testid="name"
-        helpText="0/300 tekens"
         id="formname"
-        maxRows={15}
+        infoText="0/300 tekens"
         name="name"
         placeholder="placeholder"
         rows={2}
@@ -47,9 +46,8 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
     >
       <ForwardRef
         data-testid="name"
-        helpText="4/300 tekens"
         id="formname"
-        maxRows={15}
+        infoText="4/300 tekens"
         name="name"
         placeholder="placeholder"
         rows={2}
@@ -77,9 +75,8 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
     >
       <ForwardRef
         data-testid="name"
-        helpText={false}
         id="formname"
-        maxRows={15}
+        infoText={false}
         name="name"
         placeholder="placeholder"
         rows={2}

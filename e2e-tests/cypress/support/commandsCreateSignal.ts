@@ -116,12 +116,17 @@ export const checkRedTextStatus = (status: string) => {
 };
 
 /**
- * Custom command to check if all questions and answers of a signal are visible.
- * @example cy.checkQuestions('../fixtures/signals/fietsNietje.json');
+ * Custom command to check if all questions and answers of a signal are visible, option for short or full lable.
+ * @example cy.checkQuestions('../fixtures/signals/fietsNietje.json', short);
 */
-export const checkQuestions = (json: signal.RootObject) => {
+export const checkQuestions = (json: signal.RootObject, labelType) => {
   Object.values(json.extra_properties).forEach((elementAValue: signal.ExtraProperties) => {
-    cy.contains(elementAValue.label).should('be.visible');
+    if (labelType === 'short') {
+      cy.contains(elementAValue.shortLabel).should('be.visible');
+    }
+    else if (labelType === 'full') {
+      cy.contains(elementAValue.label).should('be.visible');
+    }
     if (elementAValue.answer.label) {
       cy.contains(elementAValue.answer.label).should('be.visible');
     }
@@ -205,7 +210,7 @@ export const checkAllDetails = (json: signal.RootObject) => {
     cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
     cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
   }
-  checkQuestions(json);
+  checkQuestions(json, 'short');
 };
 
 /**
@@ -264,7 +269,7 @@ export const checkSummaryPage = (json: signal.RootObject) => {
   if (json.fixtures.attachments) {
     cy.get(CREATE_SIGNAL.imageFileUpload).should('be.visible');
   }
-  checkQuestions(json);
+  checkQuestions(json, 'full');
 };
 
 /**
@@ -274,6 +279,8 @@ export const checkSummaryPage = (json: signal.RootObject) => {
 export const checkThanksPage = () => {
   cy.url().should('include', '/incident/bedankt');
   commandsGeneral.checkHeaderText('Bedankt!');
+  cy.contains('Wat doen we met uw melding?').should('be.visible');
+  cy.contains('Wilt u nog een andere melding doen?').should('be.visible');
   cy.get('body').then($body => {
     if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {
       checkHeaderFooter();
@@ -395,11 +402,11 @@ export const setDateTime = (dateTime: string) => {
       break;
     case 'Eerder':
       cy.get(CREATE_SIGNAL.radioButtonTijdstipEerder).click({ force: true });
-      cy.get('[data-testid=day] > option')
+      cy.get('[data-testid=selectDay] > option')
         .eq(2)
         .then((element: JQuery) => {
           const date = element.val() as string;
-          cy.get('[data-testid=day]').select(date);
+          cy.get('[data-testid=selectDay]').select(date);
           cy.writeFile('./cypress/fixtures/tempDateTime.json', { dateTime: `${Cypress.$(element).text()}` }, { flag: 'w' });
         });
       break;

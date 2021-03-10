@@ -45,19 +45,22 @@
   "extra_properties": [
     {
       "id": "extra_boten_snelheid_rondvaartboot",
-      "label": "Rondvaartboot",
+      "label": "Gaat de melding over een rondvaartboot?",
+      "shortLabel": "Rondvaartboot",
       "answer": {"id": "nee", "info": "", "label": "Nee"},
       "category_url": ""
     },
     {
       "id": "extra_boten_snelheid_naamboot",
-      "label": "Naam boot",
+      "label": "Wat is de naam van de boot?",
+      "shortLabel": "Naam boot",
       "answer": "Pakjesboot 12",
       "category_url": ""
     },
     {
       "id": "extra_boten_snelheid_meer",
-      "label": "Extra informatie",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?",
+      "shortLabel": "Extra informatie",
       "answer": "De boot vaart over de Amstel heen en weer",
       "category_url": ""
     }

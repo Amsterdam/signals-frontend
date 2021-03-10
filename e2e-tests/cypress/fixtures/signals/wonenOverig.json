@@ -45,19 +45,22 @@
   "extra_properties": [
     {
       "id": "extra_wonen_woningdelen_vermoeden",
-      "label": "Vermoeden",
+      "label": "Weet u wat zich in deze woning afspeelt?",
+      "shortLabel": "Vermoeden",
       "answer": "Ik vermoed iets met katten",
       "category_url": ""
     },
     {
       "id": "extra_wonen_woningdelen_eigenaar",
-      "label": "Naam eigenaar",
+      "label": "Weet u wie de eigenaar is van de woning?",
+      "shortLabel": "Naam eigenaar",
       "answer": "Ja, dat weet ik wel.",
       "category_url": ""
     },
     {
       "id": "extra_wonen_woningdelen_adres_huurder",
-      "label": "Adres huurder",
+      "label": "Weet u waar de officiële huurder woont?",
+      "shortLabel": "Adres huurder",
       "answer": {
         "id": "ander_adres",
         "info": "",
@@ -67,13 +70,15 @@
     },
     {
       "id": "extra_wonen_woningdelen_aantal_personen",
-      "label": "Aantal personen",
+      "label": "Hoeveel personen wonen op dit adres?",
+      "shortLabel": "Aantal personen",
       "answer": {"id": "vier_personen", "info": "", "label": "4 personen"},
       "category_url": ""
     },
     {
       "id": "extra_wonen_woningdelen_bewoners_familie",
-      "label": "Bewoners familie",
+      "label": "Zijn de bewoners familie van elkaar?",
+      "shortLabel": "Bewoners familie",
       "answer": {
         "id": "ja",
         "info": "",
@@ -83,7 +88,8 @@
     },
     {
       "id": "extra_wonen_woningdelen_samenwonen",
-      "label": "Samenwonen",
+      "label": "Zijn de personen tegelijk op het adres komen wonen?",
+      "shortLabel": "Samenwonen",
       "answer": {
         "id": "ja",
         "info": "",
@@ -93,13 +99,15 @@
     },
     {
       "id": "extra_wonen_woningdelen_wisselende_bewoners",
-      "label": "Wisselende bewoners",
+      "label": "Komen er vaak andere bewoners op het adres wonen?",
+      "shortLabel": "Wisselende bewoners",
       "answer": {"id": "nee", "info": "", "label": "Nee, dezelfde bewoners"},
       "category_url": ""
     },
     {
       "id": "extra_wonen_woningdelen_iemand_aanwezig",
-      "label": "Iemand aanwezig",
+      "label": "Op welke dag/tijd is er iemand op het adres?",
+      "shortLabel": "Iemand aanwezig",
       "answer": "Elke dag is er wel iemand anders",
       "category_url": ""
     }

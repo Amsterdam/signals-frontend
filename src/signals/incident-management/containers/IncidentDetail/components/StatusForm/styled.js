@@ -83,10 +83,6 @@ export const StyledColumn = styled(Column)`
   margin-bottom: ${themeSpacing(3)};
 `;
 
-export const StyledLabel = styled(Label)`
-  align-items: baseline;
-`;
-
 export const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
 `;

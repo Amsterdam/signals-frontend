@@ -41,7 +41,7 @@ describe('Change a signal before submit and check signal details', () => {
       cy.contains('Volgende').click();
 
       createSignal.checkSummaryPage(signal01);
-      createSignal.checkQuestions(signal01);
+      createSignal.checkQuestions(signal01, 'full');
       cy.get(CREATE_SIGNAL.imageFileUpload).should('not.exist');
     });
 
@@ -50,7 +50,7 @@ describe('Change a signal before submit and check signal details', () => {
       routes.stubMap();
 
       // Go to first step of signal creation and change signal information
-      cy.get(CREATE_SIGNAL.linkChangeSignalInfo).click();
+      cy.contains('Wijzig melding').click();
       cy.get(CREATE_SIGNAL.autoSuggest).find('input').clear();
 
       createSignal.setDescriptionPage(signal02);
@@ -67,7 +67,7 @@ describe('Change a signal before submit and check signal details', () => {
     it('Should edit phonenumber and email address', () => {
       routes.stubPreviewMap();
       // Go to the phonenumber page and change phonenumber
-      cy.get(CREATE_SIGNAL.linkChangePhoneNumber).click();
+      cy.contains('Wijzig uw telefoonnummer').click();
       createSignal.setPhonenumber(signal03);
       cy.contains('Volgende').click();
 
@@ -80,7 +80,7 @@ describe('Change a signal before submit and check signal details', () => {
       routes.stubPreviewMap();
       routes.postSignalRoutePublic();
       // Go to the email address page and change emailaddress
-      cy.get(CREATE_SIGNAL.linkChangeEmailAddress).click();
+      cy.contains('Wijzig uw e-mailadres').click();
       createSignal.setEmailAddress(signal04);
       cy.contains('Volgende').click();
 

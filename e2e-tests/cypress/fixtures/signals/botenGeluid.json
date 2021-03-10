@@ -45,7 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_boten_geluid_meer",
-      "label": "Extra informatie",
+      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie",
+      "shortLabel": "Extra informatie",
       "answer": "Ik zie allemaal aangeklede dieren op de boot staan, erg verdacht.",
       "category_url": ""
     }

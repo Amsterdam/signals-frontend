@@ -3,40 +3,42 @@ import PropTypes from 'prop-types';
 import TextArea from 'components/TextArea';
 import DescriptionInfo from '../DescriptionInfo';
 
-const DescriptionInput = ({
-  handler,
-  value,
-  meta,
-  parent,
-}) => {
+const DescriptionInput = ({ handler, value, meta, parent }) => {
   const getCharactersInfo = useCallback(
     () => meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`,
     [value, meta.maxLength]
   );
 
-  const handleBlur = useCallback(event => {
-    const {
-      getClassification,
-      updateIncident,
-      incidentContainer: { usePredictions },
-    } = parent.meta;
+  const handleBlur = useCallback(
+    event => {
+      const {
+        getClassification,
+        updateIncident,
+        incidentContainer: { usePredictions },
+      } = parent.meta;
 
-    if (usePredictions && event.target.value) {
-      getClassification(event.target.value);
-    }
+      if (usePredictions && event.target.value) {
+        getClassification(event.target.value);
+      }
 
-    updateIncident({ [meta.name]: event.target.value });
-  }, [meta, parent]);
+      updateIncident({ [meta.name]: event.target.value });
+    },
+    [meta, parent]
+  );
 
   return (
-    <TextArea
-      data-testid="descriptionInput"
-      rows={meta.rows || 6}
-      placeholder={meta.placeholder}
-      {...handler()}
-      onBlur={handleBlur}
-      helpText={<DescriptionInfo info={getCharactersInfo()} />}
-    />
+    <div>
+      <TextArea
+        id={meta.name}
+        aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
+        data-testid="descriptionInput"
+        rows={meta.rows}
+        placeholder={meta.placeholder}
+        {...handler()}
+        onBlur={handleBlur}
+        infoText={<DescriptionInfo info={getCharactersInfo()} />}
+      />
+    </div>
   );
 };
 

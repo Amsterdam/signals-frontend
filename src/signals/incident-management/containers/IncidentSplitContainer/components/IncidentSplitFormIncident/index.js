@@ -53,13 +53,13 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
             />
 
             <div>
-              <Label as="span" htmlFor={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}>
+              <Label as="span" htmlFor={`description-${splitNumber}`}>
                 Omschrijving
               </Label>
 
               <TextArea
                 data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
-                id={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
+                id={`description-${splitNumber}`}
                 name={`incidents[${splitNumber}].description`}
                 ref={register}
                 rows={10}

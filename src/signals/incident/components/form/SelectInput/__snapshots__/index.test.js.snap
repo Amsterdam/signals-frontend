@@ -2,7 +2,6 @@
 
 exports[`Form component <SelectInput /> rendering should render empty select field when values are not supplied 1`] = `
 <Header
-  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -16,6 +15,7 @@ exports[`Form component <SelectInput /> rendering should render empty select fie
   touched={false}
 >
   <ForwardRef
+    id="input-field-name"
     name="input-field-name"
     onChange={[Function]}
     options={Array []}
@@ -28,7 +28,6 @@ exports[`Form component <SelectInput /> rendering should render no select field 
 
 exports[`Form component <SelectInput /> rendering should render select field correctly 1`] = `
 <Header
-  className=""
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -46,6 +45,7 @@ exports[`Form component <SelectInput /> rendering should render select field cor
   touched={false}
 >
   <ForwardRef
+    id="input-field-name"
     name="input-field-name"
     onChange={[Function]}
     options={

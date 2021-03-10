@@ -46,6 +46,7 @@
     {
       "id": "extra_klok",
       "label": "Is de situatie gevaarlijk?",
+      "shortLabel": "Is de situatie gevaarlijk?",
       "answer": {
         "id": "klok_op_grond_of_scheef",
         "info": "",
@@ -55,7 +56,8 @@
     },
     {
       "id": "extra_klok_probleem",
-      "label": "Probleem",
+      "label": "Wat is het probleem?",
+      "shortLabel": "Probleem",
       "answer": {
         "id": "klok_is_zichtbaar_beschadigd",
         "info": "",
@@ -66,12 +68,14 @@
     {
       "id": "extra_klok_niet_op_kaart",
       "label": "Staat niet op kaart",
+      "shortLabel": "Staat niet op kaart",
       "answer": {"label": "op", "value": true},
       "category_url": ""
     },
     {
       "id": "extra_klok_niet_op_kaart_nummer",
-      "label": "Klok(ken) niet op kaart",
+      "label": "Weet u het nummer dat op de klok staat?",
+      "shortLabel": "Klok(ken) niet op kaart",
       "answer": [
         {"id": "666", "label": "666"},
         {"id": "999", "label": "999"}

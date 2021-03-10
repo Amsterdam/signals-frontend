@@ -256,7 +256,6 @@ const CheckboxList = ({
         <Toggle
           indent={Boolean(title)}
           tabIndex={0}
-          htmlFor={groupName}
           onClick={handleToggle}
           onKeyDown={handleKeyDown}
         >
@@ -314,9 +313,9 @@ CheckboxList.defaultProps = {
   groupName: '',
   groupValue: '',
   hasToggle: false,
-  onChange: /* istanbul ignore next*/() => { },
+  onChange: /* istanbul ignore next*/ () => {},
   onToggle: undefined,
-  onSubmit: /* istanbul ignore next*/ () => { },
+  onSubmit: /* istanbul ignore next*/ () => {},
   title: null,
   toggleAllLabel: 'Alles selecteren',
   toggleNothingLabel: 'Niets selecteren',

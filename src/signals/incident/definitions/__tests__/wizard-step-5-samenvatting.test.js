@@ -22,15 +22,15 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
 
   describe('renderPreview', () => {
     it('should return the correct component', () => {
-      expect(renderPreview({ render: { name: 'RadioInputGroup' } })).toEqual(ObjectLabel);
-      expect(renderPreview({ render: { name: 'TextInput' } })).toEqual(Label);
-      expect(renderPreview({ render: { name: 'TextareaInput' } })).toEqual(Label);
-      expect(renderPreview({ render: { name: 'MultiTextInput' } })).toEqual(SCSVLabel);
-      expect(renderPreview({ render: { name: 'CheckboxInput' }, meta: { values: {} } })).toEqual(
+      expect(renderPreview({ render: 'RadioInputGroup' })).toEqual(ObjectLabel);
+      expect(renderPreview({ render: 'TextInput' })).toEqual(Label);
+      expect(renderPreview({ render: 'TextareaInput' })).toEqual(Label);
+      expect(renderPreview({ render: 'MultiTextInput' })).toEqual(SCSVLabel);
+      expect(renderPreview({ render: 'CheckboxInput', meta: { values: {} } })).toEqual(
         PreviewComponents.ListObjectValue
       );
-      expect(renderPreview({ render: { name: 'CheckboxInput' }, meta: { value: '' } })).toEqual(expect.any(Function));
-      expect(renderPreview({ render: { name: 'SomethingElse' } })).toEqual(Null);
+      expect(renderPreview({ render: 'CheckboxInput', meta: { value: '' } })).toEqual(expect.any(Function));
+      expect(renderPreview({ render: 'SomethingElse' })).toEqual(Null);
     });
   });
 
@@ -39,29 +39,27 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
       extra_bedrijven_horeca_wat: {
         meta: {
           label: 'Uw melding gaat over:',
-          shortLabel: 'Soort bedrijf',
         },
         options: { validators: [Validators.required] },
-        render: FormComponents.RadioInputGroup,
+        render: 'RadioInputGroup',
       },
       extra_bedrijven_horeca_naam: {
         meta: {
           label: 'Wie of wat zorgt voor deze overlast, denkt u?',
-          shortLabel: 'Mogelijke veroorzaker',
         },
-        render: FormComponents.TextInput,
+        render: 'TextInput',
       },
     };
 
     it('should return mapped values', () => {
       expect(summary(controls)).toEqual({
         extra_bedrijven_horeca_wat: {
-          label: 'Soort bedrijf',
+          label: 'Uw melding gaat over:',
           optional: true,
           render: ObjectLabel,
         },
         extra_bedrijven_horeca_naam: {
-          label: 'Mogelijke veroorzaker',
+          label: 'Wie of wat zorgt voor deze overlast, denkt u?',
           optional: true,
           render: Label,
         },
@@ -80,12 +78,12 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
       const expected = expect.objectContaining({
         vulaan: {
           extra_afval: {
-            label: 'Waar vandaan',
+            label: 'Heeft u een vermoeden waar het afval vandaan komt?',
             optional: true,
             render: Label,
           },
           extra_container: {
-            label: 'Container(s)',
+            label: 'Kies de container waar het om gaat',
             optional: true,
             render: expect.any(Function),
           },
@@ -110,6 +108,22 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
 
     it('should return empty controls when showVulaanControls is false', () => {
       expect(previewFactory({ category: 'afval' }).vulaan).toEqual({});
+    });
+
+    it('should fall back to short label', () => {
+      configuration.featureFlags.showVulaanControls = true;
+      const actual = previewFactory({
+        category: 'wegen-verkeer-straatmeubilair',
+      });
+      const expected = expect.objectContaining({
+        vulaan: expect.objectContaining({
+          extra_straatverlichting_niet_op_kaart: expect.objectContaining({
+            label: 'Staat niet op kaart',
+          }),
+        }),
+      });
+
+      expect(actual).toEqual(expected);
     });
   });
 
@@ -137,7 +151,7 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
         subcategory: 'subcategory',
         questions: {
           key1: {
-            meta: { shortLabel: 'Label' },
+            meta: { label: 'Label' },
             render: 'TextInput',
           },
         },
@@ -155,13 +169,13 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
       expect(actual).toEqual(expected);
     });
 
-    it('should fall back to long label', () => {
+    it('should fall back to short label', () => {
       const actual = previewFactory({
         category: 'category',
         subcategory: 'subcategory',
         questions: {
           key1: {
-            meta: { label: 'Label' },
+            meta: { shortLabel: 'Label' },
             render: 'TextInput',
             required: true,
           },

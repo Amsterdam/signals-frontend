@@ -1,60 +1,82 @@
+import type { FunctionComponent } from 'react';
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
+import Label from 'components/Label';
+import type { ReactiveFormMeta, FormMeta, FormOptions } from 'types/reactive-form';
 
-const Children = styled.div`
+const Wrapper = styled.div<{ invalid: boolean }>`
   display: flex;
-  flex-flow: column;
-`;
+  flex-direction: column;
 
-const Wrapper = styled.div`
   ${({ invalid }) =>
     invalid &&
     css`
       border-left: ${themeColor('support', 'invalid')} 2px solid;
       padding-left: ${themeSpacing(3)};
     `}
+
+  & > :last-child:not(& > :first-child) {
+    margin-top: ${themeSpacing(3)};
+  }
 `;
 
-const Label = styled.div`
-  font-family: Avenir Next LT W01 Demi;
-  margin-bottom: ${themeSpacing(2)};
+const StyledLabel = styled(Label)`
+  margin-bottom: 0;
+  line-height: ${themeSpacing(6)};
 `;
 
 const Optional = styled.span`
-  font-family: Avenir Next LT W01-Regular;
+  font-family: Avenir Next LT W01-Regular, arial, sans-serif;
   margin-left: ${themeSpacing(2)};
 `;
 
-const ErrorItem = styled.div`
+const ErrorItem = styled.p`
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  margin-top: 0;
+  margin-bottom: 0;
   color: ${themeColor('support', 'invalid')};
-  font-size: 14px;
-  margin-bottom: ${themeSpacing(1)};
+  line-height: ${themeSpacing(6)};
 `;
 
-const SubTitle = styled.div`
+const SubTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
-  margin-top: ${themeSpacing(-1)};
-  margin-bottom: ${themeSpacing(2)};
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: ${themeSpacing(6)};
 `;
 
-const Header = ({ className, meta, options, touched, hasError, getError, children }) => {
-  const containsErrors =
+type PickedProps = 'touched' | 'hasError' | 'getError';
+export interface HeaderProps extends Pick<ReactiveFormMeta, PickedProps> {
+  className?: string;
+  meta: FormMeta;
+  options?: FormOptions;
+}
+
+const Header: FunctionComponent<HeaderProps> = ({
+  className,
+  meta,
+  options,
+  touched,
+  hasError,
+  getError,
+  children,
+}) => {
+  const containsErrors: boolean =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
   const isOptional = !options?.validators?.some(validator => validator.name === 'required');
 
   return (
     <Wrapper className={className} invalid={containsErrors}>
       {meta?.label && (
-        <Label>
+        <StyledLabel htmlFor={meta.name}>
           {meta.label}
 
           {isOptional && <Optional>(optioneel)</Optional>}
-        </Label>
+        </StyledLabel>
       )}
 
-      {meta?.subtitle && <SubTitle>{meta.subtitle}</SubTitle>}
+      {meta?.subtitle && <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>}
 
       {touched && containsErrors && (
         <Fragment>
@@ -69,35 +91,19 @@ const Header = ({ className, meta, options, touched, hasError, getError, childre
           )}
 
           {hasError('maxLength') && (
-            <ErrorItem>U heeft meer dan de maximale {getError('maxLength').requiredLength} tekens ingevoerd</ErrorItem>
+            <ErrorItem>
+              U heeft meer dan de maximale{' '}
+              {String((getError('maxLength') as { requiredLength: number }).requiredLength)} tekens ingevoerd
+            </ErrorItem>
           )}
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
         </Fragment>
       )}
 
-      <Children>{children}</Children>
+      {children}
     </Wrapper>
   );
-};
-
-Header.defaultProps = {
-  className: '',
-};
-
-Header.propTypes = {
-  className: PropTypes.string,
-  meta: PropTypes.shape({
-    label: PropTypes.string,
-    subtitle: PropTypes.string,
-  }),
-  options: PropTypes.shape({
-    validators: PropTypes.arrayOf(PropTypes.any),
-  }),
-  touched: PropTypes.bool,
-  hasError: PropTypes.func.isRequired,
-  getError: PropTypes.func,
-  children: PropTypes.node,
 };
 
 export default Header;

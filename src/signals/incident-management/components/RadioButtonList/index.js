@@ -29,6 +29,7 @@ const StyledRadioGroup = styled(RadioGroup)`
  * Component that renders a group of radio buttons
  */
 const RadioButtonList = ({
+  className,
   emptySelectionLabel,
   hasEmptySelectionButton,
   defaultValue,
@@ -38,6 +39,8 @@ const RadioButtonList = ({
   onChange,
   options,
   title,
+  id,
+  ...rest
 }) => {
   const radioOptions = [...options];
 
@@ -46,10 +49,10 @@ const RadioButtonList = ({
   }
 
   return (
-    <FilterGroup>
+    <FilterGroup className={className} >
       {title && <Label data-testid="radioButtonListTitle" as="span" isGroupHeader={false} label={title} />}
 
-      <StyledRadioGroup name={groupName} disabled={disabled} error={error}>
+      <StyledRadioGroup name={groupName} disabled={disabled} error={error} role="radiogroup" id={id} {...rest}>
         {radioOptions.map(option => (
           <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
             <RadioButton
@@ -74,6 +77,7 @@ RadioButtonList.defaultProps = {
   disabled: false,
   hasEmptySelectionButton: true,
   error: false,
+  className: '',
 };
 
 RadioButtonList.propTypes = {
@@ -91,6 +95,7 @@ RadioButtonList.propTypes = {
   groupName: PropTypes.string.isRequired,
   /** When false, will only render the passed in options instead of having an extra radio button with an empty value */
   hasEmptySelectionButton: PropTypes.bool,
+  id: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   /** Values to be rendered as checkbox elements */
   options: PropTypes.arrayOf(
@@ -101,6 +106,7 @@ RadioButtonList.propTypes = {
   ).isRequired,
   /** Group label contents */
   title: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default RadioButtonList;

@@ -1,19 +1,6 @@
-import FormComponents from '../../components/form';
-import IncidentNavigation from '../../components/IncidentNavigation';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
 
-const intro = {
-  custom_text: {
-    meta: {
-      label: 'Dit hebt u net ingevuld:',
-      type: 'citation',
-      value: '{incident.description}',
-      ignoreVisibility: true,
-    },
-    render: FormComponents.PlainText,
-  },
-};
-
-export const controls = {
+export const overlastOpHetWater = {
   extra_boten_snelheid_rondvaartboot: {
     meta: {
       ifAllOf: {
@@ -27,7 +14,7 @@ export const controls = {
         nee: 'Nee',
       },
     },
-    render: FormComponents.RadioInputGroup,
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_boten_snelheid_rederij: {
     meta: {
@@ -106,7 +93,7 @@ export const controls = {
         extra_boten_snelheid_rondvaartboot: 'ja',
       },
     },
-    render: FormComponents.SelectInput,
+    render: FIELD_TYPE_MAP.select_input,
   },
   extra_boten_snelheid_naamboot: {
     meta: {
@@ -117,7 +104,7 @@ export const controls = {
         subcategory: 'overlast-op-het-water-snel-varen',
       },
     },
-    render: FormComponents.TextInput,
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_boten_snelheid_meer: {
     meta: {
@@ -130,20 +117,20 @@ export const controls = {
         subcategory: 'overlast-op-het-water-snel-varen',
       },
     },
-    render: FormComponents.TextareaInput,
+    render: FIELD_TYPE_MAP.textarea_input,
   },
   extra_boten_geluid_meer: {
     meta: {
       label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie',
       shortLabel: 'Extra informatie',
       subtitle:
-        'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
+      'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
       pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-geluid',
       },
     },
-    render: FormComponents.TextareaInput,
+    render: FIELD_TYPE_MAP.textarea_input,
   },
   extra_boten_gezonken_meer: {
     meta: {
@@ -155,23 +142,8 @@ export const controls = {
         subcategory: 'overlast-op-het-water-gezonken-boot',
       },
     },
-    render: FormComponents.TextareaInput,
+    render: FIELD_TYPE_MAP.textarea_input,
   },
 };
 
-const navigation = {
-  $field_0: {
-    isStatic: false,
-    render: IncidentNavigation,
-  },
-};
-
-export default {
-  controls: {
-    ...intro,
-
-    ...controls,
-
-    ...navigation,
-  },
-};
+export default overlastOpHetWater;

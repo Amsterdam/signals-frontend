@@ -71,28 +71,28 @@ export default {
 
     switch (category) {
       case 'afval':
-        return afval;
+        return expandQuestions(afval, category, subcategory);
 
       case 'overlast-bedrijven-en-horeca':
-        return overlastBedrijvenEnHoreca;
+        return expandQuestions(overlastBedrijvenEnHoreca, category, subcategory);
 
       case 'overlast-in-de-openbare-ruimte':
-        return overlastInDeOpenbareRuimte;
+        return expandQuestions(overlastInDeOpenbareRuimte, category, subcategory);
 
       case 'overlast-op-het-water':
-        return overlastOpHetWater;
+        return expandQuestions(overlastOpHetWater, category, subcategory);
 
       case 'overlast-van-dieren':
-        return overlastVanDieren;
+        return expandQuestions(overlastVanDieren, category, subcategory);
 
       case 'overlast-van-en-door-personen-of-groepen':
-        return overlastPersonenEnGroepen;
+        return expandQuestions(overlastPersonenEnGroepen, category, subcategory);
 
       case 'wegen-verkeer-straatmeubilair':
-        return wegenVerkeerStraatmeubilair;
+        return expandQuestions(wegenVerkeerStraatmeubilair, category, subcategory);
 
       case 'wonen':
-        return wonen;
+        return expandQuestions(wonen, category, subcategory);
 
       default:
         return noExtraProps;

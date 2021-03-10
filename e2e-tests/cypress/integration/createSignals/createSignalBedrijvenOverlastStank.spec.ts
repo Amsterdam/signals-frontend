@@ -24,19 +24,18 @@ describe('Create signal "Bedrijven overlast stank" and check signal details', ()
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_wat.label).should('be.visible');
       cy.get(BEDRIJVEN_HORECA.radioButtonAnderBedrijf).click({ force: true });
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_naam.label).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.inputWieWat).eq(0).type('Klanten van de sportsschool');
+      cy.get(BEDRIJVEN_HORECA.inputWieWat).type('Klanten van de sportsschool');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_adres.label).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.inputAdres).eq(1).type('Op de Klapperweg nummer 39');
+      cy.get(BEDRIJVEN_HORECA.inputAdres).type('Op de Klapperweg nummer 39');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank.label).should('be.visible');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank.subtitle).should('be.visible');
-      cy.get(STANK_OVERLAST.inputGeur).eq(2).type('Een zeer indringende zweetgeur');
+      cy.get(STANK_OVERLAST.inputGeur).type('Een zeer indringende zweetgeur');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank_oorzaak.label).should('be.visible');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank_oorzaak.subtitle).should('be.visible');
       cy.get(STANK_OVERLAST.inputOorzaakGeur)
-        .eq(3)
         .type('Klanten van de sportschool die voor de deur staan te sporten, maar ook binnen voor een open raam');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank_weer.label).should('be.visible');
-      cy.get(STANK_OVERLAST.inputWeersomstandigheden).eq(4).type('Het is erg warm buiten, de zon schijnt volop');
+      cy.get(STANK_OVERLAST.inputWeersomstandigheden).type('Het is erg warm buiten, de zon schijnt volop');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_stank_ramen.label).should('be.visible');
       cy.get(STANK_OVERLAST.radioButtonRaamOpen).click({ force: true });
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_vaker.label).should('be.visible');

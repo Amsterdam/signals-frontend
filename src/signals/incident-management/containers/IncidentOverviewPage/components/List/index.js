@@ -94,6 +94,12 @@ const ParentIconStyle = styled.span`
   }
 `;
 
+const StyledIcon = styled(Icon)`
+  & svg {
+    fill: ${themeColor('tint', 'level4')};
+  }
+`;
+
 const ParentIcon = () => (
   <ParentIconStyle role="img" aria-label="Hoofdmelding">
     <Icon size={14}>
@@ -106,9 +112,9 @@ const ParentIcon = () => (
 );
 
 const ChildIcon = () => (
-  <Icon size={14} role="img" aria-label="Deelmelding" color={themeColor('tint', 'level4')}>
+  <StyledIcon size={14} role="img" aria-label="Deelmelding">
     <Play />
-  </Icon>
+  </StyledIcon>
 );
 
 const List = ({
