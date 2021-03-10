@@ -1,3 +1,5 @@
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+
 import configuration from 'shared/services/configuration/configuration';
 
 const woningdelen = {
@@ -12,7 +14,7 @@ const woningdelen = {
       shortLabel: 'Vermoeden',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_woningdelen_eigenaar: {
     meta: {
@@ -27,7 +29,7 @@ const woningdelen = {
     options: {
       validators: ['required'],
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_woningdelen_adres_huurder: {
     meta: {
@@ -48,7 +50,7 @@ const woningdelen = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woningdelen_aantal_personen: {
     meta: {
@@ -71,7 +73,7 @@ const woningdelen = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woningdelen_bewoners_familie: {
     meta: {
@@ -96,7 +98,7 @@ const woningdelen = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woningdelen_samenwonen: {
     meta: {
@@ -121,7 +123,7 @@ const woningdelen = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woningdelen_wisselende_bewoners: {
     meta: {
@@ -141,7 +143,7 @@ const woningdelen = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woningdelen_iemand_aanwezig: {
     meta: {
@@ -153,7 +155,7 @@ const woningdelen = {
       shortLabel: 'Iemand aanwezig',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 };
 
@@ -179,7 +181,7 @@ const onderhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_onderhuur_bewoners_familie: {
     meta: {
@@ -204,7 +206,7 @@ const onderhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_onderhuur_naam_bewoners: {
     meta: {
@@ -216,7 +218,7 @@ const onderhuur = {
       shortLabel: 'Naam bewoners',
       pathMerge: 'extra_properties',
     },
-    render: 'TextareaInput',
+    render: FIELD_TYPE_MAP.textarea_input,
   },
   extra_wonen_onderhuur_woon_periode: {
     meta: {
@@ -236,7 +238,7 @@ const onderhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_onderhuur_iemand_aanwezig: {
     meta: {
@@ -248,7 +250,7 @@ const onderhuur = {
       shortLabel: 'Iemand aanwezig',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_onderhuur_naam_huurder: {
     meta: {
@@ -264,7 +266,7 @@ const onderhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_onderhuur_huurder_woont: {
     meta: {
@@ -284,7 +286,7 @@ const onderhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_onderhuur_adres_huurder: {
     meta: {
@@ -299,7 +301,7 @@ const onderhuur = {
       shortLabel: 'Adres huurder',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 };
 
@@ -317,7 +319,7 @@ const leegstand = {
     options: {
       validators: ['required'],
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_leegstand_periode: {
     meta: {
@@ -337,7 +339,7 @@ const leegstand = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_leegstand_woning_gebruik: {
     meta: {
@@ -357,7 +359,7 @@ const leegstand = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_leegstand_naam_persoon: {
     meta: {
@@ -372,7 +374,7 @@ const leegstand = {
       shortLabel: 'Naam persoon',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_leegstand_activiteit_in_woning: {
     meta: {
@@ -387,7 +389,7 @@ const leegstand = {
       shortLabel: 'Activiteit in de woning',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_leegstand_iemand_aanwezig: {
     meta: {
@@ -402,7 +404,7 @@ const leegstand = {
       shortLabel: 'Iemand aanwezig',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 };
 
@@ -425,7 +427,7 @@ const woningkwaliteit = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woonkwaliteit_direct_gevaar_alert: {
     meta: {
@@ -439,7 +441,7 @@ const woningkwaliteit = {
       type: 'alert',
       value: 'Bel 112 en vul dit formulier niet verder in',
     },
-    render: 'PlainText',
+    render: FIELD_TYPE_MAP.plain_text,
   },
   extra_wonen_woonkwaliteit_gemeld_bij_eigenaar: {
     meta: {
@@ -461,7 +463,7 @@ const woningkwaliteit = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woonkwaliteit_direct_gevaar_ja: {
     meta: {
@@ -477,7 +479,7 @@ const woningkwaliteit = {
       value:
         'Meld uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in.',
     },
-    render: 'PlainText',
+    render: FIELD_TYPE_MAP.plain_text,
   },
   extra_wonen_woonkwaliteit_bewoner: {
     meta: {
@@ -500,7 +502,7 @@ const woningkwaliteit = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woonkwaliteit_namens_bewoner: {
     meta: {
@@ -523,7 +525,7 @@ const woningkwaliteit = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woonkwaliteit_toestemming_contact: {
     meta: {
@@ -547,7 +549,7 @@ const woningkwaliteit = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_woonkwaliteit_toestemming_contact_ja: {
     meta: {
@@ -562,7 +564,7 @@ const woningkwaliteit = {
       type: 'caution',
       value: 'Let op! Vul uw telefoonnummer in op de volgende pagina.',
     },
-    render: 'PlainText',
+    render: FIELD_TYPE_MAP.plain_text,
   },
   extra_wonen_woonkwaliteit_geen_contact: {
     meta: {
@@ -578,7 +580,7 @@ const woningkwaliteit = {
       shortLabel: 'Liever geen contact',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 };
 
@@ -601,7 +603,7 @@ const vakantieverhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_vakantieverhuur_aantal_mensen: {
     meta: {
@@ -620,7 +622,7 @@ const vakantieverhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_vakantieverhuur_hoe_vaak: {
     meta: {
@@ -641,7 +643,7 @@ const vakantieverhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_vakantieverhuur_wanneer: {
     meta: {
@@ -660,7 +662,7 @@ const vakantieverhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_vakantieverhuur_bewoning: {
     meta: {
@@ -681,7 +683,7 @@ const vakantieverhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_vakantieverhuur_naam_bewoner: {
     meta: {
@@ -692,7 +694,7 @@ const vakantieverhuur = {
       shortLabel: 'Naam bewoner',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_vakantieverhuur_online_aangeboden: {
     meta: {
@@ -711,7 +713,7 @@ const vakantieverhuur = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_wonen_vakantieverhuur_link_advertentie: {
     meta: {
@@ -723,7 +725,7 @@ const vakantieverhuur = {
       pathMerge: 'extra_properties',
       type: 'url',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_wonen_vakantieverhuur_footer: {
     meta: {
@@ -734,7 +736,7 @@ const vakantieverhuur = {
       type: 'caution',
       value: `Ziet u in de toekomst dat er toeristen in de woning aanwezig zijn, bel dan direct met ${configuration.language.phoneNumber} en vraag naar team Vakantieverhuur.`,
     },
-    render: 'PlainText',
+    render: FIELD_TYPE_MAP.plain_text,
   },
 };
 
@@ -759,7 +761,7 @@ const overig = {
     options: {
       validators: ['required'],
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
 };
 

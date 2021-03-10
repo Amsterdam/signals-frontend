@@ -123,7 +123,7 @@ export const KLOK = {
 
 export const LANTAARNPAAL = {
   checkBoxNietOpKaart: '#extra_straatverlichting_niet_op_kaart',
-  inputLampNummer1: '#extra_straatverlichting_niet_op_kaart_nummer-1',
+  inputLampNummer1: '#extra_straatverlichting_niet_op_kaart_nummer',
   inputLampNummer2: '#extra_straatverlichting_niet_op_kaart_nummer-2',
   legendContentText: '.legend-content-text',
   legendHeader: '.legend-header',

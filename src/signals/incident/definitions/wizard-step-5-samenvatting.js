@@ -1,6 +1,7 @@
 import memoize from 'lodash/memoize';
 
 import configuration from 'shared/services/configuration/configuration';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
 
 import IncidentNavigation from '../components/IncidentNavigation';
 import PreviewComponents from '../components/IncidentPreview/components';
@@ -20,29 +21,28 @@ export const Null = () => null;
 
 export const renderPreview = ({ render, meta }) => {
   switch (render) {
-    case 'RadioInputGroup':
-    case 'SelectInput':
+    case FIELD_TYPE_MAP.radio_input:
+    case FIELD_TYPE_MAP.select_input:
       return ObjectLabel;
 
-    case 'CheckboxInput':
+    case FIELD_TYPE_MAP.checkbox_input:
       if (meta?.values) {
         return PreviewComponents.ListObjectValue;
       }
 
       return () => 'Ja';
 
-    case 'MultiTextInput':
+    case FIELD_TYPE_MAP.multi_text_input:
       return SCSVLabel;
 
-    case 'MapSelect':
-    case 'MapSelectGeneric':
+    case FIELD_TYPE_MAP.map_select:
       return props => PreviewComponents.MapSelectPreview({ ...props, meta });
 
-    case 'TextInput':
-    case 'TextareaInput':
+    case FIELD_TYPE_MAP.text_input:
+    case FIELD_TYPE_MAP.textarea_input:
       return Label;
 
-    case 'ContainerSelectRenderer':
+    case FIELD_TYPE_MAP.container_select:
       return props => PreviewComponents.ContainerListPreview({ ...props, featureTypes: meta.featureTypes });
 
     default:

@@ -1,4 +1,5 @@
 import type { IconOptions } from 'leaflet';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
 import * as afvalIcons from './afval-icons';
 
 export const ICON_SIZE = 40;
@@ -18,7 +19,7 @@ export const controls = {
       shortLabel: 'Waar vandaan',
       pathMerge: 'extra_properties',
     },
-    render: 'TextareaInput',
+    render: FIELD_TYPE_MAP.textarea_input,
   },
   extra_container: {
     meta: {
@@ -137,7 +138,7 @@ export const controls = {
         },
       ],
     },
-    render: 'ContainerSelectRenderer',
+    render: FIELD_TYPE_MAP.container_select,
   },
 };
 

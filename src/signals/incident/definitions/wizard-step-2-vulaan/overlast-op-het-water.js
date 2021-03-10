@@ -1,3 +1,5 @@
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+
 export const overlastOpHetWater = {
   extra_boten_snelheid_rondvaartboot: {
     meta: {
@@ -12,7 +14,7 @@ export const overlastOpHetWater = {
         nee: 'Nee',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_boten_snelheid_rederij: {
     meta: {
@@ -91,7 +93,7 @@ export const overlastOpHetWater = {
         extra_boten_snelheid_rondvaartboot: 'ja',
       },
     },
-    render: 'SelectInput',
+    render: FIELD_TYPE_MAP.select_input,
   },
   extra_boten_snelheid_naamboot: {
     meta: {
@@ -102,7 +104,7 @@ export const overlastOpHetWater = {
         subcategory: 'overlast-op-het-water-snel-varen',
       },
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_boten_snelheid_meer: {
     meta: {
@@ -115,7 +117,7 @@ export const overlastOpHetWater = {
         subcategory: 'overlast-op-het-water-snel-varen',
       },
     },
-    render: 'TextareaInput',
+    render: FIELD_TYPE_MAP.textarea_input,
   },
   extra_boten_geluid_meer: {
     meta: {
@@ -128,7 +130,7 @@ export const overlastOpHetWater = {
         subcategory: 'overlast-op-het-water-geluid',
       },
     },
-    render: 'TextareaInput',
+    render: FIELD_TYPE_MAP.textarea_input,
   },
   extra_boten_gezonken_meer: {
     meta: {
@@ -140,7 +142,7 @@ export const overlastOpHetWater = {
         subcategory: 'overlast-op-het-water-gezonken-boot',
       },
     },
-    render: 'TextareaInput',
+    render: FIELD_TYPE_MAP.textarea_input,
   },
 };
 

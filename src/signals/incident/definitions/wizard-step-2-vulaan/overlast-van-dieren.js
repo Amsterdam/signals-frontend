@@ -1,3 +1,5 @@
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+
 const overlastVanDieren = {
   extra_dieren_text: {
     meta: {
@@ -13,7 +15,7 @@ Let op: u kunt met dit formulier een melding doen van:
 * Voor dode huisdieren en dode vogels op straat kunt u contact opnemen met [Dierenambulance Amsterdam](https://www.dierenambulance-amsterdam.nl/dieren/).
 * Voor alle andere gevallen: bezoek onze pagina: [Melden van zieke, mishandelde en dode dieren, of overlast van dieren](https://www.amsterdam.nl/veelgevraagd/?caseid=%7BC46A5854-3DB0-4D7C-9244-58912C2E0E6A%7D).`,
     },
-    render: 'PlainText',
+    render: FIELD_TYPE_MAP.plain_text,
   },
 };
 

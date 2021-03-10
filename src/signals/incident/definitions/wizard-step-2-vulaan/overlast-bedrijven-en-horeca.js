@@ -1,3 +1,5 @@
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+
 export const overlastBedrijvenEnHoreca = {
   extra_bedrijven_horeca_wat: {
     meta: {
@@ -15,7 +17,7 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_bedrijven_horeca_naam: {
     meta: {
@@ -29,7 +31,7 @@ export const overlastBedrijvenEnHoreca = {
       shortLabel: 'Mogelijke veroorzaker',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_bedrijven_horeca_adres: {
     meta: {
@@ -44,7 +46,7 @@ export const overlastBedrijvenEnHoreca = {
       pathMerge: 'extra_properties',
     },
     options: { validators: ['required'] },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 
   extra_bedrijven_horeca_muziek_direct_naast: {
@@ -65,7 +67,7 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, ik woon er niet direct naast',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
 
   extra_bedrijven_horeca_muziek_ramen_dicht: {
@@ -84,7 +86,7 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, geen last met ramen en deuren gesloten',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_bedrijven_horeca_muziek_ramen_dicht_onderneming: {
     meta: {
@@ -102,7 +104,7 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, ramen en deuren zijn gesloten',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang: {
     meta: {
@@ -121,7 +123,7 @@ export const overlastBedrijvenEnHoreca = {
         lang: 'Lang open',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
 
   extra_bedrijven_horeca_muziek_evenement: {
@@ -139,7 +141,7 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
 
   extra_bedrijven_horeca_muziek_evenement_einde: {
@@ -154,7 +156,7 @@ export const overlastBedrijvenEnHoreca = {
       pathMerge: 'extra_properties',
     },
     options: { validators: ['required'] },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 
   extra_bedrijven_horeca_installaties: {
@@ -171,7 +173,7 @@ export const overlastBedrijvenEnHoreca = {
       pathMerge: 'extra_properties',
     },
     options: { validators: ['required'] },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 
   extra_bedrijven_horeca_personen: {
@@ -194,7 +196,7 @@ export const overlastBedrijvenEnHoreca = {
       },
       pathMerge: 'extra_properties',
     },
-    render: 'CheckboxInput',
+    render: FIELD_TYPE_MAP.checkbox_input,
   },
 
   extra_bedrijven_horeca_terrassen: {
@@ -217,7 +219,7 @@ export const overlastBedrijvenEnHoreca = {
       },
       pathMerge: 'extra_properties',
     },
-    render: 'CheckboxInput',
+    render: FIELD_TYPE_MAP.checkbox_input,
   },
 
   extra_bedrijven_horeca_stank: {
@@ -233,7 +235,7 @@ export const overlastBedrijvenEnHoreca = {
       subtitle: 'Beschrijf wat voor geur het is',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 
   extra_bedrijven_horeca_stank_oorzaak: {
@@ -249,7 +251,7 @@ export const overlastBedrijvenEnHoreca = {
       subtitle: 'Bijvoorbeeld afvoerpijp of schoorsteen',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 
   extra_bedrijven_horeca_stank_weer: {
@@ -264,7 +266,7 @@ export const overlastBedrijvenEnHoreca = {
       shortLabel: 'Weersomstandigheden',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 
   extra_bedrijven_horeca_stank_ramen: {
@@ -283,7 +285,7 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, ramen en deuren zijn gesloten',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
 
   extra_bedrijven_horeca_vaker: {
@@ -303,7 +305,7 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, dit is de eerste keer',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_bedrijven_horeca_tijdstippen: {
     meta: {
@@ -318,7 +320,7 @@ export const overlastBedrijvenEnHoreca = {
       shortLabel: 'Overlast momenten',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 
   extra_bedrijven_horeca_muziek_geluidmeting_muziek: {
@@ -339,7 +341,7 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_installaties: {
     meta: {
@@ -359,7 +361,7 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_overige: {
     meta: {
@@ -379,7 +381,7 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_caution: {
     meta: {
@@ -391,7 +393,7 @@ export const overlastBedrijvenEnHoreca = {
       value: 'Let op! Vul uw telefoonnummer in op de volgende pagina',
       type: 'caution',
     },
-    render: 'PlainText',
+    render: FIELD_TYPE_MAP.plain_text,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_ja: {
     meta: {
@@ -409,7 +411,7 @@ export const overlastBedrijvenEnHoreca = {
         not_now: 'Niet nu',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu: {
     meta: {
@@ -420,7 +422,7 @@ export const overlastBedrijvenEnHoreca = {
       shortLabel: 'Ander bel moment',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_bedrijven_horeca_muziek_geluidmeting_nee: {
     meta: {
@@ -433,7 +435,7 @@ export const overlastBedrijvenEnHoreca = {
       shortLabel: 'Liever geen contact',
       pathMerge: 'extra_properties',
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 
   extra_bedrijven_horeca_caution: {
@@ -448,7 +450,7 @@ export const overlastBedrijvenEnHoreca = {
         'Uw gegevens worden vertrouwelijk behandeld en worden niet aan de (horeca)ondernemer of organisator bekend gemaakt.\n\nAnonieme meldingen krijgen een lage prioriteit.',
       type: 'caution',
     },
-    render: 'PlainText',
+    render: FIELD_TYPE_MAP.plain_text,
   },
 };
 

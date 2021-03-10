@@ -1,3 +1,5 @@
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+
 export const overlastPersonenEnGroepen = {
   extra_jongeren_text: {
     meta: {
@@ -9,7 +11,7 @@ export const overlastPersonenEnGroepen = {
       value:
         'Weet u de naam van de jongere(n)? Gebruik dan het formulier [Melding zorg en woonoverlast](https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/). Dan komt uw melding direct bij het juiste team terecht.',
     },
-    render: 'PlainText',
+    render: FIELD_TYPE_MAP.plain_text,
   },
   extra_personen_overig: {
     meta: {
@@ -26,7 +28,7 @@ export const overlastPersonenEnGroepen = {
         onbekend: 'Onbekend',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_personen_overig_vaker: {
     meta: {
@@ -41,7 +43,7 @@ export const overlastPersonenEnGroepen = {
         ja: 'Ja, het gebeurt vaker:',
       },
     },
-    render: 'RadioInputGroup',
+    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_personen_overig_vaker_momenten: {
     meta: {
@@ -53,7 +55,7 @@ export const overlastPersonenEnGroepen = {
         category: 'overlast-van-en-door-personen-of-groepen',
       },
     },
-    render: 'TextareaInput',
+    render: FIELD_TYPE_MAP.textarea_input,
   },
 };
 

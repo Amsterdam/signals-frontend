@@ -1,3 +1,5 @@
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+
 export const overlastInDeOpenbareRuimte = {
   extra_auto_scooter_bromfietswrak: {
     meta: {
@@ -11,7 +13,7 @@ export const overlastInDeOpenbareRuimte = {
       pathMerge: 'extra_properties',
       autoFocus: true,
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_fietswrak: {
     meta: {
@@ -25,7 +27,7 @@ export const overlastInDeOpenbareRuimte = {
       pathMerge: 'extra_properties',
       autoFocus: true,
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
   extra_parkeeroverlast: {
     meta: {
@@ -39,7 +41,7 @@ export const overlastInDeOpenbareRuimte = {
       pathMerge: 'extra_properties',
       autoFocus: true,
     },
-    render: 'TextInput',
+    render: FIELD_TYPE_MAP.text_input,
   },
 };
 
