@@ -19,6 +19,7 @@ export const SelectInput = ({ name: inputName, display, values, groups, emptyOpt
   const render = ({ handler }) => (
     <Wrapper>
       <Select
+        id={inputName}
         label={<strong>{display}</strong>}
         name={inputName}
         {...handler()}

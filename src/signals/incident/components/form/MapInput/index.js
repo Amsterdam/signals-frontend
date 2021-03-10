@@ -21,14 +21,30 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
     parent.meta.updateIncident({ location });
   };
 
-  return meta?.isVisible && (
-    <Header className="mapInput" meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
-      <div className="invoer">
-        <MapContext>
-          <MapInputComponent onChange={onLocationChange} value={value} mapOptions={mapOptions} hasGPSControl />
-        </MapContext>
-      </div>
-    </Header>
+  return (
+    meta?.isVisible && (
+      <Header
+        className="mapInput"
+        meta={meta}
+        options={validatorsOrOpts}
+        touched={touched}
+        hasError={hasError}
+        getError={getError}
+      >
+        <div className="invoer">
+          <MapContext>
+            <MapInputComponent
+              id={meta.name}
+              aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
+              onChange={onLocationChange}
+              value={value}
+              mapOptions={mapOptions}
+              hasGPSControl
+            />
+          </MapContext>
+        </div>
+      </Header>
+    )
   );
 };
 

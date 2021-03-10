@@ -53,7 +53,7 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
   }
 `;
 
-const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, events }) => {
+const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, events, id, ...rest }) => {
   const { state, dispatch } = useContext(MapContext);
   const [map, setMap] = useState();
   const [marker, setMarker] = useState();
@@ -141,7 +141,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
   }, [marker, location, hasLocation, map]);
 
   return (
-    <Wrapper className={className}>
+    <Wrapper className={className} {...rest}>
       <StyledMap
         data-testid="mapInput"
         events={{ click, dblclick: doubleClick, ...events }}
@@ -159,6 +159,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
               onSelect={onSelect}
               placeholder="Zoek adres"
               value={addressValue}
+              id={id}
             />
           }
         />
@@ -178,6 +179,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
 };
 
 MapInput.propTypes = {
+  id: PropTypes.string.isRequired,
   /** @ignore */
   className: PropTypes.string,
   /**
