@@ -29,6 +29,7 @@ const StyledRadioGroup = styled(RadioGroup)`
  * Component that renders a group of radio buttons
  */
 const RadioButtonList = ({
+  className,
   emptySelectionLabel,
   hasEmptySelectionButton,
   defaultValue,
@@ -48,10 +49,10 @@ const RadioButtonList = ({
   }
 
   return (
-    <FilterGroup id={id} {...rest} >
+    <FilterGroup className={className} >
       {title && <Label data-testid="radioButtonListTitle" as="span" isGroupHeader={false} label={title} />}
 
-      <StyledRadioGroup name={groupName} disabled={disabled} error={error} role="radiogroup">
+      <StyledRadioGroup name={groupName} disabled={disabled} error={error} role="radiogroup" id={id} {...rest}>
         {radioOptions.map(option => (
           <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
             <RadioButton
@@ -76,6 +77,7 @@ RadioButtonList.defaultProps = {
   disabled: false,
   hasEmptySelectionButton: true,
   error: false,
+  className: '',
 };
 
 RadioButtonList.propTypes = {
@@ -104,6 +106,7 @@ RadioButtonList.propTypes = {
   ).isRequired,
   /** Group label contents */
   title: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default RadioButtonList;
