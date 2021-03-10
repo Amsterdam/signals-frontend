@@ -17,9 +17,8 @@ export const ObjectLabel = ({ value }) => value?.label;
 export const Label = ({ value }) => value;
 export const SCSVLabel = ({ value }) => value.filter(Boolean).join('; ');
 export const Null = () => null;
-const mapFieldNameToComponent = key => FormComponents[key];
 
-export const renderPreview = ({ render, meta, ...rest }) => {
+export const renderPreview = ({ render, meta }) => {
   switch (render) {
     case 'RadioInputGroup':
     case 'SelectInput':
