@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, act, waitForElementToBeRemoved, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import * as reactRouterDom from 'react-router-dom';
 import * as reactRedux from 'react-redux';
 
@@ -340,11 +341,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(queryByTestId('statusForm')).toBeInTheDocument();
     expect(window.scrollTo).toHaveBeenCalledTimes(1);
 
-    const cancelButton = await findByTestId('statusFormCancelButton');
-
-    act(() => {
-      fireEvent.click(cancelButton);
-    });
+    userEvent.click(await findByTestId('statusFormCancelButton'));
 
     expect(queryByTestId('statusForm')).not.toBeInTheDocument();
     expect(window.scrollTo).toHaveBeenCalledTimes(2);
