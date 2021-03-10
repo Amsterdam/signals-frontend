@@ -22,15 +22,15 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
 
   describe('renderPreview', () => {
     it('should return the correct component', () => {
-      expect(renderPreview({ render: { name: 'RadioInputGroup' } })).toEqual(ObjectLabel);
-      expect(renderPreview({ render: { name: 'TextInput' } })).toEqual(Label);
-      expect(renderPreview({ render: { name: 'TextareaInput' } })).toEqual(Label);
-      expect(renderPreview({ render: { name: 'MultiTextInput' } })).toEqual(SCSVLabel);
-      expect(renderPreview({ render: { name: 'CheckboxInput' }, meta: { values: {} } })).toEqual(
+      expect(renderPreview({ render: 'RadioInputGroup' })).toEqual(ObjectLabel);
+      expect(renderPreview({ render: 'TextInput' })).toEqual(Label);
+      expect(renderPreview({ render: 'TextareaInput' })).toEqual(Label);
+      expect(renderPreview({ render: 'MultiTextInput' })).toEqual(SCSVLabel);
+      expect(renderPreview({ render: 'CheckboxInput', meta: { values: {} } })).toEqual(
         PreviewComponents.ListObjectValue
       );
-      expect(renderPreview({ render: { name: 'CheckboxInput' }, meta: { value: '' } })).toEqual(expect.any(Function));
-      expect(renderPreview({ render: { name: 'SomethingElse' } })).toEqual(Null);
+      expect(renderPreview({ render: 'CheckboxInput', meta: { value: '' } })).toEqual(expect.any(Function));
+      expect(renderPreview({ render: 'SomethingElse' })).toEqual(Null);
     });
   });
 
@@ -41,13 +41,13 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
           label: 'Uw melding gaat over:',
         },
         options: { validators: [Validators.required] },
-        render: FormComponents.RadioInputGroup,
+        render: 'RadioInputGroup',
       },
       extra_bedrijven_horeca_naam: {
         meta: {
           label: 'Wie of wat zorgt voor deze overlast, denkt u?',
         },
-        render: FormComponents.TextInput,
+        render: 'TextInput',
       },
     };
 

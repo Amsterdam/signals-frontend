@@ -200,8 +200,8 @@ class IncidentForm extends React.Component {
 
     return (
       <div className="incident-form" data-testid="incidentForm">
-        <Form onSubmit={this.handleSubmit} isSummary={isSummary}>
-          <Fieldset>
+        <Form onSubmit={this.handleSubmit}>
+          <Fieldset isSummary={isSummary}>
             <FormGenerator
               onMount={this.setForm}
               fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}

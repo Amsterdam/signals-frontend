@@ -24,9 +24,9 @@ describe('Create signal "Bedrijven overlast terrassen" and check signal details'
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_wat.label).should('be.visible');
       cy.get(BEDRIJVEN_HORECA.radioButtonHoreca).click({ force: true });
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_naam.label).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.inputWieWat).eq(0).type('George en Frits Schiller zingen dronken op het terras lelijke liedjes');
+      cy.get(BEDRIJVEN_HORECA.inputWieWat).type('George en Frits Schiller zingen dronken op het terras lelijke liedjes');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_adres.label).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.inputAdres).eq(1).type('Bij hotel Schiller op het Rembrandtplein');
+      cy.get(BEDRIJVEN_HORECA.inputAdres).type('Bij hotel Schiller op het Rembrandtplein');
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_terrassen.label).should('be.visible');
       cy.get(BEDRIJVEN_HORECA.checkBoxBezoekers).check().should('be.checked');
       cy.get(BEDRIJVEN_HORECA.checkBoxGeluidOpruimen).check().should('be.checked');
@@ -34,7 +34,7 @@ describe('Create signal "Bedrijven overlast terrassen" and check signal details'
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_vaker.subtitle).should('be.visible');
       cy.get(BEDRIJVEN_HORECA.radioButtonVakerJa).click({ force: true });
       cy.contains(questions.overlastBedrijvenEnHoreca.extra_bedrijven_horeca_tijdstippen.label).should('be.visible');
-      cy.get(BEDRIJVEN_HORECA.inputTijdstippen).eq(2).type('Bijna elke avond');
+      cy.get(BEDRIJVEN_HORECA.inputTijdstippen).type('Bijna elke avond');
       cy.contains('Volgende').click();
 
       createSignal.setPhonenumber(signal);
