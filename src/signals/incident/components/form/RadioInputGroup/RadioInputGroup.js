@@ -2,13 +2,17 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import isObject from 'lodash.isobject';
-import { themeColor, RadioGroup } from '@amsterdam/asc-ui';
+import { themeColor, themeSpacing, RadioGroup } from '@amsterdam/asc-ui';
 
 import Header from '../Header';
 import RadioInput from '../RadioInput';
 
 const Info = styled.p`
   color: ${themeColor('tint', 'level5')};
+`;
+
+const StyledRadioGroup = styled(RadioGroup)`
+  margin-top: -6px; // Offset spacing introduced by asc-ui RadioGroup
 `;
 
 const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
@@ -26,7 +30,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
     <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       {meta.values && isObject(meta.values) && (
         <div>
-          <RadioGroup role="radiogroup" id={meta.name} name={meta.name}>
+          <StyledRadioGroup role="radiogroup" id={meta.name} name={meta.name}>
             {Object.entries(meta.values).map(([key, value]) => (
               <RadioInput
                 checked={handler().value.id === key}
@@ -39,7 +43,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
                 resetsStateOnChange={meta.resetsStateOnChange}
               />
             ))}
-          </RadioGroup>
+          </StyledRadioGroup>
           {info && (
             <Info data-testid={`${meta.name}--info`}>
               {label}: {info}
