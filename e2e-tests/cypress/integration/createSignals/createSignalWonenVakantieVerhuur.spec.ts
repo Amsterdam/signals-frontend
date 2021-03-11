@@ -1,5 +1,6 @@
 import { CREATE_SIGNAL, WONEN_VAKANTIEVERHUUR } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { ERROR_MESSAGES } from '../../support/texts';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/wonenVakantieVerhuur.json';
@@ -25,7 +26,7 @@ describe('Create signal "Wonen vakantie verhuur" and check signal details', () =
       cy.get(CREATE_SIGNAL.labelQuestion)
         .contains(questions.wonen.extra_wonen_vakantieverhuur_toeristen_aanwezig.label)
         .siblings(CREATE_SIGNAL.errorItem)
-        .contains('Dit is een verplicht veld');
+        .contains(ERROR_MESSAGES.mandatoryField);
 
       // Input specific information
       const warningPhone = questions.wonen.extra_wonen_vakantieverhuur_bellen_of_formulier.label;
