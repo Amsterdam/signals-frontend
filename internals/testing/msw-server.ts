@@ -1,9 +1,10 @@
-import { rest, MockedRequest, ResponseResolver } from 'msw';
+import { rest, MockedRequest } from 'msw';
 import { setupServer } from 'msw/node';
 import fetchMock from 'jest-fetch-mock';
 
 import usersFixture from '../mocks/fixtures/users.json';
 import departmentsFixture from '../mocks/fixtures/departments.json';
+import autocompleteUsernames from '../mocks/fixtures/autocomplete-usernames.json';
 
 const [, userAscAeg, userAsc, userAeg, userTho] = usersFixture.results;
 const departmentAscCode = departmentsFixture.results[0].code;
@@ -32,7 +33,18 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
   return usersFixture.results;
 };
 
-const handleUsersRequest: ResponseResolver = (req, res, ctx) => {
+const handlers = [
+  rest.get(`${apiBaseUrl}/signals/v1/private/autocomplete/usernames`, (req, res, ctx) => {
+    const departmentCodes = req.url.searchParams.getAll('profile_department_code');
+    const results = autocompleteUsernames.results.filter(({ username }) =>
+      departmentCodes.find(code => username.includes(code.toLowerCase()))
+    );
+    const data: typeof autocompleteUsernames = { ...autocompleteUsernames, results, count: results.length };
+
+    return res(ctx.status(200), ctx.json(data));
+  }),
+
+  rest.get(`${apiBaseUrl}/signals/v1/private/users`, (req, res, ctx) => {
     const departmentCodes = req.url.searchParams.getAll('profile_department_code');
     const filtered = getUsersFilteredByDepartmentCodes(departmentCodes);
     const page = parseInt(req.url.searchParams.get('page') ?? '1');
@@ -46,12 +58,8 @@ const handleUsersRequest: ResponseResolver = (req, res, ctx) => {
       results,
     };
 
-    return res(ctx.status(200), (ctx as any).json(response));
-  };
-
-const handlers = [
-  rest.get(`${apiBaseUrl}/signals/v1/private/autocomplete/usernames`, handleUsersRequest),
-  rest.get(`${apiBaseUrl}/signals/v1/private/users`, handleUsersRequest),
+    return res(ctx.status(200), ctx.json(response));
+  }),
 ];
 
 const server = setupServer(...handlers);
