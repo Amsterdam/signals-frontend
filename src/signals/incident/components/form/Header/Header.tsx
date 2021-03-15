@@ -81,11 +81,11 @@ const Header: FunctionComponent<HeaderProps> = ({
       {touched && containsErrors && (
         <Fragment>
           {hasError('required') && (
-            <ErrorItem>{getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}</ErrorItem>
+            <ErrorItem data-testid={`${meta.name}-required`}>{getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}</ErrorItem>
           )}
 
           {hasError('email') && (
-            <ErrorItem>
+            <ErrorItem data-testid="invalid-mail">
               Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl
             </ErrorItem>
           )}
@@ -99,10 +99,11 @@ const Header: FunctionComponent<HeaderProps> = ({
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
         </Fragment>
-      )}
+      )
+      }
 
-      {children}
-    </Wrapper>
+      { children}
+    </Wrapper >
   );
 };
 

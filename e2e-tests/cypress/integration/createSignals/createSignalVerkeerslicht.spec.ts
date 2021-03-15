@@ -1,5 +1,6 @@
 import { CREATE_SIGNAL, VERKEERSLICHT } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { ERROR_MESSAGES } from '../../support/texts';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/verkeerslicht.json';
@@ -24,7 +25,7 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       cy.get(CREATE_SIGNAL.labelQuestion)
         .contains('Is de situatie gevaarlijk?')
         .siblings(CREATE_SIGNAL.errorItem)
-        .contains('Dit is een verplicht veld');
+        .contains(ERROR_MESSAGES.mandatoryField);
 
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
       const messageCallDirectly = questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_gevaar.answers;
@@ -46,7 +47,7 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       cy.get(CREATE_SIGNAL.labelQuestion)
         .contains('Welk verkeerslicht werkt niet juist?')
         .siblings(CREATE_SIGNAL.errorItem)
-        .contains('Dit is een verplicht veld');
+        .contains(ERROR_MESSAGES.mandatoryField);
 
       // Check all options for voetganger
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_welk.label).should('be.visible');
