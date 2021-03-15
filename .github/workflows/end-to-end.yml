@@ -39,7 +39,7 @@ jobs:
         id: cypress
         continue-on-error: true
         with:
-          start: docker-compose up
+          start: docker-compose up frontend
           wait-on: 'http://localhost:8000/signals/'
           wait-on-timeout: 180
           working-directory: e2e-tests
