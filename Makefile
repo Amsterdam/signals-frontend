@@ -15,11 +15,11 @@ build: pull                         ## Build docker image
 	BUILD_ENV=$(BUILD_ENV) $(dc) build
 
 start:                              ## Run frontend
-	$(dc) run --service-ports frontend
+	$(dc) run --service-ports frontend-dev
 
 stop:                               ## Clean docker stuff
 	$(dc) down -v --remove-orphans
 
 start-e2e: build                    ## Starts the application and opens cypress
-	$(dc) up -d
+	$(dc) up -d frontend-dev
 	npm run open --prefix e2e-tests
