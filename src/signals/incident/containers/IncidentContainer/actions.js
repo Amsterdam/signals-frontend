@@ -12,7 +12,7 @@ import {
   GET_QUESTIONS_SUCCESS,
   GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
-  REMOVE_KEYS_FROM_INCIDENT,
+  REMOVE_QUESTION_DATA,
 } from './constants';
 
 export const updateIncident = payload => ({
@@ -20,8 +20,8 @@ export const updateIncident = payload => ({
   payload,
 });
 
-export const removeKeysFromIncident = payload => ({
-  type: REMOVE_KEYS_FROM_INCIDENT,
+export const removeQuestionData = payload => ({
+  type: REMOVE_QUESTION_DATA,
   payload,
 });
 

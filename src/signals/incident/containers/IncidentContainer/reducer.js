@@ -11,7 +11,7 @@ import {
   SET_CLASSIFICATION,
   RESET_EXTRA_STATE,
   GET_QUESTIONS_SUCCESS,
-  REMOVE_KEYS_FROM_INCIDENT,
+  REMOVE_QUESTION_DATA,
 } from './constants';
 import { getIncidentClassification } from './services';
 
@@ -132,7 +132,7 @@ export default (state = initialState, action) => {
     case RESET_EXTRA_STATE:
       return state.set('incident', getIncidentWithoutExtraProps(state.get('incident'), action.payload));
 
-    case REMOVE_KEYS_FROM_INCIDENT: {
+    case REMOVE_QUESTION_DATA: {
       return state.set('incident', Seq(state.get('incident')).filter((val, key) => !action.payload.includes(key)));
     }
 

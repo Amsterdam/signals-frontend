@@ -11,7 +11,7 @@ import injectReducer from 'utils/injectReducer';
 
 import { useLocation } from 'react-router-dom';
 import wizardDefinition from '../../definitions/wizard';
-import { getClassification, updateIncident, createIncident, removeKeysFromIncident } from './actions';
+import { getClassification, updateIncident, createIncident, removeQuestionData } from './actions';
 import { makeSelectIncidentContainer } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -27,7 +27,7 @@ export const IncidentContainerComponent = ({
   getClassificationAction,
   incidentContainer,
   updateIncidentAction,
-  removeKeysFromIncidentAction,
+  removeQuestionDataAction,
 }) => {
   const { pathname } = useLocation();
   const presetClassification = pathname.startsWith('/categorie');
@@ -45,7 +45,7 @@ export const IncidentContainerComponent = ({
               updateIncident={updateIncidentAction}
               createIncident={createIncidentAction}
               incidentContainer={incidentContainer}
-              removeKeysFromIncident={removeKeysFromIncidentAction}
+              removeQuestionData={removeQuestionDataAction}
               isAuthenticated={isAuthenticated()}
             />
           </Suspense>
@@ -60,7 +60,7 @@ IncidentContainerComponent.propTypes = {
   getClassificationAction: PropTypes.func.isRequired,
   incidentContainer: PropTypes.object.isRequired,
   updateIncidentAction: PropTypes.func.isRequired,
-  removeKeysFromIncidentAction: PropTypes.func.isRequired,
+  removeQuestionDataAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -73,7 +73,7 @@ const mapDispatchToProps = dispatch =>
       createIncidentAction: createIncident,
       getClassificationAction: getClassification,
       updateIncidentAction: updateIncident,
-      removeKeysFromIncidentAction: removeKeysFromIncident,
+      removeQuestionDataAction: removeQuestionData,
     },
     dispatch
   );

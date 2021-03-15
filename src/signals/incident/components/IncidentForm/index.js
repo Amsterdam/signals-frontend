@@ -150,13 +150,14 @@ class IncidentForm extends React.Component {
       }
     });
 
-    const keysToRemoveFromIncident = controlKeys.filter(key => {
-      const control = this.form.controls[key];
-      return key.startsWith('extra') && !control.meta.isVisible && Boolean(incident[key]);
-    });
+    // Some extra questions can cause other questions to be removed from view, with their answers left in the incident state
+    // Remove answers for which the question was removed from view
+    const keysToRemoveFromIncident = controlKeys.filter(
+      key => key.startsWith('extra_') && typeof incident[key] !== 'undefined' && !this.form.controls[key].meta.isVisible
+    );
 
     if (keysToRemoveFromIncident.length) {
-      this.props.removeKeysFromIncident(keysToRemoveFromIncident);
+      this.props.removeQuestionData(keysToRemoveFromIncident);
     }
 
     this.form.updateValueAndValidity();
@@ -237,7 +238,7 @@ IncidentForm.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
-  removeKeysFromIncident: PropTypes.func.isRequired,
+  removeQuestionData: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   postponeSubmitWhenLoading: PropTypes.string,
