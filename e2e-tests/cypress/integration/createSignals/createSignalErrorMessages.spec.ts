@@ -15,10 +15,10 @@ describe('Check field validations when creating a signal', () => {
   it('Should create the signal and check field validations', () => {
     cy.contains('Volgende').click();
 
-    cy.get(CREATE_SIGNAL.errorLocation).eq(1).should('have.text', ERROR_MESSAGES.location).and('be.visible').and($labels => {
+    cy.get(CREATE_SIGNAL.errorLocation).should('have.text', ERROR_MESSAGES.location).and('be.visible').and($labels => {
       expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
     });
-    cy.get(CREATE_SIGNAL.errorDescription).eq(1).should('have.text', ERROR_MESSAGES.mandatoryField).and('be.visible').and($labels => {
+    cy.get(CREATE_SIGNAL.errorDescription).should('have.text', ERROR_MESSAGES.mandatoryField).and('be.visible').and($labels => {
       expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
     });
     cy.get(CREATE_SIGNAL.errorDateTime).should('have.text', ERROR_MESSAGES.mandatoryField).and('be.visible').and($labels => {
@@ -31,7 +31,7 @@ describe('Check field validations when creating a signal', () => {
     cy.contains('Volgende').click();
     cy.get(CREATE_SIGNAL.inputEmail).clear().type('email@');
     cy.contains('Volgende').click();
-    cy.get(CREATE_SIGNAL.errorItem).eq(1).should('have.text', ERROR_MESSAGES.email).and('be.visible').and($labels => {
+    cy.get(CREATE_SIGNAL.errorMail).should('have.text', ERROR_MESSAGES.email).and('be.visible').and($labels => {
       expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
     });
     createSignal.setEmailAddress(signal);
