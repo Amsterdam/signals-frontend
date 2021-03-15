@@ -34,7 +34,6 @@ const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'));
 const CategoriesOverviewContainer = lazy(() => import('./categories/Overview'));
 // istanbul ignore next
 const CategoryDetailContainer = lazy(() => import('./categories/Detail'));
-// istanbul ignore next
 const NotFoundPage = lazy(() => import('components/NotFoundPage'));
 
 const SettingsModule = () => {
@@ -66,53 +65,36 @@ const SettingsModule = () => {
     <SettingsContext.Provider value={contextValue}>
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
-          {userCanAccess('groups') && (
-            <Fragment>
-              <Route exact path={routes.roles} component={RolesListContainer} />
+          {userCanAccess('groups') && <Route exact path={routes.roles} component={RolesListContainer} />}
+          {userCanAccess('groupForm') && <Route exact path={routes.role} component={RoleFormContainer} />}
+          {userCan('add_group') && <Route exact path={ROLE_URL} component={RoleFormContainer} />}
 
-              {userCanAccess('groupForm') && <Route exact path={routes.role} component={RoleFormContainer} />}
-              {userCan('add_group') && <Route exact path={ROLE_URL} component={RoleFormContainer} />}
-            </Fragment>
-          )}
-
-          {userCanAccess('users') && (
+          {userCanAccess('userForm') && (
             <Fragment>
-              {/*
-               * always redirect from /gebruikers to /gebruikers/page/1 to avoid having complexity
-               * in the UsersOverviewContainer component
-               */}
               <Redirect exact from={routes.users} to={`${USERS_PAGED_URL}/1`} />
               <Route exact path={routes.usersPaged} component={UsersOverviewContainer} />
-
-              {userCanAccess('userForm') && <Route exact path={routes.user} component={UsersDetailContainer} />}
-              {userCan('add_user') && <Route exact path={USER_URL} component={UsersDetailContainer} />}
+              <Route exact path={routes.user} component={UsersDetailContainer} />
             </Fragment>
           )}
+          {userCan('add_user') && <Route exact path={USER_URL} component={UsersDetailContainer} />}
 
           {userCanAccess('departments') && (
-            <Fragment>
-              <Route exact path={routes.departments} component={DepartmentsOverviewContainer} />
-
-              {userCanAccess('departmentForm') && (
-                <Route exact path={routes.department} component={DepartmentsDetailContainer} />
-              )}
-            </Fragment>
+            <Route exact path={routes.departments} component={DepartmentsOverviewContainer} />
+          )}
+          {userCanAccess('departmentForm') && (
+            <Route exact path={routes.department} component={DepartmentsDetailContainer} />
           )}
 
           {userCanAccess('categories') && (
             <Fragment>
-              {/* always redirect from /categorieen to /categorieen/page/1 */}
               <Redirect exact from={routes.categories} to={`${CATEGORIES_PAGED_URL}/1`} />
               <Route exact path={routes.categoriesPaged} component={CategoriesOverviewContainer} />
-
-              {userCanAccess('categoryForm') && (
-                <Route exact path={routes.category} component={CategoryDetailContainer} />
-              )}
-              {userCan('add_category') && <Route exact path={CATEGORY_URL} component={CategoryDetailContainer} />}
             </Fragment>
           )}
+          {userCanAccess('categoryForm') && <Route exact path={routes.category} component={CategoryDetailContainer} />}
+          {userCan('add_category') && <Route exact path={CATEGORY_URL} component={CategoryDetailContainer} />}
 
-          <Route component={NotFoundPage} />
+          <Route component={() => <NotFoundPage message="U heeft geen toegang tot deze pagina" />} />
         </Switch>
       </Suspense>
     </SettingsContext.Provider>

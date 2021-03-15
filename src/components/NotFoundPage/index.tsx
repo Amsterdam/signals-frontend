@@ -14,18 +14,17 @@ interface NotFoundPageProps {
 }
 
 const NotFoundPage: FunctionComponent<NotFoundPageProps> = ({ message = DEFAULT_MESSAGE }) =>
-  (
-    <div className="container" data-testid="notFoundPage">
-      <Row>
-        <Column span={12}>
-          <article>
-            <StyledHeading>
-              {message}
-            </StyledHeading>
-          </article>
-        </Column>
-      </Row>
-    </div>
+  (<div className="container" data-testid="notFoundPage">
+    <Row>
+      <Column span={12}>
+        <article>
+          <StyledHeading>
+            {message}
+          </StyledHeading>
+        </article>
+      </Column>
+    </Row>
+  </div>
   );
 
 export default NotFoundPage;
