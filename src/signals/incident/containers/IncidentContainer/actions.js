@@ -12,10 +12,16 @@ import {
   GET_QUESTIONS_SUCCESS,
   GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
+  REMOVE_KEYS_FROM_INCIDENT,
 } from './constants';
 
 export const updateIncident = payload => ({
   type: UPDATE_INCIDENT,
+  payload,
+});
+
+export const removeKeysFromIncident = payload => ({
+  type: REMOVE_KEYS_FROM_INCIDENT,
   payload,
 });
 

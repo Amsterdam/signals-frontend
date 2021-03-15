@@ -133,7 +133,9 @@ class IncidentForm extends React.Component {
   }
 
   setValues(incident) {
-    Object.keys(this.form.controls).forEach(key => {
+    const controlKeys = Object.keys(this.form.controls);
+
+    controlKeys.forEach(key => {
       const control = this.form.controls[key];
       if ((control.disabled && control.meta.isVisible) || (control.enabled && !control.meta.isVisible)) {
         if (control.meta.isVisible) {
@@ -147,6 +149,16 @@ class IncidentForm extends React.Component {
         control.setValue(incident[key]);
       }
     });
+
+    const keysToRemoveFromIncident = controlKeys.filter(key => {
+      const control = this.form.controls[key];
+      return key.startsWith('extra') && !control.meta.isVisible && Boolean(incident[key]);
+    });
+
+    if (keysToRemoveFromIncident.length) {
+      this.props.removeKeysFromIncident(keysToRemoveFromIncident);
+    }
+
     this.form.updateValueAndValidity();
   }
 
@@ -225,6 +237,7 @@ IncidentForm.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
+  removeKeysFromIncident: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   postponeSubmitWhenLoading: PropTypes.string,

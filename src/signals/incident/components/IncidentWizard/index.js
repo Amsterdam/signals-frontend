@@ -17,7 +17,7 @@ const StyledH1 = styled(Heading)`
   margin-bottom: ${themeSpacing(5)};
 `;
 
-const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, createIncident, incidentContainer }) => {
+const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, createIncident, removeKeysFromIncident, incidentContainer }) => {
   const appContext = useContext(AppContext);
   const sources = appContext.sources;
   const incident = useMemo(() => incidentContainer.incident, [incidentContainer.incident]);
@@ -64,6 +64,7 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
                               fieldConfig={form || formFactory(incident, sources)}
                               incidentContainer={incidentContainer}
                               getClassification={getClassification}
+                              removeKeysFromIncident={removeKeysFromIncident}
                               updateIncident={updateIncident}
                               createIncident={createIncident}
                               wizard={wizardDefinition}
@@ -88,6 +89,7 @@ IncidentWizard.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
   wizardDefinition: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
+  removeKeysFromIncident: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
 };
