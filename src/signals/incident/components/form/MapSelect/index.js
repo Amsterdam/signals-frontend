@@ -56,6 +56,8 @@ const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validat
         getError={getError}
       >
         <MapSelectComponent
+          id={meta.name}
+          aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
           geojsonUrl={url}
           getIcon={getOVLIcon}
           hasGPSControl
@@ -89,6 +91,7 @@ MapSelect.propTypes = {
     isVisible: PropTypes.bool,
     legend_items: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     name: PropTypes.string,
+    subtitle: PropTypes.string,
     zoomMin: PropTypes.number,
   }),
   parent: PropTypes.object,
