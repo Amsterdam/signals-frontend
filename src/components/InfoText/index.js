@@ -9,7 +9,7 @@ const Info = styled(Paragraph)`
   font-size: 16px;
 `;
 
-const InfoText = ({ className, text }) => <Info className={className} data-testid="infoText">{text}</Info>;
+const InfoText = ({ className, text, ...rest }) => <Info className={className} data-testid="infoText" {...rest}>{text}</Info>;
 
 InfoText.defaultProps = {
   className: '',
