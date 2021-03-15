@@ -8,6 +8,7 @@ import formatConditionalForm from '../../services/format-conditional-form';
 import IncidentForm, { Form } from '.';
 
 import phoneForm from '../../definitions/wizard-step-3-telefoon';
+import controls from 'signals/incident/definitions/wizard-step-2-vulaan/afval';
 
 jest.mock('../../services/format-conditional-form/');
 
@@ -58,6 +59,7 @@ describe('<IncidentForm />', () => {
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
+      removeQuestionData: jest.fn(),
     };
 
     formatConditionalForm.mockImplementation(() => mockForm);
@@ -298,6 +300,55 @@ describe('<IncidentForm />', () => {
       });
 
       expect(next).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Extra questions', () => {
+    it('removes extra question data when the question is not visible anymore', () => {
+      const incidentContainer = {
+        incident: {
+          extra_boten_snelheid_rederij: 'Rederij vaarwel',
+          extra_wonen_kwaliteit: 'Kan wel een likje verf gebruiken',
+        },
+      };
+
+      const wrapper = shallow(
+        <Wizard>
+          <Steps>
+            <Step id="incident/vulaan">
+              <IncidentForm {...props} />
+            </Step>
+          </Steps>
+        </Wizard>
+      );
+
+      const formWrapper = wrapper.find(IncidentForm).dive();
+      const instance = formWrapper.instance();
+      instance.form = {
+        meta: {
+          incident: {},
+        },
+        controls: {
+          ...controls.mockForm,
+          extra_boten_snelheid_rederij: {
+            ...mockControl,
+            meta: {
+              isVisible: true,
+            },
+          },
+          extra_wonen_kwaliteit: {
+            ...mockControl,
+            meta: {
+              isVisible: false, // Indicates that any data for this extra question should be removed.
+            },
+          },
+        },
+        updateValueAndValidity: jest.fn(),
+      };
+
+      formWrapper.setProps({ ...props, incidentContainer });
+
+      expect(props.removeQuestionData).toHaveBeenCalledWith(['extra_wonen_kwaliteit']);
     });
   });
 });
