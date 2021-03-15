@@ -51,6 +51,8 @@ const MapSelectGeneric = ({ handler, touched, hasError = () => {}, meta, parent,
         getError={getError}
       >
         <MapSelectComponent
+          id={meta.name}
+          aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
           geojsonUrl={url}
           hasGPSControl
           idField={meta.idField}
@@ -81,6 +83,7 @@ MapSelectGeneric.propTypes = {
     name: PropTypes.string,
     selectionLabel: PropTypes.string,
     zoomMin: PropTypes.number,
+    subtitle: PropTypes.string,
   }),
   parent: PropTypes.object,
   getError: PropTypes.func,
