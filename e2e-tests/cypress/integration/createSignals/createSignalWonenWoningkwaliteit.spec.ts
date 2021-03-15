@@ -1,5 +1,6 @@
 import { CREATE_SIGNAL, WONEN_WONINGKWALITEIT } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { ERROR_MESSAGES } from '../../support/texts';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/wonenWoningKwaliteit.json';
@@ -25,7 +26,7 @@ describe('Create signal "Wonen woningkwaliteit" and check signal details', () =>
       cy.get(CREATE_SIGNAL.labelQuestion)
         .contains('Denkt u dat er direct gevaar is?')
         .siblings(CREATE_SIGNAL.errorItem)
-        .contains('Dit is een verplicht veld');
+        .contains(ERROR_MESSAGES.mandatoryField);
 
       // Input specific information
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_direct_gevaar.label).should('be.visible');

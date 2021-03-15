@@ -3,6 +3,7 @@ import * as requests from '../../support/commandsRequests';
 import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
 import { CHANGE_STATUS, CHANGE_URGENCY, DEELMELDING, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { NOTIFICATONS } from '../../support/texts';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/deelmelding.json';
 import * as routes from '../../support/commandsRouting';
@@ -28,21 +29,19 @@ describe('Deelmeldingen', () => {
   });
   describe('Create Deelmeldingen', () => {
     describe('Set up data', () => {
-      beforeEach(() => {
+      before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       });
-      it('Initiate create signal from manage', () => {
+      it('Create a signal, user is logged in', () => {
         routes.stubMap();
         routes.getManageSignalsRoutes();
+        routes.stubPreviewMap();
+        routes.postSignalRoutePrivate();
         cy.visit('/manage/incidents/');
         routes.waitForManageSignalsRoutes();
         general.openMenu();
         cy.contains('Melden').click();
         general.checkHeaderText('Beschrijf uw melding');
-      });
-      it('Should create the signal', () => {
-        routes.stubPreviewMap();
-        routes.postSignalRoutePrivate();
 
         createSignal.setDescriptionPage(signal);
         cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Snel varen (ASC, WAT)');
@@ -111,7 +110,7 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
-        cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
+        cy.get(DEELMELDING.notification).should('have.text', NOTIFICATONS.deelmelding).and('be.visible');
         cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
 
@@ -325,7 +324,7 @@ describe('Deelmeldingen', () => {
 
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
-        cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
+        cy.get(DEELMELDING.notification).should('have.text', NOTIFICATONS.deelmelding).and('be.visible');
         cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
 
@@ -337,7 +336,7 @@ describe('Deelmeldingen', () => {
         deelmeldingen.setDeelmelding(1, '3', 'Straatverlichting (VOR)', 'Door de stank is ook alle straatverlichting kapot gegaan');
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
-        cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
+        cy.get(DEELMELDING.notification).should('have.text', NOTIFICATONS.deelmelding).and('be.visible');
         cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
       });
@@ -368,7 +367,7 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
-        cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
+        cy.get(DEELMELDING.notification).should('have.text', NOTIFICATONS.deelmelding).and('be.visible');
         cy.wait('@getSignal');
         cy.wait('@getDeelmeldingen');
         cy.get(DEELMELDING.childIncident).should('have.length', 4);
@@ -401,7 +400,7 @@ describe('Deelmeldingen', () => {
         cy.get(DEELMELDING.buttonSubmit).click();
         cy.wait('@postDeelmeldingen');
         cy.wait('@patchSignal');
-        cy.get(DEELMELDING.notification).should('have.text', 'Deelmelding gemaakt').and('be.visible');
+        cy.get(DEELMELDING.notification).should('have.text', NOTIFICATONS.deelmelding).and('be.visible');
         routes.waitForSignalDetailsRoutes();
         cy.wait('@getDeelmeldingen');
         cy.get(DEELMELDING.childIncident).should('have.length', 5);
