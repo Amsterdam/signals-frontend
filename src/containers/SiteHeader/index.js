@@ -14,13 +14,13 @@ export const SiteHeaderContainer = () => {
   const dispatch = useDispatch();
   return (
     <SiteHeader
-      onLogOut={() => dispatch(doLogout)}
+      onLogOut={() => dispatch(doLogout())}
       showItems={{
         defaultTexts: userCan('sia_statusmessagetemplate_write'),
         departments: userCanAccess('departments'),
         groups: userCanAccess('groups'),
         settings: userCanAccess('settings'),
-        users: userCanAccess('users'),
+        users: userCanAccess('userForm'),
         categories: userCanAccess('categories'),
       }}
     />
