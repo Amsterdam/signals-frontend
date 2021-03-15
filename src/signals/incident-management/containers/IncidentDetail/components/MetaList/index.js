@@ -170,7 +170,7 @@ const MetaList = () => {
 
   useEffect(() => {
     if (incidentDepartmentCodes.length) {
-      getUsers(configuration.USERS_ENDPOINT, { profile_department_code: incidentDepartmentCodes });
+      getUsers(`${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}`, { profile_department_code: incidentDepartmentCodes });
     }
   }, [getUsers, incidentDepartmentCodes]);
 

@@ -1,0 +1,17 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/autocomplete/usernames/?profile_department_code=STW"
+    },
+    "next": { "href": null },
+    "previous": { "href": null }
+  },
+  "count": 6,
+  "results": [
+    { "username": "asc@example.com" },
+    { "username": "aeg@example.com" },
+    { "username": "tho@example.com" },
+    { "username": "asc-aeg@example.com" },
+    { "username": "none@example.com" }
+  ]
+}

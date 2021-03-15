@@ -4,6 +4,7 @@ import fetchMock from 'jest-fetch-mock';
 
 import usersFixture from '../mocks/fixtures/users.json';
 import departmentsFixture from '../mocks/fixtures/departments.json';
+import autocompleteUsernames from '../mocks/fixtures/autocomplete-usernames.json';
 
 const [, userAscAeg, userAsc, userAeg, userTho] = usersFixture.results;
 const departmentAscCode = departmentsFixture.results[0].code;
@@ -33,6 +34,16 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
 };
 
 const handlers = [
+  rest.get(`${apiBaseUrl}/signals/v1/private/autocomplete/usernames`, (req, res, ctx) => {
+    const departmentCodes = req.url.searchParams.getAll('profile_department_code');
+    const results = autocompleteUsernames.results.filter(({ username }) =>
+      departmentCodes.find(code => username.includes(code.toLowerCase()))
+    );
+    const data: typeof autocompleteUsernames = { ...autocompleteUsernames, results, count: results.length };
+
+    return res(ctx.status(200), ctx.json(data));
+  }),
+
   rest.get(`${apiBaseUrl}/signals/v1/private/users`, (req, res, ctx) => {
     const departmentCodes = req.url.searchParams.getAll('profile_department_code');
     const filtered = getUsersFilteredByDepartmentCodes(departmentCodes);
