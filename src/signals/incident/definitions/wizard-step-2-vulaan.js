@@ -48,6 +48,7 @@ const expandQuestions = memoize(
       error: {
         meta: {
           label: 'Nog niet alles is correct ingevuld. Volg de meldingen in het rood. Scroll eventueel weer naar boven.',
+          ignoreVisibility: true,
         },
         render: FormComponents.Error,
       },
