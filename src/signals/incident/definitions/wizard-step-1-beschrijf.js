@@ -139,6 +139,12 @@ const getControls = memoize(
         },
         render: FormComponents.FileInputRenderer,
       },
+      error: {
+        meta: {
+          label: 'Nog niet alles is correct ingevuld. Volg de meldingen in het rood. Scroll eventueel weer naar boven.',
+        },
+        render: FormComponents.Error,
+      },
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,
