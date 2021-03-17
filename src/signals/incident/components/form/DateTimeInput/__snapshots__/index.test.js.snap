@@ -66,12 +66,11 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
     </styled.div>
     <styled.div>
       <div>
-        <Styled(styled.label)
-          htmlFor="hours"
-        >
+        <Styled(styled.label)>
           Tijd
         </Styled(styled.label)>
         <Styled(Component)
+          aria-describedby="uur"
           data-testid="selectHours"
           id="hours"
           name="hours"
@@ -203,11 +202,14 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
           value="9"
         />
       </div>
-      <styled.span>
+      <styled.span
+        id="uur"
+      >
         uur
       </styled.span>
       <div>
         <Styled(Component)
+          aria-describedby="min"
           data-testid="selectMinutes"
           id="minutes"
           name="minutes"
@@ -279,7 +281,10 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
           value="0"
         />
       </div>
-      <styled.span>
+      <styled.span
+        aria-label="minuten"
+        id="min"
+      >
         min
       </styled.span>
     </styled.div>
