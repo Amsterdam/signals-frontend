@@ -4,7 +4,6 @@ import type { ApplicationRootState } from 'types';
 import { initialState } from './reducer';
 import type { KeyValuePair, Role, User } from './types';
 
-
 export const selectGlobal = (state?: Partial<ApplicationRootState>) => state?.global ?? initialState;
 
 export const makeSelectUser = createSelector(selectGlobal, globalState => globalState.user);
@@ -17,10 +16,13 @@ export const makeSelectUser = createSelector(selectGlobal, globalState => global
 export const makeSelectUserPermissions = createSelector(makeSelectUser, (user: Partial<User>) => {
   const permissionMap = new Map<number, Role>();
 
-  user?.roles?.flatMap<Role | undefined>(role => role.permissions)
+  user?.roles
+    ?.flatMap<Role | undefined>(role => role.permissions)
     .concat(user.permissions)
     .forEach(permission => {
-      if (permission) { permissionMap.set(permission.id, permission); }
+      if (permission) {
+        permissionMap.set(permission.id, permission);
+      }
     });
 
   return [...permissionMap.values()];
@@ -33,6 +35,16 @@ export const makeSelectUserPermissions = createSelector(makeSelectUser, (user: P
  */
 export const makeSelectUserPermissionCodeNames = createSelector(makeSelectUserPermissions, permissions =>
   permissions.map(({ codename }) => codename)
+  // [
+  //   ...permissions.map(({ codename }) => codename),
+  //   'view_user',
+  //   // 'add_user',
+  //   // 'change_user',
+  //   // 'view_group',
+  //   // 'view_category',
+  //   // 'add_category',
+  //   'view_department',
+  // ]
 );
 
 /**
@@ -48,7 +60,7 @@ export const makeSelectUserCan = createSelector(
      * @param   {String} capability - The permission to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
-    (capability: string): (boolean | undefined) =>
+    (capability: string): boolean | undefined =>
       is_superuser !== false ? is_superuser : Boolean(permissions.find(codename => codename === capability))
 );
 
@@ -65,22 +77,22 @@ export const makeSelectUserCanAccess = createSelector(
      * @param   {String} section - The set of permissions to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
-    (section: string): (boolean | undefined) => {
+    (section: string): boolean | undefined => {
       if (is_superuser !== false) {
         return is_superuser;
       }
 
-      const groups = ['view_group', 'change_group', 'add_group'];
-      const groupForm = ['change_group', 'add_group'];
+      const groups = ['view_group', 'add_group', 'change_group'];
+      const groupForm = ['add_group', 'change_group'];
       const users = ['view_user', 'add_user', 'change_user'];
       const userForm = ['add_user', 'change_user'];
-      const departments = ['view_department', 'change_department', 'add_department'];
-      const departmentForm = ['change_department', 'add_department'];
-      const categories = ['view_category', 'change_category', 'add_category'];
+      const departments = ['view_department', 'add_department', 'change_department'];
+      const departmentForm = ['add_department', 'change_department'];
+      const categories = ['view_category', 'add_category', 'change_category'];
       const categoryForm = ['add_category', 'change_category'];
 
       const requiredPerms = {
-        settings: [groups, users],
+        settings: [[...groups, ...userForm, ...departments, ...categories]],
         groups: [groups],
         groupForm: [groupForm],
         users: [users],
@@ -94,7 +106,6 @@ export const makeSelectUserCanAccess = createSelector(
       if (!Object.keys(requiredPerms).includes(section)) {
         return false;
       }
-
       const sectionPermissions: string[][] = requiredPerms[section as keyof typeof requiredPerms];
 
       // require all sets of permissions
@@ -109,16 +120,17 @@ export const makeSelectLoading = () => createSelector(selectGlobal, globalState 
 
 export const makeSelectError = () => createSelector(selectGlobal, globalState => globalState?.error);
 
-export const makeSelectNotification = () =>
-  createSelector(selectGlobal, globalState => globalState?.notification);
+export const makeSelectNotification = () => createSelector(selectGlobal, globalState => globalState?.notification);
 
 export const makeSelectSearchQuery = createSelector(selectGlobal, globalState => globalState?.searchQuery);
 
 export const makeSelectSources = createSelector(selectGlobal, globalState =>
-  globalState?.sources.length ? globalState
-    .sources.map(({ name }): KeyValuePair<string> => ({
-      key: name,
-      value: name,
-    }))
+  globalState?.sources.length
+    ? globalState.sources.map(
+      ({ name }): KeyValuePair<string> => ({
+        key: name,
+        value: name,
+      })
+    )
     : null
 );
