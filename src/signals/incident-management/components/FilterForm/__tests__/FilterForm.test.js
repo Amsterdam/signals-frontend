@@ -215,6 +215,14 @@ describe('signals/incident-management/components/FilterForm', () => {
     ); // by default, a radio button with an empty value is rendered
   });
 
+  it('should render a list of punctuality options', () => {
+    const { container } = render(withContext(<FilterForm {...formProps} />));
+
+    expect(container.querySelectorAll('input[type="radio"][name="punctuality"]')).toHaveLength(
+      dataLists.punctuality.length + 1
+    ); // by default, a radio button with an empty value is rendered
+  });
+
   it('should render a list of source options', () => {
     const { container } = render(withContext(<FilterForm {...formProps} />));
 
