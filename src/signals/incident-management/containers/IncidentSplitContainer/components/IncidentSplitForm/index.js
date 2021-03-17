@@ -21,7 +21,7 @@ export const StyledIncidentSplitRadioInput = styled(IncidentSplitRadioInput)`
 `;
 
 const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit, isSubmitting }) => {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, errors } = useForm();
 
   const history = useHistory();
 
@@ -72,7 +72,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
           />
         </fieldset>
 
-        <IncidentSplitFormIncident parentIncident={parentIncident} subcategories={subcategories} register={register} />
+        <IncidentSplitFormIncident parentIncident={parentIncident} subcategories={subcategories} register={register} errors={errors} />
 
         <div>
           <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary" disabled={isSubmitting}>

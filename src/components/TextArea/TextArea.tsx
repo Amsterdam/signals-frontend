@@ -1,14 +1,18 @@
 import type { ReactNode } from 'react';
-import React, { Fragment, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import type { TextAreaProps as AscTextAreaProps } from '@amsterdam/asc-ui/es/components/TextArea';
 import { themeColor, themeSpacing, TextArea as AscTextArea } from '@amsterdam/asc-ui';
 
 import Label from 'components/Label';
 
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage, { ErrorWrapper } from '../ErrorMessage';
 
 const lineHeight = 22;
+
+const StyledErrorMessage = styled(ErrorMessage)`
+  margin-bottom: ${themeSpacing(2)};
+`;
 
 const StyledArea = styled(AscTextArea)<{ rows?: number; maxRows?: number }>`
   font-family: inherit;
@@ -35,16 +39,16 @@ interface TextAreaProps extends AscTextAreaProps {
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ infoText, errorMessage, label, id, className, ...props }, ref) => (
-    <Fragment>
+    <ErrorWrapper invalid={Boolean(errorMessage)}>
       {label && (
         <Label inline htmlFor={id}>
           {label}
         </Label>
       )}
+      {errorMessage && <StyledErrorMessage message={errorMessage} />}
       <StyledArea id={id} className={className} {...props} ref={ref} />
       {infoText && <InfoText>{infoText}</InfoText>}
-      {errorMessage && <ErrorMessage message={errorMessage} />}
-    </Fragment>
+    </ErrorWrapper>
   )
 );
 
