@@ -86,9 +86,10 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
 
         <TimeWrapper>
           <div>
-            <StyledLabel htmlFor="hours">Tijd</StyledLabel>
+            <StyledLabel>Tijd</StyledLabel>
             <StyledSelect
               id="hours"
+              aria-describedby="uur"
               name="hours"
               data-testid="selectHours"
               value={`${parent.value.incident_time_hours}`}
@@ -96,11 +97,12 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
               options={[...Array(24).keys()].map(value => ({ value, key: value, name: value }))}
             />
           </div>
-          <Info>uur</Info>
+          <Info id="uur">uur</Info>
           <div>
             <StyledSelect
               id="minutes"
               name="minutes"
+              aria-describedby="min"
               data-testid="selectMinutes"
               value={`${parent.value.incident_time_minutes}`}
               onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
@@ -111,7 +113,9 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
               }))}
             />
           </div>
-          <Info>min</Info>
+          <Info id="min" aria-label="minuten">
+            min
+          </Info>
         </TimeWrapper>
       </DateTimeInputStyle>
     </Header>
