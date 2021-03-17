@@ -1,24 +1,37 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import * as reactRedux from 'react-redux';
+import * as appSelectors from 'containers/App/selectors';
+import * as auth from 'shared/services/auth/auth';
+
 import { withAppContext } from 'test/utils';
 import SiteHeader, { SiteHeaderContainer } from '..';
+import userEvent from '@testing-library/user-event';
+
 
 describe('containers/SiteHeader', () => {
-  it('should have props from action creator', () => {
-    const tree = mount(withAppContext(<SiteHeader />));
-
-    const containerProps = tree.find(SiteHeaderContainer).props();
-
-    expect(containerProps.onLogOut).toBeDefined();
-    expect(typeof containerProps.onLogOut).toEqual('function');
+  const dispatch = jest.fn();
+  beforeEach(() => {
+    jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+    jest.spyOn(appSelectors, 'makeSelectUserCanAccess').mockImplementation(() => () => true);
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true);
+  });
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
-  it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<SiteHeader />));
+  it('should render', () => {
+    render(withAppContext(<SiteHeader />));
 
-    const props = tree.find(SiteHeaderContainer).props();
+    expect(screen.getByText('Instellingen')).toBeInTheDocument();
+    expect(screen.getByText('Uitloggen')).toBeInTheDocument();
+  });
 
-    expect(props.userCan).toBeDefined();
-    expect(props.userCanAccess).toBeDefined();
+  it('should logout', () => {
+    render(withAppContext(<SiteHeader />));
+
+    expect(dispatch).not.toHaveBeenCalled();
+    userEvent.click(screen.getByText('Uitloggen'));
+    expect(dispatch).toHaveBeenCalled();
   });
 });
