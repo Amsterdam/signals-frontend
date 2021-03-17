@@ -7,6 +7,8 @@ import NotFoundPage from 'components/NotFoundPage';
 import { useSelector } from 'react-redux';
 import { makeSelectUserCan, makeSelectUserCanAccess } from 'containers/App/selectors';
 
+export const NO_PAGE_ACCESS_MESSAGE = 'U heeft geen toegang tot deze pagina';
+
 interface ProtectedRouteProps extends RouteProps {
   role?: string;
   roleGroup?: string;
@@ -27,7 +29,7 @@ const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({ role, roleGrou
     <Route
       {...rest}
       render={props =>
-        hasAccess ? <MyComponent {...props} /> : <NotFoundPage message="U heeft geen toegang tot deze pagina" />
+        hasAccess ? <MyComponent {...props} /> : <NotFoundPage message={NO_PAGE_ACCESS_MESSAGE} />
       }
     />
   );
