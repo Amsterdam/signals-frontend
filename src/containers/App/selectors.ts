@@ -35,16 +35,6 @@ export const makeSelectUserPermissions = createSelector(makeSelectUser, (user: P
  */
 export const makeSelectUserPermissionCodeNames = createSelector(makeSelectUserPermissions, permissions =>
   permissions.map(({ codename }) => codename)
-  // [
-  //   ...permissions.map(({ codename }) => codename),
-  //   'view_user',
-  //   // 'add_user',
-  //   // 'change_user',
-  //   // 'view_group',
-  //   // 'view_category',
-  //   // 'add_category',
-  //   'view_department',
-  // ]
 );
 
 /**

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import type { FunctionComponent } from 'react';
-import type { RouteProps } from 'react-router-dom';
+import type { RouteComponentProps } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 
 import NotFoundPage from 'components/NotFoundPage';
@@ -9,13 +9,13 @@ import { makeSelectUserCan, makeSelectUserCanAccess } from 'containers/App/selec
 
 export const NO_PAGE_ACCESS_MESSAGE = 'U heeft geen toegang tot deze pagina';
 
-interface ProtectedRouteProps extends RouteProps {
+interface ProtectedRouteProps extends RouteComponentProps {
   role?: string;
   roleGroup?: string;
-  component?: any;
+  component: (props: RouteComponentProps<any>) => JSX.Element;
 }
 
-const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({ role, roleGroup, component: MyComponent, ...rest }) => {
+const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({ role, roleGroup, component: Component, ...rest }) => {
   const userCan = useSelector(makeSelectUserCan);
   const userCanAccess = useSelector(makeSelectUserCanAccess);
   const hasAccess = useMemo(() => (role && userCan(role)) || (roleGroup && userCanAccess(roleGroup)), [
@@ -29,7 +29,7 @@ const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({ role, roleGrou
     <Route
       {...rest}
       render={props =>
-        hasAccess ? <MyComponent {...props} /> : <NotFoundPage message={NO_PAGE_ACCESS_MESSAGE} />
+        hasAccess ? <Component {...props} /> : <NotFoundPage message={NO_PAGE_ACCESS_MESSAGE} />
       }
     />
   );
