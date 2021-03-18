@@ -15,13 +15,7 @@ import randomStringGenerator from 'shared/services/auth/services/random-string-g
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants';
 import userJson from 'utils/__tests__/fixtures/user.json';
 
-import watchAppSaga, {
-  callLogout,
-  callAuthorize,
-  uploadFile,
-  callSearchIncidents,
-  fetchSources,
-} from './saga';
+import watchAppSaga, { callLogout, callAuthorize, uploadFile, callSearchIncidents, fetchSources } from './saga';
 import { LOGOUT, AUTHENTICATE_USER, SET_SEARCH_QUERY, GET_SOURCES } from './constants';
 import type { AuthenticateUserAction } from './actions';
 import {
@@ -157,9 +151,12 @@ describe('containers/App/saga', () => {
 
     it('should dispatch error when authorization has failed', async () => {
       const action: AuthenticateUserAction = { type: AUTHENTICATE_USER, payload };
-      const errorObj = { ...new Error('Whoops'), response: {
-        status: 403,
-      } };
+      const errorObj = {
+        ...new Error('Whoops'),
+        response: {
+          status: 403,
+        },
+      };
 
       return expectSaga(callAuthorize, action)
         .provide([[matchers.call.fn(authCall), throwError(errorObj)]])
@@ -208,7 +205,12 @@ describe('containers/App/saga', () => {
     it('should success', () => {
       expect(gen.next().value).toEqual(
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        call(fileUploadChannel, `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${payload.id}/attachments/`, { name: 'image.jpg' }, payload.id)
+        call(
+          fileUploadChannel,
+          `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${payload.id}/attachments/`,
+          { name: 'image.jpg' },
+          payload.id
+        )
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
 
@@ -235,7 +237,12 @@ describe('containers/App/saga', () => {
     it('should fail', () => {
       expect(gen.next().value).toEqual(
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        call(fileUploadChannel, `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${payload.id}/attachments/`, { name: 'image.jpg' }, payload.id)
+        call(
+          fileUploadChannel,
+          `${CONFIGURATION.INCIDENT_PUBLIC_ENDPOINT}${payload.id}/attachments/`,
+          { name: 'image.jpg' },
+          payload.id
+        )
       ); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(mockChannel).value).toEqual(take(mockChannel)); // eslint-disable-line redux-saga/yield-effects
 
@@ -281,7 +288,7 @@ describe('containers/App/saga', () => {
 
       testSaga(fetchSources)
         .next()
-        .call(authCall, CONFIGURATION.SOURCES_ENDPOINT)
+        .call(authCall, CONFIGURATION.SOURCES_ENDPOINT, { is_active: 'true' })
         .next(sources)
         .put(getSourcesSuccess(sources.results))
         .next()
@@ -294,7 +301,7 @@ describe('containers/App/saga', () => {
 
       testSaga(fetchSources)
         .next()
-        .call(authCall, CONFIGURATION.SOURCES_ENDPOINT)
+        .call(authCall, CONFIGURATION.SOURCES_ENDPOINT, { is_active: 'true' })
         .throw(error)
         .put(getSourcesFailed(message))
         .next()

@@ -96,23 +96,7 @@ const renderTag = (key, mainCategories, list) => {
 export const FilterTagListComponent = props => {
   const { tags, mainCategories, subCategories, directingDepartments, routingDepartments } = props;
   const { sources } = useContext(AppContext);
-  const { districts, users } = useContext(IncidentManagementContext);
-
-  const userOptions = useMemo(
-    () =>
-      configuration.featureFlags.assignSignalToEmployee &&
-      users && [
-        {
-          key: 'null',
-          value: 'Niet toegewezen',
-        },
-        ...users.map(user => ({
-          key: user.username,
-          value: user.username,
-        })),
-      ],
-    [users]
-  );
+  const { districts } = useContext(IncidentManagementContext);
 
   const map = {
     ...dataLists,
@@ -122,7 +106,6 @@ export const FilterTagListComponent = props => {
     source: sources,
     directing_department: directingDepartments,
     routing_department: routingDepartments,
-    assigned_user_email: userOptions,
   };
 
   const tagsList = { ...tags };

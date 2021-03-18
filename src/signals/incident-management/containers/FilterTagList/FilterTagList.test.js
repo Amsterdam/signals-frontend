@@ -20,12 +20,10 @@ import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from '
 
 jest.mock('shared/services/configuration/configuration');
 
-const usersFixture = users.results.slice(0, 5);
-
 const withContext = Component =>
   withAppContext(
     <AppContext.Provider value={{ sources }}>
-      <IncidentManagementContext.Provider value={{ districts, users: usersFixture }}>
+      <IncidentManagementContext.Provider value={{ districts }}>
         {Component}
       </IncidentManagementContext.Provider>
     </AppContext.Provider>

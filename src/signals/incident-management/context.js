@@ -1,6 +1,6 @@
 import React from 'react';
 
-const initialContext = { districts: undefined, users: undefined };
+const initialContext = { districts: undefined };
 
 const IncidentManagementContext = React.createContext(initialContext);
 
