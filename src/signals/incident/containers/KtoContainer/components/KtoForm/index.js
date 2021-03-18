@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback, useReducer, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
@@ -13,7 +13,7 @@ import ErrorMessage from 'components/ErrorMessage';
 export const andersOptionText = 'Anders, namelijk...';
 
 const customCssTopMargin = () => css`
-  margin-top:${themeSpacing(3)};
+  margin-top: ${themeSpacing(3)};
   & > :first-child {
     margin-top: -6px; /* ensures the designed distance (12px) to the label above */
   }
@@ -114,6 +114,7 @@ const reducer = (state, action) => {
 };
 
 const KtoForm = ({ options, isSatisfied, onSubmit }) => {
+  const firstLabelRef = useRef(null);
   const [state, dispatch] = useReducer(reducer, { is_satisfied: isSatisfied }, init);
   const extraTextMaxLength = 1000;
 
@@ -149,9 +150,13 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
 
       dispatch({ type: 'SET_ERRORS', payload: errors });
 
-      if (Object.keys(errors).length) return;
+      if (firstLabelRef.current && Object.keys(errors).length) {
+        firstLabelRef.current.scrollIntoView();
+      }
 
-      onSubmit(formData);
+      if (!Object.keys(errors).length) {
+        onSubmit(formData);
+      }
     },
     [onSubmit, state]
   );
@@ -159,7 +164,9 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
       <GridArea>
-        <StyledLabel htmlFor="kto">Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?</StyledLabel>
+        <StyledLabel htmlFor="kto" ref={firstLabelRef}>
+          Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?
+        </StyledLabel>
         <HelpText id="subtitle-kto">Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
 
         <StyledRadioButtonList
@@ -196,7 +203,7 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
           Mogen wij contact met u opnemen naar aanleiding van uw feedback? <Optional>(optioneel)</Optional>
         </StyledLabel>
 
-        <CheckboxWrapper inline htmlFor="allows-contact" >
+        <CheckboxWrapper inline htmlFor="allows-contact">
           <Checkbox
             data-testid="ktoAllowsContact"
             id="allows-contact"
