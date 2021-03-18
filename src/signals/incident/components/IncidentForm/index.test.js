@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 import { Wizard, Step, Steps } from 'react-albus';
 import formatConditionalForm from '../../services/format-conditional-form';
@@ -29,6 +29,7 @@ const mockForm = {
       meta: {
         ...phoneForm.form.controls.phone.meta,
         isVisible: true,
+        name: 'phone',
       },
     },
     privacy_text: {
@@ -67,7 +68,7 @@ describe('<IncidentForm />', () => {
 
   describe('rendering', () => {
     it('expect to render correctly', () => {
-      const { container, queryByText } = render(
+      render(
         withAppContext(
           <Wizard>
             <Steps>
@@ -79,15 +80,16 @@ describe('<IncidentForm />', () => {
         )
       );
 
-      expect(queryByText(mockForm.controls.phone.meta.label)).toBeInTheDocument();
-      expect(queryByText(mockForm.controls.phone.meta.subtitle)).toBeInTheDocument();
+      expect(screen.queryByText(mockForm.controls.phone.meta.label)).toBeInTheDocument();
+      expect(screen.queryByText(mockForm.controls.phone.meta.subtitle)).toBeInTheDocument();
 
-      expect(queryByText(mockForm.controls.privacy_text.meta.label)).not.toBeInTheDocument();
+      expect(screen.queryByText(mockForm.controls.privacy_text.meta.label)).not.toBeInTheDocument();
 
-      expect(container.querySelectorAll('input').length).toEqual(1);
+      expect(screen.getByLabelText(/Wat is uw telefoonnummer?/)).toBeInTheDocument();
+      expect(screen.getAllByRole('textbox')).toHaveLength(1);
 
-      expect(queryByText(phoneForm.nextButtonLabel)).toBeInTheDocument();
-      expect(queryByText(phoneForm.previousButtonLabel)).toBeInTheDocument();
+      expect(screen.queryByText(phoneForm.nextButtonLabel)).toBeInTheDocument();
+      expect(screen.queryByText(phoneForm.previousButtonLabel)).toBeInTheDocument();
     });
   });
 
