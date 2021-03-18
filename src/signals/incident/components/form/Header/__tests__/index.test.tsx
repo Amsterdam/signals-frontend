@@ -73,34 +73,6 @@ describe('signals/incident/components/form/Header', () => {
     expect(container.querySelector('.child')).toBeInTheDocument();
   });
 
-  it('should render global error with default message', () => {
-    const hasError = (prop: string) => prop === 'global';
-    const getError = () => true;
-    const error = 'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.';
-
-    const { rerender } = render(withAppContext(<Header {...props} touched />));
-
-    expect(screen.queryByText(error)).not.toBeInTheDocument();
-
-    rerender(withAppContext(<Header {...props} getError={getError} hasError={hasError} touched />));
-
-    expect(screen.queryByText(error)).toBeInTheDocument();
-  });
-
-  it('should render global error with custom message', () => {
-    const error = 'Dit is een custom global error message';
-    const hasError = (prop: string) => prop === 'global';
-    const getError = () => error;
-
-    const { rerender } = render(withAppContext(<Header {...props} touched />));
-
-    expect(screen.queryByText(error)).not.toBeInTheDocument();
-
-    rerender(withAppContext(<Header {...props} getError={getError} hasError={hasError} touched />));
-
-    expect(screen.queryByText(error)).toBeInTheDocument();
-  });
-
   it('should render required error with default message', () => {
     const hasError = (prop: string) => prop === 'required';
     const getError = () => true;

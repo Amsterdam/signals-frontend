@@ -3,8 +3,8 @@ import CheckboxInput from './CheckboxInput';
 import EmphasisCheckboxInput from './EmphasisCheckboxInput';
 import DescriptionInputRenderer from './DescriptionInputRenderer';
 import DateTimeInput from './DateTimeInput';
-import Error from './Error';
 import FileInputRenderer from './FileInputRenderer';
+import GlobalError from './GlobalError';
 import HandlingMessage from './HandlingMessage/HandlingMessage';
 import HiddenInput from './HiddenInput';
 import MultiTextInput from './MultiTextInput';
@@ -23,8 +23,8 @@ export default {
   DateTimeInput,
   DescriptionInputRenderer,
   EmphasisCheckboxInput,
-  Error,
   FileInputRenderer,
+  GlobalError,
   HandlingMessage,
   HiddenInput,
   LinkButton,
