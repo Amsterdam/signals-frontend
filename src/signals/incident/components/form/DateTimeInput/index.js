@@ -31,8 +31,18 @@ const FieldWrapper = styled.div`
   }
 `;
 
-const TimeWrapper = styled.div`
+const TimeFieldset = styled.fieldset`
+  border: 0;
+  padding: 0;
   margin-top: ${themeSpacing(7)};
+
+  & > legend {
+    border: 0;
+    padding: 0;
+  }
+`;
+
+const TimeWrapper = styled.div`
   display: flex;
   align-items: flex-end;
 
@@ -84,39 +94,43 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
           />
         </FieldWrapper>
 
-        <TimeWrapper>
-          <div>
+        <TimeFieldset>
+          <legend>
             <StyledLabel>Tijd</StyledLabel>
-            <StyledSelect
-              id="hours"
-              aria-describedby="uur"
-              name="hours"
-              data-testid="selectHours"
-              value={`${parent.value.incident_time_hours}`}
-              onChange={e => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
-              options={[...Array(24).keys()].map(value => ({ value, key: value, name: value }))}
-            />
-          </div>
-          <Info id="uur">uur</Info>
-          <div>
-            <StyledSelect
-              id="minutes"
-              name="minutes"
-              aria-describedby="min"
-              data-testid="selectMinutes"
-              value={`${parent.value.incident_time_minutes}`}
-              onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
-              options={[...Array(12).keys()].map(minute => ({
-                value: minute * 5,
-                name: minute * 5,
-                key: minute * 5,
-              }))}
-            />
-          </div>
-          <Info id="min" aria-label="minuten">
-            min
-          </Info>
-        </TimeWrapper>
+          </legend>
+          <TimeWrapper>
+            <div>
+              <StyledSelect
+                id="hours"
+                aria-describedby="uur"
+                name="hours"
+                data-testid="selectHours"
+                value={`${parent.value.incident_time_hours}`}
+                onChange={e => parent.meta.updateIncident({ incident_time_hours: e.target.value })}
+                options={[...Array(24).keys()].map(value => ({ value, key: value, name: value }))}
+              />
+            </div>
+            <Info id="uur">uur</Info>
+            <div>
+              <StyledSelect
+                id="minutes"
+                name="minutes"
+                aria-describedby="min"
+                data-testid="selectMinutes"
+                value={`${parent.value.incident_time_minutes}`}
+                onChange={e => parent.meta.updateIncident({ incident_time_minutes: e.target.value })}
+                options={[...Array(12).keys()].map(minute => ({
+                  value: minute * 5,
+                  name: minute * 5,
+                  key: minute * 5,
+                }))}
+              />
+            </div>
+            <Info id="min" aria-label="minuten">
+              min
+            </Info>
+          </TimeWrapper>
+        </TimeFieldset>
       </DateTimeInputStyle>
     </Header>
   );
