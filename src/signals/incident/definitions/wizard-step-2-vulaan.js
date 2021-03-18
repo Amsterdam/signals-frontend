@@ -23,6 +23,13 @@ const expandValidator = key => (Array.isArray(key) ? expandValidatorFn(key) : ma
 const expandQuestions = memoize(
   questions => ({
     controls: {
+      error: {
+        meta: {
+          label: 'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.',
+          ignoreVisibility: true,
+        },
+        render: FormComponents.Error,
+      },
       custom_text: {
         meta: {
           label: 'Dit hebt u net ingevuld:',
@@ -45,13 +52,6 @@ const expandQuestions = memoize(
         }),
         {}
       ),
-      error: {
-        meta: {
-          label: 'Nog niet alles is correct ingevuld. Volg de meldingen in het rood. Scroll eventueel weer naar boven.',
-          ignoreVisibility: true,
-        },
-        render: FormComponents.Error,
-      },
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,

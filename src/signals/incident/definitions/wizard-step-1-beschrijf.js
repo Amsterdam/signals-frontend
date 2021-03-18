@@ -16,6 +16,12 @@ const reduceSources = sources =>
 const getControls = memoize(
   sources => ({
     controls: {
+      error: {
+        meta: {
+          label: 'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.',
+        },
+        render: FormComponents.Error,
+      },
       source: {
         meta: {
           label: 'Hoe komt de melding binnen?',
@@ -138,12 +144,6 @@ const getControls = memoize(
           maxNumberOfFiles: 3,
         },
         render: FormComponents.FileInputRenderer,
-      },
-      error: {
-        meta: {
-          label: 'Nog niet alles is correct ingevuld. Volg de meldingen in het rood. Scroll eventueel weer naar boven.',
-        },
-        render: FormComponents.Error,
       },
       $field_0: {
         isStatic: false,

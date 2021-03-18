@@ -7,6 +7,7 @@ import Error from '..';
 describe('Form component <Error />', () => {
   const props = {
     meta: {
+      name: 'global',
       label: 'Error message',
     },
     parent: {
@@ -26,6 +27,14 @@ describe('Form component <Error />', () => {
       render(withAppContext(<Error {...{ ...props, parent: { touched: true, valid: false } }} />));
 
       expect(screen.getByText(props.meta.label)).toBeInTheDocument();
+    });
+
+    it('renders a default error message', () => {
+      const defaultErrorMessage =
+        'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.';
+      render(withAppContext(<Error meta={{ name: 'global' }} parent={{ touched: true, valid: false }} />));
+
+      expect(screen.getByText(defaultErrorMessage)).toBeInTheDocument();
     });
 
     it('does not render the error message when valid', () => {

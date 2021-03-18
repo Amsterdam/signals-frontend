@@ -5,16 +5,22 @@ import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 import Label from 'components/Label';
 import type { ReactiveFormMeta, FormMeta, FormOptions } from 'types/reactive-form';
 
-const Wrapper = styled.div<{ invalid: boolean }>`
+const Wrapper = styled.div<{ global: boolean; invalid: boolean }>`
   display: flex;
   flex-direction: column;
 
-  ${({ invalid }) =>
-    invalid &&
-    css`
-      border-left: ${themeColor('support', 'invalid')} 2px solid;
-      padding-left: ${themeSpacing(3)};
-    `}
+  ${({ global, invalid }) =>
+    (global &&
+      invalid &&
+      css`
+        border: ${themeColor('support', 'invalid')} 2px solid;
+        padding: ${themeSpacing(3)};
+      `) ||
+    (invalid &&
+      css`
+        border-left: ${themeColor('support', 'invalid')} 2px solid;
+        padding-left: ${themeSpacing(3)};
+      `)}
 
   & > :last-child:not(& > :first-child) {
     margin-top: ${themeSpacing(3)};
@@ -63,12 +69,13 @@ const Header: FunctionComponent<HeaderProps> = ({
   children,
 }) => {
   const containsErrors: boolean =
-    touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
+    touched &&
+    (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom') || hasError('global'));
   const isOptional = !options?.validators?.some(validator => validator.name === 'required');
 
   return (
-    <Wrapper className={className} invalid={containsErrors}>
-      {meta?.label && (
+    <Wrapper className={className} invalid={containsErrors} global={hasError('global')}>
+      {meta.label && (
         <StyledLabel htmlFor={meta.name}>
           {meta.label}
 
@@ -76,12 +83,22 @@ const Header: FunctionComponent<HeaderProps> = ({
         </StyledLabel>
       )}
 
-      {meta?.subtitle && <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>}
+      {meta.subtitle && <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>}
 
       {touched && containsErrors && (
         <Fragment>
+          {hasError('global') && (
+            <ErrorItem data-testid="invalid-global">
+              {getError('global') === true
+                ? 'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.'
+                : getError('global')}
+            </ErrorItem>
+          )}
+
           {hasError('required') && (
-            <ErrorItem data-testid={`${meta.name}-required`}>{getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}</ErrorItem>
+            <ErrorItem data-testid={`${meta.name}-required`}>
+              {getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}
+            </ErrorItem>
           )}
 
           {hasError('email') && (
@@ -99,11 +116,10 @@ const Header: FunctionComponent<HeaderProps> = ({
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
         </Fragment>
-      )
-      }
+      )}
 
-      { children}
-    </Wrapper >
+      {children}
+    </Wrapper>
   );
 };
 
