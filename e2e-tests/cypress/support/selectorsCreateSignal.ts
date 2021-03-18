@@ -61,9 +61,13 @@ export const BEDRIJVEN_HORECA = {
 
 export const BOTEN = {
   inputNaamBoot: '#extra_boten_snelheid_naamboot',
+  inputNaamRederij: '#extra_boten_snelheid_rederij',
   inputNogMeer: '[id^="extra_boten_"][id$="_meer"]',
-  radioButtonRondvaartbootNee: '#extra_boten_snelheid_rondvaartboot-nee1',
-  radioButtonRondvaartbootJa: '#extra_boten_snelheid_rondvaartboot-ja1',
+  radioButtonOverig: '#extra_boten_snelheid_typeboot-overig1',
+  radioButtonPlezierVaart: '#extra_boten_snelheid_typeboot-pleziervaart1',
+  radioButtonRondvaartboot: '#extra_boten_snelheid_typeboot-rondvaartboot_of_salonboot1',
+  radioButtonVrachtschip: '#extra_boten_snelheid_typeboot-vrachtschip_of_binnenvaartschip1',
+
 };
 
 export const CONTAINERS = {
