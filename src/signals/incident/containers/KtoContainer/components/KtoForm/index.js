@@ -150,7 +150,9 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
 
       dispatch({ type: 'SET_ERRORS', payload: errors });
 
-      if (firstLabelRef.current && Object.keys(errors).length) {
+      // scrollIntoView not available in unit tests
+      /* istanbul ignore next */
+      if (firstLabelRef.current?.scrollIntoView && Object.keys(errors).length) {
         firstLabelRef.current.scrollIntoView();
       }
 
