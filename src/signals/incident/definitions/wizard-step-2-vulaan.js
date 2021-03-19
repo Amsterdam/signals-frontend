@@ -25,7 +25,6 @@ const expandQuestions = memoize(
     controls: {
       error: {
         meta: {
-          label: 'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.',
           ignoreVisibility: true,
         },
         render: FormComponents.GlobalError,

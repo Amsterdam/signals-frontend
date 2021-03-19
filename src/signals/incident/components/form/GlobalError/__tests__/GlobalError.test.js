@@ -4,6 +4,8 @@ import { withAppContext } from 'test/utils';
 
 import GlobalError from '..';
 
+const defaultErrorMessage = 'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.';
+
 describe('Form component <GlobalError />', () => {
   const props = {
     meta: {
@@ -30,8 +32,6 @@ describe('Form component <GlobalError />', () => {
     });
 
     it('renders a default error message', () => {
-      const defaultErrorMessage =
-        'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.';
       render(withAppContext(<GlobalError meta={{ name: 'global' }} parent={{ touched: true, valid: false }} />));
 
       expect(screen.getByText(defaultErrorMessage)).toBeInTheDocument();

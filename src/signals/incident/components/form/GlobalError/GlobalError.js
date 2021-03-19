@@ -15,9 +15,7 @@ const ErrorItem = styled.p`
 
 const GlobalError = ({ meta, parent: { touched, valid } }) =>
   touched && !valid ? (
-    <ErrorItem>
-      {meta.label || 'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.'}
-    </ErrorItem>
+    <ErrorItem>{meta.label || 'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'}</ErrorItem>
   ) : null;
 
 GlobalError.propTypes = {

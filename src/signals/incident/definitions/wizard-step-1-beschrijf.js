@@ -17,9 +17,6 @@ const getControls = memoize(
   sources => ({
     controls: {
       error: {
-        meta: {
-          label: 'Er zijn vragen niet (of niet juist) ingevuld. Vul de vragen hieronder op de goede manier in.',
-        },
         render: FormComponents.GlobalError,
       },
       source: {
