@@ -149,8 +149,8 @@ class IncidentForm extends React.Component {
       }
     });
 
-    // Some extra questions can cause other questions to be removed from view, with their answers left in the incident state
-    // Remove answers for which the question was removed from view
+    // Some extra questions can prevent other controls from being rendered
+    // When this happens, question data from that control should be removed from the incident data
     const keysToRemoveFromIncident = controlKeys.filter(
       key => key.startsWith('extra_') && typeof incident[key] !== 'undefined' && !this.form.controls[key].meta.isVisible
     );
