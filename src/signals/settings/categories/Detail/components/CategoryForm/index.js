@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { themeSpacing, Row, Column, Select } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
@@ -60,109 +60,118 @@ const statusOptions = [
 
 const DEFAULT_STATUS_OPTION = 'true';
 
-const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => (
-  <Form action="" data-testid="detailCategoryForm">
-    <Row>
-      <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}>
-        <div>
-          <FieldGroup>
-            <Input
-              as="input"
-              defaultValue={data.name}
-              disabled={readOnly}
-              hint="Het wijzigen van de naam heeft geen invloed op het type melding"
-              id="name"
-              label="Naam"
-              name="name"
-              readOnly={readOnly}
-              type="text"
-            />
-          </FieldGroup>
+const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
+  const responsibleDepartments = useMemo(() => data.departments?.filter(department => department.is_responsible), [data.departments]).map(department => department.code);
 
-          <FieldGroup>
-            <TextArea
-              defaultValue={data.description}
-              disabled={readOnly}
-              hint="Ter verduidelijking van de inhoud van de categorie"
-              id="description"
-              label="Beschrijving"
-              name="description"
-              readOnly={readOnly}
-              rows="8"
-            />
-          </FieldGroup>
-
-          <FieldGroup>
-            <Label as="span">Service belofte</Label>
-
-            <CombinedFields>
+  return (
+    <Form action="" data-testid="detailCategoryForm">
+      <Row>
+        <StyledColumn span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}>
+          <div>
+            <FieldGroup>
               <Input
-                as="input"
-                defaultValue={data.sla.n_days}
+                defaultValue={data.name}
                 disabled={readOnly}
-                id="n_days"
-                name="n_days"
+                hint="Het wijzigen van de naam heeft geen invloed op het type melding"
+                id="name"
+                label="Naam"
+                name="name"
                 readOnly={readOnly}
-                type="number"
-                size="50"
+                type="text"
               />
+            </FieldGroup>
 
-              <StyledSelect
-                defaultValue={data.sla.use_calendar_days ? 1 : 0}
+            <FieldGroup>
+              <TextArea
+                defaultValue={data.description}
                 disabled={readOnly}
-                id="use_calendar_days"
-                name="use_calendar_days"
+                hint="Ter verduidelijking van de inhoud van de categorie"
+                id="description"
+                label={<strong>Omschrijving</strong>}
+                name="description"
                 readOnly={readOnly}
-                type="number"
-              >
-                <option value="1">Dagen</option>
-                <option value="0">Werkdagen</option>
-              </StyledSelect>
-            </CombinedFields>
-          </FieldGroup>
+                rows="8"
+              />
+            </FieldGroup>
 
-          <FieldGroup>
-            <TextArea
-              defaultValue={data.handling_message}
-              disabled={readOnly}
-              hint="Deze tekst krijgt de burger via e-mail bij het aanmaken van een melding"
-              id="handling_message"
-              label="Wat doen we met uw melding?"
-              name="handling_message"
-              readOnly={readOnly}
-              rows="8"
-            />
-          </FieldGroup>
+            {responsibleDepartments.length > 0 ? (
+              <FieldGroup>
+                <dt><strong>Verantwoordelijke afdeling</strong></dt>
+                <dd>{responsibleDepartments.join(', ')}</dd>
+              </FieldGroup>
+            ) : null}
 
-          <FieldGroup>
-            <Label as="span">Status</Label>
-            <RadioButtonList
-              defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
-              groupName="is_active"
-              hasEmptySelectionButton={false}
-              options={statusOptions}
-              disabled={readOnly}
-              onChange={() => {}}
-            />
-          </FieldGroup>
-        </div>
-      </StyledColumn>
+            <FieldGroup>
+              <Label as="span">Afhandeltermijn</Label>
 
-      <StyledColumn span={{ small: 1, medium: 2, big: 6, large: 7, xLarge: 6 }}>
-        {history && <StyledHistory list={history} />}
-      </StyledColumn>
+              <CombinedFields>
+                <Input
+                  defaultValue={data.sla.n_days}
+                  disabled={readOnly}
+                  id="n_days"
+                  name="n_days"
+                  readOnly={readOnly}
+                  type="number"
+                  size="50"
+                />
 
-      {!readOnly && (
-        <StyledFormFooter
-          cancelBtnLabel="Annuleren"
-          onCancel={onCancel}
-          submitBtnLabel="Opslaan"
-          onSubmitForm={onSubmitForm}
-        />
-      )}
-    </Row>
-  </Form>
-);
+                <StyledSelect
+                  defaultValue={data.sla.use_calendar_days ? 1 : 0}
+                  disabled={readOnly}
+                  id="use_calendar_days"
+                  name="use_calendar_days"
+                  readOnly={readOnly}
+                  type="number"
+                >
+                  <option value="1">Dagen</option>
+                  <option value="0">Werkdagen</option>
+                </StyledSelect>
+              </CombinedFields>
+            </FieldGroup>
+
+            <FieldGroup>
+              <TextArea
+                defaultValue={data.handling_message}
+                disabled={readOnly}
+                hint="Deze tekst krijgt de burger via e-mail bij het aanmaken van een melding"
+                id="handling_message"
+                label={<strong>Servicebelofte</strong>}
+                name="handling_message"
+                readOnly={readOnly}
+                rows="8"
+              />
+            </FieldGroup>
+
+            <FieldGroup>
+              <Label as="span">Status</Label>
+              <RadioButtonList
+                defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
+                groupName="is_active"
+                hasEmptySelectionButton={false}
+                options={statusOptions}
+                disabled={readOnly}
+                onChange={() => { }}
+              />
+            </FieldGroup>
+          </div>
+        </StyledColumn>
+
+        <StyledColumn span={{ small: 1, medium: 2, big: 6, large: 7, xLarge: 6 }}>
+          {history && <StyledHistory list={history} />}
+        </StyledColumn>
+
+        {!readOnly && (
+          <StyledFormFooter
+            cancelBtnLabel="Annuleren"
+            onCancel={onCancel}
+            submitBtnLabel="Opslaan"
+            onSubmitForm={onSubmitForm}
+          />
+        )}
+      </Row>
+    </Form>
+  );
+};
 
 CategoryForm.defaultProps = {
   data: {
@@ -179,6 +188,7 @@ CategoryForm.propTypes = {
     description: PropTypes.string,
     handling_message: PropTypes.string,
     is_active: PropTypes.bool,
+    departments: PropTypes.array,
     sla: PropTypes.shape({
       n_days: PropTypes.number,
       use_calendar_days: PropTypes.bool,
