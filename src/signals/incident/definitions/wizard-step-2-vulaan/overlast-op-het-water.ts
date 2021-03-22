@@ -3,9 +3,6 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 export const overlastOpHetWater = {
   extra_boten_snelheid_typeboot: {
     meta: {
-      ifAllOf: {
-        subcategory: 'overlast-op-het-water-snel-varen',
-      },
       label: 'Wat voor type boot is het?',
       shortLabel: 'Type boot',
       pathMerge: 'extra_properties',
@@ -14,6 +11,9 @@ export const overlastOpHetWater = {
         rondvaartboot_of_salonboot: 'Rondvaartboot of salonboot',
         vrachtschip_of_binnenvaartschip: 'Vrachtschip of binnenvaartschip',
         overig: 'Overig',
+      },
+      ifAllOf: {
+        subcategory: 'overlast-op-het-water-snel-varen',
       },
     },
     options: { validators: ['required'] },
@@ -38,6 +38,9 @@ export const overlastOpHetWater = {
       pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-snel-varen',
+        ifOneOf: {
+          extra_boten_snelheid_typeboot: ['pleziervaart', 'rondvaartboot_of_salonboot', 'vrachtschip_of_binnenvaartschip', 'overig'],
+        },
       },
     },
     render: FIELD_TYPE_MAP.text_input,
@@ -51,6 +54,9 @@ export const overlastOpHetWater = {
       pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-snel-varen',
+        ifOneOf: {
+          extra_boten_snelheid_typeboot: ['pleziervaart', 'rondvaartboot_of_salonboot', 'vrachtschip_of_binnenvaartschip', 'overig'],
+        },
       },
     },
     render: FIELD_TYPE_MAP.textarea_input,
