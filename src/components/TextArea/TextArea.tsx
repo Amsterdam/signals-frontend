@@ -15,6 +15,7 @@ const StyledErrorMessage = styled(ErrorMessage)`
 `;
 
 const StyledArea = styled(AscTextArea)<{ rows?: number; maxRows?: number }>`
+  margin-top: ${themeSpacing(1)};
   font-family: inherit;
   vertical-align: top; /* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
   min-height: ${({ rows = 5 }) => rows * lineHeight}px;
