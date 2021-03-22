@@ -52,6 +52,7 @@ const AutoSuggest = ({
   value,
   disabled = false,
   id = '',
+  ...rest
 }) => {
   const { get, data } = useFetch();
   const [initialRender, setInitialRender] = useState(false);
@@ -241,6 +242,7 @@ const AutoSuggest = ({
           ref={inputRef}
           disabled={disabled}
           id={id}
+          {...rest}
         />
       </div>
       {showList && (
