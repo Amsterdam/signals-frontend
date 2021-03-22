@@ -22,7 +22,7 @@ describe('Search signals', () => {
 
       createSignal.checkSpecificInformationPage(signal);
 
-      cy.get(BOTEN.radioButtonRondvaartbootNee).click({ force: true });
+      cy.get(BOTEN.radioButtonPlezierVaart).click({ force: true });
       cy.get(BOTEN.inputNaamBoot).type('Pakjesboot 12');
       cy.get(BOTEN.inputNogMeer).type('De boot vaart over de Amstel heen en weer');
 

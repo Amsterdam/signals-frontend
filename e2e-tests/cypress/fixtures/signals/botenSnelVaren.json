@@ -44,20 +44,17 @@
   "text_extra": "",
   "extra_properties": [
     {
-      "id": "extra_boten_snelheid_rondvaartboot",
-      "label": "Gaat de melding over een rondvaartboot?",
-      "shortLabel": "Rondvaartboot",
-      "answer": {"id": "ja", "info": "", "label": "Ja"},
+      "id": "extra_boten_snelheid_typeboot",
+      "label": "Wat voor type boot is het?",
+      "shortLabel": "Type boot",
+      "answer": {"id": "Rondvaartboot of salonboot", "info": "", "label": "Rondvaartboot of salonboot"},
       "category_url": ""
     },
     {
       "id": "extra_boten_snelheid_rederij",
       "label": "Wat is de naam van de rederij?",
       "shortLabel": "Rederij",
-      "answer": {
-        "id": "amsterdam_boat_center",
-        "label": "Amsterdam Boat Center"
-      },
+      "answer": "Amsterdam Boat Center",
       "category_url": ""
     },
     {
@@ -69,7 +66,7 @@
     },
     {
       "id": "extra_boten_snelheid_meer",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?",
+      "label": "Kunt u ons nog meer vertellen over de situatie?",
       "shortLabel": "Extra informatie",
       "answer": "De boot voer richting Ouderkerk aan de Amstel",
       "category_url": ""

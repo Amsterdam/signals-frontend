@@ -4,6 +4,7 @@ import EmphasisCheckboxInput from './EmphasisCheckboxInput';
 import DescriptionInputRenderer from './DescriptionInputRenderer';
 import DateTimeInput from './DateTimeInput';
 import FileInputRenderer from './FileInputRenderer';
+import GlobalError from './GlobalError';
 import HandlingMessage from './HandlingMessage/HandlingMessage';
 import HiddenInput from './HiddenInput';
 import MultiTextInput from './MultiTextInput';
@@ -23,6 +24,7 @@ export default {
   DescriptionInputRenderer,
   EmphasisCheckboxInput,
   FileInputRenderer,
+  GlobalError,
   HandlingMessage,
   HiddenInput,
   LinkButton,
