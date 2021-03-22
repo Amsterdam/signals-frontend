@@ -41,7 +41,7 @@ export const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
-      label: 'Op welk adres ervaart u de overlast?',
+      label: 'Op welk adres hebt u overlast?',
       shortLabel: 'Adres overlast',
       pathMerge: 'extra_properties',
     },
@@ -57,7 +57,7 @@ export const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
-      label: 'Woont u direct boven of direct naast het pand waar het geluid vandaan komt?',
+      label: 'Woont u direct boven of naast het gebouw waar het geluid vandaan komt?',
       shortLabel: 'Aanpandig',
       pathMerge: 'extra_properties',
       values: {
@@ -96,7 +96,7 @@ export const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
-      label: 'Staan de ramen of deuren open van de horeca onderneming?',
+      label: 'Staan de ramen of deuren open van het horecabedrijf?',
       shortLabel: 'Ramen/deuren horeca open',
       pathMerge: 'extra_properties',
       values: {
@@ -132,7 +132,7 @@ export const overlastBedrijvenEnHoreca = {
         subcategory: 'geluidsoverlast-muziek',
         extra_bedrijven_horeca_wat: 'evenement_festival_markt',
       },
-      label: 'Bent u geïnformeerd door de organisator van het evenement?',
+      label: 'Heeft iemand van de organisatie u geïnformeerd?',
       shortLabel: 'Geïnformeerd door organisator',
       pathMerge: 'extra_properties',
       values: {
@@ -167,7 +167,7 @@ export const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
-      label: 'Van wat voor een soort installatie heeft u last?',
+      label: 'Van wat voor soort installatie hebt u last?',
       shortLabel: 'Soort installatie',
       subtitle: 'Bijvoorbeeld een afzuiger of airconditioning',
       pathMerge: 'extra_properties',
@@ -246,7 +246,7 @@ export const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
-      label: 'Wat is de vermoedelijke oorzaak van de geuroverlast?',
+      label: 'Wat is de oorzaak van de geuroverlast, denkt u?',
       shortLabel: 'Vermoedelijke oorzaak',
       subtitle: 'Bijvoorbeeld afvoerpijp of schoorsteen',
       pathMerge: 'extra_properties',
@@ -262,7 +262,7 @@ export const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
-      label: 'Wat zijn de weersomstandigheden tijdens de overlast?',
+      label: 'Welk weer is het tijdens de overlast?',
       shortLabel: 'Weersomstandigheden',
       pathMerge: 'extra_properties',
     },
@@ -277,7 +277,7 @@ export const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
-      label: 'Staan de ramen of deuren open van de vermoedelijke veroorzaker?',
+      label: 'Staan de deuren of ramen open van het gebouw waar de geur vandaan komt?',
       shortLabel: 'Ramen/deuren open',
       pathMerge: 'extra_properties',
       values: {
@@ -298,11 +298,11 @@ export const overlastBedrijvenEnHoreca = {
       },
       label: 'Gebeurt het vaker?',
       shortLabel: 'Vaker overlast',
-      subtitle: 'Is de overlast vaker aanwezig of is dit een eenmalige gebeurtenis',
+      subtitle: 'Gebeurt het vaker? Had u de overlast al eerder of is dit de eerste keer?',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja, het gebeurt vaker',
-        nee: 'Nee, dit is de eerste keer',
+        nee: 'Nee, het is de eerste keer',
       },
     },
     render: FIELD_TYPE_MAP.radio_input,
@@ -316,7 +316,7 @@ export const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
-      label: 'Op welk(e) tijdstip(pen) ervaart u de overlast?',
+      label: 'Op welke momenten van de dag hebt u de overlast?',
       shortLabel: 'Overlast momenten',
       pathMerge: 'extra_properties',
     },
@@ -332,7 +332,7 @@ export const overlastBedrijvenEnHoreca = {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
       label: 'Mogen we contact met u opnemen over de melding?',
-      subtitle: 'Bijvoorbeeld om bij u thuis een geluidsmeting te doen',
+      subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
       shortLabel: 'Toestemming contact opnemen',
       pathMerge: 'extra_properties',
       values: {
@@ -431,7 +431,7 @@ export const overlastBedrijvenEnHoreca = {
         extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'nee',
         extra_bedrijven_horeca_muziek_geluidmeting_overige: 'nee',
       },
-      label: 'Waarom heeft u liever geen contact?',
+      label: 'Waarom hebt u liever geen contact?',
       shortLabel: 'Liever geen contact',
       pathMerge: 'extra_properties',
     },
@@ -447,7 +447,7 @@ export const overlastBedrijvenEnHoreca = {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
       value:
-        'Uw gegevens worden vertrouwelijk behandeld en worden niet aan de (horeca)ondernemer of organisator bekend gemaakt.\n\nAnonieme meldingen krijgen een lage prioriteit.',
+        'Wij geven uw gegevens niet aan de (horeca)ondernemer of organisator.\n\nMeldingen met telefoonnummer en/of e-mailadres pakken wij sneller op dan meldingen zonder telefoonnummer en/of e-mailadres.',
       type: 'caution',
     },
     render: FIELD_TYPE_MAP.plain_text,

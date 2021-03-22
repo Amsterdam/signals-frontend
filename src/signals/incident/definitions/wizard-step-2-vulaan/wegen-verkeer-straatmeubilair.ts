@@ -25,7 +25,7 @@ export const wegenVerkeerStraatmeubilair = {
       ifAllOf: {
         subcategory: 'brug',
       },
-      label: 'Hebt u een naam of nummer van de brug?',
+      label: 'Wat is de naam of het nummer van de brug?',
       shortLabel: 'Naam brug',
       pathMerge: 'extra_properties',
     },
@@ -36,7 +36,7 @@ export const wegenVerkeerStraatmeubilair = {
       ifOneOf: {
         subcategory: ['onderhoud-stoep-straat-en-fietspad', 'gladheid'],
       },
-      label: 'Hebt u verteld om wat voor soort wegdek het gaat?',
+      label: 'Om wat voor soort wegdek gaat het?',
       shortLabel: 'Soort wegdek',
       subtitle: 'Bijvoorbeeld: asfalt, klinkers of stoeptegels',
       pathMerge: 'extra_properties',
@@ -66,7 +66,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       values: {
         lamp_doet_het_niet: 'Lamp doet het niet',
-        lamp_brandt_overdag: 'Lamp brandt overdag, al langer dan 2 dagen aaneengesloten',
+        lamp_brandt_overdag: 'Lamp brandt overdag, langer dan 2 dagen achter elkaar',
         geeft_lichthinder: 'Lamp geeft lichthinder (schijnt bijvoorbeeld in slaapkamer)',
         lamp_is_zichtbaar_beschadigd: 'Lamp of lantaarnpaal is beschadigd of niet compleet',
         overig: 'Overig',
@@ -80,8 +80,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   },
   extra_straatverlichting: {
     meta: {
-      label: 'Is de situatie gevaarlijk?',
-      shortLabel: 'Is de situatie gevaarlijk?',
+      label: 'Denkt u dat de situatie gevaarlijk is?',
+      shortLabel: 'Denkt u dat de situatie gevaarlijk is?',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
       },
@@ -195,8 +195,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
 
   extra_klok: {
     meta: {
-      label: 'Is de situatie gevaarlijk?',
-      shortLabel: 'Is de situatie gevaarlijk?',
+      label: 'Denkt u dat de situatie gevaarlijk is?',
+      shortLabel: 'Denkt u dat de situatie gevaarlijk is?',
       ifAllOf: {
         subcategory: 'klok',
       },
@@ -262,7 +262,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   },
   extra_klok_nummer: {
     meta: {
-      label: 'Selecteer de klok waar het om gaat',
+      label: 'Kies de klok waar het om gaat',
       shortLabel: 'Klok(ken) op kaart',
       ifAllOf: {
         subcategory: 'klok',
@@ -301,7 +301,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   },
   extra_klok_niet_op_kaart_nummer: {
     meta: {
-      label: 'Weet u het nummer dat op de klok staat?',
+      label: 'Wat is het nummer dat op de klok staat?',
       shortLabel: 'Klok(ken) niet op kaart',
       pathMerge: 'extra_properties',
       placeholder: 'Nummer klok',
@@ -323,8 +323,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
 
   extra_verkeerslicht: {
     meta: {
-      label: 'Is de situatie gevaarlijk?',
-      shortLabel: 'Is de situatie gevaarlijk?',
+      label: 'Denkt u dat de situatie gevaarlijk is?',
+      shortLabel: 'Denkt u dat de situatie gevaarlijk is?',
       ifAllOf: {
         subcategory: 'verkeerslicht',
       },
@@ -362,7 +362,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   },
   extra_verkeerslicht_welk: {
     meta: {
-      label: 'Welk verkeerslicht werkt niet juist?',
+      label: 'Welk verkeerslicht werkt niet goed?',
       shortLabel: 'Type verkeerslicht',
       ifAllOf: {
         subcategory: 'verkeerslicht',
@@ -450,7 +450,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         rood_werkt_niet: 'Rood licht werkt niet',
         oranje_werkt_niet: 'Oranje/geel licht werkt niet',
         wit_werkt_niet: 'Wit licht werkt niet',
-        waarschuwingslicht_tram_werkt_niet: 'Waarschuwingslicht tram werkt niet',
+        waarschuwingslicht_tram_werkt_niet: 'Licht dat waarschuwt voor aankomende tram werkt niet',
         anders: 'Anders',
       },
       pathMerge: 'extra_properties',
@@ -464,7 +464,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     meta: {
       label: 'Wat is de rijrichting?',
       shortLabel: 'Rijrichting',
-      subtitle: 'Bijvoorbeeld: In de richting van Waterlooplein naar Mr. Visserplein',
+      subtitle: 'Bijvoorbeeld: van Waterlooplein naar Mr. Visserplein',
       pathMerge: 'extra_properties',
       placeholder: 'Rijrichting verkeerslicht',
       ifAllOf: {
@@ -478,7 +478,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   },
   extra_verkeerslicht_nummer: {
     meta: {
-      label: 'Weet u het nummer van het verkeerslicht?',
+      label: 'Wat is het nummer van het verkeerslicht?',
       shortLabel: 'Verkeerslicht nummer',
       subtitle: 'Deze kunt u meestal vinden in witte tekst onder of boven de lampen',
       pathMerge: 'extra_properties',
@@ -498,7 +498,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       ifAllOf: {
         subcategory: 'fietsrek-nietje',
       },
-      label: "Wilt u misschien een nieuw fietsenrek of 'nietje' aanvragen?",
+      label: "Wilt u een nieuw fietsenrek of 'nietje' aanvragen?",
       shortLabel: 'Fietsenrek aanvragen',
       pathMerge: 'extra_properties',
       values: {

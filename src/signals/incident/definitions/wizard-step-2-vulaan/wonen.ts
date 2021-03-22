@@ -86,7 +86,7 @@ const woningdelen = {
       ifOneOf: {
         extra_wonen_woningdelen_aantal_personen: ['drie_personen', 'vier_personen', 'vijf_of_meer_personen'],
       },
-      label: 'Zijn de bewoners familie van elkaar?',
+      label: 'Zijn de bewoners volgens u familie van elkaar?',
       shortLabel: 'Bewoners familie',
       pathMerge: 'extra_properties',
       values: {
@@ -131,7 +131,7 @@ const woningdelen = {
         subcategory: 'woningdelen-spookburgers',
         wonen_overig: ['woningdelen', 'crimineleBewoning'],
       },
-      label: 'Komen er vaak andere bewoners op het adres wonen?',
+      label: 'Komen er vaak nieuwe mensen op het adres wonen?',
       shortLabel: 'Wisselende bewoners',
       pathMerge: 'extra_properties',
       values: {
@@ -194,7 +194,7 @@ const onderhuur = {
       ifOneOf: {
         extra_wonen_onderhuur_aantal_personen: ['drie_personen', 'vier_personen', 'vijf_of_meer_personen'],
       },
-      label: 'Zijn de mensen die op dit adres wonen familie van elkaar?',
+      label: 'Zijn de mensen die op dit adres wonen volgens u familie van elkaar?',
       shortLabel: 'Bewoners familie',
       pathMerge: 'extra_properties',
       values: {
@@ -297,7 +297,7 @@ const onderhuur = {
       ifAllOf: {
         extra_wonen_onderhuur_huurder_woont: 'ander_adres',
       },
-      label: 'Wat is het adres waar de officiële huurder woont?',
+      label: 'Waar woont de officiële huurder?',
       shortLabel: 'Adres huurder',
       pathMerge: 'extra_properties',
     },
@@ -385,7 +385,7 @@ const leegstand = {
           wonen_overig: 'leegstand',
         },
       },
-      label: 'Wat doet deze persoon in de woning?',
+      label: 'Wat doet deze persoon volgens u in de woning?',
       shortLabel: 'Activiteit in de woning',
       pathMerge: 'extra_properties',
     },
@@ -630,7 +630,7 @@ const vakantieverhuur = {
         subcategory: 'vakantieverhuur',
         wonen_overig: 'vakantieverhuur',
       },
-      label: 'Heeft u vaker toeristen in de woning gezien?',
+      label: 'Hebt u vaker toeristen in de woning gezien?',
       shortLabel: 'Hoe vaak',
       pathMerge: 'extra_properties',
       values: {
@@ -670,7 +670,7 @@ const vakantieverhuur = {
         subcategory: 'vakantieverhuur',
         wonen_overig: 'vakantieverhuur',
       },
-      label: 'Weet u of er iemand op het adres woont?',
+      label: 'Woont er iemand op het adres?',
       subtitle: 'De persoon die langdurig de woning bewoont',
       shortLabel: 'Bewoning',
       pathMerge: 'extra_properties',
