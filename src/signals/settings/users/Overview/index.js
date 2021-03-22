@@ -174,6 +174,7 @@ const UsersOverviewContainer = () => {
                 />,
 
                 <Select
+                  id="roleSelect"
                   name="roleSelect"
                   value={filters.role}
                   options={selectRoles}
@@ -182,6 +183,7 @@ const UsersOverviewContainer = () => {
                 />,
 
                 <Select
+                  id="userActiveSelect"
                   name="userActiveSelect"
                   value={filters.userActive}
                   options={selectUserActive}

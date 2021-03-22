@@ -180,7 +180,6 @@ describe('containers/App/selectors', () => {
       const users = 'users';
       const someOtherSection = 'some_other_section';
       const userSectionPermissions = ['view_user', 'add_user', 'change_user'];
-      const groupSectionPermissions = ['view_group', 'change_group', 'add_group'];
 
       const superUserCanAccess = makeSelectUserCanAccess(mockedState);
       const regularUserCanAccess = makeSelectUserCanAccess(regularUserState);
@@ -213,7 +212,7 @@ describe('containers/App/selectors', () => {
 
         expect(makeSelectUserCanAccess(limitedUserState)(users)).toEqual(true);
 
-        // remove one of the requires permissions to have access to the user section
+        // remove one of the required permissions to have access to the user section
         userWithLimitedPermissions.permissions.splice(
           userWithLimitedPermissions.permissions.findIndex(({ codename }) => codename === userSectionPermissions[0]),
           1
@@ -269,50 +268,6 @@ describe('containers/App/selectors', () => {
         };
 
         expect(makeSelectUserCanAccess(limitedUserState4)(users)).toEqual(false);
-      });
-
-      it('should require at least one permission per section category', () => {
-        // The 'settings' section contains more than one overpage and detail page and thus requires
-        // permissions fromt both 'groups' and 'users'. To be able to access 'settings', a user
-        // needs at least one permission in both 'groups' and 'users'.
-
-        const userWithLimitedPermissions: User = cloneDeep(userJson);
-
-        // remove all required permissions but one
-        userWithLimitedPermissions.permissions = userWithLimitedPermissions.permissions.filter(
-          ({ codename }) => codename === userSectionPermissions[0] || codename === groupSectionPermissions[0]
-        );
-
-        const limitedUserState = {
-          ...state,
-          global: {
-            ...globalState,
-            user: {
-              ...userWithLimitedPermissions,
-              is_superuser: false,
-            },
-          },
-        };
-
-        expect(makeSelectUserCanAccess(limitedUserState)(settings)).toEqual(true);
-
-        // remove last required permission
-        userWithLimitedPermissions.permissions = userWithLimitedPermissions.permissions.filter(
-          ({ codename }) => codename === groupSectionPermissions[0]
-        );
-
-        const limitedUserState2 = {
-          ...state,
-          global: {
-            ...globalState,
-            user: {
-              ...userWithLimitedPermissions,
-              is_superuser: false,
-            },
-          },
-        };
-
-        expect(makeSelectUserCanAccess(limitedUserState2)(settings)).toEqual(false);
       });
     });
   });
