@@ -91,7 +91,7 @@ describe('SelectionPanel', () => {
   it('updates container not on map', () => {
     render(withAppContext(<SelectionPanel {...props} selection={[UNREGISTERED_CONTAINER]} />));
 
-    userEvent.paste(screen.getByLabelText('Wat is het nummer van de container? (optioneel)'), 'GLAS987');
+    userEvent.paste(screen.getByLabelText('Wat is het nummer van de container? (Niet verplicht)'), 'GLAS987');
 
     expect(props.onChange).toHaveBeenCalledWith([{ ...UNREGISTERED_CONTAINER, id: 'GLAS987' }]);
   });
@@ -115,11 +115,11 @@ describe('SelectionPanel', () => {
   it('handles Enter key on input', () => {
     render(withAppContext(<SelectionPanel {...props} selection={[UNREGISTERED_CONTAINER]} />));
 
-    userEvent.type(screen.getByLabelText('Wat is het nummer van de container? (optioneel)'), '5');
+    userEvent.type(screen.getByLabelText('Wat is het nummer van de container? (Niet verplicht)'), '5');
 
     expect(props.onChange).toHaveBeenLastCalledWith([{ ...UNREGISTERED_CONTAINER, id: '5' }]);
 
-    userEvent.type(screen.getByLabelText('Wat is het nummer van de container? (optioneel)'), '{enter}');
+    userEvent.type(screen.getByLabelText('Wat is het nummer van de container? (Niet verplicht)'), '{enter}');
 
     expect(props.onClose).toHaveBeenCalled();
   });

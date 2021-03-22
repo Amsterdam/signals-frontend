@@ -31,27 +31,27 @@ describe('signals/incident/components/form/Header', () => {
   it('should render optional indicator', () => {
     const { rerender } = render(withAppContext(<Header {...props} options={{}} />));
 
-    expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
+    expect(screen.queryByText('(Niet verplicht)')).toBeInTheDocument();
 
     rerender(withAppContext(<Header {...props} options={{ validators: undefined }} />));
 
-    expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
+    expect(screen.queryByText('(Niet verplicht)')).toBeInTheDocument();
 
     rerender(withAppContext(<Header {...props} options={{ validators: [] }} />));
 
-    expect(screen.queryByText('(optioneel)')).toBeInTheDocument();
+    expect(screen.queryByText('(Niet verplicht)')).toBeInTheDocument();
 
     rerender(withAppContext(<Header {...props} meta={{ ...props.meta, label: undefined }} options={{}} />));
 
-    expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
+    expect(screen.queryByText('(Niet verplicht)')).not.toBeInTheDocument();
 
     rerender(withAppContext(<Header {...props} options={{ validators: [Validators.required] }} />));
 
-    expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
+    expect(screen.queryByText('(Niet verplicht)')).not.toBeInTheDocument();
 
     rerender(withAppContext(<Header {...props} options={{ validators: [createRequired('Verplicht')] }} />));
 
-    expect(screen.queryByText('(optioneel)')).not.toBeInTheDocument();
+    expect(screen.queryByText('(Niet verplicht)')).not.toBeInTheDocument();
   });
 
   it('should render subtitle', () => {

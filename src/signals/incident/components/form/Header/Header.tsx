@@ -72,7 +72,7 @@ const Header: FunctionComponent<HeaderProps> = ({
         <StyledLabel htmlFor={meta.name}>
           {meta.label}
 
-          {isOptional && <Optional>(optioneel)</Optional>}
+          {isOptional && <Optional>(Niet verplicht)</Optional>}
         </StyledLabel>
       )}
 

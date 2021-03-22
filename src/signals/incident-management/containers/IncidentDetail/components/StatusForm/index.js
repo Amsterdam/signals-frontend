@@ -135,7 +135,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 label={
                   <Fragment>
                     <strong>Toelichting</strong>
-                    {!state.text.required && <span>&nbsp;(optioneel)</span>}
+                    {!state.text.required && <span>&nbsp;(Niet verplicht)</span>}
                   </Fragment>
                 }
               />
