@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import type { FunctionComponent } from 'react';
-import type { RouteComponentProps } from 'react-router-dom';
+import type { RouteComponentProps, RouteProps } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 
 import NotFoundPage from 'components/NotFoundPage';
@@ -9,7 +9,7 @@ import { makeSelectUserCan, makeSelectUserCanAccess } from 'containers/App/selec
 
 export const NO_PAGE_ACCESS_MESSAGE = 'U heeft geen toegang tot deze pagina';
 
-interface ProtectedRouteProps extends RouteComponentProps {
+interface ProtectedRouteProps extends RouteProps {
   role?: string;
   roleGroup?: string;
   component: (props: RouteComponentProps<any>) => JSX.Element;
