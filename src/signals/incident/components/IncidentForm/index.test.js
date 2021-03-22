@@ -80,6 +80,87 @@ describe('<IncidentForm />', () => {
       expect(screen.getByText(mockForm.nextButtonLabel)).toBeInTheDocument();
       expect(screen.getByText(mockForm.previousButtonLabel)).toBeInTheDocument();
     });
+
+    it('removes extra question data when the question is not visible anymore', () => {
+      const EXTRA_REMOVED_QUESTION = 'extra_removed_question';
+      const EXTRA_VISIBLE_QUESTION = 'extra_visible_question';
+      const VISIBLE_QUESTION = 'visible_question';
+      const baseControl = {
+        meta: {},
+        render: () => <p>baz</p>,
+      };
+      const props = {
+        ...defaultProps,
+        fieldConfig: {
+          controls: {
+            [EXTRA_REMOVED_QUESTION]: {
+              meta: { ifAllOf: { foo: 'bar' } }, // ifAllOf condition is false
+            },
+            [EXTRA_VISIBLE_QUESTION]: baseControl,
+            [VISIBLE_QUESTION]: baseControl,
+          },
+          updateValueAndValidity: jest.fn(),
+        },
+        incidentContainer: {
+          incident: {
+            [EXTRA_REMOVED_QUESTION]: 'Answer to extra question that is not visible anymore',
+            [EXTRA_VISIBLE_QUESTION]: 'Answer to extra question that is visible',
+            [VISIBLE_QUESTION]: 'Answer to question that is visible',
+          },
+        },
+      };
+
+      renderIncidentForm(props);
+
+      expect(defaultProps.removeQuestionData).toHaveBeenCalledWith([EXTRA_REMOVED_QUESTION]);
+    });
+
+    it('renders updated form values', () => {
+      const { rerender } = renderIncidentForm(defaultProps);
+
+      renderIncidentForm({
+        ...defaultProps,
+        incidentContainer: {
+          incident: {
+            phone: '061234',
+          },
+        },
+      }, rerender);
+
+      expect(screen.getByLabelText(PHONE_LABEL)).toHaveValue('061234');
+    });
+
+    it('enables controls that were disabled during a previous render', () => {
+      const props = {
+        ...defaultProps,
+        fieldConfig: {
+          controls: {
+            phone: {
+              ...defaultProps.fieldConfig.controls.phone,
+              meta: {
+                ...defaultProps.fieldConfig.controls.phone.meta,
+                ifAllOf: { foo: 'bar' }, // ifAllOf condition is false
+              },
+            },
+          },
+        },
+      };
+
+      const { rerender } = renderIncidentForm(props);
+
+      expect(screen.queryByLabelText(PHONE_LABEL)).not.toBeInTheDocument();
+
+      renderIncidentForm({
+        ...props,
+        incidentContainer: {
+          incident: {
+            foo: 'bar',
+          },
+        },
+      }, rerender);
+
+      expect(screen.getByLabelText(PHONE_LABEL)).toBeInTheDocument();
+    });
   });
 
   describe('events', () => {
@@ -93,21 +174,6 @@ describe('<IncidentForm />', () => {
       fireEvent(submitButton, clickEvent);
 
       expect(clickEvent.preventDefault).toHaveBeenCalled();
-    });
-
-    it('expect to render correctly when form vars have changed', () => {
-      const { rerender } = renderIncidentForm(defaultProps);
-
-      renderIncidentForm({
-        ...defaultProps,
-        incidentContainer: {
-          incident: {
-            phone: '061234',
-          },
-        },
-      }, rerender);
-
-      expect(screen.getByLabelText(PHONE_LABEL)).toHaveValue('061234');
     });
 
     describe('sync submit', () => {
@@ -227,42 +293,6 @@ describe('<IncidentForm />', () => {
       renderIncidentForm(propsAfterLoading, rerender);
 
       expect(nextSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('Extra questions', () => {
-    it('removes extra question data when the question is not visible anymore', () => {
-      const EXTRA_REMOVED_QUESTION = 'extra_removed_question';
-      const EXTRA_VISIBLE_QUESTION = 'extra_visible_question';
-      const VISIBLE_QUESTION = 'visible_question';
-      const baseControl = {
-        meta: {},
-        render: () => <p>baz</p>,
-      };
-      const props = {
-        ...defaultProps,
-        fieldConfig: {
-          controls: {
-            [EXTRA_REMOVED_QUESTION]: {
-              meta: { ifAllOf: { foo: 'bar' } }, // ifAllOf condition is false
-            },
-            [EXTRA_VISIBLE_QUESTION]: baseControl,
-            [VISIBLE_QUESTION]: baseControl,
-          },
-          updateValueAndValidity: jest.fn(),
-        },
-        incidentContainer: {
-          incident: {
-            [EXTRA_REMOVED_QUESTION]: 'Answer to extra question that is not visible anymore',
-            [EXTRA_VISIBLE_QUESTION]: 'Answer to extra question that is visible',
-            [VISIBLE_QUESTION]: 'Answer to question that is visible',
-          },
-        },
-      };
-
-      renderIncidentForm(props);
-
-      expect(defaultProps.removeQuestionData).toHaveBeenCalledWith([EXTRA_REMOVED_QUESTION]);
     });
   });
 });

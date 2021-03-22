@@ -49,8 +49,7 @@ export const Fieldset = styled.fieldset`
         }
 
         ${() =>
-    isSummary &&
-          isAuthenticated() &&
+    isAuthenticated() &&
           css`
             @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
               grid-template-columns: 4fr 6fr 2fr;
