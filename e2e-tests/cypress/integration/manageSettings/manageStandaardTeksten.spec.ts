@@ -222,7 +222,7 @@ describe('Standaardteksten', () => {
   describe('Check message if there is no standaardtekst', () => {
     describe('Create signal', () => {
       it('Should create a signal for a category without a standaardtekst', () => {
-        requests.createSignalDeelmelding();
+        requests.createSignalRandom();
       });
     });
     describe('Check message', () => {

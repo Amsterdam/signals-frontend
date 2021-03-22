@@ -8,7 +8,7 @@ describe('All status transitions of a signal', () => {
   describe('Setup data set 01', () => {
     it('Should setup the testdata', () => {
       // Create a random signal
-      requests.createSignalDeelmelding();
+      requests.createSignalRandom();
     });
   });
   describe('Set 01 status transitions', () => {
@@ -67,7 +67,7 @@ describe('All status transitions of a signal', () => {
   describe('Setup data set 02', () => {
     it('Should setup the testdata', () => {
       // Create a random signal
-      requests.createSignalDeelmelding();
+      requests.createSignalRandom();
     });
   });
   describe('Set 02 status transitions', () => {
@@ -97,7 +97,7 @@ describe('All status transitions of a signal', () => {
   describe('Setup data set 03', () => {
     it('Should setup the testdata', () => {
       // Create a random signal
-      requests.createSignalDeelmelding();
+      requests.createSignalRandom();
     });
   });
   describe('Set 03 status transitions', () => {
@@ -130,7 +130,7 @@ describe('All status transitions of a signal', () => {
   describe('Setup data set 04', () => {
     it('Should setup the testdata', () => {
       // Create a random signal
-      requests.createSignalDeelmelding();
+      requests.createSignalRandom();
     });
   });
   describe('Set 04 status transitions', () => {
@@ -157,7 +157,7 @@ describe('All status transitions of a signal', () => {
   describe('Set up testdata for signal to THOR', () => {
     it('Should setup the testdata', () => {
       // Create a random signal
-      requests.createSignalDeelmelding();
+      requests.createSignalRandom();
     });
   });
   describe('Send signal to THOR', () => {

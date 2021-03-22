@@ -1,11 +1,11 @@
 /* eslint-disable max-nested-callbacks */
-import * as requests from '../../support/commandsRequests';
 import { CREATE_SIGNAL, BOTEN } from '../../support/selectorsCreateSignal';
 import { CHANGE_STATUS, CHANGE_URGENCY, DEELMELDING, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { NOTIFICATONS } from '../../support/texts';
 import { generateToken } from '../../support/jwt';
-import signal from '../../fixtures/signals/deelmelding.json';
+import signal01 from '../../fixtures/signals/deelmelding01.json';
+import signal02 from '../../fixtures/signals/deelmelding02.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as deelmeldingen from '../../support/commandsDeelmeldingen';
@@ -43,19 +43,19 @@ describe('Deelmeldingen', () => {
         cy.contains('Melden').click();
         general.checkHeaderText('Beschrijf uw melding');
 
-        createSignal.setDescriptionPage(signal);
+        createSignal.setDescriptionPage(signal01);
         cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Snel varen (ASC, WAT)');
 
         cy.contains('Volgende').click();
         cy.get(BOTEN.radioButtonVrachtschip).check({ force: true });
         cy.contains('Volgende').click();
-        createSignal.setPhonenumber(signal);
+        createSignal.setPhonenumber(signal01);
         cy.contains('Volgende').click();
 
-        createSignal.setEmailAddress(signal);
+        createSignal.setEmailAddress(signal01);
         cy.contains('Volgende').click();
 
-        createSignal.checkSummaryPage(signal);
+        createSignal.checkSummaryPage(signal01);
         cy.contains('Verstuur').click();
         cy.wait('@postSignalPrivate');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
@@ -207,7 +207,9 @@ describe('Deelmeldingen', () => {
 
         routes.waitForSignalDetailsRoutes();
         cy.wait('@getTerms');
-
+        // Used a wait because sometimes the edit button is not clicked
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
         cy.get(CHANGE_URGENCY.buttonEdit).click();
         cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
         cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });
@@ -293,10 +295,38 @@ describe('Deelmeldingen', () => {
       });
     });
   });
-  describe('Change status and add multiple times deelmeldingen', () => {
+  describe.only('Change status and add multiple times deelmeldingen', () => {
     describe('Set up testdata', () => {
-      it('Should create a signal', () => {
-        requests.createSignalDeelmelding();
+      before(() => {
+        localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      });
+      it('Create a signal, user is logged in', () => {
+        routes.stubMap();
+        routes.getManageSignalsRoutes();
+        routes.stubPreviewMap();
+        routes.postSignalRoutePrivate();
+        cy.visit('/manage/incidents/');
+        routes.waitForManageSignalsRoutes();
+        general.openMenu();
+        cy.contains('Melden').click();
+        general.checkHeaderText('Beschrijf uw melding');
+
+        createSignal.setDescriptionPage(signal02);
+
+        cy.contains('Volgende').click();
+        createSignal.setPhonenumber(signal02);
+        cy.contains('Volgende').click();
+
+        createSignal.setEmailAddress(signal02);
+        cy.contains('Volgende').click();
+
+        createSignal.checkSummaryPage(signal02);
+        cy.contains('Verstuur').click();
+        cy.wait('@postSignalPrivate');
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+
+        createSignal.checkThanksPage();
+        createSignal.saveSignalId();
       });
     });
     describe('Change status and add multiple times deelmeldingen', () => {
