@@ -53,8 +53,6 @@ module.exports = require('./webpack.base.babel')({
           keep_fnames: true,
         },
         parallel: true,
-        cache: true,
-        sourceMap: true,
       }),
       new OptimizeCSSAssetsPlugin(),
     ],
