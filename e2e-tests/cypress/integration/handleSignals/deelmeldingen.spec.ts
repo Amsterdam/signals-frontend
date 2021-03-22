@@ -295,7 +295,7 @@ describe('Deelmeldingen', () => {
       });
     });
   });
-  describe.only('Change status and add multiple times deelmeldingen', () => {
+  describe('Change status and add multiple times deelmeldingen', () => {
     describe('Set up testdata', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
