@@ -80,7 +80,7 @@ describe('Manage departments', () => {
   describe('Edit responsible department and check signal category', () => {
     describe('Testdata', () => {
       it('Should setup testdata', () => {
-        requests.createSignalDeelmelding();
+        requests.createSignalRandom();
       });
     });
     describe('Change signal category', () => {
