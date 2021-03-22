@@ -18,6 +18,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
   >
     <Memo(MapContext)>
       <MapInput
+        aria-label="Weet u het adres niet, bel dan 070-373 8393 om telefonisch de melding te maken."
         hasGPSControl={true}
         id="input-field-name"
         mapOptions={

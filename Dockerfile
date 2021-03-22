@@ -27,6 +27,7 @@ COPY .gitignore \
   package.json \
   package-lock.json \
   app.base.json \
+  app.amsterdam.json \
   /app/
 
 RUN npm install
