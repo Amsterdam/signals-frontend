@@ -1,6 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 import * as requests from '../../support/commandsRequests';
-import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
+import { CREATE_SIGNAL, BOTEN } from '../../support/selectorsCreateSignal';
 import { CHANGE_STATUS, CHANGE_URGENCY, DEELMELDING, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { NOTIFICATONS } from '../../support/texts';
@@ -47,6 +47,7 @@ describe('Deelmeldingen', () => {
         cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Snel varen (ASC, WAT)');
 
         cy.contains('Volgende').click();
+        cy.get(BOTEN.radioButtonVrachtschip).check({ force: true });
         cy.contains('Volgende').click();
         createSignal.setPhonenumber(signal);
         cy.contains('Volgende').click();
