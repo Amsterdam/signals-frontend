@@ -521,7 +521,6 @@ declare namespace questions {
     lamp_doet_het_niet: string;
     lamp_brandt_overdag: string;
     geeft_lichthinder: string;
-    lamp_is_vervuild: string;
     lamp_is_zichtbaar_beschadigd: string;
     overig: string;
   }
@@ -530,7 +529,6 @@ declare namespace questions {
     lamp_doet_het_niet: string;
     lamp_brandt_overdag: string;
     geeft_lichthinder: string;
-    lamp_is_vervuild: string;
     lamp_is_zichtbaar_beschadigd: string;
     overig: string;
   }
@@ -617,14 +615,12 @@ declare namespace questions {
   export interface Values22 {
     klok_staat_niet_op_tijd_of_stil: string;
     klok_is_zichtbaar_beschadigd: string;
-    klok_is_vervuild: string;
     overig: string;
   }
 
   export interface Answers22 {
     klok_staat_niet_op_tijd_of_stil: string;
     klok_is_zichtbaar_beschadigd: string;
-    klok_is_vervuild: string;
     overig: string;
   }
 

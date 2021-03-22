@@ -53,7 +53,6 @@ describe('Create signal "Klok" which is on the map and check signal details', ()
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_probleem.label).should('be.visible');
       cy.get(KLOK.radioButtonProbleemNietOpTijd).check({ force: true }).should('be.checked');
       cy.get(KLOK.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked');
-      cy.get(KLOK.radioButtonProbleemVervuild).check({ force: true }).should('be.checked');
       cy.get(KLOK.radioButtonProbleemOverig).check({ force: true }).should('be.checked');
 
       // Third question

@@ -123,7 +123,6 @@ export const KLOK = {
   radioButtonProbleemBeschadigd: '#extra_klok_probleem-klok_is_zichtbaar_beschadigd1',
   radioButtonProbleemNietOpTijd: '#extra_klok_probleem-klok_staat_niet_op_tijd_of_stil1',
   radioButtonProbleemOverig: '#extra_klok_probleem-overig1',
-  radioButtonProbleemVervuild: '#extra_klok_probleem-klok_is_vervuild1',
 };
 
 export const LANTAARNPAAL = {
@@ -139,7 +138,6 @@ export const LANTAARNPAAL = {
   radioButtonProbleemDoetNiet: '#extra_straatverlichting_probleem-lamp_doet_het_niet1',
   radioButtonProbleemLichthinder: '#extra_straatverlichting_probleem-geeft_lichthinder1',
   radioButtonProbleemOverig: '#extra_straatverlichting_probleem-overig1',
-  radioButtonProbleemVies: '#extra_straatverlichting_probleem-lamp_is_vervuild1',
   radioButtonGevaarlijkAanrijding: '#extra_straatverlichting-is_gevolg_van_aanrijding1',
   radioButtonGevaarlijkAantalLichtenpunten: '#extra_straatverlichting_hoeveel-meerdere_lichtpunten1',
   radioButtonGevaarlijk3OfMeerKapot: '#extra_straatverlichting-drie_of_meer_kapot1',

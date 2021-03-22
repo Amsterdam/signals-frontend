@@ -36,8 +36,6 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
       cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
-      cy.get(LANTAARNPAAL.radioButtonProbleemVies).check({ force: true }).should('be.checked').and('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
       cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemOverig).check({ force: true }).should('be.checked').and('be.visible');
