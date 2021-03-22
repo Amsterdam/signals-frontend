@@ -23,19 +23,20 @@
   },
   "language": {
     "avgDisclaimer": "De gemeente Amsterdam verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='##AVG_DISCLAIMER_URL##'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
-    "district": "Stadsdeel",
     "consentToContactSharing": "Ja, ik geef gemeente Amsterdam en gemeente Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
+    "district": "Stadsdeel",
     "footer1": "Bel het Gemeentelijk informatienummer: <a href='tel:##GENERAL_PHONE_NUMBER_FORMATTED##'>##GENERAL_PHONE_NUMBER##</a>",
     "footer2": "op werkdagen van 08.00 tot 18.00 uur.",
     "headerTitle": "",
+    "logoDescription": "Logo gemeente Amsterdam, naar amsterdam.nl",
+    "mapDescription": "Weet u het adres niet, bel dan 14 020 om telefonisch de melding te maken.",
     "phoneNumber": "14 020",
     "shortTitle": "SIA",
     "siteAddress": "meldingen.amsterdam.nl",
     "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
     "smallHeaderTitle": "SIA",
     "title": "Signalen Informatievoorziening Amsterdam",
-    "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020.",
-    "logoDescription": "Logo gemeente Amsterdam, naar amsterdam.nl"
+    "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020."
   },
   "links": {
     "help": "https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365",
