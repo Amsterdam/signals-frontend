@@ -389,7 +389,6 @@
         "lamp_doet_het_niet": "Lamp doet het niet",
         "lamp_brandt_overdag": "Lamp brandt overdag, al langer dan 2 dagen aaneengesloten",
         "geeft_lichthinder": "Lamp geeft lichthinder (schijnt bijvoorbeeld in slaapkamer)",
-        "lamp_is_vervuild": "Lamp of lantaarnpaal is vies",
         "lamp_is_zichtbaar_beschadigd": "Lamp of lantaarnpaal is beschadigd of niet compleet",
         "overig": "Overig"
       },
@@ -397,7 +396,6 @@
         "lamp_doet_het_niet": "Lamp doet het niet",
         "lamp_brandt_overdag": "Lamp brandt overdag, al langer dan 2 dagen aaneengesloten",
         "geeft_lichthinder": "Lamp geeft lichthinder (schijnt bijvoorbeeld in slaapkamer)",
-        "lamp_is_vervuild": "Lamp of lantaarnpaal is vies",
         "lamp_is_zichtbaar_beschadigd": "Lamp of lantaarnpaal is beschadigd of niet compleet",
         "overig": "Overig"
       }
@@ -465,13 +463,11 @@
       "values": {
         "klok_staat_niet_op_tijd_of_stil": "Klok staat niet op tijd of staat stil",
         "klok_is_zichtbaar_beschadigd": "Klok is zichtbaar beschadigd",
-        "klok_is_vervuild": "Klok is vervuild of heeft aanslag",
         "overig": "Overig"
       },
       "answers": {
         "klok_staat_niet_op_tijd_of_stil": "Klok staat niet op tijd of staat stil",
         "klok_is_zichtbaar_beschadigd": "Klok is zichtbaar beschadigd",
-        "klok_is_vervuild": "Klok is vervuild of heeft aanslag",
         "overig": "Overig"
       }
     },
