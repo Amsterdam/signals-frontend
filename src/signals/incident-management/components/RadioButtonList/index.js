@@ -45,7 +45,7 @@ const RadioButtonList = ({
   const radioOptions = [...options];
 
   if (hasEmptySelectionButton && emptySelectionLabel) {
-    radioOptions.unshift({ key: '', name: 'empty', value: emptySelectionLabel });
+    radioOptions.unshift({ key: '', name: `${groupName}-empty`, value: emptySelectionLabel });
   }
 
   return (

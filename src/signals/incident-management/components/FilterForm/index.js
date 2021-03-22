@@ -43,7 +43,7 @@ import {
 
 import reducer, { init } from './reducer';
 
-const USERS_AUTO_SUGGEST_URL = `${configuration.USERS_ENDPOINT}?is_active=true&username=`;
+const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`;
 const getUserOptions = data =>
   data.results?.map(user => ({
     id: user.username,
@@ -465,6 +465,14 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </Fieldset>
 
+          <RadioGroup
+            defaultValue={state.options.punctuality}
+            label="Afhandeltermijn"
+            name="punctuality"
+            onChange={onRadioChange}
+            options={dataLists.punctuality}
+          />
+
           <FilterGroup>
             <Label htmlFor="filter_date" isGroupHeader>
               Datum
@@ -524,30 +532,18 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 </AscLabel>
               </div>
 
-              {userCan('view_user') ? (
-                <AutoSuggest
-                  value={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
-                  id="filter_assigned_user_email"
-                  name="assigned_user_email"
-                  onSelect={onAssignedSelect}
-                  onClear={onAssignedClear}
-                  placeholder="medewerker@example.com"
-                  url={USERS_AUTO_SUGGEST_URL}
-                  formatResponse={getUserOptions}
-                  numOptionsDeterminer={getUserCount}
-                  disabled={state.options.assigned_user_email === 'null'}
-                />
-              ) : (
-                <Input
-                  id="filter_assigned_user_email"
-                  name="assigned_user_email"
-                  placeholder="medewerker@example.com"
-                  type="text"
-                  disabled={state.options.assigned_user_email === 'null'}
-                  defaultValue={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
-                  onBlur={onAssignedTextBlur}
-                />
-              )}
+              <AutoSuggest
+                value={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
+                id="filter_assigned_user_email"
+                name="assigned_user_email"
+                onSelect={onAssignedSelect}
+                onClear={onAssignedClear}
+                placeholder="medewerker@example.com"
+                url={USERS_AUTO_SUGGEST_URL}
+                formatResponse={getUserOptions}
+                numOptionsDeterminer={getUserCount}
+                disabled={state.options.assigned_user_email === 'null'}
+              />
             </FilterGroup>
           )}
 

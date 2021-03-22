@@ -20,13 +20,18 @@ describe('Create signal category "Boten snel varen"', () => {
       cy.contains('Volgende').click();
 
       createSignal.checkSpecificInformationPage(signal);
-      cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_rondvaartboot.label).should('be.visible');
-      cy.get(BOTEN.radioButtonRondvaartbootJa).click({ force: true });
+      cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_typeboot.label).should('be.visible');
+      cy.get(BOTEN.radioButtonPlezierVaart).check({ force: true }).should('be.checked');
+      cy.get(BOTEN.inputNaamRederij).should('not.exist');
+      cy.get(BOTEN.radioButtonVrachtschip).check({ force: true }).should('be.checked');
+      cy.get(BOTEN.inputNaamRederij).should('not.exist');
+      cy.get(BOTEN.radioButtonOverig).check({ force: true }).should('be.checked');
+      cy.get(BOTEN.inputNaamRederij).should('not.exist');
+      cy.get(BOTEN.radioButtonRondvaartboot).check({ force: true }).should('be.checked');
+      cy.get(BOTEN.inputNaamRederij).should('be.visible').type('Amsterdam Boat Center');
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_rederij.label).should('be.visible');
-      cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_rederij.subtitle).should('be.visible');
-      cy.get('select').select(questions.overlastOpHetWater.extra_boten_snelheid_rederij.values.amsterdam_boat_center);
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_naamboot.label).should('be.visible');
-      cy.get(BOTEN.inputNaamBoot).type('Bota Fogo');
+      cy.get(BOTEN.inputNaamBoot).should('be.visible').type('Bota Fogo');
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_meer.label).should('be.visible');
       cy.contains(questions.overlastOpHetWater.extra_boten_snelheid_meer.subtitle).should('be.visible');
       cy.get(BOTEN.inputNogMeer).type('De boot voer richting Ouderkerk aan de Amstel');

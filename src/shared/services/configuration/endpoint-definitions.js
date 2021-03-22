@@ -80,4 +80,6 @@ export default {
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_users_
   // for reference.
   USERS_ENDPOINT: '/signals/v1/private/users/',
+  // Private. Used to `GET` autocomplete results for username input.
+  AUTOCOMPLETE_USERNAME_ENDPOINT: '/signals/v1/private/autocomplete/usernames/',
 };

@@ -1,6 +1,9 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
 
-import configuration from 'shared/services/configuration/configuration';
+import appConfiguration from 'shared/services/configuration/configuration';
+import type ConfigurationType from '../../../../../app.amsterdam.json';
+
+const configuration = appConfiguration as unknown as typeof ConfigurationType;
 
 export const wegenVerkeerStraatmeubilair = {
   // This element will be enabled each year near the christmass.
@@ -65,7 +68,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         lamp_doet_het_niet: 'Lamp doet het niet',
         lamp_brandt_overdag: 'Lamp brandt overdag, al langer dan 2 dagen aaneengesloten',
         geeft_lichthinder: 'Lamp geeft lichthinder (schijnt bijvoorbeeld in slaapkamer)',
-        lamp_is_vervuild: 'Lamp of lantaarnpaal is vies',
         lamp_is_zichtbaar_beschadigd: 'Lamp of lantaarnpaal is beschadigd of niet compleet',
         overig: 'Overig',
       },
@@ -136,7 +138,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           'lamp_doet_het_niet',
           'lamp_brandt_overdag',
           'geeft_lichthinder',
-          'lamp_is_vervuild',
           'lamp_is_zichtbaar_beschadigd',
           'overig',
         ],
@@ -160,7 +161,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           'lamp_doet_het_niet',
           'lamp_brandt_overdag',
           'geeft_lichthinder',
-          'lamp_is_vervuild',
           'lamp_is_zichtbaar_beschadigd',
           'overig',
         ],
@@ -185,7 +185,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           'lamp_doet_het_niet',
           'lamp_brandt_overdag',
           'geeft_lichthinder',
-          'lamp_is_vervuild',
           'lamp_is_zichtbaar_beschadigd',
           'overig',
         ],
@@ -252,7 +251,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       values: {
         klok_staat_niet_op_tijd_of_stil: 'Klok staat niet op tijd of staat stil',
         klok_is_zichtbaar_beschadigd: 'Klok is zichtbaar beschadigd',
-        klok_is_vervuild: 'Klok is vervuild of heeft aanslag',
         overig: 'Overig',
       },
       pathMerge: 'extra_properties',
@@ -273,7 +271,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         extra_klok_probleem: [
           'klok_staat_niet_op_tijd_of_stil',
           'klok_is_zichtbaar_beschadigd',
-          'klok_is_vervuild',
           'overig',
         ],
       },
@@ -294,7 +291,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         extra_klok_probleem: [
           'klok_staat_niet_op_tijd_of_stil',
           'klok_is_zichtbaar_beschadigd',
-          'klok_is_vervuild',
           'overig',
         ],
       },
@@ -318,7 +314,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         extra_klok_probleem: [
           'klok_staat_niet_op_tijd_of_stil',
           'klok_is_zichtbaar_beschadigd',
-          'klok_is_vervuild',
           'overig',
         ],
       },

@@ -61,9 +61,13 @@ export const BEDRIJVEN_HORECA = {
 
 export const BOTEN = {
   inputNaamBoot: '#extra_boten_snelheid_naamboot',
+  inputNaamRederij: '#extra_boten_snelheid_rederij',
   inputNogMeer: '[id^="extra_boten_"][id$="_meer"]',
-  radioButtonRondvaartbootNee: '#extra_boten_snelheid_rondvaartboot-nee1',
-  radioButtonRondvaartbootJa: '#extra_boten_snelheid_rondvaartboot-ja1',
+  radioButtonOverig: '#extra_boten_snelheid_typeboot-overig1',
+  radioButtonPlezierVaart: '#extra_boten_snelheid_typeboot-pleziervaart1',
+  radioButtonRondvaartboot: '#extra_boten_snelheid_typeboot-rondvaartboot_of_salonboot1',
+  radioButtonVrachtschip: '#extra_boten_snelheid_typeboot-vrachtschip_of_binnenvaartschip1',
+
 };
 
 export const CONTAINERS = {
@@ -119,7 +123,6 @@ export const KLOK = {
   radioButtonProbleemBeschadigd: '#extra_klok_probleem-klok_is_zichtbaar_beschadigd1',
   radioButtonProbleemNietOpTijd: '#extra_klok_probleem-klok_staat_niet_op_tijd_of_stil1',
   radioButtonProbleemOverig: '#extra_klok_probleem-overig1',
-  radioButtonProbleemVervuild: '#extra_klok_probleem-klok_is_vervuild1',
 };
 
 export const LANTAARNPAAL = {
@@ -135,7 +138,6 @@ export const LANTAARNPAAL = {
   radioButtonProbleemDoetNiet: '#extra_straatverlichting_probleem-lamp_doet_het_niet1',
   radioButtonProbleemLichthinder: '#extra_straatverlichting_probleem-geeft_lichthinder1',
   radioButtonProbleemOverig: '#extra_straatverlichting_probleem-overig1',
-  radioButtonProbleemVies: '#extra_straatverlichting_probleem-lamp_is_vervuild1',
   radioButtonGevaarlijkAanrijding: '#extra_straatverlichting-is_gevolg_van_aanrijding1',
   radioButtonGevaarlijkAantalLichtenpunten: '#extra_straatverlichting_hoeveel-meerdere_lichtpunten1',
   radioButtonGevaarlijk3OfMeerKapot: '#extra_straatverlichting-drie_of_meer_kapot1',

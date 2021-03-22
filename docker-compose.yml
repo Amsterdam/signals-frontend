@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  frontend-dev:
+    build:
+      context: .
+      target: base
+      args:
+        - ENABLE_SERVICEWORKER=0
+    volumes:
+      - ./e2e-tests/app.json:/app/app.json
+      - ./app.amsterdam.json:/app/app.base.json
+      - ./src:/app/src
+    ports:
+      - 3001:3001
+    command: npm start
+    depends_on:
+      - backend
+
   frontend:
     build:
       context: .
@@ -11,6 +27,8 @@ services:
       - ./app.amsterdam.json:/app.base.json
     ports:
       - 3001:80
+    depends_on:
+      - backend
 
   backend:
     image: signalen/backend:latest
@@ -36,6 +54,7 @@ services:
       - 8000:8000
     depends_on:
       - database
+      - dex
 
   database:
     image: amsterdam/postgres11:latest

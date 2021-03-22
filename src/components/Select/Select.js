@@ -63,7 +63,8 @@ const Select = forwardRef(
 const optionType = PropTypes.shape({
   key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+  slug: PropTypes.string,
   group: PropTypes.string,
 });
 
