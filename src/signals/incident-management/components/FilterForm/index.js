@@ -465,6 +465,14 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             />
           </Fieldset>
 
+          <RadioGroup
+            defaultValue={state.options.punctuality}
+            label="Afhandeltermijn"
+            name="punctuality"
+            onChange={onRadioChange}
+            options={dataLists.punctuality}
+          />
+
           <FilterGroup>
             <Label htmlFor="filter_date" isGroupHeader>
               Datum

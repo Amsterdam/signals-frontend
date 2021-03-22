@@ -11,7 +11,7 @@ import formatConditionalForm from '../../services/format-conditional-form';
 
 export const Form = styled.form`
   width: 100%;
-  `;
+`;
 
 export const Fieldset = styled.fieldset`
   border: 0;
@@ -188,6 +188,8 @@ class IncidentForm extends React.Component {
       if (this.form.valid) {
         this.setIncident(formAction);
         next();
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
 

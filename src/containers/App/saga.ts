@@ -108,7 +108,7 @@ export function* callSearchIncidents() {
 export function* fetchSources() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result = yield call(authCall, configuration.SOURCES_ENDPOINT);
+    const result = yield call(authCall, configuration.SOURCES_ENDPOINT, { is_active: 'true' });
 
     yield put(getSourcesSuccess((result as DataResult<string>).results));
   } catch (error: unknown) {

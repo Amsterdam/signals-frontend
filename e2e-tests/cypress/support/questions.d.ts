@@ -404,163 +404,22 @@ declare namespace questions {
     extra_parkeeroverlast: ExtraParkeeroverlast;
   }
 
-  export interface Values15 {
-    ja: string;
-    nee: string;
-  }
-
-  export interface Answers15 {
-    ja: string;
-    nee: string;
-  }
-
-  export interface ExtraBotenSnelheidRondvaartboot {
-    label: string;
-    shortLabel: string;
-    values: Values15;
-    answers: Answers15;
-  }
-
-  export interface Values16 {
-    onbekend: string;
-    admiraal_heijn: string;
-    amsterdam_boat_center: string;
-    amsterdam_boat_events: string;
-    amsterdam_canal_cruises: string;
-    amsterdamse_salonboot_rederij: string;
-    amsterdamse_watertaxi_centrale: string;
-    arviro: string;
-    atropa_belladonna: string;
-    avontuur_amsterdam: string;
-    blue_boat_company: string;
-    bughouse_tours_amsterdam: string;
-    canal_bus: string;
-    canal_company: string;
-    canal_rondvaart: string;
-    classic_boat_dinners: string;
-    classicship_service: string;
-    edutech: string;
-    hollandsche_vaartochten_mij: string;
-    leemstar: string;
-    meijers_rondvaarten: string;
-    meinema_wd: string;
-    mokumBoot: string;
-    nationale_vereniging_de_zonnebloem: string;
-    new_orange: string;
-    paradis_private_boat_tours: string;
-    rederij_aemstelland: string;
-    rederij_amsterdam: string;
-    rederij_belle: string;
-    rederij_cruise_with_us: string;
-    rederij_de_jordaan: string;
-    rederij_de_nederlanden: string;
-    rederij_friendship: string;
-    rederij_griffioen: string;
-    rederij_gypsy_ballad: string;
-    rederij_kooij: string;
-    rederij_leemstar: string;
-    rederij_lieve: string;
-    rederij_lovers: string;
-    rederij_nassau: string;
-    rederij_plas: string;
-    rederij_t_smidtje: string;
-    rederij_vlaun: string;
-    rederij_welvaren: string;
-    salonboot_adeline: string;
-    salonboot_belle_van_zuylen: string;
-    salonboot_dame_van_amstel: string;
-    salonboot_hilda: string;
-    scheepsbouw_achterbos_theo_kok: string;
-    shoulders_sloepen: string;
-    smidtje_beheer: string;
-    smidtje_exploitatie: string;
-    smidtje_holding: string;
-    sop: string;
-    stichting_behoud_salonboot_avanti: string;
-    stichting_cordaan_groep: string;
-    stichting_de_kalefater: string;
-    stichting_motorschip_jonckvrouw: string;
-    ver_Vrienden_van_de_boonapanich: string;
-    ver_van_vrienden_van_de_britannia: string;
-    waterlelie_rondvaart: string;
-    windkracht_18: string;
-    wolfsburght: string;
-    zonneboot_amsterdam: string;
-  }
-
-  export interface Answers16 {
-    onbekend: string;
-    admiraal_heijn: string;
-    amsterdam_boat_center: string;
-    amsterdam_boat_events: string;
-    amsterdam_canal_cruises: string;
-    amsterdamse_salonboot_rederij: string;
-    amsterdamse_watertaxi_centrale: string;
-    arviro: string;
-    atropa_belladonna: string;
-    avontuur_amsterdam: string;
-    blue_boat_company: string;
-    bughouse_tours_amsterdam: string;
-    canal_bus: string;
-    canal_company: string;
-    canal_rondvaart: string;
-    classic_boat_dinners: string;
-    classicship_service: string;
-    edutech: string;
-    hollandsche_vaartochten_mij: string;
-    leemstar: string;
-    meijers_rondvaarten: string;
-    meinema_wd: string;
-    mokumBoot: string;
-    nationale_vereniging_de_zonnebloem: string;
-    new_orange: string;
-    paradis_private_boat_tours: string;
-    rederij_aemstelland: string;
-    rederij_amsterdam: string;
-    rederij_belle: string;
-    rederij_cruise_with_us: string;
-    rederij_de_jordaan: string;
-    rederij_de_nederlanden: string;
-    rederij_friendship: string;
-    rederij_griffioen: string;
-    rederij_gypsy_ballad: string;
-    rederij_kooij: string;
-    rederij_leemstar: string;
-    rederij_lieve: string;
-    rederij_lovers: string;
-    rederij_nassau: string;
-    rederij_plas: string;
-    rederij_t_smidtje: string;
-    rederij_vlaun: string;
-    rederij_welvaren: string;
-    salonboot_adeline: string;
-    salonboot_belle_van_zuylen: string;
-    salonboot_dame_van_amstel: string;
-    salonboot_hilda: string;
-    scheepsbouw_achterbos_theo_kok: string;
-    shoulders_sloepen: string;
-    smidtje_beheer: string;
-    smidtje_exploitatie: string;
-    smidtje_holding: string;
-    sop: string;
-    stichting_behoud_salonboot_avanti: string;
-    stichting_cordaan_groep: string;
-    stichting_de_kalefater: string;
-    stichting_motorschip_jonckvrouw: string;
-    ver_Vrienden_van_de_boonapanich: string;
-    ver_van_vrienden_van_de_britannia: string;
-    waterlelie_rondvaart: string;
-    windkracht_18: string;
-    wolfsburght: string;
-    zonneboot_amsterdam: string;
-  }
-
-  export interface ExtraBotenSnelheidRederij {
-    subtitle: string;
+  export interface ExtraBotenSnelheidTypeboot {
     label: string;
     shortLabel: string;
     values: Values16;
-    answers: Answers16;
+  }
+
+  export interface Values16 {
+    pleziervaart: string;
+    rondvaartboot_of_salonboot: string;
+    vrachtschip_of_binnenvaartschip: string;
+    overig: string;
+  }
+
+  export interface ExtraBotenSnelheidRederij {
+    label: string;
+    shortLabel: string;
   }
 
   export interface ExtraBotenSnelheidNaamboot {
@@ -587,7 +446,7 @@ declare namespace questions {
   }
 
   export interface OverlastOpHetWater {
-    extra_boten_snelheid_rondvaartboot: ExtraBotenSnelheidRondvaartboot;
+    extra_boten_snelheid_typeboot: ExtraBotenSnelheidTypeboot;
     extra_boten_snelheid_rederij: ExtraBotenSnelheidRederij;
     extra_boten_snelheid_naamboot: ExtraBotenSnelheidNaamboot;
     extra_boten_snelheid_meer: ExtraBotenSnelheidMeer;
@@ -662,7 +521,6 @@ declare namespace questions {
     lamp_doet_het_niet: string;
     lamp_brandt_overdag: string;
     geeft_lichthinder: string;
-    lamp_is_vervuild: string;
     lamp_is_zichtbaar_beschadigd: string;
     overig: string;
   }
@@ -671,7 +529,6 @@ declare namespace questions {
     lamp_doet_het_niet: string;
     lamp_brandt_overdag: string;
     geeft_lichthinder: string;
-    lamp_is_vervuild: string;
     lamp_is_zichtbaar_beschadigd: string;
     overig: string;
   }
@@ -758,14 +615,12 @@ declare namespace questions {
   export interface Values22 {
     klok_staat_niet_op_tijd_of_stil: string;
     klok_is_zichtbaar_beschadigd: string;
-    klok_is_vervuild: string;
     overig: string;
   }
 
   export interface Answers22 {
     klok_staat_niet_op_tijd_of_stil: string;
     klok_is_zichtbaar_beschadigd: string;
-    klok_is_vervuild: string;
     overig: string;
   }
 
