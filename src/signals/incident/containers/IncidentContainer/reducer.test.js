@@ -13,6 +13,7 @@ import {
   SET_CLASSIFICATION,
   GET_QUESTIONS_SUCCESS,
   RESET_EXTRA_STATE,
+  REMOVE_QUESTION_DATA,
 } from './constants';
 
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
@@ -321,6 +322,23 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           },
         },
       });
+    });
+  });
+
+  describe('REMOVE_QUESTION_DATA', () => {
+    it('returns reset state', () => {
+      const intermediateState = initialState.set(
+        'incident',
+        initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
+      );
+
+      const newState = incidentContainerReducer(intermediateState, {
+        type: REMOVE_QUESTION_DATA,
+        payload: ['extra_something'],
+      });
+
+      expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
+      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(true);
     });
   });
 

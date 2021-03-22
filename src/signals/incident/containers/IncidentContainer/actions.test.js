@@ -14,6 +14,7 @@ import {
   GET_QUESTIONS_SUCCESS,
   GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
+  REMOVE_QUESTION_DATA,
 } from './constants';
 
 import {
@@ -30,6 +31,7 @@ import {
   getQuestionsSuccess,
   getQuestionsError,
   resetExtraState,
+  removeQuestionData,
 } from './actions';
 
 describe('Incident container actions', () => {
@@ -51,6 +53,10 @@ describe('Incident container actions', () => {
 
   it('should dispatch reset incident action', () => {
     testActionCreator(resetIncident, RESET_INCIDENT);
+  });
+
+  it('should dispatch remove question action', () => {
+    testActionCreator(removeQuestionData, REMOVE_QUESTION_DATA);
   });
 
   it('should dispatch create incident action', () => {

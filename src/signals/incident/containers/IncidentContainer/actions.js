@@ -12,10 +12,16 @@ import {
   GET_QUESTIONS_SUCCESS,
   GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
+  REMOVE_QUESTION_DATA,
 } from './constants';
 
 export const updateIncident = payload => ({
   type: UPDATE_INCIDENT,
+  payload,
+});
+
+export const removeQuestionData = payload => ({
+  type: REMOVE_QUESTION_DATA,
   payload,
 });
 
