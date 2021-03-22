@@ -2,7 +2,6 @@ const path = require('path');
 const pkgDir = require('pkg-dir');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
-const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -96,12 +95,6 @@ module.exports = require('./webpack.base.babel')({
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0.8,
-    }),
-
-    new HashedModuleIdsPlugin({
-      hashFunction: 'sha256',
-      hashDigest: 'hex',
-      hashDigestLength: 20,
     }),
 
     // Put it in the end to capture all the HtmlWebpackPlugin's
