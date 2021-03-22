@@ -56,10 +56,6 @@ module.exports = require('./webpack.base.babel')({
       new OptimizeCSSAssetsPlugin(),
     ],
     nodeEnv: 'production',
-    namedChunks: true,
-    namedModules: true,
-    moduleIds: 'named',
-    chunkIds: 'named',
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'async',
