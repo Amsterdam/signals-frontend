@@ -97,7 +97,7 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
             {responsibleDepartments.length > 0 ? (
               <FieldGroup>
                 <dt><strong>Verantwoordelijke afdeling</strong></dt>
-                <dd>{responsibleDepartments.join(', ')}</dd>
+                <dd data-testid="responsible_departments">{responsibleDepartments.join(', ')}</dd>
               </FieldGroup>
             ) : null}
 
@@ -176,6 +176,7 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
 CategoryForm.defaultProps = {
   data: {
     sla: {},
+    departments: [],
   },
   onCancel: null,
   onSubmitForm: null,
