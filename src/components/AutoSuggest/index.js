@@ -242,6 +242,7 @@ const AutoSuggest = ({
           ref={inputRef}
           disabled={disabled}
           id={id}
+          autoComplete="off"
           {...rest}
         />
       </div>
