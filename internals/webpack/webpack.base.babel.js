@@ -54,7 +54,7 @@ module.exports = options => ({
       },
       {
         test: /\.(eot|otf|ttf|woff|woff2)$/,
-        use: 'file-loader',
+        type: 'asset/resource',
       },
       {
         test: /\.svg$/,
@@ -102,6 +102,7 @@ module.exports = options => ({
             },
           },
         ],
+        type: 'javascript/auto',
       },
       {
         test: /\.html$/,
@@ -115,6 +116,7 @@ module.exports = options => ({
             limit: 10000,
           },
         },
+        type: 'javascript/auto',
       },
     ],
   },
