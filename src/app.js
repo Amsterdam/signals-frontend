@@ -81,8 +81,25 @@ const installServiceWorker = () => {
     const runtime = require('offline-plugin/runtime');
 
     runtime.install({
+      onUpdating: () => {
+        // eslint-disable-next-line no-console
+        console.log('SW Event:', 'onUpdating', release);
+      },
       onUpdateReady: () => {
+        // eslint-disable-next-line no-console
+        console.log('SW Event:', 'onUpdateReady', release);
+        // Tells to new SW to take control immediately
         runtime.applyUpdate();
+      },
+      onUpdated: () => {
+        // eslint-disable-next-line no-console
+        console.log('SW Event:', 'onUpdated', release);
+        // Reload the webpage to load into the new version
+        window.location.reload();
+      },
+      onUpdateFailed: () => {
+        // eslint-disable-next-line no-console
+        console.log('SW Event:', 'onUpdateFailed', release);
       },
     });
   }
