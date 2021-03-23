@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { RadioGroup, Radio, Label } from '@amsterdam/asc-ui';
+import { RadioGroup, Radio } from '@amsterdam/asc-ui';
 
-import { StyledInfoText, StyledLabel } from '../../styled';
+import { StyledInfoText, StyledRadioLabel, StyledLabel } from '../../styled';
 
 const getSelectedOption = (options, value) => options.find(({ key }) => key === value);
 
@@ -19,13 +19,13 @@ const IncidentSplitRadioInput = ({ className, id, name, display, options, initia
 
   return (
     <div className={className}>
-      <Label htmlFor={name} label={<strong>{display}</strong>} />
+      <StyledLabel htmlFor={name} label={<strong>{display}</strong>} />
 
       <RadioGroup name={name} data-testid={`incidentSplitRadioInput-${id}`}>
         {options.map(({ key, value }) => (
-          <StyledLabel key={key} label={value}>
+          <StyledRadioLabel key={key} label={value}>
             <Radio id={`${id}-${key}`} checked={key === initialValue} value={key} ref={register} onChange={onChange} />
-          </StyledLabel>
+          </StyledRadioLabel>
         ))}
       </RadioGroup>
 
