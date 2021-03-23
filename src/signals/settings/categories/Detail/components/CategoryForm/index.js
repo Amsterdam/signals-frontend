@@ -61,7 +61,7 @@ const statusOptions = [
 const DEFAULT_STATUS_OPTION = 'true';
 
 const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
-  const responsibleDepartments = useMemo(() => data.departments?.filter(department => department.is_responsible), [data.departments]).map(department => department.code);
+  const responsibleDepartments = useMemo(() => data.departments.filter(department => department.is_responsible), [data.departments]).map(department => department.code);
 
   return (
     <Form action="" data-testid="detailCategoryForm">
