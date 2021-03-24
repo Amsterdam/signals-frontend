@@ -196,3 +196,37 @@ export const createSignalRandom = () => {
     cy.log(id);
   });
 };
+
+export const createSignalKTO = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.90314992, 52.37847329] },
+        address: {
+          openbare_ruimte: 'Stationsplein',
+          huisnummer: '1',
+          postcode: '1012AB',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/afval/sub_categories/overig-afval',
+      },
+      reporter: {
+        phone: '06112',
+        email: 'siafakemail@sia.nl',
+        sharing_allowed: false,
+      },
+      incident_date_start: '2021-03-09T14:06:31+02:00',
+      text: 'Het gaat om een melding',
+    },
+  }).its('body').then(body => {
+    const id = body.id as string;
+    cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${id}` }, { flag: 'w' });
+    cy.log(id);
+  });
+};

@@ -22,9 +22,11 @@ export const checkHeaderText = (header: string) => {
 };
 
 /**
- * Custom command to open the menu.
- * @example cy.openMenu();
-*/
+  * Custom command to get the Iframe body
+  * @example cy.getIframeBody();
+ */
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+export const getIframeBody = () => cy.get('iframe').its('0.contentDocument.body').should('not.be.empty').then(cy.wrap);
 
 /**
   * Custom command to get the date of today.
@@ -38,6 +40,10 @@ export const getTodaysDate = () => {
   return `${dd}-${mm}-${yyyy}`;
 };
 
+/**
+ * Custom command to open the menu.
+ * @example cy.openMenu();
+*/
 export const openMenu = () => {
   cy.get('[aria-label=Menu]').click();
 };
