@@ -71,11 +71,11 @@ export interface CategoryFormProps {
   onSubmitForm: (event: MouseEvent) => void;
   readOnly: boolean;
   history: HistoryType[];
-  data: CategoryType;
+  data?: CategoryType;
 }
 
 const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
-  const responsibleDepartments = useMemo(() => data.departments.filter(department => department.is_responsible), [data.departments]).map(department => department.code);
+  const responsibleDepartments = useMemo(() => data ? data.departments.filter(department => department.is_responsible).map(department => department.code) : [], [data]);
 
   return (
     <Form action="" data-testid="detailCategoryForm">
@@ -84,7 +84,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onC
           <div>
             <FieldGroup>
               <Input
-                defaultValue={data.name}
+                defaultValue={data?.name}
                 disabled={readOnly}
                 hint="Het wijzigen van de naam heeft geen invloed op het type melding"
                 id="name"
@@ -97,7 +97,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onC
 
             <FieldGroup>
               <TextArea
-                defaultValue={data.description}
+                defaultValue={data?.description}
                 disabled={readOnly}
                 id="description"
                 label={<strong>Omschrijving</strong>}
@@ -119,7 +119,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onC
 
               <CombinedFields>
                 <Input
-                  defaultValue={data.sla.n_days}
+                  defaultValue={data?.sla.n_days}
                   disabled={readOnly}
                   id="n_days"
                   name="n_days"
@@ -129,7 +129,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onC
                 />
 
                 <StyledSelect
-                  defaultValue={data.sla.use_calendar_days ? 1 : 0}
+                  defaultValue={data?.sla.use_calendar_days ? 1 : 0}
                   disabled={readOnly}
                   id="use_calendar_days"
                 >
@@ -141,7 +141,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onC
 
             <FieldGroup>
               <TextArea
-                defaultValue={data.handling_message}
+                defaultValue={data?.handling_message}
                 disabled={readOnly}
                 id="handling_message"
                 label={<strong>Servicebelofte</strong>}
@@ -154,12 +154,11 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onC
             <FieldGroup>
               <Label as="span">Status</Label>
               <RadioButtonList
-                defaultValue={data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
+                defaultValue={data?.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`}
                 groupName="is_active"
                 hasEmptySelectionButton={false}
                 options={statusOptions}
                 disabled={readOnly}
-                onChange={() => { }}
               />
             </FieldGroup>
           </div>
