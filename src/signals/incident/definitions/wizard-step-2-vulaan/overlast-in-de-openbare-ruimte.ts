@@ -21,7 +21,7 @@ export const overlastInDeOpenbareRuimte = {
         subcategory:
           'fietswrak',
       },
-      label: 'Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?',
+      label: 'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
       subtitle: 'Bijvoorbeeld: merk, kleur, roest, zonder wielen',
       shortLabel: 'Extra informatie',
       pathMerge: 'extra_properties',

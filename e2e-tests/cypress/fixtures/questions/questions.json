@@ -266,17 +266,17 @@
   "overlastInDeOpenbareRuimte": {
     "extra_auto_scooter_bromfietswrak": {
       "subtitle": "Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?",
+      "label": "Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?",
       "shortLabel": "Extra informatie"
     },
     "extra_fietswrak": {
       "subtitle": "Bijvoorbeeld: merk, kleur, roest, zonder wielen",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?",
+      "label": "Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?",
       "shortLabel": "Extra informatie"
     },
     "extra_parkeeroverlast": {
       "subtitle": "Bijvoorbeeld: kenteken, merk en kleur",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over de kenmerken van de auto, bus of motor?",
+      "label": "Wat weet u over de auto, bus of motor?",
       "shortLabel": "Extra informatie"
     }
   },
@@ -333,17 +333,17 @@
       "answers": "Weet u de naam van de jongere(n)? Gebruik dan het formulier Melding zorg en woonoverlast. Dan komt uw melding direct bij het juiste team terecht."
     },
     "extra_personen_overig": {
-      "label": "Om hoe veel personen gaat het (ongeveer)?",
+      "label": "Om hoeveel personen gaat het (ongeveer)?",
       "shortLabel": "Aantal personen",
       "values": {
-        "1-3": "1 - 3",
-        "4-6": "4 - 6",
+        "1-3": "1, 2 of 3",
+        "4-6": "4, 5 of 6",
         "7_of_meer": "7 of meer",
         "onbekend": "Onbekend"
       },
       "answers": {
-        "1-3": "1 - 3",
-        "4-6": "4 - 6",
+        "1-3": "1, 2 of 3",
+        "4-6": "4, 5 of 6",
         "7_of_meer": "7 of meer",
         "onbekend": "Onbekend"
       }
@@ -367,12 +367,12 @@
   },
   "wegenVerkeerStraatmeubilair": {
     "extra_brug": {
-      "label": "Hebt u een naam of nummer van de brug?",
+      "label": "Wat is de naam of het nummer van de brug?",
       "shortLabel": "Naam brug"
     },
     "extra_onderhoud_stoep_straat_en_fietspad": {
       "subtitle": "Bijvoorbeeld: asfalt, klinkers of stoeptegels",
-      "label": "Hebt u verteld om wat voor soort wegdek het gaat?",
+      "label": "Om wat voor soort wegdek gaat het?",
       "shortLabel": "Soort wegdek"
     },
     "extra_wegen_gladheid": {
@@ -401,8 +401,8 @@
       }
     },
     "extra_straatverlichting": {
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "values": {
         "drie_of_meer_kapot": "Ja, 3 of meer lampen in de straat zijn kapot",
         "is_gevolg_van_aanrijding": "Ja, het is een gevolg van een aanrijding",
@@ -437,8 +437,8 @@
       "shortLabel": "Lichtpunt(en) niet op kaart"
     },
     "extra_klok": {
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "values": {
         "is_gevolg_van_aanrijding": "Het is het gevolg van een aanrijding",
         "klok_op_grond_of_scheef": "Klok ligt op de grond of staat gevaarlijk scheef",
@@ -472,7 +472,7 @@
       }
     },
     "extra_klok_nummer": {
-      "label": "Selecteer de klok waar het om gaat",
+      "label": "Kies de klok waar het om gaat",
       "shortLabel": "Klok(ken) op kaart"
     },
     "extra_klok_niet_op_kaart": {
@@ -480,12 +480,12 @@
       "value": "De klok staat niet op de kaart"
     },
     "extra_klok_niet_op_kaart_nummer": {
-      "label": "Weet u het nummer dat op de klok staat?",
+      "label": "Wat is het nummer dat op de klok staat?",
       "shortLabel": "Klok(ken) niet op kaart"
     },
     "extra_verkeerslicht": {
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "values": {
         "is_gevolg_van_aanrijding": "Het is het gevolg van een aanrijding",
         "verkeerslicht_op_grond_of_scheef": "Verkeerslicht ligt op de grond of staat gevaarlijk scheef",
@@ -505,7 +505,7 @@
       "answers": "Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen."
     },
     "extra_verkeerslicht_welk": {
-      "label": "Welk verkeerslicht werkt niet juist?",
+      "label": "Welk verkeerslicht werkt niet goed?",
       "shortLabel": "Type verkeerslicht",
       "values": {
         "voetganger": "Voetganger",
@@ -563,29 +563,29 @@
         "rood_werkt_niet": "Rood licht werkt niet",
         "oranje_werkt_niet": "Oranje/geel licht werkt niet",
         "wit_werkt_niet": "Wit licht werkt niet",
-        "waarschuwingslicht_tram_werkt_niet": "Waarschuwingslicht tram werkt niet",
+        "waarschuwingslicht_tram_werkt_niet": "Licht dat waarschuwt voor aankomende tram werkt niet",
         "anders": "Anders"
       },
       "answers": {
         "rood_werkt_niet": "Rood licht werkt niet",
         "oranje_werkt_niet": "Oranje/geel licht werkt niet",
         "wit_werkt_niet": "Wit licht werkt niet",
-        "waarschuwingslicht_tram_werkt_niet": "Waarschuwingslicht tram werkt niet",
+        "waarschuwingslicht_tram_werkt_niet": "Licht dat waarschuwt voor aankomende tram werkt niet",
         "anders": "Anders"
       }
     },
     "extra_verkeerslicht_rijrichting": {
-      "subtitle": "Bijvoorbeeld: In de richting van Waterlooplein naar Mr. Visserplein",
+      "subtitle": "Bijvoorbeeld: van Waterlooplein naar Mr. Visserplein",
       "label": "Wat is de rijrichting?",
       "shortLabel": "Rijrichting"
     },
     "extra_verkeerslicht_nummer": {
       "subtitle": "Deze kunt u meestal vinden in witte tekst onder of boven de lampen",
-      "label": "Weet u het nummer van het verkeerslicht?",
+      "label": "Wat is het nummer van het verkeerslicht?",
       "shortLabel": "Verkeerslicht nummer"
     },
     "extra_fietsrek_aanvragen": {
-      "label": "Wilt u misschien een nieuw fietsenrek of 'nietje' aanvragen?",
+      "label": "Wilt u een nieuw fietsenrek of 'nietje' aanvragen?",
       "shortLabel": "Fietsenrek aanvragen",
       "values": {
         "ja": "Ja, dat ik wil ik",
@@ -673,7 +673,7 @@
       }
     },
     "extra_wonen_woningdelen_bewoners_familie": {
-      "label": "Zijn de bewoners familie van elkaar?",
+      "label": "Zijn de bewoners volgens u familie van elkaar?",
       "shortLabel": "Bewoners familie",
       "values": {
         "ja": "Ja, de bewoners zijn familie",
@@ -701,7 +701,7 @@
       }
     },
     "extra_wonen_woningdelen_wisselende_bewoners": {
-      "label": "Komen er vaak andere bewoners op het adres wonen?",
+      "label": "Komen er vaak nieuwe mensen op het adres wonen?",
       "shortLabel": "Wisselende bewoners",
       "values": {
         "ja": "Ja, vaak andere bewoners op het adres",
@@ -739,7 +739,7 @@
       }
     },
     "extra_wonen_onderhuur_bewoners_familie": {
-      "label": "Zijn de mensen die op dit adres wonen familie van elkaar?",
+      "label": "Zijn de mensen die op dit adres wonen volgens u familie van elkaar?",
       "shortLabel": "Bewoners familie",
       "values": {
         "ja": "Ja, ze zijn familie van elkaar",
@@ -794,7 +794,7 @@
       }
     },
     "extra_wonen_onderhuur_adres_huurder": {
-      "label": "Wat is het adres waar de officiële huurder woont?",
+      "label": "Waar woont de officiële huurder?",
       "shortLabel": "Adres huurder"
     },
     "extra_wonen_leegstand_naam_eigenaar": {
@@ -834,7 +834,7 @@
       "shortLabel": "Naam persoon"
     },
     "extra_wonen_leegstand_activiteit_in_woning": {
-      "label": "Wat doet deze persoon in de woning?",
+      "label": "Wat doet deze persoon volgens u in de woning?",
       "shortLabel": "Activiteit in de woning"
     },
     "extra_wonen_leegstand_iemand_aanwezig": {
@@ -884,7 +884,7 @@
       }
     },
     "extra_wonen_vakantieverhuur_hoe_vaak": {
-      "label": "Heeft u vaker toeristen in de woning gezien?",
+      "label": "Hebt u vaker toeristen in de woning gezien?",
       "shortLabel": "Hoe vaak",
       "values": {
         "maandelijks": "Ongeveer één keer per maand",
@@ -915,7 +915,7 @@
     },
     "extra_wonen_vakantieverhuur_bewoning": {
       "subtitle": "De persoon die langdurig de woning bewoont",
-      "label": "Weet u of er iemand op het adres woont?",
+      "label": "Woont er iemand op het adres?",
       "shortLabel": "Bewoning",
       "values": {
         "ja": "Ja, er woont iemand op het adres",

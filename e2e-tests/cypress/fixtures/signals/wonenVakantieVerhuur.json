@@ -67,7 +67,7 @@
     },
     {
       "id": "extra_wonen_vakantieverhuur_hoe_vaak",
-      "label": "Heeft u vaker toeristen in de woning gezien?",
+      "label": "Hebt u vaker toeristen in de woning gezien?",
       "shortLabel": "Hoe vaak",
       "answer": {
         "id": "maandelijks",
@@ -85,7 +85,7 @@
     },
     {
       "id": "extra_wonen_vakantieverhuur_bewoning",
-      "label": "Weet u of er iemand op het adres woont?",
+      "label": "Woont er iemand op het adres?",
       "shortLabel": "Bewoning",
       "answer": {
         "id": "ja",

@@ -28,7 +28,7 @@ describe('Create signal "Klok" which is on the map and check signal details', ()
       // Click on next to invoke error message
       cy.contains('Volgende').click();
       cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Is de situatie gevaarlijk?')
+        .contains('Denkt u dat de situatie gevaarlijk is?')
         .siblings(CREATE_SIGNAL.errorItem)
         .contains(ERROR_MESSAGES.mandatoryField);
 
