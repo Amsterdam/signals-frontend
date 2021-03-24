@@ -1,7 +1,7 @@
 {
   "afval": {
     "extra_afval": {
-      "label": "Heeft u een vermoeden waar het afval vandaan komt?",
+      "label": "Waar komt het afval vandaan, denkt u?",
       "shortLabel": "Waar vandaan"
     },
     "extra_container_kind": {

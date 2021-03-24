@@ -78,7 +78,7 @@ describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
       const expected = expect.objectContaining({
         vulaan: {
           extra_afval: {
-            label: 'Heeft u een vermoeden waar het afval vandaan komt?',
+            label: 'Waar komt het afval vandaan, denkt u?',
             optional: true,
             render: Label,
           },
