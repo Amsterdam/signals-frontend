@@ -576,7 +576,7 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_toestemming_contact: 'nee',
         extra_wonen_woonkwaliteit_direct_gevaar: 'nee',
       },
-      label: 'Waarom heeft u liever geen contact?',
+      label: 'Waarom hebt u liever geen contact?',
       shortLabel: 'Liever geen contact',
       pathMerge: 'extra_properties',
     },
@@ -637,7 +637,7 @@ const vakantieverhuur = {
         maandelijks: 'Ongeveer één keer per maand',
         wekelijks: 'Ongeveer één keer per week',
         dagelijks: 'Bijna dagelijks',
-        eerste_keer: 'Nee, dit is de eerste keer',
+        eerste_keer: 'Nee, het is de eerste keer',
       },
     },
     options: {

@@ -63,14 +63,14 @@
     },
     {
       "id": "extra_bedrijven_horeca_adres",
-      "label": "Op welk adres ervaart u de overlast?",
+      "label": "Op welk adres hebt u overlast?",
       "shortLabel": "Adres overlast",
       "answer": "Piet Heinkade 3, maar dat had ik toch al gezegd?",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_muziek_evenement",
-      "label": "Bent u geïnformeerd door de organisator van het evenement?",
+      "label": "Heeft iemand van de organisatie u geïnformeerd?",
       "shortLabel": "Geïnformeerd door organisator",
       "answer": {
         "id": "ja",
@@ -95,7 +95,7 @@
     },
     {
       "id": "extra_bedrijven_horeca_tijdstippen",
-      "label": "Op welk(e) tijdstip(pen) ervaart u de overlast?",
+      "label": "Op welke momenten van de dag hebt u de overlast?",
       "shortLabel": "Overlast momenten",
       "answer": "Meestal op 31 december rond middernacht",
       "category_url": ""

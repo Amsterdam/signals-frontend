@@ -298,7 +298,7 @@ export const overlastBedrijvenEnHoreca = {
       },
       label: 'Gebeurt het vaker?',
       shortLabel: 'Vaker overlast',
-      subtitle: 'Gebeurt het vaker? Had u de overlast al eerder of is dit de eerste keer?',
+      subtitle: 'Had u de overlast al eerder of is dit de eerste keer?',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja, het gebeurt vaker',
@@ -352,7 +352,7 @@ export const overlastBedrijvenEnHoreca = {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
       label: 'Mogen we contact met u opnemen over de melding?',
-      subtitle: 'Bijvoorbeeld om bij u thuis een geluidsmeting te doen',
+      subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
       shortLabel: 'Toestemming contact opnemen',
       pathMerge: 'extra_properties',
       values: {
@@ -372,7 +372,7 @@ export const overlastBedrijvenEnHoreca = {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf', 'evenement_festival_markt', 'iets_anders'],
       },
       label: 'Mogen we contact met u opnemen over de melding?',
-      subtitle: 'Bijvoorbeeld om bij u thuis een geluidsmeting te doen',
+      subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
       shortLabel: 'Toestemming contact opnemen',
       pathMerge: 'extra_properties',
       values: {

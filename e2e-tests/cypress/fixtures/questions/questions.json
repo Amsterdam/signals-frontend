@@ -36,7 +36,7 @@
       "shortLabel": "Mogelijke veroorzaker"
     },
     "extra_bedrijven_horeca_adres": {
-      "label": "Op welk adres ervaart u de overlast?",
+      "label": "Op welk adres hebt u overlast?",
       "shortLabel": "Adres overlast"
     },
     "extra_bedrijven_horeca_muziek_direct_naast": {
@@ -68,7 +68,7 @@
       }
     },
     "extra_bedrijven_horeca_muziek_ramen_dicht_onderneming": {
-      "label": "Staan de ramen of deuren open van de horeca onderneming?",
+      "label": "Staan de ramen of deuren open van het horecabedrijf?",
       "shortLabel": "Ramen/deuren horeca open",
       "values": {
         "ja": "Ja, ramen of deuren staan open",
@@ -92,7 +92,7 @@
       }
     },
     "extra_bedrijven_horeca_muziek_evenement": {
-      "label": "Bent u geïnformeerd door de organisator van het evenement?",
+      "label": "Heeft iemand van de organisatie u geïnformeerd?",
       "shortLabel": "Geïnformeerd door organisator",
       "values": {
         "ja": "Ja, ik ben geïnformeerd door de organisator",
@@ -109,7 +109,7 @@
     },
     "extra_bedrijven_horeca_installaties": {
       "subtitle": "Bijvoorbeeld een afzuiger of airconditioning",
-      "label": "Van wat voor een soort installatie heeft u last?",
+      "label": "Van wat voor soort installatie hebt u last?",
       "shortLabel": "Soort installatie"
     },
     "extra_bedrijven_horeca_personen": {
@@ -159,15 +159,15 @@
     },
     "extra_bedrijven_horeca_stank_oorzaak": {
       "subtitle": "Bijvoorbeeld afvoerpijp of schoorsteen",
-      "label": "Wat is de vermoedelijke oorzaak van de geuroverlast?",
+      "label": "Wat is de oorzaak van de geuroverlast, denkt u?",
       "shortLabel": "Vermoedelijke oorzaak"
     },
     "extra_bedrijven_horeca_stank_weer": {
-      "label": "Wat zijn de weersomstandigheden tijdens de overlast?",
+      "label": "Welk weer is het tijdens de overlast?",
       "shortLabel": "Weersomstandigheden"
     },
     "extra_bedrijven_horeca_stank_ramen": {
-      "label": "Staan de ramen of deuren open van de vermoedelijke veroorzaker?",
+      "label": "Staan de deuren of ramen open van het gebouw waar de geur vandaan komt?",
       "shortLabel": "Ramen/deuren open",
       "values": {
         "ja": "Ja, ramen of deuren staan open",
@@ -179,24 +179,24 @@
       }
     },
     "extra_bedrijven_horeca_vaker": {
-      "subtitle": "Is de overlast vaker aanwezig of is dit een eenmalige gebeurtenis",
+      "subtitle": "Had u de overlast al eerder of is dit de eerste keer?",
       "label": "Gebeurt het vaker?",
       "shortLabel": "Vaker overlast",
       "values": {
         "ja": "Ja, het gebeurt vaker",
-        "nee": "Nee, dit is de eerste keer"
+        "nee": "Nee, het is de eerste keer"
       },
       "answers": {
         "ja": "Ja, het gebeurt vaker",
-        "nee": "Nee, dit is de eerste keer"
+        "nee": "Nee, het is de eerste keer"
       }
     },
     "extra_bedrijven_horeca_tijdstippen": {
-      "label": "Op welk(e) tijdstip(pen) ervaart u de overlast?",
+      "label": "Op welke momenten van de dag hebt u de overlast?",
       "shortLabel": "Overlast momenten"
     },
     "extra_bedrijven_horeca_muziek_geluidmeting_muziek": {
-      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "subtitle": "Bijvoorbeeld om bij u thuis het geluid te meten.",
       "label": "Mogen we contact met u opnemen over de melding?",
       "shortLabel": "Toestemming contact opnemen",
       "values": {
@@ -209,7 +209,7 @@
       }
     },
     "extra_bedrijven_horeca_muziek_geluidmeting_installaties": {
-      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "subtitle": "Bijvoorbeeld om bij u thuis het geluid te meten.",
       "label": "Mogen we contact met u opnemen over de melding?",
       "shortLabel": "Toestemming contact opnemen",
       "values": {
@@ -222,7 +222,7 @@
       }
     },
     "extra_bedrijven_horeca_muziek_geluidmeting_overige": {
-      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "subtitle": "Bijvoorbeeld om bij u thuis het geluid te meten.",
       "label": "Mogen we contact met u opnemen over de melding?",
       "shortLabel": "Toestemming contact opnemen",
       "values": {
@@ -256,11 +256,11 @@
       "shortLabel": "Ander bel moment"
     },
     "extra_bedrijven_horeca_muziek_geluidmeting_nee": {
-      "label": "Waarom heeft u liever geen contact?",
+      "label": "Waarom hebt u liever geen contact?",
       "shortLabel": "Liever geen contact"
     },
     "extra_bedrijven_horeca_caution": {
-      "answers": "Uw gegevens worden vertrouwelijk behandeld en worden niet aan de (horeca)ondernemer of organisator bekend gemaakt.Anonieme meldingen krijgen een lage prioriteit."
+      "answers": "Wij geven uw gegevens niet aan de (horeca)ondernemer of organisator.Meldingen met telefoonnummer en/of e-mailadres pakken wij sneller op dan meldingen zonder telefoonnummer en/of e-mailadres."
     }
   },
   "overlastInDeOpenbareRuimte": {
@@ -890,13 +890,13 @@
         "maandelijks": "Ongeveer één keer per maand",
         "wekelijks": "Ongeveer één keer per week",
         "dagelijks": "Bijna dagelijks",
-        "eerste_keer": "Nee, dit is de eerste keer"
+        "eerste_keer": "Nee, het is de eerste keer"
       },
       "answers": {
         "maandelijks": "Ongeveer één keer per maand",
         "wekelijks": "Ongeveer één keer per week",
         "dagelijks": "Bijna dagelijks",
-        "eerste_keer": "Nee, dit is de eerste keer"
+        "eerste_keer": "Nee, het is de eerste keer"
       }
     },
     "extra_wonen_vakantieverhuur_wanneer": {
@@ -1023,7 +1023,7 @@
       "answers": "Let op! Vul uw telefoonnummer in op de volgende pagina."
     },
     "extra_wonen_woonkwaliteit_geen_contact": {
-      "label": "Waarom heeft u liever geen contact?",
+      "label": "Waarom hebt u liever geen contact?",
       "shortLabel": "Liever geen contact"
     }
   }
