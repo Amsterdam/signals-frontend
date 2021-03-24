@@ -5,7 +5,7 @@ import type { ContainerSelectValue } from './types';
 export const initialValue: ContainerSelectValue = {
   selection: [],
   location: [0, 0],
-  meta: { endpoint: '', featureTypes: [] },
+  meta: { endpoint: '', featureTypes: [], wfsFilters: [] },
   message: undefined,
   update: /* istanbul ignore next */ () => {},
   edit: /* istanbul ignore next */ () => {},
