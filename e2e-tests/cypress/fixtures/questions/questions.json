@@ -301,17 +301,17 @@
     },
     "extra_boten_snelheid_meer": {
       "subtitle": "Bijvoorbeeld: de kleur van de boot, aantal passagiers, vaarrichting, Y of Vignet nummer etc.",
-      "label": "Kunt u ons nog meer vertellen over de situatie?",
+      "label": "Wat weet u nog meer over deze situatie?",
       "shortLabel": "Extra informatie"
     },
     "extra_boten_geluid_meer": {
       "subtitle": "Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie",
+      "label": "Wat weet u nog meer over deze situatie?",
       "shortLabel": "Extra informatie"
     },
     "extra_boten_gezonken_meer": {
       "subtitle": "Bijvoorbeeld: \"er lekt olie\", \"gevaar voor andere boten\", etc.",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?",
+      "label": "Wat weet u nog meer over deze situatie?",
       "shortLabel": "Extra informatie"
     }
   },
