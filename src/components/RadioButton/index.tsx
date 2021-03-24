@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { FunctionComponent, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { Radio as AscRadio, themeSpacing } from '@amsterdam/asc-ui';
 
@@ -12,18 +12,16 @@ const Wrapper = styled.div`
   }
 `;
 
-const RadioButton = ({ className, ...props }) => (
+interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
+  className?: string;
+  id: string;
+  value: string;
+}
+
+const RadioButton: FunctionComponent<RadioButtonProps> = ({ className, ...props }) => (
   <Wrapper className={className}>
     <AscRadio {...props} />
   </Wrapper>
 );
-
-RadioButton.defaultProps = {
-  className: '',
-};
-
-RadioButton.propTypes = {
-  className: PropTypes.string,
-};
 
 export default RadioButton;

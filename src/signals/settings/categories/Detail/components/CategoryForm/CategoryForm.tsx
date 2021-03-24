@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import type { FunctionComponent, MouseEvent } from 'react';
 import { themeSpacing, Row, Column, Select } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
-import { historyType } from 'shared/types';
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
+import type { History as HistoryType } from 'types/history';
+import type { Category as CategoryType } from 'types/category';
 
 import History from 'components/History';
 import Label from 'components/Label';
@@ -48,7 +49,7 @@ const StyledSelect = styled(Select)`
   height: 44px;
 `;
 
-const StyledHistory = styled(History)`
+const StyledHistory = styled(History as React.ElementType)`
   h2 {
     font-size: 16px;
   }
@@ -65,7 +66,15 @@ const statusOptions = [
 
 const DEFAULT_STATUS_OPTION = 'true';
 
-const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
+export interface CategoryFormProps {
+  onCancel: () => void;
+  onSubmitForm: (event: MouseEvent) => void;
+  readOnly: boolean;
+  history: HistoryType[];
+  data: CategoryType;
+}
+
+const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
   const responsibleDepartments = useMemo(() => data.departments.filter(department => department.is_responsible), [data.departments]).map(department => department.code);
 
   return (
@@ -90,12 +99,11 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
               <TextArea
                 defaultValue={data.description}
                 disabled={readOnly}
-                hint="Ter verduidelijking van de inhoud van de categorie"
                 id="description"
                 label={<strong>Omschrijving</strong>}
                 name="description"
                 readOnly={readOnly}
-                rows="8"
+                rows={8}
               />
             </FieldGroup>
 
@@ -117,16 +125,13 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
                   name="n_days"
                   readOnly={readOnly}
                   type="number"
-                  size="50"
+                  size={50}
                 />
 
                 <StyledSelect
                   defaultValue={data.sla.use_calendar_days ? 1 : 0}
                   disabled={readOnly}
                   id="use_calendar_days"
-                  name="use_calendar_days"
-                  readOnly={readOnly}
-                  type="number"
                 >
                   <option value="1">Dagen</option>
                   <option value="0">Werkdagen</option>
@@ -138,12 +143,11 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
               <TextArea
                 defaultValue={data.handling_message}
                 disabled={readOnly}
-                hint="Deze tekst krijgt de burger via e-mail bij het aanmaken van een melding"
                 id="handling_message"
                 label={<strong>Servicebelofte</strong>}
                 name="handling_message"
                 readOnly={readOnly}
-                rows="8"
+                rows={8}
               />
             </FieldGroup>
 
@@ -176,35 +180,6 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
       </Row>
     </Form>
   );
-};
-
-CategoryForm.defaultProps = {
-  data: {
-    sla: {},
-    departments: [],
-  },
-  onCancel: null,
-  onSubmitForm: null,
-  readOnly: false,
-};
-
-CategoryForm.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string,
-    description: PropTypes.string,
-    handling_message: PropTypes.string,
-    is_active: PropTypes.bool,
-    departments: PropTypes.array,
-    sla: PropTypes.shape({
-      n_days: PropTypes.number,
-      use_calendar_days: PropTypes.bool,
-    }),
-  }),
-  history: historyType,
-  onCancel: PropTypes.func,
-  onSubmitForm: PropTypes.func,
-  /** When true, none of the fields in the form can be edited */
-  readOnly: PropTypes.bool,
 };
 
 export default CategoryForm;

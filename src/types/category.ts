@@ -1,17 +1,22 @@
-import type Location from './location';
+interface CategoryDepartment {
+  id: number;
+  code: string;
+  name: string;
+  is_intern: boolean;
+  is_responsible: boolean;
+  can_view: boolean;
+}
 
-export default interface Category {
-  category_url: string;
-  departments?: string;
-  main?: string;
-  main_slug?: string;
-  sub?: string;
-  sub_slug?: string;
-  text?: string;
-  created_at?: Date;
-  has_attachmens?: boolean;
-  id?: number;
-  incident_date_end?: Date;
-  incident_date_start?: Date;
-  location?: Location;
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  is_active: boolean;
+  description: string;
+  handling_message: string;
+  sla: {
+    n_days: number;
+    use_calendar_days: boolean;
+  };
+  departments: CategoryDepartment[];
 }
