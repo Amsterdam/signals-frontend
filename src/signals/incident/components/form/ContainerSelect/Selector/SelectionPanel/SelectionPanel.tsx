@@ -142,7 +142,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
                 htmlFor="unregisteredContainerInput"
                 label={
                   <Fragment>
-                    <strong>Wat is het nummer van de container?</strong> (optioneel)
+                    <strong>Wat is het nummer van de container?</strong> (niet verplicht)
                   </Fragment>
                 }
               />

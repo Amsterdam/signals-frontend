@@ -63,7 +63,7 @@
     },
     {
       "id": "extra_bedrijven_horeca_adres",
-      "label": "Op welk adres ervaart u de overlast?",
+      "label": "Op welk adres hebt u overlast?",
       "shortLabel": "Adres overlast",
       "answer": "Op Zeedijk nummer 3",
       "category_url": ""
@@ -87,7 +87,7 @@
     },
     {
       "id": "extra_bedrijven_horeca_tijdstippen",
-      "label": "Op welk(e) tijdstip(pen) ervaart u de overlast?",
+      "label": "Op welke momenten van de dag hebt u de overlast?",
       "shortLabel": "Overlast momenten",
       "answer": "Elke dag",
       "category_url": ""

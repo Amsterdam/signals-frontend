@@ -63,7 +63,7 @@
     },
     {
       "id": "extra_bedrijven_horeca_adres",
-      "label": "Op welk adres ervaart u de overlast?",
+      "label": "Op welk adres hebt u overlast?",
       "shortLabel": "Adres overlast",
       "answer": "Op de Klapperweg nummer 39",
       "category_url": ""
@@ -77,21 +77,21 @@
     },
     {
       "id": "extra_bedrijven_horeca_stank_oorzaak",
-      "label": "Wat is de vermoedelijke oorzaak van de geuroverlast?",
+      "label": "Wat is de oorzaak van de geuroverlast, denkt u?",
       "shortLabel": "Vermoedelijke oorzaak",
       "answer": "Klanten van de sportschool die voor de deur staan te sporten, maar ook binnen voor een open raam",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_stank_weer",
-      "label": "Wat zijn de weersomstandigheden tijdens de overlast?",
+      "label": "Welk weer is het tijdens de overlast?",
       "shortLabel": "Weersomstandigheden",
       "answer": "Het is erg warm buiten, de zon schijnt volop",
       "category_url": ""
     },
     {
       "id": "extra_bedrijven_horeca_stank_ramen",
-      "label": "Staan de ramen of deuren open van de vermoedelijke veroorzaker?",
+      "label": "Staan de deuren of ramen open van het gebouw waar de geur vandaan komt?",
       "shortLabel": "Ramen/deuren open",
       "answer": {
         "id": "ja",
@@ -107,7 +107,7 @@
       "answer": {
         "id": "nee",
         "info": "",
-        "label": "Nee, dit is de eerste keer"
+        "label": "Nee, het is de eerste keer"
       },
       "category_url": ""
     }

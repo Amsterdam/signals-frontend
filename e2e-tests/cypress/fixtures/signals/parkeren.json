@@ -45,7 +45,7 @@
   "extra_properties": [
     {
       "id": "extra_parkeeroverlast",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over de kenmerken van de auto, bus of motor?",
+      "label": "Wat weet u over de auto, bus of motor?",
       "shortLabel": "Extra informatie",
       "answer": "Het gaat om een Bugatti La Voiture Noire met kenteken LL-44-ST",
       "category_url": ""

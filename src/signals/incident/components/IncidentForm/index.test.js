@@ -11,7 +11,7 @@ import FormComponents from '../form';
 import IncidentNavigation from '../IncidentNavigation';
 
 const PHONE_LABEL_REQUIRED = 'Wat is uw telefoonnummer?';
-const PHONE_LABEL = `${PHONE_LABEL_REQUIRED}(optioneel)`;
+const PHONE_LABEL = `${PHONE_LABEL_REQUIRED}(niet verplicht)`;
 const mockForm = {
   nextButtonLabel: 'Volgende',
   previousButtonLabel: 'Vorige',

@@ -15,7 +15,7 @@ export const controls = {
       ifOneOf: {
         subcategory: ['grofvuil', 'huisafval', 'puin-sloopafval'],
       },
-      label: 'Heeft u een vermoeden waar het afval vandaan komt?',
+      label: 'Waar komt het afval vandaan, denkt u?',
       shortLabel: 'Waar vandaan',
       pathMerge: 'extra_properties',
     },

@@ -23,7 +23,7 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       createSignal.checkSpecificInformationPage(signal);
       cy.contains('Volgende').click();
       cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Is de situatie gevaarlijk?')
+        .contains('Denkt u dat de situatie gevaarlijk is?')
         .siblings(CREATE_SIGNAL.errorItem)
         .contains(ERROR_MESSAGES.mandatoryField);
 
@@ -45,7 +45,7 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       // Click on next to invoke error message
       cy.contains('Volgende').click();
       cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Welk verkeerslicht werkt niet juist?')
+        .contains('Welk verkeerslicht werkt niet goed?')
         .siblings(CREATE_SIGNAL.errorItem)
         .contains(ERROR_MESSAGES.mandatoryField);
 
@@ -158,7 +158,7 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
       cy.get(VERKEERSLICHT.checkBoxTramWaarschuwingslicht)
         .parent()
         .siblings()
-        .should('have.text', 'Waarschuwingslicht tram werkt niet')
+        .should('have.text', 'Licht dat waarschuwt voor aankomende tram werkt niet')
         .and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramAnders)
         .parent()

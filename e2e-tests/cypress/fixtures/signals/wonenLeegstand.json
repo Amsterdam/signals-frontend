@@ -77,7 +77,7 @@
     },
     {
       "id": "extra_wonen_leegstand_activiteit_in_woning",
-      "label": "Wat doet deze persoon in de woning?",
+      "label": "Wat doet deze persoon volgens u in de woning?",
       "shortLabel": "Activiteit in de woning",
       "answer": "Deze persoon zit de hele dag te acteren",
       "category_url": ""

@@ -58,14 +58,14 @@
   },
   {
     "id": "extra_bedrijven_horeca_adres",
-    "label": "Op welk adres ervaart u de overlast?",
+    "label": "Op welk adres hebt u overlast?",
     "shortLabel": "Adres overlast",
     "answer": "1033PG 5",
     "category_url": ""
   },
   {
     "id": "extra_bedrijven_horeca_installaties",
-    "label": "Van wat voor een soort installatie heeft u last?",
+    "label": "Van wat voor soort installatie hebt u last?",
     "shortLabel": "Soort installatie",
     "answer": "Afzuiginstallatie",
     "category_url": ""
@@ -77,7 +77,7 @@
     "answer": {
       "id": "nee",
       "info": "",
-      "label": "Nee, dit is de eerste keer"
+      "label": "Nee, het is de eerste keer"
     },
     "category_url": ""
   },
@@ -90,7 +90,7 @@
   },
   {
     "id": "extra_bedrijven_horeca_muziek_geluidmeting_nee",
-    "label": "Waarom heeft u liever geen contact?",
+    "label": "Waarom hebt u liever geen contact?",
     "shortLabel": "Liever geen contact",
     "answer": "Ik heb contacteer-angst",
     "category_url": ""

@@ -18,12 +18,12 @@ export const overlastPersonenEnGroepen = {
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
       },
-      label: 'Om hoe veel personen gaat het (ongeveer)?',
+      label: 'Om hoeveel personen gaat het (ongeveer)?',
       shortLabel: 'Aantal personen',
       pathMerge: 'extra_properties',
       values: {
-        '1-3': '1 - 3',
-        '4-6': '4 - 6',
+        '1-3': '1, 2 of 3',
+        '4-6': '4, 5 of 6',
         '7_of_meer': '7 of meer',
         onbekend: 'Onbekend',
       },
