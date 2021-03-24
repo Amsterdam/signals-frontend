@@ -32,6 +32,7 @@ const StyledFormFooter = styled(FormFooter)`
 
 const CombinedFields = styled.div`
   display: flex;
+  margin-top: ${themeSpacing(1)};
 
   input {
     flex: 1 0 auto;
@@ -51,6 +52,10 @@ const StyledHistory = styled(History)`
   h2 {
     font-size: 16px;
   }
+`;
+
+const StyledDefinitionTerm = styled.dt`
+  margin-bottom: ${themeSpacing(1)};
 `;
 
 const statusOptions = [
@@ -96,13 +101,13 @@ const CategoryForm = ({ data, history, onCancel, onSubmitForm, readOnly }) => {
 
             {responsibleDepartments.length > 0 ? (
               <FieldGroup>
-                <dt><strong>Verantwoordelijke afdeling</strong></dt>
+                <StyledDefinitionTerm><strong>Verantwoordelijke afdeling</strong></StyledDefinitionTerm>
                 <dd data-testid="responsible_departments">{responsibleDepartments.join(', ')}</dd>
               </FieldGroup>
             ) : null}
 
             <FieldGroup>
-              <Label as="span">Afhandeltermijn</Label>
+              <Label>Afhandeltermijn</Label>
 
               <CombinedFields>
                 <Input

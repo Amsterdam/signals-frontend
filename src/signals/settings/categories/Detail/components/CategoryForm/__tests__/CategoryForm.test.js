@@ -113,16 +113,12 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
   });
 
   it('should call onSubmit callback', () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(event => event.preventDefault());
 
-    // using enzyme instead of @testing-library; JSDOM hasn't implemented for submit callback and will show a warning
-    // when a form's submit() handler is called or when the submit button receives a click event
-    const tree = mount(withAppContext(<CategoryForm onSubmitForm={onSubmit} />));
+    render(withAppContext(<CategoryForm onSubmitForm={onSubmit} />));
 
     expect(onSubmit).not.toHaveBeenCalled();
-
-    tree.find('button[type="submit"]').simulate('click');
-
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }));
     expect(onSubmit).toHaveBeenCalled();
   });
 });
