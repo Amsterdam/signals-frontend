@@ -47,13 +47,20 @@ export const StyledRadioGroup = styled(RadioGroup)`
   display: inline-flex;
 `;
 
-export const StyledLabel = styled(Label)`
+export const StyledRadioLabel = styled(Label)`
   align-self: baseline;
 
   * {
     font-weight: normal;
   }
 `;
+
+export const StyledLabel = styled(Label)`
+  > span {
+    margin-top: 0;
+  }
+`;
+
 
 export const StyledFieldset = styled.fieldset`
   scroll-margin-top: ${themeSpacing(15)};

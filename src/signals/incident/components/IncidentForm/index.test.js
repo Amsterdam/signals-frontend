@@ -1,303 +1,298 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { render } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { render, screen, fireEvent, createEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Wizard, Step, Steps } from 'react-albus';
-import formatConditionalForm from '../../services/format-conditional-form';
+import { Validators } from 'react-reactive-form';
+import { withAppContext } from 'test/utils';
 
 import IncidentForm, { Form } from '.';
 
-import phoneForm from '../../definitions/wizard-step-3-telefoon';
+import FormComponents from '../form';
+import IncidentNavigation from '../IncidentNavigation';
 
-jest.mock('../../services/format-conditional-form/');
-
-const mockControl = {
-  onBlur: jest.fn(),
-  enable: jest.fn(),
-  disable: jest.fn(),
-  setValue: jest.fn(),
-};
-
+const PHONE_LABEL_REQUIRED = 'Wat is uw telefoonnummer?';
+const PHONE_LABEL = `${PHONE_LABEL_REQUIRED}(Niet verplicht)`;
 const mockForm = {
-  ...phoneForm.form,
+  nextButtonLabel: 'Volgende',
+  previousButtonLabel: 'Vorige',
+  form: {
+    controls: {
+      phone: {
+        meta: {
+          label: 'Wat is uw telefoonnummer?',
+        },
+        render: FormComponents.TextInput,
+      },
+      $field_0: {
+        isStatic: false,
+        render: IncidentNavigation,
+      },
+    },
+  },
+};
+const requiredFieldConfig = {
   controls: {
-    ...phoneForm.form.controls,
+    ...mockForm.form.controls,
     phone: {
-      ...mockControl,
-      ...phoneForm.form.controls.phone,
-      meta: {
-        ...phoneForm.form.controls.phone.meta,
-        isVisible: true,
+      ...mockForm.form.controls.phone,
+      options: {
+        validators: [Validators.required],
       },
-    },
-    privacy_text: {
-      ...mockControl,
-      ...phoneForm.form.controls.privacy_text,
-      meta: {
-        ...phoneForm.form.controls.privacy_text.meta,
-        isVisible: false,
-      },
-    },
-    $field_0: {
-      ...mockControl,
-      ...phoneForm.form.controls.$field_0,
     },
   },
 };
 
+const nextSpy = jest.fn();
+
+const renderIncidentForm = (props, renderFunction = render) => renderFunction(
+  withAppContext(
+    <Wizard onNext={nextSpy}>
+      <Steps>
+        <Step id="incident/mock">
+          <IncidentForm {...props} />
+        </Step>
+      </Steps>
+    </Wizard>
+  )
+);
+
 describe('<IncidentForm />', () => {
-  let props;
+  let defaultProps;
 
   beforeEach(() => {
-    props = {
-      fieldConfig: mockForm,
-      incidentContainer: {
-        incident: {},
-      },
-      wizard: { telefoon: phoneForm },
+    nextSpy.mockReset();
+    defaultProps = {
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
       createIncident: jest.fn(),
+      removeQuestionData: jest.fn(),
+      wizard: { mock: mockForm },
+      fieldConfig: mockForm.form,
+      incidentContainer: { incident: {} },
     };
-
-    formatConditionalForm.mockImplementation(() => mockForm);
   });
 
   describe('rendering', () => {
     it('expect to render correctly', () => {
-      const { container, queryByText } = render(
-        withAppContext(
-          <Wizard>
-            <Steps>
-              <Step id="incident/telefoon">
-                <IncidentForm {...props} />
-              </Step>
-            </Steps>
-          </Wizard>
-        )
-      );
+      renderIncidentForm(defaultProps);
 
-      expect(queryByText(mockForm.controls.phone.meta.label)).toBeInTheDocument();
-      expect(queryByText(mockForm.controls.phone.meta.subtitle)).toBeInTheDocument();
+      expect(screen.getByLabelText(PHONE_LABEL)).toBeInTheDocument();
+      expect(screen.getByText(mockForm.nextButtonLabel)).toBeInTheDocument();
+      expect(screen.getByText(mockForm.previousButtonLabel)).toBeInTheDocument();
+    });
 
-      expect(queryByText(mockForm.controls.privacy_text.meta.label)).not.toBeInTheDocument();
+    it('removes extra question data when the question is not visible anymore', () => {
+      const EXTRA_REMOVED_QUESTION = 'extra_removed_question';
+      const EXTRA_VISIBLE_QUESTION = 'extra_visible_question';
+      const VISIBLE_QUESTION = 'visible_question';
+      const baseControl = {
+        meta: {},
+        render: () => <p>baz</p>,
+      };
+      const props = {
+        ...defaultProps,
+        fieldConfig: {
+          controls: {
+            [EXTRA_REMOVED_QUESTION]: {
+              meta: { ifAllOf: { foo: 'bar' } }, // ifAllOf condition is false
+            },
+            [EXTRA_VISIBLE_QUESTION]: baseControl,
+            [VISIBLE_QUESTION]: baseControl,
+          },
+          updateValueAndValidity: jest.fn(),
+        },
+        incidentContainer: {
+          incident: {
+            [EXTRA_REMOVED_QUESTION]: 'Answer to extra question that is not visible anymore',
+            [EXTRA_VISIBLE_QUESTION]: 'Answer to extra question that is visible',
+            [VISIBLE_QUESTION]: 'Answer to question that is visible',
+          },
+        },
+      };
 
-      expect(container.querySelectorAll('input').length).toEqual(1);
+      renderIncidentForm(props);
 
-      expect(queryByText(phoneForm.nextButtonLabel)).toBeInTheDocument();
-      expect(queryByText(phoneForm.previousButtonLabel)).toBeInTheDocument();
+      expect(defaultProps.removeQuestionData).toHaveBeenCalledWith([EXTRA_REMOVED_QUESTION]);
+    });
+
+    it('renders updated form values', () => {
+      const { rerender } = renderIncidentForm(defaultProps);
+
+      renderIncidentForm({
+        ...defaultProps,
+        incidentContainer: {
+          incident: {
+            phone: '061234',
+          },
+        },
+      }, rerender);
+
+      expect(screen.getByLabelText(PHONE_LABEL)).toHaveValue('061234');
+    });
+
+    it('enables controls that were disabled during a previous render', () => {
+      const props = {
+        ...defaultProps,
+        fieldConfig: {
+          controls: {
+            phone: {
+              ...defaultProps.fieldConfig.controls.phone,
+              meta: {
+                ...defaultProps.fieldConfig.controls.phone.meta,
+                ifAllOf: { foo: 'bar' }, // ifAllOf condition is false
+              },
+            },
+          },
+        },
+      };
+
+      const { rerender } = renderIncidentForm(props);
+
+      expect(screen.queryByLabelText(PHONE_LABEL)).not.toBeInTheDocument();
+
+      renderIncidentForm({
+        ...props,
+        incidentContainer: {
+          incident: {
+            foo: 'bar',
+          },
+        },
+      }, rerender);
+
+      expect(screen.getByLabelText(PHONE_LABEL)).toBeInTheDocument();
     });
   });
 
   describe('events', () => {
-    const event = { preventDefault: jest.fn() };
-    let wrapper;
-    let instance;
-    let spy;
-    let formWrapper;
-
-    beforeEach(() => {
-      wrapper = shallow(
-        <Wizard>
-          <Steps>
-            <Step id="incident/telefoon">
-              <IncidentForm {...props} />
-            </Step>
-          </Steps>
-        </Wizard>
-      );
-
-      formWrapper = wrapper.find(IncidentForm).dive();
-
-      instance = formWrapper.instance();
-
-      instance.form = {
-        meta: {
-          incident: {},
-        },
-        valid: true,
-        controls: mockForm.controls,
-        value: {},
-        updateValueAndValidity: jest.fn(),
-      };
-
-      spy = jest.spyOn(instance, 'setValues');
-    });
-
     it('clicking submit should preventDefault', () => {
-      formWrapper.find(Form).simulate('submit', event);
+      renderIncidentForm(defaultProps);
 
-      expect(event.preventDefault).toHaveBeenCalled();
-    });
+      const submitButton = screen.getByText(mockForm.nextButtonLabel);
+      const clickEvent = createEvent.click(submitButton);
+      jest.spyOn(clickEvent, 'preventDefault');
 
-    it('expect to render correctly when form vars have changed', () => {
-      expect(spy).not.toHaveBeenCalled();
-      expect(instance.form.updateValueAndValidity).not.toHaveBeenCalled();
+      fireEvent(submitButton, clickEvent);
 
-      const incidentContainer = {
-        incident: {
-          phone: '06987654321',
-          extra_boten_geluid_meer: 'Ja! Wat een teringzooi hier',
-        },
-      };
-
-      formWrapper.setProps({ ...props, incidentContainer });
-
-      expect(spy).toHaveBeenCalledWith(incidentContainer.incident);
-      expect(instance.form.updateValueAndValidity).toHaveBeenCalledWith();
+      expect(clickEvent.preventDefault).toHaveBeenCalled();
     });
 
     describe('sync submit', () => {
       it('submit should trigger next when form is valid and no action defined', () => {
-        const next = jest.fn();
-        instance.form.valid = true;
-        expect(next).not.toHaveBeenCalled();
+        renderIncidentForm(defaultProps);
 
-        instance.handleSubmit(event, next);
-
-        expect(next).toHaveBeenCalled();
+        // next is triggered once during the first render
+        expect(nextSpy).toHaveBeenCalledTimes(1);
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel));
+        expect(nextSpy).toHaveBeenCalledTimes(2);
       });
 
       it('submit should trigger next when form is valid and UPDATE_INCIDENT defined', () => {
-        const next = jest.fn();
-        instance.form.valid = true;
+        const props = {
+          ...defaultProps,
+          wizard: {
+            mock: {
+              ...defaultProps.wizard.mock,
+              formAction: 'UPDATE_INCIDENT',
+            },
+          },
+        };
 
-        expect(props.updateIncident).not.toHaveBeenCalled();
-        expect(next).not.toHaveBeenCalled();
+        renderIncidentForm(props);
 
-        instance.handleSubmit(event, next, 'UPDATE_INCIDENT');
+        // next is triggered once during the first render
+        expect(nextSpy).toHaveBeenCalledTimes(1);
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel));
+        expect(nextSpy).toHaveBeenCalledTimes(2);
 
-        expect(props.updateIncident).toHaveBeenCalledWith(instance.form.value);
-        expect(next).toHaveBeenCalled();
+        expect(props.updateIncident).toHaveBeenCalled();
       });
 
       it('submit should trigger next when form is valid and CREATE_INCIDENT defined', () => {
-        const next = jest.fn();
-        instance.form.valid = true;
+        const props = {
+          ...defaultProps,
+          wizard: {
+            mock: {
+              ...defaultProps.wizard.mock,
+              formAction: 'CREATE_INCIDENT',
+            },
+          },
+        };
 
-        expect(next).not.toHaveBeenCalled();
-        expect(props.createIncident).not.toHaveBeenCalled();
+        renderIncidentForm(props);
 
-        instance.handleSubmit(event, next, 'CREATE_INCIDENT');
+        // next is triggered once during the first render
+        expect(nextSpy).toHaveBeenCalledTimes(1);
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel));
+        expect(nextSpy).toHaveBeenCalledTimes(2);
 
         expect(props.createIncident).toHaveBeenCalledWith(expect.objectContaining({ incident: {} }));
-        expect(next).toHaveBeenCalled();
       });
 
       it('submit should not be triggered next when form is not valid', () => {
-        const next = jest.fn();
-        instance.form.valid = false;
+        const props = {
+          ...defaultProps,
+          fieldConfig: requiredFieldConfig,
+        };
 
-        instance.handleSubmit(event, next);
+        renderIncidentForm(props);
 
-        expect(next).not.toHaveBeenCalled();
+        // next is triggered once during the first render
+        expect(nextSpy).toHaveBeenCalledTimes(1);
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel));
+        expect(nextSpy).toHaveBeenCalledTimes(1);
       });
     });
 
     describe('async submit', () => {
-      it('should submit async when postponeSubmitWhenLoading is defined and no action defined', () => {
-        const next = jest.fn();
-        expect(next).not.toHaveBeenCalled();
-        instance.form.valid = false;
-        formWrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
-        formWrapper.setProps({ mockloading: true });
+      it('should postpone submit when postponeSubmitWhenLoading is defined and no action defined', () => {
+        const props = {
+          ...defaultProps,
+          postponeSubmitWhenLoading: 'loadingClassification',
+        };
 
-        instance.handleSubmit(event, next);
-
-        expect(formWrapper.state()).toEqual({
-          loading: true,
-          submitting: true,
-          formAction: undefined,
-          next,
+        const { rerender } = renderIncidentForm({
+          ...props,
+          loadingClassification: true,
         });
 
-        instance.form.valid = true;
-        formWrapper.setProps({ mockloading: false });
+        expect(nextSpy).toHaveBeenCalledTimes(1);
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel));
+        expect(nextSpy).toHaveBeenCalledTimes(1);
 
-        expect(formWrapper.state()).toEqual({
-          loading: false,
-          submitting: false,
-          formAction: undefined,
-          next,
-        });
+        renderIncidentForm(props, rerender);
 
-        expect(next).toHaveBeenCalled();
+        expect(nextSpy).toHaveBeenCalledTimes(2);
       });
-    });
-
-    it('should submit async when postponeSubmitWhenLoading is defined and action is UPDATE_INCIDENT', () => {
-      const next = jest.fn();
-      expect(next).not.toHaveBeenCalled();
-      instance.form.valid = false;
-      formWrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
-      formWrapper.setProps({ mockloading: true });
-
-      instance.handleSubmit(event, next, 'UPDATE_INCIDENT');
-
-      expect(formWrapper.state()).toEqual({
-        loading: true,
-        submitting: true,
-        formAction: 'UPDATE_INCIDENT',
-        next,
-      });
-
-      instance.form.valid = true;
-      formWrapper.setProps({ mockloading: false });
-
-      expect(formWrapper.state()).toEqual({
-        loading: false,
-        submitting: false,
-        formAction: 'UPDATE_INCIDENT',
-        next,
-      });
-
-      expect(next).toHaveBeenCalled();
     });
 
     it('should not submit async when form is not valid after service call', () => {
-      const next = jest.fn();
-      instance.form.valid = false;
-      formWrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
-      formWrapper.setProps({ mockloading: true });
+      const props = {
+        ...defaultProps,
+        fieldConfig: requiredFieldConfig,
+        loadingClassification: true,
+        postponeSubmitWhenLoading: 'loadingClassification',
+      };
 
-      instance.handleSubmit(event, next);
-      expect(next).not.toHaveBeenCalled();
+      const { rerender } = renderIncidentForm(props);
 
-      expect(formWrapper.state()).toEqual({
-        loading: true,
-        submitting: true,
-        formAction: undefined,
-        next,
-      });
+      userEvent.type(screen.getByLabelText(PHONE_LABEL_REQUIRED), 'Valid input');
+      expect(nextSpy).toHaveBeenCalledTimes(1);
+      userEvent.click(screen.getByText(mockForm.nextButtonLabel));
+      expect(nextSpy).toHaveBeenCalledTimes(1);
 
-      formWrapper.setProps({ mockloading: false });
+      const propsAfterLoading = {
+        ...props,
+        loadingClassification: false,
+        incidentContainer: {
+          incident: {
+            phone: '',
+          },
+        },
+      };
 
-      expect(formWrapper.state()).toEqual({
-        loading: false,
-        submitting: false,
-        formAction: undefined,
-        next,
-      });
+      renderIncidentForm(propsAfterLoading, rerender);
 
-      expect(next).not.toHaveBeenCalled();
-    });
-
-    it('should not submit async when service is not loading', () => {
-      const next = jest.fn();
-      instance.form.valid = false;
-      formWrapper.setProps({ postponeSubmitWhenLoading: 'mockloading' });
-      formWrapper.setProps({ mockloading: false });
-
-      instance.handleSubmit(event, next);
-
-      expect(formWrapper.state()).toEqual({
-        loading: false,
-        submitting: false,
-        formAction: '',
-        next: null,
-      });
-
-      expect(next).not.toHaveBeenCalled();
+      expect(nextSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

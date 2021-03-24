@@ -1,5 +1,4 @@
 import onNext from '.';
-// import wizardDefinition from './mock';
 
 describe('The wizard on next service', () => {
   const wizardDefinition = {
@@ -54,7 +53,7 @@ describe('The wizard on next service', () => {
     expect(props.push).toHaveBeenCalledWith('incident/step4');
   });
 
-  it('should not dispatch a push when wizard is is empty', () => {
+  it('should not dispatch a push when wizard is empty', () => {
     props.step.id = 'incident/step1';
     props.steps = [];
     onNext(wizardDefinition, props, incident);

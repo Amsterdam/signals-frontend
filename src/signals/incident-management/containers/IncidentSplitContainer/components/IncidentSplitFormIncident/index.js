@@ -1,5 +1,7 @@
 import React, { useCallback, useState, Fragment, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 import { priorityList, typesList } from 'signals/incident-management/definitions';
 
@@ -14,7 +16,7 @@ import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
 
 export const INCIDENT_SPLIT_LIMIT = 10;
 
-const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) => {
+const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, errors }) => {
   const [splitCount, setSplitCount] = useState(1);
   const incidentRef = useRef(null);
 
@@ -52,20 +54,18 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register }) 
               register={register}
             />
 
-            <div>
-              <Label as="span" htmlFor={`description-${splitNumber}`}>
-                Omschrijving
-              </Label>
-
-              <TextArea
-                data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
-                id={`description-${splitNumber}`}
-                name={`incidents[${splitNumber}].description`}
-                ref={register}
-                rows={10}
-                defaultValue={parentIncident.description}
-              />
-            </div>
+            <TextArea
+              label={<strong>Omschrijving</strong>}
+              errorMessage={errors.incidents && errors.incidents[splitNumber]?.description.message}
+              data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
+              id={`description-${splitNumber}`}
+              name={`incidents[${splitNumber}].description`}
+              ref={register({ validate: {
+                required: value => !!value.trim() || 'Dit is een verplicht veld',
+              } })}
+              rows={10}
+              defaultValue={parentIncident.description}
+            />
 
             <div>
               <IncidentSplitRadioInput
@@ -124,6 +124,7 @@ IncidentSplitFormIncident.propTypes = {
   }).isRequired,
   subcategories: PropTypes.array.isRequired,
   register: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
 };
 
 export default IncidentSplitFormIncident;

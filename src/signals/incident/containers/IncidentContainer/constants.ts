@@ -1,5 +1,6 @@
 export const UPDATE_INCIDENT = 'sia/IncidentContainer/UPDATE_INCIDENT';
 export const RESET_INCIDENT = 'sia/IncidentContainer/RESET_INCIDENT';
+export const REMOVE_QUESTION_DATA = 'src/IncidentContainer/REMOVE_QUESTION_DATA';
 
 export const CREATE_INCIDENT = 'sia/IncidentContainer/CREATE_INCIDENT';
 export const CREATE_INCIDENT_SUCCESS = 'sia/IncidentContainer/CREATE_INCIDENT_SUCCESS';

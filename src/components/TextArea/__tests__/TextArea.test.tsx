@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
+import 'jest-styled-components';
 
 import TextArea from '..';
 
@@ -22,5 +23,11 @@ describe('components/TextArea', () => {
     render(withAppContext(<TextArea label="Notitie" />));
 
     expect(screen.getByText('Notitie')).toBeInTheDocument();
+  });
+
+  it('renders error', () => {
+    render(withAppContext(<TextArea errorMessage="Dit veld is verplicht" />));
+
+    expect(screen.getByText('Dit veld is verplicht')).toBeInTheDocument();
   });
 });

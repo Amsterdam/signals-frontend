@@ -49,8 +49,7 @@ export const Fieldset = styled.fieldset`
         }
 
         ${() =>
-    isSummary &&
-          isAuthenticated() &&
+    isAuthenticated() &&
           css`
             @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
               grid-template-columns: 4fr 6fr 2fr;
@@ -133,7 +132,9 @@ class IncidentForm extends React.Component {
   }
 
   setValues(incident) {
-    Object.keys(this.form.controls).forEach(key => {
+    const controlKeys = Object.keys(this.form.controls);
+
+    controlKeys.forEach(key => {
       const control = this.form.controls[key];
       if ((control.disabled && control.meta.isVisible) || (control.enabled && !control.meta.isVisible)) {
         if (control.meta.isVisible) {
@@ -147,6 +148,17 @@ class IncidentForm extends React.Component {
         control.setValue(incident[key]);
       }
     });
+
+    // Some extra questions can prevent other controls from being rendered
+    // When this happens, question data from that control should be removed from the incident data
+    const keysToRemoveFromIncident = controlKeys.filter(
+      key => key.startsWith('extra_') && typeof incident[key] !== 'undefined' && !this.form.controls[key].meta.isVisible
+    );
+
+    if (keysToRemoveFromIncident.length) {
+      this.props.removeQuestionData(keysToRemoveFromIncident);
+    }
+
     this.form.updateValueAndValidity();
   }
 
@@ -227,6 +239,7 @@ IncidentForm.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
   getClassification: PropTypes.func.isRequired,
+  removeQuestionData: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   postponeSubmitWhenLoading: PropTypes.string,
