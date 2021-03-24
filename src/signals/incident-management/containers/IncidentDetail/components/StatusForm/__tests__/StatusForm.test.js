@@ -94,8 +94,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(checkbox.checked).toEqual(true);
     expect(checkbox.disabled).toEqual(true);
 
-    // verify that the label '(Niet verplicht)' is not in the document
-    expect(queryByText('(Niet verplicht)')).not.toBeInTheDocument();
+    // verify that the label '(niet verplicht)' is not in the document
+    expect(queryByText('(niet verplicht)')).not.toBeInTheDocument();
 
     // select a status that will not disable the checkbox
     act(() => {
@@ -106,8 +106,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(checkbox.checked).toEqual(false);
     expect(checkbox.disabled).toEqual(false);
 
-    // verify that the label '(Niet verplicht)' is in the document
-    expect(queryByText('(Niet verplicht)')).toBeInTheDocument();
+    // verify that the label '(niet verplicht)' is in the document
+    expect(queryByText('(niet verplicht)')).toBeInTheDocument();
   });
 
   it('requires a text value when the checkbox is selected', async () => {
@@ -174,8 +174,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(checkbox.checked).toEqual(false);
 
-    // verify that the label '(Niet verplicht)' is in the document
-    expect(getByText('(Niet verplicht)')).toBeInTheDocument();
+    // verify that the label '(niet verplicht)' is in the document
+    expect(getByText('(niet verplicht)')).toBeInTheDocument();
 
     // check the box
     act(() => {
@@ -184,16 +184,16 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(checkbox.checked).toEqual(true);
 
-    // verify that the label '(Niet verplicht)' is not in the document
-    expect(queryByText('(Niet verplicht)')).not.toBeInTheDocument();
+    // verify that the label '(niet verplicht)' is not in the document
+    expect(queryByText('(niet verplicht)')).not.toBeInTheDocument();
 
     // toggle the box
     act(() => {
       fireEvent.click(checkbox);
     });
 
-    // verify that the label '(Niet verplicht)' is in the document
-    expect(getByText('(Niet verplicht)')).toBeInTheDocument();
+    // verify that the label '(niet verplicht)' is in the document
+    expect(getByText('(niet verplicht)')).toBeInTheDocument();
   });
 
   it('clears the text field when a default text is selected', () => {

@@ -188,7 +188,7 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
 
       <GridArea>
         <StyledLabel htmlFor="text_extra">
-          Wilt u verder nog iets vermelden of toelichten? <Optional>(Niet verplicht)</Optional>
+          Wilt u verder nog iets vermelden of toelichten? <Optional>(niet verplicht)</Optional>
         </StyledLabel>
         <StyledTextArea
           id="text_extra"
@@ -202,7 +202,7 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
 
       <GridArea>
         <StyledLabel id="subtitle-allows-contact">
-          Mogen wij contact met u opnemen naar aanleiding van uw feedback? <Optional>(Niet verplicht)</Optional>
+          Mogen wij contact met u opnemen naar aanleiding van uw feedback? <Optional>(niet verplicht)</Optional>
         </StyledLabel>
 
         <CheckboxWrapper inline htmlFor="allows-contact">
