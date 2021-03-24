@@ -25,7 +25,7 @@ const AbsoluteList = styled(SuggestList)`
   position: absolute;
   width: 100%;
   background-color: white;
-  z-index: 1;
+  z-index: 2;
 `;
 
 /**
@@ -52,6 +52,7 @@ const AutoSuggest = ({
   value,
   disabled = false,
   id = '',
+  ...rest
 }) => {
   const { get, data } = useFetch();
   const [initialRender, setInitialRender] = useState(false);
@@ -241,6 +242,8 @@ const AutoSuggest = ({
           ref={inputRef}
           disabled={disabled}
           id={id}
+          autoComplete="off"
+          {...rest}
         />
       </div>
       {showList && (

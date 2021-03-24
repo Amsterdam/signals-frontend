@@ -15,7 +15,7 @@ import { INCIDENT_URL } from 'signals/incident-management/routes';
 
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
-import usersFixture from 'utils/__tests__/fixtures/users.json';
+import autocompleteUsernamesFixture from 'utils/__tests__/fixtures/autocompleteUsernames.json';
 
 import { fetchCategoriesSuccess } from 'models/categories/actions';
 import * as departmentsSelectors from 'models/departments/selectors';
@@ -42,15 +42,15 @@ const departmentAegName = departments.list[1].name;
 const departmentThoId = departments.list[11].id;
 const departmentThoCode = departments.list[11].code;
 const departmentThoName = departments.list[11].name;
-const userEmptyId = usersFixture.results[0].id;
-const userEmptyName = usersFixture.results[0].username;
-const userAscAegId = usersFixture.results[1].id;
-const userAscAegName = usersFixture.results[1].username;
-const userAscName = usersFixture.results[2].username;
-const userAegName = usersFixture.results[3].username;
-const userThoName = usersFixture.results[4].username;
-const userUndefinedId = usersFixture.results[5].id;
-const userUndefinedName = usersFixture.results[5].username;
+const {
+  results: [
+    { username: autocompleteUsernamesAscName },
+    { username: autocompleteUsernamesAegName },
+    { username: autocompleteUsernamesThoName },
+    { username: autocompleteUsernamesAscAegName },
+    { username: autocompleteUsernamesEmptyName },
+  ],
+} = autocompleteUsernamesFixture;
 
 const plainLinks = Object.keys(incidentFixture._links)
   .filter(link => !['sia:children', 'sia:parent'].includes(link))
@@ -291,7 +291,7 @@ describe('MetaList', () => {
         render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userAscAegName,
+            assigned_user_email: autocompleteUsernamesAscAegName,
             category: {
               ...incidentFixture.category,
               departments: `${departmentAscCode}, ${departmentAegCode}`,
@@ -302,12 +302,10 @@ describe('MetaList', () => {
         await screen.findByTestId('meta-list-date-definition');
 
         expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
-        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesAscAegName)).toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesThoName)).not.toBeInTheDocument();
       });
 
       it('should be visible even if in another department', async () => {
@@ -316,7 +314,7 @@ describe('MetaList', () => {
         render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userAscAegName,
+            assigned_user_email: autocompleteUsernamesAscAegName,
             category: {
               ...incidentFixture.category,
               departments: departmentThoCode,
@@ -327,12 +325,10 @@ describe('MetaList', () => {
         await screen.findByTestId('meta-list-date-definition');
 
         expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
-        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesAscAegName)).toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesThoName)).not.toBeInTheDocument();
       });
 
       it('should be visible even if not in a department', async () => {
@@ -341,7 +337,7 @@ describe('MetaList', () => {
         render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userEmptyName,
+            assigned_user_email: autocompleteUsernamesEmptyName,
             category: {
               ...incidentFixture.category,
               departments: departmentThoCode,
@@ -352,12 +348,11 @@ describe('MetaList', () => {
         await screen.findByTestId('meta-list-date-definition');
 
         expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(screen.getByText(userEmptyName)).toBeInTheDocument();
-        expect(screen.queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesEmptyName)).toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesThoName)).not.toBeInTheDocument();
       });
 
       it('should be visible even if the category has no departments defined', async () => {
@@ -366,9 +361,11 @@ describe('MetaList', () => {
         render(
           renderWithContext({
             ...incidentFixture,
-            assigned_user_email: userAscAegName,
+            assigned_user_email: autocompleteUsernamesAscAegName,
             category: {
               ...incidentFixture.category,
+              // TODO incidentFixture has two departments defined ("AEG, CCA")
+              // departments: '',
             },
           })
         );
@@ -376,12 +373,11 @@ describe('MetaList', () => {
         await screen.findByTestId('meta-list-date-definition');
 
         expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument();
-        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
-        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesEmptyName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscAegName)).toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesThoName)).not.toBeInTheDocument();
       });
     });
 
@@ -407,12 +403,9 @@ describe('MetaList', () => {
         userEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(4);
-        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
-        expect(screen.getByText(userAscName)).toBeInTheDocument();
-        expect(screen.getByText(userAegName)).toBeInTheDocument();
-        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesAscName)).toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesAegName)).toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscAegName)).toBeInTheDocument();
       });
 
       it('should work with only one department related to category', async () => {
@@ -421,7 +414,7 @@ describe('MetaList', () => {
             ...incidentFixture,
             category: {
               ...incidentFixture.category,
-              departments: departmentAscCode,
+              departments: departmentThoCode,
             },
           })
         );
@@ -431,13 +424,10 @@ describe('MetaList', () => {
         const editButton = screen.getByTestId('editAssigned_user_emailButton');
         userEvent.click(editButton);
 
-        expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(3);
-        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
-        expect(screen.getByText(userAscName)).toBeInTheDocument();
-        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
+        expect(screen.queryByText(autocompleteUsernamesAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAegName)).not.toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesThoName)).toBeInTheDocument();
       });
 
       it('should not work without any departments related to category', async () => {
@@ -516,12 +506,11 @@ describe('MetaList', () => {
         userEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(2);
-        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userAscAegName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userAscName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userAegName)).not.toBeInTheDocument();
-        expect(screen.getByText(userThoName)).toBeInTheDocument();
-        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesEmptyName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscAegName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAscName)).not.toBeInTheDocument();
+        expect(screen.queryByText(autocompleteUsernamesAegName)).not.toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesThoName)).toBeInTheDocument();
       });
 
       it('should fallback to departments related to category when no routing departments present', async () => {
@@ -542,12 +531,9 @@ describe('MetaList', () => {
         userEvent.click(editButton);
 
         expect(container.querySelectorAll('select[data-testid="input"] option').length).toBe(4);
-        expect(screen.queryByText(userEmptyName)).not.toBeInTheDocument();
-        expect(screen.getByText(userAscAegName)).toBeInTheDocument();
-        expect(screen.getByText(userAscName)).toBeInTheDocument();
-        expect(screen.getByText(userAegName)).toBeInTheDocument();
-        expect(screen.queryByText(userThoName)).not.toBeInTheDocument();
-        expect(screen.queryByText(userUndefinedName)).not.toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesAscName)).toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesAegName)).toBeInTheDocument();
+        expect(screen.getByText(autocompleteUsernamesAscAegName)).toBeInTheDocument();
       });
     });
   });

@@ -50,6 +50,8 @@ const CategorySelect = ({ handler, meta, parent }) => {
     <div>
       {subcategoryOptions && (
         <Select
+          id={meta.name}
+          aria-describedby={info && `info-${meta.name}`}
           name={meta.name}
           value={value}
           onChange={handleChange}
@@ -60,7 +62,7 @@ const CategorySelect = ({ handler, meta, parent }) => {
           emptyOption={emptyOption}
         />
       )}
-      {info && <StyledInfoText text={`${info}`} />}
+      {info && <StyledInfoText text={`${info}`} id={`info-${meta.name}`} />}
     </div>
   );
 };

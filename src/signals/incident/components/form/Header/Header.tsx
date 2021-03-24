@@ -1,20 +1,14 @@
 import type { FunctionComponent } from 'react';
 import React, { Fragment } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 import Label from 'components/Label';
+import { ErrorWrapper } from 'components/ErrorMessage';
 import type { ReactiveFormMeta, FormMeta, FormOptions } from 'types/reactive-form';
 
-const Wrapper = styled.div<{ invalid: boolean }>`
+const StyledErrorWrapper = styled(ErrorWrapper)<{ invalid: boolean }>`
   display: flex;
   flex-direction: column;
-
-  ${({ invalid }) =>
-    invalid &&
-    css`
-      border-left: ${themeColor('support', 'invalid')} 2px solid;
-      padding-left: ${themeSpacing(3)};
-    `}
 
   & > :last-child:not(& > :first-child) {
     margin-top: ${themeSpacing(3)};
@@ -67,7 +61,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   const isOptional = !options?.validators?.some(validator => validator.name === 'required');
 
   return (
-    <Wrapper className={className} invalid={containsErrors}>
+    <StyledErrorWrapper className={className} invalid={containsErrors}>
       {meta?.label && (
         <StyledLabel htmlFor={meta.name}>
           {meta.label}
@@ -81,11 +75,11 @@ const Header: FunctionComponent<HeaderProps> = ({
       {touched && containsErrors && (
         <Fragment>
           {hasError('required') && (
-            <ErrorItem>{getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}</ErrorItem>
+            <ErrorItem data-testid={`${meta.name}-required`}>{getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}</ErrorItem>
           )}
 
           {hasError('email') && (
-            <ErrorItem>
+            <ErrorItem data-testid="invalid-mail">
               Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl
             </ErrorItem>
           )}
@@ -99,10 +93,11 @@ const Header: FunctionComponent<HeaderProps> = ({
 
           {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
         </Fragment>
-      )}
+      )
+      }
 
-      {children}
-    </Wrapper>
+      { children}
+    </StyledErrorWrapper>
   );
 };
 

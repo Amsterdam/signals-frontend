@@ -188,6 +188,14 @@
           "description": "The title to show in the header of the application, next to the logo",
           "type": "string"
         },
+        "logoDescription": {
+          "description": "ARIA description for the site logo",
+          "type": "string"
+        },
+        "mapDescription": {
+          "description": "ARIA description for the map input",
+          "type": "string"
+        },
         "phoneNumber": {
           "description": "General phone number",
           "type": "string"
@@ -215,10 +223,6 @@
         "urgentContactInfo": {
           "description": "Extra information to show in case of an error",
           "type": "string"
-        },
-        "logoDescription": {
-          "description": "ARIA description for the site logo",
-          "type": "string"
         }
       },
       "required": [
@@ -228,14 +232,15 @@
         "footer1",
         "footer2",
         "headerTitle",
+        "logoDescription",
+        "mapDescription",
         "phoneNumber",
         "shortTitle",
         "siteAddress",
         "siteTitle",
         "smallHeaderTitle",
         "title",
-        "urgentContactInfo",
-        "logoDescription"
+        "urgentContactInfo"
       ],
       "title": "Language"
     },

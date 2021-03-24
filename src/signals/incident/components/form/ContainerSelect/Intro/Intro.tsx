@@ -40,6 +40,9 @@ const Intro = () => {
       ...MAP_OPTIONS,
       attributionControl: false,
       center: [lat, lng],
+      dragging: false,
+      keyboard: false,
+      doubleClickZoom: false,
     }),
     [lat, lng]
   );

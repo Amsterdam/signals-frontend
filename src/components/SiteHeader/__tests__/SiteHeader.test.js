@@ -318,7 +318,7 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader showItems={{ settings: true, users: false, groups: false }} />));
 
-    expect(queryByText('Instellingen')).not.toBeInTheDocument();
+    expect(queryByText('Instellingen')).toBeInTheDocument();
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();
     expect(queryByText('Rollen')).not.toBeInTheDocument();
 

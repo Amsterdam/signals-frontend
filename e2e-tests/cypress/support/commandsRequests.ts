@@ -94,7 +94,6 @@ export const createPrivateSignalForFilters = () => {
         stadsdeel: 'F',
       },
       type: { code: 'COM' },
-      source: 'Telefoon – Interswitch',
       category: {
         sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad',
       },
@@ -165,7 +164,7 @@ export const createSignalSorting02 = () => {
   });
 };
 
-export const createSignalDeelmelding = () => {
+export const createSignalRandom = () => {
   cy.request({
     method: 'POST',
     url: 'http://localhost:8000/signals/v1/private/signals/',
@@ -183,11 +182,11 @@ export const createSignalDeelmelding = () => {
         stadsdeel: 'A',
       },
       type: { code: 'COM' },
-      source: 'Interne melding',
+
       category: {
         sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/stankoverlast',
       },
-      reporter: {},
+      reporter: { email: 'siafakemail@amsterdam.nl' },
       incident_date_start: '2020-10-16T14:06:31+02:00',
       text: 'Het stinkt hier naar eigenaardige kruiden en er ligt allemaal afval op stoep',
     },

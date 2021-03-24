@@ -66,6 +66,7 @@ export const apiFilterType = PropTypes.shape({
     created_after: PropTypes.string,
     created_before: PropTypes.string,
     feedback: PropTypes.string,
+    punctuality: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(PropTypes.string),
     priority: PropTypes.arrayOf(PropTypes.string),
     area: PropTypes.arrayOf(PropTypes.string),
@@ -88,6 +89,7 @@ export const filterType = PropTypes.shape({
     created_after: PropTypes.string,
     created_before: PropTypes.string,
     feedback: PropTypes.string,
+    punctuality: PropTypes.string,
     maincategory_slug: PropTypes.arrayOf(dataItemType),
     priority: PropTypes.arrayOf(dataItemType),
     area: PropTypes.arrayOf(dataItemType),
@@ -249,6 +251,7 @@ export const categoriesType = PropTypes.shape({
 
 export const dataListsType = PropTypes.shape({
   feedback: dataListType,
+  punctuality: dataListType,
   priority: dataListType,
   source: dataListType,
   stadsdeel: dataListType,

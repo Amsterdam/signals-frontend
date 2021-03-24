@@ -23,6 +23,12 @@ const expandValidator = key => (Array.isArray(key) ? expandValidatorFn(key) : ma
 const expandQuestions = memoize(
   questions => ({
     controls: {
+      error: {
+        meta: {
+          ignoreVisibility: true,
+        },
+        render: FormComponents.GlobalError,
+      },
       custom_text: {
         meta: {
           label: 'Dit hebt u net ingevuld:',

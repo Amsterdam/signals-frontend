@@ -1,5 +1,6 @@
 import { CREATE_SIGNAL, LANTAARNPAAL } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { ERROR_MESSAGES } from '../../support/texts';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/lantaarnpaal.json';
@@ -26,7 +27,7 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
       cy.get(CREATE_SIGNAL.labelQuestion)
         .contains('Wat is het probleem?')
         .siblings(CREATE_SIGNAL.errorItem)
-        .contains('Dit is een verplicht veld');
+        .contains(ERROR_MESSAGES.mandatoryField);
 
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.label).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet).check({ force: true }).should('be.checked').and('be.visible');
@@ -34,8 +35,6 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
       cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
       cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder).check({ force: true }).should('be.checked').and('be.visible');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
-      cy.get(LANTAARNPAAL.radioButtonProbleemVies).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
       cy.get(LANTAARNPAAL.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');

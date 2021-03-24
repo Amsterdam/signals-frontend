@@ -181,25 +181,6 @@ describe('signals/incident-management', () => {
         expect(actions.searchIncidents).toHaveBeenCalledWith(searchQuery);
       });
     });
-
-    describe('users', () => {
-      it('should not fetch when not authenticated', async () => {
-        isAuthenticated.mockImplementation(() => false);
-        const { findByTestId } = render(withSuspense());
-        await findByTestId('loginPage');
-
-        expect(fetch).not.toHaveBeenCalled();
-      });
-
-      it('should fetch when authenticated', async () => {
-        isAuthenticated.mockImplementation(() => true);
-        const { findByTestId } = render(withSuspense());
-        await findByTestId('incidentManagementOverviewPage');
-
-        expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(configuration.USERS_ENDPOINT, expect.objectContaining({ method: 'GET' }));
-      });
-    });
   });
 
   describe('routing', () => {

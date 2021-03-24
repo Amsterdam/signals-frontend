@@ -18,7 +18,7 @@ import categories from 'utils/__tests__/fixtures/categories_structured.json';
 import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json';
 import districts from 'utils/__tests__/fixtures/districts.json';
 import sources from 'utils/__tests__/fixtures/sources.json';
-import users from 'utils/__tests__/fixtures/users.json';
+import autocompleteUsernames from 'utils/__tests__/fixtures/autocompleteUsernames.json';
 
 import FilterForm from '..';
 import { SAVE_SUBMIT_BUTTON_LABEL, DEFAULT_SUBMIT_BUTTON_LABEL } from '../constants';
@@ -36,12 +36,7 @@ jest.mock('models/categories/selectors', () => ({
 
 jest.spyOn(store, 'dispatch');
 
-const usersFixture = users.results.slice(0, 5);
-const jsonResponse = {
-  count: 2,
-  results: [usersFixture[3], usersFixture[1]],
-};
-const mockResponse = JSON.stringify(jsonResponse);
+const mockResponse = JSON.stringify(autocompleteUsernames);
 
 const formProps = {
   onClearFilter: () => {},
@@ -220,6 +215,14 @@ describe('signals/incident-management/components/FilterForm', () => {
     ); // by default, a radio button with an empty value is rendered
   });
 
+  it('should render a list of punctuality options', () => {
+    const { container } = render(withContext(<FilterForm {...formProps} />));
+
+    expect(container.querySelectorAll('input[type="radio"][name="punctuality"]')).toHaveLength(
+      dataLists.punctuality.length + 1
+    ); // by default, a radio button with an empty value is rendered
+  });
+
   it('should render a list of source options', () => {
     const { container } = render(withContext(<FilterForm {...formProps} />));
 
@@ -388,11 +391,75 @@ describe('signals/incident-management/components/FilterForm', () => {
     const label = /toegewezen aan/i;
     const notAssignedLabel = 'Niet toegewezen';
     const submitLabel = /filteren/i;
-    const username = jsonResponse.results[0].username;
+    const username = autocompleteUsernames.results[0].username;
+
+    const selectUser = async input => {
+      userEvent.type(input, 'asc');
+      await screen.findByText(username);
+      userEvent.type(input, `${specialChars.arrowDown}${specialChars.enter}`);
+    };
 
     it('should not render a list of options with assignSignalToEmployee disabled', () => {
       render(withContext(<FilterForm {...formProps} />));
       expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
+    });
+
+    it('should fail silently when users request returns without results', async () => {
+      jest.useFakeTimers();
+      fetch.mockResponse(JSON.stringify({}));
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const onSubmit = jest.fn();
+      const expected = { options: {} };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const input = screen.getByLabelText(label);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+      expect(input).toBeInTheDocument();
+
+      userEvent.type(input, 'aeg');
+      await act(async () => {
+        jest.advanceTimersByTime(INPUT_DELAY * 2);
+      });
+      expect(screen.queryByText(username)).not.toBeInTheDocument();
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
+    });
+
+    it('should allow selection of user with assignSignalToEmployee enabled', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const onSubmit = jest.fn();
+      const expected = { options: { assigned_user_email: username } };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const input = screen.getByLabelText(label);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+      expect(input).toBeInTheDocument();
+
+      userEvent.type(input, username);
+      await selectUser(input);
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+    });
+
+    it('should clear correctly on form clear', () => {
+      jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const onSubmit = jest.fn();
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const input = screen.getByLabelText(label);
+      const clearButton = screen.getByRole('button', { name: /nieuw filter/i });
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+      const expected = { options: { assigned_user_email: expect.anything() } };
+
+      userEvent.type(input, username);
+      userEvent.click(clearButton);
+      userEvent.click(submitButton);
+
+      expect(onSubmit).not.toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
     });
 
     it('should allow selection of not assigned', () => {
@@ -409,204 +476,92 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
     });
 
-    describe('input without autosuggest', () => {
-      const email = 'aeg@example.com';
+    it('should disable auto suggest when not assigned checkbox checked', () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      render(withContext(<FilterForm {...formProps} />));
+      const checkbox = screen.getByLabelText(notAssignedLabel);
+      const input = screen.getByLabelText(label);
 
-      it('should allow selection of user with assignSignalToEmployee enabled', () => {
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
-        configuration.featureFlags.assignSignalToEmployee = true;
-        const onSubmit = jest.fn();
-        const expected = { options: { assigned_user_email: email } };
+      expect(input).not.toBeDisabled();
+      expect(checkbox).not.toBeChecked();
 
-        render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
-        const input = screen.getByLabelText(label);
-        const submitButton = screen.getByRole('button', { name: submitLabel });
-        expect(input).toBeInTheDocument();
+      userEvent.click(checkbox);
 
-        userEvent.type(input, email);
-        userEvent.click(submitButton);
-        expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
-      });
+      expect(input).toBeDisabled();
+      expect(checkbox).toBeChecked();
 
-      it('should disable input when not assigned checkbox checked', () => {
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
-        configuration.featureFlags.assignSignalToEmployee = true;
-        render(withContext(<FilterForm {...formProps} />));
-        const checkbox = screen.getByLabelText(notAssignedLabel);
-        const input = screen.getByLabelText(label);
+      userEvent.click(checkbox);
 
-        expect(input).not.toBeDisabled();
-        expect(checkbox).not.toBeChecked();
-
-        userEvent.click(checkbox);
-
-        expect(input).toBeDisabled();
-        expect(checkbox).toBeChecked();
-
-        userEvent.click(checkbox);
-
-        expect(input).not.toBeDisabled();
-        expect(checkbox).not.toBeChecked();
-      });
-
-      it('should clear correctly on form clear', () => {
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => false);
-        configuration.featureFlags.assignSignalToEmployee = true;
-        const onSubmit = jest.fn();
-
-        render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
-        const input = screen.getByLabelText(label);
-        const clearButton = screen.getByRole('button', { name: /nieuw filter/i });
-        const submitButton = screen.getByRole('button', { name: submitLabel });
-        const expected = { options: { assigned_user_email: expect.anything() } };
-
-        userEvent.type(input, email);
-        userEvent.click(clearButton);
-        userEvent.click(submitButton);
-
-        expect(onSubmit).not.toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
-      });
+      expect(input).not.toBeDisabled();
+      expect(checkbox).not.toBeChecked();
     });
 
-    describe('input with autosuggest', () => {
-      const selectUser = async input => {
-        userEvent.type(input, 'aeg');
-        await screen.findByText(username);
-        userEvent.type(input, `${specialChars.arrowDown}${specialChars.enter}`);
-      };
+    it('should clear auto suggest value when not assigned checkbox checked', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      render(withContext(<FilterForm {...formProps} />));
+      const checkbox = screen.getByLabelText(notAssignedLabel);
+      const input = screen.getByLabelText(label);
 
-      it('should fail silently when users request returns without results', async () => {
-        jest.useFakeTimers();
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
-        fetch.mockResponse(JSON.stringify({}));
-        configuration.featureFlags.assignSignalToEmployee = true;
-        const onSubmit = jest.fn();
-        const expected = { options: {} };
+      expect(input).not.toHaveValue();
 
-        render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
-        const input = screen.getByLabelText(label);
-        const submitButton = screen.getByRole('button', { name: submitLabel });
-        expect(input).toBeInTheDocument();
+      await selectUser(input);
 
-        userEvent.type(input, 'aeg');
-        await act(async () => {
-          jest.advanceTimersByTime(INPUT_DELAY * 2);
-        });
-        expect(screen.queryByText(username)).not.toBeInTheDocument();
-        userEvent.click(submitButton);
-        expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
+      expect(input).toHaveValue(username);
+      userEvent.click(checkbox);
+      expect(input).not.toHaveValue();
+      userEvent.click(checkbox);
+      expect(input).toHaveValue(username);
+    });
 
-        jest.runOnlyPendingTimers();
-        jest.useRealTimers();
+    it('should clear correctly on form clear', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true;
+      render(withContext(<FilterForm {...formProps} />));
+      const checkbox = screen.getByLabelText(notAssignedLabel);
+      const input = screen.getByLabelText(label);
+      const clearButton = screen.getByRole('button', { name: /nieuw filter/i });
+
+      await selectUser(input);
+
+      expect(input).toHaveValue(username);
+      expect(checkbox).not.toBeChecked();
+
+      userEvent.click(clearButton);
+
+      expect(input).not.toHaveValue();
+      expect(checkbox).not.toBeChecked();
+
+      await selectUser(input);
+      userEvent.click(checkbox);
+
+      expect(input).not.toHaveValue();
+      expect(checkbox).toBeChecked();
+
+      userEvent.click(clearButton);
+
+      expect(input).not.toHaveValue();
+      expect(checkbox).not.toBeChecked();
+    });
+
+    it('should clear correctly when removing input value', async () => {
+      jest.useFakeTimers();
+      configuration.featureFlags.assignSignalToEmployee = true;
+      const onSubmit = jest.fn();
+      const expected = { options: {} };
+
+      render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
+      const input = screen.getByLabelText(label);
+      const submitButton = screen.getByRole('button', { name: submitLabel });
+
+      await selectUser(input);
+      userEvent.clear(input);
+      await act(async () => {
+        jest.advanceTimersByTime(INPUT_DELAY);
       });
+      userEvent.click(submitButton);
+      expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
 
-      it('should allow selection of user with assignSignalToEmployee enabled', async () => {
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
-        configuration.featureFlags.assignSignalToEmployee = true;
-        const onSubmit = jest.fn();
-        const expected = { options: { assigned_user_email: username } };
-
-        render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
-        const input = screen.getByLabelText(label);
-        const submitButton = screen.getByRole('button', { name: submitLabel });
-        expect(input).toBeInTheDocument();
-
-        await selectUser(input);
-        userEvent.click(submitButton);
-        expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
-      });
-
-      it('should disable auto suggest when not assigned checkbox checked', () => {
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
-        configuration.featureFlags.assignSignalToEmployee = true;
-        render(withContext(<FilterForm {...formProps} />));
-        const checkbox = screen.getByLabelText(notAssignedLabel);
-        const input = screen.getByLabelText(label);
-
-        expect(input).not.toBeDisabled();
-        expect(checkbox).not.toBeChecked();
-
-        userEvent.click(checkbox);
-
-        expect(input).toBeDisabled();
-        expect(checkbox).toBeChecked();
-
-        userEvent.click(checkbox);
-
-        expect(input).not.toBeDisabled();
-        expect(checkbox).not.toBeChecked();
-      });
-
-      it('should clear auto suggest value when not assigned checkbox checked', async () => {
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
-        configuration.featureFlags.assignSignalToEmployee = true;
-        render(withContext(<FilterForm {...formProps} />));
-        const checkbox = screen.getByLabelText(notAssignedLabel);
-        const input = screen.getByLabelText(label);
-
-        expect(input).not.toHaveValue();
-
-        await selectUser(input);
-
-        expect(input).toHaveValue(username);
-        userEvent.click(checkbox);
-        expect(input).not.toHaveValue();
-        userEvent.click(checkbox);
-        expect(input).toHaveValue(username);
-      });
-
-      it('should clear correctly on form clear', async () => {
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
-        configuration.featureFlags.assignSignalToEmployee = true;
-        render(withContext(<FilterForm {...formProps} />));
-        const checkbox = screen.getByLabelText(notAssignedLabel);
-        const input = screen.getByLabelText(label);
-        const clearButton = screen.getByRole('button', { name: /nieuw filter/i });
-
-        await selectUser(input);
-
-        expect(input).toHaveValue(username);
-        expect(checkbox).not.toBeChecked();
-
-        userEvent.click(clearButton);
-
-        expect(input).not.toHaveValue();
-        expect(checkbox).not.toBeChecked();
-
-        await selectUser(input);
-        userEvent.click(checkbox);
-
-        expect(input).not.toHaveValue();
-        expect(checkbox).toBeChecked();
-
-        userEvent.click(clearButton);
-
-        expect(input).not.toHaveValue();
-        expect(checkbox).not.toBeChecked();
-      });
-
-      it('should clear correctly when removing input value', async () => {
-        jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => true);
-        jest.useFakeTimers();
-        configuration.featureFlags.assignSignalToEmployee = true;
-        const onSubmit = jest.fn();
-        const expected = { options: {} };
-
-        render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />));
-        const input = screen.getByLabelText(label);
-        const submitButton = screen.getByRole('button', { name: submitLabel });
-
-        await selectUser(input);
-        userEvent.clear(input);
-        await act(async () => {
-          jest.advanceTimersByTime(INPUT_DELAY);
-        });
-        userEvent.click(submitButton);
-        expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expect.objectContaining(expected));
-
-        jest.runOnlyPendingTimers();
-        jest.useRealTimers();
-      });
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
     });
   });
 

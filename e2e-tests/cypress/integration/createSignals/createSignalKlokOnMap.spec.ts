@@ -1,5 +1,6 @@
 import { CREATE_SIGNAL, KLOK } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { ERROR_MESSAGES } from '../../support/texts';
 import questions from '../../fixtures/questions/questions.json';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/klokOnMap.json';
@@ -29,7 +30,7 @@ describe('Create signal "Klok" which is on the map and check signal details', ()
       cy.get(CREATE_SIGNAL.labelQuestion)
         .contains('Is de situatie gevaarlijk?')
         .siblings(CREATE_SIGNAL.errorItem)
-        .contains('Dit is een verplicht veld');
+        .contains(ERROR_MESSAGES.mandatoryField);
 
       // First question
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.label).should('be.visible');
@@ -52,7 +53,6 @@ describe('Create signal "Klok" which is on the map and check signal details', ()
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok_probleem.label).should('be.visible');
       cy.get(KLOK.radioButtonProbleemNietOpTijd).check({ force: true }).should('be.checked');
       cy.get(KLOK.radioButtonProbleemBeschadigd).check({ force: true }).should('be.checked');
-      cy.get(KLOK.radioButtonProbleemVervuild).check({ force: true }).should('be.checked');
       cy.get(KLOK.radioButtonProbleemOverig).check({ force: true }).should('be.checked');
 
       // Third question

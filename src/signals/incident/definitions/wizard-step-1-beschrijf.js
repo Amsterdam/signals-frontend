@@ -16,6 +16,9 @@ const reduceSources = sources =>
 const getControls = memoize(
   sources => ({
     controls: {
+      error: {
+        render: FormComponents.GlobalError,
+      },
       source: {
         meta: {
           label: 'Hoe komt de melding binnen?',

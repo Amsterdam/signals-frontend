@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 import MapInputComponent from 'components/MapInput';
 import MapContext from 'containers/MapContext';
-
+import configuration from 'shared/services/configuration/configuration';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
 import { formatMapLocation } from 'shared/services/map-location';
+
 import Header from '../Header';
 
 const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
@@ -35,6 +36,7 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
           <MapContext>
             <MapInputComponent
               id={meta.name}
+              aria-label={configuration.language.mapDescription}
               aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
               onChange={onLocationChange}
               value={value}

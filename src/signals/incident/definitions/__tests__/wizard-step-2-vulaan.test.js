@@ -9,6 +9,7 @@ import FormComponents from '../../components/form';
 
 const { formFactory } = step2;
 const defaultControls = {
+  error: expect.objectContaining({}),
   custom_text: expect.objectContaining({}),
   $field_0: expect.objectContaining({}),
 };

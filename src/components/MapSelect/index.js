@@ -40,6 +40,7 @@ const MapSelect = ({
   onSelectionChange,
   selectionOnly,
   value,
+  ...rest
 }) => {
   const zoomMin = 13;
   const featuresLayer = useRef();
@@ -216,7 +217,7 @@ const MapSelect = ({
   );
 
   return (
-    <Wrapper>
+    <Wrapper {...rest}>
       <StyledMap
         className={classNames('map-component', { write: onSelectionChange })}
         data-testid="mapSelect"

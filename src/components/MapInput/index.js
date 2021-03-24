@@ -141,7 +141,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
   }, [marker, location, hasLocation, map]);
 
   return (
-    <Wrapper className={className} {...rest}>
+    <Wrapper className={className} >
       <StyledMap
         data-testid="mapInput"
         events={{ click, dblclick: doubleClick, ...events }}
@@ -160,6 +160,7 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
               placeholder="Zoek adres"
               value={addressValue}
               id={id}
+              {...rest}
             />
           }
         />

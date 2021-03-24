@@ -24,6 +24,7 @@ export const initialState = {
     address_text: '',
     category_slug: [],
     feedback: '',
+    punctuality: '',
     maincategory_slug: [],
     note_keyword: '',
     priority: [],
