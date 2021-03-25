@@ -95,6 +95,9 @@ describe('Manage departments', () => {
       it('Should change signal category', () => {
         createSignal.openCreatedSignal();
         routes.waitForSignalDetailsRoutes();
+        // Used a wait because sometimes the edit button is not clicked
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
         cy.get(CHANGE_CATEGORY.buttonEdit).click();
         cy.get(CHANGE_CATEGORY.inputCategory).select('Drank- / drugsoverlast (ASC, THO)');
         cy.get(CHANGE_CATEGORY.buttonSubmit).click();

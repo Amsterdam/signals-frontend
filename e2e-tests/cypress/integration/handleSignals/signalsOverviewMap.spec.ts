@@ -46,6 +46,7 @@ describe('Signal overview Map', () => {
       cy.get(MANAGE_SIGNALS.buttonFilteren).click();
       cy.get('[value=japanse-duizendknoop]').click();
       cy.get(FILTER.buttonSubmitFilter).click();
+      cy.wait('@getSignals');
       cy.wait('@getGeography');
       cy.get(OVERVIEW_MAP.markerCluster).should('not.exist');
     });
