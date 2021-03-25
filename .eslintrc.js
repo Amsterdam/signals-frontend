@@ -43,6 +43,7 @@ module.exports = {
         '@typescript-eslint/no-type-alias': ['off'],
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/restrict-template-expressions': 'off',
+        '@typescript-eslint/non-nullable-type-assertion-style': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-floating-promises': [
           'error',
