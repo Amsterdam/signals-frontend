@@ -108,7 +108,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onC
             </FieldGroup>
 
             {responsibleDepartments.length > 0 ? (
-              <FieldGroup>
+              <FieldGroup as="dl">
                 <StyledDefinitionTerm><strong>Verantwoordelijke afdeling</strong></StyledDefinitionTerm>
                 <dd data-testid="responsible_departments">{responsibleDepartments.join(', ')}</dd>
               </FieldGroup>
