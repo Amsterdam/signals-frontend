@@ -1,6 +1,7 @@
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useContext } from 'react';
 import type { MapOptions } from 'leaflet';
+import { LatLng } from 'leaflet';
 
 import { render, screen } from '@testing-library/react';
 import type { FetchMock } from 'jest-fetch-mock';
@@ -9,10 +10,11 @@ import type { FeatureCollection } from 'geojson';
 import { Map } from '@amsterdam/react-maps';
 import containersJson from 'utils/__tests__/fixtures/containers.json';
 import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import type { DataLayerProps } from '../../../types';
+import type { ContainerSelectValue, DataLayerProps } from '../../../types';
 import WfsDataContext, { NO_DATA } from '../context';
 import WfsLayer from '../WfsLayer';
 import * as useLayerVisible from '../../useLayerVisible';
+import { ContainerSelectProvider } from '../../../context';
 
 
 const fetchMock = fetch as FetchMock;
@@ -28,6 +30,7 @@ const withMapContainer = (Component: ReactNode) => (
     {Component}
   </Map>
 );
+
 
 describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => {
   const setContextData = jest.fn();
@@ -111,5 +114,51 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     expect(consoleErrorSpy).toHaveBeenCalled();
     consoleErrorSpy.mockClear();
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('supports additional wfs filters', () => {
+    fetchMock.mockResponse(JSON.stringify(containersJson), { status: 200 });
+    const filterValue = '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>';
+    const endpoint = '/endpoint';
+    const containerSelectProviderValue: ContainerSelectValue = {
+      selection: [],
+      location: new LatLng(0, 0),
+      meta: {
+        endpoint, featureTypes: [], wfsFilter: filterValue,
+      },
+      update: jest.fn(),
+      edit: jest.fn(),
+      close: jest.fn(),
+      setMessage: jest.fn(),
+    };
+
+    const urlWithFilter = `${endpoint}&Filter=<Filter><And>${filterValue}<BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></And></Filter>`;
+    const urlWithoutFilter = `${endpoint}&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></Filter>`;
+
+    const { rerender } = render(
+      withMapContainer(
+        <ContainerSelectProvider value={containerSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer featureTypes={[]} desktopView />
+          </WfsLayer>
+        </ContainerSelectProvider>
+      )
+    );
+
+    expect(fetchMock).toHaveBeenCalledWith(urlWithFilter, expect.objectContaining({}));
+
+    delete containerSelectProviderValue.meta.wfsFilter;
+
+    rerender(
+      withMapContainer(
+        <ContainerSelectProvider value={containerSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer featureTypes={[]} desktopView />
+          </WfsLayer>
+        </ContainerSelectProvider>
+      )
+    );
+
+    expect(fetchMock).toHaveBeenCalledWith(urlWithoutFilter, expect.objectContaining({}));
   });
 });
