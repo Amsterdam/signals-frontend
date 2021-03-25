@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
 import Label from 'components/Label';
-import { ErrorWrapper } from 'components/ErrorMessage';
+import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage';
 import type { ReactiveFormMeta, FormMeta, FormOptions } from 'types/reactive-form';
 
 const StyledErrorWrapper = styled(ErrorWrapper)<{ invalid: boolean }>`
@@ -23,14 +23,6 @@ const StyledLabel = styled(Label)`
 const Optional = styled.span`
   font-family: Avenir Next LT W01-Regular, arial, sans-serif;
   margin-left: ${themeSpacing(2)};
-`;
-
-const ErrorItem = styled.p`
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: ${themeColor('support', 'invalid')};
-  line-height: ${themeSpacing(6)};
 `;
 
 const SubTitle = styled.p`
@@ -75,28 +67,32 @@ const Header: FunctionComponent<HeaderProps> = ({
       {touched && containsErrors && (
         <Fragment>
           {hasError('required') && (
-            <ErrorItem data-testid={`${meta.name}-required`}>{getError('required') === true ? 'Dit is een verplicht veld' : getError('required')}</ErrorItem>
+            <ErrorMessage
+              data-testid={`${meta.name}-required`}
+              message={getError('required') === true ? 'Dit is een verplicht veld' : (getError('required') as string)}
+            />
           )}
 
           {hasError('email') && (
-            <ErrorItem data-testid="invalid-mail">
-              Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl
-            </ErrorItem>
+            <ErrorMessage
+              data-testid="invalid-mail"
+              message="Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl"
+            />
           )}
 
           {hasError('maxLength') && (
-            <ErrorItem>
-              U heeft meer dan de maximale{' '}
-              {String((getError('maxLength') as { requiredLength: number }).requiredLength)} tekens ingevoerd
-            </ErrorItem>
+            <ErrorMessage
+              message={`U heeft meer dan de maximale ${String(
+                (getError('maxLength') as { requiredLength: number }).requiredLength
+              )} tekens ingevoerd`}
+            />
           )}
 
-          {hasError('custom') && <ErrorItem>{getError('custom')}</ErrorItem>}
+          {hasError('custom') && <ErrorMessage message={getError('custom') as string} />}
         </Fragment>
-      )
-      }
+      )}
 
-      { children}
+      {children}
     </StyledErrorWrapper>
   );
 };
