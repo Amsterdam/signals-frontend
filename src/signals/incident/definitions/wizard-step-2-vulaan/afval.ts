@@ -38,11 +38,7 @@ export const controls = {
       label: 'Kies de container waar het om gaat',
       shortLabel: 'Container(s)',
       pathMerge: 'extra_properties',
-      wfsFilters: [
-        {
-          value: '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>',
-        },
-      ],
+      wfsFilter: '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>',
       endpoint:
         'https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json',
       featureTypes: [

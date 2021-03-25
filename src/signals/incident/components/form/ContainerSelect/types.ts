@@ -36,7 +36,7 @@ export interface WfsFilter {
 export interface Meta extends Record<string, unknown> {
   endpoint: string;
   featureTypes: FeatureType[];
-  wfsFilters?: WfsFilter[];
+  wfsFilter?: string;
 }
 
 export interface ContainerSelectValue {

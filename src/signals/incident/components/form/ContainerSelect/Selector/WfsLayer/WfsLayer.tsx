@@ -34,8 +34,8 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({ children, zoomLevel = {} }
   const [data, setData] = useState<FeatureCollection>(NO_DATA);
 
   const wfsFilter = useMemo<string>(
-    () => `&Filter=<Filter><And>${meta.wfsFilters?.map(filter => filter.value)}${bbox}</And></Filter>`,
-    [meta.wfsFilters, bbox]
+    () => `&Filter=<Filter>${meta.wfsFilter ? `<And>${meta.wfsFilter}${bbox}</And>` : bbox}</Filter>`,
+    [meta.wfsFilter, bbox]
   );
 
   /* istanbul ignore next */

@@ -117,16 +117,14 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
   });
 
   it('supports additional wfs filters', () => {
-    fetchMock.mockResponseOnce(JSON.stringify(containersJson), { status: 200 });
+    fetchMock.mockResponse(JSON.stringify(containersJson), { status: 200 });
     const filterValue = '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>';
     const endpoint = '/endpoint';
     const containerSelectProviderValue: ContainerSelectValue = {
       selection: [],
       location: new LatLng(0, 0),
       meta: {
-        endpoint, featureTypes: [], wfsFilters: [{
-          value: filterValue,
-        }],
+        endpoint, featureTypes: [], wfsFilter: filterValue,
       },
       update: jest.fn(),
       edit: jest.fn(),
@@ -134,7 +132,10 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
       setMessage: jest.fn(),
     };
 
-    render(
+    const urlWithFilter = `${endpoint}&Filter=<Filter><And>${filterValue}<BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></And></Filter>`;
+    const urlWithoutFilter = `${endpoint}&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></Filter>`;
+
+    const { rerender } = render(
       withMapContainer(
         <ContainerSelectProvider value={containerSelectProviderValue}>
           <WfsLayer>
@@ -144,8 +145,20 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
       )
     );
 
-    const expectedUrl = `${endpoint}&Filter=<Filter><And>${filterValue}<BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></And></Filter>`;
+    expect(fetchMock).toHaveBeenCalledWith(urlWithFilter, expect.objectContaining({}));
 
-    expect(fetchMock).toHaveBeenCalledWith(expectedUrl, expect.objectContaining({}));
+    delete containerSelectProviderValue.meta.wfsFilter;
+
+    rerender(
+      withMapContainer(
+        <ContainerSelectProvider value={containerSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer featureTypes={[]} desktopView />
+          </WfsLayer>
+        </ContainerSelectProvider>
+      )
+    );
+
+    expect(fetchMock).toHaveBeenCalledWith(urlWithoutFilter, expect.objectContaining({}));
   });
 });
