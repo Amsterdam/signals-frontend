@@ -248,7 +248,9 @@ describe('Change signal after submit', () => {
     it('Should change type', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
-
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
       cy.get(CHANGE_TYPE.buttonEdit).click();
 
       cy.get(CHANGE_TYPE.radioButtonMelding).should('be.checked');
@@ -282,7 +284,9 @@ describe('Change signal after submit', () => {
     it('Should change category', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
-
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(CHANGE_CATEGORY.inputCategory).select('Overig openbare ruimte (ASC)');
 

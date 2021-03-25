@@ -2,7 +2,7 @@
 import { CREATE_SIGNAL, BOTEN } from '../../support/selectorsCreateSignal';
 import { CHANGE_STATUS, CHANGE_URGENCY, DEELMELDING, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
-import { NOTIFICATONS } from '../../support/texts';
+import { ERROR_MESSAGES, NOTIFICATONS } from '../../support/texts';
 import { generateToken } from '../../support/jwt';
 import signal01 from '../../fixtures/signals/deelmelding01.json';
 import signal02 from '../../fixtures/signals/deelmelding02.json';
@@ -80,6 +80,16 @@ describe('Deelmeldingen', () => {
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
           cy.url().should('include', `/manage/incident/${json.signalId}/split`);
         });
+
+        // Check if description is mandatory
+        cy.get(DEELMELDING.buttonAdd).click();
+        cy.get(DEELMELDING.buttonAdd).click();
+        cy.get(DEELMELDING.inputDeelmeldingDescription02).clear();
+        cy.get(DEELMELDING.inputDeelmeldingDescription03).clear();
+        cy.get(DEELMELDING.buttonSubmit).click();
+        cy.get(DEELMELDING.labelDescription02).next(DEELMELDING.messageLabel).should('have.text', ERROR_MESSAGES.mandatoryField);
+        cy.get(DEELMELDING.labelDescription03).next(DEELMELDING.messageLabel).should('have.text', ERROR_MESSAGES.mandatoryField);
+
         cy.get(DEELMELDING.buttonCancel).click();
         cy.wait('@getSignal');
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
