@@ -39,7 +39,7 @@ export const controls = {
       shortLabel: 'Container(s)',
       pathMerge: 'extra_properties',
       endpoint:
-        'https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&TYPENAME=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json;%20subtype=geojson;%20charset=utf-8',
+        'https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json',
       featureTypes: [
         {
           label: 'Restafval',
