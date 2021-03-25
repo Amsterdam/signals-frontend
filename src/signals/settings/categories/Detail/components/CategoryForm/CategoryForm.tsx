@@ -132,6 +132,8 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({ data, history, onC
                   defaultValue={data?.sla.use_calendar_days ? 1 : 0}
                   disabled={readOnly}
                   id="use_calendar_days"
+                  // @ts-expect-error: native select element supports 'name' attribute, but asc-ui does not provide correct type
+                  name="use_calendar_days"
                 >
                   <option value="1">Dagen</option>
                   <option value="0">Werkdagen</option>
