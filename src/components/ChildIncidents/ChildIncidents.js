@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { breakpoint, List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import ChildIncidentHistory from 'components/ChildIncidentHistory';
 
 export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE';
 export const STATUS_RESPONSE_REQUIRED = 'components/ChildIncidents/STATUS_RESPONSE_REQUIRED';
@@ -15,6 +16,10 @@ const DisplayValue = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const StyledChildIncidentHistory = styled(ChildIncidentHistory)`
+  margin-top: ${themeSpacing(3)};
 `;
 
 const Li = styled(ListItem)`
@@ -121,9 +126,12 @@ const ChildIncidents = ({ className, incidents }) => (
       );
 
       return (
-        <Li key={JSON.stringify(incident.values)} status={incident.status} changed={incident.changed}>
-          {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
-        </Li>
+        <Fragment>
+          <Li key={JSON.stringify(incident.values)} status={incident.status} changed={incident.changed}>
+            {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
+          </Li>
+          <StyledChildIncidentHistory id={incident.values.id} canView={incident.canView} />
+        </Fragment>
       );
     })}
   </List>
@@ -142,6 +150,7 @@ ChildIncidents.propTypes = {
         category: PropTypes.string.isRequired,
       }),
       changed: PropTypes.bool.isRequired,
+      canView: PropTypes.bool.isRequired,
     })
   ),
 };

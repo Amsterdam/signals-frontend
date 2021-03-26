@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { themeColor, Heading, styles, themeSpacing } from '@amsterdam/asc-ui';
+import { Heading, styles, themeSpacing } from '@amsterdam/asc-ui';
 
-import { string2date, string2time } from 'shared/services/string-parser';
 import { historyType } from 'shared/types';
+import HistoryList from 'components/HistoryList';
 
 const H2 = styled(Heading)`
   ${styles.HeaderStyles} {
@@ -12,61 +12,16 @@ const H2 = styled(Heading)`
   }
 `;
 
-const List = styled.ul`
-  margin: 0;
-  padding: 0;
-`;
-
-const Item = styled.li`
-  margin-bottom: ${themeSpacing(4)};
-  display: grid;
-
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    grid-template-columns: 2fr ${({ theme }) => theme.layouts.medium.gutter}px 4fr;
-  }
-
-  @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
-    grid-template-columns: 3fr ${({ theme }) => theme.layouts.large.gutter}px 4fr;
-  }
-`;
-
-const Time = styled.div`
-  color: ${themeColor('tint', 'level5')};
-`;
-
-const Action = styled.div`
-  color: ${themeColor('tint', 'level7')};
-  white-space: pre-line;
-
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    grid-column-start: 3;
-  }
-`;
-
 const History = ({ className, list }) =>
-  list?.length > 0 && (
+  list?.length > 0 ? (
     <section className={className} data-testid="history">
       <H2 forwardedAs="h2" styleAs="h4">
         Geschiedenis
       </H2>
 
-      <List>
-        {list.map(({ identifier, when, who, action, description }) => (
-          <Item key={identifier}>
-            <Time>
-              {string2date(when)} om {string2time(when)}
-              <div>{who}</div>
-            </Time>
-
-            <Action>
-              {action}
-              {description && <div data-testid="history-list-item-description">{description}</div>}
-            </Action>
-          </Item>
-        ))}
-      </List>
+      <HistoryList list={list} />
     </section>
-  );
+  ) : null;
 
 History.defaultProps = {
   className: '',

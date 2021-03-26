@@ -182,6 +182,7 @@ export const childIncidentType = PropTypes.exact({
     state_display: PropTypes.string.isRequired,
   }),
   updated_at: PropTypes.string.isRequired,
+  can_view_signal: PropTypes.bool.isRequired,
 });
 
 export const attachmentsType = PropTypes.arrayOf(

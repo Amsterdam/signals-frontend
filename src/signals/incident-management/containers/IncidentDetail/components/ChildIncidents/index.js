@@ -30,7 +30,7 @@ const ChildIncidents = ({ incidents, parent }) => {
 
   const children = useMemo(
     () =>
-      Object.values(incidents).map(({ status, category, id, updated_at }) => ({
+      Object.values(incidents).map(({ status, category, id, updated_at, can_view_signal }) => ({
         href: `${INCIDENT_URL}/${id}`,
         values: {
           id,
@@ -39,6 +39,7 @@ const ChildIncidents = ({ incidents, parent }) => {
           handlingTime: handlingTimesBySlug[category.sub_slug],
         },
         changed: isChildChanged(updated_at, parent.updated_at),
+        canView: can_view_signal,
       })),
     [handlingTimesBySlug, incidents, parent.updated_at]
   );
