@@ -60,7 +60,7 @@
   },
   {
     "id": "extra_personen_overig_vaker_momenten",
-    "label": "Geef aan op welke momenten het gebeurt",
+    "label": "Wanneer gebeurt het?",
     "shortLabel": "Momenten",
     "answer": "Bijna iedere dag",
     "category_url": ""
