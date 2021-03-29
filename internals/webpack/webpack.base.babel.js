@@ -46,6 +46,7 @@ module.exports = options => ({
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: (resourcePath, context) => `${path.relative(path.dirname(resourcePath), context)}/`,
+              hmr: process.env.NODE_ENV === 'development',
             },
           },
           'css-loader',
@@ -54,7 +55,7 @@ module.exports = options => ({
       },
       {
         test: /\.(eot|otf|ttf|woff|woff2)$/,
-        type: 'asset/resource',
+        use: 'file-loader',
       },
       {
         test: /\.svg$/,
@@ -102,7 +103,6 @@ module.exports = options => ({
             },
           },
         ],
-        type: 'javascript/auto',
       },
       {
         test: /\.html$/,
@@ -116,7 +116,6 @@ module.exports = options => ({
             limit: 10000,
           },
         },
-        type: 'javascript/auto',
       },
     ],
   },
