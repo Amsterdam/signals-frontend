@@ -21,7 +21,6 @@ import { logout } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 import type { User, DataResult, ApiError, UploadFile } from './types';
-import type { EventChannel } from '@redux-saga/core';
 
 export function* callLogout() {
   try {
@@ -66,11 +65,11 @@ export function* callAuthorize(action: AuthenticateUserAction) {
   }
 }
 
-export function* uploadFile(action: { payload: UploadFile }): any {
+export function* uploadFile(action: { payload: UploadFile }) {
   const id = action.payload?.id ?? '';
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const channel: EventChannel<any> = yield call(
+  const channel = yield call(
     fileUploadChannel,
     `${configuration.INCIDENT_PUBLIC_ENDPOINT}${id}/attachments/`,
     action.payload?.file,
@@ -109,9 +108,9 @@ export function* callSearchIncidents() {
 export function* fetchSources() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result: DataResult<string> = yield call(authCall, configuration.SOURCES_ENDPOINT, { is_active: 'true' });
+    const result = yield call(authCall, configuration.SOURCES_ENDPOINT, { is_active: 'true' });
 
-    yield put(getSourcesSuccess(result.results));
+    yield put(getSourcesSuccess((result as DataResult<string>).results));
   } catch (error: unknown) {
     yield put(getSourcesFailed((error as Error).message));
   }
