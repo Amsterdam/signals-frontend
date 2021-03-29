@@ -1,7 +1,7 @@
 {
   "afval": {
     "extra_afval": {
-      "label": "Heeft u een vermoeden waar het afval vandaan komt?",
+      "label": "Waar komt het afval vandaan, denkt u?",
       "shortLabel": "Waar vandaan"
     },
     "extra_container_kind": {
@@ -36,7 +36,7 @@
       "shortLabel": "Mogelijke veroorzaker"
     },
     "extra_bedrijven_horeca_adres": {
-      "label": "Op welk adres ervaart u de overlast?",
+      "label": "Op welk adres hebt u overlast?",
       "shortLabel": "Adres overlast"
     },
     "extra_bedrijven_horeca_muziek_direct_naast": {
@@ -68,7 +68,7 @@
       }
     },
     "extra_bedrijven_horeca_muziek_ramen_dicht_onderneming": {
-      "label": "Staan de ramen of deuren open van de horeca onderneming?",
+      "label": "Staan de ramen of deuren open van het horecabedrijf?",
       "shortLabel": "Ramen/deuren horeca open",
       "values": {
         "ja": "Ja, ramen of deuren staan open",
@@ -92,7 +92,7 @@
       }
     },
     "extra_bedrijven_horeca_muziek_evenement": {
-      "label": "Bent u geïnformeerd door de organisator van het evenement?",
+      "label": "Heeft iemand van de organisatie u geïnformeerd?",
       "shortLabel": "Geïnformeerd door organisator",
       "values": {
         "ja": "Ja, ik ben geïnformeerd door de organisator",
@@ -109,7 +109,7 @@
     },
     "extra_bedrijven_horeca_installaties": {
       "subtitle": "Bijvoorbeeld een afzuiger of airconditioning",
-      "label": "Van wat voor een soort installatie heeft u last?",
+      "label": "Van wat voor soort installatie hebt u last?",
       "shortLabel": "Soort installatie"
     },
     "extra_bedrijven_horeca_personen": {
@@ -159,15 +159,15 @@
     },
     "extra_bedrijven_horeca_stank_oorzaak": {
       "subtitle": "Bijvoorbeeld afvoerpijp of schoorsteen",
-      "label": "Wat is de vermoedelijke oorzaak van de geuroverlast?",
+      "label": "Wat is de oorzaak van de geuroverlast, denkt u?",
       "shortLabel": "Vermoedelijke oorzaak"
     },
     "extra_bedrijven_horeca_stank_weer": {
-      "label": "Wat zijn de weersomstandigheden tijdens de overlast?",
+      "label": "Welk weer is het tijdens de overlast?",
       "shortLabel": "Weersomstandigheden"
     },
     "extra_bedrijven_horeca_stank_ramen": {
-      "label": "Staan de ramen of deuren open van de vermoedelijke veroorzaker?",
+      "label": "Staan de deuren of ramen open van het gebouw waar de geur vandaan komt?",
       "shortLabel": "Ramen/deuren open",
       "values": {
         "ja": "Ja, ramen of deuren staan open",
@@ -179,24 +179,24 @@
       }
     },
     "extra_bedrijven_horeca_vaker": {
-      "subtitle": "Is de overlast vaker aanwezig of is dit een eenmalige gebeurtenis",
+      "subtitle": "Had u de overlast al eerder of is dit de eerste keer?",
       "label": "Gebeurt het vaker?",
       "shortLabel": "Vaker overlast",
       "values": {
         "ja": "Ja, het gebeurt vaker",
-        "nee": "Nee, dit is de eerste keer"
+        "nee": "Nee, het is de eerste keer"
       },
       "answers": {
         "ja": "Ja, het gebeurt vaker",
-        "nee": "Nee, dit is de eerste keer"
+        "nee": "Nee, het is de eerste keer"
       }
     },
     "extra_bedrijven_horeca_tijdstippen": {
-      "label": "Op welk(e) tijdstip(pen) ervaart u de overlast?",
+      "label": "Op welke momenten van de dag hebt u de overlast?",
       "shortLabel": "Overlast momenten"
     },
     "extra_bedrijven_horeca_muziek_geluidmeting_muziek": {
-      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "subtitle": "Bijvoorbeeld om bij u thuis het geluid te meten.",
       "label": "Mogen we contact met u opnemen over de melding?",
       "shortLabel": "Toestemming contact opnemen",
       "values": {
@@ -209,7 +209,7 @@
       }
     },
     "extra_bedrijven_horeca_muziek_geluidmeting_installaties": {
-      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "subtitle": "Bijvoorbeeld om bij u thuis het geluid te meten.",
       "label": "Mogen we contact met u opnemen over de melding?",
       "shortLabel": "Toestemming contact opnemen",
       "values": {
@@ -222,7 +222,7 @@
       }
     },
     "extra_bedrijven_horeca_muziek_geluidmeting_overige": {
-      "subtitle": "Bijvoorbeeld om bij u thuis een geluidsmeting te doen",
+      "subtitle": "Bijvoorbeeld om bij u thuis het geluid te meten.",
       "label": "Mogen we contact met u opnemen over de melding?",
       "shortLabel": "Toestemming contact opnemen",
       "values": {
@@ -256,27 +256,27 @@
       "shortLabel": "Ander bel moment"
     },
     "extra_bedrijven_horeca_muziek_geluidmeting_nee": {
-      "label": "Waarom heeft u liever geen contact?",
+      "label": "Waarom hebt u liever geen contact?",
       "shortLabel": "Liever geen contact"
     },
     "extra_bedrijven_horeca_caution": {
-      "answers": "Uw gegevens worden vertrouwelijk behandeld en worden niet aan de (horeca)ondernemer of organisator bekend gemaakt.Anonieme meldingen krijgen een lage prioriteit."
+      "answers": "Wij geven uw gegevens niet aan de (horeca)ondernemer of organisator.Meldingen met telefoonnummer en/of e-mailadres pakken wij sneller op dan meldingen zonder telefoonnummer en/of e-mailadres."
     }
   },
   "overlastInDeOpenbareRuimte": {
     "extra_auto_scooter_bromfietswrak": {
       "subtitle": "Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?",
+      "label": "Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?",
       "shortLabel": "Extra informatie"
     },
     "extra_fietswrak": {
       "subtitle": "Bijvoorbeeld: merk, kleur, roest, zonder wielen",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?",
+      "label": "Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?",
       "shortLabel": "Extra informatie"
     },
     "extra_parkeeroverlast": {
       "subtitle": "Bijvoorbeeld: kenteken, merk en kleur",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over de kenmerken van de auto, bus of motor?",
+      "label": "Wat weet u over de auto, bus of motor?",
       "shortLabel": "Extra informatie"
     }
   },
@@ -301,17 +301,17 @@
     },
     "extra_boten_snelheid_meer": {
       "subtitle": "Bijvoorbeeld: de kleur van de boot, aantal passagiers, vaarrichting, Y of Vignet nummer etc.",
-      "label": "Kunt u ons nog meer vertellen over de situatie?",
+      "label": "Wat weet u nog meer over deze situatie?",
       "shortLabel": "Extra informatie"
     },
     "extra_boten_geluid_meer": {
       "subtitle": "Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie",
+      "label": "Wat weet u nog meer over deze situatie?",
       "shortLabel": "Extra informatie"
     },
     "extra_boten_gezonken_meer": {
       "subtitle": "Bijvoorbeeld: \"er lekt olie\", \"gevaar voor andere boten\", etc.",
-      "label": "Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?",
+      "label": "Wat weet u nog meer over deze situatie?",
       "shortLabel": "Extra informatie"
     }
   },
@@ -333,17 +333,17 @@
       "answers": "Weet u de naam van de jongere(n)? Gebruik dan het formulier Melding zorg en woonoverlast. Dan komt uw melding direct bij het juiste team terecht."
     },
     "extra_personen_overig": {
-      "label": "Om hoe veel personen gaat het (ongeveer)?",
+      "label": "Om hoeveel personen gaat het (ongeveer)?",
       "shortLabel": "Aantal personen",
       "values": {
-        "1-3": "1 - 3",
-        "4-6": "4 - 6",
+        "1-3": "1, 2 of 3",
+        "4-6": "4, 5 of 6",
         "7_of_meer": "7 of meer",
         "onbekend": "Onbekend"
       },
       "answers": {
-        "1-3": "1 - 3",
-        "4-6": "4 - 6",
+        "1-3": "1, 2 of 3",
+        "4-6": "4, 5 of 6",
         "7_of_meer": "7 of meer",
         "onbekend": "Onbekend"
       }
@@ -361,18 +361,18 @@
       }
     },
     "extra_personen_overig_vaker_momenten": {
-      "label": "Geef aan op welke momenten het gebeurt",
+      "label": "Wanneer gebeurt het?",
       "shortLabel": "Momenten"
     }
   },
   "wegenVerkeerStraatmeubilair": {
     "extra_brug": {
-      "label": "Hebt u een naam of nummer van de brug?",
+      "label": "Wat is de naam of het nummer van de brug?",
       "shortLabel": "Naam brug"
     },
     "extra_onderhoud_stoep_straat_en_fietspad": {
       "subtitle": "Bijvoorbeeld: asfalt, klinkers of stoeptegels",
-      "label": "Hebt u verteld om wat voor soort wegdek het gaat?",
+      "label": "Om wat voor soort wegdek gaat het?",
       "shortLabel": "Soort wegdek"
     },
     "extra_wegen_gladheid": {
@@ -401,8 +401,8 @@
       }
     },
     "extra_straatverlichting": {
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "values": {
         "drie_of_meer_kapot": "Ja, 3 of meer lampen in de straat zijn kapot",
         "is_gevolg_van_aanrijding": "Ja, het is een gevolg van een aanrijding",
@@ -437,8 +437,8 @@
       "shortLabel": "Lichtpunt(en) niet op kaart"
     },
     "extra_klok": {
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "values": {
         "is_gevolg_van_aanrijding": "Het is het gevolg van een aanrijding",
         "klok_op_grond_of_scheef": "Klok ligt op de grond of staat gevaarlijk scheef",
@@ -472,7 +472,7 @@
       }
     },
     "extra_klok_nummer": {
-      "label": "Selecteer de klok waar het om gaat",
+      "label": "Kies de klok waar het om gaat",
       "shortLabel": "Klok(ken) op kaart"
     },
     "extra_klok_niet_op_kaart": {
@@ -480,12 +480,12 @@
       "value": "De klok staat niet op de kaart"
     },
     "extra_klok_niet_op_kaart_nummer": {
-      "label": "Weet u het nummer dat op de klok staat?",
+      "label": "Wat is het nummer dat op de klok staat?",
       "shortLabel": "Klok(ken) niet op kaart"
     },
     "extra_verkeerslicht": {
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "values": {
         "is_gevolg_van_aanrijding": "Het is het gevolg van een aanrijding",
         "verkeerslicht_op_grond_of_scheef": "Verkeerslicht ligt op de grond of staat gevaarlijk scheef",
@@ -505,7 +505,7 @@
       "answers": "Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen."
     },
     "extra_verkeerslicht_welk": {
-      "label": "Welk verkeerslicht werkt niet juist?",
+      "label": "Welk verkeerslicht werkt niet goed?",
       "shortLabel": "Type verkeerslicht",
       "values": {
         "voetganger": "Voetganger",
@@ -563,29 +563,29 @@
         "rood_werkt_niet": "Rood licht werkt niet",
         "oranje_werkt_niet": "Oranje/geel licht werkt niet",
         "wit_werkt_niet": "Wit licht werkt niet",
-        "waarschuwingslicht_tram_werkt_niet": "Waarschuwingslicht tram werkt niet",
+        "waarschuwingslicht_tram_werkt_niet": "Licht dat waarschuwt voor aankomende tram werkt niet",
         "anders": "Anders"
       },
       "answers": {
         "rood_werkt_niet": "Rood licht werkt niet",
         "oranje_werkt_niet": "Oranje/geel licht werkt niet",
         "wit_werkt_niet": "Wit licht werkt niet",
-        "waarschuwingslicht_tram_werkt_niet": "Waarschuwingslicht tram werkt niet",
+        "waarschuwingslicht_tram_werkt_niet": "Licht dat waarschuwt voor aankomende tram werkt niet",
         "anders": "Anders"
       }
     },
     "extra_verkeerslicht_rijrichting": {
-      "subtitle": "Bijvoorbeeld: In de richting van Waterlooplein naar Mr. Visserplein",
+      "subtitle": "Bijvoorbeeld: van Waterlooplein naar Mr. Visserplein",
       "label": "Wat is de rijrichting?",
       "shortLabel": "Rijrichting"
     },
     "extra_verkeerslicht_nummer": {
       "subtitle": "Deze kunt u meestal vinden in witte tekst onder of boven de lampen",
-      "label": "Weet u het nummer van het verkeerslicht?",
+      "label": "Wat is het nummer van het verkeerslicht?",
       "shortLabel": "Verkeerslicht nummer"
     },
     "extra_fietsrek_aanvragen": {
-      "label": "Wilt u misschien een nieuw fietsenrek of 'nietje' aanvragen?",
+      "label": "Wilt u een nieuw fietsenrek of 'nietje' aanvragen?",
       "shortLabel": "Fietsenrek aanvragen",
       "values": {
         "ja": "Ja, dat ik wil ik",
@@ -673,7 +673,7 @@
       }
     },
     "extra_wonen_woningdelen_bewoners_familie": {
-      "label": "Zijn de bewoners familie van elkaar?",
+      "label": "Zijn de bewoners volgens u familie van elkaar?",
       "shortLabel": "Bewoners familie",
       "values": {
         "ja": "Ja, de bewoners zijn familie",
@@ -701,7 +701,7 @@
       }
     },
     "extra_wonen_woningdelen_wisselende_bewoners": {
-      "label": "Komen er vaak andere bewoners op het adres wonen?",
+      "label": "Komen er vaak nieuwe mensen op het adres wonen?",
       "shortLabel": "Wisselende bewoners",
       "values": {
         "ja": "Ja, vaak andere bewoners op het adres",
@@ -739,7 +739,7 @@
       }
     },
     "extra_wonen_onderhuur_bewoners_familie": {
-      "label": "Zijn de mensen die op dit adres wonen familie van elkaar?",
+      "label": "Zijn de mensen die op dit adres wonen volgens u familie van elkaar?",
       "shortLabel": "Bewoners familie",
       "values": {
         "ja": "Ja, ze zijn familie van elkaar",
@@ -794,7 +794,7 @@
       }
     },
     "extra_wonen_onderhuur_adres_huurder": {
-      "label": "Wat is het adres waar de officiële huurder woont?",
+      "label": "Waar woont de officiële huurder?",
       "shortLabel": "Adres huurder"
     },
     "extra_wonen_leegstand_naam_eigenaar": {
@@ -834,7 +834,7 @@
       "shortLabel": "Naam persoon"
     },
     "extra_wonen_leegstand_activiteit_in_woning": {
-      "label": "Wat doet deze persoon in de woning?",
+      "label": "Wat doet deze persoon volgens u in de woning?",
       "shortLabel": "Activiteit in de woning"
     },
     "extra_wonen_leegstand_iemand_aanwezig": {
@@ -884,19 +884,19 @@
       }
     },
     "extra_wonen_vakantieverhuur_hoe_vaak": {
-      "label": "Heeft u vaker toeristen in de woning gezien?",
+      "label": "Hebt u vaker toeristen in de woning gezien?",
       "shortLabel": "Hoe vaak",
       "values": {
         "maandelijks": "Ongeveer één keer per maand",
         "wekelijks": "Ongeveer één keer per week",
         "dagelijks": "Bijna dagelijks",
-        "eerste_keer": "Nee, dit is de eerste keer"
+        "eerste_keer": "Nee, het is de eerste keer"
       },
       "answers": {
         "maandelijks": "Ongeveer één keer per maand",
         "wekelijks": "Ongeveer één keer per week",
         "dagelijks": "Bijna dagelijks",
-        "eerste_keer": "Nee, dit is de eerste keer"
+        "eerste_keer": "Nee, het is de eerste keer"
       }
     },
     "extra_wonen_vakantieverhuur_wanneer": {
@@ -915,7 +915,7 @@
     },
     "extra_wonen_vakantieverhuur_bewoning": {
       "subtitle": "De persoon die langdurig de woning bewoont",
-      "label": "Weet u of er iemand op het adres woont?",
+      "label": "Woont er iemand op het adres?",
       "shortLabel": "Bewoning",
       "values": {
         "ja": "Ja, er woont iemand op het adres",
@@ -1023,7 +1023,7 @@
       "answers": "Let op! Vul uw telefoonnummer in op de volgende pagina."
     },
     "extra_wonen_woonkwaliteit_geen_contact": {
-      "label": "Waarom heeft u liever geen contact?",
+      "label": "Waarom hebt u liever geen contact?",
       "shortLabel": "Liever geen contact"
     }
   }

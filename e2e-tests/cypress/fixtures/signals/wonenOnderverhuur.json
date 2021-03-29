@@ -56,7 +56,7 @@
     },
     {
       "id": "extra_wonen_onderhuur_bewoners_familie",
-      "label": "Zijn de mensen die op dit adres wonen familie van elkaar?",
+      "label": "Zijn de mensen die op dit adres wonen volgens u familie van elkaar?",
       "shortLabel": "Bewoners familie",
       "answer": {"id": "weet_ik_niet", "info": "", "label": "Weet ik niet"},
       "category_url": ""
@@ -106,7 +106,7 @@
     },
     {
       "id": "extra_wonen_onderhuur_adres_huurder",
-      "label": "Wat is het adres waar de officiële huurder woont?",
+      "label": "Waar woont de officiële huurder?",
       "shortLabel": "Adres huurder",
       "answer": "Kaer Morhen",
       "category_url": ""

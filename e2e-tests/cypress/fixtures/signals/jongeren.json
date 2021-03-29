@@ -42,13 +42,13 @@
   "source": "online",
   "text": "De laatste paar weken staat er in de avond een grote groep jongeren voor mijn deur te blowen. Dit zorgt voor veel overlast.",
   "text_extra": "",
-  "extra_properties": 
+  "extra_properties":
   [
   {
     "id": "extra_personen_overig",
-    "label": "Om hoe veel personen gaat het (ongeveer)?",
+    "label": "Om hoeveel personen gaat het (ongeveer)?",
     "shortLabel": "Aantal personen",
-    "answer": {"id": "4-6", "info": "", "label": "4 - 6"},
+    "answer": {"id": "4-6", "info": "", "label": "4, 5 of 6"},
     "category_url": ""
   },
   {
@@ -60,7 +60,7 @@
   },
   {
     "id": "extra_personen_overig_vaker_momenten",
-    "label": "Geef aan op welke momenten het gebeurt",
+    "label": "Wanneer gebeurt het?",
     "shortLabel": "Momenten",
     "answer": "Bijna iedere dag",
     "category_url": ""

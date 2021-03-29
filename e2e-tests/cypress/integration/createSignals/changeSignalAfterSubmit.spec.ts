@@ -158,31 +158,31 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.radioButtonGemeld).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('be.visible');
+      cy.contains('Toelichting (niet verplicht)').should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonInAfwachting).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('be.visible');
+      cy.contains('Toelichting (niet verplicht)').should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonIngepland).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('not.exist');
+      cy.contains('Toelichting (niet verplicht)').should('not.exist');
       cy.get(CHANGE_STATUS.radioButtonExtern).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('be.visible');
+      cy.contains('Toelichting (niet verplicht)').should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonAfgehandeld).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('not.exist');
+      cy.contains('Toelichting (niet verplicht)').should('not.exist');
       cy.get(CHANGE_STATUS.radioButtonHeropend).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('not.exist');
+      cy.contains('Toelichting (niet verplicht)').should('not.exist');
       cy.get(CHANGE_STATUS.radioButtonGeannuleerd).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
-      cy.contains('Toelichting (optioneel)').should('be.visible');
+      cy.contains('Toelichting (niet verplicht)').should('be.visible');
 
       cy.get(CHANGE_STATUS.radioButtonInBehandeling).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben uw zinloze melding toch maar in behandeling genomen');
@@ -248,7 +248,9 @@ describe('Change signal after submit', () => {
     it('Should change type', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
-
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
       cy.get(CHANGE_TYPE.buttonEdit).click();
 
       cy.get(CHANGE_TYPE.radioButtonMelding).should('be.checked');
@@ -282,7 +284,9 @@ describe('Change signal after submit', () => {
     it('Should change category', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
-
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(CHANGE_CATEGORY.inputCategory).select('Overig openbare ruimte (ASC)');
 

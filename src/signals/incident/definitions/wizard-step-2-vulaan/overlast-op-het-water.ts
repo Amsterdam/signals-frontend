@@ -47,7 +47,7 @@ export const overlastOpHetWater = {
   },
   extra_boten_snelheid_meer: {
     meta: {
-      label: 'Kunt u ons nog meer vertellen over de situatie?',
+      label: 'Wat weet u nog meer over deze situatie?',
       shortLabel: 'Extra informatie',
       subtitle:
         'Bijvoorbeeld: de kleur van de boot, aantal passagiers, vaarrichting, Y of Vignet nummer etc.',
@@ -63,7 +63,7 @@ export const overlastOpHetWater = {
   },
   extra_boten_geluid_meer: {
     meta: {
-      label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie',
+      label: 'Wat weet u nog meer over deze situatie?',
       shortLabel: 'Extra informatie',
       subtitle:
       'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
@@ -76,7 +76,7 @@ export const overlastOpHetWater = {
   },
   extra_boten_gezonken_meer: {
     meta: {
-      label: 'Zijn er nog meer dingen die u ons kunt vertellen over deze situatie?',
+      label: 'Wat weet u nog meer over deze situatie?',
       shortLabel: 'Extra informatie',
       subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
       pathMerge: 'extra_properties',

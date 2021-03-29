@@ -52,8 +52,8 @@
     },
     {
       "id": "extra_straatverlichting",
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "answer": {
         "id": "niet_gevaarlijk",
         "info": "",

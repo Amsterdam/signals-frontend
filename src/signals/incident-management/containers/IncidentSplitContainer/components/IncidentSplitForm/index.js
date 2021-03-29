@@ -61,7 +61,7 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
           <TextArea
             label={
               <Fragment>
-                <strong>Notitie</strong> (optioneel)
+                <strong>Notitie</strong> (niet verplicht)
               </Fragment>
             }
             rows={7}

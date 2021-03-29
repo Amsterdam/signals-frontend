@@ -150,6 +150,9 @@ describe('Manage categories', () => {
       routes.waitForSignalDetailsRoutes();
 
       // Edit signal category
+      // Used a wait because sometimes the edit button is not clicked
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
       cy.get(CHANGE_CATEGORY.buttonEdit).click();
       cy.get(CHANGE_CATEGORY.inputCategory).find(':selected').should('contain', 'Afgewaterde brug');
       cy.get(SIGNAL_DETAILS.infoText).should('contain', 'Dit is het verhaal van de brug die moest afwateren');

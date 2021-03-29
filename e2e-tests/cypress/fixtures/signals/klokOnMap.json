@@ -45,8 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_klok",
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "answer": {
         "id": "niet_gevaarlijk",
         "info": "",
@@ -63,7 +63,7 @@
     },
     {
       "id": "extra_klok_nummer",
-      "label": "Selecteer de klok waar het om gaat",
+      "label": "Kies de klok waar het om gaat",
       "shortLabel": "Klok(ken) op kaart",
       "answer": "140425",
       "category_url": ""

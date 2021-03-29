@@ -45,8 +45,8 @@
   "extra_properties": [
     {
       "id": "extra_klok",
-      "label": "Is de situatie gevaarlijk?",
-      "shortLabel": "Is de situatie gevaarlijk?",
+      "label": "Denkt u dat de situatie gevaarlijk is?",
+      "shortLabel": "Denkt u dat de situatie gevaarlijk is?",
       "answer": {
         "id": "klok_op_grond_of_scheef",
         "info": "",
@@ -74,7 +74,7 @@
     },
     {
       "id": "extra_klok_niet_op_kaart_nummer",
-      "label": "Weet u het nummer dat op de klok staat?",
+      "label": "Wat is het nummer dat op de klok staat?",
       "shortLabel": "Klok(ken) niet op kaart",
       "answer": [
         {"id": "666", "label": "666"},

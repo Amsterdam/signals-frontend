@@ -80,7 +80,7 @@
     },
     {
       "id": "extra_wonen_woningdelen_bewoners_familie",
-      "label": "Zijn de bewoners familie van elkaar?",
+      "label": "Zijn de bewoners volgens u familie van elkaar?",
       "shortLabel": "Bewoners familie",
       "answer": {
         "id": "nee",
@@ -102,7 +102,7 @@
     },
     {
       "id": "extra_wonen_woningdelen_wisselende_bewoners",
-      "label": "Komen er vaak andere bewoners op het adres wonen?",
+      "label": "Komen er vaak nieuwe mensen op het adres wonen?",
       "shortLabel": "Wisselende bewoners",
       "answer": {
         "id": "ja",

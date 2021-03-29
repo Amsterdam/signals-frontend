@@ -7,7 +7,7 @@ export const overlastInDeOpenbareRuimte = {
         subcategory:
           'auto-scooter-bromfietswrak',
       },
-      label: 'Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?',
+      label: 'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
       shortLabel: 'Extra informatie',
       subtitle: 'Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen',
       pathMerge: 'extra_properties',
@@ -21,7 +21,7 @@ export const overlastInDeOpenbareRuimte = {
         subcategory:
           'fietswrak',
       },
-      label: 'Zijn er nog meer dingen die u ons kunt vertellen over hoe het wrak eruit ziet en de plek waar het ligt?',
+      label: 'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
       subtitle: 'Bijvoorbeeld: merk, kleur, roest, zonder wielen',
       shortLabel: 'Extra informatie',
       pathMerge: 'extra_properties',
@@ -35,7 +35,7 @@ export const overlastInDeOpenbareRuimte = {
         subcategory:
           'parkeeroverlast',
       },
-      label: 'Zijn er nog meer dingen die u ons kunt vertellen over de kenmerken van de auto, bus of motor?',
+      label: 'Wat weet u over de auto, bus of motor?',
       shortLabel: 'Extra informatie',
       subtitle: 'Bijvoorbeeld: kenteken, merk en kleur',
       pathMerge: 'extra_properties',

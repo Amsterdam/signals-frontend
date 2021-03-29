@@ -15,7 +15,7 @@ export const controls = {
       ifOneOf: {
         subcategory: ['grofvuil', 'huisafval', 'puin-sloopafval'],
       },
-      label: 'Heeft u een vermoeden waar het afval vandaan komt?',
+      label: 'Waar komt het afval vandaan, denkt u?',
       shortLabel: 'Waar vandaan',
       pathMerge: 'extra_properties',
     },
@@ -38,6 +38,7 @@ export const controls = {
       label: 'Kies de container waar het om gaat',
       shortLabel: 'Container(s)',
       pathMerge: 'extra_properties',
+      wfsFilter: '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>',
       endpoint:
         'https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json',
       featureTypes: [
