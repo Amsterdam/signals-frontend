@@ -26,6 +26,7 @@ const getDaysOpen = incident => {
 
 const StyledList = styled.div`
   width: 100%;
+  overflow: scroll;
 
   ${({ isLoading }) => isLoading && 'opacity: 0.3;'}
 `;
