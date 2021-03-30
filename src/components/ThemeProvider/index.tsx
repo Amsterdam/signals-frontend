@@ -7,7 +7,7 @@ import configuration from 'shared/services/configuration/configuration';
 import type { Theme } from 'types/theme';
 import type { RecursivePartial } from 'types/helpers';
 
-export const getConfig: (theme: RecursivePartial<Theme>) => Theme = defaultConfig => {
+export const getConfig: (theme?: RecursivePartial<Theme>) => Theme = (defaultConfig = {}) => {
   const config = { ...defaultConfig };
 
   if (!isAuthenticated()) {
@@ -51,14 +51,10 @@ export const getConfig: (theme: RecursivePartial<Theme>) => Theme = defaultConfi
   return config as Theme;
 };
 
-const ThemeProvider: FunctionComponent = ({ children }) => {
-  const { theme } = configuration;
-
-  return (
-    <ASCThemeProvider overrides={getConfig(theme)}>
-      {children}
-    </ASCThemeProvider>
-  );
-};
+const ThemeProvider: FunctionComponent = ({ children }) => (
+  <ASCThemeProvider overrides={getConfig(configuration.theme)}>
+    {children}
+  </ASCThemeProvider>
+);
 
 export default ThemeProvider;

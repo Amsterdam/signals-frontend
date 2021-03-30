@@ -18,6 +18,7 @@ export const initialState = {
   attachmentHref: undefined,
   attachments: undefined,
   children: undefined,
+  childrenHistory: undefined,
   error: undefined,
   history: undefined,
   incident: undefined,

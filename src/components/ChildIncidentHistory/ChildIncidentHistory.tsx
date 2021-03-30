@@ -60,7 +60,7 @@ const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({ ca
   };
 
   return (
-    <div className={className}>
+    <div className={className} data-testid="childIncidentHistory">
       <HistoryList list={list} />
       <ButtonWrapper>
         <StyledLink

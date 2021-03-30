@@ -6,3 +6,10 @@ export interface History {
   action: string;
   description?: string | null;
 }
+export interface IncidentHistory extends History {
+  _signal?: string;
+}
+
+export interface CategoryHistory extends History {
+  _category?: string;
+}

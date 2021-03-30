@@ -11,7 +11,7 @@ import { withAppContext } from 'test/utils';
 import incidentFixture from 'utils/__tests__/fixtures/incident.json';
 import childIncidentFixture from 'utils/__tests__/fixtures/childIncidents.json';
 import { subCategories } from 'utils/__tests__/fixtures';
-import historyFixture from 'utils/__tests__/fixtures/history.json';
+import incidentHistoryFixture from 'utils/__tests__/fixtures/incidentHistory.json';
 import useEventEmitter from 'hooks/useEventEmitter';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
@@ -89,9 +89,11 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
+      [JSON.stringify(incidentHistoryFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }],
-      [JSON.stringify(childIncidentFixture), { status: 200 }]
+      [JSON.stringify(childIncidentFixture), { status: 200 }],
+      [JSON.stringify(incidentHistoryFixture), { status: 200 }],
+      [JSON.stringify(incidentHistoryFixture), { status: 200 }]
     );
   });
 
@@ -100,7 +102,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   });
 
   it('should retrieve incident data', async () => {
-    const { findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
     expect(fetch).toHaveBeenCalledWith(
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
@@ -109,7 +111,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     expect(fetch).toHaveBeenCalledTimes(1);
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
     expect(fetch).toHaveBeenCalledWith(
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`,
@@ -150,17 +152,17 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   });
 
   it('should retrieve default texts and attachments only once', async () => {
-    const { findByTestId, rerender } = render(withAppContext(<IncidentDetail />));
+    const { rerender } = render(withAppContext(<IncidentDetail />));
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(fetch).toHaveBeenCalledTimes(5);
+    expect(fetch).toHaveBeenCalledTimes(7);
 
     rerender(withAppContext(<IncidentDetail />));
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(fetch).toHaveBeenCalledTimes(5);
+    expect(fetch).toHaveBeenCalledTimes(7);
   });
 
   it('should not get child incidents', async () => {
@@ -174,30 +176,30 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     fetch.mockResponses(
       [JSON.stringify(incidentWithoutChildren), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
+      [JSON.stringify(incidentHistoryFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }]
     );
 
-    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
     expect(fetch).toHaveBeenCalledTimes(4);
 
-    expect(queryByTestId('childIncidents')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('childIncidents')).not.toBeInTheDocument();
   });
 
   it('should retrieve data when id param changes', async () => {
-    const { findByTestId, rerender, unmount } = render(withAppContext(<IncidentDetail />));
+    const { rerender, unmount } = render(withAppContext(<IncidentDetail />));
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(fetch).toHaveBeenCalledTimes(5);
+    expect(fetch).toHaveBeenCalledTimes(7);
 
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
-      [JSON.stringify(historyFixture), { status: 200 }],
+      [JSON.stringify(incidentHistoryFixture), { status: 200 }],
       [JSON.stringify(attachments), { status: 200 }],
       [JSON.stringify(childIncidentFixture), { status: 200 }]
     );
@@ -210,193 +212,195 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     rerender(withAppContext(<IncidentDetail />));
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(fetch).toHaveBeenCalledTimes(10);
+    expect(fetch).toHaveBeenCalledTimes(14);
   });
 
   it('should render correctly', async () => {
-    const { queryByTestId, getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    expect(queryByTestId('detail-location')).not.toBeInTheDocument();
-    expect(queryByTestId('attachmentsDefinition')).not.toBeInTheDocument();
-    expect(queryByTestId('history')).not.toBeInTheDocument();
-    expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
-    expect(queryByTestId('mapPreviewMap')).not.toBeInTheDocument();
-    expect(queryByTestId('childIncidents')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('detail-location')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('attachmentsDefinition')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('history')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('childIncidentHistory')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('mapPreviewMap')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('childIncidents')).not.toBeInTheDocument();
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(queryByTestId('detail-location')).toBeInTheDocument();
-    expect(getByTestId('attachmentsDefinition')).toBeInTheDocument();
-    expect(getByTestId('history')).toBeInTheDocument();
-    expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
-    expect(getByTestId('mapDetail')).toBeInTheDocument();
-    expect(getByTestId('childIncidents')).toBeInTheDocument();
+    expect(screen.queryByTestId('detail-location')).toBeInTheDocument();
+    expect(screen.getByTestId('attachmentsDefinition')).toBeInTheDocument();
+    expect(screen.getByTestId('history')).toBeInTheDocument();
+    expect(screen.getByTestId('childIncidentHistory')).toBeInTheDocument();
+    expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument();
+    expect(screen.getByTestId('mapDetail')).toBeInTheDocument();
+    expect(screen.getByTestId('childIncidents')).toBeInTheDocument();
   });
 
   it('should render correctly with useStaticMapServer enabled', async () => {
     configuration.featureFlags.useStaticMapServer = true;
-    const { queryByTestId, getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    expect(queryByTestId('mapStatic')).not.toBeInTheDocument();
-    expect(queryByTestId('mapDetail')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('mapDetail')).not.toBeInTheDocument();
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(getByTestId('mapStatic')).toBeInTheDocument();
-    expect(queryByTestId('mapDetail')).not.toBeInTheDocument();
+    expect(screen.getByTestId('mapStatic')).toBeInTheDocument();
+    expect(screen.queryByTestId('mapDetail')).not.toBeInTheDocument();
   });
 
   it('should handle Escape key', async () => {
-    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    const locationButtonShow = await findByTestId('previewLocationButton');
+    const locationButtonShow = await screen.findByTestId('previewLocationButton');
 
     act(() => {
       fireEvent.click(locationButtonShow);
     });
 
-    const locationPreviewButtonEdit = await findByTestId('location-preview-button-edit');
+    const locationPreviewButtonEdit = await screen.findByTestId('location-preview-button-edit');
 
     act(() => {
       fireEvent.click(locationPreviewButtonEdit);
     });
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
     act(() => {
       fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 });
     });
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(queryByTestId('previewLocationButton')).toBeInTheDocument();
+    expect(screen.queryByTestId('previewLocationButton')).toBeInTheDocument();
   });
 
   it('should handle Esc key', async () => {
-    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    const locationButtonShow = await findByTestId('previewLocationButton');
+    const locationButtonShow = await screen.findByTestId('previewLocationButton');
 
     act(() => {
       fireEvent.click(locationButtonShow);
     });
 
-    const locationPreviewButtonEdit = await findByTestId('location-preview-button-edit');
+    const locationPreviewButtonEdit = await screen.findByTestId('location-preview-button-edit');
 
     act(() => {
       fireEvent.click(locationPreviewButtonEdit);
     });
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
     act(() => {
       fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 });
     });
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(queryByTestId('previewLocationButton')).toBeInTheDocument();
+    expect(screen.queryByTestId('previewLocationButton')).toBeInTheDocument();
   });
 
   it('should not respond to other key presses', async () => {
-    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    const locationButtonShow = await findByTestId('previewLocationButton');
+    const locationButtonShow = await screen.findByTestId('previewLocationButton');
 
     act(() => {
       fireEvent.click(locationButtonShow);
     });
 
-    const locationPreviewButtonEdit = await findByTestId('location-preview-button-edit');
+    const locationPreviewButtonEdit = await screen.findByTestId('location-preview-button-edit');
 
     act(() => {
       fireEvent.click(locationPreviewButtonEdit);
     });
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
     act(() => {
       fireEvent.keyUp(document, { key: 'A', code: 65, keyCode: 65 });
     });
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
-    expect(queryByTestId('previewLocationButton')).toBeInTheDocument();
+    expect(screen.queryByTestId('previewLocationButton')).toBeInTheDocument();
   });
 
   it('renders status form', async () => {
-    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    const editStatusButton = await findByTestId('editStatusButton');
+    const editStatusButton = await screen.findByTestId('editStatusButton');
 
-    expect(queryByTestId('statusForm')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument();
     expect(window.scrollTo).not.toHaveBeenCalled();
 
     act(() => {
       fireEvent.click(editStatusButton);
     });
 
-    expect(queryByTestId('statusForm')).toBeInTheDocument();
+    expect(screen.queryByTestId('statusForm')).toBeInTheDocument();
     expect(window.scrollTo).toHaveBeenCalledTimes(1);
 
-    userEvent.click(await findByTestId('statusFormCancelButton'));
+    userEvent.click(await screen.findByTestId('statusFormCancelButton'));
 
-    expect(queryByTestId('statusForm')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument();
     expect(window.scrollTo).toHaveBeenCalledTimes(2);
 
-    await findByTestId('editStatusButton');
+    await screen.findByTestId('editStatusButton');
   });
 
   it('renders attachment viewer', async () => {
-    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    const attachmentsValueButton = await findByTestId('attachmentsValueButton');
+    const attachmentsValueButton = await screen.findByTestId('attachmentsValueButton');
 
-    expect(queryByTestId('attachment-viewer-image')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('attachment-viewer-image')).not.toBeInTheDocument();
 
     act(() => {
       fireEvent.click(attachmentsValueButton);
     });
 
-    expect(queryByTestId('attachment-viewer-image')).toBeInTheDocument();
+    expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument();
   });
 
   it('closes previews when close button is clicked', async () => {
-    const { queryByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    const attachmentsValueButton = await findByTestId('attachmentsValueButton');
+    const attachmentsValueButton = await screen.findByTestId('attachmentsValueButton');
 
-    expect(queryByTestId('attachment-viewer-image')).not.toBeInTheDocument();
-    expect(queryByTestId('closeButton')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('attachment-viewer-image')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('closeButton')).not.toBeInTheDocument();
 
     act(() => {
       fireEvent.click(attachmentsValueButton);
     });
 
-    expect(queryByTestId('attachment-viewer-image')).toBeInTheDocument();
-    expect(queryByTestId('closeButton')).toBeInTheDocument();
+    expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument();
+    expect(screen.queryByTestId('closeButton')).toBeInTheDocument();
 
     act(() => {
-      fireEvent.click(queryByTestId('closeButton'));
+      fireEvent.click(screen.queryByTestId('closeButton'));
     });
 
-    expect(queryByTestId('attachment-viewer-image')).not.toBeInTheDocument();
-    expect(queryByTestId('closeButton')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('attachment-viewer-image')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('closeButton')).not.toBeInTheDocument();
   });
 
   it('should handle successful PATCH', async () => {
-    const { getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />));
+    render(withAppContext(<IncidentDetail />));
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
     act(() => {
-      fireEvent.click(getByTestId('addNoteNewNoteButton'));
+      fireEvent.click(screen.getByTestId('addNoteNewNoteButton'));
     });
 
     act(() => {
-      fireEvent.change(getByTestId('addNoteText'), { target: { value: 'Foo bar baz' } });
+      fireEvent.change(screen.getByTestId('addNoteText'), { target: { value: 'Foo bar baz' } });
     });
 
     expect(fetch).not.toHaveBeenLastCalledWith(expect.any(String), expect.objectContaining({ method: 'PATCH' }));
@@ -407,33 +411,33 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(dispatch).not.toHaveBeenCalled();
 
     act(() => {
-      fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+      fireEvent.click(screen.getByTestId('addNoteSaveNoteButton'));
     });
 
     expect(fetch).toHaveBeenLastCalledWith(expect.any(String), expect.objectContaining({ method: 'PATCH' }));
 
-    await findByTestId('incidentDetail');
+    await screen.findByTestId('incidentDetail');
 
     // and should emit highlight event
     expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' });
     expect(dispatch).toHaveBeenCalledWith(patchIncidentSuccess());
 
     expect(fetch).toHaveBeenNthCalledWith(
-      6,
+      8,
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
       expect.objectContaining({ method: 'PATCH' })
     );
 
     // after successful patch should request the defaults texts
     expect(fetch).toHaveBeenNthCalledWith(
-      7,
+      9,
       `${configuration.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`,
       expect.objectContaining({ method: 'GET' })
     );
 
     // after successful patch should request history
     expect(fetch).toHaveBeenNthCalledWith(
-      8,
+      10,
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`,
       expect.objectContaining({ method: 'GET' })
     );
@@ -444,19 +448,19 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     let findByTestId;
 
     beforeEach(async () => {
-      ({ getByTestId, findByTestId } = render(withAppContext(<IncidentDetail />)));
+      render(withAppContext(<IncidentDetail />));
 
-      await findByTestId('incidentDetail');
+      await screen.findByTestId('incidentDetail');
 
       act(() => {
-        fireEvent.click(getByTestId('addNoteNewNoteButton'));
+        fireEvent.click(screen.getByTestId('addNoteNewNoteButton'));
       });
 
       act(() => {
-        fireEvent.change(getByTestId('addNoteText'), { target: { value: 'Foo bar baz' } });
+        fireEvent.change(screen.getByTestId('addNoteText'), { target: { value: 'Foo bar baz' } });
       });
 
-      await findByTestId('incidentDetail');
+      await screen.findByTestId('incidentDetail');
     });
 
     it('should handle generic', async () => {
@@ -468,10 +472,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).not.toHaveBeenCalled();
 
       act(() => {
-        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+        fireEvent.click(screen.getByTestId('addNoteSaveNoteButton'));
       });
 
-      await findByTestId('incidentDetail');
+      await screen.findByTestId('incidentDetail');
 
       await waitFor(() => {
         expect(dispatch).toHaveBeenCalledWith(
@@ -494,10 +498,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).not.toHaveBeenCalled();
 
       act(() => {
-        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+        fireEvent.click(screen.getByTestId('addNoteSaveNoteButton'));
       });
 
-      await findByTestId('incidentDetail');
+      await screen.findByTestId('incidentDetail');
 
       await waitFor(() => {
         expect(dispatch).toHaveBeenCalledWith(
@@ -519,10 +523,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).not.toHaveBeenCalled();
 
       act(() => {
-        fireEvent.click(getByTestId('addNoteSaveNoteButton'));
+        fireEvent.click(screen.getByTestId('addNoteSaveNoteButton'));
       });
 
-      await findByTestId('incidentDetail');
+      await screen.findByTestId('incidentDetail');
 
       await waitFor(() => {
         expect(dispatch).toHaveBeenCalledWith(

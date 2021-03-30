@@ -19,6 +19,7 @@
         }
       },
       "id": 6254,
+      "can_view_signal": true,
       "status": {
         "state": "o",
         "state_display": "Afgehandeld"
@@ -39,6 +40,7 @@
         }
       },
       "id": 6255,
+      "can_view_signal": true,
       "status": {
         "state": "a",
         "state_display": "Geannuleerd"
@@ -59,6 +61,7 @@
         }
       },
       "id": 6256,
+      "can_view_signal": false,
       "status": {
         "state": "a",
         "state_display": "Geannuleerd"

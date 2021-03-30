@@ -13,7 +13,7 @@ const H2 = styled(Heading)`
 `;
 
 const History = ({ className, list }) =>
-  list?.length > 0 ? (
+  list.length > 0 ? (
     <section className={className} data-testid="history">
       <H2 forwardedAs="h2" styleAs="h4">
         Geschiedenis
