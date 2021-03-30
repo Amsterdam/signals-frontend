@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import React from 'react';
 import type { FunctionComponent } from 'react';
 import type { History } from 'types/history';
 import styled from 'styled-components';
 import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { string2date, string2time } from 'shared/services/string-parser';
+import type { Theme } from 'types/theme';
 
 const List = styled.ul`
   margin: 0;
@@ -17,11 +16,11 @@ const Item = styled.li`
   display: grid;
 
   @media ${breakpoint('min-width', 'tabletM')} {
-    grid-template-columns: 2fr ${({ theme }) => theme.layouts.medium.gutter}px 4fr;
+    grid-template-columns: 2fr ${({ theme }: { theme: Theme }) => theme.layouts.medium.gutter}px 4fr;
   }
 
   @media ${breakpoint('min-width', 'laptop')} {
-    grid-template-columns: 3fr ${({ theme }) => theme.layouts.large.gutter}px 4fr;
+    grid-template-columns: 3fr ${({ theme }: { theme: Theme }) => theme.layouts.large.gutter}px 4fr;
   }
 `;
 

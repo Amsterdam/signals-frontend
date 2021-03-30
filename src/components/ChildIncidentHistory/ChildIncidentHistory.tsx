@@ -1,25 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { useMemo, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import type { History } from 'types/history';
 import HistoryList from 'components/HistoryList';
 import { breakpoint, Link, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
+import type { Theme } from 'types/theme';
 
 const ButtonWrapper = styled.div`
   display: grid;
+  margin-bottom: ${themeSpacing(4)};
   && {
     margin-top: 0;
   }
-  margin-bottom: ${themeSpacing(4)};
 
   @media ${breakpoint('min-width', 'tabletM')} {
-    grid-template-columns: 2fr ${({ theme }) => theme.layouts.medium.gutter}px 4fr;
+    grid-template-columns: 2fr ${({ theme }: { theme: Theme }) => theme.layouts.medium.gutter}px 4fr;
   }
 
   @media ${breakpoint('min-width', 'laptop')} {
-    grid-template-columns: 3fr ${({ theme }) => theme.layouts.large.gutter}px 4fr;
+    grid-template-columns: 3fr ${({ theme }: { theme: Theme }) => theme.layouts.large.gutter}px 4fr;
   }
 `;
 
