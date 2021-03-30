@@ -1,69 +1,78 @@
-import React, { useEffect, useMemo, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import React, { useMemo, useState } from 'react';
 import type { FunctionComponent } from 'react';
-import { useFetch } from 'hooks';
-import configuration from 'shared/services/configuration/configuration';
 import type { History } from 'types/history';
 import HistoryList from 'components/HistoryList';
-import { Button } from '@amsterdam/asc-ui';
+import { breakpoint, Link, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+const ButtonWrapper = styled.div`
+  display: grid;
+  && {
+    margin-top: 0;
+  }
+  margin-bottom: ${themeSpacing(4)};
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    grid-template-columns: 2fr ${({ theme }) => theme.layouts.medium.gutter}px 4fr;
+  }
+
+  @media ${breakpoint('min-width', 'laptop')} {
+    grid-template-columns: 3fr ${({ theme }) => theme.layouts.large.gutter}px 4fr;
+  }
 `;
 
-const StyledButton = styled(Button)`
-  align-self: end;
+const StyledLink = styled(Link)`
+  grid-column-start: 1;
+  font-size: 16px;
+  :hover {
+    cursor: pointer;
+  }
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    grid-column-start: 3;
+  }
 `;
 
 interface ChildIncidentHistoryProps {
-  id: string;
   canView: boolean;
+  history?: History[];
   className?: string;
 }
 
-const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({ id, canView, className }) => {
-  const { get, data } = useFetch<History[]>();
+const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({ canView, className, history }) => {
   const [showMore, setShowMore] = useState(false);
   const list = useMemo(() => {
-    if (data) {
-      return showMore ? data : [data[0]];
-    }
-  }, [data, showMore]);
+    if (!history) return;
 
-  const Link = useMemo(() => {
-    if (!list || list.length < 1) return null;
-
-    return () => (
-      <StyledButton
-        type="button"
-        variant="textButton"
-        onClick={() => {
-          setShowMore(!showMore);
-        }}
-      >
-        {showMore ? 'minder' : 'meer'}
-      </StyledButton>
-    );
-  }, [list, showMore, setShowMore]);
-
-  useEffect(() => {
-    if (canView) {
-      void get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`);
-    }
-  }, [id, get, canView]);
+    return showMore ? history : [history[0]];
+  }, [history, showMore]);
 
   if (!canView) {
     return <p>Je hebt geen toestemming om meldingen in deze categorie te bekijken</p>;
+  } else if (!list) {
+    return null;
   }
 
-  if (!list) return null;
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setShowMore(!showMore);
+  };
 
   return (
-    <Wrapper className={className}>
+    <div className={className}>
       <HistoryList list={list} />
-      {Link ? <Link /> : null}
-    </Wrapper>
+      <ButtonWrapper>
+        <StyledLink
+          href="#"
+          variant="inline"
+          onClick={handleClick}
+        >
+          {showMore ? 'Verberg geschiedenis' : 'Toon geschiedenis'}
+        </StyledLink>
+      </ButtonWrapper>
+    </div>
   );
 };
 

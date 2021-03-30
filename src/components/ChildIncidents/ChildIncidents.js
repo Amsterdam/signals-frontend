@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { breakpoint, List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import ChildIncidentHistory from 'components/ChildIncidentHistory';
+import { historyType } from 'shared/types';
 
 export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE';
 export const STATUS_RESPONSE_REQUIRED = 'components/ChildIncidents/STATUS_RESPONSE_REQUIRED';
@@ -130,7 +131,7 @@ const ChildIncidents = ({ className, incidents }) => (
           <Li key={JSON.stringify(incident.values)} status={incident.status} changed={incident.changed}>
             {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
           </Li>
-          <StyledChildIncidentHistory id={incident.values.id} canView={incident.canView} />
+          <StyledChildIncidentHistory canView={incident.canView} history={incident.history} />
         </Fragment>
       );
     })}
@@ -151,6 +152,7 @@ ChildIncidents.propTypes = {
       }),
       changed: PropTypes.bool.isRequired,
       canView: PropTypes.bool.isRequired,
+      history: historyType,
     })
   ),
 };

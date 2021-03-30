@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { themeSpacing, Heading } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 
-import { childIncidentType } from 'shared/types';
+import { childIncidentType, historyType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
@@ -24,7 +24,7 @@ const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ChildIncidents = ({ incidents, parent }) => {
+const ChildIncidents = ({ incidents, parent, history }) => {
   const { update } = useContext(IncidentDetailContext);
   const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug);
 
@@ -40,9 +40,9 @@ const ChildIncidents = ({ incidents, parent }) => {
         },
         changed: isChildChanged(updated_at, parent.updated_at),
         canView: can_view_signal,
+        history: history.find(entry => entry[0]._signal === id),
       })),
-    [handlingTimesBySlug, incidents, parent.updated_at]
-  );
+    [handlingTimesBySlug, incidents, parent.updated_at, history]);
 
   const canReset = useMemo(() => children.some(({ changed }) => changed), [children]);
   const resetAction = useCallback(() => {
@@ -78,6 +78,7 @@ const ChildIncidents = ({ incidents, parent }) => {
 ChildIncidents.propTypes = {
   incidents: PropTypes.arrayOf(childIncidentType).isRequired,
   parent: PropTypes.shape({ updated_at: PropTypes.string }).isRequired,
+  history: PropTypes.arrayOf(historyType).isRequired,
 };
 
 export default ChildIncidents;

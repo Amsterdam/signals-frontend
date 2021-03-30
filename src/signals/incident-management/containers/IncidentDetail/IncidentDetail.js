@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import configuration from 'shared/services/configuration/configuration';
 import reducer, { initialState } from './reducer';
 import { makeSelectSubCategories } from 'models/categories/selectors';
-import { useFetch, useEventEmitter } from 'hooks';
+import { useFetch, useEventEmitter, useFetchAll } from 'hooks';
 import { showGlobalNotification } from 'containers/App/actions';
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
 import { getErrorMessage } from 'shared/services/api/api';
@@ -35,6 +35,7 @@ import {
   RESET,
   SET_ATTACHMENTS,
   SET_CHILDREN,
+  SET_CHILDREN_HISTORY,
   SET_DEFAULT_TEXTS,
   SET_ERROR,
   SET_HISTORY,
@@ -74,6 +75,7 @@ const IncidentDetail = () => {
   const { get: getAttachments, data: attachments } = useFetch();
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
   const { get: getChildren, data: children } = useFetch();
+  const { get: getChildrenHistory, data: childrenHistory } = useFetchAll();
   const [editingStatus, setEditingStatus] = useState(false);
 
   const subcategories = useSelector(makeSelectSubCategories);
@@ -150,6 +152,12 @@ const IncidentDetail = () => {
   }, [children]);
 
   useEffect(() => {
+    if (!childrenHistory) return;
+
+    dispatch({ type: SET_CHILDREN_HISTORY, payload: childrenHistory });
+  }, [childrenHistory]);
+
+  useEffect(() => {
     if (!id) return;
 
     dispatch({ type: RESET });
@@ -185,7 +193,16 @@ const IncidentDetail = () => {
     if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
     }
-  }, [getAttachments, getChildren, getHistory, id, incident, state.attachments]);
+  }, [getAttachments, getChildren, getHistory, id, incident?._links, state.attachments]);
+
+  useEffect(() => {
+    if (children?.results.length > 0) {
+      const urls = children.results
+        .filter(result => result.can_view_signal)
+        .map(({ id: childId }) => `${configuration.INCIDENT_PRIVATE_ENDPOINT}${childId}/history`);
+      getChildrenHistory(urls);
+    }
+  }, [children, getChildrenHistory]);
 
   const handleKeyUp = useCallback(
     event => {
@@ -247,7 +264,13 @@ const IncidentDetail = () => {
 
           <AddNote />
 
-          {state.children && <ChildIncidents incidents={state.children.results} parent={state.incident} />}
+          {state.children && state.childrenHistory && (
+            <ChildIncidents
+              incidents={state.children.results}
+              parent={state.incident}
+              history={state.childrenHistory}
+            />
+          )}
 
           {state.history && <History list={state.history} />}
         </DetailContainer>
