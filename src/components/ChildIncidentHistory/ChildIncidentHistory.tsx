@@ -43,7 +43,7 @@ interface ChildIncidentHistoryProps {
 const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({ canView, className, history }) => {
   const [showMore, setShowMore] = useState(false);
   const list = useMemo(() => {
-    if (!history) return;
+    if (!history || history.length === 0) return;
 
     return showMore ? history : [history[0]];
   }, [history, showMore]);
