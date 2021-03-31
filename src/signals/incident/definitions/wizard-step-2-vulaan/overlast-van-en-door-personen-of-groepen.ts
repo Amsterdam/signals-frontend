@@ -47,7 +47,7 @@ export const overlastPersonenEnGroepen = {
   },
   extra_personen_overig_vaker_momenten: {
     meta: {
-      label: 'Geef aan op welke momenten het gebeurt',
+      label: 'Wanneer gebeurt het?',
       shortLabel: 'Momenten',
       pathMerge: 'extra_properties',
       ifAllOf: {
