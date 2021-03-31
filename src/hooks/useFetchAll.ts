@@ -1,10 +1,10 @@
+import { useEffect, useMemo, useCallback, useReducer } from 'react';
 import type { Reducer } from 'react';
-import { useCallback, useReducer } from 'react';
 import { getAuthHeaders } from 'shared/services/auth/auth';
 import { getErrorMessage } from 'shared/services/api/api';
+import type { FetchError } from './useFetch';
 
 type Data = Record<string, unknown>;
-export type FetchError = (Response | Error) & { message: string };
 
 interface State<T> {
   data?: T[];
@@ -18,12 +18,9 @@ interface FetchResponse<T> extends State<T> {
 }
 
 /**
- * Custom hook useFetch
+ * Custom hook useFetchAll
  *
- * Will take a URL and an optional object of parameters and use those to construct a request URL
- * with, call fetch and return the response.
- *
- * @returns {FetchResponse}
+ * Provides a get function taht takes URLs, calling fetch in parallel and returning the response.
  */
 const useFetchAll = <T>(): FetchResponse<T> => {
   interface Action {
@@ -32,14 +29,13 @@ const useFetchAll = <T>(): FetchResponse<T> => {
   }
 
   const initialState: State<T> = {
-    data: [],
+    data: undefined,
     error: undefined,
     isLoading: false,
     isSuccess: undefined,
   };
 
   const reducer = (state: State<T>, action: Action): State<T> => {
-    // console.log(state, action)
     switch (action.type) {
       case 'SET_LOADING':
         return { ...state, isLoading: action.payload as boolean, error: false };
@@ -58,8 +54,8 @@ const useFetchAll = <T>(): FetchResponse<T> => {
 
   const [state, dispatch] = useReducer<Reducer<State<T>, Action>>(reducer, initialState);
 
-  // const controller = useMemo(() => new AbortController(), []);
-  // const { signal } = controller;
+  const controller = useMemo(() => new AbortController(), []);
+  const { signal } = controller;
   const requestHeaders = useCallback(
     () => ({
       ...getAuthHeaders(),
@@ -69,29 +65,26 @@ const useFetchAll = <T>(): FetchResponse<T> => {
     []
   );
 
-  // useEffect(
-  //   () => () => {
-  //     controller.abort();
-  //   },
-  //   [controller]
-  // );
+  useEffect(
+    () => () => {
+      controller.abort();
+    },
+    [controller]
+  );
 
-  const get = useCallback(
-    async (urls: string[]) => {
+  const get: (urls: string[]) => Promise<void> = useCallback(
+    async urls => {
       dispatch({ type: 'SET_LOADING', payload: true });
 
       const requests = urls.map(async url =>
         fetch(url, {
           headers: requestHeaders(),
           method: 'GET',
+          signal,
         })
       );
 
       try {
-        // const fetchResponse = await fetch(requestURL, {
-        //   signal,
-        //   ...requestOptions,
-        // });
         const fetchResponse = await Promise.all(requests);
 
         if (!fetchResponse.some(response => !response.ok)) {
@@ -101,8 +94,8 @@ const useFetchAll = <T>(): FetchResponse<T> => {
         } else {
           const errorResponse = fetchResponse.find(response => !response.ok);
 
-          Object.defineProperty(fetchResponse, 'message', {
-            value: getErrorMessage(fetchResponse),
+          Object.defineProperty(errorResponse, 'message', {
+            value: getErrorMessage(errorResponse),
             writable: false,
           });
 
@@ -117,17 +110,9 @@ const useFetchAll = <T>(): FetchResponse<T> => {
         dispatch({ type: 'SET_ERROR', payload: exception as FetchError });
       }
     },
-    [requestHeaders]
+    [requestHeaders, signal]
   );
 
-  /**
-   * @typedef {Object} FetchResponse
-   * @property {Object} data - Fetch response
-   * @property {Error} error - Error object thrown during fetch and data parsing
-   * @property {Function} get - Function that expects a URL and a query parameter object
-   * @property {Boolean} isLoading - Indicator of fetch request status
-   * @property {Boolean} isSuccess - Indicator of post or patch request status
-   */
   return {
     get,
     ...state,
