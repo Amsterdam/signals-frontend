@@ -199,6 +199,7 @@ describe('containers/App/saga', () => {
         file: { name: 'image.jpg' },
       };
       mockChannel = channel();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       gen = uploadFile({ payload });
     });
 
