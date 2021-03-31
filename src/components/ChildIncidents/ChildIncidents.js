@@ -127,7 +127,7 @@ const ChildIncidents = ({ className, incidents }) => (
       );
 
       return (
-        <Fragment key={JSON.stringify(incident.values)}>
+        <Fragment key={incident.href}>
           <Li status={incident.status} changed={incident.changed}>
             {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
           </Li>
