@@ -1,11 +1,11 @@
 const path = require('path');
 const pkgDir = require('pkg-dir');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OfflinePlugin = require('offline-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 const template = require('./template');
 
@@ -95,28 +95,21 @@ module.exports = require('./webpack.base.babel')({
 
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-    process.env.ENABLE_SERVICEWORKER === '1' ? new OfflinePlugin({
-      version: '$SIGNALS_SERVICE_WORKER_VERSION',
-      ServiceWorker: {
-        events: true,
-      },
-      relativePaths: false,
-      publicPath: '/',
-      appShell: '/',
-
-      excludes: ['version.txt', 'sw.js'],
-
-      caches: {
-        main: [':rest:'],
-
-        // All chunks marked as `additional`, loaded after main section
-        // and do not prevent SW to install. Change to `optional` if
-        // do not want them to be preloaded at all (cached only when first loaded)
-        additional: ['*.chunk.js'],
-      },
-
-      // Removes warning for about `additional` section usage
-      safeToUseOptionalCaches: true,
+    process.env.ENABLE_SERVICEWORKER === '1' ? new GenerateSW({
+      mode: 'production',
+      swDest: 'sw.js',
+      clientsClaim: true,
+      skipWaiting: true,
+      sourcemap: true,
+      inlineWorkboxRuntime: true,
+      exclude: [
+        // Don't pre-cache any font files or images; we need a more fine-grained caching strategy (see below in runtimeCaching)
+        /.+\.(?:woff|woff2|eot|ttf)$/,
+        /.+\.(?:png|jpg|jpeg|svg|webp)$/,
+        /.*\.(?:html|map|txt|htaccess)$/,
+      ],
+      cleanupOutdatedCaches: true,
+      maximumFileSizeToCacheInBytes: 2.4 * 1000 * 1024,
     }) : null,
 
     new CopyPlugin({
