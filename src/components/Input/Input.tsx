@@ -18,6 +18,7 @@ const StyledInput = styled(AscInput)<{ showError: boolean }>`
   font-size: 16px;
   line-height: 22px;
   padding: 10px; /* needed to style the textboxes as according to the design system */
+  box-shadow: initial;
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};
