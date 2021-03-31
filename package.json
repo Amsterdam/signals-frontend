@@ -5,8 +5,8 @@
     "url": "https://github.com/Amsterdam/signals-frontend.git"
   },
   "engines": {
-    "npm": ">=6",
-    "node": "12"
+    "npm": ">=7",
+    "node": "14.16"
   },
   "author": "Datapunt Amsterdam",
   "license": "MPL-2.0",
