@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 import type { CallEffect, PutEffect, TakeEffect } from 'redux-saga/effects';
 import type { Store } from 'redux';
 import type { EventChannel, Saga } from 'redux-saga';

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type endpointType from 'shared/services/configuration/endpoint-definitions';
 
 import { prefixEndpoints } from './endpoints';

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import Authz from './authz';
 import queryStringParser from './query-string-parser/query-string-parser';
 import randomStringGenerator from './random-string-generator/random-string-generator';

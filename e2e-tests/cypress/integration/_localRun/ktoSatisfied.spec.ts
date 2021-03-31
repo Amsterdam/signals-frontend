@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 import { CHANGE_STATUS } from '../../support/selectorsSignalDetails';
 import { KTO_FORM, MAIL } from '../../support/selectorsKTO';
 import { ERROR_MESSAGES, KTO } from '../../support/texts';

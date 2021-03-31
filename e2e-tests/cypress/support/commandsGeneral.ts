@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 /**
  * Custom command to set the resolution for the test.
  * @example cy.setResolution([375, 812]);

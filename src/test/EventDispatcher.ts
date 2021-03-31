@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 interface IEventDispatcher {
   events: Record<string, (() => void)[] >;
   register: (event: string, callback: () => void) => void;

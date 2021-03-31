@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 export default class MaxSelection {
   // Extension of built-in Set
   // Note: Set not extended using: `class MaxSelction extend Set`

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 export const CATEGORIES = {
   buttonAnnuleren: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid=submitBtn]',

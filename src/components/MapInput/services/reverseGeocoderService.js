@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { pdokResponseFieldList, formatPDOKResponse } from 'shared/services/map-location';
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter';
 

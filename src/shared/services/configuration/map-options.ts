@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C)  - 2021 Gemeente Amsterdam
 import { getCrsRd } from '@amsterdam/arm-core';
 import type { MapOptions } from 'leaflet';
 

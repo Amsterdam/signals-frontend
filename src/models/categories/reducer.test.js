@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable';
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
 

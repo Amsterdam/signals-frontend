@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { USERS } from '../../support/selectorsSettings';
 import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';

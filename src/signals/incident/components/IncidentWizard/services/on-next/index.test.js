@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import onNext from '.';
 
 describe('The wizard on next service', () => {
