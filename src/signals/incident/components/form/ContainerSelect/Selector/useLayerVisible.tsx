@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 import { useEffect, useState } from 'react';
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
 import { useMapInstance } from '@amsterdam/react-maps';

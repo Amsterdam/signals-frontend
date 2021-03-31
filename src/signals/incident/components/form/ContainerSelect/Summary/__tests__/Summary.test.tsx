@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { ContainerSelectProvider } from 'signals/incident/components/form/ContainerSelect/context';
