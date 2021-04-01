@@ -14,31 +14,20 @@ import { getErrorMessage } from 'shared/services/api/api'
 
 import type { History } from 'history';
 import type { InjectedStore } from 'types';
+import type { ResponseError } from 'utils/request';
 import createReducer from './reducers';
 
-const windowWithReduxDevTools: Window & typeof globalThis & {
+interface ReduxDevToolsType {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: (options: { trace: boolean; traceLimit: number }) => typeof compose;
-} = window;
-
-type JsonResponse = Response & { jsonBody: { message: string } };
-
-export class ResponseError extends Error {
-  public response: JsonResponse;
-
-  public message: string;
-
-  public constructor(response: JsonResponse, message = '') {
-    super(response.statusText);
-    this.response = response;
-    this.message = message;
-  }
 }
+
+const windowWithReduxDevTools: Window & typeof globalThis & ReduxDevToolsType = window;
 
 export default function configureStore(initialState: Record<string, any>, history: History) {
   let composeEnhancers = compose;
   const reduxSagaMonitorOptions = {
     onError: (error: ResponseError) => {
-      const message = (error.response?.jsonBody?.message) || error.message;
+      const message = error.response?.jsonBody?.message ?? error.message;
       const notificationTitle = getErrorMessage(error);
 
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -71,11 +60,7 @@ export default function configureStore(initialState: Record<string, any>, histor
 
   const enhancers = [applyMiddleware(...middlewares)]
 
-  const store = createStore(
-    createReducer(),
-    initialState,
-    composeEnhancers(...enhancers)
-  ) as InjectedStore;
+  const store = createStore(createReducer(), initialState, composeEnhancers(...enhancers)) as InjectedStore;
 
   // Extensions
   // eslint-disable-next-line @typescript-eslint/unbound-method

@@ -104,6 +104,12 @@ describe('request', () => {
           expect(error.response.statusText).toBe('Precondition Failed')
           done()
         })
-    })
-  })
-})
+        .catch(error => {
+          expect(error.response.jsonBody.message).toBe('too late');
+          expect(error.response.status).toBe(412);
+          expect(error.response.statusText).toBe('Precondition Failed');
+          done();
+        });
+    });
+  });
+});
