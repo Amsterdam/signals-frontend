@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 /**
  * Generates a string of 16 random Ascii characters using the native
  * `crypto` library and `btoa`.

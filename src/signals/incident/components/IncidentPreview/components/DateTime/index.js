@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import { capitalize } from 'shared/services/date-utils';

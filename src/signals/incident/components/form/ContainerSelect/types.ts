@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 import type { IconOptions, LatLngExpression } from 'leaflet';
 import type { Point, Feature as GeoJSONFeature } from 'geojson';
 

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Validators } from 'react-reactive-form';
 
 import configuration from 'shared/services/configuration/configuration';

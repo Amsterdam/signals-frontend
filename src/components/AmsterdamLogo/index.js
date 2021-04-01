@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React from 'react';
 import { LogoShort } from '@amsterdam/asc-assets';
 import styled, { css } from 'styled-components';

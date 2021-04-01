@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 /**
  * This script is for internal `react-boilerplate`'s usage. The only purpose of generating all of these templates is
  * to be able to lint them and detect critical errors. Every generated component's name has to start with

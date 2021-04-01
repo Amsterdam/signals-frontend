@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json';
 import {
   mapLocation,

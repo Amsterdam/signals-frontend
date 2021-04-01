@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { call } from 'redux-saga/effects';
 import request from 'utils/request';
 import { getAccessToken } from 'shared/services/auth/auth';

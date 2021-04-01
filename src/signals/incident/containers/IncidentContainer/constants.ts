@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 export const UPDATE_INCIDENT = 'sia/IncidentContainer/UPDATE_INCIDENT';
 export const RESET_INCIDENT = 'sia/IncidentContainer/RESET_INCIDENT';
 export const REMOVE_QUESTION_DATA = 'src/IncidentContainer/REMOVE_QUESTION_DATA';
