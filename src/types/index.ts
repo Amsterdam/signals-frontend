@@ -7,9 +7,9 @@ import type { EventChannel, Saga } from 'redux-saga'
 import type { AppState } from 'containers/App/types'
 
 export interface InjectedStore extends Store {
-  injectedReducers: unknown
-  injectedSagas: unknown
-  runSaga: <S extends Saga>(saga: S, ...args: Parameters<S>) => unknown
+  injectedReducers: Record<string, unknown>;
+  injectedSagas: Record<string, unknown>;
+  runSaga: <S extends Saga<any>>(saga: S, ...args: Parameters<S>) => any;
 }
 
 export interface ApplicationRootState {

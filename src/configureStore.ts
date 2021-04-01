@@ -4,10 +4,8 @@
  * Create the store with dynamic reducers
  */
 
-import type { Store } from 'redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router/immutable';
-import type { Saga } from 'redux-saga';
 import createSagaMiddleware from 'redux-saga';
 
 import { showGlobalNotification } from 'containers/App/actions'
@@ -15,17 +13,12 @@ import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 
 import type { History } from 'history';
+import type { InjectedStore } from 'types';
 import createReducer from './reducers';
 
 const windowWithReduxDevTools: Window & typeof globalThis & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: (options: { trace: boolean; traceLimit: number }) => typeof compose;
 } = window;
-
-export interface InjectedStore extends Store {
-  injectedReducers: any;
-  injectedSagas: any;
-  runSaga: <S extends Saga>(saga: S, ...args: Parameters<S>) => any;
-}
 
 type JsonResponse = Response & { jsonBody: { message: string } };
 
