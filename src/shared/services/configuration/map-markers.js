@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 /* eslint-disable global-require */
 import L from 'leaflet';
 import SelectIcon from '!!file-loader!../../../shared/images/icon-select-marker.svg'; // `-marker` suffix ensures the svg is imported as url

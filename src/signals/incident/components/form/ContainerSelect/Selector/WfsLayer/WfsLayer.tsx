@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import { useMapInstance } from '@amsterdam/react-maps';

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 const decodeToken = token => {
   try {
     return JSON.parse(window.atob(token.split('.')[1].replace('-', '+').replace('_', '/')));
