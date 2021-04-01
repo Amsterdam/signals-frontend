@@ -11,7 +11,7 @@ describe('<ChildIncidentHistory />', () => {
   const OLD_EVENT = history[1].action;
 
   it('should render incident history', () => {
-    render(withAppContext(<ChildIncidentHistory canView history={history} />));
+    render(withAppContext(<ChildIncidentHistory canView history={history} parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
 
     expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
     expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
@@ -19,7 +19,7 @@ describe('<ChildIncidentHistory />', () => {
   });
 
   it('should render nothing when history is empty', () => {
-    render(withAppContext(<ChildIncidentHistory canView history={[]} />));
+    render(withAppContext(<ChildIncidentHistory canView history={[]} parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
 
     expect(screen.queryByText(NEW_EVENT)).not.toBeInTheDocument();
     expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
@@ -27,7 +27,7 @@ describe('<ChildIncidentHistory />', () => {
   });
 
   it('should render nothing when history is not provided', () => {
-    render(withAppContext(<ChildIncidentHistory canView />));
+    render(withAppContext(<ChildIncidentHistory canView parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
 
     expect(screen.queryByText(NEW_EVENT)).not.toBeInTheDocument();
     expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('<ChildIncidentHistory />', () => {
   });
 
   it('should not render incident history when user is not permitted', () => {
-    render(withAppContext(<ChildIncidentHistory canView={false} history={history} />));
+    render(withAppContext(<ChildIncidentHistory canView={false} history={history} parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
 
     expect(screen.queryByText(NEW_EVENT)).not.toBeInTheDocument();
     expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
@@ -45,7 +45,7 @@ describe('<ChildIncidentHistory />', () => {
   });
 
   it('should toggle showing last or all lines of history', () => {
-    render(withAppContext(<ChildIncidentHistory canView history={history} />));
+    render(withAppContext(<ChildIncidentHistory canView history={history} parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
 
     expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
     expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import type { History } from 'types/history';
 import HistoryList from 'components/HistoryList';
-import { breakpoint, Link, themeSpacing } from '@amsterdam/asc-ui';
+import { breakpoint, Link, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 import type { Theme } from 'types/theme';
 
@@ -34,19 +34,40 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const StyledParagraph = styled.p`
+  grid-column-start: 1;
+  margin-top: 0;
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    grid-column-start: 3;
+  }
+
+  & {
+    color: ${themeColor('tint', 'level5')};
+  }
+`;
+
 interface ChildIncidentHistoryProps {
   canView: boolean;
+  parentUpdatedAt: string;
   history?: History[];
   className?: string;
 }
 
-const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({ canView, className, history }) => {
+const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({ canView, className, history, parentUpdatedAt }) => {
   const [showMore, setShowMore] = useState(false);
+
   const list = useMemo(() => {
     if (!history || history.length === 0) return;
 
-    return showMore ? history : [history[0]];
-  }, [history, showMore]);
+    return showMore ? history : history.filter(entry => new Date(entry.when) > new Date(parentUpdatedAt));
+  }, [history, parentUpdatedAt, showMore]);
+
+  const hasMoreHistory = useMemo(() => {
+    if (!history || !list) return false;
+
+    return history.length > list.length || showMore;
+  }, [history, list, showMore]);
 
   if (!canView) {
     return <p>Je hebt geen toestemming om meldingen in deze categorie te bekijken</p>;
@@ -63,12 +84,13 @@ const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({ ca
     <div className={className} data-testid="childIncidentHistory">
       <HistoryList list={list} />
       <ButtonWrapper>
+        {list.length === 0 && <StyledParagraph>Geen nieuwe wijzigingen</StyledParagraph>}
         <StyledLink
           href="#"
           variant="inline"
           onClick={handleClick}
         >
-          {showMore ? 'Verberg geschiedenis' : 'Toon geschiedenis'}
+          {hasMoreHistory && (showMore ? 'Verberg geschiedenis' : 'Toon geschiedenis')}
         </StyledLink>
       </ButtonWrapper>
     </div>

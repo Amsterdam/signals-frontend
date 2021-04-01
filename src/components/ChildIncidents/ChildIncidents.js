@@ -107,7 +107,7 @@ const Li = styled(ListItem)`
     `}
 `;
 
-const ChildIncidents = ({ className, incidents }) => (
+const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
   <List className={className} data-testid="childIncidents">
     {incidents.map(incident => {
       const valueEntries = (
@@ -131,7 +131,7 @@ const ChildIncidents = ({ className, incidents }) => (
           <Li status={incident.status} changed={incident.changed}>
             {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
           </Li>
-          <StyledChildIncidentHistory canView={incident.canView} history={incident.history} />
+          <StyledChildIncidentHistory canView={incident.canView} history={incident.history} parentUpdatedAt={parentUpdatedAt} />
         </Fragment>
       );
     })}
@@ -141,6 +141,7 @@ const ChildIncidents = ({ className, incidents }) => (
 ChildIncidents.propTypes = {
   /** @ignore */
   className: PropTypes.string,
+  parentUpdatedAt: PropTypes.string,
   incidents: PropTypes.arrayOf(
     PropTypes.exact({
       href: PropTypes.string,
