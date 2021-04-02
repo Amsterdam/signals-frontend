@@ -120,8 +120,8 @@ sizes.forEach(size => {
       cy.wait('@getHistory');
 
       cy.get(SIGNAL_DETAILS.historyAction)
-        .should('contain', 'Notitie toegevoegd')
-        .find(SIGNAL_DETAILS.historyListItem)
+        .should('contain', 'Notitie toegevoegd');
+      cy.get(SIGNAL_DETAILS.historyListItem)
         .should('contain', 'noteletitie');
     });
   });

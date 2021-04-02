@@ -3,12 +3,13 @@ export const CATEGORIES = {
   buttonOpslaan: '[data-testid=submitBtn]',
   categoryValue: '[data-testid=dataViewBody] > [data-testid=dataViewBodyRow] > [data-testid="dataViewBodyRowValue"]',
   dropdownTypeOfDays: '#use_calendar_days',
-  historyAction: '[class*="History__Action"]',
+  historyAction: '[data-testid="history-list-item-action"]',
   inputDays: '#n_days',
   inputDescription: '#description',
   inputMessage: '#handling_message',
   inputName: '#name',
   radioButtonNietActief: '[data-testid="is_active-false"]',
+  verantwoordelijkeAfdeling: '[data-testid=responsible_departments]',
 };
 
 export const DEPARTMENTS = {
@@ -60,7 +61,7 @@ export const STANDAARDTEKSTEN = {
 export const USERS = {
   buttonAnnuleren: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid="submitBtn"]',
-  historyAction: '[class*="History__Action"]',
+  historyAction: '[data-testid="history-list-item-action"]',
   inputAchternaam: '#last_name',
   inputMail: '#username',
   inputVoornaam: '#first_name',

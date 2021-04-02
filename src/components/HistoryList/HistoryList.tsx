@@ -51,7 +51,7 @@ const HistoryList: FunctionComponent<HistoryListProps> = ({ list }) => (
         </Time>
 
         <Action>
-          {action}
+          {action && <div data-testid="history-list-item-action">{action}</div>}
           {description && <div data-testid="history-list-item-description">{description}</div>}
         </Action>
       </Item>
