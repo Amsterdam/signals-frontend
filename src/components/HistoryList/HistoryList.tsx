@@ -14,7 +14,9 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  margin-bottom: ${themeSpacing(4)};
+  &:not(:last-child) {
+    margin-bottom: ${themeSpacing(4)};
+  }
   display: grid;
 
   @media ${breakpoint('min-width', 'tabletM')} {

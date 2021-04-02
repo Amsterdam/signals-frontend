@@ -25,6 +25,10 @@ const StyledChildIncidentHistory = styled(ChildIncidentHistory)`
   margin-top: ${themeSpacing(3)};
 `;
 
+const StyledList = styled(List)`
+  margin-bottom: 0;
+`;
+
 const Li = styled(ListItem)`
   display: flex;
   background-color: ${themeColor('tint', 'level3')};
@@ -110,7 +114,7 @@ const Li = styled(ListItem)`
 `;
 
 const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
-  <List className={className} data-testid="childIncidents">
+  <StyledList className={className} data-testid="childIncidents">
     {incidents.map(incident => {
       const valueEntries = (
         <Fragment>
@@ -137,7 +141,7 @@ const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
         </Fragment>
       );
     })}
-  </List>
+  </StyledList>
 );
 
 ChildIncidents.propTypes = {

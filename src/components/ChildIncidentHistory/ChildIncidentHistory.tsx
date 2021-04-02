@@ -1,18 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useMemo, useState } from 'react';
+import React, { Fragment, useMemo, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import type { History } from 'types/history';
 import HistoryList from 'components/HistoryList';
 import { breakpoint, Link, themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import type { Theme } from 'types/theme';
+
+const gridValueStyle = css`
+  margin: 0;
+  grid-column-start: 1;
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    grid-column-start: 3;
+  }
+`;
 
 const Wrapper = styled.div`
   display: grid;
-  margin-bottom: ${themeSpacing(4)};
-  && {
-    margin-top: 0;
+  row-gap: ${themeSpacing(4)};
+  & {
+    margin-bottom: ${themeSpacing(4)};
   }
 
   @media ${breakpoint('min-width', 'tabletM')} {
@@ -29,28 +38,20 @@ const StyledHistoryList = styled(HistoryList)`
 `;
 
 const StyledLink = styled(Link)`
-  grid-column-start: 1;
+  ${gridValueStyle}
   font-size: 16px;
+
   :hover {
     cursor: pointer;
   }
-
-  @media ${breakpoint('min-width', 'tabletM')} {
-    grid-column-start: 3;
-  }
 `;
 
-const StyledParagraph = styled.p`
-  grid-column-start: 1;
-  margin-top: 0;
-
-  @media ${breakpoint('min-width', 'tabletM')} {
-    grid-column-start: 3;
-  }
-
-  & {
-    color: ${themeColor('tint', 'level5')};
-  }
+const StyledParagraph = styled.p<{ light?: boolean }>`
+  ${gridValueStyle}
+  ${({ light, theme }) => light && `
+    color: red;
+    color: ${themeColor('tint', 'level5')({ theme: theme as Theme })}
+  `}
 `;
 
 interface ChildIncidentHistoryProps {
@@ -79,10 +80,6 @@ const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({
   const shownHistory = showAllHistory ? history : recentHistory;
   const showToggle = history.length !== recentHistory.length;
 
-  if (!canView) {
-    return <p>Je hebt geen toestemming om meldingen in deze categorie te bekijken</p>;
-  }
-
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     setShowAllhistory(!showAllHistory);
@@ -90,14 +87,20 @@ const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({
 
   return (
     <Wrapper className={className} data-testid="childIncidentHistory">
-      {recentHistory.length === 0 && <StyledParagraph>Geen nieuwe wijzigingen</StyledParagraph>}
+      {canView ? (
+        <Fragment>
+          {recentHistory.length === 0 && <StyledParagraph light>Geen nieuwe wijzigingen</StyledParagraph>}
 
-      <StyledHistoryList list={shownHistory} />
+          {shownHistory.length !== 0 && <StyledHistoryList list={shownHistory} />}
 
-      {showToggle && (
-        <StyledLink href="#" variant="inline" onClick={handleClick}>
-          {showAllHistory ? 'Verberg geschiedenis' : 'Toon geschiedenis'}
-        </StyledLink>
+          {showToggle && (
+            <StyledLink href="#" variant="inline" onClick={handleClick}>
+              {showAllHistory ? 'Verberg geschiedenis' : 'Toon geschiedenis'}
+            </StyledLink>
+          )}
+        </Fragment>
+      ) : (
+        <StyledParagraph>Je hebt geen toestemming om meldingen in deze categorie te bekijken</StyledParagraph>
       )}
     </Wrapper>
   );
