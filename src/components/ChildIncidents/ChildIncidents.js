@@ -143,7 +143,7 @@ const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
 ChildIncidents.propTypes = {
   /** @ignore */
   className: PropTypes.string,
-  parentUpdatedAt: PropTypes.string,
+  parentUpdatedAt: PropTypes.string.isRequired,
   incidents: PropTypes.arrayOf(
     PropTypes.exact({
       href: PropTypes.string,

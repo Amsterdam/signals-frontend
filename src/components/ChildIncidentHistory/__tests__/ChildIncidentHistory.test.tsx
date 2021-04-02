@@ -12,54 +12,78 @@ describe('<ChildIncidentHistory />', () => {
   const NEW_EVENT = history[0].action;
   const OLD_EVENT = history[1].action;
 
-  it('should render incident history', () => {
-    render(withAppContext(<ChildIncidentHistory canView history={history} parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
+  describe('incident has recent history', () => {
+    it('should render incident history', () => {
+      render(withAppContext(<ChildIncidentHistory canView history={history} parentUpdatedAt={history[1].when} />));
 
-    expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
-    expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Toon geschiedenis' })).toBeInTheDocument();
+      expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
+      expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
+    });
+
+    it('should render toggle to show and hide older history', () => {
+      render(withAppContext(<ChildIncidentHistory canView history={history} parentUpdatedAt={history[1].when} />));
+      expect(screen.getAllByRole('listitem')).toHaveLength(1);
+      expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
+      expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
+
+      userEvent.click(screen.getByRole('link', { name: 'Toon geschiedenis' }));
+
+      expect(screen.getAllByRole('listitem')).toHaveLength(4);
+      expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
+      expect(screen.queryByText(OLD_EVENT)).toBeInTheDocument();
+
+      userEvent.click(screen.getByRole('link', { name: 'Verberg geschiedenis' }));
+
+      expect(screen.getAllByRole('listitem')).toHaveLength(1);
+      expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
+      expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
+    });
   });
 
-  it('should render nothing when history is empty', () => {
-    render(withAppContext(<ChildIncidentHistory canView history={[]} parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
+  describe('incident has no history', () => {
+    it('should render nothing', () => {
+      render(withAppContext(<ChildIncidentHistory canView parentUpdatedAt={history[0].when} />));
 
-    expect(screen.queryByText(NEW_EVENT)).not.toBeInTheDocument();
-    expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Toon geschiedenis' })).not.toBeInTheDocument();
+      expect(screen.queryByText(NEW_EVENT)).not.toBeInTheDocument();
+      expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'Toon geschiedenis' })).not.toBeInTheDocument();
+    });
   });
 
-  it('should render nothing when history is not provided', () => {
-    render(withAppContext(<ChildIncidentHistory canView parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
+  describe('user has no permission to view incident', () => {
+    it('should render error message', () => {
+      render(withAppContext(<ChildIncidentHistory canView={false} history={history} parentUpdatedAt={history[0].when} />));
 
-    expect(screen.queryByText(NEW_EVENT)).not.toBeInTheDocument();
-    expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Toon geschiedenis' })).not.toBeInTheDocument();
+      expect(screen.queryByText(NEW_EVENT)).not.toBeInTheDocument();
+      expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: /geschiedenis/ })).not.toBeInTheDocument();
+
+      expect(screen.queryByText('Je hebt geen toestemming om meldingen in deze categorie te bekijken')).toBeInTheDocument();
+    });
   });
 
-  it('should not render incident history when user is not permitted', () => {
-    render(withAppContext(<ChildIncidentHistory canView={false} history={history} parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
+  describe('incident has no recent history', () => {
+    it('should render info message', () => {
+      render(withAppContext(<ChildIncidentHistory canView history={history} parentUpdatedAt={history[0].when} />));
 
-    expect(screen.queryByText(NEW_EVENT)).not.toBeInTheDocument();
-    expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /geschiedenis/ })).not.toBeInTheDocument();
+      expect(screen.queryAllByRole('listitem')).toHaveLength(0);
+      expect(screen.queryByText('Geen nieuwe wijzigingen')).toBeInTheDocument();
+    });
 
-    expect(screen.queryByText('Je hebt geen toestemming om meldingen in deze categorie te bekijken')).toBeInTheDocument();
-  });
+    it('should render toggle to show all history', () => {
+      render(withAppContext(<ChildIncidentHistory canView history={history} parentUpdatedAt={history[0].when} />));
 
-  it('should toggle showing last or all lines of history', () => {
-    render(withAppContext(<ChildIncidentHistory canView history={history} parentUpdatedAt="2021-03-30T10:30:23.182795+02:00" />));
+      expect(screen.queryAllByRole('listitem')).toHaveLength(0);
+      expect(screen.queryByText('Geen nieuwe wijzigingen')).toBeInTheDocument();
 
-    expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
-    expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
+      userEvent.click(screen.getByRole('link', { name: 'Toon geschiedenis' }));
 
-    userEvent.click(screen.getByRole('link', { name: 'Toon geschiedenis' }));
+      expect(screen.queryAllByRole('listitem')).toHaveLength(4);
 
-    expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
-    expect(screen.queryByText(OLD_EVENT)).toBeInTheDocument();
+      userEvent.click(screen.getByRole('link', { name: 'Verberg geschiedenis' }));
 
-    userEvent.click(screen.getByRole('link', { name: 'Verberg geschiedenis' }));
-
-    expect(screen.queryByText(NEW_EVENT)).toBeInTheDocument();
-    expect(screen.queryByText(OLD_EVENT)).not.toBeInTheDocument();
+      expect(screen.queryAllByRole('listitem')).toHaveLength(0);
+      expect(screen.queryByText('Geen nieuwe wijzigingen')).toBeInTheDocument();
+    });
   });
 });

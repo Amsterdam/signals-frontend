@@ -66,7 +66,7 @@ const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({
 }) => {
   const [showAllHistory, setShowAllhistory] = useState(false);
 
-  /** History events taking place later than parentUpdatedAt */
+  /** Events that occurred after parentUpdatedAt */
   const recentHistory = useMemo(() => history.filter(entry => new Date(entry.when) > new Date(parentUpdatedAt)), [
     history,
     parentUpdatedAt,

@@ -235,7 +235,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(screen.queryByTestId('detail-location')).toBeInTheDocument();
     expect(screen.getByTestId('attachmentsDefinition')).toBeInTheDocument();
     expect(screen.getByTestId('history')).toBeInTheDocument();
-    expect(screen.getByTestId('childIncidentHistory')).toBeInTheDocument();
+    expect(screen.getAllByTestId('childIncidentHistory')).toHaveLength(2);
     expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument();
     expect(screen.getByTestId('mapDetail')).toBeInTheDocument();
     expect(screen.getByTestId('childIncidents')).toBeInTheDocument();
