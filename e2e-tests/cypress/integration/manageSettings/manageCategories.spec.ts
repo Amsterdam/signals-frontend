@@ -33,6 +33,8 @@ describe('Manage categories', () => {
       cy.contains('Afwatering brug').click();
       cy.url().should('include', 'instellingen/categorie/');
       cy.wait('@getCategories');
+      cy.contains('Verantwoordelijke afdeling').should('be.visible');
+      cy.get(CATEGORIES.verantwoordelijkeAfdeling).should('have.text', 'VOR, STW').and('be.visible');
 
       // Change category
       cy.get(CATEGORIES.inputName).clear().type('Afgewaterde brug');

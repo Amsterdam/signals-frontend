@@ -205,7 +205,10 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Status gewijzigd naar: In behandeling')
-        .and('contain', 'Wij hebben uw zinloze melding toch maar in behandeling genomen')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.historyListItem)
+        .first()
+        .should('contain', 'Wij hebben uw zinloze melding toch maar in behandeling genomen')
         .and('be.visible');
     });
 
