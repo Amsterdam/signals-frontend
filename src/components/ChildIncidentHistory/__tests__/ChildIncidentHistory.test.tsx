@@ -79,6 +79,7 @@ describe('<ChildIncidentHistory />', () => {
       userEvent.click(screen.getByRole('link', { name: 'Toon geschiedenis' }));
 
       expect(screen.queryAllByRole('listitem')).toHaveLength(4);
+      expect(screen.queryByText('Geen nieuwe wijzigingen')).toBeInTheDocument();
 
       userEvent.click(screen.getByRole('link', { name: 'Verberg geschiedenis' }));
 

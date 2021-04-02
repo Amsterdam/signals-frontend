@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React from 'react';
 import type { FunctionComponent } from 'react';
 import type { History } from 'types/history';
@@ -39,10 +41,11 @@ const Action = styled.div`
 
 interface HistoryListProps {
   list: History[];
+  className?: string;
 }
 
-const HistoryList: FunctionComponent<HistoryListProps> = ({ list }) => (
-  <List>
+const HistoryList: FunctionComponent<HistoryListProps> = ({ list, className }) => (
+  <List className={className}>
     {list.map(({ identifier, when, who, action, description }) => (
       <Item key={identifier}>
         <Time>

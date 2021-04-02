@@ -8,7 +8,7 @@ import { breakpoint, Link, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 import type { Theme } from 'types/theme';
 
-const ButtonWrapper = styled.div`
+const Wrapper = styled.div`
   display: grid;
   margin-bottom: ${themeSpacing(4)};
   && {
@@ -22,6 +22,10 @@ const ButtonWrapper = styled.div`
   @media ${breakpoint('min-width', 'laptop')} {
     grid-template-columns: 3fr ${({ theme }: { theme: Theme }) => theme.layouts.large.gutter}px 4fr;
   }
+`;
+
+const StyledHistoryList = styled(HistoryList)`
+  grid-column: 1 / 4;
 `;
 
 const StyledLink = styled(Link)`
@@ -85,19 +89,17 @@ const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({
   };
 
   return (
-    <div className={className} data-testid="childIncidentHistory">
-      <HistoryList list={shownHistory} />
+    <Wrapper className={className} data-testid="childIncidentHistory">
+      {recentHistory.length === 0 && <StyledParagraph>Geen nieuwe wijzigingen</StyledParagraph>}
 
-      <ButtonWrapper>
-        {shownHistory.length === 0 && <StyledParagraph>Geen nieuwe wijzigingen</StyledParagraph>}
+      <StyledHistoryList list={shownHistory} />
 
-        {showToggle && (
-          <StyledLink href="#" variant="inline" onClick={handleClick}>
-            {showAllHistory ? 'Verberg geschiedenis' : 'Toon geschiedenis'}
-          </StyledLink>
-        )}
-      </ButtonWrapper>
-    </div>
+      {showToggle && (
+        <StyledLink href="#" variant="inline" onClick={handleClick}>
+          {showAllHistory ? 'Verberg geschiedenis' : 'Toon geschiedenis'}
+        </StyledLink>
+      )}
+    </Wrapper>
   );
 };
 
