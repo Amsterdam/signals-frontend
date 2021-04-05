@@ -32,7 +32,7 @@ export function injectReducerFactory(store: InjectedStore, isValid = false) {
   }
 }
 
-export default function getInjectors(store: InjectedStore) {
+export function getInjectors(store: InjectedStore) {
   checkStore(store);
 
   return {

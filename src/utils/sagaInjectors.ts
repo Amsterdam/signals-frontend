@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import conformsTo from 'lodash/conformsTo';
 import invariant from 'invariant';
 import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
-import conformsTo from 'lodash/conformsTo';
 
 import type { InjectedStore } from 'types';
 import type React from 'react';
@@ -12,6 +12,13 @@ import checkStore from './checkStore';
 import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from './constants';
 
 const allowedModes = [RESTART_ON_REMOUNT, DAEMON, ONCE_TILL_UNMOUNT];
+
+const checkKey = (key: string) =>
+{ invariant(
+  isString(key) && !isEmpty(key),
+  '(app/utils...) injectSaga: Expected `key` to be a non empty string'
+); };
+
 interface SagaDescriptor {
   saga?: any;
   mode?: string | undefined;
@@ -19,16 +26,11 @@ interface SagaDescriptor {
 
 interface Task { cancel: () => void }
 
-const checkKey = (key: string) =>
-{ invariant(
-  isString(key) && !isEmpty(key),
-  '(src/utils...) injectSaga: Expected `key` to be a non empty string'
-); };
-
 const checkDescriptor = (descriptor: SagaDescriptor) => {
   const shape = {
     saga: isFunction,
-    mode: (mode: string | undefined) => isString(mode) && allowedModes.includes(mode),
+    mode: (mode: SagaDescriptor['mode']) =>
+      isString(mode) && allowedModes.includes(mode),
   };
   invariant(
     conformsTo(descriptor, shape),
@@ -36,15 +38,23 @@ const checkDescriptor = (descriptor: SagaDescriptor) => {
   )
 }
 
-export function injectSagaFactory(store: InjectedStore, isValid = false) {
-  return function injectSaga(key: string, descriptor: SagaDescriptor = {}, args?: React.ComponentProps<any>) {
-    if (!isValid) checkStore(store);
+export function injectSagaFactory(
+  store: InjectedStore,
+  isValid = false
+) {
+  return function injectSaga(
+    key: string,
+    descriptor: SagaDescriptor = {},
+    args?: React.ComponentProps<any>
+  ) {
+    if (!isValid) {
+      checkStore(store);
+    }
 
-    const newDescriptor: SagaDescriptor = {
+    const newDescriptor = {
       ...descriptor,
       mode: descriptor.mode ?? DAEMON,
     };
-
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { saga, mode } = newDescriptor;
 
@@ -66,19 +76,23 @@ export function injectSagaFactory(store: InjectedStore, isValid = false) {
       !hasSaga ||
       (hasSaga && mode !== DAEMON && mode !== ONCE_TILL_UNMOUNT)
     ) {
-      /* eslint-disable no-param-reassign */
+      // eslint-disable-next-line no-param-reassign
       store.injectedSagas[key] = {
         ...newDescriptor,
         task: store.runSaga(saga, args) as Task,
       };
-      /* eslint-enable no-param-reassign */
     }
   }
 }
 
-export function ejectSagaFactory(store: InjectedStore, isValid = false) {
+export function ejectSagaFactory(
+  store: InjectedStore,
+  isValid = false
+) {
   return function ejectSaga(key: string) {
-    if (!isValid) checkStore(store);
+    if (!isValid) {
+      checkStore(store);
+    }
 
     checkKey(key)
 
@@ -89,14 +103,15 @@ export function ejectSagaFactory(store: InjectedStore, isValid = false) {
         // Clean up in production; in development we need `descriptor.saga` for hot reloading
         if (process.env.NODE_ENV === 'production') {
           // Need some value to be able to detect `ONCE_TILL_UNMOUNT` sagas in `injectSaga`
-          store.injectedSagas[key] = 'done' // eslint-disable-line no-param-reassign
+          // eslint-disable-next-line no-param-reassign
+          store.injectedSagas[key] = 'done';
         }
       }
     }
   }
 }
 
-export default function getInjectors(store: InjectedStore) {
+export function getInjectors(store: InjectedStore) {
   checkStore(store);
 
   return {
