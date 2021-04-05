@@ -25,8 +25,8 @@ describe('injectSaga decorator', () => {
   let ComponentWithSaga
 
   beforeAll(() => {
-    sagaInjectors.default = jest.fn().mockImplementation(() => injectors)
-  })
+    sagaInjectors.getInjectors = jest.fn().mockImplementation(() => injectors);
+  });
 
   beforeEach(() => {
     injectors = {
@@ -37,9 +37,9 @@ describe('injectSaga decorator', () => {
       key: 'test',
       saga: testSaga,
       mode: 'testMode',
-    })(Component)
-    sagaInjectors.default.mockClear()
-  })
+    })(Component);
+    sagaInjectors.getInjectors.mockClear();
+  });
 
   it('should inject given saga, mode, and props', () => {
     const props = { test: 'test' }
@@ -90,8 +90,8 @@ describe('useInjectSaga hook', () => {
   let ComponentWithSaga
 
   beforeAll(() => {
-    sagaInjectors.default = jest.fn().mockImplementation(() => injectors)
-  })
+    sagaInjectors.getInjectors = jest.fn().mockImplementation(() => injectors);
+  });
 
   beforeEach(() => {
     injectors = {
@@ -107,8 +107,8 @@ describe('useInjectSaga hook', () => {
       return null
     }
 
-    sagaInjectors.default.mockClear()
-  })
+    sagaInjectors.getInjectors.mockClear();
+  });
 
   it('should inject given saga and mode', () => {
     const props = { test: 'test' }

@@ -1,6 +1,4 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import getInjectorsReducer from 'utils/reducerInjectors'
+import { getInjectors } from 'utils/reducerInjectors';
 
 import injectReducerModel from './injectReducerModel'
 
@@ -13,13 +11,13 @@ describe('injectReducerModel', () => {
   it('should inject model into reducer', () => {
     const spy = jest.fn()
 
-    getInjectorsReducer.mockImplementation(() => ({
+    getInjectors.mockImplementation(() => ({
       injectReducer: spy,
     }))
     injectReducerModel('mockKey', mockReducer, store)
 
-    expect(getInjectorsReducer).toHaveBeenCalledWith(store)
-    expect(spy).toHaveBeenCalledWith('mockKey', mockReducer)
+    expect(getInjectors).toHaveBeenCalledWith(store);
+    expect(spy).toHaveBeenCalledWith('mockKey', mockReducer);
 
     jest.resetAllMocks()
   })

@@ -22,7 +22,7 @@ export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
     // dont wanna give access to HOC. Child only
     class InjectSaga extends React.Component<P> {
       // eslint-disable-next-line react/static-property-placement
-      public static displayName = `withSaga(${WrappedComponent.displayName ?? WrappedComponent.name ?? 'Component'})`;
+      public static displayName = `withSaga(${(WrappedComponent.displayName ?? WrappedComponent.name) || 'Component'})`;
 
       public static WrappedComponent = WrappedComponent;
 
@@ -31,7 +31,6 @@ export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
 
       public constructor(props: any, context: any) {
         super(props, context);
-
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         this.injectors = getInjectors(context.store);
 

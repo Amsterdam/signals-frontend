@@ -22,16 +22,16 @@ describe('injectReducer decorator', () => {
   let ComponentWithReducer
 
   beforeAll(() => {
-    reducerInjectors.default = jest.fn().mockImplementation(() => injectors)
-  })
+    reducerInjectors.getInjectors = jest.fn().mockImplementation(() => injectors);
+  });
 
   beforeEach(() => {
     injectors = {
       injectReducer: jest.fn(),
-    }
-    ComponentWithReducer = injectReducer({ key: 'test', reducer })(Component)
-    reducerInjectors.default.mockClear()
-  })
+    };
+    ComponentWithReducer = injectReducer({ key: 'test', reducer })(Component);
+    reducerInjectors.getInjectors.mockClear();
+  });
 
   it('should inject a given reducer', () => {
     renderer.create(withAppContext(<ComponentWithReducer />))
@@ -68,8 +68,8 @@ describe('useInjectReducer hook', () => {
   beforeAll(() => {
     injectors = {
       injectReducer: jest.fn(),
-    }
-    reducerInjectors.default = jest.fn().mockImplementation(() => injectors)
+    };
+    reducerInjectors.getInjectors = jest.fn().mockImplementation(() => injectors);
     ComponentWithReducer = () => {
       useInjectReducer({ key: 'test', reducer })
       return null

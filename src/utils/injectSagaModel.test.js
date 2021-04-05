@@ -1,6 +1,4 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import getInjectorsSaga from 'utils/sagaInjectors'
+import { getInjectors } from 'utils/sagaInjectors';
 
 import injectSagaModel from './injectSagaModel'
 
@@ -13,13 +11,13 @@ describe('injectSagaModel', () => {
   it('should inject model into saga', () => {
     const spy = jest.fn()
 
-    getInjectorsSaga.mockImplementation(() => ({
+    getInjectors.mockImplementation(() => ({
       injectSaga: spy,
     }))
     injectSagaModel('mockKey', mockSaga, store)
 
-    expect(getInjectorsSaga).toHaveBeenCalledWith(store)
-    expect(spy).toHaveBeenCalledWith('mockKey', { saga: mockSaga })
+    expect(getInjectors).toHaveBeenCalledWith(store);
+    expect(spy).toHaveBeenCalledWith('mockKey', { saga: mockSaga });
 
     jest.resetAllMocks()
   })
