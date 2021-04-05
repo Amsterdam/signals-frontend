@@ -11,7 +11,7 @@ import createReducer from '../reducers';
 import checkStore from './checkStore';
 
 export function injectReducerFactory(store: InjectedStore, isValid = false) {
-  return function injectReducer(key: string, reducer: Reducer<unknown>) {
+  return function injectReducer<T>(key: string, reducer: Reducer<T>) {
     if (!isValid) checkStore(store);
 
     invariant(
