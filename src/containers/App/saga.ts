@@ -14,8 +14,10 @@ import {
 } from 'containers/App/constants'
 
 import type { EventChannel } from '@redux-saga/core'
+import type { EventChannel } from '@redux-saga/core';
 import { logout } from '../../shared/services/auth/auth'
 import fileUploadChannel from '../../shared/services/file-upload-channel'
+import fileUploadChannel from '../../shared/services/file-upload-channel';
 import type { AuthenticateUserAction } from './actions'
 import {
   logoutFailed,
@@ -28,7 +30,7 @@ import {
   getSourcesSuccess,
 } from './actions'
 
-import type { User, DataResult, ApiError, UploadFile } from './types'
+import type { User, DataResult, ApiError, UploadFile, Source } from './types';
 
 export function* callLogout() {
   try {
@@ -121,11 +123,7 @@ export function* callSearchIncidents() {
 export function* fetchSources() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result: DataResult<string> = yield call(
-      authCall,
-      configuration.SOURCES_ENDPOINT,
-      { is_active: 'true' }
-    )
+    const result: DataResult<Source> = yield call(authCall, configuration.SOURCES_ENDPOINT, { is_active: 'true' });
 
     yield put(getSourcesSuccess(result.results))
   } catch (error: unknown) {

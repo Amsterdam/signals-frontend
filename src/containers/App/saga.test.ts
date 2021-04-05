@@ -324,7 +324,7 @@ describe('containers/App/saga', () => {
 
   describe('fetch sources', () => {
     it('should dispatch getSourcesSuccess', () => {
-      const sources = { results: ['a'] }
+      const sources = { results: [{ id: 1, name: 'a' }] };
 
       testSaga(fetchSources)
         .next()
