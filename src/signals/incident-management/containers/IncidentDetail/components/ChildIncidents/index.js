@@ -64,7 +64,7 @@ const ChildIncidents = ({ incidents, parent, history }) => {
     <Fragment>
       <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">Deelmelding</Title>
 
-      <ChildIncidentsList incidents={children} />
+      <ChildIncidentsList incidents={children} parentUpdatedAt={parent.updated_at} />
 
       <Section>
         {canReset && (

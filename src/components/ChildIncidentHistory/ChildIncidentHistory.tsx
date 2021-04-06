@@ -1,16 +1,27 @@
-import React, { useMemo, useState } from 'react';
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import React, { Fragment, useMemo, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import type { History } from 'types/history';
 import HistoryList from 'components/HistoryList';
-import { breakpoint, Link, themeSpacing } from '@amsterdam/asc-ui';
-import styled from 'styled-components';
+import { breakpoint, Link, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import styled, { css } from 'styled-components';
 import type { Theme } from 'types/theme';
 
-const ButtonWrapper = styled.div`
+const gridValueStyle = css`
+  margin: 0;
+  grid-column-start: 1;
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    grid-column-start: 3;
+  }
+`;
+
+const Wrapper = styled.div`
   display: grid;
-  margin-bottom: ${themeSpacing(4)};
-  && {
-    margin-top: 0;
+  row-gap: ${themeSpacing(4)};
+  & {
+    margin-bottom: ${themeSpacing(4)};
   }
 
   @media ${breakpoint('min-width', 'tabletM')} {
@@ -22,56 +33,76 @@ const ButtonWrapper = styled.div`
   }
 `;
 
+const StyledHistoryList = styled(HistoryList)`
+  grid-column: 1 / 4;
+`;
+
 const StyledLink = styled(Link)`
-  grid-column-start: 1;
+  ${gridValueStyle}
   font-size: 16px;
+
   :hover {
     cursor: pointer;
   }
+`;
 
-  @media ${breakpoint('min-width', 'tabletM')} {
-    grid-column-start: 3;
-  }
+const StyledParagraph = styled.p<{ light?: boolean }>`
+  ${gridValueStyle}
+  ${({ light, theme }) => light && `
+    color: red;
+    color: ${themeColor('tint', 'level5')({ theme: theme as Theme })}
+  `}
 `;
 
 interface ChildIncidentHistoryProps {
+  /** Determines if user has permission to view child incident */
   canView: boolean;
+  /** Time of last update to parent incident */
+  parentUpdatedAt: string;
   history?: History[];
   className?: string;
 }
 
-const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({ canView, className, history }) => {
-  const [showMore, setShowMore] = useState(false);
-  const list = useMemo(() => {
-    if (!history || history.length === 0) return;
+const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({
+  canView,
+  className,
+  history = [],
+  parentUpdatedAt,
+}) => {
+  const [showAllHistory, setShowAllhistory] = useState(false);
 
-    return showMore ? history : [history[0]];
-  }, [history, showMore]);
+  /** Events that occurred after parentUpdatedAt */
+  const recentHistory = useMemo(() => history.filter(entry => new Date(entry.when) > new Date(parentUpdatedAt)), [
+    history,
+    parentUpdatedAt,
+  ]);
 
-  if (!canView) {
-    return <p>Je hebt geen toestemming om meldingen in deze categorie te bekijken</p>;
-  } else if (!list) {
-    return null;
-  }
+  const shownHistory = showAllHistory ? history : recentHistory;
+  const showToggle = history.length !== recentHistory.length;
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    setShowMore(!showMore);
+    setShowAllhistory(!showAllHistory);
   };
 
   return (
-    <div className={className} data-testid="childIncidentHistory">
-      <HistoryList list={list} />
-      <ButtonWrapper>
-        <StyledLink
-          href="#"
-          variant="inline"
-          onClick={handleClick}
-        >
-          {showMore ? 'Verberg geschiedenis' : 'Toon geschiedenis'}
-        </StyledLink>
-      </ButtonWrapper>
-    </div>
+    <Wrapper className={className} data-testid="childIncidentHistory">
+      {canView ? (
+        <Fragment>
+          {recentHistory.length === 0 && <StyledParagraph light>Geen nieuwe wijzigingen</StyledParagraph>}
+
+          {shownHistory.length !== 0 && <StyledHistoryList list={shownHistory} />}
+
+          {showToggle && (
+            <StyledLink href="#" variant="inline" onClick={handleClick}>
+              {showAllHistory ? 'Verberg geschiedenis' : 'Toon geschiedenis'}
+            </StyledLink>
+          )}
+        </Fragment>
+      ) : (
+        <StyledParagraph>Je hebt geen toestemming om meldingen in deze categorie te bekijken</StyledParagraph>
+      )}
+    </Wrapper>
   );
 };
 

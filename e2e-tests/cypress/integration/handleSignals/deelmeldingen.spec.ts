@@ -129,8 +129,12 @@ describe('Deelmeldingen', () => {
 
         createSignal.checkSignalDetailsPage();
         createSignal.checkRedTextStatus('Gemeld');
+        cy.get(SIGNAL_DETAILS.signalHeaderTitle).contains('Hoofdmelding');
+
         cy.get(SIGNAL_DETAILS.titleDeelmelding).should('have.text', 'Deelmelding').and('be.visible');
         cy.get(SIGNAL_DETAILS.deelmeldingen).find('li').should('have.length', 3).and('have.css', 'background-color', 'rgb(230, 230, 230)');
+        cy.get(SIGNAL_DETAILS.deelmeldingen).find('a:contains("Toon geschiedenis")').should('have.length', 3);
+        cy.get(SIGNAL_DETAILS.deelmeldingen).find('p:contains("Geen nieuwe wijzigingen")').should('have.length', 3);
 
         cy.get(SIGNAL_DETAILS.historyAction).eq(0).contains('Regie gewijzigd naar: ASC').should('be.visible');
         cy.get(SIGNAL_DETAILS.historyAction).eq(1).contains('Notitie toegevoegd:').should('be.visible');
@@ -143,7 +147,12 @@ describe('Deelmeldingen', () => {
         deelmeldingen.checkDeelmelding(2, 'Brug', 'Gemeld', '21 dagen');
         deelmeldingen.checkDeelmelding(3, 'Olie op het water', 'Gemeld', '3 dagen');
 
-        cy.get(SIGNAL_DETAILS.signalHeaderTitle).contains('Hoofdmelding');
+        // Open, check and close history deelmelding
+        cy.contains('Categorie gewijzigd naar: Olie op het water').should('not.exist');
+        cy.get(SIGNAL_DETAILS.deelmeldingen).find('a:contains("Toon geschiedenis")').eq(2).click();
+        cy.contains('Categorie gewijzigd naar: Olie op het water').should('be.visible');
+        cy.contains('Verberg geschiedenis').click();
+        cy.contains('Categorie gewijzigd naar: Olie op het water').should('not.exist');
 
         // Check signal data deelmelding 01
         cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(0).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).click();
@@ -263,6 +272,10 @@ describe('Deelmeldingen', () => {
         routes.getDeelmeldingenRoute();
         routes.getSignalDetailsRoutes();
         createSignal.openCreatedSignal();
+
+        // Deelmelding change is visible in history
+        cy.get(SIGNAL_DETAILS.deelmeldingen).find('p:contains("Geen nieuwe wijzigingen")').should('have.length', 2);
+        cy.contains('Urgentie gewijzigd naar: Hoog').should('be.visible');
         cy.get(DEELMELDING.buttonNoAction).should('be.visible').click();
 
         cy.wait('@patchSignal');
@@ -271,7 +284,8 @@ describe('Deelmeldingen', () => {
         cy.wait('@getDeelmeldingen');
         cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 13);
 
-        cy.get(SIGNAL_DETAILS.historyAction).eq(0).should('have.text', 'Notitie toegevoegd:Geen actie nodig').and('be.visible');
+        cy.get(SIGNAL_DETAILS.historyAction).eq(3).should('have.text', 'Notitie toegevoegd:').and('be.visible');
+        cy.get(SIGNAL_DETAILS.historyListItem).eq(0).contains('Geen actie nodig');
         cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(0, 0, 0)');
       });
       it('Should change status hoofdmelding to geannuleerd', () => {

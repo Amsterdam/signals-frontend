@@ -25,6 +25,10 @@ const StyledChildIncidentHistory = styled(ChildIncidentHistory)`
   margin-top: ${themeSpacing(3)};
 `;
 
+const StyledList = styled(List)`
+  margin-bottom: 0;
+`;
+
 const Li = styled(ListItem)`
   display: flex;
   background-color: ${themeColor('tint', 'level3')};
@@ -109,8 +113,8 @@ const Li = styled(ListItem)`
     `}
 `;
 
-const ChildIncidents = ({ className, incidents }) => (
-  <List className={className} data-testid="childIncidents">
+const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
+  <StyledList className={className} data-testid="childIncidents">
     {incidents.map(incident => {
       const valueEntries = (
         <Fragment>
@@ -133,16 +137,17 @@ const ChildIncidents = ({ className, incidents }) => (
           <Li status={incident.status} changed={incident.changed}>
             {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
           </Li>
-          <StyledChildIncidentHistory canView={incident.canView} history={incident.history} />
+          <StyledChildIncidentHistory canView={incident.canView} history={incident.history} parentUpdatedAt={parentUpdatedAt} />
         </Fragment>
       );
     })}
-  </List>
+  </StyledList>
 );
 
 ChildIncidents.propTypes = {
   /** @ignore */
   className: PropTypes.string,
+  parentUpdatedAt: PropTypes.string.isRequired,
   incidents: PropTypes.arrayOf(
     PropTypes.exact({
       href: PropTypes.string,
