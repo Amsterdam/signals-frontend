@@ -4,6 +4,7 @@ build
 node_modules
 stats.json
 .eslintcache
+dist
 
 # Local config
 /app.json
