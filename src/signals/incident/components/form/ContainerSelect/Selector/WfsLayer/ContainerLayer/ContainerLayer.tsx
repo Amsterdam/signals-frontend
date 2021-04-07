@@ -13,6 +13,8 @@ import type { DataLayerProps, Item, Feature } from 'signals/incident/components/
 import { useMapInstance } from '@amsterdam/react-maps';
 import { isEqual } from 'lodash';
 
+const SELECTED_CLASS_MODIFIER = '--selected';
+
 export interface ClusterLayer extends L.GeoJSON<Point> {
   _maxZoom?: number;
 }
@@ -73,9 +75,11 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
   const iconCreateFunction = useCallback(
     /* istanbul ignore next */ (cluster: LeafletMarkerCluster) => {
       const childCount = cluster.getChildCount();
+      const hasSelectedChildren = cluster.getAllChildMarkers().some(marker => marker.options.icon?.options.className?.includes(SELECTED_CLASS_MODIFIER));
+
       return new L.DivIcon({
         html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-        className: 'marker-cluster',
+        className: `marker-cluster ${hasSelectedChildren && `marker-cluster${SELECTED_CLASS_MODIFIER}`}`,
         iconSize: new L.Point(40, 40),
       });
     },
@@ -116,7 +120,8 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         const marker = L.marker(latlng, {
           icon: L.icon({
             ...featureType.icon.options,
-            className: featureType.label,
+            // className: `${featureType.label}${selected && SELECTED_CLASS_MODIFIER}`,
+            className: `marker-icon${selected && SELECTED_CLASS_MODIFIER}`,
             iconUrl,
           }),
           alt: feature.properties[featureType.idField],
