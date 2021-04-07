@@ -28,7 +28,6 @@ module.exports = {
         'node/no-extraneous-require': 'off',
         'node/no-extraneous-import': 'off',
         'node/file-extension-in-import': 'off',
-        'promise/prefer-await-to-callbacks': 'off',
       },
     },
     {

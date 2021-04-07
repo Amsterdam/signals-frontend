@@ -45,7 +45,6 @@ module.exports = {
     'promise/no-return-in-finally': 'error',
     'promise/no-return-wrap': 'error',
     'promise/param-names': 'error',
-    'promise/prefer-await-to-callbacks': 'error',
     'promise/valid-params': 'error',
 
     // sonarjs
@@ -83,6 +82,7 @@ module.exports = {
     'object-property-newline': 'off',
     'operator-linebreak': 'off',
     'prefer-destructuring': 'off',
+    'promise/prefer-await-to-callbacks': 'off',
     'sort-imports': 'off',
     'sort-keys': 'off',
     'unicorn/consistent-function-scoping': 'off', // Breaks on react hooks

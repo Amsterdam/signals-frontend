@@ -45,6 +45,7 @@ describe('signals/incident/components/form/Header', () => {
 
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument();
 
+    // eslint-disable-next-line jest/unbound-method
     rerender(withAppContext(<Header {...props} options={{ validators: [Validators.required] }} />));
 
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument();
