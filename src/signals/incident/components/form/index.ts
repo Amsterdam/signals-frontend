@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import LinkButton from './LinkButton';
 import CheckboxInput from './CheckboxInput';
 import EmphasisCheckboxInput from './EmphasisCheckboxInput';

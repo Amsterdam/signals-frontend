@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import React, { Fragment, useEffect, lazy, Suspense, useMemo } from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';

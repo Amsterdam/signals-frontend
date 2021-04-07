@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { validateFileType, validateMaxFilesize, validateMinFilesize, validatePhoneNumber, createRequired } from '.';
 
 describe('The custom validators service', () => {

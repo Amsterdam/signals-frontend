@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { all, call, put, take, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router/immutable';
 
@@ -21,6 +23,7 @@ import { logout } from '../../shared/services/auth/auth';
 
 import fileUploadChannel from '../../shared/services/file-upload-channel';
 import type { User, DataResult, ApiError, UploadFile } from './types';
+import type { EventChannel } from '@redux-saga/core';
 
 export function* callLogout() {
   try {
@@ -65,11 +68,11 @@ export function* callAuthorize(action: AuthenticateUserAction) {
   }
 }
 
-export function* uploadFile(action: { payload: UploadFile }) {
+export function* uploadFile(action: { payload: UploadFile }): any {
   const id = action.payload?.id ?? '';
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const channel = yield call(
+  const channel: EventChannel<any> = yield call(
     fileUploadChannel,
     `${configuration.INCIDENT_PUBLIC_ENDPOINT}${id}/attachments/`,
     action.payload?.file,
@@ -108,9 +111,9 @@ export function* callSearchIncidents() {
 export function* fetchSources() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result = yield call(authCall, configuration.SOURCES_ENDPOINT, { is_active: 'true' });
+    const result: DataResult<string> = yield call(authCall, configuration.SOURCES_ENDPOINT, { is_active: 'true' });
 
-    yield put(getSourcesSuccess((result as DataResult<string>).results));
+    yield put(getSourcesSuccess(result.results));
   } catch (error: unknown) {
     yield put(getSourcesFailed((error as Error).message));
   }

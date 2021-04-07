@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C)  - 2021 Gemeente Amsterdam
 // eslint-disable-next-line import/no-duplicates
 import type L from 'leaflet';
 // eslint-disable-next-line import/no-duplicates

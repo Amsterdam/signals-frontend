@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { CATEGORIES } from '../../support/selectorsSettings';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
@@ -31,6 +33,8 @@ describe('Manage categories', () => {
       cy.contains('Afwatering brug').click();
       cy.url().should('include', 'instellingen/categorie/');
       cy.wait('@getCategories');
+      cy.contains('Verantwoordelijke afdeling').should('be.visible');
+      cy.get(CATEGORIES.verantwoordelijkeAfdeling).should('have.text', 'VOR, STW').and('be.visible');
 
       // Change category
       cy.get(CATEGORIES.inputName).clear().type('Afgewaterde brug');

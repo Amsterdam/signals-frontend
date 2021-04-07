@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 export default function fileSize(size, decimals = 1, delimiter = ',') {
   if (size) {
     const i = Math.floor(Math.log(size) / Math.log(1024));

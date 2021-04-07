@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import React, { forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 import { Input as AscInput, Label, themeColor, Typography, themeSpacing } from '@amsterdam/asc-ui';
@@ -18,6 +20,7 @@ const StyledInput = styled(AscInput)<{ showError: boolean }>`
   font-size: 16px;
   line-height: 22px;
   padding: 10px; /* needed to style the textboxes as according to the design system */
+  box-shadow: initial;
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};

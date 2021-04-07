@@ -11,6 +11,8 @@ services:
       - ./e2e-tests/app.json:/app/app.json
       - ./app.amsterdam.json:/app/app.base.json
       - ./src:/app/src
+      - ./internals:/app/internals
+      - ./server:/app/server
     ports:
       - 3001:3001
     command: npm start

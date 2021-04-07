@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -73,17 +75,12 @@ const render = () => {
 };
 
 const installServiceWorker = () => {
-  // Install ServiceWorker and AppCache in the end since
+  // Install ServiceWorker and AppCache at the end since
   // it's not most important operation and if main code fails,
   // we do not want it installed
   if ('serviceWorker' in navigator && process.env.ENABLE_SERVICEWORKER === '1') {
-    // eslint-disable-next-line global-require
-    const runtime = require('offline-plugin/runtime');
-
-    runtime.install({
-      onUpdateReady: () => {
-        runtime.applyUpdate();
-      },
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js');
     });
   }
 };

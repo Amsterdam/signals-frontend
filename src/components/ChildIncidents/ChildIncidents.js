@@ -1,8 +1,12 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { breakpoint, List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import ChildIncidentHistory from 'components/ChildIncidentHistory';
+import { historyType } from 'shared/types';
 
 export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE';
 export const STATUS_RESPONSE_REQUIRED = 'components/ChildIncidents/STATUS_RESPONSE_REQUIRED';
@@ -15,6 +19,14 @@ const DisplayValue = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const StyledChildIncidentHistory = styled(ChildIncidentHistory)`
+  margin-top: ${themeSpacing(3)};
+`;
+
+const StyledList = styled(List)`
+  margin-bottom: 0;
 `;
 
 const Li = styled(ListItem)`
@@ -101,8 +113,8 @@ const Li = styled(ListItem)`
     `}
 `;
 
-const ChildIncidents = ({ className, incidents }) => (
-  <List className={className} data-testid="childIncidents">
+const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
+  <StyledList className={className} data-testid="childIncidents">
     {incidents.map(incident => {
       const valueEntries = (
         <Fragment>
@@ -121,17 +133,21 @@ const ChildIncidents = ({ className, incidents }) => (
       );
 
       return (
-        <Li key={JSON.stringify(incident.values)} status={incident.status} changed={incident.changed}>
-          {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
-        </Li>
+        <Fragment key={incident.href}>
+          <Li status={incident.status} changed={incident.changed}>
+            {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
+          </Li>
+          <StyledChildIncidentHistory canView={incident.canView} history={incident.history} parentUpdatedAt={parentUpdatedAt} />
+        </Fragment>
       );
     })}
-  </List>
+  </StyledList>
 );
 
 ChildIncidents.propTypes = {
   /** @ignore */
   className: PropTypes.string,
+  parentUpdatedAt: PropTypes.string.isRequired,
   incidents: PropTypes.arrayOf(
     PropTypes.exact({
       href: PropTypes.string,
@@ -142,6 +158,8 @@ ChildIncidents.propTypes = {
         category: PropTypes.string.isRequired,
       }),
       changed: PropTypes.bool.isRequired,
+      canView: PropTypes.bool.isRequired,
+      history: historyType,
     })
   ),
 };

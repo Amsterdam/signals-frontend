@@ -1,18 +1,22 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import React from 'react';
+import type { FunctionComponent } from 'react';
 import { ThemeProvider as ASCThemeProvider } from '@amsterdam/asc-ui';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import configuration from 'shared/services/configuration/configuration';
+import type { Theme } from 'types/theme';
+import type { RecursivePartial } from 'types/helpers';
 
-export const getConfig = (defaultConfig = {}) => {
+export const getConfig: (theme?: RecursivePartial<Theme>) => Theme = (defaultConfig = {}) => {
   const config = { ...defaultConfig };
+
   if (!isAuthenticated()) {
     config.maxGridWidth = 960;
     config.layouts = {
       small: {
         columns: 2,
-        gutter: 20,
         margin: 10,
         max: 540,
       },
@@ -46,23 +50,13 @@ export const getConfig = (defaultConfig = {}) => {
     };
   }
 
-  return config;
+  return config as Theme;
 };
 
-const ThemeProvider = ({ children }) => {
-  const { theme } = configuration;
-  return (
-    <ASCThemeProvider overrides={getConfig(theme)}>
-      <Fragment>
-        <span data-testid="signalsThemeProvider" />
-        {children}
-      </Fragment>
-    </ASCThemeProvider>
-  );
-};
-
-ThemeProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+const ThemeProvider: FunctionComponent = ({ children }) => (
+  <ASCThemeProvider overrides={getConfig(configuration.theme)}>
+    {children}
+  </ASCThemeProvider>
+);
 
 export default ThemeProvider;

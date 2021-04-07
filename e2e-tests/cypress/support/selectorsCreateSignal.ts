@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 export const CREATE_SIGNAL = {
   autoSuggest: '[data-testid="autoSuggest"]',
   buttonDoeEenMelding: 'a:contains("Doe een melding")',

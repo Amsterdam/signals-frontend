@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 module.exports = {
   plugins: ['promise', 'sonarjs', 'unicorn'],
   extends: ['eslint:all', 'plugin:sonarjs/recommended', 'plugin:unicorn/recommended'],

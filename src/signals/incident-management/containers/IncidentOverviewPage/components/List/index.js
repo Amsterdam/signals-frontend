@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import React, { useCallback, useContext, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -26,6 +28,7 @@ const getDaysOpen = incident => {
 
 const StyledList = styled.div`
   width: 100%;
+  overflow: auto;
 
   ${({ isLoading }) => isLoading && 'opacity: 0.3;'}
 `;

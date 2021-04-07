@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types';
 import { isDate } from 'utils';
 
@@ -182,6 +184,7 @@ export const childIncidentType = PropTypes.exact({
     state_display: PropTypes.string.isRequired,
   }),
   updated_at: PropTypes.string.isRequired,
+  can_view_signal: PropTypes.bool.isRequired,
 });
 
 export const attachmentsType = PropTypes.arrayOf(
