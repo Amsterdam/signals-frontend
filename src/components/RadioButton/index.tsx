@@ -3,7 +3,7 @@
 import React from 'react';
 import type { FunctionComponent, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import { Radio as AscRadio, themeSpacing } from '@amsterdam/asc-ui';
+import { Radio, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 
 const Wrapper = styled.div`
   position: relative;
@@ -11,6 +11,16 @@ const Wrapper = styled.div`
 
   & > * {
     margin-left: ${themeSpacing(-1)};
+  }
+`;
+
+const StyledRadio = styled(Radio)`
+  & > input:focus {
+    outline: none;
+  }
+
+  & > input:focus-visible + *   {
+    border: 2px solid ${themeColor('tint', 'level7')};
   }
 `;
 
@@ -22,7 +32,7 @@ interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const RadioButton: FunctionComponent<RadioButtonProps> = ({ className, ...props }) => (
   <Wrapper className={className}>
-    <AscRadio {...props} />
+    <StyledRadio {...props} data-test="test" />
   </Wrapper>
 );
 
