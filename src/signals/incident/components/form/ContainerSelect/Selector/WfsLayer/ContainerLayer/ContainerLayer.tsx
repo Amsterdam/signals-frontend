@@ -1,17 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import type { FunctionComponent } from 'react';
 import L from 'leaflet';
-import MarkerCluster from 'components/MarkerCluster';
+import { useMapInstance } from '@amsterdam/react-maps';
+import isEqual from 'lodash/isEqual';
+
 import type { LatLng, MarkerCluster as LeafletMarkerCluster } from 'leaflet';
 import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson';
-import WfsDataContext from '../context';
-import { featureTolocation } from 'shared/services/map-location';
-import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
+import type { FunctionComponent } from 'react';
 import type { DataLayerProps, Item, Feature } from 'signals/incident/components/form/ContainerSelect/types';
-import { useMapInstance } from '@amsterdam/react-maps';
-import { isEqual } from 'lodash';
+
+import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context';
+import { featureTolocation } from 'shared/services/map-location';
+import MarkerCluster from 'components/MarkerCluster';
+
+import WfsDataContext from '../context';
 
 const SELECTED_CLASS_MODIFIER = '--selected';
 
@@ -79,7 +82,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
 
       return new L.DivIcon({
         html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-        className: `marker-cluster ${hasSelectedChildren && `marker-cluster${SELECTED_CLASS_MODIFIER}`}`,
+        className: `marker-cluster${hasSelectedChildren && ` marker-cluster${SELECTED_CLASS_MODIFIER}`}`,
         iconSize: new L.Point(40, 40),
       });
     },
@@ -120,8 +123,8 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
         const marker = L.marker(latlng, {
           icon: L.icon({
             ...featureType.icon.options,
-            // className: `${featureType.label}${selected && SELECTED_CLASS_MODIFIER}`,
-            className: `marker-icon${selected && SELECTED_CLASS_MODIFIER}`,
+            /* istanbul ignore next */
+            className: `marker-icon${selected ? SELECTED_CLASS_MODIFIER : ''}`,
             iconUrl,
           }),
           alt: feature.properties[featureType.idField],
