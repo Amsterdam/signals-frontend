@@ -32,7 +32,7 @@ interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const RadioButton: FunctionComponent<RadioButtonProps> = ({ className, ...props }) => (
   <Wrapper className={className}>
-    <StyledRadio {...props} data-test="test" />
+    <StyledRadio {...props} />
   </Wrapper>
 );
 
