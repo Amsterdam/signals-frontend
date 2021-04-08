@@ -6,6 +6,7 @@ import memoize from 'lodash/memoize';
 import configuration from 'shared/services/configuration/configuration';
 
 import afval from './wizard-step-2-vulaan/afval';
+import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies';
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water';
@@ -80,6 +81,9 @@ export default {
     switch (category) {
       case 'afval':
         return expandQuestions(afval, category, subcategory);
+
+      case 'civiele-constructies':
+        return expandQuestions(civieleConstructies, category, subcategory);
 
       case 'overlast-bedrijven-en-horeca':
         return expandQuestions(overlastBedrijvenEnHoreca, category, subcategory);
