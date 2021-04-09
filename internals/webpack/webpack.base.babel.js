@@ -144,7 +144,11 @@ module.exports = options => ({
 
     new CopyPlugin({ patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }] }),
 
-    new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: { syntactic: true, semantic: true, declaration: false, global: false },
+      },
+    }),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
   ]
