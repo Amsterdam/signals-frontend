@@ -22,17 +22,6 @@ export const wegenVerkeerStraatmeubilair = {
   //   render: FIELD_TYPE_MAP.plain_text,
   // },
 
-  extra_brug: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'brug',
-      },
-      label: 'Wat is de naam of het nummer van de brug?',
-      shortLabel: 'Naam brug',
-      pathMerge: 'extra_properties',
-    },
-    render: FIELD_TYPE_MAP.text_input,
-  },
   extra_onderhoud_stoep_straat_en_fietspad: {
     meta: {
       ifOneOf: {
