@@ -7,9 +7,12 @@ services:
       target: base
       args:
         - ENABLE_SERVICEWORKER=0
+    environment:
+        - CONFIG=app.amsterdam.json 
     volumes:
       - ./e2e-tests/app.json:/app/app.json
-      - ./app.amsterdam.json:/app/app.base.json
+      - ./app.amsterdam.json:/app/app.amsterdam.json
+      - ./app.base.json:/app/app.base.json
       - ./src:/app/src
       - ./internals:/app/internals
       - ./server:/app/server
