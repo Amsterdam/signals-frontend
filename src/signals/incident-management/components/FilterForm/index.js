@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer, useState } from 'react';
+import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
@@ -123,19 +123,27 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
   const dateFrom = state.options.created_after && new Date(state.options.created_after);
   const dateBefore = state.options.created_before && new Date(state.options.created_before);
 
+  // Store ref to filter object (used in onSubmitForm).
+  // Removes state.filter dependency to prevent unnecessary child rerendering.
+  const filterRef = useRef(state.filter);
+
+  useEffect(() => {
+    filterRef.current = state.filter;
+  }, [state.filter]);
+
   const onSubmitForm = useCallback(
     event => {
       event.preventDefault();
       const options = parseOutputFormData(state.options);
-      const formData = { ...state.filter, options };
+      const formData = { ...filterRef.current, options };
       const hasName = formData.name.trim() !== '';
 
       if (isNewFilter && hasName) {
         onSaveFilter(formData);
       }
 
-      if (!isNewFilter && valuesHaveChanged) {
-        if (formData.name.trim() === '') {
+      if (!isNewFilter) {
+        if (!hasName) {
           event.preventDefault();
           global.window.alert('Filter naam mag niet leeg zijn');
           return;
@@ -146,7 +154,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
 
       onSubmit(event, formData);
     },
-    [valuesHaveChanged, isNewFilter, onSaveFilter, onSubmit, onUpdateFilter, state.filter, state.options]
+    [isNewFilter, onSaveFilter, onSubmit, onUpdateFilter, state.options]
   );
 
   const onResetForm = useCallback(() => {
@@ -177,7 +185,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [categories, dispatch]
   );
 
-  const onNameBlur = useCallback(
+  const onNameChange = useCallback(
     event => {
       const { value } = event.target;
 
@@ -294,6 +302,8 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [notRoutedOption.key, state.options.routing_department]
   );
 
+  const [nameValue, setNameValue] = useState(state.filter.name);
+
   return (
     <Form action="" novalidate>
       <ControlsWrapper>
@@ -307,10 +317,10 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           <div className="invoer">
             <Input
               data-testid="filterName"
-              defaultValue={state.filter.name}
+              value={state.filter.name}
               id="filter_name"
               name="name"
-              onBlur={onNameBlur}
+              onChange={onNameChange}
               placeholder="Geef deze filterinstelling een naam om deze op te slaan"
               type="text"
             />

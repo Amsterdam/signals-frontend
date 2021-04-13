@@ -672,7 +672,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(submitButton.textContent).toEqual(DEFAULT_SUBMIT_BUTTON_LABEL);
 
     act(() => {
-      fireEvent.blur(nameField, { target: { value: 'My filter' } });
+      fireEvent.change(nameField, { target: { value: 'My filter' } });
     });
 
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL);
@@ -885,7 +885,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(handlers.onSaveFilter).not.toHaveBeenCalled(); // name field is empty
 
       act(() => {
-        fireEvent.blur(nameField, { target: { value: 'New name' } });
+        fireEvent.change(nameField, { target: { value: 'New name' } });
       });
 
       act(() => {
@@ -916,17 +916,10 @@ describe('signals/incident-management/components/FilterForm', () => {
         )
       );
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'));
-      });
-
-      // values haven't changed, update should not be called
-      expect(handlers.onUpdateFilter).not.toHaveBeenCalled();
-
       const nameField = container.querySelector('input[type="text"][name="name"]');
 
       act(() => {
-        fireEvent.blur(nameField, { target: { value: ' ' } });
+        fireEvent.change(nameField, { target: { value: ' ' } });
       });
 
       act(() => {
@@ -938,7 +931,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(window.alert).toHaveBeenCalled();
 
       act(() => {
-        fireEvent.blur(nameField, { target: { value: 'My changed filter' } });
+        fireEvent.change(nameField, { target: { value: 'My changed filter' } });
       });
 
       act(() => {
