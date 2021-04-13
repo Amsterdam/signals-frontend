@@ -97,7 +97,7 @@ describe('MetaList', () => {
       expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
       expect(screen.queryByTestId('meta-list-process-time-definition')).toHaveTextContent(/^Doorlooptijd$/);
-      expect(screen.queryByTestId('meta-list-process-time-value')).toHaveTextContent(/^Binnen de afhandeltermijn$/);
+      expect(screen.queryByTestId('meta-list-process-time-value')).toHaveTextContent(/^3x buiten de afhandeltermijn$/);
 
       expect(screen.queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(screen.queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
@@ -175,12 +175,14 @@ describe('MetaList', () => {
     const { container, rerender } = render(renderWithContext());
 
     expect(screen.queryByText('Hoog')).not.toBeInTheDocument();
-    expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(1);
+    expect(screen.queryByTestId('meta-list-status-value').className).toBe('alert');
+    expect(screen.queryByTestId('meta-list-priority-value').className).toBe('');
 
     rerender(renderWithContext({ ...incidentFixture, priority: { ...incidentFixture.priority, priority: 'high' } }));
 
     expect(screen.queryByText('Hoog')).toBeInTheDocument();
-    expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
+    expect(screen.queryByTestId('meta-list-status-value').className).toBe('alert');
+    expect(screen.queryByTestId('meta-list-priority-value').className).toBe('alert');
   });
 
   it('should render days and workdays in single and plural form', () => {

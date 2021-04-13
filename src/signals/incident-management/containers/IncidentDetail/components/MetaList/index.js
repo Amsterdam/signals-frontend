@@ -144,7 +144,7 @@ const MetaList = () => {
     [handlingTimesBySlug, incident]
   );
 
-  const [processTimeCopy, processTimeClass] = useMemo(() => {
+  const [processTimeText, processTimeClass] = useMemo(() => {
     const now = new Date();
 
     if (now > new Date(incident.category?.deadline_factor_3)) {
@@ -155,7 +155,7 @@ const MetaList = () => {
       return ['Buiten de afhandeltermijn', 'alert'];
     }
 
-    return ['Binnen de afhandeltermijn', ''];
+    return ['Binnen de afhandeltermijn'];
   }, [incident]);
 
   const getDepartmentId = useCallback(
@@ -208,7 +208,7 @@ const MetaList = () => {
 
       <dt data-testid="meta-list-process-time-definition">Doorlooptijd</dt>
       <dd className={processTimeClass} data-testid="meta-list-process-time-value">
-        {processTimeCopy}
+        {processTimeText}
       </dd>
 
       <Highlight type="status">
