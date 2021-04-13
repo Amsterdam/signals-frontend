@@ -7,11 +7,9 @@ import { Button, Row, Column, Modal as ASCModal, Heading, themeColor } from '@am
 import { Close as CloseIcon } from '@amsterdam/asc-assets';
 
 const StyledModal = styled(ASCModal)`
-  & [role='dialog'] {
-    max-height: 100vh;
-    height: 100vh;
-    max-width: 1430px;
-  }
+  max-height: 100vh;
+  height: 100vh;
+  max-width: 1430px;
 `;
 
 const ModalInner = styled.div`
