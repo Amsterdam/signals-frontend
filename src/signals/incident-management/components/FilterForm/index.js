@@ -302,8 +302,6 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [notRoutedOption.key, state.options.routing_department]
   );
 
-  const [nameValue, setNameValue] = useState(state.filter.name);
-
   return (
     <Form action="" novalidate>
       <ControlsWrapper>
