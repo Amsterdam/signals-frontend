@@ -6,6 +6,14 @@ import styled, { css } from 'styled-components';
 import { Button, Row, Column, Modal as ASCModal, Heading, themeColor } from '@amsterdam/asc-ui';
 import { Close as CloseIcon } from '@amsterdam/asc-assets';
 
+export const ModalWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
 const StyledModal = styled(ASCModal)`
   & [role='dialog'] {
     max-height: 100vh;
@@ -49,31 +57,33 @@ const Header = styled.header`
 `;
 
 const Modal = ({ children, title, onClose, ...rest }) => (
-  <StyledModal data-testid="modal" open backdropOpacity={1} {...rest}>
-    <Header>
-      <HeaderRow>
-        <Column span={12}>
-          <Heading forwardedAs="h2">{title}</Heading>
-        </Column>
+  <ModalWrapper>
+    <StyledModal data-testid="modal" open backdropOpacity={1} {...rest}>
+      <Header>
+        <HeaderRow>
+          <Column span={12}>
+            <Heading forwardedAs="h2">{title}</Heading>
+          </Column>
 
-        <Button
-          data-testid="closeBtn"
-          square
-          onClick={onClose}
-          size={32}
-          iconSize={20}
-          variant="blank"
-          icon={<CloseIcon />}
-        />
-      </HeaderRow>
-    </Header>
+          <Button
+            data-testid="closeBtn"
+            square
+            onClick={onClose}
+            size={32}
+            iconSize={20}
+            variant="blank"
+            icon={<CloseIcon />}
+          />
+        </HeaderRow>
+      </Header>
 
-    <ModalInner data-scroll-lock-scrollable>
-      <Row>
-        <Column span={12}>{children}</Column>
-      </Row>
-    </ModalInner>
-  </StyledModal>
+      <ModalInner data-scroll-lock-scrollable>
+        <Row>
+          <Column span={12}>{children}</Column>
+        </Row>
+      </ModalInner>
+    </StyledModal>
+  </ModalWrapper>
 );
 
 Modal.defaultProps = {
