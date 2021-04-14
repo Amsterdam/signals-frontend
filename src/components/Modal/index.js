@@ -15,11 +15,9 @@ export const ModalWrapper = styled.div`
 `;
 
 const StyledModal = styled(ASCModal)`
-  & [role='dialog'] {
     max-height: 100vh;
     height: 100vh;
     max-width: 1430px;
-  }
 `;
 
 const ModalInner = styled.div`
