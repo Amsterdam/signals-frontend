@@ -207,7 +207,7 @@ class IncidentForm extends React.Component {
       } else {
         const invalidControl = Object.values(this.form.controls).find(c => c.invalid);
         const { name, values } = invalidControl.meta;
-        const valueSelector = isObject(values) ? `-${Object.keys(values)[0]}1` : '';
+        const valueSelector = !Array.isArray(values) && isObject(values) ? `-${Object.keys(values)[0]}1` : '';
         this.formRef.current.querySelector(`#${name}${valueSelector}`).focus();
       }
     }
