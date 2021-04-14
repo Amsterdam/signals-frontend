@@ -22,6 +22,16 @@ const StyledLabel = styled(Label)`
   line-height: ${themeSpacing(6)};
 `;
 
+const FieldSet = styled.fieldset`
+  border: 0;
+  padding: 0;
+  margin-bottom: 0;
+
+  & > :last-child {
+    margin-top: ${themeSpacing(3)};
+  }
+`;
+
 const Optional = styled.span`
   font-family: Avenir Next LT W01-Regular, arial, sans-serif;
   margin-left: ${themeSpacing(2)};
@@ -39,9 +49,11 @@ export interface HeaderProps extends Pick<ReactiveFormMeta, PickedProps> {
   className?: string;
   meta: FormMeta;
   options?: FormOptions;
+  isFieldSet?: boolean;
 }
 
 const Header: FunctionComponent<HeaderProps> = ({
+  isFieldSet,
   className,
   meta,
   options,
@@ -53,48 +65,51 @@ const Header: FunctionComponent<HeaderProps> = ({
   const containsErrors: boolean =
     touched && (hasError('required') || hasError('email') || hasError('maxLength') || hasError('custom'));
   const isOptional = !options?.validators?.some(validator => validator.name === 'required');
+  const FieldSetWrapper = isFieldSet ? FieldSet : Fragment;
 
   return (
     <StyledErrorWrapper className={className} invalid={containsErrors}>
-      {meta?.label && (
-        <StyledLabel htmlFor={meta.name}>
-          {meta.label}
+      <FieldSetWrapper>
+        {meta?.label && (
+          <StyledLabel {...(isFieldSet ? { as: 'legend' } : { htmlFor: meta.name })}>
+            <Fragment>
+              {meta.label}{isOptional && <Optional>(niet verplicht)</Optional>}
+            </Fragment>
+          </StyledLabel>
+        )}
 
-          {isOptional && <Optional>(niet verplicht)</Optional>}
-        </StyledLabel>
-      )}
+        {meta?.subtitle && <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>}
 
-      {meta?.subtitle && <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>}
+        {touched && containsErrors && (
+          <Fragment>
+            {hasError('required') && (
+              <ErrorMessage
+                data-testid={`${meta.name}-required`}
+                message={getError('required') === true ? 'Dit is een verplicht veld' : (getError('required') as string)}
+              />
+            )}
 
-      {touched && containsErrors && (
-        <Fragment>
-          {hasError('required') && (
-            <ErrorMessage
-              data-testid={`${meta.name}-required`}
-              message={getError('required') === true ? 'Dit is een verplicht veld' : (getError('required') as string)}
-            />
-          )}
+            {hasError('email') && (
+              <ErrorMessage
+                data-testid="invalid-mail"
+                message="Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl"
+              />
+            )}
 
-          {hasError('email') && (
-            <ErrorMessage
-              data-testid="invalid-mail"
-              message="Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl"
-            />
-          )}
+            {hasError('maxLength') && (
+              <ErrorMessage
+                message={`U heeft meer dan de maximale ${String(
+                  (getError('maxLength') as { requiredLength: number }).requiredLength
+                )} tekens ingevoerd`}
+              />
+            )}
 
-          {hasError('maxLength') && (
-            <ErrorMessage
-              message={`U heeft meer dan de maximale ${String(
-                (getError('maxLength') as { requiredLength: number }).requiredLength
-              )} tekens ingevoerd`}
-            />
-          )}
+            {hasError('custom') && <ErrorMessage message={getError('custom') as string} />}
+          </Fragment>
+        )}
 
-          {hasError('custom') && <ErrorMessage message={getError('custom') as string} />}
-        </Fragment>
-      )}
-
-      {children}
+        {children}
+      </FieldSetWrapper>
     </StyledErrorWrapper>
   );
 };

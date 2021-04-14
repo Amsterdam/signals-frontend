@@ -30,6 +30,13 @@ describe('signals/incident/components/form/Header', () => {
     expect(screen.getByText(label)).toBeInTheDocument();
   });
 
+  it('should render fieldset with legend', () => {
+    render(withAppContext(<Header {...props} isFieldSet />));
+
+    // Role 'group' asserts that a fieldset is rendered with a legend as its first child.
+    expect(screen.getByRole('group', { name: /Foo barrrr/ })).toBeInTheDocument();
+  });
+
   it('should render optional indicator', () => {
     const { rerender } = render(withAppContext(<Header {...props} options={{}} />));
 
