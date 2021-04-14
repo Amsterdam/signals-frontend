@@ -77,6 +77,10 @@ const StyledMap = styled(Map)`
     span {
       line-height: 34px;
     }
+
+    &--selected > div {
+      background-color: ${themeColor('secondary')};
+    }
   }
 `;
 
