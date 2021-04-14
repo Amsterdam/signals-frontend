@@ -82,7 +82,7 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({ featureTypes
 
       return new L.DivIcon({
         html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-        className: `marker-cluster${hasSelectedChildren && ` marker-cluster${SELECTED_CLASS_MODIFIER}`}`,
+        className: `marker-cluster${hasSelectedChildren ? ` marker-cluster${SELECTED_CLASS_MODIFIER}` : ''}`,
         iconSize: new L.Point(40, 40),
       });
     },
