@@ -3,7 +3,7 @@
 import React from 'react';
 import type { FunctionComponent, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import { Radio, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import { Radio, themeSpacing } from '@amsterdam/asc-ui';
 
 const Wrapper = styled.div`
   position: relative;
@@ -20,7 +20,8 @@ const StyledRadio = styled(Radio)`
   }
 
   & > input:focus-visible + *   {
-    border: 2px solid ${themeColor('tint', 'level7')};
+    box-shadow: 0 0 0 1pt Highlight;
+    box-shadow: 0 0 0 1pt -webkit-focus-ring-color;
   }
 `;
 
