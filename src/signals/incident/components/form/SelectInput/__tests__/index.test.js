@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Select from 'components/Select';
-import SelectInput from '.';
+import SelectInput from '..';
 import userEvent from '@testing-library/user-event';
 
 describe('Form component <SelectInput />', () => {
