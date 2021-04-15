@@ -196,7 +196,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
     [dispatch]
   );
 
-  const onNameChange = useCallback(event => setControlledTextInput({ name: event.target?.value }), [setControlledTextInput]);
+setControlledTextInput({ ...controlledTextInput, name: event.target?.value })
   const onNoteChange = useCallback(event => setControlledTextInput({ note: event.target?.value }), [setControlledTextInput]);
   const onAddressChange = useCallback(event => setControlledTextInput({ address: event.target?.value }), [setControlledTextInput]);
 
