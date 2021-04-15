@@ -29,6 +29,11 @@ const Form = styled.form`
 
 const GridArea = styled.div``;
 
+const FieldSet = styled.fieldset`
+  border: 0;
+  padding: 0;
+`;
+
 const StyledLabel = styled(Label)`
   margin-bottom: 0;
   line-height: ${themeSpacing(6)};
@@ -168,24 +173,25 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
       <GridArea>
-        <StyledLabel htmlFor="kto" ref={firstLabelRef}>
-          Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?
-        </StyledLabel>
-        <HelpText id="subtitle-kto">Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
+        <FieldSet>
+          <StyledLabel as="legend" ref={firstLabelRef}>
+            Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?
+          </StyledLabel>
+          <HelpText id="subtitle-kto">Een antwoord mogelijk, kies de belangrijkste reden</HelpText>
 
-        <StyledRadioButtonList
-          id="kto"
-          aria-describedby="subtitle-kto"
-          error={Boolean(state.errors.text)}
-          groupName="kto"
-          hasEmptySelectionButton={false}
-          onChange={onChangeOption}
-          options={options}
-        />
-        {state.areaVisibility && (
-          <StyledTextArea data-testid="ktoText" maxRows={5} name="text" onChange={onChangeText('SET_TEXT')} rows="2" />
-        )}
-        {state.errors.text && <ErrorMessage message={state.errors.text} />}
+          <StyledRadioButtonList
+            aria-describedby="subtitle-kto"
+            error={Boolean(state.errors.text)}
+            groupName="kto"
+            hasEmptySelectionButton={false}
+            onChange={onChangeOption}
+            options={options}
+          />
+          {state.areaVisibility && (
+            <StyledTextArea data-testid="ktoText" maxRows={5} name="text" onChange={onChangeText('SET_TEXT')} rows="2" />
+          )}
+          {state.errors.text && <ErrorMessage message={state.errors.text} />}
+        </FieldSet>
       </GridArea>
 
       <GridArea>
