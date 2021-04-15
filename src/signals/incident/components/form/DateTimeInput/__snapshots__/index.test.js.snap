@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <DateTimeInput /> rendering should render date time field correctly 1`] = `
-<Header
+<FormField
   hasError={[Function]}
   meta={
     Object {
@@ -293,7 +293,7 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
       </styled.div>
     </styled.fieldset>
   </styled.div>
-</Header>
+</FormField>
 `;
 
 exports[`Form component <DateTimeInput /> rendering should render no date time field when not visible 1`] = `""`;
