@@ -96,6 +96,11 @@ const FilterForm = ({
 
   const [assignedSelectValue, setAssignedSelectValue] = useState('')
   const [routedFilterValue, setRoutedFilterValue] = useState([])
+  const [controlledTextInput, setControlledTextInput] = useState({
+    name: state.filter.name,
+    address: state.options.address_text,
+    note: state.options.note_keyword,
+  })
 
   const dataListValues = useMemo(
     () => ({
@@ -187,6 +192,11 @@ const FilterForm = ({
   const onResetForm = useCallback(() => {
     dispatch(reset())
     onClearFilter()
+    setControlledTextInput({
+      name: '',
+      address: '',
+      note: '',
+    })
   }, [dispatch, onClearFilter])
 
   // callback handler that is called whenever a checkbox is (un)checked in the list of
@@ -221,6 +231,31 @@ const FilterForm = ({
     [dispatch]
   )
 
+  const onNameChange = useCallback(
+    (event) =>
+      setControlledTextInput({
+        ...controlledTextInput,
+        name: event.target?.value,
+      }),
+    [controlledTextInput]
+  )
+  const onNoteChange = useCallback(
+    (event) =>
+      setControlledTextInput({
+        ...controlledTextInput,
+        note: event.target?.value,
+      }),
+    [controlledTextInput]
+  )
+  const onAddressChange = useCallback(
+    (event) =>
+      setControlledTextInput({
+        ...controlledTextInput,
+        address: event.target?.value,
+      }),
+    [controlledTextInput]
+  )
+
   const onRefreshChange = useCallback(
     (event) => {
       event.persist()
@@ -247,7 +282,7 @@ const FilterForm = ({
     [dispatch]
   )
 
-  const onNotesBlur = useCallback(
+  const onNoteBlur = useCallback(
     (event) => {
       dispatch(setNoteKeyword(event.target.value))
     },
@@ -340,10 +375,11 @@ const FilterForm = ({
           <div className="invoer">
             <Input
               data-testid="filterName"
-              defaultValue={state.filter.name}
+              value={controlledTextInput.name}
               id="filter_name"
               name="name"
               onBlur={onNameBlur}
+              onChange={onNameChange}
               placeholder="Geef deze filterinstelling een naam om deze op te slaan"
               type="text"
             />
@@ -380,8 +416,9 @@ const FilterForm = ({
               data-testid="filterNotes"
               name="note_keyword"
               id="filter_notes"
-              onBlur={onNotesBlur}
-              defaultValue={state.options.note_keyword}
+              onBlur={onNoteBlur}
+              onChange={onNoteChange}
+              value={controlledTextInput.note}
               type="text"
             />
           </FilterGroup>
@@ -552,7 +589,8 @@ const FilterForm = ({
               name="address_text"
               id="filter_address"
               onBlur={onAddressBlur}
-              defaultValue={state.options.address_text}
+              onChange={onAddressChange}
+              value={controlledTextInput.address}
               type="text"
             />
           </FilterGroup>

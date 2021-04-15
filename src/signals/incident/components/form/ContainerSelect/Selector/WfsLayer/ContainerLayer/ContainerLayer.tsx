@@ -169,7 +169,9 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({
             className: `marker-icon${selected ? SELECTED_CLASS_MODIFIER : ''}`,
             iconUrl,
           }),
-          alt: feature.properties[featureType.idField],
+          alt: `${featureType.description} - ${
+            feature.properties[featureType.idField]
+          }`,
         })
 
         marker.on(

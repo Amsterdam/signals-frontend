@@ -3,6 +3,7 @@
 import { CHANGE_STATUS } from '../../support/selectorsSignalDetails';
 import { KTO_FORM, MAIL } from '../../support/selectorsKTO';
 import { ERROR_MESSAGES, KTO } from '../../support/texts';
+import {DJANGO} from '../../support/selectorsDjangoAdmin';
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
@@ -10,6 +11,33 @@ import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
 
 describe('KTO form', () => {
+  describe('Set up mail template in Django Admin', () => {
+    before(() => {
+      cy.visit(`${Cypress.env('backendUrl')}/signals/admin`);
+    });
+    it('Add mail template', () => {
+      cy.get(DJANGO.inputUsername).type('signals.admin@example.com');
+      cy.get(DJANGO.inputPassword).type('password');
+      cy.contains('Aanmelden').click();
+      cy.get(DJANGO.linkEmailTemplate).eq(1).click();
+
+      cy.get(DJANGO.templateList).then(list => {
+        if (list.find(DJANGO.checkboxTemplate).length > 0) {
+          cy.log('Template already exists');
+        }
+        else {
+          cy.log('No template');
+          cy.get(DJANGO.linkEmailTemplateAdd).eq(1).click();
+          cy.get(DJANGO.selectEmailKey).select('Send mail signal handled');
+          cy.get(DJANGO.inputEmailTitle).type('Uw melding {{ formatted_signal_id }}', { parseSpecialCharSequences: false });
+          cy.get(DJANGO.inputEmailBody).type(KTO.body, { parseSpecialCharSequences: false });
+          cy.get(DJANGO.buttonSave).click();
+        }
+      });
+
+      cy.get(DJANGO.linkLogout).click();
+    });
+  });
   describe('Set up testdata', () => {
     before(() => {
       requests.createSignalKTO();
@@ -29,7 +57,7 @@ describe('KTO form', () => {
       cy.visit(`${Cypress.env('mailUrl')}`);
       cy.get(MAIL.lastMail).click();
       cy.wait('@getMail');
-      general.getIframeBody().find('a').eq(0).should('have.text', 'Ja, ik ben tevreden.').then(link => {
+      general.getIframeBody().find('a').eq(0).should('have.text', 'Ja, ik ben tevreden').then(link => {
         const linkText = link.prop('href') as string;
         const ktoLink = linkText.slice(22);
         cy.writeFile('./cypress/fixtures/tempKTO.json', { ktoLink: `${ktoLink}` }, { flag: 'w' });
