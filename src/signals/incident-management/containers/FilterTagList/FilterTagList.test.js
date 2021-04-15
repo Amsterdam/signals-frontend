@@ -13,7 +13,6 @@ import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
 import category from 'utils/__tests__/fixtures/category.json'
 import userOptions from 'utils/__tests__/fixtures/userOptions.json'
-import users from 'utils/__tests__/fixtures/users.json'
 
 import IncidentManagementContext from '../../context'
 import AppContext from '../../../../containers/App/context'
@@ -199,6 +198,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     it('works with feature flag fetchDistrictsFromBackend enabled', () => {
       configuration.featureFlags.fetchDistrictsFromBackend = true
 
+      // eslint-disable-next-line no-unused-vars
       const { stadsdeel, ...otherTags } = tags
       render(
         withContext(

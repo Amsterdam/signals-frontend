@@ -10,7 +10,6 @@ import {
 } from 'utils/__tests__/fixtures'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
-import { makeSelectSearchQuery } from 'containers/App/selectors'
 import {
   makeSelectDistricts,
   makeSelectFixtures,
@@ -431,8 +430,6 @@ describe('signals/incident-management/selectors', () => {
     })
 
     it('should return an empty object when the backend data is not present', () => {
-      const editFilter = initialState.toJS().editFilter
-
       expect(
         makeSelectEditFilter.resultFunc(initialState, { area, source })
       ).toEqual({})

@@ -19,7 +19,6 @@ import {
   CREATE_INCIDENT,
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
-  GET_QUESTIONS,
   UPDATE_INCIDENT,
 } from './constants'
 import {
@@ -27,7 +26,6 @@ import {
   createIncidentError,
   getClassificationSuccess,
   getClassificationError,
-  getQuestions,
   getQuestionsSuccess,
   getQuestionsError,
 } from './actions'

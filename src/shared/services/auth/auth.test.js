@@ -17,13 +17,9 @@ import Authz from './services/authz'
 jest.mock('shared/services/configuration/configuration')
 
 describe('auth', () => {
-  let keycloak
-  let authz
   let savedOauthDomain
 
   beforeEach(() => {
-    keycloak = new Keycloak()
-    authz = new Authz()
     global.localStorage.getItem.mockImplementation((key) => {
       switch (key) {
         case 'oauthDomain':

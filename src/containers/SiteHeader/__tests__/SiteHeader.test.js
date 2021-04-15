@@ -8,7 +8,7 @@ import * as auth from 'shared/services/auth/auth'
 
 import { withAppContext } from 'test/utils'
 import userEvent from '@testing-library/user-event'
-import SiteHeader, { SiteHeaderContainer } from '..'
+import SiteHeader from '..'
 
 describe('containers/SiteHeader', () => {
   const dispatch = jest.fn()

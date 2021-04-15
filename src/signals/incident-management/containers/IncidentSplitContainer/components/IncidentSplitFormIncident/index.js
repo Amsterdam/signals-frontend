@@ -9,8 +9,6 @@ import React, {
   useMemo,
 } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import {
   priorityList,
@@ -18,7 +16,6 @@ import {
 } from 'signals/incident-management/definitions'
 
 import Button from 'components/Button'
-import Label from 'components/Label'
 import TextArea from 'components/TextArea'
 
 import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled'

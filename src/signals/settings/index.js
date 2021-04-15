@@ -7,10 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isAuthenticated } from 'shared/services/auth/auth'
 import ProtectedRoute from 'components/ProtectedRoute'
 
-import {
-  makeSelectUserCanAccess,
-  makeSelectUserCan,
-} from 'containers/App/selectors'
+import { makeSelectUserCanAccess } from 'containers/App/selectors'
 
 import {
   fetchRoles as fetchRolesAction,
@@ -63,7 +60,6 @@ const SettingsModule = () => {
   const storeDispatch = useDispatch()
   const location = useLocationReferrer()
   const [state, dispatch] = useReducer(reducer, initialState)
-  const userCan = useSelector(makeSelectUserCan)
   const userCanAccess = useSelector(makeSelectUserCanAccess)
   const contextValue = useMemo(() => ({ state, dispatch }), [state])
 

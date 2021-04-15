@@ -224,7 +224,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const groupId = 'barbazbaz'
     const toggleAllLabel = 'Select all'
     const toggleNothingLabel = 'Select none'
-    const { container } = render(
+    render(
       withAppContext(
         <CheckboxList
           groupId={groupId}

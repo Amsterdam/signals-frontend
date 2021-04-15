@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React from 'react'
-import {
-  render as reactRender,
-  fireEvent,
-  screen,
-  waitFor,
-} from '@testing-library/react'
+import { render as reactRender, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
@@ -110,12 +105,7 @@ const renderAwait = async (
 }
 
 // eslint-disable-next-line
-const Form = (formData = submittedFormData) => ({
-  onSubmit,
-  parentIncident,
-  directingDepartments,
-  ...props
-}) => {
+const Form = (formData = submittedFormData) => ({ onSubmit, ...props }) => {
   const handleSubmit = () => {
     onSubmit(formData)
   }
@@ -381,7 +371,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       [JSON.stringify({}), { status: 201 }], // post
       [JSON.stringify({}), { status: 200 }] // patch
     )
-    const { container, findByTestId } = await renderAwait(
+    const { findByTestId } = await renderAwait(
       <IncidentSplitContainer
         FormComponent={Form({ ...submittedFormData, department: null })}
       />
@@ -415,7 +405,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       ['', { status: 400, ok: false, statusText: 'Bad Request' }] // post
     )
 
-    const { container, findByTestId } = await renderAwait(
+    const { findByTestId } = await renderAwait(
       <IncidentSplitContainer FormComponent={formComponentMock.render} />
     )
 
@@ -448,7 +438,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       ['', { status: 400, ok: false, statusText: 'Bad Request' }] // patch
     )
 
-    const { container, findByTestId } = await renderAwait(
+    const { findByTestId } = await renderAwait(
       <IncidentSplitContainer FormComponent={formComponentMock.render} />
     )
 

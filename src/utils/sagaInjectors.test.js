@@ -6,7 +6,6 @@
 
 import { memoryHistory } from 'react-router-dom'
 import { put } from 'redux-saga/effects'
-import Immutable from 'immutable'
 
 import configureStore from '../configureStore'
 import getInjectors, {

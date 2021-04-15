@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { browserHistory } from 'react-router-dom'
-import Immutable from 'immutable'
 
 import { SHOW_GLOBAL_NOTIFICATION } from 'containers/App/constants'
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'

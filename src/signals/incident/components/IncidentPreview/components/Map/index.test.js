@@ -19,7 +19,7 @@ describe('signals/incident/components/IncidentPreview/components/Map', () => {
   })
 
   it('should show address fallback', async () => {
-    const { getByText, findByTestId } = render(
+    const { getByText } = render(
       withAppContext(<MapPreview value={{ geometrie }} />)
     )
 

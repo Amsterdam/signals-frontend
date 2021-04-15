@@ -68,12 +68,7 @@ const EditButton = styled(Button)`
 
 const MetaList = () => {
   const { incident, update, edit } = useContext(IncidentDetailContext)
-  const {
-    data: usersData,
-    get: getUsers,
-    isLoading,
-    error: usersError,
-  } = useFetch()
+  const { data: usersData, get: getUsers, isLoading } = useFetch()
   const departments = useSelector(makeSelectDepartments)
   const directingDepartments = useSelector(makeSelectDirectingDepartments)
   const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug)

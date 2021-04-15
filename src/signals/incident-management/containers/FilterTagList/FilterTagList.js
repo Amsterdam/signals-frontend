@@ -12,7 +12,6 @@ import {
   makeSelectMainCategories,
   makeSelectSubCategories,
 } from 'models/categories/selectors'
-import configuration from 'shared/services/configuration/configuration'
 import { dataListType, filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 

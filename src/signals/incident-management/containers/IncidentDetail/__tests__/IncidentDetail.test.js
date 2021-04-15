@@ -1,14 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import React from 'react'
-import {
-  fireEvent,
-  render,
-  act,
-  waitForElementToBeRemoved,
-  screen,
-  waitFor,
-} from '@testing-library/react'
+import { fireEvent, render, act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
@@ -511,9 +504,6 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   })
 
   describe('handling errors', () => {
-    let getByTestId
-    let findByTestId
-
     beforeEach(async () => {
       render(withAppContext(<IncidentDetail />))
 

@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router/immutable'
 import * as Sentry from '@sentry/browser'
 import MatomoTracker from '@datapunt/matomo-tracker-js'
-import Immutable from 'immutable'
 import history from 'utils/history'
 
 // Import root app

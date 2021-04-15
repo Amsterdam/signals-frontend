@@ -30,7 +30,6 @@ import {
   makeSelectDirectingDepartments,
   makeSelectRoutingDepartments,
 } from 'models/departments/selectors'
-import { makeSelectUserCan } from 'containers/App/selectors'
 import CalendarInput from '../CalendarInput'
 import CheckboxList from '../CheckboxList'
 import RefreshIcon from '../../../../shared/images/icon-refresh.svg'
@@ -88,7 +87,6 @@ const FilterForm = ({
   const categories = useSelector(makeSelectStructuredCategories)
   const directingDepartments = useSelector(makeSelectDirectingDepartments)
   const routingDepartments = useSelector(makeSelectRoutingDepartments)
-  const userCan = useSelector(makeSelectUserCan)
   const [, ...otherRoutingDepartments] = routingDepartments
   const notRoutedOption = routingDepartments[0]
 
@@ -287,13 +285,6 @@ const FilterForm = ({
   const onAssignedSelect = useCallback(
     (option) => {
       dispatch(setGroupOptions({ assigned_user_email: option.id }))
-    },
-    [dispatch]
-  )
-
-  const onAssignedTextBlur = useCallback(
-    (event) => {
-      dispatch(setGroupOptions({ assigned_user_email: event.target.value }))
     },
     [dispatch]
   )

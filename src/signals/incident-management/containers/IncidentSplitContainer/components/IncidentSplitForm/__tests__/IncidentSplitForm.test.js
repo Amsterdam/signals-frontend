@@ -102,7 +102,7 @@ describe('IncidentSplitForm', () => {
   })
 
   it('should disable buttons when saving', () => {
-    const { container, rerender } = render(
+    const { rerender } = render(
       withAppContext(<IncidentSplitForm {...props} />)
     )
 

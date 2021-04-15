@@ -338,7 +338,6 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   describe('routing_department', () => {
     const label = 'Afdeling'
-    const notRoutedLabel = 'Niet gekoppeld'
     const submitLabel = /filteren/i
     const notName = departmentOptions[0].value
     const ascName = departmentOptions[1].value

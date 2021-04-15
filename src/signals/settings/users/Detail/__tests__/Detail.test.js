@@ -217,7 +217,7 @@ describe('signals/settings/users/containers/Detail', () => {
   })
 
   it('should patch user data on submit', async () => {
-    const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
+    const { findByTestId } = render(withAppContext(<UserDetail />))
 
     await findByTestId('userDetailFormContainer')
 

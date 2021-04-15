@@ -15,7 +15,6 @@ jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
 
 describe('Form component <PlainText />', () => {
-  const MockComponent = ({ children }) => <div>{children}</div>
   const metaProps = {
     value: 'Lorem Ipsum',
     isVisible: true,
@@ -64,9 +63,7 @@ describe('Form component <PlainText />', () => {
         value: `# Header\n[this](https://example.com) link\nInjected: ${injection}`,
       })
 
-      const { queryByTestId, queryByText } = render(
-        withAppContext(<PlainText {...props} />)
-      )
+      render(withAppContext(<PlainText {...props} />))
       expect(
         screen.getByRole('heading', { name: 'Header' })
       ).toBeInTheDocument()

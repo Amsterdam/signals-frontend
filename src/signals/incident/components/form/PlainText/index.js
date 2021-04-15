@@ -4,11 +4,9 @@ import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import isString from 'lodash.isstring'
 import get from 'lodash.get'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
-import configuration from 'shared/services/configuration/configuration'
 import { isAuthenticated } from 'shared/services/auth/auth'
 import mapDynamicFields from 'signals/incident/services/map-dynamic-fields'
 

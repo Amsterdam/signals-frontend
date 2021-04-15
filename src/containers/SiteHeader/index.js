@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   makeSelectUserCan,
   makeSelectUserCanAccess,

@@ -12,7 +12,6 @@ import step5, {
   SCSVLabel,
   Null,
 } from '../wizard-step-5-samenvatting'
-import FormComponents from '../../components/form'
 import PreviewComponents from '../../components/IncidentPreview/components'
 
 const { previewFactory } = step5

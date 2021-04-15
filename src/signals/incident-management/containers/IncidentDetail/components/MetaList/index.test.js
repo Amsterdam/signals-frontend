@@ -24,10 +24,7 @@ import * as departmentsSelectors from 'models/departments/selectors'
 import * as categoriesSelectors from 'models/categories/selectors'
 
 import IncidentDetailContext from '../../context'
-import IncidentManagementContext from '../../../../context'
 import {
-  rest,
-  server,
   mockGet,
   fetchMock,
 } from '../../../../../../../internals/testing/msw-server'
@@ -268,7 +265,7 @@ describe('MetaList', () => {
   })
 
   it('should render correctly with high priority', () => {
-    const { container, rerender } = render(renderWithContext())
+    const { rerender } = render(renderWithContext())
 
     expect(screen.queryByText('Hoog')).not.toBeInTheDocument()
     expect(screen.queryByTestId('meta-list-status-value').className).toBe(
@@ -347,7 +344,7 @@ describe('MetaList', () => {
     const before = new Date(now.getTime() - 100)
     const after = new Date(now.getTime() + 100)
 
-    const { rerender, container } = render(
+    const { rerender } = render(
       renderWithContext({
         ...plainIncident,
         category: { deadline: before.toISOString() },
@@ -704,7 +701,7 @@ describe('MetaList', () => {
       })
 
       it('should not work without any departments related to category', async () => {
-        const { container } = render(
+        render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -728,7 +725,7 @@ describe('MetaList', () => {
         jest
           .spyOn(departmentsSelectors, 'makeSelectDepartments')
           .mockImplementation(() => ({ count: 0, list: [] }))
-        const { container } = render(
+        render(
           renderWithContext({
             ...incidentFixture,
             category: {
@@ -752,7 +749,7 @@ describe('MetaList', () => {
         jest
           .spyOn(departmentsSelectors, 'makeSelectDepartments')
           .mockImplementation(() => null)
-        const { container } = render(
+        render(
           renderWithContext({
             ...incidentFixture,
             category: {

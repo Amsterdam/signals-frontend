@@ -2,7 +2,6 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { renderHook } from '@testing-library/react-hooks'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
-import configuration from 'shared/services/configuration/configuration'
 import { getErrorMessage } from 'shared/services/api/api'
 import * as constants from 'containers/App/constants'
 

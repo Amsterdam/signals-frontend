@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import isObject from 'lodash.isobject'
-import { themeColor, themeSpacing, RadioGroup } from '@amsterdam/asc-ui'
+import { themeColor, RadioGroup } from '@amsterdam/asc-ui'
 
 import Header from '../Header'
 import RadioInput from '../RadioInput'

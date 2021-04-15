@@ -77,21 +77,6 @@ const StyledHeading = styled(Heading)`
   }
 `
 
-const ButtonLink = styled(Button)`
-  color: ${themeColor('tint', 'level7')};
-  text-decoration: none;
-
-  &:hover {
-    background-color: ${themeColor('tint', 'level4')};
-    color: ${themeColor('tint', 'level7')};
-  }
-`
-
-const ParentLink = styled(Link)`
-  text-decoration: underline;
-  color: black;
-`
-
 const DetailHeader = () => {
   const { incident, update } = useContext(IncidentDetailContext)
   const location = useLocation()

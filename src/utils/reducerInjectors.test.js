@@ -6,7 +6,6 @@
 
 import { memoryHistory } from 'react-router-dom'
 import identity from 'lodash/identity'
-import Immutable from 'immutable'
 
 import configureStore from '../configureStore'
 

@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { compose } from 'redux'
 import { Route, Switch } from 'react-router-dom'
 
-import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import { isAuthenticated } from 'shared/services/auth/auth'
 import injectReducer from 'utils/injectReducer'
@@ -48,7 +47,6 @@ const IncidentManagement = () => {
   const districts = useSelector(makeSelectDistricts)
   const searchQuery = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
-  const users = useFetch()
   const contextValue = useMemo(() => ({ districts }), [districts])
 
   useEffect(() => {
