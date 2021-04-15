@@ -8,12 +8,13 @@ export const ERROR_MESSAGES = {
 };
 
 export const KTO = {
+  body: '[Ja, ik ben tevreden]({{ positive_feedback_url }}) \n  [Nee, ik ben niet tevreden]({{ negative_feedback_url }})',
   formTitelIsAlFeedback: 'Er is al feedback gegeven voor deze melding',
   formTitleBedankt: 'Bedankt voor uw feedback!',
   formTitleOnTevreden: 'Nee, ik ben niet tevreden met de behandeling van mijn melding',
   formTitleTevreden: 'Ja, ik ben tevreden met de behandeling van mijn melding',
-  questionContact: 'Mogen wij contact met u opnemen naar aanleiding van uw feedback? (optioneel)',
-  questionVermelden: 'Wilt u verder nog iets vermelden of toelichten? (optioneel)',
+  questionContact: 'Mogen wij contact met u opnemen naar aanleiding van uw feedback? (niet verplicht)',
+  questionVermelden: 'Wilt u verder nog iets vermelden of toelichten? (niet verplicht)',
   questionWaaromOntevreden: 'Waarom bent u ontevreden?',
   questionWaaromTevreden: 'Waarom bent u tevreden?',
   subtitleQuestionTevreden: 'Een antwoord mogelijk, kies de belangrijkste reden',
