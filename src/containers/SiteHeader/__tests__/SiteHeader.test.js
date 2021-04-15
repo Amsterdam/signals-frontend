@@ -7,8 +7,8 @@ import * as appSelectors from 'containers/App/selectors'
 import * as auth from 'shared/services/auth/auth'
 
 import { withAppContext } from 'test/utils'
-import SiteHeader, { SiteHeaderContainer } from '..'
 import userEvent from '@testing-library/user-event'
+import SiteHeader, { SiteHeaderContainer } from '..'
 
 describe('containers/SiteHeader', () => {
   const dispatch = jest.fn()

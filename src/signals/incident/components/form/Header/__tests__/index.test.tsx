@@ -5,11 +5,11 @@ import { render, screen } from '@testing-library/react'
 import { Validators } from 'react-reactive-form'
 
 import { withAppContext } from 'test/utils'
+import type { FormMeta } from 'types/reactive-form'
 import { createRequired } from '../../../../services/custom-validators'
 
 import type { HeaderProps } from '../Header'
 import Header from '..'
-import type { FormMeta } from 'types/reactive-form'
 
 describe('signals/incident/components/form/Header', () => {
   const label = 'Foo barrrr'

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import configuration from 'shared/services/configuration/configuration'
 import {
   getOauthDomain,
   getAuth,
@@ -10,7 +11,6 @@ import {
   login,
   logout,
 } from './auth'
-import configuration from 'shared/services/configuration/configuration'
 import Keycloak from './services/keycloak'
 import Authz from './services/authz'
 

@@ -7,10 +7,10 @@ import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import LegendToggleButton from '..'
-import type { LegendToggleButtonProps } from '../LegendToggleButton'
 import { MapPanelProvider } from '@amsterdam/arm-core'
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
+import LegendToggleButton from '..'
+import type { LegendToggleButtonProps } from '../LegendToggleButton'
 
 describe('LegendToggleButton', () => {
   const props: LegendToggleButtonProps = {

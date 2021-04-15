@@ -5,8 +5,8 @@ import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import history from 'utils/__tests__/fixtures/history.json'
 
-import ChildIncidentHistory from '..'
 import userEvent from '@testing-library/user-event'
+import ChildIncidentHistory from '..'
 
 describe('<ChildIncidentHistory />', () => {
   const NEW_EVENT = history[0].action

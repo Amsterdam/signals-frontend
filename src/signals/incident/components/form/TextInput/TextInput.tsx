@@ -4,8 +4,8 @@ import type { FunctionComponent } from 'react'
 import React from 'react'
 import Input from 'components/Input'
 
-import Header from '../Header'
 import type { FormInputProps } from 'types/reactive-form'
+import Header from '../Header'
 
 export type TextInputProps = FormInputProps
 

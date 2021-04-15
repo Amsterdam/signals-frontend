@@ -7,10 +7,10 @@ import { Wizard, Step, Steps } from 'react-albus'
 import { Validators } from 'react-reactive-form'
 import { withAppContext } from 'test/utils'
 
-import IncidentForm, { Form } from '.'
 
 import FormComponents from '../form'
 import IncidentNavigation from '../IncidentNavigation'
+import IncidentForm, { Form } from '.'
 
 const PHONE_LABEL_REQUIRED = 'Wat is uw telefoonnummer?'
 const PHONE_LABEL = `${PHONE_LABEL_REQUIRED}(niet verplicht)`

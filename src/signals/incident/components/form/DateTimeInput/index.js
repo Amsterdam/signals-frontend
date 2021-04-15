@@ -7,10 +7,10 @@ import PropTypes from 'prop-types'
 import nl from 'date-fns/locale/nl'
 import Select from 'components/Select'
 import { capitalize } from 'shared/services/date-utils'
-import Header from '../Header'
 import styled from 'styled-components'
 import Label from 'components/Label'
 import { themeSpacing } from '@amsterdam/asc-ui'
+import Header from '../Header'
 
 const StyledLabel = styled(Label)`
   margin-bottom: 0;

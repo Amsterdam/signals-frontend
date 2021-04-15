@@ -3,11 +3,11 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 
-import type { TextAreaInputProps } from '../TextareaInput'
-import TextareaInput from '..'
 import { withAppContext } from 'test/utils'
 import userEvent from '@testing-library/user-event'
 import type { FormMeta } from 'types/reactive-form'
+import TextareaInput from '..'
+import type { TextAreaInputProps } from '../TextareaInput'
 
 describe('Form component <TextareaInput />', () => {
   const meta: FormMeta = {

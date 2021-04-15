@@ -5,6 +5,8 @@ import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
 
+import FormComponents from '../components/form'
+import IncidentNavigation from '../components/IncidentNavigation'
 import afval from './wizard-step-2-vulaan/afval'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
@@ -15,8 +17,6 @@ import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-do
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import wonen from './wizard-step-2-vulaan/wonen'
 
-import FormComponents from '../components/form'
-import IncidentNavigation from '../components/IncidentNavigation'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 const mapValidatorToFn = (key) => Validators[key]

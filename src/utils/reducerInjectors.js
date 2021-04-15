@@ -5,8 +5,8 @@ import isEmpty from 'lodash.isempty'
 import isFunction from 'lodash.isfunction'
 import isString from 'lodash.isstring'
 
-import checkStore from './checkStore'
 import createReducer from '../reducers'
+import checkStore from './checkStore'
 
 export function injectReducerFactory(store, isValid) {
   return function injectReducer(key, reducer) {

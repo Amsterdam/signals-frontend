@@ -19,6 +19,7 @@ import Map from 'components/Map'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context'
+import { UNREGISTERED_CONTAINER_TYPE } from '../constants'
 import LegendToggleButton from './LegendToggleButton'
 import LegendPanel from './LegendPanel'
 import ViewerContainer from './ViewerContainer'
@@ -27,7 +28,6 @@ import WfsLayer from './WfsLayer'
 import { ZoomMessage, MapMessage } from './Message'
 import useLayerVisible from './useLayerVisible'
 import SelectionPanel from './SelectionPanel'
-import { UNREGISTERED_CONTAINER_TYPE } from '../constants'
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',

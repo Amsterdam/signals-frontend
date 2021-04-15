@@ -20,9 +20,9 @@ import TextArea from 'components/TextArea'
 import Checkbox from 'components/Checkbox'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
-import DefaultTexts from './components/DefaultTexts'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
+import DefaultTexts from './components/DefaultTexts'
 import {
   Form,
   FormArea,

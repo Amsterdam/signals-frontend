@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 const fs = require('fs')
-const merge = require('lodash.merge')
 const path = require('path')
+const merge = require('lodash.merge')
 
 const extendedConfigFileName = process.env.CONFIG || 'app.json'
 

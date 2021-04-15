@@ -19,11 +19,11 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import request from 'utils/request'
 import MaxSelection from 'utils/maxSelection'
 
-import DotIcon from '!!file-loader!../../shared/images/icon-dot-marker.svg'
-import DotSelectedIcon from '!!file-loader!../../shared/images/icon-dot-selected-marker.svg'
 import ZoomMessageControl from '../MapSelect/control/ZoomMessageControl'
 import LoadingControl from '../MapSelect/control/LoadingControl'
 import ErrorControl from '../MapSelect/control/ErrorControl'
+import DotSelectedIcon from '!!file-loader!../../shared/images/icon-dot-selected-marker.svg'
+import DotIcon from '!!file-loader!../../shared/images/icon-dot-marker.svg'
 
 import './style.scss'
 

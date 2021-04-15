@@ -7,6 +7,7 @@ import { filterForSub, filterForMain } from 'models/categories/selectors'
 import dataLists from 'signals/incident-management/definitions'
 import category from 'utils/__tests__/fixtures/category.json'
 
+import { subCategories, mainCategories } from 'utils/__tests__/fixtures'
 import {
   parseDate,
   parseOutputFormData,
@@ -16,7 +17,6 @@ import {
   unmapFilterParams,
   mapOrdering,
 } from '../parse'
-import { subCategories, mainCategories } from 'utils/__tests__/fixtures'
 
 const filteredSubCategories = categories.results.filter(filterForSub)
 const filteredMainCategories = categories.results.filter(filterForMain)

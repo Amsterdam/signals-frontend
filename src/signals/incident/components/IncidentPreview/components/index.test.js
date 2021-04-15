@@ -6,8 +6,8 @@ import Image from './Image'
 import Map from './Map'
 import MapSelectPreview from './MapSelect'
 
-import components from '.'
 import ListObjectValue from './ListObjectValue'
+import components from '.'
 
 describe('Preview components', () => {
   it('should load all components', () => {

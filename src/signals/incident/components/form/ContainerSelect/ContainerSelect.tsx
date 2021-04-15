@@ -2,13 +2,13 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import React, { useCallback, useState } from 'react'
+import type { Incident } from 'types/incident'
+import type { LatLngExpression } from 'leaflet'
 import { ContainerSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
 import Summary from './Summary'
 import type { ClickEventHandler, Item, Meta } from './types'
-import type { Incident } from 'types/incident'
-import type { LatLngExpression } from 'leaflet'
 
 export interface ContainerSelectProps {
   handler: () => { value: Item[] }

@@ -13,6 +13,9 @@ import {
   GET_SOURCES,
 } from 'containers/App/constants'
 
+import type { EventChannel } from '@redux-saga/core'
+import { logout } from '../../shared/services/auth/auth'
+import fileUploadChannel from '../../shared/services/file-upload-channel'
 import type { AuthenticateUserAction } from './actions'
 import {
   logoutFailed,
@@ -24,11 +27,8 @@ import {
   getSourcesFailed,
   getSourcesSuccess,
 } from './actions'
-import { logout } from '../../shared/services/auth/auth'
 
-import fileUploadChannel from '../../shared/services/file-upload-channel'
 import type { User, DataResult, ApiError, UploadFile } from './types'
-import type { EventChannel } from '@redux-saga/core'
 
 export function* callLogout() {
   try {

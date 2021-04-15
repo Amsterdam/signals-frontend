@@ -6,8 +6,8 @@
  * 'RbGenerated' so it can be easily excluded from the test coverage reports.
  */
 
-const nodePlop = require('node-plop')
 const path = require('path')
+const nodePlop = require('node-plop')
 const chalk = require('chalk')
 const rimraf = require('rimraf')
 

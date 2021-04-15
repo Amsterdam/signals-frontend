@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import mapPaths from '.'
 
 import getStepControls from '../get-step-controls'
 import convertValue from '../convert-value'
+import mapPaths from '.'
 
 jest.mock('../get-step-controls')
 jest.mock('../convert-value')

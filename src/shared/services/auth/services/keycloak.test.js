@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import parseAccessToken from './parse-access-token/parse-access-token'
 import configuration from 'shared/services/configuration/configuration'
+import parseAccessToken from './parse-access-token/parse-access-token'
 
 import Keycloak from './keycloak'
 

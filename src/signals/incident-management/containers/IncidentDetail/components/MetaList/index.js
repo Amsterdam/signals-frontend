@@ -30,12 +30,12 @@ import {
 } from 'signals/incident-management/definitions'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 
+import { useFetch } from 'hooks'
+import LoadingIndicator from 'components/LoadingIndicator'
 import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
 import IconEdit from '../../../../../../shared/images/icon-edit.svg'
 import IncidentDetailContext from '../../context'
-import { useFetch } from 'hooks'
-import LoadingIndicator from 'components/LoadingIndicator'
 
 const StyledMetaList = styled.dl`
   dt {

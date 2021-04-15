@@ -7,9 +7,9 @@ import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import * as categoriesSelectors from 'models/categories/selectors'
 import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures'
 
+import { defaultTextsOptionList } from '../../../../definitions/statusList'
 import SelectForm from '.'
 
-import { defaultTextsOptionList } from '../../../../definitions/statusList'
 
 describe('SelectForm', () => {
   const subcategories = subcategoriesGroupedByCategories[1]

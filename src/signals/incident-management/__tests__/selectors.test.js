@@ -10,6 +10,7 @@ import {
 } from 'utils/__tests__/fixtures'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
+import { makeSelectSearchQuery } from 'containers/App/selectors'
 import {
   makeSelectDistricts,
   makeSelectFixtures,
@@ -26,7 +27,6 @@ import {
 import { FILTER_PAGE_SIZE } from '../constants'
 
 import { initialState } from '../reducer'
-import { makeSelectSearchQuery } from 'containers/App/selectors'
 
 jest.mock('shared/services/configuration/configuration')
 

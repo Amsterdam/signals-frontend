@@ -33,10 +33,10 @@ import {
   incidentIcon,
   markerIcon,
 } from 'shared/services/configuration/map-markers'
+import MarkerCluster from '../MarkerCluster'
 import type { IncidentSummary } from './types'
 
 import DetailPanel from './DetailPanel'
-import MarkerCluster from '../MarkerCluster'
 
 interface MapInstance {
   getZoom: () => number

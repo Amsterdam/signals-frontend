@@ -10,8 +10,8 @@ import type { DataLayerProps } from 'signals/incident/components/form/ContainerS
 import type { Map as MapType } from 'leaflet'
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context'
-import { NO_DATA, WfsDataProvider } from './context'
 import useLayerVisible from '../useLayerVisible'
+import { NO_DATA, WfsDataProvider } from './context'
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
 

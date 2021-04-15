@@ -31,6 +31,14 @@ import {
   makeSelectRoutingDepartments,
 } from 'models/departments/selectors'
 import { makeSelectUserCan } from 'containers/App/selectors'
+import CalendarInput from '../CalendarInput'
+import CheckboxList from '../CheckboxList'
+import RefreshIcon from '../../../../shared/images/icon-refresh.svg'
+import AppContext from '../../../../containers/App/context'
+import IncidentManagementContext from '../../context'
+import RadioGroup from './components/RadioGroup'
+import CheckboxGroup from './components/CheckboxGroup'
+import CategoryGroups from './components/CategoryGroups'
 import {
   ControlsWrapper,
   DatesWrapper,
@@ -39,14 +47,6 @@ import {
   Form,
   FormFooterWrapper,
 } from './styled'
-import CalendarInput from '../CalendarInput'
-import CategoryGroups from './components/CategoryGroups'
-import CheckboxGroup from './components/CheckboxGroup'
-import RadioGroup from './components/RadioGroup'
-import CheckboxList from '../CheckboxList'
-import RefreshIcon from '../../../../shared/images/icon-refresh.svg'
-import AppContext from '../../../../containers/App/context'
-import IncidentManagementContext from '../../context'
 
 import {
   reset,

@@ -13,7 +13,6 @@ import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
 
-import IncidentDetail from '..'
 import * as categoriesSelectors from 'models/categories/selectors'
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
@@ -25,6 +24,7 @@ import useEventEmitter from 'hooks/useEventEmitter'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
+import IncidentDetail from '..'
 
 jest.spyOn(window, 'scrollTo')
 jest

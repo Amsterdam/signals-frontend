@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 /* eslint-disable class-methods-use-this */
+import configuration from '../../configuration/configuration'
 import parseAccessToken from './parse-access-token/parse-access-token'
 import randomStringGenerator from './random-string-generator/random-string-generator'
 import queryStringParser from './query-string-parser/query-string-parser'
 
-import configuration from '../../configuration/configuration'
 
 let tokenData = {}
 const storage = global.localStorage || global.sessionStorage

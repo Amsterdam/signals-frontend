@@ -8,8 +8,8 @@ import { Label } from '@amsterdam/asc-ui'
 
 import Checkbox from 'components/Checkbox'
 
-import Header from '../Header'
 import styled from 'styled-components'
+import Header from '../Header'
 
 function updateIncidentCheckboxMulti(
   checked,

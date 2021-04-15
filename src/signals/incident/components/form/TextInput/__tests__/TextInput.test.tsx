@@ -4,10 +4,10 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import TextInput from '..'
 import userEvent from '@testing-library/user-event'
-import type { TextInputProps } from '../TextInput'
 import type { FormMeta } from 'types/reactive-form'
+import TextInput from '..'
+import type { TextInputProps } from '../TextInput'
 
 describe('Form component <TextInput />', () => {
   const meta: FormMeta = {

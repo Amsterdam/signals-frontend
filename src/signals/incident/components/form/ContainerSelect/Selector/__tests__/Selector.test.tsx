@@ -3,7 +3,6 @@
 import React from 'react'
 import 'jest-styled-components'
 import { render, screen } from '@testing-library/react'
-import Selector from '..'
 import fetchMock from 'jest-fetch-mock'
 import containersJson from 'utils/__tests__/fixtures/containers.json'
 import {
@@ -12,6 +11,7 @@ import {
 } from 'signals/incident/components/form/ContainerSelect/__tests__/context.test'
 import userEvent from '@testing-library/user-event'
 import { ascDefaultTheme } from '@amsterdam/asc-ui'
+import Selector from '..'
 
 jest.mock('../useLayerVisible', () => ({
   __esModule: true,

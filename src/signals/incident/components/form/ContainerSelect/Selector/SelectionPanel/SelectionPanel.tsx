@@ -15,10 +15,10 @@ import {
   Checkbox,
 } from '@amsterdam/asc-ui'
 
+import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
 import ContainerList from '../../ContainerList'
 
 import type { FeatureType, Item } from '../../types'
-import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
 import { UNREGISTERED_CONTAINER_TYPE } from '../../constants'
 
 const StyledContainerList = styled(ContainerList)`

@@ -8,9 +8,9 @@ import map from 'lodash.map'
 import Input from 'components/Input'
 import Button from 'components/Button'
 
-import Header from '../Header'
 import type { FormInputProps, FormMeta, ParentType } from 'types/reactive-form'
 import { themeSpacing } from '@amsterdam/asc-ui'
+import Header from '../Header'
 
 const allowedChars = /[\d,.;]+/
 

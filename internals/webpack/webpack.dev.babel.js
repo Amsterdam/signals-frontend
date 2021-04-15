@@ -5,11 +5,11 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
-const webpackBase = require('./webpack.base.babel')
-const template = require('./template')
 const {
   default: createStyledComponentsTransformer,
 } = require('typescript-plugin-styled-components')
+const webpackBase = require('./webpack.base.babel')
+const template = require('./template')
 
 // 2. create a transformer;
 // the factory additionally accepts an options object which described below

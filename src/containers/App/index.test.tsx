@@ -13,9 +13,9 @@ import { resetIncident } from 'signals/incident/containers/IncidentContainer/act
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
 
-import App, { AppContainer } from '.'
-import { getSources } from './actions'
 import type { UnregisterCallback, History } from 'history'
+import { getSources } from './actions'
+import App, { AppContainer } from '.'
 
 const mockConfiguration = configuration as typeof configurationType
 const dispatch = jest.fn()

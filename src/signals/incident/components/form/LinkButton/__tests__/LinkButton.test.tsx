@@ -2,8 +2,8 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import LinkButton from '..'
 import { withAppContext } from 'test/utils'
+import LinkButton from '..'
 
 describe('LinkButton', () => {
   it('renders a link button with heading', () => {

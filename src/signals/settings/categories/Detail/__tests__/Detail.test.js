@@ -12,9 +12,9 @@ import { fetchCategories } from 'models/categories/actions'
 import { showGlobalNotification } from 'containers/App/actions'
 import * as appSelectors from 'containers/App/selectors'
 
+import { subCategories } from 'utils/__tests__/fixtures'
 import useConfirmedCancel from '../../../hooks/useConfirmedCancel'
 import CategoryDetailContainer from '..'
-import { subCategories } from 'utils/__tests__/fixtures'
 
 const categoryJSON = subCategories.find((sub) => sub?._links['sia:parent'])
 

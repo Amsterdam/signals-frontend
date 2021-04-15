@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import configuration from '../../configuration/configuration'
 import Authz from './authz'
 import queryStringParser from './query-string-parser/query-string-parser'
 import randomStringGenerator from './random-string-generator/random-string-generator'
 import parseAccessToken from './parse-access-token/parse-access-token'
-import configuration from '../../configuration/configuration'
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('./query-string-parser/query-string-parser')

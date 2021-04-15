@@ -7,10 +7,10 @@ import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui'
 import { attachmentsType } from 'shared/types'
 import { string2date, string2time } from 'shared/services/string-parser'
 
+import IncidentDetailContext from '../../context'
 import Location from './components/Location'
 import Attachments from './components/Attachments'
 import ExtraProperties from './components/ExtraProperties'
-import IncidentDetailContext from '../../context'
 
 const Wrapper = styled.article`
   position: relative;

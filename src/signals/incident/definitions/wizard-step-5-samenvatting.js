@@ -7,6 +7,7 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
+import FormComponents from '../components/form'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
 import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
@@ -14,7 +15,6 @@ import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-w
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import afvalControls from './wizard-step-2-vulaan/afval'
 import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
-import FormComponents from '../components/form'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value

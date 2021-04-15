@@ -4,14 +4,14 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { withAppContext } from 'test/utils'
 
-import SelectionPanel from '../SelectionPanel'
-import type { SelectionPanelProps } from '../SelectionPanel'
 import {
   glas,
   select,
   unknown,
 } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons'
 import userEvent from '@testing-library/user-event'
+import SelectionPanel from '../SelectionPanel'
+import type { SelectionPanelProps } from '../SelectionPanel'
 import { UNREGISTERED_CONTAINER_TYPE } from '../../../constants'
 
 describe('SelectionPanel', () => {

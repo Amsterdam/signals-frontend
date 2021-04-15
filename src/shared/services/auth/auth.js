@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import configuration from '../configuration/configuration'
 import Authz from './services/authz'
 import Keycloak from './services/keycloak'
-import configuration from '../configuration/configuration'
 
 const storage = global.localStorage
   ? global.localStorage

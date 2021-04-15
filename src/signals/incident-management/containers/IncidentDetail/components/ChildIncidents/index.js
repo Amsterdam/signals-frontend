@@ -10,10 +10,10 @@ import { childIncidentType, historyType } from 'shared/types'
 import ChildIncidentsList from 'components/ChildIncidents'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 
-import IncidentDetailContext from '../../context'
-import { PATCH_TYPE_NOTES } from '../../constants'
 import { useSelector } from 'react-redux'
 import { makeSelectHandlingTimesBySlug } from 'models/categories/selectors'
+import IncidentDetailContext from '../../context'
+import { PATCH_TYPE_NOTES } from '../../constants'
 
 const isChildChanged = (childDatetime, parentDatetime) =>
   new Date(childDatetime) > new Date(parentDatetime)

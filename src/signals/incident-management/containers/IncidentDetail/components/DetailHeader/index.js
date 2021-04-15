@@ -14,9 +14,9 @@ import {
   INCIDENTS_URL,
 } from 'signals/incident-management/routes'
 
-import DownloadButton from './components/DownloadButton'
 import { PATCH_TYPE_THOR } from '../../constants'
 import IncidentDetailContext from '../../context'
+import DownloadButton from './components/DownloadButton'
 
 const Header = styled.header`
   display: grid;

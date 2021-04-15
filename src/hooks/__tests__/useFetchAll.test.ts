@@ -3,10 +3,10 @@ import { renderHook, act } from '@testing-library/react-hooks'
 import JSONresponse from 'utils/__tests__/fixtures/user.json'
 
 // import type { FetchError } from '../useFetch';
-import useFetchAll from '../useFetchAll'
 import { getErrorMessage } from 'shared/services/api/api'
 import { getAuthHeaders } from 'shared/services/auth/auth'
 import type { FetchError } from 'hooks/useFetch'
+import useFetchAll from '../useFetchAll'
 
 jest.mock('shared/services/auth/auth')
 

@@ -4,11 +4,11 @@ import React from 'react'
 // import Button from 'components/Button';
 import type { FormMeta } from 'types/reactive-form'
 
-import MultiTextInput from '..'
 import { withAppContext } from 'test/utils'
 import { render, screen } from '@testing-library/react'
-import type { MultiTextInputProps } from '../MultiTextInput'
 import userEvent from '@testing-library/user-event'
+import type { MultiTextInputProps } from '../MultiTextInput'
+import MultiTextInput from '..'
 
 describe('Form component <MultiTextInput />', () => {
   const meta: FormMeta = {

@@ -8,9 +8,9 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form'
 import MapContext from 'containers/MapContext'
 
 import { mapLocation } from 'shared/services/map-location'
-import LocationInput from './components/LocationInput'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_LOCATION } from '../../constants'
+import LocationInput from './components/LocationInput'
 
 const StyledColumn = styled(Column)`
   display: block;

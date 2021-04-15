@@ -15,11 +15,11 @@ import Label from 'components/Label'
 import FormFooter from 'components/FormFooter'
 
 import CategoryGroups from '../CategoryGroups'
+import { incoming, outgoing } from '../mapCategories'
+import DepartmentDetailContext from '../../context'
 import reducer from './reducer'
 import { setCanView, setIsResponsible } from './actions'
-import { incoming, outgoing } from '../mapCategories'
 
-import DepartmentDetailContext from '../../context'
 
 const StyledFieldset = styled(Fieldset)`
   padding-top: ${themeSpacing(2)};

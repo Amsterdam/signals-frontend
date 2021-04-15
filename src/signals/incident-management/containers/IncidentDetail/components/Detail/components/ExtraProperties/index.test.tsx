@@ -3,8 +3,8 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 
-import ExtraProperties from '.'
 import type { Item } from './types'
+import ExtraProperties from '.'
 
 describe('<ExtraProperties />', () => {
   const props = {

@@ -5,9 +5,9 @@ import React, { Fragment, useCallback, useRef } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import { dateToString } from 'shared/services/date-utils'
 import nl from 'date-fns/locale/nl'
-import CustomInput from './CustomInput'
 import 'react-datepicker/dist/react-datepicker.css'
 import styled from 'styled-components'
+import CustomInput from './CustomInput'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 registerLocale('nl', nl)

@@ -15,8 +15,8 @@ import districts from 'utils/__tests__/fixtures/districts.json'
 import incidents from 'utils/__tests__/fixtures/incidents.json'
 import users from 'utils/__tests__/fixtures/users.json'
 
-import List from '.'
 import IncidentManagementContext from '../../../../context'
+import List from '.'
 
 jest.mock('shared/services/configuration/configuration')
 

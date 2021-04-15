@@ -10,8 +10,8 @@ import MapSelectComponent from 'components/MapSelect'
 import configuration from 'shared/services/configuration/configuration'
 
 import Header from '../Header'
-import { getOVLIcon, LEGEND_ITEMS } from './iconMapping'
 import MapSelectGeneric from '../MapSelectGeneric'
+import { getOVLIcon, LEGEND_ITEMS } from './iconMapping'
 
 const filter_legend = (items, types) =>
   items.filter((element) => types.includes(element.key))

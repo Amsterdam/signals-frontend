@@ -17,6 +17,7 @@ import randomStringGenerator from 'shared/services/auth/services/random-string-g
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import userJson from 'utils/__tests__/fixtures/user.json'
 
+import type { SagaGeneratorType } from 'types'
 import watchAppSaga, {
   callLogout,
   callAuthorize,
@@ -41,7 +42,6 @@ import {
   getSourcesFailed,
   getSourcesSuccess,
 } from './actions'
-import type { SagaGeneratorType } from 'types'
 import type { UploadFile, ApiError } from './types'
 
 jest.mock(
