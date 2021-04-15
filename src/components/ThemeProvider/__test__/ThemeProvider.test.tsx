@@ -1,8 +1,11 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import React from 'react';
 import { render } from '@testing-library/react';
 import { isAuthenticated } from 'shared/services/auth/auth';
-
 import ThemeProvider, { getConfig } from '..';
+
+const mockIsAuthenticated = isAuthenticated as jest.Mock;
 
 jest.mock('shared/services/auth/auth');
 
@@ -17,18 +20,17 @@ describe('<ThemeProvider />', () => {
     });
 
     it('should use theme provider settings for authenticated', () => {
-      isAuthenticated.mockImplementation(() => true);
+      mockIsAuthenticated.mockImplementation(() => true);
       expect(getConfig()).toEqual({});
     });
 
     it('should use theme provider settings for not authenticated', () => {
-      isAuthenticated.mockImplementation(() => false);
+      mockIsAuthenticated.mockImplementation(() => false);
       expect(getConfig()).toEqual({
         maxGridWidth: 960,
         layouts: {
           small: {
             columns: 2,
-            gutter: 20,
             margin: 10,
             max: 540,
           },

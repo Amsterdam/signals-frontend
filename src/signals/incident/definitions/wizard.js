@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import beschrijf from './wizard-step-1-beschrijf';
 import vulaan from './wizard-step-2-vulaan';
 import telefoon from './wizard-step-3-telefoon';

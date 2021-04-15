@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 /* eslint-disable @typescript-eslint/no-extra-parens */
 import jwt from 'jsonwebtoken';
 

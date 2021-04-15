@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 import { VARIANT_NOTICE, TYPE_LOCAL } from 'containers/Notification/constants';
 import { APPLY_FILTER } from 'signals/incident-management/constants';
 import type { Action } from 'types';

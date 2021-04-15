@@ -1,7 +1,9 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React from 'react';
 import type { FunctionComponent, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import { Radio as AscRadio, themeSpacing } from '@amsterdam/asc-ui';
+import { Radio, themeSpacing } from '@amsterdam/asc-ui';
 
 const Wrapper = styled.div`
   position: relative;
@@ -9,6 +11,17 @@ const Wrapper = styled.div`
 
   & > * {
     margin-left: ${themeSpacing(-1)};
+  }
+`;
+
+const StyledRadio = styled(Radio)`
+  & > input:focus {
+    outline: none;
+  }
+
+  & > input:focus-visible + *   {
+    box-shadow: 0 0 0 1pt Highlight;
+    box-shadow: 0 0 0 1pt -webkit-focus-ring-color;
   }
 `;
 
@@ -20,7 +33,7 @@ interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const RadioButton: FunctionComponent<RadioButtonProps> = ({ className, ...props }) => (
   <Wrapper className={className}>
-    <AscRadio {...props} />
+    <StyledRadio {...props} />
   </Wrapper>
 );
 

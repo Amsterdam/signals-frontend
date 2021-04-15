@@ -1,8 +1,11 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import { withAppContext } from 'test/utils';
 import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json';
+import history from 'utils/__tests__/fixtures/incidentHistory.json';
 
 import ChildIncidents from '..';
 import IncidentDetailContext from '../../../context';
@@ -25,7 +28,7 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     const childIncidents = [];
     const parent = { updated_at: null };
     const { queryByText, queryByTestId } = render(withAppContext(
-      <ChildIncidents incidents={childIncidents} parent={parent} />)
+      <ChildIncidents incidents={childIncidents} parent={parent} history={[history]} />)
     );
 
     expect(queryByText('Deelmelding')).not.toBeInTheDocument();
@@ -38,7 +41,7 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     const parent = { updated_at: childIncidentsFixture.results[0].updated_at };
 
     const { queryByText, queryByTestId, rerender } = render(renderWithContext(
-      <ChildIncidents incidents={childIncidents} parent={parent} />
+      <ChildIncidents incidents={childIncidents} parent={parent} history={[history]} />
     ));
 
     expect(queryByText('Deelmelding')).toBeInTheDocument();
@@ -46,7 +49,7 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     expect(queryByTestId('noActionButton')).toBeInTheDocument();
 
     const updatedParent = { updated_at: new Date().toISOString() };
-    rerender(renderWithContext(<ChildIncidents incidents={childIncidents} parent={updatedParent} />));
+    rerender(renderWithContext(<ChildIncidents incidents={childIncidents} parent={updatedParent} history={[history]} />));
 
     expect(queryByText('Deelmelding')).toBeInTheDocument();
     expect(queryByTestId('childIncidents')).toBeInTheDocument();
@@ -58,7 +61,7 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     const parent = { updated_at: childIncidentsFixture.results[0].updated_at };
 
     const { findByTestId } = render(withAppContext(renderWithContext(
-      <ChildIncidents incidents={childIncidents} parent={parent} />
+      <ChildIncidents incidents={childIncidents} parent={parent} history={[history]} />
     )));
 
     const button = await findByTestId('noActionButton');

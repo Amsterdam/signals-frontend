@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useDispatch } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';

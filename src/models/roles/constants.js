@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 export const FETCH_ROLES = 'src/roles/FETCH_ROLES';
 export const FETCH_ROLES_SUCCESS = 'src/roles/FETCH_ROLES_SUCCESS';
 export const FETCH_ROLES_ERROR = 'src/roles/FETCH_ROLES_ERROR';

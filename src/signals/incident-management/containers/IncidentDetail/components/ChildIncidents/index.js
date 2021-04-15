@@ -1,10 +1,12 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React, { Fragment, useMemo, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { themeSpacing, Heading } from '@amsterdam/asc-ui';
 import Button from 'components/Button';
 
-import { childIncidentType } from 'shared/types';
+import { childIncidentType, historyType } from 'shared/types';
 import ChildIncidentsList from 'components/ChildIncidents';
 import { INCIDENT_URL } from 'signals/incident-management/routes';
 
@@ -24,13 +26,13 @@ const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
 `;
 
-const ChildIncidents = ({ incidents, parent }) => {
+const ChildIncidents = ({ incidents, parent, history }) => {
   const { update } = useContext(IncidentDetailContext);
   const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug);
 
   const children = useMemo(
     () =>
-      Object.values(incidents).map(({ status, category, id, updated_at }) => ({
+      Object.values(incidents).map(({ status, category, id, updated_at, can_view_signal }) => ({
         href: `${INCIDENT_URL}/${id}`,
         values: {
           id,
@@ -39,9 +41,10 @@ const ChildIncidents = ({ incidents, parent }) => {
           handlingTime: handlingTimesBySlug[category.sub_slug],
         },
         changed: isChildChanged(updated_at, parent.updated_at),
+        canView: can_view_signal,
+        history: history.find(entry => entry[0]._signal === id),
       })),
-    [handlingTimesBySlug, incidents, parent.updated_at]
-  );
+    [handlingTimesBySlug, incidents, parent.updated_at, history]);
 
   const canReset = useMemo(() => children.some(({ changed }) => changed), [children]);
   const resetAction = useCallback(() => {
@@ -61,7 +64,7 @@ const ChildIncidents = ({ incidents, parent }) => {
     <Fragment>
       <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">Deelmelding</Title>
 
-      <ChildIncidentsList incidents={children} />
+      <ChildIncidentsList incidents={children} parentUpdatedAt={parent.updated_at} />
 
       <Section>
         {canReset && (
@@ -77,6 +80,7 @@ const ChildIncidents = ({ incidents, parent }) => {
 ChildIncidents.propTypes = {
   incidents: PropTypes.arrayOf(childIncidentType).isRequired,
   parent: PropTypes.shape({ updated_at: PropTypes.string }).isRequired,
+  history: PropTypes.arrayOf(historyType).isRequired,
 };
 
 export default ChildIncidents;

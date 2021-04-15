@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import {
   CHANGE_CATEGORY,
   CHANGE_LOCATION,
@@ -203,7 +205,10 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Status gewijzigd naar: In behandeling')
-        .and('contain', 'Wij hebben uw zinloze melding toch maar in behandeling genomen')
+        .and('be.visible');
+      cy.get(SIGNAL_DETAILS.historyListItem)
+        .first()
+        .should('contain', 'Wij hebben uw zinloze melding toch maar in behandeling genomen')
         .and('be.visible');
     });
 

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import priorityList from 'signals/incident-management/definitions/priorityList';
 import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList';
 import categories from 'utils/__tests__/fixtures/categories_private.json';

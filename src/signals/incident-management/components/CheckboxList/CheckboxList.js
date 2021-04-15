@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
@@ -256,7 +258,7 @@ const CheckboxList = ({
         <Toggle
           indent={Boolean(title)}
           tabIndex={0}
-          onClick={handleToggle}
+          onClick={groupName ? null : handleToggle}
           onKeyDown={handleKeyDown}
         >
           {toggled ? toggleNothingLabel : toggleAllLabel}

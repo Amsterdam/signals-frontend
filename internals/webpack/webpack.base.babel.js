@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 const path = require('path');
 const webpack = require('webpack');
 const pkgDir = require('pkg-dir');
@@ -46,7 +48,6 @@ module.exports = options => ({
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: (resourcePath, context) => `${path.relative(path.dirname(resourcePath), context)}/`,
-              hmr: process.env.NODE_ENV === 'development',
             },
           },
           'css-loader',
@@ -55,7 +56,7 @@ module.exports = options => ({
       },
       {
         test: /\.(eot|otf|ttf|woff|woff2)$/,
-        use: 'file-loader',
+        type: 'asset/resource',
       },
       {
         test: /\.svg$/,
@@ -103,6 +104,7 @@ module.exports = options => ({
             },
           },
         ],
+        type: 'javascript/auto',
       },
       {
         test: /\.html$/,
@@ -116,6 +118,7 @@ module.exports = options => ({
             limit: 10000,
           },
         },
+        type: 'javascript/auto',
       },
     ],
   },
@@ -141,7 +144,11 @@ module.exports = options => ({
 
     new CopyPlugin({ patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }] }),
 
-    new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: { syntactic: true, semantic: true, declaration: false, global: false },
+      },
+    }),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
   ]

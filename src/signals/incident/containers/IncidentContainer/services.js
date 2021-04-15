@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { FIELD_TYPE_MAP, INPUT_VALIDATOR_MAP } from './constants';
 
 const mapValidatorWithArgs = ([key, ...args]) => [INPUT_VALIDATOR_MAP[key], ...args];

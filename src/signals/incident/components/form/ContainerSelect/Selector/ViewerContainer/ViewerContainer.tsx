@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 import React, { Fragment, useContext } from 'react';
 import type { ReactNode } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';

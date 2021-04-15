@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Seq } from 'immutable';
 import { createSelector } from 'reselect';
 import { getDaysString } from 'shared/services/date-utils';

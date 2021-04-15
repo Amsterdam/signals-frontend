@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import conformsTo from 'lodash/conformsTo';
 import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';

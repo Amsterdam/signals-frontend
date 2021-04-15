@@ -1,0 +1,65 @@
+[
+  {
+    "identifier": "UPDATE_STATUS_15550",
+    "when": "2021-03-30T10:30:23.182795+02:00",
+    "what": "UPDATE_STATUS",
+    "action": "Status gewijzigd naar: Geannuleerd",
+    "description": "Hoofdmelding is afgehandeld",
+    "who": "Signalen systeem",
+    "_signal": 6254
+  },
+  {
+    "identifier": "UPDATE_TYPE_ASSIGNMENT_7505",
+    "when": "2021-03-30T10:30:11.020714+02:00",
+    "what": "UPDATE_TYPE_ASSIGNMENT",
+    "action": "Type gewijzigd naar: Melding",
+    "description": null,
+    "who": "me@example.com",
+    "_signal": 6254
+  },
+  {
+    "identifier": "UPDATE_PRIORITY_9088",
+    "when": "2021-03-30T10:30:11.017197+02:00",
+    "what": "UPDATE_PRIORITY",
+    "action": "Urgentie gewijzigd naar: Normaal",
+    "description": null,
+    "who": "me@example.com",
+    "_signal": 6254
+  },
+  {
+    "identifier": "UPDATE_CATEGORY_ASSIGNMENT_14160",
+    "when": "2021-03-30T10:30:11.014992+02:00",
+    "what": "UPDATE_CATEGORY_ASSIGNMENT",
+    "action": "Categorie gewijzigd naar: Container is vol",
+    "description": null,
+    "who": "me@example.com",
+    "_signal": 6254
+  },
+  {
+    "identifier": "UPDATE_SLA_14160",
+    "when": "2021-03-30T10:30:11.014992+02:00",
+    "what": "UPDATE_SLA",
+    "action": "Servicebelofte:",
+    "description": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
+    "who": "Signalen systeem",
+    "_signal": 6254
+  },
+  {
+    "identifier": "UPDATE_STATUS_15547",
+    "when": "2021-03-30T10:30:11.008451+02:00",
+    "what": "UPDATE_STATUS",
+    "action": "Status gewijzigd naar: Gemeld",
+    "description": null,
+    "who": "me@example.com",
+    "_signal": 6254
+  },
+  {
+    "identifier": "UPDATE_LOCATION_8220",
+    "when": "2021-03-30T10:30:11.006517+02:00",
+    "what": "UPDATE_LOCATION",
+    "action": "Locatie gewijzigd naar:",
+    "description": "Stadsdeel: Centrum\nExample street\nAmsterdam",
+    "who": "me@example.com",
+    "_signal": 6254
+  }
+]

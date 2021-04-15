@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 /* global proxyConfig */
 /* eslint no-restricted-globals: ["error"] */
 /* eslint-disable no-console, promise/avoid-new */

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 export const getListValueByKey = (list, key) => {
   const comparator = list && key ? s => s.key === key : s => !s.key;
   const item = list?.find(comparator);

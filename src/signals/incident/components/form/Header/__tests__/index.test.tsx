@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Validators } from 'react-reactive-form';
@@ -45,6 +47,7 @@ describe('signals/incident/components/form/Header', () => {
 
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument();
 
+    // eslint-disable-next-line jest/unbound-method
     rerender(withAppContext(<Header {...props} options={{ validators: [Validators.required] }} />));
 
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument();

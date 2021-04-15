@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import {
   CLOSE_ALL,
   EDIT,
@@ -7,6 +9,7 @@ import {
   RESET,
   SET_ATTACHMENTS,
   SET_CHILDREN,
+  SET_CHILDREN_HISTORY,
   SET_DEFAULT_TEXTS,
   SET_ERROR,
   SET_HISTORY,
@@ -17,6 +20,7 @@ export const initialState = {
   attachmentHref: undefined,
   attachments: undefined,
   children: undefined,
+  childrenHistory: undefined,
   error: undefined,
   history: undefined,
   incident: undefined,
@@ -47,6 +51,9 @@ const reducer = (state, action) => {
 
     case SET_CHILDREN:
       return { ...state, children: action.payload };
+
+    case SET_CHILDREN_HISTORY:
+      return { ...state, childrenHistory: action.payload };
 
     case SET_DEFAULT_TEXTS:
       return { ...state, defaultTexts: action.payload };
