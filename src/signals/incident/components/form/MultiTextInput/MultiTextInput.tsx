@@ -8,7 +8,7 @@ import map from 'lodash.map';
 import Input from 'components/Input';
 import Button from 'components/Button';
 
-import Header from '../Header';
+import FormField from '../FormField';
 import type { FormInputProps, FormMeta, ParentType } from 'types/reactive-form';
 import { themeSpacing } from '@amsterdam/asc-ui';
 
@@ -61,7 +61,7 @@ const MultiTextInput: FunctionComponent<MultiTextInputProps> = ({
   validatorsOrOpts,
 }) =>
   (meta?.isVisible && (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <div>
         <input type="hidden" {...handler()} />
 
@@ -98,7 +98,7 @@ const MultiTextInput: FunctionComponent<MultiTextInputProps> = ({
           {meta.newItemText}
         </Button>
       </div>
-    </Header>
+    </FormField>
   )) ||
   null;
 

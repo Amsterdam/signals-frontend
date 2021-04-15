@@ -45,14 +45,14 @@ const SubTitle = styled.p`
 `;
 
 type PickedProps = 'touched' | 'hasError' | 'getError';
-export interface HeaderProps extends Pick<ReactiveFormMeta, PickedProps> {
+export interface FormFieldProps extends Pick<ReactiveFormMeta, PickedProps> {
   className?: string;
   meta: FormMeta;
   options?: FormOptions;
   isFieldSet?: boolean;
 }
 
-const Header: FunctionComponent<HeaderProps> = ({
+const FormField: FunctionComponent<FormFieldProps> = ({
   isFieldSet,
   className,
   meta,
@@ -114,4 +114,4 @@ const Header: FunctionComponent<HeaderProps> = ({
   );
 };
 
-export default Header;
+export default FormField;

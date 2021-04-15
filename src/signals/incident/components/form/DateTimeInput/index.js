@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import nl from 'date-fns/locale/nl';
 import Select from 'components/Select';
 import { capitalize } from 'shared/services/date-utils';
-import Header from '../Header';
+import FormField from '../FormField';
 import styled from 'styled-components';
 import Label from 'components/Label';
 import { themeSpacing } from '@amsterdam/asc-ui';
@@ -82,7 +82,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
   });
 
   return (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <DateTimeInputStyle>
         <FieldWrapper>
           <StyledLabel htmlFor="day">Dag</StyledLabel>
@@ -134,7 +134,7 @@ const DateTimeInput = ({ touched, hasError, meta, parent, getError, validatorsOr
           </TimeWrapper>
         </TimeFieldset>
       </DateTimeInputStyle>
-    </Header>
+    </FormField>
   );
 };
 
