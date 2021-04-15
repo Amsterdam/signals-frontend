@@ -1,16 +1,30 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import Header from '../Header';
-import ContainerSelect from '../ContainerSelect/ContainerSelect';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Header from '../Header'
+import ContainerSelect from '../ContainerSelect/ContainerSelect'
 
-const ContainerSelectRenderer = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
+const ContainerSelectRenderer = ({
+  handler,
+  touched,
+  hasError,
+  meta,
+  parent,
+  getError,
+  validatorsOrOpts,
+}) =>
   meta?.isVisible && (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <Header
+      meta={meta}
+      options={validatorsOrOpts}
+      touched={touched}
+      hasError={hasError}
+      getError={getError}
+    >
       <ContainerSelect handler={handler} meta={meta} parent={parent} />
     </Header>
-  );
+  )
 
 ContainerSelectRenderer.propTypes = {
   handler: PropTypes.func,
@@ -20,6 +34,6 @@ ContainerSelectRenderer.propTypes = {
   meta: PropTypes.object,
   parent: PropTypes.object,
   validatorsOrOpts: PropTypes.object,
-};
+}
 
-export default ContainerSelectRenderer;
+export default ContainerSelectRenderer

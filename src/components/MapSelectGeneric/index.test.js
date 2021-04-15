@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import React from 'react'
+import { render, screen } from '@testing-library/react'
 
-import { withAppContext } from 'test/utils';
-import ZoomMessageControl from '../MapSelect/control/ZoomMessageControl';
-import LoadingControl from '../MapSelect/control/LoadingControl';
-import ErrorControl from '../MapSelect/control/ErrorControl';
+import { withAppContext } from 'test/utils'
+import ZoomMessageControl from '../MapSelect/control/ZoomMessageControl'
+import LoadingControl from '../MapSelect/control/LoadingControl'
+import ErrorControl from '../MapSelect/control/ErrorControl'
 
-import MapSelectGeneric, { SRS_NAME } from '.';
+import MapSelectGeneric, { SRS_NAME } from '.'
 
-jest.mock('../MapSelect/control/ZoomMessageControl');
-jest.mock('../MapSelect/control/LoadingControl');
-jest.mock('../MapSelect/control/ErrorControl');
+jest.mock('../MapSelect/control/ZoomMessageControl')
+jest.mock('../MapSelect/control/LoadingControl')
+jest.mock('../MapSelect/control/ErrorControl')
 
 const fetchResponse = {
   type: 'FeatureCollection',
@@ -21,37 +21,47 @@ const fetchResponse = {
   features: [
     {
       type: 'Feature',
-      properties: { ogc_fid: '48634', type_id: '1', type_name: 'Klok', objectnummer: '065121' },
+      properties: {
+        ogc_fid: '48634',
+        type_id: '1',
+        type_name: 'Klok',
+        objectnummer: '065121',
+      },
       geometry: { type: 'Point', coordinates: [4.883614, 52.37855] },
     },
     {
       type: 'Feature',
-      properties: { ogc_fid: '93331', type_id: '1', type_name: 'Klok', objectnummer: '017431' },
+      properties: {
+        ogc_fid: '93331',
+        type_id: '1',
+        type_name: 'Klok',
+        objectnummer: '017431',
+      },
       geometry: { type: 'Point', coordinates: [4.877793, 52.379065] },
     },
   ],
-};
+}
 
-fetch.mockResponse(JSON.stringify(fetchResponse));
+fetch.mockResponse(JSON.stringify(fetchResponse))
 
 describe('<MapSelectGeneric />', () => {
-  const onSelectionChange = jest.fn();
+  const onSelectionChange = jest.fn()
   const urlLatLng =
-    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{bboxLatLng}},{{srsName}}';
+    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{bboxLatLng}},{{srsName}}'
   const urlLngLat =
-    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{bboxLngLat}},{{srsName}}';
-  const coordsRegExpString = '(\\d{1,2}\\.\\d{1,16},){4}';
-  const urlRegExpString = `^https://geoserver\\.test/\\?service=WFS&version=1\\.1\\.0&request=GetFeature&srsName=${SRS_NAME}&bbox=${coordsRegExpString}${SRS_NAME}$`;
+    'https://geoserver.test/?service=WFS&version=1.1.0&request=GetFeature&srsName={{srsName}}&bbox={{bboxLngLat}},{{srsName}}'
+  const coordsRegExpString = '(\\d{1,2}\\.\\d{1,16},){4}'
+  const urlRegExpString = `^https://geoserver\\.test/\\?service=WFS&version=1\\.1\\.0&request=GetFeature&srsName=${SRS_NAME}&bbox=${coordsRegExpString}${SRS_NAME}$`
 
   const latlng = {
     latitude: 4,
     longitude: 52,
-  };
+  }
 
   beforeEach(() => {
-    jest.resetAllMocks();
-    fetch.resetMocks();
-  });
+    jest.resetAllMocks()
+    fetch.resetMocks()
+  })
 
   it('should render correctly', async () => {
     const { findByTestId, getByTestId } = render(
@@ -64,18 +74,18 @@ describe('<MapSelectGeneric />', () => {
           hasGPSControl
         />
       )
-    );
+    )
 
-    await findByTestId('mapSelectGeneric');
+    await findByTestId('mapSelectGeneric')
 
-    expect(getByTestId('gpsButton')).toBeInTheDocument();
-    expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
-    expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
-    expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled();
-  });
+    expect(getByTestId('gpsButton')).toBeInTheDocument()
+    expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled()
+    expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled()
+    expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled()
+  })
 
   it('should do bbox fetch', async () => {
-    expect(fetch).not.toHaveBeenCalled();
+    expect(fetch).not.toHaveBeenCalled()
 
     const { unmount } = render(
       withAppContext(
@@ -86,13 +96,16 @@ describe('<MapSelectGeneric />', () => {
           idField="objectnummer"
         />
       )
-    );
+    )
 
-    await screen.findByTestId('mapSelectGeneric');
+    await screen.findByTestId('mapSelectGeneric')
 
-    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(new RegExp(urlRegExpString)), undefined);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringMatching(new RegExp(urlRegExpString)),
+      undefined
+    )
 
-    unmount();
+    unmount()
     render(
       withAppContext(
         <MapSelectGeneric
@@ -102,12 +115,12 @@ describe('<MapSelectGeneric />', () => {
           idField="objectnummer"
         />
       )
-    );
+    )
 
-    await screen.findByTestId('mapSelectGeneric');
+    await screen.findByTestId('mapSelectGeneric')
 
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetch.mock.calls[1][0]).toMatch(new RegExp(urlRegExpString));
-    expect(fetch.mock.calls[0][0]).not.toBe(fetch.mock.calls[1][0]);
-  });
-});
+    expect(fetch).toHaveBeenCalledTimes(2)
+    expect(fetch.mock.calls[1][0]).toMatch(new RegExp(urlRegExpString))
+    expect(fetch.mock.calls[0][0]).not.toBe(fetch.mock.calls[1][0])
+  })
+})

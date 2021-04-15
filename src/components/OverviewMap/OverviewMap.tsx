@@ -1,52 +1,65 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import type { Dispatch, SetStateAction } from 'react';
-import React, { memo, useContext, useState, useCallback, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import format from 'date-fns/format';
-import subDays from 'date-fns/addDays';
-import L from 'leaflet';
-import { ViewerContainer, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import type { Dispatch, SetStateAction } from 'react'
+import React, {
+  memo,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+import format from 'date-fns/format'
+import subDays from 'date-fns/addDays'
+import L from 'leaflet'
+import { ViewerContainer, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
-import Map from 'components/Map';
-import PDOKAutoSuggest from 'components/PDOKAutoSuggest';
-import MapContext from 'containers/MapContext/context';
-import { setAddressAction } from 'containers/MapContext/actions';
-import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import configuration from 'shared/services/configuration/configuration';
-import { featureTolocation, formatPDOKResponse } from 'shared/services/map-location';
-import { makeSelectFilterParams } from 'signals/incident-management/selectors';
-import useFetch from 'hooks/useFetch';
-import { incidentIcon, markerIcon } from 'shared/services/configuration/map-markers';
-import type { IncidentSummary } from './types';
+import Map from 'components/Map'
+import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
+import MapContext from 'containers/MapContext/context'
+import { setAddressAction } from 'containers/MapContext/actions'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import configuration from 'shared/services/configuration/configuration'
+import {
+  featureTolocation,
+  formatPDOKResponse,
+} from 'shared/services/map-location'
+import { makeSelectFilterParams } from 'signals/incident-management/selectors'
+import useFetch from 'hooks/useFetch'
+import {
+  incidentIcon,
+  markerIcon,
+} from 'shared/services/configuration/map-markers'
+import type { IncidentSummary } from './types'
 
-import DetailPanel from './DetailPanel';
-import MarkerCluster from '../MarkerCluster';
+import DetailPanel from './DetailPanel'
+import MarkerCluster from '../MarkerCluster'
 
 interface MapInstance {
-  getZoom: () => number;
-  flyTo: (location: number[], level: number) => void;
+  getZoom: () => number
+  flyTo: (location: number[], level: number) => void
   eachLayer: (
     fn: (layer: {
-      getIcon: unknown;
-      getAllChildMarkers: unknown;
-      setIcon: (icon: L.Icon<L.IconOptions>) => void;
+      getIcon: unknown
+      getAllChildMarkers: unknown
+      setIcon: (icon: L.Icon<L.IconOptions>) => void
     }) => void
-  ) => void;
+  ) => void
 }
 
 interface Feature {
-  geometry: { coordinates: L.LatLngTuple };
-  properties: IncidentSummary;
+  geometry: { coordinates: L.LatLngTuple }
+  properties: IncidentSummary
 }
 
 interface Data {
-  features: Feature[];
+  features: Feature[]
 }
 
-export const POLLING_INTERVAL = 5000;
+export const POLLING_INTERVAL = 5000
 
 const StyledViewerContainer = styled(ViewerContainer)`
   flex-direction: row;
@@ -55,12 +68,12 @@ const StyledViewerContainer = styled(ViewerContainer)`
     left: ${themeSpacing(4)};
     right: ${themeSpacing(4)};
   }
-`;
+`
 
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-`;
+`
 
 const StyledMap = styled(Map)`
   height: 600px;
@@ -83,7 +96,7 @@ const StyledMap = styled(Map)`
       line-height: 34px;
     }
   }
-`;
+`
 
 const Autosuggest = styled(PDOKAutoSuggest)`
   max-width: calc(100% - 40px);
@@ -91,7 +104,7 @@ const Autosuggest = styled(PDOKAutoSuggest)`
   width: 350px;
   left: 0;
   position: absolute;
-`;
+`
 
 /* istanbul ignore next */
 const clusterLayerOptions = {
@@ -99,36 +112,38 @@ const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
   chunkedLoading: true,
   iconCreateFunction: (cluster: { getChildCount: () => number }) => {
-    const childCount = cluster.getChildCount();
-    let c = ' marker-cluster-';
+    const childCount = cluster.getChildCount()
+    let c = ' marker-cluster-'
 
     if (childCount < 10) {
-      c += 'small';
+      c += 'small'
     } else if (childCount < 100) {
-      c += 'medium';
+      c += 'medium'
     } else {
-      c += 'large';
+      c += 'large'
     }
 
     return new L.DivIcon({
       html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
       className: `marker-cluster ${c}`,
       iconSize: new L.Point(40, 40),
-    });
+    })
   },
-};
+}
 
 const OverviewMap = ({ isPublic = false, ...rest }) => {
-  const endpoint = isPublic ? configuration.MAP_SIGNALS_ENDPOINT : configuration.GEOGRAPHY_ENDPOINT;
-  const { dispatch } = useContext(MapContext);
-  const [initialMount, setInitialMount] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
-  const [map, setMap] = useState<MapInstance>();
-  const filterParams = useSelector(makeSelectFilterParams);
-  const { get, data, isLoading } = useFetch<Data>();
-  const [layerInstance, setLayerInstance] = useState<L.LayerGroup>();
-  const [incident, setIncident] = useState<IncidentSummary>();
-  const [pollingCount, setPollingCount] = useState(0);
+  const endpoint = isPublic
+    ? configuration.MAP_SIGNALS_ENDPOINT
+    : configuration.GEOGRAPHY_ENDPOINT
+  const { dispatch } = useContext(MapContext)
+  const [initialMount, setInitialMount] = useState(false)
+  const [showPanel, setShowPanel] = useState(false)
+  const [map, setMap] = useState<MapInstance>()
+  const filterParams = useSelector(makeSelectFilterParams)
+  const { get, data, isLoading } = useFetch<Data>()
+  const [layerInstance, setLayerInstance] = useState<L.LayerGroup>()
+  const [incident, setIncident] = useState<IncidentSummary>()
+  const [pollingCount, setPollingCount] = useState(0)
 
   const params = useMemo(
     () => ({
@@ -144,7 +159,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
       page_size: 4000,
     }),
     [filterParams]
-  );
+  )
 
   /**
    * AutoSuggest callback handler
@@ -152,94 +167,102 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
    * Note that testing this functionality resembles integration testing, hence disabling istanbul coverage
    */
   const onSelect = useCallback(
-    /* istanbul ignore next */ (option: { value: string; data: { location: [number, number] } }) => {
+    /* istanbul ignore next */ (option: {
+      value: string
+      data: { location: [number, number] }
+    }) => {
       if (dispatch) {
-        dispatch(setAddressAction(option.value));
+        dispatch(setAddressAction(option.value))
       }
 
       if (map) {
-        const currentZoom = map.getZoom();
-        map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom);
+        const currentZoom = map.getZoom()
+        map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom)
       }
     },
     [map, dispatch]
-  );
+  )
 
   /* istanbul ignore next */
   const resetMarkerIcons = useCallback(() => {
-    if (!map) return;
+    if (!map) return
 
-    map.eachLayer(layer => {
+    map.eachLayer((layer) => {
       if (layer.getIcon && !layer.getAllChildMarkers) {
-        layer.setIcon(incidentIcon);
+        layer.setIcon(incidentIcon)
       }
-    });
-  }, [map]);
+    })
+  }, [map])
 
   /* istanbul ignore next */
   const onClosePanel = useCallback(() => {
-    setShowPanel(false);
-    resetMarkerIcons();
-  }, [resetMarkerIcons]);
+    setShowPanel(false)
+    resetMarkerIcons()
+  }, [resetMarkerIcons])
 
   useEffect(() => {
-    let active = true;
+    let active = true
     const pollingFn = () => {
       /* istanbul ignore else */
-      if (active) setPollingCount(pollingCount + 1);
-    };
-    const intervalId = setInterval(pollingFn, POLLING_INTERVAL);
+      if (active) setPollingCount(pollingCount + 1)
+    }
+    const intervalId = setInterval(pollingFn, POLLING_INTERVAL)
     return () => {
-      active = false;
-      clearInterval(intervalId);
-    };
-  }, [pollingCount, setPollingCount]);
+      active = false
+      clearInterval(intervalId)
+    }
+  }, [pollingCount, setPollingCount])
 
   useEffect(() => {
-    if (isLoading || !initialMount) return;
+    if (isLoading || !initialMount) return
 
-    void get(`${endpoint}`, params);
+    void get(`${endpoint}`, params)
 
     // Only execute when the value of filterParams changes; disabling linter
     // eslint-disable-next-line
-  }, [filterParams, pollingCount]);
+  }, [filterParams, pollingCount])
 
   // request data on mount
   useEffect(() => {
-    void get(`${endpoint}`, params);
-    setInitialMount(true);
+    void get(`${endpoint}`, params)
+    setInitialMount(true)
     // eslint-disable-next-line
-  }, [get]);
+  }, [get])
 
   useEffect(() => {
-    if (!data || !layerInstance) return () => {};
+    if (!data || !layerInstance) return () => {}
 
-    data.features.forEach(feature => {
-      const latlng = featureTolocation(feature.geometry);
+    data.features.forEach((feature) => {
+      const latlng = featureTolocation(feature.geometry)
 
       const clusteredMarker = L.marker(latlng, {
         icon: incidentIcon,
-      });
+      })
 
       /* istanbul ignore next */
-      clusteredMarker.on('click', (event: { target: { setIcon: (icon: L.Icon<L.IconOptions>) => void } }) => {
-        resetMarkerIcons();
+      clusteredMarker.on(
+        'click',
+        (event: {
+          target: { setIcon: (icon: L.Icon<L.IconOptions>) => void }
+        }) => {
+          resetMarkerIcons()
 
-        event.target.setIcon(markerIcon);
+          event.target.setIcon(markerIcon)
 
-        if (feature.properties?.id) {
-          setIncident(feature.properties);
-          setShowPanel(true);
+          if (feature.properties?.id) {
+            setIncident(feature.properties)
+            setShowPanel(true)
+          }
         }
-      });
+      )
 
-      layerInstance.addLayer(clusteredMarker);
-    });
+      layerInstance.addLayer(clusteredMarker)
+    })
 
     return () => {
-      layerInstance.clearLayers();
-    };
-  });
+      layerInstance.clearLayers()
+    }
+  })
 
   return (
     <Wrapper {...rest}>
@@ -266,15 +289,20 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
               placeholder="Zoom naar adres"
             />
           }
-          topRight={showPanel && incident && <DetailPanel incident={incident} onClose={onClosePanel} />}
+          topRight={
+            showPanel &&
+            incident && (
+              <DetailPanel incident={incident} onClose={onClosePanel} />
+            )
+          }
         />
       </StyledMap>
     </Wrapper>
-  );
-};
+  )
+}
 
 OverviewMap.propTypes = {
   isPublic: PropTypes.bool,
-};
+}
 
-export default memo(OverviewMap);
+export default memo(OverviewMap)

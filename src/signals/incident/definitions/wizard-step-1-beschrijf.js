@@ -1,22 +1,33 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import some from 'lodash.some';
-import memoize from 'lodash/memoize';
-import { Validators } from 'react-reactive-form';
-import { priorityList, typesList } from 'signals/incident-management/definitions';
-import IncidentNavigation from '../components/IncidentNavigation';
-import FormComponents from '../components/form';
-import checkVisibility from '../services/checkVisibility';
-import getStepControls from '../services/get-step-controls';
-import { createRequired } from '../services/custom-validators';
+import some from 'lodash.some'
+import memoize from 'lodash/memoize'
+import { Validators } from 'react-reactive-form'
+import {
+  priorityList,
+  typesList,
+} from 'signals/incident-management/definitions'
+import IncidentNavigation from '../components/IncidentNavigation'
+import FormComponents from '../components/form'
+import checkVisibility from '../services/checkVisibility'
+import getStepControls from '../services/get-step-controls'
+import { createRequired } from '../services/custom-validators'
 
-const priorityValuesList = priorityList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
-const typesValuesList = typesList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
-const reduceSources = sources =>
-  sources.reduce((acc, { value }) => ({ ...acc, [value]: value }), { '': 'Vul bron in' });
+const priorityValuesList = priorityList.reduce(
+  (acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }),
+  {}
+)
+const typesValuesList = typesList.reduce(
+  (acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }),
+  {}
+)
+const reduceSources = (sources) =>
+  sources.reduce((acc, { value }) => ({ ...acc, [value]: value }), {
+    '': 'Vul bron in',
+  })
 
 const getControls = memoize(
-  sources => ({
+  (sources) => ({
     controls: {
       error: {
         render: FormComponents.GlobalError,
@@ -36,18 +47,22 @@ const getControls = memoize(
       location: {
         meta: {
           label: 'Waar is het?',
-          subtitle: 'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
+          subtitle:
+            'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
           path: 'location',
         },
         options: {
-          validators: [createRequired('Kies een locatie op de kaart of vul een adres in')],
+          validators: [
+            createRequired('Kies een locatie op de kaart of vul een adres in'),
+          ],
         },
         render: FormComponents.MapInput,
       },
       description: {
         meta: {
           label: 'Waar gaat het om?',
-          subtitle: 'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
+          subtitle:
+            'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
           path: 'text',
           rows: 7,
           maxLength: 1000,
@@ -151,25 +166,25 @@ const getControls = memoize(
     },
   }),
   () => ''
-);
+)
 
 export default {
   label: 'Beschrijf uw melding',
   getNextStep: (wizard, incident) => {
     if (
-      !some(getStepControls(wizard.vulaan, incident), control => {
+      !some(getStepControls(wizard.vulaan, incident), (control) => {
         if (control.meta && !control.meta.ignoreVisibility) {
-          return checkVisibility(control, incident);
+          return checkVisibility(control, incident)
         }
-        return false;
+        return false
       })
     ) {
-      return 'incident/telefoon';
+      return 'incident/telefoon'
     }
-    return false;
+    return false
   },
   nextButtonLabel: 'Volgende',
   nextButtonClass: 'action primary arrow-right',
   postponeSubmitWhenLoading: 'incidentContainer.loadingClassification',
   formFactory: (incident, sources) => getControls(sources),
-};
+}

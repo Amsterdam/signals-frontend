@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-const convertValue = value => {
+const convertValue = (value) => {
   if (value === 0) {
-    return 0;
+    return 0
   }
 
   if (value === true) {
-    return 'ja';
+    return 'ja'
   }
 
   if (value === false) {
-    return 'nee';
+    return 'nee'
   }
 
-  return value;
-};
+  return value
+}
 
-export default convertValue;
+export default convertValue

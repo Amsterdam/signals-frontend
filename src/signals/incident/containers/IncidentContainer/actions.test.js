@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { testActionCreator } from 'test/utils';
+import { testActionCreator } from 'test/utils'
 
 import {
   UPDATE_INCIDENT,
@@ -17,7 +17,7 @@ import {
   GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
   REMOVE_QUESTION_DATA,
-} from './constants';
+} from './constants'
 
 import {
   updateIncident,
@@ -34,67 +34,75 @@ import {
   getQuestionsError,
   resetExtraState,
   removeQuestionData,
-} from './actions';
+} from './actions'
 
 describe('Incident container actions', () => {
   const incident = {
     text: 'foo',
     category: 'bar',
-  };
+  }
 
   const category = {
     sub_category: 'uitwerpselen',
     name: 'Uitwerpselen',
     slug: 'uitwerpselen',
     handling_message: 'Handling message.',
-  };
+  }
 
   it('should dispatch update incident action', () => {
-    testActionCreator(updateIncident, UPDATE_INCIDENT, incident);
-  });
+    testActionCreator(updateIncident, UPDATE_INCIDENT, incident)
+  })
 
   it('should dispatch reset incident action', () => {
-    testActionCreator(resetIncident, RESET_INCIDENT);
-  });
+    testActionCreator(resetIncident, RESET_INCIDENT)
+  })
 
   it('should dispatch remove question action', () => {
-    testActionCreator(removeQuestionData, REMOVE_QUESTION_DATA);
-  });
+    testActionCreator(removeQuestionData, REMOVE_QUESTION_DATA)
+  })
 
   it('should dispatch create incident action', () => {
-    testActionCreator(createIncident, CREATE_INCIDENT, incident);
-  });
+    testActionCreator(createIncident, CREATE_INCIDENT, incident)
+  })
 
   it('should dispatch create incident success action', () => {
-    testActionCreator(createIncidentSuccess, CREATE_INCIDENT_SUCCESS, incident);
-  });
+    testActionCreator(createIncidentSuccess, CREATE_INCIDENT_SUCCESS, incident)
+  })
 
   it('should dispatch create incident error action', () => {
-    testActionCreator(createIncidentError, CREATE_INCIDENT_ERROR);
-  });
+    testActionCreator(createIncidentError, CREATE_INCIDENT_ERROR)
+  })
 
   it('should dispatch get classification action', () => {
-    testActionCreator(getClassification, GET_CLASSIFICATION, 'poep');
-  });
+    testActionCreator(getClassification, GET_CLASSIFICATION, 'poep')
+  })
 
   it('should dispatch classification success action', () => {
-    testActionCreator(getClassificationSuccess, GET_CLASSIFICATION_SUCCESS, category);
-  });
+    testActionCreator(
+      getClassificationSuccess,
+      GET_CLASSIFICATION_SUCCESS,
+      category
+    )
+  })
 
   it('should dispatch classification error action', () => {
-    testActionCreator(getClassificationError, GET_CLASSIFICATION_ERROR, category);
-  });
+    testActionCreator(
+      getClassificationError,
+      GET_CLASSIFICATION_ERROR,
+      category
+    )
+  })
 
   it('should dispatch set classification', () => {
-    testActionCreator(setClassification, SET_CLASSIFICATION, category);
-  });
+    testActionCreator(setClassification, SET_CLASSIFICATION, category)
+  })
 
   it('should dispatch get questions action', () => {
     testActionCreator(getQuestions, GET_QUESTIONS, {
       category: 'overig',
       subcategory: 'overig',
-    });
-  });
+    })
+  })
 
   it('should dispatch questions success action', () => {
     const payload = {
@@ -103,17 +111,17 @@ describe('Incident container actions', () => {
         options: 'options1',
         render: 'field_type1',
       },
-    };
-    testActionCreator(getQuestionsSuccess, GET_QUESTIONS_SUCCESS, payload);
-  });
+    }
+    testActionCreator(getQuestionsSuccess, GET_QUESTIONS_SUCCESS, payload)
+  })
 
   it('should dispatch questions error action', () => {
-    testActionCreator(getQuestionsError, GET_QUESTIONS_ERROR);
-  });
+    testActionCreator(getQuestionsError, GET_QUESTIONS_ERROR)
+  })
 
   test('resetExtraState', () => {
     expect(resetExtraState()).toEqual({
       type: RESET_EXTRA_STATE,
-    });
-  });
-});
+    })
+  })
+})

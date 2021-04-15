@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import mapPaths from '.';
+import mapPaths from '.'
 
-import getStepControls from '../get-step-controls';
-import convertValue from '../convert-value';
+import getStepControls from '../get-step-controls'
+import convertValue from '../convert-value'
 
-jest.mock('../get-step-controls');
-jest.mock('../convert-value');
+jest.mock('../get-step-controls')
+jest.mock('../convert-value')
 
 describe('The map paths service', () => {
   const wizard = {
@@ -66,7 +66,7 @@ describe('The map paths service', () => {
         },
       },
     },
-  };
+  }
 
   const incident = {
     description: 'free text',
@@ -95,14 +95,14 @@ describe('The map paths service', () => {
         label: 'Baz',
       },
     ],
-  };
+  }
 
   it('should map status by default', () => {
-    expect(mapPaths()).toEqual({});
-  });
+    expect(mapPaths()).toEqual({})
+  })
 
   it('should map status by default', () => {
-    getStepControls.mockImplementation(() => wizard.step.form.controls);
+    getStepControls.mockImplementation(() => wizard.step.form.controls)
     convertValue
       .mockImplementationOnce(() => incident.description)
       .mockImplementationOnce(() => incident.value_0)
@@ -110,7 +110,7 @@ describe('The map paths service', () => {
       .mockImplementationOnce(() => incident.checkbox_false)
       .mockImplementationOnce(() => incident.checkbox_true)
       .mockImplementationOnce(() => incident.object)
-      .mockImplementationOnce(() => incident.array);
+      .mockImplementationOnce(() => incident.array)
 
     expect(mapPaths({}, incident, wizard)).toMatchObject({
       extra_properties: [
@@ -175,6 +175,6 @@ describe('The map paths service', () => {
             '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
         },
       ],
-    });
-  });
-});
+    })
+  })
+})

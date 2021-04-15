@@ -12,6 +12,6 @@ const stadsdeelList = [
   { key: 'H', value: 'Het Amsterdamse Bos' },
   { key: 'W', value: 'Weesp' },
   { key: 'null', value: 'Niet bepaald' },
-];
+]
 
-export default stadsdeelList;
+export default stadsdeelList

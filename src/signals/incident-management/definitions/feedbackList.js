@@ -13,6 +13,6 @@ const feedbackList = [
     key: 'not_received',
     value: 'Niet ontvangen',
   },
-];
+]
 
-export default feedbackList;
+export default feedbackList

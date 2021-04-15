@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import { FormGenerator } from 'react-reactive-form';
-import get from 'lodash.get';
-import isEqual from 'lodash.isequal';
-import { themeSpacing } from '@amsterdam/asc-ui';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
+import { FormGenerator } from 'react-reactive-form'
+import get from 'lodash.get'
+import isEqual from 'lodash.isequal'
+import { themeSpacing } from '@amsterdam/asc-ui'
 
-import { isAuthenticated } from 'shared/services/auth/auth';
-import formatConditionalForm from '../../services/format-conditional-form';
+import { isAuthenticated } from 'shared/services/auth/auth'
+import formatConditionalForm from '../../services/format-conditional-form'
 
 export const Form = styled.form`
   width: 100%;
-`;
+`
 
 export const Fieldset = styled.fieldset`
   border: 0;
@@ -42,7 +42,7 @@ export const Fieldset = styled.fieldset`
     grid-column-gap: ${themeSpacing(5)};
 
     ${({ isSummary }) =>
-    isSummary &&
+      isSummary &&
       css`
         grid-template-columns: 4fr 6fr;
 
@@ -51,7 +51,7 @@ export const Fieldset = styled.fieldset`
         }
 
         ${() =>
-    isAuthenticated() &&
+          isAuthenticated() &&
           css`
             @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
               grid-template-columns: 4fr 6fr 2fr;
@@ -63,50 +63,54 @@ export const Fieldset = styled.fieldset`
           `}
       `}
   }
-`;
+`
 
 class IncidentForm extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       loading: false,
       submitting: false,
       formAction: '',
       next: null,
-    };
+    }
 
-    this.setForm = this.setForm.bind(this);
-    this.setValues = this.setValues.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.setIncident = this.setIncident.bind(this);
+    this.setForm = this.setForm.bind(this)
+    this.setValues = this.setValues.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.setIncident = this.setIncident.bind(this)
   }
 
   static getDerivedStateFromProps(props, prevState) {
     if (!props.postponeSubmitWhenLoading) {
-      return null;
+      return null
     }
 
-    const loading = get(props, props.postponeSubmitWhenLoading);
+    const loading = get(props, props.postponeSubmitWhenLoading)
     if (loading !== prevState.loading) {
       return {
         loading,
         submitting: !loading ? false : prevState.submitting,
-      };
+      }
     }
 
-    return null;
+    return null
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.form) return;
-    this.setValues(this.props.incidentContainer.incident);
-    this.form.meta.incident = this.props.incidentContainer.incident;
-    this.form.meta.submitting = this.state.submitting;
-    if (this.state.loading !== prevState.loading && !this.state.loading && this.state.next) {
+    if (!this.form) return
+    this.setValues(this.props.incidentContainer.incident)
+    this.form.meta.incident = this.props.incidentContainer.incident
+    this.form.meta.submitting = this.state.submitting
+    if (
+      this.state.loading !== prevState.loading &&
+      !this.state.loading &&
+      this.state.next
+    ) {
       if (this.form.valid) {
-        this.setIncident(this.state.formAction);
-        this.state.next();
+        this.setIncident(this.state.formAction)
+        this.state.next()
       }
     }
   }
@@ -117,51 +121,57 @@ class IncidentForm extends React.Component {
       submitting: false,
       formAction: '',
       next: null,
-    });
+    })
   }
 
   setForm(form) {
-    this.form = form;
+    this.form = form
     this.form.meta = {
       wizard: this.props.wizard,
       incidentContainer: this.props.incidentContainer,
       handleSubmit: this.handleSubmit,
       getClassification: this.props.getClassification,
       updateIncident: this.props.updateIncident,
-    };
+    }
 
-    this.setValues(this.props.incidentContainer.incident);
+    this.setValues(this.props.incidentContainer.incident)
   }
 
   setValues(incident) {
-    const controlKeys = Object.keys(this.form.controls);
+    const controlKeys = Object.keys(this.form.controls)
 
-    controlKeys.forEach(key => {
-      const control = this.form.controls[key];
-      if ((control.disabled && control.meta.isVisible) || (control.enabled && !control.meta.isVisible)) {
+    controlKeys.forEach((key) => {
+      const control = this.form.controls[key]
+      if (
+        (control.disabled && control.meta.isVisible) ||
+        (control.enabled && !control.meta.isVisible)
+      ) {
         if (control.meta.isVisible) {
-          control.enable();
+          control.enable()
         } else {
-          control.disable();
+          control.disable()
         }
       }
 
       if (!isEqual(incident[key], control.value)) {
-        control.setValue(incident[key]);
+        control.setValue(incident[key])
       }
-    });
+    })
 
     // Some extra questions can prevent other controls from being rendered
     // When this happens, question data from that control should be removed from the incident data
     const keysToRemoveFromIncident = controlKeys.filter(
-      key => key.startsWith('extra_') && typeof incident[key] !== 'undefined' && !this.form.controls[key].meta.isVisible
-    );
+      (key) =>
+        key.startsWith('extra_') &&
+        typeof incident[key] !== 'undefined' &&
+        !this.form.controls[key].meta.isVisible
+    )
 
     if (keysToRemoveFromIncident.length) {
-      this.props.removeQuestionData(keysToRemoveFromIncident);
+      this.props.removeQuestionData(keysToRemoveFromIncident)
     }
 
-    this.form.updateValueAndValidity();
+    this.form.updateValueAndValidity()
   }
 
   setIncident(formAction) {
@@ -169,22 +179,22 @@ class IncidentForm extends React.Component {
       formAction // eslint-disable-line default-case
     ) {
       case 'UPDATE_INCIDENT':
-        this.props.updateIncident(this.form.value);
-        break;
+        this.props.updateIncident(this.form.value)
+        break
 
       case 'CREATE_INCIDENT':
         this.props.createIncident({
           incident: this.props.incidentContainer.incident,
           wizard: this.props.wizard,
-        });
-        break;
+        })
+        break
 
       default:
     }
   }
 
   handleSubmit(e, next, formAction) {
-    e.preventDefault();
+    e.preventDefault()
 
     if (next) {
       if (this.props.postponeSubmitWhenLoading) {
@@ -193,26 +203,26 @@ class IncidentForm extends React.Component {
             submitting: true,
             formAction,
             next,
-          });
+          })
 
-          return;
+          return
         }
       }
 
       if (this.form.valid) {
-        this.setIncident(formAction);
-        next();
+        this.setIncident(formAction)
+        next()
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     }
 
-    Object.values(this.form.controls).map(control => control.onBlur());
+    Object.values(this.form.controls).map((control) => control.onBlur())
   }
 
   render() {
-    const fields = this?.form?.value || {};
-    const isSummary = Object.keys(fields).includes('page_summary');
+    const fields = this?.form?.value || {}
+    const isSummary = Object.keys(fields).includes('page_summary')
 
     return (
       <div className="incident-form" data-testid="incidentForm">
@@ -220,12 +230,15 @@ class IncidentForm extends React.Component {
           <Fieldset isSummary={isSummary}>
             <FormGenerator
               onMount={this.setForm}
-              fieldConfig={formatConditionalForm(this.props.fieldConfig, this.props.incidentContainer.incident)}
+              fieldConfig={formatConditionalForm(
+                this.props.fieldConfig,
+                this.props.incidentContainer.incident
+              )}
             />
           </Fieldset>
         </Form>
       </div>
-    );
+    )
   }
 }
 
@@ -234,7 +247,7 @@ IncidentForm.defaultProps = {
     controls: {},
   },
   postponeSubmitWhenLoading: '',
-};
+}
 
 IncidentForm.propTypes = {
   fieldConfig: PropTypes.object,
@@ -245,6 +258,6 @@ IncidentForm.propTypes = {
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
   postponeSubmitWhenLoading: PropTypes.string,
-};
+}
 
-export default IncidentForm;
+export default IncidentForm

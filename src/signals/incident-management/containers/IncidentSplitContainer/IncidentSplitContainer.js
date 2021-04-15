@@ -1,79 +1,99 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useEffect, useCallback, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useParams, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useCallback, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useParams, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
-import { makeSelectDepartments, makeSelectDirectingDepartments } from 'models/departments/selectors';
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
+import {
+  makeSelectDepartments,
+  makeSelectDirectingDepartments,
+} from 'models/departments/selectors'
 
-import useFetch from 'hooks/useFetch';
-import configuration from 'shared/services/configuration/configuration';
-import { showGlobalNotification } from 'containers/App/actions';
-import { VARIANT_SUCCESS, VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
-import { INCIDENT_URL } from 'signals/incident-management/routes';
+import useFetch from 'hooks/useFetch'
+import configuration from 'shared/services/configuration/configuration'
+import { showGlobalNotification } from 'containers/App/actions'
+import {
+  VARIANT_SUCCESS,
+  VARIANT_ERROR,
+  TYPE_LOCAL,
+} from 'containers/Notification/constants'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
 
-import LoadingIndicator from 'components/LoadingIndicator';
-import IncidentSplitForm from './components/IncidentSplitForm';
+import LoadingIndicator from 'components/LoadingIndicator'
+import IncidentSplitForm from './components/IncidentSplitForm'
 
 const IncidentSplitContainer = ({ FormComponent }) => {
-  const { isLoading: isSubmitting, error: errorSplit, isSuccess: isSuccessSplit, post } = useFetch();
+  const {
+    isLoading: isSubmitting,
+    error: errorSplit,
+    isSuccess: isSuccessSplit,
+    post,
+  } = useFetch()
   const {
     data: dataParent,
     error: errorParent,
     get: getParent,
     isLoading: isLoadingParent,
     isSuccess: isSuccessParent,
-  } = useFetch();
-  const { error: errorUpdate, patch, isSuccess: isSuccessUpdate } = useFetch();
-  const { id } = useParams();
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const [parentIncident, setParentIncident] = useState();
-  const [directingDepartment, setDirectingDepartment] = useState([]);
-  const [note, setNote] = useState();
-  const departments = useSelector(makeSelectDepartments);
-  const directingDepartments = useSelector(makeSelectDirectingDepartments);
+  } = useFetch()
+  const { error: errorUpdate, patch, isSuccess: isSuccessUpdate } = useFetch()
+  const { id } = useParams()
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const [parentIncident, setParentIncident] = useState()
+  const [directingDepartment, setDirectingDepartment] = useState([])
+  const [note, setNote] = useState()
+  const departments = useSelector(makeSelectDepartments)
+  const directingDepartments = useSelector(makeSelectDirectingDepartments)
 
-  const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
+  const [subcategoryGroups, subcategoryOptions] = useSelector(
+    makeSelectSubcategoriesGroupedByCategories
+  )
 
   const getPatchData = useCallback(() => {
-    if (!parentIncident) return null;
+    if (!parentIncident) return null
 
     // Initially, directing_departments can be undefined
-    const parentDirectingDepartments = parentIncident.directing_departments || [];
+    const parentDirectingDepartments =
+      parentIncident.directing_departments || []
 
-    const differentLength = parentDirectingDepartments.length !== directingDepartment.length;
+    const differentLength =
+      parentDirectingDepartments.length !== directingDepartment.length
     const differentValue =
       directingDepartment.length > 0 &&
-      !parentDirectingDepartments.some(department => department.id === directingDepartment[0].id);
+      !parentDirectingDepartments.some(
+        (department) => department.id === directingDepartment[0].id
+      )
 
-    const shouldPatchDirectingDepartment = differentLength || differentValue;
-    const shouldPatchNote = Boolean(note?.trim());
+    const shouldPatchDirectingDepartment = differentLength || differentValue
+    const shouldPatchNote = Boolean(note?.trim())
 
     return shouldPatchDirectingDepartment || shouldPatchNote
       ? {
-        ...(shouldPatchDirectingDepartment && { directing_departments: directingDepartment }),
-        ...(shouldPatchNote && { notes: [{ text: note }] }),
-      }
-      : null;
-  }, [parentIncident, note, directingDepartment]);
+          ...(shouldPatchDirectingDepartment && {
+            directing_departments: directingDepartment,
+          }),
+          ...(shouldPatchNote && { notes: [{ text: note }] }),
+        }
+      : null
+  }, [parentIncident, note, directingDepartment])
 
   const parentDirectingDepartment = useMemo(() => {
-    const department = parentIncident?.directing_departments;
-    if (!Array.isArray(department) || department.length !== 1) return 'null';
-    const { code } = department[0];
-    return directingDepartments.find(({ key }) => key === code) ? code : 'null';
-  }, [parentIncident, directingDepartments]);
+    const department = parentIncident?.directing_departments
+    if (!Array.isArray(department) || department.length !== 1) return 'null'
+    const { code } = department[0]
+    return directingDepartments.find(({ key }) => key === code) ? code : 'null'
+  }, [parentIncident, directingDepartments])
 
   const updateDepartment = useCallback(
-    name => {
-      const department = departments?.list.find(d => d.code === name);
-      setDirectingDepartment(department ? [{ id: department.id }] : []);
+    (name) => {
+      const department = departments?.list.find((d) => d.code === name)
+      setDirectingDepartment(department ? [{ id: department.id }] : [])
     },
     [departments, setDirectingDepartment]
-  );
+  )
 
   const submitCompleted = useCallback(
     /**
@@ -88,7 +108,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             variant: VARIANT_SUCCESS,
             type: TYPE_LOCAL,
           })
-        );
+        )
       } else {
         dispatch(
           showGlobalNotification({
@@ -96,47 +116,47 @@ const IncidentSplitContainer = ({ FormComponent }) => {
             variant: VARIANT_ERROR,
             type: TYPE_LOCAL,
           })
-        );
+        )
       }
 
-      history.push(`${INCIDENT_URL}/${id}`);
+      history.push(`${INCIDENT_URL}/${id}`)
     },
     // Disabling linter; the `history` dependency is generating infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [id, dispatch]
-  );
+  )
 
   useEffect(() => {
-    getParent(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`);
-  }, [getParent, id]);
+    getParent(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`)
+  }, [getParent, id])
 
   useEffect(() => {
-    if (errorParent === undefined && dataParent === undefined) return;
+    if (errorParent === undefined && dataParent === undefined) return
 
     /* istanbul ignore else */
     if (errorParent === false) {
-      setParentIncident(dataParent);
+      setParentIncident(dataParent)
     }
-  }, [errorParent, dataParent]);
+  }, [errorParent, dataParent])
 
   useEffect(() => {
-    if (isSuccessSplit === undefined || errorSplit === undefined) return;
+    if (isSuccessSplit === undefined || errorSplit === undefined) return
 
-    const patchData = getPatchData();
+    const patchData = getPatchData()
     if (isSuccessSplit && patchData) {
-      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, patchData);
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, patchData)
     } else {
-      submitCompleted({ success: isSuccessSplit });
+      submitCompleted({ success: isSuccessSplit })
     }
-  }, [errorSplit, isSuccessSplit, id, patch, submitCompleted, getPatchData]);
+  }, [errorSplit, isSuccessSplit, id, patch, submitCompleted, getPatchData])
 
   useEffect(() => {
-    if (isSuccessUpdate === undefined || errorUpdate === undefined) return;
+    if (isSuccessUpdate === undefined || errorUpdate === undefined) return
 
     // The scenario when there is an error during the patch of the parent incident
     // is intentionally left out.
-    submitCompleted({ success: true });
-  }, [errorUpdate, isSuccessUpdate, submitCompleted]);
+    submitCompleted({ success: true })
+  }, [errorUpdate, isSuccessUpdate, submitCompleted])
 
   const onSubmit = useCallback(
     /**
@@ -161,12 +181,12 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         reporter,
         source,
         text_extra,
-      } = parentIncident;
+      } = parentIncident
 
-      updateDepartment(department);
-      setNote(noteText);
+      updateDepartment(department)
+      setNote(noteText)
 
-      const { stadsdeel, buurt_code, address, geometrie } = location;
+      const { stadsdeel, buurt_code, address, geometrie } = location
 
       const parentData = {
         attachments,
@@ -177,34 +197,40 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         reporter,
         source,
         text_extra,
-      };
+      }
 
-      const mergedData = incidents.filter(Boolean).map(({ subcategory, description, type, priority }) => {
-        const partialData = {
-          category: { category_url: subcategory },
-          priority: { priority },
-          text: description,
-          type: { code: type },
-        };
+      const mergedData = incidents
+        .filter(Boolean)
+        .map(({ subcategory, description, type, priority }) => {
+          const partialData = {
+            category: { category_url: subcategory },
+            priority: { priority },
+            text: description,
+            type: { code: type },
+          }
 
-        return { ...parentData, ...partialData, parent };
-      });
+          return { ...parentData, ...partialData, parent }
+        })
 
-      post(configuration.INCIDENTS_ENDPOINT, mergedData);
+      post(configuration.INCIDENTS_ENDPOINT, mergedData)
     },
     [parentIncident, post, updateDepartment]
-  );
+  )
 
   return (
     <div data-testid="incidentSplitContainer">
-      {isLoadingParent || isSuccessParent || !parentIncident || !subcategoryOptions ? (
+      {isLoadingParent ||
+      isSuccessParent ||
+      !parentIncident ||
+      !subcategoryOptions ? (
         <LoadingIndicator />
       ) : (
         <FormComponent
           data-testid="incidentSplitForm"
           parentIncident={{
             id: parentIncident.id,
-            childrenCount: parentIncident?._links?.['sia:children']?.length || 0,
+            childrenCount:
+              parentIncident?._links?.['sia:children']?.length || 0,
             status: parentIncident.status.state,
             statusDisplayName: parentIncident.status.state_display,
             priority: parentIncident.priority.priority,
@@ -221,15 +247,15 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
 IncidentSplitContainer.defaultProps = {
   FormComponent: IncidentSplitForm,
-};
+}
 
 IncidentSplitContainer.propTypes = {
   FormComponent: PropTypes.func,
-};
+}
 
-export default IncidentSplitContainer;
+export default IncidentSplitContainer

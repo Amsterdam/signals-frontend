@@ -1,37 +1,55 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useCallback, useState, Fragment, useEffect, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import React, {
+  useCallback,
+  useState,
+  Fragment,
+  useEffect,
+  useRef,
+  useMemo,
+} from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
-import { priorityList, typesList } from 'signals/incident-management/definitions';
+import {
+  priorityList,
+  typesList,
+} from 'signals/incident-management/definitions'
 
-import Button from 'components/Button';
-import Label from 'components/Label';
-import TextArea from 'components/TextArea';
+import Button from 'components/Button'
+import Label from 'components/Label'
+import TextArea from 'components/TextArea'
 
-import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled';
+import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled'
 
-import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
-import IncidentSplitSelectInput from '../IncidentSplitSelectInput';
+import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
+import IncidentSplitSelectInput from '../IncidentSplitSelectInput'
 
-export const INCIDENT_SPLIT_LIMIT = 10;
+export const INCIDENT_SPLIT_LIMIT = 10
 
-const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, errors }) => {
-  const [splitCount, setSplitCount] = useState(1);
-  const incidentRef = useRef(null);
+const IncidentSplitFormIncident = ({
+  parentIncident,
+  subcategories,
+  register,
+  errors,
+}) => {
+  const [splitCount, setSplitCount] = useState(1)
+  const incidentRef = useRef(null)
 
-  const addIncident = useCallback(event => {
-    event.preventDefault();
-    setSplitCount(previousSplitCount => previousSplitCount + 1);
-  }, []);
+  const addIncident = useCallback((event) => {
+    event.preventDefault()
+    setSplitCount((previousSplitCount) => previousSplitCount + 1)
+  }, [])
 
-  const indexWithIncidentRef = useMemo(() => (splitCount === 1 ? null : splitCount - 1), [splitCount]);
+  const indexWithIncidentRef = useMemo(
+    () => (splitCount === 1 ? null : splitCount - 1),
+    [splitCount]
+  )
 
   useEffect(() => {
-    incidentRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [splitCount, incidentRef]);
+    incidentRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [splitCount, incidentRef])
 
   return (
     <Fragment>
@@ -41,7 +59,10 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, er
           ref={index === indexWithIncidentRef ? incidentRef : null}
         >
           <StyledGrid>
-            <StyledHeading forwardedAs="h2" data-testid="incidentSplitFormIncidentTitle">
+            <StyledHeading
+              forwardedAs="h2"
+              data-testid="incidentSplitFormIncidentTitle"
+            >
               Deelmelding {splitNumber + parentIncident.childrenCount}
             </StyledHeading>
 
@@ -58,13 +79,19 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, er
 
             <TextArea
               label={<strong>Omschrijving</strong>}
-              errorMessage={errors.incidents && errors.incidents[splitNumber]?.description.message}
+              errorMessage={
+                errors.incidents &&
+                errors.incidents[splitNumber]?.description.message
+              }
               data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
               id={`description-${splitNumber}`}
               name={`incidents[${splitNumber}].description`}
-              ref={register({ validate: {
-                required: value => !!value.trim() || 'Dit is een verplicht veld',
-              } })}
+              ref={register({
+                validate: {
+                  required: (value) =>
+                    !!value.trim() || 'Dit is een verplicht veld',
+                },
+              })}
               rows={10}
               defaultValue={parentIncident.description}
             />
@@ -109,8 +136,8 @@ const IncidentSplitFormIncident = ({ parentIncident, subcategories, register, er
         </fieldset>
       )}
     </Fragment>
-  );
-};
+  )
+}
 
 IncidentSplitFormIncident.propTypes = {
   parentIncident: PropTypes.shape({
@@ -127,6 +154,6 @@ IncidentSplitFormIncident.propTypes = {
   subcategories: PropTypes.array.isRequired,
   register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-};
+}
 
-export default IncidentSplitFormIncident;
+export default IncidentSplitFormIncident

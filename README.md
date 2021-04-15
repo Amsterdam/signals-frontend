@@ -1,4 +1,3 @@
-
 # Signalen frontend
 
 This project provides a web frontend for Signalen, an application that helps cities manage and prioritize nuisance reports.
@@ -7,8 +6,8 @@ This project provides a web frontend for Signalen, an application that helps cit
 
 Make sure you installed the following versions on your machine:
 
--  npm >= 7.7.6
--  node 14.16.0
+- npm >= 7.7.6
+- node 14.16.0
 
 Install the dependencies:
 
@@ -116,6 +115,6 @@ and [the Apple developer documentation](https://developer.apple.com/library/arch
 
 The Dot icons ([icon-dot] and [icon-dot-selected]) made by [Pixel perfect](https://icon54.com/) from [www.flaticon.com].
 
-[www.flaticon.com]: https://www.flaticon.com/ "Flaticon"
+[www.flaticon.com]: https://www.flaticon.com/ 'Flaticon'
 [icon-dot]: /src/shared/images/icon-dot-marker.svg
 [icon-dot-selected]: /src/shared/images/icon-dot-selected-marker.svg

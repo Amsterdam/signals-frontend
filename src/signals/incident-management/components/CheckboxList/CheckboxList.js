@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import { Label } from '@amsterdam/asc-ui';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
+import { Label } from '@amsterdam/asc-ui'
 
-import Checkbox from 'components/Checkbox';
-import * as types from 'shared/types';
+import Checkbox from 'components/Checkbox'
+import * as types from 'shared/types'
 
 const FilterGroup = styled.div`
   position: relative;
@@ -14,7 +14,7 @@ const FilterGroup = styled.div`
   & + & {
     margin-top: 30px;
   }
-`;
+`
 
 const Toggle = styled.label`
   display: inline-block;
@@ -41,7 +41,7 @@ const Toggle = styled.label`
     top: 0;
     visibility: hidden;
   }
-`;
+`
 
 const Wrapper = styled.div`
   ${({ disabled }) =>
@@ -53,9 +53,10 @@ const Wrapper = styled.div`
         pointer-events: none;
       }
     `}
-`;
+`
 
-const setsAreEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value));
+const setsAreEqual = (a, b) =>
+  a.size === b.size && [...a].every((value) => b.has(value))
 
 const CheckboxList = ({
   boxWrapperKeyPrefix,
@@ -81,7 +82,7 @@ const CheckboxList = ({
    * @param {Object[]} checked - List of options that correspond to checked boxes
    * @param {Function} setChecked - Handler that receives the full list of checked boxes
    */
-  const [checked, setChecked] = useState(new Set(defaultValue));
+  const [checked, setChecked] = useState(new Set(defaultValue))
 
   /**
    * Toggle selection indicator
@@ -90,8 +91,8 @@ const CheckboxList = ({
    * @param {Boolean} toggled - Indicates if the toggle has been clicked/activated
    * @param {Function} setToggled - Handler that receives a boolean
    */
-  const [toggled, setToggled] = useState(false);
-  const numOptions = useMemo(() => options.length, [options]);
+  const [toggled, setToggled] = useState(false)
+  const numOptions = useMemo(() => options.length, [options])
 
   /**
    * Verify if an option has been marked as checked
@@ -101,18 +102,18 @@ const CheckboxList = ({
    */
   const isChecked = useCallback(
     (id, state = checked) => {
-      if (id === undefined) return false;
+      if (id === undefined) return false
 
       for (const option of state) {
         if (option.id === id || option.key === id) {
-          return true;
+          return true
         }
       }
 
-      return false;
+      return false
     },
     [checked]
-  );
+  )
 
   /**
    * Get one of the checked options
@@ -121,19 +122,19 @@ const CheckboxList = ({
    * @returns {Object}
    */
   const getChecked = useCallback(
-    id => {
-      let foundOption;
+    (id) => {
+      let foundOption
 
       for (const option of checked) {
         if (option.id === id || option.key === id) {
-          foundOption = option;
+          foundOption = option
         }
       }
 
-      return foundOption;
+      return foundOption
     },
     [checked]
-  );
+  )
 
   /**
    * Get an entry from the `option` prop value
@@ -144,111 +145,113 @@ const CheckboxList = ({
   const getOption = useCallback(
     // id is always a string, because it comes from an HTML data- attribute
     // cast the comparing value to a string to make sure that we're comparing the same things
-    id => options.find(option => `${option.id}` === id || `${option.key}` === id),
+    (id) =>
+      options.find((option) => `${option.id}` === id || `${option.key}` === id),
     [options]
-  );
+  )
 
   useEffect(() => {
-    const wholeGroupChecked = isChecked(groupId) || checked.size === numOptions;
+    const wholeGroupChecked = isChecked(groupId) || checked.size === numOptions
 
-    setToggled(wholeGroupChecked);
+    setToggled(wholeGroupChecked)
 
-    if (!wholeGroupChecked) return;
+    if (!wholeGroupChecked) return
 
-    const optionsSet = new Set(options);
+    const optionsSet = new Set(options)
 
     if (!setsAreEqual(optionsSet, checked)) {
-      setChecked(optionsSet);
+      setChecked(optionsSet)
     }
     // no need for dependencies; only execute on mount
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   useEffect(() => {
-    const state = new Set(defaultValue);
+    const state = new Set(defaultValue)
 
-    if (setsAreEqual(state, checked)) return;
+    if (setsAreEqual(state, checked)) return
 
-    const wholeGroupChecked = isChecked(groupId, state) || state.size === numOptions;
+    const wholeGroupChecked =
+      isChecked(groupId, state) || state.size === numOptions
 
-    setToggled(wholeGroupChecked);
+    setToggled(wholeGroupChecked)
 
-    setChecked(wholeGroupChecked ? options : state);
+    setChecked(wholeGroupChecked ? options : state)
 
     // don't need all dependencies; only execute when value of `defaultValue` prop changes
     // eslint-disable-next-line
-  }, [defaultValue]);
+  }, [defaultValue])
 
   /**
    * Removes option from or adds option to state
    */
   const handleIndividualCheck = useCallback(
     ({ target }) => {
-      const { checked: targetIsChecked, id } = target;
+      const { checked: targetIsChecked, id } = target
 
       // Firefox & Safari on Mac do not hold focus for non-input elements when clicked
       // Force focus so that 'Enter' will submit the current selection
-      target.focus();
+      target.focus()
 
-      setChecked(state => {
-        const modifiedState = new Set(state);
+      setChecked((state) => {
+        const modifiedState = new Set(state)
 
         if (targetIsChecked) {
-          modifiedState.add(getOption(target.dataset.id));
+          modifiedState.add(getOption(target.dataset.id))
         } else {
-          const option = getChecked(target.dataset.id);
+          const option = getChecked(target.dataset.id)
 
-          modifiedState.delete(option);
+          modifiedState.delete(option)
         }
 
-        const allOptionsChecked = modifiedState.size === numOptions;
+        const allOptionsChecked = modifiedState.size === numOptions
 
-        setToggled(allOptionsChecked);
+        setToggled(allOptionsChecked)
 
         // in case that a list of options contains of only one item, we need to call the `onToggle`
         // callback function instead of the `onChange` callback unless the `onToggle` is undefined
         if (onToggle && allOptionsChecked) {
-          onToggle(groupValue || name, allOptionsChecked);
+          onToggle(groupValue || name, allOptionsChecked)
         } else {
           const onChangeTimeout = global.setTimeout(() => {
-            global.clearTimeout(onChangeTimeout);
-            onChange(groupValue || name, [...modifiedState]);
-          }, 0);
+            global.clearTimeout(onChangeTimeout)
+            onChange(groupValue || name, [...modifiedState])
+          }, 0)
         }
 
-        return modifiedState;
-      });
+        return modifiedState
+      })
     },
     [getChecked, getOption, groupValue, name, numOptions, onChange, onToggle]
-  );
+  )
 
   /**
    * Checks or unchecks all options in state
    */
   const handleToggle = useCallback(() => {
-    onToggle(groupValue || name, !toggled);
-    setChecked(new Set(toggled ? [] : options));
-    setToggled(!toggled);
-  }, [groupValue, name, onToggle, options, toggled]);
+    onToggle(groupValue || name, !toggled)
+    setChecked(new Set(toggled ? [] : options))
+    setToggled(!toggled)
+  }, [groupValue, name, onToggle, options, toggled])
 
   const handleKeyDown = useCallback(
-    event => {
+    (event) => {
       switch (event.key) {
         case ' ':
-          event.preventDefault();
-          handleToggle();
-          break;
+          event.preventDefault()
+          handleToggle()
+          break
 
         case 'Enter':
-          onSubmit(event);
-          break;
+          onSubmit(event)
+          break
 
         default:
-          break;
+          break
       }
     },
     [handleToggle, onSubmit]
-  );
+  )
 
   return (
     <FilterGroup className={className} data-testid="checkboxList">
@@ -277,18 +280,26 @@ const CheckboxList = ({
       )}
 
       {options.map(({ id, key, slug, value: label }) => {
-        const uid = id || key;
-        const optionId = [boxWrapperKeyPrefix, name, uid].filter(Boolean).join('_');
-        const value = slug || key;
-        const defaultOption = defaultValue.find(option => option.id === id) || {};
+        const uid = id || key
+        const optionId = [boxWrapperKeyPrefix, name, uid]
+          .filter(Boolean)
+          .join('_')
+        const value = slug || key
+        const defaultOption =
+          defaultValue.find((option) => option.id === id) || {}
 
         if (!uid) {
-          return null;
+          return null
         }
 
         return (
           <Wrapper disabled={defaultOption.disabled} key={optionId}>
-            <Label htmlFor={optionId} label={label} disabled={defaultOption.disabled} noActiveState>
+            <Label
+              htmlFor={optionId}
+              label={label}
+              disabled={defaultOption.disabled}
+              noActiveState
+            >
               <Checkbox
                 checked={isChecked(groupId) || isChecked(uid)}
                 data-testid={`checkbox-${optionId}`}
@@ -301,11 +312,11 @@ const CheckboxList = ({
               />
             </Label>
           </Wrapper>
-        );
+        )
       })}
     </FilterGroup>
-  );
-};
+  )
+}
 
 CheckboxList.defaultProps = {
   boxWrapperKeyPrefix: '',
@@ -321,7 +332,7 @@ CheckboxList.defaultProps = {
   title: null,
   toggleAllLabel: 'Alles selecteren',
   toggleNothingLabel: 'Niets selecteren',
-};
+}
 
 CheckboxList.propTypes = {
   boxWrapperKeyPrefix: PropTypes.string,
@@ -370,6 +381,6 @@ CheckboxList.propTypes = {
   toggleAllLabel: PropTypes.string,
   /** Text label for the group toggle in its toggled state */
   toggleNothingLabel: PropTypes.string,
-};
+}
 
-export default memo(CheckboxList);
+export default memo(CheckboxList)

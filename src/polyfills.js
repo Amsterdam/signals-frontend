@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 if (window.NodeList && !NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = Array.prototype.forEach;
+  NodeList.prototype.forEach = Array.prototype.forEach
 }
 
 /**
@@ -10,15 +10,15 @@ if (window.NodeList && !NodeList.prototype.forEach) {
  */
 if (!Object.entries) {
   Object.entries = function entries(obj) {
-    const ownProps = Object.keys(obj);
-    let i = ownProps.length;
-    const resArray = new Array(i); // preallocate the Array
+    const ownProps = Object.keys(obj)
+    let i = ownProps.length
+    const resArray = new Array(i) // preallocate the Array
 
     // eslint-disable-next-line no-plusplus
     while (i--) {
-      resArray[i] = [ownProps[i], obj[ownProps[i]]];
+      resArray[i] = [ownProps[i], obj[ownProps[i]]]
     }
 
-    return resArray;
-  };
+    return resArray
+  }
 }

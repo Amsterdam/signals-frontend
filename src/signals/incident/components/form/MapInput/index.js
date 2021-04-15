@@ -1,28 +1,36 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import MapInputComponent from 'components/MapInput';
-import MapContext from 'containers/MapContext';
-import configuration from 'shared/services/configuration/configuration';
-import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import { formatMapLocation } from 'shared/services/map-location';
+import MapInputComponent from 'components/MapInput'
+import MapContext from 'containers/MapContext'
+import configuration from 'shared/services/configuration/configuration'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { formatMapLocation } from 'shared/services/map-location'
 
-import Header from '../Header';
+import Header from '../Header'
 
-const MapInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
-  const value = formatMapLocation(handler().value || {});
-  const { lat, lng } = value?.location || {};
+const MapInput = ({
+  handler,
+  touched,
+  hasError,
+  meta,
+  parent,
+  getError,
+  validatorsOrOpts,
+}) => {
+  const value = formatMapLocation(handler().value || {})
+  const { lat, lng } = value?.location || {}
   const mapOptions = {
     ...MAP_OPTIONS,
     center: lat && lng ? [lat, lng] : [...MAP_OPTIONS.center],
-  };
+  }
 
   // Can't use useCallback here, would break the rules of hooks
-  const onLocationChange = location => {
-    parent.meta.updateIncident({ location });
-  };
+  const onLocationChange = (location) => {
+    parent.meta.updateIncident({ location })
+  }
 
   return (
     meta?.isVisible && (
@@ -49,8 +57,8 @@ const MapInput = ({ handler, touched, hasError, meta, parent, getError, validato
         </div>
       </Header>
     )
-  );
-};
+  )
+}
 
 MapInput.propTypes = {
   handler: PropTypes.func,
@@ -60,6 +68,6 @@ MapInput.propTypes = {
   meta: PropTypes.object,
   parent: PropTypes.object,
   validatorsOrOpts: PropTypes.object,
-};
+}
 
-export default MapInput;
+export default MapInput

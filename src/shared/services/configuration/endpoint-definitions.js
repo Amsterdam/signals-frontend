@@ -28,7 +28,8 @@ export default {
   // Public. Used by the KTO (klanttevredenheidsonderzoek) module to retrieve
   // questions regarding a person's incident handling satisfaction. No Swagger
   // documentation available.
-  FEEDBACK_STANDARD_ANSWERS_ENDPOINT: '/signals/v1/public/feedback/standard_answers/',
+  FEEDBACK_STANDARD_ANSWERS_ENDPOINT:
+    '/signals/v1/public/feedback/standard_answers/',
   // Private. Used to `GET`, `POST` and `PATCH` filters for a specific user. No
   // Swagger documentation available.
   FILTERS_ENDPOINT: '/signals/v1/private/me/filters/',
@@ -84,4 +85,4 @@ export default {
   USERS_ENDPOINT: '/signals/v1/private/users/',
   // Private. Used to `GET` autocomplete results for username input.
   AUTOCOMPLETE_USERNAME_ENDPOINT: '/signals/v1/private/autocomplete/usernames/',
-};
+}

@@ -1,20 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import formatConditionalForm from '.';
-import checkVisibility from '../checkVisibility';
+import formatConditionalForm from '.'
+import checkVisibility from '../checkVisibility'
 
-jest.mock('../checkVisibility');
+jest.mock('../checkVisibility')
 
 describe('The format conditional form service', () => {
-  beforeEach(() => {
-  });
+  beforeEach(() => {})
 
   it('should be undefined by default', () => {
-    expect(formatConditionalForm()).toBeUndefined();
-  });
+    expect(formatConditionalForm()).toBeUndefined()
+  })
 
   it('should add name and isVisible true when controls are visible', () => {
-    checkVisibility.mockImplementation(() => true);
+    checkVisibility.mockImplementation(() => true)
 
     const controls = {
       description: {
@@ -28,7 +27,7 @@ describe('The format conditional form service', () => {
         },
       },
       var_no_meta: {},
-    };
+    }
     expect(
       formatConditionalForm({
         controls,
@@ -51,11 +50,11 @@ describe('The format conditional form service', () => {
         },
         var_no_meta: {},
       },
-    });
-  });
+    })
+  })
 
   it('should add name and isVisible true when controls are not visible', () => {
-    checkVisibility.mockImplementation(() => false);
+    checkVisibility.mockImplementation(() => false)
 
     const controls = {
       description: {
@@ -69,7 +68,7 @@ describe('The format conditional form service', () => {
         },
       },
       var_no_meta: {},
-    };
+    }
     expect(
       formatConditionalForm({
         controls,
@@ -92,6 +91,6 @@ describe('The format conditional form service', () => {
         },
         var_no_meta: {},
       },
-    });
-  });
-});
+    })
+  })
+})

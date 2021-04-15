@@ -1,18 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useCallback, useContext, useMemo } from 'react';
-import styled from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
-import { themeColor, themeSpacing, Heading, styles } from '@amsterdam/asc-ui';
+import React, { useCallback, useContext, useMemo } from 'react'
+import styled from 'styled-components'
+import { Link, useLocation } from 'react-router-dom'
+import { themeColor, themeSpacing, Heading, styles } from '@amsterdam/asc-ui'
 
-import BackLink from 'components/BackLink';
-import Button from 'components/Button';
-import configuration from 'shared/services/configuration/configuration';
-import { MAP_URL, INCIDENT_URL, INCIDENTS_URL } from 'signals/incident-management/routes';
+import BackLink from 'components/BackLink'
+import Button from 'components/Button'
+import configuration from 'shared/services/configuration/configuration'
+import {
+  MAP_URL,
+  INCIDENT_URL,
+  INCIDENTS_URL,
+} from 'signals/incident-management/routes'
 
-import DownloadButton from './components/DownloadButton';
-import { PATCH_TYPE_THOR } from '../../constants';
-import IncidentDetailContext from '../../context';
+import DownloadButton from './components/DownloadButton'
+import { PATCH_TYPE_THOR } from '../../constants'
+import IncidentDetailContext from '../../context'
 
 const Header = styled.header`
   display: grid;
@@ -29,16 +33,16 @@ const Header = styled.header`
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
     grid-template-columns: 7fr 1fr 4fr;
   }
-`;
+`
 
 const BackLinkContainer = styled.div`
   grid-column-start: 1;
   grid-column-end: 4;
-`;
+`
 
 const StyledBackLink = styled(BackLink)`
   margin: ${themeSpacing(4)} 0;
-`;
+`
 
 const ButtonContainer = styled.div`
   grid-column-start: 3;
@@ -49,7 +53,7 @@ const ButtonContainer = styled.div`
   & > * {
     margin-left: ${themeSpacing(2)};
   }
-`;
+`
 
 const HeadingContainer = styled.div`
   display: flex;
@@ -61,7 +65,7 @@ const HeadingContainer = styled.div`
   & > ${styles.HeaderStyles} {
     font-weight: 400;
   }
-`;
+`
 
 const StyledHeading = styled(Heading)`
   font-size: 16px;
@@ -71,7 +75,7 @@ const StyledHeading = styled(Heading)`
     content: ' / ';
     white-space: pre;
   }
-`;
+`
 
 const ButtonLink = styled(Button)`
   color: ${themeColor('tint', 'level7')};
@@ -81,40 +85,44 @@ const ButtonLink = styled(Button)`
     background-color: ${themeColor('tint', 'level4')};
     color: ${themeColor('tint', 'level7')};
   }
-`;
+`
 
 const ParentLink = styled(Link)`
   text-decoration: underline;
   color: black;
-`;
+`
 
 const DetailHeader = () => {
-  const { incident, update } = useContext(IncidentDetailContext);
-  const location = useLocation();
+  const { incident, update } = useContext(IncidentDetailContext)
+  const location = useLocation()
 
   const showSplitButton = useMemo(() => {
-    if (['o', 'a', 's'].includes(incident.status.state)) return false;
+    if (['o', 'a', 's'].includes(incident.status.state)) return false
 
-    if (incident?._links?.['sia:parent']) return false;
+    if (incident?._links?.['sia:parent']) return false
 
-    const children = incident?._links?.['sia:children'];
-    if (children?.length && children.length >= 10) return false;
+    const children = incident?._links?.['sia:children']
+    if (children?.length && children.length >= 10) return false
 
-    return true;
-  }, [incident]);
+    return true
+  }, [incident])
 
-  const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].includes(incident.status.state);
-  const downloadLink = incident?._links?.['sia:pdf']?.href;
+  const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].includes(
+    incident.status.state
+  )
+  const downloadLink = incident?._links?.['sia:pdf']?.href
 
-  const referrer = location.referrer?.startsWith(MAP_URL) ? MAP_URL : INCIDENTS_URL;
-  const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop();
+  const referrer = location.referrer?.startsWith(MAP_URL)
+    ? MAP_URL
+    : INCIDENTS_URL
+  const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop()
 
-  const hasChildren = incident?._links?.['sia:children']?.length > 0;
-  let headingText = 'Standaardmelding';
+  const hasChildren = incident?._links?.['sia:children']?.length > 0
+  let headingText = 'Standaardmelding'
   if (hasChildren) {
-    headingText = 'Hoofdmelding';
+    headingText = 'Hoofdmelding'
   } else if (parentId) {
-    headingText = 'Deelmelding';
+    headingText = 'Deelmelding'
   }
 
   const patchIncident = useCallback(() => {
@@ -127,10 +135,10 @@ const DetailHeader = () => {
           target_api: 'sigmax',
         },
       },
-    };
+    }
 
-    update(patch);
-  }, [update]);
+    update(patch)
+  }, [update])
 
   return (
     <Header className="detail-header">
@@ -159,7 +167,12 @@ const DetailHeader = () => {
         )}
 
         {canThor && (
-          <Button type="button" variant="application" onClick={patchIncident} data-testid="detail-header-button-thor">
+          <Button
+            type="button"
+            variant="application"
+            onClick={patchIncident}
+            data-testid="detail-header-button-thor"
+          >
             THOR
           </Button>
         )}
@@ -172,7 +185,7 @@ const DetailHeader = () => {
         />
       </ButtonContainer>
     </Header>
-  );
-};
+  )
+}
 
-export default DetailHeader;
+export default DetailHeader

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
-import { PAGE_SIZE as page_size } from 'containers/App/constants';
-import configuration from 'shared/services/configuration/configuration';
-import useFetch from 'hooks/useFetch';
+import { PAGE_SIZE as page_size } from 'containers/App/constants'
+import configuration from 'shared/services/configuration/configuration'
+import useFetch from 'hooks/useFetch'
 
-import filterData from '../../../filterData';
+import filterData from '../../../filterData'
 
 // name mapping from API values to human readable values
 const colMap = {
@@ -14,7 +14,7 @@ const colMap = {
   is_active: 'Status',
   roles: 'Rol',
   username: 'Gebruikersnaam',
-};
+}
 
 /**
  * Custom hook useFetchUsers
@@ -24,30 +24,30 @@ const colMap = {
  * @returns {FetchResponse}
  */
 const useFetchUsers = ({ page, filters } = {}) => {
-  const [users, setUsers] = useState([]);
-  const { get, data, isLoading, error } = useFetch();
+  const [users, setUsers] = useState([])
+  const { get, data, isLoading, error } = useFetch()
 
   useEffect(() => {
-    const pageParams = { page, page_size };
+    const pageParams = { page, page_size }
 
     const filterParams = Object.entries(filters || {})
       .filter(([, value]) => value !== '*')
-      .reduce((acc, [filter, value]) => ({ ...acc, [filter]: value }), {});
+      .reduce((acc, [filter, value]) => ({ ...acc, [filter]: value }), {})
 
-    const queryParams = { ...pageParams, ...filterParams };
+    const queryParams = { ...pageParams, ...filterParams }
 
-    get(configuration.USERS_ENDPOINT, queryParams);
-  }, [filters, get, page]);
+    get(configuration.USERS_ENDPOINT, queryParams)
+  }, [filters, get, page])
 
   useEffect(() => {
-    if (!data) return;
+    if (!data) return
 
-    const filteredUserData = filterData(data.results, colMap);
+    const filteredUserData = filterData(data.results, colMap)
 
-    setUsers({ count: data.count, list: filteredUserData });
-  }, [data]);
+    setUsers({ count: data.count, list: filteredUserData })
+  }, [data])
 
-  return { isLoading, users, error };
-};
+  return { isLoading, users, error }
+}
 
-export default useFetchUsers;
+export default useFetchUsers

@@ -1,34 +1,37 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { themeSpacing, Row, Column } from '@amsterdam/asc-ui';
-import styled from 'styled-components';
+import React, { useCallback } from 'react'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
-import { userType, historyType } from 'shared/types';
+import { userType, historyType } from 'shared/types'
 
-import { rolesModelSelector, inputCheckboxRolesSelector } from 'models/roles/selectors';
+import {
+  rolesModelSelector,
+  inputCheckboxRolesSelector,
+} from 'models/roles/selectors'
 
-import { makeSelectDepartments } from 'models/departments/selectors';
-import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
-import CheckboxList from 'signals/incident-management/components/CheckboxList';
+import { makeSelectDepartments } from 'models/departments/selectors'
+import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
+import CheckboxList from 'signals/incident-management/components/CheckboxList'
 
-import Input from 'components/Input';
-import Label from 'components/Label';
-import TextArea from 'components/TextArea';
-import FormFooter from 'components/FormFooter';
-import History from 'components/History';
+import Input from 'components/Input'
+import Label from 'components/Label'
+import TextArea from 'components/TextArea'
+import FormFooter from 'components/FormFooter'
+import History from 'components/History'
 
 const Form = styled.form`
   width: 100%;
-`;
+`
 
 const StyledColumn = styled(Column).attrs({
   span: { small: 12, medium: 12, big: 12, large: 5, xLarge: 5 },
 })`
   flex-direction: column;
-`;
+`
 
 const FieldGroup = styled.div`
   @media (max-width: ${({ theme }) => theme.layouts.large.min}px) {
@@ -38,104 +41,117 @@ const FieldGroup = styled.div`
   & + & {
     margin-top: ${themeSpacing(8)};
   }
-`;
+`
 
 const StyledFormFooter = styled(FormFooter)`
   position: fixed;
-`;
+`
 
 const statusOptions = [
   { key: 'true', value: 'Actief' },
   { key: 'false', value: 'Niet actief' },
-];
+]
 
 const StyledHistory = styled(History)`
   h2 {
     font-size: 16px;
   }
-`;
+`
 
-const DEFAULT_STATUS_OPTION = 'true';
+const DEFAULT_STATUS_OPTION = 'true'
 
-const reducer = (state, { field, value }) => ({ ...state, [field]: value });
+const reducer = (state, { field, value }) => ({ ...state, [field]: value })
 
 const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
-  const inputRoles = useSelector(inputCheckboxRolesSelector);
-  const roles = useSelector(rolesModelSelector).list;
-  const departments = useSelector(makeSelectDepartments);
-  const departmentList = departments.list.map(({ id, name }) => ({ id: String(id), value: name }));
+  const inputRoles = useSelector(inputCheckboxRolesSelector)
+  const roles = useSelector(rolesModelSelector).list
+  const departments = useSelector(makeSelectDepartments)
+  const departmentList = departments.list.map(({ id, name }) => ({
+    id: String(id),
+    value: name,
+  }))
 
   const userDepartments =
     data?.profile?.departments
-      ?.map(department => departmentList.find(({ value }) => value === department))
-      .filter(Boolean) || [];
+      ?.map((department) =>
+        departmentList.find(({ value }) => value === department)
+      )
+      .filter(Boolean) || []
 
-  const userRoles = data?.roles?.map(role => inputRoles.find(({ name }) => name === role.name)).filter(Boolean) || [];
+  const userRoles =
+    data?.roles
+      ?.map((role) => inputRoles.find(({ name }) => name === role.name))
+      .filter(Boolean) || []
 
   const [state, dispatch] = React.useReducer(reducer, {
     username: data.username,
     first_name: data.first_name,
     last_name: data.last_name,
     note: data.profile && data.profile.note,
-    is_active: data.is_active === undefined ? DEFAULT_STATUS_OPTION : `${data.is_active}`,
+    is_active:
+      data.is_active === undefined
+        ? DEFAULT_STATUS_OPTION
+        : `${data.is_active}`,
     departments: userDepartments,
     roles: userRoles,
-  });
+  })
 
   const onChangeEvent = useCallback(
-    event => {
-      onChange(event.target.name, event.target.value);
+    (event) => {
+      onChange(event.target.name, event.target.value)
     },
     [onChange]
-  );
+  )
 
   const onChange = useCallback(
     (field, value) => {
-      dispatch({ field, value });
+      dispatch({ field, value })
     },
     [dispatch]
-  );
+  )
 
   const getFormData = useCallback(() => {
-    const form = { ...data, profile: { ...data.profile } };
+    const form = { ...data, profile: { ...data.profile } }
 
-    form.username = state.username;
-    form.first_name = state.first_name;
-    form.last_name = state.last_name;
-    form.is_active = state.is_active === 'true';
-    form.profile.note = state.note;
-    form.profile.departments = state.departments.map(({ value }) => value);
+    form.username = state.username
+    form.first_name = state.first_name
+    form.last_name = state.last_name
+    form.is_active = state.is_active === 'true'
+    form.profile.note = state.note
+    form.profile.departments = state.departments.map(({ value }) => value)
 
     form.roles = state.roles.map(({ name: stateRoleName }) =>
       roles.find(({ name: dataRoleName }) => dataRoleName === stateRoleName)
-    );
+    )
 
-    const postPatch = { ...form, profile: { ...form.profile } };
+    const postPatch = { ...form, profile: { ...form.profile } }
 
-    delete postPatch.profile.departments;
-    postPatch.profile.department_ids = Object.values(state.departments).map(({ id }) => id);
+    delete postPatch.profile.departments
+    postPatch.profile.department_ids = Object.values(state.departments).map(
+      ({ id }) => id
+    )
 
-    delete postPatch.roles;
-    postPatch.role_ids = Object.values(state.roles).map(({ key }) => key);
+    delete postPatch.roles
+    postPatch.role_ids = Object.values(state.roles).map(({ key }) => key)
 
-    return { form, postPatch };
-  }, [data, roles, state]);
+    return { form, postPatch }
+  }, [data, roles, state])
 
   const onSubmitForm = useCallback(
-    event => {
-      event.preventDefault();
-      onSubmit(getFormData());
+    (event) => {
+      event.preventDefault()
+      onSubmit(getFormData())
     },
     [getFormData, onSubmit]
-  );
+  )
 
   const onCancelForm = useCallback(
-    event => {
-      event.preventDefault();
-      onCancel(getFormData());
+    (event) => {
+      event.preventDefault()
+      onCancel(getFormData())
     },
     [getFormData, onCancel]
-  );
+  )
 
   return (
     <Form action="" data-testid="detailUserForm">
@@ -188,7 +204,7 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
                 options={statusOptions}
                 disabled={readOnly}
                 onChange={(field, { key: value }) => {
-                  onChange(field, value);
+                  onChange(field, value)
                 }}
               />
             </FieldGroup>
@@ -202,7 +218,7 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
                 name="roles"
                 options={inputRoles}
                 onChange={(field, value) => {
-                  onChange(field, value);
+                  onChange(field, value)
                 }}
               />
             </FieldGroup>
@@ -216,17 +232,21 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
                 name="departments"
                 options={departmentList}
                 onChange={(field, value) => {
-                  onChange(field, value);
+                  onChange(field, value)
                 }}
               />
             </FieldGroup>
           </div>
         </StyledColumn>
 
-        <StyledColumn push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}>
+        <StyledColumn
+          push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
+        >
           <div>
             <FieldGroup>
-              <Label as="span" htmlFor="note">Notitie</Label>
+              <Label as="span" htmlFor="note">
+                Notitie
+              </Label>
               <TextArea
                 disabled={readOnly}
                 value={state.note}
@@ -237,7 +257,9 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
               />
             </FieldGroup>
 
-            <FieldGroup>{history && <StyledHistory list={history} />}</FieldGroup>
+            <FieldGroup>
+              {history && <StyledHistory list={history} />}
+            </FieldGroup>
           </div>
         </StyledColumn>
 
@@ -251,15 +273,15 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
         )}
       </Row>
     </Form>
-  );
-};
+  )
+}
 
 UserForm.defaultProps = {
   data: {},
   onCancel: null,
   onSubmit: null,
   readOnly: false,
-};
+}
 
 UserForm.propTypes = {
   data: userType,
@@ -280,6 +302,6 @@ UserForm.propTypes = {
   onSubmit: PropTypes.func,
   /** When true, none of the fields in the form can be edited */
   readOnly: PropTypes.bool,
-};
+}
 
-export default UserForm;
+export default UserForm

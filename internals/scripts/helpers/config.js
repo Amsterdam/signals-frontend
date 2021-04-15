@@ -1,18 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-const fs = require('fs');
-const merge = require('lodash.merge');
-const path = require('path');
+const fs = require('fs')
+const merge = require('lodash.merge')
+const path = require('path')
 
-const extendedConfigFileName = process.env.CONFIG || 'app.json';
+const extendedConfigFileName = process.env.CONFIG || 'app.json'
 
-const baseConfig = require('../../../app.base.json');
-const extendedConfigFile = path.join(__dirname, '..', '..', '..', extendedConfigFileName);
-const extendedConfig = fs.existsSync(extendedConfigFile) ? require(extendedConfigFile) : {};
-const config = merge({}, baseConfig, extendedConfig);
+const baseConfig = require('../../../app.base.json')
+const extendedConfigFile = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  extendedConfigFileName
+)
+const extendedConfig = fs.existsSync(extendedConfigFile)
+  ? require(extendedConfigFile)
+  : {}
+const config = merge({}, baseConfig, extendedConfig)
 const matomo = config.matomo
   ? `<noscript><img src="${config.matomo.urlBase}matomo.php?idsite=${config.matomo.siteId}&amp;rec=1" alt="" /></noscript>`
-  : '';
+  : ''
 
 const placeholders = {
   $SIGNALS_ANDROID_ICON: config.head.androidIcon,
@@ -26,18 +34,18 @@ const placeholders = {
   $SIGNALS_SITE_TITLE: config.language.siteTitle,
   $SIGNALS_STATUS_BAR_STYLE: config.head.statusBarStyle,
   $SIGNALS_THEME_COLOR: config.head.themeColor,
-};
+}
 
-const inject = files =>
-  files.map(file =>
+const inject = (files) =>
+  files.map((file) =>
     Object.entries(placeholders).reduce(
       (acc, [key, value]) => acc.replace(new RegExp(`\\${key}`, 'gm'), value),
       fs.readFileSync(file).toString()
     )
-  );
+  )
 
 module.exports = {
   baseConfig,
   config,
   inject,
-};
+}

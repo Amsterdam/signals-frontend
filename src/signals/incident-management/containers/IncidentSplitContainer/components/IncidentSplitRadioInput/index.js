@@ -1,23 +1,34 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react'
+import PropTypes from 'prop-types'
 
-import { RadioGroup, Radio } from '@amsterdam/asc-ui';
+import { RadioGroup, Radio } from '@amsterdam/asc-ui'
 
-import { StyledInfoText, StyledRadioLabel, StyledLabel } from '../../styled';
+import { StyledInfoText, StyledRadioLabel, StyledLabel } from '../../styled'
 
-const getSelectedOption = (options, value) => options.find(({ key }) => key === value);
+const getSelectedOption = (options, value) =>
+  options.find(({ key }) => key === value)
 
-const IncidentSplitRadioInput = ({ className, id, name, display, options, initialValue, register }) => {
-  const [selected, setSelected] = useState(getSelectedOption(options, initialValue));
+const IncidentSplitRadioInput = ({
+  className,
+  id,
+  name,
+  display,
+  options,
+  initialValue,
+  register,
+}) => {
+  const [selected, setSelected] = useState(
+    getSelectedOption(options, initialValue)
+  )
 
   const onChange = useCallback(
-    event => {
-      setSelected(getSelectedOption(options, event.target.value));
+    (event) => {
+      setSelected(getSelectedOption(options, event.target.value))
     },
     [options]
-  );
+  )
 
   return (
     <div className={className}>
@@ -26,15 +37,23 @@ const IncidentSplitRadioInput = ({ className, id, name, display, options, initia
       <RadioGroup name={name} data-testid={`incidentSplitRadioInput-${id}`}>
         {options.map(({ key, value }) => (
           <StyledRadioLabel key={key} label={value}>
-            <Radio id={`${id}-${key}`} checked={key === initialValue} value={key} ref={register} onChange={onChange} />
+            <Radio
+              id={`${id}-${key}`}
+              checked={key === initialValue}
+              value={key}
+              ref={register}
+              onChange={onChange}
+            />
           </StyledRadioLabel>
         ))}
       </RadioGroup>
 
-      {selected?.info && <StyledInfoText text={`${selected.value}: ${selected.info}`} />}
+      {selected?.info && (
+        <StyledInfoText text={`${selected.value}: ${selected.info}`} />
+      )}
     </div>
-  );
-};
+  )
+}
 
 IncidentSplitRadioInput.propTypes = {
   id: PropTypes.string.isRequired,
@@ -50,6 +69,6 @@ IncidentSplitRadioInput.propTypes = {
   ).isRequired,
   register: PropTypes.func.isRequired,
   className: PropTypes.string,
-};
+}
 
-export default IncidentSplitRadioInput;
+export default IncidentSplitRadioInput

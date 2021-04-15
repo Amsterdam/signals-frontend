@@ -1,19 +1,28 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useCallback, useReducer, useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Label, Alert, Heading, Paragraph } from '@amsterdam/asc-ui';
+import React, {
+  Fragment,
+  useCallback,
+  useReducer,
+  useContext,
+  useMemo,
+} from 'react'
+import PropTypes from 'prop-types'
+import { Label, Alert, Heading, Paragraph } from '@amsterdam/asc-ui'
 
-import { defaultTextsType } from 'shared/types';
-import statusList, { changeStatusOptionList, isStatusClosed } from 'signals/incident-management/definitions/statusList';
+import { defaultTextsType } from 'shared/types'
+import statusList, {
+  changeStatusOptionList,
+  isStatusClosed,
+} from 'signals/incident-management/definitions/statusList'
 
-import TextArea from 'components/TextArea';
-import Checkbox from 'components/Checkbox';
+import TextArea from 'components/TextArea'
+import Checkbox from 'components/Checkbox'
 
-import RadioButtonList from 'signals/incident-management/components/RadioButtonList';
-import DefaultTexts from './components/DefaultTexts';
-import IncidentDetailContext from '../../context';
-import { PATCH_TYPE_STATUS } from '../../constants';
+import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
+import DefaultTexts from './components/DefaultTexts'
+import IncidentDetailContext from '../../context'
+import { PATCH_TYPE_STATUS } from '../../constants'
 import {
   Form,
   FormArea,
@@ -26,33 +35,45 @@ import {
   StyledH4,
   TextsArea,
   Wrapper,
-} from './styled';
-import * as constants from './constants';
-import reducer, { init } from './reducer';
+} from './styled'
+import * as constants from './constants'
+import reducer, { init } from './reducer'
 
 const StatusForm = ({ defaultTexts, childIncidents }) => {
-  const { incident, update, close } = useContext(IncidentDetailContext);
-  const [state, dispatch] = useReducer(reducer, incident, init);
-  const isDeelmelding = useMemo(() => incident?._links?.['sia:parent'] !== undefined, [incident]);
-  const currentStatus = useMemo(() => statusList.find(({ key }) => key === incident.status.state), [incident]);
+  const { incident, update, close } = useContext(IncidentDetailContext)
+  const [state, dispatch] = useReducer(reducer, incident, init)
+  const isDeelmelding = useMemo(
+    () => incident?._links?.['sia:parent'] !== undefined,
+    [incident]
+  )
+  const currentStatus = useMemo(
+    () => statusList.find(({ key }) => key === incident.status.state),
+    [incident]
+  )
   const hasOpenChildren = useMemo(
-    () => childIncidents?.map(child => !isStatusClosed(child.status.state)).some(v => v === true),
+    () =>
+      childIncidents
+        ?.map((child) => !isStatusClosed(child.status.state))
+        .some((v) => v === true),
     [childIncidents]
-  );
+  )
 
   const onRadioChange = useCallback((name, selectedStatus) => {
-    dispatch({ type: 'SET_STATUS', payload: selectedStatus });
-  }, []);
+    dispatch({ type: 'SET_STATUS', payload: selectedStatus })
+  }, [])
 
   const handleSubmit = useCallback(
-    event => {
-      event.preventDefault();
+    (event) => {
+      event.preventDefault()
 
-      const textValue = state.text.value || state.text.defaultValue;
+      const textValue = state.text.value || state.text.defaultValue
 
       if (state.text.required && !textValue) {
-        dispatch({ type: 'SET_ERRORS', payload: { text: 'Dit veld is verplicht' } });
-        return;
+        dispatch({
+          type: 'SET_ERRORS',
+          payload: { text: 'Dit veld is verplicht' },
+        })
+        return
       }
 
       if (/{{|}}/gi.test(textValue)) {
@@ -62,33 +83,37 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
             text:
               "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan.",
           },
-        });
-        return;
+        })
+        return
       }
 
       update({
         type: PATCH_TYPE_STATUS,
         patch: {
-          status: { state: state.status.key, text: textValue, send_email: state.check.checked },
+          status: {
+            state: state.status.key,
+            text: textValue,
+            send_email: state.check.checked,
+          },
         },
-      });
+      })
 
-      close();
+      close()
     },
     [close, update, state.text, state.check.checked, state.status.key]
-  );
+  )
 
   const setDefaultText = useCallback((event, text) => {
-    dispatch({ type: 'SET_DEFAULT_TEXT', payload: text });
-  }, []);
+    dispatch({ type: 'SET_DEFAULT_TEXT', payload: text })
+  }, [])
 
   const onCheck = useCallback(() => {
-    dispatch({ type: 'TOGGLE_CHECK' });
-  }, []);
+    dispatch({ type: 'TOGGLE_CHECK' })
+  }, [])
 
-  const onTextChange = useCallback(event => {
-    dispatch({ type: 'SET_TEXT', payload: event.target.value });
-  }, []);
+  const onTextChange = useCallback((event) => {
+    dispatch({ type: 'SET_TEXT', payload: event.target.value })
+  }, [])
 
   return (
     <Wrapper>
@@ -119,13 +144,19 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
 
             {isStatusClosed(state.status.key) && hasOpenChildren && (
               <Alert level="info" data-testid="statusHasChildrenOpen">
-                <Heading forwardedAs="h3">{constants.DEELMELDINGEN_STILL_OPEN_HEADING}</Heading>
-                <Paragraph>{constants.DEELMELDINGEN_STILL_OPEN_CONTENT}</Paragraph>
+                <Heading forwardedAs="h3">
+                  {constants.DEELMELDINGEN_STILL_OPEN_HEADING}
+                </Heading>
+                <Paragraph>
+                  {constants.DEELMELDINGEN_STILL_OPEN_CONTENT}
+                </Paragraph>
               </Alert>
             )}
 
             {isDeelmelding && (
-              <Alert data-testid="statusExplanation" level="info">{constants.DEELMELDING_EXPLANATION}</Alert>
+              <Alert data-testid="statusExplanation" level="info">
+                {constants.DEELMELDING_EXPLANATION}
+              </Alert>
             )}
           </OptionsArea>
 
@@ -137,7 +168,9 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 label={
                   <Fragment>
                     <strong>Toelichting</strong>
-                    {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
+                    {!state.text.required && (
+                      <span>&nbsp;(niet verplicht)</span>
+                    )}
                   </Fragment>
                 }
               />
@@ -151,7 +184,12 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 value={state.text.value || state.text.defaultValue}
               />
 
-              {state.errors?.text && <StyledErrorMessage data-testid="statusError" message={state.errors.text} />}
+              {state.errors?.text && (
+                <StyledErrorMessage
+                  data-testid="statusError"
+                  message={state.errors.text}
+                />
+              )}
             </div>
 
             {state.warning && (
@@ -179,11 +217,19 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
             )}
 
             <div>
-              <StyledButton data-testid="statusFormSubmitButton" type="submit" variant="secondary">
+              <StyledButton
+                data-testid="statusFormSubmitButton"
+                type="submit"
+                variant="secondary"
+              >
                 Status opslaan
               </StyledButton>
 
-              <StyledButton data-testid="statusFormCancelButton" variant="tertiary" onClick={close}>
+              <StyledButton
+                data-testid="statusFormCancelButton"
+                variant="tertiary"
+                onClick={close}
+              >
                 Annuleren
               </StyledButton>
             </div>
@@ -199,12 +245,12 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
         </Form>
       </StyledColumn>
     </Wrapper>
-  );
-};
+  )
+}
 
 StatusForm.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
   childIncidents: PropTypes.arrayOf(PropTypes.shape({})),
-};
+}
 
-export default StatusForm;
+export default StatusForm

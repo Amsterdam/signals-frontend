@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { Heading } from '@amsterdam/asc-ui';
+import React from 'react'
+import { Heading } from '@amsterdam/asc-ui'
 
-import IncidentNavigation from '../components/IncidentNavigation';
-import FormComponents from '../components/form';
+import IncidentNavigation from '../components/IncidentNavigation'
+import FormComponents from '../components/form'
 
 export default {
   label: 'Bedankt!',
@@ -39,4 +39,4 @@ export default {
       },
     },
   },
-};
+}

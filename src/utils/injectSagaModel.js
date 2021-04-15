@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import getInjectorsSagas from 'utils/sagaInjectors';
+import getInjectorsSagas from 'utils/sagaInjectors'
 
 const injectSagaModel = (key, saga, store) => {
-  getInjectorsSagas(store).injectSaga(key, { saga });
-};
+  getInjectorsSagas(store).injectSaga(key, { saga })
+}
 
-export default injectSagaModel;
+export default injectSagaModel

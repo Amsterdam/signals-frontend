@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Heading, styles, themeSpacing } from '@amsterdam/asc-ui';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Heading, styles, themeSpacing } from '@amsterdam/asc-ui'
 
-import { historyType } from 'shared/types';
-import HistoryList from 'components/HistoryList';
+import { historyType } from 'shared/types'
+import HistoryList from 'components/HistoryList'
 
 const H2 = styled(Heading)`
   ${styles.HeaderStyles} {
     margin: ${themeSpacing(2)} 0;
   }
-`;
+`
 
 const History = ({ className, list }) =>
   list.length > 0 ? (
@@ -23,15 +23,15 @@ const History = ({ className, list }) =>
 
       <HistoryList list={list} />
     </section>
-  ) : null;
+  ) : null
 
 History.defaultProps = {
   className: '',
-};
+}
 
 History.propTypes = {
   className: PropTypes.string,
   list: historyType.isRequired,
-};
+}
 
-export default History;
+export default History

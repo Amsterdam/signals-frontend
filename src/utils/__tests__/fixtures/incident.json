@@ -55,10 +55,7 @@
     },
     "geometrie": {
       "type": "Point",
-      "coordinates": [
-        4.879088401794434,
-        52.3670312505349
-      ]
+      "coordinates": [4.879088401794434, 52.3670312505349]
     },
     "buurt_code": "A06j",
     "created_by": "steve@apple.com",

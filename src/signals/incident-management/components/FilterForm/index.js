@@ -1,34 +1,52 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useLayoutEffect, useContext, useMemo, useCallback, useReducer, useState } from 'react';
-import PropTypes from 'prop-types';
-import isEqual from 'lodash.isequal';
-import cloneDeep from 'lodash.clonedeep';
-import { useSelector } from 'react-redux';
-import { Label as AscLabel } from '@amsterdam/asc-ui';
+import React, {
+  Fragment,
+  useLayoutEffect,
+  useContext,
+  useMemo,
+  useCallback,
+  useReducer,
+  useState,
+} from 'react'
+import PropTypes from 'prop-types'
+import isEqual from 'lodash.isequal'
+import cloneDeep from 'lodash.clonedeep'
+import { useSelector } from 'react-redux'
+import { Label as AscLabel } from '@amsterdam/asc-ui'
 
-import AutoSuggest from 'components/AutoSuggest';
-import Checkbox from 'components/Checkbox';
-import Input from 'components/Input';
-import Label from 'components/Label';
-import { makeSelectStructuredCategories } from 'models/categories/selectors';
-import configuration from 'shared/services/configuration/configuration';
-import { dateToISOString } from 'shared/services/date-utils';
-import { filterType } from 'shared/types';
-import dataLists from 'signals/incident-management/definitions';
-import { parseOutputFormData } from 'signals/shared/filter/parse';
+import AutoSuggest from 'components/AutoSuggest'
+import Checkbox from 'components/Checkbox'
+import Input from 'components/Input'
+import Label from 'components/Label'
+import { makeSelectStructuredCategories } from 'models/categories/selectors'
+import configuration from 'shared/services/configuration/configuration'
+import { dateToISOString } from 'shared/services/date-utils'
+import { filterType } from 'shared/types'
+import dataLists from 'signals/incident-management/definitions'
+import { parseOutputFormData } from 'signals/shared/filter/parse'
 
-import { makeSelectDirectingDepartments, makeSelectRoutingDepartments } from 'models/departments/selectors';
-import { makeSelectUserCan } from 'containers/App/selectors';
-import { ControlsWrapper, DatesWrapper, Fieldset, FilterGroup, Form, FormFooterWrapper } from './styled';
-import CalendarInput from '../CalendarInput';
-import CategoryGroups from './components/CategoryGroups';
-import CheckboxGroup from './components/CheckboxGroup';
-import RadioGroup from './components/RadioGroup';
-import CheckboxList from '../CheckboxList';
-import RefreshIcon from '../../../../shared/images/icon-refresh.svg';
-import AppContext from '../../../../containers/App/context';
-import IncidentManagementContext from '../../context';
+import {
+  makeSelectDirectingDepartments,
+  makeSelectRoutingDepartments,
+} from 'models/departments/selectors'
+import { makeSelectUserCan } from 'containers/App/selectors'
+import {
+  ControlsWrapper,
+  DatesWrapper,
+  Fieldset,
+  FilterGroup,
+  Form,
+  FormFooterWrapper,
+} from './styled'
+import CalendarInput from '../CalendarInput'
+import CategoryGroups from './components/CategoryGroups'
+import CheckboxGroup from './components/CheckboxGroup'
+import RadioGroup from './components/RadioGroup'
+import CheckboxList from '../CheckboxList'
+import RefreshIcon from '../../../../shared/images/icon-refresh.svg'
+import AppContext from '../../../../containers/App/context'
+import IncidentManagementContext from '../../context'
 
 import {
   reset,
@@ -41,38 +59,45 @@ import {
   setName,
   setNoteKeyword,
   setRefresh,
-} from './actions';
+} from './actions'
 
-import reducer, { init } from './reducer';
+import reducer, { init } from './reducer'
 
-const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`;
-const getUserOptions = data =>
-  data.results?.map(user => ({
+const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`
+const getUserOptions = (data) =>
+  data.results?.map((user) => ({
     id: user.username,
     value: user.username,
-  }));
+  }))
 
-const getUserCount = data => data?.count;
+const getUserCount = (data) => data?.count
 
 /**
  * Component that renders the incident filter form
  */
-const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, onUpdateFilter }) => {
-  const { sources } = useContext(AppContext);
-  const { districts } = useContext(IncidentManagementContext);
-  const categories = useSelector(makeSelectStructuredCategories);
-  const directingDepartments = useSelector(makeSelectDirectingDepartments);
-  const routingDepartments = useSelector(makeSelectRoutingDepartments);
-  const userCan = useSelector(makeSelectUserCan);
-  const [, ...otherRoutingDepartments] = routingDepartments;
-  const notRoutedOption = routingDepartments[0];
+const FilterForm = ({
+  filter,
+  onCancel,
+  onClearFilter,
+  onSaveFilter,
+  onSubmit,
+  onUpdateFilter,
+}) => {
+  const { sources } = useContext(AppContext)
+  const { districts } = useContext(IncidentManagementContext)
+  const categories = useSelector(makeSelectStructuredCategories)
+  const directingDepartments = useSelector(makeSelectDirectingDepartments)
+  const routingDepartments = useSelector(makeSelectRoutingDepartments)
+  const userCan = useSelector(makeSelectUserCan)
+  const [, ...otherRoutingDepartments] = routingDepartments
+  const notRoutedOption = routingDepartments[0]
 
-  const [state, dispatch] = useReducer(reducer, filter, init);
+  const [state, dispatch] = useReducer(reducer, filter, init)
 
-  const isNewFilter = !filter.name;
+  const isNewFilter = !filter.name
 
-  const [assignedSelectValue, setAssignedSelectValue] = useState('');
-  const [routedFilterValue, setRoutedFilterValue] = useState([]);
+  const [assignedSelectValue, setAssignedSelectValue] = useState('')
+  const [routedFilterValue, setRoutedFilterValue] = useState([])
 
   const dataListValues = useMemo(
     () => ({
@@ -83,9 +108,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       routing_department: routingDepartments,
     }),
     [districts, sources, directingDepartments, routingDepartments]
-  );
+  )
 
-  const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter]);
+  const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter])
 
   const currentState = useMemo(
     () => ({
@@ -93,7 +118,7 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       options: parseOutputFormData(state.options),
     }),
     [state.filter, state.options]
-  );
+  )
 
   const initialState = useMemo(
     () => ({
@@ -101,67 +126,79 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
       options: parseOutputFormData(initialFormState.options),
     }),
     [initialFormState.filter, initialFormState.options]
-  );
+  )
 
   const valuesHaveChanged = useMemo(
-    () => (!isNewFilter && !isEqual(currentState, initialState)) || (isNewFilter && state.filter.name),
+    () =>
+      (!isNewFilter && !isEqual(currentState, initialState)) ||
+      (isNewFilter && state.filter.name),
     [currentState, initialState, state.filter.name, isNewFilter]
-  );
+  )
 
   // state update handler; if the form values have changed compared with
   // the initial state, the form's submit button label will change accordingly
   useLayoutEffect(() => {
-    dispatch(setSaveButtonLabel(valuesHaveChanged));
-  }, [state.filter.name, valuesHaveChanged, isNewFilter]);
+    dispatch(setSaveButtonLabel(valuesHaveChanged))
+  }, [state.filter.name, valuesHaveChanged, isNewFilter])
 
   // collection of category objects that is used to set form field values with
-  const filterSlugs = useMemo(() => state.options.maincategory_slug.concat(state.options.category_slug), [
-    state.options.category_slug,
-    state.options.maincategory_slug,
-  ]);
+  const filterSlugs = useMemo(
+    () => state.options.maincategory_slug.concat(state.options.category_slug),
+    [state.options.category_slug, state.options.maincategory_slug]
+  )
 
-  const dateFrom = state.options.created_after && new Date(state.options.created_after);
-  const dateBefore = state.options.created_before && new Date(state.options.created_before);
+  const dateFrom =
+    state.options.created_after && new Date(state.options.created_after)
+  const dateBefore =
+    state.options.created_before && new Date(state.options.created_before)
 
   const onSubmitForm = useCallback(
-    event => {
-      event.preventDefault();
-      const options = parseOutputFormData(state.options);
-      const formData = { ...state.filter, options };
-      const hasName = formData.name.trim() !== '';
+    (event) => {
+      event.preventDefault()
+      const options = parseOutputFormData(state.options)
+      const formData = { ...state.filter, options }
+      const hasName = formData.name.trim() !== ''
 
       if (isNewFilter && hasName) {
-        onSaveFilter(formData);
+        onSaveFilter(formData)
       }
 
       if (!isNewFilter && valuesHaveChanged) {
         if (formData.name.trim() === '') {
-          event.preventDefault();
-          global.window.alert('Filter naam mag niet leeg zijn');
-          return;
+          event.preventDefault()
+          global.window.alert('Filter naam mag niet leeg zijn')
+          return
         }
 
-        onUpdateFilter(formData);
+        onUpdateFilter(formData)
       }
 
-      onSubmit(event, formData);
+      onSubmit(event, formData)
     },
-    [valuesHaveChanged, isNewFilter, onSaveFilter, onSubmit, onUpdateFilter, state.filter, state.options]
-  );
+    [
+      valuesHaveChanged,
+      isNewFilter,
+      onSaveFilter,
+      onSubmit,
+      onUpdateFilter,
+      state.filter,
+      state.options,
+    ]
+  )
 
   const onResetForm = useCallback(() => {
-    dispatch(reset());
-    onClearFilter();
-  }, [dispatch, onClearFilter]);
+    dispatch(reset())
+    onClearFilter()
+  }, [dispatch, onClearFilter])
 
   // callback handler that is called whenever a checkbox is (un)checked in the list of
   // category checkbox groups
   const onChangeCategories = useCallback(
     (slug, subCategories) => {
-      dispatch(setCategories({ slug, subCategories }));
+      dispatch(setCategories({ slug, subCategories }))
     },
     [dispatch]
-  );
+  )
 
   // callback handler that is called whenever a toggle is (un)checked in the list of
   // category checkbox groups
@@ -172,127 +209,132 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
           category: categories[slug],
           isToggled,
         })
-      );
+      )
     },
     [categories, dispatch]
-  );
+  )
 
   const onNameBlur = useCallback(
-    event => {
-      const { value } = event.target;
+    (event) => {
+      const { value } = event.target
 
-      dispatch(setName(value));
+      dispatch(setName(value))
     },
     [dispatch]
-  );
+  )
 
   const onRefreshChange = useCallback(
-    event => {
-      event.persist();
+    (event) => {
+      event.persist()
       const {
         currentTarget: { checked },
-      } = event;
+      } = event
 
-      dispatch(setRefresh(checked));
+      dispatch(setRefresh(checked))
     },
     [dispatch]
-  );
+  )
 
   const updateFilterDate = useCallback(
     (prop, dateValue) => {
-      dispatch(setDate({ [prop]: dateValue }));
+      dispatch(setDate({ [prop]: dateValue }))
     },
     [dispatch]
-  );
+  )
 
   const onAddressBlur = useCallback(
-    event => {
-      dispatch(setAddress(event.target.value));
+    (event) => {
+      dispatch(setAddress(event.target.value))
     },
     [dispatch]
-  );
+  )
 
   const onNotesBlur = useCallback(
-    event => {
-      dispatch(setNoteKeyword(event.target.value));
+    (event) => {
+      dispatch(setNoteKeyword(event.target.value))
     },
     [dispatch]
-  );
+  )
 
   // callback handler that is called whenever a radio button is (un)checked in a
   // radio button list group
   const onRadioChange = useCallback(
     (groupName, option) => {
-      dispatch(setGroupOptions({ [groupName]: option.key }));
+      dispatch(setGroupOptions({ [groupName]: option.key }))
     },
     [dispatch]
-  );
+  )
 
   // callback handler that is called whenever a checkbox is (un)checked in a checkbox
   // group that is not one of the category checkbox groups
   const onGroupChange = useCallback(
     (groupName, options) => {
-      dispatch(setGroupOptions({ [groupName]: options }));
+      dispatch(setGroupOptions({ [groupName]: options }))
     },
     [dispatch]
-  );
+  )
 
   // callback handler that is called whenever a toggle is (un)checked in a checkbox
   // group that is not one of the category checkbox groups
   const onGroupToggle = useCallback(
     (groupName, isToggled) => {
-      const options = isToggled ? dataListValues[groupName] : [];
-      dispatch(setGroupOptions({ [groupName]: options }));
+      const options = isToggled ? dataListValues[groupName] : []
+      dispatch(setGroupOptions({ [groupName]: options }))
     },
     [dispatch, dataListValues]
-  );
+  )
 
   const onAssignedSelect = useCallback(
-    option => {
-      dispatch(setGroupOptions({ assigned_user_email: option.id }));
+    (option) => {
+      dispatch(setGroupOptions({ assigned_user_email: option.id }))
     },
     [dispatch]
-  );
+  )
 
   const onAssignedTextBlur = useCallback(
-    event => {
-      dispatch(setGroupOptions({ assigned_user_email: event.target.value }));
+    (event) => {
+      dispatch(setGroupOptions({ assigned_user_email: event.target.value }))
     },
     [dispatch]
-  );
+  )
 
   const onAssignedClear = useCallback(() => {
-    dispatch(setGroupOptions({ assigned_user_email: '' }));
-  }, [dispatch]);
+    dispatch(setGroupOptions({ assigned_user_email: '' }))
+  }, [dispatch])
 
   const onNotAssignedChange = useCallback(
-    event => {
-      const { checked } = event.currentTarget;
-      const newAssignedSelectValue = checked ? state.options.assigned_user_email : '';
-      const newAssignedFilterValue = checked ? 'null' : assignedSelectValue;
-      setAssignedSelectValue(newAssignedSelectValue);
-      dispatch(setGroupOptions({ assigned_user_email: newAssignedFilterValue }));
+    (event) => {
+      const { checked } = event.currentTarget
+      const newAssignedSelectValue = checked
+        ? state.options.assigned_user_email
+        : ''
+      const newAssignedFilterValue = checked ? 'null' : assignedSelectValue
+      setAssignedSelectValue(newAssignedSelectValue)
+      dispatch(setGroupOptions({ assigned_user_email: newAssignedFilterValue }))
     },
     [dispatch, assignedSelectValue, setAssignedSelectValue, state]
-  );
+  )
 
   const onNotRoutedChange = useCallback(
-    event => {
-      const { checked } = event.currentTarget;
-      const newRoutedFilterValue = checked ? [notRoutedOption] : routedFilterValue;
+    (event) => {
+      const { checked } = event.currentTarget
+      const newRoutedFilterValue = checked
+        ? [notRoutedOption]
+        : routedFilterValue
       if (checked) {
-        setRoutedFilterValue(state.options.routing_department);
+        setRoutedFilterValue(state.options.routing_department)
       }
-      dispatch(setGroupOptions({ routing_department: newRoutedFilterValue }));
+      dispatch(setGroupOptions({ routing_department: newRoutedFilterValue }))
     },
     [notRoutedOption, routedFilterValue, state.options.routing_department]
-  );
+  )
 
   const isNotRoutedChecked = useCallback(
     () =>
-      state.options.routing_department.length === 1 && state.options.routing_department[0].key === notRoutedOption.key,
+      state.options.routing_department.length === 1 &&
+      state.options.routing_department[0].key === notRoutedOption.key,
     [notRoutedOption.key, state.options.routing_department]
-  );
+  )
 
   return (
     <Form action="" novalidate>
@@ -367,17 +409,18 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             options={dataLists.status}
           />
 
-          {configuration.featureFlags.fetchDistrictsFromBackend && districts && (
-            <CheckboxGroup
-              defaultValue={state.options.area}
-              label={configuration.language.district}
-              name="area"
-              onChange={onGroupChange}
-              onToggle={onGroupToggle}
-              onSubmit={onSubmitForm}
-              options={districts}
-            />
-          )}
+          {configuration.featureFlags.fetchDistrictsFromBackend &&
+            districts && (
+              <CheckboxGroup
+                defaultValue={state.options.area}
+                label={configuration.language.district}
+                name="area"
+                onChange={onGroupChange}
+                onToggle={onGroupToggle}
+                onSubmit={onSubmitForm}
+                options={districts}
+              />
+            )}
 
           {!configuration.featureFlags.fetchDistrictsFromBackend && (
             <CheckboxGroup
@@ -483,8 +526,11 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
             <DatesWrapper>
               <CalendarInput
                 id="filter_created_after"
-                onSelect={dateValue => {
-                  updateFilterDate('created_after', dateValue && dateToISOString(dateValue));
+                onSelect={(dateValue) => {
+                  updateFilterDate(
+                    'created_after',
+                    dateValue && dateToISOString(dateValue)
+                  )
                 }}
                 selectedDate={dateFrom}
                 label="Vanaf"
@@ -493,8 +539,11 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
 
               <CalendarInput
                 id="filter_created_before"
-                onSelect={dateValue => {
-                  updateFilterDate('created_before', dateValue && dateToISOString(dateValue));
+                onSelect={(dateValue) => {
+                  updateFilterDate(
+                    'created_before',
+                    dateValue && dateToISOString(dateValue)
+                  )
                 }}
                 selectedDate={dateBefore}
                 label="Tot en met"
@@ -523,7 +572,11 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 Toegewezen aan
               </Label>
               <div>
-                <AscLabel htmlFor="filter_not_assigned" label="Niet toegewezen" noActiveState>
+                <AscLabel
+                  htmlFor="filter_not_assigned"
+                  label="Niet toegewezen"
+                  noActiveState
+                >
                   <Checkbox
                     data-testid="filterNotAssigned"
                     checked={state.options.assigned_user_email === 'null'}
@@ -535,7 +588,11 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
               </div>
 
               <AutoSuggest
-                value={state.options.assigned_user_email === 'null' ? '' : state.options.assigned_user_email}
+                value={
+                  state.options.assigned_user_email === 'null'
+                    ? ''
+                    : state.options.assigned_user_email
+                }
                 id="filter_assigned_user_email"
                 name="assigned_user_email"
                 onSelect={onAssignedSelect}
@@ -565,7 +622,11 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 Afdeling
               </Label>
               <div>
-                <AscLabel htmlFor="filter_not_routed" label={notRoutedOption.value} noActiveState>
+                <AscLabel
+                  htmlFor="filter_not_routed"
+                  label={notRoutedOption.value}
+                  noActiveState
+                >
                   <Checkbox
                     data-testid="filterNotRouted"
                     checked={isNotRoutedChecked()}
@@ -576,7 +637,9 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
                 </AscLabel>
               </div>
               <CheckboxList
-                defaultValue={isNotRoutedChecked() ? [] : state.options.routing_department}
+                defaultValue={
+                  isNotRoutedChecked() ? [] : state.options.routing_department
+                }
                 id="filter_routing_department"
                 name="routing_department"
                 onChange={onGroupChange}
@@ -617,15 +680,15 @@ const FilterForm = ({ filter, onCancel, onClearFilter, onSaveFilter, onSubmit, o
         submitBtnLabel={state.submitBtnLabel}
       />
     </Form>
-  );
-};
+  )
+}
 
 FilterForm.defaultProps = {
   filter: {
     name: '',
     options: {},
   },
-};
+}
 
 FilterForm.propTypes = {
   filter: filterType,
@@ -643,6 +706,6 @@ FilterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   /** Callback handler for handling filter settings updates */
   onUpdateFilter: PropTypes.func,
-};
+}
 
-export default FilterForm;
+export default FilterForm

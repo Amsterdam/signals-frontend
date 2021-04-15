@@ -1,19 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { makeSelectUserCan, makeSelectUserCanAccess } from 'containers/App/selectors';
-import SiteHeader from 'components/SiteHeader';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+import { createStructuredSelector } from 'reselect'
+import {
+  makeSelectUserCan,
+  makeSelectUserCanAccess,
+} from 'containers/App/selectors'
+import SiteHeader from 'components/SiteHeader'
 
-import { doLogout } from '../App/actions';
+import { doLogout } from '../App/actions'
 
 export const SiteHeaderContainer = () => {
-  const userCan = useSelector(makeSelectUserCan);
-  const userCanAccess = useSelector(makeSelectUserCanAccess);
-  const dispatch = useDispatch();
+  const userCan = useSelector(makeSelectUserCan)
+  const userCanAccess = useSelector(makeSelectUserCanAccess)
+  const dispatch = useDispatch()
   return (
     <SiteHeader
       onLogOut={() => dispatch(doLogout())}
@@ -26,7 +29,7 @@ export const SiteHeaderContainer = () => {
         categories: userCanAccess('categories'),
       }}
     />
-  );
-};
+  )
+}
 
-export default SiteHeaderContainer;
+export default SiteHeaderContainer

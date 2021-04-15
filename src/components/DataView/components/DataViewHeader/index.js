@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
 
-import { StyledTHead } from 'components/DataView/styled';
+import { StyledTHead } from 'components/DataView/styled'
 
-import DataViewHeaderRow from './components/DataViewHeaderRow';
+import DataViewHeaderRow from './components/DataViewHeaderRow'
 
 const DataViewHeader = ({ numberOfColumns, headers, filters }) => {
-  const headersMissing = useMemo(
-    () => numberOfColumns - headers.length,
-    [numberOfColumns, headers.length]
-  );
-  const filtersMissing = useMemo(
-    () => numberOfColumns - filters.length,
-    [numberOfColumns, filters.length]
-  );
+  const headersMissing = useMemo(() => numberOfColumns - headers.length, [
+    numberOfColumns,
+    headers.length,
+  ])
+  const filtersMissing = useMemo(() => numberOfColumns - filters.length, [
+    numberOfColumns,
+    filters.length,
+  ])
 
   return (
     <StyledTHead data-testid="dataViewHeader">
@@ -34,18 +34,18 @@ const DataViewHeader = ({ numberOfColumns, headers, filters }) => {
         />
       )}
     </StyledTHead>
-  );
-};
+  )
+}
 
 DataViewHeader.defaultProps = {
   headers: [],
   filters: [],
-};
+}
 
 DataViewHeader.propTypes = {
   numberOfColumns: PropTypes.number.isRequired,
   headers: PropTypes.node,
   filters: PropTypes.node,
-};
+}
 
-export default DataViewHeader;
+export default DataViewHeader

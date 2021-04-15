@@ -1,42 +1,42 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import injectReducerModel from 'utils/injectReducerModel';
-import injectSagaModel from 'utils/injectSagaModel';
+import injectReducerModel from 'utils/injectReducerModel'
+import injectSagaModel from 'utils/injectSagaModel'
 
-import reducer from './reducer';
-import saga from './saga';
+import reducer from './reducer'
+import saga from './saga'
 
-import loadModel from '..';
+import loadModel from '..'
 
-jest.mock('utils/injectReducerModel');
-jest.mock('utils/injectSagaModel');
+jest.mock('utils/injectReducerModel')
+jest.mock('utils/injectSagaModel')
 
-jest.mock('./reducer');
-jest.mock('./saga');
+jest.mock('./reducer')
+jest.mock('./saga')
 
 describe('models/categories', () => {
-  const store = { foo: 'bar' };
-  let spy;
+  const store = { foo: 'bar' }
+  let spy
 
   beforeEach(() => {
-    spy = jest.fn();
-  });
+    spy = jest.fn()
+  })
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should inject reducer', () => {
-    injectReducerModel.mockImplementation(spy);
-    loadModel(store);
+    injectReducerModel.mockImplementation(spy)
+    loadModel(store)
 
-    expect(spy).toHaveBeenCalledWith('categories', reducer, store);
-  });
+    expect(spy).toHaveBeenCalledWith('categories', reducer, store)
+  })
 
   it('should inject saga', () => {
-    injectSagaModel.mockImplementation(spy);
-    loadModel(store);
+    injectSagaModel.mockImplementation(spy)
+    loadModel(store)
 
-    expect(spy).toHaveBeenCalledWith('categories', saga, store);
-  });
-});
+    expect(spy).toHaveBeenCalledWith('categories', saga, store)
+  })
+})

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import TextareaInput from './TextareaInput';
+import TextareaInput from './TextareaInput'
 
-export default TextareaInput;
+export default TextareaInput

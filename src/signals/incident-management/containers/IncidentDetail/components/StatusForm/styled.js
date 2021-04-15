@@ -1,9 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import styled, { css } from 'styled-components';
-import { Heading, themeSpacing, Row, Column, themeColor, Label, ErrorMessage } from '@amsterdam/asc-ui';
+import styled, { css } from 'styled-components'
+import {
+  Heading,
+  themeSpacing,
+  Row,
+  Column,
+  themeColor,
+  Label,
+  ErrorMessage,
+} from '@amsterdam/asc-ui'
 
-import Button from 'components/Button';
+import Button from 'components/Button'
 
 export const Form = styled.form`
   position: relative;
@@ -26,28 +34,28 @@ export const Form = styled.form`
       'form texts'
       '. texts';
   }
-`;
+`
 
 export const HeaderArea = styled.div`
   grid-area: header;
-`;
+`
 
 export const OptionsArea = styled.div`
   grid-area: options;
   display: grid;
   grid-row-gap: ${themeSpacing(4)};
-`;
+`
 
 export const TextsArea = styled.div`
   grid-area: texts;
   margin-top: ${themeSpacing(5)};
-`;
+`
 
 export const FormArea = styled.div`
   grid-area: form;
   display: grid;
   grid-row-gap: ${themeSpacing(6)};
-`;
+`
 
 export const Notification = styled.div`
   ${({ warning }) =>
@@ -60,31 +68,31 @@ export const Notification = styled.div`
     `}
 
   line-height: 22px;
-`;
+`
 
 export const StyledH4 = styled(Heading)`
   font-weight: normal;
   margin-bottom: ${themeSpacing(2)};
   margin-top: ${themeSpacing(5)};
-`;
+`
 
 export const StyledErrorMessage = styled(ErrorMessage)`
   font-family: Avenir Next LT W01 Demi;
   font-weight: normal;
-`;
+`
 
 export const Wrapper = styled(Row)`
   background-color: ${themeColor('tint', 'level1')};
   position: relative;
-`;
+`
 
 export const StyledColumn = styled(Column)`
   display: block;
   background-color: ${themeColor('tint', 'level1')};
   position: relative;
   margin-bottom: ${themeSpacing(3)};
-`;
+`
 
 export const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
-`;
+`

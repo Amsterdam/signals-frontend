@@ -1,21 +1,35 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Header from '../Header';
+import Header from '../Header'
 
-import FileInput from '../FileInput';
+import FileInput from '../FileInput'
 
-const FileInputRenderer = ({ handler, touched, hasError, getError, parent, meta, validatorsOrOpts }) => {
-  if (!meta?.isVisible) return null;
+const FileInputRenderer = ({
+  handler,
+  touched,
+  hasError,
+  getError,
+  parent,
+  meta,
+  validatorsOrOpts,
+}) => {
+  if (!meta?.isVisible) return null
 
   return (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <Header
+      meta={meta}
+      options={validatorsOrOpts}
+      touched={touched}
+      hasError={hasError}
+      getError={getError}
+    >
       <FileInput handler={handler} parent={parent} meta={meta} />
     </Header>
-  );
-};
+  )
+}
 
 FileInputRenderer.propTypes = {
   handler: PropTypes.func,
@@ -25,6 +39,6 @@ FileInputRenderer.propTypes = {
   parent: PropTypes.object,
   getError: PropTypes.func.isRequired,
   validatorsOrOpts: PropTypes.object,
-};
+}
 
-export default FileInputRenderer;
+export default FileInputRenderer

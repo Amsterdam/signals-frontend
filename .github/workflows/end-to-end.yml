@@ -9,8 +9,8 @@ on:
     types: [opened, synchronize]
 
 env:
-  TZ: "Europe/Amsterdam"
-  CI: "true"
+  TZ: 'Europe/Amsterdam'
+  CI: 'true'
 
 jobs:
   end-to-end:

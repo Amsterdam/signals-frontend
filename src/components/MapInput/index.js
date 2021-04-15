@@ -1,43 +1,55 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useLayoutEffect, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, {
+  useLayoutEffect,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from 'react'
+import PropTypes from 'prop-types'
 
-import styled from 'styled-components';
-import { Marker } from '@amsterdam/react-maps';
-import { ViewerContainer } from '@amsterdam/asc-ui';
-import 'leaflet/dist/leaflet.css';
+import styled from 'styled-components'
+import { Marker } from '@amsterdam/react-maps'
+import { ViewerContainer } from '@amsterdam/asc-ui'
+import 'leaflet/dist/leaflet.css'
 
-import { markerIcon } from 'shared/services/configuration/map-markers';
-import { locationTofeature, formatPDOKResponse } from 'shared/services/map-location';
-import configuration from 'shared/services/configuration/configuration';
-import MapContext from 'containers/MapContext/context';
+import { markerIcon } from 'shared/services/configuration/map-markers'
+import {
+  locationTofeature,
+  formatPDOKResponse,
+} from 'shared/services/map-location'
+import configuration from 'shared/services/configuration/configuration'
+import MapContext from 'containers/MapContext/context'
 import {
   setLocationAction,
   setValuesAction,
   resetLocationAction,
   setLoadingAction,
-} from 'containers/MapContext/actions';
-import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick';
+} from 'containers/MapContext/actions'
+import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
 
-import Map from '../Map';
-import PDOKAutoSuggest from '../PDOKAutoSuggest';
-import reverseGeocoderService from './services/reverseGeocoderService';
+import Map from '../Map'
+import PDOKAutoSuggest from '../PDOKAutoSuggest'
+import reverseGeocoderService from './services/reverseGeocoderService'
 
 const Wrapper = styled.div`
   position: relative;
-`;
+`
 
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
-`;
+`
 
 const StyledViewerContainer = styled(ViewerContainer)`
   & > * {
-    width: calc(100% - 8px); // Subtract 8px to prevent horizontal scroll bar on MacOS (Firefox/Safari).
+    width: calc(
+      100% - 8px
+    ); // Subtract 8px to prevent horizontal scroll bar on MacOS (Firefox/Safari).
   }
-`;
+`
 
 const StyledAutosuggest = styled(PDOKAutoSuggest)`
   position: absolute;
@@ -53,97 +65,114 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
   @media (max-width: ${({ theme }) => theme.layouts.medium.max}px) {
     width: 100%;
   }
-`;
+`
 
-const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, events, id, ...rest }) => {
-  const { state, dispatch } = useContext(MapContext);
-  const [map, setMap] = useState();
-  const [marker, setMarker] = useState();
-  const { location, addressText: addressValue } = state;
-  const hasLocation = Boolean(location) && location?.lat !== 0 && location?.lng !== 0;
+const MapInput = ({
+  className,
+  hasGPSControl,
+  value,
+  onChange,
+  mapOptions,
+  events,
+  id,
+  ...rest
+}) => {
+  const { state, dispatch } = useContext(MapContext)
+  const [map, setMap] = useState()
+  const [marker, setMarker] = useState()
+  const { location, addressText: addressValue } = state
+  const hasLocation =
+    Boolean(location) && location?.lat !== 0 && location?.lng !== 0
 
   /**
    * This reference ensures the map zooms to the marker location only when the marker location
    * is provided from the parent and not on click action
    */
-  const hasInitalViewRef = useRef(true);
+  const hasInitalViewRef = useRef(true)
 
   useEffect(() => {
-    if (!map) return;
+    if (!map) return
 
-    map.attributionControl._container.setAttribute('aria-hidden', 'true');
-    map.attributionControl.setPrefix('');
-  }, [map]);
+    map.attributionControl._container.setAttribute('aria-hidden', 'true')
+    map.attributionControl.setPrefix('')
+  }, [map])
 
   const clickFunc = useCallback(
-    async event => {
-      hasInitalViewRef.current = false;
-      dispatch(setLoadingAction(true));
-      dispatch(setLocationAction(event.latlng));
+    async (event) => {
+      hasInitalViewRef.current = false
+      dispatch(setLoadingAction(true))
+      dispatch(setLocationAction(event.latlng))
 
-      const response = await reverseGeocoderService(event.latlng);
-      const onChangePayload = { geometrie: locationTofeature(event.latlng) };
-      const addressText = response?.value || '';
-      const address = response?.data?.address || '';
+      const response = await reverseGeocoderService(event.latlng)
+      const onChangePayload = { geometrie: locationTofeature(event.latlng) }
+      const addressText = response?.value || ''
+      const address = response?.data?.address || ''
 
       if (response) {
-        onChangePayload.address = response.data.address;
+        onChangePayload.address = response.data.address
       }
 
-      dispatch(setValuesAction({ addressText, address }));
+      dispatch(setValuesAction({ addressText, address }))
 
-      onChange(onChangePayload);
-      dispatch(setLoadingAction(false));
+      onChange(onChangePayload)
+      dispatch(setLoadingAction(false))
     },
     [dispatch, onChange]
-  );
+  )
 
   const onSelect = useCallback(
-    option => {
+    (option) => {
       dispatch(
-        setValuesAction({ location: option.data.location, address: option.data.address, addressText: option.value })
-      );
+        setValuesAction({
+          location: option.data.location,
+          address: option.data.address,
+          addressText: option.value,
+        })
+      )
 
-      onChange({ geometrie: locationTofeature(option.data.location), address: option.data.address });
+      onChange({
+        geometrie: locationTofeature(option.data.location),
+        address: option.data.address,
+      })
 
-      map.flyTo(option.data.location);
+      map.flyTo(option.data.location)
     },
     [map, dispatch, onChange]
-  );
+  )
 
   const onClear = useCallback(() => {
-    dispatch(resetLocationAction());
-  }, [dispatch]);
+    dispatch(resetLocationAction())
+  }, [dispatch])
 
-  const { click, doubleClick } = useDelayedDoubleClick(clickFunc);
+  const { click, doubleClick } = useDelayedDoubleClick(clickFunc)
 
   /**
    * Subscribe to value prop changes
    */
   useEffect(() => {
     // first component render has an empty object for `value` so we need to check for props
-    if (Object.keys(value).length === 0) return;
+    if (Object.keys(value).length === 0) return
 
-    dispatch(setValuesAction(value));
-  }, [value, dispatch]);
+    dispatch(setValuesAction(value))
+  }, [value, dispatch])
 
   // subscribe to changes in location and render the map in that location
   // note that we're using setView instead of flyTo on the map instance to prevent remounts of this component
   // to show an animation instead of just rendering the marker on the location where it should be
   useLayoutEffect(() => {
-    if (!map || !marker || !hasLocation) return;
+    if (!map || !marker || !hasLocation) return
 
     if (hasInitalViewRef.current) {
-      const zoomLevel = map.getZoom();
-      map.setView(location, zoomLevel < 11 ? 11 : zoomLevel);
-      hasInitalViewRef.current = false;
+      const zoomLevel = map.getZoom()
+      map.setView(location, zoomLevel < 11 ? 11 : zoomLevel)
+      hasInitalViewRef.current = false
     }
 
-    marker.setLatLng(location);
-  }, [marker, location, hasLocation, map]);
+    marker.setLatLng(location)
+  }, [marker, location, hasLocation, map])
 
   return (
-    <Wrapper className={className} >
+    <Wrapper className={className}>
       <StyledMap
         data-testid="mapInput"
         events={{ click, dblclick: doubleClick, ...events }}
@@ -178,8 +207,8 @@ const MapInput = ({ className, hasGPSControl, value, onChange, mapOptions, event
         )}
       </StyledMap>
     </Wrapper>
-  );
-};
+  )
+}
 
 MapInput.propTypes = {
   id: PropTypes.string.isRequired,
@@ -214,6 +243,6 @@ MapInput.propTypes = {
       woonplaats: PropTypes.string,
     }),
   }),
-};
+}
 
-export default MapInput;
+export default MapInput

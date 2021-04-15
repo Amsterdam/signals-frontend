@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { shallow } from 'enzyme';
+import React from 'react'
+import { shallow } from 'enzyme'
 
-import Select from 'components/Select';
-import SelectInput from '.';
+import Select from 'components/Select'
+import SelectInput from '.'
 
 describe('Form component <SelectInput />', () => {
   const metaFields = {
@@ -15,31 +15,31 @@ describe('Form component <SelectInput />', () => {
       bar: 'Bar',
       baz: 'Baz',
     },
-  };
-  let wrapper;
-  let handler;
-  let touched;
-  let getError;
-  let hasError;
-  let parent;
+  }
+  let wrapper
+  let handler
+  let touched
+  let getError
+  let hasError
+  let parent
 
   beforeEach(() => {
-    handler = jest.fn();
-    touched = false;
-    getError = jest.fn();
-    hasError = jest.fn();
+    handler = jest.fn()
+    touched = false
+    getError = jest.fn()
+    hasError = jest.fn()
     parent = {
       meta: {
         updateIncident: jest.fn(),
       },
-    };
+    }
 
     handler.mockImplementation(() => ({
       value: {
         id: 'baz',
         label: 'Baz',
       },
-    }));
+    }))
 
     wrapper = shallow(
       <SelectInput
@@ -49,8 +49,8 @@ describe('Form component <SelectInput />', () => {
         hasError={hasError}
         getError={getError}
       />
-    );
-  });
+    )
+  })
 
   describe('rendering', () => {
     it('should render select field correctly', () => {
@@ -59,10 +59,10 @@ describe('Form component <SelectInput />', () => {
           ...metaFields,
           isVisible: true,
         },
-      });
+      })
 
-      expect(wrapper).toMatchSnapshot();
-    });
+      expect(wrapper).toMatchSnapshot()
+    })
 
     it('should render empty select field when values are not supplied', () => {
       wrapper.setProps({
@@ -71,10 +71,10 @@ describe('Form component <SelectInput />', () => {
           isVisible: true,
           values: undefined,
         },
-      });
+      })
 
-      expect(wrapper).toMatchSnapshot();
-    });
+      expect(wrapper).toMatchSnapshot()
+    })
 
     it('should render no select field when not visible', () => {
       wrapper.setProps({
@@ -82,11 +82,11 @@ describe('Form component <SelectInput />', () => {
           ...metaFields,
           isVisible: false,
         },
-      });
+      })
 
-      expect(wrapper).toMatchSnapshot();
-    });
-  });
+      expect(wrapper).toMatchSnapshot()
+    })
+  })
 
   describe('events', () => {
     const event = {
@@ -97,7 +97,7 @@ describe('Form component <SelectInput />', () => {
         },
         value: 'baz',
       },
-    };
+    }
 
     it('sets incident when value changes', () => {
       wrapper.setProps({
@@ -105,16 +105,16 @@ describe('Form component <SelectInput />', () => {
           ...metaFields,
           isVisible: true,
         },
-      });
+      })
 
-      wrapper.find(Select).simulate('change', event);
+      wrapper.find(Select).simulate('change', event)
 
       expect(parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {
           id: 'baz',
           label: 'Baz',
         },
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

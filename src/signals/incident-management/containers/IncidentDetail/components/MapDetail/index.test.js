@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import React from 'react'
+import { render } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
 
-import { markerIcon } from 'shared/services/configuration/map-markers';
-import MapDetail from '.';
+import { markerIcon } from 'shared/services/configuration/map-markers'
+import MapDetail from '.'
 
 describe('<MapDetail />', () => {
   const props = {
@@ -14,33 +14,38 @@ describe('<MapDetail />', () => {
     },
     zoom: 15,
     icon: markerIcon,
-  };
+  }
 
-  beforeEach(() => {
-  });
+  beforeEach(() => {})
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should render correctly', () => {
-    const { container, getByTestId } = render(withAppContext(<MapDetail {...props} />));
+    const { container, getByTestId } = render(
+      withAppContext(<MapDetail {...props} />)
+    )
 
     // Map
-    expect(getByTestId('mapDetail')).toBeInTheDocument();
+    expect(getByTestId('mapDetail')).toBeInTheDocument()
 
     // Marker
-    expect(container.querySelector('.map-marker-select')).toBeInTheDocument();
-  });
+    expect(container.querySelector('.map-marker-select')).toBeInTheDocument()
+  })
 
   it('should not render without value', () => {
-    props.value = {};
-    const { container, queryByTestId } = render(withAppContext(<MapDetail {...props} />));
+    props.value = {}
+    const { container, queryByTestId } = render(
+      withAppContext(<MapDetail {...props} />)
+    )
 
     // Map
-    expect(queryByTestId('map')).not.toBeInTheDocument();
+    expect(queryByTestId('map')).not.toBeInTheDocument()
 
     // Marker
-    expect(container.querySelector('.map-marker-select')).not.toBeInTheDocument();
-  });
-});
+    expect(
+      container.querySelector('.map-marker-select')
+    ).not.toBeInTheDocument()
+  })
+})
