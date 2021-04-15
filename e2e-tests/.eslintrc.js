@@ -1,54 +1,88 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 module.exports = {
-  root: true,
-  parser: '@typescript-eslint/parser',
-  extends: ['plugin:amsterdam/base', 'plugin:amsterdam/cypress', 'plugin:amsterdam/typescript'],
+  env: {
+    es6: true,
+    browser: true,
+    jest: true,
+    node: true,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:cypress/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:promise/recommended',
+    'plugin:redux-saga/recommended',
+    'plugin:testing-library/react',
+    'prettier',
+    'prettier/react',
+  ],
+  globals: {
+    L: true,
+  },
   overrides: [
     {
-      files: ['./cypress/**/*.ts'],
-      extends: ['plugin:amsterdam/typescript'],
-      parserOptions: {
-        createDefaultProgram: true,
-        project: './tsconfig.json',
-      },
+      files: ['**/*.test.*'],
       rules: {
-        '@typescript-eslint/space-before-function-paren': 'off',
-        '@typescript-eslint/no-type-alias': ['off'],
-        '@typescript-eslint/no-empty-function': ['off'],
-        '@typescript-eslint/restrict-template-expressions': 'off',
-        '@typescript-eslint/no-explicit-any': 'warn',
-        '@typescript-eslint/unbound-method': [
+        'no-import-assign': 'off',
+        'react/display-name': 'off',
+        'redux-saga/no-unhandled-errors': 'off',
+      },
+    },
+    {
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'prettier/@typescript-eslint',
+      ],
+      files: ['**/*.ts', '**/*.tsx'],
+      rules: {
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/explicit-member-accessibility': 'off',
+        '@typescript-eslint/indent': 'off',
+        '@typescript-eslint/member-delimiter-style': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/no-use-before-define': 'off',
+        '@typescript-eslint/no-unused-vars': [
           'error',
           {
-            ignoreStatic: true,
+            argsIgnorePattern: '^_',
           },
         ],
-        '@typescript-eslint/no-unsafe-member-access': 'off',
-        '@typescript-eslint/no-unsafe-call': 'off',
-        '@typescript-eslint/object-curly-spacing': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
       },
     },
   ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['import'],
+  root: true,
   rules: {
-    // # overrides
-    camelcase: 'off',
-
-    // # proposed rules
-    // # semi: [error, never]
-    'comma-dangle': 'off',
-    'cypress/no-force': 'off',
-    'cypress/require-data-selectors': 'off',
-    'line-comment-position': 'off',
-    'max-len': 'off',
-    'no-extra-parens': 'off',
-    'no-magic-numbers': 'off',
+    'import/first': 'error',
+    'import/order': 'error',
+    'no-console': [
+      'error',
+      {
+        allow: ['warn', 'error'],
+      },
+    ],
+    'jsx-a11y/aria-role': 'off',
+    'jsx-a11y/no-autofocus': 'off',
     'no-undef': 'off',
-    'no-use-before-define': 'off',
-    'promise/prefer-await-to-then': 'off',
-    'require-unicode-regexp': 'off',
-    'sonarjs/no-duplicate-string': 'off',
-    'sonarjs/no-identical-functions': 'off',
-    'unicorn/prevent-abbreviations': 'off',
+    'promise/always-return': 'off',
+    'promise/catch-or-return': 'off',
+    'promise/no-callback-in-promise': 'off',
+    'react/display-name': 'off',
+    'react/jsx-key': 'off',
+    'react/prop-types': 'off',
+    'redux-saga/no-unhandled-errors': 'off',
+    'require-yield': 'off',
   },
-};
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+}
