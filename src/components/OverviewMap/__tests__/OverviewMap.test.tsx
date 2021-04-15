@@ -4,7 +4,6 @@ import fetchMock from 'jest-fetch-mock'
 import React from 'react'
 import { render, act } from '@testing-library/react'
 
-// eslint-disable-next-line jest/no-mocks-import
 import type configurationType from 'shared/services/configuration/__mocks__/configuration'
 import configuration from 'shared/services/configuration/configuration'
 import { withMapContext } from 'test/utils'

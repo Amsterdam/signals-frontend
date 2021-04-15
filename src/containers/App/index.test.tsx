@@ -6,7 +6,6 @@ import * as reactRedux from 'react-redux'
 
 import { withAppContext, history } from 'test/utils'
 import * as auth from 'shared/services/auth/auth'
-// eslint-disable-next-line jest/no-mocks-import
 import type configurationType from 'shared/services/configuration/__mocks__/configuration'
 import configuration from 'shared/services/configuration/configuration'
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'

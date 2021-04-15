@@ -6,7 +6,6 @@ const decodeToken = (token) => {
       window.atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
     )
     // disabled eslint rule because fix breaks test
-    // eslint-disable-next-line unicorn/prefer-optional-catch-binding, no-unused-vars
   } catch (error) {
     return {}
   }
