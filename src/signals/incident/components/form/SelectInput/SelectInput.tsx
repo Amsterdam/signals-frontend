@@ -9,12 +9,12 @@ import Header from '../Header';
 
 import type { FormInputProps } from 'types/reactive-form';
 
-export type SelectInputProps = FormInputProps<{ id: string }>;
+export type SelectInputProps = FormInputProps<{ id: string } | undefined>;
 
 // This types will be obsolete when the components/Select will be converted to typescript
 type SelectType = React.ForwardRefExoticComponent<React.RefAttributes<any> & Record<string, any>> ;
 const TypedSelect = Select as SelectType;
-interface SelectChangeEventType { target: { value: string; selectedIndex: number } & Record<number, { text: string }> }
+export interface SelectChangeEventType { target: { value: string; selectedIndex: number } & Record<number, { text: string }> }
 
 const SelectInput: FunctionComponent<SelectInputProps> = ({
   handler,

@@ -2,38 +2,32 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Select from 'components/Select';
 import SelectInput from '..';
 import userEvent from '@testing-library/user-event';
+import type { SelectInputProps } from '../SelectInput';
 
 describe('Form component <SelectInput />', () => {
   const metaFields = {
     name: 'input-field-name',
     placeholder: 'type here',
-    values: [
-      { foo: 'Foo' },
-      { bar: 'Bar' },
-      { baz: 'Baz' },
-    ],
+    values: [{ foo: 'Foo' }, { bar: 'Bar' }, { baz: 'Baz' }],
   };
-  let handler;
-  let touched;
-  let getError;
-  let hasError;
-  let parent;
 
-  beforeEach(() => {
-    handler = jest.fn();
-    touched = false;
-    getError = jest.fn();
-    hasError = jest.fn();
-    parent = {
+  const props = {
+    handler: jest.fn(),
+    parent: {
       meta: {
         updateIncident: jest.fn(),
       },
-    };
+    },
+    touched: false,
+    hasError: jest.fn(),
+    getError: jest.fn(),
+    value: undefined,
+  } as SelectInputProps;
 
-    handler.mockImplementation(() => ({
+  beforeEach(() => {
+    (props.handler as jest.Mock).mockImplementation(() => ({
       value: {
         id: 'baz',
         label: 'Baz',
@@ -41,13 +35,17 @@ describe('Form component <SelectInput />', () => {
     }));
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
   describe('rendering', () => {
     it('should render select field correctly', () => {
       const meta = {
         ...metaFields,
         isVisible: true,
       };
-      render(<SelectInput meta={meta} handler={handler} parent={parent} touched={touched} hasError={hasError} getError={getError} />);
+
+      render(<SelectInput meta={meta} {...props} />);
 
       const element = screen.getByTestId('input-field-name');
       expect(element).toBeInTheDocument();
@@ -63,7 +61,8 @@ describe('Form component <SelectInput />', () => {
         values: null,
       };
 
-      render(<SelectInput meta={meta} handler={handler} parent={parent} touched={touched} hasError={hasError} getError={getError} />);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      render(<SelectInput meta={meta} {...props} />);
 
       const element = screen.getByTestId('input-field-name');
       expect(element).toBeInTheDocument();
@@ -78,7 +77,8 @@ describe('Form component <SelectInput />', () => {
         isVisible: false,
       };
 
-      render(<SelectInput meta={meta} handler={handler} parent={parent} touched={touched} hasError={hasError} getError={getError} />);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      render(<SelectInput meta={meta} {...props} />);
 
       expect(screen.queryByTestId('input-field-name')).not.toBeInTheDocument();
       expect(screen.queryByTestId('selectedValue')).not.toBeInTheDocument();
@@ -86,32 +86,22 @@ describe('Form component <SelectInput />', () => {
   });
 
   describe('events', () => {
-    const event = {
-      target: {
-        selectedIndex: 2,
-        2: {
-          text: 'Baz',
-        },
-        value: 'baz',
-      },
-    };
-
     it('sets incident when value changes', () => {
       const meta = {
         ...metaFields,
         isVisible: true,
       };
 
-      render(<SelectInput meta={meta} handler={handler} parent={parent} touched={touched} hasError={hasError} getError={getError} />);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      render(<SelectInput meta={meta} {...props} />);
 
       const element = screen.getByTestId('input-field-name');
       expect(element).toBeInTheDocument();
       expect(screen.getByTestId('selectedValue').textContent).toEqual('Baz');
 
-
       userEvent.selectOptions(element, 'bar');
 
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': {
           id: 'bar',
           label: 'Bar',
