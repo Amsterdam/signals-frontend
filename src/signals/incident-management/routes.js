@@ -12,6 +12,7 @@ const routes = {
   incident: `${INCIDENT_URL}/:id(\\d+)`,
   split: `${INCIDENT_URL}/:id(\\d+)/split`,
   defaultTexts: `${BASE_URL}/standaard/teksten`,
+  reporterContext: `${INCIDENT_URL}/:id(\\d+)/samenhang`,
 }
 
 export default routes
