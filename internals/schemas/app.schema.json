@@ -77,6 +77,9 @@
           "description": "Feature switch to enable the publicly accessable page which shows a map with all incidents. This makes use of the 'MAP_SIGNALS_ENDPOINT' endpoint and needs to have the feature flag 'ENABLE_PUBLIC_GEO_SIGNAL_ENDPOINT' enabled in the backend.",
           "type": "boolean"
         },
+        "enableReporterContext": {
+          "description": "Feature switch to enable showing incident reporter context, like other incidents reported by the given reporter or feedback results. Needs to have the feature flags 'API_SIGNAL_CONTEXT' and 'API_SIGNAL_CONTEXT_REPORTER' enabled in the backend."
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -110,6 +113,7 @@
         "assignSignalToDepartment",
         "assignSignalToEmployee",
         "enablePublicSignalMap",
+        "enableReporterContext",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",
