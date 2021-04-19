@@ -108,7 +108,7 @@ export const FIETSNIETJE = {
 };
 
 export const JONGEREN = {
-  checkBoxVaker: '#extra_personen_overig_vaker-ja1',
+  checkBoxVaker: '#extra_personen_overig_vaker-ja',
   inputMoment: '#extra_personen_overig_vaker_momenten',
   radioButtonAantalPersonen: '#extra_personen_overig-4-6',
 };
