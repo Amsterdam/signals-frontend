@@ -32,6 +32,7 @@ import { INCIDENT_URL } from 'signals/incident-management/routes'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
+import type { Result, User, Department } from '../../types'
 import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
 import IconEdit from '../../../../../../shared/images/icon-edit.svg'
@@ -67,31 +68,36 @@ const EditButton = styled(Button)`
 `
 
 const MetaList = () => {
-  const { incident, update, edit } = useContext(IncidentDetailContext)
-  const { data: usersData, get: getUsers, isLoading } = useFetch()
-  const departments = useSelector(makeSelectDepartments)
-  const directingDepartments = useSelector(makeSelectDirectingDepartments)
+  const { incident, edit } = useContext(IncidentDetailContext)
+  const { data: usersData, get: getUsers, isLoading } = useFetch<Result<User>>()
+  const departments = useSelector<unknown, { list: Department[] }>(
+    makeSelectDepartments
+  )
+  const directingDepartments = useSelector<
+    unknown,
+    { key?: string; value: string }[]
+  >(makeSelectDirectingDepartments)
   const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug)
 
   const routingDepartments = useMemo(
     () =>
       (configuration.featureFlags.assignSignalToEmployee ||
         configuration.featureFlags.assignSignalToDepartment) &&
-      incident.routing_departments?.length &&
-      incident.routing_departments,
+      incident?.routing_departments?.length &&
+      incident?.routing_departments,
     [incident]
   )
 
   const categoryDepartments = useMemo(
     () =>
       departments?.list &&
-      (incident.category?.departments || '')
+      (incident?.category?.departments ?? '')
         .split(',')
         .map((code) => code.trim())
         .map((code) =>
           departments.list.find((department) => department.code === code)
         )
-        .filter(Boolean),
+        .filter((department): department is Department => Boolean(department)),
     [departments, incident]
   )
 
@@ -99,25 +105,26 @@ const MetaList = () => {
     if (!configuration.featureFlags.assignSignalToEmployee) return []
 
     const routingDepartmentCodes =
-      routingDepartments?.length &&
+      routingDepartments &&
       routingDepartments.map((department) => department.code)
 
     const categoryDepartmentCodes =
       !routingDepartmentCodes &&
-      categoryDepartments?.map((department) => department.code)
+      categoryDepartments?.map((department) => department?.code)
 
-    return routingDepartmentCodes || categoryDepartmentCodes || []
+    return routingDepartmentCodes ?? (categoryDepartmentCodes || [])
   }, [routingDepartments, categoryDepartments])
 
-  const [subcategoryGroups, subcategoryOptions] = useSelector(
-    makeSelectSubcategoriesGroupedByCategories
-  )
+  const [subcategoryGroups, subcategoryOptions] = useSelector<
+    unknown,
+    { id?: number; key?: string; slug?: string; value: string }[][]
+  >(makeSelectSubcategoriesGroupedByCategories)
 
   const hasChildren = useMemo(
-    () => incident._links['sia:children']?.length > 0,
+    () => incident && incident._links['sia:children']?.length > 0,
     [incident]
   )
-  const parentId = incident._links?.['sia:parent']?.href?.split('/').pop()
+  const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop()
 
   const getDirectingDepartmentCode = useCallback(
     (value) => {
@@ -138,9 +145,9 @@ const MetaList = () => {
           key: null,
           value: 'Niet toegewezen',
         },
-        ...(incident.assigned_user_email &&
+        ...(incident?.assigned_user_email &&
         !usersData.results.find(
-          (user) => user.username === incident.assigned_user_email
+          (user) => user.username === incident?.assigned_user_email
         )
           ? [
               {
@@ -163,7 +170,7 @@ const MetaList = () => {
     const options =
       categoryDepartments?.length > 1 &&
       categoryDepartments.map((department) => ({
-        key: `${department.id}`,
+        key: `${department?.id}`,
         value: department.name,
       }))
 
@@ -183,11 +190,17 @@ const MetaList = () => {
   const [processTimeText, processTimeClass] = useMemo(() => {
     const now = new Date()
 
-    if (now > new Date(incident.category?.deadline_factor_3)) {
+    if (
+      incident?.category?.deadline_factor_3 &&
+      now > new Date(incident.category?.deadline_factor_3)
+    ) {
       return ['3x buiten de afhandeltermijn', 'alert']
     }
 
-    if (now > new Date(incident.category?.deadline)) {
+    if (
+      incident?.category?.deadline &&
+      now > new Date(incident.category?.deadline)
+    ) {
       return ['Buiten de afhandeltermijn', 'alert']
     }
 
@@ -207,15 +220,17 @@ const MetaList = () => {
     []
   )
 
-  const subcatHighlightDisabled = ![
-    'm',
-    'reopened',
-    'i',
-    'b',
-    'ingepland',
-    'send failed',
-    'closure requested',
-  ].includes(incident.status.state)
+  const subcatHighlightDisabled =
+    incident &&
+    ![
+      'm',
+      'reopened',
+      'i',
+      'b',
+      'ingepland',
+      'send failed',
+      'closure requested',
+    ].includes(incident.status.state)
 
   // This conversion is needed to meet the api structure
   const getDirectingDepartmentPostData = useCallback(
@@ -227,7 +242,7 @@ const MetaList = () => {
   )
 
   useEffect(() => {
-    if (incidentDepartmentCodes.length) {
+    if (incidentDepartmentCodes && incidentDepartmentCodes.length) {
       getUsers(`${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}`, {
         profile_department_code: incidentDepartmentCodes,
       })
@@ -240,7 +255,7 @@ const MetaList = () => {
     <StyledMetaList>
       <dt data-testid="meta-list-date-definition">Gemeld op</dt>
       <dd data-testid="meta-list-date-value">
-        {string2date(incident.created_at)} {string2time(incident.created_at)}
+        {string2date(incident?.created_at)} {string2time(incident?.created_at)}
       </dd>
 
       {handlingTime && (
@@ -268,20 +283,20 @@ const MetaList = () => {
             iconSize={18}
             variant="application"
             type="button"
-            onClick={() => edit('status')}
+            onClick={() => edit && edit('status')}
           />
           Status
         </dt>
         <dd className="alert" data-testid="meta-list-status-value">
-          {incident.status.state_display}
+          {incident?.status.state_display}
         </dd>
       </Highlight>
 
-      {incident.priority && (
+      {incident?.priority && (
         <Highlight type="priority">
           <ChangeValue
             display="Urgentie"
-            valueClass={incident.priority.priority === 'high' ? 'alert' : ''}
+            valueClass={incident?.priority.priority === 'high' ? 'alert' : ''}
             options={priorityList}
             path="priority.priority"
             type="priority"
@@ -290,7 +305,7 @@ const MetaList = () => {
         </Highlight>
       )}
 
-      {incident.type && (
+      {incident?.type && (
         <Highlight type="type">
           <ChangeValue
             component={RadioInput}
@@ -308,7 +323,6 @@ const MetaList = () => {
             component={SelectInput}
             display="Toegewezen aan"
             options={userOptions}
-            onPatchIncident={update}
             path="assigned_user_email"
             type="assigned_user_email"
           />
@@ -322,7 +336,6 @@ const MetaList = () => {
               component={SelectInput}
               display="Afdeling"
               options={departmentOptions}
-              onPatchIncident={update}
               path="routing_departments"
               type="routing_departments"
               rawDataToKey={getDepartmentId}
@@ -365,7 +378,7 @@ const MetaList = () => {
       <Highlight type="subcategory">
         <dt data-testid="meta-list-main-category-definition">Hoofdcategorie</dt>
         <dd data-testid="meta-list-main-category-value">
-          {incident.category?.main}
+          {incident?.category?.main}
         </dd>
       </Highlight>
 
@@ -384,7 +397,7 @@ const MetaList = () => {
       )}
 
       <dt data-testid="meta-list-source-definition">Bron</dt>
-      <dd data-testid="meta-list-source-value">{incident.source}</dd>
+      <dd data-testid="meta-list-source-value">{incident?.source}</dd>
     </StyledMetaList>
   )
 }
