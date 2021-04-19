@@ -73,25 +73,25 @@ describe('Create signal "Container" and check signal details, container is on th
       cy.contains('Volgende').click();
       cy.get(CONTAINERS.buttonKiesOpKaart).click();
 
-      cy.get('.Restafval').should('not.exist');
-      cy.get('.Papier').should('not.exist');
-      cy.get('.Plastic').should('not.exist');
-      cy.get('.Glas').should('not.exist');
+      cy.get(CONTAINERS.containerRestafval).should('not.exist');
+      cy.get(CONTAINERS.containerPapier).should('not.exist');
+      cy.get(CONTAINERS.containerPlastic).should('not.exist');
+      cy.get(CONTAINERS.containerGlas).should('not.exist');
 
       cy.get(CONTAINERS.clusterIcon).click();
-      cy.wait(500);
-      cy.get('.Restafval').should('have.length', 2).and('be.visible');
-      cy.get('.Papier').should('have.length', 1).and('be.visible');
-      cy.get('.Plastic').should('have.length', 1).and('be.visible');
-      cy.get('.Glas').should('have.length', 1).and('be.visible');
+      cy.wait(2500);
+      cy.get(CONTAINERS.containerRestafval).should('have.length', 2).and('be.visible');
+      cy.get(CONTAINERS.containerPapier).should('have.length', 1).and('be.visible');
+      cy.get(CONTAINERS.containerPlastic).should('have.length', 1).and('be.visible');
+      cy.get(CONTAINERS.containerGlas).should('have.length', 1).and('be.visible');
 
-      cy.get('.Papier').click();
+      cy.get(CONTAINERS.containerPapier).click();
       cy.wait(500);
       cy.get(CONTAINERS.containerListItem).should('contain', 'Papier container');
-      cy.get('.Plastic').click();
+      cy.get(CONTAINERS.containerPlastic).click();
       cy.wait(500);
       cy.get(CONTAINERS.containerListItem).should('contain', 'Plastic container');
-      cy.get('.Restafval').first().click();
+      cy.get(CONTAINERS.containerRestafval).first().click();
       cy.wait(500);
       cy.get(CONTAINERS.containerListItem).should('contain', 'Restafval container');
       cy.get(CONTAINERS.buttonRemoveContainer).eq(1).click();
@@ -106,9 +106,9 @@ describe('Create signal "Container" and check signal details, container is on th
 
       cy.get(CONTAINERS.clusterIcon).click();
       cy.wait(500);
-      cy.get('.Glas').click();
+      cy.get(CONTAINERS.containerGlas).click();
       cy.wait(500);
-      cy.get('.Papier').click();
+      cy.get(CONTAINERS.containerPapier).click();
 
       cy.get(CONTAINERS.containerListItem).should('contain', 'Restafval container');
       cy.get(CONTAINERS.containerListItem).should('contain', 'Glas container');
