@@ -6,7 +6,7 @@ import isObject from 'lodash.isobject'
 
 import Select from 'components/Select'
 
-import Header from '../Header'
+import FormField from '../FormField'
 
 const SelectInput = ({
   handler,
@@ -18,7 +18,7 @@ const SelectInput = ({
   validatorsOrOpts,
 }) =>
   meta?.isVisible && (
-    <Header
+    <FormField
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -48,7 +48,7 @@ const SelectInput = ({
             : []
         }
       />
-    </Header>
+    </FormField>
   )
 
 SelectInput.propTypes = {

@@ -8,7 +8,7 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 import MapSelectComponent from 'components/MapSelectGeneric'
 import configuration from 'shared/services/configuration/configuration'
 
-import Header from '../Header'
+import FormField from '../FormField'
 
 export const getLatlng = (meta) =>
   meta?.incidentContainer?.incident?.location?.geometrie?.coordinates
@@ -53,7 +53,7 @@ const MapSelectGeneric = ({
 
   return (
     meta?.isVisible && (
-      <Header
+      <FormField
         // className value is referenced by form component
         className="mapSelectGeneric"
         meta={meta}
@@ -79,7 +79,7 @@ const MapSelectGeneric = ({
             {selection.join('; ')}
           </Selection>
         )}
-      </Header>
+      </FormField>
     )
   )
 }

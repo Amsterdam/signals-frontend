@@ -10,7 +10,7 @@ import Button from 'components/Button'
 
 import type { FormInputProps, FormMeta, ParentType } from 'types/reactive-form'
 import { themeSpacing } from '@amsterdam/asc-ui'
-import Header from '../Header'
+import FormField from '../FormField'
 
 const allowedChars = /[\d,.;]+/
 
@@ -67,7 +67,7 @@ const MultiTextInput: FunctionComponent<MultiTextInputProps> = ({
   validatorsOrOpts,
 }) =>
   (meta?.isVisible && (
-    <Header
+    <FormField
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -119,7 +119,7 @@ const MultiTextInput: FunctionComponent<MultiTextInputProps> = ({
           {meta.newItemText}
         </Button>
       </div>
-    </Header>
+    </FormField>
   )) ||
   null
 

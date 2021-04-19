@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <MapInput /> rendering should render map field correctly 1`] = `
-<Header
+<FormField
   className="mapInput"
   getError={[MockFunction]}
   hasError={[MockFunction]}
@@ -86,7 +86,7 @@ exports[`Form component <MapInput /> rendering should render map field correctly
       />
     </Memo(MapContext)>
   </div>
-</Header>
+</FormField>
 `;
 
 exports[`Form component <MapInput /> rendering should render no map field when not visible 1`] = `""`;

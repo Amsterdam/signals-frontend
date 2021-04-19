@@ -9,7 +9,7 @@ import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatMapLocation } from 'shared/services/map-location'
 
-import Header from '../Header'
+import FormField from '../FormField'
 
 const MapInput = ({
   handler,
@@ -34,7 +34,7 @@ const MapInput = ({
 
   return (
     meta?.isVisible && (
-      <Header
+      <FormField
         className="mapInput"
         meta={meta}
         options={validatorsOrOpts}
@@ -55,7 +55,7 @@ const MapInput = ({
             />
           </MapContext>
         </div>
-      </Header>
+      </FormField>
     )
   )
 }

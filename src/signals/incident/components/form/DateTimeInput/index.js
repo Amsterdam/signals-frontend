@@ -10,7 +10,7 @@ import { capitalize } from 'shared/services/date-utils'
 import styled from 'styled-components'
 import Label from 'components/Label'
 import { themeSpacing } from '@amsterdam/asc-ui'
-import Header from '../Header'
+import FormField from '../FormField'
 
 const StyledLabel = styled(Label)`
   margin-bottom: 0;
@@ -89,7 +89,7 @@ const DateTimeInput = ({
   })
 
   return (
-    <Header
+    <FormField
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -161,7 +161,7 @@ const DateTimeInput = ({
           </TimeWrapper>
         </TimeFieldset>
       </DateTimeInputStyle>
-    </Header>
+    </FormField>
   )
 }
 

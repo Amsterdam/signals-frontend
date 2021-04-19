@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React from 'react'
 import PropTypes from 'prop-types'
-import Header from '../Header'
+import FormField from '../FormField'
 import DescriptionInput from '../DescriptionInput'
 
 const DescriptionInputRenderer = ({
@@ -18,7 +18,7 @@ const DescriptionInputRenderer = ({
   if (!meta?.isVisible) return null
 
   return (
-    <Header
+    <FormField
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -31,7 +31,7 @@ const DescriptionInputRenderer = ({
         parent={parent}
         value={value}
       />
-    </Header>
+    </FormField>
   )
 }
 

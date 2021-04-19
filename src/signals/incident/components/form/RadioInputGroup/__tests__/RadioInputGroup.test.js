@@ -48,7 +48,7 @@ describe('Form component <RadioInput />', () => {
     it('renders radio fields correctly', () => {
       render(withAppContext(<RadioInputGroup {...props} />))
 
-      expect(screen.getByRole('radiogroup')).toBeInTheDocument()
+      expect(screen.getByRole('group')).toBeInTheDocument()
       expect(screen.getByRole('radio', { name: 'Foo' })).toBeInTheDocument()
       expect(screen.getByRole('radio', { name: 'Bar' })).toBeInTheDocument()
     })
@@ -63,7 +63,7 @@ describe('Form component <RadioInput />', () => {
         )
       )
 
-      expect(screen.queryByRole('radiogroup')).not.toBeInTheDocument()
+      expect(screen.queryByRole('group')).toBeInTheDocument()
       expect(
         screen.queryByRole('radio', { name: 'Foo' })
       ).not.toBeInTheDocument()
@@ -82,7 +82,7 @@ describe('Form component <RadioInput />', () => {
         )
       )
 
-      expect(screen.queryByRole('radiogroup')).not.toBeInTheDocument()
+      expect(screen.queryByRole('group')).not.toBeInTheDocument()
       expect(
         screen.queryByRole('radio', { name: 'Foo' })
       ).not.toBeInTheDocument()

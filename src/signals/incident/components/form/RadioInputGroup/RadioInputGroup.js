@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import isObject from 'lodash.isobject'
 import { themeColor, RadioGroup } from '@amsterdam/asc-ui'
 
-import Header from '../Header'
+import FormField from '../FormField'
 import RadioInput from '../RadioInput'
 
 const Info = styled.p`
@@ -38,7 +38,8 @@ const RadioInputGroup = ({
   if (!meta.isVisible) return null
 
   return (
-    <Header
+    <FormField
+      isFieldSet
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -48,7 +49,6 @@ const RadioInputGroup = ({
       {meta.values && isObject(meta.values) && (
         <div>
           <StyledRadioGroup
-            role="radiogroup"
             id={meta.name}
             name={meta.name}
             aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
@@ -73,7 +73,7 @@ const RadioInputGroup = ({
           )}
         </div>
       )}
-    </Header>
+    </FormField>
   )
 }
 

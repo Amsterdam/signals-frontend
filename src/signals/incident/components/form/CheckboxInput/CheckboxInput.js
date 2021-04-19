@@ -9,7 +9,7 @@ import { Label } from '@amsterdam/asc-ui'
 import Checkbox from 'components/Checkbox'
 
 import styled from 'styled-components'
-import Header from '../Header'
+import FormField from '../FormField'
 
 function updateIncidentCheckboxMulti(
   checked,
@@ -53,7 +53,7 @@ const CheckboxInput = ({
   validatorsOrOpts,
 }) =>
   meta.isVisible && (
-    <Header
+    <FormField
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -111,7 +111,7 @@ const CheckboxInput = ({
           </Label>
         )}
       </CheckboxWrapper>
-    </Header>
+    </FormField>
   )
 
 CheckboxInput.defaultProps = {

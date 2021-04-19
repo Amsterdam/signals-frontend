@@ -5,7 +5,7 @@ import React from 'react'
 import TextArea from 'components/TextArea'
 
 import type { FormInputProps } from 'types/reactive-form'
-import Header from '../Header'
+import FormField from '../FormField'
 
 export type TextAreaInputProps = FormInputProps
 
@@ -20,7 +20,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
   validatorsOrOpts,
 }) =>
   (meta?.isVisible && (
-    <Header
+    <FormField
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -44,7 +44,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
           `${value ? value.length : '0'}/${meta.maxLength} tekens`
         }
       />
-    </Header>
+    </FormField>
   )) ||
   null
 export default TextareaInput

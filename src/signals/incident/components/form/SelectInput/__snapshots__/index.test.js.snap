@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Form component <SelectInput /> rendering should render empty select field when values are not supplied 1`] = `
-<Header
+<FormField
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -21,13 +21,13 @@ exports[`Form component <SelectInput /> rendering should render empty select fie
     options={Array []}
     value="baz"
   />
-</Header>
+</FormField>
 `;
 
 exports[`Form component <SelectInput /> rendering should render no select field when not visible 1`] = `""`;
 
 exports[`Form component <SelectInput /> rendering should render select field correctly 1`] = `
-<Header
+<FormField
   getError={[MockFunction]}
   hasError={[MockFunction]}
   meta={
@@ -69,5 +69,5 @@ exports[`Form component <SelectInput /> rendering should render select field cor
     }
     value="baz"
   />
-</Header>
+</FormField>
 `;

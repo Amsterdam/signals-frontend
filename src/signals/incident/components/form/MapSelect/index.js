@@ -9,7 +9,7 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 import MapSelectComponent from 'components/MapSelect'
 import configuration from 'shared/services/configuration/configuration'
 
-import Header from '../Header'
+import FormField from '../FormField'
 import MapSelectGeneric from '../MapSelectGeneric'
 import { getOVLIcon, LEGEND_ITEMS } from './iconMapping'
 
@@ -61,7 +61,7 @@ const MapSelect = ({
 
   return (
     meta?.isVisible && (
-      <Header
+      <FormField
         // className value is referenced by form component
         className="mapSelect"
         meta={meta}
@@ -89,7 +89,7 @@ const MapSelect = ({
             Het gaat om lamp of lantaarnpaal met nummer: {selection.join('; ')}
           </Selection>
         )}
-      </Header>
+      </FormField>
     )
   )
 }

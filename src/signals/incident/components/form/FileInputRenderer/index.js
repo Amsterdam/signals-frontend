@@ -3,7 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Header from '../Header'
+import FormField from '../FormField'
 
 import FileInput from '../FileInput'
 
@@ -19,7 +19,7 @@ const FileInputRenderer = ({
   if (!meta?.isVisible) return null
 
   return (
-    <Header
+    <FormField
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -27,7 +27,7 @@ const FileInputRenderer = ({
       getError={getError}
     >
       <FileInput handler={handler} parent={parent} meta={meta} />
-    </Header>
+    </FormField>
   )
 }
 

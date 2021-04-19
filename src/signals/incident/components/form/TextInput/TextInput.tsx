@@ -5,7 +5,7 @@ import React from 'react'
 import Input from 'components/Input'
 
 import type { FormInputProps } from 'types/reactive-form'
-import Header from '../Header'
+import FormField from '../FormField'
 
 export type TextInputProps = FormInputProps
 
@@ -19,7 +19,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({
   validatorsOrOpts,
 }) =>
   (meta?.isVisible && (
-    <Header
+    <FormField
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
@@ -42,7 +42,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({
           })
         }}
       />
-    </Header>
+    </FormField>
   )) ||
   null
 

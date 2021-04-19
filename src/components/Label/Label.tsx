@@ -11,10 +11,12 @@ interface LabelProps {
 }
 
 const Label = styled.label<LabelProps>`
-  font-family: ${({ inline = false }) =>
-    `Avenir Next LT W01${inline ? '-Regular' : ' Demi'}, arial, sans-serif`};
+  font-family: Avenir Next LT W01
+      ${({ inline = false }) => (inline ? '-Regular' : ' Demi')},
+    arial, sans-serif;
   font-size: 16px;
   margin-bottom: ${themeSpacing(1)};
+  padding: 0;
   display: inline-block;
   vertical-align: text-top;
   color: inherit;
