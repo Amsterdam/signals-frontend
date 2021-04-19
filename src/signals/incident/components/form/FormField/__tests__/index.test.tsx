@@ -6,7 +6,6 @@ import { Validators } from 'react-reactive-form'
 
 import { withAppContext } from 'test/utils'
 import type { FormMeta } from 'types/reactive-form'
-import type { FormMeta } from 'types/reactive-form'
 import { createRequired } from '../../../../services/custom-validators'
 
 import type { FormFieldProps } from '../FormField'
