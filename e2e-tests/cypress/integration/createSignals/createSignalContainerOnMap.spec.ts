@@ -79,7 +79,7 @@ describe('Create signal "Container" and check signal details, container is on th
       cy.get(CONTAINERS.containerGlas).should('not.exist');
 
       cy.get(CONTAINERS.clusterIcon).click();
-      cy.wait(2500);
+      cy.wait(1000);
       cy.get(CONTAINERS.containerRestafval).should('have.length', 2).and('be.visible');
       cy.get(CONTAINERS.containerPapier).should('have.length', 1).and('be.visible');
       cy.get(CONTAINERS.containerPlastic).should('have.length', 1).and('be.visible');
