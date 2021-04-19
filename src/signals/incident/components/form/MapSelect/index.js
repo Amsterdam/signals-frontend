@@ -9,7 +9,7 @@ import { themeSpacing } from '@amsterdam/asc-ui';
 import MapSelectComponent from 'components/MapSelect';
 import configuration from 'shared/services/configuration/configuration';
 
-import Header from '../Header';
+import FormField from '../FormField';
 import { getOVLIcon, LEGEND_ITEMS } from './iconMapping';
 import MapSelectGeneric from '../MapSelectGeneric';
 
@@ -48,7 +48,7 @@ const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validat
 
   return (
     meta?.isVisible && (
-      <Header
+      <FormField
         // className value is referenced by form component
         className="mapSelect"
         meta={meta}
@@ -74,7 +74,7 @@ const MapSelect = ({ handler, touched, hasError, meta, parent, getError, validat
         {selection.length > 0 && (
           <Selection>Het gaat om lamp of lantaarnpaal met nummer: {selection.join('; ')}</Selection>
         )}
-      </Header>
+      </FormField>
     )
   );
 };

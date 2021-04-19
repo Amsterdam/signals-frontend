@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import isObject from 'lodash.isobject';
 import { themeColor, themeSpacing, RadioGroup } from '@amsterdam/asc-ui';
 
-import Header from '../Header';
+import FormField from '../FormField';
 import RadioInput from '../RadioInput';
 
 const Info = styled.p`
@@ -29,11 +29,10 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
   if (!meta.isVisible) return null;
 
   return (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField isFieldSet meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       {meta.values && isObject(meta.values) && (
         <div>
           <StyledRadioGroup
-            role="radiogroup"
             id={meta.name}
             name={meta.name}
             aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
@@ -58,7 +57,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
           )}
         </div>
       )}
-    </Header>
+    </FormField>
   );
 };
 

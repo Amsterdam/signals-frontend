@@ -24,10 +24,8 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
 
       createSignal.checkSpecificInformationPage(signal);
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Denkt u dat de situatie gevaarlijk is?')
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
+      cy.get(CREATE_SIGNAL.errorGlobal).contains(ERROR_MESSAGES.mandatoryFields).should('be.visible');
+      cy.get(VERKEERSLICHT.labelMandatoryFieldGevaarlijk).contains(ERROR_MESSAGES.mandatoryField).should('be.visible');
 
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
       const messageCallDirectly = questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_gevaar.answers;
@@ -46,15 +44,14 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Welk verkeerslicht werkt niet goed?')
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
+      cy.get(VERKEERSLICHT.labelMandatoryFieldWerking).contains(ERROR_MESSAGES.mandatoryField).should('be.visible');
 
       // Check all options for voetganger
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_welk.label).should('be.visible');
       cy.get(VERKEERSLICHT.radioButtonTypeVoetganger).check({ force: true }).should('be.checked');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_voetganger.label).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_voetganger.label).should(
+        'be.visible'
+      );
       cy.get(VERKEERSLICHT.checkBoxVoetgangerRoodLicht)
         .parent()
         .siblings()
@@ -83,7 +80,9 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
 
       // Check all options for Fiets
       cy.get(VERKEERSLICHT.radioButtonTypeFiets).check({ force: true }).should('be.checked');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_fiets_auto.label).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_fiets_auto.label).should(
+        'be.visible'
+      );
       cy.get(VERKEERSLICHT.checkBoxFietsAutoRoodLicht)
         .parent()
         .siblings()
@@ -104,15 +103,13 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
         .siblings()
         .should('have.text', 'Duurt (te) lang voordat het groen wordt')
         .and('be.visible');
-      cy.get(VERKEERSLICHT.checkBoxFietsAutoAnders)
-        .parent()
-        .siblings()
-        .should('have.text', 'Anders')
-        .and('be.visible');
+      cy.get(VERKEERSLICHT.checkBoxFietsAutoAnders).parent().siblings().should('have.text', 'Anders').and('be.visible');
 
       // Check all options for Auto
       cy.get(VERKEERSLICHT.radioButtonTypeAuto).check({ force: true }).should('be.checked');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_fiets_auto.label).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_fiets_auto.label).should(
+        'be.visible'
+      );
       cy.get(VERKEERSLICHT.checkBoxFietsAutoRoodLicht)
         .parent()
         .siblings()
@@ -133,15 +130,13 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
         .siblings()
         .should('have.text', 'Duurt (te) lang voordat het groen wordt')
         .and('be.visible');
-      cy.get(VERKEERSLICHT.checkBoxFietsAutoAnders)
-        .parent()
-        .siblings()
-        .should('have.text', 'Anders')
-        .and('be.visible');
+      cy.get(VERKEERSLICHT.checkBoxFietsAutoAnders).parent().siblings().should('have.text', 'Anders').and('be.visible');
 
       // Check all options for Tram of bus
       cy.get(VERKEERSLICHT.radioButtonTypeTramBus).check({ force: true }).should('be.checked');
-      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_bus_tram.label).should('be.visible');
+      cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_probleem_bus_tram.label).should(
+        'be.visible'
+      );
       cy.get(VERKEERSLICHT.checkBoxTramRoodLicht)
         .parent()
         .siblings()
@@ -162,11 +157,7 @@ describe('Create signal "Verkeerslicht" and check signal details', () => {
         .siblings()
         .should('have.text', 'Licht dat waarschuwt voor aankomende tram werkt niet')
         .and('be.visible');
-      cy.get(VERKEERSLICHT.checkBoxTramAnders)
-        .parent()
-        .siblings()
-        .should('have.text', 'Anders')
-        .and('be.visible');
+      cy.get(VERKEERSLICHT.checkBoxTramAnders).parent().siblings().should('have.text', 'Anders').and('be.visible');
       cy.get(VERKEERSLICHT.checkBoxTramRoodLicht).check();
 
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_verkeerslicht_rijrichting.label).should('be.visible');

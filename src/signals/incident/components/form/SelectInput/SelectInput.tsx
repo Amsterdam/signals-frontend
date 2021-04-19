@@ -5,7 +5,7 @@ import React from 'react';
 
 import Select from 'components/Select';
 
-import Header from '../Header';
+import FormField from '../FormField';
 
 import type { FormInputProps } from 'types/reactive-form';
 
@@ -25,7 +25,7 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
   getError,
   validatorsOrOpts,
 }) => (meta?.isVisible && (
-  <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+  <FormField meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
     <TypedSelect
       id={meta.name}
       aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
@@ -48,7 +48,7 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
           : []) as any[]
       }
     />
-  </Header>
+  </FormField>
 )) ||
   null;
 

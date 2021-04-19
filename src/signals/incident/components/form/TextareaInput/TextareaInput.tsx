@@ -5,7 +5,7 @@ import React from 'react';
 import TextArea from 'components/TextArea';
 
 import type { FormInputProps } from 'types/reactive-form';
-import Header from '../Header';
+import FormField from '../FormField';
 
 export type TextAreaInputProps = FormInputProps;
 
@@ -20,7 +20,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
   validatorsOrOpts,
 }) =>
   (meta?.isVisible && (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <TextArea
         id={meta.name}
         aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
@@ -33,7 +33,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
         }}
         infoText={meta.maxLength && `${value ? value.length : '0'}/${meta.maxLength} tekens`}
       />
-    </Header>
+    </FormField>
   )) ||
   null;
 export default TextareaInput;

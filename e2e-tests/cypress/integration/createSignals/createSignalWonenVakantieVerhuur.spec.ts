@@ -25,11 +25,22 @@ describe('Create signal "Wonen vakantie verhuur" and check signal details', () =
       createSignal.checkSpecificInformationPage(signal);
 
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains(questions.wonen.extra_wonen_vakantieverhuur_toeristen_aanwezig.label)
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
-
+      cy.get(CREATE_SIGNAL.errorGlobal).contains(ERROR_MESSAGES.mandatoryFields).should('be.visible');
+      cy.get(WONEN_VAKANTIEVERHUUR.labelMandatoryFieldToeristenAanwezig)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
+      cy.get(WONEN_VAKANTIEVERHUUR.labelMandatoryFieldToeristenHoeveelheid)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
+      cy.get(WONEN_VAKANTIEVERHUUR.labelMandatoryFieldToeristenVaker)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
+      cy.get(WONEN_VAKANTIEVERHUUR.labelMandatoryFieldWonen)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
+      cy.get(WONEN_VAKANTIEVERHUUR.labelMandatoryFieldInternet)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
       // Input specific information
       const warningPhone = questions.wonen.extra_wonen_vakantieverhuur_bellen_of_formulier.label;
       cy.contains(questions.wonen.extra_wonen_vakantieverhuur_toeristen_aanwezig.label).should('be.visible');

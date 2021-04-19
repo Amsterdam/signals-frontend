@@ -15,6 +15,7 @@ const Label =
     font-family: Avenir Next LT W01${({ inline = false }) => inline ? '-Regular' : ' Demi'}, arial, sans-serif;
     font-size: 16px;
     margin-bottom: ${themeSpacing(1)};
+    padding: 0;
     display: inline-block;
     vertical-align: text-top;
     color: inherit;

@@ -8,7 +8,7 @@ import { Label } from '@amsterdam/asc-ui';
 
 import Checkbox from 'components/Checkbox';
 
-import Header from '../Header';
+import FormField from '../FormField';
 import styled from 'styled-components';
 
 function updateIncidentCheckboxMulti(checked, value, key, oldValue, meta, parent) {
@@ -38,7 +38,7 @@ const CheckboxGroup = styled.div`
 
 const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
   meta.isVisible && (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <CheckboxWrapper>
         {isObject(meta.values) ? (
           <CheckboxGroup role="group" id={meta.name}>
@@ -76,7 +76,7 @@ const CheckboxInput = ({ handler, touched, hasError, meta, parent, getError, val
           </Label>
         )}
       </CheckboxWrapper>
-    </Header>
+    </FormField>
   );
 
 CheckboxInput.defaultProps = {

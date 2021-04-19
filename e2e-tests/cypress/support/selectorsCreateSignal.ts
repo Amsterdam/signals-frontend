@@ -16,6 +16,7 @@ export const CREATE_SIGNAL = {
   dropdownSubcategory: '[data-testid="subcategory"]',
   errorDateTime: '[data-testid="datetime-required"]',
   errorDescription: '[data-testid="description-required"]',
+  errorGlobal: '[class*="GlobalError__ErrorItem"]',
   errorItem: '[data-testid$="-required"]',
   errorLocation: '[data-testid="location-required"]',
   errorMail: '[data-testid="invalid-mail"]',
@@ -69,7 +70,6 @@ export const BOTEN = {
   radioButtonPlezierVaart: '#extra_boten_snelheid_typeboot-pleziervaart1',
   radioButtonRondvaartboot: '#extra_boten_snelheid_typeboot-rondvaartboot_of_salonboot1',
   radioButtonVrachtschip: '#extra_boten_snelheid_typeboot-vrachtschip_of_binnenvaartschip1',
-
 };
 
 export const CONTAINERS = {
@@ -83,6 +83,10 @@ export const CONTAINERS = {
   buttonUitzoomen: '[title=Uitzoomen]',
   checkBoxContainerNietopKaart: '#unregisteredContainerCheckbox',
   clusterIcon: '[data-testid=markerClusterIcon]',
+  containerGlas: '[alt*="Glas"]',
+  containerPapier: '[alt*="Papier"]',
+  containerPlastic: '[alt*="Plastic"]',
+  containerRestafval: '[alt*="Restafval"]',
   containerListItem: '[data-testid*="containerListItem"]',
   icon: '.leaflet-marker-icon',
   inputContainerNummer: '#unregisteredContainerInput',
@@ -114,6 +118,7 @@ export const KLOK = {
   iconKlok: '.leaflet-marker-icon',
   inputKlokNummer1: '#extra_klok_niet_op_kaart_nummer',
   inputKlokNummer2: '#extra_klok_niet_op_kaart_nummer-2',
+  labelMandatoryFieldGevaarlijk: '[data-testid=extra_klok-required]',
   legendContentText: '.legend-content-text',
   legendHeader: '.legend-header',
   mapSelectKlok: '[data-testid=mapSelect]',
@@ -131,6 +136,7 @@ export const LANTAARNPAAL = {
   checkBoxNietOpKaart: '#extra_straatverlichting_niet_op_kaart',
   inputLampNummer1: '#extra_straatverlichting_niet_op_kaart_nummer',
   inputLampNummer2: '#extra_straatverlichting_niet_op_kaart_nummer-2',
+  labelMandatoryField: '[data-testid="extra_straatverlichting_probleem-required"]',
   legendContentText: '.legend-content-text',
   legendHeader: '.legend-header',
   mapSelectLamp: '[data-testid=mapSelect]',
@@ -175,6 +181,8 @@ export const VERKEERSLICHT = {
   checkBoxVoetgangerRoodLicht: '#extra_verkeerslicht_probleem_voetganger-rood_werkt_niet1',
   inputNummerVerkeerslicht: '#extra_verkeerslicht_nummer',
   inputRijrichting: '#extra_verkeerslicht_rijrichting',
+  labelMandatoryFieldGevaarlijk: '[data-testid=extra_verkeerslicht-required]',
+  labelMandatoryFieldWerking: '[data-testid=extra_verkeerslicht_welk-required]',
   radioButtonAanrijding: '#extra_verkeerslicht-is_gevolg_van_aanrijding1',
   radioButtonOpGrond: '#extra_verkeerslicht-verkeerslicht_op_grond_of_scheef1',
   radioButtonDeur: '#extra_verkeerslicht-deurtje_weg_of_open1',
@@ -196,6 +204,9 @@ export const WONEN_LEEGSTAND = {
   inputNaam: '#extra_wonen_leegstand_naam_persoon',
   inputTijdstip: '#extra_wonen_leegstand_iemand_aanwezig',
   inputWatDoetPersoon: '#extra_wonen_leegstand_activiteit_in_woning',
+  labelMandatoryFieldNaamEigenaaar: '[data-testid=extra_wonen_leegstand_naam_eigenaar-required]',
+  labelMandatoryFieldWoningGebruik: '[data-testid=extra_wonen_leegstand_woning_gebruik-required]',
+  labelMandatoryFieldWoningLeeg: '[data-testid=extra_wonen_leegstand_periode-required]',
   radioButtonBewonerJa: '#extra_wonen_woonkwaliteit_bewoner-ja1',
   radioButtonBewonerNee: '#extra_wonen_woonkwaliteit_bewoner-nee1',
   radioButtonBewoningJa: '#extra_wonen_vakantieverhuur_bewoning-ja1',
@@ -245,6 +256,11 @@ export const WONEN_OVERIG = {
 export const WONEN_VAKANTIEVERHUUR = {
   inputBewoner: '#extra_wonen_vakantieverhuur_naam_bewoner',
   inputLink: '#extra_wonen_vakantieverhuur_link_advertentie',
+  labelMandatoryFieldInternet: '[data-testid=extra_wonen_vakantieverhuur_online_aangeboden-required]',
+  labelMandatoryFieldToeristenAanwezig: '[data-testid=extra_wonen_vakantieverhuur_toeristen_aanwezig-required]',
+  labelMandatoryFieldToeristenHoeveelheid: '[data-testid=extra_wonen_vakantieverhuur_aantal_mensen-required]',
+  labelMandatoryFieldToeristenVaker: '[data-testid=extra_wonen_vakantieverhuur_hoe_vaak-required]',
+  labelMandatoryFieldWonen: '[data-testid=extra_wonen_vakantieverhuur_bewoning-required]',
   radioButtonBewoningJa: '#extra_wonen_vakantieverhuur_bewoning-ja1',
   radioButtonBewoningNee: '#extra_wonen_vakantieverhuur_bewoning-nee1',
   radioButtonBewoningWeetIkNiet: '#extra_wonen_vakantieverhuur_bewoning-weet_ik_niet1',
@@ -297,6 +313,7 @@ export const WONEN_WONINGDELEN = {
 
 export const WONEN_WONINGKWALITEIT = {
   inputGeenContact: '#extra_wonen_woonkwaliteit_geen_contact',
+  labelMandatoryFieldGevaar: '[data-testid=extra_wonen_woonkwaliteit_direct_gevaar-required]',
   radioButtonBewonerJa: '#extra_wonen_woonkwaliteit_bewoner-ja1',
   radioButtonBewonerNee: '#extra_wonen_woonkwaliteit_bewoner-nee1',
   radioButtonContactJa: '#extra_wonen_woonkwaliteit_toestemming_contact-ja1',

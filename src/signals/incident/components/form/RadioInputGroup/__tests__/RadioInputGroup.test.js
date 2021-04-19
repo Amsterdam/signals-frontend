@@ -48,7 +48,7 @@ describe('Form component <RadioInput />', () => {
     it('renders radio fields correctly', () => {
       render(withAppContext(<RadioInputGroup {...props} />));
 
-      expect(screen.getByRole('radiogroup')).toBeInTheDocument();
+      expect(screen.getByRole('group')).toBeInTheDocument();
       expect(screen.getByRole('radio', { name: 'Foo' })).toBeInTheDocument();
       expect(screen.getByRole('radio', { name: 'Bar' })).toBeInTheDocument();
     });
@@ -56,7 +56,7 @@ describe('Form component <RadioInput />', () => {
     it('renders zero radio fields when values are not supplied', async () => {
       render(withAppContext(<RadioInputGroup {...props} meta={{ ...props.meta, values: undefined }} />));
 
-      expect(screen.queryByRole('radiogroup')).not.toBeInTheDocument();
+      expect(screen.queryByRole('group')).toBeInTheDocument();
       expect(screen.queryByRole('radio', { name: 'Foo' })).not.toBeInTheDocument();
       expect(screen.queryByRole('radio', { name: 'Bar' })).not.toBeInTheDocument();
     });
@@ -64,7 +64,7 @@ describe('Form component <RadioInput />', () => {
     it('renders no radio field when not visible', () => {
       render(withAppContext(<RadioInputGroup {...props} meta={{ ...props.meta, isVisible: false }} />));
 
-      expect(screen.queryByRole('radiogroup')).not.toBeInTheDocument();
+      expect(screen.queryByRole('group')).not.toBeInTheDocument();
       expect(screen.queryByRole('radio', { name: 'Foo' })).not.toBeInTheDocument();
       expect(screen.queryByRole('radio', { name: 'Bar' })).not.toBeInTheDocument();
     });

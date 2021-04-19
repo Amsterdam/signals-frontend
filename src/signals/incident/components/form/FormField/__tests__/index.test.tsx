@@ -7,11 +7,11 @@ import { Validators } from 'react-reactive-form';
 import { withAppContext } from 'test/utils';
 import { createRequired } from '../../../../services/custom-validators';
 
-import type { HeaderProps } from '../Header';
-import Header from '..';
+import type { FormFieldProps } from '../FormField';
+import FormField from '..';
 import type { FormMeta } from 'types/reactive-form';
 
-describe('signals/incident/components/form/Header', () => {
+describe('signals/incident/components/form/FormField', () => {
   const label = 'Foo barrrr';
   const props = {
     meta: {
@@ -22,44 +22,51 @@ describe('signals/incident/components/form/Header', () => {
     touched: false,
     hasError: () => false,
     getError: () => '',
-  } as HeaderProps;
+  } as FormFieldProps;
 
   it('should render label', () => {
-    render(withAppContext(<Header {...props} />));
+    render(withAppContext(<FormField {...props} />));
 
     expect(screen.getByText(label)).toBeInTheDocument();
   });
 
+  it('should render fieldset with legend', () => {
+    render(withAppContext(<FormField {...props} isFieldSet />));
+
+    // Role 'group' asserts that a fieldset is rendered with a legend as its first child.
+    expect(screen.getByRole('group', { name: /Foo barrrr/ })).toBeInTheDocument();
+  });
+
   it('should render optional indicator', () => {
-    const { rerender } = render(withAppContext(<Header {...props} options={{}} />));
+    const { rerender } = render(withAppContext(<FormField {...props} options={{}} />));
 
     expect(screen.queryByText('(niet verplicht)')).toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} options={{ validators: undefined }} />));
+    rerender(withAppContext(<FormField {...props} options={{ validators: undefined }} />));
 
     expect(screen.queryByText('(niet verplicht)')).toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} options={{ validators: [] }} />));
+    rerender(withAppContext(<FormField {...props} options={{ validators: [] }} />));
 
     expect(screen.queryByText('(niet verplicht)')).toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} meta={{ ...props.meta, label: undefined }} options={{}} />));
+    rerender(withAppContext(<FormField {...props} meta={{ ...props.meta, label: undefined }} options={{}} />));
 
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument();
 
     // eslint-disable-next-line jest/unbound-method
-    rerender(withAppContext(<Header {...props} options={{ validators: [Validators.required] }} />));
+    rerender(withAppContext(<FormField {...props} options={{ validators: [Validators.required] }} />));
 
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} options={{ validators: [createRequired('Verplicht')] }} />));
+    rerender(withAppContext(<FormField {...props} options={{ validators: [createRequired('Verplicht')] }} />));
 
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument();
   });
 
   it('should render subtitle', () => {
     const subtitle = 'Bar bazzz';
-    render(withAppContext(<Header {...props} meta={{ ...props.meta, subtitle }} />));
+    render(withAppContext(<FormField {...props} meta={{ ...props.meta, subtitle }} />));
 
     expect(screen.getByText(subtitle)).toBeInTheDocument();
   });
@@ -67,9 +74,9 @@ describe('signals/incident/components/form/Header', () => {
   it('should render children', () => {
     const { container } = render(
       withAppContext(
-        <Header {...props}>
+        <FormField {...props}>
           <span className="child" />
-        </Header>
+        </FormField>
       )
     );
 
@@ -81,11 +88,11 @@ describe('signals/incident/components/form/Header', () => {
     const getError = () => true;
     const error = 'Dit is een verplicht veld';
 
-    const { rerender } = render(withAppContext(<Header {...props} touched />));
+    const { rerender } = render(withAppContext(<FormField {...props} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} getError={getError} hasError={hasError} touched />));
+    rerender(withAppContext(<FormField {...props} getError={getError} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
@@ -95,11 +102,11 @@ describe('signals/incident/components/form/Header', () => {
     const hasError = (prop: string) => prop === 'required';
     const getError = () => error;
 
-    const { rerender } = render(withAppContext(<Header {...props} touched />));
+    const { rerender } = render(withAppContext(<FormField {...props} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} getError={getError} hasError={hasError} touched />));
+    rerender(withAppContext(<FormField {...props} getError={getError} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
@@ -108,11 +115,11 @@ describe('signals/incident/components/form/Header', () => {
     const hasError = (prop: string) => prop === 'email';
     const error = 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl';
 
-    const { rerender } = render(withAppContext(<Header {...props} touched />));
+    const { rerender } = render(withAppContext(<FormField {...props} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} hasError={hasError} touched />));
+    rerender(withAppContext(<FormField {...props} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
@@ -123,11 +130,11 @@ describe('signals/incident/components/form/Header', () => {
     const getError = () => ({ requiredLength });
     const error = `U heeft meer dan de maximale ${requiredLength} tekens ingevoerd`;
 
-    const { rerender } = render(withAppContext(<Header {...props} getError={getError} touched />));
+    const { rerender } = render(withAppContext(<FormField {...props} getError={getError} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} hasError={hasError} getError={getError} touched />));
+    rerender(withAppContext(<FormField {...props} hasError={hasError} getError={getError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
@@ -137,11 +144,11 @@ describe('signals/incident/components/form/Header', () => {
     const hasError = (prop: string) => prop === 'custom';
     const getError = () => error;
 
-    const { rerender } = render(withAppContext(<Header {...props} getError={getError} touched />));
+    const { rerender } = render(withAppContext(<FormField {...props} getError={getError} touched />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} hasError={hasError} getError={getError} touched />));
+    rerender(withAppContext(<FormField {...props} hasError={hasError} getError={getError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });
@@ -152,11 +159,11 @@ describe('signals/incident/components/form/Header', () => {
     const touched = false;
     const error = 'Dit is een verplicht veld';
 
-    const { rerender } = render(withAppContext(<Header {...props} hasError={hasError} touched={touched} />));
+    const { rerender } = render(withAppContext(<FormField {...props} hasError={hasError} touched={touched} />));
 
     expect(screen.queryByText(error)).not.toBeInTheDocument();
 
-    rerender(withAppContext(<Header {...props} getError={getError} hasError={hasError} touched />));
+    rerender(withAppContext(<FormField {...props} getError={getError} hasError={hasError} touched />));
 
     expect(screen.queryByText(error)).toBeInTheDocument();
   });

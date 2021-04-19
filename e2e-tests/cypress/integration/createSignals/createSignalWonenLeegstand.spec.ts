@@ -24,18 +24,16 @@ describe('Create signal "Wonen leegstand" and check signal details', () => {
 
       createSignal.checkSpecificInformationPage(signal);
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Weet u wie de eigenaar is van de woning?')
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Hoe lang staat de woning al leeg?')
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Wordt de woning af en toe nog gebruikt?')
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
+      cy.get(CREATE_SIGNAL.errorGlobal).contains(ERROR_MESSAGES.mandatoryFields).should('be.visible');
+      cy.get(WONEN_LEEGSTAND.labelMandatoryFieldNaamEigenaaar)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
+      cy.get(WONEN_LEEGSTAND.labelMandatoryFieldWoningLeeg)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
+      cy.get(WONEN_LEEGSTAND.labelMandatoryFieldWoningGebruik)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
 
       // Input specific information
       cy.contains(questions.wonen.extra_wonen_leegstand_naam_eigenaar.label).should('be.visible');
