@@ -36,7 +36,7 @@ const StyledGPSButton = styled(GPSButton)`
 `
 
 const Map = ({
-  children,
+  children = null,
   className = '',
   'data-testid': dataTestId = 'map-base',
   events = null,
