@@ -4,6 +4,7 @@ export const ERROR_MESSAGES = {
   email: 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl',
   location: 'Kies een locatie op de kaart of vul een adres in',
   mandatoryField: 'Dit is een verplicht veld',
+  mandatoryFields: 'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.',
   mandatoryFieldKTO: 'Dit veld is verplicht',
 };
 
