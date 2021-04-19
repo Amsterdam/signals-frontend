@@ -6,11 +6,11 @@ import isObject from 'lodash.isobject';
 
 import Select from 'components/Select';
 
-import Header from '../Header';
+import FormField from '../FormField';
 
 const SelectInput = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
   meta?.isVisible && (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <Select
         id={meta.name}
         aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
@@ -30,7 +30,7 @@ const SelectInput = ({ handler, touched, hasError, meta, parent, getError, valid
             []
         }
       />
-    </Header>
+    </FormField>
   );
 
 SelectInput.propTypes = {
