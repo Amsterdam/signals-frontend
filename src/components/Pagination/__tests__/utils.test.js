@@ -47,7 +47,6 @@ describe('src/components/Pagination/utils', () => {
     it('should contain previous and next entries', () => {
       expect(pageNumbersList(1, totalPages)).toContain(NEXT)
       expect(pageNumbersList(1, totalPages)).not.toContain(PREVIOUS)
-
       ;[...new Array(totalPages).keys()]
         .filter((index) => index > 0 && index < totalPages - 1)
         .forEach((index) => {

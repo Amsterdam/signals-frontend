@@ -27,7 +27,6 @@ class EventDispathcher implements IEventDispatcher {
     const handlers: Handlers = this.events[event]
 
     if (!handlers || handlers.length < 1) return
-
     ;[].forEach.call(handlers, (handler: () => void) => {
       handler()
     })

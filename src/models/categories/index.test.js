@@ -7,7 +7,6 @@ import loadModel from '..'
 import reducer from './reducer'
 import saga from './saga'
 
-
 jest.mock('utils/injectReducerModel')
 jest.mock('utils/injectSagaModel')
 

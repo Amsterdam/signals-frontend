@@ -10,7 +10,6 @@ import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures'
 import { defaultTextsOptionList } from '../../../../definitions/statusList'
 import SelectForm from '.'
 
-
 describe('SelectForm', () => {
   const subcategories = subcategoriesGroupedByCategories[1]
   const category_url = categoriesPrivate.results[1]._links.self.public

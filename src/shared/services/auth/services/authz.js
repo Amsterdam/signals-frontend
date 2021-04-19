@@ -6,7 +6,6 @@ import parseAccessToken from './parse-access-token/parse-access-token'
 import randomStringGenerator from './random-string-generator/random-string-generator'
 import queryStringParser from './query-string-parser/query-string-parser'
 
-
 let tokenData = {}
 const storage = global.localStorage || global.sessionStorage
 

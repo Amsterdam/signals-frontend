@@ -20,7 +20,6 @@ import DepartmentDetailContext from '../../context'
 import reducer from './reducer'
 import { setCanView, setIsResponsible } from './actions'
 
-
 const StyledFieldset = styled(Fieldset)`
   padding-top: ${themeSpacing(2)};
   padding-bottom: ${themeSpacing(10)};

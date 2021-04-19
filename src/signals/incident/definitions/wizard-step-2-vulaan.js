@@ -17,7 +17,6 @@ import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-do
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import wonen from './wizard-step-2-vulaan/wonen'
 
-
 const mapFieldNameToComponent = (key) => FormComponents[key]
 const mapValidatorToFn = (key) => Validators[key]
 const expandValidatorFn = ([key, ...args]) => mapValidatorToFn(key)(...args)
