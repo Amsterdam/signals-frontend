@@ -38,6 +38,7 @@ import {
   SET_ATTACHMENTS,
   SET_CHILDREN,
   SET_CHILDREN_HISTORY,
+  SET_CONTEXT,
   SET_DEFAULT_TEXTS,
   SET_ERROR,
   SET_HISTORY,
@@ -78,6 +79,7 @@ const IncidentDetail = () => {
   const { get: getDefaultTexts, data: defaultTexts } = useFetch();
   const { get: getChildren, data: children } = useFetch();
   const { get: getChildrenHistory, data: childrenHistory } = useFetchAll();
+  const { get: getContext, data: context } = useFetch();
   const [editingStatus, setEditingStatus] = useState(false);
 
   const subcategories = useSelector(makeSelectSubCategories);
@@ -160,6 +162,12 @@ const IncidentDetail = () => {
   }, [childrenHistory]);
 
   useEffect(() => {
+    if (!context) return;
+
+    dispatch({ type: SET_CONTEXT, payload: context });
+  }, [context]);
+
+  useEffect(() => {
     if (!id) return;
 
     dispatch({ type: RESET });
@@ -195,7 +203,11 @@ const IncidentDetail = () => {
     if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`);
     }
-  }, [getAttachments, getChildren, getHistory, id, incident?._links, state.attachments]);
+
+    if (incident?.reporter?.email && !hasChildren) {
+      getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`);
+    }
+  }, [getAttachments, getChildren, getHistory, getContext, id, incident, state.attachments]);
 
   useEffect(() => {
     if (children?.results.length > 0) {
@@ -262,7 +274,7 @@ const IncidentDetail = () => {
 
       <StyledRow>
         <DetailContainer span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}>
-          <Detail attachments={state.attachments} />
+          <Detail attachments={state.attachments} context={state.context} />
 
           <AddNote />
 

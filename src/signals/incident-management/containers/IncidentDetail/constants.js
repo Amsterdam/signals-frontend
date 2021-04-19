@@ -15,6 +15,7 @@ export const SET_ATTACHMENTS = 'sia/incidentManagement/containers/IncidentDetail
 export const SET_HISTORY = 'sia/incidentManagement/containers/IncidentDetail/SET_HISTORY';
 export const SET_CHILDREN = 'sia/incidentManagement/containers/IncidentDetail/SET_CHILDREN';
 export const SET_CHILDREN_HISTORY = 'sia/incidentManagement/containers/IncidentDetail/SET_CHILDREN_HISTORY';
+export const SET_CONTEXT = 'sia/incidentManagement/containers/IncidentDetail/SET_CONTEXT';
 export const SET_DEFAULT_TEXTS = 'sia/incidentManagement/containers/IncidentDetail/SET_DEFAULT_TEXTS';
 export const SET_INCIDENT = 'sia/incidentManagement/containers/IncidentDetail/SET_INCIDENT';
 export const PATCH_START = 'sia/incidentManagement/containers/IncidentDetail/PATCH_START';
