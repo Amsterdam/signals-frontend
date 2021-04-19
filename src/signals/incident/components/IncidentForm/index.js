@@ -7,10 +7,10 @@ import { FormGenerator } from 'react-reactive-form';
 import get from 'lodash.get';
 import isEqual from 'lodash.isequal';
 import { themeSpacing } from '@amsterdam/asc-ui';
+import isObject from 'lodash.isobject';
 
 import { isAuthenticated } from 'shared/services/auth/auth';
 import formatConditionalForm from '../../services/format-conditional-form';
-import { isObject } from 'lodash';
 
 export const Form = styled.form`
   width: 100%;
