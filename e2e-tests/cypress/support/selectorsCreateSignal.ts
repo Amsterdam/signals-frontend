@@ -32,8 +32,8 @@ export const CREATE_SIGNAL = {
   mapStaticImage: '[data-testid=mapStaticImage]',
   mapStaticMarker: '[data-testid=mapStaticMarker]',
   mapPreview: '[data-testid=map-preview]',
-  radioButtonTijdstipNu: '#datetime-Nu1',
-  radioButtonTijdstipEerder: '#datetime-Eerder1',
+  radioButtonTijdstipNu: '#datetime-Nu',
+  radioButtonTijdstipEerder: '#datetime-Eerder',
 };
 
 export const BEDRIJVEN_HORECA = {
