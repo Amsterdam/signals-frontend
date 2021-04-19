@@ -196,6 +196,15 @@ export const attachmentsType = PropTypes.arrayOf(
   })
 )
 
+export const contextType = PropTypes.shape({
+  reporter: PropTypes.shape({
+    negative_count: PropTypes.number,
+    open_count: PropTypes.number,
+    positive_count: PropTypes.number,
+    signal_count: PropTypes.number,
+  }),
+});
+
 export const defaultTextsType = PropTypes.arrayOf(
   PropTypes.shape({
     state: PropTypes.string,
