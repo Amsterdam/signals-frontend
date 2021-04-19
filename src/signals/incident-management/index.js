@@ -33,6 +33,8 @@ const IncidentDetail = lazy(() => import('./containers/IncidentDetail'));
 const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'));
 // istanbul ignore next
 const IncidentSplitContainer = lazy(() => import('./containers/IncidentSplitContainer'));
+// istanbul ignore next
+const ReporterContextContainer = lazy(() => import('./containers/ReporterContextContainer'));
 
 const IncidentManagement = () => {
   const location = useLocationReferrer();
@@ -40,9 +42,7 @@ const IncidentManagement = () => {
   const searchQuery = useSelector(makeSelectSearchQuery);
   const dispatch = useDispatch();
   const users = useFetch();
-  const contextValue = useMemo(() => ({ districts }), [
-    districts,
-  ]);
+  const contextValue = useMemo(() => ({ districts }), [districts]);
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -73,6 +73,9 @@ const IncidentManagement = () => {
           <Route exact path={routes.incidents} component={IncidentOverviewPage} />
           <Route exact path={routes.incident} component={IncidentDetail} />
           <Route exact path={routes.split} component={IncidentSplitContainer} />
+          {configuration.featureFlags.enableReporterContext && (
+            <Route exact path={routes.reporterContext} component={ReporterContextContainer} />
+          )}
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
           <Route component={IncidentOverviewPage} />
         </Switch>

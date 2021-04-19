@@ -5,6 +5,7 @@
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
     "enablePublicSignalMap": false,
+    "enableReporterContext": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
@@ -46,19 +47,10 @@
   "map": {
     "municipality": "amsterdam",
     "options": {
-      "center": [
-        52.3731081,
-        4.8932945
-      ],
+      "center": [52.3731081, 4.8932945],
       "maxBounds": [
-        [
-          52.25168,
-          4.64034
-        ],
-        [
-          52.50536,
-          5.10737
-        ]
+        [52.25168, 4.64034],
+        [52.50536, 5.10737]
       ],
       "maxZoom": 14,
       "minZoom": 8,
