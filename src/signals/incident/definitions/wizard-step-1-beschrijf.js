@@ -12,8 +12,7 @@ import { createRequired } from '../services/custom-validators';
 
 const priorityValuesList = priorityList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
 const typesValuesList = typesList.reduce((acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }), {});
-const reduceSources = sources =>
-  sources.reduce((acc, { value }) => ({ ...acc, [value]: value }), { '': 'Vul bron in' });
+const reduceSources = sources => sources.reduce((acc, { value }) => ([...acc, { [value]: value }]), [{ '': 'Vul bron in' }]);
 
 const getControls = memoize(
   sources => ({
