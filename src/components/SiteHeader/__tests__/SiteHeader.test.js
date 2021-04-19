@@ -262,7 +262,7 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Gebruikers')).toBeInTheDocument();
     expect(queryByText('Rollen')).toBeInTheDocument();
     expect(queryByText('Afdelingen')).toBeInTheDocument();
-    expect(queryByText('Categorieën')).toBeInTheDocument();
+    expect(queryByText('Subcategorieën')).toBeInTheDocument();
   });
 
   it('should render correctly when logged in', () => {
@@ -348,7 +348,7 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Gebruikers')).toBeInTheDocument();
     expect(queryByText('Rollen')).toBeInTheDocument();
     expect(queryByText('Afdelingen')).not.toBeInTheDocument();
-    expect(queryByText('Categorieën')).not.toBeInTheDocument();
+    expect(queryByText('Subcategorieën')).not.toBeInTheDocument();
 
     unmount();
 
@@ -358,6 +358,6 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Gebruikers')).not.toBeInTheDocument();
     expect(queryByText('Rollen')).not.toBeInTheDocument();
     expect(queryByText('Afdelingen')).toBeInTheDocument();
-    expect(queryByText('Categorieën')).toBeInTheDocument();
+    expect(queryByText('Subcategorieën')).toBeInTheDocument();
   });
 });
