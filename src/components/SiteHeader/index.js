@@ -255,7 +255,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
           {showItems.categories && (
             <StyledMenuButton forwardedAs={NavLink} to="/instellingen/categorieen">
-              Categorieën
+              Subcategorieën
             </StyledMenuButton>
           )}
         </StyledMenuFlyout>

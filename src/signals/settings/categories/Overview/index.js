@@ -23,7 +23,7 @@ import filterData from '../../filterData';
 export const colMap = {
   fk: 'fk',
   id: 'id',
-  value: 'Categorie',
+  value: 'Subcategorie',
   is_active: 'Status',
   sla: 'Afhandeltermijn',
 };
@@ -92,11 +92,11 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
     [history]
   );
 
-  const columnHeaders = ['Categorie', 'Afhandeltermijn', 'Status'];
+  const columnHeaders = ['Subcategorie', 'Afhandeltermijn', 'Status'];
 
   return (
     <Fragment>
-      <PageHeader title={`Categorieën ${count ? `(${count})` : ''}`} />
+      <PageHeader title={`Subcategorieën ${count ? `(${count})` : ''}`} />
 
       <Row>
         {isLoading && <LoadingIndicator />}

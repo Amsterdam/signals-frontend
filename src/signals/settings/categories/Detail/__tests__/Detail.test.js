@@ -87,7 +87,7 @@ describe('signals/settings/categories/Detail', () => {
   it('should render the correct page title for a new category', async () => {
     const { findByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    const title = await findByText('Categorie toevoegen');
+    const title = await findByText('Subcategorie toevoegen');
     expect(title).toBeInTheDocument();
   });
 
@@ -98,7 +98,7 @@ describe('signals/settings/categories/Detail', () => {
 
     const { findByText } = render(withAppContext(<CategoryDetailContainer />));
 
-    const title = await findByText('Categorie wijzigen');
+    const title = await findByText('Subcategorie wijzigen');
     expect(title).toBeInTheDocument();
   });
 

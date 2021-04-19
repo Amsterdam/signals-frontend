@@ -52,7 +52,7 @@ const isEqual = ({ description, handling_message, is_active, name, sla }, othVal
   ].every(Boolean);
 
 const CategoryDetail = () => {
-  const entityName = 'Categorie';
+  const entityName = 'Subcategorie';
 
   const location = useLocation();
   const redirectURL = location.referrer || routes.categories;
