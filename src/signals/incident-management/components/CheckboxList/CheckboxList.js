@@ -258,7 +258,7 @@ const CheckboxList = ({
         <Toggle
           indent={Boolean(title)}
           tabIndex={0}
-          onClick={handleToggle}
+          onClick={groupName ? null : handleToggle}
           onKeyDown={handleKeyDown}
         >
           {toggled ? toggleNothingLabel : toggleAllLabel}

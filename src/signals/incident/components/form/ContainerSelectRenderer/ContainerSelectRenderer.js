@@ -2,14 +2,14 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../Header';
+import FormField from '../FormField';
 import ContainerSelect from '../ContainerSelect/ContainerSelect';
 
 const ContainerSelectRenderer = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
   meta?.isVisible && (
-    <Header meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
       <ContainerSelect handler={handler} meta={meta} parent={parent} />
-    </Header>
+    </FormField>
   );
 
 ContainerSelectRenderer.propTypes = {

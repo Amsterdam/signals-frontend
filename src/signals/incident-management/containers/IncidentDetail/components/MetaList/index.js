@@ -144,6 +144,20 @@ const MetaList = () => {
     [handlingTimesBySlug, incident]
   );
 
+  const [processTimeText, processTimeClass] = useMemo(() => {
+    const now = new Date();
+
+    if (now > new Date(incident.category?.deadline_factor_3)) {
+      return ['3x buiten de afhandeltermijn', 'alert'];
+    }
+
+    if (now > new Date(incident.category?.deadline)) {
+      return ['Buiten de afhandeltermijn', 'alert'];
+    }
+
+    return ['Binnen de afhandeltermijn'];
+  }, [incident]);
+
   const getDepartmentId = useCallback(
     () => (routingDepartments ? `${routingDepartments[0].id}` : departmentOptions && departmentOptions[0].key),
     [departmentOptions, routingDepartments]
@@ -191,6 +205,11 @@ const MetaList = () => {
           <dd data-testid="meta-list-handling-time-value">{handlingTime}</dd>
         </Fragment>
       )}
+
+      <dt data-testid="meta-list-process-time-definition">Doorlooptijd</dt>
+      <dd className={processTimeClass} data-testid="meta-list-process-time-value">
+        {processTimeText}
+      </dd>
 
       <Highlight type="status">
         <dt data-testid="meta-list-status-definition">

@@ -4,6 +4,7 @@
 import { CREATE_SIGNAL, BOTEN } from '../../support/selectorsCreateSignal';
 import { CHANGE_STATUS, CHANGE_URGENCY, DEELMELDING, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import {DJANGO} from '../../support/selectorsDjangoAdmin';
 import { ERROR_MESSAGES, NOTIFICATONS } from '../../support/texts';
 import { generateToken } from '../../support/jwt';
 import signal01 from '../../fixtures/signals/deelmelding01.json';
@@ -19,14 +20,14 @@ describe('Deelmeldingen', () => {
       cy.visit(`${Cypress.env('backendUrl')}/signals/admin`);
     });
     it('Should set can manage', () => {
-      cy.get('#id_username').type('signals.admin@example.com');
-      cy.get('#id_password').type('password');
+      cy.get(DJANGO.inputUsername).type('signals.admin@example.com');
+      cy.get(DJANGO.inputPassword).type('password');
       cy.contains('Aanmelden').click();
-      cy.get('a[href="/signals/admin/signals/department/"]').eq(1).click();
+      cy.get(DJANGO.linkDepartment).eq(1).click();
       cy.contains('ASC').click();
-      cy.get('#id_can_direct').check().should('be.checked');
-      cy.get('[name="_save"]').click();
-      cy.get('a[href="/signals/admin/logout/"]').click();
+      cy.get(DJANGO.checkboxCanDirect).check().should('be.checked');
+      cy.get(DJANGO.buttonSave).click();
+      cy.get(DJANGO.linkLogout).click();
     });
   });
   describe('Create Deelmeldingen', () => {

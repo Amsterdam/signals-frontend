@@ -54,7 +54,7 @@ export const getConfig: (theme?: RecursivePartial<Theme>) => Theme = (defaultCon
 };
 
 const ThemeProvider: FunctionComponent = ({ children }) => (
-  <ASCThemeProvider overrides={getConfig(configuration.theme)}>
+  <ASCThemeProvider overrides={getConfig((configuration as Partial<{ theme?: RecursivePartial<Theme> }>).theme)}>
     {children}
   </ASCThemeProvider>
 );

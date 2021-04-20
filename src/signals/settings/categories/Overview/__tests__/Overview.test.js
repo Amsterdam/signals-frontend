@@ -47,11 +47,11 @@ describe('signals/settings/categories/containers/Overview', () => {
       withAppContext(<CategoriesOverview subCategories={null} userCan={() => {}} />)
     );
 
-    expect(getByText('Categorieën')).toBeInTheDocument();
+    expect(getByText('Subcategorieën')).toBeInTheDocument();
 
     rerender(withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />));
 
-    expect(getByText(`Categorieën (${count})`)).toBeInTheDocument();
+    expect(getByText(`Subcategorieën (${count})`)).toBeInTheDocument();
   });
 
   it('should render paged data', () => {
@@ -85,7 +85,7 @@ describe('signals/settings/categories/containers/Overview', () => {
       withAppContext(<CategoriesOverview subCategories={subCategories} userCan={() => {}} />)
     );
 
-    expect(getByText('Categorie')).toBeInTheDocument();
+    expect(getByText('Subcategorie')).toBeInTheDocument();
     expect(getByText('Afhandeltermijn')).toBeInTheDocument();
     expect(getByText('Status')).toBeInTheDocument();
   });

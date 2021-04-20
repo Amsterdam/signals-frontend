@@ -4,16 +4,18 @@ export const ERROR_MESSAGES = {
   email: 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl',
   location: 'Kies een locatie op de kaart of vul een adres in',
   mandatoryField: 'Dit is een verplicht veld',
+  mandatoryFields: 'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.',
   mandatoryFieldKTO: 'Dit veld is verplicht',
 };
 
 export const KTO = {
+  body: '[Ja, ik ben tevreden]({{ positive_feedback_url }}) \n  [Nee, ik ben niet tevreden]({{ negative_feedback_url }})',
   formTitelIsAlFeedback: 'Er is al feedback gegeven voor deze melding',
   formTitleBedankt: 'Bedankt voor uw feedback!',
   formTitleOnTevreden: 'Nee, ik ben niet tevreden met de behandeling van mijn melding',
   formTitleTevreden: 'Ja, ik ben tevreden met de behandeling van mijn melding',
-  questionContact: 'Mogen wij contact met u opnemen naar aanleiding van uw feedback? (optioneel)',
-  questionVermelden: 'Wilt u verder nog iets vermelden of toelichten? (optioneel)',
+  questionContact: 'Mogen wij contact met u opnemen naar aanleiding van uw feedback? (niet verplicht)',
+  questionVermelden: 'Wilt u verder nog iets vermelden of toelichten? (niet verplicht)',
   questionWaaromOntevreden: 'Waarom bent u ontevreden?',
   questionWaaromTevreden: 'Waarom bent u tevreden?',
   subtitleQuestionTevreden: 'Een antwoord mogelijk, kies de belangrijkste reden',

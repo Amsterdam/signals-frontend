@@ -600,56 +600,89 @@ describe('signals/incident-management/components/FilterForm', () => {
   // Note that jsdom has a bug where `submit` and `reset` handlers are not called when those handlers
   // are defined as callback attributes on the form element. Instead, handlers are invoked when the
   // corresponding buttons are clicked.
-  it('should handle reset', async () => {
-    const onClearFilter = jest.fn();
-    const { container, findByTestId } = render(
-      withContext(<FilterForm {...formProps} onClearFilter={onClearFilter} />)
-    );
+  describe('reset', () => {
+    it('should clear initial values', async () => {
+      const onClearFilter = jest.fn();
+      const filter = {
+        name: 'Initial name',
+        options: {
+          address_text: 'Initial address',
+          note_keyword: 'Initial note',
+        },
+      };
+      render(
+        withContext(<FilterForm {...formProps} filter={filter} onClearFilter={onClearFilter} />)
+      );
 
-    const nameField = container.querySelector('input[type="text"][name="name"]');
-    const dateField = container.querySelector('input[id="filter_created_before"]');
-    const addressField = container.querySelector('input[type="text"][name="address_text"]');
-    const noteField = container.querySelector('input[type="text"][name="note_keyword"]');
-    const afvalToggle = container.querySelector('input[type="checkbox"][value="afval"]');
+      const nameField = screen.getByRole('textbox', { name: 'Filternaam' });
+      const addressField = screen.getByRole('textbox', { name: 'Adres' });
+      const noteField = screen.getByRole('textbox', { name: 'Zoek in notitie' });
 
-    act(() => {
-      fireEvent.change(nameField, { target: { value: 'My filter' } });
-    });
-    act(() => {
-      fireEvent.change(dateField, { target: { value: '1970-01-01' } });
-    });
-    act(() => {
-      fireEvent.change(addressField, { target: { value: 'Weesperstraat 113' } });
-    });
-    act(() => {
-      fireEvent.change(noteField, { target: { value: 'test123' } });
-    });
-    act(() => {
-      fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true }));
-    });
+      expect(addressField.value).toEqual('Initial address');
+      expect(nameField.value).toEqual('Initial name');
+      expect(noteField.value).toEqual('Initial note');
 
-    await findByTestId('filterName');
+      await act(async () => {
+        fireEvent.click(screen.getByRole('button', { name: 'Nieuw filter' }));
+      });
 
-    expect(nameField.value).toEqual('My filter');
-    expect(dateField.value).toEqual('01-01-1970');
-    expect(addressField.value).not.toBeFalsy();
-    expect(afvalToggle.checked).toEqual(true);
-    expect(noteField.value).toEqual('test123');
-    expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toBeGreaterThan(1);
-
-    await act(async () => {
-      fireEvent.click(container.querySelector('button[type="reset"]'));
+      expect(onClearFilter).toHaveBeenCalled();
+      expect(addressField.value).toEqual('');
+      expect(nameField.value).toEqual('');
+      expect(noteField.value).toEqual('');
     });
 
-    expect(onClearFilter).toHaveBeenCalled();
+    it('should clear previous user input', async () => {
+      const onClearFilter = jest.fn();
+      const { container } = render(
+        withContext(<FilterForm {...formProps} onClearFilter={onClearFilter} />)
+      );
 
-    // skip testing dateField; handled by react-datepicker and not possible to verify until package has been updated
-    // expect(dateField.value).toEqual('');
-    expect(addressField.value).toEqual('');
-    expect(nameField.value).toEqual('');
-    expect(noteField.value).toEqual('');
-    expect(afvalToggle.checked).toEqual(false);
-    expect(container.querySelectorAll('input[type="checkbox"]:checked').length).toEqual(0);
+      const nameField = screen.getByRole('textbox', { name: 'Filternaam' });
+      const addressField = screen.getByRole('textbox', { name: 'Adres' });
+      const noteField = screen.getByRole('textbox', { name: 'Zoek in notitie' });
+      const dateField = screen.getByRole('textbox', { name: 'Tot en met' });
+      const afvalToggle = container.querySelector('input[type="checkbox"][value="afval"]');
+
+      act(() => {
+        fireEvent.change(nameField, { target: { value: 'My filter' } });
+      });
+      act(() => {
+        fireEvent.change(dateField, { target: { value: '1970-01-01' } });
+      });
+      act(() => {
+        fireEvent.change(addressField, { target: { value: 'Weesperstraat 113' } });
+      });
+      act(() => {
+        fireEvent.change(noteField, { target: { value: 'test123' } });
+      });
+      act(() => {
+        fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true }));
+      });
+
+      await screen.findByTestId('filterName');
+
+      expect(nameField.value).toEqual('My filter');
+      expect(dateField.value).toEqual('01-01-1970');
+      expect(addressField.value).not.toBeFalsy();
+      expect(afvalToggle.checked).toEqual(true);
+      expect(noteField.value).toEqual('test123');
+      expect(screen.getAllByRole('checkbox').filter(({ checked }) => checked).length).toBeGreaterThan(1);
+
+      await act(async () => {
+        fireEvent.click(container.querySelector('button[type="reset"]'));
+      });
+
+      expect(onClearFilter).toHaveBeenCalled();
+
+      // skip testing dateField; handled by react-datepicker and not possible to verify until package has been updated
+      // expect(dateField.value).toEqual('');
+      expect(addressField.value).toEqual('');
+      expect(nameField.value).toEqual('');
+      expect(noteField.value).toEqual('');
+      expect(afvalToggle.checked).toEqual(false);
+      expect(screen.getAllByRole('checkbox').filter(({ checked }) => checked).length).toEqual(0);
+    });
   });
 
   it('should handle cancel', () => {

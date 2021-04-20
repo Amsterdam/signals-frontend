@@ -81,6 +81,7 @@ describe('ContainerLayer', () => {
       {Component}
     </Map>
   );
+
   const featureTypes: FeatureType[] = [
     {
       label: 'Papier',

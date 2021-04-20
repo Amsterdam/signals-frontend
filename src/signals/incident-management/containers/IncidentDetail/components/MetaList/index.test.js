@@ -96,6 +96,9 @@ describe('MetaList', () => {
       expect(screen.queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
       expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^4 werkdagen$/);
 
+      expect(screen.queryByTestId('meta-list-process-time-definition')).toHaveTextContent(/^Doorlooptijd$/);
+      expect(screen.queryByTestId('meta-list-process-time-value')).toHaveTextContent(/^3x buiten de afhandeltermijn$/);
+
       expect(screen.queryByTestId('meta-list-status-definition')).toHaveTextContent(/^Status$/);
       expect(screen.queryByTestId('meta-list-status-value')).toHaveTextContent(/^Gemeld$/);
 
@@ -172,12 +175,14 @@ describe('MetaList', () => {
     const { container, rerender } = render(renderWithContext());
 
     expect(screen.queryByText('Hoog')).not.toBeInTheDocument();
-    expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(1);
+    expect(screen.queryByTestId('meta-list-status-value').className).toBe('alert');
+    expect(screen.queryByTestId('meta-list-priority-value').className).toBe('');
 
     rerender(renderWithContext({ ...incidentFixture, priority: { ...incidentFixture.priority, priority: 'high' } }));
 
     expect(screen.queryByText('Hoog')).toBeInTheDocument();
-    expect(container.firstChild.querySelectorAll('.alert')).toHaveLength(2);
+    expect(screen.queryByTestId('meta-list-status-value').className).toBe('alert');
+    expect(screen.queryByTestId('meta-list-priority-value').className).toBe('alert');
   });
 
   it('should render days and workdays in single and plural form', () => {
@@ -197,6 +202,29 @@ describe('MetaList', () => {
     rerender(renderWithContext({ ...plainIncident, category: { sub_slug: 'autom-verzinkbare-palen' } }));
     expect(screen.queryByTestId('meta-list-handling-time-definition')).toHaveTextContent(/^Afhandeltermijn$/);
     expect(screen.queryByTestId('meta-list-handling-time-value')).toHaveTextContent(/^21 dagen$/);
+  });
+
+  it('should render process time copy based on the deadline and current time', () => {
+    const now = new Date();
+    const before = new Date(now.getTime() - 100);
+    const after = new Date(now.getTime() + 100);
+
+    const { rerender, container } = render(
+      renderWithContext({ ...plainIncident, category: { deadline: before.toISOString() } })
+    );
+    expect(screen.queryByTestId('meta-list-process-time-definition')).toHaveTextContent(/^Doorlooptijd$/);
+    expect(screen.queryByTestId('meta-list-process-time-value')).toHaveTextContent(/^Buiten de afhandeltermijn$/);
+    expect(screen.queryByTestId('meta-list-process-time-value').className).toBe('alert');
+
+    rerender(renderWithContext({ ...plainIncident, category: { deadline: after.toISOString() } }));
+    expect(screen.queryByTestId('meta-list-process-time-definition')).toHaveTextContent(/^Doorlooptijd$/);
+    expect(screen.queryByTestId('meta-list-process-time-value')).toHaveTextContent(/^Binnen de afhandeltermijn$/);
+    expect(screen.queryByTestId('meta-list-process-time-value').className).toBe('');
+
+    rerender(renderWithContext({ ...plainIncident, category: { deadline_factor_3: before.toISOString() } }));
+    expect(screen.queryByTestId('meta-list-process-time-definition')).toHaveTextContent(/^Doorlooptijd$/);
+    expect(screen.queryByTestId('meta-list-process-time-value')).toHaveTextContent(/^3x buiten de afhandeltermijn$/);
+    expect(screen.queryByTestId('meta-list-process-time-value').className).toBe('alert');
   });
 
   it('should call edit', () => {
