@@ -55,7 +55,7 @@ const isEqual = (
   ].every(Boolean)
 
 const CategoryDetail = () => {
-  const entityName = 'Categorie'
+  const entityName = 'Subcategorie'
 
   const location = useLocation()
   const redirectURL = location.referrer || routes.categories

@@ -26,15 +26,16 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
       createSignal.checkSpecificInformationPage(signal);
 
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Wat is het probleem?')
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
+      cy.get(CREATE_SIGNAL.errorGlobal).contains(ERROR_MESSAGES.mandatoryFields).should('be.visible');
+      cy.get(LANTAARNPAAL.labelMandatoryField).contains(ERROR_MESSAGES.mandatoryField).should('be.visible');
 
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_probleem.label).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemDoetNiet).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
-      cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag).check({ force: true }).should('be.checked').and('be.visible');
+      cy.get(LANTAARNPAAL.radioButtonProbleemBrandtOverdag)
+        .check({ force: true })
+        .should('be.checked')
+        .and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');
       cy.get(LANTAARNPAAL.radioButtonProbleemLichthinder).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('not.exist');

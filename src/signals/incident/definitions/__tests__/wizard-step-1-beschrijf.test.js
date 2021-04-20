@@ -12,11 +12,11 @@ const sources = [
     value: 'Source 2',
   },
 ]
-const expectedSources = {
-  '': 'Vul bron in',
-  'Source 1': 'Source 1',
-  'Source 2': 'Source 2',
-}
+const expectedSources = [
+  { '': 'Vul bron in' },
+  { 'Source 1': 'Source 1' },
+  { 'Source 2': 'Source 2' },
+]
 
 let formFactory
 

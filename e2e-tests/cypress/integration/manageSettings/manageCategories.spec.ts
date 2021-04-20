@@ -23,10 +23,10 @@ describe('Manage categories', () => {
     it('Should change the attributes of the category and shows changes in history', () => {
       general.openMenu();
       cy.contains('Instellingen').click();
-      cy.contains('Categorieën').click();
+      cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();
-      general.checkHeaderText('Categorieën');
+      general.checkHeaderText('Subcategorieën');
       cy.url().should('include', '/instellingen/categorieen/');
 
       // Open category Afwatering brug
@@ -50,11 +50,11 @@ describe('Manage categories', () => {
       cy.wait('@patchCategory');
       cy.wait('@getCategories');
 
-      // Check if Categorieën page opens again
+      // Check if Subcategorieën page opens again
       cy.url().should('include', '/instellingen/categorieen/page/1');
       // Load page again, because page refresh is very slow and test fails
       cy.visit('/instellingen/categorieen/page/1');
-      general.checkHeaderText('Categorieën');
+      general.checkHeaderText('Subcategorieën');
       cy.get(CATEGORIES.categoryValue, { timeout: 10000 }).eq(0).should('contain', 'Afgewaterde brug');
       cy.get(CATEGORIES.categoryValue, { timeout: 10000 }).eq(1).should('contain', '4 dagen');
 
@@ -68,10 +68,10 @@ describe('Manage categories', () => {
     it('Should change the status of a category to inactive', () => {
       general.openMenu();
       cy.contains('Instellingen').click();
-      cy.contains('Categorieën').click();
+      cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();
-      general.checkHeaderText('Categorieën');
+      general.checkHeaderText('Subcategorieën');
       cy.url().should('include', '/instellingen/categorieen/');
 
       cy.contains('Beplanting').click();
@@ -86,7 +86,7 @@ describe('Manage categories', () => {
       cy.wait('@patchCategory');
       cy.wait('@getCategories');
 
-      // Check if Categorieën page opens again
+      // Check if Subcategorieën page opens again
       cy.url().should('include', '/instellingen/categorieen/page/1');
       // Load page again, because page refresh is very slow and test fails
       cy.visit('/instellingen/categorieen/page/1');
@@ -174,12 +174,12 @@ describe('Manage categories', () => {
     it('Change back servicebelofte of category', () => {
       general.openMenu();
       cy.contains('Instellingen').click();
-      cy.contains('Categorieën').click();
+      cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();
 
       cy.url().should('include', '/instellingen/categorieen/');
-      general.checkHeaderText('Categorieën');
+      general.checkHeaderText('Subcategorieën');
 
       cy.contains('Afgewaterde brug').click();
       cy.url().should('include', 'instellingen/categorie/');
@@ -201,11 +201,11 @@ describe('Manage categories', () => {
       cy.wait('@patchCategory');
       cy.wait('@getCategories');
 
-      // Check if Categorieën page opens again
+      // Check if Subcategorieën page opens again
       cy.url().should('include', '/instellingen/categorieen/page/1');
       // Load page again, because page refresh is very slow and test fails
       cy.visit('/instellingen/categorieen/page/1');
-      general.checkHeaderText('Categorieën');
+      general.checkHeaderText('Subcategorieën');
       cy.get('[data-testid=dataViewBody] > [data-testid=dataViewBodyRow]', { timeout: 10000 })
         .first()
         .contains('5 werkdagen');

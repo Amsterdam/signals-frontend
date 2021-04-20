@@ -7,6 +7,7 @@ import { FormGenerator } from 'react-reactive-form'
 import get from 'lodash.get'
 import isEqual from 'lodash.isequal'
 import { themeSpacing } from '@amsterdam/asc-ui'
+import isObject from 'lodash.isobject'
 
 import { isAuthenticated } from 'shared/services/auth/auth'
 import formatConditionalForm from '../../services/format-conditional-form'
@@ -75,6 +76,7 @@ class IncidentForm extends React.Component {
       formAction: '',
       next: null,
     }
+    this.formRef = React.createRef()
 
     this.setForm = this.setForm.bind(this)
     this.setValues = this.setValues.bind(this)
@@ -213,7 +215,15 @@ class IncidentForm extends React.Component {
         this.setIncident(formAction)
         next()
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        const invalidControl = Object.values(this.form.controls).find(
+          (c) => c.invalid
+        )
+        const { name, values } = invalidControl.meta
+        const valueSelector =
+          !Array.isArray(values) && isObject(values)
+            ? `-${Object.keys(values)[0]}`
+            : ''
+        this.formRef.current.querySelector(`#${name}${valueSelector}`).focus()
       }
     }
 
@@ -226,7 +236,7 @@ class IncidentForm extends React.Component {
 
     return (
       <div className="incident-form" data-testid="incidentForm">
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} ref={this.formRef}>
           <Fieldset isSummary={isSummary}>
             <FormGenerator
               onMount={this.setForm}

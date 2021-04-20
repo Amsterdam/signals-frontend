@@ -49,7 +49,7 @@ describe('signals/settings/categories/containers/Overview', () => {
       )
     )
 
-    expect(getByText('Categorieën')).toBeInTheDocument()
+    expect(getByText('Subcategorieën')).toBeInTheDocument()
 
     rerender(
       withAppContext(
@@ -57,7 +57,7 @@ describe('signals/settings/categories/containers/Overview', () => {
       )
     )
 
-    expect(getByText(`Categorieën (${count})`)).toBeInTheDocument()
+    expect(getByText(`Subcategorieën (${count})`)).toBeInTheDocument()
   })
 
   it('should render paged data', () => {
@@ -109,7 +109,7 @@ describe('signals/settings/categories/containers/Overview', () => {
       )
     )
 
-    expect(getByText('Categorie')).toBeInTheDocument()
+    expect(getByText('Subcategorie')).toBeInTheDocument()
     expect(getByText('Afhandeltermijn')).toBeInTheDocument()
     expect(getByText('Status')).toBeInTheDocument()
   })

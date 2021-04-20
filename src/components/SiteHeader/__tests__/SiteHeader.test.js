@@ -314,7 +314,7 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Gebruikers')).toBeInTheDocument()
     expect(queryByText('Rollen')).toBeInTheDocument()
     expect(queryByText('Afdelingen')).toBeInTheDocument()
-    expect(queryByText('Categorieën')).toBeInTheDocument()
+    expect(queryByText('Subcategorieën')).toBeInTheDocument()
   })
 
   it('should render correctly when logged in', () => {
@@ -420,11 +420,11 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
-    rerender(
-      withAppContext(
-        <SiteHeader showItems={{ settings: true, users: true, groups: true }} />
-      )
-    )
+    expect(queryByText('Instellingen')).toBeInTheDocument()
+    expect(queryByText('Gebruikers')).toBeInTheDocument()
+    expect(queryByText('Rollen')).toBeInTheDocument()
+    expect(queryByText('Afdelingen')).not.toBeInTheDocument()
+    expect(queryByText('Subcategorieën')).not.toBeInTheDocument()
 
     expect(queryByText('Instellingen')).toBeInTheDocument()
     expect(queryByText('Gebruikers')).toBeInTheDocument()
@@ -434,18 +434,10 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
-    rerender(
-      withAppContext(
-        <SiteHeader
-          showItems={{ settings: true, departments: true, categories: true }}
-        />
-      )
-    )
-
     expect(queryByText('Instellingen')).toBeInTheDocument()
     expect(queryByText('Gebruikers')).not.toBeInTheDocument()
     expect(queryByText('Rollen')).not.toBeInTheDocument()
     expect(queryByText('Afdelingen')).toBeInTheDocument()
-    expect(queryByText('Categorieën')).toBeInTheDocument()
+    expect(queryByText('Subcategorieën')).toBeInTheDocument()
   })
 })

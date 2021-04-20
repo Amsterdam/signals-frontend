@@ -25,10 +25,10 @@ describe('Create signal "Wonen woningkwaliteit" and check signal details', () =>
       createSignal.checkSpecificInformationPage(signal);
 
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Denkt u dat er direct gevaar is?')
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
+      cy.get(CREATE_SIGNAL.errorGlobal).contains(ERROR_MESSAGES.mandatoryFields).should('be.visible');
+      cy.get(WONEN_WONINGKWALITEIT.labelMandatoryFieldGevaar)
+        .contains(ERROR_MESSAGES.mandatoryField)
+        .should('be.visible');
 
       // Input specific information
       cy.contains(questions.wonen.extra_wonen_woonkwaliteit_direct_gevaar.label).should('be.visible');

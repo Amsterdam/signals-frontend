@@ -29,10 +29,8 @@ describe('Create signal "Klok" which is on the map and check signal details', ()
 
       // Click on next to invoke error message
       cy.contains('Volgende').click();
-      cy.get(CREATE_SIGNAL.labelQuestion)
-        .contains('Denkt u dat de situatie gevaarlijk is?')
-        .siblings(CREATE_SIGNAL.errorItem)
-        .contains(ERROR_MESSAGES.mandatoryField);
+      cy.get(CREATE_SIGNAL.errorGlobal).contains(ERROR_MESSAGES.mandatoryFields).should('be.visible');
+      cy.get(KLOK.labelMandatoryFieldGevaarlijk).contains(ERROR_MESSAGES.mandatoryField).should('be.visible');
 
       // First question
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_klok.label).should('be.visible');
