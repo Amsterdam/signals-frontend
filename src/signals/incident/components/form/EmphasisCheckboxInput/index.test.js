@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import 'jest-styled-components';
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
+import 'jest-styled-components'
 
-import EmphasisCheckboxInput from '.';
+import EmphasisCheckboxInput from '.'
 
 describe('EmphasisCheckboxInput', () => {
   it('renders correctly', () => {
@@ -19,11 +19,16 @@ describe('EmphasisCheckboxInput', () => {
           value: 'foo',
         },
       }),
-    };
+    }
 
-    const { container } = render(withAppContext(<EmphasisCheckboxInput {...props} />));
+    const { container } = render(
+      withAppContext(<EmphasisCheckboxInput {...props} />)
+    )
 
-    expect(container.firstChild).toHaveStyleRule('background-color', expect.any(String));
-    expect(screen.getByRole('checkbox')).toBeInTheDocument();
-  });
-});
+    expect(container.firstChild).toHaveStyleRule(
+      'background-color',
+      expect.any(String)
+    )
+    expect(screen.getByRole('checkbox')).toBeInTheDocument()
+  })
+})

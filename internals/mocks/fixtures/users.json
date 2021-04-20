@@ -22,9 +22,7 @@
       "id": 1,
       "username": "user1@example.com",
       "is_active": true,
-      "roles": [
-        "monitors"
-      ],
+      "roles": ["monitors"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.849670+02:00",
         "updated_at": "2019-10-24T10:25:48.849700+02:00",
@@ -41,16 +39,11 @@
       "id": 2,
       "username": "asc-aeg@example.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.850733+02:00",
         "updated_at": "2019-10-24T10:25:48.850764+02:00",
-        "departments": [
-          "Actie Service Centrum",
-          "Afval en Grondstoffen"
-        ]
+        "departments": ["Actie Service Centrum", "Afval en Grondstoffen"]
       }
     },
     {
@@ -63,15 +56,11 @@
       "id": 3,
       "username": "asc@example.com",
       "is_active": true,
-      "roles": [
-        "coordinatoren"
-      ],
+      "roles": ["coordinatoren"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.851878+02:00",
         "updated_at": "2019-10-24T10:25:48.851908+02:00",
-        "departments": [
-          "Actie Service Centrum"
-        ]
+        "departments": ["Actie Service Centrum"]
       }
     },
     {
@@ -88,9 +77,7 @@
       "profile": {
         "created_at": "2019-10-24T10:25:48.854049+02:00",
         "updated_at": "2019-10-24T10:25:48.854079+02:00",
-        "departments": [
-          "Afval en Grondstoffen"
-        ]
+        "departments": ["Afval en Grondstoffen"]
       }
     },
     {
@@ -107,9 +94,7 @@
       "profile": {
         "created_at": "2019-10-24T10:25:48.853071+02:00",
         "updated_at": "2019-10-24T10:25:48.853101+02:00",
-        "departments": [
-          "THOR"
-        ]
+        "departments": ["THOR"]
       }
     },
     {
@@ -170,9 +155,7 @@
       "id": 61,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.879224+02:00",
         "updated_at": "2019-10-24T10:25:48.879239+02:00"
@@ -188,10 +171,7 @@
       "id": 34,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "monitors",
-        "dep_cca"
-      ],
+      "roles": ["monitors", "dep_cca"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.856030+02:00",
         "updated_at": "2019-10-24T10:25:48.856062+02:00"
@@ -207,10 +187,7 @@
       "id": 44,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_fb",
-        "regievoerder"
-      ],
+      "roles": ["dep_fb", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.873260+02:00",
         "updated_at": "2019-10-24T10:25:48.873274+02:00"
@@ -226,10 +203,7 @@
       "id": 36,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "monitors",
-        "dep_cca"
-      ],
+      "roles": ["monitors", "dep_cca"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.859248+02:00",
         "updated_at": "2019-10-24T10:25:48.859277+02:00"
@@ -258,10 +232,7 @@
       "id": 26,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars",
-        "coordinatoren"
-      ],
+      "roles": ["behandelaars", "coordinatoren"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.875509+02:00",
         "updated_at": "2019-10-24T10:25:48.875523+02:00"
@@ -277,10 +248,7 @@
       "id": 99,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.886168+02:00",
         "updated_at": "2019-10-24T10:25:48.886182+02:00"
@@ -296,11 +264,7 @@
       "id": 29,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_fb",
-        "behandelaars",
-        "coordinatoren"
-      ],
+      "roles": ["dep_fb", "behandelaars", "coordinatoren"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.869423+02:00",
         "updated_at": "2019-10-24T10:25:48.869437+02:00"
@@ -348,9 +312,7 @@
       "id": 92,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.881789+02:00",
         "updated_at": "2019-10-24T10:25:48.881810+02:00"
@@ -398,10 +360,7 @@
       "id": 96,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.895188+02:00",
         "updated_at": "2019-10-24T10:25:48.895202+02:00"
@@ -417,10 +376,7 @@
       "id": 104,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.897721+02:00",
         "updated_at": "2019-10-24T10:25:48.897741+02:00"
@@ -474,10 +430,7 @@
       "id": 102,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.896386+02:00",
         "updated_at": "2019-10-24T10:25:48.896400+02:00"
@@ -509,10 +462,7 @@
       "id": 25,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars",
-        "coordinatoren"
-      ],
+      "roles": ["behandelaars", "coordinatoren"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.871083+02:00",
         "updated_at": "2019-10-24T10:25:48.871132+02:00"
@@ -592,9 +542,7 @@
       "id": 60,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.878574+02:00",
         "updated_at": "2019-10-24T10:25:48.878595+02:00"
@@ -610,9 +558,7 @@
       "id": 28,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_fb"
-      ],
+      "roles": ["dep_fb"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.879907+02:00",
         "updated_at": "2019-10-24T10:25:48.879924+02:00"
@@ -628,9 +574,7 @@
       "id": 55,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.888949+02:00",
         "updated_at": "2019-10-24T10:25:48.888963+02:00"
@@ -646,10 +590,7 @@
       "id": 100,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.888086+02:00",
         "updated_at": "2019-10-24T10:25:48.888100+02:00"
@@ -665,10 +606,7 @@
       "id": 97,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.895802+02:00",
         "updated_at": "2019-10-24T10:25:48.895817+02:00"
@@ -684,10 +622,7 @@
       "id": 54,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.887477+02:00",
         "updated_at": "2019-10-24T10:25:48.887497+02:00"
@@ -703,9 +638,7 @@
       "id": 59,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.893156+02:00",
         "updated_at": "2019-10-24T10:25:48.893188+02:00"
@@ -721,10 +654,7 @@
       "id": 103,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.897117+02:00",
         "updated_at": "2019-10-24T10:25:48.897132+02:00"
@@ -740,9 +670,7 @@
       "id": 32,
       "username": "undefined@domain.com",
       "is_active": false,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.869986+02:00",
         "updated_at": "2019-10-24T10:25:48.870000+02:00"
@@ -774,9 +702,7 @@
       "id": 93,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "Extern Systeem"
-      ],
+      "roles": ["Extern Systeem"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.883816+02:00",
         "updated_at": "2019-10-24T10:25:48.883835+02:00"
@@ -792,9 +718,7 @@
       "id": 20,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "monitors"
-      ],
+      "roles": ["monitors"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.863917+02:00",
         "updated_at": "2019-10-24T10:25:48.863930+02:00"
@@ -810,9 +734,7 @@
       "id": 21,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.862556+02:00",
         "updated_at": "2019-10-24T10:25:48.862588+02:00"
@@ -828,9 +750,7 @@
       "id": 22,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "coordinatoren"
-      ],
+      "roles": ["coordinatoren"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.860252+02:00",
         "updated_at": "2019-10-24T10:25:48.860285+02:00"
@@ -846,9 +766,7 @@
       "id": 23,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "regievoerder"
-      ],
+      "roles": ["regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.868862+02:00",
         "updated_at": "2019-10-24T10:25:48.868877+02:00"
@@ -880,10 +798,7 @@
       "id": 101,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.890660+02:00",
         "updated_at": "2019-10-24T10:25:48.890674+02:00"
@@ -915,10 +830,7 @@
       "id": 95,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.894539+02:00",
         "updated_at": "2019-10-24T10:25:48.894561+02:00"
@@ -934,9 +846,7 @@
       "id": 94,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "regievoerder"
-      ],
+      "roles": ["regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.885609+02:00",
         "updated_at": "2019-10-24T10:25:48.885625+02:00"
@@ -968,9 +878,7 @@
       "id": 49,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "coordinatoren"
-      ],
+      "roles": ["coordinatoren"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.876165+02:00",
         "updated_at": "2019-10-24T10:25:48.876183+02:00"
@@ -986,10 +894,7 @@
       "id": 98,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_asc",
-        "regievoerder"
-      ],
+      "roles": ["dep_asc", "regievoerder"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.882732+02:00",
         "updated_at": "2019-10-24T10:25:48.882751+02:00"
@@ -1005,9 +910,7 @@
       "id": 39,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "Extern Systeem"
-      ],
+      "roles": ["Extern Systeem"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.861509+02:00",
         "updated_at": "2019-10-24T10:25:48.861545+02:00"
@@ -1023,10 +926,7 @@
       "id": 35,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "monitors",
-        "dep_cca"
-      ],
+      "roles": ["monitors", "dep_cca"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.858262+02:00",
         "updated_at": "2019-10-24T10:25:48.858292+02:00"
@@ -1042,9 +942,7 @@
       "id": 43,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "coordinatoren"
-      ],
+      "roles": ["coordinatoren"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.870511+02:00",
         "updated_at": "2019-10-24T10:25:48.870525+02:00"
@@ -1060,9 +958,7 @@
       "id": 56,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.889569+02:00",
         "updated_at": "2019-10-24T10:25:48.889597+02:00"
@@ -1094,9 +990,7 @@
       "id": 30,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "dep_fb"
-      ],
+      "roles": ["dep_fb"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.893886+02:00",
         "updated_at": "2019-10-24T10:25:48.893902+02:00"
@@ -1112,9 +1006,7 @@
       "id": 58,
       "username": "undefined@domain.com",
       "is_active": true,
-      "roles": [
-        "behandelaars"
-      ],
+      "roles": ["behandelaars"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.890118+02:00",
         "updated_at": "2019-10-24T10:25:48.890132+02:00"
@@ -1194,9 +1086,7 @@
       "id": 41,
       "username": "sia@techtek.eu",
       "is_active": true,
-      "roles": [
-        "Extern Systeem"
-      ],
+      "roles": ["Extern Systeem"],
       "profile": {
         "created_at": "2019-10-24T10:25:48.871854+02:00",
         "updated_at": "2019-10-24T10:25:48.871872+02:00"

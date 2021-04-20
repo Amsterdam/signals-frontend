@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
-import appConfiguration from 'shared/services/configuration/configuration';
-import type ConfigurationType from '../../../../../app.amsterdam.json';
+import appConfiguration from 'shared/services/configuration/configuration'
+import type ConfigurationType from '../../../../../app.amsterdam.json'
 
-const configuration = appConfiguration as unknown as typeof ConfigurationType;
+const configuration = (appConfiguration as unknown) as typeof ConfigurationType
 
 export const wegenVerkeerStraatmeubilair = {
   // This element will be enabled each year near the christmass.
@@ -57,9 +57,12 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       values: {
         lamp_doet_het_niet: 'Lamp doet het niet',
-        lamp_brandt_overdag: 'Lamp brandt overdag, langer dan 2 dagen achter elkaar',
-        geeft_lichthinder: 'Lamp geeft lichthinder (schijnt bijvoorbeeld in slaapkamer)',
-        lamp_is_zichtbaar_beschadigd: 'Lamp of lantaarnpaal is beschadigd of niet compleet',
+        lamp_brandt_overdag:
+          'Lamp brandt overdag, langer dan 2 dagen achter elkaar',
+        geeft_lichthinder:
+          'Lamp geeft lichthinder (schijnt bijvoorbeeld in slaapkamer)',
+        lamp_is_zichtbaar_beschadigd:
+          'Lamp of lantaarnpaal is beschadigd of niet compleet',
         overig: 'Overig',
       },
       pathMerge: 'extra_properties',
@@ -77,14 +80,21 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         subcategory: 'lantaarnpaal-straatverlichting',
       },
       ifOneOf: {
-        extra_straatverlichting_probleem: ['lamp_doet_het_niet', 'lamp_is_zichtbaar_beschadigd', 'overig'],
+        extra_straatverlichting_probleem: [
+          'lamp_doet_het_niet',
+          'lamp_is_zichtbaar_beschadigd',
+          'overig',
+        ],
       },
       values: {
         drie_of_meer_kapot: 'Ja, 3 of meer lampen in de straat zijn kapot',
         is_gevolg_van_aanrijding: 'Ja, het is een gevolg van een aanrijding',
-        lamp_op_grond_of_scheef: 'Ja, de lamp of lantaarnpaal ligt op de grond of staat gevaarlijk scheef',
-        deurtje_weg_of_open: 'Ja, er zit geen deurtje in de lantaarnpaal of het deurtje staat open',
-        losse_kabels_zichtbaar_of_lamp_los: 'Ja, er hangen losse stroomkabels of de lamp hangt los',
+        lamp_op_grond_of_scheef:
+          'Ja, de lamp of lantaarnpaal ligt op de grond of staat gevaarlijk scheef',
+        deurtje_weg_of_open:
+          'Ja, er zit geen deurtje in de lantaarnpaal of het deurtje staat open',
+        losse_kabels_zichtbaar_of_lamp_los:
+          'Ja, er hangen losse stroomkabels of de lamp hangt los',
         niet_gevaarlijk: 'Nee, niet gevaarlijk',
       },
       pathMerge: 'extra_properties',
@@ -99,7 +109,11 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
         ifOneOf: {
-          extra_straatverlichting_probleem: ['lamp_doet_het_niet', 'lamp_is_zichtbaar_beschadigd', 'overig'],
+          extra_straatverlichting_probleem: [
+            'lamp_doet_het_niet',
+            'lamp_is_zichtbaar_beschadigd',
+            'overig',
+          ],
         },
       },
       ifOneOf: {
@@ -135,7 +149,14 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       endpoint: configuration.map.layers?.verlichting,
       zoomMin: 18,
-      legend_items: ['lichtmast', 'grachtmast', 'overspanning', 'gevel_armatuur', 'schijnwerper', 'overig_lichtpunt'],
+      legend_items: [
+        'lichtmast',
+        'grachtmast',
+        'overspanning',
+        'gevel_armatuur',
+        'schijnwerper',
+        'overig_lichtpunt',
+      ],
       pathMerge: 'extra_properties',
     },
     render: FIELD_TYPE_MAP.map_select,
@@ -193,9 +214,12 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       values: {
         is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
-        klok_op_grond_of_scheef: 'Klok ligt op de grond of staat gevaarlijk scheef',
-        deurtje_weg_of_open: 'Deurtje in de mast is niet aanwezig of staat open',
-        losse_kabels_zichtbaar_of_lamp_los: 'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
+        klok_op_grond_of_scheef:
+          'Klok ligt op de grond of staat gevaarlijk scheef',
+        deurtje_weg_of_open:
+          'Deurtje in de mast is niet aanwezig of staat open',
+        losse_kabels_zichtbaar_of_lamp_los:
+          'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
         niet_gevaarlijk: 'Niet gevaarlijk',
       },
       pathMerge: 'extra_properties',
@@ -240,7 +264,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         ],
       },
       values: {
-        klok_staat_niet_op_tijd_of_stil: 'Klok staat niet op tijd of staat stil',
+        klok_staat_niet_op_tijd_of_stil:
+          'Klok staat niet op tijd of staat stil',
         klok_is_zichtbaar_beschadigd: 'Klok is zichtbaar beschadigd',
         overig: 'Overig',
       },
@@ -321,9 +346,12 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       values: {
         is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
-        verkeerslicht_op_grond_of_scheef: 'Verkeerslicht ligt op de grond of staat gevaarlijk scheef',
-        deurtje_weg_of_open: 'Deurtje in de mast is niet aanwezig of staat open',
-        losse_kabels_zichtbaar_of_lamp_los: 'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
+        verkeerslicht_op_grond_of_scheef:
+          'Verkeerslicht ligt op de grond of staat gevaarlijk scheef',
+        deurtje_weg_of_open:
+          'Deurtje in de mast is niet aanwezig of staat open',
+        losse_kabels_zichtbaar_of_lamp_los:
+          'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
         niet_gevaarlijk: 'Niet gevaarlijk',
       },
       pathMerge: 'extra_properties',
@@ -441,7 +469,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         rood_werkt_niet: 'Rood licht werkt niet',
         oranje_werkt_niet: 'Oranje/geel licht werkt niet',
         wit_werkt_niet: 'Wit licht werkt niet',
-        waarschuwingslicht_tram_werkt_niet: 'Licht dat waarschuwt voor aankomende tram werkt niet',
+        waarschuwingslicht_tram_werkt_niet:
+          'Licht dat waarschuwt voor aankomende tram werkt niet',
         anders: 'Anders',
       },
       pathMerge: 'extra_properties',
@@ -471,7 +500,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     meta: {
       label: 'Wat is het nummer van het verkeerslicht?',
       shortLabel: 'Verkeerslicht nummer',
-      subtitle: 'Deze kunt u meestal vinden in witte tekst onder of boven de lampen',
+      subtitle:
+        'Deze kunt u meestal vinden in witte tekst onder of boven de lampen',
       pathMerge: 'extra_properties',
       placeholder: 'Nummer verkeerslicht',
       ifAllOf: {
@@ -514,6 +544,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     },
     render: FIELD_TYPE_MAP.textarea_input,
   },
-};
+}
 
-export default wegenVerkeerStraatmeubilair;
+export default wegenVerkeerStraatmeubilair

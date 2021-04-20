@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { ReactReduxContext } from 'react-redux';
+import React from 'react'
+import hoistNonReactStatics from 'hoist-non-react-statics'
+import { ReactReduxContext } from 'react-redux'
 
-import getInjectors from './reducerInjectors';
+import getInjectors from './reducerInjectors'
 
 /**
  * Dynamically injects a reducer
@@ -13,35 +13,35 @@ import getInjectors from './reducerInjectors';
  * @param {function} reducer A reducer that will be injected
  *
  */
-export default ({ key, reducer }) => WrappedComponent => {
+export default ({ key, reducer }) => (WrappedComponent) => {
   class ReducerInjector extends React.Component {
-    static WrappedComponent = WrappedComponent;
+    static WrappedComponent = WrappedComponent
 
     constructor(props, context) {
-      super(props, context);
+      super(props, context)
 
-      getInjectors(context.store).injectReducer(key, reducer);
+      getInjectors(context.store).injectReducer(key, reducer)
     }
 
     render() {
-      return <WrappedComponent {...this.props} />;
+      return <WrappedComponent {...this.props} />
     }
   }
 
-  ReducerInjector.contextType = ReactReduxContext;
+  ReducerInjector.contextType = ReactReduxContext
 
-  ReducerInjector.displayName = `withReducer(${WrappedComponent.displayName ||
-    WrappedComponent.name ||
-    'Component'})`;
+  ReducerInjector.displayName = `withReducer(${
+    WrappedComponent.displayName || WrappedComponent.name || 'Component'
+  })`
 
-  return hoistNonReactStatics(ReducerInjector, WrappedComponent);
-};
+  return hoistNonReactStatics(ReducerInjector, WrappedComponent)
+}
 
 const useInjectReducer = ({ key, reducer }) => {
-  const context = React.useContext(ReactReduxContext);
+  const context = React.useContext(ReactReduxContext)
   React.useEffect(() => {
-    getInjectors(context.store).injectReducer(key, reducer);
-  }, [context.store, key, reducer]);
-};
+    getInjectors(context.store).injectReducer(key, reducer)
+  }, [context.store, key, reducer])
+}
 
-export { useInjectReducer };
+export { useInjectReducer }

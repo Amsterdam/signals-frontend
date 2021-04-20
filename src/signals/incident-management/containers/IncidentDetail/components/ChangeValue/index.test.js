@@ -1,39 +1,39 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import React from 'react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
-import SelectInput from 'signals/incident-management/components/SelectInput';
-import { withAppContext } from 'test/utils';
-import incidentFixture from 'utils/__tests__/fixtures/incident.json';
+import SelectInput from 'signals/incident-management/components/SelectInput'
+import { withAppContext } from 'test/utils'
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
-import IncidentDetailContext from '../../context';
-import ChangeValue from '.';
+import IncidentDetailContext from '../../context'
+import ChangeValue from '.'
 
 const expectInitialState = async () => {
-  const editButton = await screen.findByTestId('editMockTypeButton');
+  const editButton = await screen.findByTestId('editMockTypeButton')
 
-  expect(editButton).toBeInTheDocument();
-  expect(screen.queryByTestId('changeValueForm')).not.toBeInTheDocument();
-};
+  expect(editButton).toBeInTheDocument()
+  expect(screen.queryByTestId('changeValueForm')).not.toBeInTheDocument()
+}
 
 const expectEditState = async () => {
-  const editButton = screen.queryByTestId('editMockTypeButton');
+  const editButton = screen.queryByTestId('editMockTypeButton')
 
-  const changeValueForm = await screen.findByTestId('changeValueForm');
+  const changeValueForm = await screen.findByTestId('changeValueForm')
 
-  expect(editButton).not.toBeInTheDocument();
-  expect(changeValueForm).toBeInTheDocument();
-};
+  expect(editButton).not.toBeInTheDocument()
+  expect(changeValueForm).toBeInTheDocument()
+}
 
-const rawKey = 'rawKey';
-const rawKeyValue = 'rawKeyValue';
-const description = 'description';
-const derivedKey = 'derivedKey';
-const derivedKeyValue = 'derivedKeyValue';
-const otherKey = 'otherKey';
-const otherKeyValue = 'otherKeyValue';
-const otherDescription = 'otherDescription';
+const rawKey = 'rawKey'
+const rawKeyValue = 'rawKeyValue'
+const description = 'description'
+const derivedKey = 'derivedKey'
+const derivedKeyValue = 'derivedKeyValue'
+const otherKey = 'otherKey'
+const otherKeyValue = 'otherKeyValue'
+const otherDescription = 'otherDescription'
 
 const props = {
   component: SelectInput,
@@ -46,10 +46,14 @@ const props = {
   path: 'value.path',
   sort: false,
   type: 'mockType',
-};
+}
 
-const update = jest.fn();
-const incidentData = { ...incidentFixture, someValue: otherKey, value: { path: rawKey } };
+const update = jest.fn()
+const incidentData = {
+  ...incidentFixture,
+  someValue: otherKey,
+  value: { path: rawKey },
+}
 
 const renderWithContext = (componentProps = props, incident = incidentData) =>
   withAppContext(
@@ -62,53 +66,65 @@ const renderWithContext = (componentProps = props, incident = incidentData) =>
     >
       <ChangeValue {...componentProps} />
     </IncidentDetailContext.Provider>
-  );
+  )
 
 describe('ChangeValue', () => {
   // data-testid attributes are generated dynamically
-  const editTestId = `edit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
-  const submitTestId = `submit${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
-  const cancelTestId = `cancel${props.type.charAt(0).toUpperCase()}${props.type.slice(1)}Button`;
+  const editTestId = `edit${props.type
+    .charAt(0)
+    .toUpperCase()}${props.type.slice(1)}Button`
+  const submitTestId = `submit${props.type
+    .charAt(0)
+    .toUpperCase()}${props.type.slice(1)}Button`
+  const cancelTestId = `cancel${props.type
+    .charAt(0)
+    .toUpperCase()}${props.type.slice(1)}Button`
 
   beforeEach(() => {
-    update.mockReset();
-  });
+    update.mockReset()
+  })
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should render initial state and edit state', async () => {
-    const renderProps = render(renderWithContext());
+    const renderProps = render(renderWithContext())
 
-    await expectInitialState();
+    await expectInitialState()
 
-    fireEvent.click(renderProps.getByTestId(editTestId));
+    fireEvent.click(renderProps.getByTestId(editTestId))
 
-    await expectEditState();
-  });
+    await expectEditState()
+  })
 
   it('should render the selected value', () => {
-    render(renderWithContext());
-    expect(screen.getByText(rawKeyValue)).toBeInTheDocument();
-  });
+    render(renderWithContext())
+    expect(screen.getByText(rawKeyValue)).toBeInTheDocument()
+  })
 
   it('should work with a valuePath', () => {
-    render(renderWithContext({ ...props, infoKey: 'description', valuePath: 'someValue' }));
-    expect(screen.getByText(otherKeyValue)).toBeInTheDocument();
-  });
+    render(
+      renderWithContext({
+        ...props,
+        infoKey: 'description',
+        valuePath: 'someValue',
+      })
+    )
+    expect(screen.getByText(otherKeyValue)).toBeInTheDocument()
+  })
 
   it('should indicate when the selected option does not exist', () => {
-    const [, ...options] = props.options;
+    const [, ...options] = props.options
     render(
       renderWithContext({
         ...props,
         options,
       })
-    );
+    )
 
-    expect(screen.getByText('Niet gevonden')).toBeInTheDocument();
-  });
+    expect(screen.getByText('Niet gevonden')).toBeInTheDocument()
+  })
 
   it('should not show any value when no option selected', () => {
     render(
@@ -116,45 +132,59 @@ describe('ChangeValue', () => {
         ...props,
         path: 'otherPath',
       })
-    );
+    )
 
-    expect(screen.queryByText(rawKeyValue)).not.toBeInTheDocument();
-    expect(screen.queryByText(derivedKeyValue)).not.toBeInTheDocument();
-    expect(screen.queryByText(otherKeyValue)).not.toBeInTheDocument();
+    expect(screen.queryByText(rawKeyValue)).not.toBeInTheDocument()
+    expect(screen.queryByText(derivedKeyValue)).not.toBeInTheDocument()
+    expect(screen.queryByText(otherKeyValue)).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId));
-    fireEvent.click(screen.getByTestId(submitTestId));
+    fireEvent.click(screen.getByTestId(editTestId))
+    fireEvent.click(screen.getByTestId(submitTestId))
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
       patch: {},
-    });
-  });
+    })
+  })
 
   it('should render all options', () => {
-    render(renderWithContext());
+    render(renderWithContext())
 
-    expect(screen.queryByRole('option', { name: rawKeyValue })).not.toBeInTheDocument();
-    expect(screen.queryByRole('option', { name: derivedKeyValue })).not.toBeInTheDocument();
-    expect(screen.queryByRole('option', { name: otherKeyValue })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('option', { name: rawKeyValue })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('option', { name: derivedKeyValue })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('option', { name: otherKeyValue })
+    ).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId));
+    fireEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByRole('option', { name: rawKeyValue })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: derivedKeyValue })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: otherKeyValue })).toBeInTheDocument();
-  });
+    expect(
+      screen.getByRole('option', { name: rawKeyValue })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('option', { name: derivedKeyValue })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('option', { name: otherKeyValue })
+    ).toBeInTheDocument()
+  })
 
   it('should call update', () => {
-    render(renderWithContext());
-    const editButton = screen.getByTestId(editTestId);
-    fireEvent.click(editButton);
+    render(renderWithContext())
+    const editButton = screen.getByTestId(editTestId)
+    fireEvent.click(editButton)
 
-    expect(update).not.toHaveBeenCalled();
+    expect(update).not.toHaveBeenCalled()
 
-    const submitButton = screen.getByTestId(submitTestId);
-    fireEvent.change(document.querySelector('select'), { target: { value: otherKey } });
-    fireEvent.click(submitButton);
+    const submitButton = screen.getByTestId(submitTestId)
+    fireEvent.change(document.querySelector('select'), {
+      target: { value: otherKey },
+    })
+    fireEvent.click(submitButton)
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -163,15 +193,15 @@ describe('ChangeValue', () => {
           path: otherKey,
         },
       },
-    });
-  });
+    })
+  })
 
   it('should call update with extra props', () => {
-    render(renderWithContext({ ...props, patch: { extraProp: true } }));
-    const editButton = screen.getByTestId(editTestId);
-    fireEvent.click(editButton);
-    const submitButton = screen.getByTestId(submitTestId);
-    fireEvent.click(submitButton);
+    render(renderWithContext({ ...props, patch: { extraProp: true } }))
+    const editButton = screen.getByTestId(editTestId)
+    fireEvent.click(editButton)
+    const submitButton = screen.getByTestId(submitTestId)
+    fireEvent.click(submitButton)
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -181,59 +211,63 @@ describe('ChangeValue', () => {
         },
         extraProp: true,
       },
-    });
-  });
+    })
+  })
 
   it('should hide form on cancel', () => {
-    render(renderWithContext());
-    fireEvent.click(screen.getByTestId(editTestId));
+    render(renderWithContext())
+    fireEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument();
+    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(cancelTestId));
+    fireEvent.click(screen.getByTestId(cancelTestId))
 
-    expect(screen.getByTestId(editTestId)).toBeInTheDocument();
-  });
+    expect(screen.getByTestId(editTestId)).toBeInTheDocument()
+  })
 
   it('should hide form on ESC', () => {
-    render(renderWithContext());
-    fireEvent.click(screen.getByTestId(editTestId));
+    render(renderWithContext())
+    fireEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument();
+    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
 
-    fireEvent.keyUp(document, { key: 'ArrowUp', code: 38, keyCode: 38 });
+    fireEvent.keyUp(document, { key: 'ArrowUp', code: 38, keyCode: 38 })
 
-    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument();
+    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
 
-    fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 });
+    fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 })
 
-    expect(screen.getByTestId(editTestId)).toBeInTheDocument();
+    expect(screen.getByTestId(editTestId)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId));
+    fireEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument();
+    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
 
-    fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 });
+    fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 })
 
-    expect(screen.getByTestId(editTestId)).toBeInTheDocument();
-  });
+    expect(screen.getByTestId(editTestId)).toBeInTheDocument()
+  })
 
   it('should render info text', () => {
-    render(renderWithContext({ ...props, infoKey: 'description' }));
-    fireEvent.click(screen.getByTestId(editTestId));
+    render(renderWithContext({ ...props, infoKey: 'description' }))
+    fireEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId('infoText')).toBeInTheDocument();
-    expect(screen.getByTestId('infoText').textContent).toEqual(description);
+    expect(screen.getByTestId('infoText')).toBeInTheDocument()
+    expect(screen.getByTestId('infoText').textContent).toEqual(description)
 
-    fireEvent.change(document.querySelector('select'), { target: { value: derivedKey } });
+    fireEvent.change(document.querySelector('select'), {
+      target: { value: derivedKey },
+    })
 
-    expect(screen.queryByTestId('infoText')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('infoText')).not.toBeInTheDocument()
 
-    fireEvent.change(document.querySelector('select'), { target: { value: otherKey } });
+    fireEvent.change(document.querySelector('select'), {
+      target: { value: otherKey },
+    })
 
-    expect(screen.getByTestId('infoText')).toBeInTheDocument();
-    expect(screen.getByTestId('infoText').textContent).toEqual(otherDescription);
-  });
+    expect(screen.getByTestId('infoText')).toBeInTheDocument()
+    expect(screen.getByTestId('infoText').textContent).toEqual(otherDescription)
+  })
 
   it('should not render info text when no option for selected value', () => {
     render(
@@ -242,21 +276,21 @@ describe('ChangeValue', () => {
         path: 'nonExistingValue',
         infoKey: 'description',
       })
-    );
-    fireEvent.click(screen.getByTestId(editTestId));
+    )
+    fireEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.queryByTestId('infoText')).not.toBeInTheDocument();
-  });
+    expect(screen.queryByTestId('infoText')).not.toBeInTheDocument()
+  })
 
   it('should render disabled edit button', () => {
-    render(renderWithContext({ ...props, disabled: true }));
-    fireEvent.click(screen.getByTestId(editTestId));
+    render(renderWithContext({ ...props, disabled: true }))
+    fireEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId(editTestId)).toBeInTheDocument();
-  });
+    expect(screen.getByTestId(editTestId)).toBeInTheDocument()
+  })
 
   it('should work with a falsy key', () => {
-    const nullValue = 'nullValue';
+    const nullValue = 'nullValue'
     render(
       renderWithContext({
         ...props,
@@ -269,29 +303,29 @@ describe('ChangeValue', () => {
         ],
         path: 'otherPath',
       })
-    );
+    )
 
-    expect(screen.getByText(nullValue)).toBeInTheDocument();
+    expect(screen.getByText(nullValue)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId));
-    fireEvent.click(screen.getByTestId(submitTestId));
+    fireEvent.click(screen.getByTestId(editTestId))
+    fireEvent.click(screen.getByTestId(submitTestId))
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
       patch: {
         otherPath: null,
       },
-    });
-  });
+    })
+  })
 
   it('should allow custom logic to convert raw data to a key', () => {
-    const rawDataToKey = jest.fn().mockReturnValue(derivedKey);
-    render(renderWithContext({ ...props, rawDataToKey }));
+    const rawDataToKey = jest.fn().mockReturnValue(derivedKey)
+    render(renderWithContext({ ...props, rawDataToKey }))
 
-    expect(screen.getByText(derivedKeyValue)).toBeInTheDocument();
+    expect(screen.getByText(derivedKeyValue)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId));
-    fireEvent.click(screen.getByTestId(submitTestId));
+    fireEvent.click(screen.getByTestId(editTestId))
+    fireEvent.click(screen.getByTestId(submitTestId))
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -300,17 +334,17 @@ describe('ChangeValue', () => {
           path: derivedKey,
         },
       },
-    });
-  });
+    })
+  })
 
   it('should allow custom logic to convert a key to raw data', () => {
-    const keyToRawData = jest.fn().mockReturnValue(derivedKey);
-    render(renderWithContext({ ...props, keyToRawData }));
+    const keyToRawData = jest.fn().mockReturnValue(derivedKey)
+    render(renderWithContext({ ...props, keyToRawData }))
 
-    expect(screen.getByText(rawKeyValue)).toBeInTheDocument();
+    expect(screen.getByText(rawKeyValue)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId));
-    fireEvent.click(screen.getByTestId(submitTestId));
+    fireEvent.click(screen.getByTestId(editTestId))
+    fireEvent.click(screen.getByTestId(submitTestId))
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -319,26 +353,30 @@ describe('ChangeValue', () => {
           path: derivedKey,
         },
       },
-    });
-  });
+    })
+  })
 
   it('should set value class', () => {
-    const valueClass = 'valueClass';
-    render(renderWithContext({ ...props, valueClass }));
+    const valueClass = 'valueClass'
+    render(renderWithContext({ ...props, valueClass }))
 
-    expect(screen.getByTestId('meta-list-mockType-value').className).toBe(valueClass);
-  });
+    expect(screen.getByTestId('meta-list-mockType-value').className).toBe(
+      valueClass
+    )
+  })
 
   it('should reset the edit state when the incident is changed', async () => {
-    const renderProps = render(renderWithContext());
+    const renderProps = render(renderWithContext())
 
-    await expectInitialState();
+    await expectInitialState()
 
-    fireEvent.click(renderProps.getByTestId(editTestId));
+    fireEvent.click(renderProps.getByTestId(editTestId))
 
-    await expectEditState();
+    await expectEditState()
 
-    renderProps.rerender(renderWithContext(props, { ...incidentData, id: incidentData.id + 1 }));
-    await expectInitialState();
-  });
-});
+    renderProps.rerender(
+      renderWithContext(props, { ...incidentData, id: incidentData.id + 1 })
+    )
+    await expectInitialState()
+  })
+})

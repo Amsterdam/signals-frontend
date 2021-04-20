@@ -22,8 +22,20 @@ will render:
 HTML:
 
 ```html
-<input data-id="A" id="fooBarBaz_A" name="fooBarBaz" type="checkbox" value="A">
-<input data-id="A" id="fooBarBaz_A" name="fooBarBaz" type="checkbox" value="B">
+<input
+  data-id="A"
+  id="fooBarBaz_A"
+  name="fooBarBaz"
+  type="checkbox"
+  value="A"
+/>
+<input
+  data-id="A"
+  id="fooBarBaz_A"
+  name="fooBarBaz"
+  type="checkbox"
+  value="B"
+/>
 ```
 
 ## Group with toggle
@@ -31,6 +43,7 @@ HTML:
 Any group can be given the option to render a toggle that checks or unchecks all boxes at once.
 
 When a toggle is rendered, the component's behaviour is as follows:
+
 - clicking the toggle will check or uncheck all boxes
 - the toggle label text will be the value of prop
   - `toggleAllLabel`: when NOT having toggled all boxes or NOT having checked all boxes manually
@@ -56,13 +69,23 @@ HTML:
 
 ```html
 <!-- toggle -->
-<label>
-  Alles selecteren
-</label>
+<label> Alles selecteren </label>
 
 <!-- checkboxes -->
-<input data-id="A" id="fooBarBaz_A" name="fooBarBaz" type="checkbox" value="A">
-<input data-id="A" id="fooBarBaz_A" name="fooBarBaz" type="checkbox" value="B">
+<input
+  data-id="A"
+  id="fooBarBaz_A"
+  name="fooBarBaz"
+  type="checkbox"
+  value="A"
+/>
+<input
+  data-id="A"
+  id="fooBarBaz_A"
+  name="fooBarBaz"
+  type="checkbox"
+  value="B"
+/>
 ```
 
 ## Group with named toggle
@@ -93,12 +116,24 @@ HTML:
 <!-- toggle -->
 <label>
   Alles selecteren
-  <input name="qux" type="checkbox" value="stadsdeel">
+  <input name="qux" type="checkbox" value="stadsdeel" />
 </label>
 
 <!-- checkboxes -->
-<input data-id="A" id="fooBarBaz_A" name="fooBarBaz" type="checkbox" value="A">
-<input data-id="A" id="fooBarBaz_A" name="fooBarBaz" type="checkbox" value="B">
+<input
+  data-id="A"
+  id="fooBarBaz_A"
+  name="fooBarBaz"
+  type="checkbox"
+  value="A"
+/>
+<input
+  data-id="A"
+  id="fooBarBaz_A"
+  name="fooBarBaz"
+  type="checkbox"
+  value="B"
+/>
 ```
 
 ## Check all options in a group
@@ -133,13 +168,23 @@ HTML:
 
 ```html
 <!-- toggle -->
-<label>
-  Alles selecteren
-</label>
+<label> Alles selecteren </label>
 
 <!-- checkboxes -->
-<input data-id="A" id="fooBarBaz_A" name="fooBarBaz" type="checkbox" value="A">
-<input data-id="A" id="fooBarBaz_A" name="fooBarBaz" type="checkbox" value="B">
+<input
+  data-id="A"
+  id="fooBarBaz_A"
+  name="fooBarBaz"
+  type="checkbox"
+  value="A"
+/>
+<input
+  data-id="A"
+  id="fooBarBaz_A"
+  name="fooBarBaz"
+  type="checkbox"
+  value="B"
+/>
 ```
 
 ### 2. Group with named toggle
@@ -149,7 +194,11 @@ Whenever a group has a named toggle, providing `groupName`, `groupId` and `group
 ```jsx
 <CheckboxList
   defaultValue={[
-    { key: "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval", value: 'Afval' }
+    {
+      key:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+      value: 'Afval',
+    },
   ]}
   groupName="maincategory_slug"
   groupId="https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
@@ -157,21 +206,24 @@ Whenever a group has a named toggle, providing `groupName`, `groupId` and `group
   hasToggle
   name="category_slug"
   options={[
-      {
-    id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
-    value: 'Asbest / accu',
-    slug: 'asbest-accu',
-  },
-  {
-    id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot',
-    value: 'Container is kapot',
-    slug: 'container-is-kapot',
-  },
-  {
-    id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
-    value: 'Container is vol',
-    slug: 'container-is-vol',
-  },
+    {
+      id:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+      value: 'Asbest / accu',
+      slug: 'asbest-accu',
+    },
+    {
+      id:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot',
+      value: 'Container is kapot',
+      slug: 'container-is-kapot',
+    },
+    {
+      id:
+        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
+      value: 'Container is vol',
+      slug: 'container-is-vol',
+    },
   ]}
   title="Afval"
 />
@@ -183,11 +235,21 @@ HTML:
 <!-- toggle -->
 <label tabindex="0">
   Niets selecteren
-  <input name="maincategory_slug" type="checkbox" value="afval">
+  <input name="maincategory_slug" type="checkbox" value="afval" />
 </label>
 
 <!-- checkboxes -->
-<input name="category_slug" type="checkbox" value="asbest-accu" checked="">
-<input name="category_slug" type="checkbox" value="container-is-kapot" checked="">
-<input name="category_slug" type="checkbox" value="container-is-vol" checked="">
+<input name="category_slug" type="checkbox" value="asbest-accu" checked="" />
+<input
+  name="category_slug"
+  type="checkbox"
+  value="container-is-kapot"
+  checked=""
+/>
+<input
+  name="category_slug"
+  type="checkbox"
+  value="container-is-vol"
+  checked=""
+/>
 ```

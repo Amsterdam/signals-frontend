@@ -22,7 +22,7 @@ describe('Create signal and choose other subcategory than proposed', () => {
       routes.waitForManageSignalsRoutes();
       general.openMenu();
       cy.contains('Instellingen').click();
-      cy.contains('Categorieën').click();
+      cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();
       cy.url().should('include', '/instellingen/categorieen/');
@@ -39,7 +39,7 @@ describe('Create signal and choose other subcategory than proposed', () => {
       cy.wait('@patchCategory');
       cy.wait('@getCategories');
 
-      // Check if Categorieën page opens again
+      // Check if Subcategorieën page opens again
       cy.url().should('include', '/instellingen/categorieen/page/1');
     });
   });

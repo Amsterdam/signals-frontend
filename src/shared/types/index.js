@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types';
-import { isDate } from 'utils';
+import PropTypes from 'prop-types'
+import { isDate } from 'utils'
 
-const dateTypeFactory = isRequired =>
+const dateTypeFactory = (isRequired) =>
   /**
    * @param  {Object} props - component props
    * @param  {String} propName - component prop name to validate
@@ -12,38 +12,39 @@ const dateTypeFactory = isRequired =>
    */
   (props, propName, componentName) => {
     // eslint-disable-line implicit-arrow-linebreak
-    const date = props[propName];
-    const errorMsg = msg => `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`;
+    const date = props[propName]
+    const errorMsg = (msg) =>
+      `Invalid prop \`${propName}\` supplied to \`${componentName}\`. ${msg}. Validation failed.`
 
     if (date === undefined) {
       return isRequired
         ? new Error(
-          `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``
-        )
-        : null;
+            `The prop \`${propName}\` is marked as required in \`${componentName}\`, but its value is \`${date}\``
+          )
+        : null
     }
 
     if (!isDate(date)) {
-      return new Error(errorMsg(`'${date}' should be of type \`Date\``));
+      return new Error(errorMsg(`'${date}' should be of type \`Date\``))
     }
 
-    return null;
-  };
+    return null
+  }
 
-export const dateType = dateTypeFactory(false);
-dateType.isRequired = dateTypeFactory(true);
+export const dateType = dateTypeFactory(false)
+dateType.isRequired = dateTypeFactory(true)
 
 const idOrKeyPropRequired = (props, propName, componentName) => {
-  const { id, key } = props;
+  const { id, key } = props
 
   if (id === undefined && key === undefined) {
     return new Error(
       `Either prop \`key\` or \`id\` is marked as required in \`${componentName}\`, but neither has been set`
-    );
+    )
   }
 
-  return null;
-};
+  return null
+}
 
 /**
  * Generic data item type
@@ -53,7 +54,7 @@ const dataItemType = PropTypes.shape({
   key: idOrKeyPropRequired,
   slug: PropTypes.string,
   value: PropTypes.string.isRequired,
-});
+})
 
 /**
  * Filter type validation for the data structure that comes from and goes to the API
@@ -76,7 +77,7 @@ export const apiFilterType = PropTypes.shape({
     status: PropTypes.arrayOf(PropTypes.string),
   }),
   refresh: PropTypes.bool,
-});
+})
 
 /**
  * Filter type validation for filter data structure in the application
@@ -100,7 +101,7 @@ export const filterType = PropTypes.shape({
     status: PropTypes.arrayOf(dataItemType),
   }),
   refresh: PropTypes.bool,
-});
+})
 
 export const locationType = PropTypes.shape({
   address: PropTypes.shape({
@@ -119,7 +120,7 @@ export const locationType = PropTypes.shape({
   geometrie: PropTypes.shape({
     coordinates: PropTypes.arrayOf(PropTypes.number),
   }),
-});
+})
 
 export const incidentType = PropTypes.shape({
   _display: PropTypes.string,
@@ -163,7 +164,7 @@ export const incidentType = PropTypes.shape({
     send_email: PropTypes.bool,
   }),
   updated_at: dateType,
-});
+})
 
 export const childIncidentType = PropTypes.exact({
   _links: PropTypes.exact({
@@ -185,14 +186,14 @@ export const childIncidentType = PropTypes.exact({
   }),
   updated_at: PropTypes.string.isRequired,
   can_view_signal: PropTypes.bool.isRequired,
-});
+})
 
 export const attachmentsType = PropTypes.arrayOf(
   PropTypes.shape({
     _display: PropTypes.string,
     location: PropTypes.string,
   })
-);
+)
 
 export const contextType = PropTypes.shape({
   reporter: PropTypes.shape({
@@ -213,7 +214,7 @@ export const defaultTextsType = PropTypes.arrayOf(
       })
     ),
   })
-);
+)
 
 export const extraPropertiesType = PropTypes.arrayOf(
   PropTypes.shape({
@@ -237,7 +238,7 @@ export const extraPropertiesType = PropTypes.arrayOf(
     ]),
     category_url: PropTypes.string.isRequired,
   })
-);
+)
 
 export const historyType = PropTypes.arrayOf(
   PropTypes.shape({
@@ -248,18 +249,18 @@ export const historyType = PropTypes.arrayOf(
     description: PropTypes.string,
     who: PropTypes.string.isRequired,
   })
-);
+)
 
 /**
  * Generic datalist type
  */
-export const dataListType = PropTypes.arrayOf(dataItemType);
+export const dataListType = PropTypes.arrayOf(dataItemType)
 
 export const categoriesType = PropTypes.shape({
   main: dataListType,
   mainToSub: PropTypes.shape({}),
   sub: dataListType,
-});
+})
 
 export const dataListsType = PropTypes.shape({
   feedback: dataListType,
@@ -269,14 +270,14 @@ export const dataListsType = PropTypes.shape({
   stadsdeel: dataListType,
   status: dataListType,
   contact_details: dataListType,
-});
+})
 
 export const overviewPageType = PropTypes.shape({
   incidents: PropTypes.arrayOf(incidentType),
   filter: filterType,
   page: PropTypes.number,
   sort: PropTypes.string,
-});
+})
 
 export const departmentCategory = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -302,9 +303,9 @@ export const departmentCategory = PropTypes.shape({
     name: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
   }),
-});
+})
 
-export const departmentCategories = PropTypes.arrayOf(departmentCategory);
+export const departmentCategories = PropTypes.arrayOf(departmentCategory)
 
 export const permissionsType = PropTypes.arrayOf(
   PropTypes.shape({
@@ -312,7 +313,7 @@ export const permissionsType = PropTypes.arrayOf(
     name: PropTypes.string.isRequired,
     codename: PropTypes.string.isRequired,
   })
-);
+)
 
 export const linksType = PropTypes.shape({
   self: PropTypes.shape({
@@ -332,7 +333,7 @@ export const linksType = PropTypes.shape({
       href: PropTypes.string.isRequired,
     })
   ),
-}).isRequired;
+}).isRequired
 
 const userRolePermissionType = PropTypes.arrayOf(
   PropTypes.shape({
@@ -342,7 +343,7 @@ const userRolePermissionType = PropTypes.arrayOf(
     _display: PropTypes.string.isRequired,
     _links: linksType,
   })
-);
+)
 
 const userRoleType = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -350,7 +351,7 @@ const userRoleType = PropTypes.shape({
   _display: PropTypes.string.isRequired,
   _links: linksType,
   permissons: userRolePermissionType,
-});
+})
 
 export const userType = PropTypes.shape({
   username: PropTypes.string,
@@ -362,7 +363,7 @@ export const userType = PropTypes.shape({
     departments: PropTypes.arrayOf(PropTypes.string),
     note: PropTypes.string,
   }),
-});
+})
 
 export const subcategoriesType = PropTypes.arrayOf(
   PropTypes.shape({
@@ -370,11 +371,11 @@ export const subcategoriesType = PropTypes.arrayOf(
     value: PropTypes.string.isRequired,
     info: PropTypes.string,
   })
-);
+)
 
 export const directingDepartmentsType = PropTypes.arrayOf(
   PropTypes.shape({
     key: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })
-);
+)

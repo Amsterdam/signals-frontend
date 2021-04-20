@@ -1,24 +1,35 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react'
+import PropTypes from 'prop-types'
 
-import Select from 'components/Select';
+import Select from 'components/Select'
 
-import { StyledInfoText, StyledSelect } from '../../styled';
+import { StyledInfoText, StyledSelect } from '../../styled'
 
-const getSelectedOption = (options, value) => options.find(item => item.key === value);
+const getSelectedOption = (options, value) =>
+  options.find((item) => item.key === value)
 
-const IncidentSplitSelectInput = ({ id, name, display, options, groups = null, initialValue, register }) => {
-  const [selected, setSelected] = useState(getSelectedOption(options, initialValue));
+const IncidentSplitSelectInput = ({
+  id,
+  name,
+  display,
+  options,
+  groups = null,
+  initialValue,
+  register,
+}) => {
+  const [selected, setSelected] = useState(
+    getSelectedOption(options, initialValue)
+  )
 
   const onChange = useCallback(
-    event => {
-      event.preventDefault();
-      setSelected(getSelectedOption(options, event.target.value));
+    (event) => {
+      event.preventDefault()
+      setSelected(getSelectedOption(options, event.target.value))
     },
     [options]
-  );
+  )
 
   return (
     <StyledSelect>
@@ -37,8 +48,8 @@ const IncidentSplitSelectInput = ({ id, name, display, options, groups = null, i
 
       {selected?.description && <StyledInfoText text={selected.description} />}
     </StyledSelect>
-  );
-};
+  )
+}
 
 IncidentSplitSelectInput.propTypes = {
   id: PropTypes.string.isRequired,
@@ -59,6 +70,6 @@ IncidentSplitSelectInput.propTypes = {
     })
   ),
   register: PropTypes.func.isRequired,
-};
+}
 
-export default IncidentSplitSelectInput;
+export default IncidentSplitSelectInput

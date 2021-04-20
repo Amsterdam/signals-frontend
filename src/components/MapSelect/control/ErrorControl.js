@@ -6,23 +6,23 @@ const ErrorControl = L.Control.extend({
   },
 
   initialize(options) {
-    L.setOptions(this, options);
+    L.setOptions(this, options)
   },
 
   onAdd() {
-    const div = L.DomUtil.create('div', 'error-control');
-    div.innerText = this.options.message;
-    L.DomUtil.addClass(div, 'hide');
-    return div;
+    const div = L.DomUtil.create('div', 'error-control')
+    div.innerText = this.options.message
+    L.DomUtil.addClass(div, 'hide')
+    return div
   },
 
   show() {
-    L.DomUtil.removeClass(this._container, 'hide');
+    L.DomUtil.removeClass(this._container, 'hide')
   },
 
   hide() {
-    L.DomUtil.addClass(this._container, 'hide');
+    L.DomUtil.addClass(this._container, 'hide')
   },
-});
+})
 
-export default ErrorControl;
+export default ErrorControl

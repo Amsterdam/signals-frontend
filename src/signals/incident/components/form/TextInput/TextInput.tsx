@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react';
-import React from 'react';
-import Input from 'components/Input';
+import type { FunctionComponent } from 'react'
+import React from 'react'
+import Input from 'components/Input'
 
-import FormField from '../FormField';
-import type { FormInputProps } from 'types/reactive-form';
+import type { FormInputProps } from 'types/reactive-form'
+import FormField from '../FormField'
 
-export type TextInputProps = FormInputProps;
+export type TextInputProps = FormInputProps
 
 const TextInput: FunctionComponent<TextInputProps> = ({
   handler,
@@ -19,7 +19,13 @@ const TextInput: FunctionComponent<TextInputProps> = ({
   validatorsOrOpts,
 }) =>
   (meta?.isVisible && (
-    <FormField meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField
+      meta={meta}
+      options={validatorsOrOpts}
+      touched={touched}
+      hasError={hasError}
+      getError={getError}
+    >
       <Input
         id={meta.name}
         aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
@@ -28,14 +34,16 @@ const TextInput: FunctionComponent<TextInputProps> = ({
         type={meta.type}
         placeholder={meta.placeholder}
         {...handler()}
-        onBlur={event => {
+        onBlur={(event) => {
           parent.meta.updateIncident({
-            [meta.name]: meta.autoRemove ? event.target.value.replace(meta.autoRemove, '') : event.target.value,
-          });
+            [meta.name]: meta.autoRemove
+              ? event.target.value.replace(meta.autoRemove, '')
+              : event.target.value,
+          })
         }}
       />
     </FormField>
   )) ||
-  null;
+  null
 
-export default TextInput;
+export default TextInput

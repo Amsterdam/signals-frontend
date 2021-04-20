@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-const readline = require('readline');
+const readline = require('readline')
 
 /**
  * Adds an animated progress indicator
@@ -10,16 +10,16 @@ const readline = require('readline');
  */
 function animateProgress(message, amountOfDots) {
   if (typeof amountOfDots !== 'number') {
-    amountOfDots = 3; // eslint-disable-line no-param-reassign
+    amountOfDots = 3 // eslint-disable-line no-param-reassign
   }
 
-  let i = 0;
+  let i = 0
   return setInterval(() => {
-    readline.cursorTo(process.stdout, 0);
-    i = (i + 1) % (amountOfDots + 1);
-    const dots = new Array(i + 1).join('.');
-    process.stdout.write(message + dots);
-  }, 500);
+    readline.cursorTo(process.stdout, 0)
+    i = (i + 1) % (amountOfDots + 1)
+    const dots = new Array(i + 1).join('.')
+    process.stdout.write(message + dots)
+  }, 500)
 }
 
-module.exports = animateProgress;
+module.exports = animateProgress

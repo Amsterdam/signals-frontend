@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 /**
  * useLocationReferrer hook
@@ -12,21 +12,21 @@ import { useLocation } from 'react-router-dom';
  * @returns {Object} location object with a possible referrer prop
  */
 const useLocationReferrer = () => {
-  const moduleLocation = useLocation();
-  const [location, setLocation] = useState(moduleLocation);
+  const moduleLocation = useLocation()
+  const [location, setLocation] = useState(moduleLocation)
 
   useEffect(() => {
     if (location.pathname !== moduleLocation.pathname) {
       const locWithReferrer = {
         ...moduleLocation,
         referrer: location.pathname,
-      };
+      }
 
-      setLocation(locWithReferrer);
+      setLocation(locWithReferrer)
     }
-  }, [location.pathname, moduleLocation, setLocation]);
+  }, [location.pathname, moduleLocation, setLocation])
 
-  return location;
-};
+  return location
+}
 
-export default useLocationReferrer;
+export default useLocationReferrer

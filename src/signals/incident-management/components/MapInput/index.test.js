@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render } from '@testing-library/react';
-import { withMapContext } from 'test/utils';
-import MapInput from '.';
+import React from 'react'
+import { render } from '@testing-library/react'
+import { withMapContext } from 'test/utils'
+import MapInput from '.'
 
 describe('<MapInput />', () => {
-  let props;
+  let props
 
   beforeEach(() => {
     props = {
@@ -26,22 +26,27 @@ describe('<MapInput />', () => {
             huisnummer_toevoeging: '',
           },
           address_text: 'Geldersekade 84B- 1012BL Amsterdam',
-          geometrie: { type: 'Point', coordinates: [52.374231891648414, 4.901061058044434] },
+          geometrie: {
+            type: 'Point',
+            coordinates: [52.374231891648414, 4.901061058044434],
+          },
           extra_properties: null,
         },
       })),
-    };
-  });
+    }
+  })
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should render correctly', () => {
-    const MapInputRender = MapInput(props);
-    const { queryByTestId } = render(withMapContext(<MapInputRender {...props} />));
+    const MapInputRender = MapInput(props)
+    const { queryByTestId } = render(
+      withMapContext(<MapInputRender {...props} />)
+    )
 
-    expect(queryByTestId('mapInput')).toBeInTheDocument();
-    expect(queryByTestId('autoSuggest')).toBeInTheDocument();
-  });
-});
+    expect(queryByTestId('mapInput')).toBeInTheDocument()
+    expect(queryByTestId('autoSuggest')).toBeInTheDocument()
+  })
+})

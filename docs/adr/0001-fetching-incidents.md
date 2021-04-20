@@ -3,11 +3,12 @@
 date: 2020-01-15
 
 ## Context
+
 In the Signals frontend application, two different endpoints provide data that can be used to render an overview of incidents.
 
 The first one is the [private signals endpoint](https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_signals_), the second is the private search endpoint. Both return the same data structure, but expect/require different parameters.
 
-In a number of occasions, a request is made to one of the private endpoints to retrieve the most recent set of data from the API.  Those occasions are:
+In a number of occasions, a request is made to one of the private endpoints to retrieve the most recent set of data from the API. Those occasions are:
 
 1. **On mount of the `IncidentModule`**
 

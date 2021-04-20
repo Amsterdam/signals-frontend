@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
 
-import { StyledTable } from './styled';
+import { StyledTable } from './styled'
 
-import DataViewHeader from './components/DataViewHeader';
-import DataViewBody from './components/DataViewBody';
+import DataViewHeader from './components/DataViewHeader'
+import DataViewBody from './components/DataViewBody'
 
 const DataView = ({
   className,
@@ -18,30 +18,30 @@ const DataView = ({
   onItemClick,
   primaryKeyColumn,
 }) => {
-  const dataColumns = useMemo(
-    () => {
-      if (data.length) {
-        if (columnOrder.length) {
-          return columnOrder;
-        }
-
-        return Object.keys(data[0]);
+  const dataColumns = useMemo(() => {
+    if (data.length) {
+      if (columnOrder.length) {
+        return columnOrder
       }
 
-      return [];
-    },
-    [data, columnOrder]
-  );
+      return Object.keys(data[0])
+    }
+
+    return []
+  }, [data, columnOrder])
   const visibleColumns = useMemo(
-    () => dataColumns.filter(colHeader => invisibleColumns.includes(colHeader) === false),
+    () =>
+      dataColumns.filter(
+        (colHeader) => invisibleColumns.includes(colHeader) === false
+      ),
     [dataColumns, invisibleColumns]
-  );
+  )
   const numberOfColumns = useMemo(
     () => Math.max(...[headers.length, filters.length, visibleColumns.length]),
     [headers.length, filters.length, visibleColumns.length]
-  );
+  )
 
-  if (!numberOfColumns) return null;
+  if (!numberOfColumns) return null
 
   return (
     <StyledTable data-testid="dataView" className={className}>
@@ -62,8 +62,8 @@ const DataView = ({
         />
       )}
     </StyledTable>
-  );
-};
+  )
+}
 
 DataView.defaultProps = {
   className: '',
@@ -74,7 +74,7 @@ DataView.defaultProps = {
   invisibleColumns: [],
   onItemClick: null,
   primaryKeyColumn: undefined,
-};
+}
 
 DataView.propTypes = {
   className: PropTypes.string,
@@ -92,6 +92,6 @@ DataView.propTypes = {
   onItemClick: PropTypes.func,
   /** Name of the column that contains the value that is used to build the URL to navigate to on item click */
   primaryKeyColumn: PropTypes.string,
-};
+}
 
-export default DataView;
+export default DataView

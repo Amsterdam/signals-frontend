@@ -1,38 +1,43 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import Map from 'components/Map';
-import { markerIcon } from 'shared/services/configuration/map-markers';
-import { Marker } from '@amsterdam/react-maps';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Map from 'components/Map'
+import { markerIcon } from 'shared/services/configuration/map-markers'
+import { Marker } from '@amsterdam/react-maps'
 
-import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import { locationType } from 'shared/types';
-import './style.scss';
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { locationType } from 'shared/types'
+import './style.scss'
 
 const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
-  const location = value?.geometrie?.coordinates;
-  const lat = location && location[1];
-  const lng = location && location[0];
+  const location = value?.geometrie?.coordinates
+  const lat = location && location[1]
+  const lng = location && location[0]
   const options = {
     ...MAP_OPTIONS,
     zoom,
     attributionControl: false,
     center: [lat, lng],
-  };
+  }
 
   return lat && lng ? (
-    <Map data-testid="mapDetail" mapOptions={options} className={className} hasZoomControls={hasZoomControls}>
+    <Map
+      data-testid="mapDetail"
+      mapOptions={options}
+      className={className}
+      hasZoomControls={hasZoomControls}
+    >
       <Marker args={[{ lat, lng }]} options={{ icon }} />
     </Map>
-  ) : null;
-};
+  ) : null
+}
 
 MapDetail.defaultProps = {
   className: '',
   hasZoomControls: false,
   icon: markerIcon,
-};
+}
 
 MapDetail.propTypes = {
   className: PropTypes.string,
@@ -40,6 +45,6 @@ MapDetail.propTypes = {
   icon: PropTypes.shape({}), // leaflet icon object
   value: locationType.isRequired,
   zoom: PropTypes.number.isRequired,
-};
+}
 
-export default MapDetail;
+export default MapDetail

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React, { useContext } from 'react';
-import type { FunctionComponent } from 'react';
-import styled from 'styled-components';
-import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import type { ZoomLevel } from '@amsterdam/arm-core/lib/types';
-import useLayerVisible from '../useLayerVisible';
-import ContainerSelectContext from '../../context';
+import React, { useContext } from 'react'
+import type { FunctionComponent } from 'react'
+import styled from 'styled-components'
+import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
+import useLayerVisible from '../useLayerVisible'
+import ContainerSelectContext from '../../context'
 
 export const MessageStyle = styled.div`
   margin: ${themeSpacing(4, 19)};
@@ -24,20 +24,33 @@ export const MessageStyle = styled.div`
     width: 100%;
     margin: 0;
   }
-`;
+`
 
 export interface ZoomMessageProps {
-  zoomLevel: ZoomLevel;
+  zoomLevel: ZoomLevel
 }
 
-export const ZoomMessage: FunctionComponent<ZoomMessageProps> = ({ children, zoomLevel }) => {
-  const layerVisible = useLayerVisible(zoomLevel);
+export const ZoomMessage: FunctionComponent<ZoomMessageProps> = ({
+  children,
+  zoomLevel,
+}) => {
+  const layerVisible = useLayerVisible(zoomLevel)
 
-  return !layerVisible && <MessageStyle data-testid="zoomMessage">{children}</MessageStyle> || null;
-};
+  return (
+    (!layerVisible && (
+      <MessageStyle data-testid="zoomMessage">{children}</MessageStyle>
+    )) ||
+    null
+  )
+}
 
 export const MapMessage: FunctionComponent = () => {
-  const { message } = useContext(ContainerSelectContext);
+  const { message } = useContext(ContainerSelectContext)
 
-  return (message && <MessageStyle data-testid="mapMessage">{message}</MessageStyle>) || null;
-};
+  return (
+    (message && (
+      <MessageStyle data-testid="mapMessage">{message}</MessageStyle>
+    )) ||
+    null
+  )
+}

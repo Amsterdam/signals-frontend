@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 export const overlastInDeOpenbareRuimte = {
   extra_auto_scooter_bromfietswrak: {
     meta: {
       ifAllOf: {
-        subcategory:
-          'auto-scooter-bromfietswrak',
+        subcategory: 'auto-scooter-bromfietswrak',
       },
-      label: 'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
+      label:
+        'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
       shortLabel: 'Extra informatie',
       subtitle: 'Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen',
       pathMerge: 'extra_properties',
@@ -20,10 +20,10 @@ export const overlastInDeOpenbareRuimte = {
   extra_fietswrak: {
     meta: {
       ifAllOf: {
-        subcategory:
-          'fietswrak',
+        subcategory: 'fietswrak',
       },
-      label: 'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
+      label:
+        'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
       subtitle: 'Bijvoorbeeld: merk, kleur, roest, zonder wielen',
       shortLabel: 'Extra informatie',
       pathMerge: 'extra_properties',
@@ -34,8 +34,7 @@ export const overlastInDeOpenbareRuimte = {
   extra_parkeeroverlast: {
     meta: {
       ifAllOf: {
-        subcategory:
-          'parkeeroverlast',
+        subcategory: 'parkeeroverlast',
       },
       label: 'Wat weet u over de auto, bus of motor?',
       shortLabel: 'Extra informatie',
@@ -45,6 +44,6 @@ export const overlastInDeOpenbareRuimte = {
     },
     render: FIELD_TYPE_MAP.text_input,
   },
-};
+}
 
-export default overlastInDeOpenbareRuimte;
+export default overlastInDeOpenbareRuimte

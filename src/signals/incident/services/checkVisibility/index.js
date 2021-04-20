@@ -1,16 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import isEqual from 'lodash.isequal';
-import isObject from 'lodash.isobject';
-import { isAuthenticated } from 'shared/services/auth/auth';
+import isEqual from 'lodash.isequal'
+import isObject from 'lodash.isobject'
+import { isAuthenticated } from 'shared/services/auth/auth'
 
 const isValueEqual = (objToCompareTo, value, key, verificationFunc) =>
   (!Array.isArray(value) && isEqual(value, objToCompareTo[key])) ||
-  (Array.isArray(value) && verificationFunc.call(value, val => isValueEqual(objToCompareTo, val, key, verificationFunc))) ||
+  (Array.isArray(value) &&
+    verificationFunc.call(value, (val) =>
+      isValueEqual(objToCompareTo, val, key, verificationFunc)
+    )) ||
   (Array.isArray(objToCompareTo[key]) && objToCompareTo[key].includes(value)) ||
-  (Array.isArray(objToCompareTo[key]) && verificationFunc.call(objToCompareTo[key], item => item.id === value)) ||
-  (isObject(objToCompareTo[key]) && objToCompareTo[key].value && isEqual(value, objToCompareTo[key].value)) ||
-  (isObject(objToCompareTo[key]) && objToCompareTo[key].id && isEqual(value, objToCompareTo[key].id));
+  (Array.isArray(objToCompareTo[key]) &&
+    verificationFunc.call(objToCompareTo[key], (item) => item.id === value)) ||
+  (isObject(objToCompareTo[key]) &&
+    objToCompareTo[key].value &&
+    isEqual(value, objToCompareTo[key].value)) ||
+  (isObject(objToCompareTo[key]) &&
+    objToCompareTo[key].id &&
+    isEqual(value, objToCompareTo[key].id))
 
 /**
  * Evaluate values against an object
@@ -23,24 +31,29 @@ const isValueEqual = (objToCompareTo, value, key, verificationFunc) =>
  * @return {Boolean}
  */
 const evaluateConditions = (conditions, objToCompareTo) => {
-  const validConditions = ['ifOneOf', 'ifAllOf'];
-  const validEntries = Object.entries(conditions).filter(([key]) => validConditions.includes(key));
+  const validConditions = ['ifOneOf', 'ifAllOf']
+  const validEntries = Object.entries(conditions).filter(([key]) =>
+    validConditions.includes(key)
+  )
 
   return validEntries
     .map(([comparisonKey, value]) => {
-      const comparisonFunc = comparisonKey === 'ifAllOf' ? Array.prototype.every : Array.prototype.some;
+      const comparisonFunc =
+        comparisonKey === 'ifAllOf'
+          ? Array.prototype.every
+          : Array.prototype.some
 
       return comparisonFunc.call(Object.entries(value), ([key, val]) => {
         // in case of nested conditions, recursively evaluate that condition
         if (validConditions.includes(key)) {
-          return evaluateConditions({ [key]: val }, objToCompareTo);
+          return evaluateConditions({ [key]: val }, objToCompareTo)
         }
 
-        return isValueEqual(objToCompareTo, val, key, comparisonFunc);
-      });
+        return isValueEqual(objToCompareTo, val, key, comparisonFunc)
+      })
     }, true)
-    .every(Boolean);
-};
+    .every(Boolean)
+}
 
 /**
  * Check for form field visibility
@@ -54,13 +67,13 @@ const evaluateConditions = (conditions, objToCompareTo) => {
  * @returns {Boolean}
  */
 const checkVisibility = (control, objToCompareTo) => {
-  const isVisible = evaluateConditions(control.meta, objToCompareTo);
+  const isVisible = evaluateConditions(control.meta, objToCompareTo)
 
   if (control.authenticated) {
-    return isVisible && isAuthenticated();
+    return isVisible && isAuthenticated()
   }
 
-  return isVisible;
-};
+  return isVisible
+}
 
-export default checkVisibility;
+export default checkVisibility

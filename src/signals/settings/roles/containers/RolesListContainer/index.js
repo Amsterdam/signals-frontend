@@ -1,27 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
-import { Row, Column, Button } from '@amsterdam/asc-ui';
-import styled from 'styled-components';
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { createStructuredSelector } from 'reselect'
+import { Row, Column, Button } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
-import LoadingIndicator from 'components/LoadingIndicator';
-import PageHeader from 'signals/settings/components/PageHeader';
+import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'signals/settings/components/PageHeader'
 
-import { makeSelectUserCan } from 'containers/App/selectors';
-import { rolesModelSelector } from 'models/roles/selectors';
-import { ROLE_URL } from 'signals/settings/routes';
+import { makeSelectUserCan } from 'containers/App/selectors'
+import { rolesModelSelector } from 'models/roles/selectors'
+import { ROLE_URL } from 'signals/settings/routes'
 
-import RolesList from './components/RolesList';
+import RolesList from './components/RolesList'
 
 const HeaderButton = styled(Button)`
   &:hover {
     color: white;
   }
-`;
+`
 
 export const RolesListContainer = ({
   roles: { list, loading, loadingPermissions },
@@ -42,22 +42,20 @@ export const RolesListContainer = ({
         ) : (
           <RolesList
             list={list}
-            linksEnabled={Boolean(
-              userCan('change_group')
-            )}
+            linksEnabled={Boolean(userCan('change_group'))}
           />
         )}
       </Column>
     </Row>
   </Fragment>
-);
+)
 
 RolesListContainer.defaultProps = {
   roles: {
     list: [],
     loading: false,
   },
-};
+}
 
 RolesListContainer.propTypes = {
   roles: PropTypes.shape({
@@ -77,13 +75,13 @@ RolesListContainer.propTypes = {
     loadingPermissions: PropTypes.bool,
   }),
   userCan: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = createStructuredSelector({
   roles: rolesModelSelector,
   userCan: makeSelectUserCan,
-});
+})
 
-const withConnect = connect(mapStateToProps);
+const withConnect = connect(mapStateToProps)
 
-export default withConnect(RolesListContainer);
+export default withConnect(RolesListContainer)

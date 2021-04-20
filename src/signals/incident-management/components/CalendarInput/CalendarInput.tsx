@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import type { FunctionComponent, SyntheticEvent } from 'react';
-import React, { Fragment, useCallback, useRef } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
-import { dateToString } from 'shared/services/date-utils';
-import nl from 'date-fns/locale/nl';
-import CustomInput from './CustomInput';
-import 'react-datepicker/dist/react-datepicker.css';
-import styled from 'styled-components';
+import type { FunctionComponent, SyntheticEvent } from 'react'
+import React, { Fragment, useCallback, useRef } from 'react'
+import DatePicker, { registerLocale } from 'react-datepicker'
+import { dateToString } from 'shared/services/date-utils'
+import nl from 'date-fns/locale/nl'
+import 'react-datepicker/dist/react-datepicker.css'
+import styled from 'styled-components'
+import CustomInput from './CustomInput'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-registerLocale('nl', nl);
-
+registerLocale('nl', nl)
 
 /** This input is focused after a date is selected to enable form submit functionality for this control*/
 const SelectedDateInput = styled.input`
@@ -20,34 +19,43 @@ const SelectedDateInput = styled.input`
   padding: 0;
   width: 0;
   overflow: hidden;
-`;
+`
 
 interface CalendarInputProps {
   /** HTMLInputElement id attribute; used for referencing with an HTMLLabelElement */
-  id: string;
+  id: string
   /** HTMLLabelElement text label */
-  label: string;
+  label: string
   /** HTMLInputElement name attribute value */
-  name: string;
+  name: string
   /**
    * Date selection callback function
    * @param {String} dateValue - Date value
    * @param {Event} event - Object from the event that triggered the callback
    */
-  onSelect: (date: Date | [Date, Date] | null, event: SyntheticEvent<HTMLInputElement> | undefined) => void;
+  onSelect: (
+    date: Date | [Date, Date] | null,
+    event: SyntheticEvent<HTMLInputElement> | undefined
+  ) => void
   /** Date value */
-  selectedDate?: Date;
+  selectedDate?: Date
 }
 
-const CalendarInput: FunctionComponent<CalendarInputProps> = ({ id, label, name, onSelect: onChange, selectedDate = null }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+const CalendarInput: FunctionComponent<CalendarInputProps> = ({
+  id,
+  label,
+  name,
+  onSelect: onChange,
+  selectedDate = null,
+}) => {
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const focus = useCallback(() => {
     /* istanbul ignore else */
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  }, [inputRef]);
+  }, [inputRef])
 
   return (
     <Fragment>
@@ -71,7 +79,7 @@ const CalendarInput: FunctionComponent<CalendarInputProps> = ({ id, label, name,
         tabIndex={-1}
       />
     </Fragment>
-  );
-};
+  )
+}
 
-export default CalendarInput;
+export default CalendarInput

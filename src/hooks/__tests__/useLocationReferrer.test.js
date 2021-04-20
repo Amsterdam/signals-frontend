@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { renderHook } from '@testing-library/react-hooks';
-import * as reactRouterDom from 'react-router-dom';
+import { renderHook } from '@testing-library/react-hooks'
+import * as reactRouterDom from 'react-router-dom'
 
-import useLocationReferrer from '../useLocationReferrer';
+import useLocationReferrer from '../useLocationReferrer'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -11,18 +11,20 @@ jest.mock('react-router-dom', () => ({
   useLocation: () => ({
     pathname: '/',
   }),
-}));
+}))
 
 describe('hooks/useLocationReferrer', () => {
   it('should return a location', async () => {
-    const { result, rerender } = renderHook(() => useLocationReferrer());
+    const { result, rerender } = renderHook(() => useLocationReferrer())
 
-    expect(result.current).toEqual({ pathname: '/' });
+    expect(result.current).toEqual({ pathname: '/' })
 
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({ pathname: '/foo-bar', referrer: '/' }));
+    jest
+      .spyOn(reactRouterDom, 'useLocation')
+      .mockImplementation(() => ({ pathname: '/foo-bar', referrer: '/' }))
 
-    rerender();
+    rerender()
 
-    expect(result.current).toEqual({ pathname: '/foo-bar', referrer: '/' });
-  });
-});
+    expect(result.current).toEqual({ pathname: '/foo-bar', referrer: '/' })
+  })
+})

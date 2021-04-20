@@ -1,27 +1,28 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React, { Fragment, useMemo, useContext } from 'react';
-import styled from 'styled-components';
-import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui';
+import React, { Fragment, useMemo, useContext } from 'react'
+import styled from 'styled-components'
+import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui'
 
-import { attachmentsType, contextType } from 'shared/types';
-import { string2date, string2time } from 'shared/services/string-parser';
+import { attachmentsType, contextType } from 'shared/types'
+import { string2date, string2time } from 'shared/services/string-parser'
 
-import Location from './components/Location';
-import Attachments from './components/Attachments';
-import ExtraProperties from './components/ExtraProperties';
-import Context from './components/Context';
-import IncidentDetailContext from '../../context';
+import IncidentDetailContext from '../../context'
+
+import Location from './components/Location'
+import Attachments from './components/Attachments'
+import ExtraProperties from './components/ExtraProperties'
+import Context from './components/Context'
 
 const Wrapper = styled.article`
   position: relative;
   z-index: 0;
-`;
+`
 
 const Title = styled(Heading)`
   font-weight: 400;
   margin: ${themeSpacing(4)} 0;
-`;
+`
 
 const DefinitionList = styled.dl`
   margin: 0;
@@ -54,13 +55,13 @@ const DefinitionList = styled.dl`
     padding-bottom: ${themeSpacing(2)};
     width: 100%;
   }
-`;
+`
 
 const Detail = ({ attachments, context }) => {
-  const { incident } = useContext(IncidentDetailContext);
-  const memoIncident = useMemo(() => incident, [incident]);
-  const memoAttachments = useMemo(() => attachments, [attachments]);
-  const location = useMemo(() => incident.location, [incident.location]);
+  const { incident } = useContext(IncidentDetailContext)
+  const memoIncident = useMemo(() => incident, [incident])
+  const memoAttachments = useMemo(() => attachments, [attachments])
+  const location = useMemo(() => incident.location, [incident.location])
 
   return (
     <Wrapper data-testid="incidentDetailDetail">
@@ -71,14 +72,17 @@ const Detail = ({ attachments, context }) => {
       <DefinitionList>
         <dt>Overlast</dt>
         <dd>
-          {string2date(incident.incident_date_start)} {string2time(incident.incident_date_start)}&nbsp;
+          {string2date(incident.incident_date_start)}{' '}
+          {string2time(incident.incident_date_start)}&nbsp;
         </dd>
 
         <Location location={location} />
 
         {memoAttachments && <Attachments attachments={memoAttachments} />}
 
-        {memoIncident.extra_properties && <ExtraProperties items={memoIncident.extra_properties} />}
+        {memoIncident.extra_properties && (
+          <ExtraProperties items={memoIncident.extra_properties} />
+        )}
 
         <Fragment>
           <dt data-testid="detail-phone-definition">Telefoon melder</dt>
@@ -90,18 +94,22 @@ const Detail = ({ attachments, context }) => {
           <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
         </Fragment>
 
-        <dt data-testid="detail-sharing-definition">Toestemming contactgegevens delen</dt>
-        <dd data-testid="detail-sharing-value">{incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}</dd>
+        <dt data-testid="detail-sharing-definition">
+          Toestemming contactgegevens delen
+        </dt>
+        <dd data-testid="detail-sharing-value">
+          {incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}
+        </dd>
 
-        {context && <Context context={context} id={incident.id} /> }
+        {context && <Context context={context} id={incident.id} />}
       </DefinitionList>
     </Wrapper>
-  );
-};
+  )
+}
 
 Detail.propTypes = {
   attachments: attachmentsType,
   context: contextType,
-};
+}
 
-export default Detail;
+export default Detail

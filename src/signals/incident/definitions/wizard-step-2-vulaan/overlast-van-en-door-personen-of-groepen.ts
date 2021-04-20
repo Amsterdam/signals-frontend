@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 export const overlastPersonenEnGroepen = {
   extra_jongeren_text: {
@@ -59,6 +59,6 @@ export const overlastPersonenEnGroepen = {
     },
     render: FIELD_TYPE_MAP.textarea_input,
   },
-};
+}
 
-export default overlastPersonenEnGroepen;
+export default overlastPersonenEnGroepen

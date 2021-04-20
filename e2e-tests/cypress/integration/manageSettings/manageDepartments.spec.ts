@@ -27,7 +27,7 @@ describe('Manage departments', () => {
       cy.url().should('include', '/instellingen/afdelingen');
       general.checkHeaderText('Afdelingen');
       cy.get('th').eq(0).should('have.text', 'Naam').and('be.visible');
-      cy.get('th').eq(1).should('have.text', 'Categorie').and('be.visible');
+      cy.get('th').eq(1).should('have.text', 'Subcategorie').and('be.visible');
     });
   });
   describe('Edit department', () => {

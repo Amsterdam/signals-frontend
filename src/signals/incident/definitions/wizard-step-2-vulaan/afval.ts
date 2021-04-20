@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import type { IconOptions } from 'leaflet';
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
-import * as afvalIcons from './afval-icons';
+import type { IconOptions } from 'leaflet'
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
+import * as afvalIcons from './afval-icons'
 
-export const ICON_SIZE = 40;
+export const ICON_SIZE = 40
 
 const options: Partial<IconOptions> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
-};
+}
 
 export const controls = {
   extra_afval: {
@@ -40,7 +40,8 @@ export const controls = {
       label: 'Kies de container waar het om gaat',
       shortLabel: 'Container(s)',
       pathMerge: 'extra_properties',
-      wfsFilter: '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>',
+      wfsFilter:
+        '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>',
       endpoint:
         'https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json',
       featureTypes: [
@@ -143,6 +144,6 @@ export const controls = {
     },
     render: FIELD_TYPE_MAP.container_select,
   },
-};
+}
 
-export default controls;
+export default controls

@@ -3,14 +3,11 @@
     "allowSyntheticDefaultImports": false,
     "module": "commonjs",
     "target": "es6",
-    "baseUrl": "./src",
+    "baseUrl": "./src"
   },
   "env": {
     "NODE_ENV": "development",
     "BABEL_ENV": "development"
   },
-  "exclude": [
-    "node_modules",
-    "build"
-  ]
+  "exclude": ["node_modules", "build"]
 }

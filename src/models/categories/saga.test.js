@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import * as Sentry from '@sentry/browser';
-import { authCall, getErrorMessage } from 'shared/services/api/api';
-import { testSaga } from 'redux-saga-test-plan';
+import * as Sentry from '@sentry/browser'
+import { authCall, getErrorMessage } from 'shared/services/api/api'
+import { testSaga } from 'redux-saga-test-plan'
 
-import * as actions from 'containers/App/actions';
-import categoriesJson from 'utils/__tests__/fixtures/categories_private.json';
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import * as actions from 'containers/App/actions'
+import categoriesJson from 'utils/__tests__/fixtures/categories_private.json'
+import CONFIGURATION from 'shared/services/configuration/configuration'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 
-import { fetchCategoriesSuccess, fetchCategoriesFailed } from './actions';
-import watchCategoriesSaga, { fetchCategories } from './saga';
-import { FETCH_CATEGORIES } from './constants';
+import { fetchCategoriesSuccess, fetchCategoriesFailed } from './actions'
+import watchCategoriesSaga, { fetchCategories } from './saga'
+import { FETCH_CATEGORIES } from './constants'
 
-jest.mock('@sentry/browser');
+jest.mock('@sentry/browser')
 
 describe('models/categories/saga', () => {
   it('should watchCategoriesSaga', () => {
@@ -21,11 +21,11 @@ describe('models/categories/saga', () => {
       .next()
       .takeLatest(FETCH_CATEGORIES, fetchCategories)
       .next()
-      .isDone();
-  });
+      .isDone()
+  })
 
   describe('fetchCategories', () => {
-    const requestUrl = CONFIGURATION.CATEGORIES_PRIVATE_ENDPOINT;
+    const requestUrl = CONFIGURATION.CATEGORIES_PRIVATE_ENDPOINT
 
     it('should call endpoint and dispatch success', () => {
       testSaga(fetchCategories)
@@ -34,12 +34,12 @@ describe('models/categories/saga', () => {
         .next(categoriesJson)
         .put(fetchCategoriesSuccess(categoriesJson))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch error', () => {
-      const message = '404 not found';
-      const error = new Error(message);
+      const message = '404 not found'
+      const error = new Error(message)
 
       testSaga(fetchCategories)
         .next()
@@ -58,7 +58,7 @@ describe('models/categories/saga', () => {
         .next()
         .call([Sentry, 'captureException'], error)
         .next()
-        .isDone();
-    });
-  });
-});
+        .isDone()
+    })
+  })
+})

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import configuration from 'shared/services/configuration/configuration';
-jest.mock('shared/services/configuration/configuration');
+import configuration from 'shared/services/configuration/configuration'
+jest.mock('shared/services/configuration/configuration')
 
 describe('shared/services/configuration/map-options', () => {
   afterEach(() => {
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   it('should return an object with configuration props', () => {
     configuration.map.options = {
@@ -15,10 +15,10 @@ describe('shared/services/configuration/map-options', () => {
       maxBounds: [[3]],
       maxZoom: 4,
       minZoom: 5,
-    };
+    }
 
     // eslint-disable-next-line
-    const mapOptions = require('./map-options').default;
+    const mapOptions = require('./map-options').default
 
     expect(mapOptions).toEqual(
       expect.objectContaining({
@@ -28,6 +28,6 @@ describe('shared/services/configuration/map-options', () => {
         attributionControl: true,
         dragging: true,
       })
-    );
-  });
-});
+    )
+  })
+})

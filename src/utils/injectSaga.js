@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { ReactReduxContext } from 'react-redux';
+import React from 'react'
+import hoistNonReactStatics from 'hoist-non-react-statics'
+import { ReactReduxContext } from 'react-redux'
 
-import getInjectors from './sagaInjectors';
+import getInjectors from './sagaInjectors'
 
 /**
  * Dynamically injects a saga, passes component's props as saga arguments
@@ -18,46 +18,46 @@ import getInjectors from './sagaInjectors';
  *   - constants.ONCE_TILL_UNMOUNT — behaves like 'RESTART_ON_REMOUNT' but never runs it again.
  *
  */
-export default ({ key, saga, mode }) => WrappedComponent => {
+export default ({ key, saga, mode }) => (WrappedComponent) => {
   class InjectSaga extends React.Component {
-    static WrappedComponent = WrappedComponent;
+    static WrappedComponent = WrappedComponent
 
     constructor(props, context) {
-      super(props, context);
+      super(props, context)
 
-      this.injectors = getInjectors(context.store);
+      this.injectors = getInjectors(context.store)
 
-      this.injectors.injectSaga(key, { saga, mode }, this.props);
+      this.injectors.injectSaga(key, { saga, mode }, this.props)
     }
 
     componentWillUnmount() {
-      this.injectors.ejectSaga(key);
+      this.injectors.ejectSaga(key)
     }
 
     render() {
-      return <WrappedComponent {...this.props} />;
+      return <WrappedComponent {...this.props} />
     }
   }
 
-  InjectSaga.contextType = ReactReduxContext;
+  InjectSaga.contextType = ReactReduxContext
 
-  InjectSaga.displayName = `withSaga(${WrappedComponent.displayName ||
-    WrappedComponent.name ||
-    'Component'})`;
+  InjectSaga.displayName = `withSaga(${
+    WrappedComponent.displayName || WrappedComponent.name || 'Component'
+  })`
 
-  return hoistNonReactStatics(InjectSaga, WrappedComponent);
-};
+  return hoistNonReactStatics(InjectSaga, WrappedComponent)
+}
 
 const useInjectSaga = ({ key, saga, mode }) => {
-  const context = React.useContext(ReactReduxContext);
+  const context = React.useContext(ReactReduxContext)
   React.useEffect(() => {
-    const injectors = getInjectors(context.store);
-    injectors.injectSaga(key, { saga, mode });
+    const injectors = getInjectors(context.store)
+    injectors.injectSaga(key, { saga, mode })
 
     return () => {
-      injectors.ejectSaga(key);
-    };
-  }, [context.store, key, mode, saga]);
-};
+      injectors.ejectSaga(key)
+    }
+  }, [context.store, key, mode, saga])
+}
 
-export { useInjectSaga };
+export { useInjectSaga }

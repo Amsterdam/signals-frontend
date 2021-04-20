@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import mapValues from '.';
 
-import getStepControls from '../get-step-controls';
-import convertValue from '../convert-value';
+import getStepControls from '../get-step-controls'
+import convertValue from '../convert-value'
+import mapValues from '.'
 
-jest.mock('../get-step-controls');
-jest.mock('../convert-value');
+jest.mock('../get-step-controls')
+jest.mock('../convert-value')
 
 describe('The map values service', () => {
   const wizard = {
@@ -52,7 +52,7 @@ describe('The map values service', () => {
         },
       },
     },
-  };
+  }
   const incident = {
     description: 'bar',
     title: 42,
@@ -61,14 +61,14 @@ describe('The map values service', () => {
     value_0: 0,
     value_false: false,
     value_true: true,
-  };
+  }
 
   it('should map status by default', () => {
-    expect(mapValues()).toEqual({});
-  });
+    expect(mapValues()).toEqual({})
+  })
 
   it('should map status by default', () => {
-    getStepControls.mockImplementation(() => wizard.step.form.controls);
+    getStepControls.mockImplementation(() => wizard.step.form.controls)
     convertValue
       .mockImplementationOnce(() => incident.description)
       .mockImplementationOnce(() => incident.title)
@@ -76,7 +76,7 @@ describe('The map values service', () => {
       .mockImplementationOnce(() => incident.undefined_value)
       .mockImplementationOnce(() => incident.value_0)
       .mockImplementationOnce(() => 'nee')
-      .mockImplementationOnce(() => 'ja');
+      .mockImplementationOnce(() => 'ja')
 
     expect(mapValues({}, incident, wizard)).toMatchObject({
       text: 'bar',
@@ -85,6 +85,6 @@ describe('The map values service', () => {
       value_0: 0,
       value_false: 'nee',
       value_true: 'ja',
-    });
-  });
-});
+    })
+  })
+})

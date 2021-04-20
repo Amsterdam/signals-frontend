@@ -1,18 +1,22 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2018 - 2021 Gemeente Amsterdam */
-@import "./config.scss";
+@import './config.scss';
 
 @font-face {
-  font-family: "Avenir Next LT W01-Regular";
-  src: url("./stijl/fonts/AvenirNext/2cd55546-ec00-4af9-aeca-4a3cd186da53.woff2") format("woff2"),
-  url("./stijl/fonts/AvenirNext/1e9892c0-6927-4412-9874-1b82801ba47a.woff") format("woff");
+  font-family: 'Avenir Next LT W01-Regular';
+  src: url('./stijl/fonts/AvenirNext/2cd55546-ec00-4af9-aeca-4a3cd186da53.woff2')
+      format('woff2'),
+    url('./stijl/fonts/AvenirNext/1e9892c0-6927-4412-9874-1b82801ba47a.woff')
+      format('woff');
   font-weight: normal;
 }
 
 @font-face {
-  font-family: "Avenir Next LT W01 Demi";
-  src: url("./stijl/fonts/AvenirNextDemi/aad99a1f-7917-4dd6-bbb5-b07cedbff64f.woff2") format("woff2"),
-  url("./stijl/fonts/AvenirNextDemi/91b50bbb-9aa1-4d54-9159-ec6f19d14a7c.woff") format("woff");
+  font-family: 'Avenir Next LT W01 Demi';
+  src: url('./stijl/fonts/AvenirNextDemi/aad99a1f-7917-4dd6-bbb5-b07cedbff64f.woff2')
+      format('woff2'),
+    url('./stijl/fonts/AvenirNextDemi/91b50bbb-9aa1-4d54-9159-ec6f19d14a7c.woff')
+      format('woff');
   font-weight: normal;
 }
 
@@ -45,7 +49,9 @@
   }
 }
 
-*, :after, :before {
+*,
+:after,
+:before {
   box-sizing: inherit;
 }
 
@@ -69,7 +75,12 @@ body {
   background-color: #e5e5e5;
 }
 
-h1, h2, h3, h4, th, strong {
+h1,
+h2,
+h3,
+h4,
+th,
+strong {
   @include avenirnextdemi();
 }
 
@@ -84,7 +95,7 @@ table {
   border-collapse: collapse;
 
   tr {
-    padding: .5rem;
+    padding: 0.5rem;
 
     &:hover {
       background-color: #f3f3f3;
@@ -94,8 +105,9 @@ table {
     }
   }
 
-  td, th {
-    padding: .5rem;
+  td,
+  th {
+    padding: 0.5rem;
   }
 
   thead {
@@ -142,7 +154,7 @@ fieldset {
 }
 
 .input-help {
-  font-size: .875rem;
+  font-size: 0.875rem;
   color: #666;
 }
 
@@ -156,7 +168,10 @@ fieldset {
 }
 
 @media print {
-  html, body {height: 100%;}
+  html,
+  body {
+    height: 100%;
+  }
 
   @page {
     size: A4;
@@ -176,5 +191,4 @@ fieldset {
   .page-break {
     page-break-after: always;
   }
-
 }

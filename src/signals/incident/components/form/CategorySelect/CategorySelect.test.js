@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures';
-import * as categoriesSelectors from 'models/categories/selectors';
+import React from 'react'
+import { render, act, fireEvent } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
+import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures'
+import * as categoriesSelectors from 'models/categories/selectors'
 
-import CategorySelect from './CategorySelect';
+import CategorySelect from './CategorySelect'
 
 describe('signals/incident/components/form/CategorySelect', () => {
-  let props;
-  const subcategoryOptions = [...subcategoriesGroupedByCategories[1]];
+  let props
+  const subcategoryOptions = [...subcategoriesGroupedByCategories[1]]
   const metaFields = {
     name: 'categorySelect',
-  };
+  }
 
   beforeEach(() => {
     props = {
@@ -33,15 +33,15 @@ describe('signals/incident/components/form/CategorySelect', () => {
           },
         },
       },
-    };
+    }
     jest
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
-      .mockImplementation(() => subcategoriesGroupedByCategories);
-  });
+      .mockImplementation(() => subcategoriesGroupedByCategories)
+  })
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should render select field correctly', () => {
     const { queryByTestId } = render(
@@ -53,28 +53,38 @@ describe('signals/incident/components/form/CategorySelect', () => {
           }}
         />
       )
-    );
+    )
 
-    const element = queryByTestId('categorySelect');
-    expect(element).toBeInTheDocument();
-    expect(element.querySelectorAll('option').length).toEqual(subcategoryOptions.length + 1);
-    expect(queryByTestId('infoText')).toBeInTheDocument();
-  });
+    const element = queryByTestId('categorySelect')
+    expect(element).toBeInTheDocument()
+    expect(element.querySelectorAll('option').length).toEqual(
+      subcategoryOptions.length + 1
+    )
+    expect(queryByTestId('infoText')).toBeInTheDocument()
+  })
 
   it('should render empty select field when no categoeies are found', () => {
     jest
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
-      .mockImplementation(() => [[], []]);
-    const { queryByTestId } = render(withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />));
-    const element = queryByTestId('categorySelect');
-    expect(element).toBeInTheDocument();
-    expect(element.querySelectorAll('option').length).toEqual(1);
-    expect(queryByTestId('infoText')).not.toBeInTheDocument();
-  });
+      .mockImplementation(() => [[], []])
+    const { queryByTestId } = render(
+      withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />)
+    )
+    const element = queryByTestId('categorySelect')
+    expect(element).toBeInTheDocument()
+    expect(element.querySelectorAll('option').length).toEqual(1)
+    expect(queryByTestId('infoText')).not.toBeInTheDocument()
+  })
 
   it('sets incident when value changes', async () => {
-    const testSubcategory = { ...subcategoryOptions[1] };
-    const { id, slug, category_slug: category, name, handling_message } = testSubcategory;
+    const testSubcategory = { ...subcategoryOptions[1] }
+    const {
+      id,
+      slug,
+      category_slug: category,
+      name,
+      handling_message,
+    } = testSubcategory
 
     const { getByTestId, findByTestId } = render(
       withAppContext(
@@ -85,16 +95,16 @@ describe('signals/incident/components/form/CategorySelect', () => {
           }}
         />
       )
-    );
+    )
 
-    const element = getByTestId('categorySelect');
-    element.focus();
+    const element = getByTestId('categorySelect')
+    element.focus()
     act(() => {
-      const event = { target: { value: slug } };
-      fireEvent.change(element, event);
-    });
+      const event = { target: { value: slug } }
+      fireEvent.change(element, event)
+    })
 
-    await findByTestId('categorySelect');
+    await findByTestId('categorySelect')
     const testCategory = {
       category,
       subcategory: slug,
@@ -104,10 +114,10 @@ describe('signals/incident/components/form/CategorySelect', () => {
         slug,
       },
       handling_message,
-    };
-    expect(props.parent.meta.updateIncident).toHaveBeenCalledWith(testCategory);
+    }
+    expect(props.parent.meta.updateIncident).toHaveBeenCalledWith(testCategory)
 
-    await findByTestId('categorySelect');
-    expect(getByTestId('infoText')).toBeInTheDocument();
-  });
-});
+    await findByTestId('categorySelect')
+    expect(getByTestId('infoText')).toBeInTheDocument()
+  })
+})

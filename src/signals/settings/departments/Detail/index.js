@@ -1,40 +1,46 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useEffect, useCallback, Fragment, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { Row, Column, Heading, Paragraph } from '@amsterdam/asc-ui';
+import React, { useEffect, useCallback, Fragment, useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { compose } from 'redux'
+import { Row, Column, Heading, Paragraph } from '@amsterdam/asc-ui'
 
 import {
   makeSelectStructuredCategories,
   makeSelectByMainCategory,
   makeSelectSubCategories,
-} from 'models/categories/selectors';
+} from 'models/categories/selectors'
 
-import PageHeader from 'signals/settings/components/PageHeader';
-import LoadingIndicator from 'components/LoadingIndicator';
-import BackLink from 'components/BackLink';
-import routes from 'signals/settings/routes';
-import useFetch from 'hooks/useFetch';
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import * as types from 'shared/types';
+import PageHeader from 'signals/settings/components/PageHeader'
+import LoadingIndicator from 'components/LoadingIndicator'
+import BackLink from 'components/BackLink'
+import routes from 'signals/settings/routes'
+import useFetch from 'hooks/useFetch'
+import CONFIGURATION from 'shared/services/configuration/configuration'
+import * as types from 'shared/types'
 
-import useConfirmedCancel from '../../hooks/useConfirmedCancel';
-import useFetchResponseNotification from '../../hooks/useFetchResponseNotification';
-import CategoryLists from './components/CategoryLists';
+import useConfirmedCancel from '../../hooks/useConfirmedCancel'
+import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
+import CategoryLists from './components/CategoryLists'
 
-import DepartmentDetailContext from './context';
+import DepartmentDetailContext from './context'
 
-export const DepartmentDetailContainer = ({ categories, findByMain, subCategories }) => {
-  const { departmentId } = useParams();
-  const isExistingDepartment = departmentId !== undefined;
-  const { isLoading, isSuccess, data, error, get, patch } = useFetch();
-  const confirmedCancel = useConfirmedCancel(routes.departments);
-  const entityName = `Afdeling${data ? ` '${data.name}'` : ''}`;
-  const title = `${entityName} ${isExistingDepartment ? 'wijzigen' : 'toevoegen'}`;
+export const DepartmentDetailContainer = ({
+  categories,
+  findByMain,
+  subCategories,
+}) => {
+  const { departmentId } = useParams()
+  const isExistingDepartment = departmentId !== undefined
+  const { isLoading, isSuccess, data, error, get, patch } = useFetch()
+  const confirmedCancel = useConfirmedCancel(routes.departments)
+  const entityName = `Afdeling${data ? ` '${data.name}'` : ''}`
+  const title = `${entityName} ${
+    isExistingDepartment ? 'wijzigen' : 'toevoegen'
+  }`
 
   useFetchResponseNotification({
     entityName,
@@ -43,29 +49,32 @@ export const DepartmentDetailContainer = ({ categories, findByMain, subCategorie
     isLoading,
     isSuccess,
     redirectURL: routes.departments,
-  });
+  })
 
   const onSubmit = useCallback(
-    formData => {
-      patch(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`, formData);
+    (formData) => {
+      patch(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`, formData)
     },
     [departmentId, patch]
-  );
+  )
 
   useEffect(() => {
-    get(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`);
-  }, [get, departmentId]);
+    get(`${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`)
+  }, [get, departmentId])
 
-  const contextValue = useMemo(() => ({ categories, department: data, subCategories, findByMain }), [
-    categories,
-    data,
-    findByMain,
-    subCategories,
-  ]);
+  const contextValue = useMemo(
+    () => ({ categories, department: data, subCategories, findByMain }),
+    [categories, data, findByMain, subCategories]
+  )
 
   return (
     <Fragment>
-      <PageHeader title={title} BackLink={<BackLink to={routes.departments}>Terug naar overzicht</BackLink>} />
+      <PageHeader
+        title={title}
+        BackLink={
+          <BackLink to={routes.departments}>Terug naar overzicht</BackLink>
+        }
+      />
 
       {isLoading && <LoadingIndicator />}
 
@@ -90,22 +99,22 @@ export const DepartmentDetailContainer = ({ categories, findByMain, subCategorie
         </Fragment>
       )}
     </Fragment>
-  );
-};
+  )
+}
 
 DepartmentDetailContainer.propTypes = {
   categories: types.categoriesType,
   findByMain: PropTypes.func,
   subCategories: PropTypes.arrayOf(PropTypes.shape({})),
-};
+}
 
 const mapStateToProps = () =>
   createStructuredSelector({
     categories: makeSelectStructuredCategories,
     findByMain: makeSelectByMainCategory,
     subCategories: makeSelectSubCategories,
-  });
+  })
 
-const withConnect = connect(mapStateToProps);
+const withConnect = connect(mapStateToProps)
 
-export default compose(withConnect)(DepartmentDetailContainer);
+export default compose(withConnect)(DepartmentDetailContainer)

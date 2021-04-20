@@ -1,35 +1,51 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import isObject from 'lodash.isobject';
-import { themeColor, themeSpacing, RadioGroup } from '@amsterdam/asc-ui';
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import isObject from 'lodash.isobject'
+import { themeColor, RadioGroup } from '@amsterdam/asc-ui'
 
-import FormField from '../FormField';
-import RadioInput from '../RadioInput';
+import FormField from '../FormField'
+import RadioInput from '../RadioInput'
 
 const Info = styled.p`
   color: ${themeColor('tint', 'level5')};
-`;
+`
 
 const StyledRadioGroup = styled(RadioGroup)`
   margin-top: -6px; // Offset spacing introduced by asc-ui RadioGroup
-`;
+`
 
-const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) => {
-  const currentSelected = parent.meta.incident && parent.meta.incident[meta.name];
-  let info;
-  let label;
+const RadioInputGroup = ({
+  handler,
+  touched,
+  hasError,
+  meta,
+  parent,
+  getError,
+  validatorsOrOpts,
+}) => {
+  const currentSelected =
+    parent.meta.incident && parent.meta.incident[meta.name]
+  let info
+  let label
 
   if (currentSelected && meta.values && meta.values[currentSelected.id]) {
-    ({ info, value: label } = meta.values[currentSelected.id]);
+    ;({ info, value: label } = meta.values[currentSelected.id])
   }
 
-  if (!meta.isVisible) return null;
+  if (!meta.isVisible) return null
 
   return (
-    <FormField isFieldSet meta={meta} options={validatorsOrOpts} touched={touched} hasError={hasError} getError={getError}>
+    <FormField
+      isFieldSet
+      meta={meta}
+      options={validatorsOrOpts}
+      touched={touched}
+      hasError={hasError}
+      getError={getError}
+    >
       {meta.values && isObject(meta.values) && (
         <div>
           <StyledRadioGroup
@@ -41,7 +57,7 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
               <RadioInput
                 checked={handler().value.id === key}
                 id={key}
-                idAttr={`${meta.name}-${key + 1}`}
+                idAttr={`${meta.name}-${key}`}
                 info={value.info}
                 key={key}
                 label={value.value || value}
@@ -58,8 +74,8 @@ const RadioInputGroup = ({ handler, touched, hasError, meta, parent, getError, v
         </div>
       )}
     </FormField>
-  );
-};
+  )
+}
 
 RadioInputGroup.propTypes = {
   handler: PropTypes.func,
@@ -69,6 +85,6 @@ RadioInputGroup.propTypes = {
   meta: PropTypes.object,
   parent: PropTypes.object,
   validatorsOrOpts: PropTypes.object,
-};
+}
 
-export default RadioInputGroup;
+export default RadioInputGroup

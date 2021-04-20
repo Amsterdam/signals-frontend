@@ -13,23 +13,24 @@
  */
 const stateTokenGenerator = () => {
   // Backwards compatible with msCrypto in IE11
-  const cryptoLib = window.crypto ||
-  window.msCrypto; // eslint-disable-line no-undef
+  const cryptoLib = window.crypto || window.msCrypto // eslint-disable-line no-undef
 
   if (!cryptoLib) {
-    return '';
+    return ''
   }
 
   // Create an array of 16 8-bit unsigned integers
-  const list = new Uint8Array(16);
+  const list = new Uint8Array(16)
   // Populate the array with random values
-  cryptoLib.getRandomValues(list);
+  cryptoLib.getRandomValues(list)
 
   // Binary to Ascii (btoa) converts our (character representation
   // of) our binary data to an Ascii string
-  return btoa([...list] // convert to normal array
-    .map(n => String.fromCharCode(n)) // convert each integer to a character
-    .join('')); // convert to a string of characters
-};
+  return btoa(
+    [...list] // convert to normal array
+      .map((n) => String.fromCharCode(n)) // convert each integer to a character
+      .join('')
+  ) // convert to a string of characters
+}
 
-export default stateTokenGenerator;
+export default stateTokenGenerator
