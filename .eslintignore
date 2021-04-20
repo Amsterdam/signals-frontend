@@ -1,4 +1,5 @@
 build
 coverage
+dist
 e2e-tests
 node_modules

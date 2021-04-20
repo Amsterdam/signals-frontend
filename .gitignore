@@ -1,10 +1,10 @@
 # Don't check auto-generated stuff into git
-coverage
+.eslintcache
 build
+coverage
+dist
 node_modules
 stats.json
-.eslintcache
-dist
 
 # Local config
 /app.json
