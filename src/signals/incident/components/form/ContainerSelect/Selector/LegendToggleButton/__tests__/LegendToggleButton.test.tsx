@@ -1,26 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react';
+import React from 'react'
 
-import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react'
 
-import { withAppContext } from 'test/utils';
+import { withAppContext } from 'test/utils'
 
-import LegendToggleButton from '..';
-import type { LegendToggleButtonProps } from '../LegendToggleButton';
-import { MapPanelProvider } from '@amsterdam/arm-core';
-import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants';
+import { MapPanelProvider } from '@amsterdam/arm-core'
+import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
+import LegendToggleButton from '..'
+import type { LegendToggleButtonProps } from '../LegendToggleButton'
 
 describe('LegendToggleButton', () => {
   const props: LegendToggleButtonProps = {
     onClick: jest.fn(),
     isRenderingLegendPanel: true,
-  };
+  }
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should render panel variant', () => {
     render(
@@ -29,10 +29,10 @@ describe('LegendToggleButton', () => {
           <LegendToggleButton {...props} />
         </MapPanelProvider>
       )
-    );
+    )
 
-    expect(screen.getByRole('button').textContent).toBe('Legenda');
-  });
+    expect(screen.getByRole('button').textContent).toBe('Legenda')
+  })
 
   it('should render drawer variant', () => {
     render(
@@ -41,11 +41,11 @@ describe('LegendToggleButton', () => {
           <LegendToggleButton {...props} />
         </MapPanelProvider>
       )
-    );
+    )
 
-    expect(screen.getByRole('button')).toBeInTheDocument();
-    expect(screen.getByRole('button').textContent).toBe('Legenda');
-  });
+    expect(screen.getByRole('button')).toBeInTheDocument()
+    expect(screen.getByRole('button').textContent).toBe('Legenda')
+  })
 
   it('should handle click when panel is closed', () => {
     render(
@@ -54,12 +54,12 @@ describe('LegendToggleButton', () => {
           <LegendToggleButton {...props} />
         </MapPanelProvider>
       )
-    );
+    )
 
-    userEvent.click(screen.getByText('Legenda'));
+    userEvent.click(screen.getByText('Legenda'))
 
-    expect(props.onClick).toHaveBeenCalled();
-  });
+    expect(props.onClick).toHaveBeenCalled()
+  })
 
   it('should handle click when panel is open', () => {
     render(
@@ -68,10 +68,10 @@ describe('LegendToggleButton', () => {
           <LegendToggleButton {...props} />
         </MapPanelProvider>
       )
-    );
+    )
 
-    userEvent.click(screen.getByText('Legenda'));
+    userEvent.click(screen.getByText('Legenda'))
 
-    expect(props.onClick).toHaveBeenCalled();
-  });
-});
+    expect(props.onClick).toHaveBeenCalled()
+  })
+})

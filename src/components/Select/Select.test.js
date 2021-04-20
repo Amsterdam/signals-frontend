@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import React from 'react'
+import { render, fireEvent, act } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
 
-import Select from '.';
+import Select from '.'
 
 describe('<Select />', () => {
-  let props;
+  let props
 
   beforeEach(() => {
     props = {
@@ -20,29 +20,33 @@ describe('<Select />', () => {
       ],
       value: '*',
       label: 'Foo',
-    };
-  });
+    }
+  })
 
-  afterEach(() => { jest.resetAllMocks(); });
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
 
   it('should render correctly', () => {
-    const { container } = render(withAppContext(<Select {...props} />));
+    const { container } = render(withAppContext(<Select {...props} />))
 
-    const options = container.querySelectorAll('option');
-    expect(options).toHaveLength(props.options.length);
-    expect(options[0].textContent).toEqual('Alles');
-  });
+    const options = container.querySelectorAll('option')
+    expect(options).toHaveLength(props.options.length)
+    expect(options[0].textContent).toEqual('Alles')
+  })
 
   it('should call onChange prop', () => {
-    const onChangeMock = jest.fn();
-    const { container } = render(<Select {...props} onChange={onChangeMock} />);
+    const onChangeMock = jest.fn()
+    const { container } = render(<Select {...props} onChange={onChangeMock} />)
 
-    expect(onChangeMock).not.toHaveBeenCalled();
+    expect(onChangeMock).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.change(container.querySelector('select'), { target: { value: 'active' } });
-    });
+      fireEvent.change(container.querySelector('select'), {
+        target: { value: 'active' },
+      })
+    })
 
-    expect(onChangeMock).toHaveBeenCalledTimes(1);
-  });
-});
+    expect(onChangeMock).toHaveBeenCalledTimes(1)
+  })
+})

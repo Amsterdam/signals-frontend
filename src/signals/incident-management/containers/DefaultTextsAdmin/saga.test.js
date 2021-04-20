@@ -1,47 +1,54 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { testSaga } from 'redux-saga-test-plan';
-import { takeLatest } from 'redux-saga/effects';
-import * as Sentry from '@sentry/browser';
+import { testSaga } from 'redux-saga-test-plan'
+import { takeLatest } from 'redux-saga/effects'
+import * as Sentry from '@sentry/browser'
 
-import { authCall, authPostCall, getErrorMessage } from 'shared/services/api/api';
-import { VARIANT_ERROR, VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants';
-import * as actions from 'containers/App/actions';
-import { statusList } from 'signals/incident-management/definitions';
-import { store } from 'test/utils';
-import categoriesPrivateFixture from 'utils/__tests__/fixtures/categories_private.json';
-import { fetchCategoriesSuccess } from 'models/categories/actions';
-import { makeSelectSubCategories } from 'models/categories/selectors';
+import {
+  authCall,
+  authPostCall,
+  getErrorMessage,
+} from 'shared/services/api/api'
+import {
+  VARIANT_ERROR,
+  VARIANT_SUCCESS,
+  TYPE_LOCAL,
+} from 'containers/Notification/constants'
+import * as actions from 'containers/App/actions'
+import { statusList } from 'signals/incident-management/definitions'
+import { store } from 'test/utils'
+import categoriesPrivateFixture from 'utils/__tests__/fixtures/categories_private.json'
+import { fetchCategoriesSuccess } from 'models/categories/actions'
+import { makeSelectSubCategories } from 'models/categories/selectors'
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import watchDefaultTextsAdminSaga,
-{
+import CONFIGURATION from 'shared/services/configuration/configuration'
+import watchDefaultTextsAdminSaga, {
   fetchDefaultTexts,
   storeDefaultTexts,
-} from './saga';
-import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants';
+} from './saga'
+import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants'
 
 import {
   fetchDefaultTextsSuccess,
   fetchDefaultTextsError,
   storeDefaultTextsSuccess,
   storeDefaultTextsError,
-} from './actions';
+} from './actions'
 
-store.dispatch(fetchCategoriesSuccess(categoriesPrivateFixture));
+store.dispatch(fetchCategoriesSuccess(categoriesPrivateFixture))
 
-const subCategories = makeSelectSubCategories(store.getState());
+const subCategories = makeSelectSubCategories(store.getState())
 
 describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () => {
-  const requestURL = `${CONFIGURATION.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`;
-  const category_url = `${CONFIGURATION.CATEGORIES_ENDPOINT}afval/sub_categories/asbest-accu`;
+  const requestURL = `${CONFIGURATION.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`
+  const category_url = `${CONFIGURATION.CATEGORIES_ENDPOINT}afval/sub_categories/asbest-accu`
   const payload = {
     main_slug: 'afval',
     sub_slug: 'asbest-accu',
     state: 'm',
     category_url,
-  };
-  const action = { payload };
+  }
+  const action = { payload }
 
   it('should watch watchDefaultTextsAdminSaga', () => {
     testSaga(watchDefaultTextsAdminSaga)
@@ -51,8 +58,8 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         takeLatest(STORE_DEFAULT_TEXTS, storeDefaultTexts),
       ])
       .next()
-      .isDone();
-  });
+      .isDone()
+  })
 
   describe('fetchDefaultTexts', () => {
     it('should dispatch success', () => {
@@ -65,7 +72,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
           state: 'i',
           templates: [{ title: 'in behandeling', text: 'bar' }],
         },
-      ];
+      ]
 
       testSaga(fetchDefaultTexts, action)
         .next()
@@ -73,8 +80,8 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next(result)
         .put(fetchDefaultTextsSuccess(result[0].templates))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch success empty list with missing template', () => {
       const result = [
@@ -84,7 +91,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         {
           state: 'i',
         },
-      ];
+      ]
 
       testSaga(fetchDefaultTexts, action)
         .next()
@@ -92,38 +99,41 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next(result)
         .put(fetchDefaultTextsSuccess([]))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch error', () => {
-      const error = new Error('Something bad happened');
+      const error = new Error('Something bad happened')
       error.response = {
         status: 500,
-      };
+      }
 
       testSaga(fetchDefaultTexts, action)
         .next()
         .throw(error)
         .put(fetchDefaultTextsError('Internal server error'))
         .next()
-        .put(actions.showGlobalNotification({
-          title: getErrorMessage(error),
-          message: 'Het standaard teksten overzicht kon niet opgehaald worden',
-          variant: VARIANT_ERROR,
-          type: TYPE_LOCAL,
-        }))
+        .put(
+          actions.showGlobalNotification({
+            title: getErrorMessage(error),
+            message:
+              'Het standaard teksten overzicht kon niet opgehaald worden',
+            variant: VARIANT_ERROR,
+            type: TYPE_LOCAL,
+          })
+        )
         .next()
         .call([Sentry, 'captureException'], error)
         .next()
-        .isDone();
-    });
-  });
+        .isDone()
+    })
+  })
 
   describe('storeDefaultTexts', () => {
-    const sub_slug = 'asbest-accu';
-    const state = 'm';
-    const status = statusList.find(({ key }) => key === state);
-    const subcategory = subCategories.find(({ slug }) => slug === sub_slug);
+    const sub_slug = 'asbest-accu'
+    const state = 'm'
+    const status = statusList.find(({ key }) => key === state)
+    const subcategory = subCategories.find(({ slug }) => slug === sub_slug)
 
     const postAction = {
       type: 'STORE_DEFAULT_TEXTS',
@@ -137,7 +147,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
           templates: [],
         },
       },
-    };
+    }
 
     it('should dispatch success', () => {
       const result = [
@@ -149,7 +159,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
           state: 'i',
           templates: [{ title: 'in behandeling', text: 'bar' }],
         },
-      ];
+      ]
 
       testSaga(storeDefaultTexts, postAction)
         .next()
@@ -157,18 +167,25 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next(result)
         .put(storeDefaultTextsSuccess(result[0].templates))
         .next()
-        .put(actions.showGlobalNotification({
-          title: `1 Standaard tekst opgeslagen voor ${subcategory.value}, ${status.value}`,
-          variant: VARIANT_SUCCESS,
-          type: TYPE_LOCAL,
-        }))
+        .put(
+          actions.showGlobalNotification({
+            title: `1 Standaard tekst opgeslagen voor ${subcategory.value}, ${status.value}`,
+            variant: VARIANT_SUCCESS,
+            type: TYPE_LOCAL,
+          })
+        )
         .next()
-        .isDone();
+        .isDone()
 
-      const resultMoreThanOneTemplate = [{
-        state: 'm',
-        templates: [{ title: 'gemend', text: 'foo' }, { title: 'foo bar baz', text: 'qux' }],
-      }];
+      const resultMoreThanOneTemplate = [
+        {
+          state: 'm',
+          templates: [
+            { title: 'gemend', text: 'foo' },
+            { title: 'foo bar baz', text: 'qux' },
+          ],
+        },
+      ]
 
       testSaga(storeDefaultTexts, postAction)
         .next()
@@ -176,15 +193,17 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next(resultMoreThanOneTemplate)
         .put(storeDefaultTextsSuccess(resultMoreThanOneTemplate[0].templates))
         .next()
-        .put(actions.showGlobalNotification({
-          title: `2 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
-          variant: VARIANT_SUCCESS,
-          type: TYPE_LOCAL,
-        }))
+        .put(
+          actions.showGlobalNotification({
+            title: `2 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
+            variant: VARIANT_SUCCESS,
+            type: TYPE_LOCAL,
+          })
+        )
         .next()
-        .isDone();
+        .isDone()
 
-      const resultNoTemplates = [{}];
+      const resultNoTemplates = [{}]
 
       testSaga(storeDefaultTexts, postAction)
         .next()
@@ -192,14 +211,16 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next(resultNoTemplates)
         .put(storeDefaultTextsSuccess([]))
         .next()
-        .put(actions.showGlobalNotification({
-          title: `0 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
-          variant: VARIANT_SUCCESS,
-          type: TYPE_LOCAL,
-        }))
+        .put(
+          actions.showGlobalNotification({
+            title: `0 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
+            variant: VARIANT_SUCCESS,
+            type: TYPE_LOCAL,
+          })
+        )
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch success empty list with missing template', () => {
       const result = [
@@ -209,7 +230,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         {
           state: 'i',
         },
-      ];
+      ]
 
       testSaga(storeDefaultTexts, postAction)
         .next()
@@ -217,36 +238,40 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next(result)
         .put(storeDefaultTextsSuccess([]))
         .next()
-        .put(actions.showGlobalNotification({
-          title: `0 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
-          variant: VARIANT_SUCCESS,
-          type: TYPE_LOCAL,
-        }))
+        .put(
+          actions.showGlobalNotification({
+            title: `0 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
+            variant: VARIANT_SUCCESS,
+            type: TYPE_LOCAL,
+          })
+        )
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch error', () => {
-      const error = new Error('Something bad happened');
+      const error = new Error('Something bad happened')
       error.response = {
         status: 500,
-      };
+      }
 
       testSaga(storeDefaultTexts, postAction)
         .next()
         .throw(error)
         .put(storeDefaultTextsError('Internal server error'))
         .next()
-        .put(actions.showGlobalNotification({
-          title: getErrorMessage(error),
-          message: 'De standaard teksten konden niet opgeslagen worden',
-          variant: VARIANT_ERROR,
-          type: TYPE_LOCAL,
-        }))
+        .put(
+          actions.showGlobalNotification({
+            title: getErrorMessage(error),
+            message: 'De standaard teksten konden niet opgeslagen worden',
+            variant: VARIANT_ERROR,
+            type: TYPE_LOCAL,
+          })
+        )
         .next()
         .call([Sentry, 'captureException'], error)
         .next()
-        .isDone();
-    });
-  });
-});
+        .isDone()
+    })
+  })
+})

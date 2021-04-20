@@ -1,39 +1,53 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useCallback, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { useForm } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 
-import { Heading, themeSpacing } from '@amsterdam/asc-ui';
+import { Heading, themeSpacing } from '@amsterdam/asc-ui'
 
-import { directingDepartmentsType } from 'shared/types';
+import { directingDepartmentsType } from 'shared/types'
 
-import Button from 'components/Button';
-import TextArea from 'components/TextArea';
+import Button from 'components/Button'
+import TextArea from 'components/TextArea'
 
-import { StyledDefinitionList, StyledForm, StyledSubmitButton, FormWrapper } from '../../styled';
+import {
+  StyledDefinitionList,
+  StyledForm,
+  StyledSubmitButton,
+  FormWrapper,
+} from '../../styled'
 
-import IncidentSplitFormIncident from '../IncidentSplitFormIncident';
-import IncidentSplitRadioInput from '../IncidentSplitRadioInput';
+import IncidentSplitFormIncident from '../IncidentSplitFormIncident'
+import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
 
 export const StyledIncidentSplitRadioInput = styled(IncidentSplitRadioInput)`
   padding-bottom: ${themeSpacing(6)};
-`;
+`
 
-const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments, onSubmit, isSubmitting }) => {
-  const { handleSubmit, register, errors } = useForm();
+const IncidentSplitForm = ({
+  parentIncident,
+  subcategories,
+  directingDepartments,
+  onSubmit,
+  isSubmitting,
+}) => {
+  const { handleSubmit, register, errors } = useForm()
 
-  const history = useHistory();
+  const history = useHistory()
 
   const onCancel = useCallback(() => {
-    history.push(`/manage/incident/${parentIncident.id}`);
-  }, [history, parentIncident.id]);
+    history.push(`/manage/incident/${parentIncident.id}`)
+  }, [history, parentIncident.id])
 
   return (
     <FormWrapper>
-      <StyledForm onSubmit={handleSubmit(data => onSubmit(data))} data-testid="incidentSplitForm">
+      <StyledForm
+        onSubmit={handleSubmit((data) => onSubmit(data))}
+        data-testid="incidentSplitForm"
+      >
         <Heading>Deelmelding maken</Heading>
 
         <fieldset>
@@ -41,13 +55,19 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
 
           <StyledDefinitionList>
             <dt>Melding</dt>
-            <dd data-testid="incidentSplitFormParentIncidentId">{parentIncident.id}</dd>
+            <dd data-testid="incidentSplitFormParentIncidentId">
+              {parentIncident.id}
+            </dd>
 
             <dt>Status</dt>
-            <dd data-testid="incidentSplitFormStatusDisplayName">{parentIncident.statusDisplayName}</dd>
+            <dd data-testid="incidentSplitFormStatusDisplayName">
+              {parentIncident.statusDisplayName}
+            </dd>
 
             <dt>Subcategorie (verantwoordelijke afdeling)</dt>
-            <dd data-testid="incidentSplitFormSubcategoryDisplayName">{parentIncident.subcategoryDisplayName}</dd>
+            <dd data-testid="incidentSplitFormSubcategoryDisplayName">
+              {parentIncident.subcategoryDisplayName}
+            </dd>
           </StyledDefinitionList>
 
           <StyledIncidentSplitRadioInput
@@ -74,21 +94,35 @@ const IncidentSplitForm = ({ parentIncident, subcategories, directingDepartments
           />
         </fieldset>
 
-        <IncidentSplitFormIncident parentIncident={parentIncident} subcategories={subcategories} register={register} errors={errors} />
+        <IncidentSplitFormIncident
+          parentIncident={parentIncident}
+          subcategories={subcategories}
+          register={register}
+          errors={errors}
+        />
 
         <div>
-          <StyledSubmitButton data-testid="incidentSplitFormSubmitButton" variant="secondary" disabled={isSubmitting}>
+          <StyledSubmitButton
+            data-testid="incidentSplitFormSubmitButton"
+            variant="secondary"
+            disabled={isSubmitting}
+          >
             Opslaan
           </StyledSubmitButton>
 
-          <Button data-testid="incidentSplitFormCancelButton" variant="tertiary" onClick={onCancel} disabled={isSubmitting}>
+          <Button
+            data-testid="incidentSplitFormCancelButton"
+            variant="tertiary"
+            onClick={onCancel}
+            disabled={isSubmitting}
+          >
             Annuleren
           </Button>
         </div>
       </StyledForm>
     </FormWrapper>
-  );
-};
+  )
+}
 
 IncidentSplitForm.propTypes = {
   parentIncident: PropTypes.shape({
@@ -107,6 +141,6 @@ IncidentSplitForm.propTypes = {
   directingDepartments: directingDepartmentsType.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
-};
+}
 
-export default IncidentSplitForm;
+export default IncidentSplitForm

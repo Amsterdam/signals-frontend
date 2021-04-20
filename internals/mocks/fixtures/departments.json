@@ -157,10 +157,7 @@
       "name": "Openbare Orde & Veiligheid",
       "code": "OOV",
       "is_intern": true,
-      "category_names": [
-        "Ondermijning",
-        "Vermoeden"
-      ]
+      "category_names": ["Ondermijning", "Vermoeden"]
     },
     {
       "_links": {
@@ -325,9 +322,7 @@
       "name": "V&OR - VIS",
       "code": "VIS",
       "is_intern": true,
-      "category_names": [
-        "Verdeelkasten / bekabeling"
-      ]
+      "category_names": ["Verdeelkasten / bekabeling"]
     },
     {
       "_links": {
@@ -340,10 +335,7 @@
       "name": "V&OR OVL",
       "code": "OVL",
       "is_intern": true,
-      "category_names": [
-        "Lichthinder",
-        "Verlichting netstoring"
-      ]
+      "category_names": ["Lichthinder", "Verlichting netstoring"]
     },
     {
       "_links": {

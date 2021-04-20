@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useMemo, useState, useLayoutEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { ViewerContainer } from '@amsterdam/asc-ui';
-import { Zoom } from '@amsterdam/arm-core';
-import styled from 'styled-components';
-import { Map as MapComponent, TileLayer } from '@amsterdam/react-maps';
-import { useDispatch } from 'react-redux';
+import React, { useMemo, useState, useLayoutEffect, useCallback } from 'react'
+import PropTypes from 'prop-types'
+import { ViewerContainer } from '@amsterdam/asc-ui'
+import { Zoom } from '@amsterdam/arm-core'
+import styled from 'styled-components'
+import { Map as MapComponent, TileLayer } from '@amsterdam/react-maps'
+import { useDispatch } from 'react-redux'
 
-import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants';
-import { showGlobalNotification } from 'containers/App/actions';
-import configuration from 'shared/services/configuration/configuration';
-import GPSButton from '../GPSButton';
-import LocationMarker from '../LocationMarker';
+import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
+import { showGlobalNotification } from 'containers/App/actions'
+import configuration from 'shared/services/configuration/configuration'
+import GPSButton from '../GPSButton'
+import LocationMarker from '../LocationMarker'
 
 const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
-`;
+`
 
 const StyledMap = styled(MapComponent)`
   cursor: default;
@@ -29,14 +29,14 @@ const StyledMap = styled(MapComponent)`
   &.leaflet-drag-target {
     cursor: all-scroll;
   }
-`;
+`
 
 const StyledGPSButton = styled(GPSButton)`
   margin-bottom: 8px;
-`;
+`
 
 const Map = ({
-  children,
+  children = null,
   className = '',
   'data-testid': dataTestId = 'map-base',
   events = null,
@@ -45,15 +45,17 @@ const Map = ({
   mapOptions,
   setInstance = null,
 }) => {
-  const dispatch = useDispatch();
-  const [mapInstance, setMapInstance] = useState();
-  const [geolocation, setGeolocation] = useState();
-  const hasTouchCapabilities = 'ontouchstart' in window;
-  const showZoom = hasZoomControls && !hasTouchCapabilities;
-  const maxZoom = mapOptions.maxZoom || configuration.map.options.maxZoom;
-  const minZoom = mapOptions.minZoom || configuration.map.options.minZoom;
+  const dispatch = useDispatch()
+  const [mapInstance, setMapInstance] = useState()
+  const [geolocation, setGeolocation] = useState()
+  const hasTouchCapabilities = 'ontouchstart' in window
+  const showZoom = hasZoomControls && !hasTouchCapabilities
+  const maxZoom = mapOptions.maxZoom || configuration.map.options.maxZoom
+  const minZoom = mapOptions.minZoom || configuration.map.options.minZoom
   const options = useMemo(() => {
-    const center = geolocation ? [geolocation.latitude, geolocation.longitude] : mapOptions.center;
+    const center = geolocation
+      ? [geolocation.latitude, geolocation.longitude]
+      : mapOptions.center
 
     return {
       ...{ ...mapOptions, center },
@@ -61,25 +63,28 @@ const Map = ({
       minZoom,
       tap: false,
       scrollWheelZoom: false,
-    };
-  }, [mapOptions, geolocation, maxZoom, minZoom]);
+    }
+  }, [mapOptions, geolocation, maxZoom, minZoom])
 
   useLayoutEffect(() => {
-    if (!mapInstance || !geolocation || !geolocation.toggled) return;
+    if (!mapInstance || !geolocation || !geolocation.toggled) return
 
-    mapInstance.flyTo([geolocation.latitude, geolocation.longitude], maxZoom, { animate: true, noMoveStart: true });
-  }, [geolocation, mapInstance, maxZoom]);
+    mapInstance.flyTo([geolocation.latitude, geolocation.longitude], maxZoom, {
+      animate: true,
+      noMoveStart: true,
+    })
+  }, [geolocation, mapInstance, maxZoom])
 
   const captureInstance = useCallback(
-    instance => {
-      setMapInstance(instance);
+    (instance) => {
+      setMapInstance(instance)
 
       if (typeof setInstance === 'function') {
-        setInstance(instance);
+        setInstance(instance)
       }
     },
     [setInstance]
-  );
+  )
 
   return (
     <StyledMap
@@ -99,27 +104,29 @@ const Map = ({
           <div data-testid="mapZoom">
             {hasGPSControl && global.navigator.geolocation && (
               <StyledGPSButton
-                onLocationSuccess={location => {
-                  setGeolocation(location);
+                onLocationSuccess={(location) => {
+                  setGeolocation(location)
                 }}
                 onLocationError={() => {
                   dispatch(
                     showGlobalNotification({
                       variant: VARIANT_NOTICE,
                       title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
-                      message: 'Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.',
+                      message:
+                        'Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.',
                       type: TYPE_LOCAL,
                     })
-                  );
+                  )
                 }}
                 onLocationOutOfBounds={() => {
                   dispatch(
                     showGlobalNotification({
                       variant: VARIANT_NOTICE,
-                      title: 'Uw locatie valt buiten de kaart en is daardoor niet te zien',
+                      title:
+                        'Uw locatie valt buiten de kaart en is daardoor niet te zien',
                       type: TYPE_LOCAL,
                     })
-                  );
+                  )
                 }}
               />
             )}
@@ -130,10 +137,13 @@ const Map = ({
 
       {geolocation?.toggled && <LocationMarker geolocation={geolocation} />}
 
-      <TileLayer args={configuration.map.tiles.args} options={configuration.map.tiles.options} />
+      <TileLayer
+        args={configuration.map.tiles.args}
+        options={configuration.map.tiles.options}
+      />
     </StyledMap>
-  );
-};
+  )
+}
 
 Map.propTypes = {
   children: PropTypes.node,
@@ -161,6 +171,6 @@ Map.propTypes = {
    * useState function that sets a reference to the map instance
    */
   setInstance: PropTypes.func,
-};
+}
 
-export default Map;
+export default Map

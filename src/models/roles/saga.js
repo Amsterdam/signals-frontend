@@ -1,19 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { all, call, put, takeLatest } from 'redux-saga/effects';
-import * as Sentry from '@sentry/browser';
+import { all, call, put, takeLatest } from 'redux-saga/effects'
+import * as Sentry from '@sentry/browser'
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import { authCall, authPostCall, authPatchCall, getErrorMessage } from 'shared/services/api/api';
-import { showGlobalNotification } from 'containers/App/actions';
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants';
+import CONFIGURATION from 'shared/services/configuration/configuration'
+import {
+  authCall,
+  authPostCall,
+  authPatchCall,
+  getErrorMessage,
+} from 'shared/services/api/api'
+import { showGlobalNotification } from 'containers/App/actions'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 
 import {
   FETCH_ROLES,
   FETCH_PERMISSIONS,
   SAVE_ROLE,
   PATCH_ROLE,
-} from './constants';
+} from './constants'
 
 import {
   fetchRolesSuccess,
@@ -24,16 +29,16 @@ import {
   saveRoleError,
   patchRoleSuccess,
   patchRoleError,
-} from './actions';
+} from './actions'
 
 export function* fetchRoles() {
-  const requestURL = CONFIGURATION.ROLES_ENDPOINT;
+  const requestURL = CONFIGURATION.ROLES_ENDPOINT
 
   try {
-    const roles = yield call(authCall, requestURL);
-    yield put(fetchRolesSuccess(roles.results));
+    const roles = yield call(authCall, requestURL)
+    yield put(fetchRolesSuccess(roles.results))
   } catch (error) {
-    yield put(fetchRolesError());
+    yield put(fetchRolesError())
 
     yield put(
       showGlobalNotification({
@@ -42,20 +47,20 @@ export function* fetchRoles() {
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })
-    );
+    )
 
-    yield call([Sentry, 'captureException'], error);
+    yield call([Sentry, 'captureException'], error)
   }
 }
 
 export function* fetchPermissions() {
-  const requestURL = CONFIGURATION.PERMISSIONS_ENDPOINT;
+  const requestURL = CONFIGURATION.PERMISSIONS_ENDPOINT
 
   try {
-    const permissions = yield call(authCall, requestURL);
-    yield put(fetchPermissionsSuccess(permissions.results));
+    const permissions = yield call(authCall, requestURL)
+    yield put(fetchPermissionsSuccess(permissions.results))
   } catch (error) {
-    yield put(fetchPermissionsError());
+    yield put(fetchPermissionsError())
 
     yield put(
       showGlobalNotification({
@@ -64,20 +69,20 @@ export function* fetchPermissions() {
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })
-    );
+    )
 
-    yield call([Sentry, 'captureException'], error);
+    yield call([Sentry, 'captureException'], error)
   }
 }
 
 export function* saveRole(action) {
-  const requestURL = CONFIGURATION.ROLES_ENDPOINT;
-  const payload = action.payload;
+  const requestURL = CONFIGURATION.ROLES_ENDPOINT
+  const payload = action.payload
   try {
-    const role = yield call(authPostCall, requestURL, payload);
-    yield put(saveRoleSuccess(role));
+    const role = yield call(authPostCall, requestURL, payload)
+    yield put(saveRoleSuccess(role))
   } catch (error) {
-    yield put(saveRoleError());
+    yield put(saveRoleError())
 
     yield put(
       showGlobalNotification({
@@ -86,21 +91,21 @@ export function* saveRole(action) {
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })
-    );
+    )
 
-    yield call([Sentry, 'captureException'], error);
+    yield call([Sentry, 'captureException'], error)
   }
 }
 
 export function* patchRole(action) {
-  const payload = action.payload;
-  const requestURL = `${CONFIGURATION.ROLES_ENDPOINT}${payload.id}`;
+  const payload = action.payload
+  const requestURL = `${CONFIGURATION.ROLES_ENDPOINT}${payload.id}`
 
   try {
-    const role = yield call(authPatchCall, requestURL, payload);
-    yield put(patchRoleSuccess(role));
+    const role = yield call(authPatchCall, requestURL, payload)
+    yield put(patchRoleSuccess(role))
   } catch (error) {
-    yield put(patchRoleError());
+    yield put(patchRoleError())
 
     yield put(
       showGlobalNotification({
@@ -109,9 +114,9 @@ export function* patchRole(action) {
         variant: VARIANT_ERROR,
         type: TYPE_LOCAL,
       })
-    );
+    )
 
-    yield call([Sentry, 'captureException'], error);
+    yield call([Sentry, 'captureException'], error)
   }
 }
 
@@ -121,5 +126,5 @@ export default function* watchRolesSaga() {
     takeLatest(FETCH_PERMISSIONS, fetchPermissions),
     takeLatest(SAVE_ROLE, saveRole),
     takeLatest(PATCH_ROLE, patchRole),
-  ]);
+  ])
 }

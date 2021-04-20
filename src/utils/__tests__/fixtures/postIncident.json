@@ -21,10 +21,7 @@
     "stadsdeel": "A",
     "geometrie": {
       "type": "Point",
-      "coordinates": [
-        4.900631904602052,
-        52.37324119761923
-      ]
+      "coordinates": [4.900631904602052, 52.37324119761923]
     }
   },
   "text": "De container lijkt stuk",

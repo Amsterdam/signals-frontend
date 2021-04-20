@@ -10,7 +10,7 @@ export const bread = `<svg width="40px" height="40px" viewBox="0 0 40 40" versio
         </g>
     </g>
 </g>
-</svg>`;
+</svg>`
 
 export const gft = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-gft</title>
@@ -22,7 +22,7 @@ export const gft = `<svg width="40px" height="40px" viewBox="0 0 40 40" version=
         </g>
     </g>
 </g>
-</svg>`;
+</svg>`
 
 export const glas = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-glas</title>
@@ -34,7 +34,7 @@ export const glas = `<svg width="40px" height="40px" viewBox="0 0 40 40" version
         </g>
     </g>
 </g>
-</svg>`;
+</svg>`
 
 export const paper = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-paper</title>
@@ -46,7 +46,7 @@ export const paper = `<svg width="40px" height="40px" viewBox="0 0 40 40" versio
         </g>
     </g>
 </g>
-</svg>`;
+</svg>`
 
 export const plastic = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-plastic</title>
@@ -58,7 +58,7 @@ export const plastic = `<svg width="40px" height="40px" viewBox="0 0 40 40" vers
         </g>
     </g>
 </g>
-</svg>`;
+</svg>`
 
 export const rest = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-rest</title>
@@ -70,7 +70,7 @@ export const rest = `<svg width="40px" height="40px" viewBox="0 0 40 40" version
         </g>
     </g>
 </g>
-</svg>`;
+</svg>`
 
 export const select = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-select</title>
@@ -80,7 +80,7 @@ export const select = `<svg width="40px" height="40px" viewBox="0 0 40 40" versi
         <circle id="Oval-Copy" fill="#EC0000" cx="20" cy="20" r="6"></circle>
     </g>
 </g>
-</svg>`;
+</svg>`
 
 export const textile = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-textile</title>
@@ -92,7 +92,7 @@ export const textile = `<svg width="40px" height="40px" viewBox="0 0 40 40" vers
         </g>
     </g>
 </g>
-</svg>`;
+</svg>`
 
 export const unknown = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-unknown</title>
@@ -108,4 +108,4 @@ export const unknown = `<svg width="40px" height="40px" viewBox="0 0 40 40" vers
         </g>
     </g>
 </g>
-</svg>`;
+</svg>`

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import type { FunctionComponent } from 'react';
-import styled from 'styled-components';
-import { RadioGroup, Label } from '@amsterdam/asc-ui';
+import React from 'react'
+import type { FunctionComponent } from 'react'
+import styled from 'styled-components'
+import { RadioGroup, Label } from '@amsterdam/asc-ui'
 
-import RadioButton from 'components/RadioButton';
+import RadioButton from 'components/RadioButton'
 
 const FilterGroup = styled.div`
   position: relative;
@@ -13,7 +13,7 @@ const FilterGroup = styled.div`
   & + & {
     margin-top: 30px;
   }
-`;
+`
 
 const StyledLabel = styled(Label)`
   align-self: baseline;
@@ -21,42 +21,42 @@ const StyledLabel = styled(Label)`
   * {
     font-weight: normal;
   }
-`;
+`
 
 const StyledRadioGroup = styled(RadioGroup)`
   display: inline-flex;
-`;
+`
 
 interface Option {
-  key: string;
-  value: string;
+  key: string
+  value: string
 }
 
 interface RadioButtonOption extends Option {
-  name?: string;
+  name?: string
 }
 
 interface RadioButtonListProps {
   /** List of keys for elements that need to be checked by default */
-  defaultValue?: string;
+  defaultValue?: string
   /** When true, will disable all elements in the list */
-  disabled?: boolean;
-  error?: boolean;
+  disabled?: boolean
+  error?: boolean
   /** Text label for the radio button with the empty value */
-  emptySelectionLabel?: string;
+  emptySelectionLabel?: string
   /**
    * Value of the `name` attribute of the toggle box. This value is used to identify all children by without having
    * to select them all.
    */
-  groupName: string;
+  groupName: string
   /** When false, will only render the passed in options instead of having an extra radio button with an empty value */
-  hasEmptySelectionButton?: boolean;
-  id?: string;
-  onChange?: (groupName: string, option: RadioButtonOption) => void;
-  options: Option[];
+  hasEmptySelectionButton?: boolean
+  id?: string
+  onChange?: (groupName: string, option: RadioButtonOption) => void
+  options: Option[]
   /** Group label contents */
-  title?: string;
-  className?: string;
+  title?: string
+  className?: string
 }
 
 /**
@@ -76,26 +76,41 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
   id,
   ...rest
 }) => {
-  const radioOptions: RadioButtonOption[] = [...options];
+  const radioOptions: RadioButtonOption[] = [...options]
 
   if (hasEmptySelectionButton && emptySelectionLabel) {
-    radioOptions.unshift({ key: '', name: `${groupName}-empty`, value: emptySelectionLabel });
+    radioOptions.unshift({
+      key: '',
+      name: `${groupName}-empty`,
+      value: emptySelectionLabel,
+    })
   }
 
   return (
-    <FilterGroup className={className} >
+    <FilterGroup className={className}>
       {title && <Label data-testid="radioButtonListTitle" label={title} />}
 
-      <StyledRadioGroup name={groupName} disabled={disabled} error={error} role="radiogroup" id={id} {...rest}>
-        {radioOptions.map(option => (
-          <StyledLabel key={option.key || option.name} htmlFor={option.key || option.name} label={option.value}>
+      <StyledRadioGroup
+        name={groupName}
+        disabled={disabled}
+        error={error}
+        role="radiogroup"
+        id={id}
+        {...rest}
+      >
+        {radioOptions.map((option) => (
+          <StyledLabel
+            key={option.key || option.name}
+            htmlFor={option.key || option.name}
+            label={option.value}
+          >
             <RadioButton
               data-testid={`${groupName}-${option.key || option.name}`}
               checked={option.key === defaultValue}
-              id={option.key || option.name as string}
+              id={option.key || (option.name as string)}
               onChange={() => {
                 if (onChange) {
-                  onChange(groupName, option);
+                  onChange(groupName, option)
                 }
               }}
               value={option.key}
@@ -104,7 +119,7 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
         ))}
       </StyledRadioGroup>
     </FilterGroup>
-  );
-};
+  )
+}
 
-export default RadioButtonList;
+export default RadioButtonList

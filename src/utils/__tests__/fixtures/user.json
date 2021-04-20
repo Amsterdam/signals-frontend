@@ -352,7 +352,12 @@
   ],
   "profile": {
     "note": "een notitie",
-    "departments": ["Actie Service Centrum","Afval en Grondstoffen","CCA","FB"],
+    "departments": [
+      "Actie Service Centrum",
+      "Afval en Grondstoffen",
+      "CCA",
+      "FB"
+    ],
     "created_at": "2019-10-24T10:25:48.874301+02:00",
     "updated_at": "2019-10-24T10:25:48.874315+02:00"
   }

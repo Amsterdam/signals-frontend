@@ -1,11 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeColor, themeSpacing, Typography } from '@amsterdam/asc-ui';
-import PaginationItem from './components/PaginationItem';
-import { getPreviousIndex, getNextIndex, pageNumbersList, FILLER, NEXT, PREVIOUS } from './utils';
+import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { themeColor, themeSpacing, Typography } from '@amsterdam/asc-ui'
+import PaginationItem from './components/PaginationItem'
+import {
+  getPreviousIndex,
+  getNextIndex,
+  pageNumbersList,
+  FILLER,
+  NEXT,
+  PREVIOUS,
+} from './utils'
 
 const List = styled.ul`
   display: flex;
@@ -21,7 +28,7 @@ const List = styled.ul`
   li + li {
     margin-left: ${themeSpacing(3)};
   }
-`;
+`
 
 const CurrentPage = styled(Typography)`
   align-items: center;
@@ -32,25 +39,35 @@ const CurrentPage = styled(Typography)`
   padding: 0 ${themeSpacing(2)};
   font-family: avenir next w01, arial, sans-serif;
   font-size: inherit;
-`;
+`
 
 const Filler = styled(Typography)`
   margin: 0;
   padding: 0 ${themeSpacing(2)};
   font-family: avenir next w01, arial, sans-serif;
-`;
+`
 
 /**
  * Stateless component that renders pagination items
  */
-const Pagination = ({ className, currentPage, hrefPrefix, onClick, shouldPushToHistory, totalPages }) => {
-  const pagesInRange = useMemo(() => pageNumbersList(currentPage, totalPages), [currentPage, totalPages]);
+const Pagination = ({
+  className,
+  currentPage,
+  hrefPrefix,
+  onClick,
+  shouldPushToHistory,
+  totalPages,
+}) => {
+  const pagesInRange = useMemo(() => pageNumbersList(currentPage, totalPages), [
+    currentPage,
+    totalPages,
+  ])
 
   const items = useMemo(
     () =>
       pagesInRange.map((pageNum, index) => {
-        const prevIndex = getPreviousIndex(currentPage);
-        const nextIndex = getNextIndex(currentPage, totalPages);
+        const prevIndex = getPreviousIndex(currentPage)
+        const nextIndex = getNextIndex(currentPage, totalPages)
 
         switch (pageNum) {
           case PREVIOUS:
@@ -64,7 +81,7 @@ const Pagination = ({ className, currentPage, hrefPrefix, onClick, shouldPushToH
                 shouldPushToHistory={shouldPushToHistory}
                 to={`${hrefPrefix}${prevIndex}`}
               />
-            );
+            )
 
           case NEXT:
             return (
@@ -78,18 +95,21 @@ const Pagination = ({ className, currentPage, hrefPrefix, onClick, shouldPushToH
                 shouldPushToHistory={shouldPushToHistory}
                 to={`${hrefPrefix}${nextIndex}`}
               />
-            );
+            )
 
           case FILLER:
             return (
               // eslint-disable-next-line react/no-array-index-key
-              <Filler data-testid="pagination-filler" key={`${pageNum}${index}`}>
+              <Filler
+                data-testid="pagination-filler"
+                key={`${pageNum}${index}`}
+              >
                 ...
               </Filler>
-            );
+            )
 
           case currentPage:
-            return <CurrentPage key={pageNum}>{pageNum}</CurrentPage>;
+            return <CurrentPage key={pageNum}>{pageNum}</CurrentPage>
 
           default:
             return (
@@ -101,33 +121,40 @@ const Pagination = ({ className, currentPage, hrefPrefix, onClick, shouldPushToH
                 to={`${hrefPrefix}${pageNum}`}
                 label={pageNum}
               />
-            );
+            )
         }
       }),
-    [currentPage, hrefPrefix, onClick, pagesInRange, shouldPushToHistory, totalPages]
-  );
+    [
+      currentPage,
+      hrefPrefix,
+      onClick,
+      pagesInRange,
+      shouldPushToHistory,
+      totalPages,
+    ]
+  )
 
   if (totalPages <= 1) {
-    return null;
+    return null
   }
 
   return (
     <nav className={className} data-testid="pagination">
       <List>
-        {items.map(item => (
+        {items.map((item) => (
           <li key={item.key}>{item}</li>
         ))}
       </List>
     </nav>
-  );
-};
+  )
+}
 
 Pagination.defaultProps = {
   className: '',
   hrefPrefix: '',
   onClick: null,
   shouldPushToHistory: false,
-};
+}
 
 Pagination.propTypes = {
   /** @ignore */
@@ -146,6 +173,6 @@ Pagination.propTypes = {
   shouldPushToHistory: PropTypes.bool,
   /** total number of pages */
   totalPages: PropTypes.number.isRequired,
-};
+}
 
-export default Pagination;
+export default Pagination

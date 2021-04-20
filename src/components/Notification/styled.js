@@ -1,19 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import styled, { css } from 'styled-components';
-import { Button, Heading, Paragraph, themeSpacing, themeColor } from '@amsterdam/asc-ui';
-import { SITE_HEADER_BOTTOM_GAP_HEIGHT, SITE_HEADER_HEIGHT_TALL } from 'containers/SiteHeader/constants';
-import { ONCLOSE_TIMEOUT, VARIANT_ERROR, VARIANT_SUCCESS } from 'containers/Notification/constants';
+import styled, { css } from 'styled-components'
+import {
+  Button,
+  Heading,
+  Paragraph,
+  themeSpacing,
+  themeColor,
+} from '@amsterdam/asc-ui'
+import {
+  SITE_HEADER_BOTTOM_GAP_HEIGHT,
+  SITE_HEADER_HEIGHT_TALL,
+} from 'containers/SiteHeader/constants'
+import {
+  ONCLOSE_TIMEOUT,
+  VARIANT_ERROR,
+  VARIANT_SUCCESS,
+} from 'containers/Notification/constants'
 
 export const Wrapper = styled.div`
   background-color: ${({ theme, variant }) => {
     switch (variant) {
       case VARIANT_ERROR:
-        return themeColor('support', 'invalid')({ theme });
+        return themeColor('support', 'invalid')({ theme })
       case VARIANT_SUCCESS:
-        return themeColor('support', 'valid')({ theme });
+        return themeColor('support', 'valid')({ theme })
       default:
-        return themeColor('primary')({ theme });
+        return themeColor('primary')({ theme })
     }
   }};
 
@@ -22,7 +35,8 @@ export const Wrapper = styled.div`
   margin-left: 50vw;
   max-width: 1400px;
   min-height: ${SITE_HEADER_BOTTOM_GAP_HEIGHT}px;
-  position: ${({ top }) => (top === SITE_HEADER_HEIGHT_TALL ? 'absolute' : 'fixed')};
+  position: ${({ top }) =>
+    top === SITE_HEADER_HEIGHT_TALL ? 'absolute' : 'fixed'};
   top: ${({ top }) => top}px;
   transform: translateX(-50vw) translateY(0);
   transition-property: transform opacity;
@@ -61,7 +75,7 @@ export const Wrapper = styled.div`
   & > * {
     width: 100%;
   }
-`;
+`
 
 export const Title = styled(Heading).attrs({
   forwardedAs: 'h6',
@@ -70,30 +84,30 @@ export const Title = styled(Heading).attrs({
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   font-weight: normal;
   margin: ${({ hasMargin }) =>
-    hasMargin ?
-      css`
+    hasMargin
+      ? css`
           ${themeSpacing(2)} 0 0
-        ` :
-      0};
+        `
+      : 0};
 
   & + & {
     margin-top: ${themeSpacing(2)};
   }
-`;
+`
 
 export const Message = styled(Paragraph)`
   color: white;
   margin: 0 0 ${themeSpacing(2)};
   font-size: 16px;
-`;
+`
 
 export const CloseButton = styled(Button)`
   ${({ alignTop }) =>
-    alignTop ?
-      css`
+    alignTop
+      ? css`
           margin-top: ${themeSpacing(2)};
-        ` :
-      css`
+        `
+      : css`
           align-self: center;
         `}
 
@@ -107,4 +121,4 @@ export const CloseButton = styled(Button)`
   & svg path {
     fill: white !important;
   }
-`;
+`

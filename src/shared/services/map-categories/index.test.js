@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import mapCategories from '.';
+import mapCategories from '.'
 
 describe('The mapCategories service', () => {
   it('by default should return empty categories', () => {
@@ -8,8 +8,8 @@ describe('The mapCategories service', () => {
       main: [],
       sub: [],
       mainToSub: {},
-    });
-  });
+    })
+  })
 
   it('should map categories and subcategories', () => {
     expect(
@@ -131,6 +131,6 @@ describe('The mapCategories service', () => {
           },
         ],
       },
-    });
-  });
-});
+    })
+  })
+})

@@ -30,7 +30,8 @@ const me = {
         {
           _links: {
             self: {
-              href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/168',
+              href:
+                'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/168',
             },
           },
           _display:
@@ -43,7 +44,8 @@ const me = {
         {
           _links: {
             self: {
-              href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/110',
+              href:
+                'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/110',
             },
           },
           _display: 'signals | signal | Can read from SIA',
@@ -54,7 +56,8 @@ const me = {
         {
           _links: {
             self: {
-              href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/163',
+              href:
+                'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/163',
             },
           },
           _display: 'signals | signal | Can create notes for signals',
@@ -65,7 +68,8 @@ const me = {
         {
           _links: {
             self: {
-              href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/111',
+              href:
+                'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/111',
             },
           },
           _display: 'signals | signal | Can write to SIA',
@@ -80,7 +84,8 @@ const me = {
     {
       _links: {
         self: {
-          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/10',
+          href:
+            'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/10',
         },
       },
       _display: 'auth | groep | Can add group',
@@ -91,7 +96,8 @@ const me = {
     {
       _links: {
         self: {
-          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/11',
+          href:
+            'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/11',
         },
       },
       _display: 'auth | groep | Can change group',
@@ -102,7 +108,8 @@ const me = {
     {
       _links: {
         self: {
-          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/40',
+          href:
+            'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/40',
         },
       },
       _display: 'auth | groep | Can view group',
@@ -113,7 +120,8 @@ const me = {
     {
       _links: {
         self: {
-          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/39',
+          href:
+            'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/39',
         },
       },
       _display: 'auth | recht | Can view permission',
@@ -124,7 +132,8 @@ const me = {
     {
       _links: {
         self: {
-          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/13',
+          href:
+            'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/13',
         },
       },
       _display: 'auth | gebruiker | Can add user',
@@ -135,7 +144,8 @@ const me = {
     {
       _links: {
         self: {
-          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/14',
+          href:
+            'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/14',
         },
       },
       _display: 'auth | gebruiker | Can change user',
@@ -146,7 +156,8 @@ const me = {
     {
       _links: {
         self: {
-          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/41',
+          href:
+            'https://acc.api.data.amsterdam.nl/signals/v1/private/permissions/41',
         },
       },
       _display: 'auth | gebruiker | Can view user',
@@ -161,7 +172,7 @@ const me = {
     created_at: '2019-10-24T10:25:48.874301+02:00',
     updated_at: '2019-10-24T10:25:48.874315+02:00',
   },
-};
+}
 
 /**
  * Proxy configuration
@@ -229,4 +240,4 @@ const proxyConfig = [
       body: me,
     },
   },
-];
+]

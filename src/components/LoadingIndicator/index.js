@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import { Spinner as AscSpinner } from '@amsterdam/asc-assets';
-import { themeColor } from '@amsterdam/asc-ui';
+import React from 'react'
+import styled, { keyframes } from 'styled-components'
+import { Spinner as AscSpinner } from '@amsterdam/asc-assets'
+import { themeColor } from '@amsterdam/asc-ui'
 
 const rotate = keyframes`
   from {
@@ -13,7 +13,7 @@ const rotate = keyframes`
   to {
     transform: rotate(360deg);
   }
-`;
+`
 
 const Spinning = styled(AscSpinner)`
   position: absolute;
@@ -28,8 +28,10 @@ const Spinning = styled(AscSpinner)`
     transform-origin: 50% 50%;
     animation: ${rotate} 2s linear infinite;
   }
-`;
+`
 
-const LoadingIndicator = props => <Spinning data-testid="loadingIndicator" {...props} />;
+const LoadingIndicator = (props) => (
+  <Spinning data-testid="loadingIndicator" {...props} />
+)
 
-export default LoadingIndicator;
+export default LoadingIndicator

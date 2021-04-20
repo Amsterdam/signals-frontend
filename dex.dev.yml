@@ -9,22 +9,22 @@ web:
   http: 0.0.0.0:5556
 
 staticClients:
-- id: signals
-  redirectURIs:
-    - 'http://localhost:3001/manage/incidents'
-    - 'http://127.0.0.1:3001/manage/incidents'
-  name: 'Signals'
-  secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+  - id: signals
+    redirectURIs:
+      - 'http://localhost:3001/manage/incidents'
+      - 'http://127.0.0.1:3001/manage/incidents'
+    name: 'Signals'
+    secret: ZXhhbXBsZS1hcHAtc2VjcmV0
 
 enablePasswordDB: true
 
 staticPasswords:
-- email: "signals.admin@example.com"
-  hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"  # hash for: password
-  userID: "1"
-  username: "admin"
-  name: "Signals admin"
+  - email: 'signals.admin@example.com'
+    hash: '$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W' # hash for: password
+    userID: '1'
+    username: 'admin'
+    name: 'Signals admin'
 
 oauth2:
-  responseTypes: [ "token", "id_token" ]
+  responseTypes: ['token', 'id_token']
   skipApprovalScreen: true

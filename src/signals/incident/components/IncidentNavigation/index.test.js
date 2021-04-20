@@ -1,39 +1,39 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
-import { Wizard, Steps, Step } from 'react-albus';
+import React from 'react'
+import { render, fireEvent, act } from '@testing-library/react'
+import { Wizard, Steps, Step } from 'react-albus'
 
-import * as auth from 'shared/services/auth/auth';
-import { withAppContext, history } from 'test/utils';
-import wizardDefinition from 'signals/incident/definitions/wizard';
+import * as auth from 'shared/services/auth/auth'
+import { withAppContext, history } from 'test/utils'
+import wizardDefinition from 'signals/incident/definitions/wizard'
 
-import IncidentNavigation from '.';
+import IncidentNavigation from '.'
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
   ...jest.requireActual('shared/services/auth/auth'),
-}));
+}))
 
-jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
 
 const steps = Object.keys(wizardDefinition)
-  .filter(key => key !== 'opslaan')
-  .map(key => `incident/${key}`);
+  .filter((key) => key !== 'opslaan')
+  .map((key) => `incident/${key}`)
 
-const handleSubmit = jest.fn();
+const handleSubmit = jest.fn()
 
 const props = {
   meta: {
     wizard: wizardDefinition,
     handleSubmit,
   },
-};
+}
 
 describe('signals/incident/components/IncidentNavigation', () => {
   beforeEach(() => {
-    handleSubmit.mockReset();
-  });
+    handleSubmit.mockReset()
+  })
 
   it('renders a next button for the first step', () => {
     const { getByTestId, queryByTestId } = render(
@@ -46,11 +46,11 @@ describe('signals/incident/components/IncidentNavigation', () => {
           </Steps>
         </Wizard>
       )
-    );
+    )
 
-    expect(getByTestId('nextButton')).toBeInTheDocument();
-    expect(queryByTestId('previousButton')).not.toBeInTheDocument();
-  });
+    expect(getByTestId('nextButton')).toBeInTheDocument()
+    expect(queryByTestId('previousButton')).not.toBeInTheDocument()
+  })
 
   it('renders previous and next buttons for intermediate steps', () => {
     const { getByTestId } = render(
@@ -63,14 +63,14 @@ describe('signals/incident/components/IncidentNavigation', () => {
           </Steps>
         </Wizard>
       )
-    );
+    )
 
-    expect(getByTestId('nextButton')).toBeInTheDocument();
-    expect(getByTestId('previousButton')).toBeInTheDocument();
-  });
+    expect(getByTestId('nextButton')).toBeInTheDocument()
+    expect(getByTestId('previousButton')).toBeInTheDocument()
+  })
 
   it('renders a previous button for the last step', () => {
-    const lastStep = [...steps].reverse()[0];
+    const lastStep = [...steps].reverse()[0]
 
     const { getByTestId, queryByTestId } = render(
       withAppContext(
@@ -82,11 +82,11 @@ describe('signals/incident/components/IncidentNavigation', () => {
           </Steps>
         </Wizard>
       )
-    );
+    )
 
-    expect(queryByTestId('nextButton')).not.toBeInTheDocument();
-    expect(getByTestId('previousButton')).toBeInTheDocument();
-  });
+    expect(queryByTestId('nextButton')).not.toBeInTheDocument()
+    expect(getByTestId('previousButton')).toBeInTheDocument()
+  })
 
   it('does not render', () => {
     const { queryByTestId } = render(
@@ -99,10 +99,10 @@ describe('signals/incident/components/IncidentNavigation', () => {
           </Steps>
         </Wizard>
       )
-    );
+    )
 
-    expect(queryByTestId('incident-navigation')).not.toBeInTheDocument();
-  });
+    expect(queryByTestId('incident-navigation')).not.toBeInTheDocument()
+  })
 
   it('renders first step navigation for a step id that is not the correct format', () => {
     const { queryByTestId } = render(
@@ -115,10 +115,10 @@ describe('signals/incident/components/IncidentNavigation', () => {
           </Steps>
         </Wizard>
       )
-    );
+    )
 
-    expect(queryByTestId('incident-navigation')).not.toBeInTheDocument();
-  });
+    expect(queryByTestId('incident-navigation')).not.toBeInTheDocument()
+  })
 
   it('should call onSubmit', () => {
     const { getByTestId } = render(
@@ -131,14 +131,14 @@ describe('signals/incident/components/IncidentNavigation', () => {
           </Steps>
         </Wizard>
       )
-    );
+    )
 
-    expect(handleSubmit).not.toHaveBeenCalled();
+    expect(handleSubmit).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(getByTestId('nextButton'));
-    });
+      fireEvent.click(getByTestId('nextButton'))
+    })
 
-    expect(handleSubmit).toHaveBeenCalled();
-  });
-});
+    expect(handleSubmit).toHaveBeenCalled()
+  })
+})

@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeSpacing } from '@amsterdam/asc-ui';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { themeSpacing } from '@amsterdam/asc-ui'
 
-import Button from 'components/Button';
+import Button from 'components/Button'
 
-import IconEdit from '../../../../../../shared/images/icon-edit.svg';
+import IconEdit from '../../../../../../shared/images/icon-edit.svg'
 
 const StyledButton = styled(Button)`
   position: absolute;
   top: 0;
   right: 0;
   padding: ${themeSpacing(0, 1.5)};
-`;
+`
 
 const EditButton = ({ className, disabled, onClick, ...rest }) => (
   <StyledButton
@@ -26,17 +26,17 @@ const EditButton = ({ className, disabled, onClick, ...rest }) => (
     onClick={onClick}
     variant="application"
   />
-);
+)
 
 EditButton.defaultProps = {
   className: '',
   disabled: false,
-};
+}
 
 EditButton.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
-};
+}
 
-export default EditButton;
+export default EditButton

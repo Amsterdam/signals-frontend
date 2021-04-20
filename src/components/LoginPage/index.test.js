@@ -1,59 +1,61 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import React from 'react'
+import { render, fireEvent, screen } from '@testing-library/react'
 
-import configuration from 'shared/services/configuration/configuration';
-import { withAppContext } from 'test/utils';
-import * as auth from 'shared/services/auth/auth';
-import LoginPage from '.';
+import configuration from 'shared/services/configuration/configuration'
+import { withAppContext } from 'test/utils'
+import * as auth from 'shared/services/auth/auth'
+import LoginPage from '.'
 
-jest.mock('shared/services/configuration/configuration');
-jest.mock('shared/services/auth/auth');
+jest.mock('shared/services/configuration/configuration')
+jest.mock('shared/services/auth/auth')
 
 describe('components/LoginPage', () => {
   afterEach(() => {
-    jest.clearAllMocks();
-    configuration.__reset();
-  });
+    jest.clearAllMocks()
+    configuration.__reset()
+  })
 
   it('should render correctly', () => {
-    configuration.keycloak = {};
-    render(withAppContext(<LoginPage />));
+    configuration.keycloak = {}
+    render(withAppContext(<LoginPage />))
 
-    expect(screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')).toBeInTheDocument();
-    expect(screen.getByText('Inloggen')).toBeInTheDocument();
-    expect(screen.getByText('Inloggen ADW')).toBeInTheDocument();
-  });
+    expect(
+      screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')
+    ).toBeInTheDocument()
+    expect(screen.getByText('Inloggen')).toBeInTheDocument()
+    expect(screen.getByText('Inloggen ADW')).toBeInTheDocument()
+  })
 
   it('should render correctly without Keycloak', () => {
-    render(withAppContext(<LoginPage />));
+    render(withAppContext(<LoginPage />))
 
-    expect(screen.queryByText('Inloggen ADW')).not.toBeInTheDocument();
-  });
+    expect(screen.queryByText('Inloggen ADW')).not.toBeInTheDocument()
+  })
 
   it('should login on datapunt when Inloggen button is clicked', () => {
-    const loginSpy = jest.spyOn(auth, 'login');
-    const { getByText } = render(withAppContext(<LoginPage />));
-    const button = getByText('Inloggen').parentNode;
+    const loginSpy = jest.spyOn(auth, 'login')
+    const { getByText } = render(withAppContext(<LoginPage />))
+    const button = getByText('Inloggen').parentNode
 
-    expect(button.getAttribute('type')).toEqual('button');
+    expect(button.getAttribute('type')).toEqual('button')
 
-    fireEvent.click(button);
+    fireEvent.click(button)
 
-    expect(loginSpy).toHaveBeenCalledWith('datapunt');
-  });
+    expect(loginSpy).toHaveBeenCalledWith('datapunt')
+  })
 
   it('should login on keycloak when Inloggen ADW button is clicked', () => {
-    configuration.keycloak = {};
-    const loginSpy = jest.spyOn(auth, 'login');
-    render(withAppContext(<LoginPage />));
-    const button = screen.getByText('Inloggen ADW').parentNode;
+    configuration.keycloak = {}
+    const loginSpy = jest.spyOn(auth, 'login')
+    render(withAppContext(<LoginPage />))
+    const button = screen.getByText('Inloggen ADW').parentNode
 
-    expect(button.getAttribute('type')).toEqual('button');
+    expect(button.getAttribute('type')).toEqual('button')
 
-    fireEvent.click(button);
+    fireEvent.click(button)
 
-    expect(loginSpy).toHaveBeenCalledWith('keycloak');
-  });
-});
+    expect(loginSpy).toHaveBeenCalledWith('keycloak')
+  })
+})

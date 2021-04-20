@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
 
-import { StyledTR, StyledTD } from 'components/DataView/styled';
+import { StyledTR, StyledTD } from 'components/DataView/styled'
 
 const DataViewBody = ({
   data,
@@ -15,11 +15,11 @@ const DataViewBody = ({
   const dataColumnsMissing = useMemo(
     () => numberOfColumns - visibleColumns.length,
     [numberOfColumns, visibleColumns.length]
-  );
+  )
 
   return (
     <tbody data-testid="dataViewBody">
-      {data.map(row => (
+      {data.map((row) => (
         <StyledTR
           key={JSON.stringify(row)}
           data-item-id={primaryKeyColumn && row[primaryKeyColumn]}
@@ -35,17 +35,21 @@ const DataViewBody = ({
               {row[column]}
             </StyledTD>
           ))}
-          {dataColumnsMissing > 0 && <StyledTD colSpan={dataColumnsMissing > 1 ? dataColumnsMissing : undefined} />}
+          {dataColumnsMissing > 0 && (
+            <StyledTD
+              colSpan={dataColumnsMissing > 1 ? dataColumnsMissing : undefined}
+            />
+          )}
         </StyledTR>
       ))}
     </tbody>
-  );
-};
+  )
+}
 
 DataViewBody.defaultProps = {
   onItemClick: null,
   primaryKeyColumn: undefined,
-};
+}
 
 DataViewBody.propTypes = {
   /** Array of data to be displayed */
@@ -58,6 +62,6 @@ DataViewBody.propTypes = {
   primaryKeyColumn: PropTypes.string,
   /** Row click callback handler */
   onItemClick: PropTypes.func,
-};
+}
 
-export default DataViewBody;
+export default DataViewBody

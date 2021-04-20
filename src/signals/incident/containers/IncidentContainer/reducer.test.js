@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { has, fromJS } from 'immutable';
-import incidentContainerReducer, { initialState } from './reducer';
+import { has, fromJS } from 'immutable'
+import incidentContainerReducer, { initialState } from './reducer'
 
 import {
   UPDATE_INCIDENT,
@@ -16,12 +16,14 @@ import {
   GET_QUESTIONS_SUCCESS,
   RESET_EXTRA_STATE,
   REMOVE_QUESTION_DATA,
-} from './constants';
+} from './constants'
 
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
   it('returns the initial state', () => {
-    expect(incidentContainerReducer(undefined, {})).toEqual(fromJS(initialState));
-  });
+    expect(incidentContainerReducer(undefined, {})).toEqual(
+      fromJS(initialState)
+    )
+  })
 
   it('default wizard state should contain date, time, and priority', () => {
     expect(initialState.get('incident').toJS()).toEqual(
@@ -41,8 +43,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         subcategory: '',
         handling_message: '',
       })
-    );
-  });
+    )
+  })
 
   describe('UPDATE_INCIDENT', () => {
     it('sets new properties and keeps the old ones', () => {
@@ -65,9 +67,9 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           category: 'bar',
           subcategory: 'foo',
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('RESET_INCIDENT', () => {
     it('sets new properties and keeps the old ones', () => {
@@ -82,9 +84,9 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             type: RESET_INCIDENT,
           }
         )
-      ).toEqual(initialState);
-    });
-  });
+      ).toEqual(initialState)
+    })
+  })
 
   describe('CREATE_INCIDENT', () => {
     it('resets error and loading and id', () => {
@@ -98,17 +100,17 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incident: {
           id: null,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('CREATE_INCIDENT_SUCCESS', () => {
-    const handling_message = 'baz';
-    const id = 666;
+    const handling_message = 'baz'
+    const id = 666
     const category = {
       main_slug: 'foo',
       sub_slug: 'bar',
-    };
+    }
     it('sets incident and loading and id but keeps the handling_message', () => {
       expect(
         incidentContainerReducer(initialState, {
@@ -127,9 +129,9 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           category,
           handling_message,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('CREATE_INCIDENT_ERROR', () => {
     it('sets error and loading', () => {
@@ -140,9 +142,9 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
       ).toEqual({
         error: true,
         loading: false,
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('Classification ', () => {
     const payload = {
@@ -150,8 +152,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
       subcategory: 'onderhoud-stoep-straat-en-fietspad',
       handling_message: 'the handling message',
       classification: null,
-    };
-    const { category, subcategory, handling_message, classification } = payload;
+    }
+    const { category, subcategory, handling_message, classification } = payload
 
     describe('GET_CLASSIFICATION', () => {
       it('resets error and loading and id', () => {
@@ -162,15 +164,18 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         ).toEqual({
           incident: {},
           loadingClassification: true,
-        });
-      });
-    });
+        })
+      })
+    })
 
     describe('GET_CLASSIFICATION_SUCCESS', () => {
       const intermediateState = initialState.set(
         'incident',
-        initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
-      );
+        initialState
+          .get('incident')
+          .set('extra_something', 'foo bar')
+          .set('extra_something_else', 'baz qux')
+      )
 
       it('sets the classification properties', () => {
         expect(
@@ -192,64 +197,79 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           },
           loadingClassification: false,
           classificationPrediction: classification,
-        });
-      });
+        })
+      })
 
       it('removes all extra_ props', () => {
         const newState = incidentContainerReducer(intermediateState, {
           type: GET_CLASSIFICATION_SUCCESS,
           payload,
-        });
+        })
 
-        expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
-        expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
-      });
+        expect(has(newState.get('incident'), 'extra_something')).toEqual(false)
+        expect(has(newState.get('incident'), 'extra_something_else')).toEqual(
+          false
+        )
+      })
 
       it('only removes all extra_ props when category has changed', () => {
-        const type = GET_CLASSIFICATION_SUCCESS;
+        const type = GET_CLASSIFICATION_SUCCESS
 
-        const newState = incidentContainerReducer(intermediateState, { type, payload }).toJS();
-        newState.incident.extra_something = 'qux';
+        const newState = incidentContainerReducer(intermediateState, {
+          type,
+          payload,
+        }).toJS()
+        newState.incident.extra_something = 'qux'
 
-        const updatedState = incidentContainerReducer(fromJS(newState), { type, payload });
+        const updatedState = incidentContainerReducer(fromJS(newState), {
+          type,
+          payload,
+        })
 
-        expect(has(updatedState.get('incident'), 'extra_something')).toEqual(true);
+        expect(has(updatedState.get('incident'), 'extra_something')).toEqual(
+          true
+        )
 
         const changedPayload = {
           ...payload,
           category: 'zork',
           subcategory: 'zork',
-        };
+        }
 
-        const updatedStateDiff = incidentContainerReducer(updatedState, { type, payload: changedPayload });
+        const updatedStateDiff = incidentContainerReducer(updatedState, {
+          type,
+          payload: changedPayload,
+        })
 
-        expect(has(updatedStateDiff.get('incident'), 'extra_something')).toEqual(false);
-      });
+        expect(
+          has(updatedStateDiff.get('incident'), 'extra_something')
+        ).toEqual(false)
+      })
 
       it('only changes the category when this is not modified by the user', () => {
-        const type = GET_CLASSIFICATION_SUCCESS;
+        const type = GET_CLASSIFICATION_SUCCESS
         const classificationPrediction = {
           id: 'tork',
           name: 'tork',
           slug: 'tork',
-        };
+        }
 
         const newPrediction = {
           ...payload,
           category: 'zork',
           subcategory: 'zork',
-        };
+        }
 
-        const testState = initialState.toJS();
-        testState.incident.category = payload;
-        testState.classificationPrediction = classificationPrediction;
+        const testState = initialState.toJS()
+        testState.incident.category = payload
+        testState.classificationPrediction = classificationPrediction
         const newState = incidentContainerReducer(fromJS(testState), {
           type,
           payload: newPrediction,
-        }).toJS();
-        expect(newState.incident.category.slug).toEqual(payload.slug);
-      });
-    });
+        }).toJS()
+        expect(newState.incident.category.slug).toEqual(payload.slug)
+      })
+    })
 
     describe('GET_CLASSIFICATION_ERROR', () => {
       it('sets category ', () => {
@@ -272,9 +292,9 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           },
           loadingClassification: false,
           classificationPrediction: null,
-        });
-      });
-    });
+        })
+      })
+    })
 
     describe('SET_CLASSIFICATION', () => {
       it('sets category and disables the predictions', () => {
@@ -296,10 +316,10 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             handling_message,
           },
           usePredictions: false,
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  })
 
   describe('GET_QUESTIONS_SUCCESS', () => {
     it('sets questions', () => {
@@ -323,40 +343,50 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             key1: {},
           },
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('REMOVE_QUESTION_DATA', () => {
     it('returns reset state', () => {
       const intermediateState = initialState.set(
         'incident',
-        initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
-      );
+        initialState
+          .get('incident')
+          .set('extra_something', 'foo bar')
+          .set('extra_something_else', 'baz qux')
+      )
 
       const newState = incidentContainerReducer(intermediateState, {
         type: REMOVE_QUESTION_DATA,
         payload: ['extra_something'],
-      });
+      })
 
-      expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
-      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(true);
-    });
-  });
+      expect(has(newState.get('incident'), 'extra_something')).toEqual(false)
+      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(
+        true
+      )
+    })
+  })
 
   describe('RESET_EXTRA_STATE', () => {
     const intermediateState = initialState.set(
       'incident',
-      initialState.get('incident').set('extra_something', 'foo bar').set('extra_something_else', 'baz qux')
-    );
+      initialState
+        .get('incident')
+        .set('extra_something', 'foo bar')
+        .set('extra_something_else', 'baz qux')
+    )
 
     it('returns partially reset state', () => {
       const newState = incidentContainerReducer(intermediateState, {
         type: RESET_EXTRA_STATE,
-      });
+      })
 
-      expect(has(newState.get('incident'), 'extra_something')).toEqual(false);
-      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(false);
-    });
-  });
-});
+      expect(has(newState.get('incident'), 'extra_something')).toEqual(false)
+      expect(has(newState.get('incident'), 'extra_something_else')).toEqual(
+        false
+      )
+    })
+  })
+})
