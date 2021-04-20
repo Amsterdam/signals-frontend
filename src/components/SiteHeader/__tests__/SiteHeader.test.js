@@ -420,19 +420,27 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
+    rerender(
+      withAppContext(
+        <SiteHeader showItems={{ settings: true, users: true, groups: true }} />
+      )
+    )
+
     expect(queryByText('Instellingen')).toBeInTheDocument()
     expect(queryByText('Gebruikers')).toBeInTheDocument()
     expect(queryByText('Rollen')).toBeInTheDocument()
     expect(queryByText('Afdelingen')).not.toBeInTheDocument()
     expect(queryByText('Subcategorieën')).not.toBeInTheDocument()
 
-    expect(queryByText('Instellingen')).toBeInTheDocument()
-    expect(queryByText('Gebruikers')).toBeInTheDocument()
-    expect(queryByText('Rollen')).toBeInTheDocument()
-    expect(queryByText('Afdelingen')).not.toBeInTheDocument()
-    expect(queryByText('Categorieën')).not.toBeInTheDocument()
-
     unmount()
+
+    rerender(
+      withAppContext(
+        <SiteHeader
+          showItems={{ settings: true, departments: true, categories: true }}
+        />
+      )
+    )
 
     expect(queryByText('Instellingen')).toBeInTheDocument()
     expect(queryByText('Gebruikers')).not.toBeInTheDocument()
