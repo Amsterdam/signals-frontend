@@ -8,7 +8,6 @@ import Select from 'components/Select'
 import type { FormInputProps } from 'types/reactive-form'
 import FormField from '../FormField'
 
-
 export type SelectInputProps = FormInputProps<{ id: string } | undefined>
 
 // This types will be obsolete when the components/Select will be converted to typescript
