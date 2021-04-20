@@ -15,7 +15,7 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
     <div
       className="text-area-input__control"
     >
-      <[object Object]
+      <ForwardRef
         data-testid="name"
         id="formname"
         infoText="0/300 tekens"
@@ -44,7 +44,7 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
     <div
       className="text-area-input__control"
     >
-      <[object Object]
+      <ForwardRef
         data-testid="name"
         id="formname"
         infoText="4/300 tekens"
@@ -73,7 +73,7 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
     <div
       className="text-area-input__control"
     >
-      <[object Object]
+      <ForwardRef
         data-testid="name"
         id="formname"
         infoText={false}
