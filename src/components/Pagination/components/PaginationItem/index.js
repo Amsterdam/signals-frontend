@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
+import { Link } from 'react-router-dom'
 import {
   Button,
   Icon,
   Link as AscLink,
   themeColor,
   themeSpacing,
-} from '@amsterdam/asc-ui';
-import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets';
+} from '@amsterdam/asc-ui'
+import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
 
-import { NEXT, PREVIOUS } from '../../utils';
+import { NEXT, PREVIOUS } from '../../utils'
 
 const StyledItem = styled(AscLink)`
   align-items: center;
@@ -45,13 +45,13 @@ const StyledItem = styled(AscLink)`
     }
   }
 
-  ${props =>
+  ${(props) =>
     props['data-isnav'] &&
     css`
       font-family: Avenir Next LT W01 Demi, arial, sans-serif;
     `}
 
-  ${props =>
+  ${(props) =>
     props['data-isnav'] &&
     props['data-pagenum'] === PREVIOUS &&
     css`
@@ -62,7 +62,7 @@ const StyledItem = styled(AscLink)`
       }
     `}
 
-  ${props =>
+  ${(props) =>
     props['data-isnav'] &&
     props['data-pagenum'] === NEXT &&
     css`
@@ -72,7 +72,7 @@ const StyledItem = styled(AscLink)`
         margin-left: ${themeSpacing(1)};
       }
     `}
-`;
+`
 
 const PaginationItem = ({
   shouldPushToHistory,
@@ -85,20 +85,20 @@ const PaginationItem = ({
   const anchorProps = {
     as: Link,
     to,
-  };
+  }
   const buttonProps = {
     as: Button,
     variant: 'textButton',
-  };
+  }
   // setting props as data- attributes, because React will complain about invalid HTML attributes otherwise
   const commonProps = {
     'data-isnav': isNav,
     'data-pagenum': pageNum,
     'data-testid': isNav ? `pagination-${pageNum.toLowerCase()}` : null,
     onClick,
-  };
+  }
 
-  const props = shouldPushToHistory ? anchorProps : buttonProps;
+  const props = shouldPushToHistory ? anchorProps : buttonProps
 
   return (
     <StyledItem {...commonProps} {...props}>
@@ -113,19 +113,19 @@ const PaginationItem = ({
 
           {pageNum === PREVIOUS && label}
         </Fragment>
-      ) :
+      ) : (
         label
-      }
+      )}
     </StyledItem>
-  );
-};
+  )
+}
 
 PaginationItem.defaultProps = {
   isNav: false,
   onClick: null,
   shouldPushToHistory: false,
   to: '',
-};
+}
 
 PaginationItem.propTypes = {
   /** When true, will apply different styling for navigation items (like next and prev) */
@@ -143,6 +143,6 @@ PaginationItem.propTypes = {
   shouldPushToHistory: PropTypes.bool,
   /** Target URL */
   to: PropTypes.string,
-};
+}
 
-export default PaginationItem;
+export default PaginationItem

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
-import reducer, { initialState } from '../reducer';
+import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
+import reducer, { initialState } from '../reducer'
 
 import {
   RESET,
@@ -15,148 +15,148 @@ import {
   SET_NOTE_KEYWORD,
   SET_REFRESH,
   SET_SAVE_BUTTON_LABEL,
-} from '../constants';
+} from '../constants'
 
 describe('signals/incident-management/components/FilterForm/reducer', () => {
   const state = {
     ...initialState,
     foo: 'bar',
-  };
+  }
 
   it('should return the state', () => {
-    expect(reducer(state, {})).toEqual(state);
-  });
+    expect(reducer(state, {})).toEqual(state)
+  })
 
   it('should handle RESET', () => {
-    expect(reducer(state, { type: RESET })).toEqual(initialState);
-  });
+    expect(reducer(state, { type: RESET })).toEqual(initialState)
+  })
 
   it('should handle SET_ADDRESS', () => {
-    const address_text = 'Weesperstraat 113';
+    const address_text = 'Weesperstraat 113'
     const stateWithAddress = {
       ...state,
       options: {
         ...state.options,
         address_text,
       },
-    };
+    }
 
     expect(
       reducer(state, { type: SET_ADDRESS, payload: address_text })
-    ).toEqual(stateWithAddress);
-  });
+    ).toEqual(stateWithAddress)
+  })
 
   it('should handle SET_NOTE_KEYWORD', () => {
-    const note_keyword = 'testnote';
+    const note_keyword = 'testnote'
     const stateWithNoteKeyword = {
       ...state,
       options: {
         ...state.options,
         note_keyword,
       },
-    };
+    }
 
     expect(
       reducer(state, { type: SET_NOTE_KEYWORD, payload: note_keyword })
-    ).toEqual(stateWithNoteKeyword);
-  });
+    ).toEqual(stateWithNoteKeyword)
+  })
 
   it('should handle SET_NAME', () => {
-    const name = 'Everything urgent in the past week';
+    const name = 'Everything urgent in the past week'
     const stateWithName = {
       ...state,
       filter: {
         ...state.filter,
         name,
       },
-    };
+    }
 
     expect(reducer(state, { type: SET_NAME, payload: name })).toEqual(
       stateWithName
-    );
-  });
+    )
+  })
 
   it('should handle SET_REFRESH', () => {
-    const refresh = true;
+    const refresh = true
     const stateWithRefresh = {
       ...state,
       filter: {
         ...state.filter,
         refresh,
       },
-    };
+    }
 
     expect(reducer(state, { type: SET_REFRESH, payload: refresh })).toEqual(
       stateWithRefresh
-    );
-  });
+    )
+  })
 
   it('should handle SET_DATE', () => {
-    const date = { created_before: '2020-01-30' };
+    const date = { created_before: '2020-01-30' }
     const stateWithDate = {
       ...state,
       options: {
         ...state.options,
         ...date,
       },
-    };
+    }
 
     expect(reducer(state, { type: SET_DATE, payload: date })).toEqual(
       stateWithDate
-    );
-  });
+    )
+  })
 
   it('should handle SET_GROUP_OPTIONS', () => {
-    const options = subCategories.filter(({ _links }) => _links['sia:parent'].public.endsWith('afval'));
+    const options = subCategories.filter(({ _links }) =>
+      _links['sia:parent'].public.endsWith('afval')
+    )
     const stateWithGroupOptions = {
       ...state,
       options: {
         ...state.options,
         ...options,
       },
-    };
+    }
 
     expect(
       reducer(state, { type: SET_GROUP_OPTIONS, payload: options })
-    ).toEqual(stateWithGroupOptions);
-  });
+    ).toEqual(stateWithGroupOptions)
+  })
 
   it('should handle SET_SAVE_BUTTON_LABEL', () => {
     const stateWithSaveButtonLabel = {
       ...state,
       submitBtnLabel: SAVE_SUBMIT_BUTTON_LABEL,
-    };
+    }
 
     expect(
       reducer(state, {
         type: SET_SAVE_BUTTON_LABEL,
         payload: true,
       })
-    ).toEqual(stateWithSaveButtonLabel);
+    ).toEqual(stateWithSaveButtonLabel)
 
     expect(
       reducer(stateWithSaveButtonLabel, {
         type: SET_SAVE_BUTTON_LABEL,
         payload: false,
       })
-    ).toEqual(state);
-  });
+    ).toEqual(state)
+  })
 
   describe('handle categories', () => {
-    const mainCatSlug = 'afval';
-    const mainCategory = mainCategories.find(
-      ({ slug }) => slug === mainCatSlug
-    );
+    const mainCatSlug = 'afval'
+    const mainCategory = mainCategories.find(({ slug }) => slug === mainCatSlug)
     const subs = subCategories.filter(
       ({ parentKey }) => parentKey === mainCategory.key
-    );
+    )
     const stateWithSubcategories = {
       ...state,
       options: {
         ...state.options,
         category_slug: subs,
       },
-    };
+    }
 
     const stateWithMainCategory = {
       ...state,
@@ -164,7 +164,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         ...state.options,
         maincategory_slug: [mainCategory],
       },
-    };
+    }
 
     const stateWithAllCategories = {
       ...state,
@@ -173,7 +173,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         maincategory_slug: [mainCategory],
         category_slug: subs.slice(0, 3),
       },
-    };
+    }
 
     it('should handle SET_MAIN_CATEGORY', () => {
       // setting a main category should remove all correspoding subcategories from the state
@@ -185,7 +185,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
             isToggled: true,
           },
         })
-      ).toEqual(stateWithMainCategory);
+      ).toEqual(stateWithMainCategory)
 
       expect(
         reducer(stateWithSubcategories, {
@@ -195,7 +195,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
             isToggled: false,
           },
         })
-      ).toEqual(state);
+      ).toEqual(state)
 
       expect(
         reducer(stateWithAllCategories, {
@@ -205,8 +205,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
             isToggled: false,
           },
         })
-      ).toEqual(state);
-    });
+      ).toEqual(state)
+    })
 
     it('should handle SET_CATEGORIES', () => {
       // setting a category means that a single category has been selected and that the
@@ -219,7 +219,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
             subCategories: subs,
           },
         })
-      ).toEqual(stateWithSubcategories);
+      ).toEqual(stateWithSubcategories)
 
       expect(
         reducer(stateWithAllCategories, {
@@ -229,7 +229,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
             subCategories: subs,
           },
         })
-      ).toEqual(stateWithSubcategories);
-    });
-  });
-});
+      ).toEqual(stateWithSubcategories)
+    })
+  })
+})

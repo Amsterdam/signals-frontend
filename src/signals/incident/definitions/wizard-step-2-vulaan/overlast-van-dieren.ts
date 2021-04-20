@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 const overlastVanDieren = {
   extra_dieren_text: {
@@ -19,6 +19,6 @@ Let op: u kunt met dit formulier een melding doen van:
     },
     render: FIELD_TYPE_MAP.plain_text,
   },
-};
+}
 
-export default overlastVanDieren;
+export default overlastVanDieren

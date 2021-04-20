@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import React, { lazy, Suspense } from 'react';
-import { Row, Column } from '@amsterdam/asc-ui';
+import React, { lazy, Suspense } from 'react'
+import { Row, Column } from '@amsterdam/asc-ui'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
-const OverviewMap = lazy(() => import('components/OverviewMap'));
+const OverviewMap = lazy(() => import('components/OverviewMap'))
 
 export const IncidentOverviewContainer = () => (
   <Row>
@@ -15,6 +15,6 @@ export const IncidentOverviewContainer = () => (
       </Suspense>
     </Column>
   </Row>
-);
+)
 
-export default IncidentOverviewContainer;
+export default IncidentOverviewContainer

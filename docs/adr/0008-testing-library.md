@@ -9,7 +9,7 @@ Date: 2020-10-27
 
 ## Conventions
 
-We are already using the [Testing Library](https://testing-library.com/). Some insights on how to use the testing library have come to light, thought. These insights are explained by the developer of the testing library in the article *[Common mistakes with React Testing Library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)*. Let us use these conventions as explained in his article.
+We are already using the [Testing Library](https://testing-library.com/). Some insights on how to use the testing library have come to light, thought. These insights are explained by the developer of the testing library in the article _[Common mistakes with React Testing Library](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)_. Let us use these conventions as explained in his article.
 
 ## Refactoring plan
 

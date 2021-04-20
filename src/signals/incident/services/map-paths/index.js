@@ -1,27 +1,29 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import forEach from 'lodash.foreach';
-import set from 'lodash.set';
+import forEach from 'lodash.foreach'
+import set from 'lodash.set'
 
-import configuration from 'shared/services/configuration/configuration';
-import getStepControls from '../get-step-controls';
-import convertValue from '../convert-value';
+import configuration from 'shared/services/configuration/configuration'
+import getStepControls from '../get-step-controls'
+import convertValue from '../convert-value'
 
 const mapPaths = (params, incident, wizard) => {
   const category_url = incident
-    ? new URL(`${configuration.CATEGORIES_ENDPOINT}${incident.category}/sub_categories/${incident.subcategory}`).pathname
-    : '';
+    ? new URL(
+        `${configuration.CATEGORIES_ENDPOINT}${incident.category}/sub_categories/${incident.subcategory}`
+      ).pathname
+    : ''
 
-  forEach(wizard, step => {
-    const controls = getStepControls(step, incident);
-    let mapMerge = {};
+  forEach(wizard, (step) => {
+    const controls = getStepControls(step, incident)
+    let mapMerge = {}
 
     forEach(controls, (control, name) => {
-      const value = incident[name];
-      const meta = control.meta;
+      const value = incident[name]
+      const meta = control.meta
 
       if (meta && meta.isVisible && meta.pathMerge) {
-        const answer = convertValue(value);
+        const answer = convertValue(value)
         if (answer || answer === 0) {
           mapMerge = {
             ...mapMerge,
@@ -34,17 +36,17 @@ const mapPaths = (params, incident, wizard) => {
                 answer,
               },
             ],
-          };
+          }
         }
       }
-    });
+    })
 
     forEach(mapMerge, (value, key) => {
-      set(params, key, value);
-    });
-  });
+      set(params, key, value)
+    })
+  })
 
-  return params || {};
-};
+  return params || {}
+}
 
-export default mapPaths;
+export default mapPaths

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import categories from 'utils/__tests__/fixtures/categories_structured.json';
+import categories from 'utils/__tests__/fixtures/categories_structured.json'
 
-import { incoming, outgoing } from '../mapCategories';
-import { initialState } from '../CategoryLists/reducer';
+import { incoming, outgoing } from '../mapCategories'
+import { initialState } from '../CategoryLists/reducer'
 
-const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub);
+const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub)
 
 describe('signals/settings/departments/Detail/components', () => {
   const departmentCategories = [
@@ -108,19 +108,19 @@ describe('signals/settings/departments/Detail/components', () => {
       is_responsible: true,
       can_view: true,
     },
-  ];
+  ]
 
-  const getMatching = index =>
+  const getMatching = (index) =>
     subCategories.find(
       ({
         _links: {
           self: { public: publicUrl },
         },
       }) => publicUrl === departmentCategories[index].category._links.self.href
-    );
-  const boomstob = getMatching(0);
-  const containerKapot = getMatching(1);
-  const containerVol = getMatching(2);
+    )
+  const boomstob = getMatching(0)
+  const containerKapot = getMatching(1)
+  const containerVol = getMatching(2)
 
   const expectedIncoming = {
     can_view: {
@@ -131,15 +131,17 @@ describe('signals/settings/departments/Detail/components', () => {
       'openbaar-groen-en-water': [],
       afval: [containerKapot, containerVol],
     },
-  };
+  }
 
   it('should format incoming data', () => {
-    expect(incoming([], subCategories)).toEqual(initialState);
+    expect(incoming([], subCategories)).toEqual(initialState)
 
-    expect(incoming(departmentCategories, subCategories)).toEqual(expectedIncoming);
+    expect(incoming(departmentCategories, subCategories)).toEqual(
+      expectedIncoming
+    )
 
-    const departmentCategoriesWithMismatch = [...departmentCategories];
-    departmentCategoriesWithMismatch[0].category._links.self.href = 'foo bar';
+    const departmentCategoriesWithMismatch = [...departmentCategories]
+    departmentCategoriesWithMismatch[0].category._links.self.href = 'foo bar'
 
     expect(incoming(departmentCategoriesWithMismatch, subCategories)).toEqual({
       can_view: {
@@ -148,8 +150,8 @@ describe('signals/settings/departments/Detail/components', () => {
       is_responsible: {
         afval: [containerKapot, containerVol],
       },
-    });
-  });
+    })
+  })
 
   it('should format outgoing data', () => {
     const expectedOutgoing = {
@@ -168,8 +170,8 @@ describe('signals/settings/departments/Detail/components', () => {
           is_responsible: true,
         },
       ],
-    };
+    }
 
-    expect(outgoing(expectedIncoming)).toEqual(expectedOutgoing);
-  });
-});
+    expect(outgoing(expectedIncoming)).toEqual(expectedOutgoing)
+  })
+})

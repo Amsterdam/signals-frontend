@@ -1,76 +1,76 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { call } from 'redux-saga/effects';
-import request from 'utils/request';
-import { getAccessToken } from 'shared/services/auth/auth';
+import { call } from 'redux-saga/effects'
+import request from 'utils/request'
+import { getAccessToken } from 'shared/services/auth/auth'
 
-export const generateParams = data =>
+export const generateParams = (data) =>
   Object.entries(data)
-    .filter(pair => pair[1])
-    .map(pair =>
+    .filter((pair) => pair[1])
+    .map((pair) =>
       Array.isArray(pair[1]) === true
         ? pair[1]
-          .filter(val => val)
-          .map(val => `${pair[0]}=${val}`)
-          .join('&')
+            .filter((val) => val)
+            .map((val) => `${pair[0]}=${val}`)
+            .join('&')
         : pair.map(encodeURIComponent).join('=')
     )
-    .join('&');
+    .join('&')
 
 export function* authCall(url, params, authorizationToken) {
   const headers = {
     accept: 'application/json',
-  };
+  }
 
   if (authorizationToken) {
-    headers.Authorization = `Bearer ${authorizationToken}`;
+    headers.Authorization = `Bearer ${authorizationToken}`
   } else {
-    const token = getAccessToken();
+    const token = getAccessToken()
 
     if (token) {
-      headers.Authorization = `Bearer ${token}`;
+      headers.Authorization = `Bearer ${token}`
     }
   }
 
   const options = {
     method: 'GET',
     headers,
-  };
-  const fullUrl = `${url}${params ? `?${generateParams(params)}` : ''}`;
-  return yield call(request, fullUrl, options);
+  }
+  const fullUrl = `${url}${params ? `?${generateParams(params)}` : ''}`
+  return yield call(request, fullUrl, options)
 }
 
 export function* authCallWithPayload(url, params, method) {
   const headers = {
     accept: 'application/json',
     'Content-Type': 'application/json',
-  };
+  }
 
-  const token = getAccessToken();
+  const token = getAccessToken()
   if (token) {
-    headers.Authorization = `Bearer ${token}`;
+    headers.Authorization = `Bearer ${token}`
   }
 
   const options = {
     method,
     headers,
     body: JSON.stringify(params),
-  };
+  }
 
-  const fullUrl = `${url}`;
-  return yield call(request, fullUrl, options);
+  const fullUrl = `${url}`
+  return yield call(request, fullUrl, options)
 }
 
 export function* authPostCall(url, params) {
-  return yield call(authCallWithPayload, url, params, 'POST');
+  return yield call(authCallWithPayload, url, params, 'POST')
 }
 
 export function* authDeleteCall(url, params) {
-  return yield call(authCallWithPayload, url, params, 'DELETE');
+  return yield call(authCallWithPayload, url, params, 'DELETE')
 }
 
 export function* authPatchCall(url, params) {
-  return yield call(authCallWithPayload, url, params, 'PATCH');
+  return yield call(authCallWithPayload, url, params, 'PATCH')
 }
 
 export function* postCall(url, params) {
@@ -80,9 +80,9 @@ export function* postCall(url, params) {
     headers: {
       'Content-Type': 'application/json',
     },
-  };
+  }
 
-  return yield call(request, url, options);
+  return yield call(request, url, options)
 }
 
 export const errorMessageDictionary = {
@@ -96,7 +96,7 @@ export const errorMessageDictionary = {
   429: 'Er zijn teveel verzoeken verstuurd',
   500: 'Interne fout op de server. Probeer het nogmaals',
   503: 'Server is op dit moment niet beschikbaar. Probeer het nogmaals',
-};
+}
 
 /**
  * Get an error message based on an error's status code
@@ -104,11 +104,17 @@ export const errorMessageDictionary = {
  * @returns {String}
  */
 export const getErrorMessage = (error, defaultErrorMessage = '') => {
-  const status = error?.response?.status || error?.status;
+  const status = error?.response?.status || error?.status
 
   if (!status) {
-    return error.message || defaultErrorMessage || errorMessageDictionary.default;
+    return (
+      error.message || defaultErrorMessage || errorMessageDictionary.default
+    )
   }
 
-  return errorMessageDictionary[status] || defaultErrorMessage || errorMessageDictionary.default;
-};
+  return (
+    errorMessageDictionary[status] ||
+    defaultErrorMessage ||
+    errorMessageDictionary.default
+  )
+}

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import { Row, Column, themeColor } from '@amsterdam/asc-ui';
-import Button from 'components/Button';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
+import { Row, Column, themeColor } from '@amsterdam/asc-ui'
+import Button from 'components/Button'
 
-export const FORM_FOOTER_HEIGHT = 66;
+export const FORM_FOOTER_HEIGHT = 66
 
 export const FooterWrapper = styled.footer`
   background: ${themeColor('tint', 'level1')};
@@ -25,34 +25,34 @@ export const FooterWrapper = styled.footer`
       transform: translate(-50%);
       z-index: 1;
     `}
-`;
+`
 
 export const ButtonContainer = styled(Column)`
   justify-content: flex-start;
-`;
+`
 
 const StyledButton = styled(Button)`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-`;
+`
 
 export const SubmitButton = styled(StyledButton).attrs({
   color: 'secondary',
 })`
   margin-right: 15px;
-`;
+`
 
 export const ResetButton = styled(StyledButton)`
   background-color: ${themeColor('tint', 'level1')};
   margin-right: auto;
-`;
+`
 
 export const CancelButton = styled(StyledButton).attrs({
   color: 'bright',
 })`
   background-color: #b4b4b4;
-`;
+`
 
 const FormFooter = ({
   cancelBtnLabel,
@@ -69,7 +69,11 @@ const FormFooter = ({
     <Row hasMargin={!inline}>
       <ButtonContainer span={12}>
         {resetBtnLabel && (
-          <ResetButton data-testid="resetBtn" onClick={onResetForm} type="reset">
+          <ResetButton
+            data-testid="resetBtn"
+            onClick={onResetForm}
+            type="reset"
+          >
             {resetBtnLabel}
           </ResetButton>
         )}
@@ -87,14 +91,18 @@ const FormFooter = ({
         )}
 
         {cancelBtnLabel && (
-          <CancelButton data-testid="cancelBtn" onClick={onCancel} type="button">
+          <CancelButton
+            data-testid="cancelBtn"
+            onClick={onCancel}
+            type="button"
+          >
             {cancelBtnLabel}
           </CancelButton>
         )}
       </ButtonContainer>
     </Row>
   </FooterWrapper>
-);
+)
 
 FormFooter.defaultProps = {
   cancelBtnLabel: '',
@@ -106,7 +114,7 @@ FormFooter.defaultProps = {
   canSubmitForm: true,
   resetBtnLabel: '',
   submitBtnLabel: '',
-};
+}
 
 FormFooter.propTypes = {
   cancelBtnLabel: PropTypes.string,
@@ -119,6 +127,6 @@ FormFooter.propTypes = {
   canSubmitForm: PropTypes.bool,
   resetBtnLabel: PropTypes.string,
   submitBtnLabel: PropTypes.string,
-};
+}
 
-export default FormFooter;
+export default FormFooter

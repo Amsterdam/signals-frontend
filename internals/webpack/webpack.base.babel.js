@@ -1,22 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-const path = require('path');
-const webpack = require('webpack');
-const pkgDir = require('pkg-dir');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const pkgDir = require('pkg-dir')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
+const CopyPlugin = require('copy-webpack-plugin')
 
-const devMode = process.env.NODE_ENV !== 'production';
-const __rootdir = pkgDir.sync();
+const devMode = process.env.NODE_ENV !== 'production'
+const __rootdir = pkgDir.sync()
 
 const esModules = [
   path.resolve(__rootdir, 'node_modules/@amsterdam/asc-assets'),
   path.resolve(__rootdir, 'node_modules/@amsterdam/asc-ui'),
-];
+]
 
-module.exports = options => ({
+module.exports = (options) => ({
   mode: options.mode,
   entry: options.entry,
   output: {
@@ -47,7 +48,8 @@ module.exports = options => ({
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: (resourcePath, context) => `${path.relative(path.dirname(resourcePath), context)}/`,
+              publicPath: (resourcePath, context) =>
+                `${path.relative(path.dirname(resourcePath), context)}/`,
             },
           },
           'css-loader',
@@ -131,7 +133,8 @@ module.exports = options => ({
       PROXY: JSON.stringify(process.env.PROXY) || false,
       GIT_BRANCH: JSON.stringify(process.env.GIT_BRANCH) || 'dummy',
       BUILD_ENV: JSON.stringify(process.env.BUILD_ENV) || 'development',
-      ENABLE_SERVICEWORKER: JSON.stringify(process.env.ENABLE_SERVICEWORKER) || '1',
+      ENABLE_SERVICEWORKER:
+        JSON.stringify(process.env.ENABLE_SERVICEWORKER) || '1',
     }),
 
     new MiniCssExtractPlugin({
@@ -142,11 +145,18 @@ module.exports = options => ({
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
 
-    new CopyPlugin({ patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }] }),
+    new CopyPlugin({
+      patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }],
+    }),
 
     new ForkTsCheckerWebpackPlugin({
       typescript: {
-        diagnosticOptions: { syntactic: true, semantic: true, declaration: false, global: false },
+        diagnosticOptions: {
+          syntactic: true,
+          semantic: true,
+          declaration: false,
+          global: false,
+        },
       },
     }),
 
@@ -165,4 +175,4 @@ module.exports = options => ({
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
-});
+})

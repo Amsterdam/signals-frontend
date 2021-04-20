@@ -1,16 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { expectSaga, testSaga } from 'redux-saga-test-plan';
-import * as matchers from 'redux-saga-test-plan/matchers';
-import { call, select, takeLatest, take } from 'redux-saga/effects';
-import { throwError } from 'redux-saga-test-plan/providers';
-import { push } from 'connected-react-router/immutable';
+import { expectSaga, testSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
+import { call, select, takeLatest, take } from 'redux-saga/effects'
+import { throwError } from 'redux-saga-test-plan/providers'
+import { push } from 'connected-react-router/immutable'
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import incidentsJSON from 'utils/__tests__/fixtures/incidents.json';
-import { authCall, authDeleteCall, authPatchCall, authPostCall } from 'shared/services/api/api';
-import { makeSelectSearchQuery } from 'containers/App/selectors';
-import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants';
+import CONFIGURATION from 'shared/services/configuration/configuration'
+import incidentsJSON from 'utils/__tests__/fixtures/incidents.json'
+import {
+  authCall,
+  authDeleteCall,
+  authPatchCall,
+  authPostCall,
+} from 'shared/services/api/api'
+import { makeSelectSearchQuery } from 'containers/App/selectors'
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
 import watchIncidentManagementSaga, {
   fetchProxy,
   doSaveFilter,
@@ -23,7 +28,7 @@ import watchIncidentManagementSaga, {
   updateFilter,
   fetchIncidents,
   searchIncidents,
-} from '../saga';
+} from '../saga'
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
@@ -41,7 +46,7 @@ import {
   PAGE_CHANGED,
   ORDERING_CHANGED,
   PATCH_INCIDENT_SUCCESS,
-} from '../constants';
+} from '../constants'
 import {
   filterSaveFailed,
   filterSaveSuccess,
@@ -61,8 +66,8 @@ import {
   applyFilterRefresh,
   requestIncidentsError,
   requestIncidents,
-} from '../actions';
-import { makeSelectActiveFilter, makeSelectFilterParams } from '../selectors';
+} from '../actions'
+import { makeSelectActiveFilter, makeSelectFilterParams } from '../selectors'
 
 describe('signals/incident-management/saga', () => {
   it('should watchIncidentManagementSaga', () => {
@@ -94,39 +99,39 @@ describe('signals/incident-management/saga', () => {
       .race([call(refreshIncidents), take(APPLY_FILTER_REFRESH_STOP)])
       .finish()
       .next()
-      .isDone();
-  });
+      .isDone()
+  })
 
   describe('fetch proxy', () => {
     it('should call fetchIncidents', () =>
       expectSaga(fetchProxy)
         .provide([[select(makeSelectSearchQuery), undefined]])
         .call(fetchIncidents)
-        .run());
+        .run())
 
     it('should call searchIncidents', () => {
-      const searchQuery = 'stoeptegels';
-      const action = { payload: searchQuery };
+      const searchQuery = 'stoeptegels'
+      const action = { payload: searchQuery }
 
       return expectSaga(fetchProxy, action)
         .provide([[select(makeSelectSearchQuery), searchQuery]])
         .call(searchIncidents, action)
-        .run();
-    });
-  });
+        .run()
+    })
+  })
 
   describe('fetch incidents', () => {
     it('should fetchIncidents success', () => {
-      const filter = { name: 'filter', refresh: false };
-      const page = 2;
-      const ordering = '-created_at';
-      const incidents = [{}, {}];
-      const params = { test: 'test' };
+      const filter = { name: 'filter', refresh: false }
+      const page = 2
+      const ordering = '-created_at'
+      const incidents = [{}, {}]
+      const params = { test: 'test' }
       const filterParams = {
         page,
         ordering,
         ...params,
-      };
+      }
 
       return expectSaga(fetchIncidents)
         .provide([
@@ -136,11 +141,11 @@ describe('signals/incident-management/saga', () => {
         ])
         .select(makeSelectActiveFilter)
         .put(requestIncidentsSuccess(incidents))
-        .run();
-    });
+        .run()
+    })
 
     it('should stop and start filter refresh', () => {
-      const filter = { name: 'filter', refresh: true };
+      const filter = { name: 'filter', refresh: true }
 
       return expectSaga(fetchIncidents)
         .provide([
@@ -150,12 +155,12 @@ describe('signals/incident-management/saga', () => {
         .select(makeSelectActiveFilter)
         .put(applyFilterRefreshStop())
         .put(applyFilterRefresh())
-        .run();
-    });
+        .run()
+    })
 
     it('should dispatch fetchIncidents error', () => {
-      const message = '404 Not Found';
-      const error = new Error(message);
+      const message = '404 Not Found'
+      const error = new Error(message)
 
       return expectSaga(fetchIncidents)
         .provide([
@@ -165,8 +170,8 @@ describe('signals/incident-management/saga', () => {
         .select(makeSelectFilterParams)
         .call.like(authCall)
         .put(requestIncidentsError(message))
-        .run();
-    });
+        .run()
+    })
 
     it('should fetch incidents after page change', () =>
       expectSaga(watchIncidentManagementSaga)
@@ -176,7 +181,7 @@ describe('signals/incident-management/saga', () => {
         ])
         .put(requestIncidentsSuccess([]))
         .dispatch({ type: PAGE_CHANGED, payload: 4 })
-        .silentRun());
+        .silentRun())
 
     it('should fetch incidents after sort change', () =>
       expectSaga(watchIncidentManagementSaga)
@@ -189,13 +194,13 @@ describe('signals/incident-management/saga', () => {
           type: ORDERING_CHANGED,
           payload: 'incident-id-in-asc-order',
         })
-        .silentRun());
-  });
+        .silentRun())
+  })
 
   describe('search incidents', () => {
     it('should dispatch search incidents success', () => {
-      const q = 'Here be dragons';
-      const action = { type: ORDERING_CHANGED };
+      const q = 'Here be dragons'
+      const action = { type: ORDERING_CHANGED }
 
       return expectSaga(searchIncidents, action)
         .provide([
@@ -208,16 +213,16 @@ describe('signals/incident-management/saga', () => {
         .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
         .not.put(push('/manage/incidents'))
         .put(searchIncidentsSuccess(incidentsJSON))
-        .run();
-    });
+        .run()
+    })
 
     it('should dispatch success in case of a 500 error status', () => {
-      const q = 'Here be dragons';
-      const message = 'Internal server error';
-      const error = new Error(message);
+      const q = 'Here be dragons'
+      const message = 'Internal server error'
+      const error = new Error(message)
       error.response = {
         status: 500,
-      };
+      }
 
       return expectSaga(searchIncidents, q)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
@@ -225,43 +230,43 @@ describe('signals/incident-management/saga', () => {
         .call.like(authCall)
         .put(push('/manage/incidents'))
         .put(searchIncidentsSuccess({ count: 0, results: [] }))
-        .run();
-    });
+        .run()
+    })
 
     it('should dispatch fetchIncidents error', () => {
-      const q = 'Here be dragons';
-      const message = '404 Not Found';
-      const error = new Error(message);
+      const q = 'Here be dragons'
+      const message = '404 Not Found'
+      const error = new Error(message)
       error.response = {
         status: 404,
-      };
+      }
 
       return expectSaga(searchIncidents, q)
         .provide([[matchers.call.fn(authCall), throwError(error)]])
         .call.like(authCall)
         .put(searchIncidentsError(message))
-        .run();
-    });
-  });
+        .run()
+    })
+  })
 
   describe('incident refresh', () => {
     it('should NOT refresh incidents periodically', () => {
       const filter = {
         name: 'Foo bar baz',
-      };
+      }
 
       return expectSaga(refreshIncidents, 100)
         .provide([[select(makeSelectActiveFilter), filter]])
         .select(makeSelectActiveFilter)
         .not.put(requestIncidents({ filter }))
-        .silentRun(150);
-    });
+        .silentRun(150)
+    })
 
     it('should refresh incidents periodically', () => {
       const filter = {
         name: 'Foo bar baz',
         refresh: true,
-      };
+      }
 
       return expectSaga(refreshIncidents, 100)
         .provide([[select(makeSelectActiveFilter), filter]])
@@ -270,13 +275,13 @@ describe('signals/incident-management/saga', () => {
         .put(requestIncidents({ filter, page: undefined, sort: undefined }))
         .delay(100)
         .put(requestIncidents({ filter, page: undefined, sort: undefined }))
-        .silentRun();
-    });
-  });
+        .silentRun()
+    })
+  })
 
   describe('fetch districts', () => {
     it('should dispatch getDistrictsSuccess', () => {
-      const districts = { results: [{ a: 1 }] };
+      const districts = { results: [{ a: 1 }] }
 
       testSaga(fetchDistricts)
         .next()
@@ -286,12 +291,12 @@ describe('signals/incident-management/saga', () => {
         .next(districts)
         .put(getDistrictsSuccess(districts.results))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch getDistrictsFailed', () => {
-      const message = '404 not found';
-      const error = new Error(message);
+      const message = '404 not found'
+      const error = new Error(message)
 
       testSaga(fetchDistricts)
         .next()
@@ -301,14 +306,20 @@ describe('signals/incident-management/saga', () => {
         .throw(error)
         .put(getDistrictsFailed(message))
         .next()
-        .isDone();
-    });
-  });
+        .isDone()
+    })
+  })
 
   describe('fetch filters', () => {
     it('should dispatch getFiltersSuccess', () => {
-      const response = { results: [{ a: 1, options: { option: 'option', area_code: ['123', '456'] } }] };
-      const filters = [{ a: 1, options: { option: 'option', area: ['123', '456'] } }];
+      const response = {
+        results: [
+          { a: 1, options: { option: 'option', area_code: ['123', '456'] } },
+        ],
+      }
+      const filters = [
+        { a: 1, options: { option: 'option', area: ['123', '456'] } },
+      ]
 
       testSaga(fetchFilters)
         .next()
@@ -316,12 +327,12 @@ describe('signals/incident-management/saga', () => {
         .next(response)
         .put(getFiltersSuccess(filters))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch getFiltersFailed', () => {
-      const message = '404 not found';
-      const error = new Error(message);
+      const message = '404 not found'
+      const error = new Error(message)
 
       testSaga(fetchFilters)
         .next()
@@ -329,14 +340,14 @@ describe('signals/incident-management/saga', () => {
         .throw(error)
         .put(getFiltersFailed(message))
         .next()
-        .isDone();
-    });
-  });
+        .isDone()
+    })
+  })
 
   describe('remove filter', () => {
     it('should dispatch removeFilterSuccess', () => {
-      const id = 1000;
-      const action = { payload: id };
+      const id = 1000
+      const action = { payload: id }
 
       testSaga(removeFilter, action)
         .next()
@@ -344,14 +355,14 @@ describe('signals/incident-management/saga', () => {
         .next(id)
         .put(removeFilterSuccess(id))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch removeFilterFailed', () => {
-      const id = 1000;
-      const action = { payload: id };
-      const message = '404 not found';
-      const error = new Error(message);
+      const id = 1000
+      const action = { payload: id }
+      const message = '404 not found'
+      const error = new Error(message)
 
       testSaga(removeFilter, action)
         .next()
@@ -359,9 +370,9 @@ describe('signals/incident-management/saga', () => {
         .throw(error)
         .put(removeFilterFailed(message))
         .next()
-        .isDone();
-    });
-  });
+        .isDone()
+    })
+  })
 
   describe('doSaveFilter', () => {
     const filterData = {
@@ -370,19 +381,19 @@ describe('signals/incident-management/saga', () => {
         maincategory_slug: ['i', 'a', 'o', 'u'],
         address_text: 'Weesperstraat 113-117',
       },
-    };
+    }
 
-    const { name, options } = filterData;
+    const { name, options } = filterData
 
-    const payload = filterData;
+    const payload = filterData
     const payloadResponse = {
       ...payload,
       key: 'something',
-    };
+    }
     const action = {
       type: SAVE_FILTER,
       payload,
-    };
+    }
 
     it('should call endpoint with filter data', () => {
       testSaga(doSaveFilter, action)
@@ -393,8 +404,8 @@ describe('signals/incident-management/saga', () => {
         .next()
         .put(getFilters())
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch success', () =>
       expectSaga(doSaveFilter, action)
@@ -403,7 +414,7 @@ describe('signals/incident-management/saga', () => {
           type: SAVE_FILTER_SUCCESS,
           payload: payloadResponse,
         })
-        .run());
+        .run())
 
     it('should dispatch failed', () =>
       expectSaga(doSaveFilter, {
@@ -413,35 +424,50 @@ describe('signals/incident-management/saga', () => {
           type: SAVE_FILTER_FAILED,
           payload: 'No name supplied',
         })
-        .run());
+        .run())
 
     it('catches anything', () => {
-      const error = new Error('Something bad happened');
+      const error = new Error('Something bad happened')
       error.response = {
         status: 300,
-      };
+      }
 
-      testSaga(doSaveFilter, action).next().throw(error).put(filterSaveFailed(error)).next().isDone();
-    });
+      testSaga(doSaveFilter, action)
+        .next()
+        .throw(error)
+        .put(filterSaveFailed(error))
+        .next()
+        .isDone()
+    })
 
     it('catches 400', () => {
-      const error = new Error('Something bad happened');
+      const error = new Error('Something bad happened')
       error.response = {
         status: 400,
-      };
+      }
 
-      testSaga(doSaveFilter, action).next().throw(error).put(filterSaveFailed('Invalid data supplied')).next().isDone();
-    });
+      testSaga(doSaveFilter, action)
+        .next()
+        .throw(error)
+        .put(filterSaveFailed('Invalid data supplied'))
+        .next()
+        .isDone()
+    })
 
     it('catches 500', () => {
-      const error = new Error('Something bad happened');
+      const error = new Error('Something bad happened')
       error.response = {
         status: 500,
-      };
+      }
 
-      testSaga(doSaveFilter, action).next().throw(error).put(filterSaveFailed('Internal server error')).next().isDone();
-    });
-  });
+      testSaga(doSaveFilter, action)
+        .next()
+        .throw(error)
+        .put(filterSaveFailed('Internal server error'))
+        .next()
+        .isDone()
+    })
+  })
 
   describe('doUpdateFilter', () => {
     const updatePayload = {
@@ -452,18 +478,18 @@ describe('signals/incident-management/saga', () => {
         address_text: 'Weesperstraat 113-117',
       },
       refresh: true,
-    };
-    const { name, id, refresh, options } = updatePayload;
+    }
+    const { name, id, refresh, options } = updatePayload
     const payload = {
       name: 'New name of my filter',
       options: {
         maincategory_slug: ['i', 'a'],
       },
-    };
+    }
     const action = {
       type: UPDATE_FILTER,
       payload,
-    };
+    }
 
     it('should call endpoint with filter data', () => {
       testSaga(doUpdateFilter, { ...action, payload: updatePayload })
@@ -478,57 +504,62 @@ describe('signals/incident-management/saga', () => {
         .next()
         .put(getFilters())
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('should dispatch success', () => {
-      const payloadResponse = { ...updatePayload, payload };
+      const payloadResponse = { ...updatePayload, payload }
       return expectSaga(doUpdateFilter, action)
         .provide([[matchers.call.fn(authPatchCall), payloadResponse]])
         .put({
           type: UPDATE_FILTER_SUCCESS,
           payload: payloadResponse,
         })
-        .run();
-    });
+        .run()
+    })
 
     it('catches anything', () => {
-      const error = new Error('Something bad happened');
+      const error = new Error('Something bad happened')
       error.response = {
         status: 300,
-      };
+      }
 
-      testSaga(doUpdateFilter, action).next().throw(error).put(filterUpdatedFailed(error)).next().isDone();
-    });
+      testSaga(doUpdateFilter, action)
+        .next()
+        .throw(error)
+        .put(filterUpdatedFailed(error))
+        .next()
+        .isDone()
+    })
 
     it('catches 400', () => {
-      const error = new Error('Something bad happened');
+      const error = new Error('Something bad happened')
       error.response = {
         status: 400,
-      };
+      }
 
       testSaga(doUpdateFilter, action)
         .next()
         .throw(error)
         .put(filterUpdatedFailed('Invalid data supplied'))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it('catches 500', () => {
-      const error = new Error('Something bad happened');
+      const error = new Error('Something bad happened')
       error.response = {
         status: 500,
-      };
+      }
 
       testSaga(doUpdateFilter, action)
         .next()
         .throw(error)
         .put(filterUpdatedFailed('Internal server error'))
         .next()
-        .isDone();
-    });
-  });
+        .isDone()
+    })
+  })
 
   describe('saveFilter', () => {
     it('should spawn doSaveFilter', () => {
@@ -538,15 +569,15 @@ describe('signals/incident-management/saga', () => {
           maincategory_slug: ['i', 'a', 'o', 'u'],
           address_text: 'Weesperstraat 113-117',
         },
-      };
+      }
       const action = {
         type: SAVE_FILTER,
         payload,
-      };
+      }
 
-      return expectSaga(saveFilter, action).spawn(doSaveFilter, action).run();
-    });
-  });
+      return expectSaga(saveFilter, action).spawn(doSaveFilter, action).run()
+    })
+  })
 
   describe('updateFilter', () => {
     it('should spawn doUpdateFilter', () => {
@@ -556,13 +587,15 @@ describe('signals/incident-management/saga', () => {
         options: {
           maincategory_slug: ['i', 'a'],
         },
-      };
+      }
       const action = {
         type: UPDATE_FILTER,
         payload,
-      };
+      }
 
-      return expectSaga(updateFilter, action).spawn(doUpdateFilter, action).run();
-    });
-  });
-});
+      return expectSaga(updateFilter, action)
+        .spawn(doUpdateFilter, action)
+        .run()
+    })
+  })
+})

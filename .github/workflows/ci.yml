@@ -7,8 +7,8 @@ on:
   pull_request:
 
 env:
-  TZ: "Europe/Amsterdam"
-  CI: "true"
+  TZ: 'Europe/Amsterdam'
+  CI: 'true'
 
 jobs:
   test:

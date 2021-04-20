@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import {
   Link as AscLink,
   Icon,
   Typography,
   themeColor,
   themeSpacing,
-} from '@amsterdam/asc-ui';
-import { ChevronLeft } from '@amsterdam/asc-assets';
+} from '@amsterdam/asc-ui'
+import { ChevronLeft } from '@amsterdam/asc-assets'
 
 const LinkLabel = styled(Typography).attrs({
   forwardedAs: 'span',
@@ -19,11 +19,11 @@ const LinkLabel = styled(Typography).attrs({
   font-size: 16px;
   color: ${themeColor('primary')};
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-`;
+`
 
 const Chevron = styled(ChevronLeft)`
   display: inline-block;
-`;
+`
 
 const StyledLink = styled(AscLink)`
   &:hover {
@@ -37,7 +37,7 @@ const StyledLink = styled(AscLink)`
 
     text-decoration: none;
   }
-`;
+`
 
 const StyledIcon = styled(Icon)`
   margin: 0 ${themeSpacing(2)} 0 0 !important;
@@ -46,24 +46,29 @@ const StyledIcon = styled(Icon)`
   svg > path {
     fill: ${themeColor('primary')} !important;
   }
-`;
+`
 
 /**
  * Component that renders a Link with a left chevron
  * To be used on detail pages for navigating back to its corresponding overview page
  */
 const BackLink = ({ className, children, to }) => (
-  <StyledLink className={className} forwardedAs={Link} to={to} data-testid="backlink">
+  <StyledLink
+    className={className}
+    forwardedAs={Link}
+    to={to}
+    data-testid="backlink"
+  >
     <StyledIcon size={12}>
       <Chevron />
     </StyledIcon>
     <LinkLabel>{children}</LinkLabel>
   </StyledLink>
-);
+)
 
 BackLink.defaultProps = {
   className: '',
-};
+}
 
 BackLink.propTypes = {
   /** The BackLink label contents */
@@ -78,6 +83,6 @@ BackLink.propTypes = {
       state: PropTypes.shape({}),
     }),
   ]).isRequired,
-};
+}
 
-export default BackLink;
+export default BackLink

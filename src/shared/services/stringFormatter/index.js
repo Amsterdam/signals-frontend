@@ -10,9 +10,9 @@
  * @param {Object} replacements
  */
 const stringFormatter = (string, replacements) => {
-  const reReplace = new RegExp(`${Object.keys(replacements).join('|')}`, 'g');
+  const reReplace = new RegExp(`${Object.keys(replacements).join('|')}`, 'g')
 
-  return string.replace(reReplace, matched => replacements[matched]);
-};
+  return string.replace(reReplace, (matched) => replacements[matched])
+}
 
-export default stringFormatter;
+export default stringFormatter

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useContext } from 'react';
-import styled from 'styled-components';
-import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import React, { Fragment, useContext } from 'react'
+import styled from 'styled-components'
+import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
-import { attachmentsType } from 'shared/types';
-import IncidentDetailContext from '../../../../context';
+import { attachmentsType } from 'shared/types'
+import IncidentDetailContext from '../../../../context'
 
 const StyledDefinition = styled.dt`
   font-weight: normal;
@@ -14,13 +14,13 @@ const StyledDefinition = styled.dt`
   margin: 0;
   vertical-align: top;
   padding: ${themeSpacing(2)} 0;
-`;
+`
 
 const StyledValue = styled.dd`
   margin: 0;
   vertical-align: top;
   padding: ${themeSpacing(2)} 0;
-`;
+`
 
 const StyledButton = styled(Button)`
   display: inline-block;
@@ -28,21 +28,25 @@ const StyledButton = styled(Button)`
   background-size: cover;
   border: 1px solid ${themeColor('tint', 'level3')} !important;
   background-image: url(${({ url }) => url});
-`;
+`
 
 const Attachments = ({ attachments }) => {
-  const { preview } = useContext(IncidentDetailContext);
+  const { preview } = useContext(IncidentDetailContext)
 
   return (
     attachments.length > 0 && (
       <Fragment>
-        <StyledDefinition data-testid="attachmentsDefinition">Foto</StyledDefinition>
+        <StyledDefinition data-testid="attachmentsDefinition">
+          Foto
+        </StyledDefinition>
         <StyledValue>
-          {attachments.map(attachment => (
+          {attachments.map((attachment) => (
             <StyledButton
               data-testid="attachmentsValueButton"
               key={attachment.location}
-              onClick={() => preview('attachment', { attachmentHref: attachment.location })}
+              onClick={() =>
+                preview('attachment', { attachmentHref: attachment.location })
+              }
               size={80}
               url={attachment.location}
               variant="blank"
@@ -52,11 +56,11 @@ const Attachments = ({ attachments }) => {
         </StyledValue>
       </Fragment>
     )
-  );
-};
+  )
+}
 
 Attachments.propTypes = {
   attachments: attachmentsType.isRequired,
-};
+}
 
-export default Attachments;
+export default Attachments

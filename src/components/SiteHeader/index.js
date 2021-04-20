@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import Media from 'react-media';
+import React, { Fragment, useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { NavLink } from 'react-router-dom'
+import styled, { css } from 'styled-components'
+import Media from 'react-media'
 
-import { Logout as LogoutIcon } from '@amsterdam/asc-assets';
+import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
 
 import {
   Header as HeaderComponent,
@@ -19,16 +19,16 @@ import {
   themeSpacing,
   breakpoint,
   styles,
-} from '@amsterdam/asc-ui';
-import SearchBar from 'containers/SearchBar';
-import { isAuthenticated } from 'shared/services/auth/auth';
-import useIsFrontOffice from 'hooks/useIsFrontOffice';
-import Notification from 'containers/Notification';
-import Logo from 'components/Logo';
-import configuration from 'shared/services/configuration/configuration';
-import AmsterdamLogo from 'components/AmsterdamLogo';
+} from '@amsterdam/asc-ui'
+import SearchBar from 'containers/SearchBar'
+import { isAuthenticated } from 'shared/services/auth/auth'
+import useIsFrontOffice from 'hooks/useIsFrontOffice'
+import Notification from 'containers/Notification'
+import Logo from 'components/Logo'
+import configuration from 'shared/services/configuration/configuration'
+import AmsterdamLogo from 'components/AmsterdamLogo'
 
-export const menuBreakpoint = 1200;
+export const menuBreakpoint = 1200
 
 const StyledHeader = styled(HeaderComponent)`
   ${styles.HeaderTitleStyle} {
@@ -64,7 +64,7 @@ const StyledHeader = styled(HeaderComponent)`
       width: 100%;
     }
   }
-`;
+`
 
 const StyledMenuButton = styled(MenuButton)`
   background: transparent;
@@ -72,7 +72,7 @@ const StyledMenuButton = styled(MenuButton)`
   font-family: inherit;
   font-weight: 400;
   color: ${themeColor('tint', 'level6')};
-`;
+`
 
 const StyledMenuFlyout = styled(MenuFlyOut)`
   & span,
@@ -83,7 +83,7 @@ const StyledMenuFlyout = styled(MenuFlyOut)`
     font-weight: normal;
     color: ${themeColor('tint', 'level6')};
   }
-`;
+`
 
 const SearchBarMenuItem = styled(MenuItem)`
   margin-right: 0;
@@ -92,7 +92,7 @@ const SearchBarMenuItem = styled(MenuItem)`
     margin-right: auto;
     flex-basis: 365px;
   }
-`;
+`
 
 const StyledSearchBar = styled(SearchBar)`
   margin-top: 5px;
@@ -102,7 +102,7 @@ const StyledSearchBar = styled(SearchBar)`
       top: 3px;
     }
   }
-`;
+`
 
 const HeaderWrapper = styled.div`
   position: relative;
@@ -198,10 +198,10 @@ const HeaderWrapper = styled.div`
         }
       }
     `}
-`;
+`
 
 const MenuItems = ({ onLogOut, showItems }) => {
-  const showLogout = isAuthenticated();
+  const showLogout = isAuthenticated()
 
   return (
     <Fragment>
@@ -227,7 +227,10 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
       {showItems.defaultTexts && (
         <MenuItem element="span">
-          <StyledMenuButton forwardedAs={NavLink} to="/manage/standaard/teksten">
+          <StyledMenuButton
+            forwardedAs={NavLink}
+            to="/manage/standaard/teksten"
+          >
             Standaard teksten
           </StyledMenuButton>
         </MenuItem>
@@ -236,7 +239,10 @@ const MenuItems = ({ onLogOut, showItems }) => {
       {showItems.settings && (
         <StyledMenuFlyout label="Instellingen" forwardedAs="span">
           {showItems.users && (
-            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/gebruikers">
+            <StyledMenuButton
+              forwardedAs={NavLink}
+              to="/instellingen/gebruikers"
+            >
               Gebruikers
             </StyledMenuButton>
           )}
@@ -248,14 +254,20 @@ const MenuItems = ({ onLogOut, showItems }) => {
           )}
 
           {showItems.departments && (
-            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/afdelingen">
+            <StyledMenuButton
+              forwardedAs={NavLink}
+              to="/instellingen/afdelingen"
+            >
               Afdelingen
             </StyledMenuButton>
           )}
 
           {showItems.categories && (
-            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/categorieen">
-              Categorieën
+            <StyledMenuButton
+              forwardedAs={NavLink}
+              to="/instellingen/categorieen"
+            >
+              Subcategorieën
             </StyledMenuButton>
           )}
         </StyledMenuFlyout>
@@ -265,32 +277,45 @@ const MenuItems = ({ onLogOut, showItems }) => {
         <Fragment>
           {configuration.links?.help && (
             <MenuItem>
-              <StyledMenuButton forwardedAs="a" href={configuration.links?.help} target="_blank">
+              <StyledMenuButton
+                forwardedAs="a"
+                href={configuration.links?.help}
+                target="_blank"
+              >
                 Help
               </StyledMenuButton>
             </MenuItem>
           )}
-          <MenuItem element="button" data-testid="logout-button" onClick={onLogOut}>
-            <StyledMenuButton iconSize={16} iconLeft={<LogoutIcon focusable="false" />}>
+          <MenuItem
+            element="button"
+            data-testid="logout-button"
+            onClick={onLogOut}
+          >
+            <StyledMenuButton
+              iconSize={16}
+              iconLeft={<LogoutIcon focusable="false" />}
+            >
               Uitloggen
             </StyledMenuButton>
           </MenuItem>
         </Fragment>
       )}
     </Fragment>
-  );
-};
+  )
+}
 
-export const SiteHeader = props => {
-  const isFrontOffice = useIsFrontOffice();
-  const tall = isFrontOffice && !isAuthenticated();
-  const title = tall ? configuration.language.headerTitle : configuration.language.smallHeaderTitle;
-  const homeLink = tall ? configuration.links.home : '/';
+export const SiteHeader = (props) => {
+  const isFrontOffice = useIsFrontOffice()
+  const tall = isFrontOffice && !isAuthenticated()
+  const title = tall
+    ? configuration.language.headerTitle
+    : configuration.language.smallHeaderTitle
+  const homeLink = tall ? configuration.links.home : '/'
 
   const navigation = useMemo(
     () => (
       <Media query={`(max-width: ${menuBreakpoint}px)`}>
-        {matches =>
+        {(matches) =>
           matches ? (
             <MenuToggle align="right">
               <MenuItems {...props} />
@@ -304,7 +329,7 @@ export const SiteHeader = props => {
       </Media>
     ),
     [props]
-  );
+  )
 
   return (
     <Fragment>
@@ -329,13 +354,13 @@ export const SiteHeader = props => {
 
       {tall && <Notification />}
     </Fragment>
-  );
-};
+  )
+}
 
 SiteHeader.defaultProps = {
   onLogOut: undefined,
   showItems: {},
-};
+}
 
 SiteHeader.propTypes = {
   onLogOut: PropTypes.func,
@@ -344,8 +369,8 @@ SiteHeader.propTypes = {
     groups: PropTypes.bool,
     departments: PropTypes.bool,
   }),
-};
+}
 
-MenuItems.propTypes = SiteHeader.propTypes;
+MenuItems.propTypes = SiteHeader.propTypes
 
-export default SiteHeader;
+export default SiteHeader

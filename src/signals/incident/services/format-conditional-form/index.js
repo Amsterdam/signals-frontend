@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import checkVisibility from '../checkVisibility';
+import checkVisibility from '../checkVisibility'
 
 export default (form, incident) => {
-  if (!form?.controls) return form;
+  if (!form?.controls) return form
 
   Object.entries(form.controls)
     .filter(([, control]) => control?.meta)
     .forEach(([name, control]) => {
-      form.controls[name].meta.name = form.controls[name].meta.name || name; // eslint-disable-line no-param-reassign
-      form.controls[name].meta.isVisible = checkVisibility(control, incident); // eslint-disable-line no-param-reassign
-    }, form);
+      form.controls[name].meta.name = form.controls[name].meta.name || name // eslint-disable-line no-param-reassign
+      form.controls[name].meta.isVisible = checkVisibility(control, incident) // eslint-disable-line no-param-reassign
+    }, form)
 
-  return form;
-};
+  return form
+}

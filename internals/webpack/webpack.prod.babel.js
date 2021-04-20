@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-const path = require('path');
-const pkgDir = require('pkg-dir');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const { GenerateSW } = require('workbox-webpack-plugin');
+const path = require('path')
+const pkgDir = require('pkg-dir')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const { GenerateSW } = require('workbox-webpack-plugin')
 
-const template = require('./template');
+const template = require('./template')
 
-const __rootdir = pkgDir.sync();
+const __rootdir = pkgDir.sync()
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -97,22 +97,24 @@ module.exports = require('./webpack.base.babel')({
 
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-    process.env.ENABLE_SERVICEWORKER === '1' ? new GenerateSW({
-      mode: 'production',
-      swDest: 'sw.js',
-      clientsClaim: true,
-      skipWaiting: true,
-      sourcemap: true,
-      inlineWorkboxRuntime: true,
-      exclude: [
-        // Don't pre-cache any font files or images; we need a more fine-grained caching strategy (see below in runtimeCaching)
-        /.+\.(?:woff|woff2|eot|ttf)$/,
-        /.+\.(?:png|jpg|jpeg|svg|webp)$/,
-        /.*\.(?:html|map|txt|htaccess)$/,
-      ],
-      cleanupOutdatedCaches: true,
-      maximumFileSizeToCacheInBytes: 2.4 * 1000 * 1024,
-    }) : null,
+    process.env.ENABLE_SERVICEWORKER === '1'
+      ? new GenerateSW({
+          mode: 'production',
+          swDest: 'sw.js',
+          clientsClaim: true,
+          skipWaiting: true,
+          sourcemap: true,
+          inlineWorkboxRuntime: true,
+          exclude: [
+            // Don't pre-cache any font files or images; we need a more fine-grained caching strategy (see below in runtimeCaching)
+            /.+\.(?:woff|woff2|eot|ttf)$/,
+            /.+\.(?:png|jpg|jpeg|svg|webp)$/,
+            /.*\.(?:html|map|txt|htaccess)$/,
+          ],
+          cleanupOutdatedCaches: true,
+          maximumFileSizeToCacheInBytes: 2.4 * 1000 * 1024,
+        })
+      : null,
 
     new CopyPlugin({
       patterns: [
@@ -125,6 +127,7 @@ module.exports = require('./webpack.base.babel')({
   ].filter(Boolean),
 
   performance: {
-    assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
+    assetFilter: (assetFilename) =>
+      !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
   },
-});
+})

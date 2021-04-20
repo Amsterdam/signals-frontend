@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { reCategory } from 'shared/services/resolveClassification';
-import { initialState } from './CategoryLists/reducer';
+import { reCategory } from 'shared/services/resolveClassification'
+import { initialState } from './CategoryLists/reducer'
 
 /**
  * Incoming API data mapper
@@ -24,32 +24,32 @@ export const incoming = (departmentCategories, subCategories) =>
           self: { public: publicUrl },
         },
       }) => publicUrl === departmentCategory.category._links.self.href
-    );
+    )
 
     if (!matchingCategory) {
-      return acc;
+      return acc
     }
 
-    const [, main_slug] = matchingCategory._links.self.public.match(reCategory);
+    const [, main_slug] = matchingCategory._links.self.public.match(reCategory)
 
-    const canViewDisabled = departmentCategory.is_responsible;
+    const canViewDisabled = departmentCategory.is_responsible
 
     const can_view = {
       [main_slug]: [
-        ...acc.can_view[main_slug] || [],
+        ...(acc.can_view[main_slug] || []),
         departmentCategory.can_view && {
           ...matchingCategory,
           disabled: canViewDisabled,
         },
       ].filter(Boolean),
-    };
+    }
 
     const is_responsible = {
       [main_slug]: [
-        ...acc.is_responsible[main_slug] || [],
+        ...(acc.is_responsible[main_slug] || []),
         departmentCategory.is_responsible && matchingCategory,
       ].filter(Boolean),
-    };
+    }
 
     return {
       ...acc,
@@ -61,8 +61,8 @@ export const incoming = (departmentCategories, subCategories) =>
         ...acc.is_responsible,
         ...is_responsible,
       },
-    };
-  }, initialState);
+    }
+  }, initialState)
 
 /**
  * Outgoing API data conversion
@@ -75,14 +75,14 @@ export const incoming = (departmentCategories, subCategories) =>
  * @param   {Object[]} state.is_responsible
  * @returns {Object} Object with key `categories` which is an array of objects
  */
-export const outgoing = state => {
+export const outgoing = (state) => {
   const isResponsible = Object.entries(state.is_responsible).flatMap(
     ([, departmentCategories]) =>
       departmentCategories.map(({ fk }) => ({
         category_id: fk,
         is_responsible: true,
       }))
-  );
+  )
 
   const canView = Object.entries(state.can_view).flatMap(
     ([, departmentCategories]) =>
@@ -90,22 +90,22 @@ export const outgoing = state => {
         category_id: fk,
         can_view: true,
       }))
-  );
+  )
 
   // combine both collections and merge objects where possible
   const categories = isResponsible.concat(canView).reduce((acc, category) => {
     const merged = {
       ...acc.find(({ category_id }) => category_id === category.category_id),
       ...category,
-    };
+    }
 
     return [
       ...acc.filter(({ category_id }) => category_id !== category.category_id),
       merged,
-    ];
-  }, []);
+    ]
+  }, [])
 
   return {
     categories,
-  };
-};
+  }
+}

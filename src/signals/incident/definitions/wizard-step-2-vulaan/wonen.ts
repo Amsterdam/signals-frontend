@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
-import configuration from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration'
 
 const woningdelen = {
   extra_wonen_woningdelen_vermoeden: {
@@ -86,7 +86,11 @@ const woningdelen = {
         },
       },
       ifOneOf: {
-        extra_wonen_woningdelen_aantal_personen: ['drie_personen', 'vier_personen', 'vijf_of_meer_personen'],
+        extra_wonen_woningdelen_aantal_personen: [
+          'drie_personen',
+          'vier_personen',
+          'vijf_of_meer_personen',
+        ],
       },
       label: 'Zijn de bewoners volgens u familie van elkaar?',
       shortLabel: 'Bewoners familie',
@@ -111,7 +115,11 @@ const woningdelen = {
         },
       },
       ifOneOf: {
-        extra_wonen_woningdelen_aantal_personen: ['drie_personen', 'vier_personen', 'vijf_of_meer_personen'],
+        extra_wonen_woningdelen_aantal_personen: [
+          'drie_personen',
+          'vier_personen',
+          'vijf_of_meer_personen',
+        ],
       },
       label: 'Zijn de personen tegelijk op het adres komen wonen?',
       shortLabel: 'Samenwonen',
@@ -159,7 +167,7 @@ const woningdelen = {
     },
     render: FIELD_TYPE_MAP.text_input,
   },
-};
+}
 
 const onderhuur = {
   extra_wonen_onderhuur_aantal_personen: {
@@ -194,9 +202,14 @@ const onderhuur = {
         },
       },
       ifOneOf: {
-        extra_wonen_onderhuur_aantal_personen: ['drie_personen', 'vier_personen', 'vijf_of_meer_personen'],
+        extra_wonen_onderhuur_aantal_personen: [
+          'drie_personen',
+          'vier_personen',
+          'vijf_of_meer_personen',
+        ],
       },
-      label: 'Zijn de mensen die op dit adres wonen volgens u familie van elkaar?',
+      label:
+        'Zijn de mensen die op dit adres wonen volgens u familie van elkaar?',
       shortLabel: 'Bewoners familie',
       pathMerge: 'extra_properties',
       values: {
@@ -305,7 +318,7 @@ const onderhuur = {
     },
     render: FIELD_TYPE_MAP.text_input,
   },
-};
+}
 
 const leegstand = {
   extra_wonen_leegstand_naam_eigenaar: {
@@ -408,7 +421,7 @@ const leegstand = {
     },
     render: FIELD_TYPE_MAP.text_input,
   },
-};
+}
 
 const woningkwaliteit = {
   extra_wonen_woonkwaliteit_direct_gevaar: {
@@ -418,7 +431,8 @@ const woningkwaliteit = {
         wonen_overig: 'woningkwaliteit',
       },
       label: 'Denkt u dat er direct gevaar is?',
-      subtitle: 'Bijvoorbeeld: u ruikt een sterke gaslucht of er dreigt een schoorsteen of balkon in te storten',
+      subtitle:
+        'Bijvoorbeeld: u ruikt een sterke gaslucht of er dreigt een schoorsteen of balkon in te storten',
       shortLabel: 'Direct gevaar',
       pathMerge: 'extra_properties',
       values: {
@@ -540,7 +554,8 @@ const woningkwaliteit = {
         extra_wonen_woonkwaliteit_direct_gevaar: 'nee',
       },
       label: 'Mogen we contact met u opnemen om een afspraak te maken?',
-      subtitle: 'Om uw klacht goed te kunnen behandelen willen we vaak even komen kijken of met u overleggen',
+      subtitle:
+        'Om uw klacht goed te kunnen behandelen willen we vaak even komen kijken of met u overleggen',
       shortLabel: 'Toestemming contact opnemen',
       pathMerge: 'extra_properties',
       values: {
@@ -584,7 +599,7 @@ const woningkwaliteit = {
     },
     render: FIELD_TYPE_MAP.text_input,
   },
-};
+}
 
 const vakantieverhuur = {
   extra_wonen_vakantieverhuur_toeristen_aanwezig: {
@@ -740,7 +755,7 @@ const vakantieverhuur = {
     },
     render: FIELD_TYPE_MAP.plain_text,
   },
-};
+}
 
 const overig = {
   wonen_overig: {
@@ -750,11 +765,14 @@ const overig = {
       },
       label: 'Uw melding gaat over:',
       values: {
-        vakantieverhuur: 'Illegale toeristische verhuur in een woning of woonboot',
+        vakantieverhuur:
+          'Illegale toeristische verhuur in een woning of woonboot',
         onderhuur: 'Illegale onderhuur in een woning of woonboot',
         leegstand: 'Een woning of woonboot die opvallend lang leeg staat',
-        crimineleBewoning: 'Criminele bewoning of activiteiten in een woning of woonboot',
-        woningdelen: 'Woningdelen (de woning wordt door verschillende mensen gedeeld)',
+        crimineleBewoning:
+          'Criminele bewoning of activiteiten in een woning of woonboot',
+        woningdelen:
+          'Woningdelen (de woning wordt door verschillende mensen gedeeld)',
         woningkwaliteit:
           'Achterstallig onderhoud of een gebrek aan een woning wordt niet verholpen door de eigenaar/beheerder',
       },
@@ -765,7 +783,7 @@ const overig = {
     },
     render: FIELD_TYPE_MAP.radio_input,
   },
-};
+}
 
 export const controls = {
   ...woningdelen,
@@ -773,11 +791,11 @@ export const controls = {
   ...leegstand,
   ...vakantieverhuur,
   ...woningkwaliteit,
-};
+}
 
 const wonen = {
   ...overig,
   ...controls,
-};
+}
 
-export default wonen;
+export default wonen

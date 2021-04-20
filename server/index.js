@@ -1,27 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-/* eslint-disable unicorn/import-style */
 /* eslint consistent-return:0 import/order:0 */
-const fs = require('fs');
-const https = require('https');
-const express = require('express');
-const logger = require('./logger');
+const fs = require('fs')
+const https = require('https')
+const express = require('express')
+const logger = require('./logger')
 
-const argv = require('./argv');
-const port = require('./port');
-const setup = require('./middlewares/frontendMiddleware');
-const { resolve } = require('path');
-const app = express();
-const SSL = process.env.HTTPS;
-let options = {};
+const argv = require('./argv')
+const port = require('./port')
+const setup = require('./middlewares/frontendMiddleware')
+const { resolve } = require('path')
+const app = express()
+const SSL = process.env.HTTPS
+let options = {}
 
 if (SSL) {
-  const key = fs.readFileSync(`${__dirname}/proxy_cert/proxy.key`);
-  const cert = fs.readFileSync(`${__dirname}/proxy_cert/proxy.crt`);
+  const key = fs.readFileSync(`${__dirname}/proxy_cert/proxy.key`)
+  const cert = fs.readFileSync(`${__dirname}/proxy_cert/proxy.crt`)
   options = {
     key,
     cert,
-  };
+  }
 }
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
@@ -31,29 +30,29 @@ if (SSL) {
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
   publicPath: '/',
-});
+})
 
-app.use('../assets', express.static('/assets'));
+app.use('../assets', express.static('/assets'))
 
 // get the intended host and port number, use localhost and port 3000 if not provided
-const customHost = argv.host || process.env.HOST;
-const host = customHost || null; // Let http.Server use its default IPv6/4 host
-const prettyHost = customHost || 'localhost';
-const server = SSL ? https.createServer(options, app) : app;
+const customHost = argv.host || process.env.HOST
+const host = customHost || null // Let http.Server use its default IPv6/4 host
+const prettyHost = customHost || 'localhost'
+const server = SSL ? https.createServer(options, app) : app
 
 // use the gzipped bundle
 app.get('*.js', (req, res, next) => {
-  req.url = req.url + '.gz'; // eslint-disable-line
-  res.set('Content-Encoding', 'gzip');
-  next();
-});
+  req.url = req.url + '.gz' // eslint-disable-line
+  res.set('Content-Encoding', 'gzip')
+  next()
+})
 
 // Start your app.
-server.listen(port, host, error => {
+server.listen(port, host, (error) => {
   if (error) {
-    return logger.error(error.message);
+    return logger.error(error.message)
   }
 
-  const scheme = SSL ? 'https' : 'http';
-  logger.appStarted(port, prettyHost, undefined, scheme);
-});
+  const scheme = SSL ? 'https' : 'http'
+  logger.appStarted(port, prettyHost, undefined, scheme)
+})

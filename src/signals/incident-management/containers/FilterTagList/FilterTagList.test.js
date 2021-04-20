@@ -1,35 +1,38 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { mount } from 'enzyme';
-import { render, screen } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import * as definitions from 'signals/incident-management/definitions';
-import { mainCategories, subCategories } from 'utils/__tests__/fixtures';
-import configuration from 'shared/services/configuration/configuration';
+import React from 'react'
+import { mount } from 'enzyme'
+import { render, screen } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
+import * as definitions from 'signals/incident-management/definitions'
+import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
+import configuration from 'shared/services/configuration/configuration'
 
-import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json';
-import districts from 'utils/__tests__/fixtures/districts.json';
-import sources from 'utils/__tests__/fixtures/sources.json';
-import category from 'utils/__tests__/fixtures/category.json';
-import userOptions from 'utils/__tests__/fixtures/userOptions.json';
-import users from 'utils/__tests__/fixtures/users.json';
+import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json'
+import districts from 'utils/__tests__/fixtures/districts.json'
+import sources from 'utils/__tests__/fixtures/sources.json'
+import category from 'utils/__tests__/fixtures/category.json'
+import userOptions from 'utils/__tests__/fixtures/userOptions.json'
 
-import IncidentManagementContext from '../../context';
-import AppContext from '../../../../containers/App/context';
+import IncidentManagementContext from '../../context'
+import AppContext from '../../../../containers/App/context'
 
-import FilterTagList, { FilterTagListComponent, allLabelAppend, mapKeys } from './FilterTagList';
+import FilterTagList, {
+  FilterTagListComponent,
+  allLabelAppend,
+  mapKeys,
+} from './FilterTagList'
 
-jest.mock('shared/services/configuration/configuration');
+jest.mock('shared/services/configuration/configuration')
 
-const withContext = Component =>
+const withContext = (Component) =>
   withAppContext(
     <AppContext.Provider value={{ sources }}>
       <IncidentManagementContext.Provider value={{ districts }}>
         {Component}
       </IncidentManagementContext.Provider>
     </AppContext.Provider>
-  );
+  )
 
 describe('signals/incident-management/containers/FilterTagList', () => {
   const tags = {
@@ -42,25 +45,26 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     source: [sources[0]],
     category_slug: [
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
         value: 'Asbest / accu',
         slug: 'asbest-accu',
       },
     ],
-  };
+  }
 
   afterEach(() => {
-    configuration.__reset();
-  });
+    configuration.__reset()
+  })
 
   it('should have props from structured selector', () => {
-    const tree = mount(withContext(<FilterTagList />));
+    const tree = mount(withContext(<FilterTagList />))
 
-    const props = tree.find(FilterTagListComponent).props();
+    const props = tree.find(FilterTagListComponent).props()
 
-    expect(props.subCategories).not.toBeUndefined();
-    expect(props.mainCategories).not.toBeUndefined();
-  });
+    expect(props.subCategories).not.toBeUndefined()
+    expect(props.mainCategories).not.toBeUndefined()
+  })
 
   describe('date formatting', () => {
     it('renders created before', () => {
@@ -72,12 +76,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             mainCategories={mainCategories}
           />
         )
-      );
+      )
 
-      const createdBeforeLabel = 'Datum: t/m 23-09-2019';
+      const createdBeforeLabel = 'Datum: t/m 23-09-2019'
 
-      expect(queryByText(createdBeforeLabel)).toBeInTheDocument();
-    });
+      expect(queryByText(createdBeforeLabel)).toBeInTheDocument()
+    })
 
     it('renders date after', () => {
       const { queryByText } = render(
@@ -88,12 +92,12 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             mainCategories={mainCategories}
           />
         )
-      );
+      )
 
-      const createdAfterLabel = 'Datum: 17-09-2019 t/m nu';
+      const createdAfterLabel = 'Datum: 17-09-2019 t/m nu'
 
-      expect(queryByText(createdAfterLabel)).toBeInTheDocument();
-    });
+      expect(queryByText(createdAfterLabel)).toBeInTheDocument()
+    })
 
     it('renders both date after and date before', () => {
       const { queryByText } = render(
@@ -108,63 +112,94 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             mainCategories={mainCategories}
           />
         )
-      );
+      )
 
-      const createdBeforeAfterLabel = 'Datum: 17-09-2019 t/m 23-09-2019';
+      const createdBeforeAfterLabel = 'Datum: 17-09-2019 t/m 23-09-2019'
 
-      expect(queryByText(createdBeforeAfterLabel)).toBeInTheDocument();
-    });
-  });
+      expect(queryByText(createdBeforeAfterLabel)).toBeInTheDocument()
+    })
+  })
 
   describe('tags list', () => {
     const maincategory_slug = [
       {
-        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+        key:
+          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
         value: 'Afval',
         slug: 'afval',
       },
-    ];
+    ]
 
-    const categories = [...mainCategories, { ...category, value: category.name }];
+    const categories = [
+      ...mainCategories,
+      { ...category, value: category.name },
+    ]
 
     it('shows an extra label when a tag is a main category', () => {
       const { rerender, queryByText } = render(
-        withContext(<FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={categories} />)
-      );
+        withContext(
+          <FilterTagListComponent
+            tags={tags}
+            subCategories={subCategories}
+            mainCategories={categories}
+          />
+        )
+      )
 
-      expect(queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)).toBeFalsy();
-      const tagsWithMainCat = { ...tags, maincategory_slug };
+      expect(
+        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)
+      ).toBeFalsy()
+      const tagsWithMainCat = { ...tags, maincategory_slug }
       rerender(
         withContext(
-          <FilterTagListComponent tags={tagsWithMainCat} subCategories={subCategories} mainCategories={categories} />
+          <FilterTagListComponent
+            tags={tagsWithMainCat}
+            subCategories={subCategories}
+            mainCategories={categories}
+          />
         )
-      );
+      )
 
-      expect(queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)).toBeTruthy();
-    });
+      expect(
+        queryByText(`${maincategory_slug[0].value}${allLabelAppend}`)
+      ).toBeTruthy()
+    })
 
     it('renders a list of tags', () => {
       render(
         withContext(
-          <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={mainCategories} />
+          <FilterTagListComponent
+            tags={tags}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
+          />
         )
-      );
+      )
 
-      expect(screen.queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
-      expect(screen.queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-      expect(screen.queryByText(tags.address_text)).toBeInTheDocument();
-      expect(screen.queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
-      expect(screen.queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
-      expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
-      expect(screen.queryByText(sources[0].value)).toBeInTheDocument();
+      expect(
+        screen.queryByText(definitions.priorityList[1].value)
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByText(definitions.feedbackList[0].value)
+      ).toBeInTheDocument()
+      expect(screen.queryByText(tags.address_text)).toBeInTheDocument()
+      expect(
+        screen.queryByText(definitions.stadsdeelList[0].value)
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByText(definitions.stadsdeelList[1].value)
+      ).toBeInTheDocument()
+      expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument()
+      expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
 
-      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9);
-    });
+      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9)
+    })
 
     it('works with feature flag fetchDistrictsFromBackend enabled', () => {
-      configuration.featureFlags.fetchDistrictsFromBackend = true;
+      configuration.featureFlags.fetchDistrictsFromBackend = true
 
-      const { stadsdeel, ...otherTags } = tags;
+      // eslint-disable-next-line no-unused-vars
+      const { stadsdeel, ...otherTags } = tags
       render(
         withContext(
           <FilterTagListComponent
@@ -176,22 +211,30 @@ describe('signals/incident-management/containers/FilterTagList', () => {
             mainCategories={mainCategories}
           />
         )
-      );
+      )
 
-      expect(screen.queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
-      expect(screen.queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-      expect(screen.queryByText(tags.address_text)).toBeInTheDocument();
-      expect(screen.queryByText(definitions.stadsdeelList[0].value)).not.toBeInTheDocument();
-      expect(screen.queryByText(definitions.stadsdeelList[1].value)).not.toBeInTheDocument();
-      expect(screen.queryByText(districts[0].value)).toBeInTheDocument();
-      expect(screen.queryByText(sources[0].value)).toBeInTheDocument();
+      expect(
+        screen.queryByText(definitions.priorityList[1].value)
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByText(definitions.feedbackList[0].value)
+      ).toBeInTheDocument()
+      expect(screen.queryByText(tags.address_text)).toBeInTheDocument()
+      expect(
+        screen.queryByText(definitions.stadsdeelList[0].value)
+      ).not.toBeInTheDocument()
+      expect(
+        screen.queryByText(definitions.stadsdeelList[1].value)
+      ).not.toBeInTheDocument()
+      expect(screen.queryByText(districts[0].value)).toBeInTheDocument()
+      expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
 
-      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(8);
-    });
+      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(8)
+    })
 
     describe('users', () => {
       it('renders correctly', () => {
-        configuration.featureFlags.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true
         render(
           withContext(
             <FilterTagListComponent
@@ -203,22 +246,30 @@ describe('signals/incident-management/containers/FilterTagList', () => {
               mainCategories={mainCategories}
             />
           )
-        );
+        )
 
-        expect(screen.queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(tags.address_text)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
-        expect(screen.queryByText(sources[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(userOptions[1].value)).toBeInTheDocument();
+        expect(
+          screen.queryByText(definitions.priorityList[1].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.feedbackList[0].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(tags.address_text)).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.stadsdeelList[0].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.stadsdeelList[1].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument()
+        expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
+        expect(screen.queryByText(userOptions[1].value)).toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10);
-      });
+        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10)
+      })
 
       it('renders null value', () => {
-        configuration.featureFlags.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true
         render(
           withContext(
             <FilterTagListComponent
@@ -230,42 +281,62 @@ describe('signals/incident-management/containers/FilterTagList', () => {
               mainCategories={mainCategories}
             />
           )
-        );
+        )
 
-        expect(screen.queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(tags.address_text)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
-        expect(screen.queryByText(sources[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(userOptions[0].value)).toBeInTheDocument();
+        expect(
+          screen.queryByText(definitions.priorityList[1].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.feedbackList[0].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(tags.address_text)).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.stadsdeelList[0].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.stadsdeelList[1].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument()
+        expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
+        expect(screen.queryByText(userOptions[0].value)).toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10);
-      });
+        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10)
+      })
 
       it('works without a tag', () => {
-        configuration.featureFlags.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true
         render(
           withContext(
-            <FilterTagListComponent tags={tags} subCategories={subCategories} mainCategories={mainCategories} />
+            <FilterTagListComponent
+              tags={tags}
+              subCategories={subCategories}
+              mainCategories={mainCategories}
+            />
           )
-        );
+        )
 
-        expect(screen.queryByText(definitions.priorityList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(tags.address_text)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
-        expect(screen.queryByText(sources[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(userOptions[0].value)).not.toBeInTheDocument();
+        expect(
+          screen.queryByText(definitions.priorityList[1].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.feedbackList[0].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(tags.address_text)).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.stadsdeelList[0].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText(definitions.stadsdeelList[1].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument()
+        expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
+        expect(screen.queryByText(userOptions[0].value)).not.toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9);
-      });
+        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9)
+      })
 
       it('does not render a tag that does not match a user', () => {
-        configuration.featureFlags.assignSignalToEmployee = true;
+        configuration.featureFlags.assignSignalToEmployee = true
         render(
           withContext(
             <FilterTagListComponent
@@ -277,15 +348,15 @@ describe('signals/incident-management/containers/FilterTagList', () => {
               mainCategories={mainCategories}
             />
           )
-        );
+        )
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9);
-      });
-    });
+        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9)
+      })
+    })
 
     describe('routing departments', () => {
       it('renders correctly', () => {
-        configuration.featureFlags.assignSignalToDepartment = true;
+        configuration.featureFlags.assignSignalToDepartment = true
         render(
           withContext(
             <FilterTagListComponent
@@ -298,24 +369,36 @@ describe('signals/incident-management/containers/FilterTagList', () => {
               routingDepartments={departmentOptions}
             />
           )
-        );
+        )
 
-        expect(screen.getByText(definitions.priorityList[1].value)).toBeInTheDocument();
-        expect(screen.getByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-        expect(screen.getByText(tags.address_text)).toBeInTheDocument();
-        expect(screen.getByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
-        expect(screen.getByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
-        expect(screen.getByText(sources[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(departmentOptions[0].value)).not.toBeInTheDocument();
-        expect(screen.getByText(departmentOptions[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(departmentOptions[2].value)).not.toBeInTheDocument();
+        expect(
+          screen.getByText(definitions.priorityList[1].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.feedbackList[0].value)
+        ).toBeInTheDocument()
+        expect(screen.getByText(tags.address_text)).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.stadsdeelList[0].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.stadsdeelList[1].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument()
+        expect(screen.getByText(sources[0].value)).toBeInTheDocument()
+        expect(
+          screen.queryByText(departmentOptions[0].value)
+        ).not.toBeInTheDocument()
+        expect(screen.getByText(departmentOptions[1].value)).toBeInTheDocument()
+        expect(
+          screen.queryByText(departmentOptions[2].value)
+        ).not.toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10);
-      });
+        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10)
+      })
 
       it('renders null value', () => {
-        configuration.featureFlags.assignSignalToDepartment = true;
+        configuration.featureFlags.assignSignalToDepartment = true
         render(
           withContext(
             <FilterTagListComponent
@@ -328,24 +411,36 @@ describe('signals/incident-management/containers/FilterTagList', () => {
               routingDepartments={departmentOptions}
             />
           )
-        );
+        )
 
-        expect(screen.getByText(definitions.priorityList[1].value)).toBeInTheDocument();
-        expect(screen.getByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-        expect(screen.getByText(tags.address_text)).toBeInTheDocument();
-        expect(screen.getByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
-        expect(screen.getByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
-        expect(screen.getByText(sources[0].value)).toBeInTheDocument();
-        expect(screen.getByText(departmentOptions[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(departmentOptions[1].value)).not.toBeInTheDocument();
-        expect(screen.queryByText(departmentOptions[2].value)).not.toBeInTheDocument();
+        expect(
+          screen.getByText(definitions.priorityList[1].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.feedbackList[0].value)
+        ).toBeInTheDocument()
+        expect(screen.getByText(tags.address_text)).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.stadsdeelList[0].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.stadsdeelList[1].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument()
+        expect(screen.getByText(sources[0].value)).toBeInTheDocument()
+        expect(screen.getByText(departmentOptions[0].value)).toBeInTheDocument()
+        expect(
+          screen.queryByText(departmentOptions[1].value)
+        ).not.toBeInTheDocument()
+        expect(
+          screen.queryByText(departmentOptions[2].value)
+        ).not.toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10);
-      });
+        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10)
+      })
 
       it('works without a tag', () => {
-        configuration.featureFlags.assignSignalToDepartment = true;
+        configuration.featureFlags.assignSignalToDepartment = true
         render(
           withContext(
             <FilterTagListComponent
@@ -355,22 +450,36 @@ describe('signals/incident-management/containers/FilterTagList', () => {
               routingDepartments={departmentOptions}
             />
           )
-        );
+        )
 
-        expect(screen.getByText(definitions.priorityList[1].value)).toBeInTheDocument();
-        expect(screen.getByText(definitions.feedbackList[0].value)).toBeInTheDocument();
-        expect(screen.getByText(tags.address_text)).toBeInTheDocument();
-        expect(screen.getByText(definitions.stadsdeelList[0].value)).toBeInTheDocument();
-        expect(screen.getByText(definitions.stadsdeelList[1].value)).toBeInTheDocument();
-        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument();
-        expect(screen.getByText(sources[0].value)).toBeInTheDocument();
-        expect(screen.queryByText(departmentOptions[0].value)).not.toBeInTheDocument();
-        expect(screen.queryByText(departmentOptions[1].value)).not.toBeInTheDocument();
-        expect(screen.queryByText(departmentOptions[2].value)).not.toBeInTheDocument();
+        expect(
+          screen.getByText(definitions.priorityList[1].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.feedbackList[0].value)
+        ).toBeInTheDocument()
+        expect(screen.getByText(tags.address_text)).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.stadsdeelList[0].value)
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(definitions.stadsdeelList[1].value)
+        ).toBeInTheDocument()
+        expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument()
+        expect(screen.getByText(sources[0].value)).toBeInTheDocument()
+        expect(
+          screen.queryByText(departmentOptions[0].value)
+        ).not.toBeInTheDocument()
+        expect(
+          screen.queryByText(departmentOptions[1].value)
+        ).not.toBeInTheDocument()
+        expect(
+          screen.queryByText(departmentOptions[2].value)
+        ).not.toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9);
-      });
-    });
+        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9)
+      })
+    })
 
     it('renders tags that have all items selected', () => {
       const groupedTags = {
@@ -378,35 +487,50 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         stadsdeel: definitions.stadsdeelList,
         source: sources,
         priority: definitions.priorityList,
-      };
+      }
 
       const { queryByText } = render(
         withContext(
-          <FilterTagListComponent tags={groupedTags} subCategories={subCategories} mainCategories={mainCategories} />
+          <FilterTagListComponent
+            tags={groupedTags}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
+          />
         )
-      );
+      )
 
-      expect(queryByText(`status${allLabelAppend}`)).toBeInTheDocument();
-      expect(queryByText(`stadsdeel${allLabelAppend}`)).toBeInTheDocument();
-      expect(queryByText(`bron${allLabelAppend}`)).toBeInTheDocument();
-      expect(queryByText(`urgentie${allLabelAppend}`)).toBeInTheDocument();
-    });
+      expect(queryByText(`status${allLabelAppend}`)).toBeInTheDocument()
+      expect(queryByText(`stadsdeel${allLabelAppend}`)).toBeInTheDocument()
+      expect(queryByText(`bron${allLabelAppend}`)).toBeInTheDocument()
+      expect(queryByText(`urgentie${allLabelAppend}`)).toBeInTheDocument()
+    })
 
     it('renders no list when tags are undefined', () => {
-      render(withContext(<FilterTagListComponent subCategories={subCategories} mainCategories={mainCategories} />));
+      render(
+        withContext(
+          <FilterTagListComponent
+            subCategories={subCategories}
+            mainCategories={mainCategories}
+          />
+        )
+      )
 
-      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(0);
-    });
-  });
+      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(0)
+    })
+  })
 
   it('should map keys', () => {
-    expect(mapKeys('source')).toEqual('bron');
-    expect(mapKeys('any_key')).toEqual('any_key');
-    expect(mapKeys('priority')).toEqual('urgentie');
-    expect(mapKeys('contact_details')).toEqual('contact');
-    expect(mapKeys('directing_department')).toEqual('verantwoordelijke afdeling');
-    expect(mapKeys('routing_department')).toEqual('gekoppelde afdeling');
-    expect(mapKeys('has_changed_children')).toEqual('wijziging in deelmeldingen');
-    expect(mapKeys('kind')).toEqual('soort');
-  });
-});
+    expect(mapKeys('source')).toEqual('bron')
+    expect(mapKeys('any_key')).toEqual('any_key')
+    expect(mapKeys('priority')).toEqual('urgentie')
+    expect(mapKeys('contact_details')).toEqual('contact')
+    expect(mapKeys('directing_department')).toEqual(
+      'verantwoordelijke afdeling'
+    )
+    expect(mapKeys('routing_department')).toEqual('gekoppelde afdeling')
+    expect(mapKeys('has_changed_children')).toEqual(
+      'wijziging in deelmeldingen'
+    )
+    expect(mapKeys('kind')).toEqual('soort')
+  })
+})

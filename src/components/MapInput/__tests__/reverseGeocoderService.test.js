@@ -1,28 +1,36 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import reverseGeocoderService, { formatRequest, serviceURL } from '../services/reverseGeocoderService';
+import reverseGeocoderService, {
+  formatRequest,
+  serviceURL,
+} from '../services/reverseGeocoderService'
 
 describe('formatRequest', () => {
   const testLocation = {
     lat: 42,
     lng: 4,
-  };
-  const result = 'https://base-url&X=39180.476027290264&Y=-667797.6751788945&distance=';
+  }
+  const result =
+    'https://base-url&X=39180.476027290264&Y=-667797.6751788945&distance='
 
   it('should format correct without distance', () => {
-    expect(formatRequest('https://base-url', testLocation)).toEqual(`${result}50`);
-  });
+    expect(formatRequest('https://base-url', testLocation)).toEqual(
+      `${result}50`
+    )
+  })
 
   it('should format correct with distance', () => {
-    expect(formatRequest('https://base-url', testLocation, 20)).toEqual(`${result}20`);
-  });
-});
+    expect(formatRequest('https://base-url', testLocation, 20)).toEqual(
+      `${result}20`
+    )
+  })
+})
 
 describe('reverseGeocoderService', () => {
   const testLocation = {
     lat: 42,
     lng: 4,
-  };
+  }
 
   const serviceURLResponse = {
     response: {
@@ -41,7 +49,7 @@ describe('reverseGeocoderService', () => {
         },
       ],
     },
-  };
+  }
 
   const testResult = {
     id: serviceURLResponse.response.docs[0].id,
@@ -55,7 +63,7 @@ describe('reverseGeocoderService', () => {
         woonplaats: serviceURLResponse.response.docs[0].woonplaatsnaam,
       },
     },
-  };
+  }
 
   it('should return a value from a response without a location', async () => {
     const noneFoundResponse = {
@@ -65,32 +73,32 @@ describe('reverseGeocoderService', () => {
         maxScore: 0.0,
         docs: [],
       },
-    };
-    fetch.mockResponse(JSON.stringify(noneFoundResponse));
+    }
+    fetch.mockResponse(JSON.stringify(noneFoundResponse))
 
-    const result = await reverseGeocoderService(testLocation);
+    const result = await reverseGeocoderService(testLocation)
 
-    expect(result).toBeUndefined();
-  });
+    expect(result).toBeUndefined()
+  })
 
   it('should return the correct location', async () => {
-    fetch.resetMocks();
-    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse));
+    fetch.resetMocks()
+    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse))
 
-    const result = await reverseGeocoderService(testLocation);
+    const result = await reverseGeocoderService(testLocation)
 
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(1)
 
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining(serviceURL));
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining(serviceURL))
 
-    expect(result).toEqual(testResult);
-  });
+    expect(result).toEqual(testResult)
+  })
 
   it('should handle failed requests', async () => {
-    fetch.mockReject(() => Promise.reject(new Error('something bad happened')));
+    fetch.mockReject(() => Promise.reject(new Error('something bad happened')))
 
-    const result = await reverseGeocoderService(testLocation);
+    const result = await reverseGeocoderService(testLocation)
 
-    expect(result).toBeUndefined();
-  });
-});
+    expect(result).toBeUndefined()
+  })
+})

@@ -3,35 +3,35 @@
 global.window.CONFIG = {
   foo: 'bar',
   baz: 'qux',
-};
+}
 
-const configuration = require('./configuration').default;
+const configuration = require('./configuration').default
 
 describe('shared/services/configuration/configuration', () => {
   it('should return a config prop', () => {
-    expect(configuration).toHaveProperty('foo');
-    expect(configuration.baz).toEqual('qux');
+    expect(configuration).toHaveProperty('foo')
+    expect(configuration.baz).toEqual('qux')
 
     // destructuring should also work
-    const { foo } = configuration;
-    expect(foo).toEqual('bar');
-  });
+    const { foo } = configuration
+    expect(foo).toEqual('bar')
+  })
 
   it('should not be able to set', () => {
     expect(() => {
-      configuration.bar = 'foo';
-    }).toThrow();
-  });
+      configuration.bar = 'foo'
+    }).toThrow()
+  })
 
   it('should not be able to delete', () => {
     expect(() => {
-      delete configuration.foo;
-    }).toThrow();
-  });
+      delete configuration.foo
+    }).toThrow()
+  })
 
   it('should return undefined for missing props', () => {
-    const { missing } = configuration;
+    const { missing } = configuration
 
-    expect(missing).toBeUndefined();
-  });
-});
+    expect(missing).toBeUndefined()
+  })
+})

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import 'whatwg-fetch';
+import 'whatwg-fetch'
 
 /**
  * Parses the JSON returned by a network request
@@ -11,10 +11,10 @@ import 'whatwg-fetch';
  */
 function parseJSON(response) {
   if (response.status === 204 || response.status === 205) {
-    return null;
+    return null
   }
 
-  return response.json();
+  return response.json()
 }
 
 /**
@@ -26,16 +26,16 @@ function parseJSON(response) {
  */
 async function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
-    return response;
+    return response
   }
 
   if (response.headers.get('Content-Type') === 'application/json') {
-    response.jsonBody = await response.json();
+    response.jsonBody = await response.json()
   }
 
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
+  const error = new Error(response.statusText)
+  error.response = response
+  throw error
 }
 
 /**
@@ -47,7 +47,5 @@ async function checkStatus(response) {
  * @return {object}           The response data
  */
 export default function request(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON);
+  return fetch(url, options).then(checkStatus).then(parseJSON)
 }

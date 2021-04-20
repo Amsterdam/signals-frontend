@@ -1,29 +1,29 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useCallback, useMemo, useContext } from 'react';
-import styled from 'styled-components';
-import { Row, Column } from '@amsterdam/asc-ui';
-import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import React, { useCallback, useMemo, useContext } from 'react'
+import styled from 'styled-components'
+import { Row, Column } from '@amsterdam/asc-ui'
+import { FormBuilder, FieldGroup } from 'react-reactive-form'
 
-import MapContext from 'containers/MapContext';
+import MapContext from 'containers/MapContext'
 
-import { mapLocation } from 'shared/services/map-location';
-import LocationInput from './components/LocationInput';
-import IncidentDetailContext from '../../context';
-import { PATCH_TYPE_LOCATION } from '../../constants';
+import { mapLocation } from 'shared/services/map-location'
+import IncidentDetailContext from '../../context'
+import { PATCH_TYPE_LOCATION } from '../../constants'
+import LocationInput from './components/LocationInput'
 
 const StyledColumn = styled(Column)`
   display: block;
   background: white;
   position: relative;
-`;
+`
 
 const LocationForm = () => {
   const {
     incident: { location },
     update,
     close,
-  } = useContext(IncidentDetailContext);
+  } = useContext(IncidentDetailContext)
 
   const form = useMemo(
     () =>
@@ -31,30 +31,30 @@ const LocationForm = () => {
         location,
       }),
     [location]
-  );
+  )
 
   const onQueryResult = useCallback(
-    value => {
-      const newLocation = mapLocation(value);
+    (value) => {
+      const newLocation = mapLocation(value)
 
-      form.controls.location.setValue(newLocation);
+      form.controls.location.setValue(newLocation)
     },
     [form.controls.location]
-  );
+  )
 
   const handleSubmit = useCallback(
-    event => {
-      event.preventDefault();
+    (event) => {
+      event.preventDefault()
 
       update({
         type: PATCH_TYPE_LOCATION,
         patch: { location: { ...location, ...form.value.location } },
-      });
+      })
 
-      close();
+      close()
     },
     [update, form.value, close, location]
-  );
+  )
 
   return (
     <Row>
@@ -75,7 +75,7 @@ const LocationForm = () => {
         />
       </StyledColumn>
     </Row>
-  );
-};
+  )
+}
 
-export default LocationForm;
+export default LocationForm

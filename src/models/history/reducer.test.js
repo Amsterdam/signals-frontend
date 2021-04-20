@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { fromJS } from 'immutable';
-import historyReducer, { initialState } from './reducer';
+import { fromJS } from 'immutable'
+import historyReducer, { initialState } from './reducer'
 
 import {
   REQUEST_HISTORY_LIST,
   REQUEST_HISTORY_LIST_SUCCESS,
   REQUEST_HISTORY_LIST_ERROR,
-}
-  from './constants';
+} from './constants'
 
 describe('historyReducer', () => {
   it('returns the initial state', () => {
-    expect(historyReducer(undefined, {})).toEqual(fromJS(initialState));
-  });
+    expect(historyReducer(undefined, {})).toEqual(fromJS(initialState))
+  })
 
   describe('REQUEST_HISTORY_LIST', () => {
     it('resets error and loading', () => {
@@ -25,9 +24,9 @@ describe('historyReducer', () => {
         error: false,
         loading: true,
         list: [],
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('REQUEST_HISTORY_LIST_SUCCESS', () => {
     it('sets history list and loading', () => {
@@ -39,9 +38,9 @@ describe('historyReducer', () => {
       ).toEqual({
         loading: false,
         list: ['history 1', 'history 2'],
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('REQUEST_HISTORY_LIST_ERROR', () => {
     it('sets error and loading', () => {
@@ -54,7 +53,7 @@ describe('historyReducer', () => {
         error: true,
         loading: false,
         list: [],
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})
