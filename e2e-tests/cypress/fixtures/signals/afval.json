@@ -37,6 +37,7 @@
     "sharing_allowed": "Ja"
   },
   "priority": "Normaal",
+  "process_time": "Binnen de afhandeltermijn",
   "notes": [
     {"text": "Geen actie nodig", "created_by": null},
     {"text": "Extra email is verzonden aan melder.", "created_by": null}

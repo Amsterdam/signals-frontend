@@ -2,10 +2,11 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
-import { generateToken } from '../../support/jwt';
+import { generateTokenDate } from '../../support/jwt';
 import signal from '../../fixtures/signals/fietsWrak.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
+import * as general from '../../support/commandsGeneral';
 
 describe('Create signal "Fietswrak" and check signal details', () => {
   describe('Create signal fietswrak', () => {
@@ -52,7 +53,10 @@ describe('Create signal "Fietswrak" and check signal details', () => {
   });
   describe('Check data created signal', () => {
     before(() => {
-      localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      // Set date on today + 63 to check handling time
+      const futureDate = general.getFutureDate(63);
+      cy.clock(futureDate);
+      localStorage.setItem('accessToken', generateTokenDate(futureDate, 'Admin', 'signals.admin@example.com'));
       routes.getManageSignalsRoutes();
       routes.getSignalDetailsRoutesById();
       cy.visit('/manage/incidents/');
@@ -65,6 +69,9 @@ describe('Create signal "Fietswrak" and check signal details', () => {
       routes.waitForSignalDetailsRoutes();
 
       createSignal.checkAllDetails(signal);
+      cy.clock().then(clock => {
+        clock.restore();
+      });
     });
   });
 });

@@ -37,6 +37,7 @@
     "sharing_allowed": "Nee"
   },
   "priority": "Normaal",
+  "process_time": "Binnen de afhandeltermijn",
   "notes": [],
   "type": "Klacht",
   "source": "1",
