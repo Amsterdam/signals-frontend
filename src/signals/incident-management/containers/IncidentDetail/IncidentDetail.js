@@ -145,7 +145,7 @@ const IncidentDetail = () => {
   useEffect(() => {
     if (!attachments) return
 
-    dispatch({ type: SET_ATTACHMENTS, payload: attachments?.results })
+    dispatch({ type: SET_ATTACHMENTS, payload: attachments.results })
   }, [attachments])
 
   useEffect(() => {
@@ -214,13 +214,17 @@ const IncidentDetail = () => {
     }
 
     // retrieve children only when an incident has children
-    const hasChildren = incident?._links['sia:children']?.length > 0
+    const hasChildren = incident._links['sia:children']?.length > 0
 
     if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`)
     }
 
-    if (incident?.reporter?.email && !hasChildren) {
+    const isSplitIncident = incident._links?.['sia:parent']?.href
+      ?.split('/')
+      .pop()
+
+    if (incident.reporter.email && !isSplitIncident) {
       getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
     }
   }, [
@@ -304,9 +308,7 @@ const IncidentDetail = () => {
           span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}
         >
           <Detail attachments={state.attachments} context={state.context} />
-
           <AddNote />
-
           {state.children && state.childrenHistory && (
             <ChildIncidents
               incidents={state.children.results}
@@ -314,7 +316,6 @@ const IncidentDetail = () => {
               history={state.childrenHistory}
             />
           )}
-
           {state.history && <History list={state.history} />}
         </DetailContainer>
 

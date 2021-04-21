@@ -1,0 +1,24 @@
+[
+  {
+    "state": "o",
+    "templates": [
+      {
+        "title": "Niets gevonden",
+        "text": "Er is geen fietswrak gevonden op de aangewezen plek."
+      },
+      {
+        "title": "Zes wekenregeling",
+        "text": "Dit gebied valt onder de zes wekenregeling en het fietswrak zal worden opgeruimd volgens schema."
+      },
+      {
+        "title": "Gestickerd",
+        "text": "De fiets is gestickerd en zal worden opgehaald."
+      },
+      { "title": "Opgeruimd", "text": "Het fietswrak is opgehaald." },
+      {
+        "title": "Geen actie",
+        "text": "Fiets is van een ambtenaar in functie. Die laten we dus staan."
+      }
+    ]
+  }
+]

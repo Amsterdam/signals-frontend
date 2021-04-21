@@ -1,0 +1,23 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/attachments"
+    },
+    "next": { "href": null },
+    "previous": { "href": null }
+  },
+  "count": 1,
+  "results": [
+    {
+      "_display": "Attachment object (980)",
+      "_links": {
+        "self": {
+          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/attachments"
+        }
+      },
+      "location": "https://ae70d54aca324d0480ca01934240c78f.jpg",
+      "is_image": true,
+      "created_at": "2020-06-10T11:51:24.281272+02:00"
+    }
+  ]
+}
