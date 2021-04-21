@@ -24,7 +24,7 @@ import * as categoriesSelectors from 'models/categories/selectors'
 
 import IncidentDetailContext from '../../../context'
 import {
-  mockGet,
+  mockRequestHandler,
   fetchMock,
 } from '../../../../../../../../internals/testing/msw-server'
 import MetaList from '../MetaList'
@@ -493,7 +493,10 @@ describe('MetaList', () => {
 
     it('should not show assigned user when users not defined', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
-      mockGet(404, { message: 'No users defined' })
+      mockRequestHandler({
+        status: 400,
+        body: 'No users defined',
+      })
       render(renderWithContext(incidentFixture))
       await screen.findByTestId('meta-list-date-definition')
 
