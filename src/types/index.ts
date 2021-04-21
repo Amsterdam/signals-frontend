@@ -13,7 +13,7 @@ export interface InjectedStore extends Store {
 }
 
 export interface InjectReducerParams {
-  key: keyof ApplicationRootState;
+  key: keyof ApplicationnRootState;
   reducer: Reducer<any, any>;
 }
 
@@ -26,6 +26,7 @@ export interface InjectSagaParams {
 
 export interface ApplicationRootState {
   readonly global: AppState
+  readonly test: any
 }
 
 // eslint-disable-next-line @typescript-eslint/no-type-alias

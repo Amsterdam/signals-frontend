@@ -2,8 +2,8 @@ import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ReactReduxContext, useStore } from 'react-redux';
 
-import { getInjectors } from './sagaInjectors';
 import type { InjectedStore, InjectSagaParams } from 'types';
+import { getInjectors } from './sagaInjectors';
 
 /**
  * Dynamically injects a saga, passes component's props as saga arguments
@@ -22,27 +22,29 @@ export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
     // dont wanna give access to HOC. Child only
     class InjectSaga extends React.Component<P> {
       // eslint-disable-next-line react/static-property-placement
-      public static displayName = `withSaga(${(WrappedComponent.displayName ?? WrappedComponent.name) || 'Component'})`;
+      public static displayName = `withSaga(${
+        (WrappedComponent.displayName ?? WrappedComponent.name) || 'Component'
+      })`
 
-      public static WrappedComponent = WrappedComponent;
+      public static WrappedComponent = WrappedComponent
 
-      public static contextType = ReactReduxContext;
-      public injectors: ReturnType<typeof getInjectors>;
+      public static contextType = ReactReduxContext
+      public injectors: ReturnType<typeof getInjectors>
 
       public constructor(props: any, context: any) {
-        super(props, context);
+        super(props, context)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        this.injectors = getInjectors(context.store);
+        this.injectors = getInjectors(context.store)
 
-        this.injectors.injectSaga(key, { saga, mode }, this.props);
+        this.injectors.injectSaga(key, { saga, mode }, this.props)
       }
 
       public componentWillUnmount() {
-        this.injectors.ejectSaga(key);
+        this.injectors.ejectSaga(key)
       }
 
       public render() {
-        return <WrappedComponent {...this.props} />;
+        return <WrappedComponent {...this.props} />
       }
     }
 
