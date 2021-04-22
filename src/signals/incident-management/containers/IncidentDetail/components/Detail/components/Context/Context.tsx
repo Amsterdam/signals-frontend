@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { Link as AscLink } from '@amsterdam/asc-ui';
+// Copyright (C) 2021 Gemeente Amsterdam
+import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
+import { Link as AscLink } from '@amsterdam/asc-ui'
 
-import { INCIDENT_URL } from 'signals/incident-management/routes';
-import type ContextType from 'types/context';
+import { INCIDENT_URL } from 'signals/incident-management/routes'
+import type ContextType from 'types/context'
 
 export interface ContextProps {
-  context: ContextType;
-  id: number;
+  context: ContextType
+  id: number
 }
 
 const Context: React.FC<ContextProps> = ({
@@ -29,6 +29,6 @@ const Context: React.FC<ContextProps> = ({
       </div>
     </dd>
   </Fragment>
-);
+)
 
-export default Context;
+export default Context
