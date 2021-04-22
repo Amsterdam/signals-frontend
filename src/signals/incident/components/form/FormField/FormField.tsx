@@ -22,6 +22,7 @@ const StyledErrorWrapper = styled(ErrorWrapper)<{ invalid: boolean }>`
 `
 
 const StyledLabel = styled(Label)`
+  width: 100%;
   margin-bottom: 0;
   line-height: ${themeSpacing(6)};
 `
