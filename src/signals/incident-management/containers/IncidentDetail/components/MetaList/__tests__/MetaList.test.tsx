@@ -83,9 +83,10 @@ const renderWithContext = (incident: any = parentIncident) =>
 describe('MetaList', () => {
   beforeEach(() => {
     update.mockReset()
-    edit.mockReset()
-    ;(string2date as jest.Mock<any>).mockImplementation(() => '21-07-1970')
-    ;(string2time as jest.Mock<any>).mockImplementation(() => '11:56')
+    edit
+      .mockReset()(string2date as jest.Mock<any>)
+      .mockImplementation(() => '21-07-1970')(string2time as jest.Mock<any>)
+      .mockImplementation(() => '11:56')
     jest
       .spyOn(departmentsSelectors, 'makeSelectDepartments')
       .mockImplementation(() => departments)
@@ -97,9 +98,7 @@ describe('MetaList', () => {
       .mockImplementation(() => handlingTimesBySlug)
   })
 
-  afterEach(() => {
-    ;((configuration as unknown) as any).__reset()
-  })
+  afterEach(() => ((configuration as unknown) as any).__reset())
 
   describe('rendering', () => {
     it('should render correctly a plain incident', () => {

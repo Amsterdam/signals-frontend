@@ -71,6 +71,7 @@ module.exports = (options) => ({
               noquotes: true,
             },
           },
+          '@svgr/webpack',
         ],
       },
       {
