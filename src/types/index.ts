@@ -6,6 +6,11 @@ import type { EventChannel, Saga } from 'redux-saga';
 
 import type { AppState } from 'containers/App/types'
 
+export interface ApplicationRootState {
+  readonly global: AppState
+  readonly test?: any
+}
+
 export interface InjectedStore extends Store {
   injectedReducers: Record<string, unknown>;
   injectedSagas: Record<string, unknown>;
@@ -13,7 +18,7 @@ export interface InjectedStore extends Store {
 }
 
 export interface InjectReducerParams {
-  key: keyof ApplicationnRootState;
+  key: keyof ApplicationRootState;
   reducer: Reducer<any, any>;
 }
 
@@ -23,11 +28,6 @@ export interface InjectSagaParams {
   mode?: string | undefined;
 }
 
-
-export interface ApplicationRootState {
-  readonly global: AppState
-  readonly test: any
-}
 
 // eslint-disable-next-line @typescript-eslint/no-type-alias
 export type SagaGeneratorType = Generator<
