@@ -50,7 +50,7 @@ describe('Create signal "Container" and check signal details, container is on th
       cy.wait(1000);
       cy.get(CONTAINERS.buttonUitzoomen).click();
       // wait for zoom
-      cy.wait(1000);
+      cy.wait(2000);
       cy.get(CONTAINERS.clusterIcon).its('length').should('be.gt', 1);
       cy.get(CONTAINERS.buttonInzoomen).click();
       // wait for zoom
