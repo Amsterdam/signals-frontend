@@ -66,7 +66,7 @@ async function checkStatus(response: Response) {
  *
  * @return {object}           The response data
  */
-export default async function request(url: string, options: RequestInit): Promise<unknown | { err: ResponseError }> {
+export default async function request(url: string, options?: RequestInit): Promise<unknown | { err: ResponseError }> {
   const fetchResponse = await fetch(url, options);
 
   const response = await checkStatus(fetchResponse);

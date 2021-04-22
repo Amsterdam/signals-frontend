@@ -4,14 +4,17 @@
  * Test injectors
  */
 
-import { memoryHistory } from 'react-router-dom'
 import { put } from 'redux-saga/effects'
 
-import configureStore from '../configureStore';
+import { InjectedStore } from 'types';
+import { createMemoryHistory } from 'history';
+import configureStore from '../../configureStore';
 import { getInjectors,
   injectSagaFactory,
-  ejectSagaFactory } from './sagaInjectors';
-import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from './constants';
+  ejectSagaFactory } from '../sagaInjectors';
+import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from '../constants';
+
+const memoryHistory = createMemoryHistory()
 
 function* testSaga() {
   yield put({ type: 'TEST', payload: 'yup' })
@@ -19,9 +22,9 @@ function* testSaga() {
 
 describe('injectors', () => {
   const originalNodeEnv = process.env.NODE_ENV
-  let store
-  let injectSaga
-  let ejectSaga
+  let store: any
+  let injectSaga: any
+  let ejectSaga: any
 
   describe('getInjectors', () => {
     beforeEach(() => {
@@ -52,7 +55,7 @@ describe('injectors', () => {
     })
 
     it('should check a store if the second argument is falsy', () => {
-      const eject = ejectSagaFactory({})
+      const eject = ejectSagaFactory({} as InjectedStore)
 
       expect(() => eject('test')).toThrow()
     })
@@ -127,9 +130,9 @@ describe('injectors', () => {
     })
 
     it('should check a store if the second argument is falsy', () => {
-      const inject = injectSagaFactory({})
+      const inject = injectSagaFactory({} as InjectedStore)
 
-      expect(() => inject('test', testSaga)).toThrow()
+      expect(() => inject('test', testSaga as any)).toThrow()
     })
 
     it('it should not check a store if the second argument is true', () => {

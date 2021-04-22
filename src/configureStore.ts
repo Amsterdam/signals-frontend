@@ -4,31 +4,28 @@
  * Create the store with dynamic reducers
  */
 
-import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'connected-react-router/immutable';
-import createSagaMiddleware from 'redux-saga';
+import { createStore, applyMiddleware } from 'redux'
+import { routerMiddleware } from 'connected-react-router/immutable'
+import createSagaMiddleware from 'redux-saga'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 
-import type { History } from 'history';
-import type { InjectedStore } from 'types';
-import type { ResponseError } from 'utils/request';
-import createReducer from './reducers';
+import type { History } from 'history'
+import type { InjectedStore } from 'types'
+import type { ResponseError } from 'utils/request'
+import createReducer from './reducers'
 
-interface ReduxDevToolsType {
-  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: (options: { trace: boolean; traceLimit: number }) => typeof compose;
-}
-
-const windowWithReduxDevTools: Window & typeof globalThis & ReduxDevToolsType = window;
-
-export default function configureStore(initialState: Record<string, any>, history: History) {
-  let composeEnhancers = compose;
+export default function configureStore(
+  initialState: Record<string, any>,
+  history: History
+) {
   const reduxSagaMonitorOptions = {
     onError: (error: ResponseError) => {
-      const message = error.response?.jsonBody?.message ?? error.message;
-      const notificationTitle = getErrorMessage(error);
+      const message = error.response?.jsonBody?.message ?? error.message
+      const notificationTitle = getErrorMessage(error)
 
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       store.dispatch(
@@ -42,15 +39,6 @@ export default function configureStore(initialState: Record<string, any>, histor
     },
   }
 
-  // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
-  /* istanbul ignore next */
-  if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
-    if (windowWithReduxDevTools.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-      composeEnhancers = windowWithReduxDevTools.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 });
-    }
-    /* eslint-enable */
-  }
-
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions)
 
   // Create the store with two middlewares
@@ -58,15 +46,25 @@ export default function configureStore(initialState: Record<string, any>, histor
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [sagaMiddleware, routerMiddleware(history)]
 
-  const enhancers = [applyMiddleware(...middlewares)]
+  let enhancers = applyMiddleware(...middlewares)
 
-  const store = createStore(createReducer(), initialState, composeEnhancers(...enhancers)) as InjectedStore;
+  // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
+  /* istanbul ignore next */
+  if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
+    enhancers = composeWithDevTools(enhancers)
+  }
+
+  const store = createStore(
+    createReducer(),
+    initialState,
+    enhancers
+  ) as InjectedStore
 
   // Extensions
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  store.runSaga = sagaMiddleware.run;
-  store.injectedReducers = {}; // Reducer registry
-  store.injectedSagas = {}; // Saga registry
+  store.runSaga = sagaMiddleware.run
+  store.injectedReducers = {} // Reducer registry
+  store.injectedSagas = {} // Saga registry
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */

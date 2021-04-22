@@ -6,7 +6,7 @@
 
 import { Action, Dispatch } from 'redux'
 import { InjectedStore } from 'types'
-import checkStore from './checkStore'
+import checkStore from '../utils/checkStore'
 
 const action: Action<number> = {
   type: 10,

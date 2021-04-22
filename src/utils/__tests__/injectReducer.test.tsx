@@ -7,13 +7,13 @@ import { Provider } from 'react-redux'
 import { render } from '@testing-library/react'
 
 import { createMemoryHistory } from 'history'
-import configureStore from '../configureStore'
-import { getInjectors } from './reducerInjectors'
+import configureStore from '../../configureStore'
+import { getInjectors } from '../reducerInjectors'
 
-import { useInjectReducer } from './injectReducer'
+import { useInjectReducer } from '../injectReducer'
 
 const memoryHistory = createMemoryHistory()
-jest.mock('./reducerInjectors')
+jest.mock('../reducerInjectors')
 
 // Fixtures
 const Component = () => null
@@ -21,8 +21,6 @@ const Component = () => null
 const reducer = (s: any) => s
 
 describe('injectReducer decorator', () => {
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  let store: any
   let ComponentWithReducer: any
   let injectReducer: any
   let injectors: any
@@ -33,17 +31,15 @@ describe('injectReducer decorator', () => {
     > // compiler doesn't know that it's mocked. So manually cast it.
     mockedGetInjectors.mockImplementation(() => injectors)
     // eslint-disable-next-line global-require
-    injectReducer = require('./injectReducer').default
+    injectReducer = require('../injectReducer').default
   })
 
   beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    store = configureStore({}, memoryHistory)
     injectors = {
       injectReducer: jest.fn(),
     }
     ComponentWithReducer = injectReducer({ key: 'test', reducer })(Component)
-    jest.unmock('./reducerInjectors')
+    jest.unmock('../reducerInjectors')
   })
 
   it('should set a correct display name', () => {
