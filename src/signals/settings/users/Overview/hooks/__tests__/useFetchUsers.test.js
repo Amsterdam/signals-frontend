@@ -9,7 +9,7 @@ import useFetchUsers from '../useFetchUsers'
 import {
   rest,
   server,
-  mockGet,
+  mockRequestHandler,
   fetchMock,
 } from '../../../../../../../internals/testing/msw-server'
 
@@ -56,7 +56,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
   it('should return errors that are thrown during fetch', async () => {
     const message = 'Network request failed'
     const error = new Error()
-    mockGet(404, { message })
+    mockRequestHandler({ status: 404, body: { message } })
 
     const { result, waitForNextUpdate } = renderHook(() =>
       useFetchUsers({ page: 1 })

@@ -36,6 +36,7 @@ export const MapInput = (props) => {
 
           <div className="map-input__control invoer">
             <MapInputComponent
+              id="map-input"
               value={value}
               onChange={onLocationChange}
               mapOptions={mapOptions}
