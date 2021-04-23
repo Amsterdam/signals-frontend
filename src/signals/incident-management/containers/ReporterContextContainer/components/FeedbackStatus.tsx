@@ -28,9 +28,8 @@ const FeedbackStatus: React.FC<FeedbackStatusProps> = ({
   const text = useMemo(() => {
     if (!feedback) return '-'
     if (!feedback.submitted_at) return 'Niet ontvangen'
-    if (!feedback.is_satisfied) return 'Niet tevreden'
 
-    return 'Tevreden'
+    return feedback.is_satisfied ? 'Tevreden' : 'Niet tevreden'
   }, [feedback])
 
   return (
