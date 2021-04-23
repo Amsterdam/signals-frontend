@@ -1,12 +1,79 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { useParams } from 'react-router-dom';
+// Copyright (C) 2021 Gemeente Amsterdam
+import React from 'react'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+import LoadingIndicator from 'components/LoadingIndicator'
+import IncidentList from './components/IncidentList'
+import Header from './components/Header'
+import { useReporterContext } from './hooks'
+
+const StyledIncidentList = styled(IncidentList)`
+  width: 50%;
+  margin: 0;
+  padding: 0;
+`
+
+const Wrapper = styled.article`
+  margin: 0 ${themeSpacing(8)};
+`
+
+const StyledHeader = styled(Header)`
+  margin-top: ${themeSpacing(6)};
+`
+
+const Content = styled.div`
+  margin-top: ${themeSpacing(6)};
+  display: flex;
+  border-top: 1px solid ${themeColor('tint', 'level3')};
+`
+
+const Incident = styled.div`
+  width: 50%;
+  border-left: 1px solid ${themeColor('tint', 'level3')};
+`
 
 const ReporterContextContainer: React.FunctionComponent = () => {
-  const { id } = useParams<{ id: string }>();
+  const {
+    reporter,
+    isLoading,
+    selectedIncident,
+    selectedIncidentId,
+    setSelectedIncidentId,
+  } = useReporterContext()
 
-  return <div data-testid="reporterContextContainer">hello world - incident {id}</div>;
-};
+  return (
+    <Wrapper data-testid="reporterContextContainer">
+      {reporter.email && reporter.incidents && (
+        <StyledHeader
+          id={reporter.originalIncidentId}
+          email={reporter.email}
+          count={reporter.incidents.count}
+        />
+      )}
 
-export default ReporterContextContainer;
+      {selectedIncident && reporter.incidents && selectedIncidentId && (
+        <Content>
+          <StyledIncidentList
+            list={reporter.incidents.results}
+            selectedId={selectedIncidentId}
+            selectIncident={setSelectedIncidentId}
+          />
+
+          {/* TODO SIG-3675 */}
+          <Incident>
+            {selectedIncidentId === selectedIncident?.id && (
+              <>
+                {selectedIncident?.id} {selectedIncident?.text}
+              </>
+            )}
+          </Incident>
+        </Content>
+      )}
+
+      {isLoading && <LoadingIndicator />}
+    </Wrapper>
+  )
+}
+
+export default ReporterContextContainer
