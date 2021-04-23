@@ -48,7 +48,7 @@ describe('Standaardteksten', () => {
       cy.get(STANDAARDTEKSTEN.buttonOpslaan).click();
       cy.get(STANDAARDTEKSTEN.notification).should('be.visible');
       cy.get(STANDAARDTEKSTEN.buttonCloseNotification).click();
-      cy.get(STANDAARDTEKSTEN.notification).should('not.be.visible');
+      cy.get(STANDAARDTEKSTEN.notification).should('not.exist');
       cy.wait('@PostDuiven');
       cy.get(STANDAARDTEKSTEN.inputTitle01).should('have.value', STANDAARDTEKSTEN.textTitleAfhandelen01);
       cy.get(STANDAARDTEKSTEN.inputText01).should('have.value', STANDAARDTEKSTEN.textDescriptionAfhandelen01);

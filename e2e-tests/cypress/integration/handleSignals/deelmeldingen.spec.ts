@@ -284,6 +284,7 @@ describe('Deelmeldingen', () => {
         cy.wait('@getHistory');
         cy.wait('@getDeelmeldingen');
         cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 13);
+        cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 7);
 
         cy.get(SIGNAL_DETAILS.historyAction).eq(3).should('have.text', 'Notitie toegevoegd:').and('be.visible');
         cy.get(SIGNAL_DETAILS.historyListItem).eq(0).contains('Geen actie nodig');
