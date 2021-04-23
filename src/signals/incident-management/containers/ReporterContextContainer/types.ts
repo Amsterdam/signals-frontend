@@ -38,12 +38,4 @@ export interface Incident {
   }
   id: string
   text: string
-  category: {
-    sub: string
-  }
-  feedback: Feedback
-  status: {
-    state_display: string
-  }
-  created_at: string
 }

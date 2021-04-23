@@ -5,15 +5,15 @@ import IncidentListItem from './IncidentListItem'
 
 interface InterfaceListProps {
   list: Result[]
-  selectedId: string
-  selectIncident: (id: string) => void
+  selectedIncidentId: string
+  setSelectedIncidentId: (id: string) => void
   className?: string
 }
 
-const IncidentList: React.FC<InterfaceListProps> = ({
+const IncidentList: React.FunctionComponent<InterfaceListProps> = ({
   list,
-  selectedId,
-  selectIncident,
+  selectedIncidentId,
+  setSelectedIncidentId,
   className,
 }) => (
   <ul className={className}>
@@ -21,8 +21,8 @@ const IncidentList: React.FC<InterfaceListProps> = ({
       <IncidentListItem
         key={incident.id}
         incident={incident}
-        isSelected={incident.id === selectedId}
-        onClick={() => selectIncident(incident.id)}
+        isSelected={incident.id === selectedIncidentId}
+        onClick={() => setSelectedIncidentId(incident.id)}
       />
     ))}
   </ul>

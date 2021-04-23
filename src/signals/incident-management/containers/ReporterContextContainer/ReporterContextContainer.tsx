@@ -8,14 +8,8 @@ import IncidentList from './components/IncidentList'
 import Header from './components/Header'
 import { useReporterContext } from './hooks'
 
-const StyledIncidentList = styled(IncidentList)`
-  width: 50%;
-  margin: 0;
-  padding: 0;
-`
-
 const Wrapper = styled.article`
-  margin: 0 ${themeSpacing(8)};
+  margin: 0 ${themeSpacing(11)};
 `
 
 const StyledHeader = styled(Header)`
@@ -26,6 +20,12 @@ const Content = styled.div`
   margin-top: ${themeSpacing(6)};
   display: flex;
   border-top: 1px solid ${themeColor('tint', 'level3')};
+`
+
+const StyledIncidentList = styled(IncidentList)`
+  width: 50%;
+  margin: 0;
+  padding: 0;
 `
 
 const Incident = styled.div`
@@ -56,8 +56,8 @@ const ReporterContextContainer: React.FunctionComponent = () => {
         <Content>
           <StyledIncidentList
             list={reporter.incidents.results}
-            selectedId={selectedIncidentId}
-            selectIncident={setSelectedIncidentId}
+            selectedIncidentId={selectedIncidentId}
+            setSelectedIncidentId={setSelectedIncidentId}
           />
 
           {/* TODO SIG-3675 */}

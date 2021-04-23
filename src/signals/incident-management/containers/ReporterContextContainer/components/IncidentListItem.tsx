@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import styled from 'styled-components'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { Theme } from 'types/theme'
-import { Incident } from '../types'
+import { Result } from '../types'
 import FeedbackStatus from './FeedbackStatus'
 
 const Category = styled.span`
@@ -29,7 +29,8 @@ const ListItem = styled.li<{ isSelected: boolean; theme: Theme }>`
     isSelected &&
     `
       background-color: rgba(0,70,153,0.1);
-      border-left: 4px solid ${themeColor('primary')({ theme })}
+      border-left: 4px solid ${themeColor('primary')({ theme })};
+      margin-left: -4px;
     `}
 `
 
@@ -50,7 +51,7 @@ const DateTime = styled.p`
 `
 
 interface IncidentListItemProps {
-  incident: Incident
+  incident: Result
   isSelected: boolean
   onClick: () => void
 }
