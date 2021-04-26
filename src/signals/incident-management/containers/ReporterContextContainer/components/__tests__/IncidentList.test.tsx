@@ -65,18 +65,18 @@ describe('IncidentList', () => {
 
   it('handles setSelectedIncidentId', () => {
     const setSelectedIncidentIdSpy = jest.fn()
-    const OLD = list[0].id
-    const NEW = list[1].id
+    const oldId = list[0].id
+    const newId = list[1].id
 
     render(
       <IncidentList
         list={list}
-        selectedIncidentId={OLD}
+        selectedIncidentId={oldId}
         setSelectedIncidentId={setSelectedIncidentIdSpy}
       />
     )
     userEvent.click(screen.getAllByRole('listitem')[1])
 
-    expect(setSelectedIncidentIdSpy).toHaveBeenCalledWith(NEW)
+    expect(setSelectedIncidentIdSpy).toHaveBeenCalledWith(newId)
   })
 })
