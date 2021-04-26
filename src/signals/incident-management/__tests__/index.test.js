@@ -262,9 +262,9 @@ describe('signals/incident-management', () => {
       })
     })
 
-    describe('incident reporter context', () => {
+    describe('incident reporter', () => {
       it('should show warning when not authenticated', async () => {
-        configuration.featureFlags.enableReporterContext = true
+        configuration.featureFlags.enableReporter = true
         history.push('/manage/incident/1101/melder')
         isAuthenticated.mockImplementation(() => false)
         render(withSuspense())
@@ -274,7 +274,7 @@ describe('signals/incident-management', () => {
       })
 
       it('should not show warning when authenticated', async () => {
-        configuration.featureFlags.enableReporterContext = true
+        configuration.featureFlags.enableReporter = true
         history.push('/manage/incident/1101/melder')
         isAuthenticated.mockImplementation(() => true)
         render(withSuspense())

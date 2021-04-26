@@ -5,7 +5,7 @@
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
     "enablePublicSignalMap": false,
-    "enableReporterContext": true,
+    "enableReporter": true,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
