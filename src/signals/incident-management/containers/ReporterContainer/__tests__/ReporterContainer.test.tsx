@@ -4,27 +4,27 @@ import * as reactRouterDom from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import ReporterContextContainer from '..'
-import { ReporterContextHook } from '../hooks'
+import ReporterContainer from '..'
+import { ReporterHook } from '../hooks'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
 }))
 
-let mockReporterContextHook = {} as ReporterContextHook
+let mockReporterHook = {} as ReporterHook
 
 jest.mock('../hooks', () => ({
-  useReporterContext: () => mockReporterContextHook,
+  useReporter: () => mockReporterHook,
 }))
 
 jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   id: '123',
 }))
 
-describe('ReporterContextContainer', () => {
+describe('ReporterContainer', () => {
   beforeEach(() => {
-    mockReporterContextHook = {
+    mockReporterHook = {
       selectedIncident: {
         id: 123,
         reporter: {
@@ -74,16 +74,16 @@ describe('ReporterContextContainer', () => {
   })
 
   it('renders loading indicator', () => {
-    mockReporterContextHook.isLoading = true
-    render(withAppContext(<ReporterContextContainer />))
+    mockReporterHook.isLoading = true
+    render(withAppContext(<ReporterContainer />))
 
     expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
   })
 
   it('should render correctly', () => {
-    render(withAppContext(<ReporterContextContainer />))
+    render(withAppContext(<ReporterContainer />))
 
-    expect(screen.getByTestId('reporterContextContainer')).toBeInTheDocument()
+    expect(screen.getByTestId('reporterContainer')).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'Terug naar melding' })
     ).toBeInTheDocument()

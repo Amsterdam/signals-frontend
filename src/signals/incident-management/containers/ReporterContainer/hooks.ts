@@ -7,11 +7,11 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
-import { Incident, ReporterContext } from './types'
+import { Incident, Reporter } from './types'
 
 const PAGE_SIZE = 10
 
-export interface ReporterContextHook {
+export interface ReporterHook {
   selectedIncident?: Incident
   selectedIncidentId?: number
   setSelectedIncidentId: (id: number) => void
@@ -19,21 +19,21 @@ export interface ReporterContextHook {
   reporter: {
     originalIncidentId: string
     email?: string
-    incidents?: ReporterContext
+    incidents?: Reporter
   }
 }
 
-export const useReporterContext = (): ReporterContextHook => {
+export const useReporter = (): ReporterHook => {
   const storeDispatch = useDispatch()
   const [selectedIncidentId, setSelectedIncidentId] = useState<number>()
   const { id } = useParams<{ id: string }>()
 
   const {
-    get: getReporterContext,
-    data: reporterContext,
-    error: getReporterContextError,
-    isLoading: getReporterContextLoading,
-  } = useFetch<ReporterContext>()
+    get: getReporter,
+    data: reporter,
+    error: getReporterError,
+    isLoading: getReporterLoading,
+  } = useFetch<Reporter>()
 
   const {
     get: getIncident,
@@ -48,15 +48,15 @@ export const useReporterContext = (): ReporterContextHook => {
   } = useFetch<Incident>()
 
   useEffect(() => {
-    getReporterContext(
+    getReporter(
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter?page_size=${PAGE_SIZE}`
     )
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`)
-  }, [getReporterContext, getIncident, id])
+  }, [getReporter, getIncident, id])
 
   useEffect(() => {
-    setSelectedIncidentId(reporterContext?.results[0]?.id)
-  }, [reporterContext])
+    setSelectedIncidentId(reporter?.results[0]?.id)
+  }, [reporter])
 
   useEffect(() => {
     if (selectedIncidentId) {
@@ -67,7 +67,7 @@ export const useReporterContext = (): ReporterContextHook => {
   }, [getSelectedIncident, selectedIncidentId])
 
   useEffect(() => {
-    if (getReporterContextError || getIncidentError) {
+    if (getReporterError || getIncidentError) {
       storeDispatch(
         showGlobalNotification({
           title:
@@ -77,17 +77,17 @@ export const useReporterContext = (): ReporterContextHook => {
         })
       )
     }
-  }, [getReporterContextError, getIncidentError, storeDispatch])
+  }, [getReporterError, getIncidentError, storeDispatch])
 
   return {
     selectedIncident,
     selectedIncidentId,
     setSelectedIncidentId,
-    isLoading: getReporterContextLoading || getIncidentLoading,
+    isLoading: getReporterLoading || getIncidentLoading,
     reporter: {
       originalIncidentId: id,
       email: incident?.reporter.email,
-      incidents: reporterContext,
+      incidents: reporter,
     },
   }
 }

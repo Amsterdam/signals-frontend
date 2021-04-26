@@ -23,7 +23,7 @@ export interface Result {
   has_children: boolean
 }
 
-export interface ReporterContext {
+export interface Reporter {
   _links: {
     self: string
     next: string
