@@ -4,14 +4,18 @@ import { format } from 'date-fns'
 import styled from 'styled-components'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { Theme } from 'types/theme'
+import ParentIncidentIcon from 'components/ParentIncidentIcon'
+
 import { Result } from '../types'
 import FeedbackStatus from './FeedbackStatus'
 
-const Category = styled.span`
-  font-weight: 600;
+const Info = styled.span`
+  font-weight: bold;
+  display: flex;
 `
 
 const ListItem = styled.li<{ isSelected: boolean; theme: Theme }>`
+  display: flex;
   padding: ${themeSpacing(2)};
   padding-right: ${themeSpacing(4)};
   border-bottom: 1px solid ${themeColor('tint', 'level3')};
@@ -19,7 +23,7 @@ const ListItem = styled.li<{ isSelected: boolean; theme: Theme }>`
   :hover {
     cursor: pointer;
 
-    ${Category} {
+    ${Info} {
       text-decoration: underline;
       color: ${themeColor('secondary')};
     }
@@ -35,10 +39,19 @@ const ListItem = styled.li<{ isSelected: boolean; theme: Theme }>`
 `
 
 const Wrapper = styled.div`
-  padding-left: ${themeSpacing(6)};
   display: grid;
-  grid: auto-flow / 2fr 2fr 1fr;
+  grid: auto-flow / 2fr 1fr 1fr;
   grid-gap: ${themeSpacing(1)};
+  width: 100%;
+`
+
+const StyledParentIncidentIcon = styled(ParentIncidentIcon)`
+  padding-top: ${themeSpacing(1)};
+  padding-right: ${themeSpacing(1)};
+`
+
+const Spacing = styled.div`
+  width: ${themeSpacing(6)};
 `
 
 const StyledFeedbackStatus = styled(FeedbackStatus)`
@@ -57,15 +70,16 @@ interface IncidentListItemProps {
 }
 
 const IncidentListItem: React.FC<IncidentListItemProps> = ({
-  incident: { category, feedback, id, status, created_at },
+  incident: { category, feedback, id, status, created_at, has_children },
   isSelected,
   onClick,
 }) => (
   <ListItem onClick={onClick} isSelected={isSelected}>
+    {has_children ? <StyledParentIncidentIcon /> : <Spacing />}
     <Wrapper>
-      <Category>
+      <Info>
         {id} {category.sub}
-      </Category>
+      </Info>
       <span>{status.state_display}</span>
       <StyledFeedbackStatus feedback={feedback} />
       <DateTime>{format(new Date(created_at), 'dd-MM-yyyy HH:mm')}</DateTime>
