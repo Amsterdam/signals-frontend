@@ -4,7 +4,8 @@
  * Test the request function
  */
 
-import request from './request'
+import request from '../request'
+declare let window: { fetch: jest.Mock }
 
 describe('request', () => {
   // Before each test, stub the fetch function
@@ -13,23 +14,25 @@ describe('request', () => {
   })
 
   describe('stubbing successful response', () => {
+    const resultData = { hello: 'world' }
     // Before each test, pretend we got a successful response
     beforeEach(() => {
-      const res = new Response('{"hello":"world"}', {
+      const res = new Response(JSON.stringify(resultData), {
         status: 200,
         headers: {
           'Content-type': 'application/json',
         },
       })
 
-      window.fetch.mockReturnValue(Promise.resolve(res))
+      window.fetch.mockReturnValue(Promise.resolve<Response>(res))
     })
 
     it('should format the response correctly', (done) => {
       request('/thisurliscorrect')
         .catch(done)
         .then((json) => {
-          expect(json.hello).toBe('world')
+
+          expect((json as typeof resultData).hello).toBe('world')
           done()
         })
     })
@@ -80,9 +83,10 @@ describe('request', () => {
   })
 
   describe('stubbing error json response', () => {
+    const responseData= {"message":"too late"};
     // Before each test, pretend we got an unsuccessful response
     beforeEach(() => {
-      const res = new Response('{"message":"too late"}', {
+      const res = new Response(JSON.stringify(responseData), {
         status: 412,
         statusText: 'Precondition Failed',
         headers: {
@@ -96,10 +100,16 @@ describe('request', () => {
     it('should catch json errors', (done) => {
       request('/thisdoesntexist')
         .then((json) => {
-          expect(json.message).toBe('too late')
+          expect((json as typeof responseData).message).toBe('too late')
           done()
         })
         .catch((error) => {
+          expect(error.response.status).toBe(412)
+          expect(error.response.statusText).toBe('Precondition Failed')
+          done()
+        })
+        .catch((error) => {
+          expect(error.response.jsonBody.message).toBe('too late')
           expect(error.response.status).toBe(412)
           expect(error.response.statusText).toBe('Precondition Failed')
           done()

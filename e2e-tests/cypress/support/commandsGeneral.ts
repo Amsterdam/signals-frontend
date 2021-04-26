@@ -43,6 +43,16 @@ export const getTodaysDate = () => {
 };
 
 /**
+  * Custom command to get a date of today + an amount of days.
+  * @example cy.getFutureDate(10);
+ */
+export const getFutureDate = (days: number) => {
+  const futureDate = new Date();
+  futureDate.setDate(futureDate.getDate() + days);
+  return futureDate;
+};
+
+/**
  * Custom command to open the menu.
  * @example cy.openMenu();
 */

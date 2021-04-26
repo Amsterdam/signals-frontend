@@ -8,8 +8,14 @@ export const ERROR_MESSAGES = {
   mandatoryFieldKTO: 'Dit veld is verplicht',
 };
 
+export const FILTERS = {
+  helpText: 'Ga naar ‘Filteren’ en voer een naam in om een filterinstelling op te slaan.',
+  noSavedFilter: 'U heeft geen eigen filter opgeslagen.',
+};
+
 export const KTO = {
-  body: '[Ja, ik ben tevreden]({{ positive_feedback_url }}) \n  [Nee, ik ben niet tevreden]({{ negative_feedback_url }})',
+  body:
+    '[Ja, ik ben tevreden]({{ positive_feedback_url }}) \n  [Nee, ik ben niet tevreden]({{ negative_feedback_url }})',
   formTitelIsAlFeedback: 'Er is al feedback gegeven voor deze melding',
   formTitleBedankt: 'Bedankt voor uw feedback!',
   formTitleOnTevreden: 'Nee, ik ben niet tevreden met de behandeling van mijn melding',
@@ -20,7 +26,8 @@ export const KTO = {
   questionWaaromTevreden: 'Waarom bent u tevreden?',
   subtitleQuestionTevreden: 'Een antwoord mogelijk, kies de belangrijkste reden',
   textBedankt: 'We zijn voortdurend bezig onze dienstverlening te verbeteren.',
-  textNogmaalsBedankt: 'Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.',
+  textNogmaalsBedankt:
+    'Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.',
 };
 
 export const NOTIFICATONS = {
@@ -28,12 +35,14 @@ export const NOTIFICATONS = {
 };
 
 export const MESSAGES = {
-  sendMailText: 'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
+  sendMailText:
+    'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
 };
 
 export const TYPE_TEXT = {
   aanvraag: 'Aanvraag: Een verzoek om iets structureels te veranderen',
-  grootOnderhoud: 'Groot onderhoud: Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
+  grootOnderhoud:
+    'Groot onderhoud: Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
   klacht: 'Klacht: Een uiting van ongenoegen over het handelen van de gemeente.',
   melding: 'Melding: Een verzoek tot herstel of handhaving om de normale situatie te herstellen',
   vraag: 'Vraag: Een verzoek om informatie',

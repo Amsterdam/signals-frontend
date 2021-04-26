@@ -6,7 +6,7 @@ import * as routes from './commandsRouting';
 /**
  * Custom command to filter signals by a category slug.
  * @example cy.filterByCategorySlug('overig-afval', 'Overig afval');
-*/
+ */
 export const filterCategory = (selector: string, category: string) => {
   cy.get(selector).click({ force: true });
   cy.get(`[data-testid*="checkbox-${category}"]`).each($el => {
@@ -21,7 +21,7 @@ export const filterCategory = (selector: string, category: string) => {
 /**
  * Custom command to filter signals by a specific attribute.
  * @example cy.filterCategory(FILTER_ALL_ITEMS.selectAllStatus, 'status');
-*/
+ */
 export const filterByCategorySlug = (category_slug: string, category: string) => {
   routes.getSortedByTimeRoutes();
   routes.getSortedRoutes();
@@ -34,8 +34,7 @@ export const filterByCategorySlug = (category_slug: string, category: string) =>
 
   if (category_slug === 'vermoeden') {
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Ondermijning: Alles').and('be.visible');
-  }
-  else {
+  } else {
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', category).and('be.visible');
   }
   cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);

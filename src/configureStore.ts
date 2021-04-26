@@ -4,25 +4,30 @@
  * Create the store with dynamic reducers
  */
 
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { routerMiddleware } from 'connected-react-router/immutable'
 import createSagaMiddleware from 'redux-saga'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 
+import type { History } from 'history'
+import type { InjectedStore } from 'types'
+import type { ResponseError } from 'utils/request'
 import createReducer from './reducers'
 
-export default function configureStore(initialState, history) {
-  let composeEnhancers = compose
+export default function configureStore(
+  initialState: Record<string, any>,
+  history: History
+) {
   const reduxSagaMonitorOptions = {
-    onError: (e) => {
-      const message =
-        (e.response && e.response.jsonBody && e.response.jsonBody.message) ||
-        e.message
-      const notificationTitle = getErrorMessage(e)
+    onError: (error: ResponseError) => {
+      const message = error.response?.jsonBody?.message ?? error.message
+      const notificationTitle = getErrorMessage(error)
 
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       store.dispatch(
         showGlobalNotification({
           title: notificationTitle,
@@ -34,26 +39,6 @@ export default function configureStore(initialState, history) {
     },
   }
 
-  // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
-  /* istanbul ignore next */
-  if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
-    /* eslint-disable no-underscore-dangle */
-    if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-      composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        trace: true,
-        traceLimit: 25,
-      })
-    }
-
-    // NOTE: Uncomment the code below to restore support for Redux Saga
-    // Dev Tools once it supports redux-saga version 1.x.x
-    // if (window.__SAGA_MONITOR_EXTENSION__)
-    //   reduxSagaMonitorOptions = {
-    //     sagaMonitor: window.__SAGA_MONITOR_EXTENSION__,
-    //   };
-    /* eslint-enable */
-  }
-
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions)
 
   // Create the store with two middlewares
@@ -61,15 +46,22 @@ export default function configureStore(initialState, history) {
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [sagaMiddleware, routerMiddleware(history)]
 
-  const enhancers = [applyMiddleware(...middlewares)]
+  let enhancers = applyMiddleware(...middlewares)
+
+  // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
+  /* istanbul ignore next */
+  if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
+    enhancers = composeWithDevTools(enhancers)
+  }
 
   const store = createStore(
     createReducer(),
     initialState,
-    composeEnhancers(...enhancers)
-  )
+    enhancers
+  ) as InjectedStore
 
   // Extensions
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   store.runSaga = sagaMiddleware.run
   store.injectedReducers = {} // Reducer registry
   store.injectedSagas = {} // Saga registry

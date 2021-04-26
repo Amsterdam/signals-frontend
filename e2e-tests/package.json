@@ -2,7 +2,7 @@
   "name": "@signalen/e2e-tests",
   "private": true,
   "dependencies": {
-    "cypress": "^6.8.0",
+    "cypress": "^7.1.0",
     "jsonwebtoken": "^8.5.1"
   },
   "scripts": {
@@ -25,7 +25,6 @@
     "eslint-find-rules": "^3.6.1",
     "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-nibble": "^6.0.0",
-    "eslint-plugin-amsterdam": "file:../eslint-plugin-amsterdam",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-promise": "^4.2.1",
