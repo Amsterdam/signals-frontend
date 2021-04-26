@@ -17,36 +17,24 @@ import {
   GET_SOURCES,
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
-} from './constants'
-import type { GlobalNotification, UserCredentials, User } from './types'
+} from './constants';
+import type { GlobalNotification, UserCredentials, User, Source } from './types';
 
-export type LoginFailedAction = Action<typeof LOGIN_FAILED, string>
-export type LogoutFailedAction = Action<typeof LOGOUT_FAILED, string>
-export type AuthenticateUserAction = Action<
-  typeof AUTHENTICATE_USER,
-  UserCredentials
->
-export type AuthorizeUserAction = Action<typeof AUTHORIZE_USER, User>
-export type ShowGlobalNotificationAction = Action<
-  typeof SHOW_GLOBAL_NOTIFICATION,
-  GlobalNotification
->
-export type ResetGlobalNotificationAction = Action<
-  typeof RESET_GLOBAL_NOTIFICATION,
-  never
->
-export type DoLogoutAction = Action<typeof LOGOUT, null>
-export type UploadSuccessAction = Action<typeof UPLOAD_SUCCESS, never>
-export type UploadProgressAction = Action<typeof UPLOAD_PROGRESS, number>
-export type UploadFailureAction = Action<typeof UPLOAD_FAILURE, never>
-export type SetSearchQueryAction = Action<typeof SET_SEARCH_QUERY, string>
-export type ResetSearchQueryAction = Action<typeof RESET_SEARCH_QUERY, never>
-export type GetSourcesAction = Action<typeof GET_SOURCES, never>
-export type GetSourcesFailedAction = Action<typeof GET_SOURCES_FAILED, string>
-export type GetSourcesSuccessAction = Action<
-  typeof GET_SOURCES_SUCCESS,
-  string[]
->
+export type LoginFailedAction = Action<typeof LOGIN_FAILED, string>;
+export type LogoutFailedAction = Action<typeof LOGOUT_FAILED, string>;
+export type AuthenticateUserAction = Action<typeof AUTHENTICATE_USER, UserCredentials>;
+export type AuthorizeUserAction = Action<typeof AUTHORIZE_USER, User>;
+export type ShowGlobalNotificationAction = Action<typeof SHOW_GLOBAL_NOTIFICATION, GlobalNotification>;
+export type ResetGlobalNotificationAction = Action<typeof RESET_GLOBAL_NOTIFICATION, never>;
+export type DoLogoutAction = Action<typeof LOGOUT, null>;
+export type UploadSuccessAction = Action<typeof UPLOAD_SUCCESS, never>;
+export type UploadProgressAction = Action<typeof UPLOAD_PROGRESS, number>;
+export type UploadFailureAction = Action<typeof UPLOAD_FAILURE, never>;
+export type SetSearchQueryAction = Action<typeof SET_SEARCH_QUERY, string>;
+export type ResetSearchQueryAction = Action<typeof RESET_SEARCH_QUERY, never>;
+export type GetSourcesAction = Action<typeof GET_SOURCES, never>;
+export type GetSourcesFailedAction = Action<typeof GET_SOURCES_FAILED, string>;
+export type GetSourcesSuccessAction = Action<typeof GET_SOURCES_SUCCESS, Source[]>;
 
 export const loginFailed = (payload: string): LoginFailedAction => ({
   type: LOGIN_FAILED,
@@ -117,9 +105,7 @@ export const getSourcesFailed = (payload: string): GetSourcesFailedAction => ({
   payload,
 })
 
-export const getSourcesSuccess = (
-  payload: string[]
-): GetSourcesSuccessAction => ({
+export const getSourcesSuccess = (payload: Source[]): GetSourcesSuccessAction => ({
   type: GET_SOURCES_SUCCESS,
   payload,
 })
