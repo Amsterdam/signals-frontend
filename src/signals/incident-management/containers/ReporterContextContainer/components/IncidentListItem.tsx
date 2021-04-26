@@ -69,7 +69,7 @@ interface IncidentListItemProps {
   onClick: () => void
 }
 
-const IncidentListItem: React.FC<IncidentListItemProps> = ({
+const IncidentListItem: React.FunctionComponent<IncidentListItemProps> = ({
   incident: { category, feedback, id, status, created_at, has_children },
   isSelected,
   onClick,

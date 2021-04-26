@@ -18,7 +18,12 @@ interface ParentIncidentIconProps {
 const ParentIncidentIcon: React.FunctionComponent<ParentIncidentIconProps> = ({
   className,
 }) => (
-  <Wrapper role="img" aria-label="Hoofdmelding" className={className}>
+  <Wrapper
+    role="img"
+    aria-label="Hoofdmelding"
+    className={className}
+    data-testid="parentIcon"
+  >
     <Icon size={14}>
       <Play />
     </Icon>

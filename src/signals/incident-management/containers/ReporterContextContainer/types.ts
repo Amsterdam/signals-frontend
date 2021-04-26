@@ -33,6 +33,7 @@ export interface ReporterContext {
   results: Array<Result>
 }
 
+// TODO replace with Incident type added by https://github.com/Amsterdam/signals-frontend/pull/1541
 export interface Incident {
   reporter: {
     email: string

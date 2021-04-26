@@ -11,7 +11,19 @@ import { Incident, ReporterContext } from './types'
 
 const PAGE_SIZE = 10
 
-export const useReporterContext = () => {
+export interface ReporterContextHook {
+  selectedIncident?: Incident
+  selectedIncidentId?: number
+  setSelectedIncidentId: (id: number) => void
+  isLoading: boolean
+  reporter: {
+    originalIncidentId: string
+    email?: string
+    incidents?: ReporterContext
+  }
+}
+
+export const useReporterContext = (): ReporterContextHook => {
   const storeDispatch = useDispatch()
   const [selectedIncidentId, setSelectedIncidentId] = useState<number>()
   const { id } = useParams<{ id: string }>()
@@ -71,7 +83,6 @@ export const useReporterContext = () => {
     selectedIncident,
     selectedIncidentId,
     setSelectedIncidentId,
-    fromIncidentId: id,
     isLoading: getReporterContextLoading || getIncidentLoading,
     reporter: {
       originalIncidentId: id,
