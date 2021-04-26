@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import LoadingIndicator from 'components/LoadingIndicator'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
-import { useReporterContext } from './hooks'
+import { useReporter } from './hooks'
 
 const Wrapper = styled.article`
   margin: 0 ${themeSpacing(11)};
@@ -33,17 +33,17 @@ const Incident = styled.div`
   border-left: 1px solid ${themeColor('tint', 'level3')};
 `
 
-const ReporterContextContainer: React.FunctionComponent = () => {
+const ReporterContainer: React.FunctionComponent = () => {
   const {
     reporter,
     isLoading,
     selectedIncident,
     selectedIncidentId,
     setSelectedIncidentId,
-  } = useReporterContext()
+  } = useReporter()
 
   return (
-    <Wrapper data-testid="reporterContextContainer">
+    <Wrapper data-testid="reporterContainer">
       {reporter.email && reporter.incidents && (
         <StyledHeader
           id={reporter.originalIncidentId}
@@ -76,4 +76,4 @@ const ReporterContextContainer: React.FunctionComponent = () => {
   )
 }
 
-export default ReporterContextContainer
+export default ReporterContainer

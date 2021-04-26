@@ -43,7 +43,7 @@ const IncidentSplitContainer = lazy(() =>
 )
 // istanbul ignore next
 const ReporterContextContainer = lazy(() =>
-  import('./containers/ReporterContextContainer')
+  import('./containers/ReporterContainer')
 )
 
 const IncidentManagement = () => {
