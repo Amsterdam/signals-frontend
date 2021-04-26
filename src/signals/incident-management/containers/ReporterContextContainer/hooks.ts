@@ -13,7 +13,7 @@ const PAGE_SIZE = 10
 
 export const useReporterContext = () => {
   const storeDispatch = useDispatch()
-  const [selectedIncidentId, setSelectedIncidentId] = useState<string>()
+  const [selectedIncidentId, setSelectedIncidentId] = useState<number>()
   const { id } = useParams<{ id: string }>()
 
   const {

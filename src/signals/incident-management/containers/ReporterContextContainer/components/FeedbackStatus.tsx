@@ -21,7 +21,7 @@ const Status = styled.span<{ feedback: Feedback; theme: Theme }>`
   }}
 `
 
-const FeedbackStatus: React.FC<FeedbackStatusProps> = ({
+const FeedbackStatus: React.FunctionComponent<FeedbackStatusProps> = ({
   feedback,
   className,
 }) => {
