@@ -1,6 +1,6 @@
-import type { InjectedStore } from 'types';
-import injectReducerModel from 'utils/injectReducerModel';
-import injectSagaModel from 'utils/injectSagaModel';
+import type { InjectedStore } from 'types'
+import injectReducerModel from 'utils/injectReducerModel'
+import injectSagaModel from 'utils/injectSagaModel'
 
 import reducer from './reducer'
 import saga from './saga'
@@ -14,7 +14,7 @@ jest.mock('./reducer')
 jest.mock('./saga')
 
 describe('containers/App/services', () => {
-  const store = {
+  const store = ({
     getState: jest.fn(),
     dispatch: jest.fn(),
     injectedReducers: {},
@@ -22,8 +22,8 @@ describe('containers/App/services', () => {
     runSaga: jest.fn(),
     subscribe: jest.fn(),
     replaceReducer: jest.fn(),
-  } as unknown as InjectedStore;
-  let injectModelSpy: jest.Mock;
+  } as unknown) as InjectedStore
+  let injectModelSpy: jest.Mock
 
   beforeEach(() => {
     injectModelSpy = jest.fn()

@@ -1,6 +1,6 @@
-import { InjectedStore } from 'types';
+import { InjectedStore } from 'types'
 import { Action, Dispatch } from 'redux'
-import { getInjectors } from 'utils/sagaInjectors';
+import { getInjectors } from 'utils/sagaInjectors'
 
 import injectSagaModel from '../injectSagaModel'
 
@@ -12,11 +12,10 @@ const action: Action<number> = {
 
 const dispatch: Dispatch<typeof action> = (param) => param
 
-
 describe('injectSagaModel', () => {
   const mockSaga = jest.fn()
   let store: Omit<InjectedStore, '[Symbol.observable]'>
-  let injectors: any;
+  let injectors: any
 
   beforeAll(() => {
     injectors = {
@@ -25,9 +24,9 @@ describe('injectSagaModel', () => {
     }
     const mockedGetInjectors = (getInjectors as unknown) as jest.Mock<
       typeof getInjectors
-    >; // compiler doesn't know that it's mocked. So manually cast it.
-    mockedGetInjectors.mockImplementation(() => injectors);
-  });
+    > // compiler doesn't know that it's mocked. So manually cast it.
+    mockedGetInjectors.mockImplementation(() => injectors)
+  })
 
   beforeEach(() => {
     store = {
@@ -44,8 +43,10 @@ describe('injectSagaModel', () => {
   it('should inject model into saga', () => {
     injectSagaModel('mockKey', mockSaga, store as InjectedStore)
 
-    expect(getInjectors).toHaveBeenCalledWith(store);
-    expect(injectors.injectSaga).toHaveBeenCalledWith('mockKey', { saga: mockSaga });
+    expect(getInjectors).toHaveBeenCalledWith(store)
+    expect(injectors.injectSaga).toHaveBeenCalledWith('mockKey', {
+      saga: mockSaga,
+    })
 
     jest.resetAllMocks()
   })

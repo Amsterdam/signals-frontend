@@ -35,7 +35,9 @@ describe('checkStore', () => {
   it('should throw if passed invalid store shape', () => {
     expect(() => checkStore({})).toThrow()
     expect(() => checkStore({ ...store, injectedSagas: undefined })).toThrow()
-    expect(() => checkStore({ ...store, injectedReducers: undefined })).toThrow()
+    expect(() =>
+      checkStore({ ...store, injectedReducers: undefined })
+    ).toThrow()
     expect(() => checkStore({ ...store, runSaga: undefined })).toThrow()
     expect(() => checkStore({ ...store, replaceReducer: undefined })).toThrow()
   })
